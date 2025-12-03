@@ -1,0 +1,479 @@
+23/10/2025, 10:41:38:
+costruire
+Enumerazione degli oggetti: 20513, completata.
+23/10/2025, 10:41:38:
+costruire
+Conteggio oggetti: 100% (619/619), fatto.
+23/10/2025, 10:41:39:
+costruire
+Compressione oggetti: 100% (109/109), fatto.
+23/10/2025, 10:42:27:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:42:27:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:42:27:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:42:27:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:42:27:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:42:27:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:42:27:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:42:27:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:42:27:
+tempo di esecuzione
+}
+23/10/2025, 10:42:27:
+tempo di esecuzione
+8:42:27 AM [express] GET /api/user-with-license 200 in 3394ms :: {"id":14,"username":"busnari.silvia…
+23/10/2025, 10:42:27:
+tempo di esecuzione
+8:42:27 AM [express] GET /api/tenant-context 200 in 3381ms :: {"userId":14,"userType":"staff","tenan…
+23/10/2025, 10:44:19:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:44:19:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:44:19:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:44:19:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:44:19:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:44:19:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:44:19:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:44:19:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:44:19:
+tempo di esecuzione
+}
+23/10/2025, 10:44:19:
+tempo di esecuzione
+8:44:19 AM [express] GET /api/user-with-license 200 in 3744ms :: {"id":14,"username":"busnari.silvia…
+23/10/2025, 10:44:45:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:44:45:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:44:45:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:44:45:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:44:45:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:44:45:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:44:45:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:44:45:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:44:45:
+tempo di esecuzione
+}
+23/10/2025, 10:44:45:
+tempo di esecuzione
+8:44:45 AM [express] GET /api/user-with-license 200 in 263ms :: {"id":14,"username":"busnari.silvia@…
+23/10/2025, 10:44:47:
+tempo di esecuzione
+Tentativo di logout per utente busnari.silvia@libero.it, tipo: staff
+23/10/2025, 10:44:47:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:44:47:
+tempo di esecuzione
+8:44:47 AM [express] POST /api/logout 200 in 232ms :: {"success":true,"message":"Logout completato c…
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/company-name-settings 200 in 3ms :: {"businessName":"Gestionale Apunt…
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 [espresso] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/license/license-info 200 in 0ms :: {"hasLicense":false,"type":"none"}
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/license/has-business-access 200 in 1 ms
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/license/has-pro-access 200 in 2ms
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/client-app-info 200 in 9ms :: {"appName":"Gestionale Appuntamenti","ic…
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+23/10/2025, 10:44:49:
+tempo di esecuzione
+8:44:49 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761209089139
+23/10/2025, 10:44:49:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761209089139' }
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761209089567-default
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761209089139' }
+23/10/2025, 10:44:49:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:44:49:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761209089568.238&android=1","/pwa-icon/192x192?owner=default &v=1761209089568.238&android=1","/pwa-icon/512x512?owner=default&v=1761209089568.238&android=1"]
+23/10/2025, 10:44:49:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:44:49:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:44:49:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:44:49:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:45:06:
+costruire
+Totale 20513 (delta 563), riutilizzati 544 (delta 510), riutilizzati in confezioni 19894 (da 4)
+23/10/2025, 10:45:35:
+costruire
+#1 [service_event_lbrrgw6tg43h internal] carica la definizione di build dal Dockerfile
+23/10/2025, 10:45:35:
+costruire
+#1 trasferimento dockerfile: 618B completato
+23/10/2025, 10:45:35:
+costruire
+#1 FATTO 0.0s
+23/10/2025, 10:45:35:
+costruire
+23/10/2025, 10:45:35:
+costruire
+#2 [service_event_lbrrgw6tg43h interno] carica i metadati per docker.io/library/node:20-alpine
+23/10/2025, 10:45:36:
+costruire
+#2 FATTO 1.1s
+23/10/2025, 10:45:36:
+costruire
+23/10/2025, 10:45:36:
+costruire
+#3 [service_event_lbrrgw6tg43h interno] carica .dockerignore
+23/10/2025, 10:45:36:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+23/10/2025, 10:45:36:
+costruire
+#3 FATTO 0.0s
+23/10/2025, 10:45:36:
+costruire
+23/10/2025, 10:45:36:
+costruire
+#4 [service_event_lbrrgw6tg43h] importazione del manifesto della cache da locale:6051621548130656324
+23/10/2025, 10:45:36:
+costruire
+#4 tipo di manifesto della cache dedotto: application/vnd.oci.image.manifest.v1+json eseguito
+23/10/2025, 10:45:36:
+costruire
+#4 FATTO 0.0s
+23/10/2025, 10:45:36:
+costruire
+23/10/2025, 10:45:36:
+costruire
+#5 [service_event_lbrrgw6tg43h 1/7] DA docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+23/10/2025, 10:45:36:
+costruire
+#5 risolvi docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 fatto
+23/10/2025, 10:45:36:
+costruire
+#5 FATTO 0.0s
+23/10/2025, 10:45:36:
+costruire
+23/10/2025, 10:45:36:
+costruire
+#6 [service_event_lbrrgw6tg43h interno] carica il contesto di compilazione
+23/10/2025, 10:45:39:
+costruire
+#6 trasferimento contesto: 1,24 GB 3,6 s completato
+23/10/2025, 10:45:39:
+costruire
+#6 FATTO 3.6s
+23/10/2025, 10:45:39:
+costruire
+23/10/2025, 10:45:39:
+costruire
+#7 [service_event_lbrrgw6tg43h 3/7] COPIA package.json package-lock.json ./
+23/10/2025, 10:45:39:
+costruire
+#7 NELLA CACHE
+23/10/2025, 10:45:39:
+costruire
+23/10/2025, 10:45:39:
+costruire
+#8 [service_event_lbrrgw6tg43h 4/7] ESEGUI npm ci
+23/10/2025, 10:45:39:
+costruire
+#8 NELLA CACHE
+23/10/2025, 10:45:39:
+costruire
+23/10/2025, 10:45:39:
+costruire
+#9 [service_event_lbrrgw6tg43h 5/7] COPIA . .
+23/10/2025, 10:45:39:
+costruire
+#9 NELLA CACHE
+23/10/2025, 10:45:40:
+costruire
+23/10/2025, 10:45:40:
+costruire
+#10 [service_event_lbrrgw6tg43h 6/7] ESEGUI la build npx vite
+23/10/2025, 10:45:40:
+costruire
+#10 NELLA CACHE
+23/10/2025, 10:45:40:
+costruire
+23/10/2025, 10:45:40:
+costruire
+#11 [service_event_lbrrgw6tg43h 2/7] WORKDIR /app
+23/10/2025, 10:45:40:
+costruire
+#11 NELLA CACHE
+23/10/2025, 10:45:40:
+costruire
+23/10/2025, 10:45:40:
+costruire
+#12 [service_event_lbrrgw6tg43h 7/7] ESEGUI cp -r dist/public server/public
+23/10/2025, 10:45:40:
+costruire
+#12 NELLA CACHE
+23/10/2025, 10:45:40:
+costruire
+23/10/2025, 10:45:40:
+costruire
+#13 [service_event_lbrrgw6tg43h] esportazione in immagine
+23/10/2025, 10:45:40:
+costruire
+#13 esportazione livelli completata
+23/10/2025, 10:45:40:
+costruire
+#13 esportazione del manifesto sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645 eseguito
+23/10/2025, 10:45:40:
+costruire
+#13 esportazione configurazione sha256:917dcf39aeed246279e6dacae2b99f165577d68bd4436d5324941474a4ff37c9 fatto
+23/10/2025, 10:45:40:
+costruire
+#13 spingendo gli strati
+23/10/2025, 10:45:40:
+costruire
+#13 spinta degli strati 0,2s completata
+23/10/2025, 10:45:40:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_lbrrgw6tg43h@sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645
+23/10/2025, 10:45:40:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_lbrrgw6tg43h@sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645 0,0 s completato
+23/10/2025, 10:45:40:
+costruire
+#13 FATTO 0,2s
+23/10/2025, 10:45:40:
+costruire
+23/10/2025, 10:45:40:
+costruire
+#14 [service_event_lbrrgw6tg43h] esportazione della cache nella directory client
+23/10/2025, 10:45:40:
+costruire
+#14 preparazione della cache di compilazione per l'esportazione 0.0s completata
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:0ee184ee6f21cca14e7260159c4ebb79a27d03d3bcb4bbb6b74d1c70dca11490 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b fatto
+23/10/2025, 10:45:40:
+costruire
+#14 strato di scrittura sha256:5a5621c35f0c60bbe96f323e16af4c1efbacc3a5251ed1cf96d6c7422466d962 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:9ea024638a81a5d03d7b4e56bb9627550aebc7187af4feca2d865b439bec69cb fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:a941444b2e19a4f9df6ef76c6e00cc0348feff5514deeb75f961f141a99c7e89 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:b978ca04c87332e3768528ca940aa857a2fc654b02d627c1387ca9b4217aca1d fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:d96f947ae05e76607b985427def5778c3736695850c18897032a33679318d2d7 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 livello di scrittura sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 scrittura configurazione sha256:428af9b98d2b685ff1b59c13d42602f0051168e92c9875449c7e4511a7ef1d51 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 scrittura cache immagine manifest sha256:2f08dc51a871d0aa125b86979b853f44e311d4d6077bd15cd5456dc33f8cfaa9 fatto
+23/10/2025, 10:45:40:
+costruire
+#14 FATTO 0.0s
+23/10/2025, 10:45:41:
+costruire
+service_event_lbrrgw6tg43h: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+23/10/2025, 10:45:41:
+costruire
+Riepilogo: sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645
+23/10/2025, 10:45:41:
+costruire
+Stato: scaricata l'immagine più recente per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_lbrrgw6tg43h
+23/10/2025, 10:45:45:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+23/10/2025, 10:45:45:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+23/10/2025, 10:45:46:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+23/10/2025, 10:45:46:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+23/10/2025, 10:45:47:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+23/10/2025, 10:45:47:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+23/10/2025, 10:45:49:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+23/10/2025, 10:45:49:
+tempo di esecuzione
+Scheduler del promemoria avviato con successo
+23/10/2025, 10:45:49:
+tempo di esecuzione
+💰 Scheduler dei pagamenti PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+23/10/2025, 10:45:49:
+tempo di esecuzione
+Tutti gli scheduler inizializzati
+23/10/2025, 10:45:49:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+23/10/2025, 10:45:49:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+23/10/2025, 10:45:49:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+23/10/2025, 10:45:49:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+23/10/2025, 10:45:49:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+23/10/2025, 10:45:49:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 48
+23/10/2025, 10:45:49:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+23/10/2025, 10:45:49:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+23/10/2025, 10:45:49:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+23/10/2025, 10:45:49:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+23/10/2025, 10:45:49:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+23/10/2025, 10:45:49:
+tempo di esecuzione
+]
+23/10/2025, 10:45:49:
+tempo di esecuzione
+✅ Controllo integrità completato
+23/10/2025, 10:45:49:
+tempo di esecuzione
+8:45:49 AM [express] in servizio sulla porta 5000
+23/10/2025, 10:45:54:
+tempo di esecuzione
+Esecuzione immediata del job di promemoria all'avvio del server
+23/10/2025, 10:45:54:
+tempo di esecuzione
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per gli appuntamenti di domani
+23/10/2025, 10:45:54:
+tempo di esecuzione
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (venerdì 24 ottobre 2025)
+23/10/2025, 10:45:54:
+tempo di esecuzione
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+23/10/2025, 10:45:54:
+tempo di esecuzione
+Inviati 0/0 promemoria
+23/10/2025, 10:45:54:
+tempo di esecuzione
+Lavoro iniziale completato: inviati 0 promemoria

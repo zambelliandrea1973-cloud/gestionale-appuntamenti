@@ -1,0 +1,293 @@
+{extensionArgs: {…}, local: false, logLevel: 'info'}
+framework-13c777a801a7cf57.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-13c777a801a7cf57.js:1
+(anonymous) @ framework-13c777a801a7cf57.js:1
+uD @ framework-13c777a801a7cf57.js:1
+uI @ framework-13c777a801a7cf57.js:1
+uM @ framework-13c777a801a7cf57.js:1
+uS @ framework-13c777a801a7cf57.js:1
+C @ framework-13c777a801a7cf57.js:1
+z @ framework-13c777a801a7cf57.js:1Understand this error
+_app-a8188b692eaeaf52.js:38 Command: javascript-root-command has unrecognized contributions: commandbar. Valid contributions are commandbar,filetree-context-menu,sidebar-search,editor-context-menu {logLevel: 'warn'}
+(anonymous) @ _app-a8188b692eaeaf52.js:38
+a @ 3233-8a081e7be41b1f6d.js:1
+warn @ 3233-8a081e7be41b1f6d.js:1
+(anonymous) @ replEnvironmentDesktop-182ccce06d7ac574.js:1
+(anonymous) @ main-d6c422969baef98d.js:1
+n @ main-d6c422969baef98d.js:1
+u @ main-d6c422969baef98d.js:1
+(anonymous) @ main-d6c422969baef98d.js:1
+(anonymous) @ main-d6c422969baef98d.js:1
+commands.registerCreateCommand @ replEnvironmentDesktop-182ccce06d7ac574.js:1
+r @ replEnvironmentDesktop-182ccce06d7ac574.js:1
+r @ _app-a8188b692eaeaf52.js:38Understand this warning
+VM128 FooterContactIcons.tsx:70 Nessuna informazione di contatto disponibile
+VM128 FooterContactIcons.tsx:70 Nessuna informazione di contatto disponibile
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM41 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM41 ClientLogin.tsx:117 Parametri recuperati da localStorage per supporto PWA in ClientLogin
+VM41 ClientLogin.tsx:160 Tentativo di login diretto con token
+VM26 queryClient.ts:9 Esecuzione richiesta POST a /api/verify-token {"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta POST a /api/verify-token: {method: 'POST', headers: {…}, body: '{"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}'}
+VM26 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM17 App.tsx:103 Stato autenticazione: {user: true, location: '/client-login', isLoading: false}
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM41 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM41 ClientLogin.tsx:117 Parametri recuperati da localStorage per supporto PWA in ClientLogin
+VM41 ClientLogin.tsx:160 Tentativo di login diretto con token
+VM26 queryClient.ts:9 Esecuzione richiesta POST a /api/verify-token {"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta POST a /api/verify-token: {method: 'POST', headers: {…}, body: '{"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}'}
+VM26 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM26 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM26 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM128 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM128 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+2VM26 queryClient.ts:63 Risposta da /api/verify-token: 200 OK ok: true
+VM41 ClientLogin.tsx:180 Utente client standard (accesso diretto), reindirizzamento all'area client
+VM29 PwaSessionManager.tsx:33 PwaSessionManager - Verifica sessione, isPWA: false
+VM29 PwaSessionManager.tsx:52 PwaSessionManager - Verifica token
+VM26 queryClient.ts:9 Esecuzione richiesta POST a /api/verify-token {"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta POST a /api/verify-token: {method: 'POST', headers: {…}, body: '{"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}'}
+VM17 App.tsx:103 Stato autenticazione: {user: true, location: '/client-area', isLoading: false}
+VM29 PwaSessionManager.tsx:33 PwaSessionManager - Verifica sessione, isPWA: false
+VM29 PwaSessionManager.tsx:52 PwaSessionManager - Verifica token
+VM26 queryClient.ts:9 Esecuzione richiesta POST a /api/verify-token {"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta POST a /api/verify-token: {method: 'POST', headers: {…}, body: '{"token":"f5aeae0314a107d10e56985b49a0c177959e22babc7ec86c8920d6adc2ec75d1","clientId":25}'}
+VM41 ClientLogin.tsx:180 Utente client standard (accesso diretto), reindirizzamento all'area client
+VM26 queryClient.ts:63 Risposta da /api/verify-token: 200 OK ok: true
+VM29 PwaSessionManager.tsx:58 PwaSessionManager - Token valido
+VM26 queryClient.ts:9 Esecuzione richiesta GET a /api/current-user 
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta GET a /api/current-user: {method: 'GET', headers: {…}, body: undefined}
+VM26 queryClient.ts:9 Esecuzione richiesta GET a /api/current-user 
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta GET a /api/current-user: {method: 'GET', headers: {…}, body: undefined}
+VM26 queryClient.ts:57 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/current-user 401 (Unauthorized)
+apiRequest @ VM26 queryClient.ts:57
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM23 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM23 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM23 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM23 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM26 queryClient.ts:63 Risposta da /api/current-user: 401 Unauthorized ok: false
+VM26 queryClient.ts:66 Errore API (401): {"message":"Non autenticato"}
+apiRequest @ VM26 queryClient.ts:66
+await in apiRequest
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM23 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM23 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM23 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM23 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM26 queryClient.ts:71 Eccezione durante la richiesta a /api/current-user: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM26 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM44 ClientArea.tsx:93:24)
+apiRequest @ VM26 queryClient.ts:71
+await in apiRequest
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM23 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM23 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM23 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM23 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM44 ClientArea.tsx:115 Errore nel caricamento dell'utente corrente: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM26 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM44 ClientArea.tsx:93:24)
+fetchCurrentUser @ VM44 ClientArea.tsx:115
+await in fetchCurrentUser
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM23 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM23 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM23 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM23 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM41 ClientLogin.tsx:46 Sessione scaduta, pulizia solo del token
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM41 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM17 App.tsx:103 Stato autenticazione: {user: true, location: '/client-login', isLoading: false}
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM41 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM41 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM41 ClientLogin.tsx:56 Invio URL originale al service worker
+VM41 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973A@gmail.com', clientId: '25', …}
+VM41 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM41 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM114 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM26 queryClient.ts:57 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/current-user 401 (Unauthorized)
+apiRequest @ VM26 queryClient.ts:57
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM23 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM23 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM23 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM26 queryClient.ts:63 Risposta da /api/current-user: 401 Unauthorized ok: false
+VM26 queryClient.ts:63 Risposta da /api/verify-token: 200 OK ok: true
+VM29 PwaSessionManager.tsx:58 PwaSessionManager - Token valido
+VM26 queryClient.ts:66 Errore API (401): {"message":"Non autenticato"}
+apiRequest @ VM26 queryClient.ts:66
+await in apiRequest
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM23 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM23 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM23 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM26 queryClient.ts:71 Eccezione durante la richiesta a /api/current-user: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM26 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM44 ClientArea.tsx:93:24)
+apiRequest @ VM26 queryClient.ts:71
+await in apiRequest
+fetchCurrentUser @ VM44 ClientArea.tsx:93
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM23 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM23 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM23 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM44 ClientArea.tsx:115 Errore nel caricamento dell'utente corrente: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM26 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM44 ClientArea.tsx:93:24)
+fetchCurrentUser @ VM44 ClientArea.tsx:115
+await in fetchCurrentUser
+(anonymous) @ VM44 ClientArea.tsx:50
+commitHookEffectListMount @ VM23 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM23 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM23 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM23 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM23 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM23 chunk-C43VWYGG.js:19415
+(anonymous) @ VM23 chunk-C43VWYGG.js:19296
+workLoop @ VM23 chunk-C43VWYGG.js:197
+flushWork @ VM23 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM23 chunk-C43VWYGG.js:384Understand this error
+VM128 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM26 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM26 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM128 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM41 ClientLogin.tsx:220 Tentativo di login semplificato con username e password
+VM26 queryClient.ts:9 Esecuzione richiesta POST a /api/client/login {"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}
+VM26 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM26 queryClient.ts:52 Dettagli richiesta POST a /api/client/login: {method: 'POST', headers: {…}, body: '{"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}'}
+VM26 queryClient.ts:63 Risposta da /api/client/login: 200 OK ok: true
+VM41 ClientLogin.tsx:235 Token salvato nel localStorage per utilizzi futuri
+VM41 ClientLogin.tsx:243 Utente customer, reindirizzamento alla dashboard principale
+dashboard:171 PWA check - standalone mode: false
+dashboard:172 PWA check - iOS fullscreen: undefined
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+dashboard:226 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=B5tFdMmIy2Vq' failed: 
+setupWebSocket @ client:536
+(anonymous) @ client:531Understand this error
+2queryClient.ts:99 Risposta da /api/client-app-info: 200 OK ok: true
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=B5tFdMmIy2Vq' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
+2TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+App.tsx:93 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}

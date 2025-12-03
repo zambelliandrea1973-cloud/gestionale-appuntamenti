@@ -1,0 +1,175 @@
+Controllo integrità completato
+✅ PostgreSQL database is available
+Telefono caricato dal database: +393472550110
+5:08:10 PM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 13 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+5:08:12 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+5:08:12 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+5:08:15 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra 2025-11-28T16:08:17.817Z e 2025-11-29T23:08:17.817Z
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+✅ [EMAIL SCHEDULER] Inviati 0/0 promemoria EMAIL
+✅ Job iniziale completato: inviati 0 promemoria
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+5:09:02 PM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+5:09:02 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+5:09:02 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+5:09:02 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+Error updating user: PostgresError: syntax error at or near "where"
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '21',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+✅ [EMAIL CONFIG] Usando credenziali DB per utente 3
+📧 [RESET PASSWORD] Usando: zambelli.andrea.1973@gmail.com
+✅ Email di reset password inviata a zambelli.andrea.1973@gmail.com
+5:09:06 PM [express] POST /api/forgot-password 200 in 1196ms :: {"message":"Email di reset inviata. …
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+5:09:10 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+5:09:10 PM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+5:09:11 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+5:09:11 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+5:09:22 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+❌ Errore verify-reset-token: ReferenceError: users is not defined
+    at <anonymous> (/home/runner/workspace/server/simple-routes.ts:9227:15)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at checkTrialExpired (/home/runner/workspace/server/middleware/trialBlockMiddleware.ts:21:14)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+5:09:22 PM [express] POST /api/verify-reset-token 500 in 35ms
+5:09:22 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+❌ Errore verify-reset-token: ReferenceError: users is not defined
+    at <anonymous> (/home/runner/workspace/server/simple-routes.ts:9227:15)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at checkTrialExpired (/home/runner/workspace/server/middleware/trialBlockMiddleware.ts:21:14)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:646:15
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+5:09:22 PM [express] POST /api/verify-reset-token 500 in 1ms
+5:09:22 PM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+5:09:22 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+5:09:22 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+🔍 PWA MANIFEST: URL completo: /manifest.json
+🔍 PWA MANIFEST: Query params: {}
+🔍 PWA MANIFEST: Headers referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+🔍 PWA MANIFEST: Referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js
+🔄 MANIFEST: Versione aggiornata: 1764349762723-default
+🔍 PWA MANIFEST: Analizzando referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js
+🔍 PWA MANIFEST: Query params: {}
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1764349762723.5762&android=1","/pwa-icon/192x192?owner=default&v=1764349762723.5762&android=1","/pwa-icon/512x512?owner=default&v=1764349762723.5762&android=1"]
+📱 MANIFEST ID: area-cliente-generic
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+5:09:39 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}

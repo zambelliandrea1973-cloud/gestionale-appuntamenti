@@ -1,0 +1,422 @@
+9/11/2025, 14:43:26:
+costruire
+Enumerazione degli oggetti: 21470, completata.
+19/11/2025, 14:43:26:
+costruire
+Conteggio oggetti: 100% (3646/3646), fatto.
+19/11/2025, 14:43:27:
+costruire
+Compressione oggetti: 100% (368/368), fatto.
+19/11/2025, 14:43:54:
+costruire
+Totale 21470 (delta 3493), riutilizzati 3352 (delta 3276), riutilizzati in confezioni 17824 (da 1)
+19/11/2025, 14:44:32:
+costruire
+#1 [service_event_llxnpms6gnyr interno] carica la definizione di build dal Dockerfile
+19/11/2025, 14:44:32:
+costruire
+#1 trasferimento dockerfile: 693B completato
+19/11/2025, 14:44:32:
+costruire
+#1 FATTO 0.0s
+19/11/2025, 14:44:32:
+costruire
+19/11/2025, 14:44:32:
+costruire
+#2 [service_event_llxnpms6gnyr interno] carica i metadati per docker.io/library/node:20-alpine
+19/11/2025, 14:44:32:
+costruire
+#2 FATTO 0,9s
+19/11/2025, 14:44:32:
+costruire
+19/11/2025, 14:44:32:
+costruire
+#3 [service_event_llxnpms6gnyr interno] carica .dockerignore
+19/11/2025, 14:44:32:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+19/11/2025, 14:44:32:
+costruire
+#3 FATTO 0.0s
+19/11/2025, 14:44:32:
+costruire
+19/11/2025, 14:44:33:
+costruire
+#4 [service_event_llxnpms6gnyr] importazione del manifesto della cache da locale:7488207769668305642
+19/11/2025, 14:44:33:
+costruire
+#4 tipo di manifesto della cache dedotto: application/vnd.oci.image.manifest.v1+json eseguito
+19/11/2025, 14:44:33:
+costruire
+#4 FATTO 0.0s
+19/11/2025, 14:44:33:
+costruire
+19/11/2025, 14:44:33:
+costruire
+#5 [service_event_llxnpms6gnyr 1/7] DA docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+19/11/2025, 14:44:33:
+costruire
+#5 risolvi docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 fatto
+19/11/2025, 14:44:33:
+costruire
+#5 FATTO 0.0s
+19/11/2025, 14:44:33:
+costruire
+19/11/2025, 14:44:33:
+costruire
+#6 [service_event_llxnpms6gnyr interno] carica il contesto di compilazione
+19/11/2025, 14:44:37:
+costruire
+#6 trasferimento contesto: 1,36 GB 4,2 s completato
+19/11/2025, 14:44:37:
+costruire
+#6 FATTO 5.0s
+19/11/2025, 14:44:38:
+costruire
+19/11/2025, 14:44:38:
+costruire
+#7 [service_event_llxnpms6gnyr 2/7] WORKDIR /app
+19/11/2025, 14:44:38:
+costruire
+#7 NELLA CACHE
+19/11/2025, 14:44:38:
+costruire
+19/11/2025, 14:44:38:
+costruire
+#8 [service_event_llxnpms6gnyr 3/7] COPIA package.json package-lock.json ./
+19/11/2025, 14:44:38:
+costruire
+#8 NELLA CACHE
+19/11/2025, 14:44:38:
+costruire
+19/11/2025, 14:44:38:
+costruire
+#9 [service_event_llxnpms6gnyr 4/7] ESEGUI npm ci
+19/11/2025, 14:44:38:
+costruire
+#9 NELLA CACHE
+19/11/2025, 14:44:38:
+costruire
+19/11/2025, 14:44:38:
+costruire
+#10 [service_event_llxnpms6gnyr 5/7] COPIA . .
+19/11/2025, 14:44:55:
+costruire
+#10 FATTO 18.1s
+19/11/2025, 14:44:56:
+costruire
+19/11/2025, 14:44:56:
+costruire
+#11 [service_event_llxnpms6gnyr 6/7] ESEGUI la build npx vite
+19/11/2025, 14:44:57:
+costruire
+#11 1.314 vite v5.4.14 in fase di compilazione per la produzione...
+19/11/2025, 14:44:57:
+costruire
+#11 1.740
+19/11/2025, 14:44:57:
+costruire
+#11 1.756
+19/11/2025, 14:44:57:
+costruire
+#11 1.756 /forced-style.css non esiste in fase di compilazione, rimarrà invariato per essere risolto in fase di esecuzione
+19/11/2025, 14:44:57:
+costruire
+#11 1.762 trasformando...
+19/11/2025, 14:44:57:
+costruire
+#11 1.817 Browserslist: i dati del browser (caniuse-lite) risalgono a 13 mesi fa. Eseguire:
+19/11/2025, 14:44:57:
+costruire
+#11 1.817 npx update-browserslist-db@latest
+19/11/2025, 14:44:57:
+costruire
+#11 1.817 Perché dovresti farlo regolarmente: https://github.com/browserslist/update-db#readme
+19/11/2025, 14:45:10:
+costruire
+#11 14.50 ✓ 3685 moduli trasformati.
+19/11/2025, 14:45:11:
+costruire
+#11 15.88 [plugin:vite:reporter] [plugin vite:reporter]
+19/11/2025, 14:45:11:
+costruire
+#11 15.88 (!) /app/client/src/lib/queryClient.ts viene importato dinamicamente da /app/client/src/lib/autoRefresh.ts ma anche importato staticamente da /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+19/11/2025, 14:45:11:
+costruire
+#11 15.88
+19/11/2025, 14:45:11:
+costruire
+#11 15.88 [plugin:vite:reporter] [plugin vite:reporter]
+19/11/2025, 14:45:11:
+costruire
+#11 15.88 (!) /app/client/src/lib/betaUtils.ts viene importato dinamicamente da /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx ma anche importato staticamente da /app/client/src/components/BetaStatusChecker.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+19/11/2025, 14:45:11:
+costruire
+#11 15.88
+19/11/2025, 14:45:11:
+costruire
+#11 15.89 rendering di blocchi...
+19/11/2025, 14:45:11:
+costruire
+#11 15.94 calcolo dimensione gzip...
+19/11/2025, 14:45:11:
+costruire
+#11 16.03 ../dist/public/index.html 12,86 kB │ gzip: 3,64 kB
+19/11/2025, 14:45:11:
+costruire
+#11 16.03 ../dist/public/assets/index-AiqXJlB5.css 119,21 kB │ gzip: 18,85 kB
+19/11/2025, 14:45:12:
+costruire
+#11 16.03
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 (!) Alcuni blocchi sono più grandi di 500 kB dopo la minimizzazione. Considera:
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 - Utilizzo di dynamic import() per suddividere il codice dell'applicazione
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 - Utilizzare build.rollupOptions.output.manualChunks per migliorare la suddivisione in blocchi: https://rollupjs.org/configuration-options/#output-manualchunks
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 - Regola il limite della dimensione del blocco per questo avviso tramite build.chunkSizeWarningLimit.
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 ../dist/public/assets/index-purb-rWO.js 2.278,49 kB │ gzip: 611,32 kB
+19/11/2025, 14:45:12:
+costruire
+#11 16.03 ✓ costruito in 14.66s
+19/11/2025, 14:45:12:
+costruire
+#11 FATTO 16.2s
+19/11/2025, 14:45:12:
+costruire
+19/11/2025, 14:45:12:
+costruire
+#12 [service_event_llxnpms6gnyr 7/7] ESEGUI cp -r dist/public server/public
+19/11/2025, 14:45:12:
+costruire
+#12 FATTO 0,2s
+19/11/2025, 14:45:12:
+costruire
+19/11/2025, 14:45:12:
+costruire
+#13 [service_event_llxnpms6gnyr] esportazione in immagine
+19/11/2025, 14:45:12:
+costruire
+#13 esportazione di livelli
+19/11/2025, 14:45:46:
+costruire
+#13 esportazione livelli 34.2s completata
+19/11/2025, 14:45:46:
+costruire
+#13 esportazione del manifest sha256:0d8f268106c6bfa0ac3aeb3446c3afe6933c67fdb47adabf9cbe37a1edd2c2c2 eseguita
+19/11/2025, 14:45:46:
+costruire
+#13 esportazione della configurazione sha256:c8409ec3337b8e215467aaf9d5190afc66304e093de89e22912179991150de3b eseguita
+19/11/2025, 14:45:46:
+costruire
+#13 spingendo gli strati
+19/11/2025, 14:45:57:
+costruire
+#13 spinta dei livelli 11.0 completata
+19/11/2025, 14:45:57:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_llxnpms6gnyr@sha256:0d8f268106c6bfa0ac3aeb3446c3afe6933c67fdb47adabf9cbe37a1edd2c2c2
+19/11/2025, 14:45:57:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_llxnpms6gnyr@sha256:0d8f268106c6bfa0ac3aeb3446c3afe6933c67fdb47adabf9cbe37a1edd2c2c2 0,0 s completato
+19/11/2025, 14:45:57:
+costruire
+#13 FATTO 45.3s
+19/11/2025, 14:45:57:
+costruire
+19/11/2025, 14:45:57:
+costruire
+#14 [service_event_llxnpms6gnyr] esportazione della cache nella directory client
+19/11/2025, 14:45:57:
+costruire
+#14 preparazione della cache di compilazione per l'esportazione
+19/11/2025, 14:45:57:
+costruire
+#14 livello di scrittura sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b fatto
+19/11/2025, 14:45:57:
+costruire
+#14 livello di scrittura sha256:5eb4334002a1646d4fd2829cc577a91b0a57584cdbfeced57210bf4a16e63819 fatto
+19/11/2025, 14:45:57:
+costruire
+#14 livello di scrittura sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 fatto
+19/11/2025, 14:45:57:
+costruire
+#14 livello di scrittura sha256:6790d5f9cdeb306e1a9a0722848a44c984c7f9a37b25d58bcd7c9cf22ed8b5e0
+19/11/2025, 14:46:12:
+costruire
+#14 strato di scrittura sha256:6790d5f9cdeb306e1a9a0722848a44c984c7f9a37b25d58bcd7c9cf22ed8b5e0 15,3 s completato
+19/11/2025, 14:46:12:
+costruire
+#14 strato di scrittura sha256:ba224ef69c38221f21a0788b8d9e5c5ee4993167a8e2f872ba475cfe3983baf4
+19/11/2025, 14:46:12:
+costruire
+#14 preparazione della cache di compilazione per l'esportazione 15.4s completata
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:ba224ef69c38221f21a0788b8d9e5c5ee4993167a8e2f872ba475cfe3983baf4 fatto
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:bc03cc2f7b1d8455495599bef94a5a90befd7c51a86492b5a8004773aafa438e 0,0 s fatto
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:cb1479a995ab7e3667222037396e678d4b407dec8c768fe47ffb3c4b415fe0a7 0.0s fatto
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 fatto
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 fatto
+19/11/2025, 14:46:12:
+costruire
+#14 livello di scrittura sha256:f7af01560dc7702c74e45dc40c8ff7f1dc87559866812c29790d189acee40835 fatto
+19/11/2025, 14:46:12:
+costruire
+#14 scrittura configurazione sha256:8a08a74319fa91d37bf84427f484cfaaf759a75229a9765748a42f1748dc8722 fatto
+19/11/2025, 14:46:12:
+costruire
+#14 scrittura cache immagine manifest sha256:f75231c6979fc1241286d2d6ef10fab9ae28d54747888b7a0d793de99b96b888 fatto
+19/11/2025, 14:46:13:
+costruire
+#14 FATTO 15.4s
+19/11/2025, 14:46:28:
+costruire
+service_event_llxnpms6gnyr: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+19/11/2025, 14:46:28:
+costruire
+2d35ebdb57d9: Esiste già
+19/11/2025, 14:46:28:
+costruire
+60e45a9660cf: Esiste già
+19/11/2025, 14:46:28:
+costruire
+e74e4ed823e9: Esiste già
+19/11/2025, 14:46:28:
+costruire
+da04d522c98f: Esiste già
+19/11/2025, 14:46:28:
+costruire
+ba224ef69c38: Esiste già
+19/11/2025, 14:46:28:
+costruire
+5eb4334002a1: Esiste già
+19/11/2025, 14:46:28:
+costruire
+f7af01560dc7: Esiste già
+19/11/2025, 14:46:28:
+costruire
+6790d5f9cdeb: Estrazione del livello fs
+19/11/2025, 14:46:28:
+costruire
+c1479a995ab: Estrazione del livello fs
+19/11/2025, 14:46:28:
+costruire
+bc03cc2f7b1d: Estrazione del livello fs
+19/11/2025, 14:46:28:
+costruire
+cb1479a995ab: Verifica del checksum
+19/11/2025, 14:46:28:
+costruire
+cb1479a995ab: Download completato
+19/11/2025, 14:46:28:
+costruire
+bc03cc2f7b1d: Verifica del checksum
+19/11/2025, 14:46:28:
+costruire
+bc03cc2f7b1d: Download completato
+19/11/2025, 14:46:31:
+costruire
+6790d5f9cdeb: Verifica del checksum
+19/11/2025, 14:46:31:
+costruire
+6790d5f9cdeb: Download completato
+19/11/2025, 14:46:41:
+costruire
+6790d5f9cdeb: Estrazione completata
+19/11/2025, 14:46:41:
+costruire
+c1479a995ab: Estrazione completata
+19/11/2025, 14:46:41:
+costruire
+bc03cc2f7b1d: Estrazione completata
+19/11/2025, 14:46:41:
+costruire
+Riepilogo: sha256:0d8f268106c6bfa0ac3aeb3446c3afe6933c67fdb47adabf9cbe37a1edd2c2c2
+19/11/2025, 14:46:41:
+costruire
+Stato: scaricata l'immagine più recente per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_llxnpms6gnyr
+19/11/2025, 14:46:45:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+19/11/2025, 14:46:45:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+19/11/2025, 14:46:45:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+19/11/2025, 14:46:45:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+19/11/2025, 14:46:47:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+19/11/2025, 14:46:47:
+tempo di esecuzione
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+19/11/2025, 14:46:47:
+tempo di esecuzione
+🔐 [AUTH] Impostazioni cookie: secure=true, sameSite=none
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+19/11/2025, 14:46:47:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+19/11/2025, 14:46:47:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 48
+19/11/2025, 14:46:47:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+19/11/2025, 14:46:47:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+19/11/2025, 14:46:47:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+19/11/2025, 14:46:47:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+19/11/2025, 14:46:47:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+19/11/2025, 14:46:47:
+tempo di esecuzione
+]
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ Controllo integrità completato
+19/11/2025, 14:46:47:
+tempo di esecuzione
+13:46:47 [express] in servizio sulla porta 5000
+19/11/2025, 14:46:47:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+19/11/2025, 14:46:49:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110

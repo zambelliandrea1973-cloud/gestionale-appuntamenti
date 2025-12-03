@@ -1,0 +1,143 @@
+  // Reminder Template operations
+  async getReminderTemplate(id: number): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(eq(reminderTemplates.id, id))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria:', error);
+      return undefined;
+    }
+  }
+
+  async getReminderTemplates(): Promise<ReminderTemplate[]> {
+    try {
+      const templates = await db
+        .select()
+        .from(reminderTemplates)
+        .orderBy(desc(reminderTemplates.isDefault), asc(reminderTemplates.name));
+
+      return templates;
+    } catch (error) {
+      console.error('Errore durante il recupero dei modelli di promemoria:', error);
+      return [];
+    }
+  }
+
+  async getDefaultReminderTemplate(type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(and(
+          eq(reminderTemplates.isDefault, true),
+          eq(reminderTemplates.type, type)
+        ))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria predefinito:', error);
+      return undefined;
+    }
+  }
+
+  async getReminderTemplateByServiceId(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(and(
+          eq(reminderTemplates.serviceId, serviceId),
+          eq(reminderTemplates.type, type)
+        ))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria per servizio:', error);
+      return undefined;
+    }
+  }
+
+  async createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate> {
+    try {
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      if (template.isDefault) {
+        await db
+          .update(reminderTemplates)
+          .set({ isDefault: false })
+          .where(and(
+            eq(reminderTemplates.isDefault, true),
+            eq(reminderTemplates.type, template.type || 'sms')
+          ));
+      }
+
+      const [createdTemplate] = await db
+        .insert(reminderTemplates)
+        .values({
+          ...template,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+
+      return createdTemplate;
+    } catch (error) {
+      console.error('Errore durante la creazione del modello di promemoria:', error);
+      throw error;
+    }
+  }
+
+  async updateReminderTemplate(id: number, template: Partial<InsertReminderTemplate>): Promise<ReminderTemplate | undefined> {
+    try {
+      const existingTemplate = await this.getReminderTemplate(id);
+
+      if (!existingTemplate) {
+        return undefined;
+      }
+
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      if (template.isDefault) {
+        await db
+          .update(reminderTemplates)
+          .set({ isDefault: false })
+          .where(and(
+            ne(reminderTemplates.id, id),
+            eq(reminderTemplates.isDefault, true),
+            eq(reminderTemplates.type, template.type || existingTemplate.type || 'sms')
+          ));
+      }
+
+      const [updatedTemplate] = await db
+        .update(reminderTemplates)
+        .set({
+          ...template,
+          updatedAt: new Date()
+        })
+        .where(eq(reminderTemplates.id, id))
+        .returning();
+
+      return updatedTemplate;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento del modello di promemoria:', error);
+      return undefined;
+    }
+  }
+
+  async deleteReminderTemplate(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(reminderTemplates)
+        .where(eq(reminderTemplates.id, id));
+
+      return result.rowCount > 0;
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione del modello di promemoria:', error);
+      return false;
+    }
+  }

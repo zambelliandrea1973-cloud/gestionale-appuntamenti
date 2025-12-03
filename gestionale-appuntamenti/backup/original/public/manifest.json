@@ -1,0 +1,47 @@
+{
+  "name": "App Cliente",
+  "short_name": "App Cliente",
+  "description": "App per gestire i tuoi appuntamenti e consensi",
+  "start_url": "/client-area",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "144x144",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Area Cliente",
+      "url": "/client-area",
+      "description": "Visualizza i tuoi appuntamenti"
+    }
+  ],
+  "related_applications": [],
+  "categories": ["lifestyle", "health"]
+}

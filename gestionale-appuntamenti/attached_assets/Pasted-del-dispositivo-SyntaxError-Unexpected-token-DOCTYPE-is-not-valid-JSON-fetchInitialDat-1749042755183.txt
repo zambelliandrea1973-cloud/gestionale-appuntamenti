@@ -1,0 +1,36 @@
+del dispositivo SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+fetchInitialData @ WhatsAppCenterPage.tsx:184
+await in fetchInitialData
+(anonymous) @ WhatsAppCenterPage.tsx:188
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=cd093048:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=cd093048:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=cd093048:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this error
+WhatsAppCenterPage.tsx:210 Errore nel caricamento appuntamenti: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+fetchUpcomingAppointments @ WhatsAppCenterPage.tsx:210
+await in fetchUpcomingAppointments
+(anonymous) @ WhatsAppCenterPage.tsx:192
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=cd093048:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=cd093048:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=cd093048:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this error
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}

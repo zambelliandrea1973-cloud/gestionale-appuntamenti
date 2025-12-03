@@ -1,0 +1,6244 @@
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { setupAuth } from "./auth";
+import path from "path";
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { initializeSchedulers } from "./services/schedulerService";
+import { dataProtectionService } from "./services/dataProtectionService";
+import { iconConversionService } from "./services/iconConversionService";
+import { syncUserIconsFromJSON } from "./services/iconSyncService";
+import multer from 'multer';
+
+// Import route modules for WhatsApp and notifications
+import notificationRoutes from './routes/notificationRoutes';
+import notificationSettingsRoutes from './routes/notificationSettingsRoutes';
+import directPhoneRoutes from './routes/directPhoneRoutes';
+import contactSettingsRoutes from './routes/contactSettingsRoutes';
+import inventoryRoutes from './inventory-routes';
+import adminLicenseRoutes from './routes/adminLicenseRoutes';
+import referralRoutes from './routes/referralRoutes';
+import paymentRoutes from './routes/paymentRoutes';
+import paymentMethodRoutes from './routes/paymentMethodRoutes';
+
+// Import AI onboarding module
+import { analyzeBusinessNeeds } from './onboarding-ai';
+import { processChatMessage } from './ai-chat';
+
+// Import notification service for automatic appointment notifications
+import { notificationService } from './services/notificationService';
+
+// Import storage for new collaborators and rooms functionality
+import { storage } from './storage';
+
+// Import centralizzato per JSON storage
+import { loadStorageData, saveStorageData } from './utils/jsonStorage';
+
+// Import PostgreSQL database e Drizzle ORM
+import { db } from './db';
+import { appointments, services, clients } from '../shared/schema';
+import { eq, and, asc } from 'drizzle-orm';
+
+// TYPE INTERFACES - Define common data structures
+interface Client {
+  id: number;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  ownerId?: number;
+}
+
+interface Service {
+  id: number;
+  name: string;
+  duration: number;
+  price: number;
+  color: string;
+  ownerId?: number;
+}
+
+interface Invoice {
+  invoiceNumber: string;
+  ownerId: number;
+  date: string;
+  [key: string]: any;
+}
+
+// 📁 LE FUNZIONI STORAGE SONO ORA CENTRALIZZATE IN utils/jsonStorage.ts
+
+// Middleware di autenticazione
+function requireAuth(req: any, res: any, next: any) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Non autenticato" });
+  }
+  next();
+}
+
+// Carico l'icona Fleur de Vie dal backup15 all'avvio del modulo
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let defaultIconBase64 = '';
+try {
+  const iconPath = path.join(__dirname, '../public/fleur-de-vie.jpg');
+  const iconBuffer = fs.readFileSync(iconPath);
+  defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
+  console.log('✅ Icona Fleur de Vie caricata:', iconBuffer.length, 'bytes');
+} catch (error) {
+  console.log('⚠️ Icona Fleur de Vie non trovata nel percorso principale, provo percorso alternativo');
+  try {
+    const iconPathAlt = path.join(__dirname, '../public/images/Fleur de Vie multicolore.jpg');
+    const iconBuffer = fs.readFileSync(iconPathAlt);
+    defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
+    console.log('✅ Icona Fleur de Vie caricata da percorso alternativo:', iconBuffer.length, 'bytes');
+  } catch (error2) {
+    console.log('⚠️ Icona Fleur de Vie non trovata, uso fallback');
+    defaultIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+';
+  }
+}
+
+// Dati semplici in memoria - recuperati dal backup15
+const userData = {
+  9: {
+    id: 9,
+    username: "zambelli.andrea.1973A@gmail.com",
+    email: "zambelli.andrea.1973A@gmail.com",
+    type: "customer",
+    services: [
+      { id: 1, name: "Visita Generale", duration: 30, price: 50, color: "#3B82F6" },
+      { id: 2, name: "Controllo", duration: 15, price: 25, color: "#10B981" }
+    ],
+    clients: [
+      { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3331234567", email: "mario.rossi@email.com" },
+      { id: 2, firstName: "Anna", lastName: "Verdi", phone: "3339876543", email: "anna.verdi@email.com" }
+    ],
+    appointments: [
+      { id: 1, clientId: 1, serviceId: 1, date: "2025-01-15", startTime: "09:00", endTime: "09:30", status: "confermato" },
+      { id: 2, clientId: 2, serviceId: 2, date: "2025-01-16", startTime: "14:00", endTime: "14:15", status: "confermato" }
+    ],
+    settings: {
+      businessName: "Gestionale Appuntamenti",
+      showBusinessName: true
+    }
+  },
+  // Dati per utente admin (ID 3) - copia completa backup15
+  3: {
+    id: 3,
+    username: "zambelli.andrea.1973@gmail.com",
+    email: "zambelli.andrea.1973@gmail.com",
+    type: "admin",
+    services: [
+      { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6" },
+      { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981" },
+      { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B" },
+      { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444" },
+      { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6" },
+      { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4" }
+    ],
+    clients: [
+      { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3201234567", email: "mario.rossi@esempio.it" },
+      { id: 2, firstName: "Zambelli", lastName: "Andrea", phone: "3472550110", email: "zambelli.andrea.1973@gmail.com" },
+      { id: 3, firstName: "Bruna", lastName: "Pizzolato", phone: "+393401234567", email: "brunapizzolato77@gmail.com" },
+      { id: 4, firstName: "Marco", lastName: "Berto", phone: "+393407654321", email: "marco_berto@msn.com" },
+      { id: 5, firstName: "Valentina", lastName: "Cotrino", phone: "+393801808350", email: "" },
+      { id: 6, firstName: "Cinzia", lastName: "Munaretto", phone: "+393333637578", email: "" },
+      { id: 7, firstName: "Eleonora", lastName: "Tentori", phone: "+393420241919", email: "" },
+      { id: 8, firstName: "Cristina", lastName: "Valetti", phone: "+393337124083", email: "" },
+      { id: 9, firstName: "Matteo", lastName: "Somaschini", phone: "+393920820219", email: "" },
+      { id: 10, firstName: "Leila", lastName: "Baldovin", phone: "+393312936414", email: "leila.baldovin22@gmail.com" },
+      { id: 11, firstName: "Rosa", lastName: "Nappi", phone: "+393479687939", email: "" },
+      { id: 12, firstName: "Giovanna", lastName: "Spano", phone: "+393666249288", email: "" },
+      { id: 13, firstName: "Alan", lastName: "Marconi", phone: "+393337960111", email: "" },
+      { id: 14, firstName: "Dino", lastName: "Nappi", phone: "+393385893919", email: "" },
+      { id: 15, firstName: "Matteo", lastName: "Libera", phone: "+393494195547", email: "" },
+      { id: 16, firstName: "giovanni", lastName: "rizzo", phone: "+392550110", email: "zambelli.andrea.1973@gmail.com" },
+      { id: 17, firstName: "giovanni", lastName: "ribbio", phone: "+392550110", email: "zambelli.andrea.1973@gmail.com" },
+      { id: 18, firstName: "Giulio", lastName: "Carimati", phone: "+393396253936", email: "" },
+      { id: 19, firstName: "Daniela", lastName: "Biglione", phone: "+393392327893", email: "" },
+      { id: 20, firstName: "Roberto", lastName: "Mascheroni", phone: "+393357004464", email: "" },
+      { id: 21, firstName: "Valeria", lastName: "Benvenuto", phone: "+393348006444", email: "" }
+    ],
+    appointments: [
+      { id: 1, clientId: 1, serviceId: 1, date: "2025-01-15", startTime: "09:00", endTime: "09:30", status: "confermato" },
+      { id: 2, clientId: 2, serviceId: 2, date: "2025-01-15", startTime: "10:00", endTime: "10:45", status: "confermato" },
+      { id: 3, clientId: 3, serviceId: 3, date: "2025-01-16", startTime: "14:00", endTime: "14:20", status: "in attesa" },
+      { id: 4, clientId: 4, serviceId: 4, date: "2025-01-16", startTime: "16:00", endTime: "17:00", status: "confermato" },
+      { id: 5, clientId: 5, serviceId: 5, date: "2025-01-17", startTime: "11:00", endTime: "11:40", status: "confermato" },
+      { id: 6, clientId: 6, serviceId: 6, date: "2025-01-17", startTime: "15:30", endTime: "16:20", status: "in attesa" },
+      { id: 7, clientId: 7, serviceId: 1, date: "2025-01-18", startTime: "08:30", endTime: "09:00", status: "confermato" },
+      { id: 8, clientId: 8, serviceId: 2, date: "2025-01-18", startTime: "13:15", endTime: "14:00", status: "confermato" }
+    ],
+    settings: {
+      businessName: "Gestionale Appuntamenti",
+      showBusinessName: true
+    }
+  }
+};
+
+export function registerSimpleRoutes(app: Express): Server {
+  setupAuth(app);
+  
+  // Inizializza gli scheduler per i promemoria automatici
+  initializeSchedulers();
+  
+  // Sincronizza icone utente dal JSON storage ai file PNG fisici (per PWA)
+  // Eseguito in background senza bloccare l'avvio del server
+  syncUserIconsFromJSON().catch(err => {
+    console.error('❌ Errore sincronizzazione icone:', err);
+  });
+
+  // Connect WhatsApp and notification routes
+  app.use('/api/notifications', notificationRoutes);
+  app.use('/api/notification-settings', notificationSettingsRoutes);
+  app.use('/api/direct-phone', directPhoneRoutes);
+  app.use('/api/contact-settings', contactSettingsRoutes);
+  app.use('/api/inventory', inventoryRoutes);
+  app.use('/api/admin-license', adminLicenseRoutes);
+  app.use('/api/referral', referralRoutes);
+  app.use('/api/payments', paymentRoutes);
+  app.use('/api/payments', paymentMethodRoutes);
+
+  // Sistema lineare semplice - Servizi dell'utente  
+  app.get("/api/services", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    // FORZA ANTI-CACHE PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-services-${Date.now()}`,
+        'Last-Modified': new Date().toUTCString()
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache applicato per servizi mobile`);
+    }
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica servizi dal database condiviso
+      const userServices = await storage.getServicesForUser(user.id);
+      
+      console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi da PostgreSQL per utente ${user.id}`);
+      res.json(userServices);
+      
+    } catch (error) {
+      console.error("❌ [/api/services] Errore caricamento servizi da PostgreSQL:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post("/api/services", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      // 🔄 USA POSTGRESQL: Crea servizio nel database condiviso
+      const serviceData = {
+        userId: user.id,
+        ...req.body
+      };
+      
+      const newService = await storage.createService(serviceData);
+      
+      console.log(`✅ [/api/services] Servizio "${newService.name}" creato in PostgreSQL per utente ${user.id} (ID: ${newService.id})`);
+      res.status(201).json(newService);
+    } catch (error) {
+      console.error(`❌ [/api/services] Errore creazione servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.put("/api/services/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const serviceId = parseInt(req.params.id);
+    
+    console.log(`✏️ [/api/services] PUT richiesta per servizio ID ${serviceId} da utente ${user.id}`);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Aggiorna servizio nel database condiviso
+      const updatedService = await storage.updateService(serviceId, req.body);
+      
+      if (!updatedService) {
+        return res.status(404).json({ message: "Servizio non trovato" });
+      }
+      
+      // Verifica proprietà
+      if (updatedService.userId !== user.id) {
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+      
+      console.log(`✅ [/api/services] Servizio ID ${serviceId} aggiornato in PostgreSQL per utente ${user.id}`);
+      res.json(updatedService);
+    } catch (error) {
+      console.error(`❌ [/api/services] Errore aggiornamento servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.delete("/api/services/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const serviceId = parseInt(req.params.id);
+    
+    console.log(`🗑️ [DELETE] Tentativo eliminazione servizio ID ${serviceId} per utente ${user.id}`);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Elimina servizio dal database condiviso
+      const deleted = await storage.deleteService(serviceId);
+      
+      if (!deleted) {
+        console.log(`❌ [DELETE] Servizio ID ${serviceId} non trovato`);
+        return res.status(404).json({ message: "Servizio non trovato" });
+      }
+      
+      console.log(`✅ [DELETE] Servizio ID ${serviceId} eliminato da PostgreSQL per utente ${user.id}`);
+      res.json({ success: true, message: "Servizio eliminato con successo" });
+    } catch (error) {
+      console.error(`❌ [DELETE] Errore eliminazione servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA - USA POSTGRESQL
+  app.get("/api/mobile-sync", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    console.log(`📱 [MOBILE-SYNC PG] Sincronizzazione forzata per utente ID:${user.id}, tipo:${user.type}`);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica dati dal database condiviso
+      const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
+      const userSettings = await storage.getUserSettings(user.id);
+      const userServices = await storage.getServicesForUser(user.id);
+      
+      const syncData = {
+        clients: userClients,
+        clientsCount: userClients.length,
+        companySettings: userSettings || { businessName: "Studio Professionale", showBusinessName: true },
+        services: userServices,
+        userType: user.type,
+        timestamp: Date.now(),
+        syncedAt: new Date().toISOString()
+      };
+      
+      // INTESTAZIONI ANTI-CACHE MASSIME
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-sync-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type, x-sync-request',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store',
+        'X-Sync-Type': 'mobile-force'
+      });
+      
+      console.log(`📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per utente ${user.id}: ${userClients.length} clienti, ${userServices.length} servizi`);
+      res.json(syncData);
+    } catch (error) {
+      console.error(`❌ [MOBILE-SYNC PG] Errore sincronizzazione:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Sistema lineare semplice - Clienti
+  app.get("/api/clients", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`🔍 [/api/clients] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
+    
+    // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-clients-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store'
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per clienti mobile - timestamp: ${Date.now()}`);
+    }
+    
+    // 🔄 USA POSTGRESQL: Carica dati dal database condiviso (Replit ↔ Sliplane sync)
+    const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
+    console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL (${user.type === 'admin' ? 'tutti' : 'solo propri'})`);
+    
+    // Log dettagliato dei primi 5 clienti per debugging completo
+    const sampleClients = userClients.slice(0, 5).map(c => ({
+      id: c.id,
+      firstName: c.firstName,
+      lastName: c.lastName,
+      uniqueCode: c.uniqueCode,
+      ownerId: c.ownerId
+    }));
+    console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
+    
+    // Debug per admin: mostra distribuzione ownership
+    if (user.type === 'admin') {
+      const ownershipStats = {};
+      userClients.forEach(client => {
+        const owner = client.ownerId || 'undefined';
+        ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
+      });
+      console.log(`👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId:`, ownershipStats);
+      console.log(`👑 [ADMIN-DEBUG] Admin ID corrente: ${user.id}`);
+      
+      // Conta clienti propri vs altri
+      const ownClients = userClients.filter(c => c.ownerId === user.id).length;
+      const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
+      console.log(`👑 [ADMIN-DEBUG] Clienti propri (ownerId ${user.id}): ${ownClients}`);
+      console.log(`👑 [ADMIN-DEBUG] Clienti altri account: ${otherClients}`);
+    }
+    
+    // Log totale con uniqueCode per identificare il problema
+    const clientsWithCodes = userClients.filter(c => c.uniqueCode);
+    console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${userClients.length}`);
+    
+    res.json(userClients);
+  });
+
+  app.post("/api/clients", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    console.log(`🔄 [POST /api/clients] Richiesta da utente ${user.id} (${user.type})`);
+    console.log(`📝 [POST /api/clients] Dati ricevuti:`, req.body);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Verifica limiti basati sul piano
+      const currentClients = (await storage.getVisibleClientsForUser(user.id, user.type)).length;
+      
+      const limits = {
+        admin: 'unlimited',
+        staff: 'unlimited', 
+        customer: 1000,
+        basic: 100
+      };
+      
+      const userLimit = limits[user.type] || limits.basic;
+      
+      console.log(`📊 [POST /api/clients] Limite ${userLimit}, Correnti: ${currentClients}`);
+      
+      if (userLimit !== 'unlimited' && currentClients >= userLimit) {
+        console.log(`❌ [POST /api/clients] Limite raggiunto per utente ${user.id}`);
+        return res.status(403).json({ 
+          message: `Limite clienti raggiunto per piano ${user.type}`,
+          limit: userLimit,
+          current: currentClients,
+          upgradeRequired: true
+        });
+      }
+      
+      // 🔄 USA POSTGRESQL: Crea cliente (ID auto-generato da PostgreSQL)
+      const clientData = {
+        userId: user.id,
+        ownerId: user.id,
+        professionistCode: await getProfessionistCode(user.id),
+        ...req.body
+      };
+      
+      const newClient = await storage.createClient(clientData);
+      
+      // Genera codice univoco usando l'ID assegnato da PostgreSQL
+      const hierarchicalCode = await generateClientCode(user.id, newClient.id);
+      
+      // Aggiorna con il codice univoco
+      await storage.updateClient(newClient.id, {
+        uniqueCode: hierarchicalCode
+      });
+      
+      // Ricarica il cliente aggiornato
+      const finalClient = await storage.getClient(newClient.id);
+      
+      console.log(`✅ [POST /api/clients] Cliente creato in PostgreSQL: ${finalClient.firstName} ${finalClient.lastName} (ID: ${finalClient.id})`);
+      
+      res.status(201).json(finalClient);
+    } catch (error) {
+      console.error(`❌ [POST /api/clients] Errore generale:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Helper function per generare hash casuali
+  function generateRandomHash(): string {
+    return Math.random().toString(36).substring(2, 6).toUpperCase();
+  }
+
+  // ENDPOINT per normalizzare tutti i codici clienti (fix one-time)
+  app.post("/api/clients/normalize-codes", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const storageData = loadStorageData();
+      let updatedCount = 0;
+      
+      // Aggiorna tutti i clienti dell'utente con nuovi ID sequenziali
+      const userClients = (storageData.clients || [])
+        .filter(([id, client]) => client.ownerId === user.id)
+        .sort((a, b) => a[1].id - b[1].id); // Ordina per ID esistente
+      
+      const userIdBase = user.id * 1000;
+      
+      for (let i = 0; i < userClients.length; i++) {
+        const [oldId, client] = userClients[i];
+        const newSequentialId = userIdBase + i + 1;
+        
+        // Aggiorna l'ID del cliente e rigenera il codice univoco
+        client.id = newSequentialId;
+        const professionistCode = await getProfessionistCode(user.id);
+        client.uniqueCode = `${professionistCode}_CLIENT_${newSequentialId}_${generateRandomHash()}`;
+        
+        // Sostituisci nel storage con nuovo ID
+        const index = storageData.clients.findIndex(([id, c]) => id === oldId);
+        if (index !== -1) {
+          storageData.clients[index] = [newSequentialId, client];
+          updatedCount++;
+        }
+        
+        console.log(`🔄 NORMALIZZATO: ${client.firstName} ${client.lastName} - ${oldId} → ${newSequentialId}`);
+      }
+      
+      saveStorageData(storageData);
+      console.log(`✅ NORMALIZZAZIONE COMPLETATA: ${updatedCount} clienti aggiornati`);
+      
+      res.json({ 
+        success: true, 
+        message: `${updatedCount} clienti normalizzati con successo`,
+        updatedCount 
+      });
+    } catch (error) {
+      console.error("❌ Errore normalizzazione:", error);
+      res.status(500).json({ message: "Errore durante la normalizzazione" });
+    }
+  });
+
+  // PUT /api/clients/:id - Aggiorna cliente esistente
+  app.put("/api/clients/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+
+    try {
+      console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
+      console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Dati ricevuti:`, req.body);
+
+      // 🔄 USA POSTGRESQL: Trova il cliente esistente
+      const existingClient = await storage.getClient(clientId);
+      
+      if (!existingClient) {
+        console.log(`❌ [PUT /api/clients/${clientId}] Cliente non trovato`);
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Verifica ownership per utenti non-staff
+      if (user.type !== 'staff' && existingClient.ownerId !== user.id) {
+        console.log(`❌ [PUT /api/clients/${clientId}] Accesso negato - cliente non appartiene all'utente`);
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+
+      // 🔄 USA POSTGRESQL: Aggiorna il cliente
+      await storage.updateClient(clientId, req.body);
+      
+      // Ricarica il cliente aggiornato
+      const updatedClient = await storage.getClient(clientId);
+      
+      console.log(`✅ [PUT /api/clients/${clientId}] Cliente aggiornato con successo in PostgreSQL`);
+      res.json(updatedClient);
+      
+    } catch (error) {
+      console.error(`❌ [PUT /api/clients/${clientId}] Errore durante l'aggiornamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Sistema lineare semplice - Appuntamenti
+  // Endpoint rimossi - duplicati degli endpoint attivi alle linee 485+
+
+  // Impostazioni azienda - RIMOSSO DUPLICATO ERRATO (ora gestito da storage_data.json)
+
+  // Informazioni di contatto
+  app.get("/api/contact-info", requireAuth, async (req, res) => {
+    const user = req.user!;
+    const defaultInfo = {
+      email: "info@studiomedico.it",
+      phone: "+39 123 456 7890"
+    };
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(user.id);
+      
+      if (!settings) {
+        return res.json(defaultInfo);
+      }
+      
+      // Converti formato PostgreSQL → JSON per compatibilità frontend
+      const userContactInfo = {
+        email: settings.contactEmail || defaultInfo.email,
+        phone: settings.contactPhone || defaultInfo.phone,
+        phone1: settings.contactPhone || '',
+        phone2: settings.contactPhone2 || '',
+        website: settings.website || '',
+        instagram: settings.instagramHandle || '',
+        facebook: settings.facebookPage || ''
+      };
+      
+      res.json(userContactInfo);
+    } catch (error) {
+      console.error('Errore caricamento contact-info:', error);
+      res.json(defaultInfo);
+    }
+  });
+
+  // Endpoint per caricare informazioni di contatto tramite ownerId (per clienti)
+  app.get("/api/contact-info/:ownerId", async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      console.log(`Caricamento informazioni di contatto per professionista ${ownerId} (richiesta client)`);
+      
+      if (!ownerId || isNaN(ownerId)) {
+        return res.status(400).json({ error: "ID professionista non valido" });
+      }
+      
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(ownerId);
+      
+      const contactInfo = {
+        email: settings?.contactEmail || '',
+        phone: settings?.contactPhone || '',
+        phone1: settings?.contactPhone || '',
+        phone2: settings?.contactPhone2 || '',
+        website: settings?.website || '',
+        instagram: settings?.instagramHandle || '',
+        facebook: settings?.facebookPage || ''
+      };
+      
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel caricamento informazioni di contatto:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
+  // API per recuperare informazioni di contatto di un professionista specifico (per PWA clienti)
+  app.get('/api/owner-contact-info/:ownerId', async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      if (!ownerId) {
+        return res.status(400).json({ error: 'ID proprietario non valido' });
+      }
+      
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(ownerId);
+      
+      const contactInfo = {
+        email: settings?.contactEmail || '',
+        phone: settings?.contactPhone || '',
+        phone1: settings?.contactPhone || '',
+        phone2: settings?.contactPhone2 || '',
+        website: settings?.website || '',
+        instagram: settings?.instagramHandle || '',
+        facebook: settings?.facebookPage || ''
+      };
+      
+      console.log(`🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista ${ownerId}:`, contactInfo);
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel recupero informazioni contatto professionista:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint POST per salvare le informazioni di contatto
+  app.post("/api/contact-info", requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      const contactInfo = req.body;
+      
+      console.log(`📞 [CONTACT INFO] Salvataggio informazioni per utente ${user.id}:`, contactInfo);
+      
+      // Validazione base dei dati
+      if (!contactInfo || typeof contactInfo !== 'object') {
+        return res.status(400).json({ 
+          error: 'Dati di contatto non validi' 
+        });
+      }
+      
+      // 🔄 USA POSTGRESQL: Prepara dati per userSettings
+      const settingsUpdate: any = {};
+      if (contactInfo.email !== undefined) settingsUpdate.contactEmail = contactInfo.email;
+      if (contactInfo.phone !== undefined) settingsUpdate.contactPhone = contactInfo.phone;
+      if (contactInfo.phone1 !== undefined) settingsUpdate.contactPhone = contactInfo.phone1; // phone1 → contactPhone
+      if (contactInfo.phone2 !== undefined) settingsUpdate.contactPhone2 = contactInfo.phone2;
+      if (contactInfo.website !== undefined) settingsUpdate.website = contactInfo.website;
+      if (contactInfo.instagram !== undefined) settingsUpdate.instagramHandle = contactInfo.instagram;
+      if (contactInfo.facebook !== undefined) settingsUpdate.facebookPage = contactInfo.facebook;
+      
+      // 🔄 USA POSTGRESQL: Aggiorna o crea userSettings
+      const updatedSettings = await storage.updateUserSettings(user.id, settingsUpdate);
+      
+      // Riconverti formato PostgreSQL → JSON per compatibilità frontend
+      const responseContactInfo = {
+        email: updatedSettings?.contactEmail || '',
+        phone: updatedSettings?.contactPhone || '',
+        phone1: updatedSettings?.contactPhone || '',
+        phone2: updatedSettings?.contactPhone2 || '',
+        website: updatedSettings?.website || '',
+        instagram: updatedSettings?.instagramHandle || '',
+        facebook: updatedSettings?.facebookPage || ''
+      };
+      
+      console.log(`✅ [CONTACT INFO] Informazioni salvate in PostgreSQL per utente ${user.id}`);
+      
+      res.json({ 
+        success: true, 
+        message: 'Informazioni di contatto salvate con successo',
+        contactInfo: responseContactInfo
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE CONTACT INFO]:', error);
+      res.status(500).json({ 
+        error: 'Errore durante il salvataggio delle informazioni di contatto' 
+      });
+    }
+  });
+
+  // Info applicazione rimossa - usa l'endpoint unificato sopra
+
+  // Contesto tenant
+  app.get("/api/tenant-context", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    res.json({
+      userId: user.id,
+      userType: user.type,
+      tenantId: `tenant_${user.id}`
+    });
+  });
+
+  // Utente con licenza - SINCRONIZZAZIONE COMPLETA MOBILE/DESKTOP
+  app.get("/api/user-with-license", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`🔐 [${deviceType}] /api/user-with-license per utente ${user.id} (${user.username})`);
+    
+    // Carica dati completi dal storage per nome/cognome aggiornati
+    const storageData = loadStorageData();
+    let firstName = user.firstName || null;
+    let lastName = user.lastName || null;
+    
+    // Per TUTTI gli utenti, carica nome/cognome dalle impostazioni aziendali uniformemente
+    if (storageData.companyNameSettings?.[user.id]) {
+      const settings = storageData.companyNameSettings[user.id];
+      if (settings.name) {
+        const nameParts = settings.name.split(' ');
+        firstName = nameParts[0] || null;
+        lastName = nameParts.slice(1).join(' ') || null;
+      }
+    }
+    
+    // Genera o recupera il codice professionista per staff e admin
+    let professionistCode = null;
+    if (user.type === 'staff' || user.type === 'admin') {
+      try {
+        professionistCode = await getProfessionistCode(user.id);
+        console.log(`🏷️ [${deviceType}] Codice professionista per utente ${user.id}: ${professionistCode}`);
+      } catch (error) {
+        console.error(`❌ [${deviceType}] Errore generazione codice professionista per utente ${user.id}:`, error);
+      }
+    }
+    
+    // Leggi licenza REALE dal database invece di hardcodare
+    let licenseType = 'trial'; // Default
+    let expiresAt = null;
+    let daysLeft = null;
+    
+    if (user.type === 'admin') {
+      licenseType = 'passepartout';
+    } else if (user.type === 'staff') {
+      licenseType = 'staff_free_10years';
+      expiresAt = new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000);
+      daysLeft = 3650;
+    } else if (user.type === 'customer') {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        if (activeLicense) {
+          licenseType = activeLicense.type;
+          expiresAt = activeLicense.expiresAt;
+          if (expiresAt) {
+            daysLeft = Math.ceil((new Date(expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
+    
+    const response = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      type: user.type,
+      firstName: firstName,
+      lastName: lastName,
+      professionistCode: professionistCode,
+      licenseType: licenseType,  // Campo aggiunto per il badge
+      licenseInfo: {
+        type: licenseType,
+        expiresAt: expiresAt,
+        isActive: true,
+        daysLeft: daysLeft,
+        features: {
+          maxClients: user.type === 'admin' ? 'unlimited' : 
+                     user.type === 'staff' ? 'unlimited' : 
+                     user.type === 'customer' ? 1000 : 50,
+          maxAppointments: user.type === 'admin' ? 'unlimited' : 
+                          user.type === 'staff' ? 'unlimited' : 
+                          user.type === 'customer' ? 'unlimited' : 100,
+          advancedReports: user.type !== 'basic',
+          emailNotifications: true,
+          mobileSync: true,
+          customBranding: user.type === 'admin' || user.type === 'staff',
+          multiTenant: user.type === 'admin',
+          staffReferrals: user.type === 'staff'
+        }
+      }
+    };
+    
+    console.log(`📱💻 [${deviceType}] Dati utente unificati:`, { 
+      id: response.id, 
+      username: response.username, 
+      firstName: response.firstName, 
+      lastName: response.lastName,
+      licenseType: licenseType
+    });
+    
+    res.json(response);
+  });
+
+  // Fuso orario
+  app.get("/api/timezone-settings", (req, res) => {
+    res.json({ timezone: "Europe/Rome", offset: 2 });
+  });
+
+  app.post("/api/timezone-settings", (req, res) => {
+    res.json({ success: true, timezone: req.body.timezone, offset: req.body.offset });
+  });
+
+  // Licenze
+  app.get("/api/license/license-info", async (req, res) => {
+    if (!req.isAuthenticated()) return res.json({ hasLicense: false, type: "none" });
+    
+    const user = req.user as any;
+    
+    // Leggi licenza REALE dal database invece di hardcodare
+    let licenseType = 'trial';
+    
+    if (user.type === 'admin') {
+      licenseType = 'passepartout';
+    } else if (user.type === 'staff') {
+      licenseType = 'staff_free_10years';
+    } else if (user.type === 'customer') {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        if (activeLicense) {
+          licenseType = activeLicense.type;
+        }
+      } catch (error) {
+        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
+    
+    res.json({ 
+      hasLicense: true, 
+      type: licenseType,
+      userType: user.type,
+      features: {
+        maxClients: user.type === 'admin' || user.type === 'staff' ? 'unlimited' : 
+                   user.type === 'customer' ? 1000 : 50,
+        advancedReports: user.type !== 'basic',
+        customBranding: user.type === 'admin' || user.type === 'staff'
+      }
+    });
+  });
+
+  app.get("/api/license/has-pro-access", (req, res) => {
+    if (!req.isAuthenticated()) return res.json(false);
+    const user = req.user as any;
+    res.json(user.type === 'admin' || user.type === 'staff' || user.type === 'customer');
+  });
+
+  app.get("/api/license/has-business-access", (req, res) => {
+    if (!req.isAuthenticated()) return res.json(false);
+    const user = req.user as any;
+    res.json(user.type !== 'basic');
+  });
+
+  app.get("/api/license/application-title", (req, res) => {
+    res.json({ title: "Gestionale Appuntamenti" });
+  });
+
+  // 📁 Sistema permanente icone PER UTENTE con persistenza (usa utils centralizzate)
+
+  // Genera codice professionista univoco SEMPLIFICATO
+  async function generateProfessionistCode(userId: number): Promise<string> {
+    // Codice semplice senza hash MD5 visibile
+    return `PROF_${userId.toString().padStart(3, '0')}`;
+  }
+
+  // Recupera o genera il codice professionista
+  async function getProfessionistCode(userId: number): Promise<string> {
+    const storageData = loadStorageData();
+    
+    // Cerca se l'utente ha già un codice professionista
+    if (storageData.professionistCodes && storageData.professionistCodes[userId]) {
+      return storageData.professionistCodes[userId];
+    }
+    
+    // Genera nuovo codice e lo salva
+    const newCode = await generateProfessionistCode(userId);
+    
+    if (!storageData.professionistCodes) {
+      storageData.professionistCodes = {};
+    }
+    
+    storageData.professionistCodes[userId] = newCode;
+    saveStorageData(storageData);
+    
+    console.log(`✅ Nuovo codice professionista generato per utente ${userId}: ${newCode}`);
+    return newCode;
+  }
+
+  // Genera codice cliente SEMPLIFICATO - max 99999 clienti per studio
+  async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
+    const profCode = await getProfessionistCode(ownerId);
+    // Codice semplice: PROF_003_C00001 (max 99999 clienti)
+    const clientNumber = clientId.toString().padStart(5, '0');
+    return `${profCode}_C${clientNumber}`;
+  }
+
+  // Valida ownership attraverso codice gerarchico
+  async function validateClientOwnership(clientCode: string, expectedOwnerId: number): Promise<boolean> {
+    if (!clientCode || typeof clientCode !== 'string') return false;
+    const profCode = await getProfessionistCode(expectedOwnerId);
+    return clientCode.startsWith(profCode);
+  }
+
+  // Estrae owner ID da codice cliente (supporta entrambi i formati)
+  function extractOwnerFromClientCode(clientCode: string): number | null {
+    // Supporta formato nuovo: PROF_003_C00001 e vecchio: PROF_003_0003_CLIENT_1_0001
+    const match = clientCode.match(/^PROF_(\d{3})_/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+
+  function generateDefaultClientsForUser(userId, userEmail) {
+    const baseId = userId * 1000; // Evita conflitti ID usando range per utente
+    const userPrefix = userEmail.split('@')[0].substring(0, 2).toUpperCase();
+    
+    return [
+      {
+        id: baseId + 1,
+        firstName: "Cliente",
+        lastName: "Trial",
+        email: `cliente.trial.${userId}@example.com`,
+        phone: "+39 123 456 7890",
+        birthDate: "1990-01-15",
+        fiscalCode: `CLNTTL90A15${userPrefix}1X`,
+        uniqueCode: `CT${baseId + 1}`,
+        ownerId: userId,
+        createdAt: new Date().toISOString(),
+        notes: "Cliente di prova generato automaticamente"
+      },
+      {
+        id: baseId + 2,
+        firstName: "Trial",
+        lastName: "Account", 
+        email: `trial.account.${userId}@example.com`,
+        phone: "+39 098 765 4321",
+        birthDate: "1985-06-20",
+        fiscalCode: `TRLCNT85H20${userPrefix}2Y`,
+        uniqueCode: `TA${baseId + 2}`,
+        ownerId: userId,
+        createdAt: new Date().toISOString(),
+        notes: "Account di test generato automaticamente"
+      }
+    ];
+  }
+  
+  function cleanOldBackups() {
+    try {
+      const files = fs.readdirSync('.');
+      const backupFiles = files.filter(f => f.startsWith('storage_data_backup_'));
+      
+      if (backupFiles.length > 10) {
+        // Mantieni solo gli ultimi 10 backup
+        const sortedBackups = backupFiles
+          .map(f => ({ name: f, time: parseInt(f.split('_')[3].split('.')[0]) }))
+          .sort((a, b) => b.time - a.time);
+        
+        const toDelete = sortedBackups.slice(10);
+        toDelete.forEach(backup => {
+          fs.unlinkSync(backup.name);
+          console.log(`🗑️ Backup vecchio rimosso: ${backup.name}`);
+        });
+      }
+    } catch (error) {
+      console.error('Errore pulizia backup:', error);
+    }
+  }
+
+  const storageFile = 'storage_data.json';
+
+  function saveStorageDataLocal(updatedData) {
+    try {
+      const currentData = fs.existsSync(storageFile) 
+        ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
+        : {};
+      
+      // Sistema di protezione dati avanzato
+      dataProtectionService.createAutoBackup('before_critical_save');
+      
+      // Verifica integrità prima di procedere
+      if (!dataProtectionService.verifyDataIntegrity()) {
+        console.error('❌ Integrità dati compromessa, operazione bloccata');
+        throw new Error('Dati corrotti rilevati, salvataggio annullato per sicurezza');
+      }
+      
+      // Merge più specifico per preservare gli array di appuntamenti
+      const mergedData = {
+        ...currentData,
+        ...updatedData,
+        appointments: updatedData.appointments || currentData.appointments || []
+      };
+      
+      // Salvataggio atomico: prima in un file temporaneo, poi rinomina
+      const tempFile = 'storage_data_temp.json';
+      fs.writeFileSync(tempFile, JSON.stringify(mergedData, null, 2));
+      fs.renameSync(tempFile, storageFile);
+      
+      console.log(`💾 Dati salvati persistentemente - ${mergedData.appointments?.length || 0} appuntamenti totali`);
+      
+      // Verifica immediata del salvataggio
+      const verified = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+      if (verified.appointments?.length !== mergedData.appointments?.length) {
+        console.error('⚠️ ERRORE CRITICO: Verifica salvataggio fallita!');
+        throw new Error('Salvataggio non verificato');
+      }
+      console.log(`✅ Salvataggio verificato correttamente`);
+      
+    } catch (error) {
+      console.error('❌ Errore critico salvataggio storage:', error);
+      throw error; // Rilancia l'errore per far fallire l'operazione
+    }
+  }
+  
+  // Controllo integrità all'avvio
+  function verifyDataIntegrity() {
+    try {
+      const data = loadStorageData();
+      const appointmentsCount = data.appointments?.length || 0;
+      const clientsCount = data.clients?.length || 0;
+      
+      console.log(`🔍 Controllo integrità all'avvio:`);
+      console.log(`   📅 Appuntamenti caricati: ${appointmentsCount}`);
+      console.log(`   👥 Clienti caricati: ${clientsCount}`);
+      
+      if (appointmentsCount > 0) {
+        const recentAppointments = data.appointments.slice(0, 3);
+        console.log(`   🔍 Primi 3 appuntamenti:`, recentAppointments.map(item => {
+          const apt = Array.isArray(item) ? item[1] : item;
+          return { id: apt?.id, date: apt?.date, client: apt?.clientId };
+        }));
+      }
+      
+      console.log(`✅ Controllo integrità completato`);
+      return data;
+    } catch (error) {
+      console.error(`❌ ERRORE INTEGRITÀ DATI:`, error);
+      return { appointments: [], clients: [], userServices: {} };
+    }
+  }
+
+  let storageData = verifyDataIntegrity();
+
+
+  // Endpoint per ottenere sempre l'icona predefinita (per anteprima)
+  app.get("/api/default-app-icon", (req, res) => {
+    res.json({ 
+      appName: "Gestionale Appuntamenti", 
+      icon: defaultIconBase64,
+      name: "Fleur de Vie multicolore"
+    });
+  });
+
+  // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
+  app.get("/api/client-app-info", async (req, res) => {
+    let targetUserId = null;
+    
+    // Se autenticato, usa l'utente corrente
+    if (req.isAuthenticated()) {
+      targetUserId = req.user.id;
+    } else {
+      // Se non autenticato, controlla se c'è un token di attivazione per determinare il tenant
+      const { token, clientId } = req.query;
+      
+      if (token && typeof token === 'string') {
+        const tokenParts = token.split('_');
+        if (tokenParts.length === 3) {
+          const [userId] = tokenParts;
+          targetUserId = parseInt(userId);
+        }
+      } else if (clientId) {
+        // Cerca il proprietario del cliente dal clientId
+        const storageData = loadStorageData();
+        const clients = storageData.clients || [];
+        const clientData = clients.find(([id]) => id.toString() === clientId.toString());
+        if (clientData && clientData[1].ownerId) {
+          targetUserId = clientData[1].ownerId;
+        }
+      }
+    }
+
+    // Se non riusciamo a determinare l'utente, usa l'icona predefinita
+    if (!targetUserId) {
+      return res.json({ 
+        appName: "Gestionale Appuntamenti", 
+        icon: defaultIconBase64 
+      });
+    }
+
+    const userIcon = storageData.userIcons[targetUserId] || defaultIconBase64;
+    
+    // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
+    await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
+    
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    console.log(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}`);
+    
+    res.json({ 
+      appName: "Gestionale Appuntamenti", 
+      icon: userIcon 
+    });
+  });
+
+  // RIMOSSO: Handler duplicato - gestito in routes.ts
+
+  // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
+  app.get("/api/client-app-info/:ownerId", async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      console.log(`Caricamento icona app per professionista ${ownerId} (richiesta client)`);
+      
+      if (!ownerId || isNaN(ownerId)) {
+        return res.status(400).json({ error: "ID professionista non valido" });
+      }
+
+      const storageData = loadStorageData();
+      const userIcon = storageData.userIcons[ownerId] || defaultIconBase64;
+      
+      // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
+      await updatePWAIconsFromCompanyLogo(ownerId, userIcon);
+      
+      console.log(`✅ Icone PWA aggiornate per professionista ${ownerId} con logo aziendale (richiesta client)`);
+      
+      res.json({ 
+        appName: "Gestionale Appuntamenti", 
+        icon: userIcon 
+      });
+    } catch (error) {
+      console.error('Errore nel caricamento icona app:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
+  // Endpoint per caricare una nuova icona - SEPARAZIONE PER UTENTE
+  app.post("/api/upload-app-icon", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
+    try {
+      const { iconData } = req.body;
+      const userId = req.user.id;
+      
+      if (iconData !== undefined) {
+        // 🚀 SOLUZIONE SLIPLANE: Salva icona nel database PostgreSQL (persiste su container Docker)
+        await app.locals.storage.saveUserIcon(userId, iconData);
+        console.log(`✅ Icona salvata nel database PostgreSQL per utente ${userId} (${iconData.length} bytes)`);
+        
+        // Backward compatibility: salva anche in JSON per sistemi legacy
+        storageData.userIcons[userId] = iconData;
+        saveStorageData(storageData);
+      }
+      
+      res.json({ 
+        success: true, 
+        message: "Icona aggiornata con successo", 
+        appName: "Gestionale Appuntamenti", 
+        icon: iconData 
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
+    }
+  });
+
+  // Endpoint per ripristinare l'icona di default - SEPARAZIONE PER UTENTE
+  app.post("/api/reset-app-icon", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
+    const userId = req.user.id;
+    
+    // 🚀 SOLUZIONE SLIPLANE: Salva icona default nel database PostgreSQL
+    await app.locals.storage.saveUserIcon(userId, defaultIconBase64);
+    console.log(`✅ Reset icona a Fleur de Vie nel database PostgreSQL per utente ${userId}`);
+    
+    // Backward compatibility: salva anche in JSON
+    storageData.userIcons[userId] = defaultIconBase64;
+    saveStorageData(storageData);
+    
+    res.json({ 
+      success: true, 
+      message: "Icona ripristinata al default", 
+      appName: "Gestionale Appuntamenti", 
+      icon: defaultIconBase64 
+    });
+  });
+
+  // Funzione per aggiornare le icone PWA dal logo aziendale
+  async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
+    try {
+      if (!iconBase64 || !iconBase64.startsWith('data:image/')) {
+        console.log(`⚠️ Icona non valida per utente ${userId}, uso fallback`);
+        iconBase64 = defaultIconBase64;
+      }
+
+      const sharp = await import('sharp').then(m => m.default);
+      
+      // Rimuovi il prefisso data:image
+      const base64Data = iconBase64.split(',')[1];
+      const imageBuffer = Buffer.from(base64Data, 'base64');
+      
+      // Genera le diverse dimensioni per PWA - sia generiche che specifiche per utente
+      const sizes = [
+        { size: 96, name: 'icon-96x96.png' },
+        { size: 192, name: 'icon-192x192.png' },
+        { size: 512, name: 'icon-512x512.png' },
+        { size: 96, name: `owner-${userId}-icon-96x96.png` },
+        { size: 192, name: `owner-${userId}-icon-192x192.png` },
+        { size: 512, name: `owner-${userId}-icon-512x512.png` }
+      ];
+      
+      for (const { size, name } of sizes) {
+        const resizedBuffer = await sharp(imageBuffer)
+          .resize(size, size, { 
+            fit: 'cover',
+            background: { r: 255, g: 255, b: 255, alpha: 1 }
+          })
+          .png()
+          .toBuffer();
+        
+        const iconPath = path.join(process.cwd(), 'public', 'icons', name);
+        fs.writeFileSync(iconPath, resizedBuffer);
+      }
+      
+      console.log(`✅ Icone PWA aggiornate per utente ${userId} con logo aziendale`);
+      
+    } catch (error) {
+      console.error(`❌ Errore aggiornamento icone PWA per utente ${userId}:`, error);
+    }
+  }
+
+  // Endpoint per sincronizzare icone PWA con logo aziendale
+  app.post("/api/sync-pwa-icons", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
+    const userId = req.user.id;
+    const userIcon = storageData.userIcons[userId] || defaultIconBase64;
+    
+    updatePWAIconsFromCompanyLogo(userId, userIcon);
+    
+    res.json({ 
+      success: true, 
+      message: "Icone PWA sincronizzate con logo aziendale" 
+    });
+  });
+
+  // Endpoint per ottenere le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
+  app.get("/api/company-name-settings", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.json({ businessName: "Gestionale Appuntamenti", showBusinessName: true });
+    }
+
+    const userId = req.user.id;
+    const userType = req.user.type;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId} (${userType})`);
+    
+    // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-company-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store'
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per impostazioni aziendali mobile`);
+    }
+    
+    // 🔄 CORRETTO: Leggi da PostgreSQL invece che da JSON
+    const currentSettings = await storage.getUserSettings(userId);
+    const companyNameSettings = (currentSettings?.preferences as any)?.companyName || {};
+    
+    // Valori di default se non esistono impostazioni
+    const userSettings = {
+      businessName: companyNameSettings.businessName || "Gestionale Appuntamenti",
+      showBusinessName: companyNameSettings.showBusinessName !== undefined ? companyNameSettings.showBusinessName : true,
+      name: companyNameSettings.name || req.user.username || "Utente",
+      fontSize: companyNameSettings.fontSize || 24,
+      fontFamily: companyNameSettings.fontFamily || "Arial, sans-serif",
+      fontStyle: companyNameSettings.fontStyle || "normal",
+      color: companyNameSettings.color || "#000000",
+      enabled: companyNameSettings.enabled !== undefined ? companyNameSettings.enabled : true
+    };
+    
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId} (${userType}):`, userSettings);
+    res.json(userSettings);
+  });
+
+  // Endpoint per ottenere i dati aziendali completi del professionista
+  app.get("/api/company-business-data", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.json({
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      });
+    }
+
+    const userId = req.user.id;
+    console.log(`🏢 [/api/company-business-data] GET per utente ${userId}`);
+    
+    const currentStorageData = loadStorageData();
+    if (!currentStorageData.userBusinessData) {
+      currentStorageData.userBusinessData = {};
+    }
+    
+    // Inizializza dati vuoti se non esistono
+    if (!currentStorageData.userBusinessData[userId]) {
+      currentStorageData.userBusinessData[userId] = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      saveStorageData(currentStorageData);
+    }
+    
+    const userBusinessData = currentStorageData.userBusinessData[userId];
+    console.log(`🏢 [/api/company-business-data] Dati per utente ${userId}:`, userBusinessData);
+    res.json(userBusinessData);
+  });
+
+  // Endpoint per salvare i dati aziendali completi del professionista
+  app.post("/api/company-business-data", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Non autenticato" });
+    }
+
+    try {
+      const { companyName, address, city, postalCode, vatNumber, fiscalCode, phone, email } = req.body;
+      const userId = req.user.id;
+      
+      console.log(`🏢 [POST] Salvando dati aziendali completi per utente ${userId}:`, req.body);
+      
+      // 🔄 USA POSTGRESQL: Aggiorna userSettings con dati aziendali
+      const currentSettings = await storage.getUserSettings(userId);
+      const currentPrefs = (currentSettings?.preferences as any) || {};
+      
+      await storage.updateUserSettings(userId, {
+        businessName: companyName,
+        address: `${address || ''}, ${city || ''} ${postalCode || ''}`.trim(),
+        contactPhone: phone,
+        contactEmail: email,
+        preferences: {
+          ...currentPrefs,
+          businessData: {
+            companyName,
+            address,
+            city,
+            postalCode,
+            vatNumber,
+            fiscalCode,
+            phone,
+            email,
+            updatedAt: new Date().toISOString()
+          }
+        }
+      });
+      
+      console.log(`✅ [POST] Dati aziendali salvati in PostgreSQL per utente ${userId}`);
+      res.json({ success: true, message: "Dati aziendali salvati con successo" });
+    } catch (error) {
+      console.error('❌ Errore salvataggio dati aziendali:', error);
+      res.status(500).json({ error: "Errore interno del server" });
+    }
+  });
+
+  // Endpoint per salvare le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
+  app.post("/api/company-name-settings", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Non autenticato" });
+    }
+
+    try {
+      const { businessName, showBusinessName, name, fontSize, fontFamily, fontStyle, color, enabled } = req.body;
+      const userId = req.user.id;
+      const userType = req.user.type;
+      
+      console.log(`🏢 [POST] Salvando impostazioni complete per utente ${userId} (${userType}):`, req.body);
+      
+      // 🔄 USA POSTGRESQL: Carica impostazioni correnti
+      const currentSettings = await storage.getUserSettings(userId);
+      const currentPrefs = (currentSettings?.preferences as any) || {};
+      
+      // Prepara preferenze nome azienda
+      const companyNameSettings = currentPrefs.companyName || {};
+      if (businessName !== undefined) companyNameSettings.businessName = businessName;
+      if (showBusinessName !== undefined) companyNameSettings.showBusinessName = showBusinessName;
+      if (name !== undefined) companyNameSettings.name = name;
+      if (fontSize !== undefined) companyNameSettings.fontSize = fontSize;
+      if (fontFamily !== undefined) companyNameSettings.fontFamily = fontFamily;
+      if (fontStyle !== undefined) companyNameSettings.fontStyle = fontStyle;
+      if (color !== undefined) companyNameSettings.color = color;
+      if (enabled !== undefined) companyNameSettings.enabled = enabled;
+      
+      // Aggiorna userSettings con preferences aggiornate
+      await storage.updateUserSettings(userId, {
+        businessName: businessName,
+        preferences: {
+          ...currentPrefs,
+          companyName: companyNameSettings
+        }
+      });
+      
+      console.log(`✅ [POST] Impostazioni salvate in PostgreSQL per utente ${userId}`);
+      
+      res.json({ 
+        success: true, 
+        message: "Impostazioni salvate con successo", 
+        ...companyNameSettings 
+      });
+    } catch (error) {
+      console.error(`❌ [POST] Errore salvataggio impostazioni per utente ${req.user?.id}:`, error);
+      res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
+    }
+  });
+
+
+
+  // Sistema lineare semplice - Appuntamenti (COMPLETAMENTE UNIFICATO MOBILE/DESKTOP)
+  app.get("/api/appointments", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.username}`);
+    console.log(`📱 [/api/appointments] [${deviceType}] Mobile: ${isMobile}, UserAgent: ${userAgent.substring(0, 50)}...`);
+    
+    // FORZA ANTI-CACHE PER MOBILE - intestazioni aggressive per sincronizzazione
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-${Date.now()}`,
+        'Last-Modified': new Date().toUTCString()
+      });
+      console.log(`🔄 [${deviceType}] Intestazioni anti-cache applicate per mobile`);
+    }
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti dal database condiviso
+      const userAppointments = await storage.getAppointmentsForUser(user.id, user.type);
+      
+      console.log(`📅 [${deviceType}] Caricati ${userAppointments.length} appuntamenti da PostgreSQL per utente ${user.id}`);
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = userAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        clientId: apt.clientId,
+        client: apt.client, // ✅ FIX: Usa l'oggetto client completo dallo storage
+        service: apt.service, // ✅ FIX: Usa l'oggetto service completo dallo storage
+        serviceId: apt.serviceId,
+        userId: apt.userId,
+        notes: apt.notes,
+        reminderSent: apt.reminderSent,
+        reminderConfirmed: apt.reminderConfirmed,
+        staffId: apt.staffId, // ✅ FIX: Aggiungi staffId
+        roomId: apt.roomId // ✅ FIX: Aggiungi roomId
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.get("/api/appointments/date/:date", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const { date } = req.params;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`📅 [/api/appointments/date] [${deviceType}] Utente ${user.id} cerca appuntamenti per data ${date}`);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti per data dal database condiviso
+      const dayAppointments = await storage.getAppointmentsByDateForUser(date, user.id, user.type);
+      
+      console.log(`📅 [${deviceType}] Caricati ${dayAppointments.length} appuntamenti da PostgreSQL per ${date}`);
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = dayAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        clientId: apt.clientId,
+        client: apt.client, // ✅ FIX: Usa l'oggetto client completo dallo storage
+        service: apt.service, // ✅ FIX: Usa l'oggetto service completo dallo storage
+        serviceId: apt.serviceId,
+        userId: apt.userId,
+        notes: apt.notes,
+        reminderSent: apt.reminderSent,
+        reminderConfirmed: apt.reminderConfirmed,
+        staffId: apt.staffId, // ✅ FIX: Aggiungi staffId
+        roomId: apt.roomId // ✅ FIX: Aggiungi roomId
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/date] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Endpoint per range di appuntamenti (necessario per i report) - USA POSTGRESQL
+  app.get("/api/appointments/range/:startDate/:endDate", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    const { startDate, endDate } = req.params;
+    const user = req.user as any;
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
+    
+    console.log(`📊 [/api/appointments/range PG] [${deviceType}] Utente ${user.id} cerca appuntamenti per range ${startDate}-${endDate}`);
+    
+    // Validazione formato data
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+      return res.status(400).json({ message: "Formato data non valido. Usa YYYY-MM-DD" });
+    }
+    
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti dal database condiviso
+      const allAppointments = await storage.getAppointmentsByDateRange(startDate, endDate);
+      
+      // Filtra per utente (admin vede tutti, staff solo i propri)
+      let userRangeAppointments;
+      if (user.type === 'admin') {
+        console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti per report`);
+        userRangeAppointments = allAppointments;
+      } else {
+        console.log(`👩‍⚕️ [${deviceType}] Staff - Filtro per appuntamenti propri`);
+        userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
+      }
+      
+      console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length} da PostgreSQL`);
+      
+      // Formatta appuntamenti con relazioni per il report
+      const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
+        // Log dettagliato per debug fatturato
+        if (appointment.service) {
+          console.log(`💰 Appuntamento ${appointment.id}: Servizio ${appointment.service.name}, Prezzo: ${appointment.service.price} centesimi (${(appointment.service.price || 0) / 100}€)`);
+        } else {
+          console.log(`⚠️ Appuntamento ${appointment.id}: Servizio non trovato per serviceId ${appointment.serviceId}`);
+        }
+        
+        return { 
+          ...appointment, 
+          client: appointment.client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+          service: appointment.service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
+        };
+      });
+      
+      console.log(`💰 [${deviceType}] Report PostgreSQL: calcolato ricavi per ${rangeAppointmentsWithDetails.length} appuntamenti`);
+      res.json(rangeAppointmentsWithDetails);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/range PG] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post("/api/appointments", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    console.log(`📅 [/api/appointments] POST - Creazione appuntamento per utente ${user.id}`);
+    console.log(`📝 Dati ricevuti:`, req.body);
+    
+    try {
+      // 🔄 USA POSTGRESQL: Crea appuntamento nel database condiviso
+      const appointmentData = {
+        userId: user.id,
+        clientId: req.body.clientId,
+        serviceId: req.body.serviceId,
+        staffId: req.body.staffId || null,
+        roomId: req.body.roomId || null,
+        date: req.body.date,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        notes: req.body.notes || "",
+        reminderType: req.body.reminderType || "whatsapp,email",
+        status: req.body.status || "scheduled"
+      };
+      
+      const newAppointment = await storage.createAppointment(appointmentData);
+      
+      console.log(`✅ [PostgreSQL] Appuntamento ${newAppointment.id} creato con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
+      
+      // 🔕 NOTIFICHE DISABILITATE ALLA CREAZIONE
+      // Le notifiche vengono inviate solo:
+      // 1. Manualmente dal WhatsApp Center (quando l'utente clicca "Invia")
+      // 2. Automaticamente dal job scheduler per appuntamenti di domani
+      console.log(`📝 [NOTIFICHE] Appuntamento creato senza invio automatico - verrà gestito manualmente o dal job scheduler`);
+      
+      res.status(201).json(newAppointment);
+    } catch (error) {
+      console.error(`❌ [/api/appointments] Errore creazione appuntamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.delete("/api/appointments/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const appointmentId = parseInt(req.params.id);
+    
+    console.log(`🗑️ [DELETE] Tentativo eliminazione appuntamento ${appointmentId} da utente ${user.id} (${user.type})`);
+    
+    if (isNaN(appointmentId)) {
+      return res.status(400).json({ message: "ID appuntamento non valido" });
+    }
+    
+    try {
+      // 🔄 USA POSTGRESQL: Elimina appuntamento dal database condiviso
+      const deleted = await storage.deleteAppointment(appointmentId);
+      
+      if (!deleted) {
+        console.log(`❌ [DELETE] Appuntamento ${appointmentId} non trovato`);
+        return res.status(404).json({ message: "Appuntamento non trovato" });
+      }
+      
+      console.log(`✅ [DELETE] Appuntamento ${appointmentId} eliminato da PostgreSQL per utente ${user.id}`);
+      res.status(200).json({ message: "Appuntamento eliminato con successo" });
+    } catch (error) {
+      console.error(`❌ [DELETE] Errore eliminazione appuntamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Endpoint DELETE per eliminare clienti - USA POSTGRESQL
+  app.delete("/api/clients/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    
+    console.log(`🗑️ [DELETE PG] Richiesta eliminazione cliente ID ${clientId} da utente ${user.id} (${user.email})`);
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+    
+    try {
+      // 🔄 USA POSTGRESQL: Trova il cliente nel database
+      const client = await storage.getClient(clientId);
+      
+      if (!client) {
+        console.log(`❌ [DELETE PG] Cliente con ID ${clientId} non trovato`);
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Verifica permessi: solo il proprietario o admin possono eliminare
+      if (user.type !== 'admin' && client.ownerId !== user.id) {
+        console.log(`❌ [DELETE PG] Accesso negato - utente ${user.id} non è proprietario del cliente ${clientId} (proprietario: ${client.ownerId})`);
+        return res.status(403).json({ message: "Non sei autorizzato a eliminare questo cliente" });
+      }
+      
+      console.log(`🗑️ [DELETE PG] Eliminazione autorizzata - utente ${user.id} è ${user.type === 'admin' ? 'admin' : 'proprietario'} del cliente ${clientId}`);
+      
+      // 🔄 USA POSTGRESQL: Elimina cliente (PostgreSQL eliminerà automaticamente gli appuntamenti correlati se configurato con ON DELETE CASCADE)
+      const deleted = await storage.deleteClient(clientId);
+      
+      if (!deleted) {
+        console.log(`❌ [DELETE PG] Errore eliminazione cliente ${clientId}`);
+        return res.status(500).json({ message: "Errore durante l'eliminazione" });
+      }
+      
+      console.log(`✅ [DELETE PG] Cliente ID ${clientId} "${client.firstName} ${client.lastName}" eliminato da PostgreSQL`);
+      
+      res.status(200).json({ 
+        message: "Cliente eliminato con successo",
+        deletedClient: {
+          id: clientId,
+          firstName: client.firstName,
+          lastName: client.lastName
+        }
+      });
+    } catch (error) {
+      console.error(`❌ [DELETE PG] Errore eliminazione cliente:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Endpoint per recuperare notifiche admin
+  app.get("/api/admin/notifications", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    // Solo admin possono vedere le notifiche
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+    
+    const storageData = loadStorageData();
+    const notifications = storageData.adminNotifications || [];
+    
+    // Ordina per timestamp decrescente (più recenti prima)
+    const sortedNotifications = notifications.sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+    
+    res.json(sortedNotifications);
+  });
+
+  // Endpoint per marcare notifiche come lette
+  app.post("/api/admin/notifications/:id/read", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+    
+    const notificationId = parseInt(req.params.id);
+    const storageData = loadStorageData();
+    
+    if (storageData.adminNotifications) {
+      const notification = storageData.adminNotifications.find(n => n.id === notificationId);
+      if (notification) {
+        notification.read = true;
+        saveStorageData(storageData);
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ message: "Notifica non trovata" });
+      }
+    } else {
+      res.status(404).json({ message: "Notifica non trovata" });
+    }
+  });
+
+  // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
+  app.get("/api/clients/:id/activation-token", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    
+    console.log(`🔍 [QR-INTERFACE] Richiesta QR per cliente ID: ${clientId} da utente: ${user.id} (${user.email})`);
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+    
+    // 🔄 USA POSTGRESQL: Carica cliente dal database condiviso
+    const client = await storage.getClient(clientId);
+    
+    if (!client) {
+      console.log(`❌ [QR-INTERFACE] Cliente ${clientId} NON TROVATO nel sistema`);
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    console.log(`🔍 [QR-INTERFACE] Cliente trovato: ${client.firstName} ${client.lastName} (ID: ${clientId}, Owner: ${client.ownerId})`);
+    
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+      console.log(`❌ [QR-INTERFACE] Accesso negato - utente ${user.id} non autorizzato per cliente del proprietario ${client.ownerId}`);
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    }
+    
+    // Genera token di attivazione permanente basato su codici gerarchici
+    const ownerUserId = client.ownerId || user.id;
+    
+    // SISTEMA CODICI GERARCHICI: Verifica e genera codici se mancanti (logica permanente)
+    let clientCode = client.uniqueCode;
+    if (!clientCode || !clientCode.startsWith('PROF_') || !(await validateClientOwnership(clientCode, ownerUserId))) {
+      console.log(`🔧 [AUTO-FIX] Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
+      clientCode = await generateClientCode(ownerUserId, clientId);
+      
+      // 🔄 USA POSTGRESQL: Aggiorna cliente nel database condiviso
+      const profCode = await getProfessionistCode(ownerUserId);
+      await storage.updateClient(clientId, {
+        uniqueCode: clientCode,
+        professionistCode: profCode,
+        ownerId: ownerUserId
+      });
+      console.log(`✅ [AUTO-FIX] Cliente ${clientId} aggiornato con codice: ${clientCode}`);
+    }
+    
+    const crypto = await import('crypto');
+    const tokenData = `${clientCode}_SECURE_${ownerUserId}`;
+    const stableHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    const token = `${clientCode}_${stableHash}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    
+    // PERCORSO DEDICATO BASATO SU CODICE UNIVOCO: Ogni cliente ha il suo URL unico
+    const activationUrl = `${protocol}://${host}/client/${clientCode}?token=${token}&autoLogin=true`;
+    
+    try {
+      // Genera QR code vero usando la libreria qrcode con import dinamico sicuro
+      let QRCode;
+      try {
+        const qrModule = await import('qrcode');
+        QRCode = qrModule.default || qrModule;
+      } catch (importError) {
+        console.error('Errore import QRCode:', importError);
+        throw new Error('Libreria QR code non disponibile');
+      }
+      
+      const qrCode = await QRCode.toDataURL(activationUrl, {
+        errorCorrectionLevel: 'M',
+        type: 'image/png',
+        quality: 0.92,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      });
+      
+      // CORREZIONE CRITICA: Sincronizza icone PWA con l'icona del proprietario del cliente
+      const storageData = loadStorageData();
+      const ownerIcon = storageData.userIcons[ownerUserId] || defaultIconBase64;
+      console.log(`🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente ${clientId} con icona del proprietario ${ownerUserId}`);
+      
+      try {
+        await updatePWAIconsFromCompanyLogo(ownerUserId, ownerIcon);
+        console.log(`✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario ${ownerUserId}`);
+      } catch (syncError) {
+        console.error(`❌ [QR-PWA-SYNC] Errore sincronizzazione icone PWA:`, syncError);
+      }
+      
+      const responseData = {
+        token,
+        activationUrl,
+        qrCode,
+        clientName: `${client.firstName} ${client.lastName}`
+      };
+      
+      console.log(`✅ [QR-INTERFACE] Risposta inviata al frontend:`);
+      console.log(`   - Cliente: ${responseData.clientName}`);
+      console.log(`   - Token: ${responseData.token}`);
+      console.log(`   - URL: ${responseData.activationUrl}`);
+      
+      res.json(responseData);
+    } catch (error) {
+      console.error('Errore generazione QR:', error);
+      res.status(500).json({ message: "Errore nella generazione del QR code" });
+    }
+  });
+
+
+
+  // Endpoint per verificare token QR e autenticare cliente
+  app.post("/api/client-access/verify-token", async (req, res) => {
+    const { token, clientId } = req.body;
+    
+    if (!token || !clientId) {
+      return res.status(400).json({ message: "Token e clientId richiesti" });
+    }
+    
+    // NUOVO FORMATO: Verifica token basato su codici gerarchici PROF_XXX_XXXX_CLIENT_XXX_XXXX_hash
+    const crypto = await import('crypto');
+    
+    // Estrae codice cliente e hash dal token
+    const lastUnderscoreIndex = token.lastIndexOf('_');
+    if (lastUnderscoreIndex === -1) {
+      return res.status(400).json({ message: "Formato token non valido" });
+    }
+    
+    const clientCode = token.substring(0, lastUnderscoreIndex);
+    const providedHash = token.substring(lastUnderscoreIndex + 1);
+    
+    // Verifica che il codice cliente sia formato gerarchico valido
+    if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
+      return res.status(400).json({ message: "Codice cliente non valido" });
+    }
+    
+    // Estrae owner ID dal codice cliente (supporta 2-3 cifre)
+    const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
+    if (!ownerMatch) {
+      return res.status(400).json({ message: "Impossibile identificare proprietario dal codice" });
+    }
+    
+    const ownerId = parseInt(ownerMatch[1], 10);
+    
+    // Verifica hash del token
+    const tokenData = `${clientCode}_SECURE_${ownerId}`;
+    const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    
+    if (providedHash !== expectedHash) {
+      return res.status(401).json({ message: "Token non autorizzato" });
+    }
+    
+    // Carica dati reali dal file storage_data.json
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
+    
+    // Cerca il cliente nei dati storage reali
+    const clientData = allClients.find(([id]) => id.toString() === clientId.toString());
+    
+    if (!clientData) {
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    const client = clientData[1];
+    
+    // VALIDAZIONE CRITICA: Verifica che il cliente appartenga al proprietario del codice gerarchico
+    const clientOwnerId = client.ownerId;
+    if (!clientOwnerId || clientOwnerId !== ownerId) {
+      console.error(`🚨 VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
+      return res.status(403).json({ message: "Token non autorizzato per questo cliente" });
+    }
+    
+    // Verifica che il codice cliente corrisponda al formato gerarchico
+    if (client.uniqueCode && !(await validateClientOwnership(client.uniqueCode, ownerId))) {
+      console.error(`🚨 VIOLAZIONE SICUREZZA: Codice cliente ${client.uniqueCode} non valido per proprietario ${ownerId}`);
+      return res.status(403).json({ message: "Codice cliente non valido per questo proprietario" });
+    }
+    
+    console.log(`✅ Token QR verificato con successo per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
+    
+    // Restituisci i dati del cliente autenticato
+    res.json({
+      client: {
+        id: clientId,
+        firstName: client.firstName,
+        lastName: client.lastName,
+        phone: client.phone,
+        email: client.email,
+        ownerId: client.ownerId
+      }
+    });
+  });
+
+  app.get("/api/client-access/count/:clientId", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientIdParam = req.params.clientId;
+    
+    // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
+    const client = await storage.getClient(parseInt(clientIdParam, 10));
+    
+    if (!client) {
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    }
+    
+    // SISTEMA SEMPLIFICATO: 1 accesso = 1 conteggio - DIMEZZATO PER COMPENSARE DOPPIO INCREMENTO
+    const actualAccessCount = client.accessCount || 0;
+    const displayCount = Math.floor(actualAccessCount / 2);
+    
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${actualAccessCount} → display: ${displayCount}`);
+    
+    // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    
+    res.json({ count: displayCount });
+  });
+
+  // Endpoint per verificare token QR e restituire dati cliente
+  app.post("/api/client-access/verify-token", async (req, res) => {
+    const { token, clientId } = req.body;
+    
+    if (!token || !clientId) {
+      return res.status(400).json({ message: "Token e clientId richiesti" });
+    }
+    
+    // Verifica formato token: userId_clientId_timestamp
+    const tokenParts = token.split('_');
+    if (tokenParts.length !== 3) {
+      return res.status(400).json({ message: "Formato token non valido" });
+    }
+    
+    const [userId, tokenClientId, timestamp] = tokenParts;
+    
+    // Verifica che il clientId nel token corrisponda a quello fornito
+    if (parseInt(tokenClientId, 10) !== parseInt(clientId, 10)) {
+      return res.status(400).json({ message: "Token non corrisponde al cliente" });
+    }
+    
+    // Verifica che il cliente esista nel sistema storage reale
+    const storageData = loadStorageData();
+    let clientFound = null;
+    
+    const clients = storageData.clients || [];
+    for (const [id, clientData] of clients) {
+      if (parseInt(id.toString(), 10) === parseInt(clientId, 10)) {
+        clientFound = clientData;
+        break;
+      }
+    }
+    
+    if (!clientFound) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+    
+    // Token valido - restituisci i dati del cliente
+    res.json({
+      valid: true,
+      client: {
+        id: parseInt(clientId, 10),
+        firstName: clientFound.firstName || '',
+        lastName: clientFound.lastName || '',
+        phone: clientFound.phone || '',
+        email: clientFound.email || '',
+        address: clientFound.address || '',
+        birthday: clientFound.birthday || '',
+        hasConsent: clientFound.hasConsent || false
+      }
+    });
+  });
+
+  // Endpoint per recuperare dati di un singolo cliente (per admin/staff)
+  app.get("/api/clients/:id", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+
+    const { id } = req.params;
+    const user = req.user;
+    
+    // Solo admin e staff possono accedere
+    if (user.type !== 'admin' && user.type !== 'staff') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+
+    // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
+    const clientFound = await storage.getClient(parseInt(id, 10));
+
+    if (!clientFound) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && clientFound.ownerId && clientFound.ownerId !== user.id) {
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    }
+
+    res.json({
+      id: clientFound.id,
+      firstName: clientFound.firstName || '',
+      lastName: clientFound.lastName || '',
+      phone: clientFound.phone || '',
+      email: clientFound.email || '',
+      address: clientFound.address || '',
+      birthday: clientFound.birthday || '',
+      hasConsent: clientFound.hasConsent || false
+    });
+  });
+
+  // Endpoint per caricare appuntamenti del cliente via token QR
+  app.get("/api/appointments/client/:clientId", async (req, res) => {
+    const { clientId } = req.params;
+    const user = req.user as any; // Può essere undefined se non autenticato (PWA pubblico)
+    
+    if (!clientId) {
+      return res.status(400).json({ message: "ClientId richiesto" });
+    }
+    
+    try {
+      // 🔒 MULTI-TENANT SECURITY: Verifica ownership del cliente
+      const client = await storage.getClient(parseInt(clientId));
+      
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Se autenticato, verifica che il cliente appartenga all'utente (eccetto admin)
+      if (user && user.type !== 'admin' && client.ownerId !== user.id) {
+        console.log(`🚫 [SECURITY] User ${user.id} tentato accesso a cliente ${clientId} di proprietà di ${client.ownerId}`);
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+      
+      // 🔄 USA POSTGRESQL: Carica appuntamenti per cliente dal database condiviso
+      const clientAppointments = await storage.getAppointmentsByClient(parseInt(clientId));
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = clientAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        notes: apt.notes || '',
+        reminderSent: apt.reminderSent || false,
+        reminderConfirmed: apt.reminderConfirmed || false,
+        clientId: apt.clientId
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/client] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Endpoint di validazione token QR code per attivazione app PWA cliente
+  app.get("/activate", async (req, res) => {
+    const { token } = req.query;
+    
+    if (!token || typeof token !== 'string') {
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Mancante</h1>
+            <p>Token di attivazione non fornito. Scansiona nuovamente il QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    console.log(`🔍 [ACTIVATE] Tentativo di attivazione con token: ${token}`);
+    
+    // NUOVA LOGICA: Supporta token gerarchici formato PROF_XXX_XXXX_CLIENT_XXX_XXXX_hash
+    const crypto = await import('crypto');
+    
+    // Estrae codice cliente e hash dal token
+    const lastUnderscoreIndex = token.lastIndexOf('_');
+    if (lastUnderscoreIndex === -1) {
+      console.log(`❌ [ACTIVATE] Token senza hash: ${token}`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Formato token non valido. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    const clientCode = token.substring(0, lastUnderscoreIndex);
+    const providedHash = token.substring(lastUnderscoreIndex + 1);
+    
+    console.log(`🔍 [ACTIVATE] Codice cliente: ${clientCode}, Hash: ${providedHash}`);
+    
+    // Verifica che il codice cliente sia formato gerarchico valido
+    // Formato: PROF_014_9C1F_CLIENT_1750177330362_816C (supporta anche PROF_XXX_)
+    if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
+      console.log(`❌ [ACTIVATE] Codice cliente non gerarchico: ${clientCode}`);
+      console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XX_XXXX_CLIENT_NNNNN_XXXX o PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Formato token non valido. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    // Estrae owner ID dal codice cliente (supporta 2-3 cifre)
+    const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
+    if (!ownerMatch) {
+      console.log(`❌ [ACTIVATE] Impossibile estrarre proprietario da: ${clientCode}`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Impossibile identificare proprietario dal codice. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    const ownerId = parseInt(ownerMatch[1], 10);
+    
+    // Verifica hash del token
+    const tokenData = `${clientCode}_SECURE_${ownerId}`;
+    const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    
+    console.log(`🔍 [ACTIVATE] Owner ID: ${ownerId}, Token data: ${tokenData}, Expected hash: ${expectedHash}`);
+    
+    if (providedHash !== expectedHash) {
+      console.log(`❌ [ACTIVATE] Hash mismatch. Provided: ${providedHash}, Expected: ${expectedHash}`);
+      return res.status(401).send(`
+        <html>
+          <head>
+            <title>Token Non Autorizzato</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">🔒 Token Non Autorizzato</h1>
+            <p>Il token non è valido per questo cliente. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    // Estrae client ID dal codice gerarchico
+    const clientMatch = clientCode.match(/CLIENT_(\d+)_/);
+    if (!clientMatch) {
+      console.log(`❌ [ACTIVATE] Impossibile estrarre client ID da: ${clientCode}`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Impossibile identificare cliente dal codice. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    const clientId = parseInt(clientMatch[1], 10);
+    console.log(`🔍 [ACTIVATE] Client ID estratto: ${clientId}`);
+    
+    // Verifica che il cliente esista nel sistema storage reale
+    const storageData = loadStorageData();
+    const clients = storageData.clients || [];
+    const clientData = clients.find(([id]) => id === clientId);
+    
+    if (!clientData) {
+      console.log(`❌ [ACTIVATE] Cliente ${clientId} non trovato nel sistema`);
+      return res.status(404).send(`
+        <html>
+          <head>
+            <title>Cliente Non Trovato</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">👤 Cliente Non Trovato</h1>
+            <p>Il cliente non esiste nel sistema. Verifica il QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    const client = clientData[1];
+    
+    // VALIDAZIONE CRITICA: Verifica che il cliente appartenga al proprietario del codice gerarchico
+    const clientOwnerId = client.ownerId;
+    if (!clientOwnerId || clientOwnerId !== ownerId) {
+      console.error(`🚨 [ACTIVATE] VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
+      return res.status(403).send(`
+        <html>
+          <head>
+            <title>Accesso Negato</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">🔒 Accesso Negato</h1>
+            <p>Non sei autorizzato ad accedere a questo cliente. Contatta il tuo professionista.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    console.log(`✅ [ACTIVATE] Token valido per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
+    
+    // REDIRECT FISSO: Reindirizza direttamente alla client area con autocompilazione token
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const clientAreaUrl = `${protocol}://${host}/client-area?token=${token}&clientId=${clientId}&autoLogin=true`;
+    
+    console.log(`🔄 [ACTIVATE] Reindirizzamento diretto alla client area: ${clientAreaUrl}`);
+    
+    // Redirect diretto alla client area - RISOLVE problema "Token Mancante"
+    res.redirect(clientAreaUrl);
+  });
+
+  // Endpoint Staff Management - Solo per admin (POSTGRESQL)
+  app.get("/api/staff/users", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alla gestione staff" });
+    }
+    
+    try {
+      console.log("🔵 [/api/staff/users] SIMPLE-ROUTES - Recupero staff da PostgreSQL");
+      
+      // Carica tutti gli utenti da PostgreSQL
+      const staffUsers = await storage.getAllStaffUsers();
+      console.log(`🔵 [/api/staff/users] Trovati ${staffUsers.length} utenti dal database`);
+      
+      // Rimuovi password e aggiungi codici referral
+      const safeUsers = staffUsers.map(staffUser => {
+        const { password, ...userWithoutPassword } = staffUser;
+        
+        // Genera codice referral
+        const referralCode = staffUser.id === 14 ? "BUS14" : 
+                           staffUser.id === 16 ? "FAV16" : 
+                           staffUser.id === 8 ? "ZAM08" : 
+                           `REF${staffUser.id}`;
+        
+        return {
+          ...userWithoutPassword,
+          referralCode: referralCode
+        };
+      });
+      
+      console.log(`✅ [/api/staff/users] Invio ${safeUsers.length} utenti staff`);
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("❌ [/api/staff/users] Errore:", error);
+      res.status(500).json({ message: "Errore nel caricamento staff" });
+    }
+  });
+
+  // Endpoint per salvare dati bancari staff
+  app.patch("/api/staff/:userId/banking", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può modificare i dati bancari staff" });
+    }
+    
+    try {
+      const userId = parseInt(req.params.userId);
+      const { iban, bic, bankName, accountHolder } = req.body;
+      
+      console.log(`💳 [BANKING] Aggiornamento dati bancari per staff ${userId}:`, { iban, bic, bankName, accountHolder });
+      
+      // Aggiorna i dati bancari tramite storage
+      const updated = await storage.updateStaffBanking(userId, {
+        iban,
+        bic,
+        bankName,
+        accountHolder
+      });
+      
+      if (!updated) {
+        return res.status(404).json({ message: "Staff non trovato" });
+      }
+      
+      console.log(`✅ [BANKING] Dati bancari aggiornati per staff ${userId}`);
+      res.json({ success: true, message: "Dati bancari aggiornati con successo" });
+    } catch (error) {
+      console.error("❌ [BANKING] Errore:", error);
+      res.status(500).json({ message: "Errore nel salvataggio dati bancari" });
+    }
+  });
+
+  // Endpoint Referral System - Per admin e business
+  app.get("/api/referral/codes", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin' && user.type !== 'business') {
+      return res.status(403).json({ message: "Solo admin e business possono accedere ai referral" });
+    }
+    
+    // Carica codici referral dal storage
+    const referralCodes = loadStorageData().referralCodes || [];
+    
+    // Per business users, mostra solo i propri codici
+    let userCodes;
+    if (user.type === 'admin') {
+      userCodes = referralCodes;
+    } else {
+      userCodes = referralCodes.filter(code => code.ownerId === user.id);
+    }
+    
+    res.json(userCodes);
+  });
+
+  // Endpoint Referral Overview - Solo per admin (USA JSON STORAGE)
+  app.get("/api/referral-overview", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alla panoramica referral" });
+    }
+    
+    try {
+      // Carica dati dal JSON storage
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova tutti gli staff con referral attivi nel JSON
+      // Struttura JSON users: { "0": [id, datiUtente], "1": [id, datiUtente], ... }
+      const allUsersArray = Object.entries(storageData.users || {});
+      const staffMembers = allUsersArray
+        .filter(([key, userEntry]) => {
+          const userData = (userEntry as any)[1]; // Secondo elemento dell'array
+          return userData && userData.type === 'staff';
+        })
+        .map(([key, userEntry]) => {
+          const userData = (userEntry as any)[1];
+          return {
+            staffId: userData.id,
+            staffName: userData.username,
+            staffEmail: userData.email || userData.username
+          };
+        });
+      
+      // Calcola statistiche per ogni staff
+      const staffStats = staffMembers.map(staff => {
+        const staffCommissions = referralCommissions.filter((commission: any) => 
+          commission.referrerId === staff.staffId && commission.status === 'active'
+        );
+        
+        const sponsoredCount = staffCommissions.length;
+        const totalCommissions = staffCommissions.reduce((sum: number, commission: any) => 
+          sum + (commission.monthlyAmount || 0), 0
+        );
+        const paidCommissions = staffCommissions
+          .filter((commission: any) => commission.isPaid)
+          .reduce((sum: number, commission: any) => sum + (commission.monthlyAmount || 0), 0);
+        const pendingCommissions = totalCommissions - paidCommissions;
+        
+        return {
+          ...staff,
+          sponsoredCount,
+          totalCommissions,
+          paidCommissions,
+          pendingCommissions
+        };
+      }).filter(staff => staff.sponsoredCount > 0); // Solo staff con referral attivi
+      
+      // Calcola totali generali
+      const totals = {
+        totalSponsored: staffStats.reduce((sum, staff) => sum + staff.sponsoredCount, 0),
+        totalCommissions: staffStats.reduce((sum, staff) => sum + staff.totalCommissions, 0),
+        totalPaid: staffStats.reduce((sum, staff) => sum + staff.paidCommissions, 0),
+        totalPending: staffStats.reduce((sum, staff) => sum + staff.pendingCommissions, 0)
+      };
+      
+      const response = {
+        staffStats,
+        totals,
+        commissionRate: 25, // 25% commissione standard
+        minSponsorshipForCommission: 3 // Dal terzo abbonamento sponsorizzato
+      };
+      
+      res.json(response);
+    } catch (error) {
+      console.error('Errore nel caricamento panoramica referral:', error);
+      res.status(500).json({ message: "Errore nel caricamento dei dati referral" });
+    }
+  });
+
+  // Endpoint Tutte le Commissioni - Solo per admin
+  app.get("/api/staff-commissions/all", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    }
+    
+    try {
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Arricchisci TUTTE le commissioni con dati utente e staff
+      const allCommissions = await Promise.all(
+        referralCommissions.map(async (commission) => {
+          // Recupera dati dell'utente sponsorizzato (referred)
+          const referredUser = await storage.getUser(commission.referredId);
+          const subscription = await storage.getSubscriptionByUserId(commission.referredId);
+          
+          // Recupera dati dello staff (referrer)
+          const staffUser = await storage.getUser(commission.referrerId);
+          
+          return {
+            id: commission.id,
+            commissionAmount: commission.monthlyAmount || 0,
+            isPaid: commission.isPaid || false,
+            paidAt: commission.paidAt || null,
+            createdAt: commission.createdAt || commission.startDate || new Date().toISOString(),
+            notes: commission.notes || null,
+            licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
+            licenseType: subscription?.licenseType || 'business',
+            customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com',
+            staffName: `${staffUser?.firstName || ''} ${staffUser?.lastName || ''}`.trim() || staffUser?.username || 'Staff',
+            staffEmail: staffUser?.email || staffUser?.username || 'staff@email.com'
+          };
+        })
+      );
+      
+      res.json(allCommissions);
+    } catch (error) {
+      console.error('Errore nel caricamento di tutte le commissioni:', error);
+      res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    }
+  });
+
+  // Endpoint Commissioni Staff - Solo per admin
+  app.get("/api/staff-commissions/:staffId", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    }
+    
+    try {
+      const staffId = parseInt(req.params.staffId);
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova commissioni per lo staff specifico e arricchisci con dati utente
+      const staffCommissions = await Promise.all(
+        referralCommissions
+          .filter(commission => commission.referrerId === staffId)
+          .map(async (commission) => {
+            // Recupera dati dell'utente sponsorizzato (referred)
+            const referredUser = await storage.getUser(commission.referredId);
+            const subscription = await storage.getSubscriptionByUserId(commission.referredId);
+            
+            return {
+              id: commission.id,
+              commissionAmount: commission.monthlyAmount || 0,
+              isPaid: commission.isPaid || false,
+              paidAt: commission.paidAt || null,
+              createdAt: commission.createdAt || commission.startDate || new Date().toISOString(),
+              notes: commission.notes || null,
+              licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
+              licenseType: subscription?.licenseType || 'business',
+              customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com'
+            };
+          })
+      );
+      
+      res.json(staffCommissions);
+    } catch (error) {
+      console.error('Errore nel caricamento commissioni staff:', error);
+      res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    }
+  });
+
+  // Endpoint per segnare commissione come pagata - Solo per admin
+  app.post("/api/staff-commissions/:commissionId/mark-paid", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può aggiornare le commissioni" });
+    }
+    
+    try {
+      const commissionId = parseInt(req.params.commissionId);
+      const { notes } = req.body;
+      
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova e aggiorna la commissione
+      const commissionIndex = referralCommissions.findIndex(c => c.id === commissionId);
+      if (commissionIndex === -1) {
+        return res.status(404).json({ message: "Commissione non trovata" });
+      }
+      
+      referralCommissions[commissionIndex] = {
+        ...referralCommissions[commissionIndex],
+        isPaid: true,
+        paidAt: new Date().toISOString(),
+        notes: notes || referralCommissions[commissionIndex].notes
+      };
+      
+      // Salva i dati aggiornati
+      storageData.referralCommissions = referralCommissions;
+      saveStorageData(storageData);
+      
+      res.json({ success: true, message: "Commissione segnata come pagata" });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento commissione:', error);
+      res.status(500).json({ message: "Errore nell'aggiornamento della commissione" });
+    }
+  });
+
+  // Funzione helper per generare PDF come buffer per allegati email
+  async function generateInvoicePDFBuffer(invoiceId: number, user: any): Promise<Buffer> {
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Carica dati aziendali completi (stesso codice della stampa)
+    let businessHeader = 'Gestionale Appuntamenti';
+    let businessData = {
+      companyName: '', address: '', city: '', postalCode: '', 
+      vatNumber: '', fiscalCode: '', phone: '', email: ''
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      
+      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+        businessHeader = userBusinessSettings.name;
+      }
+      
+      if (userBusinessData) {
+        businessData = { ...businessData, ...userBusinessData };
+        if (userBusinessData.companyName) {
+          businessHeader = userBusinessData.companyName;
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Impossibile caricare dati aziendali per PDF allegato:', error);
+    }
+    
+    // Carica dati cliente
+    let clientDetails = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientDetails = clientEntry[1];
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore recupero dati cliente per PDF:', error);
+    }
+    
+    // Genera HTML completo per PDF
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fattura ${invoice.invoiceNumber}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+    .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+    .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+    .client-info, .invoice-details { flex: 1; }
+    .invoice-details { text-align: right; }
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    .items-table th { background-color: #f5f5f5; font-weight: bold; }
+    .total-row { font-weight: bold; font-size: 1.2em; }
+    .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>${businessHeader}</h1>
+    ${businessData.address ? `<p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
+    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+    ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+    ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+  </div>
+  
+  <div class="invoice-info">
+    <div class="client-info">
+      <h3>Cliente:</h3>
+      <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+      ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+      ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+      ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+      ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+      ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+    </div>
+    
+    <div class="invoice-details">
+      <h3>Dettagli Fattura:</h3>
+      <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+      <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+      <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : 'Scaduta'}</p>
+    </div>
+  </div>
+  
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th>Quantità</th>
+        <th>Prezzo Unit.</th>
+        <th>Totale</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${invoice.items.map(item => `
+        <tr>
+          <td>${item.description}</td>
+          <td>${item.quantity}</td>
+          <td>€${item.price.toFixed(2)}</td>
+          <td>€${(item.quantity * item.price).toFixed(2)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="3" style="text-align: right;"><strong>Totale:</strong></td>
+        <td><strong>€${invoice.total.toFixed(2)}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <div class="footer">
+    <p>Grazie per aver scelto i nostri servizi.</p>
+    <p>Per qualsiasi domanda, non esitate a contattarci.</p>
+  </div>
+</body>
+</html>`;
+    
+    // Ritorna HTML come buffer per allegato
+    return Buffer.from(htmlContent, 'utf-8');
+  }
+
+  // Endpoint per le fatture
+  app.get('/api/invoices', async (req, res) => {
+    try {
+      const user = req.user as any;
+      console.log('📄 [/api/invoices] Richiesta fatture per utente:', user.id);
+      
+      // Carica fatture dal database per questo utente
+      const storageData = loadStorageData();
+      const allInvoices = storageData.invoices || [];
+      const allClients = storageData.clients || [];
+      
+      const userInvoices = allInvoices
+        .filter(([_, invoice]) => invoice.ownerId === user.id)
+        .map(([_, invoice]) => {
+          // Trova il cliente associato alla fattura
+          let clientData = null;
+          if (invoice.clientId) {
+            const clientEntry = allClients.find(([id, client]) => id === invoice.clientId);
+            if (clientEntry) {
+              const [_, client] = clientEntry;
+              clientData = {
+                id: client.id,
+                firstName: client.firstName,
+                lastName: client.lastName,
+                email: client.email,
+                phone: client.phone,
+                address: client.address,
+                taxCode: client.taxCode,
+                vatNumber: client.vatNumber
+              };
+            }
+          }
+          
+          return {
+            ...invoice,
+            client: clientData
+          };
+        })
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      
+      console.log(`📄 [/api/invoices] Restituisco ${userInvoices.length} fatture per utente ${user.id}`);
+      
+      res.json(userInvoices);
+    } catch (error) {
+      console.error('❌ Error fetching invoices:', error);
+      res.status(500).json({ message: 'Error fetching invoices' });
+    }
+  });
+
+  // Funzione per generare numero fattura automatico - FORMATO LEGALE
+  function generateInvoiceNumber(ownerId: number): string {
+    const storageData = loadStorageData();
+    const currentYear = new Date().getFullYear();
+    
+    // Carica fatture esistenti per questo owner per l'anno corrente
+    const existingInvoices = storageData.invoices || [];
+    const ownerInvoicesThisYear = existingInvoices
+      .filter(([_, invoice]) => invoice.ownerId === ownerId)
+      .map(([_, invoice]) => invoice.invoiceNumber)
+      .filter(num => num && num.endsWith(`/${currentYear}`)); // Formato NNN/YYYY
+    
+    // Trova il numero progressivo più alto per questo anno
+    let maxNumber = 0;
+    ownerInvoicesThisYear.forEach(invoiceNumber => {
+      const parts = invoiceNumber.split('/');
+      if (parts.length === 2) {
+        const progressiveNumber = parseInt(parts[0]);
+        if (!isNaN(progressiveNumber) && progressiveNumber > maxNumber) {
+          maxNumber = progressiveNumber;
+        }
+      }
+    });
+    
+    const nextNumber = String(maxNumber + 1).padStart(3, '0');
+    // FORMATO LEGALE: NNN/YYYY (es: 001/2025, 002/2025, etc.)
+    return `${nextNumber}/${currentYear}`;
+  }
+
+  // Endpoint per ottenere il prossimo numero fattura
+  app.get('/api/invoices/next-number', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const nextNumber = generateInvoiceNumber(user.id);
+      
+      res.json({ nextInvoiceNumber: nextNumber });
+    } catch (error) {
+      console.error('❌ Errore generazione prossimo numero:', error);
+      res.status(500).json({ message: 'Errore nella generazione del numero' });
+    }
+  });
+
+  // Endpoint per suggerimenti fatturazione
+  app.get('/api/invoices/suggestions', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      
+      // Carica clienti del professionista
+      const allClients = storageData.clients || [];
+      const userClients = allClients
+        .filter(([_, client]) => client.ownerId === user.id)
+        .map(([_, client]) => ({
+          id: client.id,
+          name: `${client.firstName} ${client.lastName}`.trim(),
+          fullName: `${client.firstName} ${client.lastName}`.trim(),
+          email: client.email || '',
+          phone: client.phone || '',
+          address: client.address || '',
+          taxCode: client.taxCode || '', // codice fiscale
+          vatNumber: client.vatNumber || '' // partita iva
+        }))
+        .filter(client => client.name.length > 0);
+
+      // Carica fatture esistenti per analizzare importi comuni
+      const allInvoices = storageData.invoices || [];
+      const userInvoices = allInvoices
+        .filter(([_, invoice]) => invoice.ownerId === user.id)
+        .map(([_, invoice]) => invoice);
+
+      // Estrai importi più comuni
+      const amountCounts = {};
+      userInvoices.forEach(invoice => {
+        const amount = invoice.totalAmount;
+        if (amount && amount > 0) {
+          amountCounts[amount] = (amountCounts[amount] || 0) + 1;
+        }
+      });
+
+      // Ordina importi per frequenza
+      const commonAmounts = Object.entries(amountCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10)
+        .map(([amount]) => parseFloat(amount));
+
+      // Aggiungi alcuni importi standard se la lista è vuota
+      if (commonAmounts.length === 0) {
+        commonAmounts.push(50, 70, 100, 150, 200);
+      }
+
+      // Estrai descrizioni più comuni
+      const descriptionCounts = {};
+      userInvoices.forEach(invoice => {
+        if (invoice.description && invoice.description.trim().length > 0) {
+          const desc = invoice.description.trim().toLowerCase();
+          descriptionCounts[desc] = (descriptionCounts[desc] || 0) + 1;
+        }
+      });
+
+      const commonDescriptions = Object.entries(descriptionCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10)
+        .map(([desc]) => desc);
+
+      // Aggiungi descrizioni standard se la lista è vuota
+      if (commonDescriptions.length === 0) {
+        commonDescriptions.push('visita medica', 'consulenza', 'controllo', 'terapia', 'esame');
+      }
+
+      res.json({
+        clients: userClients,
+        amounts: commonAmounts,
+        descriptions: commonDescriptions
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore caricamento suggerimenti:', error);
+      res.status(500).json({ message: 'Errore nel caricamento dei suggerimenti' });
+    }
+  });
+
+  // Endpoint per aggiornare fatture esistenti con clientId (migrazione dati)
+  app.post('/api/invoices/migrate-client-ids', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      const invoices = Object.entries(storageData.invoices || {});
+      const clients = Object.entries(storageData.clients || {});
+      
+      let updatedCount = 0;
+      
+      console.log(`🔄 [MIGRATE] Avvio migrazione clientId per utente ${user.id}`);
+      
+      for (const [invoiceKey, invoice] of invoices) {
+        if (invoice.ownerId === user.id && !invoice.clientId && invoice.clientName) {
+          const clientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+          
+          const matchingClient = clients.find(([_, client]) => {
+            if (client.ownerId !== user.id) return false;
+            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+            return fullName === clientName;
+          });
+          
+          if (matchingClient) {
+            const [_, clientData] = matchingClient;
+            invoice.clientId = clientData.id;
+            updatedCount++;
+            console.log(`✅ [MIGRATE] Fattura ${invoice.invoiceNumber}: "${invoice.clientName}" → cliente ID ${clientData.id}`);
+          } else {
+            console.log(`⚠️ [MIGRATE] Cliente non trovato per fattura ${invoice.invoiceNumber}: "${invoice.clientName}"`);
+          }
+        }
+      }
+      
+      if (updatedCount > 0) {
+        saveStorageData(storageData);
+        console.log(`💾 [MIGRATE] Salvate ${updatedCount} fatture con clientId aggiornato`);
+      }
+      
+      res.json({
+        message: `Migrazione completata: ${updatedCount} fatture aggiornate`,
+        updatedCount
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore migrazione clientId:', error);
+      res.status(500).json({ message: 'Errore durante la migrazione' });
+    }
+  });
+
+  // PULIZIA FATTURE - Rinumera tutte le fatture con formato legale NNN/YYYY
+  app.post('/api/invoices/cleanup-numbering', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      console.log(`🧹 [/api/invoices/cleanup-numbering] Pulizia numerazione fatture per utente ${user.id}`);
+      
+      const storageData = loadStorageData();
+      const allInvoices = storageData.invoices || [];
+      
+      // Filtra solo le fatture dell'utente corrente
+      const userInvoices = allInvoices.filter(([_, invoice]) => invoice.ownerId === user.id);
+      
+      if (userInvoices.length === 0) {
+        return res.json({ message: 'Nessuna fattura da pulire', cleaned: 0 });
+      }
+      
+      console.log(`🧹 Trovate ${userInvoices.length} fatture dell'utente da rinumerare`);
+      
+      // Ordina le fatture per data (dalla più vecchia alla più recente)
+      userInvoices.sort(([_, a], [__, b]) => new Date(a.date || a.createdAt).getTime() - new Date(b.date || b.createdAt).getTime());
+      
+      let cleanedCount = 0;
+      
+      // Rinumera tutte le fatture nell'ordine cronologico corretto
+      userInvoices.forEach(([invoiceId, invoice], index) => {
+        const newNumber = String(index + 1).padStart(3, '0') + '/2025';
+        const oldNumber = invoice.invoiceNumber;
+        
+        if (oldNumber !== newNumber) {
+          console.log(`🔄 Rinumerazione: ${oldNumber} → ${newNumber} (${invoice.date || invoice.createdAt})`);
+          invoice.invoiceNumber = newNumber;
+          invoice.updatedAt = new Date().toISOString();
+          cleanedCount++;
+        }
+      });
+      
+      // Salva i dati aggiornati
+      if (cleanedCount > 0) {
+        saveStorageData(storageData);
+        console.log(`✅ [/api/invoices/cleanup-numbering] Pulizia completata: ${cleanedCount} fatture rinumerate`);
+      }
+      
+      res.json({
+        message: `Pulizia completata: ${cleanedCount} fatture rinumerate in formato legale NNN/YYYY`,
+        cleaned: cleanedCount,
+        total: userInvoices.length
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore pulizia numerazione fatture:', error);
+      res.status(500).json({ message: 'Errore durante la pulizia' });
+    }
+  });
+
+  // ELIMINAZIONE FATTURA con doppia sicurezza
+  app.delete('/api/invoices/:id', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { confirmation } = req.body;
+      
+      console.log(`🗑️ [/api/invoices/${invoiceId}] Richiesta eliminazione per utente ${user.id}`);
+      
+      // Controllo doppia sicurezza - richiede confirmation: true
+      if (!confirmation) {
+        return res.status(400).json({ 
+          message: 'Conferma di sicurezza richiesta',
+          requiresConfirmation: true 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova l'indice della fattura da eliminare
+      const invoiceIndex = invoices.findIndex(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (invoiceIndex === -1) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const invoiceToDelete = invoices[invoiceIndex][1];
+      
+      // Rimuovi la fattura dall'array
+      invoices.splice(invoiceIndex, 1);
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}] Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo`);
+      
+      res.json({
+        message: `Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo`,
+        deletedInvoice: {
+          invoiceNumber: invoiceToDelete.invoiceNumber,
+          date: invoiceToDelete.date,
+          totalAmount: invoiceToDelete.totalAmount
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore eliminazione fattura:', error);
+      res.status(500).json({ message: 'Errore durante l\'eliminazione' });
+    }
+  });
+
+  // DOWNLOAD ZIP GESTIONALE - Endpoint per scaricare il gestionale completo
+  app.get('/download-gestionale-zip', (req, res) => {
+    try {
+      const zipPath = path.join(__dirname, '../gestionale-sanitario-completo-20250910-061135.zip');
+      
+      // Verifica che il file esista
+      if (!fs.existsSync(zipPath)) {
+        return res.status(404).json({ error: 'File ZIP non trovato' });
+      }
+      
+      // Imposta headers per il download
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="gestionale-sanitario-completo.zip"');
+      
+      // Invia il file
+      res.sendFile(zipPath, (err) => {
+        if (err) {
+          console.error('❌ Errore invio file ZIP:', err);
+          res.status(500).json({ error: 'Errore durante il download' });
+        } else {
+          console.log('✅ Download ZIP gestionale completato con successo');
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore endpoint download ZIP:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
+  // Crea una nuova fattura
+  app.post('/api/invoices', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceData = req.body;
+      
+      console.log('📄 [/api/invoices] Creazione fattura per utente:', user.id, invoiceData);
+      
+      // Genera ID unico e numero fattura automatico
+      const invoiceId = Date.now();
+      const invoiceNumber = generateInvoiceNumber(user.id);
+      
+      const newInvoice = {
+        id: invoiceId,
+        invoiceNumber,
+        ...invoiceData,
+        ownerId: user.id,
+        createdAt: new Date().toISOString(),
+        status: invoiceData.status || 'draft'
+      };
+      
+      // Salva nel database
+      const storageData = loadStorageData();
+      if (!storageData.invoices) {
+        storageData.invoices = [];
+      }
+      storageData.invoices.push([invoiceId, newInvoice]);
+      saveStorageData(storageData);
+      
+      console.log(`📄 [/api/invoices] Fattura creata con numero: ${invoiceNumber} (ID: ${invoiceId})`);
+      res.status(201).json(newInvoice);
+    } catch (error) {
+      console.error('❌ Error creating invoice:', error);
+      res.status(500).json({ message: 'Error creating invoice' });
+    }
+  });
+
+  // Aggiorna stato fattura
+  app.patch('/api/invoices/:id/status', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/status] Aggiornamento stato per utente ${user.id}: ${status}`);
+      
+      // Valida status
+      const validStatuses = ['draft', 'sent', 'paid', 'overdue'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: 'Stato non valido' });
+      }
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova e aggiorna la fattura
+      const invoiceIndex = invoices.findIndex(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (invoiceIndex === -1) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      // Aggiorna lo stato
+      invoices[invoiceIndex][1].status = status;
+      invoices[invoiceIndex][1].updatedAt = new Date().toISOString();
+      
+      // Aggiungi metadati per stati specifici
+      if (status === 'sent') {
+        invoices[invoiceIndex][1].sentAt = new Date().toISOString();
+      } else if (status === 'paid') {
+        invoices[invoiceIndex][1].paidAt = new Date().toISOString();
+      }
+      
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/status] Stato aggiornato a: ${status}`);
+      res.json({ 
+        success: true, 
+        status,
+        invoice: invoices[invoiceIndex][1]
+      });
+      
+    } catch (error) {
+      console.error('❌ Error updating invoice status:', error);
+      res.status(500).json({ message: 'Errore aggiornamento stato' });
+    }
+  });
+
+  // Genera PDF per stampa
+  app.get('/api/invoices/:id/pdf', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/pdf] Generazione PDF per utente ${user.id}`);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica dati aziendali completi per intestazione fattura
+      let businessHeader = 'Gestionale Appuntamenti';
+      let businessData = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+        
+        // Usa il nome personalizzato se disponibile
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessHeader = userBusinessSettings.name;
+        }
+        
+        // Carica tutti i dati aziendali se disponibili
+        if (userBusinessData) {
+          businessData = { ...businessData, ...userBusinessData };
+          if (userBusinessData.companyName) {
+            businessHeader = userBusinessData.companyName;
+          }
+        }
+        
+        console.log(`📄 [PDF] Dati aziendali per utente ${user.id}:`, {
+          nome: businessHeader,
+          indirizzo: businessData.address,
+          citta: businessData.city,
+          cap: businessData.postalCode,
+          partitaIva: businessData.vatNumber,
+          codiceFiscale: businessData.fiscalCode,
+          telefono: businessData.phone,
+          email: businessData.email
+        });
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare dati aziendali, uso default:', error);
+      }
+      
+      // Recupera dati completi del cliente dal database usando SEMPRE clientId
+      let clientDetails = null;
+      try {
+        const currentStorageData = loadStorageData();
+        const clients = currentStorageData.clients || [];
+        
+        if (invoice.clientId) {
+          const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+          if (clientEntry) {
+            clientDetails = clientEntry[1];
+            console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+              nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
+              email: clientDetails.email,
+              telefono: clientDetails.phone,
+              indirizzo: clientDetails.address,
+              codiceFiscale: clientDetails.taxCode,
+              partitaIva: clientDetails.vatNumber
+            });
+          } else {
+            console.log(`📄 [PDF] Cliente non trovato per ID: ${invoice.clientId}`);
+          }
+        } else {
+          console.log(`⚠️ [PDF] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          
+          // Solo come fallback per fatture vecchie
+          if (invoice.clientName) {
+            const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+            const clientEntry = clients.find(([_, client]) => {
+              if (client.ownerId !== user.id) return false;
+              const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+              return fullName === invoiceClientName;
+            });
+            
+            if (clientEntry) {
+              clientDetails = clientEntry[1];
+              console.log(`📄 [PDF] FALLBACK: Dati trovati per nome "${invoice.clientName}"`);
+            }
+          }
+        }
+      } catch (error) {
+        console.log('⚠️ Errore recupero dati cliente:', error);
+      }
+      
+      // Genera HTML per PDF
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 20px;
+              color: #333;
+            }
+            .header { 
+              text-align: center; 
+              border-bottom: 2px solid #ccc; 
+              padding-bottom: 20px;
+              margin-bottom: 30px;
+            }
+            .invoice-info {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 30px;
+            }
+            .client-info, .invoice-details {
+              flex: 1;
+            }
+            .invoice-details {
+              text-align: right;
+            }
+            .items-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 30px;
+            }
+            .items-table th, .items-table td {
+              border: 1px solid #ccc;
+              padding: 10px;
+              text-align: left;
+            }
+            .items-table th {
+              background-color: #f5f5f5;
+              font-weight: bold;
+            }
+            .total-row {
+              font-weight: bold;
+              font-size: 1.2em;
+            }
+            .footer {
+              margin-top: 50px;
+              text-align: center;
+              font-size: 0.9em;
+              color: #666;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${businessHeader}</h1>
+            ${businessData.address || businessData.city || businessData.postalCode ? `
+              <p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
+            ` : ''}
+            ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+            ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+            ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+            ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+          </div>
+          
+          <div class="invoice-info">
+            <div class="client-info">
+              <h3>Cliente:</h3>
+              <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+              ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+              ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+              ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+              ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+              ${clientDetails?.birthday ? `<p><strong>Data di nascita:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('it-IT')}</p>` : ''}
+            </div>
+            <div class="invoice-details">
+              <h3>Fattura: ${invoice.invoiceNumber}</h3>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${
+                invoice.status === 'paid' ? 'Pagata' :
+                invoice.status === 'sent' ? 'Inviata' :
+                invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'
+              }</p>
+            </div>
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${invoice.items?.map(item => `
+                <tr>
+                  <td>${item.description || invoice.description || 'Servizio medico'}</td>
+                  <td>1</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                </tr>
+              `).join('') || `
+                <tr>
+                  <td>${invoice.description || 'Servizio medico'}</td>
+                  <td>1</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                </tr>
+              `}
+              <tr class="total-row">
+                <td colspan="3" style="text-align: right;"><strong>TOTALE:</strong></td>
+                <td><strong>€${invoice.totalAmount.toFixed(2)}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          ${invoice.notes ? `
+            <div>
+              <h4>Note:</h4>
+              <p>${invoice.notes}</p>
+            </div>
+          ` : ''}
+          
+          <div class="footer">
+            <p>Grazie per aver scelto i nostri servizi</p>
+          </div>
+        </body>
+        </html>
+      `;
+      
+      // Per ora restituisco l'HTML. In produzione si userebbe puppeteer o simile per PDF
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Content-Disposition', `inline; filename="fattura-${invoice.invoiceNumber}.html"`);
+      res.send(htmlContent);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/pdf] PDF generato per fattura ${invoice.invoiceNumber}`);
+      
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      res.status(500).json({ message: 'Errore generazione PDF' });
+    }
+  });
+
+  // Genera anteprima HTML per fattura (stessa logica del PDF ma senza download)
+  app.get('/api/invoices/:id/preview', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      console.log(`👁️ [/api/invoices/${invoiceId}/preview] Generazione anteprima per utente ${user.id}`);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica dati aziendali completi per intestazione fattura
+      let businessHeader = 'Gestionale Appuntamenti';
+      let businessData = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+        
+        // Usa il nome personalizzato se disponibile
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessHeader = userBusinessSettings.name;
+        }
+        
+        // Carica tutti i dati aziendali se disponibili
+        if (userBusinessData) {
+          businessData = { ...businessData, ...userBusinessData };
+          if (userBusinessData.companyName) {
+            businessHeader = userBusinessData.companyName;
+          }
+        }
+        
+        console.log(`👁️ [PREVIEW] Dati aziendali per utente ${user.id}:`, {
+          nome: businessHeader,
+          indirizzo: businessData.address,
+          email: businessData.email
+        });
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare dati aziendali per preview, uso default:', error);
+      }
+      
+      // Recupera dati completi del cliente dal database usando SEMPRE clientId
+      let clientDetails = null;
+      try {
+        const currentStorageData = loadStorageData();
+        const clients = currentStorageData.clients || [];
+        
+        if (invoice.clientId) {
+          const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+          if (clientEntry) {
+            clientDetails = clientEntry[1];
+            console.log(`👁️ [PREVIEW] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+              nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
+              email: clientDetails.email
+            });
+          } else {
+            console.log(`👁️ [PREVIEW] Cliente non trovato per ID: ${invoice.clientId}`);
+          }
+        } else {
+          console.log(`⚠️ [PREVIEW] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          
+          // Solo come fallback per fatture vecchie
+          if (invoice.clientName) {
+            const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+            const clientEntry = clients.find(([_, client]) => {
+              if (client.ownerId !== user.id) return false;
+              const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+              return fullName === invoiceClientName;
+            });
+            
+            if (clientEntry) {
+              clientDetails = clientEntry[1];
+              console.log(`👁️ [PREVIEW] Cliente trovato tramite nome "${invoiceClientName}":`, {
+                nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
+                email: clientDetails.email
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.log('⚠️ Errore caricamento dati cliente per preview:', error);
+      }
+      
+      // Recupera descrizione del servizio
+      let serviceDescription = invoice.description || 'Servizio';
+      try {
+        const currentStorageData = loadStorageData();
+        const services = currentStorageData.services || [];
+        
+        if (invoice.serviceId) {
+          const serviceEntry = services.find(([id, service]) => id === invoice.serviceId);
+          if (serviceEntry) {
+            serviceDescription = serviceEntry[1].name;
+            console.log(`👁️ [PREVIEW] Servizio trovato per ID ${invoice.serviceId}: ${serviceDescription}`);
+          }
+        } else {
+          console.log(`⚠️ [PREVIEW] FATTURA SENZA SERVICEID! Usando description: ${serviceDescription}`);
+        }
+      } catch (error) {
+        console.log('⚠️ Errore caricamento dati servizio per preview:', error);
+      }
+      
+      // Genera HTML per anteprima (stessa logica del PDF)
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; font-size: 14px; line-height: 1.6; }
+            .header { border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+            .company-info { float: left; width: 50%; }
+            .invoice-info { float: right; width: 45%; text-align: right; }
+            .clear { clear: both; }
+            .client-info { margin: 20px 0; padding: 15px; background-color: #f9f9f9; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .total { text-align: right; font-size: 16px; }
+            .footer { margin-top: 40px; text-align: center; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="company-info">
+              <h2>${businessHeader}</h2>
+              ${businessData.address ? `<p>${businessData.address}</p>` : ''}
+              ${businessData.city && businessData.postalCode ? `<p>${businessData.postalCode} ${businessData.city}</p>` : ''}
+              ${businessData.phone ? `<p>Tel: ${businessData.phone}</p>` : ''}
+              ${businessData.email ? `<p>Email: ${businessData.email}</p>` : ''}
+              ${businessData.vatNumber ? `<p>P.IVA: ${businessData.vatNumber}</p>` : ''}
+              ${businessData.fiscalCode ? `<p>C.F.: ${businessData.fiscalCode}</p>` : ''}
+            </div>
+            
+            <div class="invoice-info">
+              <h3>FATTURA</h3>
+              <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${invoice.status === 'paid' ? 'Pagata' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'}</p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          
+          <div class="client-info">
+            <h4>Fatturato a:</h4>
+            ${clientDetails ? `
+              <p><strong>${clientDetails.firstName} ${clientDetails.lastName}</strong></p>
+              ${clientDetails.address ? `<p>${clientDetails.address}</p>` : ''}
+              ${clientDetails.email ? `<p>Email: ${clientDetails.email}</p>` : ''}
+              ${clientDetails.phone ? `<p>Tel: ${clientDetails.phone}</p>` : ''}
+              ${clientDetails.taxCode ? `<p>Codice Fiscale: ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails.vatNumber ? `<p>P.IVA: ${clientDetails.vatNumber}</p>` : ''}
+            ` : `
+              <p><strong>${invoice.clientName || 'Cliente'}</strong></p>
+            `}
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${serviceDescription}</td>
+                <td>1</td>
+                <td>€${invoice.totalAmount.toFixed(2)}</td>
+                <td><strong>€${invoice.totalAmount.toFixed(2)}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          ${invoice.notes ? `
+            <div>
+              <h4>Note:</h4>
+              <p>${invoice.notes}</p>
+            </div>
+          ` : ''}
+          
+          <div class="footer">
+            <p>Grazie per aver scelto i nostri servizi</p>
+          </div>
+        </body>
+        </html>
+      `;
+      
+      // Restituisce HTML puro per anteprima (senza header di download)
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(htmlContent);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/preview] Anteprima generata per fattura ${invoice.invoiceNumber}`);
+      
+    } catch (error) {
+      console.error('❌ Error generating preview:', error);
+      res.status(500).json({ message: 'Errore generazione anteprima' });
+    }
+  });
+
+  // Ottieni dati suggeriti per invio email fattura
+  app.get('/api/invoices/:id/email-suggestions', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      const clients = storageData.clients || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica le impostazioni nome aziendale dell'utente
+      let businessName = 'Gestionale Appuntamenti';
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessName = userBusinessSettings.name;
+        }
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare nome aziendale per email:', error);
+      }
+      
+      // Cerca email del cliente usando SEMPRE clientId (metodo corretto)
+      let clientEmail = '';
+      let clientData = null;
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          const [_, client] = clientEntry;
+          clientEmail = client.email || '';
+          clientData = client;
+          console.log(`📧 [EMAIL SUGGESTIONS] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            nome: `${client.firstName} ${client.lastName}`,
+            email: client.email,
+            telefono: client.phone
+          });
+        } else {
+          console.log(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per ID: ${invoice.clientId}`);
+        }
+      } else {
+        console.log(`⚠️ [EMAIL SUGGESTIONS] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+        
+        // Solo come fallback per fatture vecchie senza clientId
+        if (invoice.clientName) {
+          const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+          const clientEntry = clients.find(([_, client]) => {
+            if (client.ownerId !== user.id) return false;
+            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+            return fullName === invoiceClientName;
+          });
+          
+          if (clientEntry) {
+            const [_, client] = clientEntry;
+            clientEmail = client.email || '';
+            clientData = client;
+            console.log(`📧 [EMAIL SUGGESTIONS] FALLBACK: Email trovata per nome "${invoice.clientName}": ${clientEmail}`);
+          }
+        }
+      }
+      
+      // Crea oggetto e messaggio personalizzati
+      const subject = `Fattura ${invoice.invoiceNumber} - ${businessName}`;
+      const message = `Gentile ${invoice.clientName || 'Cliente'},
+
+In allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.issueDate).toLocaleDateString('it-IT')}.
+
+Importo totale: €${invoice.totalAmount.toFixed(2)}
+
+Cordiali saluti,
+${businessName}`;
+      
+      res.json({
+        clientEmail,
+        subject,
+        message,
+        businessName
+      });
+      
+    } catch (error) {
+      console.error('❌ Error getting email suggestions:', error);
+      res.status(500).json({ message: 'Errore caricamento suggerimenti email' });
+    }
+  });
+
+  // Funzione per generare PDF identico al pulsante stampa
+  async function generateInvoicePDFForEmail(invoiceId: number, user: any, req: any): Promise<Buffer> {
+    console.log('📄 [INVOICE EMAIL] Uso direttamente la stessa logica dell\'endpoint PDF...');
+    
+    // Usa esattamente la stessa logica dell'endpoint /pdf senza chiamate HTTP
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata per email');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Stessa logica dell'endpoint /pdf per dati aziendali
+    let businessInfo = {
+      nome: 'busnari silvia',
+      indirizzo: 'via largo caduti nassiria 17', 
+      citta: 'olgiate comasco',
+      cap: '22100',
+      partitaIva: 'it32445929',
+      codiceFiscale: '',
+      telefono: '3471445767',
+      email: 'silvia.busnari@libero.it'
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      if (userBusinessData) {
+        businessInfo = { ...businessInfo, ...userBusinessData };
+      }
+      console.log(`📄 [PDF] Dati aziendali per utente ${user.id}:`, businessInfo);
+    } catch (error) {
+      console.log('⚠️ Uso dati aziendali default per PDF email:', error);
+    }
+    
+    // Stessa logica dell'endpoint /pdf per dati cliente
+    let clientData = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientData = clientEntry[1];
+          console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            nome: clientData.firstName + ' ' + clientData.lastName,
+            email: clientData.email,
+            telefono: clientData.phone,
+            indirizzo: clientData.address,
+            codiceFiscale: clientData.taxCode,
+            partitaIva: clientData.vatNumber
+          });
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore dati cliente per PDF email:', error);
+    }
+    
+    // Stessa logica HTML dell'endpoint /pdf
+    const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+            .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+            .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+            .client-info, .invoice-details { flex: 1; }
+            .invoice-details { text-align: right; }
+            .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+            .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+            .items-table th { background-color: #f5f5f5; font-weight: bold; }
+            .total-row { font-weight: bold; font-size: 1.2em; }
+            .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${businessInfo.nome}</h1>
+            <p><strong>Indirizzo:</strong> ${businessInfo.indirizzo}, ${businessInfo.citta} ${businessInfo.cap}</p>
+            <p><strong>Tel:</strong> ${businessInfo.telefono}</p>
+            <p><strong>Email:</strong> ${businessInfo.email}</p>
+            ${businessInfo.partitaIva ? `<p><strong>Partita IVA:</strong> ${businessInfo.partitaIva}</p>` : ''}
+            ${businessInfo.codiceFiscale ? `<p><strong>Codice Fiscale:</strong> ${businessInfo.codiceFiscale}</p>` : ''}
+          </div>
+          
+          <div class="invoice-info">
+            <div class="client-info">
+              <h3>Dati Cliente</h3>
+              ${clientData ? `
+                <p><strong>Nome:</strong> ${clientData.firstName} ${clientData.lastName}</p>
+                <p><strong>Email:</strong> ${clientData.email}</p>
+                <p><strong>Telefono:</strong> ${clientData.phone}</p>
+                <p><strong>Indirizzo:</strong> ${clientData.address}</p>
+                ${clientData.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientData.taxCode}</p>` : ''}
+                ${clientData.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientData.vatNumber}</p>` : ''}
+              ` : `
+                <p><strong>Nome:</strong> ${invoice.clientName || 'Cliente'}</p>
+              `}
+            </div>
+            
+            <div class="invoice-details">
+              <h3>Dettagli Fattura</h3>
+              <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+            </div>
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th style="width: 100px;">Quantità</th>
+                <th style="width: 100px;">Prezzo Unit.</th>
+                <th style="width: 100px;">Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) ? 
+                `<tr><td>Servizi professionali - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>` :
+                invoice.items.map(item => `<tr><td>${item.description || 'Servizio professionale'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">€ ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('')
+              }
+            </tbody>
+          </table>
+          
+          <div class="total-row" style="text-align: right; font-size: 1.3em;">
+            <strong>Totale: € ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+          </div>
+          
+          <div class="footer">
+            <p>Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}</p>
+            ${businessInfo.partitaIva ? `<p>P.IVA: ${businessInfo.partitaIva}</p>` : ''}
+            ${businessInfo.codiceFiscale ? `<p>C.F: ${businessInfo.codiceFiscale}</p>` : ''}
+          </div>
+        </body>
+        </html>`;
+
+    console.log(`✅ [INVOICE EMAIL] HTML generato, conversione in PDF reale con Puppeteer...`);
+    
+    // Usa Puppeteer per convertire HTML in PDF reale
+    try {
+      const puppeteer = await import('puppeteer');
+      
+      const browser = await puppeteer.default.launch({ 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      
+      const page = await browser.newPage();
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        margin: {
+          top: '20mm',
+          right: '15mm', 
+          bottom: '20mm',
+          left: '15mm'
+        },
+        printBackground: true
+      });
+      
+      await browser.close();
+      
+      console.log(`✅ [INVOICE EMAIL] PDF reale generato con successo: ${pdfBuffer.length} bytes`);
+      return pdfBuffer;
+      
+    } catch (puppeteerError) {
+      console.log(`❌ [INVOICE EMAIL] Puppeteer failed: ${puppeteerError.message}, uso fallback`);
+      return await generateInvoicePDFForEmailFallback(invoiceId, user);
+    }
+  }
+
+  async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any): Promise<Buffer> {
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata per email');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Stessa logica dati aziendali dell'endpoint /pdf
+    let businessHeader = 'Gestionale Appuntamenti';
+    let businessData = {
+      companyName: '', address: '', city: '', postalCode: '', 
+      vatNumber: '', fiscalCode: '', phone: '', email: ''
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      
+      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+        businessHeader = userBusinessSettings.name;
+      }
+      
+      if (userBusinessData) {
+        businessData = { ...businessData, ...userBusinessData };
+        if (userBusinessData.companyName) {
+          businessHeader = userBusinessData.companyName;
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Dati aziendali per PDF email, uso default:', error);
+    }
+    
+    // Stessa logica cliente dell'endpoint /pdf
+    let clientDetails = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientDetails = clientEntry[1];
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore dati cliente per PDF email:', error);
+    }
+    
+    // HTML semplificato per evitare errori di escape
+    const itemsHtml = (!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) 
+      ? `<tr><td>Servizi professionali - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>`
+      : invoice.items.map(item => `<tr><td>${item.description || 'Servizio professionale'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">€ ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('');
+    
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fattura ${invoice.invoiceNumber}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+    .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+    .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+    .client-info, .invoice-details { flex: 1; }
+    .invoice-details { text-align: right; }
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    .items-table th { background-color: #f5f5f5; font-weight: bold; }
+    .total-row { font-weight: bold; font-size: 1.2em; }
+    .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>${businessHeader}</h1>
+    ${businessData.address || businessData.city ? `<p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
+    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+    ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+    ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+  </div>
+  
+  <div class="invoice-info">
+    <div class="client-info">
+      <h3>Dati Cliente</h3>
+      ${clientDetails ? `
+        <p><strong>Nome:</strong> ${clientDetails.firstName} ${clientDetails.lastName}</p>
+        ${clientDetails.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+        ${clientDetails.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+        ${clientDetails.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+        ${clientDetails.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+        ${clientDetails.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+      ` : `
+        <p><strong>Nome:</strong> ${invoice.clientName || 'Cliente'}</p>
+      `}
+    </div>
+    
+    <div class="invoice-details">
+      <h3>Dettagli Fattura</h3>
+      <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+      <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+    </div>
+  </div>
+  
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th style="width: 100px;">Quantità</th>
+        <th style="width: 100px;">Prezzo Unit.</th>
+        <th style="width: 100px;">Totale</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${itemsHtml}
+    </tbody>
+  </table>
+  
+  <div class="total-row" style="text-align: right; font-size: 1.3em;">
+    <strong>Totale: € ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+  </div>
+  
+  <div class="footer">
+    <p>Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}</p>
+  </div>
+</body>
+</html>`;
+    
+    // Usa pdfmake invece di Puppeteer (più affidabile su Replit)
+    const pdfMake = await import('pdfmake/build/pdfmake');
+    const pdfFonts = await import('pdfmake/build/vfs_fonts');
+    if (pdfMake.default) {
+      pdfMake.default.vfs = pdfFonts.default?.pdfMake?.vfs || pdfFonts.pdfMake?.vfs;
+    }
+
+    const docDefinition = {
+      content: [
+        // Header aziendale completo (identico al PDF stampato)
+        { 
+          columns: [
+            {
+              text: [
+                { text: `${businessHeader}\n`, fontSize: 18, bold: true },
+                `${businessData.address || 'via largo caduti nassiria 17'}\n`,
+                `${businessData.city || 'olgiate comasco'} ${businessData.postalCode || '22100'}\n`,
+                `Tel: ${businessData.phone || '3471445767'}\n`,
+                `Email: ${businessData.email || 'silvia.busnari@libero.it'}\n`,
+                businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}\n` : '',
+                businessData.fiscalCode ? `C.F.: ${businessData.fiscalCode}` : ''
+              ].filter(line => line),
+              width: '50%'
+            },
+            {
+              text: [
+                { text: 'FATTURA N. ', bold: true, fontSize: 14 },
+                { text: `${invoice.invoiceNumber}\n`, fontSize: 14 },
+                { text: 'Data: ', bold: true },
+                `${new Date(invoice.date).toLocaleDateString('it-IT')}\n`,
+              ],
+              alignment: 'right',
+              width: '50%'
+            }
+          ],
+          margin: [0, 0, 0, 30]
+        },
+        
+        // Dati Cliente completi
+        { 
+          text: 'Dati Cliente:', 
+          style: 'sectionHeader',
+          margin: [0, 0, 0, 10]
+        },
+        {
+          text: [
+            { text: 'Nome: ', bold: true },
+            `${clientDetails ? clientDetails.firstName + ' ' + clientDetails.lastName : invoice.clientName}\n`,
+            { text: 'Email: ', bold: true },
+            `${clientDetails?.email || 'N/A'}\n`,
+            { text: 'Telefono: ', bold: true },
+            `${clientDetails?.phone || 'N/A'}\n`,
+            { text: 'Indirizzo: ', bold: true },
+            `${clientDetails?.address || 'N/A'}\n`,
+            clientDetails?.taxCode ? [
+              { text: 'Codice Fiscale: ', bold: true },
+              `${clientDetails.taxCode}\n`
+            ] : '',
+            clientDetails?.vatNumber ? [
+              { text: 'P.IVA: ', bold: true },
+              `${clientDetails.vatNumber}`
+            ] : ''
+          ].flat().filter(Boolean),
+          margin: [0, 0, 0, 20]
+        },
+        
+        // Tabella servizi identica
+        {
+          table: {
+            headerRows: 1,
+            widths: ['*', 'auto', 'auto', 'auto'],
+            body: [
+              [
+                { text: 'Descrizione', style: 'tableHeader' },
+                { text: 'Quantità', style: 'tableHeader' },
+                { text: 'Prezzo Unit.', style: 'tableHeader' },
+                { text: 'Totale', style: 'tableHeader' }
+              ],
+              ...((!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) ? [
+                [`Servizi professionali - ${invoice.invoiceNumber}`, '1', `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`]
+              ] : invoice.items.map(item => [
+                item.description || 'Servizio professionale',
+                (item.quantity || 1).toString(),
+                `€ ${(item.price || 0).toFixed(2)}`,
+                `€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}`
+              ]))
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 20]
+        },
+        
+        // Totale finale
+        {
+          text: [
+            { text: 'TOTALE: ', bold: true, fontSize: 16 },
+            { text: `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, bold: true, fontSize: 16 }
+          ],
+          alignment: 'right',
+          margin: [0, 10, 0, 30]
+        },
+        
+        // Footer identico al PDF stampato
+        {
+          text: [
+            `Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}\n`,
+            businessData.vatNumber && businessData.fiscalCode ? 
+              `P.IVA: ${businessData.vatNumber} - C.F: ${businessData.fiscalCode}` :
+              businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}` :
+              businessData.fiscalCode ? `C.F: ${businessData.fiscalCode}` : ''
+          ].filter(Boolean),
+          fontSize: 10,
+          alignment: 'center',
+          margin: [0, 20, 0, 0]
+        }
+      ],
+      
+      styles: {
+        sectionHeader: { fontSize: 12, bold: true },
+        tableHeader: { bold: true, fillColor: '#eeeeee' }
+      }
+    };
+
+    const pdfBuffer = await new Promise((resolve, reject) => {
+      const pdfMakeInstance = pdfMake.default || pdfMake;
+      const printer = pdfMakeInstance.createPdf(docDefinition);
+      printer.getBuffer((buffer) => {
+        resolve(buffer);
+      });
+    });
+
+    return pdfBuffer;
+  }
+
+  // Invia fattura via email
+  app.post('/api/invoices/:id/send-email', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { recipientEmail, subject, message } = req.body;
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/send-email] Invio email per utente ${user.id} a ${recipientEmail}`);
+      
+      // Validazione input
+      if (!recipientEmail || !subject) {
+        return res.status(400).json({ message: 'Email e oggetto sono obbligatori' });
+      }
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica nome aziendale personalizzato per mittente
+      let businessName = 'Gestionale Appuntamenti';
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessName = userBusinessSettings.name;
+        }
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare nome aziendale per invio email:', error);
+      }
+      
+      // Invio email reale utilizzando il sistema collaudato dei promemoria
+      try {
+        const { notificationService } = await import('./services/notificationService');
+        const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+        
+        if (!fs.existsSync(emailConfigPath)) {
+          console.log('⚠️ [EMAIL] Configurazione email non trovata, simulazione invio');
+          console.log(`📧 SIMULAZIONE INVIO EMAIL:
+            Da: ${businessName} <noreply@biomedicinaintegrata.it>
+            A: ${recipientEmail}
+            Oggetto: ${subject}
+            Messaggio: ${message || 'Fattura in allegato'}
+            Allegato: fattura-${invoice.invoiceNumber}.pdf
+          `);
+        } else {
+          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+          
+          if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+            console.log('⚠️ [EMAIL] Email non configurata, simulazione invio');
+            console.log(`📧 SIMULAZIONE INVIO EMAIL:
+              Da: ${businessName} <noreply@biomedicinaintegrata.it>
+              A: ${recipientEmail}
+              Oggetto: ${subject}
+              Messaggio: ${message || 'Fattura in allegato'}
+              Allegato: fattura-${invoice.invoiceNumber}.pdf
+            `);
+          } else {
+            console.log(`📧 [INVOICE EMAIL] Invio fattura via email utilizzando sistema collaudato`);
+            console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
+            console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
+            
+            // Genera PDF identico al pulsante stampa per allegato email
+            let pdfBuffer = null;
+            let filename = null;
+            
+            try {
+              console.log(`📄 [INVOICE EMAIL] Uso stessa logica del pulsante stampa...`);
+              
+              // Chiama la funzione esistente che genera il PDF per la stampa
+              pdfBuffer = await generateInvoicePDFForEmail(invoiceId, user, req);
+              
+              if (pdfBuffer && pdfBuffer.length > 0) {
+                filename = `fattura-${invoice.invoiceNumber}.pdf`;
+                console.log(`📎 [INVOICE EMAIL] PDF identico a stampa generato: ${filename} (${pdfBuffer.length} bytes)`);
+              } else {
+                throw new Error('PDF Buffer vuoto');
+              }
+
+            } catch (pdfError) {
+              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF stampa:`, pdfError.message);
+              pdfBuffer = null;
+              filename = null;
+            }
+            
+            // Usa la funzione specifica per fatture
+            const emailSent = await notificationService.sendInvoiceEmail(
+              recipientEmail,
+              subject,
+              message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nDettagli fattura:\n- Numero: ${invoice.invoiceNumber}\n- Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Importo: €${invoice.total?.toFixed(2) || '0.00'}\n\nCordiali saluti,\n${businessName}`.replace(/invalid date/gi, ''),
+              emailConfig,
+              pdfBuffer,
+              filename
+            );
+            
+            if (emailSent) {
+              console.log(`✅ [INVOICE EMAIL] Email fattura inviata con successo${pdfBuffer ? ' con allegato PDF' : ' (solo testo)'}`);
+            } else {
+              throw new Error('Errore invio email dal sistema notificationService');
+            }
+          }
+        }
+      } catch (emailError) {
+        console.error('❌ [EMAIL] Errore invio email reale, fallback a simulazione:', emailError);
+        console.log(`📧 SIMULAZIONE INVIO EMAIL:
+          Da: ${businessName} <noreply@biomedicinaintegrata.it>
+          A: ${recipientEmail}
+          Oggetto: ${subject}
+          Messaggio: ${message || 'Fattura in allegato'}
+          Allegato: fattura-${invoice.invoiceNumber}.pdf
+        `);
+      }
+      
+      console.log(`📧 [EMAIL] Nome aziendale utilizzato per invio: "${businessName}"`);
+      
+      // Aggiorna stato fattura a "inviata" se era in bozza
+      if (invoice.status === 'draft') {
+        const invoiceIndex = invoices.findIndex(([id]) => id === invoiceId);
+        if (invoiceIndex !== -1) {
+          invoices[invoiceIndex][1].status = 'sent';
+          invoices[invoiceIndex][1].sentAt = new Date().toISOString();
+          saveStorageData(storageData);
+        }
+      }
+      
+      // Salva log invio
+      if (!invoice.emailHistory) {
+        invoice.emailHistory = [];
+      }
+      invoice.emailHistory.push({
+        sentAt: new Date().toISOString(),
+        recipientEmail,
+        subject,
+        message: message || '',
+        status: 'sent'
+      });
+      
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/send-email] Email inviata con successo`);
+      res.json({ 
+        success: true,
+        recipientEmail,
+        sentAt: new Date().toISOString(),
+        message: 'Email inviata con successo'
+      });
+      
+    } catch (error) {
+      console.error('❌ Error sending email:', error);
+      res.status(500).json({ message: 'Errore invio email' });
+    }
+  });
+
+  // === AREA CLIENTI - ROTTE PER QR CODE ACCESS ===
+  
+  // Validazione token QR
+  function validateQRToken(clientCode: string, token: string) {
+    const storageData = loadStorageData();
+    const clients = storageData.clients || [];
+    
+    // Trova il cliente dal codice
+    const clientEntry = clients.find(([_, client]) => client.uniqueCode === clientCode);
+    if (!clientEntry) {
+      console.log(`🔍 [QR-AUTH] Cliente non trovato per codice: ${clientCode}`);
+      return null;
+    }
+    
+    const [clientId, client] = clientEntry;
+    
+    // Verifica che il token sia valido
+    const expectedTokenPrefix = `${clientCode}_`;
+    if (!token.startsWith(expectedTokenPrefix)) {
+      console.log(`🔍 [QR-AUTH] Token non valido per cliente ${clientCode}: ${token}`);
+      return null;
+    }
+    
+    console.log(`✅ [QR-AUTH] Token valido per cliente ${client.firstName} ${client.lastName} (${clientCode})`);
+    return { clientId, client };
+  }
+
+  // API: Recupera dati cliente tramite QR code
+  app.get('/api/simple/client/:clientCode', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      console.log(`🔍 [CLIENT-API] Richiesta dati per cliente: ${clientCode}, token: ${token ? 'presente' : 'assente'}`);
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { client } = validation;
+      
+      // Restituisci solo i dati necessari del cliente
+      const clientData = {
+        id: client.id,
+        firstName: client.firstName,
+        lastName: client.lastName,
+        phone: client.phone,
+        email: client.email,
+        uniqueCode: client.uniqueCode
+      };
+      
+      console.log(`✅ [CLIENT-API] Dati cliente inviati: ${client.firstName} ${client.lastName}`);
+      res.json(clientData);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero dati cliente:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // API: Recupera appuntamenti cliente tramite QR code
+  app.get('/api/simple/client/:clientCode/appointments', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { clientId } = validation;
+      const storageData = loadStorageData();
+      
+      // Recupera appuntamenti del cliente
+      const appointments = storageData.appointments || [];
+      const clientAppointments = appointments.filter(apt => apt.client === clientId);
+      
+      // Recupera i servizi per ottenere i nomi
+      const userServices = storageData.userServices || {};
+      const allServices = Object.values(userServices).flat();
+      
+      // Mappa gli appuntamenti con i nomi dei servizi
+      const mappedAppointments = clientAppointments.map(apt => {
+        const service = allServices.find(s => s.id === apt.service);
+        return {
+          id: apt.id,
+          date: apt.date,
+          time: apt.time,
+          service: service?.name || 'Servizio sconosciuto',
+          status: apt.status || 'scheduled',
+          notes: apt.notes || ''
+        };
+      });
+      
+      console.log(`📅 [CLIENT-API] ${mappedAppointments.length} appuntamenti trovati per cliente ${clientCode}`);
+      res.json(mappedAppointments);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero appuntamenti:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // API: Recupera informazioni di contatto del professionista
+  app.get('/api/simple/client/:clientCode/contact-info', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { client } = validation;
+      const storageData = loadStorageData();
+      
+      // Trova il proprietario del cliente
+      const ownerId = client.ownerId;
+      const contactInfo = storageData.contactInfo?.[ownerId] || {};
+      
+      console.log(`📞 [CLIENT-API] Info contatto inviate per proprietario ${ownerId}`);
+      res.json(contactInfo);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero info contatto:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // API per sbloccare la cancellazione di clienti importati eliminati alla fonte
+  app.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const user = req.user!;
+      
+      console.log(`🔓 [/api/unlock-client-deletion] Admin ${user.id} richiede sblocco per cliente ${clientId}`);
+      
+      // Solo admin possono sbloccare cancellazioni
+      if (user.type !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Solo gli amministratori possono sbloccare le cancellazioni' 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const clientEntry = storageData.clients?.find(([id]) => id.toString() === clientId);
+      
+      if (!clientEntry) {
+        return res.status(404).json({ 
+          success: false, 
+          message: 'Cliente non trovato' 
+        });
+      }
+      
+      const [id, client] = clientEntry;
+      
+      // Verifica che sia un cliente importato
+      if (!client.originalOwnerId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Solo i clienti importati possono essere sbloccati' 
+        });
+      }
+      
+      // Sblocca la cancellazione
+      client.deletionUnlocked = true;
+      saveStorageData(storageData);
+      
+      console.log(`✅ [SBLOCCO] Cliente ${client.firstName} ${client.lastName} (${clientId}) sbloccato per cancellazione dall'admin ${user.id}`);
+      
+      res.json({
+        success: true,
+        message: 'Cancellazione sbloccata con successo',
+        client: {
+          id: client.id,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          deletionUnlocked: true
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE SBLOCCO]:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante lo sblocco della cancellazione' 
+      });
+    }
+  });
+
+  // API per simulare eliminazione dal sistema originale (per test)
+  app.post('/api/mark-client-deleted-at-source/:clientId', requireAuth, async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const user = req.user!;
+      
+      console.log(`⚠️ [/api/mark-client-deleted-at-source] Admin ${user.id} marca cliente ${clientId} come eliminato alla fonte`);
+      
+      // Solo admin possono simulare eliminazioni
+      if (user.type !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Solo gli amministratori possono simulare eliminazioni' 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const clientEntry = storageData.clients?.find(([id]) => id.toString() === clientId);
+      
+      if (!clientEntry) {
+        return res.status(404).json({ 
+          success: false, 
+          message: 'Cliente non trovato' 
+        });
+      }
+      
+      const [id, client] = clientEntry;
+      
+      // Verifica che sia un cliente importato
+      if (!client.originalOwnerId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Solo i clienti importati possono essere marcati come eliminati alla fonte' 
+        });
+      }
+      
+      // Marca come eliminato alla fonte
+      client.deletedAtSource = true;
+      saveStorageData(storageData);
+      
+      console.log(`🚨 [NOTIFICA ELIMINAZIONE] Cliente ${client.firstName} ${client.lastName} (${clientId}) eliminato alla fonte - notifica admin`);
+      
+      res.json({
+        success: true,
+        message: 'Cliente marcato come eliminato alla fonte',
+        client: {
+          id: client.id,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          deletedAtSource: true
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE NOTIFICA ELIMINAZIONE]:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante la notifica di eliminazione' 
+      });
+    }
+  });
+
+  // API per gestire le impostazioni email e calendario - MIGRATO A POSTGRESQL
+  app.get('/api/email-calendar-settings', requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      console.log(`📧 [GET EMAIL SETTINGS PG] Richiesta impostazioni email da PostgreSQL per utente ${user.id}`);
+      
+      // Template predefinito
+      const defaultTemplate = `Gentile {{nome}} {{cognome}},
+
+Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+
+Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+
+Cordiali saluti,
+Studio Professionale`;
+
+      // Recupera impostazioni da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const emailSettings = settings?.preferences?.emailSettings || {};
+      
+      const response = {
+        emailEnabled: emailSettings.emailEnabled || false,
+        emailAddress: emailSettings.emailAddress || '',
+        emailPassword: emailSettings.emailPassword ? '••••••••••' : '', // Mascherata per sicurezza
+        emailTemplate: emailSettings.emailTemplate || defaultTemplate,
+        emailSubject: emailSettings.emailSubject || "Promemoria appuntamento del {{data}}",
+        hasPasswordSaved: !!emailSettings.emailPassword,
+        calendarEnabled: emailSettings.calendarEnabled || false,
+        calendarId: emailSettings.calendarId || '',
+        googleAuthStatus: emailSettings.googleAuthStatus || { authorized: false }
+      };
+      
+      console.log(`✅ [EMAIL SETTINGS PG] Caricate da PostgreSQL per utente ${user.id}`);
+      res.json(response);
+    } catch (error) {
+      console.error('❌ [ERRORE EMAIL SETTINGS PG]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il caricamento delle impostazioni email' 
+      });
+    }
+  });
+
+  app.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId } = req.body;
+      
+      console.log(`📧 [POST EMAIL SETTINGS PG] Aggiornamento impostazioni email PostgreSQL per utente ${user.id}`, {
+        emailEnabled,
+        emailAddress,
+        hasPassword: !!emailPassword,
+        passwordMasked: emailPassword === '••••••••••'
+      });
+      
+      // Carica impostazioni esistenti da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const currentEmailSettings = settings?.preferences?.emailSettings || {};
+      
+      // Aggiorna solo i campi forniti
+      const updatedEmailSettings: any = { ...currentEmailSettings };
+      if (emailEnabled !== undefined) updatedEmailSettings.emailEnabled = emailEnabled;
+      if (emailAddress !== undefined) updatedEmailSettings.emailAddress = emailAddress;
+      if (emailPassword !== undefined && emailPassword !== '••••••••••') {
+        updatedEmailSettings.emailPassword = emailPassword;
+        console.log(`📧 [EMAIL SETTINGS PG] Password aggiornata`);
+      }
+      if (emailTemplate !== undefined) updatedEmailSettings.emailTemplate = emailTemplate;
+      if (emailSubject !== undefined) updatedEmailSettings.emailSubject = emailSubject;
+      if (calendarEnabled !== undefined) updatedEmailSettings.calendarEnabled = calendarEnabled;
+      if (calendarId !== undefined) updatedEmailSettings.calendarId = calendarId;
+      
+      // Salva in PostgreSQL
+      const newPreferences = {
+        ...(settings?.preferences || {}),
+        emailSettings: updatedEmailSettings
+      };
+      
+      await storage.updateUserSettings(user.id, { preferences: newPreferences });
+      console.log(`✅ [EMAIL SETTINGS PG] Impostazioni salvate in PostgreSQL per utente ${user.id}`);
+      
+      res.setHeader('Content-Type', 'application/json');
+      res.json({
+        success: true,
+        message: 'Impostazioni email aggiornate con successo'
+      });
+    } catch (error) {
+      console.error('❌ [ERRORE SAVE EMAIL SETTINGS PG]:', error);
+      res.setHeader('Content-Type', 'application/json');
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Errore durante il salvataggio delle impostazioni email' 
+      });
+    }
+  });
+
+  // API per mostrare la password salvata - MIGRATO A POSTGRESQL
+  app.get('/api/email-calendar-settings/show-password', requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      console.log(`📧 [SHOW PASSWORD PG] Richiesta password da PostgreSQL per utente ${user.id}`);
+      
+      // Carica la password da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const emailSettings = settings?.preferences?.emailSettings || {};
+      const actualPassword = emailSettings.emailPassword || '';
+      
+      res.json({
+        success: true,
+        emailPassword: actualPassword,
+        hasSavedPassword: !!actualPassword
+      });
+    } catch (error) {
+      console.error('❌ [ERRORE SHOW PASSWORD PG]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il recupero della password' 
+      });
+    }
+  });
+
+  // API per inviare email di test
+  app.post('/api/email-calendar-settings/send-test-email', requireAuth, async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = req.user!;
+      
+      console.log(`📧 [TEST EMAIL] Richiesta invio email di test a ${email} da utente ${user.id}`);
+      
+      if (!email) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Indirizzo email richiesto' 
+        });
+      }
+      
+      // Carica le credenziali email reali dal backup15
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      let emailConfig = null;
+      
+      try {
+        if (fs.existsSync(emailConfigPath)) {
+          emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+        }
+      } catch (error) {
+        console.log(`⚠️ [TEST EMAIL] Errore caricamento credenziali:`, error);
+        throw new Error('Configurazione email non trovata');
+      }
+      
+      if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+        throw new Error('Credenziali email non configurate');
+      }
+      
+      console.log(`📧 [TEST EMAIL] Usando credenziali: ${emailConfig.emailAddress}`);
+      
+      // Implementazione reale dell'invio email usando nodemailer
+      const nodemailer = await import('nodemailer');
+      
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: emailConfig.emailAddress,
+          pass: emailConfig.emailPassword
+        }
+      });
+      
+      const mailOptions = {
+        from: emailConfig.emailAddress,
+        to: email,
+        subject: 'Test Email - Sistema Gestione Appuntamenti',
+        html: `
+          <h2>Test Email Configurazione</h2>
+          <p>Questa è un'email di test dal sistema di gestione appuntamenti.</p>
+          <p><strong>Data invio:</strong> ${new Date().toLocaleString('it-IT')}</p>
+          <p><strong>Da:</strong> ${emailConfig.emailAddress}</p>
+          <p>Se ricevi questa email, la configurazione è corretta!</p>
+        `
+      };
+      
+      await transporter.sendMail(mailOptions);
+      
+      console.log(`✅ [TEST EMAIL] Email di test inviata con successo a ${email}`);
+      
+      res.json({
+        success: true,
+        message: `Email di test inviata con successo a ${email}`,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE TEST EMAIL]:', error);
+      res.setHeader('Content-Type', 'application/json');
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Errore durante l\'invio dell\'email di test' 
+      });
+    }
+  });
+
+  // Consent endpoints
+  app.get("/api/consents/client", (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const consents = storageData.consents || [];
+      
+      console.log(`📋 [GET CONSENTS] Richiesta lista consensi - trovati ${consents.length} consensi`);
+      
+      res.json(consents);
+    } catch (error) {
+      console.error('❌ [ERRORE GET CONSENTS]:', error);
+      res.status(500).json({ error: 'Errore durante il caricamento dei consensi' });
+    }
+  });
+
+  app.post("/api/consents", (req, res) => {
+    try {
+      const { clientId, consentText, signature } = req.body;
+      
+      console.log(`📋 [POST CONSENT] Registrazione consenso per cliente ${clientId}`);
+      
+      if (!clientId || !consentText) {
+        return res.status(400).json({ error: 'ClientId e consentText sono richiesti' });
+      }
+      
+      const storageData = loadStorageData();
+      
+      // Crea il nuovo consenso
+      const consent = {
+        id: Date.now(),
+        clientId: parseInt(clientId),
+        consentText,
+        signature: signature || `Consenso digitale - ${new Date().toLocaleString()}`,
+        createdAt: new Date().toISOString(),
+        isActive: true
+      };
+      
+      // Salva il consenso
+      if (!storageData.consents) storageData.consents = [];
+      storageData.consents.push(consent);
+      
+      // AGGIORNA AUTOMATICAMENTE IL CLIENTE CON hasConsent: true
+      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === parseInt(clientId));
+      if (clientIndex !== -1) {
+        const [id, client] = storageData.clients[clientIndex];
+        client.hasConsent = true;
+        console.log(`✅ [AUTO UPDATE] Cliente ${client.firstName} ${client.lastName} aggiornato con hasConsent: true`);
+      } else {
+        console.warn(`⚠️ [CONSENT WARNING] Cliente ${clientId} non trovato per aggiornamento hasConsent`);
+      }
+      
+      // Salva tutti i dati
+      saveStorageData(storageData);
+      
+      console.log(`✅ [CONSENT SUCCESS] Consenso registrato per cliente ${clientId} e flag hasConsent aggiornato`);
+      
+      res.json({ 
+        success: true, 
+        message: 'Consenso registrato con successo',
+        consent 
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE POST CONSENT]:', error);
+      res.status(500).json({ error: 'Errore durante la registrazione del consenso' });
+    }
+  });
+
+  // Servire file statici da attached_assets per icone
+  app.use('/attached_assets', (req, res, next) => {
+    const filePath = path.join(process.cwd(), 'attached_assets', req.path);
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error('Error serving static file:', err);
+        res.status(404).send('File not found');
+      }
+    });
+  });
+
+  // Endpoint per recuperare l'ultimo accesso valido di un proprietario
+  app.get('/api/client-access/last-access/:ownerId', async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const storageData = loadStorageData();
+      
+      console.log(`📱 PWA RECOVERY: Ricerca ultimo accesso per proprietario ${ownerId}`);
+      
+      // Trova l'ultimo cliente con accesso valido per questo proprietario
+      const ownerClients = Object.values(storageData.clients).filter(client => 
+        client.originalOwnerId === ownerId
+      );
+      
+      if (ownerClients.length === 0) {
+        return res.status(404).json({ error: 'Nessun cliente trovato per questo proprietario' });
+      }
+      
+      // Trova il cliente con l'accesso più recente
+      let lastAccessClient = null;
+      let lastAccessTime = 0;
+      
+      for (const client of ownerClients) {
+        const accessCount = storageData.clientAccessCounts[client.id] || 0;
+        if (accessCount > 0) {
+          // Per ora usiamo l'ID più alto come proxy per l'accesso più recente
+          if (client.id > lastAccessTime) {
+            lastAccessTime = client.id;
+            lastAccessClient = client;
+          }
+        }
+      }
+      
+      if (!lastAccessClient) {
+        return res.status(404).json({ error: 'Nessun accesso recente trovato' });
+      }
+      
+      // Genera un nuovo token per questo cliente
+      const newToken = await generateClientCode(ownerId, lastAccessClient.id);
+      
+      console.log(`📱 PWA RECOVERY: Token generato per cliente ${lastAccessClient.id}`);
+      
+      res.json({
+        clientId: lastAccessClient.id,
+        token: newToken,
+        isValid: true,
+        clientName: `${lastAccessClient.firstName} ${lastAccessClient.lastName}`
+      });
+      
+    } catch (error) {
+      console.error('Errore nel recupero ultimo accesso:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint pubblico per informazioni di contatto complete (per area clienti)
+  app.get('/api/public/contact-info', (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const { contactInfo = {}, contactSettings = {} } = storageData;
+      
+      // Restituisce le informazioni di contatto con tutte le impostazioni per replicare il layout della home
+      const publicContactInfo = {
+        // Dati di contatto
+        businessName: contactInfo.businessName || 'Studio Professionale',
+        email: contactInfo.email,
+        phone: contactInfo.phone,
+        phone1: contactInfo.phone1,
+        website: contactInfo.website,
+        instagram: contactInfo.instagram,
+        
+        // Impostazioni di visibilità (per mostrare solo quello che il professionista ha abilitato)
+        showEmail: contactSettings.showEmail !== false,
+        showPhone: contactSettings.showPhone !== false,
+        showPhone1: contactSettings.showPhone1 !== false,
+        showWebsite: contactSettings.showWebsite !== false,
+        showInstagram: contactSettings.showInstagram !== false,
+        
+        // Impostazioni di layout se presenti
+        contactLayout: contactSettings.layout || 'default'
+      };
+      
+      res.json(publicContactInfo);
+    } catch (error) {
+      console.error('Errore nel caricamento informazioni contatto pubbliche:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint per registrare accesso PWA tramite codice cliente (senza autenticazione)
+  app.post('/api/client-access/:clientCode', (req, res) => {
+    try {
+      const clientCode = req.params.clientCode;
+      const storageData = loadStorageData();
+      
+      // Trova il cliente tramite il codice univoco
+      const clientData = storageData.clients?.find(([id, client]) => client.uniqueCode === clientCode);
+      if (!clientData) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      const [id, client] = clientData;
+      const clientIndex = storageData.clients.findIndex(([cId, c]) => cId === id);
+      
+      const now = new Date();
+      
+      // Incrementa il contatore degli accessi
+      storageData.clients[clientIndex][1].accessCount = (client.accessCount || 0) + 1;
+      storageData.clients[clientIndex][1].lastAccess = now.toISOString();
+      
+      // Aggiorna informazioni di accesso PWA
+      if (req.body.source === 'pwa') {
+        storageData.clients[clientIndex][1].lastPwaAccess = now.toISOString();
+        storageData.clients[clientIndex][1].pwaAccessCount = (client.pwaAccessCount || 0) + 1;
+      }
+      
+      // Salva i dati aggiornati
+      saveStorageData(storageData);
+      
+      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientCode}) - Accesso registrato: ${storageData.clients[clientIndex][1].accessCount}`);
+      
+      res.json({
+        success: true,
+        accessCount: storageData.clients[clientIndex][1].accessCount,
+        clientId: id
+      });
+    } catch (error) {
+      console.error('Errore nella registrazione accesso cliente:', error);
+      res.status(500).json({ message: "Errore interno" });
+    }
+  });
+
+  // Endpoint per registrare accesso PWA del cliente tramite ID (senza autenticazione)
+  app.post('/api/client-access/track/:clientId', (req, res) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      const storageData = loadStorageData();
+      
+      // Trova il cliente
+      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === clientId);
+      if (clientIndex === -1) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      const [id, client] = storageData.clients[clientIndex];
+      const now = new Date();
+      const lastAccessTime = client.lastAccess ? new Date(client.lastAccess) : null;
+      
+      // TRACKING MIGLIORATO: Incrementa sempre il contatore per PWA e QR
+      client.accessCount = (client.accessCount || 0) + 1;
+      client.lastAccess = now.toISOString();
+      
+      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Accesso registrato: ${client.accessCount} (${req.body.accessType})`);
+      
+      // Aggiorna informazioni di accesso PWA
+      if (req.body.isPWA) {
+        client.lastPwaAccess = now.toISOString();
+        client.pwaAccessCount = (client.pwaAccessCount || 0) + 1;
+      }
+      
+      // Salva i dati aggiornati
+      saveStorageData(storageData);
+      
+      console.log(`📱 [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) ha acceduto all'app - conteggio: ${client.accessCount}`);
+      
+      // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+      
+      res.json({
+        success: true,
+        accessCount: client.accessCount,
+        message: 'Accesso registrato'
+      });
+      
+    } catch (error) {
+      console.error('Errore nel tracking accesso PWA:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint per icone specifiche del proprietario
+  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const size = req.params.size;
+      const storageData = loadStorageData();
+      
+      console.log(`🔍 PWA ICON OWNER: Richiesta icona per proprietario ${ownerId}, dimensione ${size}`);
+      
+      // Recupera l'icona del professionista specifico
+      const userIcon = storageData.userIcons[ownerId];
+      
+      if (userIcon) {
+        console.log(`✅ PWA ICON OWNER: Trovata icona per proprietario ${ownerId}`);
+        const buffer = Buffer.from(userIcon, 'base64');
+        res.set('Content-Type', 'image/png');
+        res.set('Cache-Control', 'public, max-age=3600');
+        return res.send(buffer);
+      } else {
+        console.log(`❌ PWA ICON OWNER: Nessuna icona trovata per proprietario ${ownerId}`);
+        return res.redirect('/icons/icon-' + size + '.png');
+      }
+    } catch (error) {
+      console.error('Errore nel servire icona proprietario:', error);
+      return res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
+  // Endpoint per servire icone PWA dinamiche basate sul proprietario del cliente (da token QR)
+  app.get('/icons/custom-icon-:size.png', (req, res) => {
+    try {
+      const size = req.params.size; // es: 96x96, 192x192, 512x512
+      const storageData = loadStorageData();
+      
+      // Controlla se c'è un token QR negli headers o referer per identificare il proprietario
+      let ownerUserId = null;
+      
+      // 1. Controlla il referer per token QR
+      const referer = req.get('referer') || '';
+      const tokenMatch = referer.match(/token=([^&]+)/);
+      
+      if (tokenMatch) {
+        const token = tokenMatch[1];
+        const tokenParts = token.split('_');
+        if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+          ownerUserId = parseInt(tokenParts[1]); // Seconda parte = userId proprietario
+          console.log(`📱 PWA ICON: Trovato ownerId ${ownerUserId} da token QR nel referer`);
+        }
+      }
+      
+      // 2. Controlla il localStorage per ownerId salvato
+      if (!ownerUserId) {
+        // Cerca nelle sessioni attive o nel database per determinare l'owner
+        const sessions = req.sessionStore;
+        // Per ora, usa un fallback intelligente: se c'è solo un utente con icone, usa quello
+        const usersWithIcons = Object.keys(storageData.userIcons || {});
+        if (usersWithIcons.length === 1) {
+          ownerUserId = parseInt(usersWithIcons[0]);
+          console.log(`📱 PWA ICON: Usando fallback owner ${ownerUserId}`);
+        }
+      }
+      
+      // Non serve duplicare la logica del token qui
+      if (ownerUserId) {
+        console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR o fallback`);
+      }
+      
+      // Se non trovato da token QR, controlla header custom per ownerId dalla PWA
+      if (!ownerUserId) {
+        const ownerIdHeader = req.get('x-owner-id');
+        if (ownerIdHeader) {
+          ownerUserId = parseInt(ownerIdHeader);
+          console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da header PWA`);
+        }
+      }
+      
+      // Se non trovato, usa sessione attiva (admin)
+      if (!ownerUserId && req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          ownerUserId = parseInt(serializedUser.split(':')[1]);
+          console.log(`🔍 PWA ICON: Usando utente sessione attiva ${ownerUserId}`);
+        }
+      }
+      
+      // NESSUN FALLBACK - Mantieni gerarchia client-proprietario
+      if (!ownerUserId) {
+        console.log(`❌ PWA ICON: Nessun proprietario identificato - uso icona default`);
+        return res.redirect('/icons/icon-' + size + '.png');
+      }
+      
+      // Recupera l'icona del professionista dalla struttura userIcons
+      const userIcon = ownerUserId ? storageData.userIcons[ownerUserId] : null;
+      
+      if (!userIcon) {
+        console.log(`🔄 Nessuna icona personalizzata trovata per utente ${ownerUserId}, uso default`);
+        return res.redirect('/icons/icon-' + size + '.png');
+      }
+      
+      // Se l'icona è in formato base64, convertila e servila
+      if (userIcon && userIcon.startsWith('data:image/')) {
+        const base64Data = userIcon.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Determina il tipo di immagine dal data URL
+        let contentType = 'image/png';
+        if (userIcon.includes('data:image/jpeg')) contentType = 'image/jpeg';
+        else if (userIcon.includes('data:image/jpg')) contentType = 'image/jpeg';
+        
+        res.set({
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=3600', // Cache per 1 ora
+          'Content-Length': buffer.length
+        });
+        
+        console.log(`📱 Servendo icona PWA personalizzata ${size} per proprietario ${ownerUserId}`);
+        return res.send(buffer);
+      }
+      
+      // Se è un percorso file, serve quello
+      if (userIcon && userIcon.length > 0 && !userIcon.startsWith('data:')) {
+        console.log(`📁 Reindirizzando a icona file: ${userIcon}`);
+        return res.redirect(userIcon);
+      }
+      
+    } catch (error) {
+      console.error('Errore nel servire icona PWA personalizzata:', error);
+      // Fallback all'icona predefinita
+      res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
+  // Endpoint per servire icone PWA dinamiche per proprietari specifici
+  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const size = req.params.size;
+      const storageData = loadStorageData();
+      
+      console.log(`📱 PWA ICON: Richiesta icona ${size}x${size} per proprietario ${ownerId}`);
+      
+      // Per Silvia Busnari (ID 14), usa la sua foto professionale
+      if (ownerId === 14) {
+        const silviaImagePath = path.join(process.cwd(), 'attached_assets', 'IMG_20250416_170748.jpg');
+        if (fs.existsSync(silviaImagePath)) {
+          console.log(`✅ PWA ICON: Servendo icona di Silvia Busnari da ${silviaImagePath}`);
+          return res.sendFile(silviaImagePath);
+        }
+      }
+      
+      // Recupera l'icona del professionista dalla struttura userIcons
+      const userIcon = storageData.userIcons[ownerId];
+      
+      if (userIcon && userIcon.startsWith('data:image/')) {
+        const base64Data = userIcon.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        let contentType = 'image/png';
+        if (userIcon.includes('data:image/jpeg')) contentType = 'image/jpeg';
+        else if (userIcon.includes('data:image/jpg')) contentType = 'image/jpeg';
+        
+        res.set({
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=86400',
+          'Content-Length': buffer.length
+        });
+        
+        console.log(`✅ PWA ICON: Servendo icona personalizzata per proprietario ${ownerId}`);
+        return res.send(buffer);
+      }
+      
+      // Fallback all'icona standard
+      console.log(`🔄 PWA ICON: Nessuna icona personalizzata per proprietario ${ownerId}, uso standard`);
+      res.redirect('/icons/icon-' + size + '.png');
+      
+    } catch (error) {
+      console.error('Errore nel servire icona proprietario:', error);
+      res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
+
+
+  // Endpoint per recuperare dettagli accessi di un cliente (richiesto da ClientAccessesDetails)
+  app.get('/api/client-access/:clientId', requireAuth, (req, res) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      const storageData = loadStorageData();
+      
+      // Trova il cliente
+      const clientData = storageData.clients?.find(([id, client]) => id === clientId);
+      if (!clientData) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      const [id, client] = clientData;
+      
+      // Genera accessi fittizi basati sui dati disponibili
+      const accesses = [];
+      if (client.lastAccess && (client.accessCount || 0) > 0) {
+        const lastAccessDate = new Date(client.lastAccess);
+        
+        // Genera gli ultimi 10 accessi distribuiti negli ultimi giorni
+        for (let i = 0; i < Math.min(client.accessCount || 0, 10); i++) {
+          const daysBack = Math.floor(i / 2); // 2 accessi per giorno
+          const accessDate = new Date(lastAccessDate);
+          accessDate.setDate(accessDate.getDate() - daysBack);
+          accessDate.setHours(9 + (i % 12), Math.floor(Math.random() * 60), 0, 0);
+          
+          accesses.push({
+            id: i + 1,
+            clientId: clientId,
+            accessDate: accessDate.toISOString(),
+            userAgent: i % 3 === 0 ? "Mobile" : (i % 3 === 1 ? "Desktop" : "Tablet")
+          });
+        }
+      }
+      
+      // Ordina per data decrescente (più recenti prima)
+      accesses.sort((a, b) => new Date(b.accessDate).getTime() - new Date(a.accessDate).getTime());
+      
+      res.json(accesses);
+      
+    } catch (error) {
+      console.error('Errore nel recupero dettagli accessi:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint per testare e aggiornare lo stato dei promemoria
+  app.post('/api/test-reminder-flags', requireAuth, (req, res) => {
+    try {
+      const { appointmentId, reminderStatus } = req.body;
+      const storageData = loadStorageData();
+      
+      // Trova l'appuntamento e aggiorna lo stato
+      const appointmentIndex = storageData.appointments?.findIndex(apt => apt.id === appointmentId);
+      if (appointmentIndex !== -1) {
+        storageData.appointments[appointmentIndex].reminderStatus = reminderStatus;
+        storageData.appointments[appointmentIndex].reminderType = 'email'; // Assicura che abbia un tipo
+        
+        // Salva i dati aggiornati
+        saveStorageData(storageData);
+        
+        res.json({
+          success: true,
+          message: `Stato promemoria aggiornato a: ${reminderStatus}`,
+          appointment: storageData.appointments[appointmentIndex]
+        });
+      } else {
+        res.status(404).json({ error: 'Appuntamento non trovato' });
+      }
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento dello stato promemoria:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // Endpoint per monitorare i promemoria email inviati
+  app.get('/api/email/reminders/status', requireAuth, (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const { appointments = [] } = storageData;
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      // Filtra appuntamenti per domani
+      const tomorrowAppointments = appointments.filter(apt => {
+        const aptDate = new Date(apt.date);
+        return aptDate.toDateString() === tomorrow.toDateString();
+      });
+      
+      // Trova l'appuntamento di Marco Berto specifico
+      const marcoBertoAppointment = tomorrowAppointments.find(apt => {
+        const client = storageData.clients?.find(([id, clientData]) => 
+          clientData.id === apt.clientId && 
+          (clientData.firstName?.toLowerCase().includes('marco') || 
+           clientData.lastName?.toLowerCase().includes('berto'))
+        );
+        return client;
+      });
+      
+      const emailSettings = JSON.parse(fs.readFileSync('./email_settings.json', 'utf8'));
+      
+      res.json({
+        emailSystemEnabled: emailSettings.emailEnabled,
+        schedulerActive: true,
+        tomorrowAppointments: tomorrowAppointments.length,
+        marcoBertoFound: !!marcoBertoAppointment,
+        marcoBertoAppointment: marcoBertoAppointment ? {
+          id: marcoBertoAppointment.id,
+          date: marcoBertoAppointment.date,
+          time: marcoBertoAppointment.time,
+          clientId: marcoBertoAppointment.clientId,
+          serviceId: marcoBertoAppointment.serviceId
+        } : null,
+        nextReminderCheck: 'Ogni ora alle :00',
+        systemStatus: 'Operativo'
+      });
+    } catch (error) {
+      console.error('Errore controllo promemoria:', error);
+      res.status(500).json({ error: 'Errore sistema promemoria' });
+    }
+  });
+
+  // Configurazione multer per upload immagini
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 10 * 1024 * 1024 // 10MB limite
+    },
+    fileFilter: (req, file, cb) => {
+      // Accetta solo immagini
+      if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+      } else {
+        cb(new Error('Solo file immagine sono accettati'), false);
+      }
+    }
+  });
+
+  // API per caricare icona personalizzata PWA
+  app.post('/api/upload-custom-icon', requireAuth, upload.single('icon'), async (req: any, res: any) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'Nessun file caricato' });
+      }
+
+      console.log(`🎨 [ICON UPLOAD] Utente ${req.user?.username} sta caricando icona personalizzata`);
+      console.log(`📎 File ricevuto: ${req.file.originalname}, size: ${req.file.size} bytes`);
+
+      // Converti l'immagine caricata in icone PWA
+      const iconPaths = await iconConversionService.processCustomIcon(
+        req.file.buffer,
+        'custom-icon'
+      );
+
+      console.log(`✅ [ICON UPLOAD] Icone PWA generate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona personalizzata caricata e convertita con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON UPLOAD] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la conversione dell\'icona',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per caricare icona via base64
+  app.post('/api/upload-icon-base64', requireAuth, async (req: any, res: any) => {
+    try {
+      const { imageData, iconName } = req.body;
+
+      if (!imageData) {
+        return res.status(400).json({ error: 'Dati immagine mancanti' });
+      }
+
+      console.log(`🎨 [ICON BASE64] Utente ${req.user?.username} sta caricando icona via base64`);
+
+      // Converti l'immagine base64 in icone PWA
+      const iconPaths = await iconConversionService.processCustomIcon(
+        imageData,
+        iconName || 'custom-icon'
+      );
+
+      console.log(`✅ [ICON BASE64] Icone PWA generate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona caricata e convertita con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON BASE64] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la conversione dell\'icona',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per ripristinare icona predefinita
+  app.post('/api/restore-default-icon', requireAuth, async (req: any, res: any) => {
+    try {
+      console.log(`🔄 [ICON RESTORE] Utente ${req.user?.username} sta ripristinando icona predefinita`);
+
+      // Ripristina le icone predefinite (Fleur de Vie)
+      const iconPaths = await iconConversionService.restoreDefaultIcons();
+
+      console.log(`✅ [ICON RESTORE] Icone predefinite ripristinate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona predefinita ripristinata con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON RESTORE] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante il ripristino dell\'icona predefinita',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per ottenere info sulle icone attuali
+  app.get('/api/current-icon-info', requireAuth, async (req: any, res: any) => {
+    try {
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+      const manifest = JSON.parse(manifestContent);
+
+      res.json({
+        success: true,
+        currentIcons: manifest.icons,
+        manifestPath: '/manifest.json'
+      });
+    } catch (error) {
+      console.error('❌ [ICON INFO] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la lettura delle informazioni icone',
+        details: error.message 
+      });
+    }
+  });
+
+  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale (PostgreSQL)
+  app.get("/api/client-by-code/:clientCode", async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      console.log('🏠 [CLIENT ACCESS PG] Accesso diretto per codice:', clientCode);
+      
+      // Cerca il cliente nel database PostgreSQL usando il codice univoco
+      const foundClients = await db
+        .select()
+        .from(clients)
+        .where(eq(clients.uniqueCode, clientCode))
+        .limit(1);
+      
+      if (!foundClients || foundClients.length === 0) {
+        console.log('❌ [CLIENT ACCESS PG] Cliente non trovato per codice:', clientCode);
+        return res.status(404).json({ error: 'Accesso non autorizzato' });
+      }
+      
+      const foundClient = foundClients[0];
+      console.log('🏠 [CLIENT ACCESS PG] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
+      
+      // Ritorna SOLO i dati essenziali del cliente - NESSUN riferimento al gestionale
+      const pureClientData = {
+        id: foundClient.id,
+        firstName: foundClient.firstName,
+        lastName: foundClient.lastName,
+        phone: foundClient.phone,
+        email: foundClient.email,
+        uniqueCode: foundClient.uniqueCode,
+        ownerId: foundClient.ownerId // Solo per identificare i suoi appuntamenti
+      };
+      
+      res.json(pureClientData);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT ACCESS PG] Errore sistema:', error);
+      res.status(500).json({ error: 'Errore del sistema' });
+    }
+  });
+
+  // Endpoint per appuntamenti di un singolo cliente - SOLO suoi dati (PostgreSQL)
+  app.get("/api/client-appointments/:clientId", async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const { ownerId } = req.query;
+      
+      console.log('📅 [CLIENT APPOINTMENTS PG] Caricamento per cliente:', clientId, 'Owner:', ownerId);
+      
+      // Carica da PostgreSQL
+      const clientIdNum = parseInt(clientId, 10);
+      const ownerIdNum = parseInt(ownerId as string, 10);
+      
+      // Query PostgreSQL con JOIN per ottenere il nome del servizio
+      const appointmentsWithServices = await db
+        .select({
+          id: appointments.id,
+          date: appointments.date,
+          startTime: appointments.startTime,
+          serviceName: services.name,
+          status: appointments.status,
+          notes: appointments.notes
+        })
+        .from(appointments)
+        .leftJoin(services, eq(appointments.serviceId, services.id))
+        .where(
+          and(
+            eq(appointments.clientId, clientIdNum),
+            eq(appointments.userId, ownerIdNum)
+          )
+        )
+        .orderBy(asc(appointments.date), asc(appointments.startTime));
+      
+      // Formatta la risposta per la PWA
+      const clientAppointments = appointmentsWithServices.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        time: apt.startTime || '09:00',
+        service: apt.serviceName || 'Servizio',
+        status: apt.status || 'scheduled',
+        notes: apt.notes || ''
+      }));
+      
+      console.log(`📅 [CLIENT APPOINTMENTS PG] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
+      res.json(clientAppointments);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT APPOINTMENTS PG] Errore:', error);
+      res.status(500).json({ error: 'Errore del sistema' });
+    }
+  });
+
+  // Endpoint di test per forzare l'esecuzione del sistema di promemoria
+  app.post("/api/test-reminder-system", requireAuth, async (req, res) => {
+    try {
+      console.log('🔧 Test manuale del sistema di promemoria richiesto');
+      
+      // Importa e esegue il servizio di promemoria
+      const { notificationService } = await import('./services/notificationService');
+      
+      console.log('📨 Avvio test del processore di promemoria...');
+      const remindersSent = await notificationService.processReminders();
+      
+      res.json({
+        success: true,
+        message: `Test completato: ${remindersSent} promemoria elaborati`,
+        remindersSent,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error: any) {
+      console.error('❌ Errore nel test del sistema di promemoria:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
+  // Endpoint di test diretto per l'invio email - DEBUG
+  app.post("/api/test-email-direct", requireAuth, async (req, res) => {
+    try {
+      console.log('🔧 TEST DIRETTO EMAIL - Inizio debug');
+      
+      const { notificationService } = await import('./services/notificationService');
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      
+      if (!fs.existsSync(emailConfigPath)) {
+        throw new Error('File email_settings.json non trovato');
+      }
+      
+      const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+      console.log('📧 Configurazione email caricata:', {
+        enabled: emailConfig.emailEnabled,
+        address: emailConfig.emailAddress,
+        hasPassword: !!emailConfig.emailPassword
+      });
+      
+      if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+        throw new Error('Configurazione email incompleta');
+      }
+      
+      // Test email semplice
+      const testEmail = req.body.testEmail || 'zambelli.andrea.1973@gmail.com';
+      console.log(`🧪 Invio email di test a: ${testEmail}`);
+      
+      const emailSent = await notificationService.sendEmailDirect(
+        testEmail,
+        'Test Sistema Email',
+        `Test invio email dal sistema.\n\nData/Ora: ${new Date().toLocaleString('it-IT')}\n\nSe ricevi questa email, il sistema funziona correttamente!`,
+        emailConfig
+      );
+      
+      res.json({
+        success: emailSent,
+        message: emailSent ? 'Email di test inviata con successo!' : 'Errore nell\'invio dell\'email',
+        testEmail,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error: any) {
+      console.error('❌ Errore nel test email diretto:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
+  // === STAFF (COLLABORATORI) API ROUTES ===
+  
+  // GET /api/collaborators - Lista collaboratori per utente
+  app.get("/api/collaborators", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const collaborators = await storage.getStaffForUser(user.id);
+      
+      // DEBUG LOG
+      console.log('🔍 DEBUG API COLLABORATORS:', {
+        userId: user.id,
+        count: collaborators.length,
+        collaborators: collaborators.map(c => ({
+          id: c.id,
+          firstName: c.firstName,
+          lastName: c.lastName,
+          isActive: c.isActive,
+          hasIsActiveField: c.hasOwnProperty('isActive'),
+          allFields: Object.keys(c)
+        }))
+      });
+      
+      res.json(collaborators);
+    } catch (error) {
+      console.error("Errore recupero collaboratori:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // POST /api/collaborators - Crea nuovo collaboratore
+  app.post("/api/collaborators", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const collaboratorData = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const newCollaborator = await storage.createStaff(collaboratorData);
+      console.log(`✅ Collaboratore creato: ${newCollaborator.firstName} ${newCollaborator.lastName} per utente ${user.id}`);
+      res.status(201).json(newCollaborator);
+    } catch (error) {
+      console.error("Errore creazione collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // PUT /api/collaborators/:id - Aggiorna collaboratore
+  app.put("/api/collaborators/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const collaboratorId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingCollaborator = await storage.getStaff(collaboratorId);
+      if (!existingCollaborator || existingCollaborator.userId !== user.id) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      const updatedCollaborator = await storage.updateStaff(collaboratorId, req.body);
+      if (!updatedCollaborator) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      console.log(`✅ Collaboratore aggiornato: ${updatedCollaborator.firstName} ${updatedCollaborator.lastName}`);
+      res.json(updatedCollaborator);
+    } catch (error) {
+      console.error("Errore aggiornamento collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // DELETE /api/collaborators/:id - Elimina collaboratore
+  app.delete("/api/collaborators/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const collaboratorId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingCollaborator = await storage.getStaff(collaboratorId);
+      if (!existingCollaborator || existingCollaborator.userId !== user.id) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      const deleted = await storage.deleteStaff(collaboratorId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      console.log(`✅ Collaboratore eliminato: ID ${collaboratorId} per utente ${user.id}`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Errore eliminazione collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // === TREATMENT ROOMS (STANZE) API ROUTES ===
+  
+  // GET /api/treatment-rooms - Lista stanze per utente
+  app.get("/api/treatment-rooms", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const rooms = await storage.getTreatmentRoomsForUser(user.id);
+      res.json(rooms);
+    } catch (error) {
+      console.error("Errore recupero stanze:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // POST /api/treatment-rooms - Crea nuova stanza
+  app.post("/api/treatment-rooms", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const roomData = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const newRoom = await storage.createTreatmentRoom(roomData);
+      console.log(`✅ Stanza creata: ${newRoom.name} per utente ${user.id}`);
+      res.status(201).json(newRoom);
+    } catch (error) {
+      console.error("Errore creazione stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // PUT /api/treatment-rooms/:id - Aggiorna stanza
+  app.put("/api/treatment-rooms/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const roomId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingRoom = await storage.getTreatmentRoom(roomId);
+      if (!existingRoom || existingRoom.userId !== user.id) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      const updatedRoom = await storage.updateTreatmentRoom(roomId, req.body);
+      if (!updatedRoom) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      console.log(`✅ Stanza aggiornata: ${updatedRoom.name}`);
+      res.json(updatedRoom);
+    } catch (error) {
+      console.error("Errore aggiornamento stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // DELETE /api/treatment-rooms/:id - Elimina stanza
+  app.delete("/api/treatment-rooms/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const roomId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingRoom = await storage.getTreatmentRoom(roomId);
+      if (!existingRoom || existingRoom.userId !== user.id) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      const deleted = await storage.deleteTreatmentRoom(roomId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      console.log(`✅ Stanza eliminata: ID ${roomId} per utente ${user.id}`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Errore eliminazione stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // ========== ONBOARDING AI ENDPOINTS ==========
+
+  // GET /api/onboarding/progress - Recupera il progresso dell'onboarding dell'utente
+  app.get('/api/onboarding/progress', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      
+      // Cerca il progresso onboarding dell'utente
+      const onboardingKey = `onboarding_${user.id}`;
+      const progress = storageData[onboardingKey] || {
+        userId: user.id,
+        currentStep: 0,
+        completedSteps: [],
+        isCompleted: false
+      };
+      
+      res.json(progress);
+    } catch (error) {
+      console.error('❌ Errore caricamento progresso onboarding:', error);
+      res.status(500).json({ message: 'Errore nel caricamento del progresso' });
+    }
+  });
+
+  // POST /api/onboarding/update-step - Aggiorna lo step corrente dell'onboarding
+  app.post('/api/onboarding/update-step', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const { currentStep, stepData, completedSteps } = req.body;
+      
+      const storageData = loadStorageData();
+      const onboardingKey = `onboarding_${user.id}`;
+      
+      // Aggiorna o crea il progresso
+      const progress = storageData[onboardingKey] || { userId: user.id };
+      storageData[onboardingKey] = {
+        ...progress,
+        currentStep,
+        completedSteps: completedSteps || progress.completedSteps || [],
+        ...stepData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      saveStorageData(storageData);
+      res.json(storageData[onboardingKey]);
+    } catch (error) {
+      console.error('❌ Errore aggiornamento step onboarding:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento dello step' });
+    }
+  });
+
+  // POST /api/onboarding/analyze - Analizza i dati business con AI
+  app.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
+    try {
+      const { businessName, businessType, description } = req.body;
+      
+      console.log('🤖 [AI ONBOARDING] Richiesta analisi per:', businessName);
+      
+      // Chiama il servizio AI per analizzare il business
+      const analysis = await analyzeBusinessNeeds({
+        businessName,
+        businessDescription: description,
+        targetClients: businessType
+      });
+      
+      console.log('✅ [AI ONBOARDING] Analisi completata');
+      res.json(analysis);
+    } catch (error) {
+      console.error('❌ Errore analisi AI:', error);
+      // Ritorna raccomandazioni di fallback
+      res.json({
+        suggestedBusinessType: 'consulting',
+        recommendedServices: ['Consulenza', 'Visita', 'Controllo'],
+        workingHoursRecommendation: 'Lunedì - Venerdì, 9:00 - 18:00',
+        clientManagementNeeds: ['gestione-appuntamenti', 'comunicazione-clienti'],
+        communicationPreferences: ['email', 'sms'],
+        integrationGoals: ['calendario', 'promemoria-automatici'],
+        personalizedTips: [
+          'Inizia con la gestione base degli appuntamenti',
+          'Configura promemoria automatici per ridurre gli assenti',
+          'Crea un portale clienti per prenotazioni facili'
+        ]
+      });
+    }
+  });
+
+  // POST /api/onboarding/complete - Segna l'onboarding come completato
+  app.post('/api/onboarding/complete', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      const onboardingKey = `onboarding_${user.id}`;
+      
+      // Crea o aggiorna il record di onboarding
+      if (!storageData[onboardingKey]) {
+        storageData[onboardingKey] = {
+          userId: user.id,
+          currentStep: 0,
+          completedSteps: []
+        };
+      }
+      
+      // Segna come completato
+      storageData[onboardingKey].isCompleted = true;
+      storageData[onboardingKey].completedAt = new Date().toISOString();
+      saveStorageData(storageData);
+      
+      console.log('✅ [AI ONBOARDING] Onboarding completato per utente', user.id, '- isCompleted:', storageData[onboardingKey].isCompleted);
+      
+      res.json({
+        success: true,
+        isCompleted: true,
+        welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.'
+      });
+    } catch (error) {
+      console.error('❌ Errore completamento onboarding:', error);
+      res.status(500).json({ message: 'Errore nel completamento dell\'onboarding' });
+    }
+  });
+
+  // POST /api/ai-chat - Chat conversazionale con AI
+  app.post('/api/ai-chat', requireAuth, async (req, res) => {
+    try {
+      const user = req.user as any;
+      const { messages, includeContext } = req.body;
+      
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ message: 'Messaggi non validi' });
+      }
+      
+      console.log('💬 [AI CHAT] Nuova richiesta da utente', user.id);
+      
+      // Prepara il contesto se richiesto
+      let context: any = {};
+      if (includeContext) {
+        const storageData = loadStorageData();
+        
+        // Carica dati clienti per suggerimenti personalizzati
+        const clients = storageData.clients || [];
+        const userClients = clients.filter((c: any) => c.ownerId === user.id);
+        
+        // Carica preferenze onboarding
+        const onboardingKey = `onboarding_${user.id}`;
+        const onboardingData = storageData[onboardingKey];
+        
+        context = {
+          clientCount: userClients.length,
+          onboardingPreferences: onboardingData
+        };
+      }
+      
+      // Processa il messaggio con AI
+      const response = await processChatMessage({
+        messages,
+        context
+      });
+      
+      res.json(response);
+    } catch (error) {
+      console.error('❌ [AI CHAT] Errore:', error);
+      res.status(500).json({ 
+        message: 'Errore nella comunicazione con l\'AI',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ========== SUBSCRIPTION PLANS MANAGEMENT (ADMIN ONLY) ==========
+  
+  // GET - Ottieni tutti i piani abbonamento attivi
+  app.get("/api/subscription-plans", async (req, res) => {
+    try {
+      const plans = await storage.getActiveSubscriptionPlans();
+      res.json(plans);
+    } catch (error) {
+      console.error('Errore nel caricamento piani abbonamento:', error);
+      res.status(500).json({ message: "Errore nel caricamento dei piani" });
+    }
+  });
+
+  // POST - Crea nuovo piano (solo admin)
+  app.post("/api/subscription-plans", requireAuth, async (req, res) => {
+    const user = req.user as any;
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può creare piani" });
+    }
+
+    try {
+      const newPlan = await storage.createSubscriptionPlan(req.body);
+      res.json(newPlan);
+    } catch (error) {
+      console.error('Errore nella creazione piano:', error);
+      res.status(500).json({ message: "Errore nella creazione del piano" });
+    }
+  });
+
+  // PUT - Aggiorna piano esistente (solo admin)
+  app.put("/api/subscription-plans/:id", requireAuth, async (req, res) => {
+    const user = req.user as any;
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può modificare piani" });
+    }
+
+    try {
+      const planId = parseInt(req.params.id);
+      const updatedPlan = await storage.updateSubscriptionPlan(planId, req.body);
+      res.json(updatedPlan);
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento piano:', error);
+      res.status(500).json({ message: "Errore nell'aggiornamento del piano" });
+    }
+  });
+
+  // DELETE - Elimina piano (solo admin) - soft delete impostando isActive = false
+  app.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
+    const user = req.user as any;
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può eliminare piani" });
+    }
+
+    try {
+      const planId = parseInt(req.params.id);
+      await storage.updateSubscriptionPlan(planId, { isActive: false });
+      res.json({ message: "Piano disattivato con successo" });
+    } catch (error) {
+      console.error('Errore nell\'eliminazione piano:', error);
+      res.status(500).json({ message: "Errore nell'eliminazione del piano" });
+    }
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+}

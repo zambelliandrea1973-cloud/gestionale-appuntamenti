@@ -1,0 +1,120 @@
+📱 [MANIFEST DETECTION] pathname: /dashboard
+ 📱 [MANIFEST DETECTION] isClientArea: false
+ 📱 [MANIFEST ADMIN] URL: /manifest-admin.json?ts=1761215460340
+ 📱 [MANIFEST IMMEDIATO] Creato con URL: /manifest-admin.json?ts=1761215460340
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'Comprendi l'errore
+VM145 dashboard:10 PWA check - standalone mode: false
+VM145 dashboard:11 PWA check - iOS fullscreen: undefined
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:971 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Inizio caricamento icona
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/client-app-info: Object
+index-DPqE_dPo.js:723 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+VM145 dashboard:22 Evento beforeinstallprompt catturato BeforeInstallPromptEvent
+VM145 dashboard:37 Deferring PWA install prompt
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-DPqE_dPo.js:971 Fuso orario diverso da quello salvato, aggiornamento...
+VM145 dashboard:91 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://gestionale-appuntamenti.sliplane.app/') with script ('https://gestionale-appuntamenti.sliplane.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM145 dashboard:91Comprendi l'errore
+VM145 dashboard:95 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://gestionale-appuntamenti.sliplane.app/') with script ('https://gestionale-appuntamenti.sliplane.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM145 dashboard:95Comprendi l'errore
+VM145 dashboard:99 Navigator serviceWorker: ServiceWorkerContainer
+VM145 dashboard:100 Location protocol: https:
+VM145 dashboard:101 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/company-name-settings: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/contact-info: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-DPqE_dPo.js:971 Fuso orario aggiornato con successo
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Dati parsati: Object
+index-DPqE_dPo.js:723 ✅ HOME AppIcon: Icona impostata correttamente
+index-DPqE_dPo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-DPqE_dPo.js:48 Risposta da /api/contact-info: 200  ok: true
+index-DPqE_dPo.js:683 ✅ Informazioni di contatto caricate da API per utente 14: Object
+index-DPqE_dPo.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-DPqE_dPo.js:723 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+index-DPqE_dPo.js:785 CONTEGGIO CLIENTI: Ricevuti: 0, Filtrati: 0, Tab attivo: all
+index-DPqE_dPo.js:785 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:785 [desktop] Ricevuti 6 clienti dal nuovo sistema multi-tenant
+index-DPqE_dPo.js:785 [desktop] Sample clienti: Array(3)
+index-DPqE_dPo.js:785 CONTEGGIO CLIENTI: Ricevuti: 6, Filtrati: 6, Tab attivo: all
+index-DPqE_dPo.js:785 🟢 BADGE [Bruna  Pizzolato] Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: ADV ADSVA (ID: 75)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/75/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/75/activation-token: Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: Marco Berto (ID: 70)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/70/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/70/activation-token: Object
+index-DPqE_dPo.js:785 🟠 CLIENT CARD [Bruna  Pizzolato]: Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: Bruna  Pizzolato (ID: 14004)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/14004/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/14004/activation-token: Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 68)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/68/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/68/activation-token: Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 14002)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/14002/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/14002/activation-token: Object
+index-DPqE_dPo.js:785 🔍 [FRONTEND] Richiesta QR per cliente: Stefania Zambelli  (ID: 78)
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/clients/78/activation-token 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/clients/78/activation-token: Object
+index-DPqE_dPo.js:785 CONTEGGIO CLIENTI: Ricevuti: 6, Filtrati: 6, Tab attivo: all
+index-DPqE_dPo.js:785 🟢 BADGE [Bruna  Pizzolato] Object
+index-DPqE_dPo.js:48 Risposta da /api/clients/14004/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: Bruna  Pizzolato
+index-DPqE_dPo.js:48 Risposta da /api/clients/14002/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-DPqE_dPo.js:48 Risposta da /api/clients/78/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: Stefania Zambelli 
+index-DPqE_dPo.js:48 Risposta da /api/clients/75/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: ADV ADSVA
+index-DPqE_dPo.js:48 Risposta da /api/clients/68/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-DPqE_dPo.js:48 Risposta da /api/clients/70/activation-token: 200  ok: true
+index-DPqE_dPo.js:785 ✅ [FRONTEND] QR ricevuto per cliente: Marco Berto
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DPqE_dPo.js:785 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+index-DPqE_dPo.js:785 CONTEGGIO CLIENTI: Ricevuti: 6, Filtrati: 6, Tab attivo: all
+index-DPqE_dPo.js:785 🟢 BADGE [Bruna  Pizzolato] Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-DPqE_dPo.js:785 [desktop] Ricevuti 6 clienti dal nuovo sistema multi-tenant
+index-DPqE_dPo.js:785 [desktop] Sample clienti: Array(3)

@@ -1,0 +1,2465 @@
+22/10/2025, 11:04:54:
+build
+Enumerating objects: 20366, done.
+22/10/2025, 11:04:54:
+build
+Counting objects: 100% (486/486), done.
+22/10/2025, 11:04:54:
+build
+Compressing objects: 100% (58/58), done.
+22/10/2025, 11:05:20:
+build
+Total 20366 (delta 462), reused 443 (delta 428), pack-reused 19880 (from 4)
+22/10/2025, 11:05:53:
+build
+#1 [service_event_c0x2aq4x3krp internal] load build definition from Dockerfile
+22/10/2025, 11:05:53:
+build
+#1 transferring dockerfile: 618B done
+22/10/2025, 11:05:53:
+build
+#1 DONE 0.0s
+22/10/2025, 11:05:53:
+build
+22/10/2025, 11:05:53:
+build
+#2 [service_event_c0x2aq4x3krp internal] load metadata for docker.io/library/node:20-alpine
+22/10/2025, 11:05:54:
+build
+#2 DONE 0.8s
+22/10/2025, 11:05:54:
+build
+22/10/2025, 11:05:54:
+build
+#3 [service_event_c0x2aq4x3krp internal] load .dockerignore
+22/10/2025, 11:05:54:
+build
+#3 transferring context: 740B done
+22/10/2025, 11:05:54:
+build
+#3 DONE 0.0s
+22/10/2025, 11:05:54:
+build
+22/10/2025, 11:05:54:
+build
+#4 [service_event_c0x2aq4x3krp 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 11:05:54:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+22/10/2025, 11:05:54:
+build
+#4 DONE 0.0s
+22/10/2025, 11:05:54:
+build
+22/10/2025, 11:05:54:
+build
+#5 [service_event_c0x2aq4x3krp] importing cache manifest from local:13566321164989933156
+22/10/2025, 11:05:54:
+build
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+22/10/2025, 11:05:54:
+build
+#5 DONE 0.0s
+22/10/2025, 11:05:54:
+build
+22/10/2025, 11:05:54:
+build
+#6 [service_event_c0x2aq4x3krp internal] load build context
+22/10/2025, 11:05:58:
+build
+#6 transferring context: 1.23GB 3.8s done
+22/10/2025, 11:05:58:
+build
+#6 DONE 3.8s
+22/10/2025, 11:05:58:
+build
+22/10/2025, 11:05:58:
+build
+#7 [service_event_c0x2aq4x3krp 2/7] WORKDIR /app
+22/10/2025, 11:05:58:
+build
+#7 CACHED
+22/10/2025, 11:05:58:
+build
+22/10/2025, 11:05:58:
+build
+#8 [service_event_c0x2aq4x3krp 3/7] COPY package.json package-lock.json ./
+22/10/2025, 11:05:58:
+build
+#8 CACHED
+22/10/2025, 11:05:58:
+build
+22/10/2025, 11:05:58:
+build
+#9 [service_event_c0x2aq4x3krp 4/7] RUN npm ci
+22/10/2025, 11:05:58:
+build
+#9 CACHED
+22/10/2025, 11:05:58:
+build
+22/10/2025, 11:05:58:
+build
+#10 [service_event_c0x2aq4x3krp 5/7] COPY . .
+22/10/2025, 11:06:02:
+build
+#10 DONE 4.0s
+22/10/2025, 11:06:02:
+build
+22/10/2025, 11:06:02:
+build
+#11 [service_event_c0x2aq4x3krp 6/7] RUN npx vite build
+22/10/2025, 11:06:03:
+build
+#11 1.309 vite v5.4.14 building for production...
+22/10/2025, 11:06:03:
+build
+#11 1.750 
+22/10/2025, 11:06:04:
+build
+#11 1.762 
+22/10/2025, 11:06:04:
+build
+#11 1.762 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+22/10/2025, 11:06:04:
+build
+#11 1.768 transforming...
+22/10/2025, 11:06:04:
+build
+#11 1.804 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+22/10/2025, 11:06:04:
+build
+#11 1.804   npx update-browserslist-db@latest
+22/10/2025, 11:06:04:
+build
+#11 1.804   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+22/10/2025, 11:06:15:
+build
+#11 12.78 ✓ 3669 modules transformed.
+22/10/2025, 11:06:16:
+build
+#11 13.94 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 11:06:16:
+build
+#11 13.94 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 11:06:16:
+build
+#11 13.94 
+22/10/2025, 11:06:16:
+build
+#11 13.94 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 11:06:16:
+build
+#11 13.94 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 11:06:16:
+build
+#11 13.94 
+22/10/2025, 11:06:16:
+build
+#11 13.94 rendering chunks...
+22/10/2025, 11:06:16:
+build
+#11 14.00 computing gzip size...
+22/10/2025, 11:06:16:
+build
+#11 14.08 ../dist/public/index.html                    13.91 kB │ gzip:   3.99 kB
+22/10/2025, 11:06:16:
+build
+#11 14.08 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+22/10/2025, 11:06:16:
+build
+#11 14.08 ../dist/public/assets/index-M_0bV3gs.js   2,046.97 kB │ gzip: 550.10 kB
+22/10/2025, 11:06:16:
+build
+#11 14.08 
+22/10/2025, 11:06:16:
+build
+#11 14.08 (!) Some chunks are larger than 500 kB after minification. Consider:
+22/10/2025, 11:06:16:
+build
+#11 14.08 - Using dynamic import() to code-split the application
+22/10/2025, 11:06:16:
+build
+#11 14.08 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+22/10/2025, 11:06:16:
+build
+#11 14.08 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+22/10/2025, 11:06:16:
+build
+#11 14.08 ✓ built in 12.74s
+22/10/2025, 11:06:16:
+build
+#11 DONE 14.2s
+22/10/2025, 11:06:16:
+build
+22/10/2025, 11:06:16:
+build
+#12 [service_event_c0x2aq4x3krp 7/7] RUN cp -r dist/public server/public
+22/10/2025, 11:06:16:
+build
+#12 DONE 0.1s
+22/10/2025, 11:06:16:
+build
+22/10/2025, 11:06:16:
+build
+#13 [service_event_c0x2aq4x3krp] exporting to image
+22/10/2025, 11:06:16:
+build
+#13 exporting layers
+22/10/2025, 11:06:41:
+build
+#13 exporting layers 25.1s done
+22/10/2025, 11:06:41:
+build
+#13 exporting manifest sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114 done
+22/10/2025, 11:06:41:
+build
+#13 exporting config sha256:3222c5311943d2994e4eef3afd0db33fa8e8c02663810a379b578ede649949be done
+22/10/2025, 11:06:41:
+build
+#13 pushing layers
+22/10/2025, 11:06:51:
+build
+#13 pushing layers 10.2s done
+22/10/2025, 11:06:51:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c0x2aq4x3krp@sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114
+22/10/2025, 11:06:52:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c0x2aq4x3krp@sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114 0.1s done
+22/10/2025, 11:06:52:
+build
+#13 DONE 35.4s
+22/10/2025, 11:06:52:
+build
+22/10/2025, 11:06:52:
+build
+#14 [service_event_c0x2aq4x3krp] exporting cache to client directory
+22/10/2025, 11:06:52:
+build
+#14 preparing build cache for export
+22/10/2025, 11:06:52:
+build
+#14 writing layer sha256:0be88d5fd037b1f17d20d0a9f080141b8f078b2300b06d2cbc1551e59e858087 0.0s done
+22/10/2025, 11:06:52:
+build
+#14 writing layer sha256:1cb5ac237e05179195807a30d45e88ef0703a3e7612995c466e5f8b480be2be0
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:1cb5ac237e05179195807a30d45e88ef0703a3e7612995c466e5f8b480be2be0 6.2s done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b
+22/10/2025, 11:06:58:
+build
+#14 preparing build cache for export 6.3s done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9 done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:a862f6adb39bbcae730eb54ba389282e8b126586838193a4e83c74a87eae962c done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 done
+22/10/2025, 11:06:58:
+build
+#14 writing layer sha256:f689d7656b588a19e98f548eec95197b2580fd19659658da84f9b2dfae24c428 done
+22/10/2025, 11:06:58:
+build
+#14 writing config sha256:adf6f4f5f039677dae351136b6323f7de31ad0cecdca764f75db27e0d168ee10 done
+22/10/2025, 11:06:58:
+build
+#14 writing cache image manifest sha256:19587e3f6d66118c7a4abcc6de86caf983d9b9389f83db710cf64bed3e39d142 done
+22/10/2025, 11:06:58:
+build
+#14 DONE 6.3s
+22/10/2025, 11:07:03:
+build
+service_event_c0x2aq4x3krp: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+22/10/2025, 11:07:03:
+build
+2d35ebdb57d9: Already exists
+22/10/2025, 11:07:03:
+build
+60e45a9660cf: Already exists
+22/10/2025, 11:07:03:
+build
+e74e4ed823e9: Already exists
+22/10/2025, 11:07:03:
+build
+da04d522c98f: Already exists
+22/10/2025, 11:07:03:
+build
+703ca2a1bd99: Already exists
+22/10/2025, 11:07:03:
+build
+f689d7656b58: Already exists
+22/10/2025, 11:07:03:
+build
+4ab2d8ad865f: Already exists
+22/10/2025, 11:07:03:
+build
+1cb5ac237e05: Pulling fs layer
+22/10/2025, 11:07:03:
+build
+a862f6adb39b: Pulling fs layer
+22/10/2025, 11:07:03:
+build
+0be88d5fd037: Pulling fs layer
+22/10/2025, 11:07:03:
+build
+a862f6adb39b: Download complete
+22/10/2025, 11:07:03:
+build
+0be88d5fd037: Verifying Checksum
+22/10/2025, 11:07:03:
+build
+0be88d5fd037: Download complete
+22/10/2025, 11:07:11:
+build
+1cb5ac237e05: Verifying Checksum
+22/10/2025, 11:07:11:
+build
+1cb5ac237e05: Download complete
+22/10/2025, 11:07:21:
+build
+1cb5ac237e05: Pull complete
+22/10/2025, 11:07:21:
+build
+a862f6adb39b: Pull complete
+22/10/2025, 11:07:21:
+build
+0be88d5fd037: Pull complete
+22/10/2025, 11:07:21:
+build
+Digest: sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114
+22/10/2025, 11:07:21:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c0x2aq4x3krp
+22/10/2025, 11:07:25:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+22/10/2025, 11:07:25:
+runtime
+Servizio gestione telefono diretto inizializzato
+22/10/2025, 11:07:25:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+22/10/2025, 11:07:25:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+22/10/2025, 11:07:27:
+runtime
+Telefono caricato dal database: +393472550110
+22/10/2025, 11:07:27:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+22/10/2025, 11:07:27:
+runtime
+Scheduler dei promemoria avviato con successo
+22/10/2025, 11:07:27:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+22/10/2025, 11:07:27:
+runtime
+Tutti gli scheduler inizializzati
+22/10/2025, 11:07:27:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+22/10/2025, 11:07:27:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+22/10/2025, 11:07:27:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+22/10/2025, 11:07:27:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+22/10/2025, 11:07:27:
+runtime
+🔍 Controllo integrità all'avvio:
+22/10/2025, 11:07:27:
+runtime
+   📅 Appuntamenti caricati: 48
+22/10/2025, 11:07:27:
+runtime
+   👥 Clienti caricati: 40
+22/10/2025, 11:07:27:
+runtime
+   🔍 Primi 3 appuntamenti: [
+22/10/2025, 11:07:27:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+22/10/2025, 11:07:27:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+22/10/2025, 11:07:27:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+22/10/2025, 11:07:27:
+runtime
+]
+22/10/2025, 11:07:27:
+runtime
+✅ Controllo integrità completato
+22/10/2025, 11:07:27:
+runtime
+9:07:27 AM [express] serving on port 5000
+22/10/2025, 11:07:27:
+runtime
+✅ PostgreSQL database is available
+22/10/2025, 11:07:32:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+22/10/2025, 11:07:32:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+22/10/2025, 11:07:32:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Thu Oct 23 2025)
+22/10/2025, 11:07:32:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+22/10/2025, 11:07:32:
+runtime
+Inviati 0/0 promemoria
+22/10/2025, 11:07:32:
+runtime
+Job iniziale completato: inviati 0 promemoria
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/68 401 in 4ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/40 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/63 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/71 401 in 4ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/25 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/67 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/14001 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/14003 401 in 4ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/26 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/24 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/6 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/73 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/32 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/79 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/14 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/28 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/29 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/41 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/20 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/43 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/30 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/62 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/18 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/34 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/8 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/66 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/5 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/24 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/27 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/3 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/59 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/39 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/14003 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/75 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/12 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/60 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/33 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/12 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/21 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/4 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/42 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/64 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/14004 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/17 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/9 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/55 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/tenant-context 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/29 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/50 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/80 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/7 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/11 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/10 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/61 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/15 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/1 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/38 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/78 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/65 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/22 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/51 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/8 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/59 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/28 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/66 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/34 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/27 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/14002 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/62 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/50 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/63 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/22 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/51 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/11 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/33 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/10 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/61 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/60 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/38 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/1 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/14001 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/15 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/73 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/65 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/80 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/71 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/40 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/68 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/7 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/25 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/48 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/3 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/user 200 in 7ms
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/75 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/72 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/48 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/72 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/74 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/16 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/74 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/58 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/32 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/39 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/16 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/21 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/58 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/42 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/20 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/79 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/14 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/55 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/5 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/67 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/18 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/clients/70 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/30 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/6 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/41 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/64 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/43 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/14004 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/26 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/9 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/17 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:36:
+runtime
+9:16:36 AM [express] GET /api/client-access/count/4 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:38:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 11:16:38:
+runtime
+Logout completato con successo
+22/10/2025, 11:16:38:
+runtime
+9:16:38 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/company-name-settings 200 in 0ms :: {"businessName":"Gestionale Appunt…
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/license/has-business-access 200 in 1ms
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/license/has-pro-access 200 in 1ms
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:40:
+runtime
+9:16:40 AM [express] GET /api/client-app-info 200 in 10ms :: {"appName":"Gestionale Appuntamenti","i…
+22/10/2025, 11:16:41:
+runtime
+9:16:41 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:41:
+runtime
+9:16:41 AM [express] GET /api/timezone-settings 304 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761124600510
+22/10/2025, 11:16:42:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761124600510' }
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 11:16:42:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761124602150-default
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 11:16:42:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761124600510' }
+22/10/2025, 11:16:42:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+22/10/2025, 11:16:42:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761124602150.2026&android=1","/pwa-icon/192x192?owner=default&v=1761124602150.2026&android=1","/pwa-icon/512x512?owner=default&v=1761124602150.2026&android=1"]
+22/10/2025, 11:16:42:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 11:16:42:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:16:42:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 11:16:42:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 11:16:42:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+22/10/2025, 11:16:43:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 11:16:43:
+runtime
+Logout completato con successo
+22/10/2025, 11:16:43:
+runtime
+9:16:43 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 11:16:43:
+runtime
+9:16:43 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:16:53:
+runtime
+Login staff richiesto per: zambelli.andrea.19732@gmail.com
+22/10/2025, 11:16:55:
+runtime
+Login staff completato con successo per: zambelli.andrea.19732@gmail.com tipo: staff
+22/10/2025, 11:16:55:
+runtime
+9:16:55 AM [express] POST /api/staff/login 200 in 1652ms :: {"id":8,"username":"zambelli.andrea.1973…
+22/10/2025, 11:16:57:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761124615999
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761124615999' }
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 11:16:57:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761124617468-default
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 11:16:57:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761124615999' }
+22/10/2025, 11:16:57:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+22/10/2025, 11:16:57:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761124617469.0984&android=1","/pwa-icon/192x192?owner=default&v=1761124617469.0984&android=1","/pwa-icon/512x512?owner=default&v=1761124617469.0984&android=1"]
+22/10/2025, 11:16:57:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 11:16:57:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:16:57:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 11:16:57:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 11:16:57:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+22/10/2025, 11:16:57:
+runtime
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:16:57:
+runtime
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+22/10/2025, 11:16:57:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+22/10/2025, 11:16:57:
+runtime
+  id: 8,
+22/10/2025, 11:16:57:
+runtime
+  username: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:16:57:
+runtime
+  firstName: null,
+22/10/2025, 11:16:57:
+runtime
+  lastName: null,
+22/10/2025, 11:16:57:
+runtime
+  licenseType: 'staff_free_10years'
+22/10/2025, 11:16:57:
+runtime
+}
+22/10/2025, 11:16:57:
+runtime
+9:16:57 AM [express] GET /api/user-with-license 200 in 265ms :: {"id":8,"username":"zambelli.andrea.…
+22/10/2025, 11:16:57:
+runtime
+9:16:57 AM [express] GET /api/timezone-settings 304 in 309ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:16:57:
+runtime
+✅ Icone PWA aggiornate per utente 8 con logo aziendale
+22/10/2025, 11:16:57:
+runtime
+✅ [desktop] Icone PWA per utente 8, icon length: 815939
+22/10/2025, 11:16:57:
+runtime
+9:16:57 AM [express] GET /api/client-app-info 200 in 411ms :: {"appName":"Gestionale Appuntamenti","…
+22/10/2025, 11:16:57:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 8 (staff)
+22/10/2025, 11:16:57:
+runtime
+Recupero impostazioni per utente 8
+22/10/2025, 11:16:57:
+runtime
+9:16:57 AM [express] GET /api/tenant-context 200 in 234ms :: {"userId":8,"userType":"staff","tenantI…
+22/10/2025, 11:16:58:
+runtime
+Recupero impostazioni per utente 8
+22/10/2025, 11:16:58:
+runtime
+Impostazioni trovate per utente 8: NO
+22/10/2025, 11:16:58:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 8 (staff): {
+22/10/2025, 11:16:58:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+22/10/2025, 11:16:58:
+runtime
+  showBusinessName: true,
+22/10/2025, 11:16:58:
+runtime
+  name: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:16:58:
+runtime
+  fontSize: 24,
+22/10/2025, 11:16:58:
+runtime
+  fontFamily: 'Arial, sans-serif',
+22/10/2025, 11:16:58:
+runtime
+  fontStyle: 'normal',
+22/10/2025, 11:16:58:
+runtime
+  color: '#000000',
+22/10/2025, 11:16:58:
+runtime
+  enabled: true
+22/10/2025, 11:16:58:
+runtime
+}
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/company-name-settings 200 in 477ms :: {"businessName":"Gestionale Appu…
+22/10/2025, 11:16:58:
+runtime
+Impostazioni trovate per utente 8: NO
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/contact-info 200 in 523ms :: {"email":"info@studiomedico.it","phone":"…
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/license/license-info 200 in 1159ms :: {"hasLicense":true,"type":"staff…
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/license/has-pro-access 200 in 1214ms :: true
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/license/application-title 304 in 1212ms :: {"title":"Gestionale Appunt…
+22/10/2025, 11:16:58:
+runtime
+9:16:58 AM [express] GET /api/license/has-business-access 200 in 1220ms :: true
+22/10/2025, 11:17:00:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 11:17:00:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 11:17:00:
+runtime
+9:17:00 AM [express] GET /api/user 304 in 235ms
+22/10/2025, 11:17:01:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 11:17:01:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 11:17:01:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 11:17:01:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 11:17:01:
+runtime
+  {
+22/10/2025, 11:17:01:
+runtime
+    "id": 80,
+22/10/2025, 11:17:01:
+runtime
+    "firstName": "uno",
+22/10/2025, 11:17:01:
+runtime
+    "lastName": "uno",
+22/10/2025, 11:17:01:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 11:17:01:
+runtime
+    "ownerId": 8
+22/10/2025, 11:17:01:
+runtime
+  }
+22/10/2025, 11:17:01:
+runtime
+]
+22/10/2025, 11:17:01:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 11:17:01:
+runtime
+9:17:01 AM [express] GET /api/clients 200 in 710ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+22/10/2025, 11:17:01:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 80 da utente: 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:17:01:
+runtime
+9:17:01 AM [express] GET /api/clients/80 304 in 459ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+22/10/2025, 11:17:01:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:17:01:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: uno uno (ID: 80, Owner: 8)
+22/10/2025, 11:17:01:
+runtime
+9:17:01 AM [express] GET /api/client-access/count/80 200 in 498ms :: {"count":0}
+22/10/2025, 11:17:02:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 80 con icona del proprietario 8
+22/10/2025, 11:17:02:
+runtime
+✅ Icone PWA aggiornate per utente 8 con logo aziendale
+22/10/2025, 11:17:02:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 8
+22/10/2025, 11:17:02:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+22/10/2025, 11:17:02:
+runtime
+   - Cliente: uno uno
+22/10/2025, 11:17:02:
+runtime
+   - Token: PROF_008_C00080_2f0fabf2
+22/10/2025, 11:17:02:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:17:02:
+runtime
+9:17:02 AM [express] GET /api/clients/80/activation-token 200 in 760ms :: {"token":"PROF_008_C00080_…
+22/10/2025, 11:17:12:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:17:12:
+runtime
+9:17:12 AM [express] GET /api/client-access/count/80 200 in 463ms :: {"count":0}
+22/10/2025, 11:17:23:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:17:23:
+runtime
+9:17:23 AM [express] GET /api/client-access/count/80 200 in 461ms :: {"count":0}
+22/10/2025, 11:17:33:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:17:33:
+runtime
+9:17:33 AM [express] GET /api/client-access/count/80 200 in 461ms :: {"count":0}
+22/10/2025, 11:17:34:
+runtime
+9:17:34 AM [express] POST /api/client-access/PROF_008_C00080 404 in 36ms :: {"message":"Cliente non …
+22/10/2025, 11:17:34:
+runtime
+9:17:34 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:17:34:
+runtime
+9:17:34 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:17:34:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:17:34:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:17:34:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:17:34:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:17:34:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:17:34:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:17:34:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:17:34:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:17:34:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:17:34:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:17:34:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:17:34:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:17:34:
+runtime
+9:17:34 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 46ms :: {"error":"Errore del sis…
+22/10/2025, 11:17:34:
+runtime
+9:17:34 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:17:34:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:17:34:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:17:34:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761124654599-8
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:17:34:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:17:34:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:17:34:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:17:34:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761124654600.027&android=1","/pwa-icon/192x192?owner=8&v=1761124654600.027&android=1","/pwa-icon/512x512?owner=8&v=1761124654600.027&android=1"]
+22/10/2025, 11:17:34:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:17:34:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:17:34:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 8
+22/10/2025, 11:17:34:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+22/10/2025, 11:17:34:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+22/10/2025, 11:17:34:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 8, dimensione: 218956 bytes
+22/10/2025, 11:17:44:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:17:44:
+runtime
+9:17:44 AM [express] GET /api/client-access/count/80 200 in 460ms :: {"count":0}
+22/10/2025, 11:23:59:
+runtime
+9:23:59 AM [express] GET /api/timezone-settings 200 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:23:59:
+runtime
+9:23:59 AM [express] POST /api/client-access/PROF_008_C00080 404 in 19ms :: {"message":"Cliente non …
+22/10/2025, 11:23:59:
+runtime
+9:23:59 AM [express] GET /api/user-with-license 401 in 16ms :: {"message":"Non autenticato"}
+22/10/2025, 11:23:59:
+runtime
+9:23:59 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:23:59:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:23:59:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:23:59:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:23:59:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:23:59:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:23:59:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:23:59:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:23:59:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:23:59:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:23:59:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:23:59:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:23:59:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:23:59:
+runtime
+9:23:59 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:23:59:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:23:59:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:23:59:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761125039890-8
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:23:59:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:23:59:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:23:59:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:23:59:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761125039891.562&android=1","/pwa-icon/192x192?owner=8&v=1761125039891.562&android=1","/pwa-icon/512x512?owner=8&v=1761125039891.562&android=1"]
+22/10/2025, 11:23:59:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:23:59:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:23:59:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 8
+22/10/2025, 11:24:00:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+22/10/2025, 11:24:00:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+22/10/2025, 11:24:00:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 8, dimensione: 50811 bytes
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/license/has-business-access 200 in 3ms
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/license/license-info 200 in 2ms :: {"hasLicense":false,"type":"none"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/license/has-pro-access 200 in 1ms
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/services 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/appointments/date/2025-10-28 401 in 2ms :: {"message":"Non autenticato…
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/treatment-rooms 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Appuntame…
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/collaborators 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:31:
+runtime
+9:28:31 AM [express] GET /api/appointments 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:28:33:
+runtime
+9:28:33 AM [express] GET /api/license/license-info 304 in 1667ms :: {"hasLicense":true,"type":"staff…
+22/10/2025, 11:28:34:
+runtime
+9:28:34 AM [express] GET /api/license/has-pro-access 304 in 2210ms :: true
+22/10/2025, 11:28:34:
+runtime
+9:28:34 AM [express] GET /api/license/has-business-access 304 in 2236ms :: true
+22/10/2025, 11:28:34:
+runtime
+9:28:34 AM [express] GET /api/license/application-title 304 in 2246ms :: {"title":"Gestionale Appunt…
+22/10/2025, 11:40:31:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 11:40:31:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 11:40:31:
+runtime
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:40:31:
+runtime
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+22/10/2025, 11:40:31:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+22/10/2025, 11:40:31:
+runtime
+  id: 8,
+22/10/2025, 11:40:31:
+runtime
+  username: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:40:31:
+runtime
+  firstName: null,
+22/10/2025, 11:40:31:
+runtime
+  lastName: null,
+22/10/2025, 11:40:31:
+runtime
+  licenseType: 'staff_free_10years'
+22/10/2025, 11:40:31:
+runtime
+}
+22/10/2025, 11:40:31:
+runtime
+9:40:31 AM [express] GET /api/user-with-license 200 in 1280ms :: {"id":8,"username":"zambelli.andrea…
+22/10/2025, 11:40:31:
+runtime
+9:40:31 AM [express] GET /api/tenant-context 200 in 1292ms :: {"userId":8,"userType":"staff","tenant…
+22/10/2025, 11:40:31:
+runtime
+9:40:31 AM [express] GET /api/user 304 in 1288ms
+22/10/2025, 11:40:31:
+runtime
+9:40:31 AM [express] GET /api/clients/80 304 in 1437ms :: {"id":80,"firstName":"uno","lastName":"uno…
+22/10/2025, 11:40:31:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 11:40:31:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:40:31:
+runtime
+9:40:31 AM [express] GET /api/client-access/count/80 200 in 1534ms :: {"count":0}
+22/10/2025, 11:40:32:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 11:40:32:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 11:40:32:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 11:40:32:
+runtime
+  {
+22/10/2025, 11:40:32:
+runtime
+    "id": 80,
+22/10/2025, 11:40:32:
+runtime
+    "firstName": "uno",
+22/10/2025, 11:40:32:
+runtime
+    "lastName": "uno",
+22/10/2025, 11:40:32:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 11:40:32:
+runtime
+    "ownerId": 8
+22/10/2025, 11:40:32:
+runtime
+  }
+22/10/2025, 11:40:32:
+runtime
+]
+22/10/2025, 11:40:32:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 11:40:32:
+runtime
+9:40:32 AM [express] GET /api/clients 200 in 1674ms :: [{"id":80,"userId":8,"firstName":"uno","lastN…
+22/10/2025, 11:40:42:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:40:42:
+runtime
+9:40:42 AM [express] GET /api/client-access/count/80 200 in 461ms :: {"count":0}
+22/10/2025, 11:40:52:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:40:52:
+runtime
+9:40:52 AM [express] GET /api/client-access/count/80 200 in 460ms :: {"count":0}
+22/10/2025, 11:41:02:
+runtime
+9:41:02 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:41:02:
+runtime
+9:41:02 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 11:41:02:
+runtime
+9:41:02 AM [express] POST /api/client-access/PROF_008_C00080 404 in 18ms :: {"message":"Cliente non …
+22/10/2025, 11:41:02:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:41:02:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:41:02:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:41:02:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:41:02:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:41:02:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:41:02:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:41:02:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:41:02:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:41:02:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:41:02:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:41:02:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:41:02:
+runtime
+9:41:02 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+22/10/2025, 11:41:02:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:41:02:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:41:02:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:41:02:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:41:02:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:41:02:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:41:03:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761126063008-8
+22/10/2025, 11:41:03:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:41:03:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:41:03:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:41:03:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:41:03:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761126063008.5544&android=1","/pwa-icon/192x192?owner=8&v=1761126063008.5544&android=1","/pwa-icon/512x512?owner=8&v=1761126063008.5544&android=1"]
+22/10/2025, 11:41:03:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:41:03:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:41:03:
+runtime
+9:41:03 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:41:03:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:41:03:
+runtime
+9:41:03 AM [express] GET /api/client-access/count/80 200 in 460ms :: {"count":0}
+22/10/2025, 11:41:14:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:41:14:
+runtime
+9:41:14 AM [express] GET /api/client-access/count/80 200 in 461ms :: {"count":0}
+22/10/2025, 11:41:27:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 11:41:27:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 11:41:27:
+runtime
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:41:27:
+runtime
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+22/10/2025, 11:41:27:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+22/10/2025, 11:41:27:
+runtime
+  id: 8,
+22/10/2025, 11:41:27:
+runtime
+  username: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:41:27:
+runtime
+  firstName: null,
+22/10/2025, 11:41:27:
+runtime
+  lastName: null,
+22/10/2025, 11:41:27:
+runtime
+  licenseType: 'staff_free_10years'
+22/10/2025, 11:41:27:
+runtime
+}
+22/10/2025, 11:41:27:
+runtime
+9:41:27 AM [express] GET /api/user-with-license 200 in 287ms :: {"id":8,"username":"zambelli.andrea.…
+22/10/2025, 11:41:27:
+runtime
+9:41:27 AM [express] GET /api/user 304 in 291ms
+22/10/2025, 11:41:27:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:41:27:
+runtime
+9:41:27 AM [express] GET /api/client-access/count/80 200 in 458ms :: {"count":0}
+22/10/2025, 11:41:27:
+runtime
+9:41:27 AM [express] GET /api/clients/80 304 in 458ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+22/10/2025, 11:41:27:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 11:41:28:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 11:41:28:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 11:41:28:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 11:41:28:
+runtime
+  {
+22/10/2025, 11:41:28:
+runtime
+    "id": 80,
+22/10/2025, 11:41:28:
+runtime
+    "firstName": "uno",
+22/10/2025, 11:41:28:
+runtime
+    "lastName": "uno",
+22/10/2025, 11:41:28:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 11:41:28:
+runtime
+    "ownerId": 8
+22/10/2025, 11:41:28:
+runtime
+  }
+22/10/2025, 11:41:28:
+runtime
+]
+22/10/2025, 11:41:28:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 11:41:28:
+runtime
+9:41:28 AM [express] GET /api/clients 200 in 740ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/license/has-business-access 304 in 1ms
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/clients 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/license/license-info 304 in 1ms :: {"hasLicense":false,"type":"none"}
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/license/has-pro-access 304 in 1ms
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/user 200 in 13ms
+22/10/2025, 11:41:44:
+runtime
+9:41:44 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+22/10/2025, 11:41:46:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 11:41:46:
+runtime
+Logout completato con successo
+22/10/2025, 11:41:46:
+runtime
+9:41:46 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 11:41:46:
+runtime
+9:41:46 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:41:49:
+runtime
+Login staff richiesto per: zambelli.andrea.19732@gmail.com
+22/10/2025, 11:41:49:
+runtime
+Login staff completato con successo per: zambelli.andrea.19732@gmail.com tipo: staff
+22/10/2025, 11:41:49:
+runtime
+9:41:49 AM [express] POST /api/staff/login 200 in 329ms :: {"id":8,"username":"zambelli.andrea.19732…
+22/10/2025, 11:41:50:
+runtime
+9:41:50 AM [express] GET /api/timezone-settings 304 in 232ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:41:50:
+runtime
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:41:50:
+runtime
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+22/10/2025, 11:41:50:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+22/10/2025, 11:41:50:
+runtime
+  id: 8,
+22/10/2025, 11:41:50:
+runtime
+  username: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:41:50:
+runtime
+  firstName: null,
+22/10/2025, 11:41:50:
+runtime
+  lastName: null,
+22/10/2025, 11:41:50:
+runtime
+  licenseType: 'staff_free_10years'
+22/10/2025, 11:41:50:
+runtime
+}
+22/10/2025, 11:41:50:
+runtime
+9:41:50 AM [express] GET /api/user-with-license 200 in 325ms :: {"id":8,"username":"zambelli.andrea.…
+22/10/2025, 11:41:50:
+runtime
+9:41:50 AM [express] GET /api/license/has-pro-access 200 in 321ms :: true
+22/10/2025, 11:41:50:
+runtime
+9:41:50 AM [express] GET /api/license/license-info 200 in 321ms :: {"hasLicense":true,"type":"staff_…
+22/10/2025, 11:41:50:
+runtime
+✅ Icone PWA aggiornate per utente 8 con logo aziendale
+22/10/2025, 11:41:50:
+runtime
+✅ [desktop] Icone PWA per utente 8, icon length: 815939
+22/10/2025, 11:41:50:
+runtime
+9:41:50 AM [express] GET /api/client-app-info 200 in 456ms :: {"appName":"Gestionale Appuntamenti","…
+22/10/2025, 11:41:51:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 8 (staff)
+22/10/2025, 11:41:51:
+runtime
+Recupero impostazioni per utente 8
+22/10/2025, 11:41:51:
+runtime
+Recupero impostazioni per utente 8
+22/10/2025, 11:41:51:
+runtime
+9:41:51 AM [express] GET /api/tenant-context 200 in 232ms :: {"userId":8,"userType":"staff","tenantI…
+22/10/2025, 11:41:51:
+runtime
+Impostazioni trovate per utente 8: NO
+22/10/2025, 11:41:51:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 8 (staff): {
+22/10/2025, 11:41:51:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+22/10/2025, 11:41:51:
+runtime
+  showBusinessName: true,
+22/10/2025, 11:41:51:
+runtime
+  name: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:41:51:
+runtime
+  fontSize: 24,
+22/10/2025, 11:41:51:
+runtime
+  fontFamily: 'Arial, sans-serif',
+22/10/2025, 11:41:51:
+runtime
+  fontStyle: 'normal',
+22/10/2025, 11:41:51:
+runtime
+  color: '#000000',
+22/10/2025, 11:41:51:
+runtime
+  enabled: true
+22/10/2025, 11:41:51:
+runtime
+}
+22/10/2025, 11:41:51:
+runtime
+9:41:51 AM [express] GET /api/company-name-settings 200 in 475ms :: {"businessName":"Gestionale Appu…
+22/10/2025, 11:41:51:
+runtime
+Impostazioni trovate per utente 8: NO
+22/10/2025, 11:41:51:
+runtime
+9:41:51 AM [express] GET /api/contact-info 200 in 464ms :: {"email":"info@studiomedico.it","phone":"…
+22/10/2025, 11:41:51:
+runtime
+9:41:51 AM [express] GET /api/license/has-business-access 200 in 1244ms :: true
+22/10/2025, 11:41:51:
+runtime
+9:41:51 AM [express] GET /api/license/application-title 304 in 1244ms :: {"title":"Gestionale Appunt…
+22/10/2025, 11:41:53:
+runtime
+9:41:53 AM [express] GET /api/user 304 in 232ms
+22/10/2025, 11:41:53:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 11:41:53:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 11:41:53:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 11:41:53:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 11:41:53:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 11:41:53:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 11:41:53:
+runtime
+  {
+22/10/2025, 11:41:53:
+runtime
+    "id": 80,
+22/10/2025, 11:41:53:
+runtime
+    "firstName": "uno",
+22/10/2025, 11:41:53:
+runtime
+    "lastName": "uno",
+22/10/2025, 11:41:53:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 11:41:53:
+runtime
+    "ownerId": 8
+22/10/2025, 11:41:53:
+runtime
+  }
+22/10/2025, 11:41:53:
+runtime
+]
+22/10/2025, 11:41:53:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 11:41:53:
+runtime
+9:41:53 AM [express] GET /api/clients 200 in 769ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+22/10/2025, 11:41:54:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 80 da utente: 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:41:54:
+runtime
+9:41:54 AM [express] GET /api/clients/80 200 in 460ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+22/10/2025, 11:41:54:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:41:54:
+runtime
+9:41:54 AM [express] GET /api/client-access/count/80 200 in 465ms :: {"count":0}
+22/10/2025, 11:41:54:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: uno uno (ID: 80, Owner: 8)
+22/10/2025, 11:41:54:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 80 con icona del proprietario 8
+22/10/2025, 11:41:54:
+runtime
+✅ Icone PWA aggiornate per utente 8 con logo aziendale
+22/10/2025, 11:41:54:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 8
+22/10/2025, 11:41:54:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+22/10/2025, 11:41:54:
+runtime
+   - Cliente: uno uno
+22/10/2025, 11:41:54:
+runtime
+   - Token: PROF_008_C00080_2f0fabf2
+22/10/2025, 11:41:54:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:41:54:
+runtime
+9:41:54 AM [express] GET /api/clients/80/activation-token 200 in 727ms :: {"token":"PROF_008_C00080_…
+22/10/2025, 11:42:05:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:05:
+runtime
+9:42:05 AM [express] GET /api/client-access/count/80 200 in 462ms :: {"count":0}
+22/10/2025, 11:42:15:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:15:
+runtime
+9:42:15 AM [express] GET /api/client-access/count/80 200 in 464ms :: {"count":0}
+22/10/2025, 11:42:26:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:26:
+runtime
+9:42:26 AM [express] GET /api/client-access/count/80 200 in 462ms :: {"count":0}
+22/10/2025, 11:42:36:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:36:
+runtime
+9:42:36 AM [express] GET /api/client-access/count/80 200 in 463ms :: {"count":0}
+22/10/2025, 11:42:40:
+runtime
+9:42:40 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:42:40:
+runtime
+9:42:40 AM [express] POST /api/client-access/PROF_008_C00080 404 in 20ms :: {"message":"Cliente non …
+22/10/2025, 11:42:40:
+runtime
+9:42:40 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+22/10/2025, 11:42:40:
+runtime
+9:42:40 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:42:40:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:42:40:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:42:40:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:42:40:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:42:40:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:42:40:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:42:40:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:42:40:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:42:40:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:42:40:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:42:40:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:42:40:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:42:40:
+runtime
+9:42:40 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 5ms :: {"error":"Errore del sist…
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:42:40:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:42:40:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:42:40:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761126160446-8
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:42:40:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:42:40:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:42:40:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:42:40:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761126160447.4258&android=1","/pwa-icon/192x192?owner=8&v=1761126160447.4258&android=1","/pwa-icon/512x512?owner=8&v=1761126160447.4258&android=1"]
+22/10/2025, 11:42:40:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:42:40:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:42:44:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:42:44:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:42:44:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761126164128-8
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:42:44:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:42:44:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:42:44:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:42:44:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761126164128.9814&android=1","/pwa-icon/192x192?owner=8&v=1761126164128.9814&android=1","/pwa-icon/512x512?owner=8&v=1761126164128.9814&android=1"]
+22/10/2025, 11:42:44:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:42:44:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:42:44:
+runtime
+9:42:44 AM [express] POST /api/client-access/PROF_008_C00080 404 in 36ms :: {"message":"Cliente non …
+22/10/2025, 11:42:44:
+runtime
+9:42:44 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:42:44:
+runtime
+9:42:44 AM [express] GET /api/timezone-settings 200 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:42:44:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:42:44:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:42:44:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:42:44:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:42:44:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:42:44:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:42:44:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:42:44:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:42:44:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:42:44:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:42:44:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:42:44:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:42:44:
+runtime
+9:42:44 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 6ms :: {"error":"Errore del sist…
+22/10/2025, 11:42:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 8
+22/10/2025, 11:42:44:
+runtime
+9:42:44 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:42:44:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+22/10/2025, 11:42:44:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+22/10/2025, 11:42:44:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 8, dimensione: 218956 bytes
+22/10/2025, 11:42:47:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:47:
+runtime
+9:42:47 AM [express] GET /api/client-access/count/80 200 in 459ms :: {"count":0}
+22/10/2025, 11:42:57:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:42:57:
+runtime
+9:42:57 AM [express] GET /api/client-access/count/80 200 in 463ms :: {"count":0}
+22/10/2025, 11:42:57:
+runtime
+9:42:57 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:43:08:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:43:08:
+runtime
+9:43:08 AM [express] GET /api/client-access/count/80 200 in 460ms :: {"count":0}
+22/10/2025, 11:43:18:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:43:18:
+runtime
+9:43:18 AM [express] GET /api/client-access/count/80 200 in 462ms :: {"count":0}
+22/10/2025, 11:43:29:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:43:29:
+runtime
+9:43:29 AM [express] GET /api/client-access/count/80 200 in 485ms :: {"count":0}
+22/10/2025, 11:43:35:
+runtime
+9:43:35 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 11:43:35:
+runtime
+9:43:35 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 11:43:35:
+runtime
+9:43:35 AM [express] POST /api/client-access/PROF_008_C00080 404 in 22ms :: {"message":"Cliente non …
+22/10/2025, 11:43:35:
+runtime
+9:43:35 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 11:43:35:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 11:43:35:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 11:43:35:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 11:43:35:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:43:35:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 11:43:35:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 11:43:35:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 11:43:35:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 11:43:35:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 11:43:35:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 11:43:35:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 11:43:35:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 11:43:35:
+runtime
+9:43:35 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 11:43:35:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:43:35:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 11:43:35:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761126215274-8
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 11:43:35:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 11:43:35:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 11:43:35:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 11:43:35:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761126215275.8994&android=1","/pwa-icon/192x192?owner=8&v=1761126215275.8994&android=1","/pwa-icon/512x512?owner=8&v=1761126215275.8994&android=1"]
+22/10/2025, 11:43:35:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 11:43:35:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 11:43:35:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 8
+22/10/2025, 11:43:35:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+22/10/2025, 11:43:35:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+22/10/2025, 11:43:35:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 8, dimensione: 50811 bytes
+22/10/2025, 11:43:40:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:43:40:
+runtime
+9:43:40 AM [express] GET /api/client-access/count/80 200 in 460ms :: {"count":0}
+22/10/2025, 11:44:39:
+runtime
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+22/10/2025, 11:44:39:
+runtime
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+22/10/2025, 11:44:39:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+22/10/2025, 11:44:39:
+runtime
+  id: 8,
+22/10/2025, 11:44:39:
+runtime
+  username: 'zambelli.andrea.19732@gmail.com',
+22/10/2025, 11:44:39:
+runtime
+  firstName: null,
+22/10/2025, 11:44:39:
+runtime
+  lastName: null,
+22/10/2025, 11:44:39:
+runtime
+  licenseType: 'staff_free_10years'
+22/10/2025, 11:44:39:
+runtime
+}
+22/10/2025, 11:44:39:
+runtime
+9:44:39 AM [express] GET /api/user-with-license 200 in 318ms :: {"id":8,"username":"zambelli.andrea.…
+22/10/2025, 11:44:39:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 11:44:39:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 11:44:39:
+runtime
+9:44:39 AM [express] GET /api/user 304 in 313ms
+22/10/2025, 11:44:39:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 11:44:39:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 11:44:39:
+runtime
+9:44:39 AM [express] GET /api/client-access/count/80 200 in 466ms :: {"count":0}
+22/10/2025, 11:44:39:
+runtime
+9:44:39 AM [express] GET /api/clients/80 304 in 466ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+22/10/2025, 11:44:40:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 11:44:40:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 11:44:40:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 11:44:40:
+runtime
+  {
+22/10/2025, 11:44:40:
+runtime
+    "id": 80,
+22/10/2025, 11:44:40:
+runtime
+    "firstName": "uno",
+22/10/2025, 11:44:40:
+runtime
+    "lastName": "uno",
+22/10/2025, 11:44:40:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 11:44:40:
+runtime
+    "ownerId": 8
+22/10/2025, 11:44:40:
+runtime
+  }
+22/10/2025, 11:44:40:
+runtime
+]
+22/10/2025, 11:44:40:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 11:44:40:
+runtime
+9:44:40 AM [express] GET /api/clients 200 in 749ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…

@@ -1,0 +1,328 @@
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/StaffManagementPageFixed.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/Inventory.tsx
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.168Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/BetaAdmin.tsx
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/SubscribePage.tsx
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.281Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/PaymentAdmin.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.284Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/Terms.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.288Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/Inventory.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.296Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/StaffManagementPageFixed.tsx
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.417Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/SubscribePage.tsx
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/RegisterPage.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/StaffLogin.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/CustomerLogin.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/WhatsAppCenterPage.tsx
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/GoogleSetupInstructionsPage.tsx
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.606Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/RegisterPage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.635Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/StaffLogin.tsx
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/GoogleTroubleshootingPage.tsx
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.641Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/CustomerLogin.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.649Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/WhatsAppCenterPage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.680Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/GoogleSetupInstructionsPage.tsx
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:27.782Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/GoogleTroubleshootingPage.tsx
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/ProFeaturesPage.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/PaymentCancel.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/PaymentSuccess.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/WelcomePage.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/ReferralPage.tsx
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/ReferralCommissionsPage.tsx
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.043Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/ProFeaturesPage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.052Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/PaymentSuccess.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.064Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/WelcomePage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.071Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/PaymentCancel.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.078Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/ReferralPage.tsx
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.162Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/ReferralCommissionsPage.tsx
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/BankingSettingsPage.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/OnboardingWizard.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/StaffCollaboratorsPage.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/AIChat.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/TreatmentRoomsPage.tsx
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/AdminUsersPage.tsx
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.413Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/BankingSettingsPage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.437Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/AIChat.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.441Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/TreatmentRoomsPage.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.443Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/StaffCollaboratorsPage.tsx
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.545Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/AdminUsersPage.tsx
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/pages/not-found.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/components/TimezoneDetector.tsx
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /src/lib/utils.ts
+Ottengo info licenza per utente 29
+🔒 [TRIAL CHECK] User 29 (customer/user) accessing /service-worker.js
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.774Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/OnboardingWizard.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.787Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/pages/not-found.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.811Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/components/TimezoneDetector.tsx
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.826Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /service-worker.js
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔒 [TRIAL CHECK] License info: {
+  type: 'trial',
+  expiresAt: 2025-10-25T22:00:00.000Z,
+  now: '2025-10-27T10:45:28.835Z'
+}
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+🔒 [TRIAL EXPIRED] Blocking access to /src/lib/utils.ts

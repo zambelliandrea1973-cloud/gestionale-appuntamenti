@@ -1,0 +1,92 @@
+ Usando MemoryStore per le sessioni (JSON storage mode)
+Servizio gestione telefono diretto inizializzato
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+✅ Icona Fleur de Vie caricata: 611937 bytes
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+Scheduler dei promemoria avviato con successo
+Tutti gli scheduler inizializzati
+✅ [ICON SYNC] Icone per utente 3 già presenti
+✅ [ICON SYNC] Icone per utente 14 già presenti
+✅ [ICON SYNC] Icone per utente 16 già presenti
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+🔍 Controllo integrità all'avvio:
+   📅 Appuntamenti caricati: 48
+   👥 Clienti caricati: 40
+   🔍 Primi 3 appuntamenti: [
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+]
+✅ Controllo integrità completato
+Telefono caricato dal database: +393472550110
+5:23:31 PM [express] serving on port 5000
+✅ PostgreSQL database is available
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Esecuzione immediata del job di promemoria all'avvio del server
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Fri Oct 17 2025)
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+Inviati 0/0 promemoria
+Job iniziale completato: inviati 0 promemoria
+5:23:52 PM [express] GET /api/timezone-settings 200 in 3ms :: {"timezone":"Europe/Rome","offset":2}
+5:23:52 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+5:23:52 PM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+5:23:52 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+5:23:52 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+5:24:33 PM [express] POST /api/logout 200 in 6ms :: {"success":true,"message":"Logout completato con…
+Logout completato con successo
+5:24:33 PM [express] POST /api/logout 200 in 5ms :: {"success":true,"message":"Logout completato con…
+5:24:33 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+5:24:33 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+Login staff completato con successo per: zambelli.andrea.1973@gmail.com tipo: admin
+5:24:37 PM [express] POST /api/staff/login 200 in 149ms :: {"id":3,"username":"zambelli.andrea.1973@…
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+5:24:43 PM [express] GET /api/user-with-license 304 in 103ms :: {"id":3,"username":"zambelli.andrea.…
+5:24:43 PM [express] GET /api/timezone-settings 200 in 113ms :: {"timezone":"Europe/Rome","offset":2}
+5:24:43 PM [express] GET /api/license/has-business-access 304 in 110ms :: true
+5:24:43 PM [express] GET /api/license/application-title 304 in 115ms :: {"title":"Gestionale Sanitar…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+5:24:44 PM [express] GET /api/client-app-info 200 in 393ms :: {"appName":"Gestionale Sanitario","ico…
+5:24:44 PM [express] GET /api/timezone-settings 304 in 120ms :: {"timezone":"Europe/Rome","offset":2}
+5:24:44 PM [express] GET /api/license/has-pro-access 304 in 439ms :: true
+5:24:44 PM [express] GET /api/license/license-info 304 in 443ms :: {"hasLicense":true,"type":"passep…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+5:24:44 PM [express] GET /api/client-app-info 200 in 248ms :: {"appName":"Gestionale Sanitario","ico…
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+Recupero impostazioni per utente 3
+Recupero impostazioni per utente 3
+Impostazioni trovate per utente 3: NO
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli.andrea.1973@gmail.com',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+5:24:44 PM [express] GET /api/company-name-settings 200 in 152ms :: {"businessName":"Studio Medico",…
+5:24:44 PM [express] POST /api/timezone-settings 200 in 72ms :: {"success":true,"timezone":"Europe/Z…
+Impostazioni trovate per utente 3: NO
+5:24:44 PM [express] GET /api/contact-info 200 in 147ms :: {"email":"info@studiomedico.it","phone":"…
+5:24:44 PM [express] GET /api/tenant-context 200 in 198ms :: {"userId":3,"userType":"admin","tenantI…
+5:24:44 PM [express] POST /api/timezone-settings 200 in 71ms :: {"success":true,"timezone":"Europe/Z…
+5:24:45 PM [express] GET /api/staff/users 200 in 103ms

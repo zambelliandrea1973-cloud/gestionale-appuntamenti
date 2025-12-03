@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applicazione offline - Riavvio automatico</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #171923;
+      color: #e2e8f0;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .logo {
+      margin: 2rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .logo svg {
+      width: 80px;
+      height: 80px;
+      fill: #e2e8f0;
+    }
+    
+    h1 {
+      margin: 1rem 0;
+      font-size: 1.75rem;
+      color: #fff;
+    }
+    
+    p {
+      margin: 1rem 0;
+      font-size: 1rem;
+      color: #a0aec0;
+    }
+    
+    .restart-btn {
+      display: inline-block;
+      margin: 1.5rem 0;
+      padding: 0.75rem 1.5rem;
+      background-color: #e53e3e;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    
+    .restart-btn:hover {
+      background-color: #c53030;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+    }
+    
+    .restart-btn:active {
+      transform: translateY(0);
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .status {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background-color: #e53e3e;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    .status-text {
+      font-weight: 500;
+    }
+    
+    .countdown {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #e53e3e;
+      margin: 1rem 0;
+    }
+    
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem 0;
+      color: #718096;
+      font-size: 0.875rem;
+    }
+    
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .secondary-btn {
+      padding: 0.6rem 1.2rem;
+      background-color: transparent;
+      color: #a0aec0;
+      border: 1px solid #4a5568;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    
+    .secondary-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+    
+    .highlight {
+      color: #68d391;
+      font-weight: 500;
+    }
+
+    .notification {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      background-color: #2d3748;
+      color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(-1rem);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .notification.success {
+      background-color: #38a169;
+    }
+
+    .notification.error {
+      background-color: #e53e3e;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .countdown {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+    
+    <h1>L'applicazione è attualmente offline</h1>
+    
+    <p>
+      Sembra che il server non risponda. Questo potrebbe essere dovuto a un problema temporaneo
+      o a un arresto imprevisto dell'applicazione.
+    </p>
+    
+    <div class="status">
+      <span class="status-indicator"></span>
+      <span class="status-text">Stato: Offline</span>
+    </div>
+    
+    <button id="restart-btn" class="restart-btn">
+      Riavvia l'applicazione
+    </button>
+    
+    <div id="countdown-container" style="display: none;">
+      <p>L'applicazione si sta riavviando. Attendi...</p>
+      <div class="countdown" id="countdown">15</div>
+      <p>La pagina si aggiornerà automaticamente</p>
+    </div>
+    
+    <div class="actions">
+      <a href="/" class="secondary-btn" id="refresh-btn">Aggiorna pagina</a>
+      <a href="https://replit.com/" class="secondary-btn">Vai a Replit.com</a>
+    </div>
+  </div>
+  
+  <div id="notification" class="notification">Messaggio di notifica</div>
+  
+  <footer>
+    &copy; 2025 - Sistema di riavvio automatico
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const restartBtn = document.getElementById('restart-btn');
+      const refreshBtn = document.getElementById('refresh-btn');
+      const countdownContainer = document.getElementById('countdown-container');
+      const countdownElement = document.getElementById('countdown');
+      const notification = document.getElementById('notification');
+      
+      // URL dell'applicazione
+      const appUrl = window.location.origin;
+      const emergencyRestartUrl = `${appUrl}/api/admin/emergency-restart?key=gironico-restart-2025`;
+      
+      // Funzione per mostrare una notifica
+      function showNotification(message, type = 'default') {
+        notification.textContent = message;
+        notification.className = 'notification show';
+        
+        if (type) {
+          notification.classList.add(type);
+        }
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 5000);
+      }
+      
+      // Funzione per riavviare l'applicazione
+      async function restartApp() {
+        try {
+          // Disabilita il pulsante e mostra lo spinner
+          restartBtn.disabled = true;
+          restartBtn.innerHTML = '<span class="spinner"></span> Riavvio in corso...';
+          
+          // Invia la richiesta di riavvio
+          const response = await fetch(emergencyRestartUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            showNotification('Riavvio avviato con successo!', 'success');
+            startCountdown();
+          } else {
+            // Se la risposta non è ok, potrebbe comunque essere che l'app stia riavviando
+            // quindi continuiamo con il conto alla rovescia
+            showNotification('Riavvio in corso...', 'success');
+            startCountdown();
+          }
+        } catch (error) {
+          // Se c'è un errore di rete, è probabile che il server sia offline
+          // quindi continuiamo comunque con il conto alla rovescia
+          showNotification('Riavvio in corso...', 'success');
+          startCountdown();
+        }
+      }
+      
+      // Funzione per avviare il conto alla rovescia
+      function startCountdown() {
+        // Mostra il container del conto alla rovescia
+        countdownContainer.style.display = 'block';
+        
+        // Nascondi il pulsante di riavvio
+        restartBtn.style.display = 'none';
+        
+        let seconds = 15;
+        countdownElement.textContent = seconds;
+        
+        // Avvia il conto alla rovescia
+        const interval = setInterval(() => {
+          seconds--;
+          countdownElement.textContent = seconds;
+          
+          if (seconds <= 0) {
+            clearInterval(interval);
+            
+            // Ricarica la pagina
+            window.location.reload();
+          }
+        }, 1000);
+      }
+      
+      // Aggiungi l'evento click al pulsante di riavvio
+      restartBtn.addEventListener('click', restartApp);
+      
+      // Aggiungi l'evento click al pulsante di aggiornamento
+      refreshBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

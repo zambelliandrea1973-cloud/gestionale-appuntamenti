@@ -1,0 +1,123 @@
+/10/2025, 14:57:36:
+tempo di esecuzione
+]
+17/10/2025, 14:57:36:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:57:36:
+tempo di esecuzione
+12:57:36 PM [express] GET /api/clients 200 in 964ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/76 200 in 456ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/70 200 in 461ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/75 200 in 461ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/68 200 in 459ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/69 200 in 461ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/77 200 in 547ms :: {"count":0}
+17/10/2025, 14:57:46:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:57:46:
+tempo di esecuzione
+12:57:46 PM [express] GET /api/client-access/count/14002 200 in 458ms :: {"count":0}
+17/10/2025, 14:58:06:
+tempo di esecuzione
+12:58:06 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 14:58:07:
+tempo di esecuzione
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 14:58:07:
+tempo di esecuzione
+✅ [PWA ACCESS] Cliente Bruna Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 422
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 86ms :: {"successo…
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 14:58:07:
+tempo di esecuzione
+🏠 [ACCESSO CLIENT] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 14:58:07:
+tempo di esecuzione
+🏠 [ACCESSO CLIENTE] Cliente autenticato: Bruna Pizzolato
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 26ms :: {"id":14…
+17/10/2025, 14:58:07:
+tempo di esecuzione
+📅 [APPUNTAMENTI CLIENTI] Caricamento per cliente: 14004 Titolare: 14
+17/10/2025, 14:58:07:
+tempo di esecuzione
+📅 [APPUNTAMENTI CON I CLIENTI] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] GET /api/client-appointments/14004 200 in 26ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 14:58:07:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 14:58:07:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 14:58:07:
+tempo di esecuzione
+🏥 [CONTATTI PWA] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  telefono: '+39 3471445767',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  telefono1: '+39 3471445767',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  telefono2: '',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  sito web: '',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  instagram: 'zambelli1105',
+17/10/2025, 14:58:07:
+tempo di esecuzione
+  Facebook: ''
+17/10/2025, 14:58:07:
+tempo di esecuzione
+}
+17/10/2025, 14:58:07:
+tempo di esecuzione
+12:58:07 PM [express] GET /api/owner-contact-info/14 304 in 233ms :: {"email":"silvia.busnari@libero.…

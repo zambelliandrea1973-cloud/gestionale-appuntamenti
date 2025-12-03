@@ -1,0 +1,489 @@
+13/10/2025, 20:51:56:
+build
+Enumerating objects: 16528, done.
+13/10/2025, 20:51:56:
+build
+Counting objects: 100% (248/248), done.
+13/10/2025, 20:51:57:
+build
+Compressing objects: 100% (143/143), done.
+13/10/2025, 20:52:20:
+build
+Total 16528 (delta 159), reused 153 (delta 104), pack-reused 16280 (from 1)
+13/10/2025, 20:52:52:
+build
+#1 [service_event_wtohe13vvna4 internal] load build definition from Dockerfile
+13/10/2025, 20:52:52:
+build
+#1 transferring dockerfile: 523B done
+13/10/2025, 20:52:52:
+build
+#1 DONE 0.0s
+13/10/2025, 20:52:52:
+build
+13/10/2025, 20:52:52:
+build
+#2 [service_event_wtohe13vvna4 internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 20:52:52:
+build
+#2 DONE 0.8s
+13/10/2025, 20:52:52:
+build
+13/10/2025, 20:52:52:
+build
+#3 [service_event_wtohe13vvna4 internal] load .dockerignore
+13/10/2025, 20:52:52:
+build
+#3 transferring context: 673B done
+13/10/2025, 20:52:52:
+build
+#3 DONE 0.0s
+13/10/2025, 20:52:52:
+build
+13/10/2025, 20:52:52:
+build
+#4 [service_event_wtohe13vvna4 1/6] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 20:52:52:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 20:52:52:
+build
+#4 DONE 0.0s
+13/10/2025, 20:52:52:
+build
+13/10/2025, 20:52:52:
+build
+#5 [service_event_wtohe13vvna4] importing cache manifest from local:18418843661337672394
+13/10/2025, 20:52:52:
+build
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 20:52:52:
+build
+#5 DONE 0.0s
+13/10/2025, 20:52:52:
+build
+13/10/2025, 20:52:52:
+build
+#6 [service_event_wtohe13vvna4 internal] load build context
+13/10/2025, 20:52:56:
+build
+#6 transferring context: 1.21GB 3.5s done
+13/10/2025, 20:52:56:
+build
+#6 DONE 3.5s
+13/10/2025, 20:52:56:
+build
+13/10/2025, 20:52:56:
+build
+#7 [service_event_wtohe13vvna4 2/6] WORKDIR /app
+13/10/2025, 20:52:56:
+build
+#7 CACHED
+13/10/2025, 20:52:56:
+build
+13/10/2025, 20:52:56:
+build
+#8 [service_event_wtohe13vvna4 3/6] COPY package.json package-lock.json ./
+13/10/2025, 20:52:56:
+build
+#8 CACHED
+13/10/2025, 20:52:56:
+build
+13/10/2025, 20:52:56:
+build
+#9 [service_event_wtohe13vvna4 4/6] RUN npm ci
+13/10/2025, 20:52:56:
+build
+#9 CACHED
+13/10/2025, 20:52:56:
+build
+13/10/2025, 20:52:56:
+build
+#10 [service_event_wtohe13vvna4 5/6] COPY . .
+13/10/2025, 20:53:00:
+build
+#10 DONE 3.9s
+13/10/2025, 20:53:00:
+build
+13/10/2025, 20:53:00:
+build
+#11 [service_event_wtohe13vvna4 6/6] RUN npx vite build
+13/10/2025, 20:53:01:
+build
+#11 1.249 vite v5.4.14 building for production...
+13/10/2025, 20:53:01:
+build
+#11 1.351 
+13/10/2025, 20:53:01:
+build
+#11 1.363 
+13/10/2025, 20:53:01:
+build
+#11 1.363 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+13/10/2025, 20:53:01:
+build
+#11 1.367 transforming...
+13/10/2025, 20:53:01:
+build
+#11 1.700 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+13/10/2025, 20:53:01:
+build
+#11 1.700   npx update-browserslist-db@latest
+13/10/2025, 20:53:01:
+build
+#11 1.700   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+13/10/2025, 20:53:13:
+build
+#11 12.89 ✓ 3669 modules transformed.
+13/10/2025, 20:53:14:
+build
+#11 14.08 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 20:53:14:
+build
+#11 14.08 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 20:53:14:
+build
+#11 14.08 
+13/10/2025, 20:53:14:
+build
+#11 14.08 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 20:53:14:
+build
+#11 14.08 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 20:53:14:
+build
+#11 14.08 
+13/10/2025, 20:53:14:
+build
+#11 14.08 rendering chunks...
+13/10/2025, 20:53:14:
+build
+#11 14.15 computing gzip size...
+13/10/2025, 20:53:14:
+build
+#11 14.22 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+13/10/2025, 20:53:14:
+build
+#11 14.22 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+13/10/2025, 20:53:14:
+build
+#11 14.22 
+13/10/2025, 20:53:14:
+build
+#11 14.22 (!) Some chunks are larger than 500 kB after minification. Consider:
+13/10/2025, 20:53:14:
+build
+#11 14.22 - Using dynamic import() to code-split the application
+13/10/2025, 20:53:14:
+build
+#11 14.22 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+13/10/2025, 20:53:14:
+build
+#11 14.22 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+13/10/2025, 20:53:14:
+build
+#11 14.23 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+13/10/2025, 20:53:14:
+build
+#11 14.23 ✓ built in 12.95s
+13/10/2025, 20:53:14:
+build
+#11 DONE 14.3s
+13/10/2025, 20:53:14:
+build
+13/10/2025, 20:53:14:
+build
+#12 [service_event_wtohe13vvna4] exporting to image
+13/10/2025, 20:53:14:
+build
+#12 exporting layers
+13/10/2025, 20:53:38:
+build
+#12 exporting layers 24.4s done
+13/10/2025, 20:53:38:
+build
+#12 exporting manifest sha256:5589a6c607a898b743bb12d17fa161590a0789470ee2dfce6effef3cc223d5bb
+13/10/2025, 20:53:39:
+build
+#12 exporting manifest sha256:5589a6c607a898b743bb12d17fa161590a0789470ee2dfce6effef3cc223d5bb done
+13/10/2025, 20:53:39:
+build
+#12 exporting config sha256:6d37e865bcbbd052a7491dbf1c72b47fe786139d6c8aa05889373a9d306ae6c2 done
+13/10/2025, 20:53:39:
+build
+#12 pushing layers
+13/10/2025, 20:53:49:
+build
+#12 pushing layers 10.6s done
+13/10/2025, 20:53:49:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_wtohe13vvna4@sha256:5589a6c607a898b743bb12d17fa161590a0789470ee2dfce6effef3cc223d5bb
+13/10/2025, 20:53:49:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_wtohe13vvna4@sha256:5589a6c607a898b743bb12d17fa161590a0789470ee2dfce6effef3cc223d5bb 0.1s done
+13/10/2025, 20:53:49:
+build
+#12 DONE 35.0s
+13/10/2025, 20:53:49:
+build
+13/10/2025, 20:53:49:
+build
+#13 [service_event_wtohe13vvna4] exporting cache to client directory
+13/10/2025, 20:53:49:
+build
+#13 preparing build cache for export
+13/10/2025, 20:53:49:
+build
+#13 writing layer sha256:1dd8d124130e505b40d0194549b6a220a4e713d4330639daf7d0c0f09bf8c4e4 done
+13/10/2025, 20:53:49:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+13/10/2025, 20:53:49:
+build
+#13 writing layer sha256:54bc7e051f6e8f1d497d55e4a11d4ceb21c8af653ebfd753af25801d56fa5f92 0.0s done
+13/10/2025, 20:53:49:
+build
+#13 writing layer sha256:777ec97e226ce1f3c9a4829a6b325a10f6679c6266a7028c7fefdade70913324
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:777ec97e226ce1f3c9a4829a6b325a10f6679c6266a7028c7fefdade70913324 6.1s done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:abc2a000ea1fcc62cf7e497b64621619d0a7b4e530ac0ca17db6423ed43a1fe2
+13/10/2025, 20:53:55:
+build
+#13 preparing build cache for export 6.2s done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:abc2a000ea1fcc62cf7e497b64621619d0a7b4e530ac0ca17db6423ed43a1fe2 done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:b448a30ce2272c0d20adaa59b3c9de1c5bd7b4f2117e7d8edde60c823bc7b886 done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+13/10/2025, 20:53:55:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+13/10/2025, 20:53:55:
+build
+#13 writing config sha256:d68481113688061ef93101bc456431f9d5968588822d93fe4675e88422f2bdc4 done
+13/10/2025, 20:53:55:
+build
+#13 writing cache image manifest sha256:a26ed33968582aee197313e692ae8249954e10181e672281d105e8f1b1c3177e done
+13/10/2025, 20:53:55:
+build
+#13 DONE 6.2s
+13/10/2025, 20:53:57:
+build
+service_event_wtohe13vvna4: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+13/10/2025, 20:53:57:
+build
+2d35ebdb57d9: Already exists
+13/10/2025, 20:53:57:
+build
+c087321cece4: Already exists
+13/10/2025, 20:53:57:
+build
+f2fbe8556258: Already exists
+13/10/2025, 20:53:57:
+build
+c74c90aa7c87: Already exists
+13/10/2025, 20:53:57:
+build
+1dd8d124130e: Already exists
+13/10/2025, 20:53:57:
+build
+b448a30ce227: Already exists
+13/10/2025, 20:53:57:
+build
+abc2a000ea1f: Already exists
+13/10/2025, 20:53:57:
+build
+777ec97e226c: Pulling fs layer
+13/10/2025, 20:53:57:
+build
+54bc7e051f6e: Pulling fs layer
+13/10/2025, 20:53:57:
+build
+54bc7e051f6e: Verifying Checksum
+13/10/2025, 20:53:57:
+build
+54bc7e051f6e: Download complete
+13/10/2025, 20:54:03:
+build
+777ec97e226c: Verifying Checksum
+13/10/2025, 20:54:03:
+build
+777ec97e226c: Download complete
+13/10/2025, 20:54:11:
+build
+777ec97e226c: Pull complete
+13/10/2025, 20:54:11:
+build
+54bc7e051f6e: Pull complete
+13/10/2025, 20:54:11:
+build
+Digest: sha256:5589a6c607a898b743bb12d17fa161590a0789470ee2dfce6effef3cc223d5bb
+13/10/2025, 20:54:11:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_wtohe13vvna4
+13/10/2025, 20:54:15:
+runtime
+Servizio gestione telefono diretto inizializzato
+13/10/2025, 20:54:16:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+13/10/2025, 20:54:16:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+13/10/2025, 20:54:16:
+runtime
+Errore nel caricamento del telefono dal database: PostgresError: password authentication failed for user "postgres"
+13/10/2025, 20:54:16:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+13/10/2025, 20:54:16:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+13/10/2025, 20:54:16:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+13/10/2025, 20:54:16:
+runtime
+    at Socket.emit (node:events:524:28)
+13/10/2025, 20:54:16:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+13/10/2025, 20:54:16:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+13/10/2025, 20:54:16:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+13/10/2025, 20:54:16:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+13/10/2025, 20:54:16:
+runtime
+  severity_local: 'FATAL',
+13/10/2025, 20:54:16:
+runtime
+  severity: 'FATAL',
+13/10/2025, 20:54:16:
+runtime
+  code: '28P01',
+13/10/2025, 20:54:16:
+runtime
+  file: 'auth.c',
+13/10/2025, 20:54:16:
+runtime
+  line: '323',
+13/10/2025, 20:54:16:
+runtime
+  routine: 'auth_failed'
+13/10/2025, 20:54:16:
+runtime
+}
+13/10/2025, 20:54:16:
+runtime
+Errore durante l'inizializzazione: PostgresError: password authentication failed for user "postgres"
+13/10/2025, 20:54:16:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+13/10/2025, 20:54:16:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+13/10/2025, 20:54:16:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+13/10/2025, 20:54:16:
+runtime
+    at Socket.emit (node:events:524:28)
+13/10/2025, 20:54:16:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+13/10/2025, 20:54:16:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+13/10/2025, 20:54:16:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+13/10/2025, 20:54:16:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+13/10/2025, 20:54:16:
+runtime
+  severity_local: 'FATAL',
+13/10/2025, 20:54:16:
+runtime
+  severity: 'FATAL',
+13/10/2025, 20:54:16:
+runtime
+  code: '28P01',
+13/10/2025, 20:54:16:
+runtime
+  file: 'auth.c',
+13/10/2025, 20:54:16:
+runtime
+  line: '323',
+13/10/2025, 20:54:16:
+runtime
+  routine: 'auth_failed'
+13/10/2025, 20:54:16:
+runtime
+}
+13/10/2025, 20:54:16:
+runtime
+Scheduler dei promemoria avviato con successo
+13/10/2025, 20:54:16:
+runtime
+Tutti gli scheduler inizializzati
+13/10/2025, 20:54:16:
+runtime
+🔍 Controllo integrità all'avvio:
+13/10/2025, 20:54:16:
+runtime
+   📅 Appuntamenti caricati: 0
+13/10/2025, 20:54:16:
+runtime
+   👥 Clienti caricati: 0
+13/10/2025, 20:54:16:
+runtime
+✅ Controllo integrità completato
+13/10/2025, 20:54:16:
+runtime
+/app/server/vite.ts:74
+13/10/2025, 20:54:16:
+runtime
+    throw new Error(
+13/10/2025, 20:54:16:
+runtime
+          ^
+13/10/2025, 20:54:16:
+runtime
+13/10/2025, 20:54:16:
+runtime
+13/10/2025, 20:54:16:
+runtime
+Error: Could not find the build directory: /app/server/public, make sure to build the client first
+13/10/2025, 20:54:16:
+runtime
+    at serveStatic (/app/server/vite.ts:74:11)
+13/10/2025, 20:54:16:
+runtime
+    at  (/app/server/index.ts:73:5)
+13/10/2025, 20:54:16:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+13/10/2025, 20:54:16:
+runtime
+13/10/2025, 20:54:16:
+runtime
+Node.js v20.19.5
+13/10/2025, 20:55:12:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port

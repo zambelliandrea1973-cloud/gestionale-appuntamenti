@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Completo QR Marco</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        .test-button { 
+            display: inline-block; 
+            padding: 20px 30px; 
+            background-color: #28a745; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .info { 
+            background-color: #e8f5e8; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border-left: 4px solid #28a745;
+        }
+        .steps { 
+            background-color: #f0f8ff; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test QR Code Marco Berto - Flusso Completo</h1>
+    
+    <div class="info">
+        <h3>Questo test simula esattamente la scansione QR di Marco</h3>
+        <p>Con le correzioni applicate, dovrebbe funzionare automaticamente senza richiedere login.</p>
+    </div>
+    
+    <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3&clientId=1750177330362&autoLogin=true" 
+       class="test-button" target="_blank" onclick="console.log('🔍 QR Test: Simulazione scansione QR Marco');">
+        🎯 SCANSIONA QR MARCO
+    </a>
+    
+    <div class="steps">
+        <h3>Flusso automatico (cosa dovrebbe succedere):</h3>
+        <ol>
+            <li><strong>URL diretto:</strong> /client-area?token=...&clientId=1750177330362&autoLogin=true</li>
+            <li><strong>Rilevamento automatico:</strong> Parametri URL riconosciuti da ClientArea</li>
+            <li><strong>Token validation:</strong> API /api/client-access/verify-token chiamata</li>
+            <li><strong>Autenticazione:</strong> Marco autenticato automaticamente</li>
+            <li><strong>PWA personale:</strong> Dati di Marco caricati e visualizzati</li>
+            <li><strong>Tracking:</strong> Accesso registrato nel sistema</li>
+        </ol>
+    </div>
+    
+    <h3>Dettagli tecnici:</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+        <tr><td><strong>Cliente</strong></td><td>Marco Berto (ID: 1750177330362)</td></tr>
+        <tr><td><strong>Token</strong></td><td>PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3</td></tr>
+        <tr><td><strong>Owner ID</strong></td><td>14 (Silvia Busnari)</td></tr>
+        <tr><td><strong>Auto Login</strong></td><td>true</td></tr>
+        <tr><td><strong>Formato</strong></td><td>Gerarchico PROF_XXX_XXXX_CLIENT_ID_HASH</td></tr>
+    </table>
+    
+    <h3>Se funziona correttamente:</h3>
+    <ul>
+        <li>Vedrai la PWA di Marco con il suo nome</li>
+        <li>I suoi appuntamenti (se presenti) saranno visibili</li>
+        <li>Non apparirà alcuna schermata di login</li>
+        <li>Il contatore degli accessi PWA si incrementerà</li>
+    </ul>
+    
+    <h3>Se ancora non funziona:</h3>
+    <ul>
+        <li>Vedrai la pagina "Accesso Area Clienti" (login)</li>
+        <li>Controlla la console del browser per errori</li>
+        <li>Verifica che la token validation API risponda correttamente</li>
+    </ul>
+    
+    <script>
+        console.log('🔍 Test QR Marco preparato');
+        console.log('URL target:', 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3&clientId=1750177330362&autoLogin=true');
+    </script>
+</body>
+</html>

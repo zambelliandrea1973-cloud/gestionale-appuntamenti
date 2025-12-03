@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test URL Diretto Marco</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        .test-link { 
+            display: inline-block; 
+            padding: 15px 25px; 
+            background-color: #007bff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .info { 
+            background-color: #e8f5e8; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border-left: 4px solid #28a745;
+        }
+        .debug { 
+            background-color: #f8f9fa; 
+            padding: 10px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 12px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Flusso QR Diretto - Marco Berto</h1>
+    
+    <div class="info">
+        <h3>Nuovo Flusso Riparato</h3>
+        <p>Questo link simula esattamente cosa succede quando Marco scansiona il suo QR code ora.</p>
+        <p>Dovrebbe aprire direttamente la sua PWA personalizzata senza mostrare pagine di login.</p>
+    </div>
+    
+    <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3&clientId=1750177330362&autoLogin=true" 
+       class="test-link" target="_blank">
+        TESTA QR MARCO - Accesso Diretto PWA
+    </a>
+    
+    <h3>Cosa dovrebbe succedere:</h3>
+    <ol>
+        <li>Vai direttamente alla pagina /client-area</li>
+        <li>I parametri URL vengono rilevati automaticamente</li>
+        <li>Token validato tramite API backend</li>
+        <li>Marco autenticato automaticamente</li>
+        <li>PWA personalizzata di Marco visualizzata con i suoi dati</li>
+        <li>Nessuna richiesta di login manuale</li>
+    </ol>
+    
+    <div class="debug">
+        <strong>Debug Info:</strong><br>
+        URL: /client-area?token=...&clientId=1750177330362&autoLogin=true<br>
+        Token: PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3<br>
+        Client ID: 1750177330362 (Marco Berto)<br>
+        Auto Login: true
+    </div>
+    
+    <hr>
+    
+    <h3>Istruzioni per il test:</h3>
+    <p>1. Clicca il link sopra in una nuova finestra</p>
+    <p>2. Se funziona, vedrai la PWA di Marco con i suoi appuntamenti</p>
+    <p>3. Se non funziona, noterai ancora la pagina di login</p>
+    
+    <p><strong>Nota:</strong> Nel dashboard, potrebbe essere necessario fare refresh per vedere i nuovi QR codes con il formato diretto.</p>
+</body>
+</html>

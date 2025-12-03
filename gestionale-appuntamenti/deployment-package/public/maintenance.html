@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manutenzione in corso</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #171923;
+      color: #e2e8f0;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .logo {
+      margin: 2rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .logo svg {
+      width: 80px;
+      height: 80px;
+      fill: #e2e8f0;
+    }
+    
+    h1 {
+      margin: 1rem 0;
+      font-size: 1.75rem;
+      color: #fff;
+    }
+    
+    p {
+      margin: 1rem 0;
+      font-size: 1rem;
+      color: #a0aec0;
+    }
+    
+    .card {
+      background-color: #1a202c;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .restart-btn {
+      display: inline-block;
+      margin: 1.5rem 0;
+      padding: 0.75rem 1.5rem;
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    
+    .restart-btn:hover {
+      background-color: #2c5282;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+    }
+    
+    .restart-btn:active {
+      transform: translateY(0);
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: #2d3748;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: #3182ce;
+      width: 0%;
+      transition: width 0.5s;
+    }
+    
+    .status {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+    
+    .status-indicator.green {
+      background-color: #48bb78;
+      box-shadow: 0 0 8px rgba(72, 187, 120, 0.6);
+    }
+    
+    .status-indicator.yellow {
+      background-color: #ecc94b;
+      box-shadow: 0 0 8px rgba(236, 201, 75, 0.6);
+    }
+    
+    .status-indicator.red {
+      background-color: #e53e3e;
+      box-shadow: 0 0 8px rgba(229, 62, 62, 0.6);
+    }
+    
+    .status-text {
+      font-weight: 500;
+    }
+    
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem;
+      background-color: #1a202c;
+      color: #718096;
+      font-size: 0.875rem;
+    }
+    
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .secondary-btn {
+      padding: 0.6rem 1.2rem;
+      background-color: transparent;
+      color: #a0aec0;
+      border: 1px solid #4a5568;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    
+    .secondary-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+    </div>
+    
+    <h1>Manutenzione in corso</h1>
+    
+    <p>
+      Stiamo effettuando operazioni di manutenzione programmate sul sistema. 
+      L'applicazione sarà nuovamente disponibile a breve.
+    </p>
+    
+    <div class="card">
+      <h2>Stato della manutenzione</h2>
+      
+      <div class="status">
+        <span class="status-indicator yellow"></span>
+        <span class="status-text">Manutenzione in corso</span>
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <p id="progress-text">Completamento stimato: 5 minuti</p>
+    </div>
+    
+    <button id="restart-btn" class="restart-btn">
+      Verifica disponibilità
+    </button>
+    
+    <div class="actions">
+      <a href="/" class="secondary-btn" id="refresh-btn">Aggiorna pagina</a>
+      <a href="mailto:support@example.com" class="secondary-btn">Contatta supporto</a>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 - Pagina di manutenzione</p>
+  </footer>
+  
+  <script src="/nginx-restart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const restartBtn = document.getElementById('restart-btn');
+      const refreshBtn = document.getElementById('refresh-btn');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      
+      // Simula una barra di progresso che avanza
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 2;
+        if (progress > 100) {
+          progress = 100;
+          clearInterval(interval);
+          progressText.textContent = 'Manutenzione quasi completata';
+        }
+        progressBar.style.width = `${progress}%`;
+      }, 1000);
+      
+      // Aggiungi l'evento click al pulsante di riavvio
+      restartBtn.addEventListener('click', async () => {
+        restartBtn.disabled = true;
+        restartBtn.innerHTML = '<span class="spinner"></span> Verifica in corso...';
+        
+        try {
+          // Tenta di contattare il server
+          const response = await fetch('/', { method: 'HEAD' });
+          
+          if (response.ok) {
+            // Se il server risponde, reindirizza alla home
+            window.location.href = '/';
+          } else {
+            // Se il server risponde ma con errore, tenta un riavvio
+            const result = await restartApp();
+            
+            // Inizia il conto alla rovescia e poi ricarica
+            startCountdown(15, () => {
+              window.location.reload();
+            });
+            
+            // Aggiorna il testo del pulsante
+            restartBtn.innerHTML = 'Riavvio in corso...';
+          }
+        } catch (error) {
+          // Se il server non risponde, tenta un riavvio
+          const result = await restartApp();
+          
+          // Inizia il conto alla rovescia e poi ricarica
+          startCountdown(15, () => {
+            window.location.reload();
+          });
+          
+          // Aggiorna il testo del pulsante
+          restartBtn.innerHTML = 'Riavvio in corso...';
+        }
+      });
+      
+      // Aggiungi l'evento click al pulsante di aggiornamento
+      refreshBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

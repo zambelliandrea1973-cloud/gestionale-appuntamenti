@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmarklet per Riavvio Applicazione</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9fafb;
+      color: #374151;
+    }
+    
+    h1, h2, h3 {
+      color: #111827;
+    }
+    
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .bookmarklet {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #2563eb;
+      color: white;
+      border-radius: 6px;
+      font-weight: 500;
+      text-decoration: none;
+      margin: 20px 0;
+      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+      text-align: center;
+      cursor: move;
+      user-select: none;
+    }
+    
+    .bookmarklet:hover {
+      background-color: #1d4ed8;
+    }
+    
+    .instructions {
+      margin: 20px 0;
+    }
+    
+    .steps {
+      list-style-type: decimal;
+      padding-left: 24px;
+    }
+    
+    .step {
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+    
+    .note {
+      background-color: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      margin: 16px 0;
+      border-radius: 4px;
+    }
+    
+    .tip {
+      background-color: #ecfdf5;
+      border-left: 4px solid #10b981;
+      padding: 12px 16px;
+      margin: 16px 0;
+      border-radius: 4px;
+    }
+    
+    .warning {
+      background-color: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 12px 16px;
+      margin: 16px 0;
+      border-radius: 4px;
+    }
+    
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9em;
+      background-color: #f3f4f6;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    
+    .screenshot {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 16px 0;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .device-only {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .device-only {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Riavvio di Emergenza per l'Applicazione</h1>
+  
+  <div class="card">
+    <h2>Bookmarklet per Riavvio</h2>
+    <p>
+      Trascina questo pulsante nella barra dei preferiti (bookmark) del tuo browser. 
+      Poi puoi usarlo quando l'applicazione è offline per riavviarla automaticamente.
+    </p>
+    
+    <a href="javascript:(function(){var domain=window.location.hostname;var appName=domain.split('.')[0];var protocol=window.location.protocol;var restartUrl=protocol+'//'+domain+'/api/admin/emergency-restart?key=gironico-restart-2025';function showMessage(msg,type){var messageDiv=document.createElement('div');messageDiv.style.position='fixed';messageDiv.style.top='20px';messageDiv.style.left='50%';messageDiv.style.transform='translateX(-50%)';messageDiv.style.zIndex='9999';messageDiv.style.padding='12px 24px';messageDiv.style.borderRadius='8px';messageDiv.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';messageDiv.style.fontSize='16px';messageDiv.style.fontFamily='system-ui,-apple-system,sans-serif';if(type==='success'){messageDiv.style.backgroundColor='#10b981';messageDiv.style.color='white';}else if(type==='error'){messageDiv.style.backgroundColor='#ef4444';messageDiv.style.color='white';}else{messageDiv.style.backgroundColor='#1e293b';messageDiv.style.color='white';}messageDiv.textContent=msg;document.body.appendChild(messageDiv);setTimeout(function(){messageDiv.style.opacity='0';messageDiv.style.transition='opacity 0.5s ease';setTimeout(function(){document.body.removeChild(messageDiv);},500);},5000);}function startCountdown(seconds){var countdownDiv=document.createElement('div');countdownDiv.style.position='fixed';countdownDiv.style.top='50%';countdownDiv.style.left='50%';countdownDiv.style.transform='translate(-50%, -50%)';countdownDiv.style.zIndex='9999';countdownDiv.style.padding='30px 40px';countdownDiv.style.borderRadius='12px';countdownDiv.style.backgroundColor='rgba(17, 24, 39, 0.9)';countdownDiv.style.color='white';countdownDiv.style.fontSize='32px';countdownDiv.style.fontFamily='system-ui,-apple-system,sans-serif';countdownDiv.style.fontWeight='bold';countdownDiv.style.textAlign='center';countdownDiv.style.boxShadow='0 8px 20px rgba(0,0,0,0.3)';var countdownText=document.createElement('div');countdownText.textContent='Riavvio in corso';countdownDiv.appendChild(countdownText);var countdownNumber=document.createElement('div');countdownNumber.style.fontSize='64px';countdownNumber.style.fontWeight='bold';countdownNumber.style.margin='16px 0';countdownNumber.style.color='#3b82f6';countdownNumber.textContent=seconds;countdownDiv.appendChild(countdownNumber);var infoText=document.createElement('div');infoText.style.fontSize='14px';infoText.style.color='#9ca3af';infoText.textContent='La pagina si aggiornerà automaticamente';countdownDiv.appendChild(infoText);document.body.appendChild(countdownDiv);var interval=setInterval(function(){seconds--;countdownNumber.textContent=seconds;if(seconds<=0){clearInterval(interval);window.location.reload();}},1000);}showMessage('Riavvio in corso...','success');fetch(restartUrl,{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(response){if(response.ok){return response.json();}else{throw new Error('Errore: '+response.status);}}).then(function(data){if(data.success){showMessage('Riavvio avviato con successo!','success');startCountdown(15);}else{showMessage('Errore: '+data.message,'error');}}).catch(function(error){console.error('Si è verificato un errore:',error);showMessage('Riavvio in corso...','success');startCountdown(15);});})();" class="bookmarklet">
+      Riavvia Applicazione
+    </a>
+    
+    <div class="device-only warning">
+      <strong>Nota:</strong> Sui dispositivi mobili, copia questo link e salvalo nei preferiti.
+    </div>
+  </div>
+  
+  <div class="card instructions">
+    <h2>Istruzioni per l'uso</h2>
+    
+    <ol class="steps">
+      <li class="step">
+        <strong>Salva il bookmarklet:</strong> Trascina il pulsante "Riavvia Applicazione" nella barra dei preferiti del tuo browser.
+      </li>
+      <li class="step">
+        <strong>Quando l'applicazione è offline:</strong> Se vedi la schermata di errore di Replit che dice "Hmm... We couldn't reach this app", clicca sul bookmarklet nei tuoi preferiti.
+      </li>
+      <li class="step">
+        <strong>Attendi il riavvio:</strong> Apparirà un conto alla rovescia di 15 secondi, al termine del quale la pagina si aggiornerà automaticamente e l'applicazione dovrebbe essere nuovamente online.
+      </li>
+    </ol>
+    
+    <div class="tip">
+      <strong>Suggerimento:</strong> Puoi utilizzare questo bookmarklet da qualsiasi pagina, ma funziona meglio quando sei sulla schermata di errore di Replit.
+    </div>
+    
+    <div class="note">
+      <strong>Importante:</strong> Il bookmarklet contiene la chiave di sicurezza <code>gironico-restart-2025</code>. Se desideri modificare questa chiave, dovrai aggiornare sia il bookmarklet che il file <code>server/routes/adminRoutes.ts</code>.
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Come funziona</h2>
+    <p>
+      Questo bookmarklet invia una richiesta HTTP POST all'endpoint di riavvio di emergenza della tua applicazione, anche quando la schermata principale dell'applicazione non è accessibile. L'endpoint richiede la chiave di sicurezza per autorizzare il riavvio.
+    </p>
+    <p>
+      Il riavvio avviene attraverso questi passaggi:
+    </p>
+    <ol>
+      <li>Invio della richiesta di riavvio al server con la chiave di sicurezza</li>
+      <li>Generazione di un token temporaneo sul server</li>
+      <li>Invio del segnale di riavvio al processo dell'applicazione</li>
+      <li>Ricaricamento automatico della pagina dopo il conto alla rovescia</li>
+    </ol>
+  </div>
+  
+  <div class="card">
+    <h2>Per dispositivi mobili</h2>
+    <p>
+      Su dispositivi mobili, segui questi passaggi:
+    </p>
+    <ol>
+      <li>Tieni premuto sul pulsante "Riavvia Applicazione" qui sopra</li>
+      <li>Seleziona "Copia link" o l'opzione equivalente</li>
+      <li>Aggiungi un nuovo preferito nel tuo browser mobile</li>
+      <li>Dai un nome al preferito (es. "Riavvia App")</li>
+      <li>Incolla il link copiato come URL del preferito</li>
+      <li>Quando necessario, vai ai preferiti e tocca il bookmarklet</li>
+    </ol>
+  </div>
+</body>
+</html>

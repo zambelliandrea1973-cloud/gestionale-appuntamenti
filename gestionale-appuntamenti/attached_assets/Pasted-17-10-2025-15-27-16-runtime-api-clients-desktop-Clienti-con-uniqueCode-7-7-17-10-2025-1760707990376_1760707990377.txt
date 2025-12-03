@@ -1,0 +1,878 @@
+17/10/2025, 15:27:16:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 15:27:16:
+runtime
+1:27:16 PM [express] GET /api/clients 200 in 692ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 68 (Cliente Trial) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/68 200 in 456ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/75 200 in 458ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/76 200 in 462ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 69 (Bruna  Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/69 200 in 461ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/14002 200 in 458ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/77 200 in 462ms :: {"count":0}
+17/10/2025, 15:27:18:
+runtime
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:27:18:
+runtime
+1:27:18 PM [express] GET /api/client-access/count/70 200 in 461ms :: {"count":0}
+17/10/2025, 15:27:19:
+runtime
+📞 GET /api/contact-settings per utente 14
+17/10/2025, 15:27:19:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+17/10/2025, 15:27:19:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+17/10/2025, 15:27:19:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+17/10/2025, 15:27:19:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-07 - 2025-10-18
+17/10/2025, 15:27:19:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+17/10/2025, 15:27:19:
+runtime
+  phone: '+393472550110',
+17/10/2025, 15:27:19:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+17/10/2025, 15:27:19:
+runtime
+  whatsappOptIn: true
+17/10/2025, 15:27:19:
+runtime
+}
+17/10/2025, 15:27:19:
+runtime
+1:27:19 PM [express] GET /api/contact-settings 200 in 460ms :: {"success":true,"settings":{"phone":"…
+17/10/2025, 15:27:19:
+runtime
+📅 [NOTIFICHE PG] Trovati 15 appuntamenti da 2025-10-07 a 2025-10-18
+17/10/2025, 15:27:19:
+runtime
+✅ [NOTIFICHE PG] Processati 15 appuntamenti per notifiche WhatsApp
+17/10/2025, 15:27:19:
+runtime
+1:27:19 PM [express] GET /api/notifications/upcoming-appointments 200 in 468ms :: {"success":true,"a…
+17/10/2025, 15:27:19:
+runtime
+📞 GET /api/contact-settings per utente 14
+17/10/2025, 15:27:19:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+17/10/2025, 15:27:19:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+17/10/2025, 15:27:19:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+17/10/2025, 15:27:20:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+17/10/2025, 15:27:20:
+runtime
+  phone: '+393472550110',
+17/10/2025, 15:27:20:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+17/10/2025, 15:27:20:
+runtime
+  whatsappOptIn: true
+17/10/2025, 15:27:20:
+runtime
+}
+17/10/2025, 15:27:20:
+runtime
+1:27:20 PM [express] GET /api/contact-settings 304 in 460ms :: {"success":true,"settings":{"phone":"…
+17/10/2025, 15:27:20:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-07 - 2025-10-18
+17/10/2025, 15:27:20:
+runtime
+📧 [GET EMAIL SETTINGS PG] Richiesta impostazioni email da PostgreSQL per utente 14
+17/10/2025, 15:27:20:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:27:20:
+runtime
+📅 [NOTIFICHE PG] Trovati 15 appuntamenti da 2025-10-07 a 2025-10-18
+17/10/2025, 15:27:20:
+runtime
+✅ [NOTIFICHE PG] Processati 15 appuntamenti per notifiche WhatsApp
+17/10/2025, 15:27:20:
+runtime
+1:27:20 PM [express] GET /api/notifications/upcoming-appointments 304 in 472ms :: {"success":true,"a…
+17/10/2025, 15:27:20:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:27:20:
+runtime
+✅ [EMAIL SETTINGS PG] Caricate da PostgreSQL per utente 14
+17/10/2025, 15:27:20:
+runtime
+1:27:20 PM [express] GET /api/email-calendar-settings 200 in 469ms :: {"emailEnabled":false,"emailAd…
+17/10/2025, 15:27:31:
+runtime
+✅ [PG] Appuntamento 173 marcato come "WhatsApp inviato" - timestamp: 2025-10-17T13:27:31.680Z
+17/10/2025, 15:27:31:
+runtime
+1:27:31 PM [express] POST /api/notifications/mark-sent/173 200 in 697ms :: {"success":true,"message"…
+17/10/2025, 15:27:48:
+runtime
+✅ [PG] Appuntamento 172 marcato come "WhatsApp inviato" - timestamp: 2025-10-17T13:27:48.663Z
+17/10/2025, 15:27:48:
+runtime
+1:27:48 PM [express] POST /api/notifications/mark-sent/172 200 in 693ms :: {"success":true,"message"…
+17/10/2025, 15:28:02:
+runtime
+✅ [PG] Appuntamento 172 marcato come "WhatsApp inviato" - timestamp: 2025-10-17T13:28:02.605Z
+17/10/2025, 15:28:02:
+runtime
+1:28:02 PM [express] POST /api/notifications/mark-sent/172 200 in 694ms :: {"success":true,"message"…
+17/10/2025, 15:28:13:
+runtime
+✅ [PG] Appuntamento 170 marcato come "WhatsApp inviato" - timestamp: 2025-10-17T13:28:12.926Z
+17/10/2025, 15:28:13:
+runtime
+1:28:13 PM [express] POST /api/notifications/mark-sent/170 200 in 696ms :: {"success":true,"message"…
+17/10/2025, 15:29:25:
+build
+Enumerating objects: 17340, done.
+17/10/2025, 15:29:25:
+build
+Counting objects: 100% (1060/1060), done.
+17/10/2025, 15:29:25:
+build
+Compressing objects: 100% (429/429), done.
+17/10/2025, 15:29:50:
+build
+Total 17340 (delta 841), reused 807 (delta 630), pack-reused 16280 (from 1)
+17/10/2025, 15:30:23:
+build
+#1 [service_event_orwozzsl1j3h internal] load build definition from Dockerfile
+17/10/2025, 15:30:23:
+build
+#1 transferring dockerfile: 618B done
+17/10/2025, 15:30:23:
+build
+#1 DONE 0.0s
+17/10/2025, 15:30:23:
+build
+17/10/2025, 15:30:23:
+build
+#2 [service_event_orwozzsl1j3h internal] load metadata for docker.io/library/node:20-alpine
+17/10/2025, 15:30:24:
+build
+#2 DONE 0.8s
+17/10/2025, 15:30:24:
+build
+17/10/2025, 15:30:24:
+build
+#3 [service_event_orwozzsl1j3h internal] load .dockerignore
+17/10/2025, 15:30:24:
+build
+#3 transferring context: 740B done
+17/10/2025, 15:30:24:
+build
+#3 DONE 0.0s
+17/10/2025, 15:30:24:
+build
+17/10/2025, 15:30:24:
+build
+#4 [service_event_orwozzsl1j3h] importing cache manifest from local:6641291011631712126
+17/10/2025, 15:30:24:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+17/10/2025, 15:30:24:
+build
+#4 DONE 0.0s
+17/10/2025, 15:30:24:
+build
+17/10/2025, 15:30:24:
+build
+#5 [service_event_orwozzsl1j3h 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+17/10/2025, 15:30:24:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+17/10/2025, 15:30:24:
+build
+#5 DONE 0.0s
+17/10/2025, 15:30:24:
+build
+17/10/2025, 15:30:24:
+build
+#6 [service_event_orwozzsl1j3h internal] load build context
+17/10/2025, 15:30:27:
+build
+#6 transferring context: 1.23GB 3.5s done
+17/10/2025, 15:30:27:
+build
+#6 DONE 3.5s
+17/10/2025, 15:30:27:
+build
+17/10/2025, 15:30:27:
+build
+#7 [service_event_orwozzsl1j3h 2/7] WORKDIR /app
+17/10/2025, 15:30:27:
+build
+#7 CACHED
+17/10/2025, 15:30:27:
+build
+17/10/2025, 15:30:27:
+build
+#8 [service_event_orwozzsl1j3h 3/7] COPY package.json package-lock.json ./
+17/10/2025, 15:30:27:
+build
+#8 CACHED
+17/10/2025, 15:30:27:
+build
+17/10/2025, 15:30:27:
+build
+#9 [service_event_orwozzsl1j3h 4/7] RUN npm ci
+17/10/2025, 15:30:27:
+build
+#9 CACHED
+17/10/2025, 15:30:27:
+build
+17/10/2025, 15:30:27:
+build
+#10 [service_event_orwozzsl1j3h 5/7] COPY . .
+17/10/2025, 15:30:31:
+build
+#10 DONE 3.7s
+17/10/2025, 15:30:31:
+build
+17/10/2025, 15:30:31:
+build
+#11 [service_event_orwozzsl1j3h 6/7] RUN npx vite build
+17/10/2025, 15:30:32:
+build
+#11 1.182 vite v5.4.14 building for production...
+17/10/2025, 15:30:33:
+build
+#11 1.577 
+17/10/2025, 15:30:33:
+build
+#11 1.585 
+17/10/2025, 15:30:33:
+build
+#11 1.585 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+17/10/2025, 15:30:33:
+build
+#11 1.589 transforming...
+17/10/2025, 15:30:33:
+build
+#11 1.630 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+17/10/2025, 15:30:33:
+build
+#11 1.630   npx update-browserslist-db@latest
+17/10/2025, 15:30:33:
+build
+#11 1.630   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+17/10/2025, 15:30:44:
+build
+#11 12.60 ✓ 3669 modules transformed.
+17/10/2025, 15:30:45:
+build
+#11 13.84 [plugin:vite:reporter] [plugin vite:reporter] 
+17/10/2025, 15:30:45:
+build
+#11 13.84 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+17/10/2025, 15:30:45:
+build
+#11 13.84 
+17/10/2025, 15:30:45:
+build
+#11 13.84 [plugin:vite:reporter] [plugin vite:reporter] 
+17/10/2025, 15:30:45:
+build
+#11 13.84 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+17/10/2025, 15:30:45:
+build
+#11 13.84 
+17/10/2025, 15:30:45:
+build
+#11 13.84 rendering chunks...
+17/10/2025, 15:30:45:
+build
+#11 13.89 computing gzip size...
+17/10/2025, 15:30:45:
+build
+#11 13.96 ../dist/public/index.html                    13.91 kB │ gzip:   3.99 kB
+17/10/2025, 15:30:45:
+build
+#11 13.96 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+17/10/2025, 15:30:45:
+build
+#11 13.96 
+17/10/2025, 15:30:46:
+build
+#11 13.96 (!) Some chunks are larger than 500 kB after minification. Consider:
+17/10/2025, 15:30:46:
+build
+#11 13.96 - Using dynamic import() to code-split the application
+17/10/2025, 15:30:46:
+build
+#11 13.96 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+17/10/2025, 15:30:46:
+build
+#11 13.96 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+17/10/2025, 15:30:46:
+build
+#11 13.96 ../dist/public/assets/index-CUMO2A2A.js   2,047.23 kB │ gzip: 550.14 kB
+17/10/2025, 15:30:46:
+build
+#11 13.97 ✓ built in 12.74s
+17/10/2025, 15:30:46:
+build
+#11 DONE 14.1s
+17/10/2025, 15:30:46:
+build
+17/10/2025, 15:30:46:
+build
+#12 [service_event_orwozzsl1j3h 7/7] RUN cp -r dist/public server/public
+17/10/2025, 15:30:46:
+build
+#12 DONE 0.1s
+17/10/2025, 15:30:46:
+build
+17/10/2025, 15:30:46:
+build
+#13 [service_event_orwozzsl1j3h] exporting to image
+17/10/2025, 15:30:46:
+build
+#13 exporting layers
+17/10/2025, 15:31:10:
+build
+#13 exporting layers 24.4s done
+17/10/2025, 15:31:10:
+build
+#13 exporting manifest sha256:eac27166be30dfb7e9a23de3ed5301560afc598a8139a0973918187b541e64ff done
+17/10/2025, 15:31:10:
+build
+#13 exporting config sha256:b785ac1c172405297ed7805736ff054da7b6da74f3040805711fc79ecbe6949b done
+17/10/2025, 15:31:10:
+build
+#13 pushing layers
+17/10/2025, 15:31:20:
+build
+#13 pushing layers 10.5s done
+17/10/2025, 15:31:20:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_orwozzsl1j3h@sha256:eac27166be30dfb7e9a23de3ed5301560afc598a8139a0973918187b541e64ff
+17/10/2025, 15:31:20:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_orwozzsl1j3h@sha256:eac27166be30dfb7e9a23de3ed5301560afc598a8139a0973918187b541e64ff 0.0s done
+17/10/2025, 15:31:20:
+build
+#13 DONE 35.0s
+17/10/2025, 15:31:20:
+build
+17/10/2025, 15:31:20:
+build
+#14 [service_event_orwozzsl1j3h] exporting cache to client directory
+17/10/2025, 15:31:20:
+build
+#14 preparing build cache for export
+17/10/2025, 15:31:20:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+17/10/2025, 15:31:20:
+build
+#14 writing layer sha256:3f210bb0c474efa09af35a89fc8482e42fefb8ff26bc319f9e37a64f06cb6343
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:3f210bb0c474efa09af35a89fc8482e42fefb8ff26bc319f9e37a64f06cb6343 6.2s done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:64736a7333971c3f1b7ea38f02cf167bfb40498aae4776e859de3b8387a236e9
+17/10/2025, 15:31:26:
+build
+#14 preparing build cache for export 6.2s done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:64736a7333971c3f1b7ea38f02cf167bfb40498aae4776e859de3b8387a236e9 0.0s done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:7fdd66645136c79389f9c39564802aa74d2b0405a1f897bb7359b6557d30e68c done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:9a4785cbd4fab2bbfa689fdb1b8b67f6c0e8bfe980602e8bb859a54bfc642863 done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:b5b59738d4abdcf9696721ea9829adf2884f0b779ce2144fb27b0a1b784658ee done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+17/10/2025, 15:31:26:
+build
+#14 writing layer sha256:fd19a305bcb34ccbfe5d30a0a4c6af0a89452c9041a70fd91791d985768717f6 done
+17/10/2025, 15:31:27:
+build
+#14 writing config sha256:b71dba0d85896065df84f4767e1018d0537375e054779a98eb86e236669c90c8 done
+17/10/2025, 15:31:27:
+build
+#14 writing cache image manifest sha256:af8dbba450ea5333d904d9f1c0224fc5d93ed4860ea1980c5b2b794367915f57 done
+17/10/2025, 15:31:27:
+build
+#14 DONE 6.2s
+17/10/2025, 15:31:30:
+build
+service_event_orwozzsl1j3h: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+17/10/2025, 15:31:30:
+build
+2d35ebdb57d9: Already exists
+17/10/2025, 15:31:30:
+build
+c087321cece4: Already exists
+17/10/2025, 15:31:30:
+build
+f2fbe8556258: Already exists
+17/10/2025, 15:31:30:
+build
+c74c90aa7c87: Already exists
+17/10/2025, 15:31:30:
+build
+9a4785cbd4fa: Already exists
+17/10/2025, 15:31:30:
+build
+7fdd66645136: Already exists
+17/10/2025, 15:31:30:
+build
+fd19a305bcb3: Already exists
+17/10/2025, 15:31:30:
+build
+3f210bb0c474: Pulling fs layer
+17/10/2025, 15:31:30:
+build
+64736a733397: Pulling fs layer
+17/10/2025, 15:31:30:
+build
+b5b59738d4ab: Pulling fs layer
+17/10/2025, 15:31:30:
+build
+b5b59738d4ab: Download complete
+17/10/2025, 15:31:30:
+build
+64736a733397: Verifying Checksum
+17/10/2025, 15:31:30:
+build
+64736a733397: Download complete
+17/10/2025, 15:31:35:
+build
+3f210bb0c474: Verifying Checksum
+17/10/2025, 15:31:35:
+build
+3f210bb0c474: Download complete
+17/10/2025, 15:31:43:
+build
+3f210bb0c474: Pull complete
+17/10/2025, 15:31:44:
+build
+64736a733397: Pull complete
+17/10/2025, 15:31:44:
+build
+b5b59738d4ab: Pull complete
+17/10/2025, 15:31:44:
+build
+Digest: sha256:eac27166be30dfb7e9a23de3ed5301560afc598a8139a0973918187b541e64ff
+17/10/2025, 15:31:44:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_orwozzsl1j3h
+17/10/2025, 15:31:47:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+17/10/2025, 15:31:47:
+runtime
+Servizio gestione telefono diretto inizializzato
+17/10/2025, 15:31:48:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+17/10/2025, 15:31:48:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+17/10/2025, 15:31:49:
+runtime
+Telefono caricato dal database: +393472550110
+17/10/2025, 15:31:49:
+runtime
+✅ PostgreSQL database is available
+17/10/2025, 15:31:50:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+17/10/2025, 15:31:50:
+runtime
+Scheduler dei promemoria avviato con successo
+17/10/2025, 15:31:50:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+17/10/2025, 15:31:50:
+runtime
+Tutti gli scheduler inizializzati
+17/10/2025, 15:31:50:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+17/10/2025, 15:31:50:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+17/10/2025, 15:31:50:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+17/10/2025, 15:31:50:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+17/10/2025, 15:31:50:
+runtime
+🔍 Controllo integrità all'avvio:
+17/10/2025, 15:31:50:
+runtime
+   📅 Appuntamenti caricati: 48
+17/10/2025, 15:31:50:
+runtime
+   👥 Clienti caricati: 40
+17/10/2025, 15:31:50:
+runtime
+   🔍 Primi 3 appuntamenti: [
+17/10/2025, 15:31:50:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+17/10/2025, 15:31:50:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+17/10/2025, 15:31:50:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+17/10/2025, 15:31:50:
+runtime
+]
+17/10/2025, 15:31:50:
+runtime
+✅ Controllo integrità completato
+17/10/2025, 15:31:50:
+runtime
+1:31:50 PM [express] serving on port 5000
+17/10/2025, 15:31:55:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+17/10/2025, 15:31:55:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+17/10/2025, 15:31:55:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Sat Oct 18 2025)
+17/10/2025, 15:31:55:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+17/10/2025, 15:31:55:
+runtime
+Inviati 0/0 promemoria
+17/10/2025, 15:31:55:
+runtime
+Job iniziale completato: inviati 0 promemoria
+17/10/2025, 15:31:56:
+runtime
+1:31:56 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 15:32:04:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:32:04:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 422
+17/10/2025, 15:32:04:
+runtime
+1:32:04 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 56ms :: {"succes…
+17/10/2025, 15:32:04:
+runtime
+1:32:04 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:32:04:
+runtime
+1:32:04 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 15:32:04:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:04:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+17/10/2025, 15:32:04:
+runtime
+1:32:04 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 19ms :: {"id":14…
+17/10/2025, 15:32:04:
+runtime
+1:32:04 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:32:05:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+17/10/2025, 15:32:05:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:32:05:
+runtime
+1:32:05 PM [express] GET /api/client-appointments/14004 200 in 17ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+17/10/2025, 15:32:05:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 15:32:05:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 14
+17/10/2025, 15:32:05:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760707925035-14
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+17/10/2025, 15:32:05:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:32:05:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:05:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Silvia Busnari (owner 14)
+17/10/2025, 15:32:05:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1760707925035.0159&android=1","/pwa-icon/192x192?owner=14&v=1760707925035.0159&android=1","/pwa-icon/512x512?owner=14&v=1760707925035.0159&android=1"]
+17/10/2025, 15:32:05:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-14
+17/10/2025, 15:32:05:
+runtime
+📱 MANIFEST NAME: Silvia Busnari - Area Cliente
+17/10/2025, 15:32:05:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:32:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+17/10/2025, 15:32:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 14
+17/10/2025, 15:32:05:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:32:05:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:32:05:
+runtime
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:32:05:
+runtime
+  phone: '+39 3471445767',
+17/10/2025, 15:32:05:
+runtime
+  phone1: '+39 3471445767',
+17/10/2025, 15:32:05:
+runtime
+  phone2: '',
+17/10/2025, 15:32:05:
+runtime
+  website: '',
+17/10/2025, 15:32:05:
+runtime
+  instagram: 'zambelli1105',
+17/10/2025, 15:32:05:
+runtime
+  facebook: ''
+17/10/2025, 15:32:05:
+runtime
+}
+17/10/2025, 15:32:05:
+runtime
+1:32:05 PM [express] GET /api/owner-contact-info/14 304 in 250ms :: {"email":"silvia.busnari@libero.…
+17/10/2025, 15:32:05:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+17/10/2025, 15:32:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+17/10/2025, 15:32:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+17/10/2025, 15:32:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 14, dimensione: 678765 bytes
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:32:15:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:32:15:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 423
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 50ms :: {"succes…
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 15:32:15:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+17/10/2025, 15:32:15:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 14
+17/10/2025, 15:32:15:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760707935498-14
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+17/10/2025, 15:32:15:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:32:15:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:15:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Silvia Busnari (owner 14)
+17/10/2025, 15:32:15:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1760707935500.3623&android=1","/pwa-icon/192x192?owner=14&v=1760707935500.3623&android=1","/pwa-icon/512x512?owner=14&v=1760707935500.3623&android=1"]
+17/10/2025, 15:32:15:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-14
+17/10/2025, 15:32:15:
+runtime
+📱 MANIFEST NAME: Silvia Busnari - Area Cliente
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:32:15:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:32:15:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 15ms :: {"id":14…
+17/10/2025, 15:32:15:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+17/10/2025, 15:32:15:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 14
+17/10/2025, 15:32:15:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+17/10/2025, 15:32:15:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] GET /api/client-appointments/14004 200 in 22ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:32:15:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:32:15:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:32:15:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:32:15:
+runtime
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:32:15:
+runtime
+  phone: '+39 3471445767',
+17/10/2025, 15:32:15:
+runtime
+  phone1: '+39 3471445767',
+17/10/2025, 15:32:15:
+runtime
+  phone2: '',
+17/10/2025, 15:32:15:
+runtime
+  website: '',
+17/10/2025, 15:32:15:
+runtime
+  instagram: 'zambelli1105',
+17/10/2025, 15:32:15:
+runtime
+  facebook: ''
+17/10/2025, 15:32:15:
+runtime
+}
+17/10/2025, 15:32:15:
+runtime
+1:32:15 PM [express] GET /api/owner-contact-info/14 304 in 235ms :: {"email":"silvia.busnari@libero.…
+17/10/2025, 15:32:16:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+17/10/2025, 15:32:16:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+17/10/2025, 15:32:16:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+17/10/2025, 15:32:16:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 14, dimensione: 678765 bytes

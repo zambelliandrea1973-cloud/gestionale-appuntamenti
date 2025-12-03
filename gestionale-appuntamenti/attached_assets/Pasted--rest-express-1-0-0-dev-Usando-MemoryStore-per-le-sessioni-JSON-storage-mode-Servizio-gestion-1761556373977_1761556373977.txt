@@ -1,0 +1,121 @@
+ rest-express@1.0.0 dev
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+Servizio gestione telefono diretto inizializzato
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+✅ Icona Fleur de Vie caricata: 611937 bytes
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+Telefono caricato dal database: +393472550110
+✅ PostgreSQL database is available
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+Scheduler dei promemoria avviato con successo
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+Tutti gli scheduler inizializzati
+✅ [ICON SYNC] Icone per utente 3 già presenti
+✅ [ICON SYNC] Icone per utente 14 già presenti
+✅ [ICON SYNC] Icone per utente 16 già presenti
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+🔍 Controllo integrità all'avvio:
+   📅 Appuntamenti caricati: 48
+   👥 Clienti caricati: 40
+   🔍 Primi 3 appuntamenti: [
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+]
+✅ Controllo integrità completato
+9:10:23 AM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Esecuzione immediata del job di promemoria all'avvio del server
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 28 2025)
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+Inviati 0/0 promemoria
+Job iniziale completato: inviati 0 promemoria
+9:10:54 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+9:10:54 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+9:10:54 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+9:10:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+9:10:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+Login staff richiesto per: clientenuovo2
+Login staff completato con successo per: clientenuovo2 tipo: customer
+9:11:32 AM [express] POST /api/staff/login 200 in 128ms :: {"id":29,"username":"clientenuovo2","pass…
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔐 [desktop] /api/user-with-license per utente 29 (clientenuovo2)
+Recupero licenze per l'utente ID 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovate 1 licenze per l'utente 29
+📱💻 [desktop] Dati utente unificati: {
+  id: 29,
+  username: 'clientenuovo2',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+9:11:32 AM [express] GET /api/user-with-license 200 in 342ms :: {"id":29,"username":"clientenuovo2",…
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Recupero impostazioni per utente 29
+Impostazioni trovate per utente 29: NO
+9:11:33 AM [express] GET /api/contact-info 200 in 316ms :: {"email":"info@studiomedico.it","phone":"…
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)

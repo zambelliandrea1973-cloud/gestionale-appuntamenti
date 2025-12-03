@@ -1,0 +1,151 @@
+🧹 Query di autenticazione invalidate
+VM7 injected.js:204  GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1761221398760 401 (Unauthorized)
+apply @ VM7 injected.js:204
+queryFn @ VM61 use-user-with-license.tsx:34
+fetchFn @ VM24 @tanstack_react-query.js:840
+run @ VM24 @tanstack_react-query.js:494
+start @ VM24 @tanstack_react-query.js:536
+fetch @ VM24 @tanstack_react-query.js:926
+(anonime) @ VM24 @tanstack_react-query.js:1726
+(anonime) @ VM24 @tanstack_react-query.js:1725
+batch @ VM24 @tanstack_react-query.js:583
+refetchQueries @ VM24 @tanstack_react-query.js:1724
+(anonime) @ VM24 @tanstack_react-query.js:1716
+batch @ VM24 @tanstack_react-query.js:583
+invalidateQueries @ VM24 @tanstack_react-query.js:1705
+clearSession @ VM77 StaffLogin.tsx:46
+await in clearSession
+(anonime) @ VM77 StaffLogin.tsx:54
+commitHookEffectListMount @ VM22 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM22 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM22 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM22 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM22 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM22 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM22 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM22 chunk-C43VWYGG.js:19384
+commitRoot @ VM22 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM22 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM22 chunk-C43VWYGG.js:9119
+(anonime) @ VM22 chunk-C43VWYGG.js:18595Comprendi l'errore
+VM7 injected.js:204  GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1761221398756 401 (Unauthorized)
+apply @ VM7 injected.js:204
+queryFn @ VM61 use-user-with-license.tsx:34
+fetchFn @ VM24 @tanstack_react-query.js:840
+run @ VM24 @tanstack_react-query.js:494
+start @ VM24 @tanstack_react-query.js:536
+fetch @ VM24 @tanstack_react-query.js:926
+(anonime) @ VM24 @tanstack_react-query.js:1726
+(anonime) @ VM24 @tanstack_react-query.js:1725
+batch @ VM24 @tanstack_react-query.js:583
+refetchQueries @ VM24 @tanstack_react-query.js:1724
+(anonime) @ VM24 @tanstack_react-query.js:1716
+batch @ VM24 @tanstack_react-query.js:583
+invalidateQueries @ VM24 @tanstack_react-query.js:1705
+clearSession @ VM77 StaffLogin.tsx:46
+await in clearSession
+(anonime) @ VM77 StaffLogin.tsx:54
+commitHookEffectListMount @ VM22 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM22 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM22 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM22 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM22 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM22 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM22 chunk-C43VWYGG.js:19384
+commitRoot @ VM22 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM22 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM22 chunk-C43VWYGG.js:9119
+(anonime) @ VM22 chunk-C43VWYGG.js:18595Comprendi l'errore
+VM7 injected.js:27 🔍 Risposta user-with-license: 401 false
+VM7 injected.js:27 🔍 Utente non autenticato, ritorno null
+VM7 injected.js:27 🔍 Risposta user-with-license: 401 false
+VM7 injected.js:27 🔍 Utente non autenticato, ritorno null
+VM7 injected.js:27 Esecuzione richiesta POST a /api/staff/login {"username":"busnari.silvia@libero.it","password":"gironico"}
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta POST a /api/staff/login: {method: 'POST', headers: {…}, body: '{"username":"busnari.silvia@libero.it","password":"gironico"}'}
+VM7 injected.js:27 Risposta da /api/staff/login: 200 OK ok: true
+VM7 injected.js:27 Login riuscito, dati utente: {id: 14, username: 'busnari.silvia@libero.it', password: 'cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d…e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b', email: 'busnari.silvia@libero.it', role: 'staff', …}
+VM7 injected.js:27 🧹 Rimosso localStorage: i18nextLng
+VM7 injected.js:27 🧹 Rimosso localStorage: lastMobileVisit
+VM7 injected.js:27 🧹 Rimosso localStorage: healthcare_app_contact_info_user_14
+VM7 injected.js:27 🧹 Cache React Query completamente pulita al login
+VM7 injected.js:27 Utente standard, reindirizzamento alla dashboard
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<' (at disable-vite-overlay.js:1:1)Comprendi l'errore
+injected.js:27 PWA check - standalone mode: false
+injected.js:27 PWA check - iOS fullscreen: undefined
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+injected.js:27 📱 MOBILE SYNC: Prima visita o lunga assenza, forzando refresh completo...
+injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 📱 MOBILE SYNC: App tornata visibile, forzando refresh dati...
+injected.js:27 📱 MOBILE SYNC: Cache invalidata e refetch forzato
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/dashboard'}
+injected.js:27 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 14
+injected.js:27 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=14&ts=1761221414611
+injected.js:27 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+injected.js:27 Esecuzione richiesta GET a /api/company-name-settings 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Esecuzione richiesta GET a /api/contact-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+injected.js:27 Esecuzione richiesta GET a /api/tenant-context 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+2injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+The script has an unsupported MIME type ('text/html').Comprendi l'errore
+injected.js:27 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ injected.js:27
+(anonime) @ dashboard:259
+Promise.catch
+(anonime) @ dashboard:258Comprendi l'errore
+injected.js:27 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ injected.js:27
+(anonime) @ dashboard:263
+Promise.catch
+(anonime) @ dashboard:258Comprendi l'errore
+injected.js:27 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+injected.js:27 Location protocol: https:
+injected.js:27 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+injected.js:27 Risposta da /api/company-name-settings: 200 OK ok: true
+injected.js:27 🏢 FRONTEND CompanyName: Risposta API status: 200
+injected.js:27 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true, name: 'Silvia Busnari ', fontSize: 45, fontFamily: 'Lucida Sans Unicode', …}
+injected.js:27 Risposta da /api/tenant-context: 200 OK ok: true
+injected.js:27 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+injected.js:27 Risposta da /api/contact-info: 200 OK ok: true
+injected.js:27 ✅ Informazioni di contatto caricate da API per utente 14: {email: 'silvia.busnari@libero.it', phone: '+39 3471445767', phone1: '+39 3471445767', phone2: '', website: 'biomedicinaintegrata.it', …}
+2injected.js:27 Fuso orario aggiornato con successo
+injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+injected.js:27 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 837291, url: 'data:image/jpeg;base64,/9j//gAOTGF2YzUyLjIwLjAA/9s...'}
+injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente
+injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+injected.js:27 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 837291, url: 'data:image/jpeg;base64,/9j//gAOTGF2YzUyLjIwLjAA/9s...'}
+injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente

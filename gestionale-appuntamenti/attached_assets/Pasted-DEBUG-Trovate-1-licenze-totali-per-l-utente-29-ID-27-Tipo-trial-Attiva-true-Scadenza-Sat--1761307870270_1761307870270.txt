@@ -1,0 +1,205 @@
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🏢 [/api/company-name-settings] [desktop] GET per utente 29 (customer)
+Recupero impostazioni per utente 29
+Impostazioni trovate per utente 29: NO
+🏢 [/api/company-name-settings] [desktop] Settings per utente 29 (customer): {
+  businessName: 'Gestionale Appuntamenti',
+  showBusinessName: true,
+  name: 'clientenuovo2',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+12:09:30 PM [express] GET /api/company-name-settings 200 in 293ms :: {"businessName":"Gestionale Appu…
+✅ Icone PWA aggiornate per utente 29 con logo aziendale
+✅ [desktop] Icone PWA per utente 29, icon length: 815939
+12:09:30 PM [express] GET /api/client-app-info 200 in 329ms :: {"appName":"Gestionale Appuntamenti","…
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Ottengo info licenza per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Recupero impostazioni per utente 29
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🏢 [/api/company-name-settings] [desktop] GET per utente 29 (customer)
+Recupero impostazioni per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Impostazioni trovate per utente 29: NO
+12:09:31 PM [express] GET /api/contact-info 200 in 628ms :: {"email":"info@studiomedico.it","phone":"…
+Impostazioni trovate per utente 29: NO
+🏢 [/api/company-name-settings] [desktop] Settings per utente 29 (customer): {
+  businessName: 'Gestionale Appuntamenti',
+  showBusinessName: true,
+  name: 'clientenuovo2',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+12:09:31 PM [express] GET /api/company-name-settings 200 in 635ms :: {"businessName":"Gestionale Appu…
+✅ Icone PWA aggiornate per utente 29 con logo aziendale
+✅ [desktop] Icone PWA per utente 29, icon length: 815939
+12:09:31 PM [express] GET /api/client-app-info 200 in 656ms :: {"appName":"Gestionale Appuntamenti","…
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Recupero impostazioni per utente 29
+Impostazioni trovate per utente 29: NO
+12:09:31 PM [express] GET /api/contact-info 200 in 287ms :: {"email":"info@studiomedico.it","phone":"…
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔍 [/api/clients] [desktop] Richiesta da utente ID:29, tipo:customer, email:zambelli.andrea@libero.it
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+12:09:33 PM [express] GET /api/user 200 in 224ms
+❌ DatabaseStorage: User 29 senza assignmentCode
+📦 [/api/clients] [desktop] Caricati 0 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: []
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 0/0
+12:09:33 PM [express] GET /api/clients 200 in 284ms :: []
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔍 [/api/clients] [desktop] Richiesta da utente ID:29, tipo:customer, email:zambelli.andrea@libero.it
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+12:09:37 PM [express] GET /api/user 200 in 219ms
+❌ DatabaseStorage: User 29 senza assignmentCode
+📦 [/api/clients] [desktop] Caricati 0 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: []
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 0/0
+12:09:37 PM [express] GET /api/clients 200 in 282ms :: []
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔄 [POST /api/clients] Richiesta da utente 29 (customer)
+📝 [POST /api/clients] Dati ricevuti: {
+  firstName: 'aa',
+  lastName: 'bb',
+  phone: '+393472550110',
+  email: 'zambelli.andrea@libero.it',
+  address: 'Via Cavallotti',
+  birthday: '2025-10-18',
+  notes: '',
+  isFrequent: false,
+  medicalNotes: '',
+  allergies: '',
+  taxCode: '',
+  vatNumber: '',
+  userId: 29,
+  ownerId: 29
+}
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+❌ DatabaseStorage: User 29 senza assignmentCode
+📊 [POST /api/clients] Limite 1000, Correnti: 0
+✅ [POST /api/clients] Cliente creato in PostgreSQL: aa bb (ID: 92)
+12:09:53 PM [express] POST /api/clients 201 in 539ms :: {"id":92,"userId":29,"firstName":"aa","lastNa…
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔍 [/api/clients] [desktop] Richiesta da utente ID:29, tipo:customer, email:zambelli.andrea@libero.it
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+12:09:54 PM [express] GET /api/license/application-title 304 in 207ms :: {"title":"Gestionale Appunta…
+12:09:54 PM [express] GET /api/license/has-pro-access 304 in 207ms :: true
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔐 [desktop] /api/user-with-license per utente 29 (clientenuovo2)
+Recupero licenze per l'utente ID 29
+❌ DatabaseStorage: User 29 senza assignmentCode
+📦 [/api/clients] [desktop] Caricati 0 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: []
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 0/0
+12:09:54 PM [express] GET /api/clients 200 in 285ms :: []
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+Recupero licenze per l'utente ID 29
+Trovate 1 licenze per l'utente 29
+📱💻 [desktop] Dati utente unificati: {
+  id: 29,
+  username: 'clientenuovo2',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+12:09:54 PM [express] GET /api/user-with-license 304 in 304ms :: {"id":29,"username":"clientenuovo2",…
+Trovate 1 licenze per l'utente 29
+12:09:54 PM [express] GET /api/license/license-info 304 in 358ms :: {"hasLicense":true,"type":"trial"…
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+12:09:54 PM [express] GET /api/license/has-business-access 304 in 575ms :: true
+integrami questi dati nella pagina  in fotoOttengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔄 [POST /api/clients] Richiesta da utente 29 (customer)
+📝 [POST /api/clients] Dati ricevuti: {
+  firstName: 'aa',
+  lastName: 'bb',
+  phone: '+393472550110',
+  email: 'zambelli.andrea@libero.it',
+  address: 'Via Cavallotti',
+  birthday: '2025-10-18',
+  notes: '',
+  isFrequent: false,
+  medicalNotes: '',
+  allergies: '',
+  taxCode: '',
+  vatNumber: '',
+  userId: 29,
+  ownerId: 29
+}
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+❌ DatabaseStorage: User 29 senza assignmentCode
+📊 [POST /api/clients] Limite 1000, Correnti: 0
+✅ [POST /api/clients] Cliente creato in PostgreSQL: aa bb (ID: 93)
+12:10:44 PM [express] POST /api/clients 201 in 557ms :: {"id":93,"userId":29,"firstName":"aa","lastNa…
+Ottengo info licenza per utente 29
+DEBUG: Trovate 1 licenze totali per l'utente 29
+- ID: 27, Tipo: trial, Attiva: true, Scadenza: Sat Oct 25 2025 22:00:00 GMT+0000 (Coordinated Universal Time)
+Trovata licenza di tipo trial per utente 29 (ID licenza: 27)
+🔍 [/api/clients] [desktop] Richiesta da utente ID:29, tipo:customer, email:zambelli.andrea@libero.it
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 29, role: customer
+❌ DatabaseStorage: User 29 senza assignmentCode
+📦 [/api/clients] [desktop] Caricati 0 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: []
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 0/0
+12:10:44 PM [express] GET /api/clients 200 in 292ms :: []

@@ -1,0 +1,37 @@
+{
+  "name": "gestionale-sanitario-completo",
+  "version": "1.0.0",
+  "description": "Sistema di gestione sanitaria completo",
+  "requirements": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "database": "PostgreSQL 13+ (opzionale, può usare file JSON)",
+    "memory": "512MB RAM minimo",
+    "storage": "1GB spazio libero"
+  },
+  "features": [
+    "Gestione clienti e appuntamenti",
+    "Sistema di autenticazione multi-utente",
+    "Generazione QR code per accesso clienti",
+    "Sistema di notifiche WhatsApp",
+    "Gestione fatture e pagamenti",
+    "Sistema multi-tenant",
+    "Backup automatici",
+    "Interfaccia PWA per clienti"
+  ],
+  "installation": {
+    "steps": [
+      "Estrai il pacchetto nella directory desiderata",
+      "Esegui 'npm install' per installare le dipendenze",
+      "Copia .env.example in .env e configura le variabili",
+      "Esegui 'npm run setup' per l'installazione iniziale",
+      "Esegui 'npm run start' per avviare il sistema"
+    ]
+  },
+  "support": {
+    "documentation": "docs/README.md",
+    "installation": "docs/INSTALLATION.md",
+    "configuration": "docs/CONFIGURATION.md",
+    "troubleshooting": "docs/TROUBLESHOOTING.md"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "appName": "Gestionale Sanitario",
+  "businessName": "Studio Medico",
+  "timezone": "Europe/Rome",
+  "defaultIconPath": "/src/assets/fleur-de-vie.jpg",
+  "contactInfo": {
+    "email": "info@studiomedico.it",
+    "phone": "+39 0000000000",
+    "address": "Via Roma 1, 00100 Roma"
+  },
+  "services": [
+    {
+      "id": 1,
+      "name": "Visita Generale",
+      "duration": 30,
+      "price": 80,
+      "description": "Visita medica generale"
+    },
+    {
+      "id": 2,
+      "name": "Controllo",
+      "duration": 15,
+      "price": 40,
+      "description": "Controllo di routine"
+    }
+  ],
+  "paymentMethods": [
+    "Contanti",
+    "Carta di credito",
+    "Bonifico bancario"
+  ]
+}

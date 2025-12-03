@@ -1,0 +1,476 @@
+{
+  "app": {
+    "title": "Timeavtalehåndtering",
+    "welcome": "Velkommen til Timeavtalehåndtering",
+    "description": "Administrer timeavtaler, kunder og fakturaer enkelt"
+  },
+  "language": {
+    "it": "Italiensk",
+    "en": "Engelsk",
+    "de": "Tysk",
+    "fr": "Fransk",
+    "es": "Spansk",
+    "ru": "Russisk",
+    "nl": "Nederlandsk",
+    "no": "Norsk",
+    "ro": "Rumensk",
+    "select": "Velg språk"
+  },
+  "home": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Se og administrer alle timeavtaler",
+      "content": "Se timeavtaler i daglig, ukentlig eller månedlig visning, og opprett nye timeavtaler enkelt.",
+      "button": "Gå til Kalender"
+    },
+    "clients": {
+      "title": "Kunder",
+      "description": "Administrer kundeinformasjon",
+      "content": "Legg til, rediger og vis kundedata, inkludert personlig og medisinsk informasjon.",
+      "button": "Administrer Kunder"
+    },
+    "invoices": {
+      "title": "Fakturaer",
+      "description": "Administrer fakturaer og betalinger",
+      "content": "Opprett og administrer fakturaer, registrer betalinger og overvåk fakturastatus i sanntid.",
+      "button": "Administrer Fakturaer"
+    },
+    "reports": {
+      "title": "Rapporter",
+      "description": "Analyser virksomhetens ytelse",
+      "content": "Se daglige, ukentlige og månedlige rapporter for å analysere virksomhetens ytelse.",
+      "button": "Se Rapporter"
+    }
+  },
+  "calendar": {
+    "title": "Kalender",
+    "daily": "Daglig",
+    "weekly": "Ukentlig",
+    "monthly": "Månedlig",
+    "addAppointment": "Ny Timeavtale",
+    "today": "I dag",
+    "days": {
+      "monday": "Mandag",
+      "tuesday": "Tirsdag",
+      "wednesday": "Onsdag",
+      "thursday": "Torsdag",
+      "friday": "Fredag",
+      "saturday": "Lørdag",
+      "sunday": "Søndag"
+    },
+    "months": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "Mars",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Desember"
+    },
+    "description": "[NEEDS TRANSLATION] Visualizza e gestisci tutti gli appuntamenti",
+    "subDescription": "[NEEDS TRANSLATION] Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, e crea facilmente nuovi appuntamenti",
+    "goTo": "[NEEDS TRANSLATION] Vai al Calendario",
+    "weekView": "[NEEDS TRANSLATION] Vista settimanale",
+    "monthView": "[NEEDS TRANSLATION] Vista mensile",
+    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
+    "searchResults": "[NEEDS TRANSLATION] Risultati della ricerca",
+    "noAppointmentsFound": "[NEEDS TRANSLATION] Nessun appuntamento trovato per",
+    "goToDay": "[NEEDS TRANSLATION] Vai al giorno",
+    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
+    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
+    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
+    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
+    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
+    "selected": "[NEEDS TRANSLATION] Selezionato",
+    "select": "[NEEDS TRANSLATION] Seleziona"
+  },
+  "clients": {
+    "title": "Kunder",
+    "description": "Administrer kundeinformasjon",
+    "subDescription": "Legg til, rediger og vis kundedata, inkludert personlig og medisinsk informasjon",
+    "goTo": "Administrer Kunder",
+    "addClient": "Ny Kunde",
+    "newClient": "Ny Kunde",
+    "addFirstClient": "Legg til første kunde",
+    "search": {
+      "placeholder": "Søk kunder etter navn, telefon eller e-post...",
+      "minLength": "Skriv inn minst 2 tegn for å søke"
+    },
+    "filter": {
+      "all": "Alle",
+      "frequent": "Faste",
+      "noConsent": "Uten Samtykke"
+    },
+    "noClientsFound": "Ingen kunder funnet",
+    "noClientsInSystem": "Det er ingen kunder registrert i systemet",
+    "noResultsMatch": "Ingen kunder samsvarer med søkekriteriene \"{{query}}\"",
+    "refreshSuccess": "Kundedata er oppdatert",
+    "lastUpdate": "Siste oppdatering",
+    "autoUpdate": "Automatisk oppdatering hver time og kl. 23:59",
+    "stats": {
+      "total": "Totalt antall kunder",
+      "frequent": "Faste kunder",
+      "noConsent": "Uten samtykke"
+    },
+    "table": {
+      "name": "Fornavn",
+      "surname": "Etternavn",
+      "email": "E-post",
+      "phone": "Telefon",
+      "actions": "Handlinger"
+    },
+    "details": {
+      "title": "Kundedetaljer",
+      "personalInfo": "Personlig Informasjon",
+      "medicalInfo": "Medisinsk Informasjon",
+      "appointments": "Timeavtaler",
+      "notes": "Notater",
+      "consents": "Samtykker",
+      "clientFile": "Kundemappen",
+      "addAppointment": "Ny Timeavtale",
+      "generateQRCode": "Generer QR-kode",
+      "accessActivated": "Kundetilgang QR-kode",
+      "showDetails": "Detaljer",
+      "deleteClient": "Slett kunde",
+      "deleteClientConfirmation": "Er du sikker på at du vil slette denne kunden? Alle timeavtalene deres vil også bli slettet. Denne handlingen kan ikke angres.",
+      "notFound": "Kunde ikke funnet",
+      "notSpecified": "Ikke spesifisert",
+      "frequentClient": "Fast kunde",
+      "dataConsent": "Samtykke til databehandling",
+      "obtained": "Innhentet",
+      "notObtained": "Ikke innhentet",
+      "viewAllAppointments": "Se alle timeavtaler",
+      "backToClients": "Tilbake til kundelisten",
+      "structuredNotes": "Strukturerte notater",
+      "legacyMedicalData": "Eldre medisinske data",
+      "otherInfo": "Annen informasjon",
+      "viewMode": "Visningsmode for notater",
+      "stackedView": "Stablede kort",
+      "classicView": "Klassisk visning",
+      "stackedViewDescription": "Notater vises som stablede kort. Klikk på kortene eller bruk navigasjonsknappene for å bla gjennom dem.",
+      "classicViewDescription": "Notater vises i vertikal rekkefølge.",
+      "generalNotes": "Generelle notater",
+      "medicalNotes": "Medisinske notater",
+      "allergiesInfo": "Allergier og helseinformasjon",
+      "medicalNotesLegacy": "Medisinske notater (eldre)",
+      "allergiesInfoLegacy": "Allergier og helseinformasjon (eldre)",
+      "generalNotesLegacy": "Generelle notater (eldre)",
+      "noMedicalNotes": "Ingen medisinske notater registrert",
+      "noAllergiesInfo": "Ingen allergier eller helseinformasjon registrert",
+      "noGeneralNotes": "Ingen generelle notater registrert"
+    },
+    "form": {
+      "firstName": "Fornavn",
+      "lastName": "Etternavn",
+      "email": "E-post",
+      "phone": "Telefon",
+      "birthDate": "Fødselsdato",
+      "address": "Adresse",
+      "city": "By",
+      "zipCode": "Postnummer",
+      "notes": "Notater",
+      "save": "Lagre",
+      "cancel": "Avbryt"
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+  },
+  "invoices": {
+    "title": "Fakturaer",
+    "description": "Administrer fakturaer og betalinger",
+    "subDescription": "Opprett og administrer fakturaer, registrer betalinger og overvåk fakturastatus i sanntid",
+    "goTo": "Administrer Fakturaer",
+    "addInvoice": "Ny Faktura",
+    "table": {
+      "number": "Nummer",
+      "date": "Dato",
+      "client": "Kunde",
+      "amount": "Beløp",
+      "status": "Status",
+      "actions": "Handlinger"
+    },
+    "status": {
+      "paid": "Betalt",
+      "unpaid": "Ubetalt",
+      "partial": "Delvis Betalt"
+    }
+  },
+  "reports": {
+    "title": "Rapporter",
+    "description": "Analyser virksomhetens ytelse",
+    "subDescription": "Se daglige, ukentlige og månedlige rapporter for å analysere virksomhetens ytelse",
+    "goTo": "Se Rapporter",
+    "daily": "Daglig Rapport",
+    "weekly": "Ukentlig Rapport",
+    "monthly": "Månedlig Rapport",
+    "appointments": "Timeavtaler",
+    "clients": "Kunder",
+    "revenue": "Omsetning"
+  },
+  "settings": {
+    "title": "Innstillinger",
+    "general": "Generelt",
+    "profile": "Profil",
+    "appearance": "Utseende",
+    "notifications": "Varsler",
+    "language": "Språk",
+    "theme": "Tema",
+    "save": "Lagre Innstillinger",
+    "googleCalendar": "Google kalender",
+    "contacts": "Kontakter",
+    "saving": "Lagrer...",
+    "contactsTitle": "Kontaktinformasjon",
+    "contactsDesc": "Administrer kontaktinformasjonen som vil vises i bunnteksten til kundeappen",
+    "appName": "App Navn",
+    "appIcon": "App Ikon",
+    "integrations": "Integrasjoner",
+    "appearanceTitle": "Bedriftsidentitet",
+    "appearanceDesc": "Tilpass applikasjonens navn og ikon for å gjenspeile bedriftens identitet. Disse innstillingene vil gjelde for både hovedappen og kundeappen."
+  },
+  "common": {
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "edit": "Rediger",
+    "delete": "Slett",
+    "view": "Vis",
+    "search": "Søk",
+    "back": "Tilbake",
+    "next": "Neste",
+    "previous": "Forrige",
+    "actions": "Handlinger",
+    "name": "Navn",
+    "email": "E-post",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "date": "Dato",
+    "time": "Tid",
+    "description": "Beskrivelse",
+    "support": "Støtte",
+    "terms": "Vilkår for bruk",
+    "refresh": "Oppdater",
+    "error": "Feil",
+    "birthday": "Fødselsdato",
+    "yes": "Ja",
+    "no": "Nei"
+  },
+  "notifications": {
+    "success": "Operasjonen ble fullført",
+    "error": "Det oppstod en feil",
+    "warning": "Advarsel",
+    "info": "Informasjon",
+    "clientDeleted": "Kunde slettet",
+    "clientDeletedSuccess": "Kunden ble slettet"
+  },
+  "whatsappNotifications": {
+    "title": "Kundevarsler",
+    "description": "Administrer timepåminnelser",
+    "subDescription": "Send WhatsApp-påminnelser til kunder for deres kommende avtaler",
+    "goTo": "Administrer varsler"
+  },
+  "notificationsPage": {
+    "title": "Kundevarsler",
+    "subtitle": "Administrer påminnelser for kundetimer",
+    "refresh": "Oppdater",
+    "tabs": {
+      "upcoming": "Til sending",
+      "history": "Historikk",
+      "settings": "Varslingsinnstillinger",
+      "calendar": "Google Kalender"
+    },
+    "howItWorks": {
+      "title": "Hvordan WhatsApp-varsler fungerer",
+      "steps": [
+        "Velg avtaler du vil sende påminnelse for",
+        "Klikk på \"Generer WhatsApp-varsler\" for å lage lenker",
+        "Lenker som åpner WhatsApp med forhåndsutfylte tekster vil bli generert",
+        "Du kan tilpasse standardteksten før sending"
+      ]
+    },
+    "customMessage": {
+      "title": "Tilpasset melding (valgfritt)",
+      "description": "Hvis spesifisert, vil denne teksten legges til standardmeldingen",
+      "placeholder": "F.eks. Husk å ta med tidligere medisinsk dokumentasjon.",
+      "characters": "tegn",
+      "clear": "Tøm"
+    },
+    "noAppointments": {
+      "loading": "Laster avtaler...",
+      "empty": "Ingen avtaler å varsle",
+      "description": "Det er ingen kommende avtaler som trenger påminnelser."
+    },
+    "table": {
+      "client": "Kunde",
+      "service": "Tjeneste",
+      "time": "Tid",
+      "actions": "Handlinger",
+      "send": "Send",
+      "selectAll": "Velg alle"
+    },
+    "buttons": {
+      "generating": "Genererer...",
+      "generateWhatsApp": "Generer WhatsApp-varsler"
+    },
+    "history": {
+      "title": "Varslingshistorikk",
+      "description": "Nylig sendte påminnelser via WhatsApp",
+      "noNotifications": "Ingen varsler har blitt sendt nylig",
+      "table": {
+        "date": "Dato",
+        "message": "Melding",
+        "actions": "Handlinger",
+        "reopen": "Åpne på nytt",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Velg alle",
+      "actions": "Handlinger",
+      "sendButton": "Generer WhatsApp-varsler",
+      "sending": "Genererer varsler..."
+    },
+    "errors": {
+      "loadingAppointments": "Kunne ikke laste avtaler",
+      "loadingHistory": "Kunne ikke laste historikk",
+      "noneSelected": "Velg minst én avtale for å sende varsler",
+      "sendingFailed": "Kunne ikke sende påminnelser"
+    },
+    "success": {
+      "remindersSent": "Påminnelser generert vellykket"
+    },
+    "whatsappLink": "Åpne WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Varslingsinnstillinger",
+    "enableEmailNotifications": "Aktiver e-postvarsler",
+    "emailSetup": {
+      "title": "Rask e-postoppsett",
+      "email": "E-post",
+      "emailPlaceholder": "Skriv inn e-postadressen din",
+      "password": "Passord",
+      "passwordPlaceholder": "Skriv inn e-postpassordet ditt",
+      "description": "Denne konfigurasjonen setter opp e-postkontoen din for sending av varsler.",
+      "autoDetect": "Automatisk oppdagelse av innstillinger",
+      "emailRequired": "Skriv inn e-postadressen din for å oppdage innstillinger"
+    },
+    "errors": {
+      "loadingSettings": "Kunne ikke laste varslingsinnstillinger",
+      "savingSettings": "Kunne ikke lagre innstillinger",
+      "testEmailMissing": "Skriv inn en e-postadresse for testing"
+    },
+    "success": {
+      "settingsSaved": "Varslingsinnstillinger lagret vellykket",
+      "testEmailSent": "Test-e-post sendt vellykket",
+      "remindersProcessed": "Påminnelser behandlet vellykket"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Kalender",
+    "setupInstructions": "Sett opp Google Kalender-integrasjon",
+    "emailLabel": "Gmail-konto",
+    "emailPlaceholder": "din.epost@gmail.com",
+    "emailDescription": "Google-kontoen du vil bruke for kalenderen",
+    "connected": "Konto tilkoblet",
+    "notConnected": "Konto ikke tilkoblet ennå",
+    "clientIdLabel": "Klient-ID",
+    "clientIdPlaceholder": "Din Google Klient-ID",
+    "clientIdDescription": "Få denne verdien fra Google Cloud-konsollen",
+    "clientSecretLabel": "Klienthemmelighet",
+    "clientSecretPlaceholder": "Din Google Klienthemmelighet",
+    "clientSecretDescription": "Få denne verdien fra Google Cloud-konsollen",
+    "configHelp": "Hjelp med oppsett",
+    "errors": {
+      "authorizationUrlFailed": "Kunne ikke generere autorisasjons-URL"
+    },
+    "success": {
+      "settingsSaved": "Synkroniseringsinnstillinger lagret vellykket",
+      "authorizationComplete": "Google-kontoen din er vellykket tilkoblet"
+    }
+  },
+  "errors": {
+    "genericError": "Det oppstod en feil: {{error}}",
+    "qrCodeFetchError": "Feil ved henting av eksisterende QR-kode:"
+  },
+  "auth": {
+    "login": "Logg inn",
+    "logout": "Logg ut",
+    "username": "Brukernavn",
+    "password": "Passord",
+    "rememberMe": "Husk meg",
+    "forgotPassword": "Glemt passord?",
+    "loginButton": "Logg inn"
+  },
+  "clientArea": {
+    "title": "Kundeområde",
+    "welcome": "Velkommen til ditt Personlige Område",
+    "appointments": "Dine Timeavtaler",
+    "personalInfo": "Personlig Informasjon",
+    "consents": "Samtykkehåndtering",
+    "messages": "Meldinger"
+  },
+  "contacts": {
+    "accessOurContacts": "Tilgang til våre kontakter"
+  },
+  "appointment": {
+    "selectTimeSlots": "Velg tid for ny timeavtale",
+    "confirmAndAssociateClient": "Bekreft og knytt til kunde",
+    "selected": "Valgt",
+    "selectSlots": "Velg tidsluker",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "navigation": {
+    "home": "Home",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
+  },
+  "sidebar": {
+    "clients": "Kunder",
+    "calendar": "Kalender",
+    "invoices": "Fakturaer",
+    "reports": "Rapporter",
+    "settings": "Innstillinger"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
+  }
+}

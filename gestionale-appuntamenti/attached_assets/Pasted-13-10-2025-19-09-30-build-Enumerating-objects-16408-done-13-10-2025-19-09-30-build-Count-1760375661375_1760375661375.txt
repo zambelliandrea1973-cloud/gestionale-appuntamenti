@@ -1,0 +1,394 @@
+13/10/2025, 19:09:30:
+build
+Enumerating objects: 16408, done.
+13/10/2025, 19:09:30:
+build
+Counting objects: 100% (128/128), done.
+13/10/2025, 19:09:30:
+build
+Compressing objects: 100% (47/47), done.
+13/10/2025, 19:09:54:
+build
+Total 16408 (delta 94), reused 114 (delta 81), pack-reused 16280 (from 1)
+13/10/2025, 19:10:26:
+build
+#1 [service_event_9offthsu0hvb internal] load build definition from Dockerfile
+13/10/2025, 19:10:26:
+build
+#1 transferring dockerfile: 565B done
+13/10/2025, 19:10:26:
+build
+#1 DONE 0.0s
+13/10/2025, 19:10:26:
+build
+13/10/2025, 19:10:26:
+build
+#2 [service_event_9offthsu0hvb internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 19:10:26:
+build
+#2 DONE 0.8s
+13/10/2025, 19:10:26:
+build
+13/10/2025, 19:10:26:
+build
+#3 [service_event_9offthsu0hvb internal] load .dockerignore
+13/10/2025, 19:10:26:
+build
+#3 transferring context: 673B done
+13/10/2025, 19:10:26:
+build
+#3 DONE 0.0s
+13/10/2025, 19:10:26:
+build
+13/10/2025, 19:10:27:
+build
+#4 [service_event_9offthsu0hvb] importing cache manifest from local:12697560581733394518
+13/10/2025, 19:10:27:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 19:10:27:
+build
+#4 DONE 0.0s
+13/10/2025, 19:10:27:
+build
+13/10/2025, 19:10:27:
+build
+#5 [service_event_9offthsu0hvb 1/6] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 19:10:27:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 19:10:27:
+build
+#5 DONE 0.0s
+13/10/2025, 19:10:27:
+build
+13/10/2025, 19:10:27:
+build
+#6 [service_event_9offthsu0hvb internal] load build context
+13/10/2025, 19:10:30:
+build
+#6 transferring context: 1.21GB 3.6s done
+13/10/2025, 19:10:30:
+build
+#6 DONE 3.7s
+13/10/2025, 19:10:30:
+build
+13/10/2025, 19:10:30:
+build
+#7 [service_event_9offthsu0hvb 2/6] WORKDIR /app
+13/10/2025, 19:10:30:
+build
+#7 CACHED
+13/10/2025, 19:10:30:
+build
+13/10/2025, 19:10:30:
+build
+#8 [service_event_9offthsu0hvb 3/6] COPY package.json package-lock.json ./
+13/10/2025, 19:10:30:
+build
+#8 CACHED
+13/10/2025, 19:10:30:
+build
+13/10/2025, 19:10:30:
+build
+#9 [service_event_9offthsu0hvb 4/6] RUN npm ci
+13/10/2025, 19:10:30:
+build
+#9 CACHED
+13/10/2025, 19:10:30:
+build
+13/10/2025, 19:10:30:
+build
+#10 [service_event_9offthsu0hvb 5/6] COPY . .
+13/10/2025, 19:10:34:
+build
+#10 DONE 3.8s
+13/10/2025, 19:10:34:
+build
+13/10/2025, 19:10:34:
+build
+#11 [service_event_9offthsu0hvb 6/6] RUN npx vite build
+13/10/2025, 19:10:35:
+build
+#11 1.354 vite v5.4.14 building for production...
+13/10/2025, 19:10:36:
+build
+#11 1.883 
+13/10/2025, 19:10:36:
+build
+#11 1.896 
+13/10/2025, 19:10:36:
+build
+#11 1.896 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+13/10/2025, 19:10:36:
+build
+#11 1.899 transforming...
+13/10/2025, 19:10:36:
+build
+#11 1.941 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+13/10/2025, 19:10:36:
+build
+#11 1.941   npx update-browserslist-db@latest
+13/10/2025, 19:10:36:
+build
+#11 1.941   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+13/10/2025, 19:10:47:
+build
+#11 13.07 ✓ 3669 modules transformed.
+13/10/2025, 19:10:48:
+build
+#11 14.31 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 19:10:48:
+build
+#11 14.31 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 19:10:48:
+build
+#11 14.31 
+13/10/2025, 19:10:48:
+build
+#11 14.31 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 19:10:48:
+build
+#11 14.31 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 19:10:48:
+build
+#11 14.31 
+13/10/2025, 19:10:48:
+build
+#11 14.31 rendering chunks...
+13/10/2025, 19:10:48:
+build
+#11 14.38 computing gzip size...
+13/10/2025, 19:10:48:
+build
+#11 14.46 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+13/10/2025, 19:10:48:
+build
+#11 14.46 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+13/10/2025, 19:10:48:
+build
+#11 14.46 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+13/10/2025, 19:10:49:
+build
+#11 14.46 
+13/10/2025, 19:10:49:
+build
+#11 14.46 (!) Some chunks are larger than 500 kB after minification. Consider:
+13/10/2025, 19:10:49:
+build
+#11 14.46 - Using dynamic import() to code-split the application
+13/10/2025, 19:10:49:
+build
+#11 14.46 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+13/10/2025, 19:10:49:
+build
+#11 14.46 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+13/10/2025, 19:10:49:
+build
+#11 14.46 ✓ built in 13.05s
+13/10/2025, 19:10:49:
+build
+#11 DONE 14.6s
+13/10/2025, 19:10:49:
+build
+13/10/2025, 19:10:49:
+build
+#12 [service_event_9offthsu0hvb] exporting to image
+13/10/2025, 19:10:49:
+build
+#12 exporting layers
+13/10/2025, 19:11:13:
+build
+#12 exporting layers 24.7s done
+13/10/2025, 19:11:13:
+build
+#12 exporting manifest sha256:f9fdf21c58633ef44b0486633d79a7a36bca7fe0c664adb61d3c28860bea9169 done
+13/10/2025, 19:11:13:
+build
+#12 exporting config sha256:1bdbbee6b553cd96f8987de04ec8c5717e25a78e924c5c4e842f0b8303e6488f done
+13/10/2025, 19:11:13:
+build
+#12 pushing layers
+13/10/2025, 19:11:30:
+build
+#12 pushing layers 16.6s done
+13/10/2025, 19:11:30:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_9offthsu0hvb@sha256:f9fdf21c58633ef44b0486633d79a7a36bca7fe0c664adb61d3c28860bea9169
+13/10/2025, 19:11:30:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_9offthsu0hvb@sha256:f9fdf21c58633ef44b0486633d79a7a36bca7fe0c664adb61d3c28860bea9169 0.1s done
+13/10/2025, 19:11:30:
+build
+#12 DONE 41.5s
+13/10/2025, 19:11:30:
+build
+13/10/2025, 19:11:30:
+build
+#13 [service_event_9offthsu0hvb] exporting cache to client directory
+13/10/2025, 19:11:30:
+build
+#13 preparing build cache for export
+13/10/2025, 19:11:30:
+build
+#13 writing layer sha256:089fd37cea0abcc9ba20ef2fee7087f73183da520978a704b07c84f7c15e1dfa done
+13/10/2025, 19:11:30:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+13/10/2025, 19:11:30:
+build
+#13 writing layer sha256:412d95323c4a1ecb05ef4229d1c5efbd6ef2253634899322e71ea3e35b240378
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:412d95323c4a1ecb05ef4229d1c5efbd6ef2253634899322e71ea3e35b240378 6.0s done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:5c53759e8c58f78696a0855a7a84bae9e9a01e6cdc5e93c76f1b17f310e23ffa
+13/10/2025, 19:11:36:
+build
+#13 preparing build cache for export 6.1s done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:5c53759e8c58f78696a0855a7a84bae9e9a01e6cdc5e93c76f1b17f310e23ffa done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:8e05e2c953881eb3a546f65fac06c6007824e64a4e0af218d710c73c36a6e807 done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+13/10/2025, 19:11:36:
+build
+#13 writing layer sha256:fdcf0bf85896bcc5e2ee8ce82668b77b15a8538549d8695517460a0c91c32592 done
+13/10/2025, 19:11:36:
+build
+#13 writing config sha256:5aeaea325ad3de109e682cf3d5963439a390525c1e0ab5080ed2314d08aacce0 done
+13/10/2025, 19:11:36:
+build
+#13 writing cache image manifest sha256:413df2414845cba6bf28c7f5521c2552d7fc908f4a48f536c7be5b5e0abfcdd5 done
+13/10/2025, 19:11:36:
+build
+#13 DONE 6.1s
+13/10/2025, 19:11:38:
+build
+service_event_9offthsu0hvb: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+13/10/2025, 19:11:38:
+build
+2d35ebdb57d9: Already exists
+13/10/2025, 19:11:38:
+build
+c087321cece4: Already exists
+13/10/2025, 19:11:38:
+build
+f2fbe8556258: Already exists
+13/10/2025, 19:11:38:
+build
+c74c90aa7c87: Already exists
+13/10/2025, 19:11:38:
+build
+5c53759e8c58: Already exists
+13/10/2025, 19:11:38:
+build
+fdcf0bf85896: Already exists
+13/10/2025, 19:11:38:
+build
+089fd37cea0a: Pulling fs layer
+13/10/2025, 19:11:38:
+build
+412d95323c4a: Pulling fs layer
+13/10/2025, 19:11:38:
+build
+8e05e2c95388: Pulling fs layer
+13/10/2025, 19:11:38:
+build
+8e05e2c95388: Download complete
+13/10/2025, 19:11:43:
+build
+089fd37cea0a: Verifying Checksum
+13/10/2025, 19:11:43:
+build
+089fd37cea0a: Download complete
+13/10/2025, 19:11:45:
+build
+412d95323c4a: Verifying Checksum
+13/10/2025, 19:11:45:
+build
+412d95323c4a: Download complete
+13/10/2025, 19:12:08:
+build
+089fd37cea0a: Pull complete
+13/10/2025, 19:12:16:
+build
+412d95323c4a: Pull complete
+13/10/2025, 19:12:16:
+build
+8e05e2c95388: Pull complete
+13/10/2025, 19:12:16:
+build
+Digest: sha256:f9fdf21c58633ef44b0486633d79a7a36bca7fe0c664adb61d3c28860bea9169
+13/10/2025, 19:12:16:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_9offthsu0hvb
+13/10/2025, 19:12:18:
+runtime
+13/10/2025, 19:12:18:
+runtime
+node:internal/modules/run_main:123
+13/10/2025, 19:12:18:
+runtime
+    triggerUncaughtException(
+13/10/2025, 19:12:18:
+runtime
+    ^
+13/10/2025, 19:12:18:
+runtime
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /app/server/services/initialSetupService.ts
+13/10/2025, 19:12:18:
+runtime
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+13/10/2025, 19:12:18:
+runtime
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+13/10/2025, 19:12:18:
+runtime
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+13/10/2025, 19:12:18:
+runtime
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+13/10/2025, 19:12:18:
+runtime
+    at resolveBase (file:///app/node_modules/tsx/dist/esm/index.mjs?1760375537749:2:3212)
+13/10/2025, 19:12:18:
+runtime
+    at resolveDirectory (file:///app/node_modules/tsx/dist/esm/index.mjs?1760375537749:2:3584)
+13/10/2025, 19:12:18:
+runtime
+    at resolveTsPaths (file:///app/node_modules/tsx/dist/esm/index.mjs?1760375537749:2:4073)
+13/10/2025, 19:12:18:
+runtime
+    at resolve (file:///app/node_modules/tsx/dist/esm/index.mjs?1760375537749:2:4447)
+13/10/2025, 19:12:18:
+runtime
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+13/10/2025, 19:12:18:
+runtime
+    at Hooks.resolve (node:internal/modules/esm/hooks:306:30) {
+13/10/2025, 19:12:18:
+runtime
+  code: 'ERR_MODULE_NOT_FOUND'
+13/10/2025, 19:12:18:
+runtime
+}
+13/10/2025, 19:12:18:
+runtime
+13/10/2025, 19:12:18:
+runtime
+Node.js v20.19.5
+13/10/2025, 19:13:17:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port
