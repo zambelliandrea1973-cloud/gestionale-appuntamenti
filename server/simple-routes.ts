@@ -38,6 +38,7 @@ import { notificationService } from './services/notificationService';
 
 // Import Google Calendar service for sync
 import { addAppointmentToGoogleCalendar } from './services/googleCalendarService';
+import { syncBidirectional } from './services/googleCalendarSync';
 
 // Import storage for new collaborators and rooms functionality
 import { storage } from './storage';
@@ -9359,6 +9360,37 @@ Studio Professionale`;
     } catch (error) {
       console.error('❌ Errore reset-password:', error);
       res.status(500).send("Errore server");
+    }
+  });
+
+  // Endpoint per sincronizzazione manuale Google Calendar
+  app.post('/api/google-calendar/sync', requireAuth, async (req, res) => {
+    try {
+      const user = req.user as any;
+      console.log(`🔄 [POST] /api/google-calendar/sync - Sincronizzazione manuale per utente ${user.id}`);
+      
+      if (!user.googleCalendarEnabled || !user.googleAuthToken) {
+        return res.status(400).json({ 
+          error: 'Google Calendar non è abilitato',
+          message: 'Devi prima autorizzare Google Calendar nelle impostazioni' 
+        });
+      }
+      
+      const result = await syncBidirectional(user.id);
+      
+      console.log(`✅ [POST] /api/google-calendar/sync completata per utente ${user.id}:`, result);
+      
+      res.json({
+        success: result.success,
+        message: result.message,
+        details: result.details
+      });
+    } catch (error) {
+      console.error(`❌ [POST] /api/google-calendar/sync errore per utente ${req.user?.id}:`, error);
+      res.status(500).json({ 
+        error: 'Errore durante la sincronizzazione',
+        message: String(error)
+      });
     }
   });
 
