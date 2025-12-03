@@ -1411,7 +1411,6 @@ export const referralCommissions = pgTable("referral_commissions", {
   status: text("status").default("active"), // active, inactive, cancelled
   startDate: timestamp("start_date").defaultNow(),
   endDate: timestamp("end_date"),
-  lastPaidPeriod: timestamp("last_paid_period"),
   payoutScheduledDate: timestamp("payout_scheduled_date"), // Data programmata payout (30gg dopo startDate)
   payoutDate: timestamp("payout_date"), // Data effettiva payout
   payoutTransactionId: text("payout_transaction_id"), // ID transazione PayPal/bancaria
