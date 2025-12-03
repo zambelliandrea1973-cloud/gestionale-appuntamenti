@@ -404,6 +404,13 @@ export default function Home() {
           <div>
             <h3 className="font-semibold text-foreground mb-2">Privacy e Sicurezza</h3>
             <p>Supporto tecnico: zambelli.andrea.1973@gmail.com</p>
+            <Link to="/privacy">
+              <button 
+                className="text-primary hover:underline mt-1 block"
+              >
+                Informativa sulla Privacy →
+              </button>
+            </Link>
             <button 
               className="text-primary hover:underline mt-1"
               onClick={() => navigate('/terms')}
