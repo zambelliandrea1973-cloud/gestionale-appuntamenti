@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, Gift, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -196,6 +196,28 @@ export default function RegisterPage() {
                     Termini di Servizio
                   </a>
                 </Label>
+              </div>
+              
+              {/* Banner Prova Gratuita */}
+              <div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-primary" />
+                  <h3 className="font-semibold text-sm text-primary">Prova 40 giorni GRATIS</h3>
+                </div>
+                <ul className="text-xs text-muted-foreground space-y-1 ml-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                    <span>Accesso completo a tutte le funzionalità</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                    <span>Nessuna carta di credito richiesta</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                    <span>Cancella quando vuoi</span>
+                  </li>
+                </ul>
               </div>
               
               <Button type="submit" className="w-full" disabled={loading}>
