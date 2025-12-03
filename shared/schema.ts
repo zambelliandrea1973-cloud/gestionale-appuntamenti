@@ -1606,6 +1606,53 @@ export const insertPaymentMethodsConfigSchema = createInsertSchema(paymentMethod
 export type PaymentMethodsConfig = typeof paymentMethodsConfig.$inferSelect;
 export type InsertPaymentMethodsConfig = z.infer<typeof insertPaymentMethodsConfigSchema>;
 
+// Email Calendar Settings - Impostazioni email e calendario per ogni utente
+export const emailCalendarSettings = pgTable("email_calendar_settings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }).unique(),
+  emailEnabled: boolean("email_enabled").notNull().default(false),
+  emailAddress: varchar("email_address", { length: 255 }),
+  emailPassword: text("email_password"), // Encrypted
+  emailTemplate: text("email_template"),
+  emailSubject: varchar("email_subject", { length: 255 }),
+  calendarEnabled: boolean("calendar_enabled").notNull().default(false),
+  calendarId: varchar("calendar_id", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertEmailCalendarSettingsSchema = createInsertSchema(emailCalendarSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type EmailCalendarSettings = typeof emailCalendarSettings.$inferSelect;
+export type InsertEmailCalendarSettings = z.infer<typeof insertEmailCalendarSettingsSchema>;
+
+// Contact Info - Informazioni di contatto per ogni utente
+export const contactInfo = pgTable("contact_info", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }).unique(),
+  email: varchar("email", { length: 255 }),
+  phone1: varchar("phone1", { length: 20 }),
+  phone2: varchar("phone2", { length: 20 }),
+  website: varchar("website", { length: 255 }),
+  facebook: varchar("facebook", { length: 255 }),
+  instagram: varchar("instagram", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertContactInfoSchema = createInsertSchema(contactInfo).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ContactInfo = typeof contactInfo.$inferSelect;
+export type InsertContactInfo = z.infer<typeof insertContactInfoSchema>;
+
 // Manual Content - Sistema gestione manuale interattivo con media
 export const manualContent = pgTable("manual_content", {
   id: serial("id").primaryKey(),
