@@ -26,6 +26,7 @@ import {
   subscriptions, type Subscription, type InsertSubscription,
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
+  paymentMethodsConfig, type PaymentMethodsConfig,
   licenses, type License, type InsertLicense,
   onboardingProgress, type OnboardingProgress, type InsertOnboardingProgress,
   companyNameSettings, type CompanyNameSettings, type InsertCompanyNameSettings,
@@ -4177,55 +4178,79 @@ export class DatabaseStorage implements IStorage {
   }
   
   /**
-   * Recupera tutti i metodi di pagamento configurati
+   * Recupera tutti i metodi di pagamento configurati dal DATABASE (PostgreSQL)
    */
   async getPaymentMethods(): Promise<any[]> {
     try {
-      console.log('Recupero metodi di pagamento configurati');
+      console.log('📊 Recupero metodi di pagamento da PostgreSQL');
       
-      // Creiamo un file JSON persistente per i metodi di pagamento
-      const paymentMethodsPath = './payment_methods.json';
+      // Leggi da database PostgreSQL
+      const methods = await db.select().from(paymentMethodsConfig);
       
-      // Se il file non esiste, restituisci un array vuoto
-      if (!fs.existsSync(paymentMethodsPath)) {
-        console.log('File metodi di pagamento non trovato, nessun metodo configurato');
+      if (!methods || methods.length === 0) {
+        console.log('❌ Nessun metodo di pagamento trovato nel database, restituisco array vuoto');
         return [];
       }
       
-      // Leggi il file JSON
-      const fileContent = fs.readFileSync(paymentMethodsPath, 'utf8');
-      if (!fileContent) {
-        console.log('File metodi di pagamento vuoto');
-        return [];
-      }
+      // Trasforma i dati dal database nel formato attendeso
+      const formattedMethods = methods.map(method => ({
+        id: method.methodId,
+        name: method.name,
+        enabled: method.enabled,
+        config: method.config
+      }));
       
-      // Parsa il JSON e restituisci i metodi di pagamento
-      const paymentMethods = JSON.parse(fileContent);
-      console.log(`Recuperati ${paymentMethods.length} metodi di pagamento configurati`);
-      return paymentMethods;
+      console.log(`✅ Recuperati ${formattedMethods.length} metodi di pagamento da PostgreSQL`);
+      return formattedMethods;
     } catch (error) {
-      console.error('Errore nel recupero dei metodi di pagamento:', error);
+      console.error('❌ Errore nel recupero dei metodi di pagamento dal database:', error);
       return [];
     }
   }
   
   /**
-   * Salva la configurazione dei metodi di pagamento
+   * Salva la configurazione dei metodi di pagamento nel DATABASE (PostgreSQL)
    */
   async savePaymentMethods(methods: any[]): Promise<boolean> {
     try {
-      console.log(`Salvataggio di ${methods.length} metodi di pagamento`);
+      console.log(`💾 Salvataggio di ${methods.length} metodi di pagamento su PostgreSQL`);
       
-      // Creiamo un file JSON persistente per i metodi di pagamento
-      const paymentMethodsPath = './payment_methods.json';
+      for (const method of methods) {
+        // Aggiorna se esiste, altrimenti inserisce
+        const existing = await db
+          .select()
+          .from(paymentMethodsConfig)
+          .where(eq(paymentMethodsConfig.methodId, method.id))
+          .limit(1);
+        
+        if (existing.length > 0) {
+          // Aggiorna record esistente
+          await db
+            .update(paymentMethodsConfig)
+            .set({
+              name: method.name,
+              enabled: method.enabled,
+              config: method.config,
+              updatedAt: new Date()
+            })
+            .where(eq(paymentMethodsConfig.methodId, method.id));
+          console.log(`✏️ Metodo "${method.name}" aggiornato`);
+        } else {
+          // Inserisce nuovo record
+          await db.insert(paymentMethodsConfig).values({
+            methodId: method.id,
+            name: method.name,
+            enabled: method.enabled,
+            config: method.config
+          });
+          console.log(`➕ Metodo "${method.name}" creato`);
+        }
+      }
       
-      // Scrive i metodi di pagamento nel file JSON
-      fs.writeFileSync(paymentMethodsPath, JSON.stringify(methods, null, 2), 'utf8');
-      
-      console.log('Metodi di pagamento salvati con successo');
+      console.log('✅ Metodi di pagamento salvati con successo su PostgreSQL');
       return true;
     } catch (error) {
-      console.error('Errore nel salvataggio dei metodi di pagamento:', error);
+      console.error('❌ Errore nel salvataggio dei metodi di pagamento:', error);
       return false;
     }
   }

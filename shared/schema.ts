@@ -1586,6 +1586,26 @@ export const insertCurrencySettingsSchema = createInsertSchema(currencySettings)
 export type CurrencySettings = typeof currencySettings.$inferSelect;
 export type InsertCurrencySettings = z.infer<typeof insertCurrencySettingsSchema>;
 
+// Payment Methods Configuration - Configurazione globale metodi di pagamento (Stripe, PayPal, Wise, Bonifico)
+export const paymentMethodsConfig = pgTable("payment_methods_config", {
+  id: serial("id").primaryKey(),
+  methodId: varchar("method_id", { length: 50 }).notNull().unique(), // stripe, paypal, wise, bank
+  name: varchar("name", { length: 255 }).notNull(), // Nome metodo
+  enabled: boolean("enabled").notNull().default(false),
+  config: json("config").notNull().$type<Record<string, any>>(), // Salva l'intero JSON config
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPaymentMethodsConfigSchema = createInsertSchema(paymentMethodsConfig).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type PaymentMethodsConfig = typeof paymentMethodsConfig.$inferSelect;
+export type InsertPaymentMethodsConfig = z.infer<typeof insertPaymentMethodsConfigSchema>;
+
 // Manual Content - Sistema gestione manuale interattivo con media
 export const manualContent = pgTable("manual_content", {
   id: serial("id").primaryKey(),
