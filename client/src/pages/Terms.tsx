@@ -66,37 +66,41 @@ export default function Terms() {
             <CardContent className="p-6">
               <h2 className="text-2xl font-semibold text-blue-900 mb-4">3. Tipologie di Abbonamento</h2>
               
+              <p className="text-muted-foreground mb-4">
+                Tutti i piani includono le seguenti funzionalità:
+              </p>
+              <ul className="list-disc pl-6 space-y-1 text-muted-foreground mb-6">
+                <li>Calendario appuntamenti</li>
+                <li>Gestione clienti</li>
+                <li>App QR/PWA per clienti</li>
+                <li>Richiesta appuntamenti cliente</li>
+                <li>Notifiche clienti</li>
+                <li>Emissione fatture</li>
+                <li>Sincronizzazione Google Calendar</li>
+                <li>Report e statistiche</li>
+                <li>Pacchetti promozionali</li>
+                <li>Gestione più dipendenti</li>
+                <li>Magazzino prodotti</li>
+                <li>Campagne Marketing AI</li>
+              </ul>
+              
               <div className="space-y-4">
-                <div>
+                <div className="p-4 border border-gray-300 rounded-lg">
                   <h3 className="text-lg font-semibold text-blue-800 mb-2">3.1 Piano Base</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                    <li>Gestione fino a 100 clienti</li>
-                    <li>Calendario appuntamenti base</li>
-                    <li>Fatturazione semplice</li>
-                    <li>Supporto email</li>
-                  </ul>
+                  <p className="text-muted-foreground"><strong>Prezzo:</strong> €5,99/mese oppure €59,00/anno</p>
+                  <p className="text-muted-foreground"><strong>Limite clienti:</strong> 100</p>
                 </div>
 
-                <div>
+                <div className="p-4 border border-blue-400 rounded-lg bg-blue-50">
                   <h3 className="text-lg font-semibold text-blue-800 mb-2">3.2 Piano Professional</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                    <li>Clienti illimitati</li>
-                    <li>Notifiche WhatsApp automatiche</li>
-                    <li>Report avanzati</li>
-                    <li>Area clienti personalizzata con QR code</li>
-                    <li>Supporto prioritario</li>
-                  </ul>
+                  <p className="text-muted-foreground"><strong>Prezzo:</strong> €9,99/mese oppure €99,00/anno</p>
+                  <p className="text-muted-foreground"><strong>Limite clienti:</strong> 500</p>
                 </div>
 
-                <div>
+                <div className="p-4 border border-gray-300 rounded-lg">
                   <h3 className="text-lg font-semibold text-blue-800 mb-2">3.3 Piano Business</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                    <li>Tutti i servizi del Piano Professional</li>
-                    <li>Multi-utente</li>
-                    <li>Personalizzazione avanzata</li>
-                    <li>Backup automatico</li>
-                    <li>Supporto telefonico dedicato</li>
-                  </ul>
+                  <p className="text-muted-foreground"><strong>Prezzo:</strong> €19,99/mese oppure €199,00/anno</p>
+                  <p className="text-muted-foreground"><strong>Limite clienti:</strong> Illimitato</p>
                 </div>
               </div>
             </CardContent>

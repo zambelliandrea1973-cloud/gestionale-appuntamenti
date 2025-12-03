@@ -1,0 +1,138 @@
+Base Mensile
+Piano base - fatturazione mensile
+
+Modifica
+Prezzo (centesimi)
+5.99
+/ mese
+Limite Clienti
+100
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
+Base Annuale
+Piano base - fatturazione annuale (risparmi 11€)
+
+Modifica
+Prezzo (centesimi)
+59.00
+/ anno
+Limite Clienti
+100
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
+Pro Mensile
+Piano professionale - fatturazione mensile
+
+Modifica
+Prezzo (centesimi)
+9.99
+/ mese
+Limite Clienti
+500
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
+Pro Annuale
+Piano professionale - fatturazione annuale (risparmi 20€)
+
+Modifica
+Prezzo (centesimi)
+99.00
+/ anno
+Limite Clienti
+500
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
+Business Mensile
+Piano business - fatturazione mensile
+
+Modifica
+Prezzo (centesimi)
+19.99
+/ mese
+Limite Clienti
+Illimitato
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
+Business Annuale
+Piano business - fatturazione annuale (risparmi 39€)
+
+Modifica
+Prezzo (centesimi)
+199.00
+/ anno
+Limite Clienti
+Illimitato
+StatoAttivo
+Funzionalità Incluse
+Calendario appuntamenti
+Gestione clienti
+App QR/PWA per clienti
+Richiesta appuntamenti cliente
+Notifiche clienti
+Emissione fatture
+Sincronizzazione Google Calendar
+Report e statistiche
+Pacchetti promozionali
+Gestione più dipendenti
+Magazzino prodotti
+Campagne Marketing AI
