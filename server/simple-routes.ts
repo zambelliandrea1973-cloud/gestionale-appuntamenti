@@ -260,21 +260,22 @@ export function registerSimpleRoutes(app: Express): Server {
       // Crea l'hash della password
       const hashedPassword = await hashPassword(password);
       
-      // Crea il nuovo utente (con referral se presente)
+      // Crea il nuovo utente (con referral se presente e timestamp accettazione Termini)
       const newUser = await storage.createUser({
         username,
         email,
         password: hashedPassword,
         role: 'user',
         type: 'customer',
-        referredBy: referrerStaff?.id || null
+        referredBy: referrerStaff?.id || null,
+        termsAcceptedAt: new Date() // Registra quando l'utente accetta i Termini
       });
       
       if (referrerStaff) {
         console.log(`🎉 REFERRAL TRACCIATO: ${newUser.username} sponsorizzato da ${referrerStaff.username}`);
       }
       
-      console.log(`Nuovo utente registrato: ${username} (${email})`);
+      console.log(`✅ Nuovo utente registrato: ${username} (${email}) - Termini accettati: ${new Date().toISOString()}`);
       
       // Crea una licenza di prova per l'utente
       try {
