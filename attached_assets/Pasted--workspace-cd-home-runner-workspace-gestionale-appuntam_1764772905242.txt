@@ -1,0 +1,69 @@
+~/workspace$ cd /home/runner/workspace/gestionale-appuntamenti
+npm run db:push
+
+> rest-express@1.0.0 db:push
+> drizzle-kit push
+
+No config path provided, using default 'drizzle.config.ts'
+Reading config file '/home/runner/workspace/gestionale-appuntamenti/drizzle.config.ts'
+Using 'pg' driver for database querying
+[✓] Pulling schema from database...
+· You're about to add user_icons_user_id_unique unique constraint to the table, which contains 3 items. If this statement fails, you will receive an error from the database. Do you want to truncate user_icons table?
+
+· You're about to add currency_settings_user_id_unique unique constraint to the table, which contains 2 items. If this statement fails, you will receive an error from the database. Do you want to truncate currency_settings table?
+
+· You're about to add marketing_campaigns_unique_code_unique unique constraint to the table, which contains 14 items. If this statement fails, you will receive an error from the database. Do you want to truncate marketing_campaigns table?
+
+· You're about to add marketing_campaigns_idempotency_key_unique unique constraint to the table, which contains 14 items. If this statement fails, you will receive an error from the database. Do you want to truncate marketing_campaigns table?
+
+ Warning  Found data-loss statements:
+· You're about to change proposed_slots column type from jsonb to json with 16 items
+· You're about to change selected_slot column type from jsonb to json with 16 items
+· You're about to change purchase_date column type from date to text with 1 items
+· You're about to change status column type from varchar(20) to text with 1 items
+· You're about to change expires_at column type from date to text with 1 items
+· You're about to change preferences column type from jsonb to json with 8 items
+· You're about to change working_days column type from text to json with 8 items
+· You're about to change tax_rate column type from numeric(5, 2) to numeric with 8 items
+· You're about to delete terms_accepted_at column in users table with 41 items
+· You're about to delete working_hours column in user_settings table with 8 items
+· You're about to delete billing_settings column in user_settings table with 8 items
+· You're about to delete custom_fields column in user_settings table with 8 items
+· You're about to delete notification_email_template column in user_settings table with 8 items
+· You're about to delete notification_sms_template column in user_settings table with 8 items
+· You're about to delete appointment_confirmation_template column in user_settings table with 8 items
+· You're about to delete billing_company_name column in user_settings table with 8 items
+· You're about to delete billing_vat_number column in user_settings table with 8 items
+· You're about to delete billing_address column in user_settings table with 8 items
+· You're about to delete confirmation_enabled column in user_settings table with 8 items
+· You're about to delete currency column in user_settings table with 8 items
+
+THIS ACTION WILL CAUSE DATA LOSS AND CANNOT BE REVERTED
+
+Do you still want to push changes?
+[x] All changes were aborted
+~/workspace/gestionale-appuntamenti$ cd /home/runner/workspace/gestionale-appuntamenti && npx tsx server/migrate-payment-methods.ts
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/runner/workspace/gestionale-appuntamenti/server/migrate-payment-methods.ts' imported from /home/runner/workspace/gestionale-appuntamenti/
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at resolveBase (file:///home/runner/workspace/node_modules/tsx/dist/esm/index.mjs?1764772882702:2:3212)
+    at resolveDirectory (file:///home/runner/workspace/node_modules/tsx/dist/esm/index.mjs?1764772882702:2:3584)
+    at resolveTsPaths (file:///home/runner/workspace/node_modules/tsx/dist/esm/index.mjs?1764772882702:2:4073)
+    at resolve (file:///home/runner/workspace/node_modules/tsx/dist/esm/index.mjs?1764772882702:2:4447)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at Hooks.resolve (node:internal/modules/esm/hooks:306:30) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/runner/workspace/gestionale-appuntamenti/server/migrate-payment-methods.ts'
+}
+
+Node.js v20.19.3
+~/workspace/gestionale-appuntamenti$ git add -A && git commit -m "✅ Credenziali PayPal su PostgreSQL" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace/gestionale-appuntamenti$ 
