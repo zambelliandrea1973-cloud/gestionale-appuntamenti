@@ -32,6 +32,10 @@ export default function RegisterPage() {
       [name]: type === "checkbox" ? checked : value 
     }));
   };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, termsAccepted: checked }));
+  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -182,9 +186,8 @@ export default function RegisterPage() {
               <div className="flex items-start space-x-2 border-t pt-4">
                 <Checkbox
                   id="termsAccepted"
-                  name="termsAccepted"
                   checked={formData.termsAccepted}
-                  onChange={handleChange}
+                  onCheckedChange={handleCheckboxChange}
                   data-testid="checkbox-terms-accepted"
                 />
                 <Label htmlFor="termsAccepted" className="text-sm font-normal cursor-pointer">
