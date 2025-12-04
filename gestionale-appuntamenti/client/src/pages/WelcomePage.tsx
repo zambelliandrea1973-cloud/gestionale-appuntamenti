@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { UserPlus, LogIn } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { LanguageSelector } from "@/components/ui/language-selector";
 
 /**
  * WelcomePage - Pagina iniziale dell'applicazione
@@ -13,6 +15,7 @@ import { useUserWithLicense } from "@/hooks/use-user-with-license";
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
   const { user, isLoading } = useUserWithLicense();
+  const { t } = useTranslation();
 
   // Controlliamo se siamo in versione PWA per impostare comportamenti specifici
   const isPWA = 
@@ -69,7 +72,10 @@ export default function WelcomePage() {
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-medium">Gestione Appuntamenti</h1>
+            <h1 className="text-xl font-medium">{t('welcome.title')}</h1>
+            <div className="text-white">
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </header>
@@ -78,9 +84,9 @@ export default function WelcomePage() {
       <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Benvenuto in Gestione Appuntamenti</CardTitle>
+            <CardTitle className="text-2xl">{t('welcome.heading')}</CardTitle>
             <CardDescription>
-              Scegli come vuoi procedere
+              {t('welcome.chooseOption')}
             </CardDescription>
           </CardHeader>
           
@@ -92,11 +98,11 @@ export default function WelcomePage() {
                 onClick={() => setLocation("/register")}
               >
                 <UserPlus className="mr-2 h-5 w-5" />
-                Crea un nuovo account
+                {t('welcome.createAccount')}
               </Button>
               
               <div className="text-center text-sm text-muted-foreground">
-                Per nuovi utenti che vogliono iniziare a utilizzare il sistema
+                {t('welcome.newUsersDescription')}
               </div>
             </div>
             
@@ -108,7 +114,7 @@ export default function WelcomePage() {
                 onClick={() => setLocation("/customer-login")}
               >
                 <LogIn className="mr-2 h-4 w-4" />
-                Accesso Professionista
+                {t('welcome.professionalAccess')}
               </Button>
               
               <Button 
@@ -118,19 +124,19 @@ export default function WelcomePage() {
                 onClick={() => setLocation("/staff-login")}
               >
                 <LogIn className="mr-2 h-4 w-4" />
-                Accesso Staff/Admin
+                {t('welcome.staffAdminAccess')}
               </Button>
               
               <div className="text-center text-sm text-muted-foreground">
-                Scegli il tipo di accesso appropriato
+                {t('welcome.chooseAccessType')}
               </div>
             </div>
           </CardContent>
           
           <CardFooter className="flex flex-col space-y-2">
             <div className="text-center text-xs text-muted-foreground mt-4">
-              <p>Gestione Appuntamenti v3.5.0</p>
-              <p>© 2023-2025 Tutti i diritti riservati</p>
+              <p>{t('footer.version')}</p>
+              <p>{t('footer.allRightsReserved')}</p>
             </div>
           </CardFooter>
         </Card>
@@ -140,7 +146,7 @@ export default function WelcomePage() {
       <footer className="bg-gray-100 border-t border-gray-300 py-4">
         <div className="container mx-auto px-4">
           <div className="flex justify-center text-xs text-gray-500">
-            <p>© 2023-2025 Zambelli Andrea - Gestione Appuntamenti</p>
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>

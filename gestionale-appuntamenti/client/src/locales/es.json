@@ -4,6 +4,16 @@
     "welcome": "Bienvenido a la Gestión de Citas",
     "description": "Gestione fácilmente citas, clientes y facturas"
   },
+  "welcome": {
+    "title": "Gestión de Citas",
+    "heading": "Bienvenido a la Gestión de Citas",
+    "chooseOption": "Elija cómo proceder",
+    "createAccount": "Crear una cuenta nueva",
+    "newUsersDescription": "Para nuevos usuarios que desean comenzar a usar el sistema",
+    "professionalAccess": "Acceso Profesional",
+    "staffAdminAccess": "Acceso Personal/Admin",
+    "chooseAccessType": "Elija el tipo de acceso apropiado"
+  },
   "navigation": {
     "home": "Inicio",
     "notifications": "Notificaciones",

@@ -4,6 +4,16 @@
     "welcome": "Willkommen bei der Terminverwaltung",
     "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
   },
+  "welcome": {
+    "title": "Terminverwaltung",
+    "heading": "Willkommen bei der Terminverwaltung",
+    "chooseOption": "Wählen Sie, wie Sie fortfahren möchten",
+    "createAccount": "Neues Konto erstellen",
+    "newUsersDescription": "Für neue Benutzer, die das System nutzen möchten",
+    "professionalAccess": "Professioneller Zugang",
+    "staffAdminAccess": "Personal/Admin Zugang",
+    "chooseAccessType": "Wählen Sie die geeignete Zugriffsart"
+  },
   "navigation": {
     "home": "Startseite",
     "notifications": "Benachrichtigungen",

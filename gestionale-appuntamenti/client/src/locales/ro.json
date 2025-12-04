@@ -4,6 +4,16 @@
     "welcome": "Bine ați venit la Gestionarea Programărilor",
     "description": "Gestionați cu ușurință programări, clienți și facturi"
   },
+  "welcome": {
+    "title": "Gestionare Programări",
+    "heading": "Bine ați venit la Gestionarea Programărilor",
+    "chooseOption": "Alegeți cum doriți să continuați",
+    "createAccount": "Creați un cont nou",
+    "newUsersDescription": "Pentru utilizatorii noi care doresc să înceapă să utilizeze sistemul",
+    "professionalAccess": "Acces profesional",
+    "staffAdminAccess": "Acces personal/admin",
+    "chooseAccessType": "Alegeți tipul de acces potrivit"
+  },
   "language": {
     "it": "Italiană",
     "en": "Engleză",

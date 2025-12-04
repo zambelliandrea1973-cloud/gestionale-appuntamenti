@@ -4,6 +4,16 @@
     "welcome": "Welkom bij Afsprakenbeheer",
     "description": "Beheer eenvoudig afspraken, klanten en facturen"
   },
+  "welcome": {
+    "title": "Afsprakenbeheer",
+    "heading": "Welkom bij Afsprakenbeheer",
+    "chooseOption": "Kies hoe u wilt doorgaan",
+    "createAccount": "Maak een nieuw account aan",
+    "newUsersDescription": "Voor nieuwe gebruikers die het systeem willen gebruiken",
+    "professionalAccess": "Professionele toegang",
+    "staffAdminAccess": "Personeel/Admin toegang",
+    "chooseAccessType": "Kies het juiste toegangstype"
+  },
   "language": {
     "it": "Italiaans",
     "en": "Engels",

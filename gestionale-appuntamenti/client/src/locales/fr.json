@@ -4,6 +4,16 @@
     "welcome": "Bienvenue dans la Gestion des Rendez-vous",
     "description": "Gérez facilement les rendez-vous, les clients et les factures"
   },
+  "welcome": {
+    "title": "Gestion des Rendez-vous",
+    "heading": "Bienvenue dans la Gestion des Rendez-vous",
+    "chooseOption": "Choisissez comment procéder",
+    "createAccount": "Créer un nouveau compte",
+    "newUsersDescription": "Pour les nouveaux utilisateurs qui souhaitent utiliser le système",
+    "professionalAccess": "Accès Professionnel",
+    "staffAdminAccess": "Accès Personnel/Admin",
+    "chooseAccessType": "Choisissez le type d'accès approprié"
+  },
   "navigation": {
     "home": "Accueil",
     "notifications": "Notifications",

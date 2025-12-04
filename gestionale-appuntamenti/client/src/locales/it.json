@@ -4,6 +4,16 @@
     "welcome": "Benvenuto nella Gestione Appuntamenti",
     "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
   },
+  "welcome": {
+    "title": "Gestione Appuntamenti",
+    "heading": "Benvenuto in Gestione Appuntamenti",
+    "chooseOption": "Scegli come vuoi procedere",
+    "createAccount": "Crea un nuovo account",
+    "newUsersDescription": "Per nuovi utenti che vogliono iniziare a utilizzare il sistema",
+    "professionalAccess": "Accesso Professionista",
+    "staffAdminAccess": "Accesso Staff/Admin",
+    "chooseAccessType": "Scegli il tipo di accesso appropriato"
+  },
   "appointment": {
     "selectTimeSlots": "Seleziona orario nuovo appuntamento",
     "confirmAndAssociateClient": "Conferma e associa cliente",

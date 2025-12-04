@@ -4,6 +4,16 @@
     "welcome": "Velkommen til Timeavtalehåndtering",
     "description": "Administrer timeavtaler, kunder og fakturaer enkelt"
   },
+  "welcome": {
+    "title": "Timeavtalehåndtering",
+    "heading": "Velkommen til Timeavtalehåndtering",
+    "chooseOption": "Velg hvordan du vil fortsette",
+    "createAccount": "Opprett ny konto",
+    "newUsersDescription": "For nye brukere som ønsker å begynne å bruke systemet",
+    "professionalAccess": "Profesjonell tilgang",
+    "staffAdminAccess": "Personale/Admin tilgang",
+    "chooseAccessType": "Velg riktig tilgangstype"
+  },
   "language": {
     "it": "Italiensk",
     "en": "Engelsk",

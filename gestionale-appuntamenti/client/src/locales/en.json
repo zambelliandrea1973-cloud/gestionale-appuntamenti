@@ -4,6 +4,16 @@
     "welcome": "Welcome to Appointment Management",
     "description": "Easily manage appointments, clients and invoices"
   },
+  "welcome": {
+    "title": "Appointment Management",
+    "heading": "Welcome to Appointment Management",
+    "chooseOption": "Choose how to proceed",
+    "createAccount": "Create a new account",
+    "newUsersDescription": "For new users who want to start using the system",
+    "professionalAccess": "Professional Access",
+    "staffAdminAccess": "Staff/Admin Access",
+    "chooseAccessType": "Choose the appropriate access type"
+  },
   "appointment": {
     "selectTimeSlots": "Select time for new appointment",
     "confirmAndAssociateClient": "Confirm and associate client",
