@@ -1,13 +1,12 @@
 import { registerSimpleRoutes } from "./simple-routes";
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'
 import { serveAdminManifest } from './admin-manifest'
 import { servePlayStoreManifest } from './manifest-playstore'
 
-export function registerRoutes(app: Express): Server {
+export async function registerRoutes(app: Express): Promise<void> {
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
@@ -91,5 +90,5 @@ export function registerRoutes(app: Express): Server {
     res.json(manifest);
   });
 
-  return registerSimpleRoutes(app);
+  await registerSimpleRoutes(app);
 }

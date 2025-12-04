@@ -1,5 +1,4 @@
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import path from "path";
 import fs from 'fs';
@@ -202,7 +201,7 @@ const userData = {
   }
 };
 
-export function registerSimpleRoutes(app: Express): Server {
+export async function registerSimpleRoutes(app: Express): Promise<void> {
   setupAuth(app);
   
   // Router per gestione manuale (upload foto/video, contenuti multilingua)
@@ -9367,7 +9366,4 @@ Studio Professionale`;
   
   // Registra le route Google Auth
   app.use('/api/google-auth', googleAuthRoutes);
-
-  const httpServer = createServer(app);
-  return httpServer;
 }

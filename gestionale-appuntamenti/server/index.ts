@@ -1,9 +1,10 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import { setupViteMiddleware, setupViteHtmlHandler, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
 import { storage } from "./storage";
 import path from "path";
+import { createServer } from "http";
 
 const app = express();
 
@@ -51,6 +52,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Crea il server HTTP prima di tutto
+  const server = createServer(app);
+  
   // Inizializza il servizio di setup iniziale
   try {
     await initialSetupService.initialize();
@@ -58,7 +62,24 @@ app.use((req, res, next) => {
     console.error('Errore durante l\'inizializzazione del servizio di setup:', error);
   }
   
-  const server = await registerRoutes(app);
+  // IMPORTANTE: In development, configura Vite PRIMA delle routes
+  // Questo permette a Vite di gestire /src/*, /@vite/*, /@react-refresh/* 
+  // prima che il trialBlockMiddleware possa intercettarle
+  let viteInstance: any = null;
+  const expressEnv = app.get("env");
+  const nodeEnv = process.env.NODE_ENV;
+  console.log(`🔧 Ambiente Express: "${expressEnv}", NODE_ENV: "${nodeEnv}"`);
+  
+  // In Replit, l'app è sempre in development mode (npm run dev)
+  const isDevelopment = expressEnv === "development" || !nodeEnv || nodeEnv === "development";
+  
+  if (isDevelopment) {
+    viteInstance = await setupViteMiddleware(app, server);
+    console.log('✅ Vite middleware configurato PRIMA delle routes');
+  }
+  
+  // Ora registra le routes API (incluso trialBlockMiddleware)
+  await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -68,11 +89,10 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
+  // Alla fine, aggiungi il catch-all HTML handler di Vite (o static in production)
+  if (isDevelopment && viteInstance) {
+    setupViteHtmlHandler(app, viteInstance);
+    console.log('✅ Vite HTML handler configurato DOPO le routes');
   } else {
     serveStatic(app);
   }

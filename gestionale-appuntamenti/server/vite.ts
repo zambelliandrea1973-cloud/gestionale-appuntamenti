@@ -1,7 +1,7 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteServer, createLogger } from "vite";
+import { createServer as createViteServer, createLogger, type ViteDevServer } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
@@ -19,7 +19,12 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-export async function setupVite(app: Express, server: Server) {
+/**
+ * Configura SOLO il middleware Vite per gestire /src/*, /@vite/*, /@react-refresh/*
+ * Questo DEVE essere chiamato PRIMA di registerRoutes per evitare che il 
+ * trialBlockMiddleware intercetti le richieste dei moduli JS.
+ */
+export async function setupViteMiddleware(app: Express, server: Server): Promise<ViteDevServer> {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
@@ -40,7 +45,17 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
+  // Registra SOLO il middleware Vite (gestisce /src/*, /@vite/*, node_modules, ecc.)
   app.use(vite.middlewares);
+  
+  return vite;
+}
+
+/**
+ * Configura il catch-all HTML handler di Vite.
+ * Questo DEVE essere chiamato DOPO registerRoutes per non interferire con le API routes.
+ */
+export function setupViteHtmlHandler(app: Express, vite: ViteDevServer) {
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
 
@@ -65,6 +80,15 @@ export async function setupVite(app: Express, server: Server) {
       next(e);
     }
   });
+}
+
+/**
+ * Legacy function - mantiene compatibilità con vecchio codice se necessario
+ * @deprecated Usa setupViteMiddleware + setupViteHtmlHandler separatamente
+ */
+export async function setupVite(app: Express, server: Server) {
+  const vite = await setupViteMiddleware(app, server);
+  setupViteHtmlHandler(app, vite);
 }
 
 export function serveStatic(app: Express) {
