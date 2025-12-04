@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 1 de diciembre de 2025",
+    "backButton": "Volver al Inicio",
+    "sections": {
+      "intro": {
+        "title": "1. Introducción",
+        "text1": "Gestión de Citas (\"nosotros\", \"nuestro\" o \"nos\") opera la aplicación web Gestión de Citas (\"Servicio\").",
+        "text2": "Esta página le informa sobre nuestras políticas de recopilación, uso y divulgación de datos personales."
+      },
+      "dataCollection": {
+        "title": "2. Recopilación y Uso de Datos",
+        "subtitle": "Recopilamos diferentes tipos de información para diversos fines:",
+        "typesTitle": "2.1 Tipos de Datos Recopilados",
+        "types": {
+          "personal": "Datos Personales: Nombre, correo electrónico, teléfono, dirección",
+          "usage": "Datos de Uso: Información del navegador, direcciones IP, páginas visitadas",
+          "calendar": "Datos de Calendario: Citas, disponibilidad, preferencias profesionales",
+          "payment": "Datos de Pago: Información de facturación (procesada de forma segura)",
+          "google": "Datos de Google Calendar: Tokens de autenticación OAuth"
+        },
+        "usageTitle": "2.2 Uso de Datos",
+        "usageSubtitle": "Utilizamos los datos recopilados para:",
+        "usageItems": {
+          "provide": "Proporcionar y mantener el Servicio",
+          "notify": "Notificarle sobre cambios",
+          "interactive": "Permitir la participación en funciones interactivas",
+          "support": "Proporcionar soporte al cliente",
+          "analytics": "Recopilar análisis para mejorar el Servicio",
+          "monitor": "Monitorear el uso del Servicio",
+          "security": "Detectar y prevenir fraudes"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Seguridad de Datos",
+        "text": "La seguridad de sus datos es importante, pero ningún método de transmisión es 100% seguro."
+      },
+      "googleCalendar": {
+        "title": "4. Datos de Google Calendar",
+        "text": "Cuando autoriza la sincronización, recopilamos:",
+        "items": {
+          "token": "Tokens de acceso OAuth para acceder a su calendario",
+          "appointments": "Las citas que elige sincronizar",
+          "events": "Información de eventos del calendario"
+        },
+        "footer": "Estos datos se utilizan exclusivamente para sincronizar citas."
+      },
+      "cookies": {
+        "title": "5. Cookies",
+        "text": "Utilizamos cookies para identificarlo y recordar sus preferencias."
+      },
+      "thirdParty": {
+        "title": "6. Enlaces a Terceros",
+        "text": "Nuestro Servicio puede contener enlaces a sitios de terceros."
+      },
+      "userRights": {
+        "title": "7. Derechos del Usuario",
+        "text": "De acuerdo con el RGPD, tiene derecho a:",
+        "items": {
+          "access": "Acceder a sus datos personales",
+          "correct": "Corregir datos inexactos",
+          "delete": "Solicitar la eliminación de sus datos",
+          "object": "Oponerse al procesamiento de sus datos",
+          "restrict": "Restringir el procesamiento",
+          "portability": "Solicitar la portabilidad de datos"
+        }
+      },
+      "contact": {
+        "title": "8. Contacto",
+        "text": "Si tiene preguntas, puede contactarnos en el correo de soporte de su cuenta."
+      },
+      "changes": {
+        "title": "9. Cambios en esta Política",
+        "text": "Podemos actualizar nuestra Política de Privacidad periódicamente."
+      }
+    }
+  },
+  "terms": {
+    "title": "Términos de Servicio y Condiciones de Uso",
+    "effectiveDate": "Fecha de entrada en vigor: 20 de junio de 2025",
+    "lastModified": "Última modificación: 20 de junio de 2025",
+    "backButton": "Volver al Inicio",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aceptación de los Términos",
+        "text": "El uso de Gestión de Citas implica la aceptación total de estos Términos de Servicio."
+      },
+      "description": {
+        "title": "2. Descripción del Servicio",
+        "intro": "Gestión de Citas es un sistema de software para gestionar:",
+        "items": {
+          "bookings": "Reservas y citas",
+          "clients": "Base de datos de clientes",
+          "billing": "Facturación y documentos fiscales",
+          "communications": "Comunicaciones automáticas",
+          "reports": "Informes y estadísticas"
+        },
+        "footer": "El Servicio está diseñado para diversos sectores profesionales."
+      },
+      "plans": {
+        "title": "3. Planes de Suscripción",
+        "base": {
+          "title": "3.1 Plan Base",
+          "items": {
+            "clients": "Gestión hasta 100 clientes",
+            "calendar": "Calendario de citas básico",
+            "billing": "Facturación simple",
+            "support": "Soporte por correo electrónico"
+          }
+        },
+        "pro": {
+          "title": "3.2 Plan Professional",
+          "items": {
+            "clients": "Gestión hasta 500 clientes",
+            "whatsapp": "Notificaciones WhatsApp automáticas",
+            "reports": "Informes avanzados",
+            "qr": "Área de cliente personalizada con código QR",
+            "support": "Soporte prioritario"
+          }
+        },
+        "business": {
+          "title": "3.3 Plan Business",
+          "items": {
+            "all": "Todos los servicios del Plan Professional",
+            "unlimited": "Clientes ilimitados",
+            "multiUser": "Multiusuario",
+            "customization": "Personalización avanzada",
+            "backup": "Copia de seguridad automática",
+            "support": "Soporte telefónico dedicado"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Responsabilidades del Usuario",
+        "intro": "El usuario se compromete a:",
+        "items": {
+          "law": "Usar el Servicio de acuerdo con las leyes aplicables",
+          "credentials": "Mantener sus credenciales confidenciales",
+          "data": "Introducir datos precisos y actualizados",
+          "privacy": "Respetar la privacidad de sus clientes",
+          "backup": "Realizar copias de seguridad regulares"
+        }
+      },
+      "privacyData": {
+        "title": "5. Privacidad y Protección de Datos",
+        "text": "El procesamiento de datos personales se realiza de acuerdo con el RGPD.",
+        "important": "Importante:",
+        "warning": "El usuario es responsable del cumplimiento de las normativas de privacidad."
+      },
+      "limitations": {
+        "title": "6. Limitaciones y Exclusiones",
+        "intro": "El Servicio se proporciona \"tal cual\".",
+        "items": {
+          "availability": "Disponibilidad continua del servicio",
+          "errors": "Ausencia de errores o interrupciones",
+          "compatibility": "Compatibilidad con todos los dispositivos"
+        }
+      },
+      "billing": {
+        "title": "7. Facturación y Pagos",
+        "items": {
+          "monthly": "Las suscripciones se facturan mensual o anualmente",
+          "advance": "Los pagos son por adelantado",
+          "refunds": "Los reembolsos solo se otorgan en casos excepcionales",
+          "priceChanges": "Los precios pueden cambiar con 30 días de aviso"
+        }
+      },
+      "termination": {
+        "title": "8. Terminación y Suspensión",
+        "intro": "El contrato puede ser terminado:",
+        "items": {
+          "user": "Por el usuario con 30 días de aviso",
+          "provider": "Por Zambelli Development en caso de incumplimiento",
+          "payment": "Por falta de pago después de 15 días"
+        }
+      },
+      "modifications": {
+        "title": "9. Modificaciones a los Términos",
+        "text": "Los cambios sustanciales se comunicarán con 30 días de anticipación."
+      },
+      "law": {
+        "title": "10. Ley Aplicable",
+        "text": "Estos términos se rigen por la ley italiana."
+      },
+      "contact": {
+        "title": "11. Contacto",
+        "intro": "Para consultas, contacte:",
+        "email": "Email: zambelli.andrea.1973@gmail.com",
+        "developer": "Desarrollador: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Gestión de Citas v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Todos los derechos reservados"
+    }
+  },
   "planFeatures": {
     "calendar": "Calendario de citas",
     "clients": "Gestión de clientes",

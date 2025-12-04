@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Personvernpolicy",
+    "lastUpdated": "Sist oppdatert: 1. desember 2025",
+    "backButton": "Tilbake til Startsiden",
+    "sections": {
+      "intro": {
+        "title": "1. Innledning",
+        "text1": "Timeavtalehåndtering (\"vi\", \"vår\" eller \"oss\") driver Timeavtalehåndtering webapplikasjonen (\"Tjenesten\").",
+        "text2": "Denne siden informerer deg om våre retningslinjer angående innsamling, bruk og utlevering av personopplysninger."
+      },
+      "dataCollection": {
+        "title": "2. Datainnsamling og -bruk",
+        "subtitle": "Vi samler inn forskjellige typer informasjon for ulike formål:",
+        "typesTitle": "2.1 Typer Data Som Samles Inn",
+        "types": {
+          "personal": "Personopplysninger: Navn, e-postadresse, telefonnummer, adresse",
+          "usage": "Bruksdata: Nettleserinformasjon, IP-adresser, besøkte sider",
+          "calendar": "Kalenderdata: Avtaler, tilgjengelighet, profesjonelle preferanser",
+          "payment": "Betalingsdata: Faktureringsinformasjon (behandlet sikkert)",
+          "google": "Google Calendar-data: OAuth-autentiseringstokens"
+        },
+        "usageTitle": "2.2 Databruk",
+        "usageSubtitle": "Vi bruker de innsamlede dataene til å:",
+        "usageItems": {
+          "provide": "Levere og vedlikeholde Tjenesten",
+          "notify": "Varsle deg om endringer",
+          "interactive": "Tillate deltakelse i interaktive funksjoner",
+          "support": "Tilby kundestøtte",
+          "analytics": "Samle analyser for å forbedre Tjenesten",
+          "monitor": "Overvåke bruken av Tjenesten",
+          "security": "Oppdage og forhindre svindel"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Datasikkerhet",
+        "text": "Sikkerheten til dine data er viktig, men ingen overføringsmetode er 100% sikker."
+      },
+      "googleCalendar": {
+        "title": "4. Google Calendar-data",
+        "text": "Når du godkjenner synkronisering, samler vi inn:",
+        "items": {
+          "token": "OAuth-tilgangstokens for å få tilgang til kalenderen din",
+          "appointments": "Avtalene du velger å synkronisere",
+          "events": "Kalenderhendelsesinformasjon"
+        },
+        "footer": "Disse dataene brukes utelukkende til å synkronisere avtaler."
+      },
+      "cookies": {
+        "title": "5. Informasjonskapsler",
+        "text": "Vi bruker informasjonskapsler for å identifisere deg og huske dine preferanser."
+      },
+      "thirdParty": {
+        "title": "6. Lenker til Tredjeparter",
+        "text": "Vår Tjeneste kan inneholde lenker til tredjepartsnettsteder."
+      },
+      "userRights": {
+        "title": "7. Brukerrettigheter",
+        "text": "I samsvar med GDPR har du rett til å:",
+        "items": {
+          "access": "Få tilgang til dine personopplysninger",
+          "correct": "Korrigere unøyaktige data",
+          "delete": "Be om sletting av dine data",
+          "object": "Motsette deg behandling av dine data",
+          "restrict": "Begrense behandling",
+          "portability": "Be om dataportabilitet"
+        }
+      },
+      "contact": {
+        "title": "8. Kontakt",
+        "text": "Hvis du har spørsmål, kan du kontakte oss på support-e-postadressen i kontoen din."
+      },
+      "changes": {
+        "title": "9. Endringer i denne Personvernpolicyen",
+        "text": "Vi kan oppdatere vår Personvernpolicy fra tid til annen."
+      }
+    }
+  },
+  "terms": {
+    "title": "Tjenestevilkår og Bruksvilkår",
+    "effectiveDate": "Ikrafttredelsesdato: 20. juni 2025",
+    "lastModified": "Sist endret: 20. juni 2025",
+    "backButton": "Tilbake til Startsiden",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aksept av Vilkår",
+        "text": "Bruk av Timeavtalehåndtering innebærer full aksept av disse Tjenestevilkårene."
+      },
+      "description": {
+        "title": "2. Tjenestebeskrivelse",
+        "intro": "Timeavtalehåndtering er et programvaresystem for å håndtere:",
+        "items": {
+          "bookings": "Bestillinger og avtaler",
+          "clients": "Kundedatabase",
+          "billing": "Fakturering og skattemessige dokumenter",
+          "communications": "Automatisk kommunikasjon",
+          "reports": "Rapporter og statistikk"
+        },
+        "footer": "Tjenesten er designet for ulike profesjonelle sektorer."
+      },
+      "plans": {
+        "title": "3. Abonnementsplaner",
+        "base": {
+          "title": "3.1 Basisplan",
+          "items": {
+            "clients": "Håndtering opptil 100 kunder",
+            "calendar": "Grunnleggende avtalekalender",
+            "billing": "Enkel fakturering",
+            "support": "E-poststøtte"
+          }
+        },
+        "pro": {
+          "title": "3.2 Professional-plan",
+          "items": {
+            "clients": "Håndtering opptil 500 kunder",
+            "whatsapp": "Automatiske WhatsApp-varsler",
+            "reports": "Avanserte rapporter",
+            "qr": "Tilpasset kundeområde med QR-kode",
+            "support": "Prioritert støtte"
+          }
+        },
+        "business": {
+          "title": "3.3 Business-plan",
+          "items": {
+            "all": "Alle Professional-plan tjenester",
+            "unlimited": "Ubegrenset antall kunder",
+            "multiUser": "Flere brukere",
+            "customization": "Avansert tilpasning",
+            "backup": "Automatisk sikkerhetskopiering",
+            "support": "Dedikert telefonstøtte"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Brukeransvar",
+        "intro": "Brukeren forplikter seg til å:",
+        "items": {
+          "law": "Bruke Tjenesten i samsvar med gjeldende lover",
+          "credentials": "Holde påloggingsinformasjonen konfidensiell",
+          "data": "Oppgi nøyaktige og oppdaterte data",
+          "privacy": "Respektere kundenes personvern",
+          "backup": "Utføre regelmessige sikkerhetskopier"
+        }
+      },
+      "privacyData": {
+        "title": "5. Personvern og Databeskyttelse",
+        "text": "Behandlingen av personopplysninger utføres i samsvar med GDPR.",
+        "important": "Viktig:",
+        "warning": "Brukeren er ansvarlig for overholdelse av personvernregler."
+      },
+      "limitations": {
+        "title": "6. Begrensninger og Unntak",
+        "intro": "Tjenesten leveres \"som den er\".",
+        "items": {
+          "availability": "Kontinuerlig tjenestetilgjengelighet",
+          "errors": "Fravær av feil eller avbrudd",
+          "compatibility": "Kompatibilitet med alle enheter"
+        }
+      },
+      "billing": {
+        "title": "7. Fakturering og Betalinger",
+        "items": {
+          "monthly": "Abonnementer faktureres månedlig eller årlig",
+          "advance": "Betalinger forfaller på forskudd",
+          "refunds": "Refusjoner gis kun i ekstraordinære tilfeller",
+          "priceChanges": "Priser kan endres med 30 dagers varsel"
+        }
+      },
+      "termination": {
+        "title": "8. Oppsigelse og Suspensjon",
+        "intro": "Kontrakten kan sies opp:",
+        "items": {
+          "user": "Av brukeren med 30 dagers varsel",
+          "provider": "Av Zambelli Development ved brudd på vilkårene",
+          "payment": "Ved manglende betaling etter 15 dager"
+        }
+      },
+      "modifications": {
+        "title": "9. Endringer i Vilkårene",
+        "text": "Vesentlige endringer vil bli kommunisert med minst 30 dagers varsel."
+      },
+      "law": {
+        "title": "10. Gjeldende Lov",
+        "text": "Disse vilkårene er underlagt italiensk lov."
+      },
+      "contact": {
+        "title": "11. Kontakt",
+        "intro": "For spørsmål, kontakt:",
+        "email": "E-post: zambelli.andrea.1973@gmail.com",
+        "developer": "Utvikler: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Timeavtalehåndtering v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Alle rettigheter forbeholdt"
+    }
+  },
   "planFeatures": {
     "calendar": "Avtalekalender",
     "clients": "Kundebehandling",

@@ -799,6 +799,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Informativa sulla Privacy",
+    "lastUpdated": "Ultimo aggiornamento: 1 Dicembre 2025",
+    "backButton": "Torna alla Home",
+    "sections": {
+      "intro": {
+        "title": "1. Introduzione",
+        "text1": "Gestionale Appuntamenti (\"noi\", \"nostro/a\" o \"nostri\") gestisce l'applicazione web Gestionale Appuntamenti (\"Servizio\").",
+        "text2": "Questa pagina ti informa delle nostre politiche riguardanti la raccolta, l'uso e la divulgazione dei dati personali quando usi il nostro Servizio e delle scelte che hai riguardo a tali dati."
+      },
+      "dataCollection": {
+        "title": "2. Raccolta e Utilizzo dei Dati",
+        "subtitle": "Raccogliamo diversi tipi di informazioni per vari scopi al fine di fornirti un migliore servizio:",
+        "typesTitle": "2.1 Tipi di Dati Raccolti",
+        "types": {
+          "personal": "Dati Personali: Nome, indirizzo email, numero di telefono, indirizzo",
+          "usage": "Dati di Utilizzo: Informazioni sul browser, indirizzi IP, pagine visitate",
+          "calendar": "Dati di Calendario: Appuntamenti, disponibilità, preferenze professionali",
+          "payment": "Dati di Pagamento: Informazioni di fatturazione (elaborate in modo sicuro)",
+          "google": "Dati di Google Calendar: Token di autenticazione OAuth (per sincronizzazione)"
+        },
+        "usageTitle": "2.2 Utilizzo dei Dati",
+        "usageSubtitle": "Utilizziamo i dati raccolti per:",
+        "usageItems": {
+          "provide": "Fornire e mantenere il Servizio",
+          "notify": "Notificare i cambiamenti al nostro Servizio",
+          "interactive": "Consentire la partecipazione del cliente alle funzioni interattive del Servizio",
+          "support": "Fornire assistenza clienti",
+          "analytics": "Raccogliere analitiche per migliorare il Servizio",
+          "monitor": "Monitorare l'utilizzo del Servizio",
+          "security": "Rilevare, prevenire e affrontare frodi e problemi di sicurezza"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Sicurezza dei Dati",
+        "text": "La sicurezza dei tuoi dati è importante per noi, ma nessun metodo di trasmissione su Internet o metodo di archiviazione elettronica è 100% sicuro. Anche se ci sforziamo di proteggere i tuoi dati personali con mezzi ragionevoli, non possiamo garantire una sicurezza assoluta."
+      },
+      "googleCalendar": {
+        "title": "4. Dati di Google Calendar",
+        "text": "Quando autorizzi la sincronizzazione con Google Calendar, raccogliamo e immagazziniamo:",
+        "items": {
+          "token": "Token di accesso OAuth per accedere al tuo calendario",
+          "appointments": "Gli appuntamenti che scegli di sincronizzare",
+          "events": "Le informazioni sugli eventi del calendario (titolo, orario, partecipanti)"
+        },
+        "footer": "Questi dati vengono utilizzati esclusivamente per sincronizzare gli appuntamenti con il tuo Google Calendar. Puoi revocare l'accesso in qualsiasi momento dalle impostazioni del tuo account Google."
+      },
+      "cookies": {
+        "title": "5. Cookie",
+        "text": "Utilizziamo i cookie per identificarti e ricordare le tue preferenze. Puoi disabilitare i cookie tramite le impostazioni del tuo browser."
+      },
+      "thirdParty": {
+        "title": "6. Link a Siti di Terze Parti",
+        "text": "Il nostro Servizio può contenere link a siti web di terze parti. Non siamo responsabili per le pratiche sulla privacy di tali siti."
+      },
+      "userRights": {
+        "title": "7. Diritti dell'Utente",
+        "text": "In conformità con il GDPR, hai il diritto di:",
+        "items": {
+          "access": "Accedere ai tuoi dati personali",
+          "correct": "Correggere dati imprecisi",
+          "delete": "Richiedere l'eliminazione dei tuoi dati",
+          "object": "Opporsi al trattamento dei tuoi dati",
+          "restrict": "Limitare il trattamento",
+          "portability": "Richiedere la portabilità dei dati"
+        }
+      },
+      "contact": {
+        "title": "8. Contatti",
+        "text": "Se hai domande su questa Informativa sulla Privacy, puoi contattarci all'indirizzo email di supporto nel tuo account."
+      },
+      "changes": {
+        "title": "9. Modifiche a questa Informativa sulla Privacy",
+        "text": "Potremmo aggiornare la nostra Informativa sulla Privacy di tanto in tanto. Ti notificheremo di eventuali modifiche pubblicando la nuova Informativa sulla Privacy in questa pagina."
+      }
+    }
+  },
+  "terms": {
+    "title": "Termini di Servizio e Condizioni d'Uso",
+    "effectiveDate": "Data di entrata in vigore: 20 Giugno 2025",
+    "lastModified": "Ultima modifica: 20 Giugno 2025",
+    "backButton": "Torna alla Home",
+    "sections": {
+      "acceptance": {
+        "title": "1. Accettazione dei Termini",
+        "text": "L'utilizzo del Gestionale Appuntamenti (\"il Servizio\") implica l'accettazione integrale dei presenti Termini di Servizio. Se non si accettano questi termini, non è possibile utilizzare il Servizio."
+      },
+      "description": {
+        "title": "2. Descrizione del Servizio",
+        "intro": "Il Gestionale Appuntamenti è un sistema software per la gestione di:",
+        "items": {
+          "bookings": "Prenotazioni e appuntamenti",
+          "clients": "Anagrafica clienti",
+          "billing": "Fatturazione e documenti fiscali",
+          "communications": "Comunicazioni automatiche",
+          "reports": "Report e statistiche"
+        },
+        "footer": "Il Servizio è progettato per essere utilizzato in diversi settori professionali inclusi, ma non limitati a: servizi medici, estetici, consulenza, e altri servizi professionali."
+      },
+      "plans": {
+        "title": "3. Tipologie di Abbonamento",
+        "base": {
+          "title": "3.1 Piano Base",
+          "items": {
+            "clients": "Gestione fino a 100 clienti",
+            "calendar": "Calendario appuntamenti base",
+            "billing": "Fatturazione semplice",
+            "support": "Supporto email"
+          }
+        },
+        "pro": {
+          "title": "3.2 Piano Professional",
+          "items": {
+            "clients": "Gestione fino a 500 clienti",
+            "whatsapp": "Notifiche WhatsApp automatiche",
+            "reports": "Report avanzati",
+            "qr": "Area clienti personalizzata con QR code",
+            "support": "Supporto prioritario"
+          }
+        },
+        "business": {
+          "title": "3.3 Piano Business",
+          "items": {
+            "all": "Tutti i servizi del Piano Professional",
+            "unlimited": "Clienti illimitati",
+            "multiUser": "Multi-utente",
+            "customization": "Personalizzazione avanzata",
+            "backup": "Backup automatico",
+            "support": "Supporto telefonico dedicato"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Responsabilità dell'Utente",
+        "intro": "L'utente si impegna a:",
+        "items": {
+          "law": "Utilizzare il Servizio in conformità alle leggi applicabili",
+          "credentials": "Mantenere riservate le proprie credenziali di accesso",
+          "data": "Inserire dati accurati e aggiornati",
+          "privacy": "Rispettare la privacy dei propri clienti",
+          "backup": "Effettuare backup regolari dei propri dati"
+        }
+      },
+      "privacyData": {
+        "title": "5. Privacy e Protezione Dati",
+        "text": "Il trattamento dei dati personali avviene in conformità al Regolamento Generale sulla Protezione dei Dati (GDPR). L'utente mantiene la titolarità dei propri dati e di quelli dei propri clienti.",
+        "important": "Importante:",
+        "warning": "L'utente è responsabile del rispetto delle normative sulla privacy nei confronti dei propri clienti e della raccolta del consenso necessario per il trattamento dei loro dati."
+      },
+      "limitations": {
+        "title": "6. Limitazioni e Esclusioni",
+        "intro": "Il Servizio è fornito \"così com'è\". Zambelli Development non garantisce:",
+        "items": {
+          "availability": "Disponibilità continua del servizio",
+          "errors": "Assenza di errori o interruzioni",
+          "compatibility": "Compatibilità con tutti i dispositivi"
+        }
+      },
+      "billing": {
+        "title": "7. Fatturazione e Pagamenti",
+        "items": {
+          "monthly": "Gli abbonamenti sono fatturati mensilmente o annualmente",
+          "advance": "I pagamenti sono dovuti in anticipo",
+          "refunds": "I rimborsi sono concessi solo in casi eccezionali",
+          "priceChanges": "I prezzi possono essere modificati con preavviso di 30 giorni"
+        }
+      },
+      "termination": {
+        "title": "8. Risoluzione e Sospensione",
+        "intro": "Il contratto può essere risolto:",
+        "items": {
+          "user": "Dall'utente in qualsiasi momento con preavviso di 30 giorni",
+          "provider": "Da Zambelli Development in caso di violazione dei termini",
+          "payment": "Per mancato pagamento dopo 15 giorni dalla scadenza"
+        }
+      },
+      "modifications": {
+        "title": "9. Modifiche ai Termini",
+        "text": "Zambelli Development si riserva il diritto di modificare questi termini in qualsiasi momento. Le modifiche sostanziali saranno comunicate con almeno 30 giorni di preavviso."
+      },
+      "law": {
+        "title": "10. Legge Applicabile",
+        "text": "I presenti termini sono regolati dalla legge italiana. Per qualsiasi controversia è competente il Foro di Milano."
+      },
+      "contact": {
+        "title": "11. Contatti",
+        "intro": "Per questioni relative ai presenti termini, contattare:",
+        "email": "Email: zambelli.andrea.1973@gmail.com",
+        "developer": "Sviluppatore: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Gestionale Appuntamenti v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Tutti i diritti riservati"
+    }
+  },
   "planFeatures": {
     "calendar": "Calendario appuntamenti",
     "clients": "Gestione clienti",

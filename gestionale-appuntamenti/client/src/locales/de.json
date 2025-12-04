@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Letzte Aktualisierung: 1. Dezember 2025",
+    "backButton": "Zurück zur Startseite",
+    "sections": {
+      "intro": {
+        "title": "1. Einleitung",
+        "text1": "Terminverwaltung (\"wir\", \"unser\" oder \"uns\") betreibt die Terminverwaltungs-Webanwendung (\"Dienst\").",
+        "text2": "Diese Seite informiert Sie über unsere Richtlinien bezüglich der Erfassung, Verwendung und Offenlegung personenbezogener Daten."
+      },
+      "dataCollection": {
+        "title": "2. Datenerfassung und -nutzung",
+        "subtitle": "Wir erfassen verschiedene Arten von Informationen für verschiedene Zwecke:",
+        "typesTitle": "2.1 Arten der erfassten Daten",
+        "types": {
+          "personal": "Personenbezogene Daten: Name, E-Mail-Adresse, Telefonnummer, Adresse",
+          "usage": "Nutzungsdaten: Browserinformationen, IP-Adressen, besuchte Seiten",
+          "calendar": "Kalenderdaten: Termine, Verfügbarkeit, berufliche Präferenzen",
+          "payment": "Zahlungsdaten: Rechnungsinformationen (sicher verarbeitet)",
+          "google": "Google Calendar-Daten: OAuth-Authentifizierungstoken"
+        },
+        "usageTitle": "2.2 Datennutzung",
+        "usageSubtitle": "Wir verwenden die gesammelten Daten, um:",
+        "usageItems": {
+          "provide": "Den Dienst bereitzustellen und zu warten",
+          "notify": "Sie über Änderungen zu informieren",
+          "interactive": "Die Teilnahme an interaktiven Funktionen zu ermöglichen",
+          "support": "Kundensupport anzubieten",
+          "analytics": "Analysen zur Verbesserung zu sammeln",
+          "monitor": "Die Nutzung zu überwachen",
+          "security": "Betrug und Sicherheitsprobleme zu behandeln"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Datensicherheit",
+        "text": "Die Sicherheit Ihrer Daten ist uns wichtig, aber keine Übertragungsmethode ist 100% sicher."
+      },
+      "googleCalendar": {
+        "title": "4. Google Calendar-Daten",
+        "text": "Wenn Sie die Synchronisierung autorisieren, erfassen wir:",
+        "items": {
+          "token": "OAuth-Zugriffstoken für den Zugriff auf Ihren Kalender",
+          "appointments": "Die Termine, die Sie synchronisieren möchten",
+          "events": "Kalendertermin-Informationen"
+        },
+        "footer": "Diese Daten werden ausschließlich zur Synchronisierung verwendet."
+      },
+      "cookies": {
+        "title": "5. Cookies",
+        "text": "Wir verwenden Cookies, um Sie zu identifizieren und Ihre Präferenzen zu speichern."
+      },
+      "thirdParty": {
+        "title": "6. Links zu Drittanbietern",
+        "text": "Unser Dienst kann Links zu Websites Dritter enthalten."
+      },
+      "userRights": {
+        "title": "7. Benutzerrechte",
+        "text": "Gemäß DSGVO haben Sie das Recht auf:",
+        "items": {
+          "access": "Zugang zu Ihren persönlichen Daten",
+          "correct": "Berichtigung ungenauer Daten",
+          "delete": "Löschung Ihrer Daten",
+          "object": "Widerspruch gegen die Verarbeitung",
+          "restrict": "Einschränkung der Verarbeitung",
+          "portability": "Datenportabilität"
+        }
+      },
+      "contact": {
+        "title": "8. Kontakt",
+        "text": "Bei Fragen kontaktieren Sie uns unter der Support-E-Mail-Adresse."
+      },
+      "changes": {
+        "title": "9. Änderungen dieser Datenschutzerklärung",
+        "text": "Wir können diese Erklärung aktualisieren und werden Sie informieren."
+      }
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "effectiveDate": "Gültig ab: 20. Juni 2025",
+    "lastModified": "Letzte Änderung: 20. Juni 2025",
+    "backButton": "Zurück zur Startseite",
+    "sections": {
+      "acceptance": {
+        "title": "1. Annahme der Bedingungen",
+        "text": "Die Nutzung der Terminverwaltung impliziert die vollständige Annahme dieser Nutzungsbedingungen."
+      },
+      "description": {
+        "title": "2. Dienstbeschreibung",
+        "intro": "Die Terminverwaltung ist ein Softwaresystem zur Verwaltung von:",
+        "items": {
+          "bookings": "Buchungen und Termine",
+          "clients": "Kundendatenbank",
+          "billing": "Rechnungsstellung",
+          "communications": "Automatische Kommunikation",
+          "reports": "Berichte und Statistiken"
+        },
+        "footer": "Der Dienst ist für verschiedene Berufsgruppen konzipiert."
+      },
+      "plans": {
+        "title": "3. Abonnementpläne",
+        "base": {
+          "title": "3.1 Basisplan",
+          "items": {
+            "clients": "Verwaltung von bis zu 100 Kunden",
+            "calendar": "Basis-Terminkalender",
+            "billing": "Einfache Rechnungsstellung",
+            "support": "E-Mail-Support"
+          }
+        },
+        "pro": {
+          "title": "3.2 Professional-Plan",
+          "items": {
+            "clients": "Verwaltung von bis zu 500 Kunden",
+            "whatsapp": "Automatische WhatsApp-Benachrichtigungen",
+            "reports": "Erweiterte Berichte",
+            "qr": "Benutzerdefinierter Kundenbereich mit QR-Code",
+            "support": "Prioritäts-Support"
+          }
+        },
+        "business": {
+          "title": "3.3 Business-Plan",
+          "items": {
+            "all": "Alle Professional-Plan-Dienste",
+            "unlimited": "Unbegrenzte Kunden",
+            "multiUser": "Mehrere Benutzer",
+            "customization": "Erweiterte Anpassung",
+            "backup": "Automatische Sicherung",
+            "support": "Dedizierter Telefonsupport"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Benutzerverantwortlichkeiten",
+        "intro": "Der Benutzer verpflichtet sich:",
+        "items": {
+          "law": "Den Dienst gesetzeskonform zu nutzen",
+          "credentials": "Anmeldedaten vertraulich zu behandeln",
+          "data": "Genaue Daten einzugeben",
+          "privacy": "Die Privatsphäre der Kunden zu respektieren",
+          "backup": "Regelmäßige Backups durchzuführen"
+        }
+      },
+      "privacyData": {
+        "title": "5. Datenschutz",
+        "text": "Die Verarbeitung erfolgt gemäß DSGVO.",
+        "important": "Wichtig:",
+        "warning": "Der Benutzer ist für die Einhaltung der Datenschutzvorschriften verantwortlich."
+      },
+      "limitations": {
+        "title": "6. Einschränkungen",
+        "intro": "Der Dienst wird \"wie besehen\" bereitgestellt.",
+        "items": {
+          "availability": "Kontinuierliche Verfügbarkeit",
+          "errors": "Fehlerfreiheit",
+          "compatibility": "Kompatibilität mit allen Geräten"
+        }
+      },
+      "billing": {
+        "title": "7. Rechnungsstellung",
+        "items": {
+          "monthly": "Abonnements werden monatlich oder jährlich abgerechnet",
+          "advance": "Zahlungen sind im Voraus fällig",
+          "refunds": "Erstattungen nur in Ausnahmefällen",
+          "priceChanges": "Preisänderungen mit 30 Tagen Vorankündigung"
+        }
+      },
+      "termination": {
+        "title": "8. Kündigung",
+        "intro": "Der Vertrag kann gekündigt werden:",
+        "items": {
+          "user": "Vom Benutzer mit 30 Tagen Vorankündigung",
+          "provider": "Bei Verstoß gegen die Bedingungen",
+          "payment": "Bei Nichtzahlung nach 15 Tagen"
+        }
+      },
+      "modifications": {
+        "title": "9. Änderungen",
+        "text": "Wesentliche Änderungen werden mit 30 Tagen Vorankündigung mitgeteilt."
+      },
+      "law": {
+        "title": "10. Anwendbares Recht",
+        "text": "Diese Bedingungen unterliegen italienischem Recht."
+      },
+      "contact": {
+        "title": "11. Kontakt",
+        "intro": "Kontaktieren Sie:",
+        "email": "E-Mail: zambelli.andrea.1973@gmail.com",
+        "developer": "Entwickler: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Terminverwaltung v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Alle Rechte vorbehalten"
+    }
+  },
   "planFeatures": {
     "calendar": "Terminkalender",
     "clients": "Kundenverwaltung",

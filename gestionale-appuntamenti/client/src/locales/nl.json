@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Privacybeleid",
+    "lastUpdated": "Laatst bijgewerkt: 1 december 2025",
+    "backButton": "Terug naar Home",
+    "sections": {
+      "intro": {
+        "title": "1. Inleiding",
+        "text1": "Afsprakenbeheer (\"wij\", \"ons\" of \"onze\") exploiteert de Afsprakenbeheer webapplicatie (\"Dienst\").",
+        "text2": "Deze pagina informeert u over ons beleid met betrekking tot het verzamelen, gebruiken en openbaar maken van persoonlijke gegevens."
+      },
+      "dataCollection": {
+        "title": "2. Gegevensverzameling en -gebruik",
+        "subtitle": "We verzamelen verschillende soorten informatie voor verschillende doeleinden:",
+        "typesTitle": "2.1 Soorten Verzamelde Gegevens",
+        "types": {
+          "personal": "Persoonlijke Gegevens: Naam, e-mailadres, telefoonnummer, adres",
+          "usage": "Gebruiksgegevens: Browserinformatie, IP-adressen, bezochte pagina's",
+          "calendar": "Kalendergegevens: Afspraken, beschikbaarheid, professionele voorkeuren",
+          "payment": "Betalingsgegevens: Factuurinformatie (veilig verwerkt)",
+          "google": "Google Calendar-gegevens: OAuth-authenticatietokens"
+        },
+        "usageTitle": "2.2 Gegevensgebruik",
+        "usageSubtitle": "We gebruiken de verzamelde gegevens om:",
+        "usageItems": {
+          "provide": "De Dienst te leveren en te onderhouden",
+          "notify": "U te informeren over wijzigingen",
+          "interactive": "Deelname aan interactieve functies mogelijk te maken",
+          "support": "Klantenondersteuning te bieden",
+          "analytics": "Analyses te verzamelen om de Dienst te verbeteren",
+          "monitor": "Het gebruik van de Dienst te monitoren",
+          "security": "Fraude te detecteren en te voorkomen"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Gegevensbeveiliging",
+        "text": "De beveiliging van uw gegevens is belangrijk, maar geen transmissiemethode is 100% veilig."
+      },
+      "googleCalendar": {
+        "title": "4. Google Calendar-gegevens",
+        "text": "Wanneer u synchronisatie autoriseert, verzamelen we:",
+        "items": {
+          "token": "OAuth-toegangstokens om toegang te krijgen tot uw agenda",
+          "appointments": "De afspraken die u kiest om te synchroniseren",
+          "events": "Agenda-evenementinformatie"
+        },
+        "footer": "Deze gegevens worden uitsluitend gebruikt om afspraken te synchroniseren."
+      },
+      "cookies": {
+        "title": "5. Cookies",
+        "text": "We gebruiken cookies om u te identificeren en uw voorkeuren te onthouden."
+      },
+      "thirdParty": {
+        "title": "6. Links naar Derden",
+        "text": "Onze Dienst kan links bevatten naar websites van derden."
+      },
+      "userRights": {
+        "title": "7. Gebruikersrechten",
+        "text": "In overeenstemming met de AVG heeft u het recht om:",
+        "items": {
+          "access": "Toegang tot uw persoonlijke gegevens",
+          "correct": "Onjuiste gegevens te corrigeren",
+          "delete": "Verwijdering van uw gegevens aan te vragen",
+          "object": "Bezwaar te maken tegen de verwerking",
+          "restrict": "Verwerking te beperken",
+          "portability": "Gegevensportabiliteit aan te vragen"
+        }
+      },
+      "contact": {
+        "title": "8. Contact",
+        "text": "Als u vragen heeft, kunt u contact met ons opnemen via het support-e-mailadres in uw account."
+      },
+      "changes": {
+        "title": "9. Wijzigingen in dit Privacybeleid",
+        "text": "We kunnen ons Privacybeleid van tijd tot tijd bijwerken."
+      }
+    }
+  },
+  "terms": {
+    "title": "Servicevoorwaarden en Gebruiksvoorwaarden",
+    "effectiveDate": "Ingangsdatum: 20 juni 2025",
+    "lastModified": "Laatst gewijzigd: 20 juni 2025",
+    "backButton": "Terug naar Home",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aanvaarding van Voorwaarden",
+        "text": "Het gebruik van Afsprakenbeheer impliceert volledige aanvaarding van deze Servicevoorwaarden."
+      },
+      "description": {
+        "title": "2. Dienstbeschrijving",
+        "intro": "Afsprakenbeheer is een softwaresysteem voor het beheren van:",
+        "items": {
+          "bookings": "Boekingen en afspraken",
+          "clients": "Klantendatabase",
+          "billing": "Facturering en fiscale documenten",
+          "communications": "Automatische communicatie",
+          "reports": "Rapporten en statistieken"
+        },
+        "footer": "De Dienst is ontworpen voor verschillende professionele sectoren."
+      },
+      "plans": {
+        "title": "3. Abonnementsplannen",
+        "base": {
+          "title": "3.1 Basisplan",
+          "items": {
+            "clients": "Beheer tot 100 klanten",
+            "calendar": "Basis afsprakenagenda",
+            "billing": "Eenvoudige facturering",
+            "support": "E-mailondersteuning"
+          }
+        },
+        "pro": {
+          "title": "3.2 Professional Plan",
+          "items": {
+            "clients": "Beheer tot 500 klanten",
+            "whatsapp": "Automatische WhatsApp-meldingen",
+            "reports": "Geavanceerde rapporten",
+            "qr": "Gepersonaliseerd klantengebied met QR-code",
+            "support": "Prioriteitsondersteuning"
+          }
+        },
+        "business": {
+          "title": "3.3 Business Plan",
+          "items": {
+            "all": "Alle Professional Plan-diensten",
+            "unlimited": "Onbeperkte klanten",
+            "multiUser": "Meerdere gebruikers",
+            "customization": "Geavanceerde aanpassing",
+            "backup": "Automatische back-up",
+            "support": "Toegewijde telefonische ondersteuning"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Gebruikersverantwoordelijkheden",
+        "intro": "De gebruiker verplicht zich tot:",
+        "items": {
+          "law": "De Dienst te gebruiken in overeenstemming met de wet",
+          "credentials": "Inloggegevens vertrouwelijk te houden",
+          "data": "Nauwkeurige en actuele gegevens in te voeren",
+          "privacy": "De privacy van klanten te respecteren",
+          "backup": "Regelmatige back-ups te maken"
+        }
+      },
+      "privacyData": {
+        "title": "5. Privacy en Gegevensbescherming",
+        "text": "De verwerking van persoonsgegevens gebeurt in overeenstemming met de AVG.",
+        "important": "Belangrijk:",
+        "warning": "De gebruiker is verantwoordelijk voor naleving van privacyregelgeving."
+      },
+      "limitations": {
+        "title": "6. Beperkingen en Uitsluitingen",
+        "intro": "De Dienst wordt geleverd \"zoals deze is\".",
+        "items": {
+          "availability": "Continue beschikbaarheid van de dienst",
+          "errors": "Afwezigheid van fouten of onderbrekingen",
+          "compatibility": "Compatibiliteit met alle apparaten"
+        }
+      },
+      "billing": {
+        "title": "7. Facturering en Betalingen",
+        "items": {
+          "monthly": "Abonnementen worden maandelijks of jaarlijks gefactureerd",
+          "advance": "Betalingen zijn vooraf verschuldigd",
+          "refunds": "Terugbetalingen worden alleen in uitzonderlijke gevallen verleend",
+          "priceChanges": "Prijzen kunnen worden gewijzigd met 30 dagen opzegtermijn"
+        }
+      },
+      "termination": {
+        "title": "8. Beëindiging en Opschorting",
+        "intro": "Het contract kan worden beëindigd:",
+        "items": {
+          "user": "Door de gebruiker met 30 dagen opzegtermijn",
+          "provider": "Door Zambelli Development bij schending van voorwaarden",
+          "payment": "Bij wanbetaling na 15 dagen"
+        }
+      },
+      "modifications": {
+        "title": "9. Wijzigingen van Voorwaarden",
+        "text": "Substantiële wijzigingen worden met 30 dagen opzegtermijn gecommuniceerd."
+      },
+      "law": {
+        "title": "10. Toepasselijk Recht",
+        "text": "Deze voorwaarden vallen onder Italiaans recht."
+      },
+      "contact": {
+        "title": "11. Contact",
+        "intro": "Voor vragen, neem contact op met:",
+        "email": "E-mail: zambelli.andrea.1973@gmail.com",
+        "developer": "Ontwikkelaar: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Afsprakenbeheer v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Alle rechten voorbehouden"
+    }
+  },
   "planFeatures": {
     "calendar": "Afsprakenkalender",
     "clients": "Klantenbeheer",

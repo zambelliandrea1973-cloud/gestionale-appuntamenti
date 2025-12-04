@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : 1er décembre 2025",
+    "backButton": "Retour à l'Accueil",
+    "sections": {
+      "intro": {
+        "title": "1. Introduction",
+        "text1": "Gestion des Rendez-vous (\"nous\", \"notre\" ou \"nos\") exploite l'application web Gestion des Rendez-vous (\"Service\").",
+        "text2": "Cette page vous informe de nos politiques concernant la collecte, l'utilisation et la divulgation des données personnelles."
+      },
+      "dataCollection": {
+        "title": "2. Collecte et Utilisation des Données",
+        "subtitle": "Nous collectons différents types d'informations à diverses fins :",
+        "typesTitle": "2.1 Types de Données Collectées",
+        "types": {
+          "personal": "Données Personnelles : Nom, adresse e-mail, numéro de téléphone, adresse",
+          "usage": "Données d'Utilisation : Informations du navigateur, adresses IP, pages visitées",
+          "calendar": "Données de Calendrier : Rendez-vous, disponibilité, préférences professionnelles",
+          "payment": "Données de Paiement : Informations de facturation (traitées de manière sécurisée)",
+          "google": "Données Google Calendar : Jetons d'authentification OAuth"
+        },
+        "usageTitle": "2.2 Utilisation des Données",
+        "usageSubtitle": "Nous utilisons les données collectées pour :",
+        "usageItems": {
+          "provide": "Fournir et maintenir le Service",
+          "notify": "Vous informer des changements",
+          "interactive": "Permettre la participation aux fonctionnalités interactives",
+          "support": "Fournir un support client",
+          "analytics": "Collecter des analyses pour améliorer le Service",
+          "monitor": "Surveiller l'utilisation du Service",
+          "security": "Détecter et prévenir les fraudes"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Sécurité des Données",
+        "text": "La sécurité de vos données est importante, mais aucune méthode de transmission n'est 100% sécurisée."
+      },
+      "googleCalendar": {
+        "title": "4. Données Google Calendar",
+        "text": "Lorsque vous autorisez la synchronisation, nous collectons :",
+        "items": {
+          "token": "Jetons d'accès OAuth pour accéder à votre calendrier",
+          "appointments": "Les rendez-vous que vous choisissez de synchroniser",
+          "events": "Informations sur les événements du calendrier"
+        },
+        "footer": "Ces données sont utilisées exclusivement pour synchroniser les rendez-vous."
+      },
+      "cookies": {
+        "title": "5. Cookies",
+        "text": "Nous utilisons des cookies pour vous identifier et mémoriser vos préférences."
+      },
+      "thirdParty": {
+        "title": "6. Liens vers des Tiers",
+        "text": "Notre Service peut contenir des liens vers des sites tiers."
+      },
+      "userRights": {
+        "title": "7. Droits de l'Utilisateur",
+        "text": "Conformément au RGPD, vous avez le droit de :",
+        "items": {
+          "access": "Accéder à vos données personnelles",
+          "correct": "Corriger les données inexactes",
+          "delete": "Demander la suppression de vos données",
+          "object": "Vous opposer au traitement de vos données",
+          "restrict": "Restreindre le traitement",
+          "portability": "Demander la portabilité des données"
+        }
+      },
+      "contact": {
+        "title": "8. Contact",
+        "text": "Pour toute question, vous pouvez nous contacter à l'adresse e-mail de support de votre compte."
+      },
+      "changes": {
+        "title": "9. Modifications de cette Politique",
+        "text": "Nous pouvons mettre à jour notre Politique de Confidentialité périodiquement."
+      }
+    }
+  },
+  "terms": {
+    "title": "Conditions d'Utilisation",
+    "effectiveDate": "Date d'entrée en vigueur : 20 juin 2025",
+    "lastModified": "Dernière modification : 20 juin 2025",
+    "backButton": "Retour à l'Accueil",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptation des Conditions",
+        "text": "L'utilisation de Gestion des Rendez-vous implique l'acceptation complète de ces Conditions d'Utilisation."
+      },
+      "description": {
+        "title": "2. Description du Service",
+        "intro": "Gestion des Rendez-vous est un système logiciel pour gérer :",
+        "items": {
+          "bookings": "Réservations et rendez-vous",
+          "clients": "Base de données clients",
+          "billing": "Facturation et documents fiscaux",
+          "communications": "Communications automatiques",
+          "reports": "Rapports et statistiques"
+        },
+        "footer": "Le Service est conçu pour divers secteurs professionnels."
+      },
+      "plans": {
+        "title": "3. Plans d'Abonnement",
+        "base": {
+          "title": "3.1 Plan Base",
+          "items": {
+            "clients": "Gestion jusqu'à 100 clients",
+            "calendar": "Calendrier de rendez-vous basique",
+            "billing": "Facturation simple",
+            "support": "Support par e-mail"
+          }
+        },
+        "pro": {
+          "title": "3.2 Plan Professional",
+          "items": {
+            "clients": "Gestion jusqu'à 500 clients",
+            "whatsapp": "Notifications WhatsApp automatiques",
+            "reports": "Rapports avancés",
+            "qr": "Espace client personnalisé avec code QR",
+            "support": "Support prioritaire"
+          }
+        },
+        "business": {
+          "title": "3.3 Plan Business",
+          "items": {
+            "all": "Tous les services du Plan Professional",
+            "unlimited": "Clients illimités",
+            "multiUser": "Multi-utilisateur",
+            "customization": "Personnalisation avancée",
+            "backup": "Sauvegarde automatique",
+            "support": "Support téléphonique dédié"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Responsabilités de l'Utilisateur",
+        "intro": "L'utilisateur s'engage à :",
+        "items": {
+          "law": "Utiliser le Service conformément aux lois applicables",
+          "credentials": "Garder ses identifiants confidentiels",
+          "data": "Saisir des données exactes et à jour",
+          "privacy": "Respecter la vie privée de ses clients",
+          "backup": "Effectuer des sauvegardes régulières"
+        }
+      },
+      "privacyData": {
+        "title": "5. Confidentialité et Protection des Données",
+        "text": "Le traitement des données personnelles est effectué conformément au RGPD.",
+        "important": "Important :",
+        "warning": "L'utilisateur est responsable du respect des réglementations sur la vie privée."
+      },
+      "limitations": {
+        "title": "6. Limitations et Exclusions",
+        "intro": "Le Service est fourni \"tel quel\".",
+        "items": {
+          "availability": "Disponibilité continue du service",
+          "errors": "Absence d'erreurs ou d'interruptions",
+          "compatibility": "Compatibilité avec tous les appareils"
+        }
+      },
+      "billing": {
+        "title": "7. Facturation et Paiements",
+        "items": {
+          "monthly": "Les abonnements sont facturés mensuellement ou annuellement",
+          "advance": "Les paiements sont dus à l'avance",
+          "refunds": "Les remboursements ne sont accordés que dans des cas exceptionnels",
+          "priceChanges": "Les prix peuvent changer avec 30 jours de préavis"
+        }
+      },
+      "termination": {
+        "title": "8. Résiliation et Suspension",
+        "intro": "Le contrat peut être résilié :",
+        "items": {
+          "user": "Par l'utilisateur avec 30 jours de préavis",
+          "provider": "Par Zambelli Development en cas de violation des conditions",
+          "payment": "Pour non-paiement après 15 jours"
+        }
+      },
+      "modifications": {
+        "title": "9. Modifications des Conditions",
+        "text": "Les changements substantiels seront communiqués avec 30 jours de préavis."
+      },
+      "law": {
+        "title": "10. Droit Applicable",
+        "text": "Ces conditions sont régies par le droit italien."
+      },
+      "contact": {
+        "title": "11. Contact",
+        "intro": "Pour toute question, contactez :",
+        "email": "Email : zambelli.andrea.1973@gmail.com",
+        "developer": "Développeur : Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Gestion des Rendez-vous v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Tous droits réservés"
+    }
+  },
   "planFeatures": {
     "calendar": "Calendrier de rendez-vous",
     "clients": "Gestion des clients",

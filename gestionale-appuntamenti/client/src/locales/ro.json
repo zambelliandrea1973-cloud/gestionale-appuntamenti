@@ -797,6 +797,202 @@
       }
     }
   },
+  "privacy": {
+    "title": "Politica de Confidențialitate",
+    "lastUpdated": "Ultima actualizare: 1 decembrie 2025",
+    "backButton": "Înapoi la Acasă",
+    "sections": {
+      "intro": {
+        "title": "1. Introducere",
+        "text1": "Gestionare Programări (\"noi\", \"al nostru\" sau \"nouă\") operează aplicația web Gestionare Programări (\"Serviciul\").",
+        "text2": "Această pagină vă informează despre politicile noastre privind colectarea, utilizarea și divulgarea datelor personale."
+      },
+      "dataCollection": {
+        "title": "2. Colectarea și Utilizarea Datelor",
+        "subtitle": "Colectăm diferite tipuri de informații pentru diverse scopuri:",
+        "typesTitle": "2.1 Tipuri de Date Colectate",
+        "types": {
+          "personal": "Date Personale: Nume, adresă de e-mail, număr de telefon, adresă",
+          "usage": "Date de Utilizare: Informații despre browser, adrese IP, pagini vizitate",
+          "calendar": "Date de Calendar: Programări, disponibilitate, preferințe profesionale",
+          "payment": "Date de Plată: Informații de facturare (procesate în siguranță)",
+          "google": "Date Google Calendar: Tokeni de autentificare OAuth"
+        },
+        "usageTitle": "2.2 Utilizarea Datelor",
+        "usageSubtitle": "Utilizăm datele colectate pentru a:",
+        "usageItems": {
+          "provide": "Furniza și menține Serviciul",
+          "notify": "Vă notifica despre modificări",
+          "interactive": "Permite participarea la funcții interactive",
+          "support": "Oferi suport pentru clienți",
+          "analytics": "Colecta analize pentru a îmbunătăți Serviciul",
+          "monitor": "Monitoriza utilizarea Serviciului",
+          "security": "Detecta și preveni frauda"
+        }
+      },
+      "dataSecurity": {
+        "title": "3. Securitatea Datelor",
+        "text": "Securitatea datelor dvs. este importantă, dar nicio metodă de transmisie nu este 100% sigură."
+      },
+      "googleCalendar": {
+        "title": "4. Date Google Calendar",
+        "text": "Când autorizați sincronizarea, colectăm:",
+        "items": {
+          "token": "Tokeni de acces OAuth pentru a accesa calendarul dvs.",
+          "appointments": "Programările pe care alegeți să le sincronizați",
+          "events": "Informații despre evenimentele din calendar"
+        },
+        "footer": "Aceste date sunt utilizate exclusiv pentru sincronizarea programărilor."
+      },
+      "cookies": {
+        "title": "5. Cookie-uri",
+        "text": "Utilizăm cookie-uri pentru a vă identifica și pentru a vă aminti preferințele."
+      },
+      "thirdParty": {
+        "title": "6. Linkuri către Terți",
+        "text": "Serviciul nostru poate conține linkuri către site-uri terțe."
+      },
+      "userRights": {
+        "title": "7. Drepturile Utilizatorului",
+        "text": "În conformitate cu GDPR, aveți dreptul de a:",
+        "items": {
+          "access": "Accesa datele dvs. personale",
+          "correct": "Corecta datele inexacte",
+          "delete": "Solicita ștergerea datelor dvs.",
+          "object": "Vă opune prelucrării datelor dvs.",
+          "restrict": "Restricționa prelucrarea",
+          "portability": "Solicita portabilitatea datelor"
+        }
+      },
+      "contact": {
+        "title": "8. Contact",
+        "text": "Dacă aveți întrebări, ne puteți contacta la adresa de e-mail de suport din contul dvs."
+      },
+      "changes": {
+        "title": "9. Modificări ale acestei Politici",
+        "text": "Putem actualiza Politica noastră de Confidențialitate periodic."
+      }
+    }
+  },
+  "terms": {
+    "title": "Termeni și Condiții de Utilizare",
+    "effectiveDate": "Data intrării în vigoare: 20 iunie 2025",
+    "lastModified": "Ultima modificare: 20 iunie 2025",
+    "backButton": "Înapoi la Acasă",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptarea Termenilor",
+        "text": "Utilizarea Gestionare Programări implică acceptarea completă a acestor Termeni de Serviciu."
+      },
+      "description": {
+        "title": "2. Descrierea Serviciului",
+        "intro": "Gestionare Programări este un sistem software pentru gestionarea:",
+        "items": {
+          "bookings": "Rezervări și programări",
+          "clients": "Baza de date clienți",
+          "billing": "Facturare și documente fiscale",
+          "communications": "Comunicări automate",
+          "reports": "Rapoarte și statistici"
+        },
+        "footer": "Serviciul este conceput pentru diverse sectoare profesionale."
+      },
+      "plans": {
+        "title": "3. Planuri de Abonament",
+        "base": {
+          "title": "3.1 Plan de Bază",
+          "items": {
+            "clients": "Gestionare până la 100 clienți",
+            "calendar": "Calendar de programări de bază",
+            "billing": "Facturare simplă",
+            "support": "Suport prin e-mail"
+          }
+        },
+        "pro": {
+          "title": "3.2 Plan Professional",
+          "items": {
+            "clients": "Gestionare până la 500 clienți",
+            "whatsapp": "Notificări WhatsApp automate",
+            "reports": "Rapoarte avansate",
+            "qr": "Zonă client personalizată cu cod QR",
+            "support": "Suport prioritar"
+          }
+        },
+        "business": {
+          "title": "3.3 Plan Business",
+          "items": {
+            "all": "Toate serviciile Plan Professional",
+            "unlimited": "Clienți nelimitați",
+            "multiUser": "Multi-utilizator",
+            "customization": "Personalizare avansată",
+            "backup": "Backup automat",
+            "support": "Suport telefonic dedicat"
+          }
+        }
+      },
+      "userResponsibilities": {
+        "title": "4. Responsabilitățile Utilizatorului",
+        "intro": "Utilizatorul se angajează să:",
+        "items": {
+          "law": "Utilizeze Serviciul în conformitate cu legile aplicabile",
+          "credentials": "Păstreze confidențiale datele de autentificare",
+          "data": "Introducă date exacte și actualizate",
+          "privacy": "Respecte confidențialitatea clienților",
+          "backup": "Efectueze backup-uri regulate"
+        }
+      },
+      "privacyData": {
+        "title": "5. Confidențialitate și Protecția Datelor",
+        "text": "Prelucrarea datelor personale se efectuează în conformitate cu GDPR.",
+        "important": "Important:",
+        "warning": "Utilizatorul este responsabil pentru conformitatea cu reglementările privind confidențialitatea."
+      },
+      "limitations": {
+        "title": "6. Limitări și Excluderi",
+        "intro": "Serviciul este furnizat \"așa cum este\".",
+        "items": {
+          "availability": "Disponibilitate continuă a serviciului",
+          "errors": "Absența erorilor sau întreruperilor",
+          "compatibility": "Compatibilitate cu toate dispozitivele"
+        }
+      },
+      "billing": {
+        "title": "7. Facturare și Plăți",
+        "items": {
+          "monthly": "Abonamentele sunt facturate lunar sau anual",
+          "advance": "Plățile sunt datorate în avans",
+          "refunds": "Rambursările sunt acordate doar în cazuri excepționale",
+          "priceChanges": "Prețurile pot fi modificate cu notificare de 30 de zile"
+        }
+      },
+      "termination": {
+        "title": "8. Încetare și Suspendare",
+        "intro": "Contractul poate fi încheiat:",
+        "items": {
+          "user": "De către utilizator cu notificare de 30 de zile",
+          "provider": "De către Zambelli Development în caz de încălcare a termenilor",
+          "payment": "Pentru neplată după 15 zile de la scadență"
+        }
+      },
+      "modifications": {
+        "title": "9. Modificări ale Termenilor",
+        "text": "Modificările substanțiale vor fi comunicate cu cel puțin 30 de zile în avans."
+      },
+      "law": {
+        "title": "10. Legea Aplicabilă",
+        "text": "Acești termeni sunt guvernați de legea italiană."
+      },
+      "contact": {
+        "title": "11. Contact",
+        "intro": "Pentru întrebări, contactați:",
+        "email": "Email: zambelli.andrea.1973@gmail.com",
+        "developer": "Dezvoltator: Zambelli Development"
+      }
+    },
+    "footer": {
+      "version": "Gestionare Programări v2.1.0",
+      "copyright": "© 2025 Zambelli Development - Toate drepturile rezervate"
+    }
+  },
   "planFeatures": {
     "calendar": "Calendar programări",
     "clients": "Gestionare clienți",
