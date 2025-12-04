@@ -49,13 +49,13 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'it', // Lingua predefinita
     fallbackLng: 'it',
     interpolation: {
       escapeValue: false, // React gestisce già l'escape
     },
     detection: {
       order: ['localStorage', 'navigator'],
+      lookupLocalStorage: 'i18nextLng',
       caches: ['localStorage'],
     },
   });
