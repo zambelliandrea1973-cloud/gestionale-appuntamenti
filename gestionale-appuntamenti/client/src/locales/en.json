@@ -224,10 +224,10 @@
       "cancel": "Cancel"
     },
     "accesses": {
-      "loading": "Caricamento...",
+      "loading": "Loading...",
       "error": "N/D",
-      "count": "Accessi all'app: {{count}}",
-      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+      "count": "App accesses: {{count}}",
+      "tooltip": "Number of times the client has opened the app: {{count}}"
     }
   },
   "invoices": {
