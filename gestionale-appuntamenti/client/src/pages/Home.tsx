@@ -189,8 +189,12 @@ function BetaBadge() {
 
 export default function Home() {
   const [_, navigate] = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useUserWithLicense();
+
+  // Debug: log current language
+  console.log('🌐 HOME: Current language:', i18n.language, 'Resolved language:', i18n.resolvedLanguage);
+  console.log('🌐 HOME: footer.systemInfo translation:', t('footer.systemInfo'));
 
   return (
     <div className="space-y-6 relative">
@@ -392,30 +396,30 @@ export default function Home() {
         <FooterContactIcons />
       </div>
 
-      {/* Sezione informazioni legali */}
-      <div className="mt-8 pt-6 border-t border-border">
+      {/* Sezione informazioni legali - key forces re-render on language change */}
+      <div className="mt-8 pt-6 border-t border-border" key={`footer-${i18n.language}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
           <div>
-            <h3 className="font-semibold text-foreground mb-2">{t('footer.systemInfo', 'Informazioni Sistema')}</h3>
-            <p>{t('footer.version', 'Gestionale Appuntamenti v2.1.0')}</p>
-            <p>{t('footer.copyright', '© 2025 Zambelli Development')}</p>
-            <p>{t('footer.allRightsReserved', 'Tutti i diritti riservati')}</p>
+            <h3 className="font-semibold text-foreground mb-2">{t('footer.systemInfo')}</h3>
+            <p>{t('footer.version')}</p>
+            <p>{t('footer.copyright')}</p>
+            <p>{t('footer.allRightsReserved')}</p>
           </div>
           <div>
-            <h3 className="font-semibold text-foreground mb-2">{t('footer.privacySecurity', 'Privacy e Sicurezza')}</h3>
-            <p>{t('footer.technicalSupport', 'Supporto tecnico')}: zambelli.andrea.1973@gmail.com</p>
+            <h3 className="font-semibold text-foreground mb-2">{t('footer.privacySecurity')}</h3>
+            <p>{t('footer.technicalSupport')}: zambelli.andrea.1973@gmail.com</p>
             <Link to="/privacy">
               <button 
                 className="text-primary hover:underline mt-1 block"
               >
-                {t('footer.privacyPolicy', 'Informativa sulla Privacy')} →
+                {t('footer.privacyPolicy')} →
               </button>
             </Link>
             <button 
               className="text-primary hover:underline mt-1"
               onClick={() => navigate('/terms')}
             >
-              {t('footer.termsOfService', 'Termini di servizio e condizioni d\'uso')} →
+              {t('footer.termsOfService')} →
             </button>
           </div>
         </div>
