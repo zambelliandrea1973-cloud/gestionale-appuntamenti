@@ -3,7 +3,47 @@
 ## Overview
 This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed to streamline operations for medical practices. It offers comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system aims to enhance patient engagement and provide efficient administrative tools, ultimately serving as a multi-platform solution for modern medical practice management.
 
-## Recent Changes (December 3, 2025)
+## Recent Changes (December 4, 2025)
+
+### ✅ MIGRAZIONE COMPLETA JSON → PostgreSQL - DATI PERSISTENTI DEFINITIVI
+**Status**: ✅ COMPLETATO E TESTATO - Tutti i dati clienti ora persistenti nel database!
+
+#### 🔐 DATI CRITICI MIGRATI A PostgreSQL:
+- ✅ **email_calendar_settings** - Impostazioni email e calendario (per utente, isolate)
+- ✅ **notification_settings** - Impostazioni notifiche WhatsApp/SMS (per utente, isolate)
+- ✅ **contact_info** - Telefoni, siti web, social media (per utente, isolate)
+- ✅ **payment_methods_config** - Credenziali Stripe, PayPal, Bonifico bancario (PERSISTENTI)
+
+#### 🎯 RISULTATO FINALE:
+- **ZERO file JSON** per dati critici (email_settings.json, storage_data.json, company_name_settings.json, contacts.json rimossi)
+- **100% PostgreSQL** - Tutti i dati salvati nel database Neon-backed condiviso tra Replit e Sliplane
+- **Multi-tenant sicuro** - Dati completamente isolati per account (userId in every table)
+- **Persistenza garantita** - Dati NON scompaiono più al restart container
+- **Sincronizzazione automatica** - Dev (Replit) ↔ Production (Sliplane) tramite database condiviso
+
+#### 📋 MIGRAZIONE SERVIZI BACKEND:
+- ✅ `emailCalendarRoutes.ts` - Legge/scrive da PostgreSQL (no JSON)
+- ✅ `notificationSettingsRoutes.ts` - Legge/scrive da PostgreSQL (no JSON)
+- ✅ `companyNameService.ts` - Legge/scrive da PostgreSQL (no JSON)
+- ✅ `contactService.ts` - Legge/scrive da PostgreSQL (no JSON)
+- ✅ `paymentMethodsConfig` - Credenziali PayPal/Stripe persistenti (no JSON)
+
+#### ✅ VERIFICHE COMPLETATE:
+- ✅ Database schema aggiornato e sincronizzato
+- ✅ Nessun dato perso durante migrazione
+- ✅ Tutte le impostazioni esistenti caricate correttamente
+- ✅ Multi-tenant isolation verificata (userId filtering attivo)
+- ✅ App running su Replit con tutti i dati intatti
+
+#### 🚀 DEPLOYMENT:
+- ✅ Code pushed a GitHub (origin main)
+- ✅ Sliplane si sincronizzerà automaticamente da GitHub
+- ✅ Database PostgreSQL condiviso (Neon) tra entrambi gli ambienti
+- ⏳ Sincronizzazione Sliplane in corso...
+
+---
+
+## Previous Changes (December 3, 2025)
 
 ### ✅ FOOTER BUTTONS & GOOGLE CALENDAR SYNC ENDPOINT - DEPLOYMENT COMPLETE
 **Status**: All modifications pushed to Sliplane successfully!
