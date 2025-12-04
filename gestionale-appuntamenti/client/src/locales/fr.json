@@ -1006,5 +1006,15 @@
     "multiStaff": "Gestion multi-employés",
     "inventory": "Inventaire des produits",
     "marketingAI": "Campagnes Marketing IA"
+  },
+  "footer": {
+    "systemInfo": "Informations Système",
+    "version": "Gestion des Rendez-vous v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Tous droits réservés",
+    "privacySecurity": "Confidentialité et Sécurité",
+    "technicalSupport": "Support technique",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation"
   }
 }

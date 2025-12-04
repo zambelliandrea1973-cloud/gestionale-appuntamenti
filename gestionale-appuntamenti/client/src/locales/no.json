@@ -1006,5 +1006,15 @@
     "multiStaff": "Administrasjon av flere ansatte",
     "inventory": "Produktlager",
     "marketingAI": "AI-markedsføringskampanjer"
+  },
+  "footer": {
+    "systemInfo": "Systeminformasjon",
+    "version": "Avtalehåndtering v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Alle rettigheter forbeholdt",
+    "privacySecurity": "Personvern og Sikkerhet",
+    "technicalSupport": "Teknisk støtte",
+    "privacyPolicy": "Personvernerklæring",
+    "termsOfService": "Vilkår for Bruk"
   }
 }

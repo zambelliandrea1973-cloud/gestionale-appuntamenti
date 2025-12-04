@@ -1006,5 +1006,15 @@
     "multiStaff": "Multi-staff management",
     "inventory": "Product inventory",
     "marketingAI": "AI Marketing campaigns"
+  },
+  "footer": {
+    "systemInfo": "System Information",
+    "version": "Appointment Manager v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "All rights reserved",
+    "privacySecurity": "Privacy and Security",
+    "technicalSupport": "Technical support",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   }
 }

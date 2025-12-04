@@ -1006,5 +1006,15 @@
     "multiStaff": "Gestión de múltiples empleados",
     "inventory": "Inventario de productos",
     "marketingAI": "Campañas de Marketing IA"
+  },
+  "footer": {
+    "systemInfo": "Información del Sistema",
+    "version": "Gestión de Citas v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Todos los derechos reservados",
+    "privacySecurity": "Privacidad y Seguridad",
+    "technicalSupport": "Soporte técnico",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio"
   }
 }

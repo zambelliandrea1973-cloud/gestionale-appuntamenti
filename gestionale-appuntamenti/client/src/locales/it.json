@@ -1008,5 +1008,15 @@
     "multiStaff": "Gestione più dipendenti",
     "inventory": "Magazzino prodotti",
     "marketingAI": "Campagne Marketing AI"
+  },
+  "footer": {
+    "systemInfo": "Informazioni Sistema",
+    "version": "Gestionale Appuntamenti v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Tutti i diritti riservati",
+    "privacySecurity": "Privacy e Sicurezza",
+    "technicalSupport": "Supporto tecnico",
+    "privacyPolicy": "Informativa sulla Privacy",
+    "termsOfService": "Termini di servizio e condizioni d'uso"
   }
 }

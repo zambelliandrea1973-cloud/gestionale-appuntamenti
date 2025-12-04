@@ -1006,5 +1006,15 @@
     "multiStaff": "Gestionare angajați multipli",
     "inventory": "Inventar produse",
     "marketingAI": "Campanii Marketing AI"
+  },
+  "footer": {
+    "systemInfo": "Informații Sistem",
+    "version": "Gestionare Programări v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Toate drepturile rezervate",
+    "privacySecurity": "Confidențialitate și Securitate",
+    "technicalSupport": "Suport tehnic",
+    "privacyPolicy": "Politica de Confidențialitate",
+    "termsOfService": "Termeni și Condiții"
   }
 }

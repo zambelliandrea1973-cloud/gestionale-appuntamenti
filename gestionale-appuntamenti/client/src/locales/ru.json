@@ -1006,5 +1006,15 @@
     "multiStaff": "Управление несколькими сотрудниками",
     "inventory": "Складской учет продуктов",
     "marketingAI": "AI-маркетинговые кампании"
+  },
+  "footer": {
+    "systemInfo": "Информация о системе",
+    "version": "Управление записями v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Все права защищены",
+    "privacySecurity": "Конфиденциальность и безопасность",
+    "technicalSupport": "Техническая поддержка",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfService": "Условия использования"
   }
 }

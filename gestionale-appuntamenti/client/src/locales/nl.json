@@ -1006,5 +1006,15 @@
     "multiStaff": "Beheer van meerdere medewerkers",
     "inventory": "Productinventaris",
     "marketingAI": "AI-marketingcampagnes"
+  },
+  "footer": {
+    "systemInfo": "Systeeminformatie",
+    "version": "Afspraakbeheer v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Alle rechten voorbehouden",
+    "privacySecurity": "Privacy en Veiligheid",
+    "technicalSupport": "Technische ondersteuning",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Algemene Voorwaarden"
   }
 }
