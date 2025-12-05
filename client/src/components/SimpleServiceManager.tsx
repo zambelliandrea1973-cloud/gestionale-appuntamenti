@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +22,7 @@ interface Service {
 }
 
 export default function SimpleServiceManager() {
+  const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const { symbol } = useCurrency();
   const queryClient = useQueryClient();
@@ -78,18 +80,18 @@ export default function SimpleServiceManager() {
       setNewServicePrice("");
       setNewServiceColor("#3b82f6");
       
-      toast({ title: "Servizio creato!" });
+      toast({ title: t('services.serviceCreated') });
     },
     onError: (error: any) => {
       console.error('Errore creazione:', error);
-      toast({ title: "Errore nella creazione", variant: "destructive" });
+      toast({ title: t('services.createError'), variant: "destructive" });
     }
   });
 
   // Crea nuovo servizio
   const createService = async () => {
     if (!newServiceName.trim()) {
-      toast({ title: "Inserisci un nome per il servizio", variant: "destructive" });
+      toast({ title: t('services.enterName'), variant: "destructive" });
       return;
     }
 
@@ -117,11 +119,11 @@ export default function SimpleServiceManager() {
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
       setLastUpdate(new Date());
       
-      toast({ title: "Servizio eliminato!" });
+      toast({ title: t('services.serviceDeleted') });
     },
     onError: (error: any) => {
       console.error('Errore eliminazione:', error);
-      toast({ title: "Errore nell'eliminazione", variant: "destructive" });
+      toast({ title: t('services.deleteError'), variant: "destructive" });
     }
   });
 
@@ -145,11 +147,11 @@ export default function SimpleServiceManager() {
       setIsEditDialogOpen(false);
       setEditingService(null);
       
-      toast({ title: "Servizio aggiornato!" });
+      toast({ title: t('services.serviceUpdated') });
     },
     onError: (error: any) => {
       console.error('Errore aggiornamento:', error);
-      toast({ title: "Errore nell'aggiornamento", variant: "destructive" });
+      toast({ title: t('services.updateError'), variant: "destructive" });
     }
   });
 
@@ -173,7 +175,7 @@ export default function SimpleServiceManager() {
   // Salva le modifiche al servizio
   const saveEditedService = () => {
     if (!editingService || !editForm.name.trim()) {
-      toast({ title: "Inserisci un nome per il servizio", variant: "destructive" });
+      toast({ title: t('services.enterName'), variant: "destructive" });
       return;
     }
 
@@ -205,39 +207,38 @@ export default function SimpleServiceManager() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
           <div className="space-y-1">
-            <CardTitle>Gestione Servizi</CardTitle>
+            <CardTitle>{t('services.title')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Gestisci i servizi offerti dalla tua attività. Utente: {user?.id}
+              {t('services.description')}
             </p>
           </div>
           <Button onClick={createService} disabled={loading}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            Nuovo Servizio
+            {t('services.newService')}
           </Button>
         </CardHeader>
         <CardContent>
-          {/* Dicitura informativa */}
           <p className="text-sm text-muted-foreground mb-4 italic">
-            Compila il nuovo servizio che vuoi creare e salva con il pulsante <span className="font-semibold">+Nuovo Servizio</span>
+            {t('services.createInstruction')} <span className="font-semibold">+{t('services.newService')}</span>
           </p>
           
           {/* Form per nuovo servizio */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 border rounded-lg bg-muted/50">
             <Input
-              placeholder="Nome servizio"
+              placeholder={t('services.serviceName')}
               value={newServiceName}
               onChange={(e) => setNewServiceName(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && createService()}
             />
             <Input
-              placeholder="Durata (min)"
+              placeholder={t('services.durationMin')}
               type="number"
               value={newServiceDuration}
               onChange={(e) => setNewServiceDuration(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && createService()}
             />
             <Input
-              placeholder={`Prezzo (${symbol})`}
+              placeholder={`${t('services.price')} (${symbol})`}
               type="number"
               step="0.01"
               value={newServicePrice}
@@ -251,22 +252,21 @@ export default function SimpleServiceManager() {
             />
           </div>
 
-          {/* Tabella servizi */}
           {loading && services.length === 0 ? (
-            <div className="text-center py-8">Caricamento servizi...</div>
+            <div className="text-center py-8">{t('services.loading')}</div>
           ) : services.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              Nessun servizio presente. Crea il primo servizio!
+              {t('services.noServices')}
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Durata</TableHead>
-                  <TableHead>Prezzo</TableHead>
-                  <TableHead>Colore</TableHead>
-                  <TableHead className="text-right">Azioni</TableHead>
+                  <TableHead>{t('services.name')}</TableHead>
+                  <TableHead>{t('services.duration')}</TableHead>
+                  <TableHead>{t('services.price')}</TableHead>
+                  <TableHead>{t('services.color')}</TableHead>
+                  <TableHead className="text-right">{t('services.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -288,7 +288,7 @@ export default function SimpleServiceManager() {
                           size="sm"
                           onClick={() => openEditDialog(service)}
                           className="text-blue-600 hover:text-blue-700"
-                          title="Modifica servizio"
+                          title={t('services.editService')}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -297,7 +297,7 @@ export default function SimpleServiceManager() {
                           size="sm"
                           onClick={() => deleteService(service.id)}
                           className="text-red-600 hover:text-red-700"
-                          title="Elimina servizio"
+                          title={t('services.deleteService')}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -309,35 +309,33 @@ export default function SimpleServiceManager() {
             </Table>
           )}
 
-          {/* Info debug */}
           <div className="mt-4 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
-            Servizi caricati: {services.length} | Ultimo aggiornamento: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Mai'}
+            {t('services.servicesLoaded')}: {services.length} | {t('services.lastUpdate')}: {lastUpdate ? lastUpdate.toLocaleTimeString() : t('services.never')}
           </div>
         </CardContent>
       </Card>
 
-      {/* Dialog di modifica servizio */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Modifica Servizio</DialogTitle>
+            <DialogTitle>{t('services.editTitle')}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-name" className="text-right">
-                Nome
+                {t('services.name')}
               </Label>
               <Input
                 id="edit-name"
                 value={editForm.name}
                 onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
                 className="col-span-3"
-                placeholder="Nome del servizio"
+                placeholder={t('services.servicePlaceholder')}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-duration" className="text-right">
-                Durata (min)
+                {t('services.durationMin')}
               </Label>
               <Input
                 id="edit-duration"
@@ -350,7 +348,7 @@ export default function SimpleServiceManager() {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-price" className="text-right">
-                Prezzo ({symbol})
+                {t('services.price')} ({symbol})
               </Label>
               <Input
                 id="edit-price"
@@ -364,7 +362,7 @@ export default function SimpleServiceManager() {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-color" className="text-right">
-                Colore
+                {t('services.color')}
               </Label>
               <div className="col-span-3 flex gap-2 items-center">
                 <Input
@@ -386,13 +384,13 @@ export default function SimpleServiceManager() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={closeEditDialog}>
-              Annulla
+              {t('services.cancel')}
             </Button>
             <Button 
               onClick={saveEditedService}
               disabled={updateServiceMutation.isPending}
             >
-              {updateServiceMutation.isPending ? "Salvando..." : "Salva"}
+              {updateServiceMutation.isPending ? t('services.saving') : t('services.save')}
             </Button>
           </DialogFooter>
         </DialogContent>

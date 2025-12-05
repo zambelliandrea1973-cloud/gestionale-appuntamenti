@@ -117,7 +117,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/booking-requests">
                   <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <ClipboardList className="h-4 w-4 mr-1" />
-                    <span>Richieste</span>
+                    <span>{t('navigation.requests')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
@@ -244,7 +244,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/booking-requests">
                   <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
                     <ClipboardList className="h-3 w-3 mr-1" />
-                    <span>Richieste</span>
+                    <span>{t('navigation.requests')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
