@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { CheckCircle, XCircle, Clock, AlertCircle, Calendar as CalendarIcon, User, DoorOpen } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface BookingRequest {
   id: number;
@@ -41,6 +42,7 @@ interface TreatmentRoom {
 }
 
 export default function BookingRequests() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'pending' | 'all'>('pending');
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -122,15 +124,15 @@ export default function BookingRequests() {
       queryClient.invalidateQueries({ queryKey: ['/api/booking-requests'] });
       queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       toast({
-        title: "Richiesta Approvata",
-        description: "Appuntamento creato con successo"
+        title: t("bookingRequests.requestApproved"),
+        description: t("bookingRequests.appointmentCreated")
       });
     },
     onError: (error: Error) => {
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile approvare la richiesta"
+        title: t("bookingRequests.error"),
+        description: error.message || t("bookingRequests.cannotApprove")
       });
     }
   });
@@ -176,25 +178,25 @@ export default function BookingRequests() {
       queryClient.invalidateQueries({ queryKey: ['/api/booking-requests'] });
       toast({
         variant: "destructive",
-        title: "Richiesta Rifiutata",
-        description: "Il cliente verrà notificato"
+        title: t("bookingRequests.requestRejected"),
+        description: t("bookingRequests.clientWillBeNotified")
       });
     },
     onError: (error: Error) => {
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile rifiutare la richiesta"
+        title: t("bookingRequests.error"),
+        description: error.message || t("bookingRequests.cannotReject")
       });
     }
   });
   
   const getStatusConfig = (status: BookingRequest['status']) => {
     const configs = {
-      slots_proposed: { bg: 'bg-gray-100', border: 'border-gray-400', text: 'text-gray-700', label: 'Scegli slot', icon: AlertCircle },
-      client_selected: { bg: 'bg-yellow-100', border: 'border-yellow-400', text: 'text-yellow-700', label: 'In attesa', icon: Clock },
-      admin_confirmed: { bg: 'bg-green-100', border: 'border-green-400', text: 'text-green-700', label: 'Confermato', icon: CheckCircle },
-      rejected: { bg: 'bg-red-100', border: 'border-red-400', text: 'text-red-700', label: 'Respinta', icon: XCircle }
+      slots_proposed: { bg: 'bg-gray-100', border: 'border-gray-400', text: 'text-gray-700', label: t("bookingRequests.statusChooseSlot"), icon: AlertCircle },
+      client_selected: { bg: 'bg-yellow-100', border: 'border-yellow-400', text: 'text-yellow-700', label: t("bookingRequests.statusPending"), icon: Clock },
+      admin_confirmed: { bg: 'bg-green-100', border: 'border-green-400', text: 'text-green-700', label: t("bookingRequests.statusConfirmed"), icon: CheckCircle },
+      rejected: { bg: 'bg-red-100', border: 'border-red-400', text: 'text-red-700', label: t("bookingRequests.statusRejected"), icon: XCircle }
     };
     return configs[status];
   };
@@ -202,8 +204,8 @@ export default function BookingRequests() {
   return (
     <div className="container mx-auto p-6 max-w-7xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold">Richieste Prenotazione</h1>
-        <p className="text-gray-600 mt-1">Gestisci le richieste di appuntamento dei clienti</p>
+        <h1 className="text-3xl font-bold">{t("bookingRequests.title")}</h1>
+        <p className="text-gray-600 mt-1">{t("bookingRequests.subtitle")}</p>
       </div>
       
       {/* Metrics Cards */}
@@ -212,7 +214,7 @@ export default function BookingRequests() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Da gestire</p>
+                <p className="text-sm text-gray-600">{t("bookingRequests.toManage")}</p>
                 <p className="text-3xl font-bold text-yellow-600">{pendingCount}</p>
               </div>
               <Clock className="h-10 w-10 text-yellow-600" />
@@ -223,7 +225,7 @@ export default function BookingRequests() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Confermate</p>
+                <p className="text-sm text-gray-600">{t("bookingRequests.confirmed")}</p>
                 <p className="text-3xl font-bold text-green-600">{confirmedCount}</p>
               </div>
               <CheckCircle className="h-10 w-10 text-green-600" />
@@ -234,7 +236,7 @@ export default function BookingRequests() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Respinte</p>
+                <p className="text-sm text-gray-600">{t("bookingRequests.rejected")}</p>
                 <p className="text-3xl font-bold text-red-600">{rejectedCount}</p>
               </div>
               <XCircle className="h-10 w-10 text-red-600" />
@@ -247,10 +249,10 @@ export default function BookingRequests() {
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'pending' | 'all')}>
         <TabsList className="mb-4">
           <TabsTrigger value="pending" data-testid="tab-pending">
-            Da Gestire ({pendingCount})
+            {t("bookingRequests.tabToManage")} ({pendingCount})
           </TabsTrigger>
           <TabsTrigger value="all" data-testid="tab-all">
-            Tutte ({allRequests.length})
+            {t("bookingRequests.tabAll")} ({allRequests.length})
           </TabsTrigger>
         </TabsList>
         
@@ -264,7 +266,7 @@ export default function BookingRequests() {
               <CardContent className="py-12 text-center">
                 <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600">
-                  {activeTab === 'pending' ? 'Nessuna richiesta da gestire' : 'Nessuna richiesta trovata'}
+                  {activeTab === 'pending' ? t("bookingRequests.noRequestsToManage") : t("bookingRequests.noRequestsFound")}
                 </p>
               </CardContent>
             </Card>
@@ -290,7 +292,7 @@ export default function BookingRequests() {
                             {request.serviceName || `Servizio #${request.serviceId}`}
                             {preferredStaff && (
                               <span className="ml-2 text-blue-600 font-medium">
-                                • Preferenza: {preferredStaff.firstName} {preferredStaff.lastName}
+                                • {t("bookingRequests.preference")} {preferredStaff.firstName} {preferredStaff.lastName}
                               </span>
                             )}
                           </CardDescription>
@@ -314,12 +316,12 @@ export default function BookingRequests() {
                         </div>
                         
                         <div className="text-sm">
-                          <span className="font-medium">Fascia richiesta:</span> {request.requestedTimeStart} - {request.requestedTimeEnd}
+                          <span className="font-medium">{t("bookingRequests.requestedTimeSlot")}</span> {request.requestedTimeStart} - {request.requestedTimeEnd}
                         </div>
                         
                         {request.selectedSlot && (
                           <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-                            <span className="font-medium text-blue-900">Slot selezionato dal cliente:</span>
+                            <span className="font-medium text-blue-900">{t("bookingRequests.clientSelectedSlot")}</span>
                             <p className="text-blue-700 font-semibold mt-1">
                               {request.selectedSlot.start} - {request.selectedSlot.end}
                             </p>
@@ -328,7 +330,7 @@ export default function BookingRequests() {
                         
                         {request.proposedSlots && request.proposedSlots.length > 0 && !request.selectedSlot && (
                           <div className="text-sm">
-                            <span className="font-medium">Slot proposti:</span>
+                            <span className="font-medium">{t("bookingRequests.proposedSlots")}</span>
                             <div className="flex flex-wrap gap-2 mt-1">
                               {request.proposedSlots.map((slot, idx) => (
                                 <Badge key={idx} variant="outline" className="text-xs">
@@ -341,7 +343,7 @@ export default function BookingRequests() {
                         
                         {request.clientNotes && (
                           <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
-                            <span className="font-medium text-gray-700">Note cliente:</span>
+                            <span className="font-medium text-gray-700">{t("bookingRequests.clientNotes")}</span>
                             <p className="text-gray-600 mt-1 italic">"{request.clientNotes}"</p>
                           </div>
                         )}
@@ -356,8 +358,8 @@ export default function BookingRequests() {
                                 data-testid={`button-approve-${request.id}`}
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
-                                <span className="hidden sm:inline">Approva e Crea Appuntamento</span>
-                                <span className="sm:hidden">Approva</span>
+                                <span className="hidden sm:inline">{t("bookingRequests.approveAndCreate")}</span>
+                                <span className="sm:hidden">{t("bookingRequests.approve")}</span>
                               </Button>
                             )}
                             {canReject && (
@@ -369,8 +371,8 @@ export default function BookingRequests() {
                                 data-testid={`button-reject-${request.id}`}
                               >
                                 <XCircle className="h-4 w-4 mr-2" />
-                                <span className="hidden sm:inline">Rifiuta</span>
-                                <span className="sm:hidden">No</span>
+                                <span className="hidden sm:inline">{t("bookingRequests.reject")}</span>
+                                <span className="sm:hidden">{t("bookingRequests.no")}</span>
                               </Button>
                             )}
                           </div>
@@ -389,9 +391,9 @@ export default function BookingRequests() {
       <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
         <DialogContent className="sm:max-w-[500px]" data-testid="dialog-confirm-booking">
           <DialogHeader>
-            <DialogTitle>Conferma Appuntamento</DialogTitle>
+            <DialogTitle>{t("bookingRequests.confirmAppointment")}</DialogTitle>
             <DialogDescription>
-              Seleziona collaboratore e stanza per l'appuntamento. L'assegnazione automatica sceglierà la prima risorsa libera.
+              {t("bookingRequests.confirmAppointmentDesc")}
             </DialogDescription>
           </DialogHeader>
           
@@ -401,20 +403,20 @@ export default function BookingRequests() {
               <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
                 <p className="text-sm text-blue-800">
                   <User className="h-4 w-4 inline mr-1" />
-                  Il cliente ha richiesto: {staffList.find(s => s.id === allRequests.find(r => r.id === selectedRequestId)?.staffId)?.firstName} {staffList.find(s => s.id === allRequests.find(r => r.id === selectedRequestId)?.staffId)?.lastName}
+                  {t("bookingRequests.clientRequested")} {staffList.find(s => s.id === allRequests.find(r => r.id === selectedRequestId)?.staffId)?.firstName} {staffList.find(s => s.id === allRequests.find(r => r.id === selectedRequestId)?.staffId)?.lastName}
                 </p>
               </div>
             )}
             
             {/* Select Collaboratore */}
             <div className="space-y-2">
-              <Label htmlFor="staff-select">Collaboratore</Label>
+              <Label htmlFor="staff-select">{t("bookingRequests.collaborator")}</Label>
               <Select value={manualStaffId} onValueChange={setManualStaffId}>
                 <SelectTrigger id="staff-select" data-testid="select-staff">
-                  <SelectValue placeholder="Assegnazione Automatica" />
+                  <SelectValue placeholder={t("bookingRequests.autoAssignment")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="auto" data-testid="select-staff-auto">Assegnazione Automatica</SelectItem>
+                  <SelectItem value="auto" data-testid="select-staff-auto">{t("bookingRequests.autoAssignment")}</SelectItem>
                   {staffList.map(staff => (
                     <SelectItem key={staff.id} value={staff.id.toString()} data-testid={`select-staff-${staff.id}`}>
                       {staff.firstName} {staff.lastName}
@@ -426,13 +428,13 @@ export default function BookingRequests() {
             
             {/* Select Stanza */}
             <div className="space-y-2">
-              <Label htmlFor="room-select">Stanza</Label>
+              <Label htmlFor="room-select">{t("bookingRequests.room")}</Label>
               <Select value={manualRoomId} onValueChange={setManualRoomId}>
                 <SelectTrigger id="room-select" data-testid="select-room">
-                  <SelectValue placeholder="Assegnazione Automatica" />
+                  <SelectValue placeholder={t("bookingRequests.autoAssignment")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="auto" data-testid="select-room-auto">Assegnazione Automatica</SelectItem>
+                  <SelectItem value="auto" data-testid="select-room-auto">{t("bookingRequests.autoAssignment")}</SelectItem>
                   {roomsList.filter(r => r.isActive).map(room => (
                     <SelectItem key={room.id} value={room.id.toString()} data-testid={`select-room-${room.id}`}>
                       <DoorOpen className="h-4 w-4 inline mr-1" />
@@ -450,14 +452,14 @@ export default function BookingRequests() {
               onClick={() => setConfirmDialogOpen(false)}
               data-testid="button-cancel-confirm"
             >
-              Annulla
+              {t("bookingRequests.cancel")}
             </Button>
             <Button
               onClick={handleConfirmApprove}
               disabled={approveMutation.isPending}
               data-testid="button-final-confirm"
             >
-              {approveMutation.isPending ? "Creazione..." : "Conferma e Crea"}
+              {approveMutation.isPending ? t("bookingRequests.creating") : t("bookingRequests.confirmAndCreate")}
             </Button>
           </DialogFooter>
         </DialogContent>
