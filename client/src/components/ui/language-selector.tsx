@@ -18,8 +18,10 @@ export function LanguageSelector() {
   };
 
   // Funzione per ottenere il nome della lingua corrente
+  // Normalizza il codice lingua (es. "it-IT" -> "it")
   const getCurrentLanguageName = () => {
-    return t(`language.${i18n.language}`);
+    const langCode = i18n.language.split('-')[0];
+    return t(`language.${langCode}`);
   };
 
   return (
