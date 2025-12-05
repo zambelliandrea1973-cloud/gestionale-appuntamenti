@@ -48,6 +48,16 @@
     "featureNotifications": "Benachrichtigungen und Erinnerungen",
     "accessRestricted": "Zugang nur für Personal und Administratoren."
   },
+  "homeFooter": {
+    "systemInfo": "Systeminformationen",
+    "appVersion": "Terminverwaltung v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Alle Rechte vorbehalten",
+    "privacySecurity": "Datenschutz und Sicherheit",
+    "technicalSupport": "Technischer Support:",
+    "privacyPolicy": "Datenschutzerklärung →",
+    "termsOfService": "Nutzungsbedingungen →"
+  },
   "professionalLoginPage": {
     "title": "Professioneller Zugang",
     "description": "Melden Sie sich bei Ihrem professionellen Konto an, um Kunden und Termine zu verwalten",

@@ -396,26 +396,26 @@ export default function Home() {
       <div className="mt-8 pt-6 border-t border-border">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
           <div>
-            <h3 className="font-semibold text-foreground mb-2">Informazioni Sistema</h3>
-            <p>Gestionale Appuntamenti v2.1.0</p>
-            <p>© 2025 Zambelli Development</p>
-            <p>Tutti i diritti riservati</p>
+            <h3 className="font-semibold text-foreground mb-2">{t('homeFooter.systemInfo')}</h3>
+            <p>{t('homeFooter.appVersion')}</p>
+            <p>{t('homeFooter.copyright')}</p>
+            <p>{t('homeFooter.allRightsReserved')}</p>
           </div>
           <div>
-            <h3 className="font-semibold text-foreground mb-2">Privacy e Sicurezza</h3>
-            <p>Supporto tecnico: zambelli.andrea.1973@gmail.com</p>
+            <h3 className="font-semibold text-foreground mb-2">{t('homeFooter.privacySecurity')}</h3>
+            <p>{t('homeFooter.technicalSupport')} zambelli.andrea.1973@gmail.com</p>
             <Link to="/privacy">
               <button 
                 className="text-primary hover:underline mt-1 block"
               >
-                Informativa sulla Privacy →
+                {t('homeFooter.privacyPolicy')}
               </button>
             </Link>
             <button 
               className="text-primary hover:underline mt-1"
               onClick={() => navigate('/terms')}
             >
-              Termini di servizio e condizioni d'uso →
+              {t('homeFooter.termsOfService')}
             </button>
           </div>
         </div>

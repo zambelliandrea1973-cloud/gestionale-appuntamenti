@@ -48,6 +48,16 @@
     "featureNotifications": "Notificări și memento-uri",
     "accessRestricted": "Acces rezervat personalului și administratorilor."
   },
+  "homeFooter": {
+    "systemInfo": "Informații Sistem",
+    "appVersion": "Gestionare Programări v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Toate drepturile rezervate",
+    "privacySecurity": "Confidențialitate și Securitate",
+    "technicalSupport": "Suport tehnic:",
+    "privacyPolicy": "Politica de Confidențialitate →",
+    "termsOfService": "Termeni și condiții de utilizare →"
+  },
   "professionalLoginPage": {
     "title": "Acces Profesional",
     "description": "Accesați contul profesional pentru a gestiona clienți și programări",

@@ -48,6 +48,16 @@
     "featureNotifications": "Varsler og påminnelser",
     "accessRestricted": "Tilgang kun for personell og administratorer."
   },
+  "homeFooter": {
+    "systemInfo": "Systeminformasjon",
+    "appVersion": "Timeavtalehåndtering v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Alle rettigheter forbeholdt",
+    "privacySecurity": "Personvern og Sikkerhet",
+    "technicalSupport": "Teknisk støtte:",
+    "privacyPolicy": "Personvernerklæring →",
+    "termsOfService": "Vilkår for bruk →"
+  },
   "professionalLoginPage": {
     "title": "Profesjonell Tilgang",
     "description": "Logg inn på din profesjonelle konto for å administrere kunder og timeavtaler",

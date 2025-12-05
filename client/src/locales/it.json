@@ -48,6 +48,16 @@
     "featureNotifications": "Invio notifiche e promemoria",
     "accessRestricted": "Accesso riservato agli utenti staff e amministratori."
   },
+  "homeFooter": {
+    "systemInfo": "Informazioni Sistema",
+    "appVersion": "Gestionale Appuntamenti v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Tutti i diritti riservati",
+    "privacySecurity": "Privacy e Sicurezza",
+    "technicalSupport": "Supporto tecnico:",
+    "privacyPolicy": "Informativa sulla Privacy →",
+    "termsOfService": "Termini di servizio e condizioni d'uso →"
+  },
   "professionalLoginPage": {
     "title": "Accesso Professionista",
     "description": "Accedi al tuo account professionale per gestire clienti e appuntamenti",

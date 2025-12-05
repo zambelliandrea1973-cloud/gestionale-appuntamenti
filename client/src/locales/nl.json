@@ -48,6 +48,16 @@
     "featureNotifications": "Notificaties en herinneringen",
     "accessRestricted": "Toegang alleen voor personeel en administrators."
   },
+  "homeFooter": {
+    "systemInfo": "Systeeminformatie",
+    "appVersion": "Afsprakenbeheer v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Alle rechten voorbehouden",
+    "privacySecurity": "Privacy en Beveiliging",
+    "technicalSupport": "Technische ondersteuning:",
+    "privacyPolicy": "Privacybeleid →",
+    "termsOfService": "Servicevoorwaarden →"
+  },
   "professionalLoginPage": {
     "title": "Professionele Toegang",
     "description": "Log in op uw professionele account om klanten en afspraken te beheren",

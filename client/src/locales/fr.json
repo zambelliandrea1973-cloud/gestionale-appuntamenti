@@ -48,6 +48,16 @@
     "featureNotifications": "Notifications et rappels",
     "accessRestricted": "Accès réservé au personnel et aux administrateurs."
   },
+  "homeFooter": {
+    "systemInfo": "Informations Système",
+    "appVersion": "Gestion des Rendez-vous v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Tous droits réservés",
+    "privacySecurity": "Confidentialité et Sécurité",
+    "technicalSupport": "Support technique :",
+    "privacyPolicy": "Politique de Confidentialité →",
+    "termsOfService": "Conditions d'utilisation →"
+  },
   "professionalLoginPage": {
     "title": "Accès Professionnel",
     "description": "Accédez à votre compte professionnel pour gérer clients et rendez-vous",

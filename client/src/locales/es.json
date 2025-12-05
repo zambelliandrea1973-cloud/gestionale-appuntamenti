@@ -48,6 +48,16 @@
     "featureNotifications": "Notificaciones y recordatorios",
     "accessRestricted": "Acceso reservado para personal y administradores."
   },
+  "homeFooter": {
+    "systemInfo": "Información del Sistema",
+    "appVersion": "Gestión de Citas v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Todos los derechos reservados",
+    "privacySecurity": "Privacidad y Seguridad",
+    "technicalSupport": "Soporte técnico:",
+    "privacyPolicy": "Política de Privacidad →",
+    "termsOfService": "Términos de servicio y condiciones →"
+  },
   "professionalLoginPage": {
     "title": "Acceso Profesional",
     "description": "Accede a tu cuenta profesional para gestionar clientes y citas",

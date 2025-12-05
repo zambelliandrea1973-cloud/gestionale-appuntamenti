@@ -48,6 +48,16 @@
     "featureNotifications": "Уведомления и напоминания",
     "accessRestricted": "Доступ только для персонала и администраторов."
   },
+  "homeFooter": {
+    "systemInfo": "Информация о Системе",
+    "appVersion": "Управление Записями v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Все права защищены",
+    "privacySecurity": "Конфиденциальность и Безопасность",
+    "technicalSupport": "Техническая поддержка:",
+    "privacyPolicy": "Политика Конфиденциальности →",
+    "termsOfService": "Условия использования →"
+  },
   "professionalLoginPage": {
     "title": "Профессиональный Вход",
     "description": "Войдите в свой профессиональный аккаунт для управления клиентами и записями",
