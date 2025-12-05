@@ -206,9 +206,6 @@
     "deleteError": "Erreur lors de la suppression",
     "updateError": "Erreur lors de la mise à jour"
   },
-  "navigation": {
-    "requests": "Demandes"
-  },
   "settingsPage": {
     "accessDenied": "Accès refusé",
     "adminOnlyAccess": "Seuls les administrateurs peuvent accéder à cette zone",
@@ -338,8 +335,11 @@
     "notifications": "Notifications",
     "referral": "Parrainage",
     "aiSetup": "Configuration IA",
+    "aiSettings": "Paramètres IA",
+    "aiAssistant": "Assistant IA",
     "staff": "Personnel",
-    "payments": "Paiements"
+    "payments": "Paiements",
+    "requests": "Demandes"
   },
   "sidebar": {
     "clients": "Clients",

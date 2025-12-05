@@ -206,9 +206,6 @@
     "deleteError": "Error deleting service",
     "updateError": "Error updating service"
   },
-  "navigation": {
-    "requests": "Requests"
-  },
   "settingsPage": {
     "accessDenied": "Access denied",
     "adminOnlyAccess": "Only administrators can access this area",
@@ -346,8 +343,11 @@
     "notifications": "Notifications",
     "referral": "Referral",
     "aiSetup": "AI Setup",
+    "aiSettings": "AI Settings",
+    "aiAssistant": "AI Assistant",
     "staff": "Staff",
-    "payments": "Payments"
+    "payments": "Payments",
+    "requests": "Requests"
   },
   "sidebar": {
     "clients": "Clients",

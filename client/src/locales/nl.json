@@ -206,9 +206,6 @@
     "deleteError": "Fout bij verwijderen",
     "updateError": "Fout bij bijwerken"
   },
-  "navigation": {
-    "requests": "Aanvragen"
-  },
   "settingsPage": {
     "accessDenied": "Toegang geweigerd",
     "adminOnlyAccess": "Alleen beheerders hebben toegang tot dit gebied",
@@ -793,8 +790,11 @@
     "notifications": "Meldingen",
     "referral": "Verwijzing",
     "aiSetup": "AI-configuratie",
+    "aiSettings": "AI-instellingen",
+    "aiAssistant": "AI-assistent",
     "staff": "Personeel",
-    "payments": "Betalingen"
+    "payments": "Betalingen",
+    "requests": "Aanvragen"
   },
   "sidebar": {
     "clients": "Klanten",

@@ -206,9 +206,6 @@
     "deleteError": "Error al eliminar",
     "updateError": "Error al actualizar"
   },
-  "navigation": {
-    "requests": "Solicitudes"
-  },
   "settingsPage": {
     "accessDenied": "Acceso denegado",
     "adminOnlyAccess": "Solo los administradores pueden acceder a esta área",
@@ -338,8 +335,11 @@
     "notifications": "Notificaciones",
     "referral": "Referidos",
     "aiSetup": "Configuración IA",
+    "aiSettings": "Ajustes IA",
+    "aiAssistant": "Asistente IA",
     "staff": "Personal",
-    "payments": "Pagos"
+    "payments": "Pagos",
+    "requests": "Solicitudes"
   },
   "sidebar": {
     "clients": "Clientes",

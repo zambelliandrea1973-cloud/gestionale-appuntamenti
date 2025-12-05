@@ -206,9 +206,6 @@
     "deleteError": "Fehler beim Löschen",
     "updateError": "Fehler beim Aktualisieren"
   },
-  "navigation": {
-    "requests": "Anfragen"
-  },
   "settingsPage": {
     "accessDenied": "Zugriff verweigert",
     "adminOnlyAccess": "Nur Administratoren können auf diesen Bereich zugreifen",
@@ -338,8 +335,11 @@
     "notifications": "Benachrichtigungen",
     "referral": "Weiterempfehlung",
     "aiSetup": "KI-Einrichtung",
+    "aiSettings": "KI-Einstellungen",
+    "aiAssistant": "KI-Assistent",
     "staff": "Personal",
-    "payments": "Zahlungen"
+    "payments": "Zahlungen",
+    "requests": "Anfragen"
   },
   "sidebar": {
     "clients": "Kunden",

@@ -206,9 +206,6 @@
     "deleteError": "Ошибка при удалении",
     "updateError": "Ошибка при обновлении"
   },
-  "navigation": {
-    "requests": "Заявки"
-  },
   "settingsPage": {
     "accessDenied": "Доступ запрещён",
     "adminOnlyAccess": "Только администраторы могут получить доступ к этой области",
@@ -338,8 +335,11 @@
     "notifications": "Уведомления",
     "referral": "Рекомендации",
     "aiSetup": "Настройка ИИ",
+    "aiSettings": "Настройки ИИ",
+    "aiAssistant": "Ассистент ИИ",
     "staff": "Персонал",
-    "payments": "Платежи"
+    "payments": "Платежи",
+    "requests": "Заявки"
   },
   "sidebar": {
     "clients": "Клиенты",

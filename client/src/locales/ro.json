@@ -206,9 +206,6 @@
     "deleteError": "Eroare la ștergere",
     "updateError": "Eroare la actualizare"
   },
-  "navigation": {
-    "requests": "Cereri"
-  },
   "settingsPage": {
     "accessDenied": "Acces refuzat",
     "adminOnlyAccess": "Doar administratorii pot accesa această zonă",
@@ -789,12 +786,15 @@
     "confirmDeleteTitle": "Șterge programarea"
   },
   "navigation": {
-    "home": "Home",
+    "home": "Acasă",
     "notifications": "Notificări",
     "referral": "Recomandare",
     "aiSetup": "Configurare AI",
+    "aiSettings": "Setări AI",
+    "aiAssistant": "Asistent AI",
     "staff": "Personal",
-    "payments": "Plăți"
+    "payments": "Plăți",
+    "requests": "Cereri"
   },
   "sidebar": {
     "clients": "Clienți",

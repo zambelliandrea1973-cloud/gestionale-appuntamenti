@@ -206,9 +206,6 @@
     "deleteError": "Errore nell'eliminazione",
     "updateError": "Errore nell'aggiornamento"
   },
-  "navigation": {
-    "requests": "Richieste"
-  },
   "settingsPage": {
     "accessDenied": "Accesso negato",
     "adminOnlyAccess": "Solo gli amministratori possono accedere a questa area",
@@ -349,7 +346,8 @@
     "aiSettings": "Impostazioni AI",
     "aiAssistant": "Assistente AI",
     "staff": "Staff",
-    "payments": "Pagamenti"
+    "payments": "Pagamenti",
+    "requests": "Richieste"
   },
   "sidebar": {
     "clients": "Clienti",

@@ -206,9 +206,6 @@
     "deleteError": "Feil ved sletting",
     "updateError": "Feil ved oppdatering"
   },
-  "navigation": {
-    "requests": "Forespørsler"
-  },
   "settingsPage": {
     "accessDenied": "Tilgang nektet",
     "adminOnlyAccess": "Bare administratorer har tilgang til dette området",
@@ -789,12 +786,15 @@
     "confirmDeleteTitle": "Slett avtale"
   },
   "navigation": {
-    "home": "Home",
+    "home": "Hjem",
     "notifications": "Varsler",
     "referral": "Henvisning",
     "aiSetup": "AI-oppsett",
+    "aiSettings": "AI-innstillinger",
+    "aiAssistant": "AI-assistent",
     "staff": "Personale",
-    "payments": "Betalinger"
+    "payments": "Betalinger",
+    "requests": "Forespørsler"
   },
   "sidebar": {
     "clients": "Kunder",
