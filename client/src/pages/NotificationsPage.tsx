@@ -294,8 +294,8 @@ const NotificationsPage: React.FC = () => {
     
     if (selectedIds.length === 0) {
       toast({
-        title: 'Nessun appuntamento selezionato',
-        description: 'Seleziona almeno un appuntamento per inviare notifiche',
+        title: t('notificationsPageExtra.noAppointmentSelected'),
+        description: t('notificationsPageExtra.selectAppointmentForNotifications'),
         variant: 'destructive'
       });
       return;
@@ -331,8 +331,8 @@ const NotificationsPage: React.FC = () => {
         setHasRecentNotifications(true);
         
         toast({
-          title: 'Promemoria WhatsApp generati',
-          description: data.message || `${data.results.length} promemoria WhatsApp generati con successo`,
+          title: t('notificationsPageExtra.whatsappRemindersGenerated'),
+          description: data.message || `${data.results.length} ${t('notificationsPageExtra.whatsappRemindersGeneratedDesc')}`,
           variant: 'default'
         });
         
@@ -346,8 +346,8 @@ const NotificationsPage: React.FC = () => {
       }
     } catch (err: any) {
       toast({
-        title: 'Errore',
-        description: `Impossibile inviare i promemoria WhatsApp: ${err.message}`,
+        title: t('notificationsPageExtra.error'),
+        description: `${t('notificationsPageExtra.cannotSendWhatsApp')} ${err.message}`,
         variant: 'destructive'
       });
     } finally {
@@ -363,8 +363,8 @@ const NotificationsPage: React.FC = () => {
     
     if (selectedIds.length === 0) {
       toast({
-        title: 'Nessun appuntamento selezionato',
-        description: 'Seleziona almeno un appuntamento per inviare SMS',
+        title: t('notificationsPageExtra.noAppointmentSelected'),
+        description: t('notificationsPageExtra.selectAppointmentForSMS'),
         variant: 'destructive'
       });
       return;
@@ -394,8 +394,8 @@ const NotificationsPage: React.FC = () => {
         // Controlla se è presente un avviso per account trial o con limitazioni
         if (data.trialAccount || data.trialWarning) {
           toast({
-            title: "Account Twilio con limitazioni",
-            description: data.trialWarning || "Il tuo account Twilio ha delle limitazioni e potrebbe non consegnare SMS a tutti i numeri.",
+            title: t('notificationsPageExtra.twilioLimitations'),
+            description: data.trialWarning || t('notificationsPageExtra.twilioLimitationsDesc'),
             variant: "destructive",
             duration: 8000,
           });
@@ -419,7 +419,7 @@ const NotificationsPage: React.FC = () => {
             const errorResult = data.results.find((r: any) => !r.success && r.errorCode === errorCode);
             if (errorResult) {
               toast({
-                title: `Errore invio SMS (${count} ${count === 1 ? 'destinatario' : 'destinatari'})`,
+                title: `${t('notificationsPageExtra.smsError')} (${count} ${count === 1 ? t('notificationsPageExtra.recipient') : t('notificationsPageExtra.recipients')})`,
                 description: errorResult.error,
                 variant: "destructive",
                 duration: 6000,
@@ -432,8 +432,8 @@ const NotificationsPage: React.FC = () => {
         const successCount = data.stats?.success || data.results.filter((r: any) => r.success).length;
         if (successCount > 0) {
           toast({
-            title: 'SMS inviati',
-            description: `${successCount} SMS inviati con successo`,
+            title: t('notificationsPageExtra.smsDelivered'),
+            description: `${successCount} ${t('notificationsPageExtra.smsDeliveredDesc')}`,
             variant: 'default'
           });
         }
@@ -450,8 +450,8 @@ const NotificationsPage: React.FC = () => {
       }
     } catch (err: any) {
       toast({
-        title: 'Errore',
-        description: `Impossibile inviare gli SMS: ${err.message}`,
+        title: t('notificationsPageExtra.error'),
+        description: `${t('notificationsPageExtra.cannotSendSMS')} ${err.message}`,
         variant: 'destructive'
       });
     } finally {
@@ -512,7 +512,7 @@ const NotificationsPage: React.FC = () => {
                 data-testid="button-marketing-campaigns"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
-                Campagne Marketing AI
+                {t('notificationsPageExtra.marketingCampaigns')}
               </Button>
             </Link>
             
@@ -522,13 +522,13 @@ const NotificationsPage: React.FC = () => {
                 onClick={() => window.location.href = '/simple-phone-setup'}
               >
                 <Phone className="h-4 w-4 mr-2" />
-                Configurazione Telefono
+                {t('notificationsPageExtra.phoneConfig')}
               </Button>
               
               <Button 
                 variant="outline"
                 size="icon"
-                title="Configurazione avanzata (metodo QR)"
+                title={t('notificationsPageExtra.advancedConfig')}
                 onClick={() => window.location.href = '/phone-device-setup'}
               >
                 <svg 
@@ -597,13 +597,13 @@ const NotificationsPage: React.FC = () => {
             
             <Alert variant="default" className="bg-green-50 border-green-200">
               <MessageSquare className="h-4 w-4 text-green-600" />
-              <AlertTitle className="text-green-800">Notifiche WhatsApp</AlertTitle>
+              <AlertTitle className="text-green-800">{t('notificationsPageExtra.whatsappNotifications')}</AlertTitle>
               <AlertDescription className="text-green-700">
-                <p className="mb-1">Informazioni sulle notifiche WhatsApp:</p>
+                <p className="mb-1">{t('notificationsPageExtra.whatsappInfo')}</p>
                 <ul className="list-disc pl-5 text-sm space-y-1">
-                  <li>I messaggi WhatsApp sono gratuiti e più affidabili degli SMS</li>
-                  <li>Verifica che i numeri di telefono siano corretti con prefisso internazionale (es. +393471234567)</li>
-                  <li>Tutti i messaggi generano un link WhatsApp che si apre automaticamente</li>
+                  <li>{t('notificationsPageExtra.whatsappInfoList.0')}</li>
+                  <li>{t('notificationsPageExtra.whatsappInfoList.1')}</li>
+                  <li>{t('notificationsPageExtra.whatsappInfoList.2')}</li>
                 </ul>
               </AlertDescription>
             </Alert>
@@ -611,7 +611,7 @@ const NotificationsPage: React.FC = () => {
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Errore</AlertTitle>
+                <AlertTitle>{t('notificationsPageExtra.error')}</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -976,7 +976,7 @@ const NotificationsPage: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <MessageSquare className="mr-2 h-5 w-5" />
-                    Template Messaggi
+                    {t('notificationsPageExtra.messageTemplates')}
                   </CardTitle>
                   <CardDescription>
                     Crea e gestisci i template per i messaggi di promemoria email e WhatsApp. I template unificati funzionano per entrambi i canali.
