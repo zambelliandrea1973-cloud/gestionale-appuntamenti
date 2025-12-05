@@ -506,6 +506,7 @@
       "appointments": "Appointments",
       "notes": "Notes",
       "consents": "Consents",
+      "clientDataConsent": "Client data/consent",
       "clientFile": "Client File",
       "addAppointment": "New Appointment",
       "generateQRCode": "Generate QR Code",

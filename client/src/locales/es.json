@@ -483,6 +483,7 @@
       "appointments": "Citas",
       "notes": "Notas",
       "consents": "Consentimientos",
+      "clientDataConsent": "Datos cliente/consentimiento",
       "clientFile": "Carpeta del Cliente",
       "showDetails": "Mostrar detalles",
       "accessActivated": "QR Code de acceso cliente",

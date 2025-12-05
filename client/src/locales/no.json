@@ -465,6 +465,7 @@
       "appointments": "Timeavtaler",
       "notes": "Notater",
       "consents": "Samtykker",
+      "clientDataConsent": "Kundedata/samtykke",
       "clientFile": "Kundemappen",
       "addAppointment": "Ny Timeavtale",
       "generateQRCode": "Generer QR-kode",

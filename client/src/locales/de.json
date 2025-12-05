@@ -483,6 +483,7 @@
       "appointments": "Termine",
       "notes": "Notizen",
       "consents": "Einwilligungen",
+      "clientDataConsent": "Kundendaten/Einwilligung",
       "clientFile": "Kundenakte",
       "addAppointment": "Neuer Termin",
       "generateQRCode": "QR-Code generieren",

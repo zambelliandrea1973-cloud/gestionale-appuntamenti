@@ -483,6 +483,7 @@
       "appointments": "Записи",
       "notes": "Заметки",
       "consents": "Согласия",
+      "clientDataConsent": "Данные клиента/согласие",
       "clientFile": "Карточка клиента",
       "addAppointment": "Новая запись",
       "generateQRCode": "Создать QR-код",

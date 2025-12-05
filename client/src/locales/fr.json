@@ -483,6 +483,7 @@
       "appointments": "Rendez-vous",
       "notes": "Notes",
       "consents": "Consentements",
+      "clientDataConsent": "Données client/consentement",
       "clientFile": "Dossier Client",
       "addAppointment": "Nouveau Rendez-vous",
       "generateQRCode": "Générer QR Code",

@@ -418,7 +418,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="w-full gap-2">
                 <Pencil className="h-4 w-4" />
-                Dati cliente/consenso
+                {t('clients.details.clientDataConsent')}
               </Button>
             </DialogTrigger>
             <ClientForm 

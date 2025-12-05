@@ -465,6 +465,7 @@
       "appointments": "Afspraken",
       "notes": "Notities",
       "consents": "Toestemmingen",
+      "clientDataConsent": "Klantgegevens/toestemming",
       "clientFile": "Klantdossier",
       "addAppointment": "Nieuwe Afspraak",
       "generateQRCode": "QR-code genereren",

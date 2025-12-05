@@ -465,6 +465,7 @@
       "appointments": "Programări",
       "notes": "Note",
       "consents": "Consimțăminte",
+      "clientDataConsent": "Date client/consimțământ",
       "clientFile": "Dosar Client",
       "addAppointment": "Programare Nouă",
       "generateQRCode": "Generare Cod QR",

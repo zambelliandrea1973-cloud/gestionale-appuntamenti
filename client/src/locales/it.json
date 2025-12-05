@@ -517,6 +517,7 @@
       "appointments": "Appuntamenti",
       "notes": "Note",
       "consents": "Consensi",
+      "clientDataConsent": "Dati cliente/consenso",
       "clientFile": "Cartella cliente",
       "addAppointment": "Nuovo appuntamento",
       "generateQRCode": "Genera QR Code",
