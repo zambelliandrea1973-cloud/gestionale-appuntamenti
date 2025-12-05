@@ -58,6 +58,21 @@
     "privacyPolicy": "Personvernerklæring →",
     "termsOfService": "Vilkår for bruk →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Oppdatering fullført",
+    "refreshSuccessDesc": "{count} kunder lastet fra server",
+    "refreshError": "Feil",
+    "refreshErrorDesc": "Kan ikke oppdatere fra server",
+    "staffLabel": "Per Profesjonell",
+    "myClientsLabel": "Mine Kunder",
+    "otherAccountsLabel": "Andre Kontoer",
+    "clientPersonal": "Personlige Kunder",
+    "clientSingular": "kunde",
+    "clientPlural": "kunder",
+    "loadingClients": "Laster kunder...",
+    "errorLoadingClients": "Feil ved lasting av kunder:",
+    "retry": "Prøv igjen"
+  },
   "professionalLoginPage": {
     "title": "Profesjonell Tilgang",
     "description": "Logg inn på din profesjonelle konto for å administrere kunder og timeavtaler",

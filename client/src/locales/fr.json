@@ -58,6 +58,21 @@
     "privacyPolicy": "Politique de Confidentialité →",
     "termsOfService": "Conditions d'utilisation →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Actualisation terminée",
+    "refreshSuccessDesc": "{count} clients chargés du serveur",
+    "refreshError": "Erreur",
+    "refreshErrorDesc": "Impossible d'actualiser à partir du serveur",
+    "staffLabel": "Par Professionnel",
+    "myClientsLabel": "Mes Clients",
+    "otherAccountsLabel": "Autres Comptes",
+    "clientPersonal": "Clients Personnels",
+    "clientSingular": "client",
+    "clientPlural": "clients",
+    "loadingClients": "Chargement des clients...",
+    "errorLoadingClients": "Erreur lors du chargement des clients :",
+    "retry": "Réessayer"
+  },
   "professionalLoginPage": {
     "title": "Accès Professionnel",
     "description": "Accédez à votre compte professionnel pour gérer clients et rendez-vous",

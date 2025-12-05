@@ -58,6 +58,21 @@
     "privacyPolicy": "Privacy Policy →",
     "termsOfService": "Terms of service and conditions →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Refresh Completed",
+    "refreshSuccessDesc": "Loaded {count} clients from server",
+    "refreshError": "Error",
+    "refreshErrorDesc": "Unable to refresh from server",
+    "staffLabel": "Per Professional",
+    "myClientsLabel": "My Clients",
+    "otherAccountsLabel": "Other Accounts",
+    "clientPersonal": "Personal Clients",
+    "clientSingular": "client",
+    "clientPlural": "clients",
+    "loadingClients": "Loading clients...",
+    "errorLoadingClients": "Error loading clients:",
+    "retry": "Retry"
+  },
   "professionalLoginPage": {
     "title": "Professional Access",
     "description": "Access your professional account to manage clients and appointments",

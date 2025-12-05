@@ -58,6 +58,21 @@
     "privacyPolicy": "Privacybeleid →",
     "termsOfService": "Servicevoorwaarden →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Vernieuwen voltooid",
+    "refreshSuccessDesc": "{count} klanten van server geladen",
+    "refreshError": "Fout",
+    "refreshErrorDesc": "Kan niet van server vernieuwen",
+    "staffLabel": "Per Professional",
+    "myClientsLabel": "Mijn Klanten",
+    "otherAccountsLabel": "Andere Accounts",
+    "clientPersonal": "Persoonlijke Klanten",
+    "clientSingular": "klant",
+    "clientPlural": "klanten",
+    "loadingClients": "Klanten laden...",
+    "errorLoadingClients": "Fout bij het laden van klanten:",
+    "retry": "Opnieuw proberen"
+  },
   "professionalLoginPage": {
     "title": "Professionele Toegang",
     "description": "Log in op uw professionele account om klanten en afspraken te beheren",

@@ -123,14 +123,14 @@ export default function Clients() {
       const clientCount = result.data?.length || 0;
       
       toast({
-        title: "Aggiornamento completato",
-        description: `Caricati ${clientCount} clienti dal server`,
+        title: t("clientsPageNotifications.refreshSuccess"),
+        description: t("clientsPageNotifications.refreshSuccessDesc").replace("{count}", clientCount),
       });
     } catch (error) {
       console.error("Errore durante refresh:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile aggiornare dal server",
+        title: t("clientsPageNotifications.refreshError"),
+        description: t("clientsPageNotifications.refreshErrorDesc"),
         variant: "destructive",
       });
     }
@@ -245,7 +245,7 @@ export default function Clients() {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4" />
-            <p>Caricamento clienti...</p>
+            <p>{t("clientsPageNotifications.loadingClients")}</p>
           </div>
         </div>
       </div>
@@ -257,10 +257,10 @@ export default function Clients() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p className="text-red-600">Errore nel caricamento dei clienti: {error.message}</p>
+          <p className="text-red-600">{t("clientsPageNotifications.errorLoadingClients")} {error.message}</p>
           <Button onClick={() => refetchClients()} className="mt-4">
             <RefreshCw className="h-4 w-4 mr-2" />
-            Riprova
+            {t("clientsPageNotifications.retry")}
           </Button>
         </div>
       </div>
@@ -363,18 +363,18 @@ export default function Clients() {
               <>
                 <TabsTrigger value="by-staff" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-blue-50 border-blue-200 text-blue-700 data-[state=active]:bg-blue-100">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden sm:inline">Per Professionista</span>
+                  <span className="hidden sm:inline">{t("clientsPageNotifications.staffLabel")}</span>
                   <span className="sm:hidden">Staff</span>
                 </TabsTrigger>
                 <TabsTrigger value="my-clients" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-green-50 border-green-200 text-green-700 data-[state=active]:bg-green-100">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden sm:inline">Miei Clienti</span>
+                  <span className="hidden sm:inline">{t("clientsPageNotifications.myClientsLabel")}</span>
                   <span className="sm:hidden">Miei</span>
                   <span className="ml-0.5">({clients.filter((c: any) => c.ownerId === currentUser.id).length})</span>
                 </TabsTrigger>
                 <TabsTrigger value="other-clients" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-orange-50 border-orange-200 text-orange-700 data-[state=active]:bg-orange-100">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden sm:inline">Altri Account</span>
+                  <span className="hidden sm:inline">{t("clientsPageNotifications.otherAccountsLabel")}</span>
                   <span className="sm:hidden">Altri</span>
                   <span className="ml-0.5">({clients.filter((c: any) => c.ownerId !== currentUser.id).length})</span>
                 </TabsTrigger>
@@ -426,7 +426,7 @@ export default function Clients() {
                   
                   // Costruisci intestazione con formato: "BUS1422 - busnari.silvia@libero.it"
                   const ownerName = isAdminClients 
-                    ? `👑 ${owner?.assignmentCode || 'ADMIN'} - Clienti Personali` 
+                    ? `👑 ${owner?.assignmentCode || 'ADMIN'} - ${t("clientsPageNotifications.clientPersonal")}` 
                     : owner && owner.assignmentCode
                       ? `${owner.assignmentCode} - ${owner.username}` 
                       : owner
@@ -442,7 +442,7 @@ export default function Clients() {
                             {ownerName}
                           </span>
                           <Badge variant="secondary" className="text-sm">
-                            {staffClients.length} {staffClients.length === 1 ? 'cliente' : 'clienti'}
+                            {staffClients.length} {staffClients.length === 1 ? t("clientsPageNotifications.clientSingular") : t("clientsPageNotifications.clientPlural")}
                           </Badge>
                         </CardTitle>
                       </CardHeader>

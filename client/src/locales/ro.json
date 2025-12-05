@@ -58,6 +58,21 @@
     "privacyPolicy": "Politica de Confidențialitate →",
     "termsOfService": "Termeni și condiții de utilizare →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Actualizare completă",
+    "refreshSuccessDesc": "{count} clienți încărcați de pe server",
+    "refreshError": "Eroare",
+    "refreshErrorDesc": "Nu se poate actualiza de pe server",
+    "staffLabel": "Per Profesionist",
+    "myClientsLabel": "Clienții Mei",
+    "otherAccountsLabel": "Alte Conturi",
+    "clientPersonal": "Clienți Personali",
+    "clientSingular": "client",
+    "clientPlural": "clienți",
+    "loadingClients": "Se încarcă clienți...",
+    "errorLoadingClients": "Eroare la încărcarea clienților:",
+    "retry": "Reîncercați"
+  },
   "professionalLoginPage": {
     "title": "Acces Profesional",
     "description": "Accesați contul profesional pentru a gestiona clienți și programări",

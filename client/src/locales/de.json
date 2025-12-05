@@ -58,6 +58,21 @@
     "privacyPolicy": "Datenschutzerklärung →",
     "termsOfService": "Nutzungsbedingungen →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Aktualisierung abgeschlossen",
+    "refreshSuccessDesc": "{count} Kunden vom Server geladen",
+    "refreshError": "Fehler",
+    "refreshErrorDesc": "Aktualisierung vom Server nicht möglich",
+    "staffLabel": "Pro Professional",
+    "myClientsLabel": "Meine Kunden",
+    "otherAccountsLabel": "Andere Konten",
+    "clientPersonal": "Persönliche Kunden",
+    "clientSingular": "Kunde",
+    "clientPlural": "Kunden",
+    "loadingClients": "Kunden laden...",
+    "errorLoadingClients": "Fehler beim Laden der Kunden:",
+    "retry": "Wiederholen"
+  },
   "professionalLoginPage": {
     "title": "Professioneller Zugang",
     "description": "Melden Sie sich bei Ihrem professionellen Konto an, um Kunden und Termine zu verwalten",

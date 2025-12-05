@@ -58,6 +58,21 @@
     "privacyPolicy": "Политика Конфиденциальности →",
     "termsOfService": "Условия использования →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Обновление завершено",
+    "refreshSuccessDesc": "{count} клиентов загружено с сервера",
+    "refreshError": "Ошибка",
+    "refreshErrorDesc": "Не удается обновить с сервера",
+    "staffLabel": "По Профессионалу",
+    "myClientsLabel": "Мои Клиенты",
+    "otherAccountsLabel": "Другие Учетные Записи",
+    "clientPersonal": "Персональные Клиенты",
+    "clientSingular": "клиент",
+    "clientPlural": "клиентов",
+    "loadingClients": "Загрузка клиентов...",
+    "errorLoadingClients": "Ошибка при загрузке клиентов:",
+    "retry": "Повторить"
+  },
   "professionalLoginPage": {
     "title": "Профессиональный Вход",
     "description": "Войдите в свой профессиональный аккаунт для управления клиентами и записями",

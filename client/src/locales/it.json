@@ -58,6 +58,21 @@
     "privacyPolicy": "Informativa sulla Privacy →",
     "termsOfService": "Termini di servizio e condizioni d'uso →"
   },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Aggiornamento completato",
+    "refreshSuccessDesc": "Caricati {count} clienti dal server",
+    "refreshError": "Errore",
+    "refreshErrorDesc": "Impossibile aggiornare dal server",
+    "staffLabel": "Per Professionista",
+    "myClientsLabel": "Miei Clienti",
+    "otherAccountsLabel": "Altri Account",
+    "clientPersonal": "Clienti Personali",
+    "clientSingular": "cliente",
+    "clientPlural": "clienti",
+    "loadingClients": "Caricamento clienti...",
+    "errorLoadingClients": "Errore nel caricamento dei clienti:",
+    "retry": "Riprova"
+  },
   "professionalLoginPage": {
     "title": "Accesso Professionista",
     "description": "Accedi al tuo account professionale per gestire clienti e appuntamenti",
