@@ -1180,19 +1180,23 @@ export default function PureClientArea() {
           <div className="mt-6 pt-6 border-t border-gray-100 text-center text-sm text-gray-500">
             <div className="space-y-2">
               <div className="flex flex-wrap justify-center gap-4">
-                <button 
-                  onClick={() => setShowPrivacyModal(true)}
+                <a 
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-blue-600 transition-colors underline"
                 >
                   Privacy Policy
-                </button>
+                </a>
                 <span>•</span>
-                <button 
-                  onClick={() => setShowTermsModal(true)}
+                <a 
+                  href="/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-blue-600 transition-colors underline"
                 >
                   Termini di Servizio
-                </button>
+                </a>
                 <span>•</span>
                 <button 
                   onClick={() => setShowDataProtectionModal(true)}

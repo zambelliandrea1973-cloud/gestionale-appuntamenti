@@ -3,7 +3,28 @@
 ## Overview
 This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed to streamline operations for medical practices. It offers comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system aims to enhance patient engagement and provide efficient administrative tools, ultimately serving as a multi-platform solution for modern medical practice management.
 
-## Recent Changes (December 4, 2025)
+## Recent Changes (December 5, 2025)
+
+### ✅ GOOGLE PLAY STORE PRIVACY POLICY COMPLIANCE FIX
+**Status**: ✅ COMPLETATO - Tutti i link Privacy Policy ora reindirizzano a `/privacy` (no popup)
+
+#### 🔐 FIX APPLICATI:
+- ✅ **RegisterPage.tsx** - Aggiunto link Privacy Policy accanto ai Termini di Servizio
+- ✅ **PureClientArea.tsx** - Convertito popup Privacy/Terms in link navigazione a `/privacy` e `/terms`
+- ✅ **FooterContent.tsx** - Convertito popup Privacy/Terms in link navigazione a `/privacy` e `/terms`
+
+#### 🎯 MOTIVO DEL FIX:
+- Google Play Store richiede che la Privacy Policy sia accessibile da un URL diretto
+- I popup modali non soddisfano questo requisito
+- Ora tutti i link reindirizzano alla pagina `/privacy` che corrisponde all'URL inviato a Google Cloud Console
+
+#### 📋 URL PRIVACY POLICY:
+- Development: `https://wife-scheduler-zambelliandrea1.replit.app/privacy`
+- Production: `https://gestionale-appuntamenti.sliplane.app/privacy`
+
+---
+
+## Previous Changes (December 4, 2025)
 
 ### ✅ MIGRAZIONE COMPLETA JSON → PostgreSQL - DATI PERSISTENTI DEFINITIVI
 **Status**: ✅ COMPLETATO E TESTATO - Tutti i dati clienti ora persistenti nel database!

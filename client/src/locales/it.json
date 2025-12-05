@@ -4,6 +4,18 @@
     "welcome": "Benvenuto nella Gestione Appuntamenti",
     "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
   },
+  "welcomePage": {
+    "title": "Benvenuto in Gestione Appuntamenti",
+    "subtitle": "Scegli come vuoi procedere",
+    "createAccount": "Crea un nuovo account",
+    "createAccountDesc": "Per nuovi utenti che vogliono iniziare a utilizzare il sistema",
+    "professionalLogin": "Accesso Professionista",
+    "staffLogin": "Accesso Staff/Admin",
+    "chooseAccessType": "Scegli il tipo di accesso appropriato",
+    "version": "Gestione Appuntamenti v3.5.0",
+    "copyright": "© 2023-2025 Tutti i diritti riservati",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestione Appuntamenti"
+  },
   "appointment": {
     "selectTimeSlots": "Seleziona orario nuovo appuntamento",
     "confirmAndAssociateClient": "Conferma e associa cliente",

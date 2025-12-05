@@ -49,13 +49,12 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'it', // Lingua predefinita
-    fallbackLng: 'it',
+    fallbackLng: 'it', // Usa italiano come fallback se la lingua non è supportata
     interpolation: {
       escapeValue: false, // React gestisce già l'escape
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['localStorage', 'navigator'], // Prima controlla localStorage, poi il browser
       caches: ['localStorage'],
     },
   });

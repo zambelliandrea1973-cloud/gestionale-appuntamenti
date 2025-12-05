@@ -4,6 +4,18 @@
     "welcome": "Bine ați venit la Gestionarea Programărilor",
     "description": "Gestionați cu ușurință programări, clienți și facturi"
   },
+  "welcomePage": {
+    "title": "Bine ați venit la Gestionare Programări",
+    "subtitle": "Alegeți cum doriți să continuați",
+    "createAccount": "Creați un cont nou",
+    "createAccountDesc": "Pentru utilizatori noi care doresc să înceapă să utilizeze sistemul",
+    "professionalLogin": "Acces Profesional",
+    "staffLogin": "Acces Personal/Admin",
+    "chooseAccessType": "Alegeți tipul de acces potrivit",
+    "version": "Gestionare Programări v3.5.0",
+    "copyright": "© 2023-2025 Toate drepturile rezervate",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestionare Programări"
+  },
   "language": {
     "it": "Italiană",
     "en": "Engleză",

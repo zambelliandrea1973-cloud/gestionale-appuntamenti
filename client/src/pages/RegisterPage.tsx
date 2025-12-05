@@ -195,6 +195,10 @@ export default function RegisterPage() {
                   <a href="/terms" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
                     Termini di Servizio
                   </a>
+                  {" "}e la{" "}
+                  <a href="/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                    Privacy Policy
+                  </a>
                 </Label>
               </div>
               

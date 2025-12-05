@@ -4,6 +4,18 @@
     "welcome": "Velkommen til Timeavtalehåndtering",
     "description": "Administrer timeavtaler, kunder og fakturaer enkelt"
   },
+  "welcomePage": {
+    "title": "Velkommen til Timeavtalehåndtering",
+    "subtitle": "Velg hvordan du vil fortsette",
+    "createAccount": "Opprett ny konto",
+    "createAccountDesc": "For nye brukere som vil begynne å bruke systemet",
+    "professionalLogin": "Profesjonell Tilgang",
+    "staffLogin": "Personell/Admin Tilgang",
+    "chooseAccessType": "Velg riktig tilgangstype",
+    "version": "Timeavtalehåndtering v3.5.0",
+    "copyright": "© 2023-2025 Alle rettigheter forbeholdt",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Timeavtalehåndtering"
+  },
   "language": {
     "it": "Italiensk",
     "en": "Engelsk",

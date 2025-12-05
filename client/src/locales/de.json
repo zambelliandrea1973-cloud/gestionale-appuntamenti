@@ -4,6 +4,18 @@
     "welcome": "Willkommen bei der Terminverwaltung",
     "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
   },
+  "welcomePage": {
+    "title": "Willkommen bei der Terminverwaltung",
+    "subtitle": "Wählen Sie, wie Sie fortfahren möchten",
+    "createAccount": "Neues Konto erstellen",
+    "createAccountDesc": "Für neue Benutzer, die das System nutzen möchten",
+    "professionalLogin": "Professioneller Zugang",
+    "staffLogin": "Personal/Admin Zugang",
+    "chooseAccessType": "Wählen Sie die passende Zugangsart",
+    "version": "Terminverwaltung v3.5.0",
+    "copyright": "© 2023-2025 Alle Rechte vorbehalten",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Terminverwaltung"
+  },
   "navigation": {
     "home": "Startseite",
     "notifications": "Benachrichtigungen",

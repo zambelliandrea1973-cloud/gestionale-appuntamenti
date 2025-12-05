@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'wouter';
 import { 
   Dialog, 
   DialogContent, 
@@ -13,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function FooterContent() {
   const { t } = useTranslation();
+  const [, navigate] = useLocation();
   const [dialogContent, setDialogContent] = useState<{
     isOpen: boolean;
     title: string;
@@ -278,10 +280,10 @@ export default function FooterContent() {
       <Button variant="link" onClick={openSupport} className="text-primary hover:text-primary-dark text-sm">
         {t('common.support', 'Supporto')}
       </Button>
-      <Button variant="link" onClick={openPrivacyPolicy} className="text-primary hover:text-primary-dark text-sm">
+      <Button variant="link" onClick={() => navigate('/privacy')} className="text-primary hover:text-primary-dark text-sm">
         Privacy Policy
       </Button>
-      <Button variant="link" onClick={openTermsOfService} className="text-primary hover:text-primary-dark text-sm">
+      <Button variant="link" onClick={() => navigate('/terms')} className="text-primary hover:text-primary-dark text-sm">
         {t('common.terms', 'Termini di Servizio')}
       </Button>
 

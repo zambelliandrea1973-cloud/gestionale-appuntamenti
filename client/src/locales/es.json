@@ -4,6 +4,18 @@
     "welcome": "Bienvenido a la Gestión de Citas",
     "description": "Gestione fácilmente citas, clientes y facturas"
   },
+  "welcomePage": {
+    "title": "Bienvenido a Gestión de Citas",
+    "subtitle": "Elige cómo quieres proceder",
+    "createAccount": "Crear una nueva cuenta",
+    "createAccountDesc": "Para nuevos usuarios que quieren comenzar a usar el sistema",
+    "professionalLogin": "Acceso Profesional",
+    "staffLogin": "Acceso Personal/Admin",
+    "chooseAccessType": "Elige el tipo de acceso apropiado",
+    "version": "Gestión de Citas v3.5.0",
+    "copyright": "© 2023-2025 Todos los derechos reservados",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestión de Citas"
+  },
   "navigation": {
     "home": "Inicio",
     "notifications": "Notificaciones",

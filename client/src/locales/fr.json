@@ -4,6 +4,18 @@
     "welcome": "Bienvenue dans la Gestion des Rendez-vous",
     "description": "Gérez facilement les rendez-vous, les clients et les factures"
   },
+  "welcomePage": {
+    "title": "Bienvenue dans Gestion des Rendez-vous",
+    "subtitle": "Choisissez comment vous souhaitez procéder",
+    "createAccount": "Créer un nouveau compte",
+    "createAccountDesc": "Pour les nouveaux utilisateurs qui souhaitent commencer à utiliser le système",
+    "professionalLogin": "Accès Professionnel",
+    "staffLogin": "Accès Personnel/Admin",
+    "chooseAccessType": "Choisissez le type d'accès approprié",
+    "version": "Gestion des Rendez-vous v3.5.0",
+    "copyright": "© 2023-2025 Tous droits réservés",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestion des Rendez-vous"
+  },
   "navigation": {
     "home": "Accueil",
     "notifications": "Notifications",
