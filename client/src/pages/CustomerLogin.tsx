@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 export default function CustomerLogin() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -35,7 +37,7 @@ export default function CustomerLogin() {
       const response = await apiRequest("POST", "/api/staff/login", credentials);
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'accesso");
+        throw new Error(errorData.message || "Login error");
       }
       return response.json();
     },
@@ -67,10 +69,10 @@ export default function CustomerLogin() {
       }, 100);
     },
     onError: (error: Error) => {
-      setError(error.message || "Si è verificato un errore durante l'accesso");
+      setError(error.message || t('professionalLoginPage.errorOccurred'));
       toast({
-        title: "Errore di accesso",
-        description: error.message || "Si è verificato un errore durante l'accesso",
+        title: t('professionalLoginPage.loginError'),
+        description: error.message || t('professionalLoginPage.errorOccurred'),
         variant: "destructive",
       });
     }
@@ -82,7 +84,7 @@ export default function CustomerLogin() {
     
     // Verifica che tutti i campi siano compilati
     if (!username || !password) {
-      setError("Inserisci sia username che password");
+      setError(t('professionalLoginPage.enterCredentials'));
       return;
     }
     
@@ -97,10 +99,10 @@ export default function CustomerLogin() {
         <Card className="w-full shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              Accesso Professionista
+              {t('professionalLoginPage.title')}
             </CardTitle>
             <CardDescription className="text-center">
-              Accedi al tuo account professionale per gestire clienti e appuntamenti
+              {t('professionalLoginPage.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -108,28 +110,28 @@ export default function CustomerLogin() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Errore</AlertTitle>
+                  <AlertTitle>{t('professionalLoginPage.error')}</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">{t('professionalLoginPage.username')}</Label>
                 <Input
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Inserisci il tuo username"
+                  placeholder={t('professionalLoginPage.usernamePlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t('professionalLoginPage.password')}</Label>
                 <PasswordInput
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Inserisci la tua password"
+                  placeholder={t('professionalLoginPage.passwordPlaceholder')}
                 />
               </div>
               
@@ -140,7 +142,7 @@ export default function CustomerLogin() {
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 />
                 <Label htmlFor="rememberMe" className="text-sm">
-                  Ricorda il mio account
+                  {t('professionalLoginPage.rememberMe')}
                 </Label>
               </div>
               
@@ -152,10 +154,10 @@ export default function CustomerLogin() {
                 {loginMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Accesso in corso...
+                    {t('professionalLoginPage.loggingIn')}
                   </>
                 ) : (
-                  "Accedi"
+                  t('professionalLoginPage.login')
                 )}
               </Button>
             </form>
@@ -167,16 +169,16 @@ export default function CustomerLogin() {
               onClick={() => navigate("/forgot-password")}
               className="text-sm text-primary hover:underline w-full text-center"
             >
-              Ho dimenticato la password
+              {t('professionalLoginPage.forgotPassword')}
             </button>
             
             <div className="text-sm text-gray-600 text-center">
-              Sei uno staff member o amministratore?{" "}
+              {t('professionalLoginPage.areStaffOrAdmin')}{" "}
               <button
                 onClick={() => navigate("/staff-login")}
                 className="text-primary hover:underline"
               >
-                Accedi come Staff
+                {t('professionalLoginPage.loginAsStaff')}
               </button>
             </div>
           </CardFooter>
@@ -186,10 +188,10 @@ export default function CustomerLogin() {
         <div className="space-y-6">
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Gestione Professionale
+              {t('professionalLoginPage.professionalManagement')}
             </h1>
             <p className="text-lg text-gray-600 mb-6">
-              Accedi al tuo account professionale per gestire clienti, appuntamenti e tutti gli strumenti per il tuo lavoro.
+              {t('professionalLoginPage.professionalManagementDesc')}
             </p>
           </div>
           
@@ -201,8 +203,8 @@ export default function CustomerLogin() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Gestione Clienti</h3>
-                <p className="text-gray-600">Organizza e gestisci tutti i tuoi clienti in un unico posto</p>
+                <h3 className="font-semibold text-gray-900">{t('professionalLoginPage.featureClients')}</h3>
+                <p className="text-gray-600">{t('professionalLoginPage.featureClientsDesc')}</p>
               </div>
             </div>
             
@@ -213,8 +215,8 @@ export default function CustomerLogin() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Appuntamenti</h3>
-                <p className="text-gray-600">Pianifica e monitora gli appuntamenti con facilità</p>
+                <h3 className="font-semibold text-gray-900">{t('professionalLoginPage.featureAppointments')}</h3>
+                <p className="text-gray-600">{t('professionalLoginPage.featureAppointmentsDesc')}</p>
               </div>
             </div>
             
@@ -225,8 +227,8 @@ export default function CustomerLogin() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Report e Analisi</h3>
-                <p className="text-gray-600">Monitora le performance della tua attività</p>
+                <h3 className="font-semibold text-gray-900">{t('professionalLoginPage.featureReports')}</h3>
+                <p className="text-gray-600">{t('professionalLoginPage.featureReportsDesc')}</p>
               </div>
             </div>
           </div>
