@@ -180,16 +180,16 @@ const WhatsAppCenterPage: React.FC = () => {
     },
     onSuccess: () => {
       toast({
-        title: t('✅ Configurazione salvata!'),
-        description: t('Le impostazioni del telefono sono state salvate con successo'),
+        title: `✅ ${t('whatsappCenter.toast.configSaved')}`,
+        description: t('whatsappCenter.toast.configSavedDescription'),
       });
       refetchSettings();
       queryClient.invalidateQueries({ queryKey: ['/api/contact-settings'] });
     },
     onError: () => {
       toast({
-        title: t('❌ Errore nel salvataggio'),
-        description: t('Si è verificato un errore durante il salvataggio delle impostazioni'),
+        title: `❌ ${t('whatsappCenter.toast.saveError')}`,
+        description: t('whatsappCenter.toast.saveErrorDescription'),
         variant: 'destructive'
       });
     }
@@ -288,8 +288,8 @@ const WhatsAppCenterPage: React.FC = () => {
     } catch (error) {
       console.error('❌ CENTRO WHATSAPP: Errore nel caricamento appuntamenti:', error);
       toast({
-        title: 'Errore',
-        description: 'Impossibile caricare gli appuntamenti.',
+        title: t('whatsappCenter.sendNotifications.error'),
+        description: t('whatsappCenter.toast.loadError'),
         variant: 'destructive',
       });
     } finally {
@@ -315,8 +315,8 @@ const WhatsAppCenterPage: React.FC = () => {
     } catch (error) {
       console.error('❌ MARKETING: Errore nel caricamento:', error);
       toast({
-        title: 'Errore',
-        description: 'Impossibile caricare i messaggi marketing.',
+        title: t('whatsappCenter.sendNotifications.error'),
+        description: t('whatsappCenter.toast.loadMarketingError'),
         variant: 'destructive',
       });
     } finally {
@@ -390,8 +390,8 @@ const WhatsAppCenterPage: React.FC = () => {
         
         // Mostra risultato all'utente
         toast({
-          title: "🎉 Invio Automatico Completato!",
-          description: `${summary.successful} messaggi preparati per domani! ${summary.failed > 0 ? `${summary.failed} errori.` : ''}`,
+          title: `🎉 ${t('whatsappCenter.toast.autoSendComplete')}`,
+          description: `${t('whatsappCenter.toast.autoSendDescription', { count: summary.successful })} ${summary.failed > 0 ? t('whatsappCenter.toast.autoSendErrors', { count: summary.failed }) : ''}`,
           variant: summary.failed > 0 ? 'destructive' : 'default'
         });
         
@@ -417,8 +417,8 @@ const WhatsAppCenterPage: React.FC = () => {
             // Mostra toast aggiuntivo per guidare l'utente
             setTimeout(() => {
               toast({
-                title: "💬 Messaggi Pronti!",
-                description: `Clicca su "Apri WhatsApp" per iniziare a inviare i ${links.length} messaggi preparati.`,
+                title: `💬 ${t('whatsappCenter.toast.messagesReady')}`,
+                description: t('whatsappCenter.toast.messagesReadyDescription', { count: links.length }),
               });
             }, 1000);
           }
@@ -431,8 +431,8 @@ const WhatsAppCenterPage: React.FC = () => {
     } catch (error: any) {
       console.error('❌ FRONTEND: Errore invio automatico:', error);
       toast({
-        title: "❌ Errore Invio Automatico",
-        description: error.message || 'Impossibile inviare i messaggi automaticamente. Riprova.',
+        title: `❌ ${t('whatsappCenter.toast.autoSendError')}`,
+        description: error.message || t('whatsappCenter.toast.autoSendErrorDescription'),
         variant: 'destructive'
       });
     } finally {
@@ -457,8 +457,8 @@ const WhatsAppCenterPage: React.FC = () => {
     
     if (selectedIds.length === 0) {
       toast({
-        title: t('Nessun appuntamento selezionato'),
-        description: t('Seleziona almeno un appuntamento per inviare notifiche'),
+        title: t('whatsappCenter.sendNotifications.noAppointmentSelected'),
+        description: t('whatsappCenter.sendNotifications.selectAtLeastOne'),
         variant: 'destructive',
       });
       return;
@@ -509,8 +509,8 @@ const WhatsAppCenterPage: React.FC = () => {
     } catch (error) {
       console.error('Errore nella generazione dei link WhatsApp', error);
       toast({
-        title: t('Errore'),
-        description: t('Impossibile generare i link WhatsApp. Riprova.'),
+        title: t('whatsappCenter.sendNotifications.error'),
+        description: t('whatsappCenter.sendNotifications.cannotGenerateLinks'),
         variant: 'destructive'
       });
     } finally {
@@ -524,8 +524,8 @@ const WhatsAppCenterPage: React.FC = () => {
       // Abbiamo finito la sequenza
       setIsSequenceRunning(false);
       toast({
-        title: t('Invio completato'),
-        description: t('Tutti i messaggi sono stati inviati')
+        title: t('whatsappCenter.sendNotifications.sendComplete'),
+        description: t('whatsappCenter.sendNotifications.allMessagesSent')
       });
       setShowGeneratedLinks(false);
       fetchUpcomingAppointments(); // Aggiorniamo la lista per mostrare i nuovi stati
@@ -573,8 +573,8 @@ const WhatsAppCenterPage: React.FC = () => {
       setIsSequenceRunning(false);
       setShowGeneratedLinks(false);
       toast({
-        title: t('Completato'),
-        description: t('Tutti i messaggi sono stati processati')
+        title: t('whatsappCenter.sendNotifications.completed'),
+        description: t('whatsappCenter.sendNotifications.allMessagesProcessed')
       });
       fetchUpcomingAppointments(); // Aggiorniamo la lista per mostrare i nuovi stati
     }
@@ -589,8 +589,8 @@ const WhatsAppCenterPage: React.FC = () => {
     
     if (selectedIds.length === 0) {
       toast({
-        title: 'Nessun appuntamento selezionato',
-        description: 'Seleziona almeno un appuntamento per generare i link WhatsApp',
+        title: t('whatsappCenter.sendNotifications.noLinksGenerated'),
+        description: t('whatsappCenter.sendNotifications.selectAppointmentsForLinks'),
         variant: 'destructive',
       });
       return;
@@ -615,8 +615,8 @@ const WhatsAppCenterPage: React.FC = () => {
       
       if (data.success) {
         toast({
-          title: 'Link generati',
-          description: `Sono stati generati ${data.results.length} link WhatsApp`,
+          title: t('whatsappCenter.sendNotifications.linksGenerated'),
+          description: t('whatsappCenter.sendNotifications.linksGeneratedCount', { count: data.results.length }),
         });
         
         const links = data.results
@@ -651,8 +651,8 @@ const WhatsAppCenterPage: React.FC = () => {
       console.error('Errore nella generazione dei link', error);
       
       toast({
-        title: 'Errore',
-        description: 'Impossibile generare i link WhatsApp. Riprova.',
+        title: t('whatsappCenter.sendNotifications.error'),
+        description: t('whatsappCenter.sendNotifications.cannotGenerateLinks'),
         variant: 'destructive',
       });
     } finally {
@@ -687,11 +687,11 @@ const WhatsAppCenterPage: React.FC = () => {
   const getStatusText = (status: WhatsAppStatus): string => {
     switch (status) {
       case WhatsAppStatus.NOT_CONFIGURED:
-        return t('Non configurato');
+        return t('whatsappCenter.whatsappConfig.notConfigured');
       case WhatsAppStatus.CONFIGURED:
-        return t('Configurato');
+        return t('whatsappCenter.whatsappConfig.configured');
       default:
-        return t('Sconosciuto');
+        return t('whatsappCenter.whatsappConfig.unknown');
     }
   };
   
@@ -711,10 +711,10 @@ const WhatsAppCenterPage: React.FC = () => {
     <div className="container mx-auto py-8 px-4 max-w-5xl">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold">
-          {t('Centro Configurazione e Invio Notifiche')}
+          {t('whatsappCenter.pageTitle')}
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-          {t('Gestisci le tue notifiche per i clienti attraverso WhatsApp ed Email')}
+          {t('whatsappCenter.pageSubtitle')}
         </p>
       </div>
       
@@ -724,10 +724,10 @@ const WhatsAppCenterPage: React.FC = () => {
             <Mail className="h-8 w-8 text-blue-600" />
           </div>
           <h3 className="text-xl font-medium text-blue-800 mb-3">
-            {t('Configurazione Notifiche Email')}
+            {t('whatsappCenter.emailNotifications.title')}
           </h3>
           <p className="mb-4 text-blue-700 max-w-lg mx-auto">
-            {t('Configura i modelli e le impostazioni per inviare promemoria automatici via email ai tuoi clienti')}
+            {t('whatsappCenter.emailNotifications.description')}
           </p>
           <Button 
             variant="default"
@@ -741,7 +741,7 @@ const WhatsAppCenterPage: React.FC = () => {
             }}
           >
             <Mail className="mr-2 h-5 w-5" />
-            {t('Configura Email')}
+            {t('whatsappCenter.emailNotifications.configureButton')}
           </Button>
         </div>
         
@@ -750,10 +750,10 @@ const WhatsAppCenterPage: React.FC = () => {
             <Sparkles className="h-8 w-8 text-purple-600" />
           </div>
           <h3 className="text-xl font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
-            {t('Campagne Marketing AI')}
+            {t('whatsappCenter.marketingAI.title')}
           </h3>
           <p className="mb-4 text-purple-700 max-w-lg mx-auto">
-            {t('Crea campagne marketing professionali con testo generato dall\'intelligenza artificiale e invia via email o WhatsApp')}
+            {t('whatsappCenter.marketingAI.description')}
           </p>
           <Link href="/campagne-marketing">
             <Button 
@@ -762,7 +762,7 @@ const WhatsAppCenterPage: React.FC = () => {
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 flex items-center mx-auto"
             >
               <Sparkles className="mr-2 h-5 w-5" />
-              {t('Crea Campagna AI')}
+              {t('whatsappCenter.marketingAI.createButton')}
             </Button>
           </Link>
         </div>
@@ -770,23 +770,23 @@ const WhatsAppCenterPage: React.FC = () => {
       
       <div className="border-t border-b py-6 my-6">
         <h2 className="text-2xl font-bold text-center mb-6">
-          {t('Configurazione e Utilizzo WhatsApp')}
+          {t('whatsappCenter.whatsappConfig.sectionTitle')}
         </h2>
       </div>
       
       <div className="flex justify-between items-center mb-6">
         <div>
           <h3 className="text-xl font-medium">
-            {t('Sistema Notifiche WhatsApp')}
+            {t('whatsappCenter.whatsappConfig.systemTitle')}
           </h3>
           <p className="text-muted-foreground">
-            {t('Configurazione telefono e invio messaggi WhatsApp')}
+            {t('whatsappCenter.whatsappConfig.systemDescription')}
           </p>
         </div>
         
         <div className="text-right">
           <div className="text-sm text-muted-foreground mb-1">
-            {t('Stato telefono')}:
+            {t('whatsappCenter.whatsappConfig.phoneStatus')}:
             <span className={`ml-2 font-medium ${getStatusColor(whatsappStatus)}`}>
               {getStatusText(whatsappStatus)}
             </span>
@@ -800,7 +800,7 @@ const WhatsAppCenterPage: React.FC = () => {
           
           {lastUpdated && (
             <div className="text-xs text-muted-foreground">
-              {t('Aggiornato')}: {format(lastUpdated, 'dd/MM/yyyy HH:mm')}
+              {t('whatsappCenter.whatsappConfig.updated')}: {format(lastUpdated, 'dd/MM/yyyy HH:mm')}
             </div>
           )}
         </div>
@@ -814,15 +814,15 @@ const WhatsAppCenterPage: React.FC = () => {
         <TabsList className="grid grid-cols-3 w-full md:w-auto">
           <TabsTrigger value="device-setup">
             <Smartphone className="h-4 w-4 mr-2" />
-            {t('Configurazione telefono')}
+            {t('whatsappCenter.tabs.phoneSetup')}
           </TabsTrigger>
           <TabsTrigger value="send-notifications">
             <Send className="h-4 w-4 mr-2" />
-            {t('Invia notifiche')}
+            {t('whatsappCenter.tabs.sendNotifications')}
           </TabsTrigger>
           <TabsTrigger value="marketing-campaigns">
             <Sparkles className="h-4 w-4 mr-2" />
-            {t('Campagne Marketing')}
+            {t('whatsappCenter.tabs.marketingCampaigns')}
           </TabsTrigger>
         </TabsList>
         
@@ -831,10 +831,10 @@ const WhatsAppCenterPage: React.FC = () => {
             <CardHeader className="bg-slate-50">
               <CardTitle className="flex items-center">
                 <Smartphone className="mr-3 h-6 w-6 text-primary" />
-                {t('Configurazione telefono WhatsApp')}
+                {t('whatsappCenter.phoneSetup.title')}
               </CardTitle>
               <CardDescription>
-                {t('Configura il tuo dispositivo per inviare notifiche WhatsApp')}
+                {t('whatsappCenter.phoneSetup.description')}
               </CardDescription>
             </CardHeader>
             
@@ -843,9 +843,9 @@ const WhatsAppCenterPage: React.FC = () => {
                 <div className="space-y-6">
                   <Alert variant="default" className="bg-blue-50 border-blue-200">
                     <Settings className="h-4 w-4 text-blue-600" />
-                    <AlertTitle className="text-blue-800">{t('Configura il tuo telefono')}</AlertTitle>
+                    <AlertTitle className="text-blue-800">{t('whatsappCenter.phoneSetup.configurePhone')}</AlertTitle>
                     <AlertDescription className="text-blue-700">
-                      {t('Inserisci il tuo numero di telefono per iniziare a inviare notifiche WhatsApp ai clienti')}
+                      {t('whatsappCenter.phoneSetup.enterPhonePrompt')}
                     </AlertDescription>
                   </Alert>
                   
@@ -855,32 +855,32 @@ const WhatsAppCenterPage: React.FC = () => {
                         <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3">
                           <Phone className="h-8 w-8 text-blue-600" />
                         </div>
-                        <h3 className="font-medium text-gray-900 mb-2">{t('Configurazione telefono')}</h3>
-                        <p className="text-sm text-gray-600">{t('Le tue informazioni di contatto per le notifiche')}</p>
+                        <h3 className="font-medium text-gray-900 mb-2">{t('whatsappCenter.tabs.phoneSetup')}</h3>
+                        <p className="text-sm text-gray-600">{t('whatsappCenter.phoneSetup.contactInfo')}</p>
                       </div>
                       
                       <div className="space-y-4">
                         <div>
                           <Label htmlFor="phone-input" className="text-sm font-medium">
-                            {t('Numero di telefono')} *
+                            {t('whatsappCenter.phoneSetup.phoneNumber')} *
                           </Label>
                           <Input
                             id="phone-input"
                             type="tel"
-                            placeholder="+393473556110"
+                            placeholder={t('whatsappCenter.phoneSetup.phonePlaceholder')}
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             className="mt-1"
                             data-testid="input-phone"
                           />
                           <p className="text-xs text-gray-500 mt-1">
-                            {t('Inserisci il numero tutto di seguito con prefisso internazionale (es. +393473556110)')}
+                            {t('whatsappCenter.phoneSetup.phoneHint')}
                           </p>
                         </div>
                         
                         <div>
                           <Label htmlFor="email-input" className="text-sm font-medium">
-                            {t('Email')} ({t('opzionale')})
+                            {t('whatsappCenter.phoneSetup.email')} ({t('whatsappCenter.phoneSetup.optional')})
                           </Label>
                           <Input
                             id="email-input"
@@ -897,7 +897,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-4 w-4 text-green-600" />
                             <span className="text-sm font-medium text-green-800">
-                              {t('Le notifiche WhatsApp verranno abilitate automaticamente')}
+                              {t('whatsappCenter.phoneSetup.whatsappAutoEnabled')}
                             </span>
                           </div>
                         </div>
@@ -912,12 +912,12 @@ const WhatsAppCenterPage: React.FC = () => {
                         {updateContactSettingsMutation.isPending ? (
                           <>
                             <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                            {t('Salvataggio...')}
+                            {t('whatsappCenter.phoneSetup.saving')}
                           </>
                         ) : (
                           <>
                             <CheckCircle className="h-4 w-4 mr-2" />
-                            {t('Salva configurazione')}
+                            {t('whatsappCenter.phoneSetup.saveConfig')}
                           </>
                         )}
                       </Button>
@@ -928,9 +928,9 @@ const WhatsAppCenterPage: React.FC = () => {
                     <div className="flex gap-3">
                       <MessageSquare className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <div className="text-sm">
-                        <p className="font-medium text-green-800 mb-1">{t('Come funzionano le notifiche:')}</p>
+                        <p className="font-medium text-green-800 mb-1">{t('whatsappCenter.phoneSetup.howNotificationsWork')}</p>
                         <p className="text-green-700">
-                          {t('Dopo aver salvato il telefono, potrai inviare notifiche WhatsApp ai clienti tramite link diretti che si aprono nella tua app WhatsApp.')}
+                          {t('whatsappCenter.phoneSetup.notificationsExplanation')}
                         </p>
                       </div>
                     </div>
@@ -945,28 +945,28 @@ const WhatsAppCenterPage: React.FC = () => {
                 <div className="space-y-4">
                   <Alert variant="default" className="bg-green-50 border-green-200">
                     <CheckCircle className="h-4 w-4 text-green-600" />
-                    <AlertTitle>{t('Telefono configurato correttamente')}</AlertTitle>
+                    <AlertTitle>{t('whatsappCenter.phoneSetup.configuredSuccess')}</AlertTitle>
                     <AlertDescription>
-                      {t('WhatsApp è configurato e può essere usato per inviare notifiche ai clienti')}
+                      {t('whatsappCenter.phoneSetup.configuredDescription')}
                     </AlertDescription>
                   </Alert>
                   
                   <div className="grid gap-4">
                     <div>
                       <Label htmlFor="phone-edit" className="text-sm font-medium">
-                        {t('Numero di telefono')} *
+                        {t('whatsappCenter.phoneSetup.phoneNumber')} *
                       </Label>
                       <Input
                         id="phone-edit"
                         type="tel"
-                        placeholder="+393473556110"
+                        placeholder={t('whatsappCenter.phoneSetup.phonePlaceholder')}
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         className="mt-1"
                         data-testid="input-phone-edit"
                       />
                       <p className="text-xs text-gray-500 mt-1">
-                        {t('Inserisci il numero tutto di seguito con prefisso internazionale (es. +393473556110)')}
+                        {t('whatsappCenter.phoneSetup.phoneHint')}
                       </p>
                     </div>
                     
@@ -980,12 +980,12 @@ const WhatsAppCenterPage: React.FC = () => {
                         {updateContactSettingsMutation.isPending ? (
                           <>
                             <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                            {t('Aggiornamento...')}
+                            {t('whatsappCenter.phoneSetup.updating')}
                           </>
                         ) : (
                           <>
                             <Save className="h-4 w-4 mr-2" />
-                            {t('Aggiorna telefono')}
+                            {t('whatsappCenter.phoneSetup.updatePhone')}
                           </>
                         )}
                       </Button>
@@ -1003,7 +1003,7 @@ const WhatsAppCenterPage: React.FC = () => {
                         data-testid="button-test-whatsapp"
                       >
                         <Send className="h-4 w-4 mr-2" />
-                        {t('Test')}
+                        {t('whatsappCenter.phoneSetup.test')}
                       </Button>
                     </div>
                     
@@ -1011,10 +1011,10 @@ const WhatsAppCenterPage: React.FC = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-medium">
-                            {t('Come funziona')}
+                            {t('whatsappCenter.phoneSetup.howItWorks')}
                           </h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {t('Segui questi passi per inviare notifiche WhatsApp ai tuoi clienti')}:
+                            {t('whatsappCenter.phoneSetup.howItWorksDescription')}:
                           </p>
                         </div>
                         <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
@@ -1025,15 +1025,15 @@ const WhatsAppCenterPage: React.FC = () => {
                       <div className="space-y-2 mt-4">
                         <div className="flex gap-2">
                           <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">1</div>
-                          <p className="text-sm">{t('Vai alla scheda "Invia notifiche" e seleziona gli appuntamenti')}</p>
+                          <p className="text-sm">{t('whatsappCenter.phoneSetup.step1')}</p>
                         </div>
                         <div className="flex gap-2">
                           <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">2</div>
-                          <p className="text-sm">{t('Genera i link WhatsApp e segui le istruzioni sullo schermo')}</p>
+                          <p className="text-sm">{t('whatsappCenter.phoneSetup.step2')}</p>
                         </div>
                         <div className="flex gap-2">
                           <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">3</div>
-                          <p className="text-sm">{t('I messaggi verranno inviati uno alla volta tramite la tua app WhatsApp')}</p>
+                          <p className="text-sm">{t('whatsappCenter.phoneSetup.step3')}</p>
                         </div>
                       </div>
                     </div>
@@ -1045,13 +1045,13 @@ const WhatsAppCenterPage: React.FC = () => {
                       onClick={() => {
                         // Reset ContactSettings (da implementare)
                         toast({
-                          title: t('Funzione da implementare'),
-                          description: t('La rimozione telefono sarà implementata nel nuovo sistema ContactSettings')
+                          title: t('whatsappCenter.phoneSetup.featureNotImplemented'),
+                          description: t('whatsappCenter.phoneSetup.removePhoneDescription')
                         });
                       }}
                     >
                       <Phone className="h-4 w-4 mr-2" />
-                      {t('Rimuovi telefono')}
+                      {t('whatsappCenter.phoneSetup.removePhone')}
                     </Button>
                   </div>
                 </div>
@@ -1065,10 +1065,10 @@ const WhatsAppCenterPage: React.FC = () => {
             <CardHeader className="bg-slate-50">
               <CardTitle className="flex items-center">
                 <Send className="mr-3 h-6 w-6 text-primary" />
-                {t('Invia notifiche WhatsApp')}
+                {t('whatsappCenter.sendNotifications.title')}
               </CardTitle>
               <CardDescription>
-                {t('Seleziona gli appuntamenti e invia notifiche tramite WhatsApp')}
+                {t('whatsappCenter.sendNotifications.description')}
               </CardDescription>
             </CardHeader>
             
@@ -1076,29 +1076,29 @@ const WhatsAppCenterPage: React.FC = () => {
               {!contactSettingsData?.settings?.phone || whatsappStatus === WhatsAppStatus.NOT_CONFIGURED ? (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>{t('Nessun telefono configurato')}</AlertTitle>
+                  <AlertTitle>{t('whatsappCenter.sendNotifications.noPhoneConfigured')}</AlertTitle>
                   <AlertDescription>
-                    {t('Devi prima configurare un telefono per poter inviare notifiche WhatsApp')}
+                    {t('whatsappCenter.sendNotifications.noPhoneDescription')}
                   </AlertDescription>
                 </Alert>
               ) : isLoading ? (
                 <div className="py-8 text-center">
                   <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
-                  <p className="text-muted-foreground">{t('Caricamento appuntamenti in corso...')}</p>
+                  <p className="text-muted-foreground">{t('whatsappCenter.sendNotifications.loadingAppointments')}</p>
                 </div>
               ) : appointments.length === 0 ? (
                 <div className="text-center py-8">
                   <Calendar className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-medium mb-2">{t('Nessun appuntamento trovato')}</h3>
+                  <h3 className="text-lg font-medium mb-2">{t('whatsappCenter.sendNotifications.noAppointments')}</h3>
                   <p className="text-muted-foreground max-w-md mx-auto mb-4">
-                    {t('Non ci sono appuntamenti disponibili per i prossimi giorni')}
+                    {t('whatsappCenter.sendNotifications.noAppointmentsDescription')}
                   </p>
                   <Button 
                     onClick={fetchUpcomingAppointments}
                     variant="outline"
                   >
                     <RefreshCw className="h-4 w-4 mr-2" />
-                    {t('Aggiorna')}
+                    {t('whatsappCenter.sendNotifications.refresh')}
                   </Button>
                 </div>
               ) : (
@@ -1113,7 +1113,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
                         >
                           <CheckSquare className="h-4 w-4 mr-1" />
-                          {t('Seleziona solo non inviati')}
+                          {t('whatsappCenter.sendNotifications.selectOnlyUnsent')}
                         </Button>
                         
                         <div className="relative inline-block group">
@@ -1123,10 +1123,10 @@ const WhatsAppCenterPage: React.FC = () => {
                             className="h-8 w-8 p-0"
                           >
                             <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                            <span className="sr-only">{t('Informazioni')}</span>
+                            <span className="sr-only">{t('whatsappCenter.sendNotifications.info')}</span>
                           </Button>
                           <div className="absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white p-2 rounded shadow-lg border w-60 text-xs text-muted-foreground">
-                            {t('Seleziona più appuntamenti e premi "Invia in sequenza" per inviarli uno dopo l\'altro')}
+                            {t('whatsappCenter.sendNotifications.selectAndSendInfo')}
                           </div>
                         </div>
                       </div>
@@ -1141,7 +1141,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           data-testid="button-send-all-tomorrow"
                         >
                           <MessageSquare className="h-4 w-4 mr-1" />
-                          {isSendingAll ? t('Invio automatico...') : t('Invia Tutti per Domani')}
+                          {isSendingAll ? t('whatsappCenter.sendNotifications.sendingAuto') : t('whatsappCenter.sendNotifications.sendAllTomorrow')}
                         </Button>
                         
                         <Button
@@ -1152,7 +1152,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           className="bg-blue-600 hover:bg-blue-700"
                         >
                           <Send className="h-4 w-4 mr-1" />
-                          {isSending ? t('Invio in corso...') : t('Invia in sequenza')}
+                          {isSending ? t('whatsappCenter.sendNotifications.sending') : t('whatsappCenter.sendNotifications.sendSequence')}
                         </Button>
                         
                         <Button
@@ -1162,7 +1162,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           className="ml-1"
                         >
                           <RefreshCw className="h-4 w-4" />
-                          <span className="sr-only">{t('Aggiorna lista')}</span>
+                          <span className="sr-only">{t('whatsappCenter.sendNotifications.refreshList')}</span>
                         </Button>
                       </div>
                     </div>
@@ -1171,7 +1171,7 @@ const WhatsAppCenterPage: React.FC = () => {
                   <div className="rounded-md border">
                     <div className="p-4 border-b bg-muted/30">
                       <h3 className="font-medium">
-                        {t('Appuntamenti prossimi')}
+                        {t('whatsappCenter.sendNotifications.upcomingAppointments')}
                       </h3>
                     </div>
                     
@@ -1278,7 +1278,7 @@ const WhatsAppCenterPage: React.FC = () => {
                                         ) : (
                                           <Send className="h-3 w-3 mr-1" />
                                         )}
-                                        {isMessageSent ? t('INVIATO') : t('Invia')}
+                                        {isMessageSent ? t('whatsappCenter.sendNotifications.sent') : t('whatsappCenter.sendNotifications.send')}
                                       </Button>
                                     </div>
                                   </div>
@@ -1293,7 +1293,7 @@ const WhatsAppCenterPage: React.FC = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between items-end">
                       <Label htmlFor="custom-message">
-                        {t('Messaggio personalizzato')} <span className="text-muted-foreground">{t('(opzionale)')}</span>
+                        {t('whatsappCenter.sendNotifications.customMessage')} <span className="text-muted-foreground">({t('whatsappCenter.phoneSetup.optional')})</span>
                       </Label>
                       <span className="text-xs text-muted-foreground">
                         {customMessage.length}/500
@@ -1303,13 +1303,13 @@ const WhatsAppCenterPage: React.FC = () => {
                     <div className="bg-muted/30 border border-muted rounded-md p-3 mb-2 text-sm flex gap-2">
                       <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
                       <p>
-                        {t('Inserisci qui un messaggio aggiuntivo che verrà incluso nei messaggi WhatsApp per tutti i clienti selezionati sopra. Questo ti permette di personalizzare il contenuto del messaggio standard.')}
+                        {t('whatsappCenter.sendNotifications.customMessageHint')}
                       </p>
                     </div>
                     
                     <Textarea
                       id="custom-message"
-                      placeholder={t('Inserisci un messaggio personalizzato che verrà aggiunto al testo standard...')}
+                      placeholder={t('whatsappCenter.sendNotifications.customMessagePlaceholder')}
                       maxLength={500}
                       value={customMessage}
                       onChange={(e) => setCustomMessage(e.target.value)}
@@ -1326,10 +1326,10 @@ const WhatsAppCenterPage: React.FC = () => {
             <CardHeader className="bg-slate-50">
               <CardTitle className="flex items-center">
                 <Sparkles className="mr-3 h-6 w-6 text-primary" />
-                {t('Messaggi Marketing WhatsApp')}
+                {t('whatsappCenter.marketing.title')}
               </CardTitle>
               <CardDescription>
-                {t('Messaggi WhatsApp delle campagne marketing pronti per l\'invio manuale')}
+                {t('whatsappCenter.marketing.description')}
               </CardDescription>
             </CardHeader>
             
@@ -1337,28 +1337,28 @@ const WhatsAppCenterPage: React.FC = () => {
               {isLoadingMarketing ? (
                 <div className="py-8 text-center">
                   <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
-                  <p className="text-muted-foreground">{t('Caricamento messaggi in corso...')}</p>
+                  <p className="text-muted-foreground">{t('whatsappCenter.marketing.loadingMessages')}</p>
                 </div>
               ) : marketingMessages.length === 0 ? (
                 <div className="text-center py-8">
                   <Sparkles className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-medium mb-2">{t('Nessun messaggio marketing')}</h3>
+                  <h3 className="text-lg font-medium mb-2">{t('whatsappCenter.marketing.noMessages')}</h3>
                   <p className="text-muted-foreground max-w-md mx-auto mb-4">
-                    {t('Non ci sono messaggi marketing WhatsApp in attesa di invio')}
+                    {t('whatsappCenter.marketing.noMessagesDescription')}
                   </p>
                   <Button 
                     onClick={fetchMarketingMessages}
                     variant="outline"
                   >
                     <RefreshCw className="h-4 w-4 mr-2" />
-                    {t('Aggiorna')}
+                    {t('whatsappCenter.sendNotifications.refresh')}
                   </Button>
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-sm text-muted-foreground">
-                      {marketingMessages.length} {marketingMessages.length === 1 ? t('messaggio in attesa') : t('messaggi in attesa')}
+                      {marketingMessages.length} {marketingMessages.length === 1 ? t('whatsappCenter.marketing.messagePending') : t('whatsappCenter.marketing.messagesPending')}
                     </p>
                     <Button 
                       onClick={fetchMarketingMessages}
@@ -1366,14 +1366,14 @@ const WhatsAppCenterPage: React.FC = () => {
                       size="sm"
                     >
                       <RefreshCw className="h-4 w-4 mr-2" />
-                      {t('Aggiorna')}
+                      {t('whatsappCenter.sendNotifications.refresh')}
                     </Button>
                   </div>
                   
                   {/* Raggruppa per campagna */}
                   {Object.entries(
                     marketingMessages.reduce((acc: Record<string, any[]>, msg) => {
-                      const campaign = msg.campaignName || 'Senza nome';
+                      const campaign = msg.campaignName || t('whatsappCenter.marketing.noName');
                       if (!acc[campaign]) acc[campaign] = [];
                       acc[campaign].push(msg);
                       return acc;
@@ -1388,7 +1388,7 @@ const WhatsAppCenterPage: React.FC = () => {
                               {campaignName}
                             </CardTitle>
                             <CardDescription>
-                              {messages.length} {messages.length === 1 ? 'messaggio' : 'messaggi'}
+                              {messages.length} {messages.length === 1 ? t('whatsappCenter.marketing.message') : t('whatsappCenter.marketing.messages')}
                             </CardDescription>
                           </div>
                           <Button
@@ -1412,7 +1412,7 @@ const WhatsAppCenterPage: React.FC = () => {
                             className="ml-4"
                           >
                             <Send className="h-4 w-4 mr-2" />
-                            {t('Invia in sequenza')}
+                            {t('whatsappCenter.sendNotifications.sendSequence')}
                           </Button>
                         </div>
                       </CardHeader>
@@ -1440,7 +1440,7 @@ const WhatsAppCenterPage: React.FC = () => {
                               }}
                             >
                               <Send className="h-4 w-4 mr-1" />
-                              {t('Invia')}
+                              {t('whatsappCenter.sendNotifications.send')}
                             </Button>
                           </div>
                         ))}
@@ -1462,9 +1462,9 @@ const WhatsAppCenterPage: React.FC = () => {
             <div className="p-4 bg-primary text-white flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-bold">
-                  {isSequenceRunning ? t('Invio in sequenza') : t('Link WhatsApp')}
+                  {isSequenceRunning ? t('whatsappCenter.linkModal.sequentialSend') : t('whatsappCenter.linkModal.whatsappLinks')}
                 </h3>
-                <p className="text-sm">{t('Contatto')} {currentLinkIndex + 1} di {generatedLinks.length}</p>
+                <p className="text-sm">{t('whatsappCenter.linkModal.contact')} {currentLinkIndex + 1} {t('whatsappCenter.linkModal.of')} {generatedLinks.length}</p>
               </div>
               <Badge variant="secondary">
                 {Math.round((currentLinkIndex + 1) / generatedLinks.length * 100)}%
@@ -1485,14 +1485,14 @@ const WhatsAppCenterPage: React.FC = () => {
                 </p>
                 {isSequenceRunning && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    {t('WhatsApp si è aperto in una nuova finestra')}
+                    {t('whatsappCenter.linkModal.whatsappOpened')}
                   </p>
                 )}
               </div>
               
               {isSequenceRunning ? (
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm text-center">{t('Dopo aver inviato il messaggio:')}</p>
+                  <p className="text-sm text-center">{t('whatsappCenter.linkModal.afterSending')}</p>
                   <Button
                     onClick={goToNextSequentialLink}
                     size="lg"
@@ -1500,8 +1500,8 @@ const WhatsAppCenterPage: React.FC = () => {
                   >
                     <Send className="h-4 w-4 mr-1" />
                     {currentLinkIndex < generatedLinks.length - 1 
-                      ? t('Vai al prossimo contatto') 
-                      : t('Termina invio')}
+                      ? t('whatsappCenter.linkModal.nextContact') 
+                      : t('whatsappCenter.linkModal.finishSend')}
                   </Button>
                 </div>
               ) : (
@@ -1512,7 +1512,7 @@ const WhatsAppCenterPage: React.FC = () => {
                     className="flex-1"
                   >
                     <Send className="h-4 w-4 mr-1" />
-                    {t('Apri WhatsApp')}
+                    {t('whatsappCenter.linkModal.openWhatsApp')}
                   </Button>
                   
                   <Button
@@ -1521,7 +1521,7 @@ const WhatsAppCenterPage: React.FC = () => {
                     size="sm"
                     className="flex-1"
                   >
-                    {currentLinkIndex < generatedLinks.length - 1 ? t('Prossimo') : t('Termina')}
+                    {currentLinkIndex < generatedLinks.length - 1 ? t('whatsappCenter.linkModal.next') : t('whatsappCenter.linkModal.finish')}
                   </Button>
                   
                   <Button
