@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 export default function StaffLogin() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -167,10 +169,10 @@ export default function StaffLogin() {
       }, 100);
     },
     onError: (error: Error) => {
-      setError(error.message || "Si è verificato un errore durante l'accesso");
+      setError(error.message || t('staffLoginPage.errorOccurred'));
       toast({
-        title: "Errore di accesso",
-        description: error.message || "Si è verificato un errore durante l'accesso",
+        title: t('staffLoginPage.loginError'),
+        description: error.message || t('staffLoginPage.errorOccurred'),
         variant: "destructive",
       });
     }
@@ -182,7 +184,7 @@ export default function StaffLogin() {
     
     // Verifica che tutti i campi siano compilati
     if (!username || !password) {
-      setError("Inserisci sia username che password");
+      setError(t('staffLoginPage.enterCredentials'));
       return;
     }
     
@@ -204,12 +206,12 @@ export default function StaffLogin() {
         <Card className="w-full shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              {isAdminLogin ? "Accesso Amministratore" : "Accesso Staff"}
+              {isAdminLogin ? t('staffLoginPage.adminTitle') : t('staffLoginPage.title')}
             </CardTitle>
             <CardDescription className="text-center">
               {isAdminLogin 
-                ? "Accedi con le credenziali di amministratore" 
-                : "Accedi al pannello di amministrazione"}
+                ? t('staffLoginPage.adminDescription')
+                : t('staffLoginPage.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -217,28 +219,28 @@ export default function StaffLogin() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Errore</AlertTitle>
+                  <AlertTitle>{t('staffLoginPage.error')}</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">{t('staffLoginPage.username')}</Label>
                 <Input
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Inserisci il tuo username"
+                  placeholder={t('staffLoginPage.usernamePlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t('staffLoginPage.password')}</Label>
                 <PasswordInput
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Inserisci la tua password"
+                  placeholder={t('staffLoginPage.passwordPlaceholder')}
                 />
               </div>
               
@@ -252,7 +254,7 @@ export default function StaffLogin() {
                   htmlFor="rememberMe"
                   className="text-sm font-normal cursor-pointer"
                 >
-                  Ricorda il mio account
+                  {t('staffLoginPage.rememberMe')}
                 </Label>
               </div>
               
@@ -262,7 +264,7 @@ export default function StaffLogin() {
                 disabled={loginMutation.isPending}
               >
                 {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                {loginMutation.isPending ? "Accesso in corso..." : "Accedi"}
+                {loginMutation.isPending ? t('staffLoginPage.loggingIn') : t('staffLoginPage.login')}
               </Button>
             </form>
           </CardContent>
@@ -273,7 +275,7 @@ export default function StaffLogin() {
               onClick={() => navigate("/forgot-password")}
               className="text-sm text-primary hover:underline w-full text-center"
             >
-              Ho dimenticato la password
+              {t('staffLoginPage.forgotPassword')}
             </button>
             
             {/* Pulsante per pulire cache manualmente (utile per app WebView) */}
@@ -285,22 +287,22 @@ export default function StaffLogin() {
               onClick={handleClearCache}
             >
               {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
-              {isClearing ? "Pulizia in corso..." : "🧹 Pulisci Cache App"}
+              {isClearing ? t('staffLoginPage.clearing') : `🧹 ${t('staffLoginPage.clearCache')}`}
             </Button>
             <p className="text-xs text-muted-foreground text-center">
-              Usa questo pulsante se vedi dati di altri utenti
+              {t('staffLoginPage.clearCacheHint')}
             </p>
             
             <div className="text-sm text-gray-600 text-center pt-2 border-t">
-              <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
+              <div>{t('staffLoginPage.noAccount')} <a href="/register" className="text-primary hover:underline">{t('staffLoginPage.register')}</a></div>
               <div className="pt-2">
                 <span className="text-muted-foreground">
-                  Sei un professionista? {" "}
+                  {t('staffLoginPage.areProfessional')} {" "}
                   <button
                     onClick={() => navigate("/customer-login")}
                     className="text-primary hover:underline"
                   >
-                    Accedi come Professionista
+                    {t('staffLoginPage.loginAsProfessional')}
                   </button>
                 </span>
               </div>
@@ -311,10 +313,10 @@ export default function StaffLogin() {
         {/* Sezione informativa */}
         <div className="hidden md:block p-6">
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            Pannello di Amministrazione
+            {t('staffLoginPage.adminPanel')}
           </h2>
           <p className="text-lg mb-6">
-            Gestisci la tua attività da un'unica interfaccia:
+            {t('staffLoginPage.adminPanelDesc')}
           </p>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -323,7 +325,7 @@ export default function StaffLogin() {
                   <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span>Calendario degli appuntamenti</span>
+              <span>{t('staffLoginPage.featureCalendar')}</span>
             </li>
             <li className="flex items-start">
               <div className="mr-2 rounded-full bg-primary/10 p-1 text-primary">
@@ -331,7 +333,7 @@ export default function StaffLogin() {
                   <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span>Gestione clienti</span>
+              <span>{t('staffLoginPage.featureClients')}</span>
             </li>
             <li className="flex items-start">
               <div className="mr-2 rounded-full bg-primary/10 p-1 text-primary">
@@ -339,7 +341,7 @@ export default function StaffLogin() {
                   <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span>Fatturazione e pagamenti</span>
+              <span>{t('staffLoginPage.featureBilling')}</span>
             </li>
             <li className="flex items-start">
               <div className="mr-2 rounded-full bg-primary/10 p-1 text-primary">
@@ -347,11 +349,11 @@ export default function StaffLogin() {
                   <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span>Invio notifiche e promemoria</span>
+              <span>{t('staffLoginPage.featureNotifications')}</span>
             </li>
           </ul>
           <div className="mt-6 text-sm text-muted-foreground">
-            Accesso riservato agli utenti staff e amministratori.
+            {t('staffLoginPage.accessRestricted')}
           </div>
         </div>
       </div>
