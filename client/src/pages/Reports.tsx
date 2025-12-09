@@ -178,11 +178,11 @@ function ReportsContent() {
     if (reportType === "weekly") {
       const weekStart = startOfWeek(selectedDate, { locale: getDateLocale(i18n.language) });
       const weekEnd = endOfWeek(selectedDate, { locale: getDateLocale(i18n.language) });
-      return `${t('reports.week', 'Settimana')} ${format(weekStart, 'd MMM', { locale: getDateLocale(i18n.language) })} - ${format(weekEnd, 'd MMM yyyy', { locale: getDateLocale(i18n.language) })}`;
+      return `${t('reports.week')} ${format(weekStart, 'd MMM', { locale: getDateLocale(i18n.language) })} - ${format(weekEnd, 'd MMM yyyy', { locale: getDateLocale(i18n.language) })}`;
     } else if (reportType === "monthly") {
       return format(selectedDate, 'MMMM yyyy', { locale: getDateLocale(i18n.language) });
     } else {
-      return `Anno ${selectedDate.getFullYear()}`;
+      return `${t('reports.year')} ${selectedDate.getFullYear()}`;
     }
   };
   
@@ -197,6 +197,8 @@ function ReportsContent() {
   // Generate PDF report
   const generatePdfReport = () => {
     const reportTitle = getReportTitle();
+    const periodColumnHeader = reportType === "weekly" ? t('reports.day') : reportType === "monthly" ? t('reports.date') : t('reports.month');
+    const dateLocale = i18n.language === 'it' ? 'it-IT' : i18n.language === 'de' ? 'de-DE' : i18n.language === 'es' ? 'es-ES' : i18n.language === 'fr' ? 'fr-FR' : i18n.language === 'nl' ? 'nl-NL' : i18n.language === 'no' ? 'nb-NO' : i18n.language === 'ro' ? 'ro-RO' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
     
     // Create printable version for download
     const printContent = `
@@ -222,25 +224,25 @@ function ReportsContent() {
           
           <div class="summary">
             <div class="summary-item">
-              <h3>Totale Appuntamenti</h3>
+              <h3>${t('reports.totalAppointments')}</h3>
               <p>${totalAppointments}</p>
             </div>
             <div class="summary-item">
-              <h3>Fatturato Totale</h3>
+              <h3>${t('reports.totalRevenue')}</h3>
               <p>${symbol}${totalRevenue.toFixed(2)}</p>
             </div>
             <div class="summary-item">
-              <h3>Media Giornaliera</h3>
+              <h3>${t('reports.dailyAverage')}</h3>
               <p>${avgAppointmentsPerDay.toFixed(1)}</p>
             </div>
           </div>
           
-          <h2>Dettaglio Appuntamenti</h2>
+          <h2>${t('reports.appointmentDetails')}</h2>
           <table class="data-table">
             <tr>
-              <th>${reportType === "weekly" ? "Giorno" : reportType === "monthly" ? "Data" : "Mese"}</th>
-              <th>Numero Appuntamenti</th>
-              <th>Fatturato</th>
+              <th>${periodColumnHeader}</th>
+              <th>${t('reports.numberOfAppointments')}</th>
+              <th>${t('reports.revenue')}</th>
             </tr>
             ${aggregatedData.map(data => `
               <tr>
@@ -251,12 +253,12 @@ function ReportsContent() {
             `).join('')}
           </table>
           
-          <h2>Dettaglio Servizi</h2>
+          <h2>${t('reports.serviceDetails')}</h2>
           <table class="data-table">
             <tr>
-              <th>Servizio</th>
-              <th>Numero Appuntamenti</th>
-              <th>Fatturato</th>
+              <th>${t('reports.service')}</th>
+              <th>${t('reports.numberOfAppointments')}</th>
+              <th>${t('reports.revenue')}</th>
             </tr>
             ${serviceData.map(service => `
               <tr>
@@ -268,7 +270,7 @@ function ReportsContent() {
           </table>
           
           <div class="date">
-            Generato il: ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}
+            ${t('reports.generatedOn')}: ${new Date().toLocaleDateString(dateLocale)} ${t('reports.at')} ${new Date().toLocaleTimeString(dateLocale)}
           </div>
         </body>
       </html>
@@ -305,15 +307,15 @@ function ReportsContent() {
           <TabsList>
             <TabsTrigger value="weekly">
               <Calendar className="h-4 w-4 mr-2" />
-              Settimanale
+              {t('reports.weekly')}
             </TabsTrigger>
             <TabsTrigger value="monthly">
               <Calendar className="h-4 w-4 mr-2" />
-              Mensile
+              {t('reports.monthly')}
             </TabsTrigger>
             <TabsTrigger value="yearly">
               <Calendar className="h-4 w-4 mr-2" />
-              Annuale
+              {t('reports.yearly')}
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -324,21 +326,21 @@ function ReportsContent() {
             size="sm"
             onClick={goToPrevious}
           >
-            Precedente
+            {t('reports.previous')}
           </Button>
           <Button 
             variant="outline" 
             size="sm"
             onClick={goToCurrent}
           >
-            Attuale
+            {t('reports.current')}
           </Button>
           <Button 
             variant="outline" 
             size="sm"
             onClick={goToNext}
           >
-            Successivo
+            {t('reports.next')}
           </Button>
         </div>
       </div>
@@ -362,7 +364,7 @@ function ReportsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Totale Appuntamenti
+                  {t('reports.totalAppointments')}
                 </CardTitle>
                 <UserCheck className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -370,8 +372,8 @@ function ReportsContent() {
                 <div className="text-2xl font-bold">{totalAppointments}</div>
                 <p className="text-xs text-muted-foreground">
                   {appointments.length === 0 
-                    ? "Nessun appuntamento nel periodo" 
-                    : `+${Math.round(totalAppointments / aggregatedData.length)} al giorno`}
+                    ? t('reports.noAppointmentsInPeriod') 
+                    : `+${Math.round(totalAppointments / aggregatedData.length)} ${t('reports.perDay')}`}
                 </p>
               </CardContent>
             </Card>
@@ -379,7 +381,7 @@ function ReportsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Fatturato Stimato
+                  {t('reports.estimatedRevenue')}
                 </CardTitle>
                 <BarChartIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -387,8 +389,8 @@ function ReportsContent() {
                 <div className="text-2xl font-bold">{symbol}{totalRevenue.toFixed(2)}</div>
                 <p className="text-xs text-muted-foreground">
                   {appointments.length === 0 
-                    ? "Nessun appuntamento nel periodo" 
-                    : `${symbol}${(totalRevenue / aggregatedData.length).toFixed(2)} al giorno`}
+                    ? t('reports.noAppointmentsInPeriod') 
+                    : `${symbol}${(totalRevenue / aggregatedData.length).toFixed(2)} ${t('reports.perDay')}`}
                 </p>
               </CardContent>
             </Card>
@@ -396,14 +398,14 @@ function ReportsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Media Giornaliera
+                  {t('reports.dailyAverage')}
                 </CardTitle>
                 <Clock className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{avgAppointmentsPerDay.toFixed(1)}</div>
                 <p className="text-xs text-muted-foreground">
-                  appuntamenti al giorno
+                  {t('reports.appointmentsPerDay')}
                 </p>
               </CardContent>
             </Card>
@@ -415,7 +417,7 @@ function ReportsContent() {
               {/* Appointments by Time Period */}
               <Card className="col-span-1">
                 <CardHeader>
-                  <CardTitle>Appuntamenti per {reportType === "weekly" ? "Giorno" : reportType === "monthly" ? "Data" : "Mese"}</CardTitle>
+                  <CardTitle>{t('reports.appointmentsBy')} {reportType === "weekly" ? t('reports.day') : reportType === "monthly" ? t('reports.date') : t('reports.month')}</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -433,13 +435,13 @@ function ReportsContent() {
                       <YAxis />
                       <Tooltip 
                         formatter={(value, name) => {
-                          if (name === "count") return [value, "Appuntamenti"];
-                          if (name === "revenue") return [`${symbol}${value}`, "Fatturato"];
+                          if (name === "count") return [value, t('reports.appointments')];
+                          if (name === "revenue") return [`${symbol}${value}`, t('reports.revenue')];
                           return [value, name];
                         }}
                       />
                       <Legend />
-                      <Bar dataKey="count" name="Appuntamenti" fill="#8884d8" />
+                      <Bar dataKey="count" name={t('reports.appointments')} fill="#8884d8" />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -448,7 +450,7 @@ function ReportsContent() {
               {/* Services Breakdown */}
               <Card className="col-span-1">
                 <CardHeader>
-                  <CardTitle>Distribuzione Servizi</CardTitle>
+                  <CardTitle>{t('reports.serviceDistribution')}</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -467,7 +469,7 @@ function ReportsContent() {
                         ))}
                       </Pie>
                       <Tooltip
-                        formatter={(value, name, props) => [`${value} appuntamenti`, props.payload.name]}
+                        formatter={(value, name, props) => [`${value} ${t('reports.appointments').toLowerCase()}`, props.payload.name]}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -477,7 +479,7 @@ function ReportsContent() {
               {/* Revenue Chart */}
               <Card className="col-span-1 lg:col-span-2">
                 <CardHeader>
-                  <CardTitle>Fatturato per {reportType === "weekly" ? "Giorno" : reportType === "monthly" ? "Data" : "Mese"}</CardTitle>
+                  <CardTitle>{t('reports.revenueBy')} {reportType === "weekly" ? t('reports.day') : reportType === "monthly" ? t('reports.date') : t('reports.month')}</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -494,10 +496,10 @@ function ReportsContent() {
                       <XAxis dataKey="name" />
                       <YAxis />
                       <Tooltip 
-                        formatter={(value) => [`${symbol}${value}`, "Fatturato"]}
+                        formatter={(value) => [`${symbol}${value}`, t('reports.revenue')]}
                       />
                       <Legend />
-                      <Bar dataKey="revenue" name="Fatturato" fill="#82ca9d" />
+                      <Bar dataKey="revenue" name={t('reports.revenue')} fill="#82ca9d" />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -506,9 +508,9 @@ function ReportsContent() {
           ) : (
             <div className="bg-white rounded-lg shadow-md p-8 text-center">
               <BarChartIcon className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-              <h3 className="text-lg font-medium text-gray-900 mb-1">Nessun dato per il periodo selezionato</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">{t('reports.noDataForPeriod')}</h3>
               <p className="text-gray-500 mb-4">
-                Non ci sono appuntamenti registrati per il periodo indicato.
+                {t('reports.noAppointmentsRegistered')}
               </p>
             </div>
           )}
