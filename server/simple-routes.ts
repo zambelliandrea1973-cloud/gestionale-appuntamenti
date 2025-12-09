@@ -1118,9 +1118,14 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   app.get("/api/license/has-pro-access", (req, res) => {
-    if (!req.isAuthenticated()) return res.json(false);
+    if (!req.isAuthenticated()) {
+      console.log('🔐 [has-pro-access] Utente NON autenticato - return false');
+      return res.json(false);
+    }
     const user = req.user as any;
-    res.json(user.type === 'admin' || user.type === 'staff' || user.type === 'customer');
+    const hasAccess = user.type === 'admin' || user.type === 'staff' || user.type === 'customer';
+    console.log(`🔐 [has-pro-access] Utente ${user.id} (${user.type}) - hasAccess: ${hasAccess}`);
+    res.json(hasAccess);
   });
 
   app.get("/api/license/has-business-access", (req, res) => {
