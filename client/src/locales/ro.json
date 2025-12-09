@@ -1275,5 +1275,25 @@
       "loadError": "Imposibil de încărcat programările.",
       "loadMarketingError": "Imposibil de încărcat mesajele de marketing."
     }
+  },
+  "aiChat": {
+    "title": "Asistent AI",
+    "subtitle": "Cere-mi să generez mesaje, să caut informații sau să îți dau sugestii pentru afacerea ta",
+    "welcome": "Bine ai venit la Asistentul AI",
+    "tryAsking": "Încearcă să întrebi:",
+    "example1": "Generează un mesaj de reamintire pentru mâine",
+    "example2": "Sugerează-mi cum să gestionez mai bine programările",
+    "example3": "Caută informații despre tehnici de fizioterapie",
+    "error": "Eroare",
+    "errorMessage": "Nu se poate comunica cu AI. Încearcă din nou.",
+    "messageApproved": "Mesaj aprobat",
+    "messageApprovedDesc": "Mesajul a fost aprobat și poate fi trimis.",
+    "messageRejected": "Mesaj respins",
+    "messageRejectedDesc": "Poți cere AI-ului să genereze un mesaj nou.",
+    "previewTitle": "Mesaj generat - Necesită aprobare",
+    "recipient": "Destinatar",
+    "approveAndUse": "Aprobă și folosește",
+    "reject": "Respinge",
+    "placeholder": "Scrie mesajul tău..."
   }
 }

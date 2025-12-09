@@ -1275,5 +1275,25 @@
       "loadError": "Termine konnten nicht geladen werden.",
       "loadMarketingError": "Marketing-Nachrichten konnten nicht geladen werden."
     }
+  },
+  "aiChat": {
+    "title": "KI-Assistent",
+    "subtitle": "Bitten Sie mich, Nachrichten zu erstellen, Informationen zu suchen oder Ihnen Vorschläge für Ihr Geschäft zu machen",
+    "welcome": "Willkommen beim KI-Assistenten",
+    "tryAsking": "Versuchen Sie zu fragen:",
+    "example1": "Erstellen Sie eine Erinnerungsnachricht für morgen",
+    "example2": "Schlagen Sie vor, wie man Termine besser verwalten kann",
+    "example3": "Suchen Sie nach Informationen über Physiotherapietechniken",
+    "error": "Fehler",
+    "errorMessage": "Kommunikation mit KI nicht möglich. Bitte versuchen Sie es erneut.",
+    "messageApproved": "Nachricht genehmigt",
+    "messageApprovedDesc": "Die Nachricht wurde genehmigt und kann gesendet werden.",
+    "messageRejected": "Nachricht abgelehnt",
+    "messageRejectedDesc": "Sie können die KI bitten, eine neue Nachricht zu erstellen.",
+    "previewTitle": "Generierte Nachricht - Genehmigung erforderlich",
+    "recipient": "Empfänger",
+    "approveAndUse": "Genehmigen und verwenden",
+    "reject": "Ablehnen",
+    "placeholder": "Schreiben Sie Ihre Nachricht..."
   }
 }

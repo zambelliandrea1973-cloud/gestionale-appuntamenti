@@ -1275,5 +1275,25 @@
       "loadError": "Impossible de charger les rendez-vous.",
       "loadMarketingError": "Impossible de charger les messages marketing."
     }
+  },
+  "aiChat": {
+    "title": "Assistant IA",
+    "subtitle": "Demandez-moi de générer des messages, rechercher des informations ou vous donner des suggestions pour votre entreprise",
+    "welcome": "Bienvenue dans l'Assistant IA",
+    "tryAsking": "Essayez de demander :",
+    "example1": "Générer un message de rappel pour demain",
+    "example2": "Suggérez-moi comment mieux gérer les rendez-vous",
+    "example3": "Rechercher des informations sur les techniques de physiothérapie",
+    "error": "Erreur",
+    "errorMessage": "Impossible de communiquer avec l'IA. Veuillez réessayer.",
+    "messageApproved": "Message approuvé",
+    "messageApprovedDesc": "Le message a été approuvé et peut être envoyé.",
+    "messageRejected": "Message refusé",
+    "messageRejectedDesc": "Vous pouvez demander à l'IA de générer un nouveau message.",
+    "previewTitle": "Message généré - Approbation requise",
+    "recipient": "Destinataire",
+    "approveAndUse": "Approuver et utiliser",
+    "reject": "Refuser",
+    "placeholder": "Écrivez votre message..."
   }
 }

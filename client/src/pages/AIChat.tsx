@@ -21,8 +21,23 @@ interface MessagePreview {
   recipient?: string;
 }
 
+const getTimeLocale = (lang: string): string => {
+  const localeMap: Record<string, string> = {
+    'it': 'it-IT',
+    'en': 'en-US',
+    'de': 'de-DE',
+    'es': 'es-ES',
+    'fr': 'fr-FR',
+    'nl': 'nl-NL',
+    'no': 'nb-NO',
+    'ro': 'ro-RO',
+    'ru': 'ru-RU'
+  };
+  return localeMap[lang] || 'it-IT';
+};
+
 export default function AIChat() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -54,8 +69,8 @@ export default function AIChat() {
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Impossibile comunicare con l'AI. Riprova.",
+        title: t('aiChat.error'),
+        description: t('aiChat.errorMessage'),
         variant: "destructive"
       });
     }
@@ -79,16 +94,16 @@ export default function AIChat() {
 
   const handleApproveMessage = () => {
     toast({
-      title: "Messaggio approvato",
-      description: "Il messaggio è stato approvato e può essere inviato.",
+      title: t('aiChat.messageApproved'),
+      description: t('aiChat.messageApprovedDesc'),
     });
     setPreview(null);
   };
 
   const handleRejectMessage = () => {
     toast({
-      title: "Messaggio rifiutato",
-      description: "Puoi chiedere all'AI di generare un nuovo messaggio.",
+      title: t('aiChat.messageRejected'),
+      description: t('aiChat.messageRejectedDesc'),
     });
     setPreview(null);
   };
@@ -98,10 +113,10 @@ export default function AIChat() {
       <div className="mb-6">
         <h1 className="text-3xl font-bold flex items-center gap-2">
           <Bot className="h-8 w-8 text-purple-500" />
-          Assistente AI
+          {t('aiChat.title')}
         </h1>
         <p className="text-muted-foreground mt-2">
-          Chiedimi di generare messaggi, cercare informazioni o darti suggerimenti per il tuo business
+          {t('aiChat.subtitle')}
         </p>
       </div>
 
@@ -111,12 +126,12 @@ export default function AIChat() {
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
               <Bot className="h-16 w-16 mb-4 opacity-20" />
-              <p className="text-lg font-medium mb-2">Benvenuto nell'Assistente AI</p>
-              <p className="text-sm">Prova a chiedere:</p>
+              <p className="text-lg font-medium mb-2">{t('aiChat.welcome')}</p>
+              <p className="text-sm">{t('aiChat.tryAsking')}</p>
               <ul className="text-sm mt-2 space-y-1">
-                <li>• "Genera un messaggio di promemoria per domani"</li>
-                <li>• "Suggeriscimi come gestire meglio gli appuntamenti"</li>
-                <li>• "Cerca informazioni su tecniche di fisioterapia"</li>
+                <li>• "{t('aiChat.example1')}"</li>
+                <li>• "{t('aiChat.example2')}"</li>
+                <li>• "{t('aiChat.example3')}"</li>
               </ul>
             </div>
           ) : (
@@ -142,7 +157,7 @@ export default function AIChat() {
                   >
                     <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                     <p className="text-xs opacity-70 mt-1">
-                      {msg.timestamp.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}
+                      {msg.timestamp.toLocaleTimeString(getTimeLocale(i18n.language), { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
                   {msg.role === 'user' && (
@@ -182,11 +197,11 @@ export default function AIChat() {
           <div className="flex items-start gap-3">
             <div className="flex-1">
               <p className="font-medium text-sm mb-2">
-                ⚠️ Messaggio generato - Richiede approvazione
+                ⚠️ {t('aiChat.previewTitle')}
               </p>
               {preview.recipient && (
                 <p className="text-sm text-muted-foreground mb-2">
-                  Destinatario: {preview.recipient}
+                  {t('aiChat.recipient')}: {preview.recipient}
                 </p>
               )}
               <div className="bg-white dark:bg-gray-900 rounded p-3 mb-3">
@@ -200,7 +215,7 @@ export default function AIChat() {
                   data-testid="button-approve-message"
                 >
                   <CheckCircle className="h-4 w-4" />
-                  Approva e usa
+                  {t('aiChat.approveAndUse')}
                 </Button>
                 <Button
                   size="sm"
@@ -210,7 +225,7 @@ export default function AIChat() {
                   data-testid="button-reject-message"
                 >
                   <XCircle className="h-4 w-4" />
-                  Rifiuta
+                  {t('aiChat.reject')}
                 </Button>
               </div>
             </div>
@@ -224,7 +239,7 @@ export default function AIChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-          placeholder="Scrivi il tuo messaggio..."
+          placeholder={t('aiChat.placeholder')}
           disabled={chatMutation.isPending}
           data-testid="input-chat-message"
         />

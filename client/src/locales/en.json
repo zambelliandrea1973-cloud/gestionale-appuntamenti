@@ -1275,5 +1275,25 @@
       "loadError": "Unable to load appointments.",
       "loadMarketingError": "Unable to load marketing messages."
     }
+  },
+  "aiChat": {
+    "title": "AI Assistant",
+    "subtitle": "Ask me to generate messages, search for information or give you suggestions for your business",
+    "welcome": "Welcome to the AI Assistant",
+    "tryAsking": "Try asking:",
+    "example1": "Generate a reminder message for tomorrow",
+    "example2": "Suggest how to better manage appointments",
+    "example3": "Search for information on physiotherapy techniques",
+    "error": "Error",
+    "errorMessage": "Unable to communicate with AI. Please try again.",
+    "messageApproved": "Message approved",
+    "messageApprovedDesc": "The message has been approved and can be sent.",
+    "messageRejected": "Message rejected",
+    "messageRejectedDesc": "You can ask the AI to generate a new message.",
+    "previewTitle": "Generated message - Requires approval",
+    "recipient": "Recipient",
+    "approveAndUse": "Approve and use",
+    "reject": "Reject",
+    "placeholder": "Write your message..."
   }
 }

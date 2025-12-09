@@ -1275,5 +1275,25 @@
       "loadError": "No se pudieron cargar las citas.",
       "loadMarketingError": "No se pudieron cargar los mensajes de marketing."
     }
+  },
+  "aiChat": {
+    "title": "Asistente IA",
+    "subtitle": "Pídeme que genere mensajes, busque información o te dé sugerencias para tu negocio",
+    "welcome": "Bienvenido al Asistente IA",
+    "tryAsking": "Intenta preguntar:",
+    "example1": "Genera un mensaje de recordatorio para mañana",
+    "example2": "Sugiéreme cómo gestionar mejor las citas",
+    "example3": "Busca información sobre técnicas de fisioterapia",
+    "error": "Error",
+    "errorMessage": "No se puede comunicar con la IA. Inténtalo de nuevo.",
+    "messageApproved": "Mensaje aprobado",
+    "messageApprovedDesc": "El mensaje ha sido aprobado y puede ser enviado.",
+    "messageRejected": "Mensaje rechazado",
+    "messageRejectedDesc": "Puedes pedir a la IA que genere un nuevo mensaje.",
+    "previewTitle": "Mensaje generado - Requiere aprobación",
+    "recipient": "Destinatario",
+    "approveAndUse": "Aprobar y usar",
+    "reject": "Rechazar",
+    "placeholder": "Escribe tu mensaje..."
   }
 }

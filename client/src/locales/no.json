@@ -1275,5 +1275,25 @@
       "loadError": "Kan ikke laste avtaler.",
       "loadMarketingError": "Kan ikke laste markedsføringsmeldinger."
     }
+  },
+  "aiChat": {
+    "title": "AI-Assistent",
+    "subtitle": "Be meg om å generere meldinger, søke etter informasjon eller gi deg forslag til din virksomhet",
+    "welcome": "Velkommen til AI-Assistenten",
+    "tryAsking": "Prøv å spørre:",
+    "example1": "Generer en påminnelsesmelding for i morgen",
+    "example2": "Foreslå hvordan jeg kan håndtere avtaler bedre",
+    "example3": "Søk etter informasjon om fysioterapiteknikker",
+    "error": "Feil",
+    "errorMessage": "Kan ikke kommunisere med AI. Prøv igjen.",
+    "messageApproved": "Melding godkjent",
+    "messageApprovedDesc": "Meldingen er godkjent og kan sendes.",
+    "messageRejected": "Melding avvist",
+    "messageRejectedDesc": "Du kan be AI om å generere en ny melding.",
+    "previewTitle": "Generert melding - Krever godkjenning",
+    "recipient": "Mottaker",
+    "approveAndUse": "Godkjenn og bruk",
+    "reject": "Avvis",
+    "placeholder": "Skriv din melding..."
   }
 }

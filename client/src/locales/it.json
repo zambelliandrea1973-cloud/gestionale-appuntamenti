@@ -1275,5 +1275,25 @@
       "loadError": "Impossibile caricare gli appuntamenti.",
       "loadMarketingError": "Impossibile caricare i messaggi marketing."
     }
+  },
+  "aiChat": {
+    "title": "Assistente AI",
+    "subtitle": "Chiedimi di generare messaggi, cercare informazioni o darti suggerimenti per il tuo business",
+    "welcome": "Benvenuto nell'Assistente AI",
+    "tryAsking": "Prova a chiedere:",
+    "example1": "Genera un messaggio di promemoria per domani",
+    "example2": "Suggeriscimi come gestire meglio gli appuntamenti",
+    "example3": "Cerca informazioni su tecniche di fisioterapia",
+    "error": "Errore",
+    "errorMessage": "Impossibile comunicare con l'AI. Riprova.",
+    "messageApproved": "Messaggio approvato",
+    "messageApprovedDesc": "Il messaggio è stato approvato e può essere inviato.",
+    "messageRejected": "Messaggio rifiutato",
+    "messageRejectedDesc": "Puoi chiedere all'AI di generare un nuovo messaggio.",
+    "previewTitle": "Messaggio generato - Richiede approvazione",
+    "recipient": "Destinatario",
+    "approveAndUse": "Approva e usa",
+    "reject": "Rifiuta",
+    "placeholder": "Scrivi il tuo messaggio..."
   }
 }

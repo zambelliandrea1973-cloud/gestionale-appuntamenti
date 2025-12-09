@@ -1275,5 +1275,25 @@
       "loadError": "Kan afspraken niet laden.",
       "loadMarketingError": "Kan marketingberichten niet laden."
     }
+  },
+  "aiChat": {
+    "title": "AI-Assistent",
+    "subtitle": "Vraag me om berichten te genereren, informatie te zoeken of suggesties te geven voor uw bedrijf",
+    "welcome": "Welkom bij de AI-Assistent",
+    "tryAsking": "Probeer te vragen:",
+    "example1": "Genereer een herinneringsbericht voor morgen",
+    "example2": "Stel voor hoe ik afspraken beter kan beheren",
+    "example3": "Zoek informatie over fysiotherapietechnieken",
+    "error": "Fout",
+    "errorMessage": "Kan niet communiceren met AI. Probeer het opnieuw.",
+    "messageApproved": "Bericht goedgekeurd",
+    "messageApprovedDesc": "Het bericht is goedgekeurd en kan worden verzonden.",
+    "messageRejected": "Bericht afgewezen",
+    "messageRejectedDesc": "U kunt de AI vragen om een nieuw bericht te genereren.",
+    "previewTitle": "Gegenereerd bericht - Goedkeuring vereist",
+    "recipient": "Ontvanger",
+    "approveAndUse": "Goedkeuren en gebruiken",
+    "reject": "Afwijzen",
+    "placeholder": "Schrijf uw bericht..."
   }
 }
