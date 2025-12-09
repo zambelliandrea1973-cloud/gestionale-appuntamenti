@@ -40,23 +40,23 @@ import { useCapabilities } from "@/hooks/use-capabilities";
 import { useCurrency } from "@/hooks/use-currency";
 import { UpgradePrompt } from "@/components/UpgradePrompt";
 
-// Form schemas
-const categorySchema = z.object({
-  name: z.string().min(1, "Nome categoria richiesto"),
+// Schema factory functions (defined outside component for reuse)
+const createCategorySchema = (t: (key: string) => string) => z.object({
+  name: z.string().min(1, t('proPages.categoryRequired')),
   description: z.string().optional(),
   color: z.string().default("#3f51b5"),
 });
 
-const productSchema = z.object({
+const createProductSchema = (t: (key: string) => string) => z.object({
   categoryId: z.number().optional(),
-  name: z.string().min(1, "Nome prodotto richiesto"),
+  name: z.string().min(1, t('proPages.productRequired')),
   description: z.string().optional(),
   sku: z.string().optional(),
   barcode: z.string().optional(),
-  price: z.number().min(0, "Prezzo deve essere positivo").optional(),
-  cost: z.number().min(0, "Costo deve essere positivo").optional(),
-  currentStock: z.number().min(0, "Stock deve essere positivo").optional(),
-  minStock: z.number().min(0, "Stock minimo deve essere positivo").optional(),
+  price: z.number().min(0, t('proPages.pricePositive')).optional(),
+  cost: z.number().min(0, t('proPages.costPositive')).optional(),
+  currentStock: z.number().min(0, t('proPages.stockPositive')).optional(),
+  minStock: z.number().min(0, t('proPages.minStockPositive')).optional(),
   maxStock: z.number().optional(),
   unit: z.string().default("pz"),
   supplier: z.string().optional(),
@@ -64,29 +64,35 @@ const productSchema = z.object({
   location: z.string().optional(),
 });
 
-const stockMovementSchema = z.object({
+const createStockMovementSchema = (t: (key: string) => string) => z.object({
   productId: z.number(),
   movementType: z.enum(["IN", "OUT", "ADJUSTMENT", "SALE", "WASTE"]),
-  quantity: z.number().min(1, "Quantità deve essere positiva"),
-  unitPrice: z.number().min(0, "Prezzo deve essere positivo"),
+  quantity: z.number().min(1, t('proPages.quantityPositive')),
+  unitPrice: z.number().min(0, t('proPages.pricePositive')),
   reason: z.string().optional(),
   reference: z.string().optional(),
   staffMember: z.string().optional(),
   notes: z.string().optional(),
 });
 
-const saleSchema = z.object({
+const createSaleSchema = (t: (key: string) => string) => z.object({
   productId: z.number(),
   clientId: z.number().optional(),
-  quantity: z.number().min(1, "Quantità deve essere positiva"),
-  unitPrice: z.number().min(0, "Prezzo deve essere positivo"),
-  discountPercent: z.number().min(0).max(100, "Sconto massimo 100%").default(0),
+  quantity: z.number().min(1, t('proPages.quantityPositive')),
+  unitPrice: z.number().min(0, t('proPages.pricePositive')),
+  discountPercent: z.number().min(0).max(100, t('proPages.maxDiscount')).default(0),
   staffMember: z.string().optional(),
   notes: z.string().optional(),
 });
 
 export default function Inventory() {
   const { t } = useTranslation();
+  
+  // Create translated schemas
+  const categorySchema = createCategorySchema(t);
+  const productSchema = createProductSchema(t);
+  const stockMovementSchema = createStockMovementSchema(t);
+  const saleSchema = createSaleSchema(t);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { hasCapability, getUpgradeMessage } = useCapabilities();
@@ -141,7 +147,7 @@ export default function Inventory() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/categories"] });
-      toast({ title: "Categoria creata con successo" });
+      toast({ title: t('proPages.categoryCreated') });
     },
   });
   
@@ -153,8 +159,8 @@ export default function Inventory() {
     // Validate file type
     if (!file.type.startsWith('image/')) {
       toast({
-        title: "Tipo file non valido",
-        description: "Seleziona un'immagine (JPG, PNG, GIF, WEBP)",
+        title: t('proPages.invalidFileType'),
+        description: t('proPages.selectImage'),
         variant: "destructive"
       });
       return;
@@ -163,8 +169,8 @@ export default function Inventory() {
     // Validate file size (5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "File troppo grande",
-        description: "L'immagine deve essere massimo 5MB",
+        title: t('proPages.fileTooLarge'),
+        description: t('proPages.maxImageSize'),
         variant: "destructive"
       });
       return;
@@ -195,8 +201,8 @@ export default function Inventory() {
     
     if (!file.type.startsWith('image/')) {
       toast({
-        title: "Tipo file non valido",
-        description: "Seleziona un'immagine (JPG, PNG, GIF, WEBP)",
+        title: t('proPages.invalidFileType'),
+        description: t('proPages.selectImage'),
         variant: "destructive"
       });
       return;
@@ -204,8 +210,8 @@ export default function Inventory() {
     
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "File troppo grande",
-        description: "L'immagine deve essere massimo 5MB",
+        title: t('proPages.fileTooLarge'),
+        description: t('proPages.maxImageSize'),
         variant: "destructive"
       });
       return;
@@ -246,10 +252,10 @@ export default function Inventory() {
             credentials: 'include'
           });
         } catch (error) {
-          console.error("Errore upload immagine:", error);
+          console.error("Image upload error:", error);
           toast({
-            title: "Prodotto creato, ma errore upload immagine",
-            description: "Puoi modificare il prodotto per aggiungere l'immagine",
+            title: t('proPages.productCreatedImageError'),
+            description: t('proPages.canAddImageLater'),
             variant: "destructive"
           });
         }
@@ -257,16 +263,16 @@ export default function Inventory() {
       
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
-      toast({ title: "Prodotto creato con successo" });
+      toast({ title: t('inventory.toast.created') });
       productForm.reset();
       removeProductImage();
       setProductDialogOpen(false);
     },
     onError: (error: any) => {
-      console.error("Errore creazione prodotto:", error);
+      console.error("Product creation error:", error);
       toast({ 
-        title: "Errore nella creazione del prodotto", 
-        description: error.message || "Errore sconosciuto",
+        title: t('proPages.productCreateError'), 
+        description: error.message || t('proPages.unknownError'),
         variant: "destructive"
       });
     },
@@ -290,21 +296,21 @@ export default function Inventory() {
             credentials: 'include'
           });
         } catch (error) {
-          console.error("Errore upload immagine:", error);
+          console.error("Image upload error:", error);
         }
       }
       
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
-      toast({ title: "Prodotto modificato con successo" });
+      toast({ title: t('inventory.toast.updated') });
       setEditProductDialogOpen(false);
       setEditingProduct(null);
       removeEditProductImage();
     },
     onError: (error: any) => {
       toast({ 
-        title: "Errore nella modifica del prodotto", 
-        description: error.message || "Errore sconosciuto",
+        title: t('proPages.productUpdateError'), 
+        description: error.message || t('proPages.unknownError'),
         variant: "destructive"
       });
     },
@@ -318,12 +324,12 @@ export default function Inventory() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
-      toast({ title: "Prodotto eliminato con successo" });
+      toast({ title: t('inventory.toast.deleted') });
     },
     onError: (error: any) => {
       toast({ 
-        title: "Errore nell'eliminazione del prodotto", 
-        description: error.message || "Errore sconosciuto",
+        title: t('proPages.productDeleteError'), 
+        description: error.message || t('proPages.unknownError'),
         variant: "destructive"
       });
     },
@@ -348,12 +354,12 @@ export default function Inventory() {
       setStockDialogProductId(null);
       movementForm.reset();
       
-      toast({ title: "Movimento di magazzino registrato" });
+      toast({ title: t('inventory.toast.stockUpdated') });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore nella registrazione del movimento",
-        description: error.message || "Errore sconosciuto",
+        title: t('inventory.toast.error'),
+        description: error.message || t('proPages.unknownError'),
         variant: "destructive"
       });
     },
@@ -378,7 +384,7 @@ export default function Inventory() {
       setSaleDialogProductId(null);
       saleForm.reset();
       
-      toast({ title: "Vendita registrata con successo" });
+      toast({ title: t('inventory.toast.saleRecorded') });
     },
   });
 
@@ -454,9 +460,9 @@ export default function Inventory() {
   });
 
   const getStockStatus = (product) => {
-    if (product.currentStock <= 0) return { status: "out", color: "destructive", text: "Esaurito" };
-    if (product.currentStock <= product.minStock) return { status: "low", color: "warning", text: "Scorte basse" };
-    return { status: "ok", color: "success", text: "Disponibile" };
+    if (product.currentStock <= 0) return { status: "out", color: "destructive", text: t('inventory.outOfStock') };
+    if (product.currentStock <= product.minStock) return { status: "low", color: "warning", text: t('inventory.lowStock') };
+    return { status: "ok", color: "success", text: t('inventory.available') };
   };
 
   // Se non ha accesso al Magazzino, mostra UI bloccata
@@ -467,16 +473,16 @@ export default function Inventory() {
           <Card className="border-2 border-orange-200 bg-orange-50/50">
             <CardContent className="text-center py-12">
               <Lock className="h-16 w-16 mx-auto text-orange-600 mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Magazzino Non Disponibile</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('inventory.locked.title')}</h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                La gestione del magazzino e inventario è disponibile solo nel piano <span className="font-bold text-orange-700">Business</span>.
+                {t('inventory.locked.description')} <span className="font-bold text-orange-700">{t('inventory.locked.businessPlan')}</span>.
               </p>
               <Button 
                 onClick={() => setShowUpgradePrompt(true)}
                 className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
                 data-testid="button-upgrade-warehouse"
               >
-                Passa a Business
+                {t('inventory.locked.upgradeToBusiness')}
               </Button>
             </CardContent>
           </Card>
@@ -502,12 +508,12 @@ export default function Inventory() {
             <DialogTrigger asChild>
               <Button>
                 <PackagePlus className="mr-2 h-4 w-4" />
-                Nuovo Prodotto
+                {t('inventory.newProduct')}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Aggiungi Nuovo Prodotto</DialogTitle>
+                <DialogTitle>{t('inventory.addNewProduct')}</DialogTitle>
               </DialogHeader>
               <Form {...productForm}>
                 <form onSubmit={productForm.handleSubmit((data) => {
@@ -531,7 +537,7 @@ export default function Inventory() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nome Prodotto</FormLabel>
+                          <FormLabel>{t('inventory.form.name')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -544,20 +550,20 @@ export default function Inventory() {
                       name="categoryId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Categoria</FormLabel>
+                          <FormLabel>{t('inventory.form.category')}</FormLabel>
                           <Select 
                             onValueChange={(value) => field.onChange(parseInt(value))}
                             value={field.value?.toString()}
                           >
                             <FormControl>
                               <SelectTrigger data-testid="select-category">
-                                <SelectValue placeholder={categories.length === 0 ? "Nessuna categoria disponibile" : "Seleziona categoria"} />
+                                <SelectValue placeholder={categories.length === 0 ? t('inventory.form.noCategories') : t('inventory.form.selectCategory')} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               {categories.length === 0 ? (
                                 <div className="p-2 text-sm text-muted-foreground">
-                                  Crea prima una categoria nella sezione Categorie
+                                  {t('inventory.form.createCategoryFirst')}
                                 </div>
                               ) : (
                                 categories.map((cat) => (
@@ -576,7 +582,7 @@ export default function Inventory() {
                   
                   {/* Product Image Upload */}
                   <div className="space-y-2">
-                    <Label>Immagine Prodotto (opzionale)</Label>
+                    <Label>{t('inventory.form.image')}</Label>
                     <div className="flex items-center gap-4">
                       <Input
                         ref={productImageInputRef}
@@ -593,7 +599,7 @@ export default function Inventory() {
                         data-testid="button-upload-product-image"
                       >
                         <ImageIcon className="h-4 w-4 mr-2" />
-                        {productImage ? 'Cambia Immagine' : 'Carica Immagine'}
+                        {productImage ? t('inventory.form.changeImage') : t('inventory.form.uploadImage')}
                       </Button>
                       {productImage && (
                         <Button
@@ -625,7 +631,7 @@ export default function Inventory() {
                       name="sku"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Codice interno</FormLabel>
+                          <FormLabel>{t('inventory.sku')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -638,7 +644,7 @@ export default function Inventory() {
                       name="barcode"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Codice a Barre</FormLabel>
+                          <FormLabel>{t('inventory.barcode')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -678,7 +684,7 @@ export default function Inventory() {
                       name="price"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Prezzo di Vendita ({symbol})</FormLabel>
+                          <FormLabel>{t('inventory.form.price')} ({symbol})</FormLabel>
                           <FormControl>
                             <Input 
                               type="number" 
@@ -700,7 +706,7 @@ export default function Inventory() {
                       name="cost"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Costo di Acquisto ({symbol})</FormLabel>
+                          <FormLabel>{t('inventory.form.costPrice')} ({symbol})</FormLabel>
                           <FormControl>
                             <Input 
                               type="number" 
@@ -791,7 +797,7 @@ export default function Inventory() {
                       name="supplier"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Fornitore</FormLabel>
+                          <FormLabel>{t('inventory.form.supplier')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -804,9 +810,9 @@ export default function Inventory() {
                       name="location"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Posizione</FormLabel>
+                          <FormLabel>{t('inventory.form.location')}</FormLabel>
                           <FormControl>
-                            <Input {...field} placeholder="Es: Scaffale A1" />
+                            <Input {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -819,7 +825,7 @@ export default function Inventory() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Descrizione</FormLabel>
+                        <FormLabel>{t('inventory.form.description')}</FormLabel>
                         <FormControl>
                           <Textarea {...field} />
                         </FormControl>
@@ -829,7 +835,7 @@ export default function Inventory() {
                   />
                   
                   <Button type="submit" className="w-full" disabled={createProductMutation.isPending}>
-                    {createProductMutation.isPending ? "Creazione..." : "Crea Prodotto"}
+                    {createProductMutation.isPending ? t('inventory.saving') : t('inventory.newProduct')}
                   </Button>
                 </form>
               </Form>
@@ -840,7 +846,7 @@ export default function Inventory() {
           <Dialog open={editProductDialogOpen} onOpenChange={setEditProductDialogOpen}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Modifica Prodotto: {editingProduct?.name}</DialogTitle>
+                <DialogTitle>{t('inventory.editProduct')}: {editingProduct?.name}</DialogTitle>
               </DialogHeader>
               <Form {...editProductForm}>
                 <form onSubmit={editProductForm.handleSubmit((data) => {
@@ -859,7 +865,7 @@ export default function Inventory() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nome Prodotto</FormLabel>
+                          <FormLabel>{t('inventory.form.name')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -872,14 +878,14 @@ export default function Inventory() {
                       name="categoryId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Categoria</FormLabel>
+                          <FormLabel>{t('inventory.form.category')}</FormLabel>
                           <Select 
                             onValueChange={(value) => field.onChange(parseInt(value))}
                             value={field.value?.toString()}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Seleziona categoria" />
+                                <SelectValue placeholder={t('inventory.form.selectCategory')} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -898,7 +904,7 @@ export default function Inventory() {
                   
                   {/* Edit Product Image Upload */}
                   <div className="space-y-2">
-                    <Label>Immagine Prodotto</Label>
+                    <Label>{t('inventory.form.image')}</Label>
                     <div className="flex items-center gap-4">
                       <Input
                         ref={editProductImageInputRef}
@@ -915,7 +921,7 @@ export default function Inventory() {
                         data-testid="button-edit-upload-product-image"
                       >
                         <ImageIcon className="h-4 w-4 mr-2" />
-                        {editProductImage ? 'Cambia Immagine' : editProductImagePreview ? 'Sostituisci Immagine' : 'Carica Immagine'}
+                        {editProductImage ? t('inventory.form.changeImage') : editProductImagePreview ? t('inventory.form.changeImage') : t('inventory.form.uploadImage')}
                       </Button>
                       {(editProductImage || editProductImagePreview) && (
                         <Button
@@ -947,7 +953,7 @@ export default function Inventory() {
                       name="price"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Prezzo di Vendita ({symbol})</FormLabel>
+                          <FormLabel>{t('inventory.form.price')} ({symbol})</FormLabel>
                           <FormControl>
                             <Input 
                               type="text"
@@ -978,7 +984,7 @@ export default function Inventory() {
                       name="cost"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Costo di Acquisto ({symbol})</FormLabel>
+                          <FormLabel>{t('inventory.form.costPrice')} ({symbol})</FormLabel>
                           <FormControl>
                             <Input 
                               type="text"
@@ -1007,7 +1013,7 @@ export default function Inventory() {
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={updateProductMutation.isPending}>
-                    {updateProductMutation.isPending ? "Salvataggio..." : "Salva Modifiche"}
+                    {updateProductMutation.isPending ? t('inventory.saving') : t('inventory.saveChanges')}
                   </Button>
                 </form>
               </Form>
@@ -1020,7 +1026,7 @@ export default function Inventory() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prodotti Totali</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('inventory.dashboard.totalProducts')}</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -1030,7 +1036,7 @@ export default function Inventory() {
         
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Scorte Basse</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('inventory.dashboard.lowStock')}</CardTitle>
             <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
@@ -1040,7 +1046,7 @@ export default function Inventory() {
         
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Valore Magazzino</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('inventory.dashboard.warehouseValue')}</CardTitle>
             <TrendingUp className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
@@ -1052,7 +1058,7 @@ export default function Inventory() {
         
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categorie</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('inventory.dashboard.categories')}</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -1067,7 +1073,7 @@ export default function Inventory() {
           <CardHeader>
             <CardTitle className="text-destructive flex items-center">
               <AlertTriangle className="mr-2 h-5 w-5" />
-              Allarme Scorte Basse
+              {t('inventory.alert.lowStockAlert')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -1087,10 +1093,10 @@ export default function Inventory() {
 
       <Tabs defaultValue="products" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="products">Prodotti</TabsTrigger>
-          <TabsTrigger value="movements">Movimenti</TabsTrigger>
-          <TabsTrigger value="sales">Vendite</TabsTrigger>
-          <TabsTrigger value="categories">Categorie</TabsTrigger>
+          <TabsTrigger value="products">{t('inventory.tabs.products')}</TabsTrigger>
+          <TabsTrigger value="movements">{t('inventory.tabs.movements')}</TabsTrigger>
+          <TabsTrigger value="sales">{t('inventory.tabs.sales')}</TabsTrigger>
+          <TabsTrigger value="categories">{t('inventory.tabs.categories')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="products" className="space-y-4">
@@ -1099,7 +1105,7 @@ export default function Inventory() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Cerca per nome, SKU o codice a barre..."
+                placeholder={t('inventory.search.placeholder')}
                 className="pl-10"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -1110,7 +1116,7 @@ export default function Inventory() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tutte le categorie</SelectItem>
+                <SelectItem value="all">{t('inventory.search.allCategories')}</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id.toString()}>
                     {category.name}
@@ -1154,10 +1160,10 @@ export default function Inventory() {
                   
                   <CardContent className="space-y-3">
                     <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>Scorte: <strong>{product.currentStock} {product.unit}</strong></div>
-                      <div>Prezzo: <strong>{formatPrice(product.price)}</strong></div>
-                      <div>Costo: <strong>{formatPrice(product.cost)}</strong></div>
-                      <div>Min: <strong>{product.minStock} {product.unit}</strong></div>
+                      <div>{t('inventory.stock')}: <strong>{product.currentStock} {product.unit}</strong></div>
+                      <div>{t('inventory.price')}: <strong>{formatPrice(product.price)}</strong></div>
+                      <div>{t('inventory.cost')}: <strong>{formatPrice(product.cost)}</strong></div>
+                      <div>{t('inventory.min')}: <strong>{product.minStock} {product.unit}</strong></div>
                     </div>
                     
                     {product.location && (
@@ -1183,12 +1189,12 @@ export default function Inventory() {
                               }}
                             >
                               <Plus className="h-3 w-3 mr-1" />
-                              Carico
+                              {t('inventory.stock.load')}
                             </Button>
                           </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Carico Merce - {product.name}</DialogTitle>
+                            <DialogTitle>{t('inventory.stock.loadGoods')} - {product.name}</DialogTitle>
                           </DialogHeader>
                           <Form {...movementForm}>
                             <form onSubmit={movementForm.handleSubmit(
@@ -1202,8 +1208,8 @@ export default function Inventory() {
                               },
                               (errors) => {
                                 toast({
-                                  title: "Errore nel form",
-                                  description: "Controlla i campi inseriti",
+                                  title: t('inventory.formError'),
+                                  description: t('inventory.checkFields'),
                                   variant: "destructive"
                                 });
                               }
@@ -1214,7 +1220,7 @@ export default function Inventory() {
                                   name="quantity"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Quantità</FormLabel>
+                                      <FormLabel>{t('inventory.form.quantity')}</FormLabel>
                                       <FormControl>
                                         <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
                                       </FormControl>
@@ -1227,7 +1233,7 @@ export default function Inventory() {
                                   name="unitPrice"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Prezzo Unitario ({symbol})</FormLabel>
+                                      <FormLabel>{t('inventory.stock.unitPrice')} ({symbol})</FormLabel>
                                       <FormControl>
                                         <Input 
                                           type="number" 
@@ -1245,7 +1251,7 @@ export default function Inventory() {
                                   name="reference"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Riferimento (Fattura, etc.)</FormLabel>
+                                      <FormLabel>{t('inventory.stock.reference')}</FormLabel>
                                       <FormControl>
                                         <Input {...field} />
                                       </FormControl>
@@ -1254,7 +1260,7 @@ export default function Inventory() {
                                   )}
                                 />
                                 <Button type="submit" className="w-full" disabled={addStockMutation.isPending}>
-                                  {addStockMutation.isPending ? "Registrazione..." : "Registra Carico"}
+                                  {addStockMutation.isPending ? t('inventory.saving') : t('inventory.stock.registerLoad')}
                                 </Button>
                               </div>
                             </form>
@@ -1278,12 +1284,12 @@ export default function Inventory() {
                               }}
                             >
                               <ShoppingCart className="h-3 w-3 mr-1" />
-                              Vendi
+                              {t('inventory.stock.sell')}
                             </Button>
                           </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Registra Vendita - {product.name}</DialogTitle>
+                            <DialogTitle>{t('inventory.stock.registerSale')} - {product.name}</DialogTitle>
                           </DialogHeader>
                           <Form {...saleForm}>
                             <form onSubmit={saleForm.handleSubmit(
@@ -1305,8 +1311,8 @@ export default function Inventory() {
                               },
                               (errors) => {
                                 toast({
-                                  title: "Errore nel form",
-                                  description: "Controlla i campi inseriti",
+                                  title: t('inventory.formError'),
+                                  description: t('inventory.checkFields'),
                                   variant: "destructive"
                                 });
                               }
@@ -1317,11 +1323,11 @@ export default function Inventory() {
                                   name="clientId"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Cliente (opzionale)</FormLabel>
+                                      <FormLabel>{t('inventory.sale.clientOptional')}</FormLabel>
                                       <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString()}>
                                         <FormControl>
                                           <SelectTrigger>
-                                            <SelectValue placeholder="Seleziona cliente" />
+                                            <SelectValue placeholder={t('inventory.sale.selectClient')} />
                                           </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -1341,7 +1347,7 @@ export default function Inventory() {
                                   name="quantity"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Quantità</FormLabel>
+                                      <FormLabel>{t('inventory.form.quantity')}</FormLabel>
                                       <FormControl>
                                         <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
                                       </FormControl>
@@ -1354,7 +1360,7 @@ export default function Inventory() {
                                   name="unitPrice"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Prezzo Unitario ({symbol})</FormLabel>
+                                      <FormLabel>{t('inventory.stock.unitPrice')} ({symbol})</FormLabel>
                                       <FormControl>
                                         <Input 
                                           type="number" 
@@ -1372,7 +1378,7 @@ export default function Inventory() {
                                   name="discountPercent"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Sconto (%)</FormLabel>
+                                      <FormLabel>{t('inventory.sale.discount')}</FormLabel>
                                       <FormControl>
                                         <Input type="number" min="0" max="100" step="0.01" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value || "0"))} />
                                       </FormControl>
@@ -1381,7 +1387,7 @@ export default function Inventory() {
                                   )}
                                 />
                                 <Button type="submit" className="w-full" disabled={recordSaleMutation.isPending}>
-                                  {recordSaleMutation.isPending ? "Registrazione..." : "Registra Vendita"}
+                                  {recordSaleMutation.isPending ? t('inventory.saving') : t('inventory.stock.registerSaleBtn')}
                                 </Button>
                               </div>
                             </form>
@@ -1419,7 +1425,7 @@ export default function Inventory() {
                           data-testid={`button-edit-product-${product.id}`}
                         >
                           <Pencil className="h-3 w-3 mr-1" />
-                          Modifica
+                          {t('inventory.edit')}
                         </Button>
                         
                         <AlertDialog>
@@ -1434,19 +1440,18 @@ export default function Inventory() {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
+                              <AlertDialogTitle>{t('inventory.confirmDelete')}</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Sei sicuro di voler eliminare il prodotto "{product.name}"? 
-                                Questa azione non può essere annullata.
+                                {t('inventory.confirmDeleteDesc')} "{product.name}"? {t('inventory.cannotUndo')}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Annulla</AlertDialogCancel>
+                              <AlertDialogCancel>{t('inventory.cancel')}</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteProductMutation.mutate(product.id)}
                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                               >
-                                Elimina
+                                {t('inventory.delete')}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -1463,7 +1468,7 @@ export default function Inventory() {
         <TabsContent value="movements">
           <Card>
             <CardHeader>
-              <CardTitle>Movimenti di Magazzino Recenti</CardTitle>
+              <CardTitle>{t('inventory.movements.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -1497,10 +1502,10 @@ export default function Inventory() {
         <TabsContent value="sales">
           <Card>
             <CardHeader>
-              <CardTitle>Vendite Prodotti</CardTitle>
+              <CardTitle>{t('inventory.sales.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">Funzionalità vendite in sviluppo...</p>
+              <p className="text-muted-foreground">{t('inventory.sales.inDevelopment')}</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -1509,17 +1514,17 @@ export default function Inventory() {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Categorie Prodotti</CardTitle>
+                <CardTitle>{t('inventory.categories.title')}</CardTitle>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button>
                       <Plus className="mr-2 h-4 w-4" />
-                      Nuova Categoria
+                      {t('inventory.categories.newCategory')}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Crea Nuova Categoria</DialogTitle>
+                      <DialogTitle>{t('inventory.categories.addNewCategory')}</DialogTitle>
                     </DialogHeader>
                     <Form {...categoryForm}>
                       <form onSubmit={categoryForm.handleSubmit((data) => createCategoryMutation.mutate(data))} className="space-y-4">
@@ -1528,7 +1533,7 @@ export default function Inventory() {
                           name="name"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Nome Categoria</FormLabel>
+                              <FormLabel>{t('inventory.categories.name')}</FormLabel>
                               <FormControl>
                                 <Input {...field} />
                               </FormControl>
@@ -1541,7 +1546,7 @@ export default function Inventory() {
                           name="description"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Descrizione</FormLabel>
+                              <FormLabel>{t('inventory.form.description')}</FormLabel>
                               <FormControl>
                                 <Textarea {...field} />
                               </FormControl>
@@ -1554,7 +1559,7 @@ export default function Inventory() {
                           name="color"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Colore</FormLabel>
+                              <FormLabel>{t('inventory.categories.color')}</FormLabel>
                               <FormControl>
                                 <Input type="color" {...field} />
                               </FormControl>
@@ -1563,7 +1568,7 @@ export default function Inventory() {
                           )}
                         />
                         <Button type="submit" className="w-full">
-                          Crea Categoria
+                          {t('inventory.categories.create')}
                         </Button>
                       </form>
                     </Form>
@@ -1587,7 +1592,7 @@ export default function Inventory() {
                     <CardContent>
                       <p className="text-sm text-muted-foreground">{category.description}</p>
                       <p className="text-sm font-medium mt-2">
-                        {products.filter(p => p.categoryId === category.id).length} prodotti
+                        {products.filter(p => p.categoryId === category.id).length} {t('inventory.tabs.products').toLowerCase()}
                       </p>
                     </CardContent>
                   </Card>
