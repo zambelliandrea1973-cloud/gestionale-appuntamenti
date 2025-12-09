@@ -747,11 +747,46 @@
     "clientSecretDescription": "Få denne verdien fra Google Cloud-konsollen",
     "configHelp": "Hjelp med oppsett",
     "errors": {
-      "authorizationUrlFailed": "Kunne ikke generere autorisasjons-URL"
+      "authorizationUrlFailed": "Kunne ikke generere autorisasjons-URL",
+      "emailRequired": "Skriv inn Google-e-posten du vil synkronisere",
+      "popupBlocked": "Popup-vinduet ble blokkert. Deaktiver popup-blokkeren for dette nettstedet.",
+      "authError": "Feil under autorisasjon"
     },
     "success": {
       "settingsSaved": "Synkroniseringsinnstillinger lagret vellykket",
-      "authorizationComplete": "Google-kontoen din er vellykket tilkoblet"
+      "authorizationComplete": "Google-kontoen din er vellykket tilkoblet",
+      "connected": "Google Kalender tilkoblet"
+    },
+    "setup": {
+      "backToProFeatures": "Tilbake til PRO-funksjoner",
+      "syncTitle": "Synkroniser Google Kalender",
+      "syncDescription": "Legg automatisk til dine avtaler i Google Kalender",
+      "howItWorks": "Slik fungerer det:",
+      "step1Title": "Skriv inn din Google-e-postadresse",
+      "step1Desc": "E-posten du bruker for å få tilgang til Google Kalender",
+      "step2Title": "Klikk på \"Koble til Google\"",
+      "step2Desc": "Du autoriserer tilgang til kalenderen din",
+      "step3Title": "Aktiver synkronisering",
+      "step3Desc": "Fra nå av synkroniseres avtaler automatisk",
+      "emailLabel": "Google-e-post",
+      "emailPlaceholder": "eksempel@gmail.com",
+      "emailHint": "Må samsvare med e-posten til Google-kontoen din",
+      "connectButton": "Koble til Google",
+      "connecting": "Kobler til...",
+      "connectedSuccess": "Tilkoblet!",
+      "connectedEmail": "{{email}} er koblet til Google Kalender",
+      "enableSync": "Aktiver synkronisering",
+      "syncToGoogle": "Nye avtaler → Google Kalender",
+      "syncEnabled": "Synkronisering aktiv",
+      "syncEnabledDesc": "Nye avtaler legges automatisk til i Google Kalender",
+      "syncDisabled": "Synkronisering deaktivert",
+      "privacyTitle": "Personvernet ditt er beskyttet",
+      "privacyDesc": "Vi bruker Google OAuth - en sikker protokoll som ikke gir oss tilgang til passordet ditt. Du kan tilbakekalle tilgangen når som helst.",
+      "proFeatureTitle": "Google Kalender - PRO-funksjon",
+      "proFeatureDesc": "Synkroniser dine avtaler med Google Kalender",
+      "proOnlyMessage": "Denne funksjonen er kun tilgjengelig med PRO-abonnementet.",
+      "upgradeToPro": "Oppgrader til PRO",
+      "backToDashboard": "Tilbake til Dashboard"
     }
   },
   "errors": {

@@ -765,11 +765,46 @@
     "clientSecretDescription": "Obtenez cette valeur depuis la console Google Cloud",
     "configHelp": "Aide à la configuration",
     "errors": {
-      "authorizationUrlFailed": "Impossible de générer l'URL d'autorisation"
+      "authorizationUrlFailed": "Impossible de générer l'URL d'autorisation",
+      "emailRequired": "Entrez l'email Google que vous souhaitez synchroniser",
+      "popupBlocked": "Le popup a été bloqué. Désactivez le bloqueur de popups pour ce site.",
+      "authError": "Erreur lors de l'autorisation"
     },
     "success": {
       "settingsSaved": "Les paramètres de synchronisation ont été enregistrés avec succès",
-      "authorizationComplete": "Votre compte Google a été connecté avec succès"
+      "authorizationComplete": "Votre compte Google a été connecté avec succès",
+      "connected": "Google Agenda connecté avec succès"
+    },
+    "setup": {
+      "backToProFeatures": "Retour aux fonctionnalités PRO",
+      "syncTitle": "Synchroniser Google Agenda",
+      "syncDescription": "Ajoutez automatiquement vos rendez-vous à Google Agenda",
+      "howItWorks": "Comment ça marche :",
+      "step1Title": "Entrez votre adresse email Google",
+      "step1Desc": "L'email avec lequel vous accédez à Google Agenda",
+      "step2Title": "Cliquez sur \"Se connecter avec Google\"",
+      "step2Desc": "Vous autoriserez l'accès à votre agenda",
+      "step3Title": "Activez la synchronisation",
+      "step3Desc": "À partir de maintenant, les rendez-vous se synchroniseront automatiquement",
+      "emailLabel": "Email Google",
+      "emailPlaceholder": "exemple@gmail.com",
+      "emailHint": "Doit correspondre à l'email de votre compte Google",
+      "connectButton": "Se connecter avec Google",
+      "connecting": "Connexion en cours...",
+      "connectedSuccess": "Connecté avec succès !",
+      "connectedEmail": "{{email}} a été lié à Google Agenda",
+      "enableSync": "Activer la synchronisation",
+      "syncToGoogle": "Nouveaux rendez-vous → Google Agenda",
+      "syncEnabled": "Synchronisation active",
+      "syncEnabledDesc": "Les nouveaux rendez-vous seront automatiquement ajoutés à Google Agenda",
+      "syncDisabled": "Synchronisation désactivée",
+      "privacyTitle": "Votre vie privée est protégée",
+      "privacyDesc": "Nous utilisons OAuth de Google - un protocole sécurisé qui ne nous permet pas d'accéder à votre mot de passe. Vous pouvez révoquer l'accès à tout moment.",
+      "proFeatureTitle": "Google Agenda - Fonctionnalité PRO",
+      "proFeatureDesc": "Synchronisez vos rendez-vous avec Google Agenda",
+      "proOnlyMessage": "Cette fonctionnalité n'est disponible qu'avec le plan PRO.",
+      "upgradeToPro": "Passer à PRO",
+      "backToDashboard": "Retour au tableau de bord"
     }
   },
   "errors": {

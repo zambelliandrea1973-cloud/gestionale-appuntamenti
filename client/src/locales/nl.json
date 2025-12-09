@@ -747,11 +747,46 @@
     "clientSecretDescription": "Haal deze waarde op uit de Google Cloud-console",
     "configHelp": "Hulp bij configuratie",
     "errors": {
-      "authorizationUrlFailed": "Kan autorisatie-URL niet genereren"
+      "authorizationUrlFailed": "Kan autorisatie-URL niet genereren",
+      "emailRequired": "Voer de Google-e-mail in die u wilt synchroniseren",
+      "popupBlocked": "De popup is geblokkeerd. Schakel de popup-blocker uit voor deze site.",
+      "authError": "Fout tijdens autorisatie"
     },
     "success": {
       "settingsSaved": "Synchronisatie-instellingen zijn succesvol opgeslagen",
-      "authorizationComplete": "Uw Google-account is succesvol verbonden"
+      "authorizationComplete": "Uw Google-account is succesvol verbonden",
+      "connected": "Google Agenda succesvol verbonden"
+    },
+    "setup": {
+      "backToProFeatures": "Terug naar PRO-functies",
+      "syncTitle": "Google Agenda synchroniseren",
+      "syncDescription": "Voeg uw afspraken automatisch toe aan Google Agenda",
+      "howItWorks": "Hoe het werkt:",
+      "step1Title": "Voer uw Google-e-mailadres in",
+      "step1Desc": "De e-mail waarmee u toegang hebt tot Google Agenda",
+      "step2Title": "Klik op \"Verbinden met Google\"",
+      "step2Desc": "U autoriseert toegang tot uw agenda",
+      "step3Title": "Schakel synchronisatie in",
+      "step3Desc": "Vanaf nu worden afspraken automatisch gesynchroniseerd",
+      "emailLabel": "Google-e-mail",
+      "emailPlaceholder": "voorbeeld@gmail.com",
+      "emailHint": "Moet overeenkomen met uw Google-account e-mail",
+      "connectButton": "Verbinden met Google",
+      "connecting": "Verbinding maken...",
+      "connectedSuccess": "Succesvol verbonden!",
+      "connectedEmail": "{{email}} is gekoppeld aan Google Agenda",
+      "enableSync": "Synchronisatie inschakelen",
+      "syncToGoogle": "Nieuwe afspraken → Google Agenda",
+      "syncEnabled": "Synchronisatie actief",
+      "syncEnabledDesc": "Nieuwe afspraken worden automatisch toegevoegd aan Google Agenda",
+      "syncDisabled": "Synchronisatie uitgeschakeld",
+      "privacyTitle": "Uw privacy is beschermd",
+      "privacyDesc": "We gebruiken Google OAuth - een veilig protocol dat ons geen toegang geeft tot uw wachtwoord. U kunt de toegang op elk moment intrekken.",
+      "proFeatureTitle": "Google Agenda - PRO-functie",
+      "proFeatureDesc": "Synchroniseer uw afspraken met Google Agenda",
+      "proOnlyMessage": "Deze functie is alleen beschikbaar met het PRO-abonnement.",
+      "upgradeToPro": "Upgraden naar PRO",
+      "backToDashboard": "Terug naar Dashboard"
     }
   },
   "errors": {

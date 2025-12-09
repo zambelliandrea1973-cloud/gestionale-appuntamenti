@@ -778,11 +778,46 @@
     "clientSecretDescription": "Ottieni questo valore dalla console Google Cloud",
     "configHelp": "Aiuto con la configurazione",
     "errors": {
-      "authorizationUrlFailed": "Impossibile generare l'URL di autorizzazione"
+      "authorizationUrlFailed": "Impossibile generare l'URL di autorizzazione",
+      "emailRequired": "Inserisci l'email di Google che vuoi sincronizzare",
+      "popupBlocked": "Il popup è stato bloccato. Disabilita il blocco popup per questo sito.",
+      "authError": "Errore durante l'autorizzazione"
     },
     "success": {
       "settingsSaved": "Le impostazioni di sincronizzazione sono state salvate con successo",
-      "authorizationComplete": "Il tuo account Google è stato collegato con successo"
+      "authorizationComplete": "Il tuo account Google è stato collegato con successo",
+      "connected": "Google Calendar collegato con successo"
+    },
+    "setup": {
+      "backToProFeatures": "Torna alle funzionalità PRO",
+      "syncTitle": "Sincronizza Google Calendar",
+      "syncDescription": "Aggiungi automaticamente i tuoi appuntamenti al calendario Google",
+      "howItWorks": "Come funziona:",
+      "step1Title": "Inserisci il tuo indirizzo email Google",
+      "step1Desc": "L'email con cui accedi a Google Calendar",
+      "step2Title": "Clicca \"Connetti con Google\"",
+      "step2Desc": "Autorizzerai l'accesso al tuo calendario",
+      "step3Title": "Abilita la sincronizzazione",
+      "step3Desc": "Da questo momento gli appuntamenti si sincronizzeranno automaticamente",
+      "emailLabel": "Email di Google",
+      "emailPlaceholder": "esempio@gmail.com",
+      "emailHint": "Deve corrispondere all'email del tuo account Google",
+      "connectButton": "Connetti con Google",
+      "connecting": "Connessione in corso...",
+      "connectedSuccess": "Connesso con successo!",
+      "connectedEmail": "{{email}} è stato collegato a Google Calendar",
+      "enableSync": "Abilita sincronizzazione",
+      "syncToGoogle": "Nuovi appuntamenti → Google Calendar",
+      "syncEnabled": "Sincronizzazione attiva",
+      "syncEnabledDesc": "I nuovi appuntamenti saranno automaticamente aggiunti a Google Calendar",
+      "syncDisabled": "Sincronizzazione disabilitata",
+      "privacyTitle": "La tua privacy è protetta",
+      "privacyDesc": "Usiamo OAuth di Google - un protocollo sicuro che non ci permette di accedere alla tua password. Puoi revocare l'accesso in qualsiasi momento.",
+      "proFeatureTitle": "Google Calendar - Funzionalità PRO",
+      "proFeatureDesc": "Sincronizza i tuoi appuntamenti con Google Calendar",
+      "proOnlyMessage": "Questa funzionalità è disponibile solo con il piano PRO.",
+      "upgradeToPro": "Passa a PRO",
+      "backToDashboard": "Torna alla Dashboard"
     }
   },
   "errors": {

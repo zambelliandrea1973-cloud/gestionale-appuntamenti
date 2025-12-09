@@ -773,11 +773,46 @@
     "clientSecretDescription": "Get this value from the Google Cloud console",
     "configHelp": "Help with configuration",
     "errors": {
-      "authorizationUrlFailed": "Unable to generate authorization URL"
+      "authorizationUrlFailed": "Unable to generate authorization URL",
+      "emailRequired": "Enter the Google email you want to sync",
+      "popupBlocked": "The popup was blocked. Disable popup blocker for this site.",
+      "authError": "Error during authorization"
     },
     "success": {
       "settingsSaved": "Synchronization settings have been saved successfully",
-      "authorizationComplete": "Your Google account has been successfully connected"
+      "authorizationComplete": "Your Google account has been successfully connected",
+      "connected": "Google Calendar connected successfully"
+    },
+    "setup": {
+      "backToProFeatures": "Back to PRO features",
+      "syncTitle": "Sync Google Calendar",
+      "syncDescription": "Automatically add your appointments to Google Calendar",
+      "howItWorks": "How it works:",
+      "step1Title": "Enter your Google email address",
+      "step1Desc": "The email you use to access Google Calendar",
+      "step2Title": "Click \"Connect with Google\"",
+      "step2Desc": "You will authorize access to your calendar",
+      "step3Title": "Enable synchronization",
+      "step3Desc": "From now on, appointments will sync automatically",
+      "emailLabel": "Google Email",
+      "emailPlaceholder": "example@gmail.com",
+      "emailHint": "Must match your Google account email",
+      "connectButton": "Connect with Google",
+      "connecting": "Connecting...",
+      "connectedSuccess": "Connected successfully!",
+      "connectedEmail": "{{email}} has been linked to Google Calendar",
+      "enableSync": "Enable synchronization",
+      "syncToGoogle": "New appointments → Google Calendar",
+      "syncEnabled": "Synchronization active",
+      "syncEnabledDesc": "New appointments will be automatically added to Google Calendar",
+      "syncDisabled": "Synchronization disabled",
+      "privacyTitle": "Your privacy is protected",
+      "privacyDesc": "We use Google OAuth - a secure protocol that doesn't allow us to access your password. You can revoke access at any time.",
+      "proFeatureTitle": "Google Calendar - PRO Feature",
+      "proFeatureDesc": "Sync your appointments with Google Calendar",
+      "proOnlyMessage": "This feature is only available with the PRO plan.",
+      "upgradeToPro": "Upgrade to PRO",
+      "backToDashboard": "Back to Dashboard"
     }
   },
   "errors": {

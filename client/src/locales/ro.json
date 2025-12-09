@@ -747,11 +747,46 @@
     "clientSecretDescription": "Obțineți această valoare din consola Google Cloud",
     "configHelp": "Ajutor pentru configurare",
     "errors": {
-      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare"
+      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare",
+      "emailRequired": "Introduceți email-ul Google pe care doriți să îl sincronizați",
+      "popupBlocked": "Popup-ul a fost blocat. Dezactivați blocarea popup-urilor pentru acest site.",
+      "authError": "Eroare în timpul autorizării"
     },
     "success": {
       "settingsSaved": "Setările de sincronizare au fost salvate cu succes",
-      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes"
+      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes",
+      "connected": "Google Calendar conectat cu succes"
+    },
+    "setup": {
+      "backToProFeatures": "Înapoi la funcțiile PRO",
+      "syncTitle": "Sincronizare Google Calendar",
+      "syncDescription": "Adaugă automat programările tale în Google Calendar",
+      "howItWorks": "Cum funcționează:",
+      "step1Title": "Introdu adresa ta de email Google",
+      "step1Desc": "Email-ul cu care accesezi Google Calendar",
+      "step2Title": "Apasă \"Conectare cu Google\"",
+      "step2Desc": "Vei autoriza accesul la calendarul tău",
+      "step3Title": "Activează sincronizarea",
+      "step3Desc": "De acum încolo, programările se vor sincroniza automat",
+      "emailLabel": "Email Google",
+      "emailPlaceholder": "exemplu@gmail.com",
+      "emailHint": "Trebuie să corespundă cu email-ul contului tău Google",
+      "connectButton": "Conectare cu Google",
+      "connecting": "Se conectează...",
+      "connectedSuccess": "Conectat cu succes!",
+      "connectedEmail": "{{email}} a fost conectat la Google Calendar",
+      "enableSync": "Activează sincronizarea",
+      "syncToGoogle": "Programări noi → Google Calendar",
+      "syncEnabled": "Sincronizare activă",
+      "syncEnabledDesc": "Programările noi vor fi adăugate automat în Google Calendar",
+      "syncDisabled": "Sincronizare dezactivată",
+      "privacyTitle": "Confidențialitatea ta este protejată",
+      "privacyDesc": "Folosim Google OAuth - un protocol sigur care nu ne permite să accesăm parola ta. Poți revoca accesul oricând.",
+      "proFeatureTitle": "Google Calendar - Funcție PRO",
+      "proFeatureDesc": "Sincronizează programările tale cu Google Calendar",
+      "proOnlyMessage": "Această funcție este disponibilă doar cu planul PRO.",
+      "upgradeToPro": "Treci la PRO",
+      "backToDashboard": "Înapoi la Dashboard"
     }
   },
   "errors": {

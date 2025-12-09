@@ -765,11 +765,46 @@
     "clientSecretDescription": "Получите это значение из консоли Google Cloud",
     "configHelp": "Помощь с настройкой",
     "errors": {
-      "authorizationUrlFailed": "Невозможно создать URL авторизации"
+      "authorizationUrlFailed": "Невозможно создать URL авторизации",
+      "emailRequired": "Введите email Google, который хотите синхронизировать",
+      "popupBlocked": "Всплывающее окно заблокировано. Отключите блокировку всплывающих окон для этого сайта.",
+      "authError": "Ошибка при авторизации"
     },
     "success": {
       "settingsSaved": "Настройки синхронизации успешно сохранены",
-      "authorizationComplete": "Ваш аккаунт Google успешно подключен"
+      "authorizationComplete": "Ваш аккаунт Google успешно подключен",
+      "connected": "Google Календарь успешно подключен"
+    },
+    "setup": {
+      "backToProFeatures": "Назад к PRO-функциям",
+      "syncTitle": "Синхронизация Google Календаря",
+      "syncDescription": "Автоматически добавляйте ваши встречи в Google Календарь",
+      "howItWorks": "Как это работает:",
+      "step1Title": "Введите ваш email Google",
+      "step1Desc": "Email, с которым вы входите в Google Календарь",
+      "step2Title": "Нажмите \"Подключить Google\"",
+      "step2Desc": "Вы авторизуете доступ к вашему календарю",
+      "step3Title": "Включите синхронизацию",
+      "step3Desc": "С этого момента встречи будут синхронизироваться автоматически",
+      "emailLabel": "Email Google",
+      "emailPlaceholder": "пример@gmail.com",
+      "emailHint": "Должен совпадать с email вашего аккаунта Google",
+      "connectButton": "Подключить Google",
+      "connecting": "Подключение...",
+      "connectedSuccess": "Успешно подключено!",
+      "connectedEmail": "{{email}} подключен к Google Календарю",
+      "enableSync": "Включить синхронизацию",
+      "syncToGoogle": "Новые встречи → Google Календарь",
+      "syncEnabled": "Синхронизация активна",
+      "syncEnabledDesc": "Новые встречи будут автоматически добавляться в Google Календарь",
+      "syncDisabled": "Синхронизация отключена",
+      "privacyTitle": "Ваша конфиденциальность защищена",
+      "privacyDesc": "Мы используем Google OAuth - безопасный протокол, который не позволяет нам получить доступ к вашему паролю. Вы можете отозвать доступ в любое время.",
+      "proFeatureTitle": "Google Календарь - PRO-функция",
+      "proFeatureDesc": "Синхронизируйте ваши встречи с Google Календарём",
+      "proOnlyMessage": "Эта функция доступна только с планом PRO.",
+      "upgradeToPro": "Перейти на PRO",
+      "backToDashboard": "Вернуться к Dashboard"
     }
   },
   "errors": {

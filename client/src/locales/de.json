@@ -765,11 +765,46 @@
     "clientSecretDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
     "configHelp": "Hilfe bei der Konfiguration",
     "errors": {
-      "authorizationUrlFailed": "Autorisierungs-URL kann nicht generiert werden"
+      "authorizationUrlFailed": "Autorisierungs-URL kann nicht generiert werden",
+      "emailRequired": "Geben Sie die Google-E-Mail ein, die Sie synchronisieren möchten",
+      "popupBlocked": "Das Popup wurde blockiert. Deaktivieren Sie den Popup-Blocker für diese Website.",
+      "authError": "Fehler bei der Autorisierung"
     },
     "success": {
       "settingsSaved": "Synchronisierungseinstellungen wurden erfolgreich gespeichert",
-      "authorizationComplete": "Ihr Google-Konto wurde erfolgreich verbunden"
+      "authorizationComplete": "Ihr Google-Konto wurde erfolgreich verbunden",
+      "connected": "Google Kalender erfolgreich verbunden"
+    },
+    "setup": {
+      "backToProFeatures": "Zurück zu den PRO-Funktionen",
+      "syncTitle": "Google Kalender synchronisieren",
+      "syncDescription": "Fügen Sie Ihre Termine automatisch zu Google Kalender hinzu",
+      "howItWorks": "So funktioniert es:",
+      "step1Title": "Geben Sie Ihre Google-E-Mail-Adresse ein",
+      "step1Desc": "Die E-Mail, mit der Sie auf Google Kalender zugreifen",
+      "step2Title": "Klicken Sie auf \"Mit Google verbinden\"",
+      "step2Desc": "Sie autorisieren den Zugriff auf Ihren Kalender",
+      "step3Title": "Aktivieren Sie die Synchronisierung",
+      "step3Desc": "Ab jetzt werden Termine automatisch synchronisiert",
+      "emailLabel": "Google-E-Mail",
+      "emailPlaceholder": "beispiel@gmail.com",
+      "emailHint": "Muss mit Ihrer Google-Konto-E-Mail übereinstimmen",
+      "connectButton": "Mit Google verbinden",
+      "connecting": "Verbindung wird hergestellt...",
+      "connectedSuccess": "Erfolgreich verbunden!",
+      "connectedEmail": "{{email}} wurde mit Google Kalender verknüpft",
+      "enableSync": "Synchronisierung aktivieren",
+      "syncToGoogle": "Neue Termine → Google Kalender",
+      "syncEnabled": "Synchronisierung aktiv",
+      "syncEnabledDesc": "Neue Termine werden automatisch zu Google Kalender hinzugefügt",
+      "syncDisabled": "Synchronisierung deaktiviert",
+      "privacyTitle": "Ihre Privatsphäre ist geschützt",
+      "privacyDesc": "Wir verwenden Google OAuth - ein sicheres Protokoll, das uns keinen Zugriff auf Ihr Passwort ermöglicht. Sie können den Zugriff jederzeit widerrufen.",
+      "proFeatureTitle": "Google Kalender - PRO-Funktion",
+      "proFeatureDesc": "Synchronisieren Sie Ihre Termine mit Google Kalender",
+      "proOnlyMessage": "Diese Funktion ist nur mit dem PRO-Plan verfügbar.",
+      "upgradeToPro": "Auf PRO upgraden",
+      "backToDashboard": "Zurück zum Dashboard"
     }
   },
   "errors": {
