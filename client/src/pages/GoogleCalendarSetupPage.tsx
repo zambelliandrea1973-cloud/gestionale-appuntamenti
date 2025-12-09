@@ -31,8 +31,8 @@ export default function GoogleCalendarSetupPage() {
   const startGoogleAuth = async () => {
     if (!email.trim()) {
       toast({
-        title: "Email richiesta",
-        description: "Inserisci l'email di Google che vuoi sincronizzare",
+        title: t('googleCalendar.errors.emailRequired'),
+        description: t('googleCalendar.errors.emailRequired'),
         variant: "destructive",
       });
       return;
@@ -48,7 +48,7 @@ export default function GoogleCalendarSetupPage() {
           const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
           
           if (!authWindow) {
-            throw new Error("Il popup è stato bloccato. Disabilita il blocco popup per questo sito.");
+            throw new Error(t('googleCalendar.errors.popupBlocked'));
           }
           
           // Verifica periodicamente il completamento
@@ -67,13 +67,13 @@ export default function GoogleCalendarSetupPage() {
                   }
                   
                   toast({
-                    title: "Successo! 🎉",
-                    description: "Google Calendar collegato con successo",
+                    title: t('googleCalendar.success.connected') + " 🎉",
+                    description: t('googleCalendar.success.connected'),
                   });
                 }
               }
             } catch (error) {
-              console.error('Errore controllo stato:', error);
+              console.error('Error checking status:', error);
             }
           }, 2000);
           
@@ -84,10 +84,10 @@ export default function GoogleCalendarSetupPage() {
         }
       }
     } catch (error) {
-      console.error('Errore autorizzazione Google:', error);
+      console.error('Google auth error:', error);
       toast({
-        title: "Errore",
-        description: error instanceof Error ? error.message : "Errore durante l'autorizzazione",
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('googleCalendar.errors.authError'),
         variant: "destructive",
       });
       setIsAuthenticating(false);
@@ -98,12 +98,12 @@ export default function GoogleCalendarSetupPage() {
     setIsSyncEnabled(enabled);
     if (enabled) {
       toast({
-        title: "Sincronizzazione attiva",
-        description: "I nuovi appuntamenti saranno automaticamente aggiunti a Google Calendar",
+        title: t('googleCalendar.setup.syncEnabled'),
+        description: t('googleCalendar.setup.syncEnabledDesc'),
       });
     } else {
       toast({
-        title: "Sincronizzazione disabilitata",
+        title: t('googleCalendar.setup.syncDisabled'),
       });
     }
   };
@@ -124,25 +124,25 @@ export default function GoogleCalendarSetupPage() {
             <div className="flex justify-center mb-4">
               <Calendar className="h-12 w-12 text-amber-500" />
             </div>
-            <CardTitle>Google Calendar - Funzionalità PRO</CardTitle>
+            <CardTitle>{t('googleCalendar.setup.proFeatureTitle')}</CardTitle>
             <CardDescription>
-              Sincronizza i tuoi appuntamenti con Google Calendar
+              {t('googleCalendar.setup.proFeatureDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-center text-sm text-muted-foreground mb-4">
-              Questa funzionalità è disponibile solo con il piano PRO.
+              {t('googleCalendar.setup.proOnlyMessage')}
             </p>
           </CardContent>
           <div className="flex flex-col gap-2 px-6 pb-6">
             <Link to="/subscribe">
               <Button className="w-full">
-                Passa a PRO
+                {t('googleCalendar.setup.upgradeToPro')}
               </Button>
             </Link>
             <Link to="/dashboard">
               <Button variant="outline" className="w-full">
-                Torna alla Dashboard
+                {t('googleCalendar.setup.backToDashboard')}
               </Button>
             </Link>
           </div>
@@ -155,7 +155,7 @@ export default function GoogleCalendarSetupPage() {
     <div className="container py-8 max-w-2xl">
       <div className="mb-6">
         <Link to="/pro-features" className="text-sm text-primary hover:underline flex items-center gap-1 mb-4">
-          ← Torna alle funzionalità PRO
+          ← {t('googleCalendar.setup.backToProFeatures')}
         </Link>
       </div>
 
@@ -165,10 +165,10 @@ export default function GoogleCalendarSetupPage() {
             <div>
               <CardTitle className="flex items-center text-2xl gap-2">
                 <Calendar className="h-6 w-6 text-primary" />
-                Sincronizza Google Calendar
+                {t('googleCalendar.setup.syncTitle')}
               </CardTitle>
               <CardDescription className="mt-2">
-                Aggiungi automaticamente i tuoi appuntamenti al calendario Google
+                {t('googleCalendar.setup.syncDescription')}
               </CardDescription>
             </div>
             <div className="px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-semibold">
@@ -181,30 +181,30 @@ export default function GoogleCalendarSetupPage() {
           <div className="space-y-8">
             {/* Passaggi semplificati */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-lg">Come funziona:</h3>
+              <h3 className="font-semibold text-lg">{t('googleCalendar.setup.howItWorks')}</h3>
               
               <div className="space-y-3">
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold text-sm">1</div>
                   <div>
-                    <p className="font-medium">Inserisci il tuo indirizzo email Google</p>
-                    <p className="text-sm text-muted-foreground">L'email con cui accedi a Google Calendar</p>
+                    <p className="font-medium">{t('googleCalendar.setup.step1Title')}</p>
+                    <p className="text-sm text-muted-foreground">{t('googleCalendar.setup.step1Desc')}</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold text-sm">2</div>
                   <div>
-                    <p className="font-medium">Clicca "Connetti con Google"</p>
-                    <p className="text-sm text-muted-foreground">Autorizzerai l'accesso al tuo calendario</p>
+                    <p className="font-medium">{t('googleCalendar.setup.step2Title')}</p>
+                    <p className="text-sm text-muted-foreground">{t('googleCalendar.setup.step2Desc')}</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold text-sm">3</div>
                   <div>
-                    <p className="font-medium">Abilita la sincronizzazione</p>
-                    <p className="text-sm text-muted-foreground">Da questo momento gli appuntamenti si sincronizzeranno automaticamente</p>
+                    <p className="font-medium">{t('googleCalendar.setup.step3Title')}</p>
+                    <p className="text-sm text-muted-foreground">{t('googleCalendar.setup.step3Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -218,18 +218,18 @@ export default function GoogleCalendarSetupPage() {
               <div className="space-y-2">
                 <Label className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                  Email di Google
+                  {t('googleCalendar.setup.emailLabel')}
                 </Label>
                 <Input
                   type="email"
-                  placeholder="esempio@gmail.com"
+                  placeholder={t('googleCalendar.setup.emailPlaceholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isAuthenticating}
                   className="text-base"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Deve corrispondere all'email del tuo account Google
+                  {t('googleCalendar.setup.emailHint')}
                 </p>
               </div>
 
@@ -244,12 +244,12 @@ export default function GoogleCalendarSetupPage() {
                   {isAuthenticating ? (
                     <>
                       <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                      Connessione in corso...
+                      {t('googleCalendar.setup.connecting')}
                     </>
                   ) : (
                     <>
                       <Calendar className="h-4 w-4 mr-2" />
-                      Connetti con Google
+                      {t('googleCalendar.setup.connectButton')}
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </>
                   )}
@@ -258,9 +258,9 @@ export default function GoogleCalendarSetupPage() {
                 <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800 flex items-start gap-3">
                   <Check className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-green-900 dark:text-green-100">Connesso con successo!</p>
+                    <p className="font-medium text-green-900 dark:text-green-100">{t('googleCalendar.setup.connectedSuccess')}</p>
                     <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                      {email} è stato collegato a Google Calendar
+                      {email} {t('googleCalendar.setup.connectedEmail').replace('{{email}}', '')}
                     </p>
                   </div>
                 </div>
@@ -271,9 +271,9 @@ export default function GoogleCalendarSetupPage() {
                 <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-blue-900 dark:text-blue-100">Abilita sincronizzazione</p>
+                      <p className="font-medium text-blue-900 dark:text-blue-100">{t('googleCalendar.setup.enableSync')}</p>
                       <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                        Nuovi appuntamenti → Google Calendar
+                        {t('googleCalendar.setup.syncToGoogle')}
                       </p>
                     </div>
                     <Switch
@@ -291,10 +291,9 @@ export default function GoogleCalendarSetupPage() {
               <div className="flex gap-3">
                 <AlertCircle className="h-5 w-5 text-slate-500 flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-slate-600 dark:text-slate-400">
-                  <p className="font-medium mb-1">🔒 La tua privacy è protetta</p>
+                  <p className="font-medium mb-1">🔒 {t('googleCalendar.setup.privacyTitle')}</p>
                   <p>
-                    Usiamo OAuth di Google - un protocollo sicuro che non ci permette di accedere alla tua password. 
-                    Puoi revocare l'accesso in qualsiasi momento.
+                    {t('googleCalendar.setup.privacyDesc')}
                   </p>
                 </div>
               </div>
