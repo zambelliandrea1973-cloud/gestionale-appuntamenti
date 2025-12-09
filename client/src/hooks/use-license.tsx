@@ -33,17 +33,21 @@ export function useLicense() {
   });
   
   // Query per verificare se l'utente ha accesso PRO
+  // staleTime: 0 per forzare refetch dopo login (la cache viene pulita al login)
   const proAccessQuery = useQuery({
     queryKey: ['/api/license/has-pro-access'],
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minuti
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
+    staleTime: 0, // Sempre stale per forzare refetch dopo login
   });
   
   // Query per verificare se l'utente ha accesso BUSINESS
+  // staleTime: 0 per forzare refetch dopo login (la cache viene pulita al login)
   const businessAccessQuery = useQuery({
     queryKey: ['/api/license/has-business-access'],
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minuti
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
+    staleTime: 0, // Sempre stale per forzare refetch dopo login
   });
   
   // Query per ottenere il titolo dell'applicazione
