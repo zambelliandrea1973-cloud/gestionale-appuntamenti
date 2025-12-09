@@ -52,8 +52,8 @@ export default function Reports() {
   
   return (
     <ProFeatureGuard 
-      featureName="Report Statistici"
-      description="I report dettagliati sull'attività sono disponibili dal piano Pro in su."
+      featureName={t('reports.title')}
+      description={t('proFeature.reportsDescription')}
       requiredCapability="reports"
     >
       <ReportsContent />
@@ -291,11 +291,11 @@ function ReportsContent() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <h2 className="text-2xl font-medium">Report</h2>
+        <h2 className="text-2xl font-medium">{t('reports.title')}</h2>
         
         <Button variant="outline" onClick={generatePdfReport}>
           <Download className="mr-2 h-4 w-4" />
-          Scarica PDF
+          {t('reports.exportPdf')}
         </Button>
       </div>
       

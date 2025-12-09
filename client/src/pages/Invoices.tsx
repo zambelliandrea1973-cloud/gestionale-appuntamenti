@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
+import { getDateLocale } from '@/lib/utils/date';
 import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3, Trash2, RefreshCw, Eye, MessageCircle, Smartphone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -101,6 +103,7 @@ type Invoice = {
 };
 
 export default function Invoices() {
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { symbol, formatPrice } = useCurrency();
@@ -183,10 +186,10 @@ export default function Invoices() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       setIsFormOpen(false);
-      toast({ title: "Fattura creata con successo" });
+      toast({ title: t('invoices.toast.created') });
     },
     onError: () => {
-      toast({ title: "Errore nella creazione della fattura", variant: "destructive" });
+      toast({ title: t('invoices.toast.createError'), variant: "destructive" });
     },
   });
 
@@ -247,14 +250,14 @@ export default function Invoices() {
       setSelectedInvoice(null);
       emailForm.reset();
       toast({ 
-        title: "✅ Email inviata con successo", 
-        description: `Fattura inviata a ${data.recipientEmail}` 
+        title: `✅ ${t('invoices.toast.emailSent')}`, 
+        description: `${t('invoices.sentToClient')}: ${data.recipientEmail}` 
       });
     },
     onError: (error) => {
       toast({ 
-        title: "❌ Errore nell'invio dell'email", 
-        description: error.message || "Verifica le impostazioni email",
+        title: `❌ ${t('invoices.toast.emailError')}`, 
+        description: error.message,
         variant: "destructive" 
       });
     },
@@ -273,15 +276,15 @@ export default function Invoices() {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
-      const statusLabel = variables.status === "paid" ? "Pagata" : "Non pagata";
+      const statusLabel = variables.status === "paid" ? t('invoices.paid') : t('invoices.unpaid');
       toast({ 
-        title: "✅ Stato aggiornato", 
-        description: `Fattura marcata come: ${statusLabel}` 
+        title: `✅ ${t('invoices.toast.statusUpdated')}`, 
+        description: statusLabel 
       });
     },
     onError: (error) => {
       toast({ 
-        title: "❌ Errore aggiornamento stato", 
+        title: `❌ ${t('invoices.toast.statusError')}`, 
         description: error.message,
         variant: "destructive" 
       });
@@ -327,13 +330,13 @@ export default function Invoices() {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       setIsCleanupDialogOpen(false);
       toast({ 
-        title: "🧹 Pulizia completata", 
+        title: `🧹 ${t('invoices.toast.cleanupCompleted')}`, 
         description: data.message 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: "❌ Errore pulizia numerazione", 
+        title: `❌ ${t('invoices.toast.cleanupError')}`, 
         description: error.message,
         variant: "destructive" 
       });
@@ -354,20 +357,20 @@ export default function Invoices() {
           printWindow.print();
         };
         toast({ 
-          title: "✅ Stampa avviata", 
-          description: "La finestra di stampa si aprirà automaticamente" 
+          title: `✅ ${t('invoices.toast.printStarted')}`, 
+          description: t('invoices.toast.printWindowWillOpen') 
         });
       } else {
         toast({ 
-          title: "❌ Errore stampa", 
-          description: "Popup bloccato. Abilita i popup per stampare",
+          title: `❌ ${t('invoices.print')}`, 
+          description: t('invoices.toast.printError'),
           variant: "destructive" 
         });
       }
     },
     onError: (error) => {
       toast({ 
-        title: "❌ Errore nella generazione PDF", 
+        title: `❌ ${t('invoices.toast.printError')}`, 
         description: error.message,
         variant: "destructive" 
       });
@@ -384,13 +387,13 @@ export default function Invoices() {
       setPreviewHtml(html);
       setIsPreviewDialogOpen(true);
       toast({ 
-        title: "✅ Anteprima generata", 
-        description: "Ecco come apparirà la fattura" 
+        title: `✅ ${t('invoices.toast.previewGenerated')}`, 
+        description: t('invoices.toast.previewDescription') 
       });
     },
     onError: (error) => {
       toast({ 
-        title: "❌ Errore anteprima", 
+        title: `❌ ${t('invoices.preview')}`, 
         description: error.message,
         variant: "destructive" 
       });
@@ -451,8 +454,8 @@ export default function Invoices() {
       }));
       
       toast({ 
-        title: "✅ Fattura inviata", 
-        description: data.message || "Invio completato con successo"
+        title: `✅ ${t('invoices.toast.sent')}`, 
+        description: data.message
       });
     },
   });
@@ -543,8 +546,7 @@ export default function Invoices() {
     // Validazione: almeno un canale selezionato
     if (!channels.pwa && !channels.email && !channels.whatsapp) {
       toast({
-        title: "⚠️ Nessun canale selezionato",
-        description: "Seleziona almeno un canale di invio",
+        title: `⚠️ ${t('invoices.channels.noChannelSelected')}`,
         variant: "destructive"
       });
       return;
@@ -577,9 +579,9 @@ export default function Invoices() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-2xl font-semibold">Gestione Fatture</h2>
+          <h2 className="text-2xl font-semibold">{t('invoices.title')}</h2>
           <p className="text-muted-foreground">
-            Crea e gestisci le fatture per i tuoi clienti
+            {t('invoices.subtitle')}
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -589,7 +591,7 @@ export default function Invoices() {
             onClick={() => migrateClientIdsMutation.mutate()}
             disabled={migrateClientIdsMutation.isPending}
           >
-            {migrateClientIdsMutation.isPending ? "Migrazione..." : "Aggiorna Fatture"}
+            {migrateClientIdsMutation.isPending ? t('invoices.updating') : t('invoices.updateInvoices')}
           </Button>
           <Button 
             variant="outline" 
@@ -598,11 +600,11 @@ export default function Invoices() {
             disabled={cleanupMutation.isPending}
           >
             <RefreshCw className="h-4 w-4 mr-2" />
-            {cleanupMutation.isPending ? "Pulizia..." : "Pulisci Numerazione"}
+            {cleanupMutation.isPending ? t('invoices.cleaning') : t('invoices.cleanupNumbering')}
           </Button>
           <Button onClick={() => setIsFormOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
-            Nuova Fattura
+            {t('invoices.newInvoice')}
           </Button>
         </div>
       </div>
@@ -610,13 +612,13 @@ export default function Invoices() {
       {invoices.length === 0 ? (
         <Card className="p-8 text-center">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-medium mb-2">Nessuna fattura trovata</h3>
+          <h3 className="text-lg font-medium mb-2">{t('invoices.noInvoices')}</h3>
           <p className="text-muted-foreground mb-4">
-            Inizia creando la tua prima fattura
+            {t('invoices.startCreating')}
           </p>
           <Button onClick={() => setIsFormOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
-            Crea Prima Fattura
+            {t('invoices.createFirst')}
           </Button>
         </Card>
       ) : (
@@ -625,12 +627,12 @@ export default function Invoices() {
             <Card key={invoice.id} className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <h3 className="font-medium">Fattura #{invoice.invoiceNumber}</h3>
+                  <h3 className="font-medium">{t('invoices.invoiceNumber')}{invoice.invoiceNumber}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Cliente: {invoice.client?.firstName} {invoice.client?.lastName}
+                    {t('invoices.client')}: {invoice.client?.firstName} {invoice.client?.lastName}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Data: {format(new Date(invoice.date), "dd/MM/yyyy")}
+                    {t('invoices.date')}: {format(new Date(invoice.date), "dd/MM/yyyy", { locale: getDateLocale(i18n.language) })}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -644,19 +646,19 @@ export default function Invoices() {
                         {invoice.status === "paid" ? (
                           <>
                             <Check className="h-3 w-3 mr-1" />
-                            Pagata
+                            {t('invoices.paid')}
                           </>
                         ) : (
                           <>
                             <AlertCircle className="h-3 w-3 mr-1" />
-                            Da pagare
+                            {t('invoices.unpaid')}
                           </>
                         )}
                       </Badge>
                       {invoice.sentAt && (
                         <span className="text-xs text-green-600 flex items-center gap-1">
                           <Check className="h-3 w-3" />
-                          Inviata al cliente
+                          {t('invoices.sentToClient')}
                         </span>
                       )}
                     </div>

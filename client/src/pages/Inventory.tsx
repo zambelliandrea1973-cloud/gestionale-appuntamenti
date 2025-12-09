@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -85,6 +86,7 @@ const saleSchema = z.object({
 });
 
 export default function Inventory() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { hasCapability, getUpgradeMessage } = useCapabilities();
@@ -494,7 +496,7 @@ export default function Inventory() {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-primary">Gestione Magazzino</h1>
+        <h1 className="text-3xl font-bold text-primary">{t('inventory.title')}</h1>
         <div className="flex gap-2">
           <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
             <DialogTrigger asChild>

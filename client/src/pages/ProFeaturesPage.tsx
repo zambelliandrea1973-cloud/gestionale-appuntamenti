@@ -32,7 +32,7 @@ export default function ProFeaturesPage() {
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
-          {t('pro.title', 'Funzionalità PRO')}
+          {t('pro.title')}
         </h1>
       </div>
       
@@ -42,7 +42,7 @@ export default function ProFeaturesPage() {
             className="flex flex-col items-center justify-center py-2 px-2 sm:px-3 border-b-2 border-primary font-medium text-primary text-xs text-center"
           >
             <CalendarPlus className="h-4 w-4 mb-1" />
-            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.googleCalendar', 'Google Calendar')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.googleCalendar')}</span>
           </div>
         </Link>
         
@@ -51,7 +51,7 @@ export default function ProFeaturesPage() {
             className="flex flex-col items-center justify-center py-2 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
             <Receipt className="h-4 w-4 mb-1" />
-            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.invoices', 'Fatture')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.invoices')}</span>
           </div>
         </Link>
         
@@ -60,7 +60,7 @@ export default function ProFeaturesPage() {
             className="flex flex-col items-center justify-center py-2 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
             <Package className="h-4 w-4 mb-1" />
-            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.packages', 'Pacchetti')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.packages')}</span>
           </div>
         </Link>
         
@@ -69,7 +69,7 @@ export default function ProFeaturesPage() {
             className="flex flex-col items-center justify-center py-2 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
             <Package className="h-4 w-4 mb-1" />
-            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.inventory', 'Magazzino')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.inventory')}</span>
           </div>
         </Link>
         
@@ -78,7 +78,7 @@ export default function ProFeaturesPage() {
             className="flex flex-col items-center justify-center py-2 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
             <FileSpreadsheet className="h-4 w-4 mb-1" />
-            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.reports', 'Report')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.reports')}</span>
           </div>
         </Link>
       </div>
@@ -92,10 +92,10 @@ export default function ProFeaturesPage() {
                   <div>
                     <CardTitle className="flex items-center gap-2">
                       <CalendarPlus className="h-5 w-5 text-primary" />
-                      Sincronizza Google Calendar
+                      {t('pro.syncGoogleCalendar')}
                     </CardTitle>
                     <CardDescription className="mt-1">
-                      Gestisci la sincronizzazione dei tuoi appuntamenti con Google Calendar
+                      {t('pro.syncDescription')}
                     </CardDescription>
                   </div>
                   <ArrowRight className="h-5 w-5 text-primary" />
@@ -103,7 +103,7 @@ export default function ProFeaturesPage() {
               </CardHeader>
               <CardContent className="pt-4">
                 <p className="text-sm text-muted-foreground">
-                  Clicca per configurare e gestire la sincronizzazione con Google Calendar
+                  {t('pro.clickToConfigure')}
                 </p>
               </CardContent>
             </Card>
@@ -118,29 +118,29 @@ export default function ProFeaturesPage() {
               </div>
             </div>
             <CardTitle className="text-2xl">
-              {t('proFeature.title', 'Funzionalità PRO')}
+              {t('proFeature.title')}
             </CardTitle>
             <CardDescription>
-              {t('proFeature.subtitle', `"${t('pro.googleCalendarIntegration', 'Integrazione Google Calendar')}" è disponibile solo con l'abbonamento PRO`)}
+              "{t('pro.googleCalendarIntegration')}" {t('proFeature.subtitle')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-center mb-4 text-muted-foreground">
-              {t('pro.googleCalendarLocked', 'L\'integrazione con Google Calendar è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità.')}
+              {t('pro.googleCalendarLocked')}
             </p>
             
             <div className="border rounded-lg p-4 mb-4 bg-slate-50">
               <div className="flex items-center mb-2">
                 <Crown className="h-5 w-5 text-amber-500 mr-2" />
                 <h3 className="font-medium">
-                  {t('proFeature.benefits.title', 'Con PRO ottieni')}:
+                  {t('proFeature.benefits.title')}:
                 </h3>
               </div>
               <ul className="space-y-2 pl-7 list-disc text-sm">
-                <li>{t('proFeature.benefits.invoices', 'Gestione fatture completa')}</li>
-                <li>{t('proFeature.benefits.reports', 'Report dettagliati sull\'attività')}</li>
-                <li>{t('proFeature.benefits.googleCalendar', 'Integrazione con Google Calendar')}</li>
-                <li>{t('proFeature.benefits.support', 'Supporto prioritario')}</li>
+                <li>{t('proFeature.benefits.invoices')}</li>
+                <li>{t('proFeature.benefits.reports')}</li>
+                <li>{t('proFeature.benefits.googleCalendar')}</li>
+                <li>{t('proFeature.benefits.support')}</li>
               </ul>
             </div>
           </CardContent>
@@ -149,14 +149,14 @@ export default function ProFeaturesPage() {
               className="w-full" 
               onClick={handleUpgradeClick}
             >
-              {t('proFeature.upgradeButton', 'Passa a PRO')}
+              {t('proFeature.upgradeButton')}
             </Button>
             <Link to="/">
               <Button
                 variant="outline"
                 className="w-full"
               >
-                {t('common.backToHome', 'Torna alla Home')}
+                {t('common.backToHome')}
               </Button>
             </Link>
           </CardFooter>

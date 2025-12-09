@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -52,6 +53,7 @@ const packagePurchaseSchema = z.object({
 });
 
 export default function PackagesPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { symbol, formatPrice } = useCurrency();
@@ -194,7 +196,7 @@ export default function PackagesPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
         <div className="flex items-center flex-wrap gap-2">
           <Crown className="h-6 w-6 text-amber-500" />
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Pacchetti Promozionali</h1>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('packages.title')}</h1>
           <Badge variant="outline">PRO</Badge>
         </div>
         
