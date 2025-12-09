@@ -124,14 +124,14 @@ export default function PackagesPage() {
       setTemplateDialogOpen(false);
       templateForm.reset();
       toast({
-        title: "Template creato",
-        description: "Il pacchetto promozionale è stato creato con successo",
+        title: t('packages.toast.created'),
+        description: t('packages.toast.createdDesc'),
       });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Impossibile creare il template",
+        title: t('common.error'),
+        description: error.message || t('packages.toast.cannotCreate'),
         variant: "destructive",
       });
     },
@@ -148,14 +148,14 @@ export default function PackagesPage() {
       setPurchaseDialogOpen(false);
       purchaseForm.reset();
       toast({
-        title: "Pacchetto venduto",
-        description: "Il pacchetto è stato assegnato al cliente",
+        title: t('packages.toast.sold'),
+        description: t('packages.toast.soldDesc'),
       });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Impossibile vendere il pacchetto",
+        title: t('common.error'),
+        description: error.message || t('packages.toast.cannotSell'),
         variant: "destructive",
       });
     },
@@ -170,14 +170,14 @@ export default function PackagesPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/packages/templates"] });
       toast({
-        title: "Template eliminato",
-        description: "Il template è stato eliminato con successo",
+        title: t('packages.toast.deleted'),
+        description: t('packages.toast.deletedDesc'),
       });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Impossibile eliminare il template",
+        title: t('common.error'),
+        description: error.message || t('packages.toast.cannotDelete'),
         variant: "destructive",
       });
     },
@@ -204,13 +204,13 @@ export default function PackagesPage() {
           <DialogTrigger asChild>
             <Button className="w-full md:w-auto">
               <PackagePlus className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Nuovo Pacchetto</span>
-              <span className="sm:hidden text-xs">Nuovo</span>
+              <span className="hidden sm:inline">{t('packages.newPackage')}</span>
+              <span className="sm:hidden text-xs">{t('packages.newShort')}</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Crea Nuovo Pacchetto Promozionale</DialogTitle>
+              <DialogTitle>{t('packages.form.createNewPackage')}</DialogTitle>
             </DialogHeader>
             <Form {...templateForm}>
               <form onSubmit={templateForm.handleSubmit(handleSubmitTemplate)} className="space-y-4">
@@ -219,9 +219,9 @@ export default function PackagesPage() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome Pacchetto</FormLabel>
+                      <FormLabel>{t('packages.form.name')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="es. 10 Trattamenti Viso Premium" {...field} />
+                        <Input placeholder={t('packages.form.namePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -233,9 +233,9 @@ export default function PackagesPage() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Descrizione (opzionale)</FormLabel>
+                      <FormLabel>{t('packages.form.descriptionOptional')}</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Descrizione del pacchetto..." {...field} />
+                        <Textarea placeholder={t('packages.form.descriptionPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -248,7 +248,7 @@ export default function PackagesPage() {
                     name="totalSessions"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Numero Sedute</FormLabel>
+                        <FormLabel>{t('packages.form.totalSessions')}</FormLabel>
                         <FormControl>
                           <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
                         </FormControl>
@@ -262,7 +262,7 @@ export default function PackagesPage() {
                     name="price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Prezzo Totale ({symbol})</FormLabel>
+                        <FormLabel>{t('packages.form.totalPrice')} ({symbol})</FormLabel>
                         <FormControl>
                           <Input 
                             type="number" 
@@ -283,7 +283,7 @@ export default function PackagesPage() {
                   name="expirationDays"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Validità (giorni, opzionale)</FormLabel>
+                      <FormLabel>{t('packages.form.validDays')}</FormLabel>
                       <FormControl>
                         <Input 
                           type="number" 
@@ -302,7 +302,7 @@ export default function PackagesPage() {
                   name="serviceIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Servizi Inclusi</FormLabel>
+                      <FormLabel>{t('packages.form.includedServices')}</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={(value) => {
@@ -313,7 +313,7 @@ export default function PackagesPage() {
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Aggiungi servizio..." />
+                            <SelectValue placeholder={t('packages.form.addService')} />
                           </SelectTrigger>
                           <SelectContent>
                             {services.map((service: any) => (
@@ -348,10 +348,10 @@ export default function PackagesPage() {
                 
                 <div className="flex justify-end gap-2 pt-4">
                   <Button type="button" variant="outline" onClick={() => setTemplateDialogOpen(false)}>
-                    Annulla
+                    {t('packages.form.cancel')}
                   </Button>
                   <Button type="submit" disabled={createTemplate.isPending}>
-                    {createTemplate.isPending ? "Creazione..." : "Crea Pacchetto"}
+                    {createTemplate.isPending ? t('packages.form.creating') : t('packages.form.createPackage')}
                   </Button>
                 </div>
               </form>
@@ -362,8 +362,8 @@ export default function PackagesPage() {
       
       <Tabs defaultValue="templates" className="space-y-6">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="templates">Modelli Pacchetti</TabsTrigger>
-          <TabsTrigger value="purchases">Pacchetti Venduti</TabsTrigger>
+          <TabsTrigger value="templates">{t('packages.tabs.templates')}</TabsTrigger>
+          <TabsTrigger value="purchases">{t('packages.tabs.sold')}</TabsTrigger>
         </TabsList>
         
         {/* Tab: Modelli Pacchetti */}
@@ -371,17 +371,17 @@ export default function PackagesPage() {
           {loadingTemplates ? (
             <Card>
               <CardContent className="py-8 text-center text-muted-foreground">
-                Caricamento...
+                {t('common.loading')}
               </CardContent>
             </Card>
           ) : templates.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center">
                 <Gift className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <p className="text-muted-foreground mb-4">Nessun pacchetto promozionale creato</p>
+                <p className="text-muted-foreground mb-4">{t('packages.noPackagesCreated')}</p>
                 <Button onClick={() => setTemplateDialogOpen(true)}>
                   <PackagePlus className="mr-2 h-4 w-4" />
-                  Crea il tuo primo pacchetto
+                  {t('packages.createFirstPackage')}
                 </Button>
               </CardContent>
             </Card>
@@ -398,28 +398,28 @@ export default function PackagesPage() {
                         )}
                       </div>
                       <Badge variant={template.isActive ? "default" : "secondary"}>
-                        {template.isActive ? "Attivo" : "Disattivo"}
+                        {template.isActive ? t('packages.active') : t('packages.inactive')}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Sedute:</span>
+                        <span className="text-muted-foreground">{t('packages.sessionsLabel')}:</span>
                         <span className="font-medium">{template.totalSessions}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Prezzo:</span>
+                        <span className="text-muted-foreground">{t('packages.price')}:</span>
                         <span className="font-medium">{formatPrice(template.price / 100)}</span>
                       </div>
                       {template.expirationDays && (
                         <div className="flex items-center justify-between">
-                          <span className="text-muted-foreground">Validità:</span>
-                          <span className="font-medium">{template.expirationDays} giorni</span>
+                          <span className="text-muted-foreground">{t('packages.validity')}:</span>
+                          <span className="font-medium">{template.expirationDays} {t('packages.days')}</span>
                         </div>
                       )}
                       <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Servizi:</span>
+                        <span className="text-muted-foreground">{t('packages.services')}:</span>
                         <span className="font-medium">{template.serviceIds?.length || 0}</span>
                       </div>
                     </div>
@@ -434,12 +434,12 @@ export default function PackagesPage() {
                             onClick={() => setSelectedTemplate(template)}
                           >
                             <Users className="mr-2 h-4 w-4" />
-                            Vendi
+                            {t('packages.sell')}
                           </Button>
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Vendi Pacchetto: {template.name}</DialogTitle>
+                            <DialogTitle>{t('packages.sellPackageTitle')}: {template.name}</DialogTitle>
                           </DialogHeader>
                           <Form {...purchaseForm}>
                             <form onSubmit={purchaseForm.handleSubmit((data) => {
@@ -453,14 +453,14 @@ export default function PackagesPage() {
                                 name="clientId"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Cliente</FormLabel>
+                                    <FormLabel>{t('packages.client')}</FormLabel>
                                     <FormControl>
                                       <Select
                                         onValueChange={(value) => field.onChange(parseInt(value))}
                                         value={field.value?.toString()}
                                       >
                                         <SelectTrigger>
-                                          <SelectValue placeholder="Seleziona cliente..." />
+                                          <SelectValue placeholder={t('packages.selectClient')} />
                                         </SelectTrigger>
                                         <SelectContent>
                                           {clients.map((client: any) => (
@@ -481,7 +481,7 @@ export default function PackagesPage() {
                                 name="purchaseDate"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Data Acquisto</FormLabel>
+                                    <FormLabel>{t('packages.purchaseDate')}</FormLabel>
                                     <FormControl>
                                       <Input type="date" {...field} />
                                     </FormControl>
@@ -495,7 +495,7 @@ export default function PackagesPage() {
                                 name="notes"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Note (opzionale)</FormLabel>
+                                    <FormLabel>{t('packages.notesOptional')}</FormLabel>
                                     <FormControl>
                                       <Textarea {...field} />
                                     </FormControl>
@@ -506,10 +506,10 @@ export default function PackagesPage() {
                               
                               <div className="flex justify-end gap-2 pt-4">
                                 <Button type="button" variant="outline" onClick={() => setPurchaseDialogOpen(false)}>
-                                  Annulla
+                                  {t('packages.form.cancel')}
                                 </Button>
                                 <Button type="submit" disabled={createPurchase.isPending}>
-                                  {createPurchase.isPending ? "Vendita..." : "Vendi Pacchetto"}
+                                  {createPurchase.isPending ? t('packages.selling') : t('packages.sellPackage')}
                                 </Button>
                               </div>
                             </form>
@@ -525,15 +525,15 @@ export default function PackagesPage() {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
+                            <AlertDialogTitle>{t('packages.confirmDeleteTitle')}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Sei sicuro di voler eliminare questo template? Questa azione non può essere annullata.
+                              {t('packages.confirmDeleteDesc')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Annulla</AlertDialogCancel>
+                            <AlertDialogCancel>{t('packages.form.cancel')}</AlertDialogCancel>
                             <AlertDialogAction onClick={() => deleteTemplate.mutate(template.id)}>
-                              Elimina
+                              {t('packages.delete')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -551,14 +551,14 @@ export default function PackagesPage() {
           {loadingPurchases ? (
             <Card>
               <CardContent className="py-8 text-center text-muted-foreground">
-                Caricamento...
+                {t('common.loading')}
               </CardContent>
             </Card>
           ) : purchases.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center">
                 <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <p className="text-muted-foreground">Nessun pacchetto venduto ancora</p>
+                <p className="text-muted-foreground">{t('packages.noPackagesSold')}</p>
               </CardContent>
             </Card>
           ) : (
@@ -584,9 +584,9 @@ export default function PackagesPage() {
                           purchase.status === 'expired' ? 'destructive' :
                           'outline'
                         }>
-                          {purchase.status === 'active' ? 'Attivo' :
-                           purchase.status === 'completed' ? 'Completato' :
-                           purchase.status === 'expired' ? 'Scaduto' :
+                          {purchase.status === 'active' ? t('packages.active') :
+                           purchase.status === 'completed' ? t('packages.completed') :
+                           purchase.status === 'expired' ? t('packages.expired') :
                            purchase.status}
                         </Badge>
                       </div>
@@ -595,7 +595,7 @@ export default function PackagesPage() {
                       {/* Barra progresso */}
                       <div>
                         <div className="flex items-center justify-between mb-2 text-sm">
-                          <span className="text-muted-foreground">Progresso sedute</span>
+                          <span className="text-muted-foreground">{t('packages.sessionProgress')}</span>
                           <span className="font-medium">
                             {purchase.sessionsTotal - purchase.sessionsRemaining} / {purchase.sessionsTotal}
                           </span>
@@ -610,30 +610,30 @@ export default function PackagesPage() {
                       
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <span className="text-muted-foreground block">Acquistato il:</span>
+                          <span className="text-muted-foreground block">{t('packages.purchasedOn')}:</span>
                           <span className="font-medium">{purchase.purchaseDate}</span>
                         </div>
                         {purchase.expiresAt && (
                           <div>
-                            <span className="text-muted-foreground block">Scade il:</span>
+                            <span className="text-muted-foreground block">{t('packages.expiresOn')}:</span>
                             <span className={`font-medium ${isExpiring ? 'text-orange-600' : ''}`}>
                               {purchase.expiresAt}
                             </span>
                           </div>
                         )}
                         <div>
-                          <span className="text-muted-foreground block">Sedute rimanenti:</span>
+                          <span className="text-muted-foreground block">{t('packages.remainingSessions')}:</span>
                           <span className="font-medium text-lg">{purchase.sessionsRemaining}</span>
                         </div>
                         <div>
-                          <span className="text-muted-foreground block">Prezzo pagato:</span>
+                          <span className="text-muted-foreground block">{t('packages.pricePaid')}:</span>
                           <span className="font-medium">{formatPrice(purchase.templatePrice / 100)}</span>
                         </div>
                       </div>
                       
                       {purchase.notes && (
                         <div className="pt-2 border-t">
-                          <span className="text-muted-foreground text-sm block mb-1">Note:</span>
+                          <span className="text-muted-foreground text-sm block mb-1">{t('packages.notes')}:</span>
                           <p className="text-sm">{purchase.notes}</p>
                         </div>
                       )}
