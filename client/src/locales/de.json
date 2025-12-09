@@ -1506,38 +1506,129 @@
     "title": "Lagerverwaltung",
     "subtitle": "Verwalten Sie Ihre Produkte und Ihr Lager",
     "newProduct": "Neues Produkt",
+    "addNewProduct": "Neues Produkt hinzufügen",
+    "editProduct": "Produkt bearbeiten",
     "noProducts": "Keine Produkte gefunden",
     "startCreating": "Fügen Sie zunächst Ihr erstes Produkt hinzu",
     "createFirst": "Erstes Produkt hinzufügen",
+    "available": "Verfügbar",
     "inStock": "Auf Lager",
     "lowStock": "Niedriger Bestand",
     "outOfStock": "Ausverkauft",
     "quantity": "Menge",
     "minStock": "Mindestbestand",
     "price": "Preis",
+    "cost": "Kosten",
+    "min": "Min",
+    "stock": "Bestand",
     "sku": "SKU-Code",
+    "barcode": "Barcode",
     "category": "Kategorie",
     "edit": "Bearbeiten",
     "delete": "Löschen",
-    "confirmDelete": "Sind Sie sicher, dass Sie dieses Produkt löschen möchten?",
+    "confirmDelete": "Löschung bestätigen",
+    "confirmDeleteDesc": "Sind Sie sicher, dass Sie das Produkt löschen möchten",
+    "cannotUndo": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
     "adjustStock": "Bestand anpassen",
     "addStock": "Hinzufügen",
     "removeStock": "Entfernen",
+    "tabs": {
+      "products": "Produkte",
+      "movements": "Bewegungen",
+      "sales": "Verkäufe",
+      "categories": "Kategorien"
+    },
+    "dashboard": {
+      "totalProducts": "Produkte gesamt",
+      "lowStock": "Niedriger Bestand",
+      "warehouseValue": "Lagerwert",
+      "categories": "Kategorien"
+    },
+    "alert": {
+      "lowStockAlert": "Warnung: Niedriger Bestand"
+    },
+    "search": {
+      "placeholder": "Nach Name, SKU oder Barcode suchen...",
+      "allCategories": "Alle Kategorien"
+    },
     "form": {
       "name": "Produktname",
       "description": "Beschreibung",
       "sku": "SKU-Code",
       "category": "Kategorie",
+      "selectCategory": "Kategorie auswählen",
+      "noCategories": "Keine Kategorien verfügbar",
+      "createCategoryFirst": "Erstellen Sie zuerst eine Kategorie im Bereich Kategorien",
       "price": "Verkaufspreis",
       "costPrice": "Einkaufspreis",
       "quantity": "Verfügbare Menge",
-      "minStock": "Mindestbestand"
+      "minStock": "Mindestbestand",
+      "maxStock": "Höchstbestand",
+      "unit": "Einheit",
+      "supplier": "Lieferant",
+      "supplierContact": "Lieferantenkontakt",
+      "location": "Lagerort",
+      "image": "Produktbild (optional)",
+      "changeImage": "Bild ändern",
+      "uploadImage": "Bild hochladen"
+    },
+    "stock": {
+      "load": "Eingang",
+      "loadGoods": "Wareneingang",
+      "sell": "Verkaufen",
+      "registerSale": "Verkauf registrieren",
+      "unitPrice": "Stückpreis",
+      "reference": "Referenz (Rechnung usw.)",
+      "registering": "Registrierung...",
+      "registerLoad": "Eingang registrieren",
+      "registerSaleBtn": "Verkauf registrieren"
+    },
+    "sale": {
+      "clientOptional": "Kunde (optional)",
+      "selectClient": "Kunde auswählen",
+      "discount": "Rabatt (%)"
+    },
+    "movements": {
+      "title": "Aktuelle Lagerbewegungen",
+      "noMovements": "Keine aktuellen Bewegungen",
+      "in": "Eingang",
+      "out": "Ausgang",
+      "sale": "Verkauf",
+      "adjustment": "Anpassung",
+      "waste": "Abfall"
+    },
+    "sales": {
+      "title": "Produktverkäufe",
+      "inDevelopment": "Verkaufsfunktionalität in Entwicklung..."
+    },
+    "categories": {
+      "title": "Produktkategorien",
+      "newCategory": "Neue Kategorie",
+      "addNewCategory": "Neue Kategorie hinzufügen",
+      "name": "Kategoriename",
+      "description": "Beschreibung",
+      "color": "Farbe",
+      "products": "Produkte",
+      "creating": "Erstellen...",
+      "create": "Kategorie erstellen"
+    },
+    "saving": "Speichern...",
+    "saveChanges": "Änderungen speichern",
+    "formError": "Formularfehler",
+    "checkFields": "Überprüfen Sie die eingegebenen Felder",
+    "locked": {
+      "title": "Lager nicht verfügbar",
+      "description": "Lager- und Bestandsverwaltung ist nur im Tarif verfügbar",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Auf Business upgraden"
     },
     "toast": {
-      "created": "Produkt hinzugefügt",
-      "updated": "Produkt aktualisiert",
-      "deleted": "Produkt gelöscht",
-      "stockUpdated": "Bestand aktualisiert",
+      "created": "Produkt erfolgreich erstellt",
+      "updated": "Produkt erfolgreich aktualisiert",
+      "deleted": "Produkt erfolgreich gelöscht",
+      "stockUpdated": "Lagerbewegung registriert",
+      "saleRecorded": "Verkauf erfolgreich registriert",
       "error": "Produkt-Operationsfehler"
     }
   },

@@ -1506,38 +1506,129 @@
     "title": "Inventory Management",
     "subtitle": "Manage your products and inventory",
     "newProduct": "New Product",
+    "addNewProduct": "Add New Product",
+    "editProduct": "Edit Product",
     "noProducts": "No products found",
     "startCreating": "Start by adding your first product",
     "createFirst": "Add First Product",
+    "available": "Available",
     "inStock": "In stock",
     "lowStock": "Low stock",
     "outOfStock": "Out of stock",
     "quantity": "Quantity",
     "minStock": "Minimum stock",
     "price": "Price",
+    "cost": "Cost",
+    "min": "Min",
+    "stock": "Stock",
     "sku": "SKU Code",
+    "barcode": "Barcode",
     "category": "Category",
     "edit": "Edit",
     "delete": "Delete",
-    "confirmDelete": "Are you sure you want to delete this product?",
+    "confirmDelete": "Confirm deletion",
+    "confirmDeleteDesc": "Are you sure you want to delete the product",
+    "cannotUndo": "This action cannot be undone.",
+    "cancel": "Cancel",
     "adjustStock": "Adjust Stock",
     "addStock": "Add",
     "removeStock": "Remove",
+    "tabs": {
+      "products": "Products",
+      "movements": "Movements",
+      "sales": "Sales",
+      "categories": "Categories"
+    },
+    "dashboard": {
+      "totalProducts": "Total Products",
+      "lowStock": "Low Stock",
+      "warehouseValue": "Warehouse Value",
+      "categories": "Categories"
+    },
+    "alert": {
+      "lowStockAlert": "Low Stock Alert"
+    },
+    "search": {
+      "placeholder": "Search by name, SKU or barcode...",
+      "allCategories": "All categories"
+    },
     "form": {
-      "name": "Product name",
+      "name": "Product Name",
       "description": "Description",
       "sku": "SKU Code",
       "category": "Category",
+      "selectCategory": "Select category",
+      "noCategories": "No categories available",
+      "createCategoryFirst": "Create a category first in the Categories section",
       "price": "Sale price",
-      "costPrice": "Cost price",
+      "costPrice": "Purchase Cost",
       "quantity": "Available quantity",
-      "minStock": "Minimum stock"
+      "minStock": "Minimum stock",
+      "maxStock": "Maximum stock",
+      "unit": "Unit",
+      "supplier": "Supplier",
+      "supplierContact": "Supplier contact",
+      "location": "Warehouse location",
+      "image": "Product Image (optional)",
+      "changeImage": "Change Image",
+      "uploadImage": "Upload Image"
+    },
+    "stock": {
+      "load": "Load",
+      "loadGoods": "Load Goods",
+      "sell": "Sell",
+      "registerSale": "Register Sale",
+      "unitPrice": "Unit Price",
+      "reference": "Reference (Invoice, etc.)",
+      "registering": "Registering...",
+      "registerLoad": "Register Load",
+      "registerSaleBtn": "Register Sale"
+    },
+    "sale": {
+      "clientOptional": "Client (optional)",
+      "selectClient": "Select client",
+      "discount": "Discount (%)"
+    },
+    "movements": {
+      "title": "Recent Warehouse Movements",
+      "noMovements": "No recent movements",
+      "in": "Load",
+      "out": "Unload",
+      "sale": "Sale",
+      "adjustment": "Adjustment",
+      "waste": "Waste"
+    },
+    "sales": {
+      "title": "Product Sales",
+      "inDevelopment": "Sales functionality in development..."
+    },
+    "categories": {
+      "title": "Product Categories",
+      "newCategory": "New Category",
+      "addNewCategory": "Add New Category",
+      "name": "Category Name",
+      "description": "Description",
+      "color": "Color",
+      "products": "products",
+      "creating": "Creating...",
+      "create": "Create Category"
+    },
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "formError": "Form error",
+    "checkFields": "Check the entered fields",
+    "locked": {
+      "title": "Inventory Not Available",
+      "description": "Inventory and warehouse management is only available in the",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Upgrade to Business"
     },
     "toast": {
-      "created": "Product added",
-      "updated": "Product updated",
-      "deleted": "Product deleted",
-      "stockUpdated": "Stock updated",
+      "created": "Product created successfully",
+      "updated": "Product updated successfully",
+      "deleted": "Product deleted successfully",
+      "stockUpdated": "Warehouse movement registered",
+      "saleRecorded": "Sale registered successfully",
       "error": "Product operation error"
     }
   },

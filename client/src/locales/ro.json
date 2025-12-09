@@ -1506,38 +1506,129 @@
     "title": "Gestionare Stoc",
     "subtitle": "Gestionează produsele și stocul tău",
     "newProduct": "Produs Nou",
+    "addNewProduct": "Adaugă Produs Nou",
+    "editProduct": "Editează Produs",
     "noProducts": "Nu s-au găsit produse",
     "startCreating": "Începe prin adăugarea primului tău produs",
     "createFirst": "Adaugă Primul Produs",
+    "available": "Disponibil",
     "inStock": "În stoc",
     "lowStock": "Stoc scăzut",
     "outOfStock": "Epuizat",
     "quantity": "Cantitate",
     "minStock": "Stoc minim",
     "price": "Preț",
+    "cost": "Cost",
+    "min": "Min",
+    "stock": "Stoc",
     "sku": "Cod SKU",
+    "barcode": "Cod de bare",
     "category": "Categorie",
     "edit": "Editează",
     "delete": "Șterge",
-    "confirmDelete": "Ești sigur că vrei să ștergi acest produs?",
+    "confirmDelete": "Confirmă ștergerea",
+    "confirmDeleteDesc": "Ești sigur că vrei să ștergi produsul",
+    "cannotUndo": "Această acțiune nu poate fi anulată.",
+    "cancel": "Anulează",
     "adjustStock": "Ajustează Stocul",
     "addStock": "Adaugă",
     "removeStock": "Elimină",
+    "tabs": {
+      "products": "Produse",
+      "movements": "Mișcări",
+      "sales": "Vânzări",
+      "categories": "Categorii"
+    },
+    "dashboard": {
+      "totalProducts": "Total Produse",
+      "lowStock": "Stoc Scăzut",
+      "warehouseValue": "Valoare Depozit",
+      "categories": "Categorii"
+    },
+    "alert": {
+      "lowStockAlert": "Alertă Stoc Scăzut"
+    },
+    "search": {
+      "placeholder": "Caută după nume, SKU sau cod de bare...",
+      "allCategories": "Toate categoriile"
+    },
     "form": {
-      "name": "Nume produs",
+      "name": "Nume Produs",
       "description": "Descriere",
       "sku": "Cod SKU",
       "category": "Categorie",
+      "selectCategory": "Selectează categorie",
+      "noCategories": "Nicio categorie disponibilă",
+      "createCategoryFirst": "Creează mai întâi o categorie în secțiunea Categorii",
       "price": "Preț vânzare",
-      "costPrice": "Preț cost",
+      "costPrice": "Cost Achiziție",
       "quantity": "Cantitate disponibilă",
-      "minStock": "Stoc minim"
+      "minStock": "Stoc minim",
+      "maxStock": "Stoc maxim",
+      "unit": "Unitate",
+      "supplier": "Furnizor",
+      "supplierContact": "Contact furnizor",
+      "location": "Locație depozit",
+      "image": "Imagine Produs (opțional)",
+      "changeImage": "Schimbă Imaginea",
+      "uploadImage": "Încarcă Imagine"
+    },
+    "stock": {
+      "load": "Intrare",
+      "loadGoods": "Recepție Marfă",
+      "sell": "Vinde",
+      "registerSale": "Înregistrează Vânzare",
+      "unitPrice": "Preț Unitar",
+      "reference": "Referință (Factură, etc.)",
+      "registering": "Înregistrare...",
+      "registerLoad": "Înregistrează Intrare",
+      "registerSaleBtn": "Înregistrează Vânzare"
+    },
+    "sale": {
+      "clientOptional": "Client (opțional)",
+      "selectClient": "Selectează client",
+      "discount": "Reducere (%)"
+    },
+    "movements": {
+      "title": "Mișcări Recente Depozit",
+      "noMovements": "Nicio mișcare recentă",
+      "in": "Intrare",
+      "out": "Ieșire",
+      "sale": "Vânzare",
+      "adjustment": "Ajustare",
+      "waste": "Pierdere"
+    },
+    "sales": {
+      "title": "Vânzări Produse",
+      "inDevelopment": "Funcționalitate vânzări în dezvoltare..."
+    },
+    "categories": {
+      "title": "Categorii Produse",
+      "newCategory": "Categorie Nouă",
+      "addNewCategory": "Adaugă Categorie Nouă",
+      "name": "Nume Categorie",
+      "description": "Descriere",
+      "color": "Culoare",
+      "products": "produse",
+      "creating": "Creare...",
+      "create": "Creează Categorie"
+    },
+    "saving": "Salvare...",
+    "saveChanges": "Salvează Modificările",
+    "formError": "Eroare formular",
+    "checkFields": "Verifică câmpurile introduse",
+    "locked": {
+      "title": "Stoc Indisponibil",
+      "description": "Gestionarea stocului și depozitului este disponibilă doar în planul",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Treci la Business"
     },
     "toast": {
-      "created": "Produs adăugat",
-      "updated": "Produs actualizat",
-      "deleted": "Produs șters",
-      "stockUpdated": "Stoc actualizat",
+      "created": "Produs creat cu succes",
+      "updated": "Produs actualizat cu succes",
+      "deleted": "Produs șters cu succes",
+      "stockUpdated": "Mișcare depozit înregistrată",
+      "saleRecorded": "Vânzare înregistrată cu succes",
       "error": "Eroare operațiune produs"
     }
   },

@@ -1506,38 +1506,129 @@
     "title": "Voorraadbeheer",
     "subtitle": "Beheer uw producten en voorraad",
     "newProduct": "Nieuw Product",
+    "addNewProduct": "Nieuw Product Toevoegen",
+    "editProduct": "Product Bewerken",
     "noProducts": "Geen producten gevonden",
     "startCreating": "Begin met het toevoegen van uw eerste product",
     "createFirst": "Eerste Product Toevoegen",
+    "available": "Beschikbaar",
     "inStock": "Op voorraad",
     "lowStock": "Lage voorraad",
     "outOfStock": "Uitverkocht",
     "quantity": "Hoeveelheid",
     "minStock": "Minimumvoorraad",
     "price": "Prijs",
+    "cost": "Kosten",
+    "min": "Min",
+    "stock": "Voorraad",
     "sku": "SKU-code",
+    "barcode": "Barcode",
     "category": "Categorie",
     "edit": "Bewerken",
     "delete": "Verwijderen",
-    "confirmDelete": "Weet u zeker dat u dit product wilt verwijderen?",
+    "confirmDelete": "Verwijdering bevestigen",
+    "confirmDeleteDesc": "Weet u zeker dat u het product wilt verwijderen",
+    "cannotUndo": "Deze actie kan niet ongedaan worden gemaakt.",
+    "cancel": "Annuleren",
     "adjustStock": "Voorraad Aanpassen",
     "addStock": "Toevoegen",
     "removeStock": "Verwijderen",
+    "tabs": {
+      "products": "Producten",
+      "movements": "Bewegingen",
+      "sales": "Verkopen",
+      "categories": "Categorieën"
+    },
+    "dashboard": {
+      "totalProducts": "Totaal Producten",
+      "lowStock": "Lage Voorraad",
+      "warehouseValue": "Magazijnwaarde",
+      "categories": "Categorieën"
+    },
+    "alert": {
+      "lowStockAlert": "Waarschuwing Lage Voorraad"
+    },
+    "search": {
+      "placeholder": "Zoeken op naam, SKU of barcode...",
+      "allCategories": "Alle categorieën"
+    },
     "form": {
       "name": "Productnaam",
       "description": "Beschrijving",
       "sku": "SKU-code",
       "category": "Categorie",
+      "selectCategory": "Categorie selecteren",
+      "noCategories": "Geen categorieën beschikbaar",
+      "createCategoryFirst": "Maak eerst een categorie aan in het gedeelte Categorieën",
       "price": "Verkoopprijs",
       "costPrice": "Inkoopprijs",
       "quantity": "Beschikbare hoeveelheid",
-      "minStock": "Minimumvoorraad"
+      "minStock": "Minimumvoorraad",
+      "maxStock": "Maximumvoorraad",
+      "unit": "Eenheid",
+      "supplier": "Leverancier",
+      "supplierContact": "Leveranciercontact",
+      "location": "Magazijnlocatie",
+      "image": "Productafbeelding (optioneel)",
+      "changeImage": "Afbeelding Wijzigen",
+      "uploadImage": "Afbeelding Uploaden"
+    },
+    "stock": {
+      "load": "Inkomend",
+      "loadGoods": "Goederenontvangst",
+      "sell": "Verkopen",
+      "registerSale": "Verkoop Registreren",
+      "unitPrice": "Eenheidsprijs",
+      "reference": "Referentie (Factuur, etc.)",
+      "registering": "Registreren...",
+      "registerLoad": "Ontvangst Registreren",
+      "registerSaleBtn": "Verkoop Registreren"
+    },
+    "sale": {
+      "clientOptional": "Klant (optioneel)",
+      "selectClient": "Klant selecteren",
+      "discount": "Korting (%)"
+    },
+    "movements": {
+      "title": "Recente Magazijnbewegingen",
+      "noMovements": "Geen recente bewegingen",
+      "in": "Inkomend",
+      "out": "Uitgaand",
+      "sale": "Verkoop",
+      "adjustment": "Aanpassing",
+      "waste": "Afval"
+    },
+    "sales": {
+      "title": "Productverkopen",
+      "inDevelopment": "Verkoopfunctionaliteit in ontwikkeling..."
+    },
+    "categories": {
+      "title": "Productcategorieën",
+      "newCategory": "Nieuwe Categorie",
+      "addNewCategory": "Nieuwe Categorie Toevoegen",
+      "name": "Categorienaam",
+      "description": "Beschrijving",
+      "color": "Kleur",
+      "products": "producten",
+      "creating": "Aanmaken...",
+      "create": "Categorie Maken"
+    },
+    "saving": "Opslaan...",
+    "saveChanges": "Wijzigingen Opslaan",
+    "formError": "Formulierfout",
+    "checkFields": "Controleer de ingevoerde velden",
+    "locked": {
+      "title": "Voorraad Niet Beschikbaar",
+      "description": "Voorraad- en magazijnbeheer is alleen beschikbaar in het",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Upgraden naar Business"
     },
     "toast": {
-      "created": "Product toegevoegd",
-      "updated": "Product bijgewerkt",
-      "deleted": "Product verwijderd",
-      "stockUpdated": "Voorraad bijgewerkt",
+      "created": "Product succesvol aangemaakt",
+      "updated": "Product succesvol bijgewerkt",
+      "deleted": "Product succesvol verwijderd",
+      "stockUpdated": "Magazijnbeweging geregistreerd",
+      "saleRecorded": "Verkoop succesvol geregistreerd",
       "error": "Fout bij productoperatie"
     }
   },

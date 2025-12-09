@@ -1506,38 +1506,129 @@
     "title": "Gestión de Inventario",
     "subtitle": "Gestiona tus productos e inventario",
     "newProduct": "Nuevo Producto",
+    "addNewProduct": "Agregar Nuevo Producto",
+    "editProduct": "Editar Producto",
     "noProducts": "No se encontraron productos",
     "startCreating": "Comienza agregando tu primer producto",
     "createFirst": "Agregar Primer Producto",
+    "available": "Disponible",
     "inStock": "En stock",
     "lowStock": "Stock bajo",
     "outOfStock": "Agotado",
     "quantity": "Cantidad",
     "minStock": "Stock mínimo",
     "price": "Precio",
+    "cost": "Costo",
+    "min": "Mín",
+    "stock": "Stock",
     "sku": "Código SKU",
+    "barcode": "Código de barras",
     "category": "Categoría",
     "edit": "Editar",
     "delete": "Eliminar",
-    "confirmDelete": "¿Estás seguro de que quieres eliminar este producto?",
+    "confirmDelete": "Confirmar eliminación",
+    "confirmDeleteDesc": "¿Estás seguro de que quieres eliminar el producto",
+    "cannotUndo": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
     "adjustStock": "Ajustar Stock",
     "addStock": "Agregar",
     "removeStock": "Quitar",
+    "tabs": {
+      "products": "Productos",
+      "movements": "Movimientos",
+      "sales": "Ventas",
+      "categories": "Categorías"
+    },
+    "dashboard": {
+      "totalProducts": "Productos Totales",
+      "lowStock": "Stock Bajo",
+      "warehouseValue": "Valor del Almacén",
+      "categories": "Categorías"
+    },
+    "alert": {
+      "lowStockAlert": "Alerta de Stock Bajo"
+    },
+    "search": {
+      "placeholder": "Buscar por nombre, SKU o código de barras...",
+      "allCategories": "Todas las categorías"
+    },
     "form": {
-      "name": "Nombre del producto",
+      "name": "Nombre del Producto",
       "description": "Descripción",
       "sku": "Código SKU",
       "category": "Categoría",
+      "selectCategory": "Seleccionar categoría",
+      "noCategories": "No hay categorías disponibles",
+      "createCategoryFirst": "Crea primero una categoría en la sección Categorías",
       "price": "Precio de venta",
-      "costPrice": "Precio de costo",
+      "costPrice": "Costo de Compra",
       "quantity": "Cantidad disponible",
-      "minStock": "Stock mínimo"
+      "minStock": "Stock mínimo",
+      "maxStock": "Stock máximo",
+      "unit": "Unidad",
+      "supplier": "Proveedor",
+      "supplierContact": "Contacto del proveedor",
+      "location": "Ubicación en almacén",
+      "image": "Imagen del Producto (opcional)",
+      "changeImage": "Cambiar Imagen",
+      "uploadImage": "Subir Imagen"
+    },
+    "stock": {
+      "load": "Carga",
+      "loadGoods": "Carga de Mercancía",
+      "sell": "Vender",
+      "registerSale": "Registrar Venta",
+      "unitPrice": "Precio Unitario",
+      "reference": "Referencia (Factura, etc.)",
+      "registering": "Registrando...",
+      "registerLoad": "Registrar Carga",
+      "registerSaleBtn": "Registrar Venta"
+    },
+    "sale": {
+      "clientOptional": "Cliente (opcional)",
+      "selectClient": "Seleccionar cliente",
+      "discount": "Descuento (%)"
+    },
+    "movements": {
+      "title": "Movimientos de Almacén Recientes",
+      "noMovements": "Sin movimientos recientes",
+      "in": "Entrada",
+      "out": "Salida",
+      "sale": "Venta",
+      "adjustment": "Ajuste",
+      "waste": "Desperdicio"
+    },
+    "sales": {
+      "title": "Ventas de Productos",
+      "inDevelopment": "Funcionalidad de ventas en desarrollo..."
+    },
+    "categories": {
+      "title": "Categorías de Productos",
+      "newCategory": "Nueva Categoría",
+      "addNewCategory": "Agregar Nueva Categoría",
+      "name": "Nombre de Categoría",
+      "description": "Descripción",
+      "color": "Color",
+      "products": "productos",
+      "creating": "Creando...",
+      "create": "Crear Categoría"
+    },
+    "saving": "Guardando...",
+    "saveChanges": "Guardar Cambios",
+    "formError": "Error en formulario",
+    "checkFields": "Verifica los campos ingresados",
+    "locked": {
+      "title": "Inventario No Disponible",
+      "description": "La gestión de inventario y almacén solo está disponible en el plan",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Cambiar a Business"
     },
     "toast": {
-      "created": "Producto agregado",
-      "updated": "Producto actualizado",
-      "deleted": "Producto eliminado",
-      "stockUpdated": "Stock actualizado",
+      "created": "Producto creado exitosamente",
+      "updated": "Producto actualizado exitosamente",
+      "deleted": "Producto eliminado exitosamente",
+      "stockUpdated": "Movimiento de almacén registrado",
+      "saleRecorded": "Venta registrada exitosamente",
       "error": "Error en operación de producto"
     }
   },

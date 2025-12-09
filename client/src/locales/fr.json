@@ -1506,38 +1506,129 @@
     "title": "Gestion des Stocks",
     "subtitle": "Gérez vos produits et votre inventaire",
     "newProduct": "Nouveau Produit",
+    "addNewProduct": "Ajouter Nouveau Produit",
+    "editProduct": "Modifier Produit",
     "noProducts": "Aucun produit trouvé",
     "startCreating": "Commencez par ajouter votre premier produit",
     "createFirst": "Ajouter Premier Produit",
+    "available": "Disponible",
     "inStock": "En stock",
     "lowStock": "Stock faible",
     "outOfStock": "Épuisé",
     "quantity": "Quantité",
     "minStock": "Stock minimum",
     "price": "Prix",
+    "cost": "Coût",
+    "min": "Min",
+    "stock": "Stock",
     "sku": "Code SKU",
+    "barcode": "Code-barres",
     "category": "Catégorie",
     "edit": "Modifier",
     "delete": "Supprimer",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce produit?",
+    "confirmDelete": "Confirmer la suppression",
+    "confirmDeleteDesc": "Êtes-vous sûr de vouloir supprimer le produit",
+    "cannotUndo": "Cette action ne peut pas être annulée.",
+    "cancel": "Annuler",
     "adjustStock": "Ajuster Stock",
     "addStock": "Ajouter",
     "removeStock": "Retirer",
+    "tabs": {
+      "products": "Produits",
+      "movements": "Mouvements",
+      "sales": "Ventes",
+      "categories": "Catégories"
+    },
+    "dashboard": {
+      "totalProducts": "Produits Totaux",
+      "lowStock": "Stock Faible",
+      "warehouseValue": "Valeur Entrepôt",
+      "categories": "Catégories"
+    },
+    "alert": {
+      "lowStockAlert": "Alerte Stock Faible"
+    },
+    "search": {
+      "placeholder": "Rechercher par nom, SKU ou code-barres...",
+      "allCategories": "Toutes les catégories"
+    },
     "form": {
-      "name": "Nom du produit",
+      "name": "Nom du Produit",
       "description": "Description",
       "sku": "Code SKU",
       "category": "Catégorie",
+      "selectCategory": "Sélectionner catégorie",
+      "noCategories": "Aucune catégorie disponible",
+      "createCategoryFirst": "Créez d'abord une catégorie dans la section Catégories",
       "price": "Prix de vente",
-      "costPrice": "Prix d'achat",
+      "costPrice": "Coût d'Achat",
       "quantity": "Quantité disponible",
-      "minStock": "Stock minimum"
+      "minStock": "Stock minimum",
+      "maxStock": "Stock maximum",
+      "unit": "Unité",
+      "supplier": "Fournisseur",
+      "supplierContact": "Contact fournisseur",
+      "location": "Emplacement entrepôt",
+      "image": "Image Produit (optionnel)",
+      "changeImage": "Changer Image",
+      "uploadImage": "Télécharger Image"
+    },
+    "stock": {
+      "load": "Entrée",
+      "loadGoods": "Entrée Marchandises",
+      "sell": "Vendre",
+      "registerSale": "Enregistrer Vente",
+      "unitPrice": "Prix Unitaire",
+      "reference": "Référence (Facture, etc.)",
+      "registering": "Enregistrement...",
+      "registerLoad": "Enregistrer Entrée",
+      "registerSaleBtn": "Enregistrer Vente"
+    },
+    "sale": {
+      "clientOptional": "Client (optionnel)",
+      "selectClient": "Sélectionner client",
+      "discount": "Remise (%)"
+    },
+    "movements": {
+      "title": "Mouvements d'Entrepôt Récents",
+      "noMovements": "Aucun mouvement récent",
+      "in": "Entrée",
+      "out": "Sortie",
+      "sale": "Vente",
+      "adjustment": "Ajustement",
+      "waste": "Perte"
+    },
+    "sales": {
+      "title": "Ventes de Produits",
+      "inDevelopment": "Fonctionnalité ventes en développement..."
+    },
+    "categories": {
+      "title": "Catégories de Produits",
+      "newCategory": "Nouvelle Catégorie",
+      "addNewCategory": "Ajouter Nouvelle Catégorie",
+      "name": "Nom de Catégorie",
+      "description": "Description",
+      "color": "Couleur",
+      "products": "produits",
+      "creating": "Création...",
+      "create": "Créer Catégorie"
+    },
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer Modifications",
+    "formError": "Erreur de formulaire",
+    "checkFields": "Vérifiez les champs saisis",
+    "locked": {
+      "title": "Stock Non Disponible",
+      "description": "La gestion des stocks et de l'entrepôt n'est disponible que dans le forfait",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Passer à Business"
     },
     "toast": {
-      "created": "Produit ajouté",
-      "updated": "Produit mis à jour",
-      "deleted": "Produit supprimé",
-      "stockUpdated": "Stock mis à jour",
+      "created": "Produit créé avec succès",
+      "updated": "Produit mis à jour avec succès",
+      "deleted": "Produit supprimé avec succès",
+      "stockUpdated": "Mouvement d'entrepôt enregistré",
+      "saleRecorded": "Vente enregistrée avec succès",
       "error": "Erreur d'opération produit"
     }
   },

@@ -1506,38 +1506,129 @@
     "title": "Lagerstyring",
     "subtitle": "Administrer dine produkter og lager",
     "newProduct": "Nytt Produkt",
+    "addNewProduct": "Legg til Nytt Produkt",
+    "editProduct": "Rediger Produkt",
     "noProducts": "Ingen produkter funnet",
     "startCreating": "Start med å legge til ditt første produkt",
     "createFirst": "Legg til Første Produkt",
+    "available": "Tilgjengelig",
     "inStock": "På lager",
     "lowStock": "Lavt lager",
     "outOfStock": "Utsolgt",
     "quantity": "Antall",
     "minStock": "Minimumslager",
     "price": "Pris",
+    "cost": "Kostnad",
+    "min": "Min",
+    "stock": "Lager",
     "sku": "SKU-kode",
+    "barcode": "Strekkode",
     "category": "Kategori",
     "edit": "Rediger",
     "delete": "Slett",
-    "confirmDelete": "Er du sikker på at du vil slette dette produktet?",
+    "confirmDelete": "Bekreft sletting",
+    "confirmDeleteDesc": "Er du sikker på at du vil slette produktet",
+    "cannotUndo": "Denne handlingen kan ikke angres.",
+    "cancel": "Avbryt",
     "adjustStock": "Juster Lager",
     "addStock": "Legg til",
     "removeStock": "Fjern",
+    "tabs": {
+      "products": "Produkter",
+      "movements": "Bevegelser",
+      "sales": "Salg",
+      "categories": "Kategorier"
+    },
+    "dashboard": {
+      "totalProducts": "Totalt Produkter",
+      "lowStock": "Lavt Lager",
+      "warehouseValue": "Lagerverdi",
+      "categories": "Kategorier"
+    },
+    "alert": {
+      "lowStockAlert": "Advarsel Lavt Lager"
+    },
+    "search": {
+      "placeholder": "Søk etter navn, SKU eller strekkode...",
+      "allCategories": "Alle kategorier"
+    },
     "form": {
       "name": "Produktnavn",
       "description": "Beskrivelse",
       "sku": "SKU-kode",
       "category": "Kategori",
+      "selectCategory": "Velg kategori",
+      "noCategories": "Ingen kategorier tilgjengelig",
+      "createCategoryFirst": "Opprett først en kategori i Kategorier-seksjonen",
       "price": "Salgspris",
       "costPrice": "Innkjøpspris",
       "quantity": "Tilgjengelig antall",
-      "minStock": "Minimumslager"
+      "minStock": "Minimumslager",
+      "maxStock": "Maksimumslager",
+      "unit": "Enhet",
+      "supplier": "Leverandør",
+      "supplierContact": "Leverandørkontakt",
+      "location": "Lagerplassering",
+      "image": "Produktbilde (valgfritt)",
+      "changeImage": "Endre Bilde",
+      "uploadImage": "Last opp Bilde"
+    },
+    "stock": {
+      "load": "Inngang",
+      "loadGoods": "Varemottak",
+      "sell": "Selg",
+      "registerSale": "Registrer Salg",
+      "unitPrice": "Enhetspris",
+      "reference": "Referanse (Faktura, etc.)",
+      "registering": "Registrerer...",
+      "registerLoad": "Registrer Mottak",
+      "registerSaleBtn": "Registrer Salg"
+    },
+    "sale": {
+      "clientOptional": "Kunde (valgfritt)",
+      "selectClient": "Velg kunde",
+      "discount": "Rabatt (%)"
+    },
+    "movements": {
+      "title": "Nylige Lagerbevegelser",
+      "noMovements": "Ingen nylige bevegelser",
+      "in": "Inngang",
+      "out": "Utgang",
+      "sale": "Salg",
+      "adjustment": "Justering",
+      "waste": "Svinn"
+    },
+    "sales": {
+      "title": "Produktsalg",
+      "inDevelopment": "Salgsfunksjonalitet under utvikling..."
+    },
+    "categories": {
+      "title": "Produktkategorier",
+      "newCategory": "Ny Kategori",
+      "addNewCategory": "Legg til Ny Kategori",
+      "name": "Kategorinavn",
+      "description": "Beskrivelse",
+      "color": "Farge",
+      "products": "produkter",
+      "creating": "Oppretter...",
+      "create": "Opprett Kategori"
+    },
+    "saving": "Lagrer...",
+    "saveChanges": "Lagre Endringer",
+    "formError": "Skjemafeil",
+    "checkFields": "Sjekk de angitte feltene",
+    "locked": {
+      "title": "Lager Ikke Tilgjengelig",
+      "description": "Lager- og beholdningsstyring er kun tilgjengelig i",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Oppgrader til Business"
     },
     "toast": {
-      "created": "Produkt lagt til",
+      "created": "Produkt opprettet",
       "updated": "Produkt oppdatert",
       "deleted": "Produkt slettet",
-      "stockUpdated": "Lager oppdatert",
+      "stockUpdated": "Lagerbevegelse registrert",
+      "saleRecorded": "Salg registrert",
       "error": "Feil ved produktoperasjon"
     }
   },
