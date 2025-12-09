@@ -3,7 +3,38 @@
 ## Overview
 This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed to streamline operations for medical practices. It offers comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system aims to enhance patient engagement and provide efficient administrative tools, ultimately serving as a multi-platform solution for modern medical practice management.
 
-## Recent Changes (December 5, 2025)
+## Recent Changes (December 9, 2025)
+
+### ✅ FIX LOGICA ACCESSI PIANI ABBONAMENTO
+**Status**: ✅ CORRETTO - La logica di accesso PRO/BUSINESS ora rispetta i piani stabiliti
+
+#### 🔐 PROBLEMA IDENTIFICATO:
+- L'endpoint `/api/license/has-pro-access` in `simple-routes.ts` restituiva `true` per TUTTI i customer
+- Gli utenti BASE avevano accesso a funzionalità PRO (Google Calendar, Report, ecc.)
+
+#### ✅ CORREZIONE APPLICATA:
+- **has-pro-access**: Ora controlla effettivamente il tipo di licenza
+- **has-business-access**: Ora controlla effettivamente il tipo di licenza
+
+#### 📋 LOGICA CORRETTA:
+
+| Piano | Accesso PRO | Accesso BUSINESS |
+|-------|-------------|------------------|
+| BASE | ❌ No | ❌ No |
+| PRO | ✅ Sì | ❌ No |
+| BUSINESS | ✅ Sì | ✅ Sì |
+| TRIAL (40gg) | ✅ Sì | ✅ Sì |
+| PASSEPARTOUT | ✅ Sì | ✅ Sì |
+| Admin/Staff | ✅ Sì | ✅ Sì |
+
+#### 🎯 FUNZIONALITÀ PER PIANO:
+- **BASE**: Calendario, Gestione clienti, App QR/PWA, Richieste appuntamenti, Notifiche, Fatture
+- **PRO** (include BASE +): Google Calendar, Report e statistiche, Pacchetti promozionali  
+- **BUSINESS** (include PRO +): Gestione dipendenti, Magazzino prodotti, Campagne Marketing AI
+
+---
+
+## Previous Changes (December 5, 2025)
 
 ### ✅ GOOGLE PLAY STORE PRIVACY POLICY COMPLIANCE FIX
 **Status**: ✅ COMPLETATO - Tutti i link Privacy Policy ora reindirizzano a `/privacy` (no popup)

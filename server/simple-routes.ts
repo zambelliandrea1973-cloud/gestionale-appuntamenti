@@ -1117,21 +1117,76 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  app.get("/api/license/has-pro-access", (req, res) => {
+  // Endpoint per verificare accesso PRO - rispetta la logica dei piani:
+  // - BASE: NO accesso PRO
+  // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: SI accesso PRO
+  // - Admin/Staff: SI accesso completo
+  app.get("/api/license/has-pro-access", async (req, res) => {
     if (!req.isAuthenticated()) {
       console.log('🔐 [has-pro-access] Utente NON autenticato - return false');
       return res.json(false);
     }
     const user = req.user as any;
-    const hasAccess = user.type === 'admin' || user.type === 'staff' || user.type === 'customer';
-    console.log(`🔐 [has-pro-access] Utente ${user.id} (${user.type}) - hasAccess: ${hasAccess}`);
-    res.json(hasAccess);
+    
+    // Admin e staff hanno sempre accesso PRO
+    if (user.type === 'admin' || user.type === 'staff') {
+      console.log(`🔐 [has-pro-access] Utente ${user.id} (${user.type}) - admin/staff = true`);
+      return res.json(true);
+    }
+    
+    // Per customer, controlliamo il tipo di licenza
+    if (user.type === 'customer' && user.id) {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        
+        if (activeLicense) {
+          // PRO, BUSINESS, PASSEPARTOUT, TRIAL hanno accesso PRO
+          const proLicenseTypes = ['pro', 'business', 'passepartout', 'trial'];
+          const hasAccess = proLicenseTypes.includes(activeLicense.type);
+          console.log(`🔐 [has-pro-access] Utente ${user.id} licenza ${activeLicense.type} - hasAccess: ${hasAccess}`);
+          return res.json(hasAccess);
+        }
+      } catch (error) {
+        console.error(`❌ [has-pro-access] Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
+    
+    console.log(`🔐 [has-pro-access] Utente ${user.id} - nessuna licenza PRO attiva = false`);
+    res.json(false);
   });
 
-  app.get("/api/license/has-business-access", (req, res) => {
+  // Endpoint per verificare accesso BUSINESS - rispetta la logica dei piani:
+  // - BASE/PRO: NO accesso BUSINESS
+  // - BUSINESS/TRIAL/PASSEPARTOUT: SI accesso BUSINESS
+  // - Admin/Staff: SI accesso completo
+  app.get("/api/license/has-business-access", async (req, res) => {
     if (!req.isAuthenticated()) return res.json(false);
     const user = req.user as any;
-    res.json(user.type !== 'basic');
+    
+    // Admin e staff hanno sempre accesso BUSINESS
+    if (user.type === 'admin' || user.type === 'staff') {
+      return res.json(true);
+    }
+    
+    // Per customer, controlliamo il tipo di licenza
+    if (user.type === 'customer' && user.id) {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        
+        if (activeLicense) {
+          // Solo BUSINESS, PASSEPARTOUT, TRIAL hanno accesso BUSINESS
+          const businessLicenseTypes = ['business', 'passepartout', 'trial'];
+          const hasAccess = businessLicenseTypes.includes(activeLicense.type);
+          return res.json(hasAccess);
+        }
+      } catch (error) {
+        console.error(`❌ [has-business-access] Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
+    
+    res.json(false);
   });
 
   app.get("/api/license/application-title", (req, res) => {
