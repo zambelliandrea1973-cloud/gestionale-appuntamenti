@@ -1506,38 +1506,129 @@
     "title": "Gestione Magazzino",
     "subtitle": "Gestisci i tuoi prodotti e il magazzino",
     "newProduct": "Nuovo Prodotto",
+    "addNewProduct": "Aggiungi Nuovo Prodotto",
+    "editProduct": "Modifica Prodotto",
     "noProducts": "Nessun prodotto trovato",
     "startCreating": "Inizia aggiungendo il tuo primo prodotto",
     "createFirst": "Aggiungi Primo Prodotto",
+    "available": "Disponibile",
     "inStock": "In magazzino",
     "lowStock": "Scorte basse",
     "outOfStock": "Esaurito",
     "quantity": "Quantità",
     "minStock": "Stock minimo",
     "price": "Prezzo",
+    "cost": "Costo",
+    "min": "Min",
+    "stock": "Scorte",
     "sku": "Codice SKU",
+    "barcode": "Codice a barre",
     "category": "Categoria",
     "edit": "Modifica",
     "delete": "Elimina",
-    "confirmDelete": "Sei sicuro di voler eliminare questo prodotto?",
+    "confirmDelete": "Conferma eliminazione",
+    "confirmDeleteDesc": "Sei sicuro di voler eliminare il prodotto",
+    "cannotUndo": "Questa azione non può essere annullata.",
+    "cancel": "Annulla",
     "adjustStock": "Regola Scorte",
     "addStock": "Aggiungi",
     "removeStock": "Rimuovi",
+    "tabs": {
+      "products": "Prodotti",
+      "movements": "Movimenti",
+      "sales": "Vendite",
+      "categories": "Categorie"
+    },
+    "dashboard": {
+      "totalProducts": "Prodotti Totali",
+      "lowStock": "Scorte Basse",
+      "warehouseValue": "Valore Magazzino",
+      "categories": "Categorie"
+    },
+    "alert": {
+      "lowStockAlert": "Allarme Scorte Basse"
+    },
+    "search": {
+      "placeholder": "Cerca per nome, SKU o codice a barre...",
+      "allCategories": "Tutte le categorie"
+    },
     "form": {
-      "name": "Nome prodotto",
+      "name": "Nome Prodotto",
       "description": "Descrizione",
       "sku": "Codice SKU",
       "category": "Categoria",
+      "selectCategory": "Seleziona categoria",
+      "noCategories": "Nessuna categoria disponibile",
+      "createCategoryFirst": "Crea prima una categoria nella sezione Categorie",
       "price": "Prezzo vendita",
-      "costPrice": "Prezzo costo",
+      "costPrice": "Costo di Acquisto",
       "quantity": "Quantità disponibile",
-      "minStock": "Scorta minima"
+      "minStock": "Scorta minima",
+      "maxStock": "Scorta massima",
+      "unit": "Unità",
+      "supplier": "Fornitore",
+      "supplierContact": "Contatto fornitore",
+      "location": "Posizione in magazzino",
+      "image": "Immagine Prodotto (opzionale)",
+      "changeImage": "Cambia Immagine",
+      "uploadImage": "Carica Immagine"
+    },
+    "stock": {
+      "load": "Carico",
+      "loadGoods": "Carico Merce",
+      "sell": "Vendi",
+      "registerSale": "Registra Vendita",
+      "unitPrice": "Prezzo Unitario",
+      "reference": "Riferimento (Fattura, etc.)",
+      "registering": "Registrazione...",
+      "registerLoad": "Registra Carico",
+      "registerSaleBtn": "Registra Vendita"
+    },
+    "sale": {
+      "clientOptional": "Cliente (opzionale)",
+      "selectClient": "Seleziona cliente",
+      "discount": "Sconto (%)"
+    },
+    "movements": {
+      "title": "Movimenti di Magazzino Recenti",
+      "noMovements": "Nessun movimento recente",
+      "in": "Carico",
+      "out": "Scarico",
+      "sale": "Vendita",
+      "adjustment": "Rettifica",
+      "waste": "Scarto"
+    },
+    "sales": {
+      "title": "Vendite Prodotti",
+      "inDevelopment": "Funzionalità vendite in sviluppo..."
+    },
+    "categories": {
+      "title": "Categorie Prodotti",
+      "newCategory": "Nuova Categoria",
+      "addNewCategory": "Aggiungi Nuova Categoria",
+      "name": "Nome Categoria",
+      "description": "Descrizione",
+      "color": "Colore",
+      "products": "prodotti",
+      "creating": "Creazione...",
+      "create": "Crea Categoria"
+    },
+    "saving": "Salvataggio...",
+    "saveChanges": "Salva Modifiche",
+    "formError": "Errore nel form",
+    "checkFields": "Controlla i campi inseriti",
+    "locked": {
+      "title": "Magazzino Non Disponibile",
+      "description": "La gestione del magazzino e inventario è disponibile solo nel piano",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Passa a Business"
     },
     "toast": {
-      "created": "Prodotto aggiunto",
-      "updated": "Prodotto aggiornato",
-      "deleted": "Prodotto eliminato",
-      "stockUpdated": "Scorte aggiornate",
+      "created": "Prodotto creato con successo",
+      "updated": "Prodotto modificato con successo",
+      "deleted": "Prodotto eliminato con successo",
+      "stockUpdated": "Movimento di magazzino registrato",
+      "saleRecorded": "Vendita registrata con successo",
       "error": "Errore operazione prodotto"
     }
   },
