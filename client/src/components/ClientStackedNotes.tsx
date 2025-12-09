@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Pencil, Trash2, Plus, Clock, ChevronLeft, ChevronRight, CalendarDays, Image as ImageIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
-import { it } from 'date-fns/locale';
+import { getDateLocale } from '@/lib/utils/date';
+import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
@@ -34,6 +35,7 @@ type ClientStackedNotesProps = {
 };
 
 export default function ClientStackedNotes({ clientId, category, label }: ClientStackedNotesProps) {
+  const { i18n } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -311,7 +313,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return format(date, "d MMMM yyyy, HH:mm", { locale: it });
+      return format(date, "d MMMM yyyy, HH:mm", { locale: getDateLocale(i18n.language) });
     } catch (e) {
       return dateString;
     }

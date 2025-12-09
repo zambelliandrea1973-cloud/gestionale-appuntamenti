@@ -35,7 +35,6 @@ import {
   Wallet
 } from 'lucide-react';
 import { format } from 'date-fns';
-import { it } from 'date-fns/locale';
 
 // Tipo per i dati del form di creazione invito
 interface InviteFormData {
@@ -111,7 +110,7 @@ interface Subscription {
 // Formatta la data in formato leggibile
 const formatDate = (dateString: string) => {
   if (!dateString) return '-';
-  return format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: it });
+  return format(new Date(dateString), 'dd/MM/yyyy HH:mm');
 };
 
 // Formatta la valuta in Euro

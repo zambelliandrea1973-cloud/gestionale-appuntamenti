@@ -1,5 +1,5 @@
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from "@/lib/utils/date";
 
 export interface PeriodBucket {
   key: string;
@@ -19,16 +19,18 @@ export interface AggregatedData {
  * 🗓️ GENERATORE BUCKETS UNIFICATO
  * Crea i "contenitori" di tempo per tutti i tipi di report (settimanale, mensile, annuale)
  */
-export function buildPeriodBuckets(reportType: string, selectedDate: Date): PeriodBucket[] {
+export function buildPeriodBuckets(reportType: string, selectedDate: Date, lang: string = 'it'): PeriodBucket[] {
+  const locale = getDateLocale(lang);
+  
   if (reportType === "weekly") {
     // Genera buckets per ogni giorno della settimana
-    const weekStart = startOfWeek(selectedDate, { locale: it });
-    const weekEnd = endOfWeek(selectedDate, { locale: it });
+    const weekStart = startOfWeek(selectedDate, { locale });
+    const weekEnd = endOfWeek(selectedDate, { locale });
     const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
     
     return weekDays.map(day => ({
       key: format(day, 'yyyy-MM-dd'),
-      label: format(day, 'EEEE', { locale: it }),
+      label: format(day, 'EEEE', { locale }),
       start: day,
       end: day
     }));
@@ -40,7 +42,7 @@ export function buildPeriodBuckets(reportType: string, selectedDate: Date): Peri
     
     return daysInMonth.map(day => ({
       key: format(day, 'yyyy-MM-dd'),
-      label: format(day, 'd', { locale: it }),
+      label: format(day, 'd', { locale }),
       start: day,
       end: day
     }));
@@ -53,7 +55,7 @@ export function buildPeriodBuckets(reportType: string, selectedDate: Date): Peri
       
       return {
         key: format(monthDate, 'yyyy-MM'),
-        label: format(monthDate, 'MMM', { locale: it }),
+        label: format(monthDate, 'MMM', { locale }),
         start: monthStart,
         end: monthEnd
       };
@@ -97,23 +99,25 @@ export function aggregateAppointments(
   services: any[]
 ): AggregatedData[] {
   return buckets.map(bucket => {
-    // Filtra appuntamenti che cadono in questo bucket
-    const bucketAppointments = appointments.filter(appointment => {
-      const appointmentDate = appointment.date;
+    // Trova gli appuntamenti che cadono in questo bucket
+    const appointmentsInBucket = appointments.filter(a => {
+      const appointmentDate = new Date(a.date);
+      // Per il confronto, usiamo solo la data (non l'ora)
+      const appointmentKey = format(appointmentDate, 'yyyy-MM-dd');
       
-      if (bucket.start.getTime() === bucket.end.getTime()) {
-        // Bucket giornaliero: confronto esatto per data
-        return appointmentDate === bucket.key;
+      if (bucket.key.length === 10) {
+        // Daily bucket (yyyy-MM-dd)
+        return appointmentKey === bucket.key;
       } else {
-        // Bucket mensile: tutti gli appuntamenti che iniziano con YYYY-MM
-        return appointmentDate.startsWith(bucket.key);
+        // Monthly bucket (yyyy-MM)
+        return appointmentKey.startsWith(bucket.key);
       }
     });
     
     return {
       name: bucket.label,
-      count: bucketAppointments.length,
-      revenue: calculateRevenue(bucketAppointments, services),
+      count: appointmentsInBucket.length,
+      revenue: calculateRevenue(appointmentsInBucket, services),
       date: bucket.start
     };
   });

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from '@/lib/utils/date';
 import { 
   Card, 
   CardContent, 
@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 
 export default function ClientAppointments() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [_, setLocation] = useLocation();
   const [clientId, setClientId] = useState<number | null>(null);
   
@@ -84,7 +84,7 @@ export default function ClientAppointments() {
   const formatAppointmentDate = (dateStr: string) => {
     const date = new Date(dateStr);
     // Formatta la data in italiano con iniziale maiuscola
-    let formattedDate = format(date, "EEEE d MMMM yyyy", { locale: it });
+    let formattedDate = format(date, "EEEE d MMMM yyyy", { locale: getDateLocale(i18n.language) });
     // Rendi la prima lettera maiuscola
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
@@ -100,7 +100,7 @@ export default function ClientAppointments() {
     if (date.toString() === "Invalid Date") {
       return "Orario non disponibile";
     }
-    return format(date, "HH:mm", { locale: it });
+    return format(date, "HH:mm");
   };
   
   // Funzione per determinare lo stato dell'appuntamento

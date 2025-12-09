@@ -1,5 +1,4 @@
 import { format, parseISO } from "date-fns";
-import { it } from "date-fns/locale";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -51,7 +50,7 @@ export default function InvoiceDetails({
   };
 
   const formatDate = (dateString: string) => {
-    return format(parseISO(dateString), "dd/MM/yyyy", { locale: it });
+    return format(parseISO(dateString), "dd/MM/yyyy");
   };
 
   const getStatusBadgeVariant = (status: string) => {

@@ -9,7 +9,8 @@ import { useCurrency } from "@/hooks/use-currency";
 import { queryClient } from "@/lib/queryClient";
 import { Users, TrendingUp, Award, Coins, CheckCircle, Clock, Eye } from "lucide-react";
 import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from "@/lib/utils/date";
+import { useTranslation } from "react-i18next";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import AuthorizedRoute from "@/components/AuthorizedRoute";
 
@@ -48,6 +49,7 @@ interface ReferralOverview {
 }
 
 export default function ReferralCommissionsPage() {
+  const { i18n } = useTranslation();
   const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
@@ -269,7 +271,7 @@ export default function ReferralCommissionsPage() {
                                 </p>
                               )}
                               <p className="text-sm text-gray-600">
-                                Creata: {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: it })}
+                                Creata: {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
                               </p>
                             </div>
                             <div className="text-right">
@@ -281,7 +283,7 @@ export default function ReferralCommissionsPage() {
                                   <div className="flex items-center gap-1 text-green-600">
                                     <CheckCircle className="h-4 w-4" />
                                     <span className="text-sm">
-                                      Pagata {commission.paidAt && format(new Date(commission.paidAt), 'dd/MM/yyyy', { locale: it })}
+                                      Pagata {commission.paidAt && format(new Date(commission.paidAt), 'dd/MM/yyyy')}
                                     </span>
                                   </div>
                                 ) : (

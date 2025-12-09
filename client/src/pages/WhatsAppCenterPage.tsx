@@ -4,8 +4,8 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import FooterOnly from '@/components/FooterOnly';
 import { format, parseISO, addDays } from 'date-fns';
-import { it } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
+import { getDateLocale } from '@/lib/utils/date';
 import {
   Card,
   CardContent,
@@ -119,7 +119,7 @@ interface NotificationHistoryItem {
 
 // Componente principale
 const WhatsAppCenterPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   
@@ -1182,7 +1182,7 @@ const WhatsAppCenterPage: React.FC = () => {
                         <div key={date} className="space-y-3">
                           <div className="flex items-center space-x-2">
                             <div className="h-2 w-2 rounded-full bg-primary" />
-                            <h4 className="font-medium">{format(parseISO(date), 'dd MMMM yyyy', { locale: it })}</h4>
+                            <h4 className="font-medium">{format(parseISO(date), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}</h4>
                           </div>
                           
                           <div className="space-y-2 pl-4">

@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, LayoutGrid, Layers } from "lucide-react";
 import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from "@/lib/utils/date";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ClientLegacyNotes from "@/components/ClientLegacyNotes";
 import ClientStackedNotes from "@/components/ClientStackedNotes";
@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 
 export default function ClientMedicalDetails() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [_, setLocation] = useLocation();
   const [clientId, setClientId] = useState<number | null>(null);
   // Inizializza lo stato con il valore salvato in localStorage o false come default
@@ -86,7 +86,7 @@ export default function ClientMedicalDetails() {
 
   // Formatta la data di nascita
   const formattedBirthday = client.birthday 
-    ? format(new Date(client.birthday), "dd MMMM yyyy", { locale: it })
+    ? format(new Date(client.birthday), "dd MMMM yyyy", { locale: getDateLocale(i18n.language) })
     : t('clients.details.notSpecified');
 
   return (

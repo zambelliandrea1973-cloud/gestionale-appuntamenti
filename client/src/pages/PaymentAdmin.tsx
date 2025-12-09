@@ -39,7 +39,6 @@ import {
   Loader2
 } from 'lucide-react';
 import { format } from 'date-fns';
-import { it } from 'date-fns/locale';
 import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
 
 interface BankingSettings {
@@ -299,7 +298,7 @@ export default function PaymentAdmin() {
   // Formatta la data
   const formatDate = (dateString: string) => {
     try {
-      return format(new Date(dateString), 'dd MMM yyyy, HH:mm', { locale: it });
+      return format(new Date(dateString), 'dd MMM yyyy, HH:mm');
     } catch (error) {
       return 'Data non valida';
     }

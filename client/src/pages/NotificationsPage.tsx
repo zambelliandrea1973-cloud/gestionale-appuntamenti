@@ -5,8 +5,8 @@ import { NotificationSettingsForm } from '@/components/NotificationSettingsForm'
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import ReminderTemplateManager from '@/components/ReminderTemplateManager';
 import { format, parseISO } from 'date-fns';
-import { it } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
+import { getDateLocale } from '@/lib/utils/date';
 import {
   Card,
   CardContent,
@@ -70,7 +70,7 @@ interface GroupedAppointments {
 }
 
 const NotificationsPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [groupedAppointments, setGroupedAppointments] = useState<GroupedAppointments>({});
   const [loading, setLoading] = useState(true);
@@ -463,7 +463,7 @@ const NotificationsPage: React.FC = () => {
   const formatDate = (dateStr: string): string => {
     try {
       const date = parseISO(dateStr);
-      return format(date, 'EEEE d MMMM yyyy', { locale: it });
+      return format(date, 'EEEE d MMMM yyyy', { locale: getDateLocale(i18n.language) });
     } catch (e) {
       return dateStr;
     }

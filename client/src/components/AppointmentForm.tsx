@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from "@/lib/utils/date";
 import {
   Form,
   FormControl,
@@ -119,7 +119,7 @@ export default function AppointmentForm({
   const [pendingAppointmentData, setPendingAppointmentData] = useState<any>(null);
   
   // i18n
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Fetch current user
   const { data: currentUser } = useQuery({
@@ -1136,7 +1136,7 @@ export default function AppointmentForm({
                         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
-                        {format(field.value, "PPP", { locale: it })}
+                        {format(field.value, "PPP", { locale: getDateLocale(i18n.language) })}
                       </Button>
                       
                       {isCalendarOpen && (
@@ -1217,7 +1217,7 @@ export default function AppointmentForm({
                 <div className="p-3 bg-blue-50 rounded-md">
                   <p className="text-sm text-blue-700 font-medium">Dettagli slot selezionato:</p>
                   <div className="flex justify-between mt-1">
-                    <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: it })}</span>
+                    <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: getDateLocale(i18n.language) })}</span>
                     <span className="text-sm">Ora: {form.getValues().startTime}</span>
                   </div>
                 </div>

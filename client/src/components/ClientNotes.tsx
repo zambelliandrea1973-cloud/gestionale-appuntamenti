@@ -40,7 +40,8 @@ import {
   Clock
 } from 'lucide-react';
 import { format } from 'date-fns';
-import { it } from 'date-fns/locale';
+import { getDateLocale } from '@/lib/utils/date';
+import { useTranslation } from 'react-i18next';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 
@@ -59,6 +60,7 @@ type ClientNotesProps = {
 };
 
 export default function ClientNotes({ clientId }: ClientNotesProps) {
+  const { i18n } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -213,7 +215,7 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return format(date, "d MMMM yyyy, HH:mm", { locale: it });
+      return format(date, "d MMMM yyyy, HH:mm", { locale: getDateLocale(i18n.language) });
     } catch (e) {
       return dateString;
     }

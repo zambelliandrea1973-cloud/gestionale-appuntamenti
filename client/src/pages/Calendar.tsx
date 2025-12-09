@@ -18,7 +18,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { 
   formatMonthYear, 
-  formatDateForApi
+  formatDateForApi,
+  getBrowserLocale
 } from "@/lib/utils/date";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
@@ -234,8 +235,8 @@ export default function Calendar() {
           <div className="flex items-center space-x-2">
             <h2 className="text-2xl font-bold text-primary">
               {view === "month" 
-                ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate)}`
-                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString('it-IT', { 
+                ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate, i18n.language)}`
+                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
                     month: 'long', 
                     year: 'numeric' 
                   })}`
@@ -340,7 +341,7 @@ export default function Calendar() {
             {/* Mostriamo la data attuale con numero e giorno in tutte le viste */}
             {view === "day" ? (
               <div className="text-green-600 font-semibold">
-                {selectedDate.toLocaleDateString('it-IT', { 
+                {selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
                   weekday: 'long',
                   day: 'numeric',
                   month: 'long',

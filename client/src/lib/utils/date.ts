@@ -1,14 +1,50 @@
-import { format, startOfWeek, endOfWeek, addDays, addMinutes as dateAddMinutes, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes } from "date-fns";
-import { it } from "date-fns/locale";
+import { format, startOfWeek, endOfWeek, addDays, addMinutes as dateAddMinutes, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes, type Locale } from "date-fns";
+import { it, enUS, de, es, fr, nl, nb, ro, ru } from "date-fns/locale";
+
+// Map i18n language codes to date-fns locales
+const localeMap: Record<string, Locale> = {
+  it: it,
+  en: enUS,
+  de: de,
+  es: es,
+  fr: fr,
+  nl: nl,
+  no: nb, // Norwegian uses 'nb' (Bokmål) in date-fns
+  ro: ro,
+  ru: ru
+};
+
+// Get the date-fns locale based on current language
+export const getDateLocale = (lang?: string): Locale => {
+  const language = lang || 'it';
+  return localeMap[language] || it;
+};
+
+// Get language code for toLocaleDateString (browser API)
+export const getBrowserLocale = (lang?: string): string => {
+  const localeMap: Record<string, string> = {
+    it: 'it-IT',
+    en: 'en-US',
+    de: 'de-DE',
+    es: 'es-ES',
+    fr: 'fr-FR',
+    nl: 'nl-NL',
+    no: 'nb-NO',
+    ro: 'ro-RO',
+    ru: 'ru-RU'
+  };
+  const language = lang || 'it';
+  return localeMap[language] || 'it-IT';
+};
 
 // Format a date as "dd/MM/yyyy"
-export const formatDate = (date: Date): string => {
-  return format(date, "dd/MM/yyyy", { locale: it });
+export const formatDate = (date: Date, lang?: string): string => {
+  return format(date, "dd/MM/yyyy", { locale: getDateLocale(lang) });
 };
 
 // Format a date as "EEEE, d MMMM yyyy" (e.g., "Lunedì, 1 Gennaio 2023")
-export const formatDateFull = (date: Date): string => {
-  return format(date, "EEEE, d MMMM yyyy", { locale: it });
+export const formatDateFull = (date: Date, lang?: string): string => {
+  return format(date, "EEEE, d MMMM yyyy", { locale: getDateLocale(lang) });
 };
 
 // Format a date for API calls as "yyyy-MM-dd"
@@ -34,18 +70,18 @@ export const parseTime = (timeString: string): Date => {
 };
 
 // Get the start of the week for a given date
-export const getWeekStart = (date: Date): Date => {
-  return startOfWeek(date, { locale: it });
+export const getWeekStart = (date: Date, lang?: string): Date => {
+  return startOfWeek(date, { locale: getDateLocale(lang) });
 };
 
 // Get the end of the week for a given date
-export const getWeekEnd = (date: Date): Date => {
-  return endOfWeek(date, { locale: it });
+export const getWeekEnd = (date: Date, lang?: string): Date => {
+  return endOfWeek(date, { locale: getDateLocale(lang) });
 };
 
 // Get an array of dates for a week
-export const getWeekDays = (date: Date): Date[] => {
-  const start = startOfWeek(date, { locale: it });
+export const getWeekDays = (date: Date, lang?: string): Date[] => {
+  const start = startOfWeek(date, { locale: getDateLocale(lang) });
   return Array.from({ length: 7 }, (_, i) => addDays(start, i));
 };
 
@@ -60,8 +96,8 @@ export const isCurrentMonth = (date: Date, currentMonth: Date): boolean => {
 };
 
 // Format month and year as "MMMM yyyy" (e.g., "Gennaio 2023")
-export const formatMonthYear = (date: Date): string => {
-  return format(date, "MMMM yyyy", { locale: it });
+export const formatMonthYear = (date: Date, lang?: string): string => {
+  return format(date, "MMMM yyyy", { locale: getDateLocale(lang) });
 };
 
 // Get hours and minutes as numbers from a Date

@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'wouter';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, startOfWeek, endOfWeek, addMonths, subMonths } from "date-fns";
-import { it } from "date-fns/locale";
+import { getDateLocale } from '@/lib/utils/date';
 import { 
   BarChart, 
   Bar, 
@@ -48,7 +48,7 @@ import { buildPeriodBuckets, aggregateAppointments, calculateRevenue } from "@/l
 import { useCurrency } from "@/hooks/use-currency";
 
 export default function Reports() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   return (
     <ProFeatureGuard 
@@ -62,6 +62,7 @@ export default function Reports() {
 }
 
 function ReportsContent() {
+  const { t, i18n } = useTranslation();
   const { symbol } = useCurrency();
   const [reportType, setReportType] = useState("monthly");
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -72,8 +73,8 @@ function ReportsContent() {
   const getDateRange = () => {
     if (reportType === "weekly") {
       return {
-        start: formatDateForApi(startOfWeek(selectedDate, { locale: it })),
-        end: formatDateForApi(endOfWeek(selectedDate, { locale: it }))
+        start: formatDateForApi(startOfWeek(selectedDate, { locale: getDateLocale(i18n.language) })),
+        end: formatDateForApi(endOfWeek(selectedDate, { locale: getDateLocale(i18n.language) }))
       };
     } else if (reportType === "monthly") {
       return {
@@ -108,7 +109,7 @@ function ReportsContent() {
     if (appointments.length === 0 || isLoadingAppointments || isLoadingServices) return;
     
     // 🗓️ Genera buckets di tempo per il tipo di report selezionato
-    const buckets = buildPeriodBuckets(reportType, selectedDate);
+    const buckets = buildPeriodBuckets(reportType, selectedDate, i18n.language);
     
     // 📈 Aggrega dati usando la logica condivisa (stessa che funziona per annuale)
     const aggregatedReportData = aggregateAppointments(buckets, appointments, services);
@@ -175,11 +176,11 @@ function ReportsContent() {
   // Title based on report type
   const getReportTitle = () => {
     if (reportType === "weekly") {
-      const weekStart = startOfWeek(selectedDate, { locale: it });
-      const weekEnd = endOfWeek(selectedDate, { locale: it });
-      return `Settimana ${format(weekStart, 'd MMM', { locale: it })} - ${format(weekEnd, 'd MMM yyyy', { locale: it })}`;
+      const weekStart = startOfWeek(selectedDate, { locale: getDateLocale(i18n.language) });
+      const weekEnd = endOfWeek(selectedDate, { locale: getDateLocale(i18n.language) });
+      return `${t('reports.week', 'Settimana')} ${format(weekStart, 'd MMM', { locale: getDateLocale(i18n.language) })} - ${format(weekEnd, 'd MMM yyyy', { locale: getDateLocale(i18n.language) })}`;
     } else if (reportType === "monthly") {
-      return format(selectedDate, 'MMMM yyyy', { locale: it });
+      return format(selectedDate, 'MMMM yyyy', { locale: getDateLocale(i18n.language) });
     } else {
       return `Anno ${selectedDate.getFullYear()}`;
     }
