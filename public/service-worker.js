@@ -1,12 +1,10 @@
 // Service Worker per l'applicazione di gestione appuntamenti
 // Versione cache per gestire gli aggiornamenti
-// IMPORTANTE: Incrementato a v3 per forzare update dopo spostamento pulsante Dati cliente/consenso
-// Build: 2025-11-17 - Fix ClientCard button position on production
-const CACHE_NAME = 'appointment-manager-v5-nocache';
+// IMPORTANTE: v6 - FIX CRITICO per bypassare cache su richieste POST/API
+// Build: 2025-12-10 - Fix API caching issue
+const CACHE_NAME = 'appointment-manager-v6-force-network';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
   '/manifest.json'
 ];
 
@@ -51,13 +49,29 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   const requestUrl = new URL(event.request.url);
   
+  // CRITICO v6: BYPASS TOTALE per richieste POST (qualsiasi URL)
+  if (event.request.method !== 'GET') {
+    console.log('Service Worker v6: BYPASS TOTALE per non-GET:', event.request.method, requestUrl.pathname);
+    // Non intercettare - lascia passare direttamente al network
+    return;
+  }
+  
   // CRITICO: NON cachare NESSUNA richiesta API
   // Questo risolve il bug dove /api/user-with-license veniva cachata
   // causando cross-contamination tra utenti admin e staff
   if (requestUrl.pathname.startsWith('/api/')) {
-    console.log('Service Worker v5: BYPASS cache per API:', requestUrl.pathname);
-    // Network-only per tutte le API
-    event.respondWith(fetch(event.request));
+    console.log('Service Worker v6: BYPASS cache per API:', requestUrl.pathname);
+    // Network-only per tutte le API con no-cache headers
+    const networkRequest = new Request(event.request.url, {
+      method: event.request.method,
+      headers: new Headers({
+        ...Object.fromEntries(event.request.headers),
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }),
+      credentials: event.request.credentials
+    });
+    event.respondWith(fetch(networkRequest));
     return;
   }
   
