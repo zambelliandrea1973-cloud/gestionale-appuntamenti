@@ -9488,6 +9488,7 @@ Studio Professionale`;
 
   // Endpoint per sincronizzazione manuale Google Calendar - TEST ENDPOINT PULITO
   app.post('/api/google-calendar/sync-now', requireAuth, (req, res) => {
+    console.log('🔄🔄🔄 [SYNC-NOW] CHIAMATO! User:', req.user?.id);
     res.json({
       success: true,
       message: 'Sincronizzazione completata!',
