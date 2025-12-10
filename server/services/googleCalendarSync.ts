@@ -165,10 +165,19 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
   try {
     console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId}`);
     
-    // 1. IMPORTA eventi da Google - SKIP per ora per debugging
-    console.log(`📥 [SYNC] Step 1: Importazione eventi Google - SKIPPED per debug`);
-    details.imported = 0;
-    // Non importiamo per ora, focalizziamoci sull'export
+    // 1. IMPORTA eventi da Google Calendar
+    console.log(`📥 [SYNC] Step 1: Importazione eventi da Google Calendar...`);
+    try {
+      const importResult = await importGoogleCalendarEvents(userId);
+      details.imported = importResult.imported;
+      if (importResult.errors.length > 0) {
+        details.errors.push(...importResult.errors);
+      }
+      console.log(`📥 [SYNC] Importati ${importResult.imported} eventi da Google`);
+    } catch (importError) {
+      console.error(`❌ [SYNC] Errore importazione:`, importError);
+      details.errors.push(`Errore importazione: ${String(importError)}`);
+    }
 
     // 2. ESPORTA appuntamenti nuovi verso Google
     console.log(`📤 [SYNC] Step 2: Query appuntamenti da esportare...`);

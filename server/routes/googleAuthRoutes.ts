@@ -412,8 +412,10 @@ router.get('/status', async (req, res) => {
     
     try {
       const [user] = await db.select({
+        email: users.email,
         googleAuthToken: users.googleAuthToken,
-        googleCalendarEnabled: users.googleCalendarEnabled
+        googleCalendarEnabled: users.googleCalendarEnabled,
+        googleCalendarId: users.googleCalendarId
       }).from(users).where(eq(users.id, userId)).limit(1);
       
       if (user && user.googleAuthToken) {
@@ -429,10 +431,23 @@ router.get('/status', async (req, res) => {
         // Reimposta le credenziali sul client OAuth
         oauth2Client.setCredentials(tokens);
         
+        // Estrai email dal token se non in googleCalendarId
+        let googleEmail = user.googleCalendarId;
+        if (!googleEmail && tokens.id_token) {
+          try {
+            // Decodifica JWT per ottenere email
+            const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
+            googleEmail = payload.email;
+          } catch (e) {
+            googleEmail = user.email; // fallback all'email utente
+          }
+        }
+        
         return res.json({ 
           success: true, 
           authorized: true,
-          calendarEnabled: user.googleCalendarEnabled
+          calendarEnabled: user.googleCalendarEnabled,
+          email: googleEmail || user.email
         });
       }
       console.log("⚠️ [GOOGLE AUTH STATUS] Nessun token nel database per utente", userId);
