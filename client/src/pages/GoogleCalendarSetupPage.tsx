@@ -144,15 +144,27 @@ export default function GoogleCalendarSetupPage() {
     setLastSyncResult(null);
     
     try {
+      console.log('🔄 [SYNC] Inizio sincronizzazione...');
       const response = await fetch('/api/google-calendar/sync-now', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
         },
+        credentials: 'include', // Importante: include cookies per autenticazione
       });
       
+      console.log('🔄 [SYNC] Response status:', response.status);
+      
+      // Verifica se la risposta è JSON prima di parsarla
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('🔴 [SYNC] Risposta non JSON:', contentType);
+        throw new Error('Sessione scaduta. Effettua nuovamente il login.');
+      }
+      
       const data = await response.json();
+      console.log('🔄 [SYNC] Response data:', data);
       
       if (response.ok && data.success) {
         setLastSyncResult({ success: true, message: data.message || 'Sincronizzazione completata!' });
@@ -161,14 +173,16 @@ export default function GoogleCalendarSetupPage() {
           description: `Importati: ${data.details?.imported || 0}, Esportati: ${data.details?.exported || 0}`,
         });
       } else {
-        setLastSyncResult({ success: false, message: data.error || data.message || 'Errore durante la sincronizzazione' });
+        const errorMsg = data.error || data.message || 'Errore durante la sincronizzazione';
+        setLastSyncResult({ success: false, message: errorMsg });
         toast({
           title: "Errore sincronizzazione",
-          description: data.error || data.message || 'Si è verificato un errore',
+          description: errorMsg,
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error('🔴 [SYNC] Errore:', error);
       const errorMessage = error instanceof Error ? error.message : 'Errore di connessione';
       setLastSyncResult({ success: false, message: errorMessage });
       toast({
