@@ -9438,9 +9438,18 @@ Studio Professionale`;
       console.log(`🔄 [POST] /api/google-calendar/sync - Sincronizzazione manuale per utente ${sessionUser.id}`);
       
       // IMPORTANTE: Caricare i dati freschi dal database perché la sessione potrebbe essere obsoleta
-      const freshUserData = await db.select().from(users).where(eq(users.id, sessionUser.id)).limit(1);
+      let freshUserData;
+      try {
+        freshUserData = await db.select().from(users).where(eq(users.id, sessionUser.id)).limit(1);
+      } catch (dbError) {
+        console.error(`❌ [SYNC] Errore lettura database:`, dbError);
+        return res.status(500).json({ 
+          error: 'Errore database',
+          message: `Errore durante la lettura dei dati: ${String(dbError)}`
+        });
+      }
       
-      if (!freshUserData.length) {
+      if (!freshUserData || !freshUserData.length) {
         return res.status(404).json({ error: 'Utente non trovato' });
       }
       
@@ -9454,7 +9463,16 @@ Studio Professionale`;
         });
       }
       
-      const result = await syncBidirectional(user.id);
+      let result;
+      try {
+        result = await syncBidirectional(user.id);
+      } catch (syncError) {
+        console.error(`❌ [SYNC] Errore durante sincronizzazione:`, syncError);
+        return res.status(500).json({
+          error: 'Errore durante la sincronizzazione',
+          message: `${String(syncError).substring(0, 200)}`
+        });
+      }
       
       console.log(`✅ [POST] /api/google-calendar/sync completata per utente ${user.id}:`, result);
       
@@ -9464,10 +9482,10 @@ Studio Professionale`;
         details: result.details
       });
     } catch (error) {
-      console.error(`❌ [POST] /api/google-calendar/sync errore per utente ${req.user?.id}:`, error);
+      console.error(`❌ [POST] /api/google-calendar/sync errore non gestito:`, error);
       res.status(500).json({ 
-        error: 'Errore durante la sincronizzazione',
-        message: String(error)
+        error: 'Errore interno del server',
+        message: String(error).substring(0, 200)
       });
     }
   });
