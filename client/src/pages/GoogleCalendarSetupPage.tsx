@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
@@ -29,6 +29,35 @@ export default function GoogleCalendarSetupPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncResult, setLastSyncResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(true);
+  
+  useEffect(() => {
+    const checkGoogleAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/google-auth/status');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.authorized) {
+            setIsGoogleAuthorized(true);
+            setIsSyncEnabled(data.calendarEnabled || false);
+            if (data.email) {
+              setEmail(data.email);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking Google auth status:', error);
+      } finally {
+        setIsCheckingStatus(false);
+      }
+    };
+    
+    if (hasProAccess && !isLoading) {
+      checkGoogleAuthStatus();
+    } else {
+      setIsCheckingStatus(false);
+    }
+  }, [hasProAccess, isLoading]);
 
   const startGoogleAuth = async () => {
     if (!email.trim()) {
@@ -151,7 +180,7 @@ export default function GoogleCalendarSetupPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isCheckingStatus) {
     return (
       <div className="container py-12 flex items-center justify-center min-h-screen">
         <RefreshCw className="h-8 w-8 animate-spin text-primary" />
