@@ -24,14 +24,24 @@ const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
 // Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
 // AGGIORNATO: Ora usiamo il dominio da env var PRODUCTION_DOMAIN (per Sliplane) o fallback a Replit
-function getRedirectUri(): string {
+// SUPPORTO WEBVIEW: Se siamo in sviluppo Replit, usiamo il dominio del webview
+function getRedirectUri(requestHost?: string): string {
+  // Se viene passato un host della richiesta, usa quello (per supportare webview di sviluppo)
+  if (requestHost && requestHost.includes('.worf.replit.dev')) {
+    return `https://${requestHost}/api/google-auth/callback`;
+  }
+  if (requestHost && requestHost.includes('.replit.dev') && !requestHost.includes('replit.app')) {
+    return `https://${requestHost}/api/google-auth/callback`;
+  }
+  
   if (process.env.PRODUCTION_DOMAIN) {
     return `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`;
   }
-  // Fallback: dominio Replit
+  // Fallback: dominio Replit pubblico
   return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
 }
 
+// URI di default per il client OAuth (usato all'avvio)
 const redirectUri = getRedirectUri();
 
 // Stampa informazioni di debug aggiuntive
@@ -77,26 +87,26 @@ router.get('/start', (req, res) => {
     
     console.log("Google OAuth start per utente:", userId);
     
-    // Stampa il client ID per debug
+    // Ottieni il dominio della richiesta per supportare webview di sviluppo
+    const requestHost = req.get('host');
+    const dynamicRedirectUri = getRedirectUri(requestHost);
+    
     console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
+    console.log("Request Host:", requestHost);
+    console.log("Redirect URI dinamico:", dynamicRedirectUri);
     
-    // Stampa l'URI esatto di reindirizzamento che stiamo usando
-    console.log("Redirect URI esatto:", redirectUri);
-    
-    // Approccio completamente nuovo per generare l'URL manualmente
-    // Questo evita qualsiasi aggiunta automatica di parametri come flowName
-    
-    console.log("Generazione URL di autorizzazione manuale...");
-    
-    // Costruisci manualmente l'URL di autenticazione di base
+    // Costruisci manualmente l'URL di autenticazione
     const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
-    const encodedRedirectUri = encodeURIComponent(redirectUri);
+    const encodedRedirectUri = encodeURIComponent(dynamicRedirectUri);
     const encodedScopes = encodeURIComponent(SCOPES.join(' '));
     
-    // State contiene l'userId per il callback
-    const state = Buffer.from(JSON.stringify({ userId })).toString('base64');
+    // State contiene l'userId E il redirectUri per il callback
+    const state = Buffer.from(JSON.stringify({ 
+      userId, 
+      redirectUri: dynamicRedirectUri 
+    })).toString('base64');
     
-    // Parametri obbligatori nell'ordine corretto per evitare problemi di firma
+    // Parametri obbligatori nell'ordine corretto
     const params = [
       `client_id=${clientId}`,
       `redirect_uri=${encodedRedirectUri}`,
@@ -110,28 +120,16 @@ router.get('/start', (req, res) => {
     // Generiamo l'URL senza usare la libreria per evitare parametri extra
     const manualAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.join('&')}`;
     
-    console.log("Auth URL generato manualmente:", manualAuthUrl);
+    console.log("Auth URL generato:", manualAuthUrl);
     
-    // Confrontiamo con l'URL generato dalla libreria a scopo di debug
-    const libraryAuthUrl = oauth2Client.generateAuthUrl({
-      access_type: 'offline',
-      response_type: 'code',
-      scope: SCOPES,
-      prompt: 'consent',
-      redirect_uri: redirectUri,
-      include_granted_scopes: true
-    });
-    
-    console.log("Confronto URL libreria:", libraryAuthUrl);
-    
-    // Restituisci l'URL generato manualmente per evitare parametri aggiuntivi
+    // Restituisci l'URL generato
     res.json({ 
       success: true, 
       authUrl: manualAuthUrl,
       debug: {
         manualAuthUrl,
-        libraryAuthUrl,
-        redirectUri,
+        redirectUri: dynamicRedirectUri,
+        requestHost,
         scopes: SCOPES
       }
     });
@@ -144,6 +142,18 @@ router.get('/start', (req, res) => {
   }
 });
 
+// Variabile globale per salvare l'ultimo errore del callback (per debug)
+let lastCallbackError: { timestamp: string; error: any; stack?: string; query?: any } | null = null;
+
+// Endpoint per vedere l'ultimo errore del callback (per debug)
+router.get('/last-error', (req, res) => {
+  res.json({
+    success: true,
+    lastError: lastCallbackError,
+    message: lastCallbackError ? 'Ultimo errore del callback' : 'Nessun errore registrato'
+  });
+});
+
 // Callback che riceve il codice di autorizzazione
 router.get('/callback', async (req, res) => {
   console.log("=== GOOGLE AUTH CALLBACK ===");
@@ -152,6 +162,13 @@ router.get('/callback', async (req, res) => {
   console.log("Host:", req.get('host'));
   console.log("Origin:", req.get('origin'));
   console.log("Referer:", req.get('referer'));
+  
+  // Salva i parametri per debug
+  lastCallbackError = {
+    timestamp: new Date().toISOString(),
+    error: 'Callback ricevuto - in elaborazione',
+    query: req.query
+  };
   
   // Log dell'errore, se presente
   if (req.query.error) {
@@ -170,12 +187,20 @@ router.get('/callback', async (req, res) => {
     return res.status(400).send('Codice di autorizzazione mancante');
   }
   
-  // Recupera l'userId dallo state
+  // Recupera l'userId e redirectUri dallo state
   let userId: number | null = null;
+  let stateRedirectUri: string = redirectUri; // Fallback al default
+  
   if (state) {
     try {
       const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
       console.log("State data parsed:", stateData);
+      
+      // Recupera il redirectUri dallo state (se presente)
+      if (stateData.redirectUri) {
+        stateRedirectUri = stateData.redirectUri;
+        console.log("Redirect URI recuperato dallo state:", stateRedirectUri);
+      }
       
       // L'userId può essere una stringa come "admin:3" o un numero
       const rawUserId = stateData.userId;
@@ -193,28 +218,38 @@ router.get('/callback', async (req, res) => {
       }
     } catch (e) {
       console.error("Errore nel parsing dello state:", e);
+      lastCallbackError = {
+        timestamp: new Date().toISOString(),
+        error: 'Errore nel parsing dello state: ' + String(e),
+        query: req.query
+      };
     }
   }
   
   if (!userId || isNaN(userId)) {
     console.error("ERRORE: UserId non trovato o non valido nello state");
+    lastCallbackError = {
+      timestamp: new Date().toISOString(),
+      error: 'UserId non trovato o non valido',
+      query: req.query
+    };
     return res.status(400).send('Sessione non valida. Riprova l\'autorizzazione.');
   }
   
   try {
-    console.log("Scambio del codice di autorizzazione:", code);
+    console.log("Scambio del codice di autorizzazione per utente:", userId);
+    console.log("Redirect URI per scambio token:", stateRedirectUri);
     
-    // Non modifichiamo più dinamicamente l'URL di reindirizzamento
-    // Utilizziamo sempre l'URL fisso configurato nella console Google Cloud
-    console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
+    // Crea un nuovo OAuth client con il redirect URI corretto (quello usato per la richiesta originale)
+    const callbackOauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      stateRedirectUri
+    );
     
-    // Usa l'URI di reindirizzamento fisso per lo scambio del token
-    // Per evitare problemi di mismatch, usiamo esattamente lo stesso client OAuth
-    // importante: riutilizziamo l'oggetto oauth2Client esistente per mantenere la coerenza
-    
-    // Scambia il codice con i token
-    console.log("Attempting to exchange code for token with redirect URI:", redirectUri);
-    const { tokens } = await oauth2Client.getToken(code as string);
+    // Scambia il codice con i token usando il redirect URI corretto
+    console.log("Attempting to exchange code for token...");
+    const { tokens } = await callbackOauth2Client.getToken(code as string);
     console.log("Token ottenuti con successo per utente:", userId);
     
     oauth2Client.setCredentials(tokens);
@@ -314,8 +349,17 @@ router.get('/callback', async (req, res) => {
         </body>
       </html>
     `);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nello scambio del codice di autorizzazione:', error);
+    
+    // Salva l'errore per debug
+    lastCallbackError = {
+      timestamp: new Date().toISOString(),
+      error: error?.message || String(error),
+      stack: error?.stack,
+      query: req.query
+    };
+    
     res.status(500).send(`
       <html>
         <head>
