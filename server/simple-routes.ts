@@ -9486,30 +9486,7 @@ Studio Professionale`;
     }
   });
 
-  // Endpoint per sincronizzazione manuale Google Calendar - VERSIONE SEMPLIFICATA
-  app.post('/api/google-calendar/sync', requireAuth, async (req, res) => {
-    console.log(`🔄🔄🔄 [SYNC] Richiesta ricevuta!`);
-    
-    try {
-      const sessionUser = req.user as any;
-      console.log(`🔄 [SYNC] Utente: ${sessionUser?.id}`);
-      
-      // Rispondi con successo senza fare nulla per ora
-      return res.json({
-        success: true,
-        message: 'Sincronizzazione completata (test mode)',
-        details: { imported: 0, exported: 0 }
-      });
-    } catch (error) {
-      console.error(`❌ [SYNC] Errore:`, error);
-      return res.status(500).json({ 
-        error: 'Errore interno',
-        message: String(error)
-      });
-    }
-  });
-
-  // Endpoint alternativo per test (bypass cache) - SENZA LOGICA DATABASE
+  // Endpoint per sincronizzazione manuale Google Calendar - TEST ENDPOINT PULITO
   app.post('/api/google-calendar/sync-now', requireAuth, (req, res) => {
     res.json({
       success: true,
