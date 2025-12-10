@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { google } from 'googleapis';
 import { isAuthenticated } from '../auth';
+import { db } from '../db';
+import { users } from '../../shared/schema';
+import { eq } from 'drizzle-orm';
 
 const router = Router();
 
@@ -65,6 +68,15 @@ export let authInfo: {
 // Inizia il processo di autorizzazione
 router.get('/start', (req, res) => {
   try {
+    // Verifica che l'utente sia autenticato
+    const userId = (req as any).session?.passport?.user;
+    if (!userId) {
+      console.error("ERRORE: Utente non autenticato per Google OAuth");
+      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+    }
+    
+    console.log("Google OAuth start per utente:", userId);
+    
     // Stampa il client ID per debug
     console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
     
@@ -81,6 +93,9 @@ router.get('/start', (req, res) => {
     const encodedRedirectUri = encodeURIComponent(redirectUri);
     const encodedScopes = encodeURIComponent(SCOPES.join(' '));
     
+    // State contiene l'userId per il callback
+    const state = Buffer.from(JSON.stringify({ userId })).toString('base64');
+    
     // Parametri obbligatori nell'ordine corretto per evitare problemi di firma
     const params = [
       `client_id=${clientId}`,
@@ -88,7 +103,8 @@ router.get('/start', (req, res) => {
       `response_type=code`,
       `scope=${encodedScopes}`,
       `access_type=offline`,
-      `prompt=consent`
+      `prompt=consent`,
+      `state=${encodeURIComponent(state)}`
     ];
     
     // Generiamo l'URL senza usare la libreria per evitare parametri extra
@@ -147,11 +163,28 @@ router.get('/callback', async (req, res) => {
     return res.status(400).send(`Errore di autorizzazione: ${req.query.error}<br>Descrizione: ${req.query.error_description || 'Nessuna descrizione'}`);
   }
   
-  const { code } = req.query;
+  const { code, state } = req.query;
   
   if (!code) {
     console.error("ERRORE: Codice di autorizzazione mancante");
     return res.status(400).send('Codice di autorizzazione mancante');
+  }
+  
+  // Recupera l'userId dallo state
+  let userId: number | null = null;
+  if (state) {
+    try {
+      const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
+      userId = stateData.userId;
+      console.log("UserId recuperato dallo state:", userId);
+    } catch (e) {
+      console.error("Errore nel parsing dello state:", e);
+    }
+  }
+  
+  if (!userId) {
+    console.error("ERRORE: UserId non trovato nello state");
+    return res.status(400).send('Sessione non valida. Riprova l\'autorizzazione.');
   }
   
   try {
@@ -168,11 +201,29 @@ router.get('/callback', async (req, res) => {
     // Scambia il codice con i token
     console.log("Attempting to exchange code for token with redirect URI:", redirectUri);
     const { tokens } = await oauth2Client.getToken(code as string);
-    console.log("Token ottenuti con successo:", tokens);
+    console.log("Token ottenuti con successo per utente:", userId);
     
     oauth2Client.setCredentials(tokens);
     
-    // Salva i token (in un'applicazione reale andrebbero salvati nel database)
+    // SALVA I TOKEN NEL DATABASE DELL'UTENTE
+    try {
+      const tokenJson = JSON.stringify(tokens);
+      await db.update(users)
+        .set({
+          googleAuthToken: tokenJson,
+          googleCalendarEnabled: true,
+          googleCalendarId: 'primary',
+          lastGoogleSyncAt: new Date()
+        })
+        .where(eq(users.id, userId));
+      
+      console.log("✅ Token Google salvato nel database per utente:", userId);
+    } catch (dbError) {
+      console.error("❌ Errore nel salvataggio del token nel database:", dbError);
+      // Continua comunque per mostrare la pagina di successo
+    }
+    
+    // Mantieni anche in memoria per retrocompatibilità
     authInfo = {
       authorized: true,
       tokens
