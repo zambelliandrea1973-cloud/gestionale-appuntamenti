@@ -193,8 +193,12 @@ export default function GoogleCalendarSimpleSetup() {
   const triggerSync = async () => {
     setIsSyncing(true);
     try {
-      const response = await fetch('/api/google-calendar/sync', {
+      const response = await fetch('/api/google-calendar/sync-now', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
       });
       
       if (response.ok) {
