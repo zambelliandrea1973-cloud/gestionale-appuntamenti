@@ -175,15 +175,29 @@ router.get('/callback', async (req, res) => {
   if (state) {
     try {
       const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
-      userId = stateData.userId;
-      console.log("UserId recuperato dallo state:", userId);
+      console.log("State data parsed:", stateData);
+      
+      // L'userId può essere una stringa come "admin:3" o un numero
+      const rawUserId = stateData.userId;
+      if (typeof rawUserId === 'string' && rawUserId.includes(':')) {
+        // Formato "admin:3" o "customer:5" - estrai il numero dopo i due punti
+        const parts = rawUserId.split(':');
+        userId = parseInt(parts[1], 10);
+        console.log("UserId estratto da formato 'tipo:id':", userId);
+      } else if (typeof rawUserId === 'number') {
+        userId = rawUserId;
+        console.log("UserId già numerico:", userId);
+      } else {
+        userId = parseInt(rawUserId, 10);
+        console.log("UserId convertito da stringa:", userId);
+      }
     } catch (e) {
       console.error("Errore nel parsing dello state:", e);
     }
   }
   
-  if (!userId) {
-    console.error("ERRORE: UserId non trovato nello state");
+  if (!userId || isNaN(userId)) {
+    console.error("ERRORE: UserId non trovato o non valido nello state");
     return res.status(400).send('Sessione non valida. Riprova l\'autorizzazione.');
   }
   
