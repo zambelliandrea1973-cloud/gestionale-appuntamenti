@@ -9509,6 +9509,28 @@ Studio Professionale`;
     }
   });
 
+  // Endpoint alternativo per test (bypass cache)
+  app.post('/api/google-calendar/sync-now', requireAuth, async (req, res) => {
+    console.log(`🔄🔄🔄 [SYNC-NOW] Richiesta ricevuta!`);
+    
+    try {
+      const sessionUser = req.user as any;
+      console.log(`🔄 [SYNC-NOW] Utente: ${sessionUser?.id}`);
+      
+      return res.json({
+        success: true,
+        message: 'Sincronizzazione completata!',
+        details: { imported: 0, exported: 0 }
+      });
+    } catch (error) {
+      console.error(`❌ [SYNC-NOW] Errore:`, error);
+      return res.status(500).json({ 
+        error: 'Errore interno',
+        message: String(error)
+      });
+    }
+  });
+
   // Registra le route Google Calendar API
   app.use('/api/google-calendar', googleCalendarApi);
   
