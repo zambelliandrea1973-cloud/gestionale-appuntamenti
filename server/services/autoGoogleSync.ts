@@ -108,19 +108,20 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
  */
 async function createGoogleEvent(calendar: any, calendarId: string, appointment: AppointmentData): Promise<void> {
   try {
-    // Costruisci data/ora evento
-    const startDateTime = new Date(`${appointment.date}T${appointment.startTime}:00`);
-    const endDateTime = new Date(`${appointment.date}T${appointment.endTime}:00`);
+    // Costruisci data/ora evento - USA formato ISO SENZA Z per rispettare il fuso orario locale
+    // NON usare .toISOString() che converte in UTC e aggiunge Z
+    const startDateTimeStr = `${appointment.date}T${appointment.startTime}:00`;
+    const endDateTimeStr = `${appointment.date}T${appointment.endTime}:00`;
 
     const event = {
       summary: `Appuntamento #${appointment.id}`,
       description: appointment.notes || 'Appuntamento dal gestionale',
       start: {
-        dateTime: startDateTime.toISOString(),
+        dateTime: startDateTimeStr,
         timeZone: 'Europe/Rome',
       },
       end: {
-        dateTime: endDateTime.toISOString(),
+        dateTime: endDateTimeStr,
         timeZone: 'Europe/Rome',
       },
     };
@@ -185,19 +186,19 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
       return;
     }
 
-    // Aggiorna l'evento esistente
-    const startDateTime = new Date(`${appointment.date}T${appointment.startTime}:00`);
-    const endDateTime = new Date(`${appointment.date}T${appointment.endTime}:00`);
+    // Aggiorna l'evento esistente - USA formato ISO SENZA Z per rispettare il fuso orario locale
+    const startDateTimeStr = `${appointment.date}T${appointment.startTime}:00`;
+    const endDateTimeStr = `${appointment.date}T${appointment.endTime}:00`;
 
     const event = {
       summary: `Appuntamento #${appointment.id}`,
       description: appointment.notes || 'Appuntamento dal gestionale',
       start: {
-        dateTime: startDateTime.toISOString(),
+        dateTime: startDateTimeStr,
         timeZone: 'Europe/Rome',
       },
       end: {
-        dateTime: endDateTime.toISOString(),
+        dateTime: endDateTimeStr,
         timeZone: 'Europe/Rome',
       },
     };

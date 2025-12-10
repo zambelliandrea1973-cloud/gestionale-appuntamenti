@@ -270,9 +270,9 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
         
-        // Crea l'evento
-        const startDateTime = new Date(`${appointment.date}T${appointment.startTime}`);
-        const endDateTime = new Date(`${appointment.date}T${appointment.endTime}`);
+        // Crea l'evento - USA formato ISO SENZA Z per rispettare il fuso orario locale
+        const startDateTimeStr = `${appointment.date}T${appointment.startTime}`;
+        const endDateTimeStr = `${appointment.date}T${appointment.endTime}`;
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -287,8 +287,8 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
           requestBody: {
             summary,
             description,
-            start: { dateTime: startDateTime.toISOString(), timeZone: 'Europe/Rome' },
-            end: { dateTime: endDateTime.toISOString(), timeZone: 'Europe/Rome' },
+            start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
+            end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
             reminders: {
               useDefault: false,
               overrides: [
