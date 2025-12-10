@@ -85,6 +85,8 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
         
         // Cerca cliente basato su email o nome nell'evento
         let clientId: number | null = null;
+        
+        // 1. Prima prova con attendee email
         if (googleEvent.attendees && googleEvent.attendees.length > 0) {
           const attendeeEmail = googleEvent.attendees[0].email;
           if (attendeeEmail) {
@@ -97,9 +99,40 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
             }
           }
         }
+        
+        // 2. Se non trovato, cerca o crea cliente "Importato da Google"
+        if (!clientId) {
+          // Cerca cliente placeholder per eventi Google
+          const placeholderClients = await db.select()
+            .from(clients)
+            .where(and(
+              eq(clients.userId, userId), 
+              eq(clients.firstName, 'Evento'),
+              eq(clients.lastName, 'Google Calendar')
+            ));
+          
+          if (placeholderClients.length > 0) {
+            clientId = placeholderClients[0].id;
+          } else {
+            // Crea cliente placeholder
+            const newClient = await db.insert(clients).values({
+              userId,
+              firstName: 'Evento',
+              lastName: 'Google Calendar',
+              email: 'google-calendar@imported.local',
+              phone: '',
+              notes: 'Cliente creato automaticamente per eventi importati da Google Calendar'
+            }).returning();
+            
+            if (newClient.length > 0) {
+              clientId = newClient[0].id;
+              console.log(`📝 Creato cliente placeholder per eventi Google: ${clientId}`);
+            }
+          }
+        }
 
         if (!clientId) {
-          console.log(`⚠️ Non trovato cliente per evento ${googleEvent.id}`);
+          console.log(`⚠️ Impossibile creare cliente per evento ${googleEvent.id}`);
           continue;
         }
 
