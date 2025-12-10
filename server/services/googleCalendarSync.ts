@@ -51,7 +51,8 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
       calendarId,
       timeMin: sevenDaysAgo.toISOString(),
       maxResults: 100,
-      orderBy: 'updated'
+      singleEvents: true,
+      orderBy: 'startTime'
     });
 
     if (!events.data.items) {
@@ -199,7 +200,71 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
     for (const appointment of newAppointments) {
       try {
         console.log(`📤 [SYNC] Esportazione appuntamento ${appointment.id}...`);
-        const googleEventId = await addAppointmentToGoogleCalendar(appointment.id);
+        
+        // Crea direttamente l'evento in Google Calendar usando il token dell'utente
+        const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+        if (!user.length || !user[0].googleAuthToken) {
+          console.log(`❌ [SYNC] Token Google non trovato per utente ${userId}`);
+          continue;
+        }
+        
+        const tokens = JSON.parse(user[0].googleAuthToken);
+        const oauth2Client = new google.auth.OAuth2(
+          process.env.GOOGLE_CLIENT_ID,
+          process.env.GOOGLE_CLIENT_SECRET,
+          process.env.PRODUCTION_DOMAIN 
+            ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+            : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+        );
+        oauth2Client.setCredentials(tokens);
+        const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+        
+        // Ottieni dati appuntamento
+        const clientData = await db.select().from(clients).where(eq(clients.id, appointment.clientId)).limit(1);
+        const serviceData = appointment.serviceId 
+          ? await db.select().from(services).where(eq(services.id, appointment.serviceId)).limit(1)
+          : [];
+        
+        if (!clientData.length) {
+          console.log(`❌ [SYNC] Cliente non trovato per appuntamento ${appointment.id}`);
+          continue;
+        }
+        
+        const client = clientData[0];
+        const service = serviceData.length ? serviceData[0] : null;
+        
+        // Crea l'evento
+        const startDateTime = new Date(`${appointment.date}T${appointment.startTime}`);
+        const endDateTime = new Date(`${appointment.date}T${appointment.endTime}`);
+        
+        const summary = service 
+          ? `${client.firstName} ${client.lastName} - ${service.name}`
+          : `Appuntamento con ${client.firstName} ${client.lastName}`;
+        
+        const description = appointment.notes 
+          ? `Note: ${appointment.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`
+          : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`;
+        
+        const response = await calendar.events.insert({
+          calendarId: 'primary',
+          requestBody: {
+            summary,
+            description,
+            start: { dateTime: startDateTime.toISOString(), timeZone: 'Europe/Rome' },
+            end: { dateTime: endDateTime.toISOString(), timeZone: 'Europe/Rome' },
+            reminders: {
+              useDefault: false,
+              overrides: [
+                { method: 'email', minutes: 24 * 60 },
+                { method: 'popup', minutes: 30 },
+              ],
+            },
+          }
+        });
+        
+        const googleEventId = response.data.id;
+        console.log(`✅ [SYNC] Evento creato in Google Calendar: ${response.data.htmlLink}`);
+        
         if (googleEventId) {
           // Registra il collegamento
           await db.insert(googleCalendarEvents).values({
