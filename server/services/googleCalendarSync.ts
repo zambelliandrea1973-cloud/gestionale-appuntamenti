@@ -165,21 +165,39 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
     console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId}`);
     
     // 1. IMPORTA eventi da Google
-    const importResult = await importGoogleCalendarEvents(userId);
-    details.imported = importResult.imported;
-    details.errors.push(...importResult.errors);
-    console.log(`📥 Importati ${importResult.imported} eventi da Google Calendar`);
+    console.log(`📥 [SYNC] Step 1: Importazione eventi Google...`);
+    let importResult;
+    try {
+      importResult = await importGoogleCalendarEvents(userId);
+      details.imported = importResult.imported;
+      details.errors.push(...importResult.errors);
+      console.log(`📥 Importati ${importResult.imported} eventi da Google Calendar`);
+    } catch (importError) {
+      console.error(`❌ [SYNC] Errore durante importazione:`, importError);
+      details.errors.push(`Errore importazione: ${String(importError)}`);
+    }
 
     // 2. ESPORTA appuntamenti nuovi verso Google
-    const newAppointments = await db.select()
-      .from(appointments)
-      .where(and(
-        eq(appointments.userId, userId),
-        eq(appointments.synced, false) // Appuntamenti non ancora sincronizzati
-      ));
+    console.log(`📤 [SYNC] Step 2: Query appuntamenti da esportare...`);
+    let newAppointments: any[] = [];
+    try {
+      // Query più sicura: usa IS NOT TRUE invece di = false per gestire NULL
+      newAppointments = await db.select()
+        .from(appointments)
+        .where(eq(appointments.userId, userId));
+      
+      // Filtra manualmente gli appuntamenti non sincronizzati (synced = false o NULL)
+      newAppointments = newAppointments.filter(a => a.synced !== true);
+      console.log(`📤 [SYNC] Trovati ${newAppointments.length} appuntamenti da sincronizzare`);
+    } catch (queryError) {
+      console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
+      details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
+      newAppointments = [];
+    }
 
     for (const appointment of newAppointments) {
       try {
+        console.log(`📤 [SYNC] Esportazione appuntamento ${appointment.id}...`);
         const googleEventId = await addAppointmentToGoogleCalendar(appointment.id);
         if (googleEventId) {
           // Registra il collegamento
@@ -187,6 +205,7 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
             appointmentId: appointment.id,
             googleEventId,
             syncStatus: 'synced',
+            calendarId: 'primary',
             lastSyncAt: new Date()
           });
           
@@ -197,20 +216,22 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
           console.log(`📤 Esportato appuntamento ${appointment.id} a Google Calendar`);
         }
       } catch (error) {
+        console.error(`❌ [SYNC] Errore esportazione appuntamento ${appointment.id}:`, error);
         details.errors.push(`Errore esportazione appuntamento ${appointment.id}: ${String(error)}`);
       }
     }
 
     // 3. Aggiorna timestamp sync
+    console.log(`📝 [SYNC] Step 3: Aggiornamento timestamp...`);
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
 
-    const message = `Sincronizzazione completata: ${details.imported} eventi importati, ${details.exported} appuntamenti esportati`;
+    const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati`;
     console.log(`✅ ${message}`);
     
     return { success: true, message, details };
   } catch (error) {
     const message = `Errore sincronizzazione: ${String(error)}`;
-    console.error(`❌ ${message}`);
+    console.error(`❌ ${message}`, error);
     return { success: false, message, details };
   }
 }
