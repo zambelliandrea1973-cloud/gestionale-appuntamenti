@@ -8,6 +8,9 @@ import "./lib/i18n";
 // Service Worker DISABILITATO per evitare errori "Unexpected token '<'"
 // import { registerServiceWorker } from "./registerServiceWorker";
 
+// Disabilita popup DevTools/runtime-error-modal
+(window as any).__REPLIT_DISABLE_RUNTIME_ERROR_MODAL = true;
+
 // Service worker disabilitato
 // registerServiceWorker();
 

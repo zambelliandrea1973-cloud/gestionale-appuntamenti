@@ -9620,26 +9620,50 @@ Studio Professionale`;
     res.json({ success: true, message: 'Test endpoint funziona!' });
   });
 
-  // Endpoint per sincronizzazione manuale Google Calendar - SENZA AUTH per test
-  app.post('/api/google-calendar/sync-now', (req, res) => {
-    console.log('✅ [SYNC-NOW] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', req.user?.id);
+  // Endpoint per sincronizzazione manuale Google Calendar
+  app.post('/api/google-calendar/sync-now', async (req, res) => {
+    console.log('🔄 [SYNC-NOW] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
     
-    // Anche senza auth completa, restituiamo successo per il test
-    res.json({
-      success: true,
-      message: 'Sincronizzazione completata!',
-      details: { imported: 0, exported: 0 }
-    });
+    try {
+      // Verifica autenticazione
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ success: false, message: 'Non autenticato' });
+      }
+      
+      const userId = (req.user as any).id;
+      console.log(`🔄 [SYNC-NOW] Avvio sincronizzazione per utente ${userId}`);
+      
+      // Chiama la vera funzione di sincronizzazione bidirezionale
+      const result = await syncBidirectional(userId);
+      
+      console.log(`✅ [SYNC-NOW] Completato:`, result);
+      res.json(result);
+    } catch (error) {
+      console.error('❌ [SYNC-NOW] Errore:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante la sincronizzazione',
+        details: { imported: 0, exported: 0, errors: [String(error)] }
+      });
+    }
   });
 
   // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
-  app.post('/api/google-calendar/sync', (req, res) => {
-    console.log('✅ [SYNC LEGACY] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', req.user?.id);
-    res.json({
-      success: true,
-      message: 'Sincronizzazione completata!',
-      details: { imported: 0, exported: 0 }
-    });
+  app.post('/api/google-calendar/sync', async (req, res) => {
+    console.log('🔄 [SYNC LEGACY] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
+    
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ success: false, message: 'Non autenticato' });
+      }
+      
+      const userId = (req.user as any).id;
+      const result = await syncBidirectional(userId);
+      res.json(result);
+    } catch (error) {
+      console.error('❌ [SYNC LEGACY] Errore:', error);
+      res.status(500).json({ success: false, message: 'Errore durante la sincronizzazione' });
+    }
   });
 
   // Registra le route Google Calendar API
