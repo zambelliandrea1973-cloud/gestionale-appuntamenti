@@ -9492,6 +9492,12 @@ Studio Professionale`;
     next();
   });
 
+  // TEST ENDPOINT - Non richiede auth per debug
+  app.get('/api/google-calendar/test-sync', (req, res) => {
+    console.log('✅ [TEST-SYNC] Endpoint raggiunto!');
+    res.json({ success: true, message: 'Test endpoint funziona!' });
+  });
+
   // Endpoint per sincronizzazione manuale Google Calendar - TEST ENDPOINT PULITO
   app.post('/api/google-calendar/sync-now', requireAuth, (req, res) => {
     console.log('✅ [SYNC-NOW] CHIAMATO! User:', req.user?.id);

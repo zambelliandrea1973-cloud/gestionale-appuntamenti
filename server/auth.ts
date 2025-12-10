@@ -240,7 +240,15 @@ export function setupAuth(app: Express) {
       }
 
       return done(null, false);
-    } catch (err) {
+    } catch (err: any) {
+      // Log dettagliato errore deserializzazione
+      console.error('🔴 [DESERIALIZE ERROR] ==================');
+      console.error('🔴 [DESERIALIZE] Serialized value:', serialized);
+      console.error('🔴 [DESERIALIZE] Error message:', err?.message);
+      if (err?.query) console.error('🔴 [DESERIALIZE] SQL Query:', err.query);
+      if (err?.sql) console.error('🔴 [DESERIALIZE] SQL:', err.sql);
+      console.error('🔴 [DESERIALIZE] Stack:', err?.stack);
+      console.error('🔴 [DESERIALIZE ERROR] ==================');
       return done(err);
     }
   });

@@ -60,12 +60,29 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  // GLOBAL ERROR HANDLER - Cattura TUTTI gli errori e logga dettagli
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
+    
+    // Log dettagliato dell'errore per debug
+    console.error('🔴 [GLOBAL ERROR HANDLER] ==================');
+    console.error(`🔴 [GLOBAL ERROR] ${req.method} ${req.path}`);
+    console.error('🔴 [GLOBAL ERROR] Message:', message);
+    console.error('🔴 [GLOBAL ERROR] Status:', status);
+    if (err.query) console.error('🔴 [GLOBAL ERROR] SQL Query:', err.query);
+    if (err.sql) console.error('🔴 [GLOBAL ERROR] SQL:', err.sql);
+    if (err.code) console.error('🔴 [GLOBAL ERROR] Code:', err.code);
+    console.error('🔴 [GLOBAL ERROR] Stack:', err.stack);
+    console.error('🔴 [GLOBAL ERROR] ==================');
 
-    res.status(status).json({ message });
-    throw err;
+    // Sempre restituisci JSON, mai HTML
+    if (!res.headersSent) {
+      res.status(status).json({ 
+        message,
+        error: process.env.NODE_ENV !== 'production' ? err.message : 'Server error'
+      });
+    }
   });
 
   // importantly only setup vite in development and after
