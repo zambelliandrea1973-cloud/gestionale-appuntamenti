@@ -2060,8 +2060,14 @@ export function registerSimpleRoutes(app: Express): Server {
             : null;
           
           if (clientData) {
-            const startDateTime = new Date(`${newAppointment.date}T${newAppointment.startTime}`);
-            const endDateTime = new Date(`${newAppointment.date}T${newAppointment.endTime}`);
+            // USA formato ISO SENZA Z per rispettare il fuso orario Europe/Rome
+            // Gestisci sia formato HH:MM che HH:MM:SS
+            const startTime = newAppointment.startTime.length === 5 ? `${newAppointment.startTime}:00` : newAppointment.startTime;
+            const endTime = newAppointment.endTime.length === 5 ? `${newAppointment.endTime}:00` : newAppointment.endTime;
+            const startDateTimeStr = `${newAppointment.date}T${startTime}`;
+            const endDateTimeStr = `${newAppointment.date}T${endTime}`;
+            
+            console.log(`📅 [GOOGLE SYNC] Creazione evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
             
             const summary = serviceData 
               ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
@@ -2076,8 +2082,8 @@ export function registerSimpleRoutes(app: Express): Server {
               requestBody: {
                 summary,
                 description,
-                start: { dateTime: startDateTime.toISOString(), timeZone: 'Europe/Rome' },
-                end: { dateTime: endDateTime.toISOString(), timeZone: 'Europe/Rome' },
+                start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
+                end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
                 reminders: {
                   useDefault: false,
                   overrides: [
