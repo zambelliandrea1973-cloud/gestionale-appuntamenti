@@ -181,14 +181,15 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
     console.log(`📤 [SYNC] Step 2: Query appuntamenti da esportare...`);
     let newAppointments: any[] = [];
     try {
-      // Query più sicura: usa IS NOT TRUE invece di = false per gestire NULL
-      newAppointments = await db.select()
+      // Query SEMPLICE: seleziona solo appuntamenti dell'utente
+      const allAppointments = await db.select()
         .from(appointments)
         .where(eq(appointments.userId, userId));
       
-      // Filtra manualmente gli appuntamenti non sincronizzati (synced = false o NULL)
-      newAppointments = newAppointments.filter(a => a.synced !== true);
-      console.log(`📤 [SYNC] Trovati ${newAppointments.length} appuntamenti da sincronizzare`);
+      // Filtra manualmente gli appuntamenti non sincronizzati
+      // synced dovrebbe essere false o NULL per gli appuntamenti nuovi
+      newAppointments = allAppointments.filter(a => !a.synced);
+      console.log(`📤 [SYNC] Query completata, trovati ${allAppointments.length} totali, ${newAppointments.length} da sincronizzare`);
     } catch (queryError) {
       console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
       details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
