@@ -27,6 +27,8 @@ export default function GoogleCalendarSetupPage() {
   const [isGoogleAuthorized, setIsGoogleAuthorized] = useState(false);
   const [isSyncEnabled, setIsSyncEnabled] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncResult, setLastSyncResult] = useState<{ success: boolean; message: string } | null>(null);
 
   const startGoogleAuth = async () => {
     if (!email.trim()) {
@@ -105,6 +107,47 @@ export default function GoogleCalendarSetupPage() {
       toast({
         title: t('googleCalendar.setup.syncDisabled'),
       });
+    }
+  };
+
+  const handleManualSync = async () => {
+    setIsSyncing(true);
+    setLastSyncResult(null);
+    
+    try {
+      const response = await fetch('/api/google-calendar/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        setLastSyncResult({ success: true, message: data.message || 'Sincronizzazione completata!' });
+        toast({
+          title: "✅ Sincronizzazione completata",
+          description: `Importati: ${data.details?.imported || 0}, Esportati: ${data.details?.exported || 0}`,
+        });
+      } else {
+        setLastSyncResult({ success: false, message: data.error || data.message || 'Errore durante la sincronizzazione' });
+        toast({
+          title: "Errore sincronizzazione",
+          description: data.error || data.message || 'Si è verificato un errore',
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Errore di connessione';
+      setLastSyncResult({ success: false, message: errorMessage });
+      toast({
+        title: "Errore",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -268,20 +311,53 @@ export default function GoogleCalendarSetupPage() {
 
               {/* Toggle sincronizzazione */}
               {isGoogleAuthorized && (
-                <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-blue-900 dark:text-blue-100">{t('googleCalendar.setup.enableSync')}</p>
-                      <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                        {t('googleCalendar.setup.syncToGoogle')}
-                      </p>
+                <div className="space-y-4">
+                  <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-blue-900 dark:text-blue-100">{t('googleCalendar.setup.enableSync')}</p>
+                        <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                          {t('googleCalendar.setup.syncToGoogle')}
+                        </p>
+                      </div>
+                      <Switch
+                        checked={isSyncEnabled}
+                        onCheckedChange={handleSyncToggle}
+                        disabled={isSaving}
+                      />
                     </div>
-                    <Switch
-                      checked={isSyncEnabled}
-                      onCheckedChange={handleSyncToggle}
-                      disabled={isSaving}
-                    />
                   </div>
+                  
+                  {/* Pulsante sincronizzazione manuale */}
+                  <Button
+                    onClick={handleManualSync}
+                    disabled={isSyncing}
+                    className="w-full"
+                    variant="outline"
+                  >
+                    {isSyncing ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                        Sincronizzazione in corso...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Sincronizza ora
+                      </>
+                    )}
+                  </Button>
+                  
+                  {/* Risultato ultima sincronizzazione */}
+                  {lastSyncResult && (
+                    <div className={`p-3 rounded-lg text-sm ${
+                      lastSyncResult.success 
+                        ? 'bg-green-50 dark:bg-green-950 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                        : 'bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                    }`}>
+                      {lastSyncResult.success ? '✅' : '❌'} {lastSyncResult.message}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
