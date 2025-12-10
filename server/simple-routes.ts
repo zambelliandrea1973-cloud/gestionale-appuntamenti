@@ -39,6 +39,7 @@ import { notificationService } from './services/notificationService';
 // Import Google Calendar service for sync
 import { addAppointmentToGoogleCalendar } from './services/googleCalendarService';
 import { syncBidirectional } from './services/googleCalendarSync';
+import { google } from 'googleapis';
 
 // Import storage for new collaborators and rooms functionality
 import { storage } from './storage';
@@ -2036,11 +2037,65 @@ export function registerSimpleRoutes(app: Express): Server {
       
       // 🔄 GOOGLE CALENDAR SYNC: Esporta automaticamente a Google se abilitato
       try {
-        const user = await db.select().from(users).where(eq(users.id, userId));
-        if (user.length && user[0].googleCalendarEnabled && user[0].googleAuthToken) {
+        const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
+        if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
           console.log(`🔄 [GOOGLE SYNC] Sincronizzazione appuntamento ${newAppointment.id} a Google Calendar...`);
-          await addAppointmentToGoogleCalendar(userId, newAppointment);
-          console.log(`✅ [GOOGLE SYNC] Appuntamento ${newAppointment.id} sincronizzato a Google Calendar`);
+          
+          // Crea direttamente l'evento in Google Calendar usando il token dell'utente
+          const tokens = JSON.parse(googleUser.googleAuthToken);
+          const oauth2Client = new google.auth.OAuth2(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            process.env.PRODUCTION_DOMAIN 
+              ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+              : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+          );
+          oauth2Client.setCredentials(tokens);
+          const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+          
+          // Ottieni dati cliente e servizio
+          const [clientData] = await db.select().from(clients).where(eq(clients.id, newAppointment.clientId));
+          const serviceData = newAppointment.serviceId 
+            ? await db.select().from(services).where(eq(services.id, newAppointment.serviceId)).then(r => r[0])
+            : null;
+          
+          if (clientData) {
+            const startDateTime = new Date(`${newAppointment.date}T${newAppointment.startTime}`);
+            const endDateTime = new Date(`${newAppointment.date}T${newAppointment.endTime}`);
+            
+            const summary = serviceData 
+              ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
+              : `Appuntamento con ${clientData.firstName} ${clientData.lastName}`;
+            
+            const description = newAppointment.notes 
+              ? `Note: ${newAppointment.notes}\nCliente: ${clientData.firstName} ${clientData.lastName}\nTelefono: ${clientData.phone || 'Non disponibile'}\nEmail: ${clientData.email || 'Non disponibile'}`
+              : `Cliente: ${clientData.firstName} ${clientData.lastName}\nTelefono: ${clientData.phone || 'Non disponibile'}\nEmail: ${clientData.email || 'Non disponibile'}`;
+            
+            const response = await calendar.events.insert({
+              calendarId: 'primary',
+              requestBody: {
+                summary,
+                description,
+                start: { dateTime: startDateTime.toISOString(), timeZone: 'Europe/Rome' },
+                end: { dateTime: endDateTime.toISOString(), timeZone: 'Europe/Rome' },
+                reminders: {
+                  useDefault: false,
+                  overrides: [
+                    { method: 'email', minutes: 24 * 60 },
+                    { method: 'popup', minutes: 30 },
+                  ],
+                },
+              }
+            });
+            
+            // Salva il google_event_id e marca come sincronizzato
+            if (response.data.id) {
+              await db.update(appointments)
+                .set({ synced: true, googleEventId: response.data.id })
+                .where(eq(appointments.id, newAppointment.id));
+              console.log(`✅ [GOOGLE SYNC] Appuntamento ${newAppointment.id} sincronizzato: ${response.data.htmlLink}`);
+            }
+          }
         }
       } catch (syncError) {
         console.error(`⚠️ [GOOGLE SYNC] Errore sincronizzazione Google per appuntamento ${newAppointment.id}:`, syncError);
