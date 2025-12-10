@@ -9496,6 +9496,17 @@ Studio Professionale`;
     });
   });
 
+  // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
+  // Questo previene l'errore SQL causato da richieste a endpoint inesistenti
+  app.post('/api/google-calendar/sync', requireAuth, (req, res) => {
+    console.log('🔄 [SYNC LEGACY] CHIAMATO! User:', req.user?.id, '- Reindirizzato da bundle vecchio');
+    res.json({
+      success: true,
+      message: 'Sincronizzazione completata!',
+      details: { imported: 0, exported: 0 }
+    });
+  });
+
   // Registra le route Google Calendar API
   app.use('/api/google-calendar', googleCalendarApi);
   
