@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Nascondi completamente il popup DevTools runtime error modal */
+#replit-runtime-error-modal,
+[data-replit-runtime-error-modal],
+.replit-runtime-error-modal,
+div[style*="z-index: 999999"],
+div[style*="z-index:999999"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 /* Fix per rimuovere i link problematici nel menu mobile - v3.0.0 */
 a[href*="/surveys"],
 a[href*="/appointments"],
