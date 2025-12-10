@@ -2,7 +2,7 @@
 // Versione cache per gestire gli aggiornamenti
 // IMPORTANTE: Incrementato a v3 per forzare update dopo spostamento pulsante Dati cliente/consenso
 // Build: 2025-11-17 - Fix ClientCard button position on production
-const CACHE_NAME = 'appointment-manager-v4';
+const CACHE_NAME = 'appointment-manager-v5-nocache';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
@@ -55,8 +55,15 @@ self.addEventListener('fetch', function(event) {
   // Questo risolve il bug dove /api/user-with-license veniva cachata
   // causando cross-contamination tra utenti admin e staff
   if (requestUrl.pathname.startsWith('/api/')) {
-    console.log('Service Worker v3: BYPASS cache per API:', requestUrl.pathname);
+    console.log('Service Worker v5: BYPASS cache per API:', requestUrl.pathname);
     // Network-only per tutte le API
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
+  // NON cachare file JS per evitare problemi di versioning
+  if (requestUrl.pathname.endsWith('.js') || requestUrl.pathname.endsWith('.tsx')) {
+    console.log('Service Worker v5: BYPASS cache per JS:', requestUrl.pathname);
     event.respondWith(fetch(event.request));
     return;
   }
