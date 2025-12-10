@@ -23,21 +23,21 @@ const router = Router();
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
 // Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
-// AGGIORNATO: Ora usiamo il dominio da env var PRODUCTION_DOMAIN (per Sliplane) o fallback a Replit
-// SUPPORTO WEBVIEW: Se siamo in sviluppo Replit, usiamo il dominio del webview
+// IMPORTANTE: Usare SEMPRE un dominio STABILE registrato nella Google Cloud Console
+// I domini webview (.worf.replit.dev) NON sono registrati e causano errore "invalid_client"
 function getRedirectUri(requestHost?: string): string {
-  // Se viene passato un host della richiesta, usa quello (per supportare webview di sviluppo)
-  if (requestHost && requestHost.includes('.worf.replit.dev')) {
-    return `https://${requestHost}/api/google-auth/callback`;
-  }
-  if (requestHost && requestHost.includes('.replit.dev') && !requestHost.includes('replit.app')) {
-    return `https://${requestHost}/api/google-auth/callback`;
-  }
-  
+  // PRIORITÀ 1: Se siamo su Sliplane (dominio di produzione)
   if (process.env.PRODUCTION_DOMAIN) {
     return `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`;
   }
-  // Fallback: dominio Replit pubblico
+  
+  // PRIORITÀ 2: Se la richiesta viene dal dominio pubblico Replit registrato
+  if (requestHost && requestHost.includes('wife-scheduler-zambelliandrea1.replit.app')) {
+    return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+  }
+  
+  // DEFAULT: Dominio Replit pubblico (registrato in Google Cloud Console)
+  // NON usare .worf.replit.dev perché NON è registrato e causa "invalid_client"
   return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
 }
 
