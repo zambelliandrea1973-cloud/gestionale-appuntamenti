@@ -30,6 +30,8 @@ export default function GoogleCalendarSetupPage() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncResult, setLastSyncResult] = useState<{ success: boolean; message: string } | null>(null);
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
+  const [lastSyncAt, setLastSyncAt] = useState<string | null>(null);
+  const [totalSyncedEvents, setTotalSyncedEvents] = useState<number>(0);
   
   useEffect(() => {
     const checkGoogleAuthStatus = async () => {
@@ -43,6 +45,21 @@ export default function GoogleCalendarSetupPage() {
             if (data.email) {
               setEmail(data.email);
             }
+            if (data.lastSyncAt) {
+              setLastSyncAt(data.lastSyncAt);
+            }
+          }
+        }
+        
+        // Recupera anche lo stato della sincronizzazione dal calendario
+        const syncStatusRes = await fetch('/api/google-calendar/status', { credentials: 'include' });
+        if (syncStatusRes.ok) {
+          const syncData = await syncStatusRes.json();
+          if (syncData.lastSyncAt) {
+            setLastSyncAt(syncData.lastSyncAt);
+          }
+          if (syncData.totalSyncedEvents !== undefined) {
+            setTotalSyncedEvents(syncData.totalSyncedEvents);
           }
         }
       } catch (error) {
@@ -168,6 +185,9 @@ export default function GoogleCalendarSetupPage() {
       
       if (response.ok && data.success) {
         setLastSyncResult({ success: true, message: data.message || 'Sincronizzazione completata!' });
+        // Aggiorna lo stato permanente della sincronizzazione
+        setLastSyncAt(new Date().toISOString());
+        setTotalSyncedEvents(prev => prev + (data.details?.exported || 0));
         toast({
           title: "✅ Sincronizzazione completata",
           description: `Importati: ${data.details?.imported || 0}, Esportati: ${data.details?.exported || 0}`,
@@ -400,6 +420,32 @@ export default function GoogleCalendarSetupPage() {
                         : 'bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
                     }`}>
                       {lastSyncResult.success ? '✅' : '❌'} {lastSyncResult.message}
+                    </div>
+                  )}
+                  
+                  {/* Stato permanente della sincronizzazione */}
+                  {lastSyncAt && (
+                    <div className="bg-purple-50 dark:bg-purple-950 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                      <div className="flex items-center gap-3">
+                        <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                        <div>
+                          <p className="font-medium text-purple-900 dark:text-purple-100">
+                            Stato sincronizzazione
+                          </p>
+                          <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">
+                            Ultima sincronizzazione: {new Date(lastSyncAt).toLocaleString('it-IT', { 
+                              day: '2-digit', 
+                              month: '2-digit', 
+                              year: 'numeric',
+                              hour: '2-digit', 
+                              minute: '2-digit' 
+                            })}
+                          </p>
+                          <p className="text-sm text-purple-700 dark:text-purple-300">
+                            Eventi sincronizzati: {totalSyncedEvents}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
