@@ -571,11 +571,14 @@ export function setupAuth(app: Express) {
           
           // Cancella il cookie di sessione sul client con le stesse opzioni del cookie originale
           // Questo è CRITICO per garantire la cancellazione effettiva del cookie
+          const isProduction = process.env.NODE_ENV === 'production';
+          const isReplit = process.env.REPL_ID !== undefined;
+          const isSliplane = !isReplit && isProduction;
           res.clearCookie('session-id', {
             path: '/',
             httpOnly: true,
-            secure: false,
-            sameSite: 'lax'
+            secure: isProduction || isReplit,
+            sameSite: isSliplane ? 'none' : 'lax'
           });
           console.log(`Logout completato con successo`);
           res.status(200).json({ success: true, message: "Logout completato con successo" });

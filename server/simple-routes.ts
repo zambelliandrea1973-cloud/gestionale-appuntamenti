@@ -1122,6 +1122,14 @@ export function registerSimpleRoutes(app: Express): Server {
   // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: SI accesso PRO
   // - Admin/Staff: SI accesso completo
   app.get("/api/license/has-pro-access", async (req, res) => {
+    // Log dettagliato per debug sessione su Sliplane
+    console.log('🔐 [has-pro-access] ====== DEBUG SESSION ======');
+    console.log('🔐 [has-pro-access] Session ID:', req.sessionID);
+    console.log('🔐 [has-pro-access] isAuthenticated:', req.isAuthenticated());
+    console.log('🔐 [has-pro-access] req.user:', req.user ? `User ID ${(req.user as any).id}, type: ${(req.user as any).type}` : 'undefined');
+    console.log('🔐 [has-pro-access] Cookie header:', req.headers.cookie ? 'present' : 'missing');
+    console.log('🔐 [has-pro-access] ============================');
+    
     if (!req.isAuthenticated()) {
       console.log('🔐 [has-pro-access] Utente NON autenticato - return false');
       return res.json(false);

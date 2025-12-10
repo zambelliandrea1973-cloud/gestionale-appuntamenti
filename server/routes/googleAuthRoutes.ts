@@ -401,11 +401,50 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-// Controlla lo stato dell'autorizzazione
-router.get('/status', (req, res) => {
-  // Aggiungi info di debug
-  console.log("Auth status check. Current state:", authInfo);
+// Controlla lo stato dell'autorizzazione - LEGGE DAL DATABASE per persistenza
+router.get('/status', async (req, res) => {
+  console.log("🔐 [GOOGLE AUTH STATUS] Controllo stato autorizzazione...");
   
+  // Se l'utente è autenticato, controlla il token nel database
+  if (req.isAuthenticated() && req.user) {
+    const userId = (req.user as any).id;
+    console.log("🔐 [GOOGLE AUTH STATUS] Utente autenticato ID:", userId);
+    
+    try {
+      const [user] = await db.select({
+        googleAuthToken: users.googleAuthToken,
+        googleCalendarEnabled: users.googleCalendarEnabled
+      }).from(users).where(eq(users.id, userId)).limit(1);
+      
+      if (user && user.googleAuthToken) {
+        console.log("✅ [GOOGLE AUTH STATUS] Token trovato nel database per utente", userId);
+        
+        // Ripristina anche authInfo in memoria per retrocompatibilità
+        const tokens = JSON.parse(user.googleAuthToken);
+        authInfo = {
+          authorized: true,
+          tokens
+        };
+        
+        // Reimposta le credenziali sul client OAuth
+        oauth2Client.setCredentials(tokens);
+        
+        return res.json({ 
+          success: true, 
+          authorized: true,
+          calendarEnabled: user.googleCalendarEnabled
+        });
+      }
+      console.log("⚠️ [GOOGLE AUTH STATUS] Nessun token nel database per utente", userId);
+    } catch (error) {
+      console.error("❌ [GOOGLE AUTH STATUS] Errore lettura database:", error);
+    }
+  } else {
+    console.log("⚠️ [GOOGLE AUTH STATUS] Utente non autenticato");
+  }
+  
+  // Fallback: stato dalla memoria
+  console.log("🔐 [GOOGLE AUTH STATUS] Fallback a memoria:", authInfo.authorized);
   res.json({ 
     success: true, 
     authorized: authInfo.authorized 
