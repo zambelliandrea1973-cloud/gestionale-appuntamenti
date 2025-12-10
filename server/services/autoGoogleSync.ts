@@ -109,9 +109,13 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
 async function createGoogleEvent(calendar: any, calendarId: string, appointment: AppointmentData): Promise<void> {
   try {
     // Costruisci data/ora evento - USA formato ISO SENZA Z per rispettare il fuso orario locale
-    // NON usare .toISOString() che converte in UTC e aggiunge Z
-    const startDateTimeStr = `${appointment.date}T${appointment.startTime}:00`;
-    const endDateTimeStr = `${appointment.date}T${appointment.endTime}:00`;
+    // Gestisci sia formato HH:MM che HH:MM:SS
+    const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
+    const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
+    const startDateTimeStr = `${appointment.date}T${startTime}`;
+    const endDateTimeStr = `${appointment.date}T${endTime}`;
+    
+    console.log(`📅 [AUTO-SYNC] Creazione evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
 
     const event = {
       summary: `Appuntamento #${appointment.id}`,
@@ -187,8 +191,13 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
     }
 
     // Aggiorna l'evento esistente - USA formato ISO SENZA Z per rispettare il fuso orario locale
-    const startDateTimeStr = `${appointment.date}T${appointment.startTime}:00`;
-    const endDateTimeStr = `${appointment.date}T${appointment.endTime}:00`;
+    // Gestisci sia formato HH:MM che HH:MM:SS
+    const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
+    const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
+    const startDateTimeStr = `${appointment.date}T${startTime}`;
+    const endDateTimeStr = `${appointment.date}T${endTime}`;
+    
+    console.log(`📅 [AUTO-SYNC] Aggiornamento evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
 
     const event = {
       summary: `Appuntamento #${appointment.id}`,

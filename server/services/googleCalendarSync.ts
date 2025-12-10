@@ -271,8 +271,13 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
         const service = serviceData.length ? serviceData[0] : null;
         
         // Crea l'evento - USA formato ISO SENZA Z per rispettare il fuso orario locale
-        const startDateTimeStr = `${appointment.date}T${appointment.startTime}`;
-        const endDateTimeStr = `${appointment.date}T${appointment.endTime}`;
+        // Gestisci sia formato HH:MM che HH:MM:SS
+        const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
+        const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
+        const startDateTimeStr = `${appointment.date}T${startTime}`;
+        const endDateTimeStr = `${appointment.date}T${endTime}`;
+        
+        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`

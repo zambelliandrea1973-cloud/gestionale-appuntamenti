@@ -176,9 +176,11 @@ function createGoogleCalendarEvent(
   service: ServiceType | null
 ): calendar_v3.Schema$Event {
   // Prepara data e ora - USA formato ISO SENZA Z per rispettare il fuso orario locale
-  // NON usare new Date() + toISOString() che converte in UTC e aggiunge Z
-  const startDateTimeStr = `${appointment.date}T${appointment.startTime}`;
-  const endDateTimeStr = `${appointment.date}T${appointment.endTime}`;
+  // Gestisci sia formato HH:MM che HH:MM:SS
+  const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
+  const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
+  const startDateTimeStr = `${appointment.date}T${startTime}`;
+  const endDateTimeStr = `${appointment.date}T${endTime}`;
   
   // Titolo dell'evento
   const summary = service 
