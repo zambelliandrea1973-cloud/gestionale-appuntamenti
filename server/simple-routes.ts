@@ -9434,8 +9434,18 @@ Studio Professionale`;
   // Endpoint per sincronizzazione manuale Google Calendar
   app.post('/api/google-calendar/sync', requireAuth, async (req, res) => {
     try {
-      const user = req.user as any;
-      console.log(`🔄 [POST] /api/google-calendar/sync - Sincronizzazione manuale per utente ${user.id}`);
+      const sessionUser = req.user as any;
+      console.log(`🔄 [POST] /api/google-calendar/sync - Sincronizzazione manuale per utente ${sessionUser.id}`);
+      
+      // IMPORTANTE: Caricare i dati freschi dal database perché la sessione potrebbe essere obsoleta
+      const freshUserData = await db.select().from(users).where(eq(users.id, sessionUser.id)).limit(1);
+      
+      if (!freshUserData.length) {
+        return res.status(404).json({ error: 'Utente non trovato' });
+      }
+      
+      const user = freshUserData[0];
+      console.log(`🔄 [SYNC] Dati utente caricati: googleCalendarEnabled=${user.googleCalendarEnabled}, hasToken=${!!user.googleAuthToken}`);
       
       if (!user.googleCalendarEnabled || !user.googleAuthToken) {
         return res.status(400).json({ 
