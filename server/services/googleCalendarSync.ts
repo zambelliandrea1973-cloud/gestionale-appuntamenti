@@ -86,12 +86,14 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
         let clientId: number | null = null;
         if (googleEvent.attendees && googleEvent.attendees.length > 0) {
           const attendeeEmail = googleEvent.attendees[0].email;
-          const foundClients = await db.select()
-            .from(clients)
-            .where(and(eq(clients.userId, userId), eq(clients.email, attendeeEmail)));
-          
-          if (foundClients.length > 0) {
-            clientId = foundClients[0].id;
+          if (attendeeEmail) {
+            const foundClients = await db.select()
+              .from(clients)
+              .where(and(eq(clients.userId, userId), eq(clients.email, attendeeEmail)));
+            
+            if (foundClients.length > 0) {
+              clientId = foundClients[0].id;
+            }
           }
         }
 
@@ -100,10 +102,15 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           continue;
         }
 
-        // Crea l'appuntamento
-        const newAppointment = await db.insert(appointments).values({
+        // Trova un servizio di default per questo utente
+        const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
+        const serviceId = defaultService.length > 0 ? defaultService[0].id : 1;
+
+        // Crea l'appuntamento usando storage per rispettare lo schema
+        const newAppointmentData = {
           userId,
           clientId,
+          serviceId,
           date: eventDate,
           startTime: eventStartTime,
           endTime: eventEndTime,
@@ -111,7 +118,9 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           notes: googleEvent.description || `Importato da Google Calendar: ${googleEvent.summary || ''}`,
           importedFromGoogle: true,
           googleEventId: googleEvent.id
-        }).returning();
+        };
+        
+        const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
 
         // Registra il collegamento
         if (newAppointment.length > 0) {
