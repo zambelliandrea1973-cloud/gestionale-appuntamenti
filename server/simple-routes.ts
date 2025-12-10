@@ -9486,9 +9486,15 @@ Studio Professionale`;
     }
   });
 
+  // CATCH-ALL POST per /api/google-calendar/* - DEBUG MASSIVO
+  app.post('/api/google-calendar/*', (req, res, next) => {
+    console.log('🔴 [CATCH-ALL POST] /api/google-calendar/', req.params[0], '- Auth:', req.isAuthenticated(), '- User:', req.user?.id);
+    next();
+  });
+
   // Endpoint per sincronizzazione manuale Google Calendar - TEST ENDPOINT PULITO
   app.post('/api/google-calendar/sync-now', requireAuth, (req, res) => {
-    console.log('🔄🔄🔄 [SYNC-NOW] CHIAMATO! User:', req.user?.id);
+    console.log('✅ [SYNC-NOW] CHIAMATO! User:', req.user?.id);
     res.json({
       success: true,
       message: 'Sincronizzazione completata!',
@@ -9497,9 +9503,8 @@ Studio Professionale`;
   });
 
   // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
-  // Questo previene l'errore SQL causato da richieste a endpoint inesistenti
   app.post('/api/google-calendar/sync', requireAuth, (req, res) => {
-    console.log('🔄 [SYNC LEGACY] CHIAMATO! User:', req.user?.id, '- Reindirizzato da bundle vecchio');
+    console.log('✅ [SYNC LEGACY] CHIAMATO! User:', req.user?.id);
     res.json({
       success: true,
       message: 'Sincronizzazione completata!',
