@@ -165,32 +165,27 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
   try {
     console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId}`);
     
-    // 1. IMPORTA eventi da Google
-    console.log(`📥 [SYNC] Step 1: Importazione eventi Google...`);
-    let importResult;
-    try {
-      importResult = await importGoogleCalendarEvents(userId);
-      details.imported = importResult.imported;
-      details.errors.push(...importResult.errors);
-      console.log(`📥 Importati ${importResult.imported} eventi da Google Calendar`);
-    } catch (importError) {
-      console.error(`❌ [SYNC] Errore durante importazione:`, importError);
-      details.errors.push(`Errore importazione: ${String(importError)}`);
-    }
+    // 1. IMPORTA eventi da Google - SKIP per ora per debugging
+    console.log(`📥 [SYNC] Step 1: Importazione eventi Google - SKIPPED per debug`);
+    details.imported = 0;
+    // Non importiamo per ora, focalizziamoci sull'export
 
     // 2. ESPORTA appuntamenti nuovi verso Google
     console.log(`📤 [SYNC] Step 2: Query appuntamenti da esportare...`);
     let newAppointments: any[] = [];
     try {
+      console.log(`📤 [SYNC] Eseguendo query per userId=${userId}...`);
       // Query SEMPLICE: seleziona solo appuntamenti dell'utente
       const allAppointments = await db.select()
         .from(appointments)
         .where(eq(appointments.userId, userId));
       
+      console.log(`📤 [SYNC] Query completata, trovati ${allAppointments.length} appuntamenti totali`);
+      
       // Filtra manualmente gli appuntamenti non sincronizzati
       // synced dovrebbe essere false o NULL per gli appuntamenti nuovi
       newAppointments = allAppointments.filter(a => !a.synced);
-      console.log(`📤 [SYNC] Query completata, trovati ${allAppointments.length} totali, ${newAppointments.length} da sincronizzare`);
+      console.log(`📤 [SYNC] ${newAppointments.length} da sincronizzare`);
     } catch (queryError) {
       console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
       details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
