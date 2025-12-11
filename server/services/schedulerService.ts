@@ -210,6 +210,8 @@ export function initializeSchedulers(): void {
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
-  schedulerService.startGoogleCalendarImportScheduler();
+  // ❌ DISABILITATO: La sincronizzazione automatica ogni 30 secondi causa crash
+  // Usare sincronizzazione manuale (click utente) o endpoint /api/google-calendar/sync
+  // schedulerService.startGoogleCalendarImportScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('Tutti gli scheduler inizializzati');
 }
