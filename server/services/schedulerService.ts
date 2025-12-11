@@ -2,9 +2,10 @@ import cron from 'node-cron';
 import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
 import { trialNotificationService } from './trialNotificationService';
+import { importGoogleCalendarEvents } from './googleCalendarSync';
 import { db } from '../db';
-import { marketingCampaigns } from '../../shared/schema';
-import { lt } from 'drizzle-orm';
+import { marketingCampaigns, users } from '../../shared/schema';
+import { lt, eq, and, isNotNull } from 'drizzle-orm';
 
 /**
  * Servizio per la pianificazione di attività ricorrenti
@@ -132,6 +133,62 @@ export const schedulerService = {
     
     if (isVerbose) console.log('📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)');
   },
+  
+  /**
+   * Avvia il servizio di sincronizzazione automatica da Google Calendar
+   * Controlla ogni 10 minuti se ci sono nuovi eventi su Google Calendar e li importa
+   */
+  startGoogleCalendarImportScheduler(): void {
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    
+    // Cron job che viene eseguito ogni 2 minuti
+    cron.schedule('0 */2 * * * *', async () => {
+      const now = new Date();
+      if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Esecuzione import automatico da Google Calendar:', now.toISOString());
+      
+      try {
+        // Trova tutti gli utenti con Google Calendar abilitato
+        const usersWithGoogleCalendar = await db.select()
+          .from(users)
+          .where(and(
+            eq(users.googleCalendarEnabled, true),
+            isNotNull(users.googleAuthToken)
+          ));
+        
+        if (usersWithGoogleCalendar.length === 0) {
+          if (isVerbose) console.log('📭 [GOOGLE IMPORT] Nessun utente con Google Calendar abilitato');
+          return;
+        }
+        
+        let totalImported = 0;
+        let totalErrors = 0;
+        
+        // Importa eventi per ogni utente
+        for (const user of usersWithGoogleCalendar) {
+          try {
+            const result = await importGoogleCalendarEvents(user.id);
+            totalImported += result.imported;
+            totalErrors += result.errors.length;
+            
+            if (result.imported > 0) {
+              console.log(`✅ [GOOGLE IMPORT] Utente ${user.id}: importati ${result.imported} eventi da Google Calendar`);
+            }
+          } catch (userError) {
+            console.error(`⚠️ [GOOGLE IMPORT] Errore per utente ${user.id}:`, userError);
+            totalErrors++;
+          }
+        }
+        
+        if (isVerbose || totalImported > 0) {
+          console.log(`🔄 [GOOGLE IMPORT] Completato: ${totalImported} eventi importati, ${totalErrors} errori`);
+        }
+      } catch (error) {
+        console.error('❌ [GOOGLE IMPORT] Errore nell\'esecuzione del job:', error);
+      }
+    });
+    
+    if (isVerbose) console.log('🔄 Scheduler import Google Calendar avviato con successo (esecuzione ogni 2 minuti)');
+  },
 };
 
 /**
@@ -142,5 +199,6 @@ export function initializeSchedulers(): void {
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
+  schedulerService.startGoogleCalendarImportScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('Tutti gli scheduler inizializzati');
 }
