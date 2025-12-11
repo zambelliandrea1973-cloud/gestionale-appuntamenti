@@ -83,7 +83,12 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   };
   
   // Handle day click for viewing day or creating appointment
-  const handleDayClick = (day: Date, createAppointment: boolean = false) => {
+  const handleDayClick = (e: React.MouseEvent, day: Date, createAppointment: boolean = false) => {
+    // Ignora click provenienti da card appuntamento (evita cambio vista durante delete/edit)
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-appointment-card]')) {
+      return;
+    }
     if (createAppointment) {
       setSelectedDayForAppointment(day);
       setIsAppointmentFormOpen(true);
@@ -140,7 +145,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
                   ${isMonthDay ? 'bg-white' : 'bg-gray-50'}
                   ${isCurrentDay ? 'ring-2 ring-inset ring-primary' : ''}
                 `}
-                onClick={() => handleDayClick(day)}
+                onClick={(e) => handleDayClick(e, day)}
               >
                 <div className="flex justify-between items-start">
                   <div
@@ -160,7 +165,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
                       className="h-5 w-5 p-0 text-gray-400 hover:text-primary"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDayClick(day, true);
+                        handleDayClick(e, day, true);
                       }}
                     >
                       <span className="sr-only">Aggiungi appuntamento</span>

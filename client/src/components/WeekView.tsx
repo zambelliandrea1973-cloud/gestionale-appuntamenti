@@ -89,7 +89,12 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   };
   
   // Handle time slot click to open new appointment form
-  const handleTimeSlotClick = (day: Date, time: string) => {
+  const handleTimeSlotClick = (e: React.MouseEvent, day: Date, time: string) => {
+    // Ignora click provenienti da card appuntamento (evita apertura form durante delete/edit)
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-appointment-card]')) {
+      return;
+    }
     setSelectedDayForAppointment(day);
     setSelectedTimeForAppointment(time);
     setIsAppointmentFormOpen(true);
@@ -182,7 +187,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                 <div 
                   key={`${timeIndex}-${dayIndex}`}
                   className="border-r border-b p-1 min-h-[60px] cursor-pointer hover:bg-blue-50 transition-colors relative group"
-                  onClick={() => handleTimeSlotClick(day, timeSlot)}
+                  onClick={(e) => handleTimeSlotClick(e, day, timeSlot)}
                 >
                   {isLoading ? (
                     <Skeleton className="h-12 w-full" />
@@ -208,7 +213,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
                         className="text-gray-400 hover:text-primary h-auto p-1"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleTimeSlotClick(day, timeSlot);
+                          handleTimeSlotClick(e, day, timeSlot);
                         }}
                       >
                         <Plus className="h-4 w-4" />

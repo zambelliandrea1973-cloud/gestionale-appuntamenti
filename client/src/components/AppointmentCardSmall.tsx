@@ -98,6 +98,7 @@ export default function AppointmentCardSmall({
   return (
     <div 
       className="relative group"
+      data-appointment-card="true"
       style={{
         borderLeft: `2px solid ${getBorderColor()}`,
         backgroundColor: getBackgroundColor()
