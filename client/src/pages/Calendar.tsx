@@ -64,41 +64,6 @@ export default function Calendar() {
     
     return () => clearInterval(timer);
   }, []);
-
-  // Auto-sincronizza con Google Calendar al caricamento della pagina (in background)
-  useEffect(() => {
-    const autoSync = async () => {
-      try {
-        console.log('🔄 [AUTO-SYNC] Sincronizzazione automatica al caricamento...');
-        const response = await fetch('/api/google-calendar/sync', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log(`✅ [AUTO-SYNC] Completata: Importati ${data.imported || 0}, Eliminati ${data.deleted || 0}`);
-        } else {
-          console.warn(`⚠️ [AUTO-SYNC] Errore HTTP ${response.status}`);
-        }
-        
-        // Invalida i dati senza mostrare notifica
-        queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-        queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-      } catch (error) {
-        console.warn('⚠️ [AUTO-SYNC] Errore silenzioso durante auto-sync:', error);
-        // Non mostriamo errore all'utente - è un background sync
-      }
-    };
-
-    // Delay di 1000ms per permettere al calendario di renderizzarsi prima
-    const timeoutId = setTimeout(autoSync, 1000);
-    
-    return () => clearTimeout(timeoutId);
-  }, [queryClient]);
   
   // Per la ricerca di tutti gli appuntamenti
   const { data: allAppointments = [], refetch: refetchAppointments } = useQuery({
@@ -341,62 +306,60 @@ export default function Calendar() {
           </span>
         </div>
 
-        <div className="mt-4 flex flex-col gap-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 flex-wrap">
-            {/* Bottoni di visualizzazione + Google Sync Button */}
-            <div className="flex gap-2 flex-wrap w-full sm:w-auto">
-              <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border">
-                <Button
-                  variant={view === "day" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setView("day")}
-                  className={`rounded-none px-3 sm:px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
-                >
-                  <Clock className="h-4 w-4 mr-1 sm:mr-2" />
-                  {t('calendar.daily')}
-                </Button>
-                <Button
-                  variant={view === "week" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setView("week")}
-                  className={`rounded-none px-3 sm:px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
-                >
-                  <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />
-                  {t('calendar.weekly')}
-                </Button>
-                <Button
-                  variant={view === "month" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setView("month")}
-                  className={`rounded-none px-3 sm:px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
-                >
-                  <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
-                  {t('calendar.monthly')}
-                </Button>
-              </div>
+        <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* Bottoni di visualizzazione */}
+          <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border w-full sm:w-auto">
+            <Button
+              variant={view === "day" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("day")}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "day" ? "bg-primary text-white" : ""}`}
+            >
+              <Clock className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.daily')}
+            </Button>
+            <Button
+              variant={view === "week" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("week")}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "week" ? "bg-primary text-white" : ""}`}
+            >
+              <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.weekly')}
+            </Button>
+            <Button
+              variant={view === "month" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("month")}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "month" ? "bg-primary text-white" : ""}`}
+            >
+              <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.monthly')}
+            </Button>
+          </div>
 
-              {/* Google Calendar Sync Button */}
-              <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
-            </div>
-            
-            <div className="text-sm text-gray-500 text-center sm:text-right">
-              {/* Mostriamo la data attuale con numero e giorno in tutte le viste */}
-              {view === "day" ? (
-                <div className="text-green-600 font-semibold">
-                  {selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric' 
-                  })}
-                </div>
-              ) : (
-                <>
-                  {view === "week" && t('calendar.weekView')}
-                  {view === "month" && t('calendar.monthView')}
-                </>
-              )}
-            </div>
+          {/* Google Calendar Sync Button */}
+          <div className="w-full sm:w-auto flex gap-2">
+            <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
+          </div>
+          
+          <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
+            {/* Mostriamo la data attuale con numero e giorno in tutte le viste */}
+            {view === "day" ? (
+              <div className="text-green-600 font-semibold">
+                {selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric' 
+                })}
+              </div>
+            ) : (
+              <>
+                {view === "week" && t('calendar.weekView')}
+                {view === "month" && t('calendar.monthView')}
+              </>
+            )}
           </div>
         </div>
       </div>

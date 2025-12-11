@@ -1073,7 +1073,34 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Fuso orario
   app.get("/api/timezone-settings", (req, res) => {
-    res.json({ timezone: "Europe/Rome", offset: 2 });
+    // Calcola dinamicamente l'offset per Europe/Rome basato sulla data corrente
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Rome',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+    
+    const parts = formatter.formatToParts(now);
+    const partsMap = Object.fromEntries(parts.map(p => [p.type, p.value]));
+    
+    const romaDate = new Date(
+      parseInt(partsMap.year),
+      parseInt(partsMap.month) - 1,
+      parseInt(partsMap.day),
+      parseInt(partsMap.hour),
+      parseInt(partsMap.minute),
+      parseInt(partsMap.second)
+    );
+    
+    const offset = Math.round((now.getTime() - romaDate.getTime()) / (1000 * 60 * 60));
+    
+    res.json({ timezone: "Europe/Rome", offset, name: "Europe/Rome" });
   });
 
   app.post("/api/timezone-settings", (req, res) => {
