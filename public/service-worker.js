@@ -1,8 +1,8 @@
 // Service Worker per l'applicazione di gestione appuntamenti
 // Versione cache per gestire gli aggiornamenti
-// IMPORTANTE: v6 - FIX CRITICO per bypassare cache su richieste POST/API
-// Build: 2025-12-10 - Fix API caching issue
-const CACHE_NAME = 'appointment-manager-v6-force-network';
+// IMPORTANTE: v7 - FIX parametri apiRequest e Google Calendar Sync
+// Build: 2025-12-11 - Force cache invalidation for apiRequest fix
+const CACHE_NAME = 'appointment-manager-v7-api-fix';
 const urlsToCache = [
   '/',
   '/manifest.json'

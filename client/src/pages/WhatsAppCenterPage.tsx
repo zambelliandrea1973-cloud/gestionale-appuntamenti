@@ -373,13 +373,7 @@ const WhatsAppCenterPage: React.FC = () => {
     try {
       console.log('🚀 FRONTEND: Avviando invio automatico per domani...');
       
-      const response = await apiRequest('/api/notifications/send-all-tomorrow', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({})
-      });
+      const response = await apiRequest('POST', '/api/notifications/send-all-tomorrow');
       
       const data = await response.json();
       
