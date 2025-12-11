@@ -370,8 +370,8 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
           requestBody: {
             summary,
             description,
-            start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
-            end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
+            start: { dateTime: startDateTimeStr },
+            end: { dateTime: endDateTimeStr },
             reminders: {
               useDefault: false,
               overrides: [
