@@ -73,8 +73,93 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
         
         if (existing.length > 0) {
-          // Evento già tracciato - potrebbe essere un conflitto
-          console.log(`✓ Evento ${googleEvent.id} già sincronizzato (tracking table)`);
+          // Evento già tracciato - AGGIORNA l'appuntamento con i dati da Google
+          console.log(`🔄 Evento ${googleEvent.id} già tracciato - verifico aggiornamenti da Google...`);
+          
+          // Recupera l'appuntamento collegato
+          const linkedAppointment = await db.select()
+            .from(appointments)
+            .where(eq(appointments.id, existing[0].appointmentId))
+            .limit(1);
+          
+          if (linkedAppointment.length > 0) {
+            // Converti orari Google nel fuso orario utente
+            const googleStartDateTime = googleEvent.start.dateTime;
+            const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
+            
+            const startDateObj = new Date(googleStartDateTime);
+            const endDateObj = new Date(googleEndDateTime);
+            
+            const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
+              timeZone,
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit', second: '2-digit',
+              hour12: false
+            });
+            
+            const startParts = userFormatter.format(startDateObj).split(' ');
+            const endParts = userFormatter.format(endDateObj).split(' ');
+            
+            const newDate = startParts[0];
+            const newStartTime = startParts[1].substring(0, 5);
+            const newEndTime = endParts[1].substring(0, 5);
+            
+            // Controlla se ci sono modifiche di data/ora (NON toccare le note per preservare dati locali)
+            const currentAppt = linkedAppointment[0];
+            const hasTimeChanges = currentAppt.date !== newDate || 
+                                   currentAppt.startTime !== newStartTime || 
+                                   currentAppt.endTime !== newEndTime;
+            
+            if (hasTimeChanges) {
+              console.log(`📝 Verifica aggiornamento appuntamento ${currentAppt.id} da Google: ${currentAppt.date} ${currentAppt.startTime} -> ${newDate} ${newStartTime}`);
+              
+              // CONTROLLO CONFLITTI: verifica che il nuovo slot non sia già occupato
+              const conflictCheck = await db.select()
+                .from(appointments)
+                .where(and(
+                  eq(appointments.userId, userId),
+                  eq(appointments.date, newDate),
+                  eq(appointments.startTime, newStartTime),
+                  // Escludi l'appuntamento corrente dal controllo
+                  // (potrebbe essere solo un aggiornamento minore)
+                ));
+              
+              const hasConflict = conflictCheck.some(a => a.id !== currentAppt.id);
+              
+              if (hasConflict) {
+                console.log(`⚠️ Conflitto rilevato! Slot ${newDate} ${newStartTime} già occupato. Aggiornamento annullato.`);
+                result.errors.push(`Conflitto orario per evento ${googleEvent.id}: slot ${newDate} ${newStartTime} già occupato`);
+                
+                // PERSISTI stato conflitto nel database per visibilità UI
+                await db.update(googleCalendarEvents)
+                  .set({ 
+                    syncStatus: 'conflict',
+                    updatedAt: new Date()
+                  })
+                  .where(eq(googleCalendarEvents.id, existing[0].id));
+              } else {
+                // Aggiorna solo data/ora, PRESERVA le note esistenti
+                await db.update(appointments)
+                  .set({
+                    date: newDate,
+                    startTime: newStartTime,
+                    endTime: newEndTime
+                    // NON aggiornare notes per preservare dati inseriti dallo staff
+                  })
+                  .where(eq(appointments.id, currentAppt.id));
+                
+                // Aggiorna anche il tracking
+                await db.update(googleCalendarEvents)
+                  .set({ lastSyncAt: new Date(), updatedAt: new Date() })
+                  .where(eq(googleCalendarEvents.id, existing[0].id));
+                
+                result.imported++; // Conta come "aggiornato"
+                console.log(`✅ Appuntamento ${currentAppt.id} aggiornato da Google (data/ora)`);
+              }
+            } else {
+              console.log(`✓ Appuntamento ${currentAppt.id} già sincronizzato, nessuna modifica`);
+            }
+          }
           continue;
         }
         
@@ -437,8 +522,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           ? `Note: ${appointment.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`
           : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`;
         
+        // Usa il calendarId dell'utente, fallback a 'primary' se non configurato
+        const targetCalendarId = user[0].googleCalendarId || 'primary';
+        
         const response = await calendar.events.insert({
-          calendarId: 'primary',
+          calendarId: targetCalendarId,
           requestBody: {
             summary,
             description,
@@ -455,7 +543,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         });
         
         const googleEventId = response.data.id;
-        console.log(`✅ [SYNC] Evento creato in Google Calendar: ${response.data.htmlLink}`);
+        console.log(`✅ [SYNC] Evento creato in Google Calendar (${targetCalendarId}): ${response.data.htmlLink}`);
         
         if (googleEventId) {
           // Registra il collegamento (usa upsert per evitare duplicati)
@@ -463,7 +551,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             appointmentId: appointment.id,
             googleEventId,
             syncStatus: 'synced',
-            calendarId: 'primary',
+            calendarId: targetCalendarId,
             lastSyncAt: new Date()
           }).onConflictDoUpdate({
             target: googleCalendarEvents.appointmentId,
@@ -487,8 +575,126 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       }
     }
 
-    // 3. Aggiorna timestamp sync
-    console.log(`📝 [SYNC] Step 3: Aggiornamento timestamp...`);
+    // 3. AGGIORNA eventi Google con modifiche da Replit
+    console.log(`🔄 [SYNC] Step 3: Aggiornamento eventi Google con modifiche Replit...`);
+    let updated = 0;
+    try {
+      // Ottieni tutti gli appuntamenti sincronizzati (includi calendarId per usare il calendario corretto)
+      const syncedAppointments = await db.select({
+        appointmentId: googleCalendarEvents.appointmentId,
+        googleEventId: googleCalendarEvents.googleEventId,
+        lastSyncAt: googleCalendarEvents.lastSyncAt,
+        calendarId: googleCalendarEvents.calendarId
+      })
+      .from(googleCalendarEvents)
+      .innerJoin(appointments, eq(appointments.id, googleCalendarEvents.appointmentId))
+      .where(eq(appointments.userId, userId));
+      
+      // Per ogni appuntamento sincronizzato, aggiorna Google se necessario
+      for (const syncedAppt of syncedAppointments) {
+        try {
+          const appointment = await db.select()
+            .from(appointments)
+            .where(eq(appointments.id, syncedAppt.appointmentId))
+            .limit(1);
+          
+          if (!appointment.length) continue;
+          const appt = appointment[0];
+          
+          // Ottieni client e service
+          const clientData = await db.select().from(clients).where(eq(clients.id, appt.clientId)).limit(1);
+          const serviceData = appt.serviceId 
+            ? await db.select().from(services).where(eq(services.id, appt.serviceId)).limit(1)
+            : [];
+          
+          if (!clientData.length) continue;
+          const client = clientData[0];
+          const service = serviceData.length ? serviceData[0] : null;
+          
+          // Prepara dati per Google
+          const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;
+          const endTime = appt.endTime.length === 5 ? `${appt.endTime}:00` : appt.endTime;
+          
+          function getTimezoneOffset(date: Date, tz: string): number {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit', second: '2-digit',
+              hour12: false, timeZone: tz
+            });
+            const parts = formatter.formatToParts(date);
+            const partsMap = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+            const localDate = new Date(
+              parseInt(partsMap.year), parseInt(partsMap.month) - 1, parseInt(partsMap.day),
+              parseInt(partsMap.hour), parseInt(partsMap.minute), parseInt(partsMap.second)
+            );
+            return (localDate.getTime() - date.getTime()) / (1000 * 60);
+          }
+          
+          const refDate = new Date(`${appt.date}T12:00:00`);
+          const offsetMinutes = getTimezoneOffset(refDate, timeZone);
+          
+          const localStartDateTime = new Date(`${appt.date}T${startTime}`);
+          const localEndDateTime = new Date(`${appt.date}T${endTime}`);
+          const utcStartDateTime = new Date(localStartDateTime.getTime() - offsetMinutes * 60 * 1000);
+          const utcEndDateTime = new Date(localEndDateTime.getTime() - offsetMinutes * 60 * 1000);
+          
+          const startDateTimeStr = utcStartDateTime.toISOString();
+          const endDateTimeStr = utcEndDateTime.toISOString();
+          
+          const summary = service 
+            ? `${client.firstName} ${client.lastName} - ${service.name}`
+            : `Appuntamento con ${client.firstName} ${client.lastName}`;
+          
+          const description = appt.notes 
+            ? `Note: ${appt.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
+            : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
+          
+          // Aggiorna evento su Google
+          const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+          if (!user.length || !user[0].googleAuthToken) continue;
+          
+          const tokens = JSON.parse(user[0].googleAuthToken);
+          const oauth2Client = new google.auth.OAuth2(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            process.env.PRODUCTION_DOMAIN 
+              ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+              : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+          );
+          oauth2Client.setCredentials(tokens);
+          const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+          
+          // Usa il calendarId salvato nel tracking, fallback a 'primary' se non presente
+          const targetCalendarId = syncedAppt.calendarId || 'primary';
+          
+          await calendar.events.update({
+            calendarId: targetCalendarId,
+            eventId: syncedAppt.googleEventId,
+            requestBody: {
+              summary,
+              description,
+              start: { dateTime: startDateTimeStr, timeZone: 'UTC' },
+              end: { dateTime: endDateTimeStr, timeZone: 'UTC' },
+            }
+          });
+          
+          // Aggiorna timestamp sync
+          await db.update(googleCalendarEvents)
+            .set({ lastSyncAt: new Date(), updatedAt: new Date() })
+            .where(eq(googleCalendarEvents.appointmentId, syncedAppt.appointmentId));
+          
+          updated++;
+        } catch (updateError) {
+          console.log(`⚠️ [SYNC] Errore aggiornamento evento ${syncedAppt.googleEventId}: ${String(updateError)}`);
+        }
+      }
+      console.log(`🔄 [SYNC] Aggiornati ${updated} eventi su Google`);
+    } catch (step3Error) {
+      console.error(`❌ [SYNC] Errore Step 3:`, step3Error);
+    }
+
+    // 4. Aggiorna timestamp sync
+    console.log(`📝 [SYNC] Step 4: Aggiornamento timestamp...`);
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
 
     const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati`;
