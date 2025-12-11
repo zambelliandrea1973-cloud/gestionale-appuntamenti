@@ -102,6 +102,7 @@ export default function AppointmentCardSmall({
         borderLeft: `2px solid ${getBorderColor()}`,
         backgroundColor: getBackgroundColor()
       }}
+      onClick={(e) => e.stopPropagation()}
     >
       {/* Contenuto principale - Versione semplificata */}
       <div className="font-medium truncate text-xs p-1">
