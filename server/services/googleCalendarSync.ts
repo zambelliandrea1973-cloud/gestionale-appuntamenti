@@ -92,8 +92,28 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
         // DEDUPLICAZIONE AGGIUNTIVA: Controlla se esiste già un appuntamento alla stessa data/ora
         // (indipendentemente da importedFromGoogle - evita duplicati anche per appuntamenti esportati)
         const googleStartDateTime = googleEvent.start.dateTime;
-        const eventDate = googleStartDateTime.substring(0, 10);
-        const eventStartTime = googleStartDateTime.substring(11, 16);
+        const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
+        
+        // CONVERSIONE FUSO ORARIO: Converti datetime Google in ora locale italiana
+        const startDateObj = new Date(googleStartDateTime);
+        const endDateObj = new Date(googleEndDateTime);
+        
+        // Formatta in ora italiana (Europe/Rome)
+        const italyFormatter = new Intl.DateTimeFormat('sv-SE', { 
+          timeZone: 'Europe/Rome',
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: false
+        });
+        
+        const startParts = italyFormatter.format(startDateObj).split(' ');
+        const endParts = italyFormatter.format(endDateObj).split(' ');
+        
+        const eventDate = startParts[0]; // "2025-12-14"
+        const eventStartTime = startParts[1].substring(0, 5); // "09:00"
+        const eventEndTime = endParts[1].substring(0, 5); // "10:00"
+        
+        console.log(`🕐 [TZ DEBUG] Google datetime: ${googleStartDateTime} -> Italy: ${eventDate} ${eventStartTime}`);
         
         const duplicateCheck = await db.select()
           .from(appointments)
@@ -107,15 +127,6 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           console.log(`✓ Evento ${googleEvent.id} saltato - appuntamento già presente per ${eventDate} ${eventStartTime}`);
           continue;
         }
-
-        // Estrai info dall'evento Google - USA la stringa originale per evitare problemi timezone
-        // googleEvent.start.dateTime ha formato: "2025-12-13T09:00:00+01:00"
-        const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
-        
-        // Estrai data e ora direttamente dalla stringa ISO (senza conversione UTC)
-        // Formato: YYYY-MM-DDTHH:MM:SS+HH:MM
-        // eventDate e eventStartTime sono già estratti sopra per la deduplicazione
-        const eventEndTime = googleEndDateTime.substring(11, 16); // "10:00"
         
         console.log(`📅 [GOOGLE IMPORT] Evento: ${googleEvent.summary} - Data: ${eventDate}, Ora: ${eventStartTime}-${eventEndTime}`);
         
@@ -340,22 +351,17 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
         
-        // Crea l'evento - USA formato ISO CON offset esplicito per Europa/Roma
+        // Crea l'evento - USA formato ISO senza offset, lascia che Google Calendar usi timeZone
         // Gestisci sia formato HH:MM che HH:MM:SS
         const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
         const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
         
-        // Determina l'offset corretto per la data specifica (ora legale vs solare)
-        const appointmentDateObj = new Date(`${appointment.date}T12:00:00`);
-        const month = appointmentDateObj.getMonth() + 1;
-        // Italia: ora legale da ultima domenica di marzo a ultima domenica di ottobre
-        // Semplificazione: aprile-ottobre = +02:00, novembre-marzo = +01:00
-        const offset = (month >= 4 && month <= 10) ? '+02:00' : '+01:00';
+        // IMPORTANTE: Uso formato semplice senza offset + timeZone esplicito
+        // Questo garantisce che Google Calendar interpreti l'ora come ora locale italiana
+        const startDateTimeStr = `${appointment.date}T${startTime}`;
+        const endDateTimeStr = `${appointment.date}T${endTime}`;
         
-        const startDateTimeStr = `${appointment.date}T${startTime}${offset}`;
-        const endDateTimeStr = `${appointment.date}T${endTime}${offset}`;
-        
-        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} - ${endDateTimeStr}`);
+        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} (timeZone: Europe/Rome)`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -370,8 +376,8 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
           requestBody: {
             summary,
             description,
-            start: { dateTime: startDateTimeStr },
-            end: { dateTime: endDateTimeStr },
+            start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
+            end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
             reminders: {
               useDefault: false,
               overrides: [
