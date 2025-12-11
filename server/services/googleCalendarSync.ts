@@ -239,7 +239,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
 
-        // Registra il collegamento
+        // Registra il collegamento (usa upsert per evitare duplicati)
         if (newAppointment.length > 0) {
           await db.insert(googleCalendarEvents).values({
             appointmentId: newAppointment[0].id,
@@ -247,6 +247,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             syncStatus: 'synced',
             calendarId,
             lastSyncAt: new Date()
+          }).onConflictDoUpdate({
+            target: googleCalendarEvents.appointmentId,
+            set: {
+              googleEventId: googleEvent.id,
+              syncStatus: 'synced',
+              lastSyncAt: new Date(),
+              updatedAt: new Date()
+            }
           });
           
           result.imported++;
@@ -322,6 +330,19 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
     for (const appointment of newAppointments) {
       try {
         console.log(`📤 [SYNC] Esportazione appuntamento ${appointment.id}...`);
+        
+        // CONTROLLO DUPLICATI: verifica se l'appuntamento è già stato esportato
+        const existingExport = await db.select()
+          .from(googleCalendarEvents)
+          .where(eq(googleCalendarEvents.appointmentId, appointment.id))
+          .limit(1);
+        
+        if (existingExport.length > 0) {
+          console.log(`⏭️ [SYNC] Appuntamento ${appointment.id} già esportato (evento: ${existingExport[0].googleEventId}), skip`);
+          // Assicurati che il flag synced sia impostato
+          await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
+          continue;
+        }
         
         // Crea direttamente l'evento in Google Calendar usando il token dell'utente
         const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -437,13 +458,21 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         console.log(`✅ [SYNC] Evento creato in Google Calendar: ${response.data.htmlLink}`);
         
         if (googleEventId) {
-          // Registra il collegamento
+          // Registra il collegamento (usa upsert per evitare duplicati)
           await db.insert(googleCalendarEvents).values({
             appointmentId: appointment.id,
             googleEventId,
             syncStatus: 'synced',
             calendarId: 'primary',
             lastSyncAt: new Date()
+          }).onConflictDoUpdate({
+            target: googleCalendarEvents.appointmentId,
+            set: {
+              googleEventId,
+              syncStatus: 'synced',
+              lastSyncAt: new Date(),
+              updatedAt: new Date()
+            }
           });
           
           // Marca appuntamento come sincronizzato
