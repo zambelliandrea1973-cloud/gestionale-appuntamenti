@@ -25,6 +25,7 @@ import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
+import { SyncGoogleButton } from "@/components/SyncGoogleButton";
 
 export default function Calendar() {
   const { t, i18n } = useTranslation();
@@ -335,6 +336,11 @@ export default function Calendar() {
               <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
               {t('calendar.monthly')}
             </Button>
+          </div>
+
+          {/* Google Calendar Sync Button */}
+          <div className="w-full sm:w-auto">
+            <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
           </div>
           
           <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
