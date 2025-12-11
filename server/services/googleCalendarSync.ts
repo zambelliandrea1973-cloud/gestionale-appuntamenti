@@ -416,6 +416,7 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
 
 /**
  * Rileva eventi eliminati da Google Calendar e rimuove gli appuntamenti corrispondenti
+ * OTTIMIZZATO: Una sola chiamata API invece di N chiamate
  */
 export async function syncDeletedEvents(userId: number): Promise<{ deleted: number; errors: string[] }> {
   const result = { deleted: 0, errors: [] as string[] };
@@ -444,57 +445,69 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
-    // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente
-    const syncedMappings = await db.select()
-      .from(googleCalendarEvents);
-    
-    // Filtra solo quelli che appartengono a questo utente
-    const syncedAppointments: Array<{ mapping: typeof syncedMappings[0], appointment: any }> = [];
-    for (const mapping of syncedMappings) {
-      const [apt] = await db.select().from(appointments)
-        .where(and(eq(appointments.id, mapping.appointmentId), eq(appointments.userId, userId)));
-      if (apt) {
-        syncedAppointments.push({ mapping, appointment: apt });
-      }
-    }
+    // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente (con JOIN)
+    const syncedAppointments = await db.select({
+      mappingId: googleCalendarEvents.id,
+      appointmentId: googleCalendarEvents.appointmentId,
+      googleEventId: googleCalendarEvents.googleEventId,
+    })
+    .from(googleCalendarEvents)
+    .innerJoin(appointments, eq(appointments.id, googleCalendarEvents.appointmentId))
+    .where(eq(appointments.userId, userId));
     
     if (syncedAppointments.length === 0) {
       return result;
     }
     
-    console.log(`🔍 [SYNC DELETE] Controllo ${syncedAppointments.length} appuntamenti sincronizzati per utente ${userId}`);
+    // OTTIMIZZAZIONE: Una sola chiamata API per ottenere TUTTI gli eventi da Google
+    // Invece di fare N chiamate (una per ogni appuntamento), facciamo UNA chiamata
+    const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+    const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
     
-    // Per ogni appuntamento sincronizzato, verifica se l'evento esiste ancora su Google
-    for (const syncedAppt of syncedAppointments) {
-      const googleEventId = syncedAppt.mapping.googleEventId;
-      const appointmentId = syncedAppt.appointment.id;
+    let allGoogleEventIds = new Set<string>();
+    let pageToken: string | undefined;
+    
+    // Pagina attraverso tutti gli eventi Google (max 2500 eventi)
+    do {
+      const eventsResponse = await calendar.events.list({
+        calendarId,
+        timeMin: oneYearAgo.toISOString(),
+        timeMax: oneYearAhead.toISOString(),
+        maxResults: 2500,
+        singleEvents: true,
+        showDeleted: false,
+        pageToken
+      });
       
-      try {
-        // Prova a recuperare l'evento da Google
-        await calendar.events.get({
-          calendarId,
-          eventId: googleEventId,
-        });
-        // Se arriviamo qui, l'evento esiste ancora - nessuna azione
-      } catch (error: any) {
-        // Se l'errore è 404, l'evento è stato eliminato
-        if (error.code === 404 || error.response?.status === 404) {
-          console.log(`🗑️ [SYNC DELETE] Evento ${googleEventId} eliminato da Google, rimuovo appuntamento ${appointmentId}`);
-          
-          try {
-            // Elimina l'appuntamento dal gestionale
-            await db.delete(appointments).where(eq(appointments.id, appointmentId));
-            
-            // Elimina il record di sincronizzazione
-            await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.googleEventId, googleEventId));
-            
-            result.deleted++;
-            console.log(`✅ [SYNC DELETE] Appuntamento ${appointmentId} eliminato (evento Google rimosso)`);
-          } catch (deleteError) {
-            result.errors.push(`Errore eliminazione appuntamento ${appointmentId}: ${String(deleteError)}`);
+      if (eventsResponse.data.items) {
+        for (const event of eventsResponse.data.items) {
+          if (event.id) {
+            allGoogleEventIds.add(event.id);
           }
         }
-        // Altri errori vengono ignorati (potrebbero essere problemi temporanei di rete)
+      }
+      pageToken = eventsResponse.data.nextPageToken || undefined;
+    } while (pageToken);
+    
+    console.log(`🔍 [SYNC DELETE] Utente ${userId}: ${syncedAppointments.length} appuntamenti sincronizzati, ${allGoogleEventIds.size} eventi su Google`);
+    
+    // Trova appuntamenti il cui evento Google non esiste più
+    for (const synced of syncedAppointments) {
+      if (!allGoogleEventIds.has(synced.googleEventId)) {
+        console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId} non trovato su Google, rimuovo appuntamento ${synced.appointmentId}`);
+        
+        try {
+          // Elimina l'appuntamento dal gestionale
+          await db.delete(appointments).where(eq(appointments.id, synced.appointmentId));
+          
+          // Elimina il record di sincronizzazione
+          await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
+          
+          result.deleted++;
+          console.log(`✅ [SYNC DELETE] Appuntamento ${synced.appointmentId} eliminato (evento Google rimosso)`);
+        } catch (deleteError) {
+          result.errors.push(`Errore eliminazione appuntamento ${synced.appointmentId}: ${String(deleteError)}`);
+        }
       }
     }
     
