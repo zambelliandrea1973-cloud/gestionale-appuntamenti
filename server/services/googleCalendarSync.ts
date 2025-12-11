@@ -219,7 +219,7 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           startTime: eventStartTime,
           endTime: eventEndTime,
           status: 'confirmed',
-          notes: `📅 Promemoria Google Calendar: ${eventTitle}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
+          notes: `📅 ${eventTitle}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
           importedFromGoogle: true,
           googleEventId: googleEvent.id
         };
