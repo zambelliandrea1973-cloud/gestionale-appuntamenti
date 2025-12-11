@@ -64,6 +64,29 @@ export default function Calendar() {
     
     return () => clearInterval(timer);
   }, []);
+
+  // Auto-sincronizza con Google Calendar al caricamento della pagina (in background)
+  useEffect(() => {
+    const autoSync = async () => {
+      try {
+        console.log('🔄 [AUTO-SYNC] Sincronizzazione automatica al caricamento...');
+        await fetch('/api/google-calendar/sync', {
+          method: 'POST',
+        });
+        // Invalida i dati senza mostrare notifica
+        queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+      } catch (error) {
+        console.warn('⚠️ [AUTO-SYNC] Errore silenzioso durante auto-sync:', error);
+        // Non mostriamo errore all'utente - è un background sync
+      }
+    };
+
+    // Delay di 500ms per permettere al calendario di renderizzarsi prima
+    const timeoutId = setTimeout(autoSync, 500);
+    
+    return () => clearTimeout(timeoutId);
+  }, [queryClient]);
   
   // Per la ricerca di tutti gli appuntamenti
   const { data: allAppointments = [], refetch: refetchAppointments } = useQuery({
