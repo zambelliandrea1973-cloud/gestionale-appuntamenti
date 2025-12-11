@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
+import { useTimezone } from '@/hooks/use-timezone';
 import { 
   Card, 
   CardContent, 
@@ -33,6 +34,7 @@ import { Link } from "wouter";
 export default function GoogleCalendarSimpleSetup() {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const timeZone = useTimezone();
   const [isGoogleAuthorized, setIsGoogleAuthorized] = useState(false);
   const [isSyncEnabled, setIsSyncEnabled] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -199,6 +201,7 @@ export default function GoogleCalendarSimpleSetup() {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
         },
+        body: JSON.stringify({ timeZone }),
       });
       
       if (response.ok) {

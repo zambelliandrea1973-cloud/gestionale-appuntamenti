@@ -9637,10 +9637,11 @@ Studio Professionale`;
       }
       
       const userId = (req.user as any).id;
-      console.log(`🔄 [SYNC-NOW] Avvio sincronizzazione per utente ${userId}`);
+      const timeZone = req.body?.timeZone || 'Europe/Rome'; // Rileva fuso orario dal client o usa default
+      console.log(`🔄 [SYNC-NOW] Avvio sincronizzazione per utente ${userId} con timeZone: ${timeZone}`);
       
       // Chiama la vera funzione di sincronizzazione bidirezionale
-      const result = await syncBidirectional(userId);
+      const result = await syncBidirectional(userId, timeZone);
       
       console.log(`✅ [SYNC-NOW] Completato:`, result);
       res.json(result);
@@ -9664,7 +9665,8 @@ Studio Professionale`;
       }
       
       const userId = (req.user as any).id;
-      const result = await syncBidirectional(userId);
+      const timeZone = req.body?.timeZone || 'Europe/Rome'; // Rileva fuso orario dal client
+      const result = await syncBidirectional(userId, timeZone);
       res.json(result);
     } catch (error) {
       console.error('❌ [SYNC LEGACY] Errore:', error);

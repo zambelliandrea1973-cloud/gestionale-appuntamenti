@@ -15,8 +15,10 @@ interface SyncConflict {
 
 /**
  * Importa gli eventi da Google Calendar e crea appuntamenti se non esistono
+ * @param userId - ID dell'utente
+ * @param timeZone - Fuso orario dell'utente (es. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function importGoogleCalendarEvents(userId: number): Promise<{ imported: number; conflicts: SyncConflict[]; errors: string[] }> {
+export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ imported: number; conflicts: SyncConflict[]; errors: string[] }> {
   const result = { imported: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
   
   try {
@@ -98,16 +100,16 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
         const startDateObj = new Date(googleStartDateTime);
         const endDateObj = new Date(googleEndDateTime);
         
-        // Formatta in ora italiana (Europe/Rome)
-        const italyFormatter = new Intl.DateTimeFormat('sv-SE', { 
-          timeZone: 'Europe/Rome',
+        // Formatta nel fuso orario dell'utente
+        const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
+          timeZone,
           year: 'numeric', month: '2-digit', day: '2-digit',
           hour: '2-digit', minute: '2-digit', second: '2-digit',
           hour12: false
         });
         
-        const startParts = italyFormatter.format(startDateObj).split(' ');
-        const endParts = italyFormatter.format(endDateObj).split(' ');
+        const startParts = userFormatter.format(startDateObj).split(' ');
+        const endParts = userFormatter.format(endDateObj).split(' ');
         
         const eventDate = startParts[0]; // "2025-12-14"
         const eventStartTime = startParts[1].substring(0, 5); // "09:00"
@@ -268,8 +270,10 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
 
 /**
  * Sincronizzazione bidirezionale: esporta nuovi appuntamenti e importa nuovi eventi Google
+ * @param userId - ID dell'utente
+ * @param timeZone - Fuso orario dell'utente (es. 'Europe/Rome', 'Australia/Sydney')
  */
-export async function syncBidirectional(userId: number): Promise<{ success: boolean; message: string; details: any }> {
+export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ success: boolean; message: string; details: any }> {
   const details = {
     exported: 0,
     imported: 0,
@@ -277,12 +281,12 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
   };
 
   try {
-    console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId}`);
+    console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId} con timeZone: ${timeZone}`);
     
     // 1. IMPORTA eventi da Google Calendar
     console.log(`📥 [SYNC] Step 1: Importazione eventi da Google Calendar...`);
     try {
-      const importResult = await importGoogleCalendarEvents(userId);
+      const importResult = await importGoogleCalendarEvents(userId, timeZone);
       details.imported = importResult.imported;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
@@ -357,11 +361,11 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
         const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
         
         // IMPORTANTE: Uso formato semplice senza offset + timeZone esplicito
-        // Questo garantisce che Google Calendar interpreti l'ora come ora locale italiana
+        // Questo garantisce che Google Calendar interpreti l'ora nel fuso orario dell'utente
         const startDateTimeStr = `${appointment.date}T${startTime}`;
         const endDateTimeStr = `${appointment.date}T${endTime}`;
         
-        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} (timeZone: Europe/Rome)`);
+        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} (timeZone: ${timeZone})`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -376,8 +380,8 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
           requestBody: {
             summary,
             description,
-            start: { dateTime: startDateTimeStr, timeZone: 'Europe/Rome' },
-            end: { dateTime: endDateTimeStr, timeZone: 'Europe/Rome' },
+            start: { dateTime: startDateTimeStr, timeZone },
+            end: { dateTime: endDateTimeStr, timeZone },
             reminders: {
               useDefault: false,
               overrides: [
