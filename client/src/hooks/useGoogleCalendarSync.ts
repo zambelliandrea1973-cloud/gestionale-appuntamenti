@@ -14,9 +14,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("/api/google-calendar/sync", {
-        method: "POST",
-      });
+      const response = await apiRequest("POST", "/api/google-calendar/sync");
       
       if (!response.ok) {
         throw new Error("Sync failed");
