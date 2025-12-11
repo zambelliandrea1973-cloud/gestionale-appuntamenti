@@ -355,17 +355,58 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
         
-        // Crea l'evento - USA formato ISO senza offset, lascia che Google Calendar usi timeZone
+        // Crea l'evento - CONVERSIONE A UTC per Google Calendar
         // Gestisci sia formato HH:MM che HH:MM:SS
         const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
         const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
         
-        // IMPORTANTE: Uso formato semplice senza offset + timeZone esplicito
-        // Questo garantisce che Google Calendar interpreti l'ora nel fuso orario dell'utente
-        const startDateTimeStr = `${appointment.date}T${startTime}`;
-        const endDateTimeStr = `${appointment.date}T${endTime}`;
+        // IMPORTANTE: Convertire da ora locale a UTC prima di inviare a Google Calendar
+        // Il database memorizza "09:00" come ora locale (Italy)
+        // Google Calendar API richiede UTC, quindi calcoliamo l'offset usando Intl
         
-        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} (timeZone: ${timeZone})`);
+        // Funzione helper per calcolare l'offset di un timezone
+        function getTimezoneOffset(date: Date, tz: string): number {
+          const formatter = new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: tz
+          });
+          
+          const parts = formatter.formatToParts(date);
+          const partsMap = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+          
+          const localDate = new Date(
+            parseInt(partsMap.year),
+            parseInt(partsMap.month) - 1,
+            parseInt(partsMap.day),
+            parseInt(partsMap.hour),
+            parseInt(partsMap.minute),
+            parseInt(partsMap.second)
+          );
+          
+          return (localDate.getTime() - date.getTime()) / (1000 * 60); // Offset in minuti
+        }
+        
+        // Creare date locali (il browser le interpreta come UTC, ma noi le vediamo come locali)
+        const refDate = new Date(`${appointment.date}T12:00:00`); // Una data di riferimento
+        const offsetMinutes = getTimezoneOffset(refDate, timeZone);
+        
+        const localStartDateTime = new Date(`${appointment.date}T${startTime}`);
+        const localEndDateTime = new Date(`${appointment.date}T${endTime}`);
+        
+        // Convertire a UTC sottraendo l'offset
+        const utcStartDateTime = new Date(localStartDateTime.getTime() - offsetMinutes * 60 * 1000);
+        const utcEndDateTime = new Date(localEndDateTime.getTime() - offsetMinutes * 60 * 1000);
+        
+        const startDateTimeStr = utcStartDateTime.toISOString(); // "2025-12-14T08:00:00.000Z"
+        const endDateTimeStr = utcEndDateTime.toISOString();   // "2025-12-14T09:00:00.000Z"
+        
+        console.log(`📅 [SYNC] Esportazione evento: ${appointment.date}T${startTime} (${timeZone}, offset: ${offsetMinutes}min) -> UTC: ${startDateTimeStr}`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -380,8 +421,8 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           requestBody: {
             summary,
             description,
-            start: { dateTime: startDateTimeStr, timeZone },
-            end: { dateTime: endDateTimeStr, timeZone },
+            start: { dateTime: startDateTimeStr },
+            end: { dateTime: endDateTimeStr },
             reminders: {
               useDefault: false,
               overrides: [
