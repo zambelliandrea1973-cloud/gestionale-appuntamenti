@@ -194,8 +194,7 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
             userId,
             name: eventTitle,
             duration: 60, // Durata default 60 minuti
-            price: '0', // Prezzo 0 per eventi importati
-            description: `Servizio creato automaticamente da Google Calendar per: ${eventTitle}`,
+            price: 0, // Prezzo 0 per eventi importati
             color: '#9CA3AF' // Colore grigio per distinguere eventi importati
           }).returning();
           
