@@ -76,12 +76,18 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           continue;
         }
 
-        // Estrai info dall'evento Google
-        const startTime = new Date(googleEvent.start.dateTime);
-        const endTime = new Date(googleEvent.end?.dateTime || startTime.getTime() + 30 * 60000);
-        const eventDate = startTime.toISOString().split('T')[0];
-        const eventStartTime = startTime.toTimeString().substring(0, 5);
-        const eventEndTime = endTime.toTimeString().substring(0, 5);
+        // Estrai info dall'evento Google - USA la stringa originale per evitare problemi timezone
+        // googleEvent.start.dateTime ha formato: "2025-12-13T09:00:00+01:00"
+        const googleStartDateTime = googleEvent.start.dateTime;
+        const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
+        
+        // Estrai data e ora direttamente dalla stringa ISO (senza conversione UTC)
+        // Formato: YYYY-MM-DDTHH:MM:SS+HH:MM
+        const eventDate = googleStartDateTime.substring(0, 10); // "2025-12-13"
+        const eventStartTime = googleStartDateTime.substring(11, 16); // "09:00"
+        const eventEndTime = googleEndDateTime.substring(11, 16); // "10:00"
+        
+        console.log(`📅 [GOOGLE IMPORT] Evento: ${googleEvent.summary} - Data: ${eventDate}, Ora: ${eventStartTime}-${eventEndTime}`);
         
         // Cerca cliente basato su email o nome nell'evento
         let clientId: number | null = null;
