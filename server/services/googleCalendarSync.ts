@@ -340,14 +340,22 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
         
-        // Crea l'evento - USA formato ISO SENZA Z per rispettare il fuso orario locale
+        // Crea l'evento - USA formato ISO CON offset esplicito per Europa/Roma
         // Gestisci sia formato HH:MM che HH:MM:SS
         const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
         const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
-        const startDateTimeStr = `${appointment.date}T${startTime}`;
-        const endDateTimeStr = `${appointment.date}T${endTime}`;
         
-        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
+        // Determina l'offset corretto per la data specifica (ora legale vs solare)
+        const appointmentDateObj = new Date(`${appointment.date}T12:00:00`);
+        const month = appointmentDateObj.getMonth() + 1;
+        // Italia: ora legale da ultima domenica di marzo a ultima domenica di ottobre
+        // Semplificazione: aprile-ottobre = +02:00, novembre-marzo = +01:00
+        const offset = (month >= 4 && month <= 10) ? '+02:00' : '+01:00';
+        
+        const startDateTimeStr = `${appointment.date}T${startTime}${offset}`;
+        const endDateTimeStr = `${appointment.date}T${endTime}${offset}`;
+        
+        console.log(`📅 [SYNC] Esportazione evento: ${startDateTimeStr} - ${endDateTimeStr}`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
