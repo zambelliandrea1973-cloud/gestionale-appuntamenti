@@ -14,7 +14,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import AppointmentForm from "./AppointmentForm";
@@ -32,6 +31,7 @@ export default function AppointmentCardSmall({
 }: AppointmentCardSmallProps) {
   const { toast } = useToast();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
   // Delete mutation
   const deleteMutation = useMutation({
@@ -141,36 +141,43 @@ export default function AppointmentCardSmall({
         </Button>
         
         {/* Bottone Elimina */}
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-red-500 hover:bg-gray-100`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Trash2 className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
-              <AlertDialogDescription>
-                Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Annulla</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleDelete}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                Elimina
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-red-500 hover:bg-gray-100`}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsDeleteDialogOpen(true);
+          }}
+        >
+          <Trash2 className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
+        </Button>
       </div>
+      
+      {/* Dialog eliminazione controllato */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
+            <AlertDialogDescription>
+              Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Annulla</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Elimina
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       
       {/* Finestra di modifica */}
       {isFormDialogOpen && (
