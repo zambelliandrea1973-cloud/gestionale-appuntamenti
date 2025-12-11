@@ -90,6 +90,7 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
         }
         
         // DEDUPLICAZIONE AGGIUNTIVA: Controlla se esiste già un appuntamento alla stessa data/ora
+        // (indipendentemente da importedFromGoogle - evita duplicati anche per appuntamenti esportati)
         const googleStartDateTime = googleEvent.start.dateTime;
         const eventDate = googleStartDateTime.substring(0, 10);
         const eventStartTime = googleStartDateTime.substring(11, 16);
@@ -99,8 +100,7 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           .where(and(
             eq(appointments.userId, userId),
             eq(appointments.date, eventDate),
-            eq(appointments.startTime, eventStartTime),
-            eq(appointments.importedFromGoogle, true)
+            eq(appointments.startTime, eventStartTime)
           ));
         
         if (duplicateCheck.length > 0) {
