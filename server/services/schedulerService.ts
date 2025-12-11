@@ -141,8 +141,8 @@ export const schedulerService = {
   startGoogleCalendarImportScheduler(): void {
     const isVerbose = process.env.LOG_SCHEDULER !== 'false';
     
-    // Cron job che viene eseguito ogni 1 minuto
-    cron.schedule('0 */1 * * * *', async () => {
+    // Cron job che viene eseguito ogni 30 secondi
+    cron.schedule('*/30 * * * * *', async () => {
       const now = new Date();
       if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Esecuzione import automatico da Google Calendar:', now.toISOString());
       
@@ -198,7 +198,7 @@ export const schedulerService = {
       }
     });
     
-    if (isVerbose) console.log('🔄 Scheduler import Google Calendar avviato con successo (esecuzione ogni 1 minuto)');
+    if (isVerbose) console.log('🔄 Scheduler import Google Calendar avviato con successo (esecuzione ogni 30 secondi)');
   },
 };
 
