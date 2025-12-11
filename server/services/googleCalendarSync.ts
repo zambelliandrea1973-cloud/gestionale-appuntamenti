@@ -65,26 +65,56 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
       if (!googleEvent.id || !googleEvent.start?.dateTime) continue;
       
       try {
-        // Controlla se questo evento è già collegato a un appuntamento
+        // Controlla se questo evento è già collegato a un appuntamento (tabella tracking)
         const existing = await db.select()
           .from(googleCalendarEvents)
           .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
         
         if (existing.length > 0) {
           // Evento già tracciato - potrebbe essere un conflitto
-          console.log(`✓ Evento ${googleEvent.id} già sincronizzato`);
+          console.log(`✓ Evento ${googleEvent.id} già sincronizzato (tracking table)`);
+          continue;
+        }
+        
+        // IMPORTANTE: Controlla anche se esiste già un appuntamento con lo stesso google_event_id
+        const existingAppointment = await db.select()
+          .from(appointments)
+          .where(and(
+            eq(appointments.userId, userId),
+            eq(appointments.googleEventId, googleEvent.id)
+          ));
+        
+        if (existingAppointment.length > 0) {
+          console.log(`✓ Evento ${googleEvent.id} già presente come appuntamento`);
+          continue;
+        }
+        
+        // DEDUPLICAZIONE AGGIUNTIVA: Controlla se esiste già un appuntamento alla stessa data/ora
+        const googleStartDateTime = googleEvent.start.dateTime;
+        const eventDate = googleStartDateTime.substring(0, 10);
+        const eventStartTime = googleStartDateTime.substring(11, 16);
+        
+        const duplicateCheck = await db.select()
+          .from(appointments)
+          .where(and(
+            eq(appointments.userId, userId),
+            eq(appointments.date, eventDate),
+            eq(appointments.startTime, eventStartTime),
+            eq(appointments.importedFromGoogle, true)
+          ));
+        
+        if (duplicateCheck.length > 0) {
+          console.log(`✓ Evento ${googleEvent.id} saltato - appuntamento già presente per ${eventDate} ${eventStartTime}`);
           continue;
         }
 
         // Estrai info dall'evento Google - USA la stringa originale per evitare problemi timezone
         // googleEvent.start.dateTime ha formato: "2025-12-13T09:00:00+01:00"
-        const googleStartDateTime = googleEvent.start.dateTime;
         const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
         
         // Estrai data e ora direttamente dalla stringa ISO (senza conversione UTC)
         // Formato: YYYY-MM-DDTHH:MM:SS+HH:MM
-        const eventDate = googleStartDateTime.substring(0, 10); // "2025-12-13"
-        const eventStartTime = googleStartDateTime.substring(11, 16); // "09:00"
+        // eventDate e eventStartTime sono già estratti sopra per la deduplicazione
         const eventEndTime = googleEndDateTime.substring(11, 16); // "10:00"
         
         console.log(`📅 [GOOGLE IMPORT] Evento: ${googleEvent.summary} - Data: ${eventDate}, Ora: ${eventStartTime}-${eventEndTime}`);
