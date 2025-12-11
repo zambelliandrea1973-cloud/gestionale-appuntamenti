@@ -84,9 +84,9 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   
   // Handle day click for viewing day or creating appointment
   const handleDayClick = (e: React.MouseEvent, day: Date, createAppointment: boolean = false) => {
-    // Ignora click provenienti da card appuntamento (evita cambio vista durante delete/edit)
+    // Ignora click provenienti da card appuntamento o area icone (evita cambio vista durante delete/edit)
     const target = e.target as HTMLElement;
-    if (target.closest('[data-appointment-card]')) {
+    if (target.closest('[data-appointment-card]') || target.closest('[data-appointment-icons]')) {
       return;
     }
     if (createAppointment) {

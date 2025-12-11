@@ -90,9 +90,9 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   
   // Handle time slot click to open new appointment form
   const handleTimeSlotClick = (e: React.MouseEvent, day: Date, time: string) => {
-    // Ignora click provenienti da card appuntamento (evita apertura form durante delete/edit)
+    // Ignora click provenienti da card appuntamento o area icone (evita apertura form durante delete/edit)
     const target = e.target as HTMLElement;
-    if (target.closest('[data-appointment-card]')) {
+    if (target.closest('[data-appointment-card]') || target.closest('[data-appointment-icons]')) {
       return;
     }
     setSelectedDayForAppointment(day);

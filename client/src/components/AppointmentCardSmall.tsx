@@ -101,10 +101,20 @@ export default function AppointmentCardSmall({
           )}
         </div>
         
-        <div className={`
-          absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm
-          ${view === "month" ? "p-0.5" : "p-1"}
-        `}>
+        <div 
+          className={`
+            absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm
+            ${view === "month" ? "p-0.5" : "p-1"}
+          `}
+          data-appointment-icons="true"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <Button
             variant="ghost"
             size="icon"
