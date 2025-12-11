@@ -172,9 +172,43 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           continue;
         }
 
-        // Trova un servizio di default per questo utente
-        const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
-        const serviceId = defaultService.length > 0 ? defaultService[0].id : 1;
+        // USA IL TITOLO DELL'EVENTO GOOGLE come nome del servizio
+        const eventTitle = googleEvent.summary || 'Evento Google';
+        let serviceId: number;
+        
+        // Cerca se esiste già un servizio con questo nome per l'utente
+        const existingService = await db.select()
+          .from(services)
+          .where(and(
+            eq(services.userId, userId),
+            eq(services.name, eventTitle)
+          ))
+          .limit(1);
+        
+        if (existingService.length > 0) {
+          serviceId = existingService[0].id;
+          console.log(`📋 Servizio esistente trovato: "${eventTitle}" (ID: ${serviceId})`);
+        } else {
+          // Crea un nuovo servizio con il nome dell'evento Google
+          const newService = await db.insert(services).values({
+            userId,
+            name: eventTitle,
+            duration: 60, // Durata default 60 minuti
+            price: '0', // Prezzo 0 per eventi importati
+            description: `Servizio creato automaticamente da Google Calendar per: ${eventTitle}`,
+            color: '#9CA3AF' // Colore grigio per distinguere eventi importati
+          }).returning();
+          
+          if (newService.length > 0) {
+            serviceId = newService[0].id;
+            console.log(`📝 Nuovo servizio creato: "${eventTitle}" (ID: ${serviceId})`);
+          } else {
+            // Fallback a servizio default se creazione fallisce
+            const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
+            serviceId = defaultService.length > 0 ? defaultService[0].id : 1;
+            console.log(`⚠️ Fallback a servizio default: ${serviceId}`);
+          }
+        }
 
         // Crea l'appuntamento usando storage per rispettare lo schema
         const newAppointmentData = {
