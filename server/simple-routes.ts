@@ -1073,8 +1073,10 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Fuso orario
   app.get("/api/timezone-settings", (req, res) => {
-    // Calcola dinamicamente l'offset per Europe/Rome basato sulla data corrente
-    const now = new Date();
+    // Calcola dinamicamente l'offset per Europe/Rome
+    const date = new Date();
+    
+    // Ottieni la data formattata in Roma
     const formatter = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Europe/Rome',
       year: 'numeric',
@@ -1086,10 +1088,11 @@ export function registerSimpleRoutes(app: Express): Server {
       hour12: false
     });
     
-    const parts = formatter.formatToParts(now);
+    const parts = formatter.formatToParts(date);
     const partsMap = Object.fromEntries(parts.map(p => [p.type, p.value]));
     
-    const romaDate = new Date(
+    // Crea una data come se fosse UTC (ma contiene i valori di Roma)
+    const romaAsUTC = new Date(
       parseInt(partsMap.year),
       parseInt(partsMap.month) - 1,
       parseInt(partsMap.day),
@@ -1098,7 +1101,11 @@ export function registerSimpleRoutes(app: Express): Server {
       parseInt(partsMap.second)
     );
     
-    const offset = Math.round((now.getTime() - romaDate.getTime()) / (1000 * 60 * 60));
+    // La differenza tra il vero UTC e la data Roma-interpretata-come-UTC è l'offset
+    // offset = (romaAsUTC - date) / (60 * 60 * 1000) in ore
+    const offsetMS = romaAsUTC.getTime() - date.getTime();
+    const offsetHours = offsetMS / (1000 * 60 * 60);
+    const offset = -Math.round(offsetHours); // Negativo perché il calcolo è invertito
     
     res.json({ timezone: "Europe/Rome", offset, name: "Europe/Rome" });
   });
