@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
 import { trialNotificationService } from './trialNotificationService';
-import { importGoogleCalendarEvents } from './googleCalendarSync';
+import { importGoogleCalendarEvents, syncDeletedEvents } from './googleCalendarSync';
 import { db } from '../db';
 import { marketingCampaigns, users } from '../../shared/schema';
 import { lt, eq, and, isNotNull } from 'drizzle-orm';
@@ -161,26 +161,37 @@ export const schedulerService = {
         }
         
         let totalImported = 0;
+        let totalDeleted = 0;
         let totalErrors = 0;
         
-        // Importa eventi per ogni utente
+        // Sincronizza per ogni utente: importa nuovi eventi E rileva eliminati
         for (const user of usersWithGoogleCalendar) {
           try {
-            const result = await importGoogleCalendarEvents(user.id);
-            totalImported += result.imported;
-            totalErrors += result.errors.length;
+            // 1. Importa nuovi eventi da Google
+            const importResult = await importGoogleCalendarEvents(user.id);
+            totalImported += importResult.imported;
+            totalErrors += importResult.errors.length;
             
-            if (result.imported > 0) {
-              console.log(`✅ [GOOGLE IMPORT] Utente ${user.id}: importati ${result.imported} eventi da Google Calendar`);
+            if (importResult.imported > 0) {
+              console.log(`✅ [GOOGLE SYNC] Utente ${user.id}: importati ${importResult.imported} eventi da Google Calendar`);
+            }
+            
+            // 2. Rileva eventi eliminati da Google e rimuovi dal gestionale
+            const deleteResult = await syncDeletedEvents(user.id);
+            totalDeleted += deleteResult.deleted;
+            totalErrors += deleteResult.errors.length;
+            
+            if (deleteResult.deleted > 0) {
+              console.log(`🗑️ [GOOGLE SYNC] Utente ${user.id}: rimossi ${deleteResult.deleted} appuntamenti (eliminati da Google)`);
             }
           } catch (userError) {
-            console.error(`⚠️ [GOOGLE IMPORT] Errore per utente ${user.id}:`, userError);
+            console.error(`⚠️ [GOOGLE SYNC] Errore per utente ${user.id}:`, userError);
             totalErrors++;
           }
         }
         
-        if (isVerbose || totalImported > 0) {
-          console.log(`🔄 [GOOGLE IMPORT] Completato: ${totalImported} eventi importati, ${totalErrors} errori`);
+        if (isVerbose || totalImported > 0 || totalDeleted > 0) {
+          console.log(`🔄 [GOOGLE SYNC] Completato: ${totalImported} importati, ${totalDeleted} eliminati, ${totalErrors} errori`);
         }
       } catch (error) {
         console.error('❌ [GOOGLE IMPORT] Errore nell\'esecuzione del job:', error);

@@ -350,7 +350,100 @@ export async function syncBidirectional(userId: number): Promise<{ success: bool
   }
 }
 
+/**
+ * Rileva eventi eliminati da Google Calendar e rimuove gli appuntamenti corrispondenti
+ */
+export async function syncDeletedEvents(userId: number): Promise<{ deleted: number; errors: string[] }> {
+  const result = { deleted: 0, errors: [] as string[] };
+  
+  try {
+    // Ottieni il token OAuth dell'utente
+    const user = await db.select().from(users).where(eq(users.id, userId));
+    if (!user.length || !user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
+      return result;
+    }
+
+    const googleAuthToken = user[0].googleAuthToken;
+    const calendarId = user[0].googleCalendarId || 'primary';
+    
+    const tokens = JSON.parse(googleAuthToken);
+    
+    // Crea client Google Calendar
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.PRODUCTION_DOMAIN 
+        ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+        : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+    );
+    oauth2Client.setCredentials(tokens);
+    
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente
+    const syncedMappings = await db.select()
+      .from(googleCalendarEvents);
+    
+    // Filtra solo quelli che appartengono a questo utente
+    const syncedAppointments: Array<{ mapping: typeof syncedMappings[0], appointment: any }> = [];
+    for (const mapping of syncedMappings) {
+      const [apt] = await db.select().from(appointments)
+        .where(and(eq(appointments.id, mapping.appointmentId), eq(appointments.userId, userId)));
+      if (apt) {
+        syncedAppointments.push({ mapping, appointment: apt });
+      }
+    }
+    
+    if (syncedAppointments.length === 0) {
+      return result;
+    }
+    
+    console.log(`🔍 [SYNC DELETE] Controllo ${syncedAppointments.length} appuntamenti sincronizzati per utente ${userId}`);
+    
+    // Per ogni appuntamento sincronizzato, verifica se l'evento esiste ancora su Google
+    for (const syncedAppt of syncedAppointments) {
+      const googleEventId = syncedAppt.mapping.googleEventId;
+      const appointmentId = syncedAppt.appointment.id;
+      
+      try {
+        // Prova a recuperare l'evento da Google
+        await calendar.events.get({
+          calendarId,
+          eventId: googleEventId,
+        });
+        // Se arriviamo qui, l'evento esiste ancora - nessuna azione
+      } catch (error: any) {
+        // Se l'errore è 404, l'evento è stato eliminato
+        if (error.code === 404 || error.response?.status === 404) {
+          console.log(`🗑️ [SYNC DELETE] Evento ${googleEventId} eliminato da Google, rimuovo appuntamento ${appointmentId}`);
+          
+          try {
+            // Elimina l'appuntamento dal gestionale
+            await db.delete(appointments).where(eq(appointments.id, appointmentId));
+            
+            // Elimina il record di sincronizzazione
+            await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.googleEventId, googleEventId));
+            
+            result.deleted++;
+            console.log(`✅ [SYNC DELETE] Appuntamento ${appointmentId} eliminato (evento Google rimosso)`);
+          } catch (deleteError) {
+            result.errors.push(`Errore eliminazione appuntamento ${appointmentId}: ${String(deleteError)}`);
+          }
+        }
+        // Altri errori vengono ignorati (potrebbero essere problemi temporanei di rete)
+      }
+    }
+    
+    return result;
+  } catch (error) {
+    result.errors.push(`Errore generale sync delete: ${String(error)}`);
+    console.error('❌ [SYNC DELETE] Errore:', error);
+    return result;
+  }
+}
+
 export const googleCalendarSync = {
   importGoogleCalendarEvents,
-  syncBidirectional
+  syncBidirectional,
+  syncDeletedEvents
 };
