@@ -2,26 +2,15 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { formatTime } from "@/lib/utils/date";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, X } from "lucide-react";
 import { AppointmentWithDetails } from "../../../shared/schema";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import AppointmentForm from "./AppointmentForm";
 
 interface AppointmentCardSmallProps {
   appointment: AppointmentWithDetails;
   onUpdate?: () => void;
-  view: "week" | "month"; // Specifica in quale vista siamo
+  view: "week" | "month";
 }
 
 export default function AppointmentCardSmall({ 
@@ -31,9 +20,8 @@ export default function AppointmentCardSmall({
 }: AppointmentCardSmallProps) {
   const { toast } = useToast();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   
-  // Delete mutation
   const deleteMutation = useMutation({
     mutationFn: async () => {
       return apiRequest("DELETE", `/api/appointments/${appointment.id}`);
@@ -44,16 +32,12 @@ export default function AppointmentCardSmall({
         description: "L'appuntamento è stato eliminato con successo",
       });
       
-      // Invalidate queries to refresh data
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      
-      // Invalidare anche la vista giornaliera specifica
       const dateKey = `/api/appointments/date/${appointment.date}`;
       await queryClient.invalidateQueries({ queryKey: [dateKey] });
-      
-      // Invalidare query per range di date (per vista settimanale e mensile)
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
       
+      setIsDeleteConfirmOpen(false);
       if (onUpdate) {
         onUpdate();
       }
@@ -67,123 +51,161 @@ export default function AppointmentCardSmall({
     }
   });
   
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     deleteMutation.mutate();
   };
   
-  // Get color based on service color or apply defaults
   const getBorderColor = () => {
-    if (appointment.service.color) {
+    if (appointment.service?.color) {
       return appointment.service.color;
     }
-    return appointment.client.isFrequent ? "rgb(236, 72, 153)" : "rgb(59, 130, 246)";
+    return appointment.client?.isFrequent ? "rgb(236, 72, 153)" : "rgb(59, 130, 246)";
   };
   
-  // Get background color based on service color with opacity
   const getBackgroundColor = () => {
-    if (appointment.service.color) {
-      // Convert color to RGB and add transparency
+    if (appointment.service?.color) {
       if (appointment.service.color.startsWith('#')) {
-        // Hex color
-        return `${appointment.service.color}20`; // 20 is hex for 12% opacity
+        return `${appointment.service.color}20`;
       } else if (appointment.service.color.startsWith('rgb')) {
-        // RGB color - replace with rgba
         return appointment.service.color.replace('rgb', 'rgba').replace(')', ', 0.12)');
       }
     }
-    
-    return appointment.client.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
+    return appointment.client?.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
   };
   
   return (
-    <div 
-      className="relative group"
-      data-appointment-card="true"
-      style={{
-        borderLeft: `2px solid ${getBorderColor()}`,
-        backgroundColor: getBackgroundColor()
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Contenuto principale - Versione semplificata */}
-      <div className="font-medium truncate text-xs p-1">
-        {view === "week" ? (
-          // Nella vista settimanale mostriamo più dettagli
-          <>
-            <div className="truncate">{appointment.client.firstName} {appointment.client.lastName}</div>
-            <div className="text-xs opacity-75">{appointment.startTime.substring(0, 5)}</div>
-            <div className="text-xs opacity-60 truncate">{appointment.service.name}</div>
-          </>
-        ) : (
-          // Nella vista mensile mostriamo nome cliente, orario e servizio
-          <>
-            <div className="truncate">{appointment.startTime.substring(0, 5)} {appointment.client.firstName}</div>
-            <div className="text-xs opacity-60 truncate">{appointment.service.name}</div>
-          </>
-        )}
+    <>
+      <div 
+        className="relative group"
+        data-appointment-card="true"
+        style={{
+          borderLeft: `2px solid ${getBorderColor()}`,
+          backgroundColor: getBackgroundColor()
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="font-medium truncate text-xs p-1">
+          {view === "week" ? (
+            <>
+              <div className="truncate">{appointment.client?.firstName} {appointment.client?.lastName}</div>
+              <div className="text-xs opacity-75">{appointment.startTime?.substring(0, 5)}</div>
+              <div className="text-xs opacity-60 truncate">{appointment.service?.name}</div>
+            </>
+          ) : (
+            <>
+              <div className="truncate">{appointment.startTime?.substring(0, 5)} {appointment.client?.firstName}</div>
+              <div className="text-xs opacity-60 truncate">{appointment.service?.name}</div>
+            </>
+          )}
+        </div>
+        
+        <div className={`
+          absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm
+          ${view === "month" ? "p-0.5" : "p-1"}
+        `}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-primary hover:bg-gray-100`}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setIsFormDialogOpen(true);
+            }}
+          >
+            <Pencil className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-red-500 hover:bg-gray-100`}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setIsDeleteConfirmOpen(true);
+            }}
+          >
+            <Trash2 className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
+          </Button>
+        </div>
       </div>
       
-      {/* Bottoni di azione - appaiono solo al passaggio del mouse */}
-      <div className={`
-        absolute top-0 right-0 hidden group-hover:flex space-x-1 bg-white bg-opacity-90 rounded-bl-md shadow-sm
-        ${view === "month" ? "p-0.5" : "p-1"}
-      `}>
-        {/* Bottone Modifica */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-primary hover:bg-gray-100`}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsFormDialogOpen(true);
-          }}
-        >
-          <Pencil className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
-        </Button>
-        
-        {/* Bottone Elimina */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`${view === "month" ? "h-4 w-4" : "h-5 w-5"} p-0 text-gray-500 hover:text-red-500 hover:bg-gray-100`}
+      {isDeleteConfirmOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            setIsDeleteDialogOpen(true);
+            setIsDeleteConfirmOpen(false);
           }}
         >
-          <Trash2 className={`${view === "month" ? "h-2.5 w-2.5" : "h-3 w-3"}`} />
-        </Button>
-      </div>
-      
-      {/* Dialog eliminazione controllato */}
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
-            <AlertDialogDescription>
+          <div 
+            className="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-lg font-semibold">Elimina appuntamento</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setIsDeleteConfirmOpen(false);
+                }}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-gray-600 mb-6">
               Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Annulla</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete();
-              }}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              Elimina
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </p>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setIsDeleteConfirmOpen(false);
+                }}
+              >
+                Annulla
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDelete}
+                disabled={deleteMutation.isPending}
+              >
+                {deleteMutation.isPending ? "Eliminando..." : "Elimina"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       
-      {/* Finestra di modifica */}
       {isFormDialogOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsFormDialogOpen(false);
+          }}
+        >
+          <div 
+            className="relative"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
             <AppointmentForm 
               appointmentId={appointment.id} 
               onClose={() => {
@@ -194,6 +216,6 @@ export default function AppointmentCardSmall({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
