@@ -172,35 +172,34 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           continue;
         }
 
-        // USA IL TITOLO DELL'EVENTO GOOGLE come nome del servizio
+        // USA SEMPRE il servizio "Promemoria Google Calendar" per gli eventi importati
         const eventTitle = googleEvent.summary || 'Evento Google';
         let serviceId: number;
         
-        // Cerca se esiste già un servizio con questo nome per l'utente
-        const existingService = await db.select()
+        // Cerca/crea il servizio "Promemoria Google Calendar" unico per l'utente
+        const promemoriaService = await db.select()
           .from(services)
           .where(and(
             eq(services.userId, userId),
-            eq(services.name, eventTitle)
+            eq(services.name, 'Promemoria Google Calendar')
           ))
           .limit(1);
         
-        if (existingService.length > 0) {
-          serviceId = existingService[0].id;
-          console.log(`📋 Servizio esistente trovato: "${eventTitle}" (ID: ${serviceId})`);
+        if (promemoriaService.length > 0) {
+          serviceId = promemoriaService[0].id;
         } else {
-          // Crea un nuovo servizio con il nome dell'evento Google
+          // Crea il servizio "Promemoria Google Calendar" se non esiste
           const newService = await db.insert(services).values({
             userId,
-            name: eventTitle,
-            duration: 60, // Durata default 60 minuti
-            price: 0, // Prezzo 0 per eventi importati
-            color: '#9CA3AF' // Colore grigio per distinguere eventi importati
+            name: 'Promemoria Google Calendar',
+            duration: 60,
+            price: 0,
+            color: '#6B7280' // Colore grigio per promemoria
           }).returning();
           
           if (newService.length > 0) {
             serviceId = newService[0].id;
-            console.log(`📝 Nuovo servizio creato: "${eventTitle}" (ID: ${serviceId})`);
+            console.log(`📝 Creato servizio "Promemoria Google Calendar" (ID: ${serviceId})`);
           } else {
             // Fallback a servizio default se creazione fallisce
             const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
@@ -208,6 +207,8 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
             console.log(`⚠️ Fallback a servizio default: ${serviceId}`);
           }
         }
+        
+        console.log(`📋 Evento "${eventTitle}" -> Servizio "Promemoria Google Calendar" (ID: ${serviceId})`)
 
         // Crea l'appuntamento usando storage per rispettare lo schema
         const newAppointmentData = {
@@ -218,7 +219,7 @@ export async function importGoogleCalendarEvents(userId: number): Promise<{ impo
           startTime: eventStartTime,
           endTime: eventEndTime,
           status: 'confirmed',
-          notes: googleEvent.description || `Importato da Google Calendar: ${googleEvent.summary || ''}`,
+          notes: `📅 Promemoria Google Calendar: ${eventTitle}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
           importedFromGoogle: true,
           googleEventId: googleEvent.id
         };
