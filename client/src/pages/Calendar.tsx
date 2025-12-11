@@ -70,9 +70,21 @@ export default function Calendar() {
     const autoSync = async () => {
       try {
         console.log('🔄 [AUTO-SYNC] Sincronizzazione automatica al caricamento...');
-        await fetch('/api/google-calendar/sync', {
+        const response = await fetch('/api/google-calendar/sync', {
           method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
         });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log(`✅ [AUTO-SYNC] Completata: Importati ${data.imported || 0}, Eliminati ${data.deleted || 0}`);
+        } else {
+          console.warn(`⚠️ [AUTO-SYNC] Errore HTTP ${response.status}`);
+        }
+        
         // Invalida i dati senza mostrare notifica
         queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
         queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
@@ -82,8 +94,8 @@ export default function Calendar() {
       }
     };
 
-    // Delay di 500ms per permettere al calendario di renderizzarsi prima
-    const timeoutId = setTimeout(autoSync, 500);
+    // Delay di 1000ms per permettere al calendario di renderizzarsi prima
+    const timeoutId = setTimeout(autoSync, 1000);
     
     return () => clearTimeout(timeoutId);
   }, [queryClient]);
