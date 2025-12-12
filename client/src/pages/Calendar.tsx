@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from 'react-i18next';
 import { 
@@ -26,6 +26,7 @@ import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
+import { useSyncGoogleCalendar } from "@/hooks/useGoogleCalendarSync";
 
 export default function Calendar() {
   const { t, i18n } = useTranslation();
@@ -38,6 +39,36 @@ export default function Calendar() {
     name: string;
   } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const autoSyncExecuted = useRef(false);
+  
+  // 🔄 GOOGLE CALENDAR AUTO-SYNC: Sincronizzazione silenziosa all'apertura del calendario
+  const silentSync = useSyncGoogleCalendar({ showToast: false });
+  
+  useEffect(() => {
+    // Esegui sync solo una volta all'apertura del calendario (evita loop)
+    if (autoSyncExecuted.current) return;
+    
+    const performAutoSync = async () => {
+      try {
+        // Verifica se l'utente ha Google Calendar abilitato
+        const response = await fetch('/api/google-auth/status', { credentials: 'include' });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.connected && data.calendarEnabled) {
+            console.log('🔄 [AUTO-SYNC] Avvio sincronizzazione silenziosa all\'apertura del calendario...');
+            autoSyncExecuted.current = true;
+            silentSync.mutate();
+          }
+        }
+      } catch (error) {
+        console.log('🔄 [AUTO-SYNC] Google Calendar non configurato o errore check:', error);
+      }
+    };
+    
+    // Ritarda leggermente per non sovraccaricare all'avvio
+    const timer = setTimeout(performAutoSync, 2000);
+    return () => clearTimeout(timer);
+  }, []);
   
   // Recupera le informazioni sul fuso orario
   useEffect(() => {

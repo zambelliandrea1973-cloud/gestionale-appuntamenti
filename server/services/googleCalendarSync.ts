@@ -53,24 +53,42 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
     
-    const events = await calendar.events.list({
-      calendarId,
-      timeMin: thirtyDaysAgo.toISOString(),
-      timeMax: oneYearAhead.toISOString(),
-      maxResults: 500,
-      singleEvents: true,
-      orderBy: 'startTime'
-    });
+    // PAGINAZIONE: Raccogli tutti gli eventi iterando su nextPageToken
+    let allEvents: calendar_v3.Schema$Event[] = [];
+    let pageToken: string | undefined = undefined;
+    let pageCount = 0;
+    
+    do {
+      const eventsResponse = await calendar.events.list({
+        calendarId,
+        timeMin: thirtyDaysAgo.toISOString(),
+        timeMax: oneYearAhead.toISOString(),
+        maxResults: 250, // Google consiglia 250 per pagina
+        singleEvents: true,
+        orderBy: 'startTime',
+        pageToken: pageToken
+      });
+      
+      if (eventsResponse.data.items) {
+        allEvents = [...allEvents, ...eventsResponse.data.items];
+      }
+      
+      pageToken = eventsResponse.data.nextPageToken || undefined;
+      pageCount++;
+      
+      console.log(`📄 [IMPORT] Pagina ${pageCount}: ${eventsResponse.data.items?.length || 0} eventi (totale: ${allEvents.length})`);
+      
+    } while (pageToken && pageCount < 20); // Max 20 pagine = 5000 eventi
 
-    if (!events.data.items) {
+    if (allEvents.length === 0) {
       console.log('📭 Nessun evento da importare da Google Calendar');
       return result;
     }
 
-    console.log(`📊 [IMPORT] Trovati ${events.data.items.length} eventi da Google Calendar`);
+    console.log(`📊 [IMPORT] Trovati ${allEvents.length} eventi totali da Google Calendar (${pageCount} pagine)`);
 
     // Processa ogni evento Google
-    for (const googleEvent of events.data.items) {
+    for (const googleEvent of allEvents) {
       // Log OGNI evento per debug
       console.log(`🔎 [IMPORT] Evento: "${googleEvent.summary || 'senza titolo'}" - start: ${JSON.stringify(googleEvent.start)}`);
       
