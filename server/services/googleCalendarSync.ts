@@ -53,9 +53,10 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
     
-    // PAGINAZIONE: Raccogli tutti gli eventi iterando su nextPageToken
+    // PAGINAZIONE: Raccogli TUTTI gli eventi iterando su nextPageToken senza limiti
     let allEvents: calendar_v3.Schema$Event[] = [];
     let pageToken: string | undefined = undefined;
+    let prevPageToken: string | undefined = undefined;
     let pageCount = 0;
     
     do {
@@ -73,12 +74,19 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         allEvents = [...allEvents, ...eventsResponse.data.items];
       }
       
+      prevPageToken = pageToken;
       pageToken = eventsResponse.data.nextPageToken || undefined;
       pageCount++;
       
       console.log(`📄 [IMPORT] Pagina ${pageCount}: ${eventsResponse.data.items?.length || 0} eventi (totale: ${allEvents.length})`);
       
-    } while (pageToken && pageCount < 20); // Max 20 pagine = 5000 eventi
+      // Protezione contro loop infiniti: token ripetuto
+      if (pageToken && pageToken === prevPageToken) {
+        console.warn('⚠️ [IMPORT] Token ripetuto rilevato, interruzione paginazione');
+        break;
+      }
+      
+    } while (pageToken); // Continua finché ci sono pagine
 
     if (allEvents.length === 0) {
       console.log('📭 Nessun evento da importare da Google Calendar');
