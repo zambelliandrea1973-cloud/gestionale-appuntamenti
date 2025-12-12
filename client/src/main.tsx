@@ -11,7 +11,7 @@ import "./lib/i18n";
 
 // CRITICAL: Force service worker update and cache purge on every page load
 // Version 9 - Complete cache nuke to fix stale bundle issue
-const SW_VERSION = 'v9-purge-all';
+const SW_VERSION = 'v10-nuke-all';
 const LAST_SW_VERSION_KEY = 'last-sw-version';
 
 async function forceServiceWorkerRefresh() {

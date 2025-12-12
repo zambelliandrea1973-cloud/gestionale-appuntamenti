@@ -72,40 +72,51 @@
     <script src="/disable-vite-overlay.js"></script>
   </head>
   <body>
-    <!-- FORCE SERVICE WORKER REFRESH - v8 Sync Button Fix -->
+    <!-- FORCE SERVICE WORKER PURGE - v10 COMPLETE NUKE -->
     <script>
       (function() {
-        var SW_VERSION = 'v8-sync-fix';
+        var SW_VERSION = 'v10-nuke-all';
         var lastVersion = localStorage.getItem('sw-version');
         
-        if (lastVersion !== SW_VERSION && 'serviceWorker' in navigator) {
-          console.log('Forcing service worker refresh from ' + lastVersion + ' to ' + SW_VERSION);
-          localStorage.setItem('sw-version', SW_VERSION);
+        // ALWAYS unregister service workers and clear caches on EVERY page load
+        if ('serviceWorker' in navigator) {
+          console.log('🚨 NUKE MODE: Unregistering ALL service workers...');
           
-          // Unregister all service workers and clear caches
           navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            var unregisterPromises = registrations.map(function(reg) {
-              console.log('Unregistering service worker:', reg.scope);
-              return reg.unregister();
-            });
-            
-            return Promise.all(unregisterPromises);
+            if (registrations.length > 0) {
+              console.log('Found ' + registrations.length + ' service workers to remove');
+              var unregisterPromises = registrations.map(function(reg) {
+                console.log('Unregistering service worker:', reg.scope);
+                return reg.unregister();
+              });
+              return Promise.all(unregisterPromises);
+            }
+            return Promise.resolve();
           }).then(function() {
             // Clear all caches
             if ('caches' in window) {
               return caches.keys().then(function(cacheNames) {
-                return Promise.all(cacheNames.map(function(cacheName) {
-                  console.log('Deleting cache:', cacheName);
-                  return caches.delete(cacheName);
-                }));
+                if (cacheNames.length > 0) {
+                  console.log('🗑️ Deleting ' + cacheNames.length + ' caches');
+                  return Promise.all(cacheNames.map(function(cacheName) {
+                    console.log('Deleting cache:', cacheName);
+                    return caches.delete(cacheName);
+                  }));
+                }
+                return Promise.resolve();
               });
             }
           }).then(function() {
-            console.log('Service worker refresh complete, reloading...');
-            // Force reload without cache
-            window.location.reload(true);
+            // Only reload if version changed AND we actually cleaned something
+            if (lastVersion !== SW_VERSION) {
+              localStorage.setItem('sw-version', SW_VERSION);
+              console.log('✅ Service worker purge complete, reloading...');
+              window.location.reload();
+            } else {
+              console.log('✅ Service worker check complete, no reload needed');
+            }
           }).catch(function(err) {
-            console.error('Error during SW refresh:', err);
+            console.error('Error during SW purge:', err);
           });
         }
       })();
@@ -224,8 +235,9 @@
         }
       }
       
-      // Avvio immediato della registrazione del Service Worker
-      registerServiceWorker();
+      // DISABILITATO - Non registrare più il service worker in dev mode
+      // registerServiceWorker();
+      console.log('🚫 Service Worker registration DISABLED to prevent stale bundle caching');
       
       // Gestione dell'evento beforeinstallprompt
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
