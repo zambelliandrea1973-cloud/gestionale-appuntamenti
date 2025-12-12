@@ -1,0 +1,66 @@
+17Fetch ha finito di caricare: GET "<URL>".
+index-Rs8gIQ3O.js:1350 Fuso orario diverso da quello salvato, aggiornamento...
+manifest.json:1 Manifest: property 'scope' ignored. Start url should be within scope of scope URL.Comprendi l'avviso
+index-Rs8gIQ3O.js:751 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-Rs8gIQ3O.js:728 Nessuna informazione di contatto disponibile
+index-Rs8gIQ3O.js:751 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/dashboard'}
+index-Rs8gIQ3O.js:751 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+index-Rs8gIQ3O.js:751 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765553190367
+index-Rs8gIQ3O.js:751 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+index-Rs8gIQ3O.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-Rs8gIQ3O.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Rs8gIQ3O.js:48 Header x-device-type aggiunto: desktop
+index-Rs8gIQ3O.js:48 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+index-Rs8gIQ3O.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-Rs8gIQ3O.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Rs8gIQ3O.js:48 Header x-device-type aggiunto: desktop
+index-Rs8gIQ3O.js:48 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+index-Rs8gIQ3O.js:1350 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+index-Rs8gIQ3O.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-Rs8gIQ3O.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Rs8gIQ3O.js:48 Header x-device-type aggiunto: desktop
+index-Rs8gIQ3O.js:48 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+index-Rs8gIQ3O.js:728 Nessuna informazione di contatto disponibile
+index-Rs8gIQ3O.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-Rs8gIQ3O.js:751 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-Rs8gIQ3O.js:1350 Fuso orario aggiornato con successo
+index-Rs8gIQ3O.js:751 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 212927, url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD...'}
+index-Rs8gIQ3O.js:751 ✅ HOME AppIcon: Icona impostata correttamente
+index-Rs8gIQ3O.js:1350 Fetch ha finito di caricare: POST "https://wife-scheduler-zambelliandrea1.replit.app/api/timezone-settings".
+(anonime) @ index-Rs8gIQ3O.js:1350
+await in (anonime)
+(anonime) @ index-Rs8gIQ3O.js:1350
+Pb @ index-Rs8gIQ3O.js:40
+Au @ index-Rs8gIQ3O.js:40
+uT @ index-Rs8gIQ3O.js:40
+cc @ index-Rs8gIQ3O.js:38
+OJ @ index-Rs8gIQ3O.js:40
+Cc @ index-Rs8gIQ3O.js:40
+N5 @ index-Rs8gIQ3O.js:40
+N @ index-Rs8gIQ3O.js:25
+P @ index-Rs8gIQ3O.js:25
+index-Rs8gIQ3O.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-Rs8gIQ3O.js:751 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+index-Rs8gIQ3O.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-Rs8gIQ3O.js:751 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-Rs8gIQ3O.js:751 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Gestionale Appuntamenti', showBusinessName: true, name: 'zambelli.andrea.1973@gmail.com', fontSize: 24, fontFamily: 'Times New Roman', …}
+index-Rs8gIQ3O.js:48 Risposta da /api/contact-info: 200  ok: true
+index-Rs8gIQ3O.js:728 ✅ Informazioni di contatto caricate da API per utente 3: {email: 'zambelli.andrea.1973@gmail.com', phone: '+393472550110', phone1: '+393472550110', phone2: '', website: '', …}
+dashboard:196 Evento beforeinstallprompt catturato BeforeInstallPromptEvent {isTrusted: true, platforms: Array(1), userChoice: Promise, type: 'beforeinstallprompt', target: Window, …}
+dashboard:211 Deferring PWA install prompt
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-Rs8gIQ3O.js:751 🧹 [MANIFEST INJECTOR] Manifest rimosso
+index-Rs8gIQ3O.js:751 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/calendar'}
+index-Rs8gIQ3O.js:751 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+index-Rs8gIQ3O.js:751 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765553194399
+index-Rs8gIQ3O.js:1350 Stato autenticazione: {user: true, location: '/calendar', isLoading: false}
+index-Rs8gIQ3O.js:763 AppointmentModal - isOpen: false
+index-Rs8gIQ3O.js:763 AppointmentModal - defaultTime: 08:00
+index-Rs8gIQ3O.js:763 AppointmentModal - selectedSlots: []
+dashboard:196 Evento beforeinstallprompt catturato BeforeInstallPromptEvent {isTrusted: true, platforms: Array(1), userChoice: Promise, type: 'beforeinstallprompt', target: Window, …}
+dashboard:211 Deferring PWA install prompt
+calendar:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-Rs8gIQ3O.js:48 Esecuzione richiesta POST a /api/google-calendar/sync 
+index-Rs8gIQ3O.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Rs8gIQ3O.js:48 Header x-device-type aggiunto: desktop
+index-Rs8gIQ3O.js:48 Dettagli richiesta POST a /api/google-calendar/sync: {method: 'POST', headers: {…}, body: undefined}
