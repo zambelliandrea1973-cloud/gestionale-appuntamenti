@@ -62,9 +62,22 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       return result;
     }
 
+    console.log(`📊 [IMPORT] Trovati ${events.data.items.length} eventi da Google Calendar`);
+
     // Processa ogni evento Google
     for (const googleEvent of events.data.items) {
-      if (!googleEvent.id || !googleEvent.start?.dateTime) continue;
+      // Log OGNI evento per debug
+      console.log(`🔎 [IMPORT] Evento: "${googleEvent.summary || 'senza titolo'}" - start: ${JSON.stringify(googleEvent.start)}`);
+      
+      if (!googleEvent.id) {
+        console.log(`⚠️ [IMPORT] Evento saltato: nessun ID`);
+        continue;
+      }
+      
+      if (!googleEvent.start?.dateTime) {
+        console.log(`⚠️ [IMPORT] Evento "${googleEvent.summary}" saltato: è un evento all-day (senza orario specifico)`);
+        continue;
+      }
       
       try {
         // Controlla se questo evento è già collegato a un appuntamento (tabella tracking)
