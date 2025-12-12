@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSyncGoogleCalendar } from "@/hooks/useGoogleCalendarSync";
 
 interface SyncGoogleButtonProps {
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "lg" | "default" | "icon";
   variant?: "default" | "outline" | "ghost";
   showLabel?: boolean;
 }

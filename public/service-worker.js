@@ -1,8 +1,8 @@
 // Service Worker per l'applicazione di gestione appuntamenti
 // Versione cache per gestire gli aggiornamenti
-// IMPORTANTE: v7 - FIX parametri apiRequest e Google Calendar Sync
-// Build: 2025-12-11 - Force cache invalidation for apiRequest fix
-const CACHE_NAME = 'appointment-manager-v7-api-fix';
+// IMPORTANTE: v8 - FORCE REBUILD - Google Calendar Sync Button Fix
+// Build: 2025-12-12 - Complete cache invalidation for sync button
+const CACHE_NAME = 'appointment-manager-v8-sync-fix';
 const urlsToCache = [
   '/',
   '/manifest.json'

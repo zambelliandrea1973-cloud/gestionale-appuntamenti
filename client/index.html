@@ -72,10 +72,10 @@
     <script src="/disable-vite-overlay.js"></script>
   </head>
   <body>
-    <!-- FORCE SERVICE WORKER REFRESH - v7 API Fix -->
+    <!-- FORCE SERVICE WORKER REFRESH - v8 Sync Button Fix -->
     <script>
       (function() {
-        var SW_VERSION = 'v7-api-fix';
+        var SW_VERSION = 'v8-sync-fix';
         var lastVersion = localStorage.getItem('sw-version');
         
         if (lastVersion !== SW_VERSION && 'serviceWorker' in navigator) {
