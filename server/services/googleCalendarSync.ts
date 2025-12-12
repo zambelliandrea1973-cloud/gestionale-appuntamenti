@@ -47,12 +47,17 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
-    // Scarica gli ultimi 7 giorni di eventi da Google
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    // Range temporale: 30 giorni nel passato + 365 giorni nel futuro
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+    
+    console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
+    
     const events = await calendar.events.list({
       calendarId,
-      timeMin: sevenDaysAgo.toISOString(),
-      maxResults: 100,
+      timeMin: thirtyDaysAgo.toISOString(),
+      timeMax: oneYearAhead.toISOString(),
+      maxResults: 500,
       singleEvents: true,
       orderBy: 'startTime'
     });
