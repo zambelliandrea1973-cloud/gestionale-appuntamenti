@@ -744,11 +744,26 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       console.error(`❌ [SYNC] Errore Step 3:`, step3Error);
     }
 
-    // 4. Aggiorna timestamp sync
-    console.log(`📝 [SYNC] Step 4: Aggiornamento timestamp...`);
+    // 4. RILEVA eventi eliminati su Google e rimuovi appuntamenti orfani su Replit
+    console.log(`🗑️ [SYNC] Step 4: Rilevamento eventi eliminati su Google...`);
+    let deleted = 0;
+    try {
+      const deleteResult = await syncDeletedEvents(userId);
+      deleted = deleteResult.deleted;
+      if (deleteResult.errors.length > 0) {
+        details.errors.push(...deleteResult.errors);
+      }
+      console.log(`🗑️ [SYNC] Eliminati ${deleted} appuntamenti orfani (evento Google rimosso)`);
+    } catch (deleteError) {
+      console.error(`❌ [SYNC] Errore rilevamento eliminazioni:`, deleteError);
+      details.errors.push(`Errore rilevamento eliminazioni: ${String(deleteError)}`);
+    }
+
+    // 5. Aggiorna timestamp sync
+    console.log(`📝 [SYNC] Step 5: Aggiornamento timestamp...`);
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
 
-    const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati`;
+    const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati, ${deleted} eliminati`;
     console.log(`✅ ${message}`);
     
     return { success: true, message, details };
