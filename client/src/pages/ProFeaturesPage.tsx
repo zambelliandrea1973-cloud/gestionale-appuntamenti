@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight } from "lucide-react";
+import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { useLicense } from '@/hooks/use-license';
 import ProFeatureNavbar from '@/components/ProFeatureNavbar';
+import { useQuery } from '@tanstack/react-query';
 
 /**
  * Pagina delle funzionalità PRO
@@ -21,6 +22,19 @@ export default function ProFeaturesPage() {
   
   // Utilizziamo l'hook useLicense per verificare se l'utente ha accesso PRO
   const hasPROAccess = !isLoading && hasProAccess;
+  
+  // Query per verificare lo stato della connessione Google Calendar
+  const { data: googleAuthStatus, isLoading: isLoadingGoogleStatus } = useQuery<{
+    authorized: boolean;
+    email?: string;
+    calendarEnabled?: boolean;
+  }>({
+    queryKey: ['/api/google-auth/status'],
+    enabled: hasPROAccess,
+    staleTime: 30000 // Cache per 30 secondi
+  });
+  
+  const isGoogleConnected = googleAuthStatus?.authorized && googleAuthStatus?.calendarEnabled;
   
   // Reindirizza direttamente alla pagina di abbonamento
   const handleUpgradeClick = () => {
@@ -86,12 +100,16 @@ export default function ProFeaturesPage() {
       {hasPROAccess ? (
         <div className="space-y-4">
           <Link to="/google-calendar">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer border-primary/20">
-              <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5 border-b">
+            <Card className={`hover:shadow-lg transition-shadow cursor-pointer ${isGoogleConnected ? 'border-green-500/50 bg-green-50/30' : 'border-primary/20'}`}>
+              <CardHeader className={`border-b ${isGoogleConnected ? 'bg-gradient-to-r from-green-500/10 to-green-500/5' : 'bg-gradient-to-r from-primary/10 to-primary/5'}`}>
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      <CalendarPlus className="h-5 w-5 text-primary" />
+                      {isGoogleConnected ? (
+                        <CheckCircle2 className="h-5 w-5 text-green-600" />
+                      ) : (
+                        <CalendarPlus className="h-5 w-5 text-primary" />
+                      )}
                       {t('pro.syncGoogleCalendar')}
                     </CardTitle>
                     <CardDescription className="mt-1">
@@ -102,9 +120,28 @@ export default function ProFeaturesPage() {
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-muted-foreground">
-                  {t('pro.clickToConfigure')}
-                </p>
+                {isLoadingGoogleStatus ? (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    {t('common.loading', 'Caricamento...')}
+                  </div>
+                ) : isGoogleConnected ? (
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    <span className="text-sm text-green-700 font-medium">
+                      {t('pro.googleConnected', 'Connesso con successo')}
+                    </span>
+                    {googleAuthStatus?.email && (
+                      <span className="text-sm text-muted-foreground">
+                        ({googleAuthStatus.email})
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    {t('pro.clickToConfigure')}
+                  </p>
+                )}
               </CardContent>
             </Card>
           </Link>
