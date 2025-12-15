@@ -53,7 +53,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
     
-    // PAGINAZIONE: Raccogli TUTTI gli eventi iterando su nextPageToken senza limiti
+    // PAGINAZIONE: Raccogli TUTTI gli eventi iterando su nextPageToken con protezione MAX_PAGES
+    const MAX_PAGES = 100; // Protezione contro loop infiniti
     let allEvents: calendar_v3.Schema$Event[] = [];
     let pageToken: string | undefined = undefined;
     let prevPageToken: string | undefined = undefined;
@@ -83,6 +84,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       // Protezione contro loop infiniti: token ripetuto
       if (pageToken && pageToken === prevPageToken) {
         console.warn('⚠️ [IMPORT] Token ripetuto rilevato, interruzione paginazione');
+        break;
+      }
+      
+      // Protezione MAX_PAGES contro loop infiniti
+      if (pageCount >= MAX_PAGES) {
+        console.warn(`⚠️ [IMPORT] Raggiunto limite MAX_PAGES (${MAX_PAGES}), interruzione paginazione con ${allEvents.length} eventi`);
         break;
       }
       
@@ -804,8 +811,10 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     
     let allGoogleEventIds = new Set<string>();
     let pageToken: string | undefined;
+    let deletePageCount = 0;
+    const MAX_DELETE_PAGES = 100; // Protezione contro loop infiniti
     
-    // Pagina attraverso tutti gli eventi Google (max 2500 eventi)
+    // Pagina attraverso tutti gli eventi Google con protezione MAX_PAGES
     do {
       const eventsResponse = await calendar.events.list({
         calendarId,
@@ -825,6 +834,13 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
         }
       }
       pageToken = eventsResponse.data.nextPageToken || undefined;
+      deletePageCount++;
+      
+      // Protezione MAX_PAGES contro loop infiniti
+      if (deletePageCount >= MAX_DELETE_PAGES) {
+        console.warn(`⚠️ [SYNC DELETE] Raggiunto limite MAX_DELETE_PAGES (${MAX_DELETE_PAGES}), interruzione paginazione`);
+        break;
+      }
     } while (pageToken);
     
     console.log(`🔍 [SYNC DELETE] Utente ${userId}: ${syncedAppointments.length} appuntamenti sincronizzati, ${allGoogleEventIds.size} eventi su Google`);
