@@ -903,6 +903,10 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
       if (eventsResponse.data.items) {
         console.log(`📄 [SYNC DELETE] Pagina ${deletePageCount + 1}: ${eventsResponse.data.items.length} eventi trovati`);
         for (const event of eventsResponse.data.items) {
+          // DEBUG: Log eventi con ID lungo (formato base32hex come gli eventi creati dal gestionale)
+          if (event.id && event.id.length > 50) {
+            console.log(`🔍 [SYNC DELETE] Evento lungo trovato: id=${event.id.substring(0,20)}..., status=${event.status}, summary=${event.summary?.substring(0,30) || 'NO SUMMARY'}`);
+          }
           // FIX: Ignora eventi cancellati - hanno status='cancelled' anche con showDeleted:false
           if (event.id && event.status !== 'cancelled') {
             allGoogleEventIds.add(event.id);
