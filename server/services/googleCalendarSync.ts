@@ -829,7 +829,14 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     let deletePageCount = 0;
     const MAX_DELETE_PAGES = 100; // Protezione contro loop infiniti
     
-    console.log(`🔍 [SYNC DELETE] Utente ${userId}: Inizio scansione eventi Google...`);
+    console.log(`🔍 [SYNC DELETE] Utente ${userId}: Inizio scansione eventi Google su calendar: ${calendarId}`);
+    console.log(`🔍 [SYNC DELETE] Range temporale: ${oneYearAgo.toISOString()} - ${oneYearAhead.toISOString()}`);
+    console.log(`🔍 [SYNC DELETE] Appuntamenti sincronizzati da verificare: ${syncedAppointments.length}`);
+    
+    // DEBUG: Log tutti gli appuntamenti sincronizzati con i loro ID
+    for (const sa of syncedAppointments) {
+      console.log(`🔍 [SYNC DELETE] Tracciato: appt=${sa.appointmentId}, googleId=${sa.googleEventId}`);
+    }
     
     // Pagina attraverso tutti gli eventi Google con protezione MAX_PAGES
     do {
