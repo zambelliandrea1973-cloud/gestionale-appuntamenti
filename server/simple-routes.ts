@@ -9709,11 +9709,7 @@ Studio Professionale`;
   // Registra le route Google Calendar API
   app.use('/api/google-calendar', googleCalendarApi);
   
-  // FALLBACK: Catch-all per google-calendar - CATTURA TUTTI I 404
-  app.all('/api/google-calendar*', (req, res) => {
-    console.log(`🔴 [FALLBACK] ${req.method} ${req.path} - Non trovato nel router`);
-    res.status(404).json({ error: `Endpoint ${req.method} ${req.path} non trovato` });
-  });
+  // NOTA: Fallback rimosso - intercettava endpoint validi
   
   // Registra le route Google Auth
   app.use('/api/google-auth', googleAuthRoutes);
