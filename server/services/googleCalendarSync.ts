@@ -853,8 +853,11 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
       if (eventsResponse.data.items) {
         console.log(`📄 [SYNC DELETE] Pagina ${deletePageCount + 1}: ${eventsResponse.data.items.length} eventi trovati`);
         for (const event of eventsResponse.data.items) {
-          if (event.id) {
+          // FIX: Ignora eventi cancellati - hanno status='cancelled' anche con showDeleted:false
+          if (event.id && event.status !== 'cancelled') {
             allGoogleEventIds.add(event.id);
+          } else if (event.id && event.status === 'cancelled') {
+            console.log(`🗑️ [SYNC DELETE] Evento ${event.id} ha status='cancelled', sarà eliminato`);
           }
         }
       }
