@@ -198,7 +198,7 @@ export default function DayViewWithTimeSlots({
     const startTime = appointment.startTime.substring(0, 5);
     const endTime = appointment.endTime.substring(0, 5);
     
-    console.log(`Calcolo posizione per appuntamento: ${startTime} - ${endTime}`);
+    // Calcolo posizione per appuntamento (rimosso console.log per evitare spam)
     
     // Calcola i minuti totali tra inizio e fine
     const startHours = parseInt(startTime.split(':')[0]);
@@ -236,14 +236,14 @@ export default function DayViewWithTimeSlots({
         const containerRect = calendarContainer.getBoundingClientRect();
         // Calcola la posizione relativa al container del calendario
         top = slotRect.top - containerRect.top;
-        console.log(`  | Slot trovato: Posizione esatta top: ${top}px`);
+        // Slot trovato con posizione esatta
       }
     } else {
       // Se l'elemento non è stato trovato, usa il calcolo matematico come fallback
       const firstSlotHour = 8; // Il primo slot è alle 8:00
       const totalStartMinutesFromFirstSlot = (startHours - firstSlotHour) * 60 + startMinutes;
       top = Math.round(totalStartMinutesFromFirstSlot / 15 * slotHeight);
-      console.log(`  | Slot non trovato nel DOM, usando calcolo matematico fallback: ${top}px`);
+      // Slot non trovato nel DOM, usando calcolo matematico fallback
     }
     
     // Raggruppa appuntamenti che si sovrappongono nello stesso orario
@@ -299,7 +299,7 @@ export default function DayViewWithTimeSlots({
     }
     
     // Debug
-    console.log(`  | Orario: ${startTime}-${endTime}, Top calcolato: ${top}px, Altezza: ${height}px`);
+    // Log rimosso per evitare spam nella console
 
     return {
       top: `${top}px`,
