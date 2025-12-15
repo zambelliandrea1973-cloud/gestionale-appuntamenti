@@ -9683,6 +9683,29 @@ Studio Professionale`;
     }
   });
 
+  // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
+  app.post('/api/google-calendar/sync', async (req, res) => {
+    console.log('🚀🚀🚀 [SYNC] ENDPOINT RAGGIUNTO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
+    
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        console.log('❌ [SYNC] Utente non autenticato');
+        return res.status(401).json({ success: false, message: 'Non autenticato' });
+      }
+      
+      const userId = (req.user as any).id;
+      const timeZone = req.body?.timeZone || 'Europe/Rome';
+      console.log(`🔄 [SYNC] Avvio sincronizzazione per utente ${userId}, timeZone: ${timeZone}`);
+      
+      const result = await syncBidirectional(userId, timeZone);
+      console.log(`✅ [SYNC] Completato:`, JSON.stringify(result));
+      res.json(result);
+    } catch (error) {
+      console.error('❌ [SYNC] Errore:', error);
+      res.status(500).json({ success: false, message: 'Errore durante la sincronizzazione', error: String(error) });
+    }
+  });
+
   // DEBUG: Endpoint per verificare se un evento esiste su Google Calendar
   app.get('/api/google-calendar/check-event/:eventId', async (req, res) => {
     try {
@@ -9693,7 +9716,6 @@ Studio Professionale`;
       const userId = (req.user as any).id;
       const eventId = req.params.eventId;
       
-      // Ottieni token utente
       const user = await db.select().from(users).where(eq(users.id, userId));
       if (!user.length || !user[0].googleAuthToken) {
         return res.json({ exists: false, error: 'Token Google non disponibile' });
@@ -9729,29 +9751,6 @@ Studio Professionale`;
       }
     } catch (error) {
       res.status(500).json({ error: String(error) });
-    }
-  });
-
-  // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
-  app.post('/api/google-calendar/sync', async (req, res) => {
-    console.log('🚀🚀🚀 [SYNC] ENDPOINT RAGGIUNTO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
-    
-    try {
-      if (!req.isAuthenticated() || !req.user) {
-        console.log('❌ [SYNC] Utente non autenticato');
-        return res.status(401).json({ success: false, message: 'Non autenticato' });
-      }
-      
-      const userId = (req.user as any).id;
-      const timeZone = req.body?.timeZone || 'Europe/Rome';
-      console.log(`🔄 [SYNC] Avvio sincronizzazione per utente ${userId}, timeZone: ${timeZone}`);
-      
-      const result = await syncBidirectional(userId, timeZone);
-      console.log(`✅ [SYNC] Completato:`, JSON.stringify(result));
-      res.json(result);
-    } catch (error) {
-      console.error('❌ [SYNC] Errore:', error);
-      res.status(500).json({ success: false, message: 'Errore durante la sincronizzazione', error: String(error) });
     }
   });
 
