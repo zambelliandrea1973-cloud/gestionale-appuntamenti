@@ -9648,12 +9648,6 @@ Studio Professionale`;
     }
   });
 
-  // CATCH-ALL POST per /api/google-calendar/* - DEBUG MASSIVO
-  app.post('/api/google-calendar/*', (req, res, next) => {
-    console.log('🔴 [CATCH-ALL POST] /api/google-calendar/', req.params[0], '- Auth:', req.isAuthenticated(), '- User:', req.user?.id);
-    next();
-  });
-
   // TEST ENDPOINT - Non richiede auth per debug
   app.get('/api/google-calendar/test-sync', (req, res) => {
     console.log('✅ [TEST-SYNC] Endpoint raggiunto!');
