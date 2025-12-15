@@ -68,6 +68,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         maxResults: 250, // Google consiglia 250 per pagina
         singleEvents: true,
         orderBy: 'startTime',
+        showDeleted: true, // Includi eventi cancellati per sincronizzare eliminazioni
         pageToken: pageToken
       });
       
@@ -110,6 +111,55 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       if (!googleEvent.id) {
         console.log(`⚠️ [IMPORT] Evento saltato: nessun ID`);
         continue;
+      }
+      
+      // GESTIONE EVENTI CANCELLATI: Se l'evento è stato cancellato su Google, elimina l'appuntamento locale
+      if (googleEvent.status === 'cancelled') {
+        console.log(`🗑️ [IMPORT] Evento ${googleEvent.id} cancellato su Google - verifico se eliminare appuntamento locale...`);
+        
+        try {
+          // Cerca nella tabella tracking
+          const trackedEvent = await db.select()
+            .from(googleCalendarEvents)
+            .where(eq(googleCalendarEvents.googleEventId, googleEvent.id))
+            .limit(1);
+          
+          if (trackedEvent.length > 0) {
+            const appointmentId = trackedEvent[0].appointmentId;
+            
+            // Elimina prima il tracking
+            await db.delete(googleCalendarEvents)
+              .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
+            
+            // Elimina l'appuntamento
+            await db.delete(appointments)
+              .where(eq(appointments.id, appointmentId));
+            
+            console.log(`✅ [IMPORT] Appuntamento ${appointmentId} eliminato (evento cancellato su Google)`);
+            result.imported++; // Conta come azione eseguita
+          } else {
+            // Cerca anche direttamente nella tabella appointments
+            const directAppointment = await db.select()
+              .from(appointments)
+              .where(eq(appointments.googleEventId, googleEvent.id))
+              .limit(1);
+            
+            if (directAppointment.length > 0) {
+              await db.delete(appointments)
+                .where(eq(appointments.id, directAppointment[0].id));
+              
+              console.log(`✅ [IMPORT] Appuntamento ${directAppointment[0].id} eliminato (evento cancellato su Google)`);
+              result.imported++;
+            } else {
+              console.log(`ℹ️ [IMPORT] Evento cancellato ${googleEvent.id} non ha appuntamento collegato - skip`);
+            }
+          }
+        } catch (deleteError) {
+          console.error(`❌ [IMPORT] Errore eliminazione appuntamento per evento ${googleEvent.id}:`, deleteError);
+          result.errors.push(`Errore eliminazione evento cancellato ${googleEvent.id}: ${String(deleteError)}`);
+        }
+        
+        continue; // Passa al prossimo evento
       }
       
       if (!googleEvent.start?.dateTime) {
