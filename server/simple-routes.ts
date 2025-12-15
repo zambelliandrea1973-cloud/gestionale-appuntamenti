@@ -9654,6 +9654,21 @@ Studio Professionale`;
     res.json({ success: true, message: 'Test endpoint funziona!' });
   });
 
+  // DEBUG: Endpoint per testare sync senza autenticazione (SOLO DEV)
+  app.get('/api/google-calendar/debug-sync/:userId', async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    console.log(`🔧 [DEBUG-SYNC] Avvio sync per utente ${userId}`);
+    
+    try {
+      const result = await syncBidirectional(userId, 'Europe/Rome');
+      console.log(`🔧 [DEBUG-SYNC] Risultato:`, JSON.stringify(result));
+      res.json(result);
+    } catch (error) {
+      console.error(`🔧 [DEBUG-SYNC] Errore:`, error);
+      res.status(500).json({ error: String(error) });
+    }
+  });
+
   // Endpoint per sincronizzazione manuale Google Calendar
   app.post('/api/google-calendar/sync-now', async (req, res) => {
     console.log('🔄 [SYNC-NOW] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);

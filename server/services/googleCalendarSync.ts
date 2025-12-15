@@ -884,6 +884,11 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
           eventId: synced.googleEventId,
         });
         
+        // Log dettagliato per debug
+        const eventStatus = eventResponse.data.status;
+        const eventSummary = eventResponse.data.summary || 'no-summary';
+        console.log(`🔍 [SYNC DELETE] Evento ${synced.appointmentId}: status=${eventStatus}, summary=${eventSummary.substring(0, 30)}`);
+        
         // Se l'evento esiste, controlla lo status
         if (eventResponse.data.status === 'cancelled') {
           console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... CANCELLATO, elimino appuntamento ${synced.appointmentId}`);
@@ -896,21 +901,24 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
         // Se status è 'confirmed' o altro, l'evento esiste ancora - non fare nulla
         
       } catch (getError: any) {
+        const errorCode = getError?.code || getError?.response?.status;
+        
         // Errore 404 = evento non esiste più su Google
-        if (getError?.code === 404 || getError?.response?.status === 404) {
-          console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... NON ESISTE (404), elimino appuntamento ${synced.appointmentId}`);
+        // Errore 410 = evento ricorrente cancellato (Gone)
+        if (errorCode === 404 || errorCode === 410) {
+          console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... NON ESISTE (${errorCode}), elimino appuntamento ${synced.appointmentId}`);
           
           try {
             await db.delete(appointments).where(eq(appointments.id, synced.appointmentId));
             await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
             result.deleted++;
-            console.log(`✅ [SYNC DELETE] Appuntamento ${synced.appointmentId} eliminato (evento non trovato)`);
+            console.log(`✅ [SYNC DELETE] Appuntamento ${synced.appointmentId} eliminato (errore ${errorCode})`);
           } catch (deleteError) {
             result.errors.push(`Errore eliminazione appuntamento ${synced.appointmentId}: ${String(deleteError)}`);
           }
         } else {
-          // Altri errori - log ma non eliminare
-          console.log(`⚠️ [SYNC DELETE] Errore verifica evento ${synced.googleEventId.substring(0, 30)}...: ${String(getError)}`);
+          // Altri errori - log dettagliato per debug
+          console.log(`⚠️ [SYNC DELETE] Errore verifica evento ${synced.googleEventId.substring(0, 30)}...: code=${errorCode}, msg=${String(getError)}`);
         }
       }
     }
