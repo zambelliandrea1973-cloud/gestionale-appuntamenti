@@ -676,12 +676,28 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       }
     }
 
-    // 3. AGGIORNA eventi Google con modifiche da Replit
-    console.log(`🔄 [SYNC] Step 3: Aggiornamento eventi Google con modifiche Replit...`);
+    // 3. PRIMA rileva eventi eliminati su Google (per evitare loop di ricreazione)
+    console.log(`🗑️ [SYNC] Step 3: Rilevamento eventi eliminati su Google (PRIMA degli aggiornamenti)...`);
+    let deleted = 0;
+    try {
+      const deleteResult = await syncDeletedEvents(userId);
+      deleted = deleteResult.deleted;
+      if (deleteResult.errors.length > 0) {
+        details.errors.push(...deleteResult.errors);
+      }
+      console.log(`🗑️ [SYNC] Eliminati ${deleted} appuntamenti orfani (evento Google rimosso)`);
+    } catch (deleteError) {
+      console.error(`❌ [SYNC] Errore rilevamento eliminazioni:`, deleteError);
+      details.errors.push(`Errore rilevamento eliminazioni: ${String(deleteError)}`);
+    }
+
+    // 4. AGGIORNA eventi Google con modifiche da Replit (DOPO aver gestito le eliminazioni)
+    console.log(`🔄 [SYNC] Step 4: Aggiornamento eventi Google con modifiche Replit...`);
     let updated = 0;
     try {
       // Ottieni tutti gli appuntamenti sincronizzati (includi calendarId per usare il calendario corretto)
       const syncedAppointments = await db.select({
+        mappingId: googleCalendarEvents.id,
         appointmentId: googleCalendarEvents.appointmentId,
         googleEventId: googleCalendarEvents.googleEventId,
         lastSyncAt: googleCalendarEvents.lastSyncAt,
@@ -785,28 +801,28 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             .where(eq(googleCalendarEvents.appointmentId, syncedAppt.appointmentId));
           
           updated++;
-        } catch (updateError) {
-          console.log(`⚠️ [SYNC] Errore aggiornamento evento ${syncedAppt.googleEventId}: ${String(updateError)}`);
+        } catch (updateError: any) {
+          const errorCode = updateError?.code || updateError?.response?.status;
+          
+          // Se evento non esiste più su Google (404/410), elimina appuntamento locale
+          if (errorCode === 404 || errorCode === 410) {
+            console.log(`🗑️ [SYNC] Evento ${syncedAppt.googleEventId.substring(0, 20)}... non esiste più (${errorCode}), elimino appuntamento ${syncedAppt.appointmentId}`);
+            try {
+              await db.delete(appointments).where(eq(appointments.id, syncedAppt.appointmentId));
+              await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, syncedAppt.mappingId));
+              deleted++;
+              console.log(`✅ [SYNC] Appuntamento ${syncedAppt.appointmentId} eliminato (evento Google rimosso)`);
+            } catch (delError) {
+              console.error(`❌ [SYNC] Errore eliminazione appuntamento ${syncedAppt.appointmentId}:`, delError);
+            }
+          } else {
+            console.log(`⚠️ [SYNC] Errore aggiornamento evento ${syncedAppt.googleEventId}: ${String(updateError)}`);
+          }
         }
       }
       console.log(`🔄 [SYNC] Aggiornati ${updated} eventi su Google`);
-    } catch (step3Error) {
-      console.error(`❌ [SYNC] Errore Step 3:`, step3Error);
-    }
-
-    // 4. RILEVA eventi eliminati su Google e rimuovi appuntamenti orfani su Replit
-    console.log(`🗑️ [SYNC] Step 4: Rilevamento eventi eliminati su Google...`);
-    let deleted = 0;
-    try {
-      const deleteResult = await syncDeletedEvents(userId);
-      deleted = deleteResult.deleted;
-      if (deleteResult.errors.length > 0) {
-        details.errors.push(...deleteResult.errors);
-      }
-      console.log(`🗑️ [SYNC] Eliminati ${deleted} appuntamenti orfani (evento Google rimosso)`);
-    } catch (deleteError) {
-      console.error(`❌ [SYNC] Errore rilevamento eliminazioni:`, deleteError);
-      details.errors.push(`Errore rilevamento eliminazioni: ${String(deleteError)}`);
+    } catch (step4Error) {
+      console.error(`❌ [SYNC] Errore Step 4:`, step4Error);
     }
 
     // 5. Aggiorna timestamp sync
