@@ -911,7 +911,7 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
             if (event.status === 'cancelled') {
               // Evento cancellato su Google - deve essere eliminato localmente
               cancelledEventIds.add(event.id);
-              console.log(`🗑️ [SYNC DELETE] Evento CANCELLATO rilevato: ${event.id.substring(0, 30)}...`);
+              console.log(`🗑️ [SYNC DELETE] Evento CANCELLATO rilevato: ${event.id?.substring(0, 30) || 'unknown'}...`);
             } else {
               // Evento attivo su Google
               allGoogleEventIds.add(event.id);
@@ -949,7 +949,8 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
       
       if (isNotOnGoogle || isCancelledOnGoogle) {
         const reason = isCancelledOnGoogle ? 'CANCELLATO su Google' : 'NON TROVATO su Google';
-        console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... ${reason}, rimuovo appuntamento ${synced.appointmentId}`);
+        const eventIdPreview = synced.googleEventId?.substring(0, 30) || 'unknown';
+        console.log(`🗑️ [SYNC DELETE] Evento ${eventIdPreview}... ${reason}, rimuovo appuntamento ${synced.appointmentId}`);
         
         try {
           // Elimina l'appuntamento dal gestionale
