@@ -1,0 +1,1803 @@
+Error while trying to use the following icon from the Manifest: https://wife-scheduler-zambelliandrea1.replit.app/pwa-icon/192x192?owner=default&v=1765812828437.6194&android=1 (Download error or resource isn't a valid image)Comprendi l'avviso
+manifest.json:1 Manifest: property 'scope' ignored. Start url should be within scope of scope URL.Comprendi l'avviso
+12Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+api/google-calendar/sync:1  Failed to load resource: the server responded with a status of 500 ()Comprendi l'errore
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:48 Risposta da /api/google-calendar/sync: 200  ok: true
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+18calendar:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedComprendi l'errore
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:15 - 12:15
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 535px
+index-Bsy6A5hi.js:780   | Orario: 11:15-12:15, Top calcolato: 535px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:30 - 14:30
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 905px
+index-Bsy6A5hi.js:780   | Orario: 13:30-14:30, Top calcolato: 905px, Altezza: 160px

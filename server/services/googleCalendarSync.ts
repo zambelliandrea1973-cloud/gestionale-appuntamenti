@@ -829,19 +829,22 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     let deletePageCount = 0;
     const MAX_DELETE_PAGES = 100; // Protezione contro loop infiniti
     
+    console.log(`🔍 [SYNC DELETE] Utente ${userId}: Inizio scansione eventi Google...`);
+    
     // Pagina attraverso tutti gli eventi Google con protezione MAX_PAGES
     do {
       const eventsResponse = await calendar.events.list({
         calendarId,
         timeMin: oneYearAgo.toISOString(),
         timeMax: oneYearAhead.toISOString(),
-        maxResults: 2500,
+        maxResults: 250, // CORRETTO: max 250 per Google Calendar API
         singleEvents: true,
         showDeleted: false,
         pageToken
       });
       
       if (eventsResponse.data.items) {
+        console.log(`📄 [SYNC DELETE] Pagina ${deletePageCount + 1}: ${eventsResponse.data.items.length} eventi trovati`);
         for (const event of eventsResponse.data.items) {
           if (event.id) {
             allGoogleEventIds.add(event.id);
@@ -858,7 +861,15 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
       }
     } while (pageToken);
     
-    console.log(`🔍 [SYNC DELETE] Utente ${userId}: ${syncedAppointments.length} appuntamenti sincronizzati, ${allGoogleEventIds.size} eventi su Google`);
+    console.log(`🔍 [SYNC DELETE] Utente ${userId}: ${syncedAppointments.length} appuntamenti sincronizzati, ${allGoogleEventIds.size} eventi su Google (${deletePageCount} pagine)`);
+    
+    // DEBUG: Log i primi eventi per verificare formato ID
+    const eventIdSample = Array.from(allGoogleEventIds).slice(0, 5);
+    console.log(`🔍 [SYNC DELETE] Esempio ID eventi Google: ${JSON.stringify(eventIdSample)}`);
+    
+    // DEBUG: Log gli appuntamenti sincronizzati per confronto
+    const syncedSample = syncedAppointments.slice(0, 5).map(s => s.googleEventId);
+    console.log(`🔍 [SYNC DELETE] Esempio ID appuntamenti tracciati: ${JSON.stringify(syncedSample)}`);
     
     // Trova appuntamenti il cui evento Google non esiste più
     for (const synced of syncedAppointments) {
