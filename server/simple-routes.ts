@@ -9669,6 +9669,86 @@ Studio Professionale`;
     }
   });
 
+  // DEBUG: Endpoint per diagnosticare calendario e cercare evento specifico
+  app.get('/api/google-calendar/debug-calendars/:userId', async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    const eventIdToFind = req.query.eventId as string || '74q66c336hij4b9i6goj0b9kcgqj2bb16co3gb9kcdj30d9j65h3cp1o68';
+    console.log(`🔧 [DEBUG-CALENDARS] Analisi calendari per utente ${userId}, cercando evento: ${eventIdToFind}`);
+    
+    try {
+      // Ottieni token OAuth
+      const userRows = await db.select().from(users).where(eq(users.id, userId));
+      if (!userRows.length || !userRows[0].googleAuthToken) {
+        return res.status(400).json({ error: 'Utente non ha token Google' });
+      }
+      
+      const tokenData = JSON.parse(userRows[0].googleAuthToken);
+      const oauth2Client = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET
+      );
+      oauth2Client.setCredentials(tokenData);
+      const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+      
+      // 1. Lista tutti i calendari dell'utente
+      const calendarList = await calendar.calendarList.list();
+      const calendars = calendarList.data.items || [];
+      
+      console.log(`📅 [DEBUG] Trovati ${calendars.length} calendari`);
+      
+      const results: any[] = [];
+      
+      for (const cal of calendars) {
+        const calInfo: any = {
+          id: cal.id,
+          summary: cal.summary,
+          primary: cal.primary || false,
+          accessRole: cal.accessRole,
+          eventFound: null,
+          eventStatus: null
+        };
+        
+        // Cerca l'evento specifico in questo calendario
+        try {
+          const eventResponse = await calendar.events.get({
+            calendarId: cal.id!,
+            eventId: eventIdToFind,
+          });
+          calInfo.eventFound = true;
+          calInfo.eventStatus = eventResponse.data.status;
+          calInfo.eventSummary = eventResponse.data.summary;
+          calInfo.eventStart = eventResponse.data.start;
+          console.log(`✅ [DEBUG] Evento TROVATO in calendario "${cal.summary}" con status=${eventResponse.data.status}`);
+        } catch (e: any) {
+          if (e.code === 404 || e.response?.status === 404) {
+            calInfo.eventFound = false;
+            calInfo.eventStatus = 'NOT_FOUND';
+            console.log(`❌ [DEBUG] Evento NON trovato in calendario "${cal.summary}"`);
+          } else {
+            calInfo.eventFound = 'error';
+            calInfo.eventStatus = `ERROR: ${e.message}`;
+          }
+        }
+        
+        results.push(calInfo);
+      }
+      
+      // Info sul calendario configurato
+      const configuredCalendarId = userRows[0].googleCalendarId || 'primary';
+      
+      res.json({
+        userId,
+        configuredCalendarId,
+        eventIdSearched: eventIdToFind,
+        totalCalendars: calendars.length,
+        calendars: results
+      });
+    } catch (error) {
+      console.error(`🔧 [DEBUG-CALENDARS] Errore:`, error);
+      res.status(500).json({ error: String(error) });
+    }
+  });
+
   // Endpoint per sincronizzazione manuale Google Calendar
   app.post('/api/google-calendar/sync-now', async (req, res) => {
     console.log('🔄 [SYNC-NOW] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
