@@ -9706,54 +9706,6 @@ Studio Professionale`;
     }
   });
 
-  // DEBUG: Endpoint per verificare se un evento esiste su Google Calendar
-  app.get('/api/google-calendar/check-event/:eventId', async (req, res) => {
-    try {
-      if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ error: 'Non autenticato' });
-      }
-      
-      const userId = (req.user as any).id;
-      const eventId = req.params.eventId;
-      
-      const user = await db.select().from(users).where(eq(users.id, userId));
-      if (!user.length || !user[0].googleAuthToken) {
-        return res.json({ exists: false, error: 'Token Google non disponibile' });
-      }
-      
-      const tokens = JSON.parse(user[0].googleAuthToken);
-      const oauth2Client = new google.auth.OAuth2(
-        process.env.GOOGLE_CLIENT_ID,
-        process.env.GOOGLE_CLIENT_SECRET
-      );
-      oauth2Client.setCredentials(tokens);
-      
-      const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
-      const calendarId = user[0].googleCalendarId || 'primary';
-      
-      try {
-        const event = await calendar.events.get({ calendarId, eventId });
-        res.json({ 
-          exists: true, 
-          status: event.data.status,
-          summary: event.data.summary,
-          start: event.data.start,
-          eventId
-        });
-      } catch (eventError: any) {
-        if (eventError.code === 404) {
-          res.json({ exists: false, reason: 'Event not found (404)', eventId });
-        } else if (eventError.code === 410) {
-          res.json({ exists: false, reason: 'Event deleted (410 Gone)', eventId });
-        } else {
-          res.json({ exists: false, error: String(eventError), eventId });
-        }
-      }
-    } catch (error) {
-      res.status(500).json({ error: String(error) });
-    }
-  });
-
   // Registra le route Google Calendar API
   app.use('/api/google-calendar', googleCalendarApi);
   
