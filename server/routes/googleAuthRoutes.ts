@@ -431,23 +431,35 @@ router.get('/status', async (req, res) => {
         // Reimposta le credenziali sul client OAuth
         oauth2Client.setCredentials(tokens);
         
-        // Estrai email dal token se non in googleCalendarId
-        let googleEmail = user.googleCalendarId;
-        if (!googleEmail && tokens.id_token) {
+        // Estrai email dal token JWT (id_token contiene l'email reale)
+        let googleEmail: string | null = null;
+        
+        // Prima prova a estrarre l'email dal token JWT
+        if (tokens.id_token) {
           try {
-            // Decodifica JWT per ottenere email
             const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
             googleEmail = payload.email;
+            console.log("✅ [GOOGLE AUTH STATUS] Email estratta dal token:", googleEmail);
           } catch (e) {
-            googleEmail = user.email; // fallback all'email utente
+            console.log("⚠️ [GOOGLE AUTH STATUS] Impossibile estrarre email dal token");
           }
+        }
+        
+        // Fallback: usa googleCalendarId solo se non è "primary"
+        if (!googleEmail && user.googleCalendarId && user.googleCalendarId !== 'primary') {
+          googleEmail = user.googleCalendarId;
+        }
+        
+        // Ultimo fallback: email dell'utente
+        if (!googleEmail) {
+          googleEmail = user.email;
         }
         
         return res.json({ 
           success: true, 
           authorized: true,
           calendarEnabled: user.googleCalendarEnabled,
-          email: googleEmail || user.email
+          email: googleEmail
         });
       }
       console.log("⚠️ [GOOGLE AUTH STATUS] Nessun token nel database per utente", userId);
