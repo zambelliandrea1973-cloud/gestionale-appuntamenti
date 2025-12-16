@@ -54,7 +54,9 @@ export default function Calendar() {
         const response = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
-          if (data.connected && data.calendarEnabled) {
+          // L'endpoint ritorna 'authorized' (non 'connected')
+          if (data.authorized && data.calendarEnabled) {
+            console.log('🔄 [AUTO-SYNC] Google Calendar connesso e abilitato, avvio sincronizzazione automatica...');
             autoSyncExecuted.current = true;
             silentSync.mutate();
           }
