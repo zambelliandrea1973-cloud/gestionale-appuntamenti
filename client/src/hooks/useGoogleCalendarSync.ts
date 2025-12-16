@@ -14,6 +14,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
 
   return useMutation({
     mutationFn: async () => {
+      console.log('🔄 [HOOK] mutationFn chiamata - invio richiesta a sync-now...');
       // Usa lo stesso endpoint della pagina Pro per coerenza
       const response = await fetch('/api/google-calendar/sync-now', {
         method: 'POST',
@@ -24,11 +25,17 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
         credentials: 'include', // Importante: include cookies per autenticazione
       });
       
+      console.log('🔄 [HOOK] Risposta ricevuta:', response.status, response.ok);
+      
       if (!response.ok) {
-        throw new Error("Sync failed");
+        const errorText = await response.text();
+        console.error('🔴 [HOOK] Errore sync:', errorText);
+        throw new Error("Sync failed: " + errorText);
       }
       
-      return response.json();
+      const data = await response.json();
+      console.log('🔄 [HOOK] Dati ricevuti:', data);
+      return data;
     },
     onSuccess: (data: any) => {
       // Estrai i valori da details (struttura corretta dal backend)
