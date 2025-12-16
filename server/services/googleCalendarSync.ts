@@ -913,10 +913,12 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
     // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente (con JOIN)
+    // IMPORTANTE: include calendarId per verificare nel calendario corretto (primario o secondario)
     const syncedAppointments = await db.select({
       mappingId: googleCalendarEvents.id,
       appointmentId: googleCalendarEvents.appointmentId,
       googleEventId: googleCalendarEvents.googleEventId,
+      calendarId: googleCalendarEvents.calendarId,
     })
     .from(googleCalendarEvents)
     .innerJoin(appointments, eq(appointments.id, googleCalendarEvents.appointmentId))
@@ -936,8 +938,10 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
       
       try {
         // Prova a ottenere l'evento direttamente da Google
+        // Usa il calendarId specifico salvato nel mapping (supporta calendari secondari)
+        const eventCalendarId = synced.calendarId || calendarId;
         const eventResponse = await calendar.events.get({
-          calendarId,
+          calendarId: eventCalendarId,
           eventId: synced.googleEventId,
         });
         

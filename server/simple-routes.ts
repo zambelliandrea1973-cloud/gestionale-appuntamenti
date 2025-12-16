@@ -2394,8 +2394,12 @@ export function registerSimpleRoutes(app: Express): Server {
               oauth2Client.setCredentials(tokens);
               const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
               
+              // Usa il calendarId salvato nel mapping (per eventi importati da calendari secondari)
+              const targetCalendarId = eventMapping.calendarId || googleUser.googleCalendarId || 'primary';
+              console.log(`🗑️ [GOOGLE SYNC] Eliminazione da calendario: ${targetCalendarId}`);
+              
               await calendar.events.delete({
-                calendarId: googleUser.googleCalendarId || 'primary',
+                calendarId: targetCalendarId,
                 eventId: eventMapping.googleEventId,
               });
               
