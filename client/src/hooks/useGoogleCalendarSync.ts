@@ -23,15 +23,20 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
       return response.json();
     },
     onSuccess: (data: any) => {
+      // Estrai i valori da details (struttura corretta dal backend)
+      const imported = data.details?.imported || 0;
+      const deleted = data.details?.deleted || 0;
+      const exported = data.details?.exported || 0;
+      
       if (showToast) {
         toast({
           title: t("common.success") || "✅ Sincronizzazione completata",
-          description: `📥 Importati: ${data.imported || 0} | 🗑️ Eliminati: ${data.deleted || 0}`,
+          description: `📥 Importati: ${imported} | 📤 Esportati: ${exported} | 🗑️ Eliminati: ${deleted}`,
           variant: "default",
         });
       } else {
         // Log silenzioso per sincronizzazione in background
-        console.log(`🔄 [AUTO-SYNC] Background: Importati ${data.imported || 0}, Eliminati ${data.deleted || 0}`);
+        console.log(`🔄 [AUTO-SYNC] Background: Importati ${imported}, Esportati ${exported}, Eliminati ${deleted}`);
       }
       
       // Invalida i dati degli appuntamenti per ricaricare
