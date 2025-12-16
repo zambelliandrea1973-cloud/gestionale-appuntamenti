@@ -500,7 +500,8 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       
       // Filtra manualmente gli appuntamenti non sincronizzati
       // synced dovrebbe essere false o NULL per gli appuntamenti nuovi
-      newAppointments = allAppointments.filter(a => !a.synced);
+      // IMPORTANTE: Escludi gli appuntamenti IMPORTATI da Google - non devono essere ri-esportati!
+      newAppointments = allAppointments.filter(a => !a.synced && !a.importedFromGoogle);
     } catch (queryError) {
       console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
       details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
