@@ -21,6 +21,7 @@ interface AppointmentData {
   endTime: string;
   notes?: string;
   status?: string;
+  importedFromGoogle?: boolean;
 }
 
 /**
@@ -73,6 +74,13 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
   // Esegui in modo asincrono per non bloccare la risposta API
   setImmediate(async () => {
     try {
+      // IMPORTANTE: Non sincronizzare eventi IMPORTATI da Google Calendar!
+      // Questi eventi hanno origine esterna e non devono essere modificati dal gestionale
+      if (appointment.importedFromGoogle) {
+        console.log(`⏭️ [AUTO-SYNC] Skip ${action} per appuntamento ${appointment.id} - importato da Google Calendar`);
+        return;
+      }
+      
       console.log(`🔄 [AUTO-SYNC] ${action.toUpperCase()} appuntamento ${appointment.id} per utente ${appointment.userId}`);
       
       // Verifica se l'utente ha Google Calendar abilitato

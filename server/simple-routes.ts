@@ -2269,49 +2269,54 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`✅ [PostgreSQL] Appuntamento ${appointmentId} aggiornato con staffId: ${updatedAppointment.staffId}, roomId: ${updatedAppointment.roomId}`);
       
       // 🔄 GOOGLE CALENDAR SYNC: Aggiorna in Google Calendar se abilitato
-      try {
-        const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
-        if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
-          // Cerca l'evento Google collegato
-          const [eventMapping] = await db.select()
-            .from(googleCalendarEvents)
-            .where(eq(googleCalendarEvents.appointmentId, appointmentId))
-            .limit(1);
-          
-          if (eventMapping) {
+      // IMPORTANTE: Non aggiornare eventi IMPORTATI da Google Calendar!
+      // Questi eventi hanno origine esterna e non devono essere modificati dal gestionale
+      if (updatedAppointment.importedFromGoogle) {
+        console.log(`⏭️ [GOOGLE SYNC] Skip update per appuntamento ${appointmentId} - importato da Google Calendar`);
+      } else {
+        try {
+          const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
+          if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
+            // Cerca l'evento Google collegato
+            const [eventMapping] = await db.select()
+              .from(googleCalendarEvents)
+              .where(eq(googleCalendarEvents.appointmentId, appointmentId))
+              .limit(1);
             
-            const tokens = JSON.parse(googleUser.googleAuthToken);
-            const oauth2Client = new google.auth.OAuth2(
-              process.env.GOOGLE_CLIENT_ID,
-              process.env.GOOGLE_CLIENT_SECRET,
-              process.env.PRODUCTION_DOMAIN 
-                ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
-                : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
-            );
-            oauth2Client.setCredentials(tokens);
-            const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
-            
-            // Ottieni dati cliente e servizio
-            const [clientData] = await db.select().from(clients).where(eq(clients.id, updatedAppointment.clientId));
-            const serviceData = updatedAppointment.serviceId 
-              ? await db.select().from(services).where(eq(services.id, updatedAppointment.serviceId)).then(r => r[0])
-              : null;
-            
-            if (clientData) {
-              const startDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.startTime}`);
-              const endDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.endTime}`);
+            if (eventMapping) {
               
-              const summary = serviceData 
-                ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
-                : `Appuntamento con ${clientData.firstName} ${clientData.lastName}`;
+              const tokens = JSON.parse(googleUser.googleAuthToken);
+              const oauth2Client = new google.auth.OAuth2(
+                process.env.GOOGLE_CLIENT_ID,
+                process.env.GOOGLE_CLIENT_SECRET,
+                process.env.PRODUCTION_DOMAIN 
+                  ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+                  : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+              );
+              oauth2Client.setCredentials(tokens);
+              const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
               
-              const description = updatedAppointment.notes 
-                ? `Note: ${updatedAppointment.notes}\nCliente: ${clientData.firstName} ${clientData.lastName}`
-                : `Cliente: ${clientData.firstName} ${clientData.lastName}`;
+              // Ottieni dati cliente e servizio
+              const [clientData] = await db.select().from(clients).where(eq(clients.id, updatedAppointment.clientId));
+              const serviceData = updatedAppointment.serviceId 
+                ? await db.select().from(services).where(eq(services.id, updatedAppointment.serviceId)).then(r => r[0])
+                : null;
               
-              await calendar.events.update({
-                calendarId: googleUser.googleCalendarId || 'primary',
-                eventId: eventMapping.googleEventId,
+              if (clientData) {
+                const startDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.startTime}`);
+                const endDateTime = new Date(`${updatedAppointment.date}T${updatedAppointment.endTime}`);
+                
+                const summary = serviceData 
+                  ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
+                  : `Appuntamento con ${clientData.firstName} ${clientData.lastName}`;
+                
+                const description = updatedAppointment.notes 
+                  ? `Note: ${updatedAppointment.notes}\nCliente: ${clientData.firstName} ${clientData.lastName}`
+                  : `Cliente: ${clientData.firstName} ${clientData.lastName}`;
+                
+                await calendar.events.update({
+                  calendarId: googleUser.googleCalendarId || 'primary',
+                  eventId: eventMapping.googleEventId,
                 requestBody: {
                   summary,
                   description,
@@ -2328,8 +2333,9 @@ export function registerSimpleRoutes(app: Express): Server {
             }
           }
         }
-      } catch (syncError) {
-        console.error(`⚠️ [GOOGLE SYNC] Errore aggiornamento in Google (non bloccante):`, syncError);
+        } catch (syncError) {
+          console.error(`⚠️ [GOOGLE SYNC] Errore aggiornamento in Google (non bloccante):`, syncError);
+        }
       }
       
       res.status(200).json(updatedAppointment);

@@ -134,6 +134,13 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       return null;
     }
     
+    // IMPORTANTE: Non esportare eventi IMPORTATI da Google Calendar!
+    // Questi eventi hanno origine esterna e non devono essere ri-sincronizzati
+    if (appointment.importedFromGoogle) {
+      console.log(`⏭️ [GOOGLE CALENDAR] Skip export per appuntamento ${appointmentId} - importato da Google Calendar`);
+      return null;
+    }
+    
     // Ottieni dettagli cliente e servizio
     const client = await storage.getClient(appointment.clientId);
     const service = appointment.serviceId 
@@ -231,6 +238,13 @@ export async function updateAppointmentInGoogleCalendar(
     const appointment = await storage.getAppointment(appointmentId);
     if (!appointment) {
       console.error(`Appuntamento con ID ${appointmentId} non trovato`);
+      return false;
+    }
+    
+    // IMPORTANTE: Non aggiornare eventi IMPORTATI da Google Calendar!
+    // Questi eventi hanno origine esterna e non devono essere modificati dal gestionale
+    if (appointment.importedFromGoogle) {
+      console.log(`⏭️ [GOOGLE CALENDAR] Skip update per appuntamento ${appointmentId} - importato da Google Calendar`);
       return false;
     }
     
