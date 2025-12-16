@@ -30,7 +30,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
 
     const googleAuthToken = user[0].googleAuthToken;
-    const calendarId = user[0].googleCalendarId || 'primary';
     
     // TODO: Decrittare googleAuthToken (per ora assumiamo sia in plaintext)
     const tokens = JSON.parse(googleAuthToken);
@@ -53,55 +52,85 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
     
-    // PAGINAZIONE: Raccogli TUTTI gli eventi iterando su nextPageToken con protezione MAX_PAGES
-    const MAX_PAGES = 100; // Protezione contro loop infiniti
-    let allEvents: calendar_v3.Schema$Event[] = [];
-    let pageToken: string | undefined = undefined;
-    let prevPageToken: string | undefined = undefined;
-    let pageCount = 0;
+    // NUOVO: Ottieni TUTTI i calendari dell'utente (primario + secondari)
+    const calendarListResponse = await calendar.calendarList.list();
+    const allCalendars = calendarListResponse.data.items || [];
     
-    do {
-      const eventsResponse = await calendar.events.list({
-        calendarId,
-        timeMin: thirtyDaysAgo.toISOString(),
-        timeMax: oneYearAhead.toISOString(),
-        maxResults: 250, // Google consiglia 250 per pagina
-        singleEvents: true,
-        orderBy: 'startTime',
-        showDeleted: true, // Includi eventi cancellati per sincronizzare eliminazioni
-        pageToken: pageToken
-      });
+    // Filtra solo calendari con accesso in lettura (owner, writer, reader)
+    const accessibleCalendars = allCalendars.filter(cal => 
+      cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
+    );
+    
+    console.log(`📋 [IMPORT] Trovati ${accessibleCalendars.length} calendari accessibili:`);
+    accessibleCalendars.forEach(cal => {
+      console.log(`   - ${cal.summary} (${cal.id}) [${cal.accessRole}]`);
+    });
+    
+    // PAGINAZIONE: Raccogli TUTTI gli eventi DA TUTTI I CALENDARI
+    const MAX_PAGES = 100; // Protezione contro loop infiniti per calendario
+    interface EventWithCalendar extends calendar_v3.Schema$Event {
+      _sourceCalendarId?: string;
+      _sourceCalendarName?: string;
+    }
+    let allEvents: EventWithCalendar[] = [];
+    
+    // Itera su ogni calendario
+    for (const cal of accessibleCalendars) {
+      if (!cal.id) continue;
       
-      if (eventsResponse.data.items) {
-        allEvents = [...allEvents, ...eventsResponse.data.items];
-      }
+      let pageToken: string | undefined = undefined;
+      let prevPageToken: string | undefined = undefined;
+      let pageCount = 0;
       
-      prevPageToken = pageToken;
-      pageToken = eventsResponse.data.nextPageToken || undefined;
-      pageCount++;
+      console.log(`📅 [IMPORT] Scansione calendario: ${cal.summary}`);
       
-      console.log(`📄 [IMPORT] Pagina ${pageCount}: ${eventsResponse.data.items?.length || 0} eventi (totale: ${allEvents.length})`);
+      do {
+        try {
+          const eventsResponse = await calendar.events.list({
+            calendarId: cal.id,
+            timeMin: thirtyDaysAgo.toISOString(),
+            timeMax: oneYearAhead.toISOString(),
+            maxResults: 250,
+            singleEvents: true,
+            orderBy: 'startTime',
+            showDeleted: true,
+            pageToken: pageToken
+          });
+          
+          if (eventsResponse.data.items) {
+            // Aggiungi metadati sul calendario di origine
+            const eventsWithSource = eventsResponse.data.items.map((event: calendar_v3.Schema$Event) => ({
+              ...event,
+              _sourceCalendarId: cal.id,
+              _sourceCalendarName: cal.summary || 'Senza nome'
+            }));
+            allEvents = [...allEvents, ...eventsWithSource];
+          }
+          
+          prevPageToken = pageToken;
+          pageToken = eventsResponse.data.nextPageToken || undefined;
+          pageCount++;
+          
+          // Protezione contro loop infiniti
+          if (pageToken && pageToken === prevPageToken) break;
+          if (pageCount >= MAX_PAGES) break;
+          
+        } catch (calError) {
+          console.error(`❌ [IMPORT] Errore lettura calendario ${cal.summary}:`, calError);
+          result.errors.push(`Errore lettura calendario ${cal.summary}: ${String(calError)}`);
+          break;
+        }
+      } while (pageToken);
       
-      // Protezione contro loop infiniti: token ripetuto
-      if (pageToken && pageToken === prevPageToken) {
-        console.warn('⚠️ [IMPORT] Token ripetuto rilevato, interruzione paginazione');
-        break;
-      }
-      
-      // Protezione MAX_PAGES contro loop infiniti
-      if (pageCount >= MAX_PAGES) {
-        console.warn(`⚠️ [IMPORT] Raggiunto limite MAX_PAGES (${MAX_PAGES}), interruzione paginazione con ${allEvents.length} eventi`);
-        break;
-      }
-      
-    } while (pageToken); // Continua finché ci sono pagine
+      console.log(`   ✓ ${cal.summary}: ${pageCount} pagine processate`);
+    }
 
     if (allEvents.length === 0) {
       console.log('📭 Nessun evento da importare da Google Calendar');
       return result;
     }
 
-    console.log(`📊 [IMPORT] Trovati ${allEvents.length} eventi totali da Google Calendar (${pageCount} pagine)`);
+    console.log(`📊 [IMPORT] Trovati ${allEvents.length} eventi totali da ${accessibleCalendars.length} calendari`);
 
     // Processa ogni evento Google
     for (const googleEvent of allEvents) {
@@ -426,12 +455,16 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
 
         // Registra il collegamento (usa upsert per evitare duplicati)
+        // Usa il calendarId sorgente dell'evento per poterlo aggiornare/eliminare correttamente
+        const sourceCalendarId = (googleEvent as any)._sourceCalendarId || 'primary';
+        const sourceCalendarName = (googleEvent as any)._sourceCalendarName || '';
+        
         if (newAppointment.length > 0) {
           await db.insert(googleCalendarEvents).values({
             appointmentId: newAppointment[0].id,
             googleEventId: googleEvent.id,
             syncStatus: 'synced',
-            calendarId,
+            calendarId: sourceCalendarId,
             lastSyncAt: new Date()
           }).onConflictDoUpdate({
             target: googleCalendarEvents.appointmentId,
@@ -444,7 +477,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           });
           
           result.imported++;
-          console.log(`✅ Evento importato: ${googleEvent.summary} (${eventDate} ${eventStartTime})`);
+          console.log(`✅ Evento importato: ${googleEvent.summary} (${eventDate} ${eventStartTime}) [da: ${sourceCalendarName}]`);
         }
       } catch (error) {
         result.errors.push(`Errore importazione evento ${googleEvent.id}: ${String(error)}`);
@@ -572,7 +605,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         // Google Calendar API richiede UTC, quindi calcoliamo l'offset usando Intl
         
         // Funzione helper per calcolare l'offset di un timezone
-        function getTimezoneOffset(date: Date, tz: string): number {
+        const getTimezoneOffset = (date: Date, tz: string): number => {
           const formatter = new Intl.DateTimeFormat('en-US', {
             year: 'numeric',
             month: '2-digit',
@@ -597,7 +630,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           );
           
           return (localDate.getTime() - date.getTime()) / (1000 * 60); // Offset in minuti
-        }
+        };
         
         // Creare date locali (il browser le interpreta come UTC, ma noi le vediamo come locali)
         const refDate = new Date(`${appointment.date}T12:00:00`); // Una data di riferimento
@@ -732,7 +765,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;
           const endTime = appt.endTime.length === 5 ? `${appt.endTime}:00` : appt.endTime;
           
-          function getTimezoneOffset(date: Date, tz: string): number {
+          const getTimezoneOffset = (date: Date, tz: string): number => {
             const formatter = new Intl.DateTimeFormat('en-US', {
               year: 'numeric', month: '2-digit', day: '2-digit',
               hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -745,7 +778,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
               parseInt(partsMap.hour), parseInt(partsMap.minute), parseInt(partsMap.second)
             );
             return (localDate.getTime() - date.getTime()) / (1000 * 60);
-          }
+          };
           
           const refDate = new Date(`${appt.date}T12:00:00`);
           const offsetMinutes = getTimezoneOffset(refDate, timeZone);
