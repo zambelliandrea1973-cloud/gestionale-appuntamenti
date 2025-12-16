@@ -751,6 +751,14 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           if (!appointment.length) continue;
           const appt = appointment[0];
           
+          // IMPORTANTE: NON aggiornare eventi IMPORTATI da Google Calendar
+          // Questi eventi sono gestiti dall'utente direttamente su Google
+          // Aggiornare li riscriverebbe con titoli errati ("Evento Google Calendar...")
+          if (appt.importedFromGoogle) {
+            console.log(`⏭️ [SYNC] Skip aggiornamento evento importato ${appt.id} (gestito su Google)`);
+            continue;
+          }
+          
           // Ottieni client e service
           const clientData = await db.select().from(clients).where(eq(clients.id, appt.clientId)).limit(1);
           const serviceData = appt.serviceId 
