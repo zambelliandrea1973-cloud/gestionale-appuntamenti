@@ -14,7 +14,15 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/google-calendar/sync");
+      // Usa lo stesso endpoint della pagina Pro per coerenza
+      const response = await fetch('/api/google-calendar/sync-now', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
+        credentials: 'include', // Importante: include cookies per autenticazione
+      });
       
       if (!response.ok) {
         throw new Error("Sync failed");
