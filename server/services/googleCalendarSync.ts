@@ -338,28 +338,32 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           }
         }
         
-        // 2. Se non trovato, cerca o crea cliente "Importato da Google"
+        // 2. Se non trovato, cerca o crea cliente con titolo originale dell'evento
+        // IMPORTANTE: Usa il titolo originale come firstName così se il guard fallisce,
+        // il titolo su Google rimarrà simile all'originale
+        const originalEventTitle = googleEvent.summary || 'Evento Google';
+        
         if (!clientId) {
-          // Cerca cliente placeholder per eventi Google
-          const placeholderClients = await db.select()
+          // Cerca cliente con lo stesso titolo dell'evento
+          const existingClients = await db.select()
             .from(clients)
             .where(and(
               eq(clients.userId, userId), 
-              eq(clients.firstName, 'Evento'),
+              eq(clients.firstName, originalEventTitle),
               eq(clients.lastName, 'Google Calendar')
             ));
           
-          if (placeholderClients.length > 0) {
-            clientId = placeholderClients[0].id;
+          if (existingClients.length > 0) {
+            clientId = existingClients[0].id;
           } else {
-            // Crea cliente placeholder
+            // Crea cliente con titolo originale
             const newClient = await db.insert(clients).values({
               userId,
-              firstName: 'Evento',
+              firstName: originalEventTitle,
               lastName: 'Google Calendar',
-              email: 'google-calendar@imported.local',
+              email: `google-${Date.now()}@imported.local`,
               phone: '',
-              notes: 'Cliente creato automaticamente per eventi importati da Google Calendar'
+              notes: `Cliente creato automaticamente per evento Google Calendar: ${originalEventTitle}`
             }).returning();
             
             if (newClient.length > 0) {
@@ -752,9 +756,20 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const startDateTimeStr = utcStartDateTime.toISOString();
           const endDateTimeStr = utcEndDateTime.toISOString();
           
-          const summary = service 
-            ? `${client.firstName} ${client.lastName} - ${service.name}`
-            : `Appuntamento con ${client.firstName} ${client.lastName}`;
+          // FALLBACK: Se il client è "Evento Google Calendar" (placeholder vecchio),
+          // estrai il titolo originale dalle note (formato: 📅 TitoloOriginale)
+          let summary: string;
+          if (client.firstName === 'Evento' && client.lastName === 'Google Calendar') {
+            // Estrai titolo dalle note
+            const notesMatch = appt.notes?.match(/📅\s*([^\n]+)/);
+            const originalTitle = notesMatch ? notesMatch[1].trim() : 'Evento Google';
+            summary = originalTitle;
+            console.log(`📌 [SYNC] Usando titolo originale dalle note: "${originalTitle}"`);
+          } else {
+            summary = service 
+              ? `${client.firstName} ${client.lastName} - ${service.name}`
+              : `Appuntamento con ${client.firstName} ${client.lastName}`;
+          }
           
           const description = appt.notes 
             ? `Note: ${appt.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
