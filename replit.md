@@ -1,200 +1,7 @@
 # Medical Practice Management System
 
 ## Overview
-This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed to streamline operations for medical practices. It offers comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system aims to enhance patient engagement and provide efficient administrative tools, ultimately serving as a multi-platform solution for modern medical practice management.
-
-## Recent Changes (December 9, 2025)
-
-### ✅ FIX LOGICA ACCESSI PIANI ABBONAMENTO
-**Status**: ✅ CORRETTO - La logica di accesso PRO/BUSINESS ora rispetta i piani stabiliti
-
-#### 🔐 PROBLEMA IDENTIFICATO:
-- L'endpoint `/api/license/has-pro-access` in `simple-routes.ts` restituiva `true` per TUTTI i customer
-- Gli utenti BASE avevano accesso a funzionalità PRO (Google Calendar, Report, ecc.)
-
-#### ✅ CORREZIONE APPLICATA:
-- **has-pro-access**: Ora controlla effettivamente il tipo di licenza
-- **has-business-access**: Ora controlla effettivamente il tipo di licenza
-
-#### 📋 LOGICA CORRETTA:
-
-| Piano | Accesso PRO | Accesso BUSINESS |
-|-------|-------------|------------------|
-| BASE | ❌ No | ❌ No |
-| PRO | ✅ Sì | ❌ No |
-| BUSINESS | ✅ Sì | ✅ Sì |
-| TRIAL (40gg) | ✅ Sì | ✅ Sì |
-| PASSEPARTOUT | ✅ Sì | ✅ Sì |
-| Admin/Staff | ✅ Sì | ✅ Sì |
-
-#### 🎯 FUNZIONALITÀ PER PIANO:
-- **BASE**: Calendario, Gestione clienti, App QR/PWA, Richieste appuntamenti, Notifiche, Fatture
-- **PRO** (include BASE +): Google Calendar, Report e statistiche, Pacchetti promozionali  
-- **BUSINESS** (include PRO +): Gestione dipendenti, Magazzino prodotti, Campagne Marketing AI
-
----
-
-## Previous Changes (December 5, 2025)
-
-### ✅ GOOGLE PLAY STORE PRIVACY POLICY COMPLIANCE FIX
-**Status**: ✅ COMPLETATO - Tutti i link Privacy Policy ora reindirizzano a `/privacy` (no popup)
-
-#### 🔐 FIX APPLICATI:
-- ✅ **RegisterPage.tsx** - Aggiunto link Privacy Policy accanto ai Termini di Servizio
-- ✅ **PureClientArea.tsx** - Convertito popup Privacy/Terms in link navigazione a `/privacy` e `/terms`
-- ✅ **FooterContent.tsx** - Convertito popup Privacy/Terms in link navigazione a `/privacy` e `/terms`
-
-#### 🎯 MOTIVO DEL FIX:
-- Google Play Store richiede che la Privacy Policy sia accessibile da un URL diretto
-- I popup modali non soddisfano questo requisito
-- Ora tutti i link reindirizzano alla pagina `/privacy` che corrisponde all'URL inviato a Google Cloud Console
-
-#### 📋 URL PRIVACY POLICY:
-- Development: `https://wife-scheduler-zambelliandrea1.replit.app/privacy`
-- Production: `https://gestionale-appuntamenti.sliplane.app/privacy`
-
----
-
-## Previous Changes (December 4, 2025)
-
-### ✅ MIGRAZIONE COMPLETA JSON → PostgreSQL - DATI PERSISTENTI DEFINITIVI
-**Status**: ✅ COMPLETATO E TESTATO - Tutti i dati clienti ora persistenti nel database!
-
-#### 🔐 DATI CRITICI MIGRATI A PostgreSQL:
-- ✅ **email_calendar_settings** - Impostazioni email e calendario (per utente, isolate)
-- ✅ **notification_settings** - Impostazioni notifiche WhatsApp/SMS (per utente, isolate)
-- ✅ **contact_info** - Telefoni, siti web, social media (per utente, isolate)
-- ✅ **payment_methods_config** - Credenziali Stripe, PayPal, Bonifico bancario (PERSISTENTI)
-
-#### 🎯 RISULTATO FINALE:
-- **ZERO file JSON** per dati critici (email_settings.json, storage_data.json, company_name_settings.json, contacts.json rimossi)
-- **100% PostgreSQL** - Tutti i dati salvati nel database Neon-backed condiviso tra Replit e Sliplane
-- **Multi-tenant sicuro** - Dati completamente isolati per account (userId in every table)
-- **Persistenza garantita** - Dati NON scompaiono più al restart container
-- **Sincronizzazione automatica** - Dev (Replit) ↔ Production (Sliplane) tramite database condiviso
-
-#### 📋 MIGRAZIONE SERVIZI BACKEND:
-- ✅ `emailCalendarRoutes.ts` - Legge/scrive da PostgreSQL (no JSON)
-- ✅ `notificationSettingsRoutes.ts` - Legge/scrive da PostgreSQL (no JSON)
-- ✅ `companyNameService.ts` - Legge/scrive da PostgreSQL (no JSON)
-- ✅ `contactService.ts` - Legge/scrive da PostgreSQL (no JSON)
-- ✅ `paymentMethodsConfig` - Credenziali PayPal/Stripe persistenti (no JSON)
-
-#### ✅ VERIFICHE COMPLETATE:
-- ✅ Database schema aggiornato e sincronizzato
-- ✅ Nessun dato perso durante migrazione
-- ✅ Tutte le impostazioni esistenti caricate correttamente
-- ✅ Multi-tenant isolation verificata (userId filtering attivo)
-- ✅ App running su Replit con tutti i dati intatti
-
-#### 🚀 DEPLOYMENT:
-- ✅ Code pushed a GitHub (origin main)
-- ✅ Sliplane si sincronizzerà automaticamente da GitHub
-- ✅ Database PostgreSQL condiviso (Neon) tra entrambi gli ambienti
-- ⏳ Sincronizzazione Sliplane in corso...
-
----
-
-## Previous Changes (December 3, 2025)
-
-### ✅ FOOTER BUTTONS & GOOGLE CALENDAR SYNC ENDPOINT - DEPLOYMENT COMPLETE
-**Status**: All modifications pushed to Sliplane successfully!
-
-### ✅ TODAY'S WORK COMPLETED:
-
-**1. Fixed Footer Buttons (WhatsApp Center Page & All Pages):**
-   - ✅ Pulsante "Supporto" → mailto:support@gestionale-appuntamenti.it
-   - ✅ Pulsante "Privacy Policy" → Navigate to `/privacy`
-   - ✅ Pulsante "Termini di Servizio" → Navigate to `/terms`
-   - ✅ File: `client/src/components/FooterOnly.tsx` - Added wouter navigation
-   - ✅ Deployed to Sliplane (now LIVE)
-
-**2. Added Google Calendar Sync Endpoint:**
-   - ✅ Created `POST /api/google-calendar/sync` endpoint in `server/simple-routes.ts`
-   - ✅ Imported `syncBidirectional()` function from `server/services/googleCalendarSync.ts`
-   - ✅ Endpoint triggers full bidirectional sync (import + export)
-   - ✅ Proper auth check and error handling
-   - ✅ Deployed to Sliplane (now LIVE)
-
-**3. Google Calendar Sync Implementation Summary:**
-   - ✅ `importGoogleCalendarEvents()` - Imports events from Google Calendar (7-day window)
-   - ✅ `syncBidirectional()` - Main sync function: imports Google events + exports new appointments
-   - ✅ Conflict detection - Tracks sync status, prevents duplicates
-   - ✅ Multi-tenant support - Each user syncs separately with their own OAuth token
-   - ✅ Database tracking - `googleCalendarEvents` table tracks sync status per appointment
-
-**4. Deployment Status:**
-   - ✅ Development: Replit - PostgreSQL (synchronized)
-   - ✅ Production: Sliplane - PostgreSQL (synchronized)
-   - ✅ Git commits: Pushed to Sliplane production successfully
-
-### ⏳ GOOGLE APP VERIFICATION STATUS:
-**Current state**: Awaiting final Google approval
-- ✅ 2/3 requirements met: Privacy policy, Branding guidelines
-- ✅ Home page updated with privacy link
-- ✅ All technical implementation complete and tested
-- ⏳ Google approval expected within 24-48 hours
-- Once approved: Full OAuth testing can begin
-
-### ✅ DATABASE SYNCHRONIZED - Replit ↔ Sliplane:
-- PostgreSQL Neon-backed database shared between both environments
-- All data synchronized in real-time
-- Google Calendar columns present:
-  - `googleAuthToken` - OAuth access token
-  - `googleCalendarEnabled` - Sync toggle state
-  - `googleCalendarId` - User's calendar ID
-  - `lastGoogleSyncAt` - Last sync timestamp
-
-### ✅ Completed Features (All Previous Sessions):
-- Trial expiration email system
-- Three plan-specific purchase buttons
-- Complete subscription redirect flow
-- Google Play Store account setup
-- Multi-professional + multi-room appointment scheduling
-- WhatsApp and email reminders (24h before)
-- Promotional packages with session tracking
-- Staff management and referral system
-- Commission tracking and payout system
-- Multi-language support (9 languages)
-- Privacy Policy page (public route)
-- Google Search Console verification
-- Google OAuth 2.0 setup
-
-### 📋 NEXT STEPS - When Google Approves:
-
-1. **Test Authorization Flow:**
-   - Navigate to `/pro-features` → "Sincronizza Google Calendar"
-   - Enter Google email
-   - Verify OAuth popup (no "app not verified" warning)
-   - Complete authorization
-
-2. **Test Appointment Sync:**
-   - Create appointment in gestionale
-   - Verify appears in Google Calendar automatically
-   - Test manual sync with POST `/api/google-calendar/sync`
-
-3. **Test Conflict Handling:**
-   - Create same event in both systems
-   - Verify no duplicates created
-   - Check sync status in database
-
-4. **Deploy to PWABuilder:**
-   - Generate TWA package
-   - Submit to Google Play Store
-   - Test on Android devices
-
-### 📍 Key URLs:
-- Development: `https://wife-scheduler-zambelliandrea1.replit.app`
-- Production: `https://gestionale-appuntamenti.sliplane.app`
-- Privacy Policy: `/privacy` (both environments)
-- Pro Features: `/pro-features` or `/pro`
-- Google Calendar Setup: `/google-calendar` (PRO users only)
-
-### 🔗 API Endpoints:
-- `GET /api/google-calendar/status` - Check sync status
-- `POST /api/google-calendar/sync` - Trigger manual sync
-- `GET /api/google-auth/status` - Check OAuth status
-- `POST /api/google-auth/callback` - OAuth callback (auto)
+This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines medical practice operations. It provides comprehensive features for patient, appointment, and staff management, QR code access, billing, multi-language support, and a staff referral and commission system. The system enhances patient engagement and offers efficient administrative tools, serving as a multi-platform solution for modern medical practice management with a focus on business growth through PRO and BUSINESS plans.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language
@@ -206,47 +13,46 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 ## System Architecture
 
 ### UI/UX Decisions
-- Modern card-based layouts for administrative dashboards
-- Color-coded status indicators for clarity
-- Fully responsive design across all components
-- Inline editing capabilities where applicable
-- Clear "Pro Features" section with feature gates
-- Simplified setup pages with minimal steps
-- Functional footer with proper navigation
+- Modern card-based layouts for administrative dashboards.
+- Color-coded status indicators and inline editing.
+- Fully responsive design.
+- Clear "Pro Features" section with feature gates.
+- Simplified setup pages with minimal steps.
+- Functional footer with proper navigation.
 
 ### Technical Implementations
-- **Frontend**: React 18 with TypeScript, Vite, Tailwind CSS with Radix UI, React Query for state management, Wouter for routing, React Hook Form with Zod for forms, PWA capabilities
-- **Backend**: Node.js with Express.js, PostgreSQL with Drizzle ORM, session-based authentication with role-based access control
-- **Database**: PostgreSQL (Neon-backed) shared between Replit dev and Sliplane production
-- **Multi-Tenant Security**: Strict data isolation using `ownerId/userId` filtering
-- **Google Calendar Integration**: OAuth 2.0 with dynamic domain support, bidirectional sync capability, per-user authorization, conflict detection
-- **Multi-Room Booking System**: Intelligent appointment scheduling with automatic assignment
-- **Promotional Packages System**: PRO feature enabling creation and sale of multi-treatment packages
-- **Trial Blocking System**: Automatic access restriction for expired trials
-- **Referral Commission System**: 25% commissions for staff referrals
+- **Frontend**: React 18 with TypeScript, Vite, Tailwind CSS with Radix UI, React Query, Wouter for routing, React Hook Form with Zod, PWA capabilities.
+- **Backend**: Node.js with Express.js, PostgreSQL with Drizzle ORM, session-based authentication with role-based access control.
+- **Database**: PostgreSQL (Neon-backed) shared between Replit development and Sliplane production.
+- **Multi-Tenant Security**: Strict data isolation using `ownerId/userId` filtering.
+- **Google Calendar Integration**: OAuth 2.0 with dynamic domain support, bidirectional sync, per-user authorization, conflict detection.
+- **Multi-Room Booking System**: Intelligent appointment scheduling with automatic assignment.
+- **Promotional Packages System**: PRO feature for creating and selling multi-treatment packages.
+- **Trial Blocking System**: Automatic access restriction for expired trials.
+- **Referral Commission System**: 25% commissions for staff referrals.
+- **Data Persistence**: All critical data migrated from JSON to PostgreSQL, ensuring persistence and multi-tenant isolation.
+- **Subscription Plans**: Implemented with clear feature gating for BASE, PRO, BUSINESS, TRIAL, and PASSEPARTOUT plans.
 
 ### Feature Specifications
-- **User Management**: Multi-tier authentication and role-based access
-- **Client Management**: Patient database, QR code generation, access tracking
-- **Appointment System**: Calendar scheduling, multi-room support, staff preferences, email/WhatsApp notifications, Google Calendar sync (PRO)
-- **Billing & Payments**: Multiple payment methods, subscription plans, invoice generation, referral commissions
-- **Multi-language Support**: Full internationalization for 9 languages
-- **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support, bidirectional sync
-- **Database Synchronization**: Real-time sync between development and production
+- **User Management**: Multi-tier authentication and role-based access.
+- **Client Management**: Patient database, QR code generation, access tracking.
+- **Appointment System**: Calendar scheduling, multi-room support, staff preferences, email/WhatsApp notifications, Google Calendar sync (PRO).
+- **Billing & Payments**: Multiple payment methods, subscription plans, invoice generation, referral commissions.
+- **Multi-language Support**: Full internationalization for 9 languages.
+- **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support, bidirectional sync.
+- **Database Synchronization**: Real-time sync between development and production environments.
 
 ### Deployment Strategy
-- **Development**: Replit (`https://wife-scheduler-zambelliandrea1.replit.app`)
-- **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`)
-- **Database**: Shared PostgreSQL (both environments access same database)
-- **Build command**: `npm run build`
-- **Push command**: `git push sliplane main`
+- **Development**: Replit (`https://wife-scheduler-zambelliandrea1.replit.app`).
+- **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`).
+- **Database**: Shared PostgreSQL instance.
+- **Build command**: `npm run build`.
+- **Push command**: `git push sliplane main`.
 
 ## External Dependencies
 
 ### Database
 - PostgreSQL (Neon-backed)
-- Drizzle ORM
-- Shared between Replit and Sliplane
 
 ### Email Services
 - SMTP
@@ -254,20 +60,20 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 - SendGrid
 
 ### Payment Services
-- Stripe (live keys configured)
+- Stripe
 - PayPal SDK
 
 ### Cloud Services
 - Google OAuth 2.0 (Calendar sync)
 - Google Calendar API
 - Google Gmail API
-- Google Search Console (domain verification)
+- Google Search Console
 
 ### Environment Variables
-- `PRODUCTION_DOMAIN` - Dynamic domain for OAuth redirect URIs
-- `ENCRYPTION_KEY` - AES-256-GCM encryption for SMTP passwords
-- `VITE_STRIPE_PUBLIC_KEY` - Stripe live public key
-- `STRIPE_SECRET_KEY` - Stripe live secret key
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `DATABASE_URL` - PostgreSQL connection string (shared)
+- `PRODUCTION_DOMAIN`
+- `ENCRYPTION_KEY`
+- `VITE_STRIPE_PUBLIC_KEY`
+- `STRIPE_SECRET_KEY`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `DATABASE_URL`
