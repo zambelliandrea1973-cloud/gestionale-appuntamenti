@@ -46,23 +46,32 @@ export default function Calendar() {
   
   useEffect(() => {
     // Esegui sync solo una volta all'apertura del calendario (evita loop)
-    if (autoSyncExecuted.current) return;
+    console.log('📅 [CALENDAR] useEffect avviato, autoSyncExecuted:', autoSyncExecuted.current);
+    if (autoSyncExecuted.current) {
+      console.log('📅 [CALENDAR] Sync già eseguita, skip');
+      return;
+    }
     
     const performAutoSync = async () => {
+      console.log('📅 [CALENDAR] performAutoSync chiamata...');
       try {
         // Verifica se l'utente ha Google Calendar abilitato
         const response = await fetch('/api/google-auth/status', { credentials: 'include' });
+        console.log('📅 [CALENDAR] Risposta google-auth/status:', response.status);
         if (response.ok) {
           const data = await response.json();
+          console.log('📅 [CALENDAR] Dati google-auth/status:', data);
           // L'endpoint ritorna 'authorized' (non 'connected')
           if (data.authorized && data.calendarEnabled) {
             console.log('🔄 [AUTO-SYNC] Google Calendar connesso e abilitato, avvio sincronizzazione automatica...');
             autoSyncExecuted.current = true;
             silentSync.mutate();
+          } else {
+            console.log('📅 [CALENDAR] Condizioni non soddisfatte - authorized:', data.authorized, 'calendarEnabled:', data.calendarEnabled);
           }
         }
-      } catch {
-        // Google Calendar non configurato
+      } catch (err) {
+        console.log('📅 [CALENDAR] Errore:', err);
       }
     };
     
