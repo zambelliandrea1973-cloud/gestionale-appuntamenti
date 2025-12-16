@@ -706,7 +706,9 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           // IMPORTANTE: NON aggiornare eventi IMPORTATI da Google Calendar
           // Questi eventi sono gestiti dall'utente direttamente su Google
           // Aggiornare li riscriverebbe con titoli errati ("Evento Google Calendar...")
-          if (appt.importedFromGoogle) {
+          console.log(`🔍 [SYNC DEBUG] Appuntamento ${appt.id}: importedFromGoogle = ${appt.importedFromGoogle} (type: ${typeof appt.importedFromGoogle})`);
+          if (appt.importedFromGoogle === true || appt.importedFromGoogle === 't') {
+            console.log(`⏭️ [SYNC] Skip update per appuntamento ${appt.id} - importato da Google Calendar`);
             continue;
           }
           
