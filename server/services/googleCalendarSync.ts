@@ -50,7 +50,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
     
-    console.log(`📅 [IMPORT] Range temporale: ${thirtyDaysAgo.toISOString().split('T')[0]} - ${oneYearAhead.toISOString().split('T')[0]}`);
     
     // NUOVO: Ottieni TUTTI i calendari dell'utente (primario + secondari)
     const calendarListResponse = await calendar.calendarList.list();
@@ -60,11 +59,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const accessibleCalendars = allCalendars.filter(cal => 
       cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
     );
-    
-    console.log(`📋 [IMPORT] Trovati ${accessibleCalendars.length} calendari accessibili:`);
-    accessibleCalendars.forEach(cal => {
-      console.log(`   - ${cal.summary} (${cal.id}) [${cal.accessRole}]`);
-    });
     
     // PAGINAZIONE: Raccogli TUTTI gli eventi DA TUTTI I CALENDARI
     const MAX_PAGES = 100; // Protezione contro loop infiniti per calendario
@@ -82,7 +76,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       let prevPageToken: string | undefined = undefined;
       let pageCount = 0;
       
-      console.log(`📅 [IMPORT] Scansione calendario: ${cal.summary}`);
       
       do {
         try {
@@ -122,29 +115,23 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         }
       } while (pageToken);
       
-      console.log(`   ✓ ${cal.summary}: ${pageCount} pagine processate`);
     }
 
     if (allEvents.length === 0) {
-      console.log('📭 Nessun evento da importare da Google Calendar');
       return result;
     }
 
-    console.log(`📊 [IMPORT] Trovati ${allEvents.length} eventi totali da ${accessibleCalendars.length} calendari`);
 
     // Processa ogni evento Google
     for (const googleEvent of allEvents) {
       // Log OGNI evento per debug
-      console.log(`🔎 [IMPORT] Evento: "${googleEvent.summary || 'senza titolo'}" - start: ${JSON.stringify(googleEvent.start)}`);
       
       if (!googleEvent.id) {
-        console.log(`⚠️ [IMPORT] Evento saltato: nessun ID`);
         continue;
       }
       
       // GESTIONE EVENTI CANCELLATI: Se l'evento è stato cancellato su Google, elimina l'appuntamento locale
       if (googleEvent.status === 'cancelled') {
-        console.log(`🗑️ [IMPORT] Evento ${googleEvent.id} cancellato su Google - verifico se eliminare appuntamento locale...`);
         
         try {
           // Cerca nella tabella tracking
@@ -164,7 +151,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             await db.delete(appointments)
               .where(eq(appointments.id, appointmentId));
             
-            console.log(`✅ [IMPORT] Appuntamento ${appointmentId} eliminato (evento cancellato su Google)`);
             result.imported++; // Conta come azione eseguita
           } else {
             // Cerca anche direttamente nella tabella appointments
@@ -177,10 +163,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               await db.delete(appointments)
                 .where(eq(appointments.id, directAppointment[0].id));
               
-              console.log(`✅ [IMPORT] Appuntamento ${directAppointment[0].id} eliminato (evento cancellato su Google)`);
               result.imported++;
             } else {
-              console.log(`ℹ️ [IMPORT] Evento cancellato ${googleEvent.id} non ha appuntamento collegato - skip`);
             }
           }
         } catch (deleteError) {
@@ -192,7 +176,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
       
       if (!googleEvent.start?.dateTime) {
-        console.log(`⚠️ [IMPORT] Evento "${googleEvent.summary}" saltato: è un evento all-day (senza orario specifico)`);
         continue;
       }
       
@@ -204,7 +187,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         
         if (existing.length > 0) {
           // Evento già tracciato - AGGIORNA l'appuntamento con i dati da Google
-          console.log(`🔄 Evento ${googleEvent.id} già tracciato - verifico aggiornamenti da Google...`);
           
           // Recupera l'appuntamento collegato
           const linkedAppointment = await db.select()
@@ -241,7 +223,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                                    currentAppt.endTime !== newEndTime;
             
             if (hasTimeChanges) {
-              console.log(`📝 Verifica aggiornamento appuntamento ${currentAppt.id} da Google: ${currentAppt.date} ${currentAppt.startTime} -> ${newDate} ${newStartTime}`);
               
               // CONTROLLO CONFLITTI: verifica che il nuovo slot non sia già occupato
               const conflictCheck = await db.select()
@@ -257,7 +238,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               const hasConflict = conflictCheck.some(a => a.id !== currentAppt.id);
               
               if (hasConflict) {
-                console.log(`⚠️ Conflitto rilevato! Slot ${newDate} ${newStartTime} già occupato. Aggiornamento annullato.`);
                 result.errors.push(`Conflitto orario per evento ${googleEvent.id}: slot ${newDate} ${newStartTime} già occupato`);
                 
                 // PERSISTI stato conflitto nel database per visibilità UI
@@ -284,10 +264,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                   .where(eq(googleCalendarEvents.id, existing[0].id));
                 
                 result.imported++; // Conta come "aggiornato"
-                console.log(`✅ Appuntamento ${currentAppt.id} aggiornato da Google (data/ora)`);
               }
             } else {
-              console.log(`✓ Appuntamento ${currentAppt.id} già sincronizzato, nessuna modifica`);
             }
           }
           continue;
@@ -302,7 +280,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           ));
         
         if (existingAppointment.length > 0) {
-          console.log(`✓ Evento ${googleEvent.id} già presente come appuntamento`);
           continue;
         }
         
@@ -330,7 +307,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         const eventStartTime = startParts[1].substring(0, 5); // "09:00"
         const eventEndTime = endParts[1].substring(0, 5); // "10:00"
         
-        console.log(`🕐 [TZ DEBUG] Google datetime: ${googleStartDateTime} -> Italy: ${eventDate} ${eventStartTime}`);
         
         const duplicateCheck = await db.select()
           .from(appointments)
@@ -341,11 +317,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           ));
         
         if (duplicateCheck.length > 0) {
-          console.log(`✓ Evento ${googleEvent.id} saltato - appuntamento già presente per ${eventDate} ${eventStartTime}`);
           continue;
         }
         
-        console.log(`📅 [GOOGLE IMPORT] Evento: ${googleEvent.summary} - Data: ${eventDate}, Ora: ${eventStartTime}-${eventEndTime}`);
         
         // Cerca cliente basato su email o nome nell'evento
         let clientId: number | null = null;
@@ -390,13 +364,11 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             
             if (newClient.length > 0) {
               clientId = newClient[0].id;
-              console.log(`📝 Creato cliente placeholder per eventi Google: ${clientId}`);
             }
           }
         }
 
         if (!clientId) {
-          console.log(`⚠️ Impossibile creare cliente per evento ${googleEvent.id}`);
           continue;
         }
 
@@ -427,16 +399,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           
           if (newService.length > 0) {
             serviceId = newService[0].id;
-            console.log(`📝 Creato servizio "Promemoria Google Calendar" (ID: ${serviceId})`);
           } else {
             // Fallback a servizio default se creazione fallisce
             const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
             serviceId = defaultService.length > 0 ? defaultService[0].id : 1;
-            console.log(`⚠️ Fallback a servizio default: ${serviceId}`);
           }
         }
         
-        console.log(`📋 Evento "${eventTitle}" -> Servizio "Promemoria Google Calendar" (ID: ${serviceId})`)
 
         // Crea l'appuntamento usando storage per rispettare lo schema
         const newAppointmentData = {
@@ -477,7 +446,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           });
           
           result.imported++;
-          console.log(`✅ Evento importato: ${googleEvent.summary} (${eventDate} ${eventStartTime}) [da: ${sourceCalendarName}]`);
         }
       } catch (error) {
         result.errors.push(`Errore importazione evento ${googleEvent.id}: ${String(error)}`);
@@ -508,38 +476,31 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
   };
 
   try {
-    console.log(`🔄 Sincronizzazione bidirezionale per utente ${userId} con timeZone: ${timeZone}`);
     
     // 1. IMPORTA eventi da Google Calendar
-    console.log(`📥 [SYNC] Step 1: Importazione eventi da Google Calendar...`);
     try {
       const importResult = await importGoogleCalendarEvents(userId, timeZone);
       details.imported = importResult.imported;
       if (importResult.errors.length > 0) {
         details.errors.push(...importResult.errors);
       }
-      console.log(`📥 [SYNC] Importati ${importResult.imported} eventi da Google`);
     } catch (importError) {
       console.error(`❌ [SYNC] Errore importazione:`, importError);
       details.errors.push(`Errore importazione: ${String(importError)}`);
     }
 
     // 2. ESPORTA appuntamenti nuovi verso Google
-    console.log(`📤 [SYNC] Step 2: Query appuntamenti da esportare...`);
     let newAppointments: any[] = [];
     try {
-      console.log(`📤 [SYNC] Eseguendo query per userId=${userId}...`);
       // Query SEMPLICE: seleziona solo appuntamenti dell'utente
       const allAppointments = await db.select()
         .from(appointments)
         .where(eq(appointments.userId, userId));
       
-      console.log(`📤 [SYNC] Query completata, trovati ${allAppointments.length} appuntamenti totali`);
       
       // Filtra manualmente gli appuntamenti non sincronizzati
       // synced dovrebbe essere false o NULL per gli appuntamenti nuovi
       newAppointments = allAppointments.filter(a => !a.synced);
-      console.log(`📤 [SYNC] ${newAppointments.length} da sincronizzare`);
     } catch (queryError) {
       console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
       details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
@@ -548,7 +509,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
 
     for (const appointment of newAppointments) {
       try {
-        console.log(`📤 [SYNC] Esportazione appuntamento ${appointment.id}...`);
         
         // CONTROLLO DUPLICATI: verifica se l'appuntamento è già stato esportato
         const existingExport = await db.select()
@@ -557,7 +517,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           .limit(1);
         
         if (existingExport.length > 0) {
-          console.log(`⏭️ [SYNC] Appuntamento ${appointment.id} già esportato (evento: ${existingExport[0].googleEventId}), skip`);
           // Assicurati che il flag synced sia impostato
           await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
           continue;
@@ -566,7 +525,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         // Crea direttamente l'evento in Google Calendar usando il token dell'utente
         const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
         if (!user.length || !user[0].googleAuthToken) {
-          console.log(`❌ [SYNC] Token Google non trovato per utente ${userId}`);
           continue;
         }
         
@@ -588,7 +546,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           : [];
         
         if (!clientData.length) {
-          console.log(`❌ [SYNC] Cliente non trovato per appuntamento ${appointment.id}`);
           continue;
         }
         
@@ -646,7 +603,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         const startDateTimeStr = utcStartDateTime.toISOString(); // "2025-12-14T08:00:00.000Z"
         const endDateTimeStr = utcEndDateTime.toISOString();   // "2025-12-14T09:00:00.000Z"
         
-        console.log(`📅 [SYNC] Esportazione evento: ${appointment.date}T${startTime} (${timeZone}, offset: ${offsetMinutes}min) -> UTC: ${startDateTimeStr}`);
         
         const summary = service 
           ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -677,7 +633,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         });
         
         const googleEventId = response.data.id;
-        console.log(`✅ [SYNC] Evento creato in Google Calendar (${targetCalendarId}): ${response.data.htmlLink}`);
         
         if (googleEventId) {
           // Registra il collegamento (usa upsert per evitare duplicati)
@@ -701,7 +656,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
           
           details.exported++;
-          console.log(`📤 Esportato appuntamento ${appointment.id} a Google Calendar`);
         }
       } catch (error) {
         console.error(`❌ [SYNC] Errore esportazione appuntamento ${appointment.id}:`, error);
@@ -710,7 +664,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
     }
 
     // 3. PRIMA rileva eventi eliminati su Google (per evitare loop di ricreazione)
-    console.log(`🗑️ [SYNC] Step 3: Rilevamento eventi eliminati su Google (PRIMA degli aggiornamenti)...`);
     let deleted = 0;
     try {
       const deleteResult = await syncDeletedEvents(userId);
@@ -718,14 +671,12 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       if (deleteResult.errors.length > 0) {
         details.errors.push(...deleteResult.errors);
       }
-      console.log(`🗑️ [SYNC] Eliminati ${deleted} appuntamenti orfani (evento Google rimosso)`);
     } catch (deleteError) {
       console.error(`❌ [SYNC] Errore rilevamento eliminazioni:`, deleteError);
       details.errors.push(`Errore rilevamento eliminazioni: ${String(deleteError)}`);
     }
 
     // 4. AGGIORNA eventi Google con modifiche da Replit (DOPO aver gestito le eliminazioni)
-    console.log(`🔄 [SYNC] Step 4: Aggiornamento eventi Google con modifiche Replit...`);
     let updated = 0;
     try {
       // Ottieni tutti gli appuntamenti sincronizzati (includi calendarId per usare il calendario corretto)
@@ -755,7 +706,6 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           // Questi eventi sono gestiti dall'utente direttamente su Google
           // Aggiornare li riscriverebbe con titoli errati ("Evento Google Calendar...")
           if (appt.importedFromGoogle) {
-            console.log(`⏭️ [SYNC] Skip aggiornamento evento importato ${appt.id} (gestito su Google)`);
             continue;
           }
           
@@ -847,31 +797,25 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           
           // Se evento non esiste più su Google (404/410), elimina appuntamento locale
           if (errorCode === 404 || errorCode === 410) {
-            console.log(`🗑️ [SYNC] Evento ${syncedAppt.googleEventId.substring(0, 20)}... non esiste più (${errorCode}), elimino appuntamento ${syncedAppt.appointmentId}`);
             try {
               await db.delete(appointments).where(eq(appointments.id, syncedAppt.appointmentId));
               await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, syncedAppt.mappingId));
               deleted++;
-              console.log(`✅ [SYNC] Appuntamento ${syncedAppt.appointmentId} eliminato (evento Google rimosso)`);
             } catch (delError) {
               console.error(`❌ [SYNC] Errore eliminazione appuntamento ${syncedAppt.appointmentId}:`, delError);
             }
           } else {
-            console.log(`⚠️ [SYNC] Errore aggiornamento evento ${syncedAppt.googleEventId}: ${String(updateError)}`);
           }
         }
       }
-      console.log(`🔄 [SYNC] Aggiornati ${updated} eventi su Google`);
     } catch (step4Error) {
       console.error(`❌ [SYNC] Errore Step 4:`, step4Error);
     }
 
     // 5. Aggiorna timestamp sync
-    console.log(`📝 [SYNC] Step 5: Aggiornamento timestamp...`);
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
 
     const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati, ${deleted} eliminati`;
-    console.log(`✅ ${message}`);
     
     return { success: true, message, details };
   } catch (error) {
@@ -925,11 +869,9 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     .where(eq(appointments.userId, userId));
     
     if (syncedAppointments.length === 0) {
-      console.log(`🔍 [SYNC DELETE] Utente ${userId}: Nessun appuntamento sincronizzato da verificare`);
       return result;
     }
     
-    console.log(`🔍 [SYNC DELETE] Utente ${userId}: Verifica diretta di ${syncedAppointments.length} eventi...`);
     
     // NUOVO APPROCCIO: Verifica OGNI evento direttamente con GET
     // Questo intercetta sia eventi cancellati che eventi non più esistenti
@@ -948,16 +890,13 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
         // Log dettagliato per debug
         const eventStatus = eventResponse.data.status;
         const eventSummary = eventResponse.data.summary || 'no-summary';
-        console.log(`🔍 [SYNC DELETE] Evento ${synced.appointmentId}: status=${eventStatus}, summary=${eventSummary.substring(0, 30)}`);
         
         // Se l'evento esiste, controlla lo status
         if (eventResponse.data.status === 'cancelled') {
-          console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... CANCELLATO, elimino appuntamento ${synced.appointmentId}`);
           
           await db.delete(appointments).where(eq(appointments.id, synced.appointmentId));
           await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
           result.deleted++;
-          console.log(`✅ [SYNC DELETE] Appuntamento ${synced.appointmentId} eliminato (evento cancellato)`);
         }
         // Se status è 'confirmed' o altro, l'evento esiste ancora - non fare nulla
         
@@ -967,24 +906,20 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
         // Errore 404 = evento non esiste più su Google
         // Errore 410 = evento ricorrente cancellato (Gone)
         if (errorCode === 404 || errorCode === 410) {
-          console.log(`🗑️ [SYNC DELETE] Evento ${synced.googleEventId.substring(0, 30)}... NON ESISTE (${errorCode}), elimino appuntamento ${synced.appointmentId}`);
           
           try {
             await db.delete(appointments).where(eq(appointments.id, synced.appointmentId));
             await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
             result.deleted++;
-            console.log(`✅ [SYNC DELETE] Appuntamento ${synced.appointmentId} eliminato (errore ${errorCode})`);
           } catch (deleteError) {
             result.errors.push(`Errore eliminazione appuntamento ${synced.appointmentId}: ${String(deleteError)}`);
           }
         } else {
           // Altri errori - log dettagliato per debug
-          console.log(`⚠️ [SYNC DELETE] Errore verifica evento ${synced.googleEventId.substring(0, 30)}...: code=${errorCode}, msg=${String(getError)}`);
         }
       }
     }
     
-    console.log(`📊 [SYNC DELETE] Completato: ${result.deleted} appuntamenti eliminati`);
     return result;
   } catch (error) {
     result.errors.push(`Errore generale sync delete: ${String(error)}`);

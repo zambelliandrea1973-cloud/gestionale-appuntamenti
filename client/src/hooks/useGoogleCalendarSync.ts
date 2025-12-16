@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
 
 interface UseSyncGoogleCalendarOptions {
-  showToast?: boolean; // Se false, sincronizza silenziosamente in background
+  showToast?: boolean;
 }
 
 export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}) {
@@ -14,9 +14,6 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
 
   return useMutation({
     mutationFn: async () => {
-      console.log('🔄 [HOOK] mutationFn chiamata - invio richiesta a sync-now...');
-      
-      // IDENTICO alla pagina Pro: stesso endpoint, stesse headers
       const response = await fetch('/api/google-calendar/sync-now', {
         method: 'POST',
         headers: {
@@ -26,29 +23,20 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
         credentials: 'include',
       });
       
-      console.log('🔄 [HOOK] Response status:', response.status);
-      
-      // IDENTICO alla pagina Pro: verifica content-type per sessioni scadute
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        console.error('🔴 [HOOK] Risposta non JSON:', contentType);
         throw new Error('Sessione scaduta. Effettua nuovamente il login.');
       }
       
       const data = await response.json();
-      console.log('🔄 [HOOK] Response data:', data);
       
-      // IDENTICO alla pagina Pro: verifica success nella risposta
       if (!response.ok || !data.success) {
-        const errorMsg = data.error || data.message || 'Errore durante la sincronizzazione';
-        console.error('🔴 [HOOK] Errore sync:', errorMsg);
-        throw new Error(errorMsg);
+        throw new Error(data.error || data.message || 'Errore durante la sincronizzazione');
       }
       
       return data;
     },
     onSuccess: (data: any) => {
-      // Estrai i valori da details (struttura corretta dal backend)
       const imported = data.details?.imported || 0;
       const deleted = data.details?.deleted || 0;
       const exported = data.details?.exported || 0;
@@ -59,13 +47,8 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
           description: `📥 Importati: ${imported} | 📤 Esportati: ${exported} | 🗑️ Eliminati: ${deleted}`,
           variant: "default",
         });
-      } else {
-        // Log silenzioso per sincronizzazione in background
-        console.log(`🔄 [AUTO-SYNC] Background: Importati ${imported}, Esportati ${exported}, Eliminati ${deleted}`);
       }
       
-      // Invalida TUTTI i dati degli appuntamenti per forzare il refresh
-      // Usa refetchType: 'all' per assicurare il refetch immediato
       queryClient.invalidateQueries({ 
         queryKey: ["/api/appointments"],
         refetchType: 'all'
@@ -74,7 +57,6 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
         queryKey: ["/api/appointments/range"],
         refetchType: 'all'
       });
-      // Invalida anche le query per data specifica (usate dalla pagina Calendar)
       queryClient.invalidateQueries({ 
         predicate: (query) => {
           const key = query.queryKey[0];
@@ -82,8 +64,6 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
         },
         refetchType: 'all'
       });
-      
-      console.log('🔄 [HOOK] Cache invalidata - forzato refresh appuntamenti');
     },
     onError: (error: any) => {
       if (showToast) {
@@ -92,9 +72,6 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
           description: error.message || "Impossibile sincronizzare con Google Calendar",
           variant: "destructive",
         });
-      } else {
-        // Log silenzioso per sincronizzazione in background
-        console.warn(`⚠️ [AUTO-SYNC] Errore in background:`, error);
       }
     },
   });

@@ -55,13 +55,12 @@ export default function Calendar() {
         if (response.ok) {
           const data = await response.json();
           if (data.connected && data.calendarEnabled) {
-            console.log('🔄 [AUTO-SYNC] Avvio sincronizzazione silenziosa all\'apertura del calendario...');
             autoSyncExecuted.current = true;
             silentSync.mutate();
           }
         }
-      } catch (error) {
-        console.log('🔄 [AUTO-SYNC] Google Calendar non configurato o errore check:', error);
+      } catch {
+        // Google Calendar non configurato
       }
     };
     

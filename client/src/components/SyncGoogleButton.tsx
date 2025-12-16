@@ -17,14 +17,9 @@ export function SyncGoogleButton({
   const mutation = useSyncGoogleCalendar();
   const { t } = useTranslation();
 
-  const handleClick = () => {
-    console.log('🔄 [SYNC BUTTON] Click rilevato! Avvio sincronizzazione...');
-    mutation.mutate();
-  };
-
   return (
     <Button
-      onClick={handleClick}
+      onClick={() => mutation.mutate()}
       disabled={mutation.isPending}
       variant={variant}
       size={size}

@@ -2073,7 +2073,6 @@ export function registerSimpleRoutes(app: Express): Server {
       try {
         const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
         if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
-          console.log(`🔄 [GOOGLE SYNC] Sincronizzazione appuntamento ${newAppointment.id} a Google Calendar...`);
           
           // Crea direttamente l'evento in Google Calendar usando il token dell'utente
           const tokens = JSON.parse(googleUser.googleAuthToken);
@@ -2101,7 +2100,6 @@ export function registerSimpleRoutes(app: Express): Server {
             const startDateTimeStr = `${newAppointment.date}T${startTime}`;
             const endDateTimeStr = `${newAppointment.date}T${endTime}`;
             
-            console.log(`📅 [GOOGLE SYNC] Creazione evento: ${startDateTimeStr} - ${endDateTimeStr} (Europe/Rome)`);
             
             const summary = serviceData 
               ? `${clientData.firstName} ${clientData.lastName} - ${serviceData.name}`
@@ -2143,7 +2141,6 @@ export function registerSimpleRoutes(app: Express): Server {
                 calendarId: 'primary'
               }).onConflictDoNothing();
               
-              console.log(`✅ [GOOGLE SYNC] Appuntamento ${newAppointment.id} sincronizzato: ${response.data.htmlLink}`);
             }
           }
         }
@@ -2282,7 +2279,6 @@ export function registerSimpleRoutes(app: Express): Server {
             .limit(1);
           
           if (eventMapping) {
-            console.log(`🔄 [GOOGLE SYNC] Aggiornamento evento ${eventMapping.googleEventId} in Google Calendar...`);
             
             const tokens = JSON.parse(googleUser.googleAuthToken);
             const oauth2Client = new google.auth.OAuth2(
@@ -2329,7 +2325,6 @@ export function registerSimpleRoutes(app: Express): Server {
                 .set({ lastSyncAt: new Date(), syncStatus: 'synced' })
                 .where(eq(googleCalendarEvents.appointmentId, appointmentId));
               
-              console.log(`✅ [GOOGLE SYNC] Evento aggiornato in Google Calendar`);
             }
           }
         }
@@ -2381,7 +2376,6 @@ export function registerSimpleRoutes(app: Express): Server {
               .limit(1);
             
             if (eventMapping) {
-              console.log(`🔄 [GOOGLE SYNC] Eliminazione evento ${eventMapping.googleEventId} da Google Calendar...`);
               
               const tokens = JSON.parse(googleUser.googleAuthToken);
               const oauth2Client = new google.auth.OAuth2(
@@ -2396,7 +2390,6 @@ export function registerSimpleRoutes(app: Express): Server {
               
               // Usa il calendarId salvato nel mapping (per eventi importati da calendari secondari)
               const targetCalendarId = eventMapping.calendarId || googleUser.googleCalendarId || 'primary';
-              console.log(`🗑️ [GOOGLE SYNC] Eliminazione da calendario: ${targetCalendarId}`);
               
               await calendar.events.delete({
                 calendarId: targetCalendarId,
@@ -2407,7 +2400,6 @@ export function registerSimpleRoutes(app: Express): Server {
               await db.delete(googleCalendarEvents)
                 .where(eq(googleCalendarEvents.appointmentId, appointmentId));
               
-              console.log(`✅ [GOOGLE SYNC] Evento eliminato da Google Calendar`);
             }
           }
         } catch (syncError) {
@@ -9654,18 +9646,15 @@ Studio Professionale`;
 
   // TEST ENDPOINT - Non richiede auth per debug
   app.get('/api/google-calendar/test-sync', (req, res) => {
-    console.log('✅ [TEST-SYNC] Endpoint raggiunto!');
     res.json({ success: true, message: 'Test endpoint funziona!' });
   });
 
   // DEBUG: Endpoint per testare sync senza autenticazione (SOLO DEV)
   app.get('/api/google-calendar/debug-sync/:userId', async (req, res) => {
     const userId = parseInt(req.params.userId);
-    console.log(`🔧 [DEBUG-SYNC] Avvio sync per utente ${userId}`);
     
     try {
       const result = await syncBidirectional(userId, 'Europe/Rome');
-      console.log(`🔧 [DEBUG-SYNC] Risultato:`, JSON.stringify(result));
       res.json(result);
     } catch (error) {
       console.error(`🔧 [DEBUG-SYNC] Errore:`, error);
@@ -9755,7 +9744,6 @@ Studio Professionale`;
 
   // Endpoint per sincronizzazione manuale Google Calendar
   app.post('/api/google-calendar/sync-now', async (req, res) => {
-    console.log('🔄 [SYNC-NOW] CHIAMATO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
     
     try {
       // Verifica autenticazione
@@ -9765,12 +9753,10 @@ Studio Professionale`;
       
       const userId = (req.user as any).id;
       const timeZone = req.body?.timeZone || 'Europe/Rome'; // Rileva fuso orario dal client o usa default
-      console.log(`🔄 [SYNC-NOW] Avvio sincronizzazione per utente ${userId} con timeZone: ${timeZone}`);
       
       // Chiama la vera funzione di sincronizzazione bidirezionale
       const result = await syncBidirectional(userId, timeZone);
       
-      console.log(`✅ [SYNC-NOW] Completato:`, result);
       res.json(result);
     } catch (error) {
       console.error('❌ [SYNC-NOW] Errore:', error);
@@ -9784,20 +9770,16 @@ Studio Professionale`;
 
   // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
   app.post('/api/google-calendar/sync', async (req, res) => {
-    console.log('🚀🚀🚀 [SYNC] ENDPOINT RAGGIUNTO! Auth:', req.isAuthenticated(), 'User:', (req.user as any)?.id);
     
     try {
       if (!req.isAuthenticated() || !req.user) {
-        console.log('❌ [SYNC] Utente non autenticato');
         return res.status(401).json({ success: false, message: 'Non autenticato' });
       }
       
       const userId = (req.user as any).id;
       const timeZone = req.body?.timeZone || 'Europe/Rome';
-      console.log(`🔄 [SYNC] Avvio sincronizzazione per utente ${userId}, timeZone: ${timeZone}`);
       
       const result = await syncBidirectional(userId, timeZone);
-      console.log(`✅ [SYNC] Completato:`, JSON.stringify(result));
       res.json(result);
     } catch (error) {
       console.error('❌ [SYNC] Errore:', error);

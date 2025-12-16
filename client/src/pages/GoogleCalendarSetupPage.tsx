@@ -161,27 +161,21 @@ export default function GoogleCalendarSetupPage() {
     setLastSyncResult(null);
     
     try {
-      console.log('🔄 [SYNC] Inizio sincronizzazione...');
       const response = await fetch('/api/google-calendar/sync-now', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
         },
-        credentials: 'include', // Importante: include cookies per autenticazione
+        credentials: 'include',
       });
       
-      console.log('🔄 [SYNC] Response status:', response.status);
-      
-      // Verifica se la risposta è JSON prima di parsarla
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        console.error('🔴 [SYNC] Risposta non JSON:', contentType);
         throw new Error('Sessione scaduta. Effettua nuovamente il login.');
       }
       
       const data = await response.json();
-      console.log('🔄 [SYNC] Response data:', data);
       
       if (response.ok && data.success) {
         setLastSyncResult({ success: true, message: data.message || 'Sincronizzazione completata!' });
@@ -202,7 +196,6 @@ export default function GoogleCalendarSetupPage() {
         });
       }
     } catch (error) {
-      console.error('🔴 [SYNC] Errore:', error);
       const errorMessage = error instanceof Error ? error.message : 'Errore di connessione';
       setLastSyncResult({ success: false, message: errorMessage });
       toast({
