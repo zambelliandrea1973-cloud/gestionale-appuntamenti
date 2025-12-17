@@ -471,6 +471,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             appointmentId: newAppointment[0].id,
             googleEventId: googleEvent.id,
             syncStatus: 'synced',
+            syncDirection: 'import', // Evento importato da Google
             calendarId: sourceCalendarId,
             lastSyncAt: new Date()
           }).onConflictDoUpdate({
@@ -478,6 +479,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             set: {
               googleEventId: googleEvent.id,
               syncStatus: 'synced',
+              syncDirection: 'import',
               lastSyncAt: new Date(),
               updatedAt: new Date()
             }
@@ -679,6 +681,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             appointmentId: appointment.id,
             googleEventId,
             syncStatus: 'synced',
+            syncDirection: 'export', // Evento esportato dall'app
             calendarId: targetCalendarId,
             lastSyncAt: new Date()
           }).onConflictDoUpdate({
@@ -686,6 +689,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             set: {
               googleEventId,
               syncStatus: 'synced',
+              syncDirection: 'export',
               lastSyncAt: new Date(),
               updatedAt: new Date()
             }

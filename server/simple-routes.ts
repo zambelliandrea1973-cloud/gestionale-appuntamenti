@@ -2360,6 +2360,21 @@ export function registerSimpleRoutes(app: Express): Server {
       // Prima ottieni l'appuntamento per la sync Google
       const existingAppointment = await storage.getAppointment(appointmentId);
       
+      // 🔄 VERIFICA SE È UN EVENTO IMPORTATO DA GOOGLE
+      const [eventMapping] = await db.select()
+        .from(googleCalendarEvents)
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId))
+        .limit(1);
+      
+      // Se è un evento importato da Google, blocca l'eliminazione
+      if (eventMapping && eventMapping.syncDirection === 'import') {
+        console.log(`🚫 [DELETE] Blocco eliminazione evento importato ${appointmentId}`);
+        return res.status(403).json({ 
+          message: "Questo evento è stato importato da Google Calendar e non può essere eliminato dall'app. Per eliminarlo, accedi direttamente a Google Calendar.",
+          isGoogleImport: true
+        });
+      }
+      
       // 🔄 USA POSTGRESQL: Elimina appuntamento dal database condiviso
       const deleted = await storage.deleteAppointment(appointmentId);
       
@@ -2370,18 +2385,11 @@ export function registerSimpleRoutes(app: Express): Server {
       
       console.log(`✅ [DELETE] Appuntamento ${appointmentId} eliminato da PostgreSQL per utente ${user.id}`);
       
-      // 🔄 GOOGLE CALENDAR SYNC: Elimina da Google Calendar se abilitato
-      if (existingAppointment) {
+      // 🔄 GOOGLE CALENDAR SYNC: Elimina da Google Calendar se abilitato (solo eventi esportati)
+      if (existingAppointment && eventMapping && eventMapping.syncDirection === 'export') {
         try {
           const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
           if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
-            // Cerca l'evento Google collegato
-            const [eventMapping] = await db.select()
-              .from(googleCalendarEvents)
-              .where(eq(googleCalendarEvents.appointmentId, appointmentId))
-              .limit(1);
-            
-            if (eventMapping) {
               
               const tokens = JSON.parse(googleUser.googleAuthToken);
               const oauth2Client = new google.auth.OAuth2(
@@ -2394,7 +2402,7 @@ export function registerSimpleRoutes(app: Express): Server {
               oauth2Client.setCredentials(tokens);
               const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
               
-              // Usa il calendarId salvato nel mapping (per eventi importati da calendari secondari)
+              // Usa il calendarId salvato nel mapping
               const targetCalendarId = eventMapping.calendarId || googleUser.googleCalendarId || 'primary';
               
               await calendar.events.delete({
@@ -2402,11 +2410,11 @@ export function registerSimpleRoutes(app: Express): Server {
                 eventId: eventMapping.googleEventId,
               });
               
+              console.log(`✅ [GOOGLE SYNC] Evento ${eventMapping.googleEventId} eliminato da Google Calendar`);
+              
               // Rimuovi il mapping
               await db.delete(googleCalendarEvents)
                 .where(eq(googleCalendarEvents.appointmentId, appointmentId));
-              
-            }
           }
         } catch (syncError) {
           console.error(`⚠️ [GOOGLE SYNC] Errore eliminazione da Google (non bloccante):`, syncError);
