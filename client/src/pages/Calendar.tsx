@@ -45,14 +45,23 @@ export default function Calendar() {
     let cancelled = false;
     
     const autoSync = async () => {
+      console.log('🔄 [AUTO-SYNC] Pagina calendario aperta, avvio sincronizzazione...');
       try {
         // Verifica se Google Calendar è abilitato
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
-        if (!statusRes.ok || cancelled) return;
+        if (!statusRes.ok || cancelled) {
+          console.log('🔄 [AUTO-SYNC] Status check fallito o cancellato');
+          return;
+        }
         
         const status = await statusRes.json();
-        if (!status.authorized || !status.calendarEnabled || cancelled) return;
+        console.log('🔄 [AUTO-SYNC] Status:', status);
+        if (!status.authorized || !status.calendarEnabled || cancelled) {
+          console.log('🔄 [AUTO-SYNC] Google Calendar non autorizzato o non abilitato');
+          return;
+        }
         
+        console.log('🔄 [AUTO-SYNC] Esecuzione sincronizzazione...');
         // Esegui la sincronizzazione direttamente (stesso endpoint del pulsante)
         const syncRes = await fetch('/api/google-calendar/sync-now', {
           method: 'POST',
@@ -61,11 +70,14 @@ export default function Calendar() {
         });
         
         if (syncRes.ok && !cancelled) {
+          console.log('🔄 [AUTO-SYNC] Sincronizzazione completata con successo!');
           // Aggiorna la cache degli appuntamenti
           queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+        } else {
+          console.log('🔄 [AUTO-SYNC] Sincronizzazione fallita:', syncRes.status);
         }
       } catch (e) {
-        // Silenzioso
+        console.log('🔄 [AUTO-SYNC] Errore:', e);
       }
     };
     
