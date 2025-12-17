@@ -141,8 +141,8 @@ export const schedulerService = {
   startGoogleCalendarImportScheduler(): void {
     const isVerbose = process.env.LOG_SCHEDULER !== 'false';
     
-    // Cron job che viene eseguito ogni 30 secondi
-    cron.schedule('*/30 * * * * *', async () => {
+    // Cron job che viene eseguito ogni 5 minuti
+    cron.schedule('*/5 * * * *', async () => {
       const now = new Date();
       if (isVerbose) console.log('🔄 [GOOGLE IMPORT] Esecuzione import automatico da Google Calendar:', now.toISOString());
       
@@ -198,7 +198,7 @@ export const schedulerService = {
       }
     });
     
-    if (isVerbose) console.log('🔄 Scheduler import Google Calendar avviato con successo (esecuzione ogni 30 secondi)');
+    console.log('🔄 Scheduler import Google Calendar avviato con successo (esecuzione ogni 5 minuti)');
   },
 };
 
@@ -210,8 +210,7 @@ export function initializeSchedulers(): void {
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
   schedulerService.startTrialNotificationScheduler();
-  // ❌ DISABILITATO: La sincronizzazione automatica ogni 30 secondi causa crash
-  // Usare sincronizzazione manuale (click utente) o endpoint /api/google-calendar/sync
+  // ⏸️ Sincronizzazione Google gestita on-demand all'apertura della pagina calendario
   // schedulerService.startGoogleCalendarImportScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('Tutti gli scheduler inizializzati');
 }
