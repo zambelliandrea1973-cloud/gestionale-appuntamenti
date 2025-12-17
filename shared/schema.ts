@@ -543,6 +543,7 @@ export const googleCalendarEvents = pgTable("google_calendar_events", {
   appointmentId: integer("appointment_id").notNull().unique(),
   googleEventId: text("google_event_id").notNull(),
   syncStatus: text("sync_status").default("synced"), // synced, pending, error
+  syncDirection: text("sync_direction").default("export"), // export = created in app, import = from Google
   lastSyncAt: timestamp("last_sync_at").defaultNow(),
   syncError: text("sync_error"),
   calendarId: text("calendar_id").default("primary"),
