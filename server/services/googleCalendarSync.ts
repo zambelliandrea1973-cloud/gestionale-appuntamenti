@@ -118,15 +118,20 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
 
     if (allEvents.length === 0) {
+      console.log(`📭 [IMPORT] Nessun evento trovato nei calendari`);
       return result;
     }
 
+    console.log(`📋 [IMPORT] Trovati ${allEvents.length} eventi totali da processare`);
 
     // Processa ogni evento Google
     for (const googleEvent of allEvents) {
       // Log OGNI evento per debug
+      const eventInfo = `"${googleEvent.summary || 'Senza titolo'}" (${googleEvent.start?.dateTime || googleEvent.start?.date || 'N/A'})`;
+      console.log(`🔍 [IMPORT] Processando evento: ${eventInfo} - ID: ${googleEvent.id?.substring(0, 20)}...`);
       
       if (!googleEvent.id) {
+        console.log(`⏭️ [IMPORT] Skip: evento senza ID`);
         continue;
       }
       
@@ -176,6 +181,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
       
       if (!googleEvent.start?.dateTime) {
+        console.log(`⏭️ [IMPORT] Skip: evento senza dateTime (all-day event?) - ${eventInfo}`);
         continue;
       }
       
@@ -186,6 +192,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
         
         if (existing.length > 0) {
+          console.log(`🔄 [IMPORT] Evento già tracciato, aggiornamento... - ${eventInfo}`);
           // Evento già tracciato - AGGIORNA l'appuntamento con i dati da Google
           
           // Recupera l'appuntamento collegato
@@ -280,6 +287,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           ));
         
         if (existingAppointment.length > 0) {
+          console.log(`⏭️ [IMPORT] Skip: appuntamento già esiste con stesso googleEventId - ${eventInfo}`);
           continue;
         }
         
@@ -317,8 +325,11 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           ));
         
         if (duplicateCheck.length > 0) {
+          console.log(`⏭️ [IMPORT] Skip: esiste già appuntamento a ${eventDate} ${eventStartTime} - ${eventInfo}`);
           continue;
         }
+        
+        console.log(`✅ [IMPORT] Creazione nuovo appuntamento: ${eventInfo}`)
         
         
         // Cerca cliente basato su email o nome nell'evento
