@@ -76,9 +76,25 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
     try {
       // IMPORTANTE: Non sincronizzare eventi IMPORTATI da Google Calendar!
       // Questi eventi hanno origine esterna e non devono essere modificati dal gestionale
-      if (appointment.importedFromGoogle) {
+      const importedValue = appointment.importedFromGoogle as any;
+      const isImported = importedValue === true || 
+                        String(importedValue) === 't' || 
+                        String(importedValue) === 'true' || 
+                        String(importedValue) === '1' ||
+                        Boolean(importedValue);
+      
+      if (isImported) {
         console.log(`⏭️ [AUTO-SYNC] Skip ${action} per appuntamento ${appointment.id} - importato da Google Calendar`);
         return;
+      }
+      
+      // PROTEZIONE AGGIUNTIVA: Non eliminare eventi dove non siamo l'organizzatore
+      if (action === 'delete') {
+        const apptData = appointment as any;
+        if (apptData.googleOrganizerSelf === false) {
+          console.log(`⏭️ [AUTO-SYNC] Skip delete per appuntamento ${appointment.id} - non siamo l'organizzatore`);
+          return;
+        }
       }
       
       console.log(`🔄 [AUTO-SYNC] ${action.toUpperCase()} appuntamento ${appointment.id} per utente ${appointment.userId}`);

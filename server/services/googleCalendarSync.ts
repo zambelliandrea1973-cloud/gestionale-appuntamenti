@@ -411,6 +411,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         }
         
 
+        // Determina se siamo l'organizzatore dell'evento
+        // Se l'organizzatore è diverso dal nostro account, siamo invitati
+        const isOrganizerSelf: boolean = !googleEvent.organizer?.email || 
+          googleEvent.organizer?.self === true ||
+          Boolean(user[0].email && googleEvent.organizer?.email === user[0].email);
+        
         // Crea l'appuntamento usando storage per rispettare lo schema
         const newAppointmentData = {
           userId,
@@ -419,10 +425,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           date: eventDate,
           startTime: eventStartTime,
           endTime: eventEndTime,
-          status: 'confirmed',
+          status: 'confirmed' as const,
           notes: `📅 ${eventTitle}${googleEvent.description ? '\n' + googleEvent.description : ''}`,
           importedFromGoogle: true,
-          googleEventId: googleEvent.id
+          googleEventId: googleEvent.id,
+          googleOrganizerSelf: isOrganizerSelf,
+          googleEventTitle: eventTitle // Salva il titolo originale per la visualizzazione
         };
         
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
@@ -710,12 +718,11 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           // IMPORTANTE: NON aggiornare eventi IMPORTATI da Google Calendar
           // Questi eventi sono gestiti dall'utente direttamente su Google
           // Aggiornare li riscriverebbe con titoli errati ("Evento Google Calendar...")
-          const importedValue = appt.importedFromGoogle;
+          const importedValue = appt.importedFromGoogle as any;
           const isImported = importedValue === true || 
-                            importedValue === 't' || 
-                            importedValue === 'true' || 
-                            importedValue === 1 ||
-                            (typeof importedValue === 'string' && importedValue.toLowerCase() === 'true') ||
+                            String(importedValue) === 't' || 
+                            String(importedValue) === 'true' || 
+                            String(importedValue) === '1' ||
                             Boolean(importedValue);
           
           console.log(`🔍 [SYNC DEBUG] Appuntamento ${appt.id}: importedFromGoogle = "${importedValue}" (type: ${typeof importedValue}) → isImported: ${isImported}`);

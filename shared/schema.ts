@@ -129,6 +129,8 @@ export const appointments = pgTable("appointments", {
   synced: boolean("synced").default(false), // Traccia se l'appuntamento è stato sincronizzato con Google Calendar
   importedFromGoogle: boolean("imported_from_google").default(false), // Indica se l'appuntamento è stato importato da Google Calendar
   googleEventId: text("google_event_id"), // ID dell'evento in Google Calendar
+  googleOrganizerSelf: boolean("google_organizer_self").default(true), // TRUE se siamo l'organizzatore, FALSE se siamo invitati (per eventi esterni)
+  googleEventTitle: text("google_event_title"), // Titolo originale dell'evento Google (per preservare il nome durante la visualizzazione)
   createdAt: timestamp("created_at").defaultNow(),
 });
 

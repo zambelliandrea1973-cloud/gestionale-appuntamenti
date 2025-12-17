@@ -620,7 +620,20 @@ export default function DayViewWithTimeSlots({
                 )}
                 
                 <div className="font-semibold text-xs sm:text-sm truncate text-gray-800 flex items-center">
-                  {appointment.client?.firstName} {appointment.client?.lastName}
+                  {/* Per eventi importati da Google Calendar, mostra il titolo originale invece del nome cliente generico */}
+                  {(() => {
+                    // Se è un evento Google con titolo originale salvato, usa quello
+                    if ((appointment as any).googleEventTitle) {
+                      return (appointment as any).googleEventTitle;
+                    }
+                    // Se il cliente è generico "Evento Google Calendar", estrai titolo dalle note
+                    if (appointment.client?.firstName === 'Evento' && appointment.client?.lastName === 'Google Calendar') {
+                      const notesMatch = appointment.notes?.match(/📅\s*([^\n]+)/);
+                      return notesMatch ? notesMatch[1].trim() : `${appointment.client.firstName} ${appointment.client.lastName}`;
+                    }
+                    // Altrimenti mostra nome cliente normale
+                    return `${appointment.client?.firstName} ${appointment.client?.lastName}`;
+                  })()}
                   {/* Aggiunge un indicatore di tocco quando l'appuntamento è espanso su mobile */}
                   {isExpanded && isMobile && (
                     <span className="ml-1 text-[9px] text-gray-500 bg-gray-100 px-1 rounded-full">
