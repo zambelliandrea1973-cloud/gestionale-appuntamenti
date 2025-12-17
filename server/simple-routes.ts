@@ -2360,15 +2360,21 @@ export function registerSimpleRoutes(app: Express): Server {
       // Prima ottieni l'appuntamento per la sync Google
       const existingAppointment = await storage.getAppointment(appointmentId);
       
-      // 🔄 VERIFICA SE È UN EVENTO IMPORTATO DA GOOGLE
+      // 🔄 VERIFICA SE È UN EVENTO IMPORTATO DA GOOGLE (doppio controllo)
       const [eventMapping] = await db.select()
         .from(googleCalendarEvents)
         .where(eq(googleCalendarEvents.appointmentId, appointmentId))
         .limit(1);
       
-      // Se è un evento importato da Google, blocca l'eliminazione
-      if (eventMapping && eventMapping.syncDirection === 'import') {
-        console.log(`🚫 [DELETE] Blocco eliminazione evento importato ${appointmentId}`);
+      // Blocca eliminazione se: 
+      // 1. Il mapping esiste con syncDirection='import', OPPURE
+      // 2. L'appuntamento ha importedFromGoogle=true (fallback se mapping manca o errato)
+      const isGoogleImport = 
+        (eventMapping && eventMapping.syncDirection === 'import') || 
+        (existingAppointment && existingAppointment.importedFromGoogle === true);
+      
+      if (isGoogleImport) {
+        console.log(`🚫 [DELETE] Blocco eliminazione evento importato ${appointmentId} (syncDir=${eventMapping?.syncDirection}, importedFlag=${existingAppointment?.importedFromGoogle})`);
         return res.status(403).json({ 
           message: "Questo evento è stato importato da Google Calendar e non può essere eliminato dall'app. Per eliminarlo, accedi direttamente a Google Calendar.",
           isGoogleImport: true
