@@ -113,7 +113,18 @@ export async function apiRequest(
         console.error(`Errore API (${res.status}):`, errorText);
       }
       
-      throw new Error(`Errore ${res.status}: ${errorText || res.statusText}`);
+      // Prova a parsare il JSON per estrarre il messaggio di errore
+      let errorMessage = errorText || res.statusText;
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.message) {
+          errorMessage = errorJson.message;
+        }
+      } catch {
+        // Se non è JSON, usa il testo così com'è
+      }
+      
+      throw new Error(errorMessage);
     }
     
     // Cloniamo la risposta prima di restituirla per evitare problemi di "already consumed body"
