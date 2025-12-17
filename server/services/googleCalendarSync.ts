@@ -200,7 +200,6 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
         
         if (existing.length > 0) {
-          console.log(`🔄 [IMPORT] Evento già tracciato, aggiornamento... - ${eventInfo}`);
           // Evento già tracciato - AGGIORNA l'appuntamento con i dati da Google
           
           // Recupera l'appuntamento collegato
@@ -209,7 +208,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             .where(eq(appointments.id, existing[0].appointmentId))
             .limit(1);
           
-          if (linkedAppointment.length > 0) {
+          // GESTIONE TRACKING ORFANI: se l'appuntamento è stato eliminato ma il tracking esiste ancora
+          if (linkedAppointment.length === 0) {
+            console.log(`🧹 [IMPORT] Tracking orfano trovato, pulizia e reimportazione... - ${eventInfo}`);
+            await db.delete(googleCalendarEvents)
+              .where(eq(googleCalendarEvents.id, existing[0].id));
+            // NON fare continue - lascia che l'evento venga reimportato normalmente
+          } else {
+            console.log(`🔄 [IMPORT] Evento già tracciato, aggiornamento... - ${eventInfo}`);
             // Converti orari Google nel fuso orario utente
             const googleStartDateTime = googleEvent.start.dateTime;
             const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
@@ -282,8 +288,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               }
             } else {
             }
+            continue; // Evento tracciato e appuntamento esistente - passa al prossimo
           }
-          continue;
+          // Se siamo qui, il tracking era orfano e lo abbiamo eliminato - continua con l'importazione normale
         }
         
         // IMPORTANTE: Controlla anche se esiste già un appuntamento con lo stesso google_event_id
