@@ -40,22 +40,18 @@ export default function Calendar() {
   } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   
-  // 🔄 AUTO-SYNC: Sincronizzazione automatica all'apertura della pagina calendario (una volta per sessione)
+  // 🔄 AUTO-SYNC: Sincronizzazione automatica OGNI volta che si apre la pagina calendario
   useEffect(() => {
-    const SYNC_KEY = 'gcal_auto_sync_done';
-    
-    // Usa sessionStorage per garantire una sola esecuzione per sessione (sopravvive ai re-render/hot reload)
-    if (sessionStorage.getItem(SYNC_KEY)) return;
-    sessionStorage.setItem(SYNC_KEY, 'true');
+    let cancelled = false;
     
     const autoSync = async () => {
       try {
         // Verifica se Google Calendar è abilitato
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
-        if (!statusRes.ok) return;
+        if (!statusRes.ok || cancelled) return;
         
         const status = await statusRes.json();
-        if (!status.authorized || !status.calendarEnabled) return;
+        if (!status.authorized || !status.calendarEnabled || cancelled) return;
         
         // Esegui la sincronizzazione direttamente (stesso endpoint del pulsante)
         const syncRes = await fetch('/api/google-calendar/sync-now', {
@@ -64,7 +60,7 @@ export default function Calendar() {
           credentials: 'include',
         });
         
-        if (syncRes.ok) {
+        if (syncRes.ok && !cancelled) {
           // Aggiorna la cache degli appuntamenti
           queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
         }
@@ -73,8 +69,11 @@ export default function Calendar() {
       }
     };
     
-    // Esegui dopo 500ms
-    setTimeout(autoSync, 500);
+    // Esegui subito dopo il mount
+    autoSync();
+    
+    // Cleanup se il componente viene smontato prima del completamento
+    return () => { cancelled = true; };
   }, [queryClient]);
   
   // Recupera le informazioni sul fuso orario
