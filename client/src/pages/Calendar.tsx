@@ -44,41 +44,29 @@ export default function Calendar() {
   // 🔄 GOOGLE CALENDAR AUTO-SYNC: Sincronizzazione silenziosa all'apertura del calendario
   const silentSync = useSyncGoogleCalendar({ showToast: false });
   
+  // 🔄 AUTO-SYNC: Sincronizzazione automatica all'apertura della pagina calendario
   useEffect(() => {
-    // Esegui sync solo una volta all'apertura del calendario (evita loop)
-    console.log('📅 [CALENDAR] useEffect avviato, autoSyncExecuted:', autoSyncExecuted.current);
-    if (autoSyncExecuted.current) {
-      console.log('📅 [CALENDAR] Sync già eseguita, skip');
-      return;
-    }
+    if (autoSyncExecuted.current) return;
     
-    const performAutoSync = async () => {
-      console.log('📅 [CALENDAR] performAutoSync chiamata...');
+    const autoSync = async () => {
       try {
-        // Verifica se l'utente ha Google Calendar abilitato
-        const response = await fetch('/api/google-auth/status', { credentials: 'include' });
-        console.log('📅 [CALENDAR] Risposta google-auth/status:', response.status);
-        if (response.ok) {
-          const data = await response.json();
-          console.log('📅 [CALENDAR] Dati google-auth/status:', data);
-          // L'endpoint ritorna 'authorized' (non 'connected')
-          if (data.authorized && data.calendarEnabled) {
-            console.log('🔄 [AUTO-SYNC] Google Calendar connesso e abilitato, avvio sincronizzazione automatica...');
-            autoSyncExecuted.current = true;
-            silentSync.mutate();
-          } else {
-            console.log('📅 [CALENDAR] Condizioni non soddisfatte - authorized:', data.authorized, 'calendarEnabled:', data.calendarEnabled);
-          }
+        const res = await fetch('/api/google-auth/status', { credentials: 'include' });
+        if (!res.ok) return;
+        
+        const status = await res.json();
+        if (status.authorized && status.calendarEnabled) {
+          autoSyncExecuted.current = true;
+          silentSync.mutate();
         }
-      } catch (err) {
-        console.log('📅 [CALENDAR] Errore:', err);
+      } catch (e) {
+        // Silenzioso - non bloccare l'interfaccia
       }
     };
     
-    // Ritarda leggermente per non sovraccaricare all'avvio
-    const timer = setTimeout(performAutoSync, 2000);
+    // Esegui dopo 1 secondo per dare tempo al rendering
+    const timer = setTimeout(autoSync, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [silentSync]);
   
   // Recupera le informazioni sul fuso orario
   useEffect(() => {
