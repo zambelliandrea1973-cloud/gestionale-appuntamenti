@@ -60,6 +60,11 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
     );
     
+    console.log(`📅 [IMPORT] Trovati ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili:`);
+    accessibleCalendars.forEach(cal => {
+      console.log(`   - "${cal.summary}" (${cal.id?.substring(0, 30)}...) - accesso: ${cal.accessRole}`);
+    });
+    
     // PAGINAZIONE: Raccogli TUTTI gli eventi DA TUTTI I CALENDARI
     const MAX_PAGES = 100; // Protezione contro loop infiniti per calendario
     interface EventWithCalendar extends calendar_v3.Schema$Event {
@@ -75,7 +80,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       let pageToken: string | undefined = undefined;
       let prevPageToken: string | undefined = undefined;
       let pageCount = 0;
+      let calendarEventCount = 0;
       
+      console.log(`📆 [IMPORT] Lettura calendario: "${cal.summary}" (${cal.id})`);
       
       do {
         try {
@@ -91,6 +98,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           });
           
           if (eventsResponse.data.items) {
+            calendarEventCount += eventsResponse.data.items.length;
             // Aggiungi metadati sul calendario di origine
             const eventsWithSource = eventsResponse.data.items.map((event: calendar_v3.Schema$Event) => ({
               ...event,
