@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from 'react-i18next';
 import { 
@@ -26,10 +26,10 @@ import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
-import { useSyncGoogleCalendar } from "@/hooks/useGoogleCalendarSync";
 
 export default function Calendar() {
   const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,34 +39,43 @@ export default function Calendar() {
     name: string;
   } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const autoSyncExecuted = useRef(false);
   
-  // 🔄 GOOGLE CALENDAR AUTO-SYNC: Sincronizzazione silenziosa all'apertura del calendario
-  const silentSync = useSyncGoogleCalendar({ showToast: false });
-  
-  // 🔄 AUTO-SYNC: Sincronizzazione automatica all'apertura della pagina calendario
+  // 🔄 AUTO-SYNC: Sincronizzazione automatica all'apertura della pagina calendario (una volta per sessione)
   useEffect(() => {
-    if (autoSyncExecuted.current) return;
+    const SYNC_KEY = 'gcal_auto_sync_done';
+    
+    // Usa sessionStorage per garantire una sola esecuzione per sessione (sopravvive ai re-render/hot reload)
+    if (sessionStorage.getItem(SYNC_KEY)) return;
+    sessionStorage.setItem(SYNC_KEY, 'true');
     
     const autoSync = async () => {
       try {
-        const res = await fetch('/api/google-auth/status', { credentials: 'include' });
-        if (!res.ok) return;
+        // Verifica se Google Calendar è abilitato
+        const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
+        if (!statusRes.ok) return;
         
-        const status = await res.json();
-        if (status.authorized && status.calendarEnabled) {
-          autoSyncExecuted.current = true;
-          silentSync.mutate();
+        const status = await statusRes.json();
+        if (!status.authorized || !status.calendarEnabled) return;
+        
+        // Esegui la sincronizzazione direttamente (stesso endpoint del pulsante)
+        const syncRes = await fetch('/api/google-calendar/sync-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
+        
+        if (syncRes.ok) {
+          // Aggiorna la cache degli appuntamenti
+          queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
         }
       } catch (e) {
-        // Silenzioso - non bloccare l'interfaccia
+        // Silenzioso
       }
     };
     
-    // Esegui dopo 1 secondo per dare tempo al rendering
-    const timer = setTimeout(autoSync, 1000);
-    return () => clearTimeout(timer);
-  }, [silentSync]);
+    // Esegui dopo 500ms
+    setTimeout(autoSync, 500);
+  }, [queryClient]);
   
   // Recupera le informazioni sul fuso orario
   useEffect(() => {
@@ -126,9 +135,6 @@ export default function Calendar() {
   const { data: clients = [] } = useQuery({
     queryKey: ['/api/clients'],
   });
-  
-  // Importiamo il queryClient per le invalidazioni
-  const queryClient = useQueryClient();
   
   // Filter appointments based on search query
   const filteredAppointments = searchQuery && Array.isArray(allAppointments)
