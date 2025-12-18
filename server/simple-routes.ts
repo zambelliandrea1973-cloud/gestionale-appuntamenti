@@ -64,7 +64,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions } from '../shared/schema';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, innerJoin, sql } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
