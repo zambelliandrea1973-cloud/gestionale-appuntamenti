@@ -1920,7 +1920,9 @@ export function registerSimpleRoutes(app: Express): Server {
         staffId: apt.staffId,
         roomId: apt.roomId,
         staff: apt.staff, // ✅ NEW: Oggetto staff completo (opzionale)
-        room: apt.room // ✅ NEW: Oggetto room completo (opzionale)
+        room: apt.room, // ✅ NEW: Oggetto room completo (opzionale)
+        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag per eventi Google importati
+        googleEventTitle: apt.googleEventTitle // ✅ Titolo originale evento Google
       }));
       
       res.json(formattedAppointments);
@@ -1963,7 +1965,9 @@ export function registerSimpleRoutes(app: Express): Server {
         staffId: apt.staffId,
         roomId: apt.roomId,
         staff: apt.staff, // ✅ NEW: Oggetto staff completo (opzionale)
-        room: apt.room // ✅ NEW: Oggetto room completo (opzionale)
+        room: apt.room, // ✅ NEW: Oggetto room completo (opzionale)
+        importedFromGoogle: apt.importedFromGoogle, // ✅ Flag per eventi Google importati
+        googleEventTitle: apt.googleEventTitle // ✅ Titolo originale evento Google
       }));
       
       res.json(formattedAppointments);
