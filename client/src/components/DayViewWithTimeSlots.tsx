@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Loader2, Trash2, Edit, Plus } from "lucide-react";
+import { Loader2, Trash2, Edit, Plus, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -764,37 +764,70 @@ export default function DayViewWithTimeSlots({
       )}
       
       {/* Dialog di conferma eliminazione */}
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full mx-4">
-            <h3 className="text-lg font-bold mb-2">{t("appointment.confirmDeleteTitle")}</h3>
-            <p className="mb-4">{t("appointment.confirmDelete")}</p>
-            <div className="flex justify-end gap-2">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setShowDeleteConfirm(false);
-                  setAppointmentToDelete(null);
-                }}
-              >
-                {t("common.cancel")}
-              </Button>
-              <Button 
-                variant="destructive" 
-                onClick={() => {
-                  if (appointmentToDelete !== null) {
-                    deleteMutation.mutate(appointmentToDelete);
-                    setShowDeleteConfirm(false);
-                    setAppointmentToDelete(null);
-                  }
-                }}
-              >
-                {t("common.delete")}
-              </Button>
+      {showDeleteConfirm && (() => {
+        const appointmentToDeleteData = appointments.find(a => a.id === appointmentToDelete);
+        const isGoogleImported = appointmentToDeleteData?.importedFromGoogle === true;
+        
+        return (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+              {isGoogleImported ? (
+                <>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                      <Calendar className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <h3 className="text-lg font-bold">Evento Google Calendar</h3>
+                  </div>
+                  <p className="mb-4 text-gray-600">
+                    Questo evento è stato importato da Google Calendar e non può essere eliminato dall'app. 
+                    Per eliminarlo, accedi direttamente a Google Calendar.
+                  </p>
+                  <div className="flex justify-end">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setAppointmentToDelete(null);
+                      }}
+                    >
+                      Chiudi
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-lg font-bold mb-2">{t("appointment.confirmDeleteTitle")}</h3>
+                  <p className="mb-4">{t("appointment.confirmDelete")}</p>
+                  <div className="flex justify-end gap-2">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setAppointmentToDelete(null);
+                      }}
+                    >
+                      {t("common.cancel")}
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      onClick={() => {
+                        if (appointmentToDelete !== null) {
+                          deleteMutation.mutate(appointmentToDelete);
+                          setShowDeleteConfirm(false);
+                          setAppointmentToDelete(null);
+                        }
+                      }}
+                    >
+                      {t("common.delete")}
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Modal di selezione cliente */}
       <Dialog open={showClientSelector} onOpenChange={setShowClientSelector}>
