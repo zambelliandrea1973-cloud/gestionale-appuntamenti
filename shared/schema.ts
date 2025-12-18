@@ -580,6 +580,29 @@ export const insertGoogleCalendarSettingsSchema = createInsertSchema(googleCalen
   updatedAt: true,
 });
 
+// Google Calendar Sync Tokens - Per sincronizzazione incrementale veloce
+export const googleCalendarSyncTokens = pgTable("google_calendar_sync_tokens", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  calendarId: text("calendar_id").notNull(), // ID del calendario Google
+  calendarName: text("calendar_name"), // Nome leggibile del calendario
+  syncToken: text("sync_token"), // Token per sync incrementale
+  lastFullSyncAt: timestamp("last_full_sync_at"), // Ultima sync completa
+  lastIncrementalSyncAt: timestamp("last_incremental_sync_at"), // Ultima sync incrementale
+  eventCount: integer("event_count").default(0), // Numero eventi sincronizzati
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertGoogleCalendarSyncTokenSchema = createInsertSchema(googleCalendarSyncTokens).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type GoogleCalendarSyncToken = typeof googleCalendarSyncTokens.$inferSelect;
+export type InsertGoogleCalendarSyncToken = z.infer<typeof insertGoogleCalendarSyncTokenSchema>;
+
 // Notification Settings table schema
 // Tabella per tracciare gli accessi dei clienti all'app
 export const clientAccesses = pgTable("client_accesses", {

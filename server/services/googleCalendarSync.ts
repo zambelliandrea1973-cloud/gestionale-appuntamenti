@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { users, appointments, googleCalendarEvents, clients, services } from '../../shared/schema';
+import { users, appointments, googleCalendarEvents, clients, services, googleCalendarSyncTokens } from '../../shared/schema';
 import { eq, and, gte, lt } from 'drizzle-orm';
 import { storage } from '../storage';
 import { calendar_v3, google } from 'googleapis';
@@ -60,46 +60,51 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
     );
     
-    console.log(`📅 [IMPORT] Trovati ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili:`);
-    accessibleCalendars.forEach(cal => {
-      console.log(`   - "${cal.summary}" (${cal.id?.substring(0, 30)}...) - accesso: ${cal.accessRole}`);
-    });
+    console.log(`📅 [IMPORT] Trovati ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili`);
     
-    // PAGINAZIONE: Raccogli TUTTI gli eventi DA TUTTI I CALENDARI
-    const MAX_PAGES = 100; // Protezione contro loop infiniti per calendario
+    // ========== SINCRONIZZAZIONE INCREMENTALE CON SYNC TOKEN ==========
+    // Carica i syncToken salvati per questo utente
+    const savedSyncTokens = await db.select()
+      .from(googleCalendarSyncTokens)
+      .where(eq(googleCalendarSyncTokens.userId, userId));
+    
+    const syncTokenMap = new Map(savedSyncTokens.map(t => [t.calendarId, t]));
+    
     interface EventWithCalendar extends calendar_v3.Schema$Event {
       _sourceCalendarId?: string;
       _sourceCalendarName?: string;
     }
     let allEvents: EventWithCalendar[] = [];
+    let isIncrementalSync = false;
     
-    // Itera su ogni calendario
+    // Itera su ogni calendario usando syncToken se disponibile
     for (const cal of accessibleCalendars) {
       if (!cal.id) continue;
       
-      let pageToken: string | undefined = undefined;
-      let prevPageToken: string | undefined = undefined;
-      let pageCount = 0;
+      const savedToken = syncTokenMap.get(cal.id);
+      let useSyncToken = savedToken?.syncToken || null;
       let calendarEventCount = 0;
+      let pageToken: string | undefined = undefined;
+      let newSyncToken: string | undefined = undefined;
       
-      console.log(`📆 [IMPORT] Lettura calendario: "${cal.summary}" (${cal.id})`);
+      // Prova prima sync incrementale, poi fallback a full sync
+      let needsFullSync = !useSyncToken;
       
-      do {
+      if (useSyncToken) {
+        console.log(`⚡ [IMPORT] Sync incrementale per "${cal.summary}"`);
+        isIncrementalSync = true;
+        
         try {
+          // Sync incrementale - recupera solo modifiche
           const eventsResponse = await calendar.events.list({
             calendarId: cal.id,
-            timeMin: thirtyDaysAgo.toISOString(),
-            timeMax: oneYearAhead.toISOString(),
+            syncToken: useSyncToken,
             maxResults: 250,
-            singleEvents: true,
-            orderBy: 'startTime',
-            showDeleted: true,
-            pageToken: pageToken
+            showDeleted: true
           });
           
           if (eventsResponse.data.items) {
-            calendarEventCount += eventsResponse.data.items.length;
-            // Aggiungi metadati sul calendario di origine
+            calendarEventCount = eventsResponse.data.items.length;
             const eventsWithSource = eventsResponse.data.items.map((event: calendar_v3.Schema$Event) => ({
               ...event,
               _sourceCalendarId: cal.id,
@@ -108,21 +113,125 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             allEvents = [...allEvents, ...eventsWithSource];
           }
           
-          prevPageToken = pageToken;
-          pageToken = eventsResponse.data.nextPageToken || undefined;
-          pageCount++;
+          newSyncToken = eventsResponse.data.nextSyncToken || undefined;
           
-          // Protezione contro loop infiniti
-          if (pageToken && pageToken === prevPageToken) break;
-          if (pageCount >= MAX_PAGES) break;
+          // Gestisci paginazione se presente
+          pageToken = eventsResponse.data.nextPageToken || undefined;
+          while (pageToken) {
+            const nextPage = await calendar.events.list({
+              calendarId: cal.id,
+              syncToken: useSyncToken,
+              pageToken: pageToken,
+              maxResults: 250,
+              showDeleted: true
+            });
+            
+            if (nextPage.data.items) {
+              calendarEventCount += nextPage.data.items.length;
+              const eventsWithSource = nextPage.data.items.map((event: calendar_v3.Schema$Event) => ({
+                ...event,
+                _sourceCalendarId: cal.id,
+                _sourceCalendarName: cal.summary || 'Senza nome'
+              }));
+              allEvents = [...allEvents, ...eventsWithSource];
+            }
+            
+            pageToken = nextPage.data.nextPageToken || undefined;
+            newSyncToken = nextPage.data.nextSyncToken || newSyncToken;
+          }
+          
+          console.log(`   ✓ ${calendarEventCount} modifiche trovate`);
+          
+        } catch (syncError: any) {
+          // Token invalido (410) - necessario full sync
+          if (syncError?.code === 410 || syncError?.response?.status === 410) {
+            console.log(`🔄 [IMPORT] SyncToken invalido per "${cal.summary}", eseguo full sync...`);
+            needsFullSync = true;
+          } else {
+            console.error(`❌ [IMPORT] Errore sync calendario ${cal.summary}:`, syncError);
+            result.errors.push(`Errore sync calendario ${cal.summary}: ${String(syncError)}`);
+            continue;
+          }
+        }
+      }
+      
+      // Full sync se necessario (primo sync o token invalido)
+      if (needsFullSync) {
+        console.log(`📆 [IMPORT] Full sync per "${cal.summary}"`);
+        calendarEventCount = 0;
+        pageToken = undefined;
+        
+        try {
+          do {
+            const eventsResponse = await calendar.events.list({
+              calendarId: cal.id,
+              timeMin: thirtyDaysAgo.toISOString(),
+              timeMax: oneYearAhead.toISOString(),
+              maxResults: 250,
+              singleEvents: true,
+              orderBy: 'startTime',
+              showDeleted: true,
+              pageToken: pageToken
+            });
+            
+            if (eventsResponse.data.items) {
+              calendarEventCount += eventsResponse.data.items.length;
+              const eventsWithSource = eventsResponse.data.items.map((event: calendar_v3.Schema$Event) => ({
+                ...event,
+                _sourceCalendarId: cal.id,
+                _sourceCalendarName: cal.summary || 'Senza nome'
+              }));
+              allEvents = [...allEvents, ...eventsWithSource];
+            }
+            
+            pageToken = eventsResponse.data.nextPageToken || undefined;
+            newSyncToken = eventsResponse.data.nextSyncToken || newSyncToken;
+            
+          } while (pageToken);
+          
+          console.log(`   ✓ ${calendarEventCount} eventi caricati`);
           
         } catch (calError) {
-          console.error(`❌ [IMPORT] Errore lettura calendario ${cal.summary}:`, calError);
+          console.error(`❌ [IMPORT] Errore full sync ${cal.summary}:`, calError);
           result.errors.push(`Errore lettura calendario ${cal.summary}: ${String(calError)}`);
-          break;
+          continue;
         }
-      } while (pageToken);
+      }
       
+      // Salva il nuovo syncToken per prossime sync incrementali
+      if (newSyncToken && cal.id) {
+        try {
+          if (savedToken) {
+            await db.update(googleCalendarSyncTokens)
+              .set({
+                syncToken: newSyncToken,
+                calendarName: cal.summary || null,
+                lastIncrementalSyncAt: new Date(),
+                eventCount: calendarEventCount,
+                updatedAt: new Date()
+              })
+              .where(eq(googleCalendarSyncTokens.id, savedToken.id));
+          } else {
+            await db.insert(googleCalendarSyncTokens).values({
+              userId,
+              calendarId: cal.id,
+              calendarName: cal.summary || null,
+              syncToken: newSyncToken,
+              lastFullSyncAt: new Date(),
+              eventCount: calendarEventCount
+            });
+          }
+        } catch (tokenError) {
+          console.error(`⚠️ [IMPORT] Errore salvataggio syncToken:`, tokenError);
+        }
+      }
+    }
+    
+    // Log tipo di sync eseguita
+    if (isIncrementalSync) {
+      console.log(`⚡ [IMPORT] Sync incrementale completata: ${allEvents.length} modifiche da processare`);
+    } else {
+      console.log(`📋 [IMPORT] Full sync completata: ${allEvents.length} eventi da processare`);
     }
 
     if (allEvents.length === 0) {
