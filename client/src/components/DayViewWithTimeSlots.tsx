@@ -766,7 +766,6 @@ export default function DayViewWithTimeSlots({
       {/* Dialog di conferma eliminazione */}
       {showDeleteConfirm && (() => {
         const appointmentToDeleteData = appointments.find(a => a.id === appointmentToDelete);
-        console.log(`🔍 [DELETE DIALOG] appointmentToDelete: ${appointmentToDelete}, found: ${!!appointmentToDeleteData}, importedFromGoogle: ${appointmentToDeleteData?.importedFromGoogle}`);
         const isGoogleImported = appointmentToDeleteData?.importedFromGoogle === true;
         
         return (
