@@ -556,6 +556,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             }
           });
           
+          // IMPORTANTE: Aggiorna le cache per evitare duplicati nel loop
+          appointmentsByGoogleId.set(googleEvent.id, newAppointment[0]);
+          appointmentsById.set(newAppointment[0].id, newAppointment[0]);
+          if (!appointmentsByDateSlot.has(slotKey)) {
+            appointmentsByDateSlot.set(slotKey, []);
+          }
+          appointmentsByDateSlot.get(slotKey)!.push(newAppointment[0]);
+          
           result.imported++;
         }
       } catch (error) {
