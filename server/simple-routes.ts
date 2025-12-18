@@ -2350,21 +2350,27 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const appointmentId = parseInt(req.params.id);
     
+    console.log(`🗑️ [DELETE] ===== INIZIO RICHIESTA DELETE =====`);
     console.log(`🗑️ [DELETE] Tentativo eliminazione appuntamento ${appointmentId} da utente ${user.id} (${user.type})`);
     
     if (isNaN(appointmentId)) {
+      console.log(`🗑️ [DELETE] ID non valido: ${req.params.id}`);
       return res.status(400).json({ message: "ID appuntamento non valido" });
     }
     
     try {
+      console.log(`🗑️ [DELETE] Step 1: Recupero appuntamento ${appointmentId}...`);
       // Prima ottieni l'appuntamento per la sync Google
       const existingAppointment = await storage.getAppointment(appointmentId);
+      console.log(`🗑️ [DELETE] Step 2: Appuntamento trovato: ${!!existingAppointment}, importedFromGoogle: ${existingAppointment?.importedFromGoogle}`);
       
       // 🔄 VERIFICA SE È UN EVENTO IMPORTATO DA GOOGLE (doppio controllo)
+      console.log(`🗑️ [DELETE] Step 3: Verifica mapping google_calendar_events...`);
       const [eventMapping] = await db.select()
         .from(googleCalendarEvents)
         .where(eq(googleCalendarEvents.appointmentId, appointmentId))
         .limit(1);
+      console.log(`🗑️ [DELETE] Step 4: Mapping trovato: ${!!eventMapping}, syncDirection: ${eventMapping?.syncDirection}`);
       
       // Blocca eliminazione se: 
       // 1. Il mapping esiste con syncDirection='import', OPPURE
@@ -2373,8 +2379,11 @@ export function registerSimpleRoutes(app: Express): Server {
         (eventMapping && eventMapping.syncDirection === 'import') || 
         (existingAppointment && existingAppointment.importedFromGoogle === true);
       
+      console.log(`🗑️ [DELETE] Step 5: isGoogleImport = ${isGoogleImport}`);
+      
       if (isGoogleImport) {
-        console.log(`🚫 [DELETE] Blocco eliminazione evento importato ${appointmentId} (syncDir=${eventMapping?.syncDirection}, importedFlag=${existingAppointment?.importedFromGoogle})`);
+        console.log(`🚫 [DELETE] ===== BLOCCO ELIMINAZIONE EVENTO GOOGLE =====`);
+        console.log(`🚫 [DELETE] Motivo: syncDir=${eventMapping?.syncDirection}, importedFlag=${existingAppointment?.importedFromGoogle}`);
         return res.status(403).json({ 
           message: "Questo evento è stato importato da Google Calendar e non può essere eliminato dall'app. Per eliminarlo, accedi direttamente a Google Calendar.",
           isGoogleImport: true
