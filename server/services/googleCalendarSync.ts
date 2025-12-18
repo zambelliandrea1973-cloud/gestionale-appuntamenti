@@ -132,103 +132,171 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
 
     console.log(`📋 [IMPORT] Trovati ${allEvents.length} eventi totali da processare`);
 
-    // Processa ogni evento Google
-    for (const googleEvent of allEvents) {
-      // Log OGNI evento per debug
-      const eventInfo = `"${googleEvent.summary || 'Senza titolo'}" (${googleEvent.start?.dateTime || googleEvent.start?.date || 'N/A'})`;
-      console.log(`🔍 [IMPORT] Processando evento: ${eventInfo} - ID: ${googleEvent.id?.substring(0, 20)}...`);
-      
-      if (!googleEvent.id) {
-        console.log(`⏭️ [IMPORT] Skip: evento senza ID`);
-        continue;
+    // ========== OTTIMIZZAZIONE: PRECARICAMENTO DATI IN MEMORIA ==========
+    const preloadStart = Date.now();
+    
+    // 1. Precarica TUTTI i tracking esistenti per questo utente (usando appointment_id per join)
+    const allUserAppointmentIds = await db.select({ id: appointments.id })
+      .from(appointments)
+      .where(eq(appointments.userId, userId));
+    const appointmentIdSet = new Set(allUserAppointmentIds.map(a => a.id));
+    
+    const allTrackingRecords = await db.select()
+      .from(googleCalendarEvents);
+    
+    // Filtra solo i tracking che appartengono a questo utente
+    const userTrackingRecords = allTrackingRecords.filter(t => appointmentIdSet.has(t.appointmentId));
+    
+    // Mappa: googleEventId -> tracking record
+    const trackingByGoogleId = new Map(userTrackingRecords.map(t => [t.googleEventId, t]));
+    // Mappa: appointmentId -> tracking record
+    const trackingByAppointmentId = new Map(userTrackingRecords.map(t => [t.appointmentId, t]));
+    
+    // 2. Precarica TUTTI gli appuntamenti dell'utente
+    const allUserAppointments = await db.select()
+      .from(appointments)
+      .where(eq(appointments.userId, userId));
+    
+    // Mappa: googleEventId -> appointment
+    const appointmentsByGoogleId = new Map(
+      allUserAppointments.filter(a => a.googleEventId).map(a => [a.googleEventId!, a])
+    );
+    // Mappa: id -> appointment
+    const appointmentsById = new Map(allUserAppointments.map(a => [a.id, a]));
+    // Mappa: "date|startTime" -> appointment[]
+    const appointmentsByDateSlot = new Map<string, typeof allUserAppointments>();
+    for (const appt of allUserAppointments) {
+      const key = `${appt.date}|${appt.startTime}`;
+      if (!appointmentsByDateSlot.has(key)) {
+        appointmentsByDateSlot.set(key, []);
       }
+      appointmentsByDateSlot.get(key)!.push(appt);
+    }
+    
+    // 3. Precarica TUTTI i clienti dell'utente
+    const allUserClients = await db.select()
+      .from(clients)
+      .where(eq(clients.userId, userId));
+    
+    // Mappa: email -> client
+    const clientsByEmail = new Map(
+      allUserClients.filter(c => c.email).map(c => [c.email!, c])
+    );
+    // Mappa: "firstName|lastName" -> client
+    const clientsByName = new Map(
+      allUserClients.map(c => [`${c.firstName}|${c.lastName}`, c])
+    );
+    
+    // 4. Precarica/Trova il servizio "Promemoria Google Calendar"
+    let promemoriaServiceId: number | null = null;
+    const promemoriaService = await db.select()
+      .from(services)
+      .where(and(
+        eq(services.userId, userId),
+        eq(services.name, 'Promemoria Google Calendar')
+      ))
+      .limit(1);
+    
+    if (promemoriaService.length > 0) {
+      promemoriaServiceId = promemoriaService[0].id;
+    } else {
+      // Crea il servizio una sola volta
+      const newService = await db.insert(services).values({
+        userId,
+        name: 'Promemoria Google Calendar',
+        duration: 60,
+        price: 0,
+        color: '#6B7280'
+      }).returning();
+      if (newService.length > 0) {
+        promemoriaServiceId = newService[0].id;
+      }
+    }
+    
+    // Fallback se creazione fallisce
+    if (!promemoriaServiceId) {
+      const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
+      promemoriaServiceId = defaultService.length > 0 ? defaultService[0].id : 1;
+    }
+    
+    // 5. Crea formatter una sola volta (invece di uno per evento)
+    const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
+      timeZone,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+    
+    console.log(`⚡ [IMPORT] Precaricamento completato in ${Date.now() - preloadStart}ms`);
+    console.log(`   - Tracking: ${trackingByGoogleId.size}, Appuntamenti: ${allUserAppointments.length}, Clienti: ${allUserClients.length}`);
+    
+    // ========== FINE PRECARICAMENTO ==========
+
+    // Processa ogni evento Google (ora con lookup O(1) invece di query DB)
+    for (const googleEvent of allEvents) {
+      if (!googleEvent.id) continue;
       
-      // GESTIONE EVENTI CANCELLATI: Se l'evento è stato cancellato su Google, elimina l'appuntamento locale
+      const eventInfo = `"${googleEvent.summary || 'Senza titolo'}"`;
+      
+      // GESTIONE EVENTI CANCELLATI
       if (googleEvent.status === 'cancelled') {
-        
         try {
-          // Cerca nella tabella tracking
-          const trackedEvent = await db.select()
-            .from(googleCalendarEvents)
-            .where(eq(googleCalendarEvents.googleEventId, googleEvent.id))
-            .limit(1);
+          const trackedEvent = trackingByGoogleId.get(googleEvent.id);
           
-          if (trackedEvent.length > 0) {
-            const appointmentId = trackedEvent[0].appointmentId;
+          if (trackedEvent) {
+            const appointmentId = trackedEvent.appointmentId;
             
-            // Elimina prima il tracking
             await db.delete(googleCalendarEvents)
               .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
             
-            // Elimina l'appuntamento
             await db.delete(appointments)
               .where(eq(appointments.id, appointmentId));
             
-            result.imported++; // Conta come azione eseguita
-          } else {
-            // Cerca anche direttamente nella tabella appointments
-            const directAppointment = await db.select()
-              .from(appointments)
-              .where(eq(appointments.googleEventId, googleEvent.id))
-              .limit(1);
+            // Aggiorna cache locale
+            trackingByGoogleId.delete(googleEvent.id);
+            appointmentsById.delete(appointmentId);
             
-            if (directAppointment.length > 0) {
+            result.imported++;
+          } else {
+            const directAppointment = appointmentsByGoogleId.get(googleEvent.id);
+            
+            if (directAppointment) {
               await db.delete(appointments)
-                .where(eq(appointments.id, directAppointment[0].id));
+                .where(eq(appointments.id, directAppointment.id));
+              
+              appointmentsByGoogleId.delete(googleEvent.id);
+              appointmentsById.delete(directAppointment.id);
               
               result.imported++;
-            } else {
             }
           }
         } catch (deleteError) {
-          console.error(`❌ [IMPORT] Errore eliminazione appuntamento per evento ${googleEvent.id}:`, deleteError);
-          result.errors.push(`Errore eliminazione evento cancellato ${googleEvent.id}: ${String(deleteError)}`);
+          result.errors.push(`Errore eliminazione evento ${googleEvent.id}: ${String(deleteError)}`);
         }
-        
-        continue; // Passa al prossimo evento
-      }
-      
-      if (!googleEvent.start?.dateTime) {
-        console.log(`⏭️ [IMPORT] Skip: evento senza dateTime (all-day event?) - ${eventInfo}`);
         continue;
       }
       
+      if (!googleEvent.start?.dateTime) continue;
+      
       try {
-        // Controlla se questo evento è già collegato a un appuntamento (tabella tracking)
-        const existing = await db.select()
-          .from(googleCalendarEvents)
-          .where(eq(googleCalendarEvents.googleEventId, googleEvent.id));
+        // Lookup O(1) invece di query DB
+        const existingTracking = trackingByGoogleId.get(googleEvent.id);
         
-        if (existing.length > 0) {
-          // Evento già tracciato - AGGIORNA l'appuntamento con i dati da Google
+        if (existingTracking) {
+          const linkedAppointment = appointmentsById.get(existingTracking.appointmentId);
           
-          // Recupera l'appuntamento collegato
-          const linkedAppointment = await db.select()
-            .from(appointments)
-            .where(eq(appointments.id, existing[0].appointmentId))
-            .limit(1);
-          
-          // GESTIONE TRACKING ORFANI: se l'appuntamento è stato eliminato ma il tracking esiste ancora
-          if (linkedAppointment.length === 0) {
-            console.log(`🧹 [IMPORT] Tracking orfano trovato, pulizia e reimportazione... - ${eventInfo}`);
+          if (!linkedAppointment) {
+            // Tracking orfano - elimina
             await db.delete(googleCalendarEvents)
-              .where(eq(googleCalendarEvents.id, existing[0].id));
-            // NON fare continue - lascia che l'evento venga reimportato normalmente
+              .where(eq(googleCalendarEvents.id, existingTracking.id));
+            trackingByGoogleId.delete(googleEvent.id);
           } else {
-            console.log(`🔄 [IMPORT] Evento già tracciato, aggiornamento... - ${eventInfo}`);
-            // Converti orari Google nel fuso orario utente
+            // Aggiorna se necessario
             const googleStartDateTime = googleEvent.start.dateTime;
             const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
             
             const startDateObj = new Date(googleStartDateTime);
             const endDateObj = new Date(googleEndDateTime);
-            
-            const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
-              timeZone,
-              year: 'numeric', month: '2-digit', day: '2-digit',
-              hour: '2-digit', minute: '2-digit', second: '2-digit',
-              hour12: false
-            });
             
             const startParts = userFormatter.format(startDateObj).split(' ');
             const endParts = userFormatter.format(endDateObj).split(' ');
@@ -237,204 +305,98 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             const newStartTime = startParts[1].substring(0, 5);
             const newEndTime = endParts[1].substring(0, 5);
             
-            // Controlla se ci sono modifiche di data/ora (NON toccare le note per preservare dati locali)
-            const currentAppt = linkedAppointment[0];
-            const hasTimeChanges = currentAppt.date !== newDate || 
-                                   currentAppt.startTime !== newStartTime || 
-                                   currentAppt.endTime !== newEndTime;
+            const hasTimeChanges = linkedAppointment.date !== newDate || 
+                                   linkedAppointment.startTime !== newStartTime || 
+                                   linkedAppointment.endTime !== newEndTime;
             
             if (hasTimeChanges) {
-              
-              // CONTROLLO CONFLITTI: verifica che il nuovo slot non sia già occupato
-              const conflictCheck = await db.select()
-                .from(appointments)
-                .where(and(
-                  eq(appointments.userId, userId),
-                  eq(appointments.date, newDate),
-                  eq(appointments.startTime, newStartTime),
-                  // Escludi l'appuntamento corrente dal controllo
-                  // (potrebbe essere solo un aggiornamento minore)
-                ));
-              
-              const hasConflict = conflictCheck.some(a => a.id !== currentAppt.id);
+              // Controllo conflitti usando la mappa
+              const slotKey = `${newDate}|${newStartTime}`;
+              const existingAtSlot = appointmentsByDateSlot.get(slotKey) || [];
+              const hasConflict = existingAtSlot.some(a => a.id !== linkedAppointment.id);
               
               if (hasConflict) {
-                result.errors.push(`Conflitto orario per evento ${googleEvent.id}: slot ${newDate} ${newStartTime} già occupato`);
-                
-                // PERSISTI stato conflitto nel database per visibilità UI
+                result.errors.push(`Conflitto orario: ${newDate} ${newStartTime}`);
                 await db.update(googleCalendarEvents)
-                  .set({ 
-                    syncStatus: 'conflict',
-                    updatedAt: new Date()
-                  })
-                  .where(eq(googleCalendarEvents.id, existing[0].id));
+                  .set({ syncStatus: 'conflict', updatedAt: new Date() })
+                  .where(eq(googleCalendarEvents.id, existingTracking.id));
               } else {
-                // Aggiorna solo data/ora, PRESERVA le note esistenti
                 await db.update(appointments)
-                  .set({
-                    date: newDate,
-                    startTime: newStartTime,
-                    endTime: newEndTime
-                    // NON aggiornare notes per preservare dati inseriti dallo staff
-                  })
-                  .where(eq(appointments.id, currentAppt.id));
+                  .set({ date: newDate, startTime: newStartTime, endTime: newEndTime })
+                  .where(eq(appointments.id, linkedAppointment.id));
                 
-                // Aggiorna anche il tracking
                 await db.update(googleCalendarEvents)
                   .set({ lastSyncAt: new Date(), updatedAt: new Date() })
-                  .where(eq(googleCalendarEvents.id, existing[0].id));
+                  .where(eq(googleCalendarEvents.id, existingTracking.id));
                 
-                result.imported++; // Conta come "aggiornato"
+                result.imported++;
               }
-            } else {
             }
-            continue; // Evento tracciato e appuntamento esistente - passa al prossimo
+            continue;
           }
-          // Se siamo qui, il tracking era orfano e lo abbiamo eliminato - continua con l'importazione normale
         }
         
-        // IMPORTANTE: Controlla anche se esiste già un appuntamento con lo stesso google_event_id
-        const existingAppointment = await db.select()
-          .from(appointments)
-          .where(and(
-            eq(appointments.userId, userId),
-            eq(appointments.googleEventId, googleEvent.id)
-          ));
+        // Controlla duplicato per googleEventId (O(1))
+        if (appointmentsByGoogleId.has(googleEvent.id)) continue;
         
-        if (existingAppointment.length > 0) {
-          console.log(`⏭️ [IMPORT] Skip: appuntamento già esiste con stesso googleEventId - ${eventInfo}`);
-          continue;
-        }
-        
-        // DEDUPLICAZIONE AGGIUNTIVA: Controlla se esiste già un appuntamento alla stessa data/ora
-        // (indipendentemente da importedFromGoogle - evita duplicati anche per appuntamenti esportati)
+        // Converti datetime
         const googleStartDateTime = googleEvent.start.dateTime;
         const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
         
-        // CONVERSIONE FUSO ORARIO: Converti datetime Google in ora locale italiana
         const startDateObj = new Date(googleStartDateTime);
         const endDateObj = new Date(googleEndDateTime);
-        
-        // Formatta nel fuso orario dell'utente
-        const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
-          timeZone,
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', second: '2-digit',
-          hour12: false
-        });
         
         const startParts = userFormatter.format(startDateObj).split(' ');
         const endParts = userFormatter.format(endDateObj).split(' ');
         
-        const eventDate = startParts[0]; // "2025-12-14"
-        const eventStartTime = startParts[1].substring(0, 5); // "09:00"
-        const eventEndTime = endParts[1].substring(0, 5); // "10:00"
+        const eventDate = startParts[0];
+        const eventStartTime = startParts[1].substring(0, 5);
+        const eventEndTime = endParts[1].substring(0, 5);
         
-        
-        const duplicateCheck = await db.select()
-          .from(appointments)
-          .where(and(
-            eq(appointments.userId, userId),
-            eq(appointments.date, eventDate),
-            eq(appointments.startTime, eventStartTime)
-          ));
-        
-        if (duplicateCheck.length > 0) {
-          console.log(`⏭️ [IMPORT] Skip: esiste già appuntamento a ${eventDate} ${eventStartTime} - ${eventInfo}`);
+        // Controllo duplicato per slot (O(1))
+        const slotKey = `${eventDate}|${eventStartTime}`;
+        if (appointmentsByDateSlot.has(slotKey) && appointmentsByDateSlot.get(slotKey)!.length > 0) {
           continue;
         }
         
-        console.log(`✅ [IMPORT] Creazione nuovo appuntamento: ${eventInfo}`)
-        
-        
-        // Cerca cliente basato su email o nome nell'evento
+        // Cerca cliente (O(1))
         let clientId: number | null = null;
+        const originalEventTitle = googleEvent.summary || 'Evento Google';
         
-        // 1. Prima prova con attendee email
         if (googleEvent.attendees && googleEvent.attendees.length > 0) {
           const attendeeEmail = googleEvent.attendees[0].email;
           if (attendeeEmail) {
-            const foundClients = await db.select()
-              .from(clients)
-              .where(and(eq(clients.userId, userId), eq(clients.email, attendeeEmail)));
-            
-            if (foundClients.length > 0) {
-              clientId = foundClients[0].id;
-            }
+            const foundClient = clientsByEmail.get(attendeeEmail);
+            if (foundClient) clientId = foundClient.id;
           }
         }
         
-        // 2. Se non trovato, cerca o crea cliente con titolo originale dell'evento
-        // IMPORTANTE: Usa il titolo originale come firstName così se il guard fallisce,
-        // il titolo su Google rimarrà simile all'originale
-        const originalEventTitle = googleEvent.summary || 'Evento Google';
-        
         if (!clientId) {
-          // Cerca cliente con lo stesso titolo dell'evento
-          const existingClients = await db.select()
-            .from(clients)
-            .where(and(
-              eq(clients.userId, userId), 
-              eq(clients.firstName, originalEventTitle),
-              eq(clients.lastName, 'Google Calendar')
-            ));
-          
-          if (existingClients.length > 0) {
-            clientId = existingClients[0].id;
+          const existingClient = clientsByName.get(`${originalEventTitle}|Google Calendar`);
+          if (existingClient) {
+            clientId = existingClient.id;
           } else {
-            // Crea cliente con titolo originale
             const newClient = await db.insert(clients).values({
               userId,
               firstName: originalEventTitle,
               lastName: 'Google Calendar',
               email: `google-${Date.now()}@imported.local`,
               phone: '',
-              notes: `Cliente creato automaticamente per evento Google Calendar: ${originalEventTitle}`
+              notes: `Cliente creato per evento Google: ${originalEventTitle}`
             }).returning();
             
             if (newClient.length > 0) {
               clientId = newClient[0].id;
+              // Aggiorna cache
+              clientsByName.set(`${originalEventTitle}|Google Calendar`, newClient[0]);
             }
           }
         }
 
-        if (!clientId) {
-          continue;
-        }
+        if (!clientId) continue;
 
-        // USA SEMPRE il servizio "Promemoria Google Calendar" per gli eventi importati
         const eventTitle = googleEvent.summary || 'Evento Google';
-        let serviceId: number;
-        
-        // Cerca/crea il servizio "Promemoria Google Calendar" unico per l'utente
-        const promemoriaService = await db.select()
-          .from(services)
-          .where(and(
-            eq(services.userId, userId),
-            eq(services.name, 'Promemoria Google Calendar')
-          ))
-          .limit(1);
-        
-        if (promemoriaService.length > 0) {
-          serviceId = promemoriaService[0].id;
-        } else {
-          // Crea il servizio "Promemoria Google Calendar" se non esiste
-          const newService = await db.insert(services).values({
-            userId,
-            name: 'Promemoria Google Calendar',
-            duration: 60,
-            price: 0,
-            color: '#6B7280' // Colore grigio per promemoria
-          }).returning();
-          
-          if (newService.length > 0) {
-            serviceId = newService[0].id;
-          } else {
-            // Fallback a servizio default se creazione fallisce
-            const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
-            serviceId = defaultService.length > 0 ? defaultService[0].id : 1;
-          }
-        }
+        const serviceId = promemoriaServiceId!;
         
 
         // Determina se siamo l'organizzatore dell'evento
