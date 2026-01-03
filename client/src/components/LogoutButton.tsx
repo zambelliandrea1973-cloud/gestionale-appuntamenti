@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter"; 
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -29,6 +29,12 @@ export default function LogoutButton({
     try {
       setIsLoggingOut(true);
       
+      // CRITICO: Pulisci TUTTA la cache prima del logout
+      queryClient.clear();
+      localStorage.clear();
+      sessionStorage.clear();
+      console.log('🧹 Cache completamente pulita al logout');
+      
       // Esegui la richiesta di logout
       const response = await apiRequest("POST", "/api/logout");
       
@@ -41,10 +47,9 @@ export default function LogoutButton({
         
         // Reindirizza alla pagina iniziale dopo un breve ritardo
         setTimeout(() => {
-          navigate("/");
-          // Forza il ricaricamento della pagina per pulire lo stato client
-          window.location.reload();
-        }, 1500);
+          // Usa window.location.href per forzare un refresh completo senza cache
+          window.location.href = "/";
+        }, 500);
       } else {
         // Mostra un messaggio di errore
         toast({
