@@ -10,8 +10,8 @@ import "./lib/i18n";
 (window as any).__REPLIT_DISABLE_RUNTIME_ERROR_MODAL = true;
 
 // CRITICAL: Force service worker update and cache purge on every page load
-// Version 9 - Complete cache nuke to fix stale bundle issue
-const SW_VERSION = 'v10-nuke-all';
+// Version 11 - Fix session mixing and stale data on mobile
+const SW_VERSION = 'v11-session-fix';
 const LAST_SW_VERSION_KEY = 'last-sw-version';
 
 async function forceServiceWorkerRefresh() {
