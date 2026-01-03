@@ -170,8 +170,9 @@ export default function ClientForm({
           : "Nuovo cliente creato con successo",
       });
       
-      // Invalidate queries to refresh data
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      // Invalidate queries to refresh data - forza refetch immediato
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'], refetchType: 'all' });
+      await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
       
       if (!clientId) {
         // Reset form to default values to clear all fields
