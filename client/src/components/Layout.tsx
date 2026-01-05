@@ -126,6 +126,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>{t('navigation.notifications')}</span>
                   </Button>
                 </Link>
+              </div>
+              
+              {/* Seconda riga navigazione */}
+              <div className="flex justify-center gap-x-3 mb-1 w-full">
                 {(isAdmin || isStaff) && (
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
@@ -134,10 +138,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     </Button>
                   </Link>
                 )}
-              </div>
-              
-              {/* Seconda riga navigazione */}
-              <div className="flex justify-center gap-x-3 w-full">
                 <Link href="/ai-chat">
                   <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px]">
                     <Sparkles className="h-4 w-4 mr-1 text-cyan-400" />
@@ -167,7 +167,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     </Link>
                   </>
                 )}
-                
+              </div>
+              
+              {/* Terza riga navigazione */}
+              <div className="flex justify-center gap-x-3 w-full">
                 <Link href="/settings">
                   <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <SettingsIcon className="h-4 w-4 mr-1" />
