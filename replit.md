@@ -10,6 +10,28 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - Work independently and efficiently
 - Keep dev and production environments synchronized
 
+## ⚠️ AZIONE URGENTE - ATTIVARE PAGAMENTI STRIPE LIVE
+
+**Da fare al prossimo accesso (da PC):**
+
+1. **Vai su Stripe Dashboard** → https://dashboard.stripe.com/apikeys
+2. **Assicurati di essere in modalità LIVE** (non Test) - toggle in alto a destra
+3. **Copia le chiavi:**
+   - Secret key: inizia con `sk_live_...`
+   - Publishable key: inizia con `pk_live_...`
+
+4. **Aggiorna su Replit (Secrets):**
+   - `STRIPE_SECRET_KEY_LIVE` = `sk_live_...`
+   - `VITE_STRIPE_PUBLIC_KEY_LIVE` = `pk_live_...`
+
+5. **Aggiorna su Sliplane (Variabili d'ambiente):**
+   - `STRIPE_SECRET_KEY` = `sk_live_...`
+   - `VITE_STRIPE_PUBLIC_KEY` = `pk_live_...`
+
+6. **Verifica che `PAYMENT_MODE` = `production`** su entrambi
+
+7. **Cancella questa sezione dopo aver completato l'operazione**
+
 ## System Architecture
 
 ### UI/UX Decisions
