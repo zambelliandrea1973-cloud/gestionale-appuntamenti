@@ -1,7 +1,71 @@
 import { storage } from '../storage';
-import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
+import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction, LicenseType } from '../../shared/schema';
 import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
+import { db } from '../db';
+import { licenses } from '../../shared/schema';
+import { eq, and } from 'drizzle-orm';
+import crypto from 'crypto';
+
+/**
+ * Determina il tipo di licenza in base al nome del piano
+ */
+function getLicenseTypeFromPlanName(planName: string): LicenseType {
+  const lowerName = planName.toLowerCase();
+  if (lowerName.includes('business')) {
+    return LicenseType.BUSINESS;
+  } else if (lowerName.includes('pro')) {
+    return LicenseType.PRO;
+  } else {
+    return LicenseType.BASE;
+  }
+}
+
+/**
+ * Crea o aggiorna la licenza dell'utente in base alla subscription
+ */
+async function createOrUpdateLicense(
+  userId: number,
+  licenseType: LicenseType,
+  expiresAt: Date
+): Promise<void> {
+  try {
+    // Cerca licenza esistente per l'utente
+    const [existingLicense] = await db.select()
+      .from(licenses)
+      .where(eq(licenses.userId, userId))
+      .limit(1);
+    
+    if (existingLicense) {
+      // Aggiorna la licenza esistente
+      await db.update(licenses)
+        .set({
+          type: licenseType,
+          expiresAt,
+          isActive: true
+        })
+        .where(eq(licenses.id, existingLicense.id));
+      
+      console.log(`📜 Licenza ${existingLicense.id} aggiornata a ${licenseType} per utente ${userId}`);
+    } else {
+      // Crea nuova licenza
+      const licenseCode = `PAY-${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
+      await db.insert(licenses).values({
+        code: licenseCode,
+        type: licenseType,
+        isActive: true,
+        createdAt: new Date(),
+        expiresAt,
+        activatedAt: new Date(),
+        userId
+      });
+      
+      console.log(`📜 Nuova licenza ${licenseType} creata per utente ${userId}`);
+    }
+  } catch (error) {
+    console.error('📜 Errore nella creazione/aggiornamento licenza:', error);
+  }
+}
 
 // Configurazione dell'ambiente Stripe
 const getStripeClient = async () => {
@@ -427,6 +491,11 @@ export class PaymentService {
       
       console.log(`📦 [PAYPAL PUBLIC] Abbonamento ${subscription.id} attivato con successo`);
       
+      // Crea/aggiorna la licenza dell'utente in base al piano pagato
+      const licenseType = getLicenseTypeFromPlanName(subscription.plan.name);
+      const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+      await createOrUpdateLicense(userId, licenseType, licenseExpiry);
+      
       // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
       await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
       
@@ -687,6 +756,14 @@ export class PaymentService {
           status: 'active',
           stripeCustomerId: session.customer || null
         });
+        
+        // Ottieni il piano per determinare il tipo di licenza
+        const plan = await storage.getSubscriptionPlan(planId);
+        if (plan) {
+          const licenseType = getLicenseTypeFromPlanName(plan.name);
+          const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+          await createOrUpdateLicense(userId, licenseType, licenseExpiry);
+        }
         
         // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
         await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
