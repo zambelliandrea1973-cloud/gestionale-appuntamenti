@@ -48,13 +48,16 @@ export default function PaymentSuccess() {
             refetchSubscription();
           }
         } else if (paypalOrderId && type === 'paypal') {
-          console.log('📦 Conferma pagamento PayPal con token:', paypalOrderId);
-          const res = await apiRequest('POST', '/api/payments/paypal/confirm-order', { 
-            orderId: paypalOrderId,
-            token: paypalOrderId
+          console.log('📦 Finalizzazione pagamento PayPal con token:', paypalOrderId);
+          // Usa l'endpoint pubblico che non richiede autenticazione
+          // (la sessione potrebbe essere persa dopo il redirect PayPal)
+          const res = await fetch('/api/payments/paypal/finalize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: paypalOrderId })
           });
           const result = await res.json();
-          console.log('📦 Risultato conferma PayPal:', result);
+          console.log('📦 Risultato finalizzazione PayPal:', result);
           if (result.success) {
             // Aggiorna le informazioni sull'abbonamento
             refetchSubscription();

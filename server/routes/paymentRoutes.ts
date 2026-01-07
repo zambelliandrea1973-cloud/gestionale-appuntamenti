@@ -283,6 +283,38 @@ router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
 });
 
 /**
+ * Endpoint PUBBLICO per finalizzare un ordine PayPal (non richiede autenticazione)
+ * POST /api/payments/paypal/finalize
+ * Accesso: pubblico - usa il token PayPal per identificare l'abbonamento
+ */
+router.post('/paypal/finalize', async (req, res) => {
+  try {
+    const orderId = req.body.orderId || req.body.token;
+    
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token PayPal mancante'
+      });
+    }
+    
+    console.log(`📦 [PAYPAL PUBLIC ENDPOINT] Finalizzazione con token: ${orderId}`);
+    
+    const result = await PaymentService.finalizePayPalSubscriptionByToken(orderId);
+    
+    console.log(`📦 [PAYPAL PUBLIC ENDPOINT] Risultato:`, result);
+    
+    return res.json(result);
+  } catch (error) {
+    console.error('Errore endpoint pubblico PayPal:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
  * Endpoint per iniziare un abbonamento con Wise
  * POST /api/payments/wise/subscribe
  * Accesso: utente autenticato

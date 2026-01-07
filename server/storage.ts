@@ -326,6 +326,7 @@ export interface IStorage {
   createSubscription(subscription: InsertSubscription): Promise<Subscription>;
   getSubscription(id: number): Promise<SubscriptionWithDetails | undefined>;
   getSubscriptionByUserId(userId: number): Promise<SubscriptionWithDetails | undefined>;
+  getSubscriptionByPayPalOrderId(orderId: string): Promise<SubscriptionWithDetails | undefined>;
   getActiveSubscriptions(): Promise<SubscriptionWithDetails[]>;
   updateSubscription(id: number, subscription: Partial<InsertSubscription>): Promise<Subscription | undefined>;
   cancelSubscription(id: number, cancelAtPeriodEnd: boolean): Promise<Subscription | undefined>;
@@ -4328,6 +4329,60 @@ export class DatabaseStorage implements IStorage {
       };
     } catch (error) {
       console.error(`Errore nel recupero della sottoscrizione per l'utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Recupera la sottoscrizione tramite PayPal Order ID (usato per endpoint pubblico)
+   */
+  async getSubscriptionByPayPalOrderId(orderId: string): Promise<SubscriptionWithDetails | undefined> {
+    try {
+      console.log(`Recupero sottoscrizione per PayPal Order ID: ${orderId}`);
+      
+      const [subscription] = await db
+        .select()
+        .from(subscriptions)
+        .where(eq(subscriptions.paypalSubscriptionId, orderId))
+        .limit(1);
+      
+      if (!subscription) {
+        console.log(`Nessuna sottoscrizione trovata per PayPal Order ID: ${orderId}`);
+        return undefined;
+      }
+      
+      console.log(`Sottoscrizione trovata: ID ${subscription.id}, User ${subscription.userId}`);
+      
+      const plan = await this.getSubscriptionPlan(subscription.planId);
+      if (!plan) {
+        console.error(`Piano ${subscription.planId} non trovato`);
+        return undefined;
+      }
+      
+      let user = null;
+      try {
+        user = await this.getUser(subscription.userId);
+        if (!user) {
+          user = { id: subscription.userId, username: `user-${subscription.userId}` };
+        }
+      } catch (error) {
+        user = { id: subscription.userId, username: `user-${subscription.userId}` };
+      }
+      
+      const transactions = await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.subscriptionId, subscription.id))
+        .orderBy(desc(paymentTransactions.createdAt));
+      
+      return {
+        ...subscription,
+        plan,
+        user,
+        transactions
+      };
+    } catch (error) {
+      console.error(`Errore nel recupero della sottoscrizione per PayPal Order ID ${orderId}:`, error);
       return undefined;
     }
   }

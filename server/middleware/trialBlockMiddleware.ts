@@ -77,6 +77,7 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
           '/api/payments/paypal/subscribe', // PayPal checkout
           '/api/payments/paypal/capture', // PayPal capture ordine
           '/api/payments/paypal/confirm-order', // PayPal conferma ordine
+          '/api/payments/paypal/finalize', // PayPal finalizzazione pubblica
           '/api/timezone-settings',  // Fuso orario
           '/api/tenant-context',     // Contesto tenant
           '/api/client-app-info',    // Info app

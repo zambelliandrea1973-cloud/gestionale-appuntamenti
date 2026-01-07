@@ -367,6 +367,93 @@ export class PaymentService {
   }
 
   /**
+   * Finalizza un abbonamento PayPal usando solo il token (endpoint pubblico)
+   * Trova l'abbonamento tramite paypal_subscription_id nel database
+   */
+  static async finalizePayPalSubscriptionByToken(
+    orderId: string
+  ): Promise<{success: boolean, message?: string, userId?: number}> {
+    try {
+      console.log(`📦 [PAYPAL PUBLIC] Finalizzazione abbonamento con token: ${orderId}`);
+      
+      // Trova l'abbonamento nel database tramite PayPal Order ID
+      const subscription = await storage.getSubscriptionByPayPalOrderId(orderId);
+      if (!subscription) {
+        console.log(`📦 [PAYPAL PUBLIC] Abbonamento non trovato per token: ${orderId}`);
+        return {
+          success: false,
+          message: 'Abbonamento non trovato per questo ordine PayPal'
+        };
+      }
+      
+      const userId = subscription.userId;
+      console.log(`📦 [PAYPAL PUBLIC] Abbonamento trovato: ID ${subscription.id}, User ${userId}, Status: ${subscription.status}`);
+      
+      // Se già attivo, non fare nulla
+      if (subscription.status === 'active') {
+        console.log(`📦 [PAYPAL PUBLIC] Abbonamento già attivo, ritorno successo`);
+        return {
+          success: true,
+          userId
+        };
+      }
+      
+      // Effettua la cattura del pagamento PayPal
+      const client = await getPayPalClient();
+      const request = new paypal.orders.OrdersCaptureRequest(orderId);
+      request.requestBody({});
+      
+      console.log(`📦 [PAYPAL PUBLIC] Invio richiesta di cattura a PayPal...`);
+      const response = await client.execute(request);
+      console.log(`📦 [PAYPAL PUBLIC] Risposta PayPal: ${response.statusCode}`);
+      
+      if (response.statusCode !== 201) {
+        return {
+          success: false,
+          message: 'Errore nella finalizzazione del pagamento PayPal'
+        };
+      }
+      
+      // Aggiorna lo stato dell'abbonamento
+      await storage.updateSubscription(subscription.id, {
+        status: 'active'
+      });
+      
+      console.log(`📦 [PAYPAL PUBLIC] Abbonamento ${subscription.id} attivato con successo`);
+      
+      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
+      
+      // Registra la transazione
+      const transactionData: InsertPaymentTransaction = {
+        userId,
+        subscriptionId: subscription.id,
+        amount: subscription.plan.price,
+        currency: 'EUR',
+        status: 'completed',
+        paymentMethod: 'paypal',
+        transactionId: response.result.id,
+        description: `Pagamento per abbonamento ${subscription.plan.name}`
+      };
+      
+      await storage.createPaymentTransaction(transactionData);
+      
+      console.log(`📦 [PAYPAL PUBLIC] Transazione registrata per utente ${userId}`);
+      
+      return {
+        success: true,
+        userId
+      };
+    } catch (error) {
+      console.error('📦 [PAYPAL PUBLIC] Errore:', error);
+      return {
+        success: false,
+        message: 'Errore durante la finalizzazione dell\'abbonamento PayPal'
+      };
+    }
+  }
+
+  /**
    * Cancella un abbonamento
    */
   static async cancelSubscription(
