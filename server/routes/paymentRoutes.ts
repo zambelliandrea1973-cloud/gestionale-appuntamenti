@@ -118,10 +118,8 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
     let baseUrl: string;
     if (process.env.PRODUCTION_DOMAIN) {
       baseUrl = `https://${process.env.PRODUCTION_DOMAIN}`;
-    } else if (process.env.REPLIT_DOMAINS) {
-      const replitDomains = process.env.REPLIT_DOMAINS.split(',');
-      const publicDomain = replitDomains.find(d => d.includes('replit.app')) || replitDomains[0];
-      baseUrl = `https://${publicDomain}`;
+    } else if (process.env.APP_BASE_URL) {
+      baseUrl = process.env.APP_BASE_URL;
     } else {
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       baseUrl = `${protocol}://${req.get('host')}`;
@@ -189,10 +187,8 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
     let baseUrl: string;
     if (process.env.PRODUCTION_DOMAIN) {
       baseUrl = `https://${process.env.PRODUCTION_DOMAIN}`;
-    } else if (process.env.REPLIT_DOMAINS) {
-      const replitDomains = process.env.REPLIT_DOMAINS.split(',');
-      const publicDomain = replitDomains.find(d => d.includes('replit.app')) || replitDomains[0];
-      baseUrl = `https://${publicDomain}`;
+    } else if (process.env.APP_BASE_URL) {
+      baseUrl = process.env.APP_BASE_URL;
     } else {
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       baseUrl = `${protocol}://${req.get('host')}`;
