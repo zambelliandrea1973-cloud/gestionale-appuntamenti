@@ -124,8 +124,10 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       baseUrl = `${protocol}://${req.get('host')}`;
     }
-    const returnUrl = `${baseUrl}/payment/success`;
-    const cancelUrl = `${baseUrl}/payment/cancel`;
+    // PayPal aggiunge automaticamente ?token=EC-XXX all'URL di ritorno
+    // Aggiungiamo type=paypal per identificare il metodo di pagamento
+    const returnUrl = `${baseUrl}/payment/success?type=paypal`;
+    const cancelUrl = `${baseUrl}/payment/cancel?type=paypal`;
     
     const result = await PaymentService.createPayPalSubscription(
       userId,
@@ -239,6 +241,40 @@ router.post('/paypal/capture', isAuthenticated, async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.error('Errore durante la finalizzazione dell\'abbonamento PayPal:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
+ * Endpoint alternativo per confermare un ordine PayPal (alias di capture)
+ * POST /api/payments/paypal/confirm-order
+ * Accesso: utente autenticato
+ */
+router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
+  try {
+    // Supporta sia orderId che token (PayPal usa token nell'URL di ritorno)
+    const orderId = req.body.orderId || req.body.token;
+    const userId = req.user!.id;
+    
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID dell\'ordine o token è obbligatorio'
+      });
+    }
+    
+    console.log(`📦 Conferma ordine PayPal: ${orderId} per utente ${userId}`);
+    
+    const result = await PaymentService.finalizePayPalSubscription(orderId, userId);
+    
+    console.log(`📦 Risultato conferma PayPal:`, result);
+    
+    return res.json(result);
+  } catch (error) {
+    console.error('Errore durante la conferma dell\'ordine PayPal:', error);
     return res.status(500).json({
       success: false,
       message: 'Errore interno del server'

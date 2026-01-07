@@ -18,9 +18,11 @@ export default function PaymentSuccess() {
   const [success, setSuccess] = useState(false);
   
   // Recupera l'ID della sessione dalla query string (se presente)
-  const sessionId = new URLSearchParams(search).get('session_id');
-  const paypalOrderId = new URLSearchParams(search).get('order_id');
-  const type = new URLSearchParams(search).get('type') || 'stripe';
+  const searchParams = new URLSearchParams(search);
+  const sessionId = searchParams.get('session_id');
+  // PayPal restituisce il token nell'URL di ritorno come "token" parameter
+  const paypalOrderId = searchParams.get('order_id') || searchParams.get('token');
+  const type = searchParams.get('type') || (sessionId ? 'stripe' : (paypalOrderId ? 'paypal' : 'stripe'));
   
   // Recupera informazioni sull'abbonamento
   const { data: subscriptionInfo, isLoading: isLoadingSubscription, refetch: refetchSubscription } = useQuery({
@@ -46,10 +48,13 @@ export default function PaymentSuccess() {
             refetchSubscription();
           }
         } else if (paypalOrderId && type === 'paypal') {
+          console.log('📦 Conferma pagamento PayPal con token:', paypalOrderId);
           const res = await apiRequest('POST', '/api/payments/paypal/confirm-order', { 
-            orderId: paypalOrderId 
+            orderId: paypalOrderId,
+            token: paypalOrderId
           });
           const result = await res.json();
+          console.log('📦 Risultato conferma PayPal:', result);
           if (result.success) {
             // Aggiorna le informazioni sull'abbonamento
             refetchSubscription();
