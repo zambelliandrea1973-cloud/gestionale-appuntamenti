@@ -233,7 +233,13 @@ export class PaymentService {
       const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
-      endDate.setFullYear(endDate.getFullYear() + 1); // Sempre 1 anno per semplicità
+      
+      // Calcola la data di scadenza in base all'intervallo del piano
+      if (plan.interval === 'month') {
+        endDate.setMonth(endDate.getMonth() + 1);
+      } else {
+        endDate.setFullYear(endDate.getFullYear() + 1);
+      }
       
       if (existingSubscription) {
         // Se esiste già un abbonamento, aggiornalo invece di crearne uno nuovo
