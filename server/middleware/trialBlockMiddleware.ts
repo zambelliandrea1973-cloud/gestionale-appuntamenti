@@ -66,6 +66,8 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
         // Route consentite anche con trial scaduto
         const allowedPaths = [
           '/subscribe',           // Pagina abbonamenti
+          '/payment/success',     // Callback successo PayPal/Stripe
+          '/payment/cancel',      // Callback annullamento PayPal/Stripe
           '/api/payments',        // API pagamenti (per sottoscrivere)
           '/api/logout',          // Logout
           '/api/user-with-license', // Info utente
