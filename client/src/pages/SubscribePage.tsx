@@ -270,6 +270,19 @@ export default function SubscribePage() {
   });
 
   const handlePayment = (planId: string) => {
+    // Verifica che l'utente sia autenticato prima di procedere
+    if (!isAuthenticated || !user) {
+      toast({
+        title: 'Accesso richiesto',
+        description: 'Devi effettuare l\'accesso per sottoscrivere un abbonamento',
+        variant: 'destructive',
+      });
+      // Salva l'URL corrente per il redirect post-login
+      sessionStorage.setItem('redirectAfterLogin', window.location.pathname + window.location.search);
+      setLocation('/');
+      return;
+    }
+    
     setSelectedPlanId(planId);
     
     if (paymentMethod === 'paypal') {
@@ -690,7 +703,7 @@ export default function SubscribePage() {
                         variant={isCurrentPlan ? 'outline' : plan.buttonVariant}
                         className={`w-full ${isCurrentPlan ? 'border-green-500 text-green-700 hover:bg-green-50' : ''}`}
                         onClick={() => !isCurrentPlan && handlePayment(plan.id)}
-                        disabled={isCurrentPlan || plan.type === LicenseType.TRIAL || plan.id === 'trial'}
+                        disabled={isCurrentPlan || plan.type === LicenseType.TRIAL || plan.id === 'trial' || !isAuthenticated}
                       >
                         {isCurrentPlan ? (
                           <div className="flex items-center justify-center">
