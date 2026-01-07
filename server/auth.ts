@@ -54,7 +54,7 @@ export function setupAuth(app: Express) {
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 giorni
       httpOnly: true,
       secure: isProduction || isReplit, // true su Replit/Sliplane (HTTPS)
-      sameSite: isSliplane ? 'none' : 'lax', // 'none' su Sliplane per cross-site cookies
+      sameSite: 'none', // 'none' sempre per permettere redirect da PayPal/Stripe
       domain: isSliplane ? undefined : undefined // auto-detect domain
     },
     name: 'session-id',
