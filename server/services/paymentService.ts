@@ -1,5 +1,5 @@
 import { storage } from '../storage';
-import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction, LicenseType } from '../../shared/schema';
+import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
 import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 import { db } from '../db';
@@ -7,17 +7,20 @@ import { licenses } from '../../shared/schema';
 import { eq, and } from 'drizzle-orm';
 import crypto from 'crypto';
 
+// Tipo per le licenze: 'base', 'pro', 'business', 'trial', 'passepartout'
+type LicenseTypeValue = 'base' | 'pro' | 'business' | 'trial' | 'passepartout';
+
 /**
  * Determina il tipo di licenza in base al nome del piano
  */
-function getLicenseTypeFromPlanName(planName: string): LicenseType {
+function getLicenseTypeFromPlanName(planName: string): LicenseTypeValue {
   const lowerName = planName.toLowerCase();
   if (lowerName.includes('business')) {
-    return LicenseType.BUSINESS;
+    return 'business';
   } else if (lowerName.includes('pro')) {
-    return LicenseType.PRO;
+    return 'pro';
   } else {
-    return LicenseType.BASE;
+    return 'base';
   }
 }
 
@@ -26,7 +29,7 @@ function getLicenseTypeFromPlanName(planName: string): LicenseType {
  */
 async function createOrUpdateLicense(
   userId: number,
-  licenseType: LicenseType,
+  licenseType: LicenseTypeValue,
   expiresAt: Date
 ): Promise<void> {
   try {

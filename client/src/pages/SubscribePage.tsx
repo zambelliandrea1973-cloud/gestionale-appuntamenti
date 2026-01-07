@@ -508,8 +508,8 @@ export default function SubscribePage() {
           {t('subscribe.subtitle', 'Tutti i piani includono un periodo di prova gratuito di 40 giorni. Nessuna carta di credito richiesta per iniziare.')}
         </p>
         
-        {/* Trial Expired Warning */}
-        {isTrialExpired && (
+        {/* Trial Expired Warning - nascosto se c'è già un abbonamento attivo */}
+        {isTrialExpired && !(subscriptionInfo && subscriptionInfo.status === 'active') && (
           <Alert className="max-w-3xl mx-auto mb-8 bg-red-50 border-red-300" data-testid="alert-trial-expired">
             <div className="flex items-center">
               <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
