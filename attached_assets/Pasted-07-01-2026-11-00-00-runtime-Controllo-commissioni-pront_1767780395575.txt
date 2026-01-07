@@ -1,0 +1,4051 @@
+07/01/2026, 11:00:00:
+runtime
+🔍 Controllo commissioni pronte per il payout...
+07/01/2026, 11:00:01:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:00:01:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:00:01:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:00:01:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:00:01:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:00:01:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:00:01:
+runtime
+      order by b.oid
+07/01/2026, 11:00:01:
+runtime
+    
+07/01/2026, 11:00:01:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:00:01:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:00:01:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:00:01:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:00:01:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:00:01:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:00:01:
+runtime
+      order by b.oid
+07/01/2026, 11:00:01:
+runtime
+    
+07/01/2026, 11:00:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "referrer_id", "referred_id", "subscription_id", "monthly_amount", "status", "start_date", "end_date", "payout_scheduled_date", "payout_date", "payout_transaction_id", "payout_status", "payout_method", "created_at", "updated_at" from "referral_commissions"
+07/01/2026, 11:00:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+07/01/2026, 11:00:01:
+runtime
+🔍 [SQL DEBUG] Params: [
+07/01/2026, 11:00:01:
+runtime
+  '2026-01-07T09:00:00.252Z',
+07/01/2026, 11:00:01:
+runtime
+  '2026-01-08T16:00:00.252Z',
+07/01/2026, 11:00:01:
+runtime
+  '%sent%',
+07/01/2026, 11:00:01:
+runtime
+  '%email%'
+07/01/2026, 11:00:01:
+runtime
+]
+07/01/2026, 11:00:01:
+runtime
+✅ Nessuna commissione pronta per il payout
+07/01/2026, 11:00:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:00:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:00:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:53:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/user-with-license
+07/01/2026, 11:00:53:
+runtime
+🔐 [desktop] /api/user-with-license per utente 16 (faverioelisa6@gmail.com)
+07/01/2026, 11:00:53:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/has-business-access
+07/01/2026, 11:00:53:
+runtime
+10:00:53 AM [express] GET /api/license/has-business-access 304 in 245ms :: true
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:00:54:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:00:54:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:00:54:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:00:54:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      order by b.oid
+07/01/2026, 11:00:54:
+runtime
+    
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:00:54:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:00:54:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:00:54:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:00:54:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      order by b.oid
+07/01/2026, 11:00:54:
+runtime
+    
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:00:54:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:00:54:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:00:54:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:00:54:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:00:54:
+runtime
+      order by b.oid
+07/01/2026, 11:00:54:
+runtime
+    
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:54:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/tenant-context
+07/01/2026, 11:00:54:
+runtime
+10:00:54 AM [express] GET /api/tenant-context 200 in 1280ms :: {"userId":16,"userType":"staff","tenan…
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:00:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:54:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/has-pro-access
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] Session ID: IV_Bq_p-MU3DYy7l6cJC8pp0zRxT4ad2
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] req.user: User ID 16, type: staff
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] Cookie header: present
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] ============================
+07/01/2026, 11:00:54:
+runtime
+🔐 [has-pro-access] Utente 16 (staff) - admin/staff = true
+07/01/2026, 11:00:54:
+runtime
+10:00:54 AM [express] GET /api/license/has-pro-access 304 in 1292ms :: true
+07/01/2026, 11:00:55:
+runtime
+🏷️ [desktop] Assignment code per utente 16: FAV1689
+07/01/2026, 11:00:55:
+runtime
+🏷️ [desktop] Legacy code per utente 16: PROF_016_B17E
+07/01/2026, 11:00:55:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+07/01/2026, 11:00:55:
+runtime
+  id: 16,
+07/01/2026, 11:00:55:
+runtime
+  username: 'faverioelisa6@gmail.com',
+07/01/2026, 11:00:55:
+runtime
+  firstName: null,
+07/01/2026, 11:00:55:
+runtime
+  lastName: null,
+07/01/2026, 11:00:55:
+runtime
+  licenseType: 'staff_free_10years'
+07/01/2026, 11:00:55:
+runtime
+}
+07/01/2026, 11:00:55:
+runtime
+10:00:55 AM [express] GET /api/user-with-license 200 in 1544ms :: {"id":16,"username":"faverioelisa6@…
+07/01/2026, 11:00:55:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+07/01/2026, 11:00:55:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+07/01/2026, 11:00:55:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '16', ts: '1767780074493' }
+07/01/2026, 11:00:55:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 16
+07/01/2026, 11:00:55:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 16)
+07/01/2026, 11:00:55:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+07/01/2026, 11:00:55:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=16&v=1767780055444.6338&admin=1","/pwa-icon/192x192?owner=16&v=1767780055444.6338&admin=1","/pwa-icon/512x512?owner=16&v=1767780055444.6338&admin=1"]
+07/01/2026, 11:00:55:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 16
+07/01/2026, 11:00:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+07/01/2026, 11:00:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:00:55:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 16: SÌ
+07/01/2026, 11:00:55:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 16, dimensione: 23828 bytes
+07/01/2026, 11:01:00:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:00:
+runtime
+🔍 [SQL DEBUG] Params: [ 16 ]
+07/01/2026, 11:01:00:
+runtime
+Tentativo di logout per utente faverioelisa6@gmail.com, tipo: staff
+07/01/2026, 11:01:00:
+runtime
+Logout completato con successo
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] POST /api/logout 200 in 232ms :: {"success":true,"message":"Logout completato c…
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] GET /api/license/has-business-access 200 in 0ms
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] Session ID: t8Hy3g0MmLRgjW4UbYKUndMPMMtPvkCG
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] req.user: undefined
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] Cookie header: missing
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] ============================
+07/01/2026, 11:01:00:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] GET /api/license/has-pro-access 200 in 0ms
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+07/01/2026, 11:01:00:
+runtime
+10:01:00 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:01:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:01:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1767780061263-default
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:01:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+07/01/2026, 11:01:01:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1767780061263.9553&android=1","/pwa-icon/192x192?owner=default&v=1767780061263.9553&android=1","/pwa-icon/512x512?owner=default&v=1767780061263.9553&android=1"]
+07/01/2026, 11:01:01:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+07/01/2026, 11:01:01:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+07/01/2026, 11:01:02:
+runtime
+10:01:02 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+07/01/2026, 11:01:02:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1767780062047-default
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1767780062047.595&android=1","/pwa-icon/192x192?owner=default&v=1767780062047.595&android=1","/pwa-icon/512x512?owner=default&v=1767780062047.595&android=1"]
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+07/01/2026, 11:01:02:
+runtime
+10:01:02 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+07/01/2026, 11:01:02:
+runtime
+10:01:02 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:02:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1767780062647-default
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+07/01/2026, 11:01:02:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1767780062647.7102&android=1","/pwa-icon/192x192?owner=default&v=1767780062647.7102&android=1","/pwa-icon/512x512?owner=default&v=1767780062647.7102&android=1"]
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+07/01/2026, 11:01:02:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+07/01/2026, 11:01:02:
+runtime
+10:01:02 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Ro…
+07/01/2026, 11:01:07:
+runtime
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973A@gmail.com
+07/01/2026, 11:01:07:
+runtime
+🔐 [LOGIN] IP: 94.165.50.27, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Sa
+07/01/2026, 11:01:07:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+07/01/2026, 11:01:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where ("users"."username" = $1 or "users"."email" = $2)
+07/01/2026, 11:01:07:
+runtime
+🔍 [SQL DEBUG] Params: [
+07/01/2026, 11:01:07:
+runtime
+  'zambelli.andrea.1973A@gmail.com',
+07/01/2026, 11:01:07:
+runtime
+  'zambelli.andrea.1973A@gmail.com'
+07/01/2026, 11:01:07:
+runtime
+]
+07/01/2026, 11:01:08:
+runtime
+✅ [LOGIN] Login completato per: zambelli.andrea.1973A@gmail.com (ID: 9, tipo: customer)
+07/01/2026, 11:01:08:
+runtime
+🔐 [LOGIN] Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:08:
+runtime
+🔐 [LOGIN] Session saved: yes
+07/01/2026, 11:01:08:
+runtime
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973A@gmail.com
+07/01/2026, 11:01:08:
+runtime
+10:01:08 AM [express] POST /api/staff/login 200 in 287ms :: {"id":9,"username":"zambelli.andrea.1973A…
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:08:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/user-with-license
+07/01/2026, 11:01:08:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:08:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /dashboard
+07/01/2026, 11:01:08:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:08:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:08:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:08:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:08:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:08:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:08:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:08:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:08:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:08:
+runtime
+  now: '2026-01-07T10:01:08.848Z'
+07/01/2026, 11:01:08:
+runtime
+}
+07/01/2026, 11:01:08:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:08:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/user-with-license (whitelisted)
+07/01/2026, 11:01:08:
+runtime
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+07/01/2026, 11:01:08:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:09:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:09:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:09:
+runtime
+  now: '2026-01-07T10:01:09.014Z'
+07/01/2026, 11:01:09:
+runtime
+}
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /dashboard
+07/01/2026, 11:01:09:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:09:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+07/01/2026, 11:01:09:
+runtime
+  id: 9,
+07/01/2026, 11:01:09:
+runtime
+  username: 'zambelli.andrea.1973A@gmail.com',
+07/01/2026, 11:01:09:
+runtime
+  firstName: null,
+07/01/2026, 11:01:09:
+runtime
+  lastName: null,
+07/01/2026, 11:01:09:
+runtime
+  licenseType: 'trial'
+07/01/2026, 11:01:09:
+runtime
+}
+07/01/2026, 11:01:09:
+runtime
+10:01:09 AM [express] GET /api/user-with-license 200 in 942ms :: {"id":9,"username":"zambelli.andrea.…
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+07/01/2026, 11:01:09:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+07/01/2026, 11:01:09:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '9', ts: '1767780088545' }
+07/01/2026, 11:01:09:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 9
+07/01/2026, 11:01:09:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 9)
+07/01/2026, 11:01:09:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+07/01/2026, 11:01:09:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=9&v=1767780069423.9246&admin=1","/pwa-icon/192x192?owner=9&v=1767780069423.9246&admin=1","/pwa-icon/512x512?owner=9&v=1767780069423.9246&admin=1"]
+07/01/2026, 11:01:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 9
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/contact-info
+07/01/2026, 11:01:09:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/tenant-context
+07/01/2026, 11:01:09:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:09:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:09:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 9: NO
+07/01/2026, 11:01:09:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 9
+07/01/2026, 11:01:09:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:09:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:09:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:09:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 9, dimensione: 50811 bytes
+07/01/2026, 11:01:09:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:09:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:09:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:09:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:09:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:09:
+runtime
+  now: '2026-01-07T10:01:09.961Z'
+07/01/2026, 11:01:09:
+runtime
+}
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:09:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/contact-info (whitelisted)
+07/01/2026, 11:01:09:
+runtime
+Recupero impostazioni per utente 9
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+07/01/2026, 11:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, 1 ]
+07/01/2026, 11:01:09:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:09:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:09:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:09:
+runtime
+  now: '2026-01-07T10:01:09.969Z'
+07/01/2026, 11:01:09:
+runtime
+}
+07/01/2026, 11:01:09:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:09:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/tenant-context (whitelisted)
+07/01/2026, 11:01:09:
+runtime
+10:01:09 AM [express] GET /api/tenant-context 200 in 691ms :: {"userId":9,"userType":"customer","tena…
+07/01/2026, 11:01:10:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:10:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:10:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:10:
+runtime
+  now: '2026-01-07T10:01:10.033Z'
+07/01/2026, 11:01:10:
+runtime
+}
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:10:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+Impostazioni trovate per utente 9: SI
+07/01/2026, 11:01:10:
+runtime
+10:01:10 AM [express] GET /api/contact-info 200 in 918ms :: {"email":"info@studiomedico.it","phone":"…
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /forced-style.css
+07/01/2026, 11:01:10:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /disable-vite-overlay.js
+07/01/2026, 11:01:10:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /assets/index-CzkXAp5G.css
+07/01/2026, 11:01:10:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /assets/index-2l06HkUI.js
+07/01/2026, 11:01:10:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:10:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:10:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:10:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:10:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:10:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:10:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:10:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:10:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:10:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:10:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:10:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:10:
+runtime
+  now: '2026-01-07T10:01:10.831Z'
+07/01/2026, 11:01:10:
+runtime
+}
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:10:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /forced-style.css (whitelisted)
+07/01/2026, 11:01:10:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:10:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:10:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:10:
+runtime
+  now: '2026-01-07T10:01:10.833Z'
+07/01/2026, 11:01:10:
+runtime
+}
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:10:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /disable-vite-overlay.js (whitelisted)
+07/01/2026, 11:01:10:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:10:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:10:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:10:
+runtime
+  now: '2026-01-07T10:01:10.839Z'
+07/01/2026, 11:01:10:
+runtime
+}
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:10:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /assets/index-2l06HkUI.js (whitelisted)
+07/01/2026, 11:01:10:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:10:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:10:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:10:
+runtime
+  now: '2026-01-07T10:01:10.839Z'
+07/01/2026, 11:01:10:
+runtime
+}
+07/01/2026, 11:01:10:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:10:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /assets/index-CzkXAp5G.css (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:11:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:11:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1767780071375-default
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:11:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:11:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+07/01/2026, 11:01:11:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1767780071376.1006&android=1","/pwa-icon/192x192?owner=default&v=1767780071376.1006&android=1","/pwa-icon/512x512?owner=default&v=1767780071376.1006&android=1"]
+07/01/2026, 11:01:11:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+07/01/2026, 11:01:11:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/license-info
+07/01/2026, 11:01:11:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/timezone-settings
+07/01/2026, 11:01:11:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/user-with-license
+07/01/2026, 11:01:11:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/has-business-access
+07/01/2026, 11:01:11:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/has-pro-access
+07/01/2026, 11:01:11:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+07/01/2026, 11:01:11:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+07/01/2026, 11:01:11:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+07/01/2026, 11:01:11:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:11:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:11:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:11:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:11:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:11:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:11:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:11:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:11:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:11:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:11:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:11:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:11:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:11:
+runtime
+  now: '2026-01-07T10:01:11.860Z'
+07/01/2026, 11:01:11:
+runtime
+}
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:11:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/license-info (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:11:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:11:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:11:
+runtime
+  now: '2026-01-07T10:01:11.862Z'
+07/01/2026, 11:01:11:
+runtime
+}
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:11:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/has-business-access (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:11:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:11:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:11:
+runtime
+  now: '2026-01-07T10:01:11.868Z'
+07/01/2026, 11:01:11:
+runtime
+}
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:11:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/timezone-settings (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+10:01:11 AM [express] GET /api/timezone-settings 200 in 707ms :: {"timezone":"Europe/Rome","offset":-…
+07/01/2026, 11:01:11:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:11:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:11:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:11:
+runtime
+  now: '2026-01-07T10:01:11.874Z'
+07/01/2026, 11:01:11:
+runtime
+}
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:11:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/user-with-license (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+07/01/2026, 11:01:11:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:11:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:11:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:11:
+runtime
+  now: '2026-01-07T10:01:11.901Z'
+07/01/2026, 11:01:11:
+runtime
+}
+07/01/2026, 11:01:11:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:11:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/has-pro-access (whitelisted)
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] req.user: User ID 9, type: customer
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] Cookie header: present
+07/01/2026, 11:01:11:
+runtime
+🔐 [has-pro-access] ============================
+07/01/2026, 11:01:11:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:11:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:01:11:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:01:11:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:01:11:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:01:11:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:01:11:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:01:11:
+runtime
+      order by b.oid
+07/01/2026, 11:01:11:
+runtime
+    
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:01:12:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:01:12:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:01:12:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:01:12:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      order by b.oid
+07/01/2026, 11:01:12:
+runtime
+    
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:01:12:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:01:12:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:01:12:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:01:12:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      order by b.oid
+07/01/2026, 11:01:12:
+runtime
+    
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:01:12:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:01:12:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:01:12:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:01:12:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      order by b.oid
+07/01/2026, 11:01:12:
+runtime
+    
+07/01/2026, 11:01:12:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/license/license-info 200 in 917ms :: {"hasLicense":true,"type":"trial"…
+07/01/2026, 11:01:12:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/license/has-business-access 200 in 917ms :: true
+07/01/2026, 11:01:12:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+07/01/2026, 11:01:12:
+runtime
+  id: 9,
+07/01/2026, 11:01:12:
+runtime
+  username: 'zambelli.andrea.1973A@gmail.com',
+07/01/2026, 11:01:12:
+runtime
+  firstName: null,
+07/01/2026, 11:01:12:
+runtime
+  lastName: null,
+07/01/2026, 11:01:12:
+runtime
+  licenseType: 'trial'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/user-with-license 200 in 965ms :: {"id":9,"username":"zambelli.andrea.…
+07/01/2026, 11:01:12:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+🔐 [has-pro-access] Utente 9 licenza trial - hasAccess: true
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/license/has-pro-access 200 in 958ms :: true
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/timezone-settings
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+07/01/2026, 11:01:12:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+07/01/2026, 11:01:12:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '9', ts: '1767780091572' }
+07/01/2026, 11:01:12:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 9
+07/01/2026, 11:01:12:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 9)
+07/01/2026, 11:01:12:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+07/01/2026, 11:01:12:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=9&v=1767780072280.649&admin=1","/pwa-icon/192x192?owner=9&v=1767780072280.649&admin=1","/pwa-icon/512x512?owner=9&v=1767780072280.649&admin=1"]
+07/01/2026, 11:01:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: 
+07/01/2026, 11:01:12:
+runtime
+      select b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      from pg_catalog.pg_type a
+07/01/2026, 11:01:12:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+07/01/2026, 11:01:12:
+runtime
+      where a.typcategory = 'A'
+07/01/2026, 11:01:12:
+runtime
+      group by b.oid, b.typarray
+07/01/2026, 11:01:12:
+runtime
+      order by b.oid
+07/01/2026, 11:01:12:
+runtime
+    
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/currency-settings
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/payments/subscription
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/application-title
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/tenant-context
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/payments/plans
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 9: NO
+07/01/2026, 11:01:12:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 9
+07/01/2026, 11:01:12:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 9, dimensione: 50811 bytes
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.626Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/timezone-settings (whitelisted)
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] POST /api/timezone-settings 200 in 688ms :: {"success":true,"timezone":"Europe/…
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:12:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /icons/icon-96x96.png
+07/01/2026, 11:01:12:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.905Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /api/currency-settings
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/currency-settings 403 in 1728ms :: {"success":false,"error":"trial_exp…
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.915Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/payments/subscription (whitelisted)
+07/01/2026, 11:01:12:
+runtime
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+07/01/2026, 11:01:12:
+runtime
+🔐 req.isAuthenticated(): true
+07/01/2026, 11:01:12:
+runtime
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+07/01/2026, 11:01:12:
+runtime
+🔐 Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:12:
+runtime
+🔐 Cookies: session-id=s%3AwKHVWPzoNnQmUWI7EBiS11dst4VRzRY0.eWcBSkYzgjtCIIzdS5uzzQ1SoUXZ%2FNYqsL1IkSxL8Ho
+07/01/2026, 11:01:12:
+runtime
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+07/01/2026, 11:01:12:
+runtime
+Recupero sottoscrizione per l'utente con ID 9
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "plan_id", "status", "current_period_start", "current_period_end", "cancel_at_period_end", "paypal_subscription_id", "wise_subscription_id", "stripe_customer_id", "stripe_subscription_id", "stripe_session_id", "payment_method", "metadata", "created_at", "updated_at" from "subscriptions" where "subscriptions"."user_id" = $1 order by "subscriptions"."created_at" desc limit $2
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, 1 ]
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.949Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/application-title (whitelisted)
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/license/application-title 304 in 1772ms :: {"title":"Gestionale Appunt…
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.958Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/tenant-context (whitelisted)
+07/01/2026, 11:01:12:
+runtime
+10:01:12 AM [express] GET /api/tenant-context 200 in 684ms :: {"userId":9,"userType":"customer","tena…
+07/01/2026, 11:01:12:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:12:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:12:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:12:
+runtime
+  now: '2026-01-07T10:01:12.965Z'
+07/01/2026, 11:01:12:
+runtime
+}
+07/01/2026, 11:01:12:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:12:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/payments/plans (whitelisted)
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."is_active" = $1 order by "subscription_plans"."sort_order" asc
+07/01/2026, 11:01:12:
+runtime
+🔍 [SQL DEBUG] Params: [ true ]
+07/01/2026, 11:01:13:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:13:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."id" = $1
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 5 ]
+07/01/2026, 11:01:13:
+runtime
+10:01:13 AM [express] GET /api/payments/plans 200 in 2013ms :: [{"id":5,"name":"Base Mensile","descri…
+07/01/2026, 11:01:13:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:13:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:13:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:13:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:13:
+runtime
+  now: '2026-01-07T10:01:13.348Z'
+07/01/2026, 11:01:13:
+runtime
+}
+07/01/2026, 11:01:13:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:13:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /icons/icon-96x96.png
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "subscription_id", "amount", "currency", "status", "payment_method", "transaction_id", "description", "metadata", "created_at", "updated_at" from "payment_transactions" where "payment_transactions"."subscription_id" = $1 order by "payment_transactions"."created_at" desc
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 12 ]
+07/01/2026, 11:01:13:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:13:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:13:
+runtime
+10:01:13 AM [express] GET /api/payments/subscription 200 in 2645ms :: {"id":12,"userId":9,"planId":5,…
+07/01/2026, 11:01:13:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:13:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:14:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:14:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:14:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:14:
+runtime
+  now: '2026-01-07T10:01:14.156Z'
+07/01/2026, 11:01:14:
+runtime
+}
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:14:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /icons/icon-96x96.png
+07/01/2026, 11:01:14:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:14:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:14:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:14:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:14:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:14:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:14:
+runtime
+  now: '2026-01-07T10:01:14.955Z'
+07/01/2026, 11:01:14:
+runtime
+}
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:14:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /icons/icon-96x96.png
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:15:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:15:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:15:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:15:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:15:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:15:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:15:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:15:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:15:
+runtime
+  now: '2026-01-07T10:01:15.757Z'
+07/01/2026, 11:01:15:
+runtime
+}
+07/01/2026, 11:01:15:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:15:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+07/01/2026, 11:01:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:18:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/payments/paypal/subscribe
+07/01/2026, 11:01:18:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:18:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:18:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:18:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:18:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:18:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:18:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:18:
+runtime
+  now: '2026-01-07T10:01:18.546Z'
+07/01/2026, 11:01:18:
+runtime
+}
+07/01/2026, 11:01:18:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:18:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/payments/paypal/subscribe (whitelisted)
+07/01/2026, 11:01:18:
+runtime
+🔐 MIDDLEWARE isAuthenticated chiamato per POST /paypal/subscribe
+07/01/2026, 11:01:18:
+runtime
+🔐 req.isAuthenticated(): true
+07/01/2026, 11:01:18:
+runtime
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+07/01/2026, 11:01:18:
+runtime
+🔐 Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:18:
+runtime
+🔐 Cookies: session-id=s%3AwKHVWPzoNnQmUWI7EBiS11dst4VRzRY0.eWcBSkYzgjtCIIzdS5uzzQ1SoUXZ%2FNYqsL1IkSxL8Ho
+07/01/2026, 11:01:18:
+runtime
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+07/01/2026, 11:01:18:
+runtime
+createPayPalSubscription iniziato con: {
+07/01/2026, 11:01:18:
+runtime
+  userId: 9,
+07/01/2026, 11:01:18:
+runtime
+  planId: 5,
+07/01/2026, 11:01:18:
+runtime
+  returnUrl: 'https://gestionale-appuntamenti.sliplane.app/payment/success',
+07/01/2026, 11:01:18:
+runtime
+  cancelUrl: 'https://gestionale-appuntamenti.sliplane.app/payment/cancel'
+07/01/2026, 11:01:18:
+runtime
+}
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."id" = $1
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 5 ]
+07/01/2026, 11:01:18:
+runtime
+Piano trovato: {
+07/01/2026, 11:01:18:
+runtime
+  id: 5,
+07/01/2026, 11:01:18:
+runtime
+  name: 'Base Mensile',
+07/01/2026, 11:01:18:
+runtime
+  description: 'Piano base - fatturazione mensile',
+07/01/2026, 11:01:18:
+runtime
+  price: 599,
+07/01/2026, 11:01:18:
+runtime
+  interval: 'month',
+07/01/2026, 11:01:18:
+runtime
+  features: [
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Calendario appuntamenti', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Gestione clienti', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'App QR/PWA per clienti', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Richiesta appuntamenti cliente', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Notifiche clienti', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Emissione fatture', included: true },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Sincronizzazione Google Calendar', included: false },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Report e statistiche', included: false },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Pacchetti promozionali', included: false },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Gestione più dipendenti', included: false },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Magazzino prodotti', included: false },
+07/01/2026, 11:01:18:
+runtime
+    { name: 'Campagne Marketing AI', included: false }
+07/01/2026, 11:01:18:
+runtime
+  ],
+07/01/2026, 11:01:18:
+runtime
+  clientLimit: 100,
+07/01/2026, 11:01:18:
+runtime
+  isActive: true,
+07/01/2026, 11:01:18:
+runtime
+  sortOrder: 1,
+07/01/2026, 11:01:18:
+runtime
+  createdAt: 2025-10-01T13:00:48.928Z,
+07/01/2026, 11:01:18:
+runtime
+  updatedAt: 2025-10-01T13:00:48.928Z
+07/01/2026, 11:01:18:
+runtime
+}
+07/01/2026, 11:01:18:
+runtime
+PayPal Config: {
+07/01/2026, 11:01:18:
+runtime
+  clientIdPresent: false,
+07/01/2026, 11:01:18:
+runtime
+  clientSecretPresent: true,
+07/01/2026, 11:01:18:
+runtime
+  environment: 'production',
+07/01/2026, 11:01:18:
+runtime
+  price: '5.99',
+07/01/2026, 11:01:18:
+runtime
+  planName: 'Base Mensile'
+07/01/2026, 11:01:18:
+runtime
+}
+07/01/2026, 11:01:18:
+runtime
+Invio richiesta a PayPal...
+07/01/2026, 11:01:18:
+runtime
+📊 Recupero metodi di pagamento da PostgreSQL
+07/01/2026, 11:01:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "method_id", "name", "enabled", "config", "created_at", "updated_at" from "payment_methods_config"
+07/01/2026, 11:01:18:
+runtime
+✅ Recuperati 4 metodi di pagamento da PostgreSQL
+07/01/2026, 11:01:18:
+runtime
+🔐 PayPal: usando credenziali dal DATABASE (LIVE)
+07/01/2026, 11:01:18:
+runtime
+PayPal: ambiente PRODUZIONE (LIVE) 💰
+07/01/2026, 11:01:19:
+runtime
+Risposta PayPal: { statusCode: 201, resultId: '9X858176UV673614E', linksCount: 4 }
+07/01/2026, 11:01:19:
+runtime
+URL approvazione trovato: https://www.paypal.com/checkoutnow?token=9X858176UV673614E
+07/01/2026, 11:01:19:
+runtime
+Recupero sottoscrizione per l'utente con ID 9
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "plan_id", "status", "current_period_start", "current_period_end", "cancel_at_period_end", "paypal_subscription_id", "wise_subscription_id", "stripe_customer_id", "stripe_subscription_id", "stripe_session_id", "payment_method", "metadata", "created_at", "updated_at" from "subscriptions" where "subscriptions"."user_id" = $1 order by "subscriptions"."created_at" desc limit $2
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, 1 ]
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."id" = $1
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 5 ]
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "subscription_id", "amount", "currency", "status", "payment_method", "transaction_id", "description", "metadata", "created_at", "updated_at" from "payment_transactions" where "payment_transactions"."subscription_id" = $1 order by "payment_transactions"."created_at" desc
+07/01/2026, 11:01:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 12 ]
+07/01/2026, 11:01:20:
+runtime
+Abbonamento esistente trovato (ID: 12), lo aggiorno invece di crearne uno nuovo
+07/01/2026, 11:01:20:
+runtime
+Aggiornamento abbonamento ID: 12 con dati: {
+07/01/2026, 11:01:20:
+runtime
+  planId: 5,
+07/01/2026, 11:01:20:
+runtime
+  status: 'pending',
+07/01/2026, 11:01:20:
+runtime
+  currentPeriodStart: 2026-01-07T10:01:20.187Z,
+07/01/2026, 11:01:20:
+runtime
+  currentPeriodEnd: 2027-01-07T10:01:20.187Z,
+07/01/2026, 11:01:20:
+runtime
+  cancelAtPeriodEnd: false,
+07/01/2026, 11:01:20:
+runtime
+  paypalSubscriptionId: '9X858176UV673614E',
+07/01/2026, 11:01:20:
+runtime
+  paymentMethod: 'paypal'
+07/01/2026, 11:01:20:
+runtime
+}
+07/01/2026, 11:01:20:
+runtime
+🔍 [SQL DEBUG] Query: update "subscriptions" set "plan_id" = $1, "status" = $2, "current_period_start" = $3, "current_period_end" = $4, "cancel_at_period_end" = $5, "paypal_subscription_id" = $6, "payment_method" = $7 where "subscriptions"."id" = $8 returning "id", "user_id", "plan_id", "status", "current_period_start", "current_period_end", "cancel_at_period_end", "paypal_subscription_id", "wise_subscription_id", "stripe_customer_id", "stripe_subscription_id", "stripe_session_id", "payment_method", "metadata", "created_at", "updated_at"
+07/01/2026, 11:01:20:
+runtime
+🔍 [SQL DEBUG] Params: [
+07/01/2026, 11:01:20:
+runtime
+  5,
+07/01/2026, 11:01:20:
+runtime
+  'pending',
+07/01/2026, 11:01:20:
+runtime
+  '2026-01-07T10:01:20.187Z',
+07/01/2026, 11:01:20:
+runtime
+  '2027-01-07T10:01:20.187Z',
+07/01/2026, 11:01:20:
+runtime
+  false,
+07/01/2026, 11:01:20:
+runtime
+  '9X858176UV673614E',
+07/01/2026, 11:01:20:
+runtime
+  'paypal',
+07/01/2026, 11:01:20:
+runtime
+  12
+07/01/2026, 11:01:20:
+runtime
+]
+07/01/2026, 11:01:20:
+runtime
+Abbonamento aggiornato: {
+07/01/2026, 11:01:20:
+runtime
+  id: 12,
+07/01/2026, 11:01:20:
+runtime
+  userId: 9,
+07/01/2026, 11:01:20:
+runtime
+  planId: 5,
+07/01/2026, 11:01:20:
+runtime
+  status: 'pending',
+07/01/2026, 11:01:20:
+runtime
+  currentPeriodStart: 2026-01-07T10:01:20.187Z,
+07/01/2026, 11:01:20:
+runtime
+  currentPeriodEnd: 2027-01-07T10:01:20.187Z,
+07/01/2026, 11:01:20:
+runtime
+  cancelAtPeriodEnd: false,
+07/01/2026, 11:01:20:
+runtime
+  paypalSubscriptionId: '9X858176UV673614E',
+07/01/2026, 11:01:20:
+runtime
+  wiseSubscriptionId: null,
+07/01/2026, 11:01:20:
+runtime
+  stripeCustomerId: null,
+07/01/2026, 11:01:20:
+runtime
+  stripeSubscriptionId: null,
+07/01/2026, 11:01:20:
+runtime
+  stripeSessionId: 'cs_test_a1qhbgzGuW5V7ArkaFbPWTmdJ9GXzzrO8HYb6Dm7P76aJGTGuWZW0ZKR5n',
+07/01/2026, 11:01:20:
+runtime
+  paymentMethod: 'paypal',
+07/01/2026, 11:01:20:
+runtime
+  metadata: null,
+07/01/2026, 11:01:20:
+runtime
+  createdAt: 2025-10-07T13:17:02.314Z,
+07/01/2026, 11:01:20:
+runtime
+  updatedAt: 2025-10-07T13:17:02.314Z
+07/01/2026, 11:01:20:
+runtime
+}
+07/01/2026, 11:01:20:
+runtime
+10:01:20 AM [express] POST /api/payments/paypal/subscribe 200 in 2563ms :: {"success":true,"url":"htt…
+07/01/2026, 11:01:32:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:32:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:33:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /payment/success
+07/01/2026, 11:01:33:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:33:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:33:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:33:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:33:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:33:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:33:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:33:
+runtime
+  now: '2026-01-07T10:01:33.497Z'
+07/01/2026, 11:01:33:
+runtime
+}
+07/01/2026, 11:01:33:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:33:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /payment/success
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:33:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:33:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:33:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:34:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:34:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:34:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:34:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:34:
+runtime
+  now: '2026-01-07T10:01:34.376Z'
+07/01/2026, 11:01:34:
+runtime
+}
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:34:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /forced-style.css
+07/01/2026, 11:01:34:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /assets/index-2l06HkUI.js
+07/01/2026, 11:01:34:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /disable-vite-overlay.js
+07/01/2026, 11:01:34:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:34:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /assets/index-CzkXAp5G.css
+07/01/2026, 11:01:34:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:34:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:35:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:35:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:35:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:35:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:35:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:35:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:35:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:35:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:35:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:35:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:35:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:35:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:35:
+runtime
+  now: '2026-01-07T10:01:35.383Z'
+07/01/2026, 11:01:35:
+runtime
+}
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:35:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /assets/index-2l06HkUI.js (whitelisted)
+07/01/2026, 11:01:35:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:35:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:35:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:35:
+runtime
+  now: '2026-01-07T10:01:35.385Z'
+07/01/2026, 11:01:35:
+runtime
+}
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:35:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /forced-style.css (whitelisted)
+07/01/2026, 11:01:35:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:35:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:35:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:35:
+runtime
+  now: '2026-01-07T10:01:35.385Z'
+07/01/2026, 11:01:35:
+runtime
+}
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:35:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /disable-vite-overlay.js (whitelisted)
+07/01/2026, 11:01:35:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:35:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:35:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:35:
+runtime
+  now: '2026-01-07T10:01:35.386Z'
+07/01/2026, 11:01:35:
+runtime
+}
+07/01/2026, 11:01:35:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:35:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /assets/index-CzkXAp5G.css (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/timezone-settings
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/has-business-access
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/license-info
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/application-title
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/user-with-license
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/currency-settings
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/payments/plans
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/payments/subscription
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/license/has-pro-access
+07/01/2026, 11:01:36:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:36:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.853Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/timezone-settings (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+10:01:36 AM [express] GET /api/timezone-settings 200 in 692ms :: {"timezone":"Europe/Rome","offset":-…
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.857Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/has-business-access (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.858Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/license-info (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.859Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/user-with-license (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+07/01/2026, 11:01:36:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.879Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/has-pro-access (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] req.user: User ID 9, type: customer
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] Cookie header: present
+07/01/2026, 11:01:36:
+runtime
+🔐 [has-pro-access] ============================
+07/01/2026, 11:01:36:
+runtime
+Recupero licenze per l'utente ID 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1 order by "licenses"."created_at" desc
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.881Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/license/application-title (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.882Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /api/currency-settings
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.883Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/payments/plans (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."is_active" = $1 order by "subscription_plans"."sort_order" asc
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ true ]
+07/01/2026, 11:01:36:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:36:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:36:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:36:
+runtime
+  now: '2026-01-07T10:01:36.883Z'
+07/01/2026, 11:01:36:
+runtime
+}
+07/01/2026, 11:01:36:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:36:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/payments/subscription (whitelisted)
+07/01/2026, 11:01:36:
+runtime
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+07/01/2026, 11:01:36:
+runtime
+🔐 req.isAuthenticated(): true
+07/01/2026, 11:01:36:
+runtime
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+07/01/2026, 11:01:36:
+runtime
+🔐 Session ID: wKHVWPzoNnQmUWI7EBiS11dst4VRzRY0
+07/01/2026, 11:01:36:
+runtime
+🔐 Cookies: session-id=s%3AwKHVWPzoNnQmUWI7EBiS11dst4VRzRY0.eWcBSkYzgjtCIIzdS5uzzQ1SoUXZ%2FNYqsL1IkSxL8Ho
+07/01/2026, 11:01:36:
+runtime
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+07/01/2026, 11:01:36:
+runtime
+Recupero sottoscrizione per l'utente con ID 9
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "plan_id", "status", "current_period_start", "current_period_end", "cancel_at_period_end", "paypal_subscription_id", "wise_subscription_id", "stripe_customer_id", "stripe_subscription_id", "stripe_session_id", "payment_method", "metadata", "created_at", "updated_at" from "subscriptions" where "subscriptions"."user_id" = $1 order by "subscriptions"."created_at" desc limit $2
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, 1 ]
+07/01/2026, 11:01:36:
+runtime
+10:01:36 AM [express] GET /api/license/application-title 304 in 713ms :: {"title":"Gestionale Appunta…
+07/01/2026, 11:01:36:
+runtime
+10:01:36 AM [express] GET /api/currency-settings 403 in 712ms :: {"success":false,"error":"trial_expi…
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:36:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:37:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:37:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1767780097137-default
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/subscribe?expired=true
+07/01/2026, 11:01:37:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+07/01/2026, 11:01:37:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+07/01/2026, 11:01:37:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1767780097138.3503&android=1","/pwa-icon/192x192?owner=default&v=1767780097138.3503&android=1","/pwa-icon/512x512?owner=default&v=1767780097138.3503&android=1"]
+07/01/2026, 11:01:37:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+07/01/2026, 11:01:37:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+07/01/2026, 11:01:37:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+07/01/2026, 11:01:37:
+runtime
+  id: 9,
+07/01/2026, 11:01:37:
+runtime
+  username: 'zambelli.andrea.1973A@gmail.com',
+07/01/2026, 11:01:37:
+runtime
+  firstName: null,
+07/01/2026, 11:01:37:
+runtime
+  lastName: null,
+07/01/2026, 11:01:37:
+runtime
+  licenseType: 'trial'
+07/01/2026, 11:01:37:
+runtime
+}
+07/01/2026, 11:01:37:
+runtime
+Trovate 1 licenze per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+🔐 [has-pro-access] Utente 9 licenza trial - hasAccess: true
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "name", "description", "price", "interval", "features", "client_limit", "is_active", "sort_order", "created_at", "updated_at" from "subscription_plans" where "subscription_plans"."id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 5 ]
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/license/has-business-access 304 in 1001ms :: true
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/license/license-info 304 in 1001ms :: {"hasLicense":true,"type":"trial…
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/user-with-license 304 in 1001ms :: {"id":9,"username":"zambelli.andrea…
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/license/has-pro-access 304 in 998ms :: true
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/payments/plans 200 in 1001ms :: [{"id":5,"name":"Base Mensile","descri…
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /icons/icon-96x96.png
+07/01/2026, 11:01:37:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/timezone-settings
+07/01/2026, 11:01:37:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+07/01/2026, 11:01:37:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+07/01/2026, 11:01:37:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+07/01/2026, 11:01:37:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+07/01/2026, 11:01:37:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '9', ts: '1767780116661' }
+07/01/2026, 11:01:37:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 9
+07/01/2026, 11:01:37:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 9)
+07/01/2026, 11:01:37:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+07/01/2026, 11:01:37:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=9&v=1767780097398.4473&admin=1","/pwa-icon/192x192?owner=9&v=1767780097398.4473&admin=1","/pwa-icon/512x512?owner=9&v=1767780097398.4473&admin=1"]
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:37:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:37:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 9
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /api/tenant-context
+07/01/2026, 11:01:37:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "subscription_id", "amount", "currency", "status", "payment_method", "transaction_id", "description", "metadata", "created_at", "updated_at" from "payment_transactions" where "payment_transactions"."subscription_id" = $1 order by "payment_transactions"."created_at" desc
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 12 ]
+07/01/2026, 11:01:37:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:37:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:37:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:37:
+runtime
+  now: '2026-01-07T10:01:37.642Z'
+07/01/2026, 11:01:37:
+runtime
+}
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /icons/icon-96x96.png
+07/01/2026, 11:01:37:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:37:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:37:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:37:
+runtime
+  now: '2026-01-07T10:01:37.645Z'
+07/01/2026, 11:01:37:
+runtime
+}
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:37:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/timezone-settings (whitelisted)
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] POST /api/timezone-settings 200 in 711ms :: {"success":true,"timezone":"Europe/…
+07/01/2026, 11:01:37:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 9: NO
+07/01/2026, 11:01:37:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 9
+07/01/2026, 11:01:37:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 9, dimensione: 50811 bytes
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:37:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:37:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:37:
+runtime
+10:01:37 AM [express] GET /api/payments/subscription 200 in 1679ms :: {"id":12,"userId":9,"planId":5,…
+07/01/2026, 11:01:37:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:37:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:37:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:38:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:38:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:38:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:38:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:38:
+runtime
+  now: '2026-01-07T10:01:38.065Z'
+07/01/2026, 11:01:38:
+runtime
+}
+07/01/2026, 11:01:38:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:38:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /api/tenant-context (whitelisted)
+07/01/2026, 11:01:38:
+runtime
+10:01:38 AM [express] GET /api/tenant-context 200 in 693ms :: {"userId":9,"userType":"customer","tena…
+07/01/2026, 11:01:38:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:38:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:38:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:38:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:38:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:38:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:38:
+runtime
+  now: '2026-01-07T10:01:38.419Z'
+07/01/2026, 11:01:38:
+runtime
+}
+07/01/2026, 11:01:38:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:38:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:38:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /icons/icon-96x96.png
+07/01/2026, 11:01:38:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:38:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:38:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:38:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:39:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:39:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:39:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:39:
+runtime
+  now: '2026-01-07T10:01:39.194Z'
+07/01/2026, 11:01:39:
+runtime
+}
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL EXPIRED] BLOCKING access to /icons/icon-96x96.png
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL CHECK] User 9 (customer/user) accessing /subscribe
+07/01/2026, 11:01:39:
+runtime
+Ottengo info licenza per utente 9
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where "licenses"."user_id" = $1
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Params: [ 9 ]
+07/01/2026, 11:01:39:
+runtime
+DEBUG: Trovate 1 licenze totali per l'utente 9
+07/01/2026, 11:01:39:
+runtime
+- ID: 8, Tipo: trial, Attiva: true, Scadenza: Sat Dec 27 2025 02:26:04 GMT+0000 (Coordinated Universal Time)
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+07/01/2026, 11:01:39:
+runtime
+🔍 [SQL DEBUG] Params: [ 9, true, 'desc', 1 ]
+07/01/2026, 11:01:39:
+runtime
+Trovata licenza di tipo trial per utente 9 (ID licenza: 8)
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL CHECK] License info: {
+07/01/2026, 11:01:39:
+runtime
+  type: 'trial',
+07/01/2026, 11:01:39:
+runtime
+  expiresAt: 2025-12-27T02:26:04.168Z,
+07/01/2026, 11:01:39:
+runtime
+  now: '2026-01-07T10:01:39.951Z'
+07/01/2026, 11:01:39:
+runtime
+}
+07/01/2026, 11:01:39:
+runtime
+🔒 [TRIAL CHECK] Is expired? true Type: trial
+07/01/2026, 11:01:39:
+runtime
+✅ [TRIAL EXPIRED] ALLOWING access to /subscribe (whitelisted)
+Loading...
