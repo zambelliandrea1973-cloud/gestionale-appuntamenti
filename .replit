@@ -50,4 +50,3 @@ integrations = ["javascript_stripe:1.0.0"]
 APP_BASE_URL = "https://wife-scheduler-zambelliandrea1.replit.app"
 
 [userenv.shared]
-STRIPE_SECRET_KEY = "sk_test_51RGbD9Ca6F83Z2KBK478P1frhDB6tpGQwn1hBp8eNWg1zjnxKMWtaNC3TcNmCELHxP7ELcCjbwzVGTMvMbRz0mO3007FdDxFdf"
