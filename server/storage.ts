@@ -52,7 +52,7 @@ import connectPg from "connect-pg-simple";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import { db } from "./db";
-import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray } from 'drizzle-orm';
+import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray, not } from 'drizzle-orm';
 import { inventoryJsonStorage } from "./inventory-json-storage.js";
 
 // Global flag to check if PostgreSQL is available
@@ -468,9 +468,14 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
       
+      // Escludi sempre i clienti fittizi importati da Google Calendar
+      const excludeGoogleImported = not(like(clients.email, '%@imported.local'));
+      
       if (role === 'admin') {
-        const allClients = await db.select().from(clients).orderBy(clients.lastName);
-        console.log(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali`);
+        const allClients = await db.select().from(clients)
+          .where(excludeGoogleImported)
+          .orderBy(clients.lastName);
+        console.log(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali (esclusi Google Calendar)`);
         return allClients;
       } else if (role === 'staff') {
         // STAFF: usa assignmentCode per vedere i clienti assegnati
@@ -483,27 +488,30 @@ export class DatabaseStorage implements IStorage {
         const userPrefix = user.assignmentCode.substring(0, 3);
         console.log(`🔍 DatabaseStorage: Staff ${userId} cerca clienti con prefisso ${userPrefix}`);
         
-        // Filtra clienti sia per ownerId che per prefisso nel uniqueCode
+        // Filtra clienti sia per ownerId che per prefisso nel uniqueCode, escludendo Google Calendar
         const userClients = await db.select().from(clients)
           .where(
-            or(
-              eq(clients.ownerId, userId),
-              like(clients.uniqueCode, `${userPrefix}-%`)
+            and(
+              excludeGoogleImported,
+              or(
+                eq(clients.ownerId, userId),
+                like(clients.uniqueCode, `${userPrefix}-%`)
+              )
             )
           )
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) vede ${userClients.length} clienti`);
+        console.log(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) vede ${userClients.length} clienti (esclusi Google Calendar)`);
         return userClients;
       } else {
         // CUSTOMER: vede solo i suoi clienti (basandosi su ownerId)
         console.log(`🔍 DatabaseStorage: Customer ${userId} cerca i propri clienti (ownerId)`);
         
         const userClients = await db.select().from(clients)
-          .where(eq(clients.ownerId, userId))
+          .where(and(excludeGoogleImported, eq(clients.ownerId, userId)))
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Customer ${userId} vede ${userClients.length} clienti propri`);
+        console.log(`✅ DatabaseStorage: Customer ${userId} vede ${userClients.length} clienti propri (esclusi Google Calendar)`);
         return userClients;
       }
     } catch (error) {
