@@ -220,6 +220,39 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
 });
 
 /**
+ * Endpoint per confermare una sessione di checkout Stripe dopo il pagamento
+ * POST /api/payments/stripe/confirm-session
+ * Accesso: utente autenticato
+ */
+router.post('/stripe/confirm-session', isAuthenticated, async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    const userId = req.user!.id;
+    
+    if (!sessionId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID della sessione è obbligatorio'
+      });
+    }
+    
+    console.log(`💳 Conferma sessione Stripe: ${sessionId} per utente ${userId}`);
+    
+    const result = await PaymentService.confirmStripeSession(sessionId, userId);
+    
+    console.log(`💳 Risultato conferma Stripe:`, result);
+    
+    return res.json(result);
+  } catch (error) {
+    console.error('Errore durante la conferma della sessione Stripe:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
  * Endpoint per finalizzare un abbonamento PayPal dopo l'approvazione dell'utente
  * POST /api/payments/paypal/capture
  * Accesso: utente autenticato

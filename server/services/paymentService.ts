@@ -745,6 +745,108 @@ export class PaymentService {
   }
 
   /**
+   * Conferma una sessione di checkout Stripe dopo il pagamento
+   * Verifica lo stato della sessione e attiva la licenza se il pagamento è completato
+   */
+  static async confirmStripeSession(
+    sessionId: string,
+    userId: number
+  ): Promise<{success: boolean, message?: string}> {
+    try {
+      const stripe = await getStripeClient();
+      
+      // Recupera la sessione da Stripe
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      
+      console.log('💳 Sessione Stripe recuperata:', {
+        id: session.id,
+        status: session.status,
+        paymentStatus: session.payment_status,
+        userId: session.metadata?.userId
+      });
+      
+      // Verifica che il pagamento sia completato
+      if (session.payment_status !== 'paid') {
+        return {
+          success: false,
+          message: 'Pagamento non ancora completato'
+        };
+      }
+      
+      // Verifica che l'utente corrisponda
+      const sessionUserId = session.metadata?.userId ? parseInt(session.metadata.userId) : null;
+      if (sessionUserId && sessionUserId !== userId) {
+        console.warn(`⚠️ Mismatch utente: sessione ${sessionUserId}, richiesta ${userId}`);
+      }
+      
+      // Trova l'abbonamento dell'utente
+      const subscription = await storage.getSubscriptionByUserId(userId);
+      if (!subscription) {
+        return {
+          success: false,
+          message: 'Abbonamento non trovato'
+        };
+      }
+      
+      // Se l'abbonamento è già attivo, ritorna successo
+      if (subscription.status === 'active') {
+        return {
+          success: true,
+          message: 'Abbonamento già attivo'
+        };
+      }
+      
+      // Attiva l'abbonamento
+      await storage.updateSubscription(subscription.id, {
+        status: 'active',
+        stripeCustomerId: typeof session.customer === 'string' ? session.customer : null
+      });
+      
+      // Ottieni il piano per determinare il tipo di licenza
+      const planId = session.metadata?.planId ? parseInt(session.metadata.planId) : subscription.planId;
+      const plan = await storage.getSubscriptionPlan(planId);
+      if (plan) {
+        const licenseType = getLicenseTypeFromPlanName(plan.name);
+        const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        await createOrUpdateLicense(userId, licenseType, licenseExpiry);
+        console.log(`✅ Licenza ${licenseType} attivata per utente ${userId}`);
+      }
+      
+      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      if (session.amount_total) {
+        await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
+      }
+      
+      // Registra la transazione se non esiste già
+      if (session.payment_intent) {
+        const transactionData: InsertPaymentTransaction = {
+          userId,
+          subscriptionId: subscription.id,
+          amount: (session.amount_total || 0) / 100,
+          currency: (session.currency || 'EUR').toUpperCase(),
+          status: 'completed',
+          paymentMethod: 'stripe',
+          transactionId: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent.id,
+          description: `Pagamento per abbonamento ${plan?.name || 'sconosciuto'}`
+        };
+        
+        await storage.createPaymentTransaction(transactionData);
+      }
+      
+      return {
+        success: true,
+        message: 'Abbonamento attivato con successo'
+      };
+    } catch (error) {
+      console.error('Errore durante la conferma della sessione Stripe:', error);
+      return {
+        success: false,
+        message: 'Errore durante la conferma della sessione Stripe'
+      };
+    }
+  }
+
+  /**
    * Gestisce il webhook di Stripe per completare un pagamento
    */
   static async handleStripeWebhook(
