@@ -8,6 +8,39 @@ import { serveAdminManifest } from './admin-manifest'
 import { servePlayStoreManifest } from './manifest-playstore'
 
 export function registerRoutes(app: Express): Server {
+  // Android App Links - Digital Asset Links per verifica dominio Google Play
+  app.get('/.well-known/assetlinks.json', (req, res) => {
+    const assetLinks = [
+      {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+          "namespace": "android_app",
+          "package_name": "com.gestionale.appuntamenti",
+          "sha256_cert_fingerprints": [
+            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E"
+          ]
+        }
+      },
+      {
+        "relation": [
+          "delegate_permission/common.handle_all_urls",
+          "delegate_permission/common.get_login_creds"
+        ],
+        "target": {
+          "namespace": "android_app",
+          "package_name": "com.gestionale.appuntamenti",
+          "sha256_cert_fingerprints": [
+            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E"
+          ]
+        }
+      }
+    ];
+    
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.json(assetLinks);
+  });
+
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
