@@ -17,7 +17,7 @@ export function registerRoutes(app: Express): Server {
           "namespace": "android_app",
           "package_name": "com.gestionale.appuntamenti",
           "sha256_cert_fingerprints": [
-            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E"
+            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E:8B:5A"
           ]
         }
       },
@@ -28,9 +28,9 @@ export function registerRoutes(app: Express): Server {
         ],
         "target": {
           "namespace": "android_app",
-          "package_name": "com.gestionale.appuntamenti",
+          "package_name": "app.sliplane.gestionale_appuntamenti.twa",
           "sha256_cert_fingerprints": [
-            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E"
+            "3D:08:5E:75:41:F2:81:E8:1A:05:24:77:3F:B7:16:C6:1B:A0:74:9E:F9:6C:5B:60:B5:30:3D:92:A7:5E:8B:5A"
           ]
         }
       }
