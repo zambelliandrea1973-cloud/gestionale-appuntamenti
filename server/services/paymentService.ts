@@ -12,16 +12,32 @@ type LicenseTypeValue = 'base' | 'pro' | 'business' | 'trial' | 'passepartout';
 
 /**
  * Determina il tipo di licenza in base al nome del piano
+ * IMPORTANTE: L'ordine dei controlli è cruciale!
+ * - "base" deve essere controllato PRIMA di "pro" perché "promo" contiene "pro"
+ * - Usiamo word boundaries per evitare falsi positivi
  */
 function getLicenseTypeFromPlanName(planName: string): LicenseTypeValue {
   const lowerName = planName.toLowerCase();
+  
+  // Controlla prima "business" (il più specifico)
   if (lowerName.includes('business')) {
     return 'business';
-  } else if (lowerName.includes('pro')) {
-    return 'pro';
-  } else {
+  }
+  
+  // Controlla "base" PRIMA di "pro" per evitare che "promo" sia interpretato come "pro"
+  if (lowerName.includes('base')) {
     return 'base';
   }
+  
+  // Controlla "pro" solo come parola intera (non "promo", "professionale", etc.)
+  // Usa regex per word boundary
+  const proRegex = /\bpro\b/i;
+  if (proRegex.test(planName)) {
+    return 'pro';
+  }
+  
+  // Default: base
+  return 'base';
 }
 
 /**
