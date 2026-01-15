@@ -1276,9 +1276,12 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
  * GET /api/google-auth/contacts
  */
 router.get('/contacts', isAuthenticated, async (req, res) => {
+  console.log('📇 [CONTACTS] Richiesta GET /api/google-auth/contacts');
   try {
     const userId = (req as any).user?.id;
+    console.log('📇 [CONTACTS] userId:', userId);
     if (!userId) {
+      console.log('📇 [CONTACTS] Utente non autenticato');
       return res.status(401).json({ success: false, error: 'Utente non autenticato' });
     }
 
@@ -1359,7 +1362,9 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     });
 
   } catch (error: any) {
-    console.error('Errore nel recupero contatti Google:', error);
+    console.error('📇 [CONTACTS] Errore nel recupero contatti Google:', error.message);
+    console.error('📇 [CONTACTS] Error code:', error.code);
+    console.error('📇 [CONTACTS] Full error:', JSON.stringify(error, null, 2));
     
     // Se il token è scaduto o non valido
     if (error.code === 401 || error.message?.includes('invalid_grant')) {
