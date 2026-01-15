@@ -61,10 +61,11 @@ const oauth2Client = new google.auth.OAuth2(
   redirectUri
 );
 
-// Scopes necessari per Calendar e Gmail
+// Scopes necessari per Calendar, Gmail e Contatti
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
   'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/contacts.readonly',
 ];
 
 // Esportiamo authInfo per permettere ad altre parti dell'app di accedervi
