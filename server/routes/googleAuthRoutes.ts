@@ -1260,4 +1260,249 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
   }
 });
 
+// ================ GOOGLE CONTACTS API ================
+
+/**
+ * Recupera i contatti dalla rubrica Google dell'utente
+ * GET /api/google-auth/contacts
+ */
+router.get('/contacts', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+    }
+
+    // Recupera i token dell'utente dal database
+    const user = await storage.getUser(userId);
+    if (!user?.googleAuthToken) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Account Google non collegato. Riconnetti il tuo account Google.',
+        needsReauth: true
+      });
+    }
+
+    // Decifra il token
+    const decryptedToken = decryptToken(user.googleAuthToken);
+    if (!decryptedToken) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Token Google non valido. Riconnetti il tuo account.',
+        needsReauth: true
+      });
+    }
+
+    const tokens = JSON.parse(decryptedToken);
+    
+    // Configura il client OAuth con i token dell'utente
+    const userOAuth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      getRedirectUri()
+    );
+    userOAuth2Client.setCredentials(tokens);
+
+    // Inizializza People API
+    const people = google.people({ version: 'v1', auth: userOAuth2Client });
+
+    // Recupera i contatti
+    const response = await people.people.connections.list({
+      resourceName: 'people/me',
+      pageSize: 500,
+      personFields: 'names,emailAddresses,phoneNumbers,addresses',
+      sortOrder: 'FIRST_NAME_ASCENDING'
+    });
+
+    const connections = response.data.connections || [];
+    
+    // Trasforma i dati in un formato più semplice
+    const contacts = connections.map((person: any) => {
+      const name = person.names?.[0]?.displayName || '';
+      const firstName = person.names?.[0]?.givenName || '';
+      const lastName = person.names?.[0]?.familyName || '';
+      const email = person.emailAddresses?.[0]?.value || '';
+      const phone = person.phoneNumbers?.[0]?.value || '';
+      const address = person.addresses?.[0]?.formattedValue || '';
+      
+      return {
+        resourceName: person.resourceName,
+        name: name || `${firstName} ${lastName}`.trim(),
+        firstName,
+        lastName,
+        email,
+        phone,
+        address
+      };
+    }).filter((c: any) => c.name || c.email || c.phone); // Filtra contatti vuoti
+
+    console.log(`📇 Recuperati ${contacts.length} contatti Google per utente ${userId}`);
+
+    res.json({ 
+      success: true, 
+      contacts,
+      total: contacts.length
+    });
+
+  } catch (error: any) {
+    console.error('Errore nel recupero contatti Google:', error);
+    
+    // Se il token è scaduto o non valido
+    if (error.code === 401 || error.message?.includes('invalid_grant')) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Sessione Google scaduta. Riconnetti il tuo account.',
+        needsReauth: true
+      });
+    }
+    
+    // Se manca lo scope per i contatti
+    if (error.message?.includes('Request had insufficient authentication scopes')) {
+      return res.status(403).json({ 
+        success: false, 
+        error: 'Permessi insufficienti. Riconnetti il tuo account Google per abilitare l\'accesso ai contatti.',
+        needsReauth: true
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false, 
+      error: 'Errore nel recupero dei contatti Google' 
+    });
+  }
+});
+
+/**
+ * Importa i contatti selezionati come clienti
+ * POST /api/google-auth/contacts/import
+ */
+router.post('/contacts/import', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+    }
+
+    const { contacts, importAll } = req.body;
+
+    if (!importAll && (!contacts || !Array.isArray(contacts) || contacts.length === 0)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Nessun contatto selezionato per l\'importazione' 
+      });
+    }
+
+    let contactsToImport = contacts;
+
+    // Se importAll, recupera tutti i contatti da Google
+    if (importAll) {
+      const user = await storage.getUser(userId);
+      if (!user?.googleAuthToken) {
+        return res.status(401).json({ 
+          success: false, 
+          error: 'Account Google non collegato' 
+        });
+      }
+
+      const decryptedToken = decryptToken(user.googleAuthToken);
+      if (!decryptedToken) {
+        return res.status(401).json({ 
+          success: false, 
+          error: 'Token Google non valido' 
+        });
+      }
+
+      const tokens = JSON.parse(decryptedToken);
+      const userOAuth2Client = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        getRedirectUri()
+      );
+      userOAuth2Client.setCredentials(tokens);
+
+      const people = google.people({ version: 'v1', auth: userOAuth2Client });
+      const response = await people.people.connections.list({
+        resourceName: 'people/me',
+        pageSize: 1000,
+        personFields: 'names,emailAddresses,phoneNumbers,addresses',
+        sortOrder: 'FIRST_NAME_ASCENDING'
+      });
+
+      const connections = response.data.connections || [];
+      contactsToImport = connections.map((person: any) => ({
+        name: person.names?.[0]?.displayName || `${person.names?.[0]?.givenName || ''} ${person.names?.[0]?.familyName || ''}`.trim(),
+        firstName: person.names?.[0]?.givenName || '',
+        lastName: person.names?.[0]?.familyName || '',
+        email: person.emailAddresses?.[0]?.value || '',
+        phone: person.phoneNumbers?.[0]?.value || '',
+        address: person.addresses?.[0]?.formattedValue || ''
+      })).filter((c: any) => c.name || c.email || c.phone);
+    }
+
+    // Recupera i clienti esistenti per evitare duplicati
+    const existingClients = await storage.getClientsByUser(userId);
+    const existingEmails = new Set(existingClients.map(c => c.email?.toLowerCase()).filter(Boolean));
+    const existingPhones = new Set(existingClients.map(c => c.phone?.replace(/\s+/g, '')).filter(Boolean));
+
+    let imported = 0;
+    let skipped = 0;
+    const errors: string[] = [];
+
+    for (const contact of contactsToImport) {
+      try {
+        // Verifica duplicati per email o telefono
+        const emailNormalized = contact.email?.toLowerCase();
+        const phoneNormalized = contact.phone?.replace(/\s+/g, '');
+
+        if (emailNormalized && existingEmails.has(emailNormalized)) {
+          skipped++;
+          continue;
+        }
+        if (phoneNormalized && existingPhones.has(phoneNormalized)) {
+          skipped++;
+          continue;
+        }
+
+        // Crea il cliente
+        const clientData = {
+          userId,
+          name: contact.name || 'Senza nome',
+          email: contact.email || null,
+          phone: contact.phone || null,
+          address: contact.address || null,
+          notes: 'Importato da Google Contacts'
+        };
+
+        await storage.createClient(clientData);
+        imported++;
+
+        // Aggiungi alle liste per evitare duplicati nel batch corrente
+        if (emailNormalized) existingEmails.add(emailNormalized);
+        if (phoneNormalized) existingPhones.add(phoneNormalized);
+
+      } catch (err: any) {
+        console.error(`Errore importazione contatto ${contact.name}:`, err);
+        errors.push(`${contact.name}: ${err.message}`);
+      }
+    }
+
+    console.log(`📇 Importazione contatti completata per utente ${userId}: ${imported} importati, ${skipped} saltati (duplicati)`);
+
+    res.json({ 
+      success: true, 
+      imported,
+      skipped,
+      errors: errors.length > 0 ? errors : undefined,
+      message: `Importati ${imported} contatti${skipped > 0 ? `, ${skipped} saltati (già esistenti)` : ''}`
+    });
+
+  } catch (error) {
+    console.error('Errore nell\'importazione contatti:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Errore durante l\'importazione dei contatti' 
+    });
+  }
+});
+
 export default router;
