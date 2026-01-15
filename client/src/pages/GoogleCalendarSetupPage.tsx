@@ -7,13 +7,18 @@ import { Label } from '@/components/ui/label';
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from 'wouter';
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   Calendar, 
   ArrowRight, 
   RefreshCw, 
   Check, 
   Mail,
-  AlertCircle
+  AlertCircle,
+  Users,
+  Download,
+  CheckSquare
 } from "lucide-react";
 import { useLicense } from '@/hooks/use-license';
 
@@ -32,6 +37,24 @@ export default function GoogleCalendarSetupPage() {
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
   const [lastSyncAt, setLastSyncAt] = useState<string | null>(null);
   const [totalSyncedEvents, setTotalSyncedEvents] = useState<number>(0);
+  
+  // Stati per importazione contatti
+  interface GoogleContact {
+    resourceName: string;
+    name: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: string;
+  }
+  const [contacts, setContacts] = useState<GoogleContact[]>([]);
+  const [selectedContacts, setSelectedContacts] = useState<Set<string>>(new Set());
+  const [isLoadingContacts, setIsLoadingContacts] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [contactsLoaded, setContactsLoaded] = useState(false);
+  const [importResult, setImportResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [needsContactsReauth, setNeedsContactsReauth] = useState(false);
   
   useEffect(() => {
     const checkGoogleAuthStatus = async () => {
@@ -205,6 +228,134 @@ export default function GoogleCalendarSetupPage() {
       });
     } finally {
       setIsSyncing(false);
+    }
+  };
+
+  // === Funzioni per importazione contatti ===
+  const loadGoogleContacts = async () => {
+    setIsLoadingContacts(true);
+    setImportResult(null);
+    
+    try {
+      const response = await fetch('/api/google-auth/contacts', {
+        credentials: 'include',
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        setContacts(data.contacts || []);
+        setContactsLoaded(true);
+        setNeedsContactsReauth(false);
+        toast({
+          title: "Contatti caricati",
+          description: `Trovati ${data.total || 0} contatti nella tua rubrica Google`,
+        });
+      } else {
+        if (data.needsReauth) {
+          setNeedsContactsReauth(true);
+          toast({
+            title: "Riconnetti Google",
+            description: "È necessario riconnettere il tuo account Google per accedere ai contatti.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Errore",
+            description: data.error || "Errore nel caricamento dei contatti",
+            variant: "destructive",
+          });
+        }
+      }
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Errore di connessione",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingContacts(false);
+    }
+  };
+
+  const handleContactSelection = (resourceName: string, checked: boolean) => {
+    const newSelection = new Set(selectedContacts);
+    if (checked) {
+      newSelection.add(resourceName);
+    } else {
+      newSelection.delete(resourceName);
+    }
+    setSelectedContacts(newSelection);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedContacts.size === contacts.length) {
+      setSelectedContacts(new Set());
+    } else {
+      setSelectedContacts(new Set(contacts.map(c => c.resourceName)));
+    }
+  };
+
+  const importContacts = async (importAll: boolean = false) => {
+    setIsImporting(true);
+    setImportResult(null);
+    
+    try {
+      // Invia solo i resourceNames (ID) per sicurezza - i dati vengono recuperati lato server
+      const resourceNamesToSend = importAll 
+        ? [] 
+        : Array.from(selectedContacts);
+      
+      const response = await fetch('/api/google-auth/contacts/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ 
+          resourceNames: resourceNamesToSend,
+          importAll 
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        setImportResult({ 
+          success: true, 
+          message: data.message || `Importati ${data.imported} contatti` 
+        });
+        toast({
+          title: "✅ Importazione completata",
+          description: data.message,
+        });
+        // Resetta selezione
+        setSelectedContacts(new Set());
+        if (!importAll) {
+          // Rimuovi i contatti importati dalla lista
+          setContacts(prev => prev.filter(c => !selectedContacts.has(c.resourceName)));
+        } else {
+          setContacts([]);
+          setContactsLoaded(false);
+        }
+      } else {
+        if (data.needsReauth) {
+          setNeedsContactsReauth(true);
+        }
+        setImportResult({ success: false, message: data.error || "Errore nell'importazione" });
+        toast({
+          title: "Errore",
+          description: data.error || "Errore nell'importazione dei contatti",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      setImportResult({ success: false, message: "Errore di connessione" });
+      toast({
+        title: "Errore",
+        description: "Errore di connessione",
+        variant: "destructive",
+      });
+    } finally {
+      setIsImporting(false);
     }
   };
 
@@ -460,6 +611,182 @@ export default function GoogleCalendarSetupPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* === SEZIONE SINCRONIZZAZIONE CONTATTI === */}
+      {isGoogleAuthorized && (
+        <Card className="mt-6">
+          <CardHeader className="bg-gradient-to-r from-blue-500/10 to-blue-400/5 border-b">
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="flex items-center text-xl gap-2">
+                  <Users className="h-5 w-5 text-blue-600" />
+                  Sincronizzazione Contatti Google
+                </CardTitle>
+                <CardDescription className="mt-2">
+                  Importa i contatti dalla tua rubrica Google come clienti
+                </CardDescription>
+              </div>
+              <div className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold">
+                PRO
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              {/* Banner riautenticazione necessaria */}
+              {needsContactsReauth && (
+                <div className="bg-amber-50 dark:bg-amber-950 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-medium text-amber-900 dark:text-amber-100">
+                        Riconnessione necessaria
+                      </p>
+                      <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                        Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.
+                      </p>
+                      <Button 
+                        onClick={handleGoogleAuth} 
+                        className="mt-3 bg-amber-600 hover:bg-amber-700"
+                        size="sm"
+                      >
+                        Riconnetti Google
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Pulsante per caricare i contatti */}
+              {!contactsLoaded && !needsContactsReauth ? (
+                <Button
+                  onClick={loadGoogleContacts}
+                  disabled={isLoadingContacts}
+                  className="w-full"
+                  variant="outline"
+                >
+                  {isLoadingContacts ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      Caricamento contatti...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="h-4 w-4 mr-2" />
+                      Carica contatti da Google
+                    </>
+                  )}
+                </Button>
+              ) : (
+                <>
+                  {/* Info contatti trovati */}
+                  <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <p className="font-medium text-blue-900 dark:text-blue-100">
+                      Trovati {contacts.length} contatti
+                    </p>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                      Seleziona i contatti da importare o usa "Importa tutti"
+                    </p>
+                  </div>
+
+                  {/* Pulsanti azioni */}
+                  <div className="flex gap-2 flex-wrap">
+                    <Button
+                      onClick={handleSelectAll}
+                      variant="outline"
+                      size="sm"
+                      disabled={needsContactsReauth}
+                    >
+                      <CheckSquare className="h-4 w-4 mr-2" />
+                      {selectedContacts.size === contacts.length ? 'Deseleziona tutti' : 'Seleziona tutti'}
+                    </Button>
+                    <Button
+                      onClick={() => importContacts(true)}
+                      disabled={isImporting || contacts.length === 0 || needsContactsReauth}
+                      variant="default"
+                      size="sm"
+                    >
+                      {isImporting ? (
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      ) : (
+                        <Download className="h-4 w-4 mr-2" />
+                      )}
+                      Importa tutti ({contacts.length})
+                    </Button>
+                    {selectedContacts.size > 0 && (
+                      <Button
+                        onClick={() => importContacts(false)}
+                        disabled={isImporting || needsContactsReauth}
+                        variant="secondary"
+                        size="sm"
+                      >
+                        Importa selezionati ({selectedContacts.size})
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Lista contatti con checkbox */}
+                  {contacts.length > 0 && (
+                    <ScrollArea className="h-64 border rounded-lg p-2">
+                      <div className="space-y-2">
+                        {contacts.map((contact) => (
+                          <div 
+                            key={contact.resourceName}
+                            className="flex items-center gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-lg cursor-pointer"
+                            onClick={() => handleContactSelection(contact.resourceName, !selectedContacts.has(contact.resourceName))}
+                          >
+                            <Checkbox
+                              checked={selectedContacts.has(contact.resourceName)}
+                              onCheckedChange={(checked) => handleContactSelection(contact.resourceName, !!checked)}
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-sm truncate">{contact.name || 'Senza nome'}</p>
+                              <div className="flex gap-2 text-xs text-muted-foreground">
+                                {contact.email && <span>{contact.email}</span>}
+                                {contact.phone && <span>{contact.phone}</span>}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  )}
+
+                  {/* Pulsante ricarica */}
+                  <Button
+                    onClick={loadGoogleContacts}
+                    disabled={isLoadingContacts}
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                  >
+                    <RefreshCw className={`h-4 w-4 mr-2 ${isLoadingContacts ? 'animate-spin' : ''}`} />
+                    Ricarica contatti
+                  </Button>
+                </>
+              )}
+
+              {/* Risultato importazione */}
+              {importResult && (
+                <div className={`p-3 rounded-lg text-sm ${
+                  importResult.success 
+                    ? 'bg-green-50 dark:bg-green-950 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                    : 'bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                }`}>
+                  {importResult.success ? '✅' : '❌'} {importResult.message}
+                </div>
+              )}
+
+              {/* Note */}
+              <div className="text-xs text-muted-foreground">
+                <p>• I contatti già esistenti (stesso email o telefono) verranno saltati</p>
+                <p>• I contatti importati avranno la nota "Importato da Google Contacts"</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

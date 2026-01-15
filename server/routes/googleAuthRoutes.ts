@@ -4,6 +4,15 @@ import { isAuthenticated } from '../auth';
 import { db } from '../db';
 import { users } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
+import { storage } from '../storage';
+import { EncryptionService } from '../services/encryption';
+import { z } from 'zod';
+
+// Schema di validazione per l'importazione contatti
+const contactsImportSchema = z.object({
+  resourceNames: z.array(z.string()).optional(),
+  importAll: z.boolean().optional()
+}).strict(); // .strict() rifiuta campi extra
 
 const router = Router();
 
@@ -1283,17 +1292,22 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
       });
     }
 
-    // Decifra il token
-    const decryptedToken = decryptToken(user.googleAuthToken);
-    if (!decryptedToken) {
+    // Decifra il token se necessario (i token potrebbero essere crittografati o in chiaro)
+    let tokenString = user.googleAuthToken;
+    if (EncryptionService.isEncrypted(tokenString)) {
+      tokenString = EncryptionService.decrypt(tokenString);
+    }
+    
+    let tokens;
+    try {
+      tokens = JSON.parse(tokenString);
+    } catch (parseError) {
       return res.status(401).json({ 
         success: false, 
         error: 'Token Google non valido. Riconnetti il tuo account.',
         needsReauth: true
       });
     }
-
-    const tokens = JSON.parse(decryptedToken);
     
     // Configura il client OAuth con i token dell'utente
     const userOAuth2Client = new google.auth.OAuth2(
@@ -1375,6 +1389,9 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
 /**
  * Importa i contatti selezionati come clienti
  * POST /api/google-auth/contacts/import
+ * 
+ * SICUREZZA: Accetta solo resourceNames (ID) e importAll flag
+ * I dati dei contatti vengono sempre recuperati lato server da Google
  */
 router.post('/contacts/import', isAuthenticated, async (req, res) => {
   try {
@@ -1383,47 +1400,69 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       return res.status(401).json({ success: false, error: 'Utente non autenticato' });
     }
 
-    const { contacts, importAll } = req.body;
+    // Validazione input con Zod - rifiuta campi non previsti
+    const validationResult = contactsImportSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Formato dati non valido',
+        details: validationResult.error.errors 
+      });
+    }
 
-    if (!importAll && (!contacts || !Array.isArray(contacts) || contacts.length === 0)) {
+    const { resourceNames, importAll } = validationResult.data;
+
+    if (!importAll && (!resourceNames || resourceNames.length === 0)) {
       return res.status(400).json({ 
         success: false, 
         error: 'Nessun contatto selezionato per l\'importazione' 
       });
     }
 
-    let contactsToImport = contacts;
+    // Recupera i token dell'utente
+    const user = await storage.getUser(userId);
+    if (!user?.googleAuthToken) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Account Google non collegato',
+        needsReauth: true
+      });
+    }
 
-    // Se importAll, recupera tutti i contatti da Google
+    // Decifra il token se necessario
+    let tokenString = user.googleAuthToken;
+    if (EncryptionService.isEncrypted(tokenString)) {
+      tokenString = EncryptionService.decrypt(tokenString);
+    }
+    
+    let tokens;
+    try {
+      tokens = JSON.parse(tokenString);
+    } catch (parseError) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Token Google non valido',
+        needsReauth: true
+      });
+    }
+
+    const userOAuth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      getRedirectUri()
+    );
+    userOAuth2Client.setCredentials(tokens);
+
+    const people = google.people({ version: 'v1', auth: userOAuth2Client });
+
+    // Recupera i contatti da Google (sempre lato server per sicurezza)
+    let contactsToImport: Array<{name: string, email: string, phone: string, address: string}> = [];
+
     if (importAll) {
-      const user = await storage.getUser(userId);
-      if (!user?.googleAuthToken) {
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Account Google non collegato' 
-        });
-      }
-
-      const decryptedToken = decryptToken(user.googleAuthToken);
-      if (!decryptedToken) {
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Token Google non valido' 
-        });
-      }
-
-      const tokens = JSON.parse(decryptedToken);
-      const userOAuth2Client = new google.auth.OAuth2(
-        process.env.GOOGLE_CLIENT_ID,
-        process.env.GOOGLE_CLIENT_SECRET,
-        getRedirectUri()
-      );
-      userOAuth2Client.setCredentials(tokens);
-
-      const people = google.people({ version: 'v1', auth: userOAuth2Client });
+      // Recupera tutti i contatti
       const response = await people.people.connections.list({
         resourceName: 'people/me',
-        pageSize: 1000,
+        pageSize: 500,
         personFields: 'names,emailAddresses,phoneNumbers,addresses',
         sortOrder: 'FIRST_NAME_ASCENDING'
       });
@@ -1431,12 +1470,38 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       const connections = response.data.connections || [];
       contactsToImport = connections.map((person: any) => ({
         name: person.names?.[0]?.displayName || `${person.names?.[0]?.givenName || ''} ${person.names?.[0]?.familyName || ''}`.trim(),
-        firstName: person.names?.[0]?.givenName || '',
-        lastName: person.names?.[0]?.familyName || '',
         email: person.emailAddresses?.[0]?.value || '',
         phone: person.phoneNumbers?.[0]?.value || '',
         address: person.addresses?.[0]?.formattedValue || ''
       })).filter((c: any) => c.name || c.email || c.phone);
+    } else {
+      // Recupera solo i contatti selezionati tramite i loro resourceNames
+      // Usa batchGet per efficienza
+      const batchSize = 50;
+      for (let i = 0; i < resourceNames.length; i += batchSize) {
+        const batch = resourceNames.slice(i, i + batchSize);
+        try {
+          const response = await people.people.getBatchGet({
+            resourceNames: batch,
+            personFields: 'names,emailAddresses,phoneNumbers,addresses'
+          });
+          
+          const responses = response.data.responses || [];
+          for (const personResponse of responses) {
+            const person = personResponse.person;
+            if (person) {
+              contactsToImport.push({
+                name: person.names?.[0]?.displayName || `${person.names?.[0]?.givenName || ''} ${person.names?.[0]?.familyName || ''}`.trim(),
+                email: person.emailAddresses?.[0]?.value || '',
+                phone: person.phoneNumbers?.[0]?.value || '',
+                address: person.addresses?.[0]?.formattedValue || ''
+              });
+            }
+          }
+        } catch (batchError) {
+          console.error('Errore batch get contatti:', batchError);
+        }
+      }
     }
 
     // Recupera i clienti esistenti per evitare duplicati
