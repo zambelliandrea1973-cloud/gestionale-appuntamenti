@@ -165,6 +165,32 @@ export default function GoogleCalendarSetupPage() {
     }
   };
 
+  // Funzione per riautenticazione (quando servono nuovi permessi per i contatti)
+  const handleReconnectGoogle = async () => {
+    try {
+      const response = await fetch('/api/google-auth/start');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authUrl) {
+          // Usa redirect diretto invece di popup per evitare blocchi
+          window.location.href = data.authUrl;
+        }
+      } else {
+        toast({
+          title: "Errore",
+          description: "Impossibile avviare la riconnessione",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Errore di connessione",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleSyncToggle = (enabled: boolean) => {
     setIsSyncEnabled(enabled);
     if (enabled) {
@@ -647,7 +673,7 @@ export default function GoogleCalendarSetupPage() {
                         Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.
                       </p>
                       <Button 
-                        onClick={startGoogleAuth} 
+                        onClick={handleReconnectGoogle} 
                         className="mt-3 bg-amber-600 hover:bg-amber-700"
                         size="sm"
                       >
