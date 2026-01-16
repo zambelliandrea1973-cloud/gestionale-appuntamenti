@@ -168,6 +168,11 @@ export default function GoogleCalendarSetupPage() {
   // Funzione per riautenticazione (quando servono nuovi permessi per i contatti)
   const handleReconnectGoogle = async () => {
     try {
+      // Prima revoca il token esistente per forzare nuovi scope
+      console.log("🔄 Revoca token esistente prima della riconnessione...");
+      await fetch('/api/google-auth/revoke', { method: 'POST' });
+      
+      // Poi avvia la nuova autorizzazione
       const response = await fetch('/api/google-auth/start');
       if (response.ok) {
         const data = await response.json();

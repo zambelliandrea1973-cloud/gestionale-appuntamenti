@@ -85,6 +85,63 @@ export let authInfo: {
   authorized: false,
 };
 
+// Endpoint per revocare/cancellare il token esistente (necessario per riautenticazione con nuovi scope)
+router.post('/revoke', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req.user as any)?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+    }
+    
+    console.log(`🔄 [REVOKE] Revoca token Google per utente ${userId}`);
+    
+    // Recupera il token esistente
+    const [user] = await db.select({ googleAuthToken: users.googleAuthToken })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    
+    if (user?.googleAuthToken) {
+      try {
+        // Decodifica il token
+        const decryptedToken = EncryptionService.decrypt(user.googleAuthToken);
+        const tokens = JSON.parse(decryptedToken);
+        
+        // Prova a revocare il token su Google (opzionale, potrebbe fallire)
+        if (tokens.access_token) {
+          try {
+            await fetch(`https://oauth2.googleapis.com/revoke?token=${tokens.access_token}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+            console.log(`✅ [REVOKE] Token revocato su Google per utente ${userId}`);
+          } catch (revokeError) {
+            console.log(`⚠️ [REVOKE] Impossibile revocare su Google (normale se token scaduto):`, revokeError);
+          }
+        }
+      } catch (decryptError) {
+        console.log(`⚠️ [REVOKE] Token non decodificabile, procedo con cancellazione`);
+      }
+    }
+    
+    // Cancella il token dal database
+    await db.update(users)
+      .set({ 
+        googleAuthToken: null,
+        googleCalendarEnabled: false,
+        googleCalendarId: null
+      })
+      .where(eq(users.id, userId));
+    
+    console.log(`✅ [REVOKE] Token cancellato dal database per utente ${userId}`);
+    
+    res.json({ success: true, message: 'Token revocato con successo' });
+  } catch (error) {
+    console.error('❌ [REVOKE] Errore nella revoca del token:', error);
+    res.status(500).json({ success: false, error: 'Errore nella revoca del token' });
+  }
+});
+
 // Inizia il processo di autorizzazione
 router.get('/start', (req, res) => {
   try {
