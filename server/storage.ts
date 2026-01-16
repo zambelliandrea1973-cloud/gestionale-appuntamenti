@@ -468,8 +468,12 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
       
-      // Escludi sempre i clienti fittizi importati da Google Calendar
-      const excludeGoogleImported = not(like(clients.email, '%@imported.local'));
+      // Escludi solo i clienti fittizi importati da Google Calendar (email @imported.local)
+      // Includi i clienti con email NULL (es. contatti importati da Google Contacts)
+      const excludeGoogleImported = or(
+        sql`${clients.email} IS NULL`,
+        not(like(clients.email, '%@imported.local'))
+      );
       
       if (role === 'admin') {
         const allClients = await db.select().from(clients)
