@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { google } from 'googleapis';
 import { isAuthenticated } from '../auth';
 import { db } from '../db';
-import { users } from '../../shared/schema';
+import { users, clients } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { storage } from '../storage';
 import { EncryptionService } from '../services/encryption';
 import { z } from 'zod';
+import { generateClientCode } from '../utils/clientCodeGenerator';
 
 // Schema di validazione per l'importazione contatti
 const contactsImportSchema = z.object({
@@ -1606,7 +1607,32 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
           ownerId: userId
         };
 
-        await storage.createClient(clientData);
+        const newClient = await storage.createClient(clientData);
+        
+        // Genera i codici cliente (stessa logica di POST /api/clients)
+        let newUniqueCode = null;
+        try {
+          newUniqueCode = await generateClientCode(userId);
+        } catch (error: any) {
+          if (error.message && error.message.includes('Codice professionista non trovato')) {
+            console.log(`⚠️ Contatto importato senza newUniqueCode (professionista senza assignmentCode)`);
+          } else {
+            throw error;
+          }
+        }
+        
+        // Genera il legacy uniqueCode (formato PROF_XXX_CXXXXX)
+        const legacyUniqueCode = `PROF_${userId.toString().padStart(3, '0')}_C${newClient.id.toString().padStart(5, '0')}`;
+        
+        // Aggiorna il cliente con i codici generati
+        const updateData: any = { uniqueCode: legacyUniqueCode };
+        if (newUniqueCode) {
+          updateData.newUniqueCode = newUniqueCode;
+        }
+        
+        await storage.updateClient(newClient.id, updateData);
+        
+        console.log(`✅ Contatto importato: ${contact.firstName} ${contact.lastName} - Codice: ${newUniqueCode || legacyUniqueCode}`);
         imported++;
 
         // Aggiungi alle liste per evitare duplicati nel batch corrente
