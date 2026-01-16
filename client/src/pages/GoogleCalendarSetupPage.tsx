@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +27,7 @@ export default function GoogleCalendarSetupPage() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const { hasProAccess, isLoading } = useLicense();
+  const queryClient = useQueryClient();
   
   const [email, setEmail] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -358,6 +360,8 @@ export default function GoogleCalendarSetupPage() {
           title: "✅ Importazione completata",
           description: data.message,
         });
+        // Invalida la cache dei clienti per mostrare i nuovi clienti importati
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
         // Resetta selezione
         setSelectedContacts(new Set());
         if (!importAll) {
