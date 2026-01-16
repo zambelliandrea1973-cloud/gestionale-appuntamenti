@@ -1461,7 +1461,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
     const people = google.people({ version: 'v1', auth: userOAuth2Client });
 
     // Recupera i contatti da Google (sempre lato server per sicurezza)
-    let contactsToImport: Array<{name: string, email: string, phone: string, address: string}> = [];
+    let contactsToImport: Array<{firstName: string, lastName: string, email: string, phone: string, address: string}> = [];
 
     if (importAll) {
       // Recupera tutti i contatti
@@ -1474,12 +1474,13 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
       const connections = response.data.connections || [];
       contactsToImport = connections.map((person: any) => ({
-        name: person.names?.[0]?.displayName || `${person.names?.[0]?.givenName || ''} ${person.names?.[0]?.familyName || ''}`.trim(),
+        firstName: person.names?.[0]?.givenName || person.names?.[0]?.displayName || '',
+        lastName: person.names?.[0]?.familyName || '',
         email: person.emailAddresses?.[0]?.value || '',
         phone: person.phoneNumbers?.[0]?.value || '',
         address: person.addresses?.[0]?.formattedValue || ''
-      })).filter((c: any) => c.name || c.email || c.phone);
-    } else {
+      })).filter((c: any) => (c.firstName || c.lastName) || c.email || c.phone);
+    } else if (resourceNames && resourceNames.length > 0) {
       // Recupera solo i contatti selezionati tramite i loro resourceNames
       // Usa batchGet per efficienza
       const batchSize = 50;
@@ -1496,7 +1497,8 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
             const person = personResponse.person;
             if (person) {
               contactsToImport.push({
-                name: person.names?.[0]?.displayName || `${person.names?.[0]?.givenName || ''} ${person.names?.[0]?.familyName || ''}`.trim(),
+                firstName: person.names?.[0]?.givenName || person.names?.[0]?.displayName || '',
+                lastName: person.names?.[0]?.familyName || '',
                 email: person.emailAddresses?.[0]?.value || '',
                 phone: person.phoneNumbers?.[0]?.value || '',
                 address: person.addresses?.[0]?.formattedValue || ''
@@ -1510,9 +1512,9 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
     }
 
     // Recupera i clienti esistenti per evitare duplicati
-    const existingClients = await storage.getClientsByUser(userId);
-    const existingEmails = new Set(existingClients.map(c => c.email?.toLowerCase()).filter(Boolean));
-    const existingPhones = new Set(existingClients.map(c => c.phone?.replace(/\s+/g, '')).filter(Boolean));
+    const existingClients = await storage.getVisibleClientsForUser(userId, 'admin');
+    const existingEmails = new Set(existingClients.map((c: any) => c.email?.toLowerCase()).filter(Boolean));
+    const existingPhones = new Set(existingClients.map((c: any) => c.phone?.replace(/\s+/g, '')).filter(Boolean));
 
     let imported = 0;
     let skipped = 0;
@@ -1533,14 +1535,16 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
           continue;
         }
 
-        // Crea il cliente
+        // Crea il cliente con i campi obbligatori firstName, lastName, phone
         const clientData = {
           userId,
-          name: contact.name || 'Senza nome',
+          firstName: contact.firstName || 'Senza',
+          lastName: contact.lastName || 'Nome',
+          phone: contact.phone || 'N/A',
           email: contact.email || null,
-          phone: contact.phone || null,
           address: contact.address || null,
-          notes: 'Importato da Google Contacts'
+          notes: 'Importato da Google Contacts',
+          ownerId: userId
         };
 
         await storage.createClient(clientData);
@@ -1551,8 +1555,9 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         if (phoneNormalized) existingPhones.add(phoneNormalized);
 
       } catch (err: any) {
-        console.error(`Errore importazione contatto ${contact.name}:`, err);
-        errors.push(`${contact.name}: ${err.message}`);
+        const contactName = `${contact.firstName} ${contact.lastName}`.trim() || 'Contatto';
+        console.error(`Errore importazione contatto ${contactName}:`, err);
+        errors.push(`${contactName}: ${err.message}`);
       }
     }
 
