@@ -647,7 +647,7 @@ export default function GoogleCalendarSetupPage() {
                         Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.
                       </p>
                       <Button 
-                        onClick={handleGoogleAuth} 
+                        onClick={startGoogleAuth} 
                         className="mt-3 bg-amber-600 hover:bg-amber-700"
                         size="sm"
                       >
