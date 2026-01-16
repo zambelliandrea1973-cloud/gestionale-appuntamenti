@@ -1375,8 +1375,10 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
       });
     }
     
-    // Se manca lo scope per i contatti
-    if (error.message?.includes('Request had insufficient authentication scopes')) {
+    // Se manca lo scope per i contatti (cattura vari formati di errore Google)
+    if (error.message?.includes('Request had insufficient authentication scopes') ||
+        error.message?.includes('Insufficient Permission') ||
+        error.code === 403) {
       return res.status(403).json({ 
         success: false, 
         error: 'Permessi insufficienti. Riconnetti il tuo account Google per abilitare l\'accesso ai contatti.',
