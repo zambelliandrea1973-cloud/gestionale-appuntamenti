@@ -669,6 +669,22 @@ export default function GoogleCalendarSetupPage() {
 
           <CardContent className="pt-6">
             <div className="space-y-4">
+              {/* Banner funzione in fase di test */}
+              <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded-lg border border-yellow-300 dark:border-yellow-700">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-yellow-900 dark:text-yellow-100">
+                      🧪 Funzione in fase di test
+                    </p>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                      L'importazione contatti Google è attualmente disponibile solo per gli utenti tester autorizzati. 
+                      Se non sei tra i tester, potresti vedere un errore "Accesso bloccato" da Google.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
               {/* Banner riautenticazione necessaria */}
               {needsContactsReauth && (
                 <div className="bg-amber-50 dark:bg-amber-950 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
