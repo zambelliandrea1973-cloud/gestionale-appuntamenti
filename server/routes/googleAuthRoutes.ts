@@ -538,11 +538,12 @@ router.get('/status', async (req, res) => {
     console.log("⚠️ [GOOGLE AUTH STATUS] Utente non autenticato");
   }
   
-  // Fallback: stato dalla memoria
-  console.log("🔐 [GOOGLE AUTH STATUS] Fallback a memoria:", authInfo.authorized);
+  // Se non c'è token nel database per questo utente, NON è autorizzato
+  // (il vecchio fallback usava una variabile globale che causava bug di sicurezza)
+  console.log("🔐 [GOOGLE AUTH STATUS] Nessun token trovato, utente non autorizzato");
   res.json({ 
     success: true, 
-    authorized: authInfo.authorized 
+    authorized: false 
   });
 });
 
