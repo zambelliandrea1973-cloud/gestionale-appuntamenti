@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
+# Skip Chromium download for puppeteer (not needed for production)
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
 # Install ALL dependencies (tsx needed for production)
 RUN npm ci
 
