@@ -7,7 +7,7 @@ import path from 'path';
 import { directNotificationService } from '../services/directNotificationService';
 import { db } from '../db';
 import { appointments, clients, services } from '../../shared/schema';
-import { eq, and, gte, lte } from 'drizzle-orm';
+import { eq, and, gte, lte, or, isNull } from 'drizzle-orm';
 
 // 🔄 MIGRATO A POSTGRESQL per sincronizzazione Replit ↔ Sliplane
 
@@ -73,7 +73,12 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         and(
           eq(appointments.userId, userId), // ✅ MULTI-TENANT ISOLATION
           gte(appointments.date, startDate),
-          lte(appointments.date, endDate)
+          lte(appointments.date, endDate),
+          // ✅ ESCLUDI appuntamenti importati da Google Calendar (non sono veri clienti)
+          or(
+            eq(appointments.importedFromGoogle, false),
+            isNull(appointments.importedFromGoogle)
+          )
         )
       );
     
@@ -170,7 +175,11 @@ router.post('/send-batch', async (req: Request, res: Response) => {
       .where(
         and(
           eq(appointments.userId, (req as any).user?.id), // ✅ MULTI-TENANT
-          // Filtra solo gli ID richiesti (usando OR)
+          // ✅ ESCLUDI appuntamenti importati da Google Calendar
+          or(
+            eq(appointments.importedFromGoogle, false),
+            isNull(appointments.importedFromGoogle)
+          )
         )
       );
     
