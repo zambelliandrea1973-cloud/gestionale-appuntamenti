@@ -10,27 +10,21 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - Work independently and efficiently
 - Keep dev and production environments synchronized
 
-## ⚠️ AZIONE URGENTE - ATTIVARE PAGAMENTI STRIPE LIVE
+## ⚠️ NOTE IMPORTANTI - DIFFERENZE TRA AMBIENTI
 
-**Da fare al prossimo accesso (da PC):**
+### ENCRYPTION_KEY
+- **Sliplane (produzione)**: Chiave di produzione configurata
+- **Replit (sviluppo)**: NON configurata (usa chiave di default)
+- Le password email cifrate su Sliplane NON sono leggibili su Replit (chiavi diverse)
+- Per test email su Replit, reinserire la password manualmente
 
+### Stripe (da completare)
 1. **Vai su Stripe Dashboard** → https://dashboard.stripe.com/apikeys
-2. **Assicurati di essere in modalità LIVE** (non Test) - toggle in alto a destra
-3. **Copia le chiavi:**
-   - Secret key: inizia con `sk_live_...`
-   - Publishable key: inizia con `pk_live_...`
-
-4. **Aggiorna su Replit (Secrets):**
-   - `STRIPE_SECRET_KEY_LIVE` = `sk_live_...`
-   - `VITE_STRIPE_PUBLIC_KEY_LIVE` = `pk_live_...`
-
-5. **Aggiorna su Sliplane (Variabili d'ambiente):**
+2. **Modalità LIVE** (non Test)
+3. **Aggiorna su Sliplane:**
    - `STRIPE_SECRET_KEY` = `sk_live_...`
    - `VITE_STRIPE_PUBLIC_KEY` = `pk_live_...`
-
-6. **Verifica che `PAYMENT_MODE` = `production`** su entrambi
-
-7. **Cancella questa sezione dopo aver completato l'operazione**
+4. **Verifica `PAYMENT_MODE` = `production`**
 
 ## System Architecture
 
