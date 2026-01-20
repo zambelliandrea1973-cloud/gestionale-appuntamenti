@@ -1,0 +1,1245 @@
+20/01/2026, 16:41:40:
+runtime
+3:41:40 PM [express] GET /api/license/has-business-access 200 in 6ms
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] Session ID: ASj1S2FfJqhmoyHkKnHM8G24MsuqRYpH
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] ============================
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] Cookie header: present
+20/01/2026, 16:41:40:
+runtime
+🔐 [has-pro-access] req.user: undefined
+20/01/2026, 16:41:40:
+runtime
+3:41:40 PM [express] GET /api/license/has-pro-access 200 in 3ms
+20/01/2026, 16:41:40:
+runtime
+3:41:40 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:40:
+runtime
+3:41:40 PM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:41:
+runtime
+3:41:41 PM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:41:
+runtime
+3:41:41 PM [express] POST /api/email-calendar-settings 401 in 2ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:44:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+20/01/2026, 16:41:44:
+runtime
+Logout completato con successo
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] POST /api/logout 200 in 5ms :: {"success":true,"message":"Logout completato con…
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] GET /api/license/has-business-access 304 in 1ms
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] GET /api/license/license-info 200 in 2ms :: {"hasLicense":false,"type":"none"}
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] req.user: undefined
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] Cookie header: missing
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] ============================
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] Session ID: d4tJJxFhIivfCvmjHmiqNYb4T3u6Ok2F
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+20/01/2026, 16:41:44:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+20/01/2026, 16:41:44:
+runtime
+3:41:44 PM [express] GET /api/license/has-pro-access 304 in 2ms
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:45:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+20/01/2026, 16:41:45:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1768923705581-default
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:45:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:45:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+20/01/2026, 16:41:45:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1768923705582.2134&android=1","/pwa-icon/192x192?owner=default&v=1768923705582.2134&android=1","/pwa-icon/512x512?owner=default&v=1768923705582.2134&android=1"]
+20/01/2026, 16:41:45:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+20/01/2026, 16:41:45:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+20/01/2026, 16:41:45:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+20/01/2026, 16:41:45:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+20/01/2026, 16:41:45:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+20/01/2026, 16:41:46:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1768923706082-default
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1768923706083.402&android=1","/pwa-icon/192x192?owner=default&v=1768923706083.402&android=1","/pwa-icon/512x512?owner=default&v=1768923706083.402&android=1"]
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] GET /api/user-with-license 401 in 26ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1768923706372-default
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+20/01/2026, 16:41:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1768923706372.1199&android=1","/pwa-icon/192x192?owner=default&v=1768923706372.1199&android=1","/pwa-icon/512x512?owner=default&v=1768923706372.1199&android=1"]
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+20/01/2026, 16:41:46:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+20/01/2026, 16:41:46:
+runtime
+3:41:46 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+20/01/2026, 16:41:48:
+runtime
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Sa
+20/01/2026, 16:41:48:
+runtime
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+20/01/2026, 16:41:48:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+20/01/2026, 16:41:50:
+runtime
+    
+20/01/2026, 16:41:50:
+runtime
+      order by b.oid
+20/01/2026, 16:41:50:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:50:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:50:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:50:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:50:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where ("users"."username" = $1 or "users"."email" = $2)
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Params: [ 'zambelli.andrea.1973@gmail.com', 'zambelli.andrea.1973@gmail.com' ]
+20/01/2026, 16:41:50:
+runtime
+🔐 [LOGIN] Session saved: yes
+20/01/2026, 16:41:50:
+runtime
+🔐 [LOGIN] Session ID: 3m_pc6BHtV3-IIrCCOoBzQeQQ9Aa_H_V
+20/01/2026, 16:41:50:
+runtime
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+20/01/2026, 16:41:50:
+runtime
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+20/01/2026, 16:41:50:
+runtime
+3:41:50 PM [express] POST /api/staff/login 200 in 1746ms :: {"id":3,"username":"zambelli.andrea.1973…
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:50:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+20/01/2026, 16:41:50:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:50:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:51:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+20/01/2026, 16:41:51:
+runtime
+}
+20/01/2026, 16:41:51:
+runtime
+  licenseType: 'passepartout'
+20/01/2026, 16:41:51:
+runtime
+  lastName: null,
+20/01/2026, 16:41:51:
+runtime
+  firstName: null,
+20/01/2026, 16:41:51:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+20/01/2026, 16:41:51:
+runtime
+  id: 3,
+20/01/2026, 16:41:51:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+20/01/2026, 16:41:51:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+20/01/2026, 16:41:51:
+runtime
+3:41:51 PM [express] GET /api/user-with-license 200 in 475ms :: {"id":3,"username":"zambelli.andrea.…
+20/01/2026, 16:41:51:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:51:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:51:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+20/01/2026, 16:41:51:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+20/01/2026, 16:41:51:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1768923711412.6487&admin=1","/pwa-icon/192x192?owner=3&v=1768923711412.6487&admin=1","/pwa-icon/512x512?owner=3&v=1768923711412.6487&admin=1"]
+20/01/2026, 16:41:51:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+20/01/2026, 16:41:51:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+20/01/2026, 16:41:51:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+20/01/2026, 16:41:51:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1768923711102' }
+20/01/2026, 16:41:51:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+20/01/2026, 16:41:51:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/contact-info
+20/01/2026, 16:41:51:
+runtime
+Recupero impostazioni per utente 3
+20/01/2026, 16:41:51:
+runtime
+    
+20/01/2026, 16:41:51:
+runtime
+      order by b.oid
+20/01/2026, 16:41:51:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:51:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:51:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:51:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:51:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:51:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:51:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:51:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:52:
+runtime
+    
+20/01/2026, 16:41:52:
+runtime
+      order by b.oid
+20/01/2026, 16:41:52:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:52:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:52:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:52:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:52:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /dashboard
+20/01/2026, 16:41:52:
+runtime
+    
+20/01/2026, 16:41:52:
+runtime
+      order by b.oid
+20/01/2026, 16:41:52:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:52:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:52:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:52:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:52:
+runtime
+    
+20/01/2026, 16:41:52:
+runtime
+      order by b.oid
+20/01/2026, 16:41:52:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:52:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:52:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:52:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+20/01/2026, 16:41:52:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /forced-style.css
+20/01/2026, 16:41:52:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-DCXRdHfr.js
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:41:52:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+20/01/2026, 16:41:52:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+20/01/2026, 16:41:52:
+runtime
+3:41:52 PM [express] GET /api/tenant-context 200 in 1233ms :: {"userId":3,"userType":"admin","tenant…
+20/01/2026, 16:41:52:
+runtime
+Impostazioni trovate per utente 3: SI
+20/01/2026, 16:41:52:
+runtime
+3:41:52 PM [express] GET /api/contact-info 200 in 1469ms :: {"email":"zambelli.andrea.1973@gmail.com…
+20/01/2026, 16:41:52:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+20/01/2026, 16:41:52:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+20/01/2026, 16:41:53:
+runtime
+    
+20/01/2026, 16:41:53:
+runtime
+      order by b.oid
+20/01/2026, 16:41:53:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:53:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:53:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:53:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:53:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:53:
+runtime
+    
+20/01/2026, 16:41:53:
+runtime
+      order by b.oid
+20/01/2026, 16:41:53:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:53:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:53:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:53:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:53:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-CoPKYy_3.css
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /disable-vite-overlay.js
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+20/01/2026, 16:41:53:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+20/01/2026, 16:41:53:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1768923713681-default
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+20/01/2026, 16:41:53:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+20/01/2026, 16:41:53:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+20/01/2026, 16:41:53:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1768923713682.6929&android=1","/pwa-icon/192x192?owner=default&v=1768923713682.6929&android=1","/pwa-icon/512x512?owner=default&v=1768923713682.6929&android=1"]
+20/01/2026, 16:41:53:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+20/01/2026, 16:41:53:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+20/01/2026, 16:41:53:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+20/01/2026, 16:41:53:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+20/01/2026, 16:41:53:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+20/01/2026, 16:41:53:
+runtime
+3:41:53 PM [express] GET /api/timezone-settings 200 in 222ms :: {"timezone":"Europe/Rome","offset":-…
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+20/01/2026, 16:41:53:
+runtime
+3:41:53 PM [express] GET /api/license/has-business-access 200 in 224ms :: true
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+20/01/2026, 16:41:53:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/license-info
+20/01/2026, 16:41:53:
+runtime
+3:41:53 PM [express] GET /api/license/license-info 200 in 249ms :: {"hasLicense":true,"type":"passep…
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/client-app-info
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] Session ID: 3m_pc6BHtV3-IIrCCOoBzQeQQ9Aa_H_V
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] Cookie header: present
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] ============================
+20/01/2026, 16:41:53:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+20/01/2026, 16:41:53:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/application-title
+20/01/2026, 16:41:53:
+runtime
+3:41:53 PM [express] GET /api/license/has-pro-access 200 in 259ms :: true
+20/01/2026, 16:41:53:
+runtime
+3:41:53 PM [express] GET /api/license/application-title 304 in 260ms :: {"title":"Gestionale Appunta…
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:53:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+20/01/2026, 16:41:54:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] GET /api/client-app-info 200 in 413ms :: {"appName":"Gestionale Appuntamenti","…
+20/01/2026, 16:41:54:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+20/01/2026, 16:41:54:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+20/01/2026, 16:41:54:
+runtime
+}
+20/01/2026, 16:41:54:
+runtime
+  licenseType: 'passepartout'
+20/01/2026, 16:41:54:
+runtime
+  lastName: null,
+20/01/2026, 16:41:54:
+runtime
+  firstName: null,
+20/01/2026, 16:41:54:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+20/01/2026, 16:41:54:
+runtime
+  id: 3,
+20/01/2026, 16:41:54:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] GET /api/user-with-license 304 in 496ms :: {"id":3,"username":"zambelli.andrea.…
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] POST /api/timezone-settings 200 in 257ms :: {"success":true,"timezone":"Europe/…
+20/01/2026, 16:41:54:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:54:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1768923714156.8635&admin=1","/pwa-icon/192x192?owner=3&v=1768923714156.8635&admin=1","/pwa-icon/512x512?owner=3&v=1768923714156.8635&admin=1"]
+20/01/2026, 16:41:54:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+20/01/2026, 16:41:54:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+20/01/2026, 16:41:54:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+20/01/2026, 16:41:54:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1768923713951' }
+20/01/2026, 16:41:54:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+20/01/2026, 16:41:54:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:54:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/company-name-settings
+20/01/2026, 16:41:54:
+runtime
+Recupero impostazioni per utente 3
+20/01/2026, 16:41:54:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:41:54:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+20/01/2026, 16:41:54:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/contact-info
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] GET /api/tenant-context 200 in 225ms :: {"userId":3,"userType":"admin","tenantI…
+20/01/2026, 16:41:54:
+runtime
+Recupero impostazioni per utente 3
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:41:54:
+runtime
+    
+20/01/2026, 16:41:54:
+runtime
+      order by b.oid
+20/01/2026, 16:41:54:
+runtime
+      group by b.oid, b.typarray
+20/01/2026, 16:41:54:
+runtime
+      where a.typcategory = 'A'
+20/01/2026, 16:41:54:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+20/01/2026, 16:41:54:
+runtime
+      from pg_catalog.pg_type a
+20/01/2026, 16:41:54:
+runtime
+      select b.oid, b.typarray
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: 
+20/01/2026, 16:41:54:
+runtime
+}
+20/01/2026, 16:41:54:
+runtime
+  enabled: true
+20/01/2026, 16:41:54:
+runtime
+  color: '#000000',
+20/01/2026, 16:41:54:
+runtime
+  fontStyle: 'normal',
+20/01/2026, 16:41:54:
+runtime
+  fontFamily: 'Times New Roman',
+20/01/2026, 16:41:54:
+runtime
+  fontSize: 24,
+20/01/2026, 16:41:54:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+20/01/2026, 16:41:54:
+runtime
+  showBusinessName: true,
+20/01/2026, 16:41:54:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+20/01/2026, 16:41:54:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+20/01/2026, 16:41:54:
+runtime
+Impostazioni trovate per utente 3: SI
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] GET /api/company-name-settings 200 in 444ms :: {"businessName":"Gestionale Appu…
+20/01/2026, 16:41:54:
+runtime
+Impostazioni trovate per utente 3: SI
+20/01/2026, 16:41:54:
+runtime
+3:41:54 PM [express] GET /api/contact-info 200 in 450ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:54:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+20/01/2026, 16:41:54:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+20/01/2026, 16:41:54:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:54:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:55:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+20/01/2026, 16:41:57:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+20/01/2026, 16:41:57:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1768923716944' }
+20/01/2026, 16:41:57:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+20/01/2026, 16:41:57:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:57:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+20/01/2026, 16:41:57:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1768923717160.5603&admin=1","/pwa-icon/192x192?owner=3&v=1768923717160.5603&admin=1","/pwa-icon/512x512?owner=3&v=1768923717160.5603&admin=1"]
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/currency-settings
+20/01/2026, 16:41:57:
+runtime
+💰 Recupero impostazioni valuta per utente 3
+20/01/2026, 16:41:57:
+runtime
+💰 [GET] Recupero impostazioni valuta per utente 3
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "currency", "symbol", "created_at", "updated_at" from "currency_settings" where "currency_settings"."user_id" = $1 limit $2
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:41:57:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/services
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."user_id" = $1 order by "services"."name"
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/admin/notifications
+20/01/2026, 16:41:57:
+runtime
+3:41:57 PM [express] GET /api/admin/notifications 200 in 234ms :: [{"id":1768921202447,"clientId":0,…
+20/01/2026, 16:41:57:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:57:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:57:
+runtime
+ℹ️ Nessuna impostazione valuta per utente 3, uso default EUR €
+20/01/2026, 16:41:57:
+runtime
+3:41:57 PM [express] GET /api/currency-settings 304 in 445ms :: {"currency":"EUR","symbol":"€"}
+20/01/2026, 16:41:57:
+runtime
+✅ NUOVO Sistema: 10 servizi per utente 3 - SEPARAZIONE COMPLETA
+20/01/2026, 16:41:57:
+runtime
+🔧 [/api/services] [desktop] Caricati 10 servizi da PostgreSQL per utente 3
+20/01/2026, 16:41:57:
+runtime
+3:41:57 PM [express] GET /api/services 304 in 450ms :: [{"id":75,"userId":3,"name":"Bicom","duration…
+20/01/2026, 16:41:57:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+20/01/2026, 16:41:57:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+20/01/2026, 16:41:57:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+20/01/2026, 16:41:58:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:41:58:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:41:58:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/email-calendar-settings
+20/01/2026, 16:41:58:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+20/01/2026, 16:41:58:
+runtime
+Recupero impostazioni per utente 3
+20/01/2026, 16:41:58:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+20/01/2026, 16:41:58:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:41:58:
+runtime
+Impostazioni trovate per utente 3: SI
+20/01/2026, 16:41:58:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+20/01/2026, 16:41:58:
+runtime
+3:41:58 PM [express] GET /api/email-calendar-settings 304 in 438ms :: {"emailEnabled":true,"emailAdd…
+20/01/2026, 16:42:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:42:01:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:42:01:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/email-calendar-settings/show-password
+20/01/2026, 16:42:01:
+runtime
+🔓 [SHOW PASSWORD] Richiesta per utente 3
+20/01/2026, 16:42:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+20/01/2026, 16:42:01:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+20/01/2026, 16:42:01:
+runtime
+✅ [EMAIL CONFIG] Usando credenziali DB per utente 3
+20/01/2026, 16:42:01:
+runtime
+❌ [DECRYPTION] Errore durante decryption: RangeError: Invalid key length
+20/01/2026, 16:42:01:
+runtime
+    at Decipheriv.createCipherBase (node:internal/crypto/cipher:121:19)
+20/01/2026, 16:42:01:
+runtime
+    at Decipheriv.createCipherWithIV (node:internal/crypto/cipher:140:3)
+20/01/2026, 16:42:01:
+runtime
+    at new Decipheriv (node:internal/crypto/cipher:289:3)
+20/01/2026, 16:42:01:
+runtime
+    at Object.createDecipheriv (node:crypto:155:10)
+20/01/2026, 16:42:01:
+runtime
+    at decryptPassword (/app/server/utils/encryption.ts:40:29)
+20/01/2026, 16:42:01:
+runtime
+    at getEmailConfig (/app/server/utils/emailConfig.ts:34:20)
+20/01/2026, 16:42:01:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+20/01/2026, 16:42:01:
+runtime
+    at async  (/app/server/simple-routes.ts:7329:27) {
+20/01/2026, 16:42:01:
+runtime
+  code: 'ERR_CRYPTO_INVALID_KEYLEN'
+20/01/2026, 16:42:01:
+runtime
+}
+20/01/2026, 16:42:01:
+runtime
+❌ [EMAIL CONFIG] Errore decrypt password, fallback a ENV/JSON
+20/01/2026, 16:42:01:
+runtime
+✅ [EMAIL CONFIG] Usando credenziali da email_settings.json (retrocompatibilità)
+20/01/2026, 16:42:01:
+runtime
+3:42:01 PM [express] GET /api/email-calendar-settings/show-password 304 in 487ms :: {"success":true,…
+20/01/2026, 16:42:03:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+20/01/2026, 16:42:03:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+20/01/2026, 16:42:03:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/email-calendar-settings
+20/01/2026, 16:42:03:
+runtime
+📧 [POST EMAIL SETTINGS] Aggiornamento per utente 3 {
+20/01/2026, 16:42:03:
+runtime
+  emailEnabled: true,
+20/01/2026, 16:42:03:
+runtime
+  emailAddress: 'zambelli.andrea.1973@gmail.com',
+20/01/2026, 16:42:03:
+runtime
+  hasPassword: true,
+20/01/2026, 16:42:03:
+runtime
+  passwordMasked: false
+20/01/2026, 16:42:03:
+runtime
+}
+20/01/2026, 16:42:03:
+runtime
+❌ [ENCRYPTION] Errore durante encryption: RangeError: Invalid key length
+20/01/2026, 16:42:03:
+runtime
+    at Cipheriv.createCipherBase (node:internal/crypto/cipher:121:19)
+20/01/2026, 16:42:03:
+runtime
+    at Cipheriv.createCipherWithIV (node:internal/crypto/cipher:140:3)
+20/01/2026, 16:42:03:
+runtime
+    at new Cipheriv (node:internal/crypto/cipher:243:3)
+20/01/2026, 16:42:03:
+runtime
+    at Object.createCipheriv (node:crypto:147:10)
+20/01/2026, 16:42:03:
+runtime
+    at encryptPassword (/app/server/utils/encryption.ts:14:27)
+20/01/2026, 16:42:03:
+runtime
+    at  (/app/server/simple-routes.ts:7271:44) {
+20/01/2026, 16:42:03:
+runtime
+  code: 'ERR_CRYPTO_INVALID_KEYLEN'
+20/01/2026, 16:42:03:
+runtime
+3:42:03 PM [express] POST /api/email-calendar-settings 500 in 233ms :: {"success":false,"error":"Err…
+20/01/2026, 16:42:03:
+runtime
+}
+20/01/2026, 16:42:03:
+runtime
+❌ [ERRORE SAVE EMAIL SETTINGS]: Error: Errore durante la cifratura della password
+20/01/2026, 16:42:03:
+runtime
+    at encryptPassword (/app/server/utils/encryption.ts:25:11)
+20/01/2026, 16:42:03:
+runtime
+    at  (/app/server/simple-routes.ts:7271:44)
