@@ -468,10 +468,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           continue;
         }
         
-        // Cerca cliente (O(1))
+        // USA UN SINGOLO CLIENTE PLACEHOLDER PER TUTTI GLI EVENTI GOOGLE
+        // Non creiamo clienti fittizi per ogni evento - usiamo un unico placeholder
         let clientId: number | null = null;
         const originalEventTitle = googleEvent.summary || 'Evento Google';
         
+        // Prima cerca se esiste già un cliente con email dell'attendee
         if (googleEvent.attendees && googleEvent.attendees.length > 0) {
           const attendeeEmail = googleEvent.attendees[0].email;
           if (attendeeEmail) {
@@ -480,24 +482,40 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           }
         }
         
+        // Se non trova un cliente reale, usa il placeholder "Google Calendar"
         if (!clientId) {
-          const existingClient = clientsByName.get(`${originalEventTitle}|Google Calendar`);
-          if (existingClient) {
-            clientId = existingClient.id;
+          const placeholderKey = `📅 Eventi Calendario|Google Calendar`;
+          const existingPlaceholder = clientsByName.get(placeholderKey);
+          if (existingPlaceholder) {
+            clientId = existingPlaceholder.id;
           } else {
-            const newClient = await db.insert(clients).values({
-              userId,
-              firstName: originalEventTitle,
-              lastName: 'Google Calendar',
-              email: `google-${Date.now()}@imported.local`,
-              phone: '',
-              notes: `Cliente creato per evento Google: ${originalEventTitle}`
-            }).returning();
+            // Cerca nel database se esiste già il placeholder
+            const [dbPlaceholder] = await db.select().from(clients)
+              .where(and(
+                eq(clients.userId, userId),
+                eq(clients.firstName, '📅 Eventi Calendario'),
+                eq(clients.lastName, 'Google Calendar')
+              ))
+              .limit(1);
             
-            if (newClient.length > 0) {
-              clientId = newClient[0].id;
-              // Aggiorna cache
-              clientsByName.set(`${originalEventTitle}|Google Calendar`, newClient[0]);
+            if (dbPlaceholder) {
+              clientId = dbPlaceholder.id;
+              clientsByName.set(placeholderKey, dbPlaceholder);
+            } else {
+              // Crea UN SOLO placeholder per utente
+              const newClient = await db.insert(clients).values({
+                userId,
+                firstName: '📅 Eventi Calendario',
+                lastName: 'Google Calendar',
+                email: `google-calendar-${userId}@imported.local`,
+                phone: '',
+                notes: 'Cliente sistema per eventi importati da Google Calendar. Non riceve notifiche.'
+              }).returning();
+              
+              if (newClient.length > 0) {
+                clientId = newClient[0].id;
+                clientsByName.set(placeholderKey, newClient[0]);
+              }
             }
           }
         }
