@@ -1,17 +1,37 @@
 import crypto from 'crypto';
 
 const ALGORITHM = 'aes-256-gcm';
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '12345678901234567890123456789012';
 const IV_LENGTH = 12;
 
-if (!process.env.ENCRYPTION_KEY) {
-  console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY non impostata, usando chiave di default (NON SICURO IN PRODUZIONE!)');
+function getEncryptionKey(): Buffer {
+  const keyEnv = process.env.ENCRYPTION_KEY;
+  
+  if (!keyEnv) {
+    console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY non impostata, usando chiave di default (NON SICURO IN PRODUZIONE!)');
+    return Buffer.from('12345678901234567890123456789012', 'utf8');
+  }
+  
+  // Se la chiave è in formato hex (64 caratteri), convertila in 32 bytes
+  if (keyEnv.length === 64 && /^[0-9a-fA-F]+$/.test(keyEnv)) {
+    return Buffer.from(keyEnv, 'hex');
+  }
+  
+  // Altrimenti usa la chiave come stringa UTF-8 (deve essere 32 caratteri)
+  if (keyEnv.length === 32) {
+    return Buffer.from(keyEnv, 'utf8');
+  }
+  
+  // Chiave non valida, usa hash SHA-256 per normalizzarla a 32 bytes
+  console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY non ha lunghezza corretta, normalizzando con SHA-256');
+  return crypto.createHash('sha256').update(keyEnv).digest();
 }
+
+const ENCRYPTION_KEY = getEncryptionKey();
 
 export function encryptPassword(password: string): string {
   try {
     const iv = crypto.randomBytes(IV_LENGTH);
-    const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), iv);
+    const cipher = crypto.createCipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
     
     let encrypted = cipher.update(password, 'utf8');
     encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -37,7 +57,7 @@ export function decryptPassword(encryptedData: string): string {
     const encrypted = Buffer.from(parts[1], 'hex');
     const authTag = Buffer.from(parts[2], 'hex');
     
-    const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), iv);
+    const decipher = crypto.createDecipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
     decipher.setAuthTag(authTag);
     
     let decrypted = decipher.update(encrypted);
