@@ -52,14 +52,17 @@ export function serveDynamicManifest(req: Request, res: Response) {
       const referer = req.get('referer') || '';
       console.log(`🔍 PWA MANIFEST: Referer: ${referer}`);
       
-      // Cerca pattern /client/PROF_XXX_ nel referer  
-      const pathTokenMatch = referer.match(/\/client\/(PROF_\d+_[A-F0-9]+_CLIENT_\d+_[A-F0-9]+_[a-f0-9]+)/);
+      // Cerca pattern /client/PROF_XXX_... nel referer (supporta TUTTI i formati)
+      // Formato NUOVO: PROF_042_C00166
+      // Formato VECCHIO: PROF_014_9C1F_CLIENT_1750163505034_340F
+      const pathTokenMatch = referer.match(/\/client\/(PROF_\d{2,3}_[^/?#\s]+)/);
       if (pathTokenMatch) {
         const token = pathTokenMatch[1];
-        const tokenParts = token.split('_');
-        if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
-          ownerUserId = parseInt(tokenParts[1]);
-          console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token nel path`);
+        // Estrai ownerId dal token (primi 2-3 digit dopo PROF_)
+        const ownerIdMatch = token.match(/^PROF_(\d{2,3})_/);
+        if (ownerIdMatch) {
+          ownerUserId = parseInt(ownerIdMatch[1]);
+          console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token nel path: ${token}`);
         }
       }
       
@@ -68,9 +71,9 @@ export function serveDynamicManifest(req: Request, res: Response) {
         const tokenMatch = referer.match(/token=([^&]+)/);
         if (tokenMatch) {
           const token = tokenMatch[1];
-          const tokenParts = token.split('_');
-          if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
-            ownerUserId = parseInt(tokenParts[1]);
+          const ownerIdMatch = token.match(/^PROF_(\d{2,3})_/);
+          if (ownerIdMatch) {
+            ownerUserId = parseInt(ownerIdMatch[1]);
             console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token QR nei params`);
           }
         }
@@ -124,12 +127,6 @@ export function serveDynamicManifest(req: Request, res: Response) {
         console.log(`📱 PWA MANIFEST: Start URL estratto da referer: ${startUrl}`);
       }
     }
-    // Terza priorità: per utente 14, usa direttamente il codice di Bruna
-    else if (ownerUserId === 14 && !startUrl.includes('/client/')) {
-      // Usa direttamente il codice univoco di Bruna Pizzolato
-      startUrl = `/client/PROF_014_9C1F_CLIENT_1750163505034_340F`;
-      console.log(`📱 PWA MANIFEST: Start URL fissato per Bruna Pizzolato: ${startUrl}`);
-    }
     // Fallback generico per altri utenti
     else if (ownerUserId && !startUrl.includes('/client/')) {
       const storageData = loadStorageData();
@@ -150,8 +147,8 @@ export function serveDynamicManifest(req: Request, res: Response) {
       }
     }
     
-    // Nome personalizzato per Silvia Busnari per distinguere l'app
-    const professionalName = ownerUserId === 14 ? "Silvia Busnari" : ownerName;
+    // Usa il nome del professionista dal database
+    const professionalName = ownerName;
     
     const baseManifest = {
       "name": `${professionalName} - Area Cliente`,
@@ -167,7 +164,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "dir": "ltr",
       "prefer_related_applications": false,
       "scope": "/client/",
-      "id": ownerUserId ? `silvia-busnari-cliente-${ownerUserId}` : `area-cliente-generic`,
+      "id": ownerUserId ? `area-cliente-${ownerUserId}` : `area-cliente-generic`,
       "version": manifestVersion
     };
     
