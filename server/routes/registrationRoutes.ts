@@ -6,6 +6,7 @@ import { db } from "../db";
 import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 import { licenseService } from "../services/licenseService";
+import { welcomeEmailService } from "../services/welcomeEmailService";
 
 /**
  * Configura le route di registrazione per i nuovi utenti
@@ -82,6 +83,20 @@ export default function setupRegistrationRoutes(app: Express) {
         console.error(`Errore durante la creazione della licenza di prova per l'utente ${username}:`, licenseError);
         // Non blocchiamo la registrazione se c'è un errore nella creazione della licenza
       }
+      
+      // Invia email di benvenuto con le credenziali (asincrono, non blocca la risposta)
+      console.log(`📧 [WELCOME] Avvio invio email di benvenuto a ${email}...`);
+      welcomeEmailService.sendWelcomeEmail(email, username, password, name)
+        .then(sent => {
+          if (sent) {
+            console.log(`📧 [WELCOME] Email di benvenuto INVIATA a ${email}`);
+          } else {
+            console.log(`📧 [WELCOME] Email di benvenuto NON inviata a ${email} (configurazione mancante o disabilitata)`);
+          }
+        })
+        .catch(err => {
+          console.error(`📧 [WELCOME] ERRORE invio email di benvenuto a ${email}:`, err);
+        });
       
       // Restituisci il nuovo utente (senza la password)
       const { password: _, ...userWithoutPassword } = newUser;
