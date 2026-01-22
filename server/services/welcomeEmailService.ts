@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
-import { notificationSettingsService } from './notificationSettingsService';
+
+const SYSTEM_EMAIL = 'zambelli.andrea.1973@gmail.com';
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
@@ -9,25 +10,22 @@ export const welcomeEmailService = {
     name?: string
   ): Promise<boolean> {
     try {
-      const settings = await notificationSettingsService.getSettings();
+      const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
       
-      if (!settings || !settings.emailEnabled) {
-        console.log('📧 [WELCOME EMAIL] Configurazione email non abilitata, skip invio');
-        return false;
-      }
-      
-      if (!settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
-        console.log('📧 [WELCOME EMAIL] Configurazione SMTP incompleta');
+      if (!systemPassword) {
+        console.log('📧 [WELCOME EMAIL] SYSTEM_EMAIL_PASSWORD non configurata, skip invio');
         return false;
       }
 
+      console.log('📧 [WELCOME EMAIL] Configurazione SMTP: smtp.gmail.com:587');
+
       const transporter = nodemailer.createTransport({
-        host: settings.smtpServer,
-        port: settings.smtpPort || 587,
-        secure: settings.smtpPort === 465,
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
-          user: settings.smtpUsername,
-          pass: settings.smtpPassword,
+          user: SYSTEM_EMAIL,
+          pass: systemPassword.replace(/\s/g, ''),
         },
       });
 
@@ -110,7 +108,7 @@ Grazie per aver scelto Gestionale Appuntamenti!
       `;
 
       const mailOptions = {
-        from: settings.senderEmail || settings.smtpUsername,
+        from: `"Gestionale Appuntamenti" <${SYSTEM_EMAIL}>`,
         to: recipientEmail,
         subject: 'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
         text: textContent,

@@ -286,6 +286,21 @@ export function registerSimpleRoutes(app: Express): Server {
         console.error(`Errore durante la creazione della licenza di prova per l'utente ${username}:`, licenseError);
       }
       
+      // Invia email di benvenuto con le credenziali (asincrono, non blocca la risposta)
+      console.log(`📧 [WELCOME] Avvio invio email di benvenuto a ${email}...`);
+      const { welcomeEmailService } = await import('./services/welcomeEmailService');
+      welcomeEmailService.sendWelcomeEmail(email, username, password, name)
+        .then(sent => {
+          if (sent) {
+            console.log(`📧 [WELCOME] Email di benvenuto INVIATA a ${email}`);
+          } else {
+            console.log(`📧 [WELCOME] Email di benvenuto NON inviata a ${email} (configurazione mancante o disabilitata)`);
+          }
+        })
+        .catch(err => {
+          console.error(`📧 [WELCOME] ERRORE invio email di benvenuto a ${email}:`, err);
+        });
+      
       // Restituisci il nuovo utente (senza la password)
       const { password: _, ...userWithoutPassword } = newUser;
       res.status(201).json({
