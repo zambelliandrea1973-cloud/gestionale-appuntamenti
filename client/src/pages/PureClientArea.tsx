@@ -825,7 +825,7 @@ export default function PureClientArea() {
                                 isPast ? 'text-gray-500' : 'text-gray-600'
                               }`}>
                                 <Clock className="h-4 w-4" />
-                                <span>{appointment.time}</span>
+                                <span>{appointment.time?.slice(0, 5) || appointment.time}</span>
                               </div>
                               {appointment.notes && (
                                 <p className={`mt-2 text-sm ${
