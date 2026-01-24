@@ -637,8 +637,14 @@ export default function PureClientArea() {
 
       if (response.ok) {
         const appointmentsData = await response.json();
-        setAppointments(appointmentsData);
-        console.log('📅 [PURE CLIENT] Appuntamenti caricati:', appointmentsData.length);
+        // Ordina appuntamenti dal più recente al più vecchio
+        const sortedAppointments = appointmentsData.sort((a: Appointment, b: Appointment) => {
+          const dateA = new Date(a.date + 'T' + a.time);
+          const dateB = new Date(b.date + 'T' + b.time);
+          return dateB.getTime() - dateA.getTime();
+        });
+        setAppointments(sortedAppointments);
+        console.log('📅 [PURE CLIENT] Appuntamenti caricati:', sortedAppointments.length);
       } else {
         console.error('❌ [PURE CLIENT] Errore response:', response.status);
       }
@@ -664,8 +670,14 @@ export default function PureClientArea() {
 
       if (response.ok) {
         const invoicesData = await response.json();
-        setInvoices(invoicesData);
-        console.log('📄 [PURE CLIENT] Fatture caricate:', invoicesData.length);
+        // Ordina fatture dalla più recente alla più vecchia
+        const sortedInvoices = invoicesData.sort((a: Invoice, b: Invoice) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+        setInvoices(sortedInvoices);
+        console.log('📄 [PURE CLIENT] Fatture caricate:', sortedInvoices.length);
       } else {
         console.error('❌ [PURE CLIENT] Errore response fatture:', response.status);
       }
