@@ -148,7 +148,11 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
   };
 
   if (!isSupported) {
-    return null;
+    return (
+      <p className="text-xs text-gray-400 italic">
+        Le notifiche push non sono supportate su questo browser. Prova ad aprire l'app come PWA installata.
+      </p>
+    );
   }
 
   return (
@@ -157,7 +161,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
       size="sm"
       onClick={isSubscribed ? unsubscribe : subscribe}
       disabled={isLoading}
-      className={isSubscribed ? 'border-green-500 text-green-700' : 'bg-blue-600 hover:bg-blue-700'}
+      className={isSubscribed ? 'border-green-500 text-green-700' : 'bg-blue-600 hover:bg-blue-700 text-white'}
     >
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin mr-2" />
