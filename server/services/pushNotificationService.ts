@@ -8,8 +8,6 @@ const VAPID_PUBLIC_KEY = (process.env.VITE_VAPID_PUBLIC_KEY || '').trim();
 const VAPID_PRIVATE_KEY = (process.env.VAPID_PRIVATE_KEY || '').trim();
 let vapidConfigured = false;
 
-console.log('🔔 [PUSH DEBUG] Public key length:', VAPID_PUBLIC_KEY.length, 'Private key length:', VAPID_PRIVATE_KEY.length);
-
 if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
   try {
     webpush.setVapidDetails(
