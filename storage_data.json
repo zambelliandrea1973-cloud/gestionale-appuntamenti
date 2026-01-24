@@ -687,10 +687,10 @@
         "birthday": "1973-03-01",
         "hasConsent": false,
         "updatedAt": "2025-09-25T14:17:29.542Z",
-        "accessCount": 99,
-        "lastAccess": "2026-01-24T09:47:55.501Z",
-        "lastPwaAccess": "2026-01-24T09:47:55.501Z",
-        "pwaAccessCount": 89,
+        "accessCount": 103,
+        "lastAccess": "2026-01-24T09:53:16.170Z",
+        "lastPwaAccess": "2026-01-24T09:53:16.170Z",
+        "pwaAccessCount": 93,
         "taxCode": "zmbndr73c01d969s"
       }
     ],
@@ -24207,6 +24207,21 @@
         "ownerId": 14,
         "createdAt": "2025-11-12T18:18:29.839Z"
       }
+    ],
+    [
+      32,
+      {
+        "id": 32,
+        "invoiceNumber": "BUS1422-001/2026",
+        "clientId": 14002,
+        "totalAmount": 70,
+        "date": "2026-01-24",
+        "dueDate": "2026-02-23",
+        "description": "",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2026-01-24T09:52:36.110Z"
+      }
     ]
   ],
   "adminNotifications": [
@@ -24903,6 +24918,15 @@
       "type": "staff_reminder",
       "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20bio%20bicom%20con%20monica%20bellucci%20del%2025%2F01%2F2026%20alle%20ore%2009%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
       "timestamp": "2026-01-24T09:45:00.993Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1769248444049,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20bio%20bicom%20con%20monica%20bellucci%20del%2025%2F01%2F2026%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2026-01-24T09:54:04.049Z",
       "read": false,
       "channel": "app"
     }

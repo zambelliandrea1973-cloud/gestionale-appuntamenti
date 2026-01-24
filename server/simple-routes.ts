@@ -3251,11 +3251,15 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // SISTEMA SEMPLIFICATO: 1 accesso = 1 conteggio - DIMEZZATO PER COMPENSARE DOPPIO INCREMENTO
-    const actualAccessCount = client.accessCount || 0;
-    const displayCount = Math.floor(actualAccessCount / 2);
+    // CONTA ACCESSI DALLA TABELLA clientAccesses (non dal campo accessCount del cliente)
+    const accessCountResult = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(clientAccesses)
+      .where(eq(clientAccesses.clientId, parseInt(clientIdParam, 10)));
     
-    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${actualAccessCount} → display: ${displayCount}`);
+    const displayCount = accessCountResult[0]?.count || 0;
+    
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessi da tabella: ${displayCount}`);
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
