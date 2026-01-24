@@ -47,6 +47,9 @@ import { storage } from './storage';
 // Import booking availability calculator
 import { calculateAvailableSlots } from './services/bookingAvailability';
 
+// Lock per prevenire race condition nel tracking accessi client
+const clientAccessLocks = new Map<number, number>();
+
 // Import centralizzato per JSON storage
 import { loadStorageData, saveStorageData } from './utils/jsonStorage';
 
@@ -6840,19 +6843,17 @@ ${businessName}`;
       
       const { clientId, client } = validation;
       
-      // 📊 TRACKING AUTOMATICO: Registra l'accesso solo se non già tracciato negli ultimi 30 secondi
+      // 📊 TRACKING AUTOMATICO: Registra l'accesso solo se non già tracciato negli ultimi 2 minuti
+      // Usa un lock in memoria per prevenire race condition dalle chiamate parallele
       try {
-        const thirtySecondsAgo = new Date(Date.now() - 30 * 1000);
-        const recentAccess = await db
-          .select({ id: clientAccesses.id })
-          .from(clientAccesses)
-          .where(and(
-            eq(clientAccesses.clientId, clientId),
-            gte(clientAccesses.accessTime, thirtySecondsAgo)
-          ))
-          .limit(1);
+        const now = Date.now();
+        const lastAccessTime = clientAccessLocks.get(clientId) || 0;
+        const twoMinutesInMs = 2 * 60 * 1000;
         
-        if (recentAccess.length === 0) {
+        if (now - lastAccessTime > twoMinutesInMs) {
+          // Imposta il lock PRIMA di fare qualsiasi operazione
+          clientAccessLocks.set(clientId, now);
+          
           const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
           const userAgent = req.headers['user-agent'] || 'unknown';
           await db.insert(clientAccesses).values({
@@ -6863,7 +6864,7 @@ ${businessName}`;
           });
           console.log(`📊 [AUTO-TRACKING] Accesso registrato per cliente ${clientId} (${client.firstName} ${client.lastName})`);
         } else {
-          console.log(`📊 [AUTO-TRACKING] Accesso già registrato negli ultimi 30 sec per cliente ${clientId}, skip`);
+          console.log(`📊 [AUTO-TRACKING] Accesso già registrato negli ultimi 2 min per cliente ${clientId}, skip (lock in memoria)`);
         }
       } catch (trackError) {
         console.error(`⚠️ [AUTO-TRACKING] Errore tracking (non bloccante):`, trackError);
