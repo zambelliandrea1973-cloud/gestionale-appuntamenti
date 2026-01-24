@@ -1,0 +1,172 @@
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Bell, BellOff, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+
+interface PushNotificationToggleProps {
+  clientId: number;
+  ownerId: number;
+}
+
+export function PushNotificationToggle({ clientId, ownerId }: PushNotificationToggleProps) {
+  const { toast } = useToast();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSupported, setIsSupported] = useState(false);
+
+  useEffect(() => {
+    checkSupport();
+  }, []);
+
+  const checkSupport = async () => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      console.log('[PUSH] Push notifications non supportate');
+      setIsSupported(false);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsSupported(true);
+
+    try {
+      const response = await fetch(`/api/push/status/${clientId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setIsSubscribed(data.subscribed);
+      }
+    } catch (error) {
+      console.error('[PUSH] Errore verifica stato:', error);
+    }
+
+    setIsLoading(false);
+  };
+
+  const urlBase64ToUint8Array = (base64String: string) => {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  };
+
+  const subscribe = async () => {
+    setIsLoading(true);
+
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        toast({
+          title: 'Permesso negato',
+          description: 'Devi permettere le notifiche per ricevere aggiornamenti.',
+          variant: 'destructive'
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const registration = await navigator.serviceWorker.register('/sw-push.js');
+      await navigator.serviceWorker.ready;
+
+      const keyResponse = await fetch('/api/push/vapid-public-key');
+      const keyData = await keyResponse.json();
+
+      if (!keyData.success || !keyData.publicKey) {
+        throw new Error('VAPID key non disponibile');
+      }
+
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(keyData.publicKey)
+      });
+
+      const response = await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientId,
+          ownerId,
+          subscription: subscription.toJSON()
+        })
+      });
+
+      if (response.ok) {
+        setIsSubscribed(true);
+        toast({
+          title: 'Notifiche attivate',
+          description: 'Riceverai una notifica quando il tuo appuntamento viene confermato.'
+        });
+      } else {
+        throw new Error('Errore salvataggio subscription');
+      }
+    } catch (error) {
+      console.error('[PUSH] Errore attivazione:', error);
+      toast({
+        title: 'Errore',
+        description: 'Impossibile attivare le notifiche. Riprova.',
+        variant: 'destructive'
+      });
+    }
+
+    setIsLoading(false);
+  };
+
+  const unsubscribe = async () => {
+    setIsLoading(true);
+
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+
+      if (subscription) {
+        await subscription.unsubscribe();
+      }
+
+      await fetch('/api/push/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId })
+      });
+
+      setIsSubscribed(false);
+      toast({
+        title: 'Notifiche disattivate',
+        description: 'Non riceverai più notifiche push.'
+      });
+    } catch (error) {
+      console.error('[PUSH] Errore disattivazione:', error);
+      toast({
+        title: 'Errore',
+        description: 'Impossibile disattivare le notifiche.',
+        variant: 'destructive'
+      });
+    }
+
+    setIsLoading(false);
+  };
+
+  if (!isSupported) {
+    return null;
+  }
+
+  return (
+    <Button
+      variant={isSubscribed ? 'outline' : 'default'}
+      size="sm"
+      onClick={isSubscribed ? unsubscribe : subscribe}
+      disabled={isLoading}
+      className={isSubscribed ? 'border-green-500 text-green-700' : 'bg-blue-600 hover:bg-blue-700'}
+    >
+      {isLoading ? (
+        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+      ) : isSubscribed ? (
+        <Bell className="h-4 w-4 mr-2 text-green-600" />
+      ) : (
+        <BellOff className="h-4 w-4 mr-2" />
+      )}
+      {isLoading ? 'Caricamento...' : isSubscribed ? 'Notifiche attive' : 'Attiva notifiche'}
+    </Button>
+  );
+}

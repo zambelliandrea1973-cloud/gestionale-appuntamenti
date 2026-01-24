@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { PushNotificationToggle } from "@/components/PushNotificationToggle";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, Phone, Mail, Download, X, ChevronDown, ChevronUp, Plus, CheckCircle, XCircle, AlertCircle, ArrowRight, FileText } from "lucide-react";
 import { SiInstagram, SiGmail } from "react-icons/si";
@@ -758,6 +759,12 @@ export default function PureClientArea() {
                 <span>{client.email}</span>
               </div>
             )}
+            
+            {/* Toggle Notifiche Push */}
+            <div className="pt-2 border-t">
+              <p className="text-sm text-gray-500 mb-2">Ricevi una notifica quando il tuo appuntamento viene confermato</p>
+              <PushNotificationToggle clientId={client.id} ownerId={client.ownerId} />
+            </div>
           </CardContent>
         </Card>
 

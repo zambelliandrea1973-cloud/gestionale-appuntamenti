@@ -28,6 +28,8 @@ import manualRoutes from './routes/manualRoutes';
 import emailBounceRoutes from './routes/emailBounceRoutes';
 import googleCalendarApi from './routes/googleCalendarApi';
 import googleAuthRoutes from './routes/googleAuthRoutes';
+import pushNotificationRoutes from './routes/pushNotificationRoutes';
+import { pushNotificationService } from './services/pushNotificationService';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -2796,6 +2798,23 @@ export function registerSimpleRoutes(app: Express): Server {
         .where(eq(bookingRequests.id, requestId));
       
       console.log(`✅ [BOOKING REQUEST] Richiesta ${requestId} confermata, appuntamento ${newAppointment[0].id} creato`);
+      
+      // 🔔 PUSH NOTIFICATION: Invia notifica al cliente
+      try {
+        const formattedDate = new Date(requestData.requestedDate).toLocaleDateString('it-IT', {
+          weekday: 'long', day: 'numeric', month: 'long'
+        });
+        
+        await pushNotificationService.sendAppointmentConfirmed(requestData.clientId, {
+          serviceName: service[0].name,
+          date: formattedDate,
+          time: requestData.selectedSlot.start.substring(0, 5)
+        });
+        console.log(`🔔 [PUSH] Notifica conferma inviata al cliente ${requestData.clientId}`);
+      } catch (pushError) {
+        console.error('⚠️ [PUSH] Errore invio notifica (non bloccante):', pushError);
+      }
+      
       res.status(200).json({ appointment: newAppointment[0], request: requestData });
     } catch (error) {
       console.error(`❌ [BOOKING REQUEST] Errore conferma richiesta:`, error);
@@ -9890,6 +9909,7 @@ Studio Professionale`;
   
   // Registra le route Google Auth
   app.use('/api/google-auth', googleAuthRoutes);
+  app.use('/api/push', pushNotificationRoutes);
 
   const httpServer = createServer(app);
   return httpServer;

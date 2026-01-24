@@ -1777,3 +1777,36 @@ export const userLoginsRelations = relations(userLogins, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+// Push Subscriptions - Subscriptions per notifiche push PWA ai clienti
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  clientId: integer("client_id").notNull(), // Cliente che ha attivato le notifiche
+  ownerId: integer("owner_id").notNull(), // Multi-tenant: professionista proprietario
+  endpoint: text("endpoint").notNull(), // URL endpoint per push notification
+  p256dh: text("p256dh").notNull(), // Chiave pubblica del client
+  auth: text("auth").notNull(), // Chiave di autenticazione
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => ({
+  clientIdx: index("push_sub_client_idx").on(table.clientId),
+  ownerIdx: index("push_sub_owner_idx").on(table.ownerId),
+  endpointIdx: index("push_sub_endpoint_idx").on(table.endpoint),
+}));
+
+export const insertPushSubscriptionSchema = createInsertSchema(pushSubscriptions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema>;
+
+// Push Subscriptions Relations
+export const pushSubscriptionsRelations = relations(pushSubscriptions, ({ one }) => ({
+  client: one(clients, {
+    fields: [pushSubscriptions.clientId],
+    references: [clients.id],
+  }),
+}));
