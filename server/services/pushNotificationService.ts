@@ -1,19 +1,25 @@
 import webpush from 'web-push';
 import { db } from '../db';
-import { pushSubscriptions, clients } from '@shared/schema';
+import { pushSubscriptions, clients } from '../../shared/schema';
 import { eq, and } from 'drizzle-orm';
 
 // Configura VAPID keys
 const VAPID_PUBLIC_KEY = process.env.VITE_VAPID_PUBLIC_KEY || '';
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || '';
+let vapidConfigured = false;
 
 if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
-  webpush.setVapidDetails(
-    'mailto:support@gestionale-appuntamenti.com',
-    VAPID_PUBLIC_KEY,
-    VAPID_PRIVATE_KEY
-  );
-  console.log('🔔 [PUSH] VAPID keys configurate correttamente');
+  try {
+    webpush.setVapidDetails(
+      'mailto:support@gestionale-appuntamenti.com',
+      VAPID_PUBLIC_KEY,
+      VAPID_PRIVATE_KEY
+    );
+    vapidConfigured = true;
+    console.log('🔔 [PUSH] VAPID keys configurate correttamente');
+  } catch (error) {
+    console.warn('⚠️ [PUSH] Errore configurazione VAPID keys - push notifications disabilitate:', error);
+  }
 } else {
   console.warn('⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate');
 }

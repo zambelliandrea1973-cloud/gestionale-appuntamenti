@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { pushNotificationService } from '../services/pushNotificationService';
 import { db } from '../db';
-import { clients } from '@shared/schema';
+import { clients } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
 const router = Router();
