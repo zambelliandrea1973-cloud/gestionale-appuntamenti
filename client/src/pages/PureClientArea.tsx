@@ -129,7 +129,7 @@ interface Invoice {
 }
 
 // Componente per richiesta appuntamento
-function BookingRequestSection({ clientCode }: { clientCode: string }) {
+function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: string; clientId: number; ownerId: number }) {
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
@@ -280,10 +280,18 @@ function BookingRequestSection({ clientCode }: { clientCode: string }) {
       </CardHeader>
       <CardContent>
         {!showForm ? (
-          <Button onClick={() => setShowForm(true)} className="w-full" data-testid="button-request-appointment">
-            <Plus className="h-4 w-4 mr-2" />
-            Nuova Richiesta
-          </Button>
+          <div className="space-y-4">
+            <Button onClick={() => setShowForm(true)} className="w-full" data-testid="button-request-appointment">
+              <Plus className="h-4 w-4 mr-2" />
+              Nuova Richiesta
+            </Button>
+            
+            {/* Toggle Notifiche Push */}
+            <div className="pt-3 border-t">
+              <p className="text-sm text-gray-500 mb-2">Ricevi una notifica quando il tuo appuntamento viene confermato</p>
+              <PushNotificationToggle clientId={clientId} ownerId={ownerId} />
+            </div>
+          </div>
         ) : (
           <div className="space-y-4">
             {/* Progress indicator */}
@@ -759,17 +767,11 @@ export default function PureClientArea() {
                 <span>{client.email}</span>
               </div>
             )}
-            
-            {/* Toggle Notifiche Push */}
-            <div className="pt-2 border-t">
-              <p className="text-sm text-gray-500 mb-2">Ricevi una notifica quando il tuo appuntamento viene confermato</p>
-              <PushNotificationToggle clientId={client.id} ownerId={client.ownerId} />
-            </div>
           </CardContent>
         </Card>
 
         {/* Richiesta Nuovo Appuntamento */}
-        <BookingRequestSection clientCode={client.uniqueCode} />
+        <BookingRequestSection clientCode={client.uniqueCode} clientId={client.id} ownerId={client.ownerId} />
 
         {/* Lista Appuntamenti */}
         <Card>
