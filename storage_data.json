@@ -687,10 +687,10 @@
         "birthday": "1973-03-01",
         "hasConsent": false,
         "updatedAt": "2025-09-25T14:17:29.542Z",
-        "accessCount": 127,
-        "lastAccess": "2026-01-24T10:15:16.625Z",
-        "lastPwaAccess": "2026-01-24T10:15:16.625Z",
-        "pwaAccessCount": 117,
+        "accessCount": 145,
+        "lastAccess": "2026-01-24T10:19:26.480Z",
+        "lastPwaAccess": "2026-01-24T10:19:26.480Z",
+        "pwaAccessCount": 135,
         "taxCode": "zmbndr73c01d969s"
       }
     ],
@@ -24236,6 +24236,21 @@
         "status": "paid",
         "ownerId": 14,
         "createdAt": "2026-01-24T10:08:13.557Z"
+      }
+    ],
+    [
+      34,
+      {
+        "id": 34,
+        "invoiceNumber": "BUS1422-003/2026",
+        "clientId": 14002,
+        "totalAmount": 70,
+        "date": "2026-01-23",
+        "dueDate": "2026-02-23",
+        "description": "bicom",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2026-01-24T10:16:10.827Z"
       }
     ]
   ],

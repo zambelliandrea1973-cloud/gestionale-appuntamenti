@@ -3259,7 +3259,7 @@ export function registerSimpleRoutes(app: Express): Server {
     
     const rawCount = accessCountResult[0]?.count || 0;
     // Dividi per 2 perché le chiamate API parallele generano doppi inserimenti
-    const displayCount = Math.ceil(rawCount / 2);
+    const displayCount = Math.floor(rawCount / 2);
     
     console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessi raw: ${rawCount}, display: ${displayCount}`);
     
