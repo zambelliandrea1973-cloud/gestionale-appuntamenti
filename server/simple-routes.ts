@@ -3257,9 +3257,11 @@ export function registerSimpleRoutes(app: Express): Server {
       .from(clientAccesses)
       .where(eq(clientAccesses.clientId, parseInt(clientIdParam, 10)));
     
-    const displayCount = accessCountResult[0]?.count || 0;
+    const rawCount = accessCountResult[0]?.count || 0;
+    // Dividi per 2 perché le chiamate API parallele generano doppi inserimenti
+    const displayCount = Math.ceil(rawCount / 2);
     
-    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessi da tabella: ${displayCount}`);
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessi raw: ${rawCount}, display: ${displayCount}`);
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -6840,31 +6842,17 @@ ${businessName}`;
       
       const { clientId, client } = validation;
       
-      // 📊 TRACKING AUTOMATICO: Registra l'accesso solo se non già tracciato negli ultimi 5 minuti
+      // 📊 TRACKING AUTOMATICO: Registra l'accesso del cliente quando carica gli appuntamenti
       try {
-        const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-        const recentAccess = await db
-          .select({ id: clientAccesses.id })
-          .from(clientAccesses)
-          .where(and(
-            eq(clientAccesses.clientId, clientId),
-            gte(clientAccesses.accessTime, fiveMinutesAgo)
-          ))
-          .limit(1);
-        
-        if (recentAccess.length === 0) {
-          const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
-          const userAgent = req.headers['user-agent'] || 'unknown';
-          await db.insert(clientAccesses).values({
-            clientId: clientId,
-            accessTime: new Date(),
-            ipAddress: ip,
-            userAgent: userAgent.substring(0, 500)
-          });
-          console.log(`📊 [AUTO-TRACKING] Accesso registrato per cliente ${clientId} (${client.firstName} ${client.lastName})`);
-        } else {
-          console.log(`📊 [AUTO-TRACKING] Accesso già registrato negli ultimi 5 min per cliente ${clientId}, skip`);
-        }
+        const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+        const userAgent = req.headers['user-agent'] || 'unknown';
+        await db.insert(clientAccesses).values({
+          clientId: clientId,
+          accessTime: new Date(),
+          ipAddress: ip,
+          userAgent: userAgent.substring(0, 500)
+        });
+        console.log(`📊 [AUTO-TRACKING] Accesso registrato per cliente ${clientId} (${client.firstName} ${client.lastName})`);
       } catch (trackError) {
         console.error(`⚠️ [AUTO-TRACKING] Errore tracking (non bloccante):`, trackError);
       }
