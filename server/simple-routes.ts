@@ -6836,6 +6836,21 @@ ${businessName}`;
       
       const { clientId, client } = validation;
       
+      // 📊 TRACKING AUTOMATICO: Registra l'accesso del cliente quando carica gli appuntamenti
+      try {
+        const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+        const userAgent = req.headers['user-agent'] || 'unknown';
+        await db.insert(clientAccesses).values({
+          clientId: clientId,
+          accessTime: new Date(),
+          ipAddress: ip,
+          userAgent: userAgent.substring(0, 500)
+        });
+        console.log(`📊 [AUTO-TRACKING] Accesso registrato per cliente ${clientId} (${client.firstName} ${client.lastName})`);
+      } catch (trackError) {
+        console.error(`⚠️ [AUTO-TRACKING] Errore tracking (non bloccante):`, trackError);
+      }
+      
       // 🔄 USA POSTGRESQL: Recupera appuntamenti del cliente dal database
       const clientAppointments = await storage.getAppointmentsByClient(clientId);
       
