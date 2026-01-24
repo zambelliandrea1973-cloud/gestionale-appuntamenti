@@ -662,9 +662,18 @@ export default function PaymentAdmin() {
                                   </span>
                                 </div>
                                 
-                                <div>
-                                  <p className="text-xs text-muted-foreground mb-1">ID</p>
-                                  <p className="font-mono text-sm">{license.id}</p>
+                                <div className="flex gap-4">
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">ID</p>
+                                    <p className="font-mono text-sm">{license.id}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Accessi</p>
+                                    <div className="flex items-center gap-1">
+                                      <Activity className="h-3 w-3 text-primary" />
+                                      <span className="font-semibold text-sm">{license.accessCount || 0}</span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                               

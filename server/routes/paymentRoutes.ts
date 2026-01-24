@@ -5,8 +5,8 @@ import { isAdmin, isAuthenticated } from '../auth';
 import { storage } from '../storage';
 import Stripe from 'stripe';
 import { db } from '../db';
-import { eq, desc, or, isNull } from 'drizzle-orm';
-import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients } from '../../shared/schema';
+import { eq, desc, or, isNull, count, sql } from 'drizzle-orm';
+import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients, userLogins } from '../../shared/schema';
 
 const router = Router();
 
@@ -1390,10 +1390,22 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         clientName: client ? `${client.firstName} ${client.lastName}` : null
       } : null;
       
+      // Conta gli accessi per questo utente
+      let accessCount = 0;
+      if (license.userId) {
+        const accessResult = await db
+          .select({ count: count() })
+          .from(userLogins)
+          .where(eq(userLogins.userId, license.userId));
+        accessCount = accessResult[0]?.count || 0;
+      }
+      
       return {
         ...license,
         // Aggiungi dati utente
         user: unifiedUser,
+        // Aggiungi conteggio accessi
+        accessCount,
         // Aggiungi dati abbonamento
         subscription: subscription ? {
           id: subscription.id,
