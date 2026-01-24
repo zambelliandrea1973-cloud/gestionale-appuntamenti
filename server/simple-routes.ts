@@ -64,8 +64,8 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents } from '../shared/schema';
-import { eq, and, asc, desc, gte, lte, or, lt, gt, innerJoin, sql } from 'drizzle-orm';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses } from '../shared/schema';
+import { eq, and, asc, desc, gte, lte, or, lt, gt, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
 interface Client {
@@ -516,20 +516,32 @@ export function registerSimpleRoutes(app: Express): Server {
     const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
     console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL (${user.type === 'admin' ? 'tutti' : 'solo propri'})`);
     
+    // Arricchisci ogni cliente con il conteggio accessi dalla tabella clientAccesses
+    const clientsWithAccessCount = await Promise.all(userClients.map(async (client) => {
+      const [accessResult] = await db.select({ count: count() })
+        .from(clientAccesses)
+        .where(eq(clientAccesses.clientId, client.id));
+      return {
+        ...client,
+        accessCount: accessResult?.count || 0
+      };
+    }));
+    
     // Log dettagliato dei primi 5 clienti per debugging completo
-    const sampleClients = userClients.slice(0, 5).map(c => ({
+    const sampleClients = clientsWithAccessCount.slice(0, 5).map(c => ({
       id: c.id,
       firstName: c.firstName,
       lastName: c.lastName,
       uniqueCode: c.uniqueCode,
-      ownerId: c.ownerId
+      ownerId: c.ownerId,
+      accessCount: c.accessCount
     }));
     console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
     
     // Debug per admin: mostra distribuzione ownership
     if (user.type === 'admin') {
       const ownershipStats = {};
-      userClients.forEach(client => {
+      clientsWithAccessCount.forEach(client => {
         const owner = client.ownerId || 'undefined';
         ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
       });
@@ -537,17 +549,17 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`👑 [ADMIN-DEBUG] Admin ID corrente: ${user.id}`);
       
       // Conta clienti propri vs altri
-      const ownClients = userClients.filter(c => c.ownerId === user.id).length;
-      const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
+      const ownClients = clientsWithAccessCount.filter(c => c.ownerId === user.id).length;
+      const otherClients = clientsWithAccessCount.filter(c => c.ownerId !== user.id).length;
       console.log(`👑 [ADMIN-DEBUG] Clienti propri (ownerId ${user.id}): ${ownClients}`);
       console.log(`👑 [ADMIN-DEBUG] Clienti altri account: ${otherClients}`);
     }
     
     // Log totale con uniqueCode per identificare il problema
-    const clientsWithCodes = userClients.filter(c => c.uniqueCode);
-    console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${userClients.length}`);
+    const clientsWithCodes = clientsWithAccessCount.filter(c => c.uniqueCode);
+    console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${clientsWithAccessCount.length}`);
     
-    res.json(userClients);
+    res.json(clientsWithAccessCount);
   });
 
   app.post("/api/clients", async (req, res) => {
@@ -7751,37 +7763,38 @@ Studio Professionale`;
   });
 
   // Endpoint per registrare accesso PWA del cliente tramite ID (senza autenticazione)
-  app.post('/api/client-access/track/:clientId', (req, res) => {
+  app.post('/api/client-access/track/:clientId', async (req, res) => {
     try {
       const clientId = parseInt(req.params.clientId);
-      const storageData = loadStorageData();
       
-      // Trova il cliente
-      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === clientId);
-      if (clientIndex === -1) {
+      // Verifica che il cliente esista in PostgreSQL
+      const [clientRecord] = await db.select()
+        .from(clients)
+        .where(eq(clients.id, clientId))
+        .limit(1);
+      
+      if (!clientRecord) {
         return res.status(404).json({ message: "Cliente non trovato" });
       }
       
-      const [id, client] = storageData.clients[clientIndex];
-      const now = new Date();
-      const lastAccessTime = client.lastAccess ? new Date(client.lastAccess) : null;
+      // Registra l'accesso nella tabella clientAccesses (PostgreSQL)
+      const ipAddress = req.ip || req.connection.remoteAddress || '';
+      const userAgent = req.headers['user-agent'] || '';
       
-      // TRACKING MIGLIORATO: Incrementa sempre il contatore per PWA e QR
-      client.accessCount = (client.accessCount || 0) + 1;
-      client.lastAccess = now.toISOString();
+      await db.insert(clientAccesses).values({
+        clientId: clientId,
+        ipAddress: ipAddress.substring(0, 45),
+        userAgent: userAgent
+      });
       
-      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Accesso registrato: ${client.accessCount} (${req.body.accessType})`);
+      // Conta gli accessi totali per questo cliente
+      const [accessResult] = await db.select({ count: count() })
+        .from(clientAccesses)
+        .where(eq(clientAccesses.clientId, clientId));
       
-      // Aggiorna informazioni di accesso PWA
-      if (req.body.isPWA) {
-        client.lastPwaAccess = now.toISOString();
-        client.pwaAccessCount = (client.pwaAccessCount || 0) + 1;
-      }
+      const accessCount = accessResult?.count || 0;
       
-      // Salva i dati aggiornati
-      saveStorageData(storageData);
-      
-      console.log(`📱 [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) ha acceduto all'app - conteggio: ${client.accessCount}`);
+      console.log(`✅ [PWA ACCESS] Cliente ${clientRecord.firstName} ${clientRecord.lastName} (${clientId}) - Accesso registrato in PostgreSQL: ${accessCount} (${req.body.accessType || 'standard'})`);
       
       // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
       res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -7790,7 +7803,7 @@ Studio Professionale`;
       
       res.json({
         success: true,
-        accessCount: client.accessCount,
+        accessCount: accessCount,
         message: 'Accesso registrato'
       });
       
