@@ -36,7 +36,8 @@ import {
   Settings,
   Shield,
   Banknote,
-  Loader2
+  Loader2,
+  Activity
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
@@ -66,12 +67,27 @@ export default function PaymentAdmin() {
   const [bankingSettings, setBankingSettings] = useState<BankingSettings | null>(null);
   const [extendingUserId, setExtendingUserId] = useState<number | null>(null);
   const [editingDateField, setEditingDateField] = useState<{ licenseId: number; field: 'created' | 'expiry' } | null>(null);
+  const [accessStats, setAccessStats] = useState<{ today: number; week: number; total: number; uniqueToday: number; uniqueWeek: number } | null>(null);
 
   // Carica i dati automaticamente all'avvio del componente
   useEffect(() => {
     fetchDashboardData();
     fetchBankingSettings();
+    fetchAccessStats();
   }, []);
+
+  // Funzione per caricare le statistiche accessi
+  const fetchAccessStats = async () => {
+    try {
+      const response = await apiRequest('GET', '/api/admin-license/access-stats');
+      if (response.ok) {
+        const data = await response.json();
+        setAccessStats(data.stats);
+      }
+    } catch (error) {
+      console.error('Errore caricamento statistiche accessi:', error);
+    }
+  };
 
   // Funzione per caricare i dati della dashboard
   const fetchDashboardData = async () => {
@@ -568,6 +584,29 @@ export default function PaymentAdmin() {
                   <CardDescription>
                     Gestione delle licenze e degli utenti associati
                   </CardDescription>
+                  
+                  {/* Widget Statistiche Accessi - compatto */}
+                  {accessStats && (
+                    <div className="mt-3 p-2.5 bg-muted/50 rounded-lg border flex items-center gap-3 flex-wrap text-sm">
+                      <div className="flex items-center gap-1.5">
+                        <Activity className="h-4 w-4 text-primary" />
+                        <span className="font-medium">Accessi:</span>
+                      </div>
+                      <div className="flex gap-3 flex-wrap">
+                        <span className="text-muted-foreground">
+                          Oggi: <span className="font-semibold text-foreground">{accessStats.today}</span>
+                          <span className="text-xs ml-1">({accessStats.uniqueToday} utenti)</span>
+                        </span>
+                        <span className="text-muted-foreground">
+                          7gg: <span className="font-semibold text-foreground">{accessStats.week}</span>
+                          <span className="text-xs ml-1">({accessStats.uniqueWeek} utenti)</span>
+                        </span>
+                        <span className="text-muted-foreground">
+                          Totali: <span className="font-semibold text-foreground">{accessStats.total}</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
