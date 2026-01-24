@@ -1390,22 +1390,49 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         clientName: client ? `${client.firstName} ${client.lastName}` : null
       } : null;
       
-      // Conta gli accessi per questo utente
-      let accessCount = 0;
+      // Conta gli accessi per questo utente (oggi, settimana, totale)
+      let accessToday = 0;
+      let accessWeek = 0;
+      let accessTotal = 0;
+      
       if (license.userId) {
-        const accessResult = await db
+        const now = new Date();
+        const todayStart = new Date(now);
+        todayStart.setHours(0, 0, 0, 0);
+        const weekAgo = new Date(now);
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        weekAgo.setHours(0, 0, 0, 0);
+        
+        // Accessi oggi
+        const todayResult = await db
+          .select({ count: count() })
+          .from(userLogins)
+          .where(sql`${userLogins.userId} = ${license.userId} AND ${userLogins.loginAt} >= ${todayStart}`);
+        accessToday = todayResult[0]?.count || 0;
+        
+        // Accessi ultimi 7 giorni
+        const weekResult = await db
+          .select({ count: count() })
+          .from(userLogins)
+          .where(sql`${userLogins.userId} = ${license.userId} AND ${userLogins.loginAt} >= ${weekAgo}`);
+        accessWeek = weekResult[0]?.count || 0;
+        
+        // Accessi totali
+        const totalResult = await db
           .select({ count: count() })
           .from(userLogins)
           .where(eq(userLogins.userId, license.userId));
-        accessCount = accessResult[0]?.count || 0;
+        accessTotal = totalResult[0]?.count || 0;
       }
       
       return {
         ...license,
         // Aggiungi dati utente
         user: unifiedUser,
-        // Aggiungi conteggio accessi
-        accessCount,
+        // Aggiungi conteggio accessi (oggi, settimana, totale)
+        accessToday,
+        accessWeek,
+        accessTotal,
         // Aggiungi dati abbonamento
         subscription: subscription ? {
           id: subscription.id,

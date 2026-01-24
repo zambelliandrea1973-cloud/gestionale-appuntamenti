@@ -662,16 +662,25 @@ export default function PaymentAdmin() {
                                   </span>
                                 </div>
                                 
-                                <div className="flex gap-4">
+                                <div className="flex gap-4 items-start">
                                   <div>
                                     <p className="text-xs text-muted-foreground mb-1">ID</p>
                                     <p className="font-mono text-sm">{license.id}</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-muted-foreground mb-1">Accessi</p>
-                                    <div className="flex items-center gap-1">
-                                      <Activity className="h-3 w-3 text-primary" />
-                                      <span className="font-semibold text-sm">{license.accessCount || 0}</span>
+                                    <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
+                                      <Activity className="h-3 w-3 text-primary" /> Accessi
+                                    </p>
+                                    <div className="flex gap-2 text-xs">
+                                      <span title="Oggi" className="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">
+                                        Oggi: <span className="font-semibold">{license.accessToday || 0}</span>
+                                      </span>
+                                      <span title="Ultimi 7 giorni" className="bg-green-100 text-green-800 px-1.5 py-0.5 rounded">
+                                        7gg: <span className="font-semibold">{license.accessWeek || 0}</span>
+                                      </span>
+                                      <span title="Totale" className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded">
+                                        Tot: <span className="font-semibold">{license.accessTotal || 0}</span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>

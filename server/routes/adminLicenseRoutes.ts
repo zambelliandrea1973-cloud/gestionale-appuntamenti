@@ -8,7 +8,7 @@ import { isAdmin } from '../auth';
 import { licenseService, LicenseType } from '../services/licenseService';
 import { db } from '../db';
 import { users, licenses, subscriptions, subscriptionPlans, userLogins } from '../../shared/schema';
-import { eq, desc, sql, gte, and, count } from 'drizzle-orm';
+import { eq, desc, sql, gte, and, count, ne, notInArray } from 'drizzle-orm';
 
 const router = express.Router();
 
@@ -381,33 +381,45 @@ router.get('/access-stats', async (req, res) => {
     weekAgo.setDate(weekAgo.getDate() - 7);
     weekAgo.setHours(0, 0, 0, 0);
     
-    // Accessi oggi
+    // Trova tutti gli utenti admin per escluderli dalle statistiche globali
+    const adminUsers = await db.select({ id: users.id })
+      .from(users)
+      .where(eq(users.role, 'admin'));
+    const adminIds = adminUsers.map(u => u.id);
+    
+    // Condizione per escludere admin (se ci sono admin)
+    const excludeAdminCondition = adminIds.length > 0 
+      ? notInArray(userLogins.userId, adminIds)
+      : sql`1=1`;
+    
+    // Accessi oggi (esclusi admin)
     const [todayResult] = await db.select({ count: count() })
       .from(userLogins)
-      .where(gte(userLogins.loginAt, todayStart));
+      .where(and(gte(userLogins.loginAt, todayStart), excludeAdminCondition));
     
-    // Accessi ultimi 7 giorni
+    // Accessi ultimi 7 giorni (esclusi admin)
     const [weekResult] = await db.select({ count: count() })
       .from(userLogins)
-      .where(gte(userLogins.loginAt, weekAgo));
+      .where(and(gte(userLogins.loginAt, weekAgo), excludeAdminCondition));
     
-    // Accessi totali
+    // Accessi totali (esclusi admin)
     const [totalResult] = await db.select({ count: count() })
-      .from(userLogins);
+      .from(userLogins)
+      .where(excludeAdminCondition);
     
-    // Utenti unici oggi
+    // Utenti unici oggi (esclusi admin)
     const [uniqueTodayResult] = await db.select({ 
       count: sql<number>`count(distinct ${userLogins.userId})` 
     })
       .from(userLogins)
-      .where(gte(userLogins.loginAt, todayStart));
+      .where(and(gte(userLogins.loginAt, todayStart), excludeAdminCondition));
     
-    // Utenti unici ultimi 7 giorni
+    // Utenti unici ultimi 7 giorni (esclusi admin)
     const [uniqueWeekResult] = await db.select({ 
       count: sql<number>`count(distinct ${userLogins.userId})` 
     })
       .from(userLogins)
-      .where(gte(userLogins.loginAt, weekAgo));
+      .where(and(gte(userLogins.loginAt, weekAgo), excludeAdminCondition));
     
     res.json({
       success: true,
