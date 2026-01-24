@@ -1749,3 +1749,31 @@ export const onboardingProgressRelations = relations(onboardingProgress, ({ one 
     references: [users.id],
   }),
 }));
+
+// User Login Tracking - Tracciamento accessi utenti
+export const userLogins = pgTable("user_logins", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  loginAt: timestamp("login_at").defaultNow().notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+}, (table) => ({
+  userIdIdx: index("user_logins_user_id_idx").on(table.userId),
+  loginAtIdx: index("user_logins_login_at_idx").on(table.loginAt),
+}));
+
+export const insertUserLoginSchema = createInsertSchema(userLogins).omit({
+  id: true,
+  loginAt: true,
+});
+
+export type UserLogin = typeof userLogins.$inferSelect;
+export type InsertUserLogin = z.infer<typeof insertUserLoginSchema>;
+
+// User Logins Relations
+export const userLoginsRelations = relations(userLogins, ({ one }) => ({
+  user: one(users, {
+    fields: [userLogins.userId],
+    references: [users.id],
+  }),
+}));

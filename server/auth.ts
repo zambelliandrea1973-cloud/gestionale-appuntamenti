@@ -5,7 +5,8 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User, ClientAccount, users } from "../shared/schema";
+import { User, ClientAccount, users, userLogins } from "../shared/schema";
+import { db } from "./db";
 
 declare global {
   namespace Express {
@@ -288,6 +289,13 @@ export function setupAuth(app: Express) {
           console.log(`🔐 [LOGIN] Session ID: ${req.sessionID}`);
           console.log(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
           
+          // Registra accesso nel tracciamento login
+          db.insert(userLogins).values({
+            userId: user.id,
+            ipAddress: ip?.toString(),
+            userAgent: userAgent?.toString()
+          }).catch(err => console.error('Errore registrazione login:', err));
+          
           // Forza il salvataggio della sessione
           req.session.save((saveErr) => {
             if (saveErr) {
@@ -324,6 +332,14 @@ export function setupAuth(app: Express) {
         const user = await storage.getUserByUsername(username);
         if (user && user.type === 'customer' && (await comparePasswords(password, user.password))) {
           console.log(`Login customer completato con successo per: ${user.username} tipo: ${user.type}`);
+          
+          // Registra accesso nel tracciamento login
+          const ip = req.ip || req.connection.remoteAddress;
+          db.insert(userLogins).values({
+            userId: user.id,
+            ipAddress: ip?.toString(),
+            userAgent: userAgent?.toString()
+          }).catch(err => console.error('Errore registrazione login customer:', err));
           
           req.login(user, (err) => {
             if (err) {

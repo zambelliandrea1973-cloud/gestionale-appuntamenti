@@ -27,7 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, ShieldCheck, Users, KeyRound, Calendar, X, Check } from "lucide-react";
+import { Loader2, ShieldCheck, Users, KeyRound, Calendar, X, Check, Activity } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Dialog,
@@ -156,6 +156,18 @@ export default function AdminLicenseManagementPage() {
       
       return response.json() as Promise<License[]>;
     }
+  });
+
+  // Query per statistiche accessi
+  const { data: accessStats } = useQuery({
+    queryKey: ["/api/admin-license/access-stats"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/admin-license/access-stats");
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.stats;
+    },
+    refetchInterval: 60000 // Aggiorna ogni minuto
   });
 
   // Mutation per generare una nuova licenza staff
@@ -291,9 +303,35 @@ export default function AdminLicenseManagementPage() {
       <h1 className="text-3xl font-bold mb-6 flex items-center">
         <ShieldCheck className="mr-2 h-8 w-8 text-primary" /> Gestione Licenze Staff
       </h1>
-      <p className="text-muted-foreground mb-8">
+      <p className="text-muted-foreground mb-4">
         Questa sezione è riservata all'amministratore. Qui puoi gestire le licenze gratuite di 10 anni per i membri dello staff.
       </p>
+      
+      {/* Widget Statistiche Accessi - compatto */}
+      {accessStats && (
+        <div className="mb-6 p-3 bg-muted/50 rounded-lg border flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <Activity className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium">Accessi:</span>
+          </div>
+          <div className="flex gap-4 text-sm">
+            <div className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">Oggi:</span>
+              <Badge variant="secondary" className="font-mono">{accessStats.today}</Badge>
+              <span className="text-xs text-muted-foreground">({accessStats.uniqueToday} utenti)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">7gg:</span>
+              <Badge variant="secondary" className="font-mono">{accessStats.week}</Badge>
+              <span className="text-xs text-muted-foreground">({accessStats.uniqueWeek} utenti)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">Totali:</span>
+              <Badge variant="outline" className="font-mono">{accessStats.total}</Badge>
+            </div>
+          </div>
+        </div>
+      )}
       
       {(staffUsersError || licensesError) && (
         <Alert variant="destructive" className="mb-6">

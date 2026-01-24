@@ -7,8 +7,8 @@ import express from 'express';
 import { isAdmin } from '../auth';
 import { licenseService, LicenseType } from '../services/licenseService';
 import { db } from '../db';
-import { users, licenses, subscriptions, subscriptionPlans } from '../../shared/schema';
-import { eq, desc, sql } from 'drizzle-orm';
+import { users, licenses, subscriptions, subscriptionPlans, userLogins } from '../../shared/schema';
+import { eq, desc, sql, gte, and, count } from 'drizzle-orm';
 
 const router = express.Router();
 
@@ -360,6 +360,70 @@ router.post('/extend-trial', async (req, res) => {
     res.status(500).json({ 
       success: false,
       message: error.message || 'Errore durante l\'estensione del trial' 
+    });
+  }
+});
+
+/**
+ * Statistiche accessi utenti - oggi, ultimi 7gg, totali
+ * Solo admin può accedere
+ */
+router.get('/access-stats', async (req, res) => {
+  try {
+    const now = new Date();
+    
+    // Inizio di oggi (mezzanotte)
+    const todayStart = new Date(now);
+    todayStart.setHours(0, 0, 0, 0);
+    
+    // 7 giorni fa
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    weekAgo.setHours(0, 0, 0, 0);
+    
+    // Accessi oggi
+    const [todayResult] = await db.select({ count: count() })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, todayStart));
+    
+    // Accessi ultimi 7 giorni
+    const [weekResult] = await db.select({ count: count() })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, weekAgo));
+    
+    // Accessi totali
+    const [totalResult] = await db.select({ count: count() })
+      .from(userLogins);
+    
+    // Utenti unici oggi
+    const [uniqueTodayResult] = await db.select({ 
+      count: sql<number>`count(distinct ${userLogins.userId})` 
+    })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, todayStart));
+    
+    // Utenti unici ultimi 7 giorni
+    const [uniqueWeekResult] = await db.select({ 
+      count: sql<number>`count(distinct ${userLogins.userId})` 
+    })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, weekAgo));
+    
+    res.json({
+      success: true,
+      stats: {
+        today: todayResult?.count || 0,
+        week: weekResult?.count || 0,
+        total: totalResult?.count || 0,
+        uniqueToday: uniqueTodayResult?.count || 0,
+        uniqueWeek: uniqueWeekResult?.count || 0
+      }
+    });
+  } catch (error: any) {
+    console.error('Errore nel recupero statistiche accessi:', error);
+    res.status(500).json({ 
+      success: false,
+      message: error.message || 'Errore durante il recupero delle statistiche' 
     });
   }
 });
