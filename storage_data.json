@@ -687,10 +687,10 @@
         "birthday": "1973-03-01",
         "hasConsent": false,
         "updatedAt": "2025-09-25T14:17:29.542Z",
-        "accessCount": 107,
-        "lastAccess": "2026-01-24T09:57:10.114Z",
-        "lastPwaAccess": "2026-01-24T09:57:10.114Z",
-        "pwaAccessCount": 97,
+        "accessCount": 117,
+        "lastAccess": "2026-01-24T10:08:33.445Z",
+        "lastPwaAccess": "2026-01-24T10:08:33.445Z",
+        "pwaAccessCount": 107,
         "taxCode": "zmbndr73c01d969s"
       }
     ],
@@ -24221,6 +24221,21 @@
         "status": "sent",
         "ownerId": 14,
         "createdAt": "2026-01-24T09:52:36.110Z"
+      }
+    ],
+    [
+      33,
+      {
+        "id": 33,
+        "invoiceNumber": "BUS1422-002/2026",
+        "clientId": 14002,
+        "totalAmount": 80,
+        "date": "2026-01-24",
+        "dueDate": "2026-02-23",
+        "description": "",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2026-01-24T10:08:13.557Z"
       }
     ]
   ],
