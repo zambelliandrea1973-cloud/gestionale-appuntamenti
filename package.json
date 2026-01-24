@@ -111,6 +111,7 @@
     "tsconfig-paths": "^4.2.0",
     "twilio": "^5.5.1",
     "vaul": "^1.1.0",
+    "web-push": "^3.6.7",
     "whatsapp-web.js": "^1.27.0",
     "wouter": "^3.3.5",
     "ws": "^8.18.0",
