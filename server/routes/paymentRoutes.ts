@@ -5,7 +5,7 @@ import { isAdmin, isAuthenticated } from '../auth';
 import { storage } from '../storage';
 import Stripe from 'stripe';
 import { db } from '../db';
-import { eq, desc, or, isNull, count, sql } from 'drizzle-orm';
+import { eq, desc, or, isNull, count, sql, and, gte } from 'drizzle-orm';
 import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients, userLogins } from '../../shared/schema';
 
 const router = Router();
@@ -1407,14 +1407,14 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         const todayResult = await db
           .select({ count: count() })
           .from(userLogins)
-          .where(sql`${userLogins.userId} = ${license.userId} AND ${userLogins.loginAt} >= ${todayStart}`);
+          .where(and(eq(userLogins.userId, license.userId), gte(userLogins.loginAt, todayStart)));
         accessToday = todayResult[0]?.count || 0;
         
         // Accessi ultimi 7 giorni
         const weekResult = await db
           .select({ count: count() })
           .from(userLogins)
-          .where(sql`${userLogins.userId} = ${license.userId} AND ${userLogins.loginAt} >= ${weekAgo}`);
+          .where(and(eq(userLogins.userId, license.userId), gte(userLogins.loginAt, weekAgo)));
         accessWeek = weekResult[0]?.count || 0;
         
         // Accessi totali
