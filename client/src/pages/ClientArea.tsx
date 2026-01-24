@@ -56,6 +56,7 @@ export default function ClientArea() {
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
+    console.log(`🔴 [TRACK ACCESS] CHIAMATA trackClientAccess per cliente ${clientId}`);
     try {
       // Aggiungi informazioni per distinguere tra accessi PWA e browser
       const accessInfo = {
@@ -68,6 +69,7 @@ export default function ClientArea() {
       console.log(`📱 [PWA ACCESS] Tracking accesso cliente ${clientId}:`, accessInfo);
       
       const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, accessInfo);
+      console.log(`🔴 [TRACK ACCESS] Risposta tracking:`, response.status, response.ok);
       if (response.ok) {
         const result = await response.json();
         console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount} (${accessInfo.accessType})`);
