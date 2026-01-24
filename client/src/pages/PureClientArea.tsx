@@ -670,11 +670,23 @@ export default function PureClientArea() {
 
       if (response.ok) {
         const invoicesData = await response.json();
-        // Ordina fatture dalla più recente alla più vecchia
+        // Ordina fatture per numero in ordine decrescente (003/2026 prima di 002/2026)
         const sortedInvoices = invoicesData.sort((a: Invoice, b: Invoice) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          return dateB.getTime() - dateA.getTime();
+          // Estrai anno e numero dalla fattura (formato: XXX/YYYY o simile)
+          const parseInvoiceNumber = (inv: string) => {
+            const parts = inv.split('/');
+            if (parts.length === 2) {
+              const num = parseInt(parts[0].replace(/\D/g, ''), 10) || 0;
+              const year = parseInt(parts[1], 10) || 0;
+              return { year, num };
+            }
+            return { year: 0, num: 0 };
+          };
+          const numA = parseInvoiceNumber(a.invoiceNumber);
+          const numB = parseInvoiceNumber(b.invoiceNumber);
+          // Prima ordina per anno decrescente, poi per numero decrescente
+          if (numB.year !== numA.year) return numB.year - numA.year;
+          return numB.num - numA.num;
         });
         setInvoices(sortedInvoices);
         console.log('📄 [PURE CLIENT] Fatture caricate:', sortedInvoices.length);
