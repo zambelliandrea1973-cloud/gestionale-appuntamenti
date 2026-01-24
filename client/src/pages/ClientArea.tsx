@@ -236,14 +236,18 @@ export default function ClientArea() {
       const clientData = await response.json();
       console.log(`✅ Token QR valido - Cliente autenticato: ${clientData.client.firstName} ${clientData.client.lastName}`);
       
+      // USA SEMPRE l'ID del cliente dalla risposta del server (più affidabile)
+      const actualClientId = clientData.client.id.toString();
+      console.log(`🆔 [CLIENT ID] ID cliente dalla risposta server: ${actualClientId}`);
+      
       // Estrai owner ID dal token gerarchico per user ID
       const ownerMatch = token.match(/^PROF_(\d{2,3})_/);
-      const extractedOwnerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(clientId, 10);
+      const extractedOwnerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(actualClientId, 10);
       
-      // Salva tutti i dati necessari per PWA
+      // Salva tutti i dati necessari per PWA - USA actualClientId
       localStorage.setItem('ownerId', extractedOwnerId.toString());
       localStorage.setItem('client_qr_token', token);
-      localStorage.setItem('client_id', clientId);
+      localStorage.setItem('client_id', actualClientId);
       console.log("💾 [PWA SAVE] Tutti i dati salvati per PWA installata");
       
       setOwnerId(extractedOwnerId);
@@ -251,19 +255,20 @@ export default function ClientArea() {
       // Imposta i dati utente direttamente
       setUser({
         id: extractedOwnerId,
-        username: `client_${clientId}`,
+        username: `client_${actualClientId}`,
         type: "client",
         client: clientData.client
       });
       
-      // Registra l'accesso per il tracking (sia per PWA che browser)
-      trackClientAccess(clientId);
+      // Registra l'accesso per il tracking (sia per PWA che browser) - USA actualClientId
+      console.log(`🔴 [TRACKING] Chiamata trackClientAccess con ID: ${actualClientId}`);
+      trackClientAccess(actualClientId);
       
       // Traccia nuovamente quando la PWA torna in primo piano
       const handleVisibilityChange = () => {
         if (!document.hidden && document.visibilityState === 'visible') {
           console.log("📱 [PWA] App tornata in primo piano, nuovo tracking");
-          setTimeout(() => trackClientAccess(clientId), 500);
+          setTimeout(() => trackClientAccess(actualClientId), 500);
         }
       };
       
