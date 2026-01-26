@@ -40,6 +40,7 @@ import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
 import CustomerLogin from "./pages/CustomerLogin";
 import NotificationsPage from "./pages/NotificationsPage";
+import LandingBicom from "./pages/LandingBicom";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
@@ -370,6 +371,11 @@ function AppRoutes() {
         <StaffPageWrapper>
           <TestNotificationsPage />
         </StaffPageWrapper>
+      </Route>
+      
+      {/* Landing page partnership */}
+      <Route path="/partnership/bicom">
+        <LandingBicom />
       </Route>
       
       {/* Nuove rotte per beta test e abbonamento */}
