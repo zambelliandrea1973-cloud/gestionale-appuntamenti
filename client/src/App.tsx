@@ -129,6 +129,9 @@ function AppRoutes() {
     // Controllo se è una pagina di promozione pubblica
     const isPromotionPage = location.startsWith('/promozioni/');
     
+    // Controllo se è una landing page partnership
+    const isPartnershipPage = location.startsWith('/partnership/');
+    
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
@@ -150,9 +153,9 @@ function AppRoutes() {
         return;
       }
       
-      // Se siamo su una pagina di promozione pubblica, NON richiedere autenticazione
-      if (isPromotionPage) {
-        console.log('Pagina promozione pubblica rilevata, accesso consentito senza login');
+      // Se siamo su una pagina di promozione pubblica o partnership, NON richiedere autenticazione
+      if (isPromotionPage || isPartnershipPage) {
+        console.log('Pagina pubblica rilevata, accesso consentito senza login');
         return;
       }
       
