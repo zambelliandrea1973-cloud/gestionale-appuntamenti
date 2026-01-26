@@ -169,6 +169,11 @@ function AppRoutes() {
 
   return (
     <Switch>
+      {/* Landing page partnership - DEVE essere prima per essere accessibile pubblicamente */}
+      <Route path="/partnership/bicom">
+        <LandingBicom />
+      </Route>
+      
       {/* Pagina di attivazione senza layout */}
       <Route path="/activate">
         <ActivationPageWrapper>
@@ -372,11 +377,6 @@ function AppRoutes() {
         <StaffPageWrapper>
           <TestNotificationsPage />
         </StaffPageWrapper>
-      </Route>
-      
-      {/* Landing page partnership */}
-      <Route path="/partnership/bicom">
-        <LandingBicom />
       </Route>
       
       {/* Nuove rotte per beta test e abbonamento */}
