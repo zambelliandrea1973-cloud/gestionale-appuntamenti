@@ -107,12 +107,20 @@ function AppRoutes() {
   
   // Effetto per reindirizzare SOLO gli utenti non autenticati dalle pagine protette alla home
   useEffect(() => {
+    // PRIORITÀ MASSIMA: Pagine partnership e promozioni - SEMPRE accessibili
+    const isPartnershipPage = location.startsWith('/partnership/');
+    const isPromotionPage = location.startsWith('/promozioni/');
+    
+    if (isPartnershipPage || isPromotionPage) {
+      console.log('🎯 Pagina pubblica partnership/promozione:', location);
+      return; // Non fare NULLA, lascia caricare la pagina
+    }
+    
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
       '/staff-login', '/customer-login', '/register', '/client-area', 
-      '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/',
-      '/partnership/bicom'
+      '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/'
     ];
     
     // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
@@ -120,17 +128,8 @@ function AppRoutes() {
       '/client-area', '/auto-login', '/pwa', '/consent', '/activate'
     ];
     
-    // Verifica se il percorso corrente è un'area cliente diretta
-    const isClientDirectPath = location.startsWith('/client/');
-    
     // Controllo se il percorso inizia con /client/ (area clienti diretta via QR)
     const isClientPath = location.startsWith('/client/');
-    
-    // Controllo se è una pagina di promozione pubblica
-    const isPromotionPage = location.startsWith('/promozioni/');
-    
-    // Controllo se è una landing page partnership
-    const isPartnershipPage = location.startsWith('/partnership/');
     
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
@@ -150,12 +149,6 @@ function AppRoutes() {
           return;
         }
         
-        return;
-      }
-      
-      // Se siamo su una pagina di promozione pubblica o partnership, NON richiedere autenticazione
-      if (isPromotionPage || isPartnershipPage) {
-        console.log('Pagina pubblica rilevata, accesso consentito senza login');
         return;
       }
       
