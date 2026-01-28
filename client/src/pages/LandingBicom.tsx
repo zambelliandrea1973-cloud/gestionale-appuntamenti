@@ -181,8 +181,8 @@ export default function LandingBicom() {
                   </li>
                 </ul>
                 <div className="mt-6 text-center">
-                  <p className="text-2xl font-bold text-gray-900">500-1.000€</p>
-                  <p className="text-sm text-gray-500">/mese canone fisso</p>
+                  <p className="text-2xl font-bold text-gray-900">Da definire</p>
+                  <p className="text-sm text-gray-500">in base all'accordo</p>
                 </div>
               </CardContent>
             </Card>
@@ -217,8 +217,8 @@ export default function LandingBicom() {
                   </li>
                 </ul>
                 <div className="mt-6 text-center">
-                  <p className="text-2xl font-bold text-blue-600">50-100€</p>
-                  <p className="text-sm text-gray-500">/macchina venduta</p>
+                  <p className="text-2xl font-bold text-blue-600">Da definire</p>
+                  <p className="text-sm text-gray-500">in base all'accordo</p>
                 </div>
               </CardContent>
             </Card>
