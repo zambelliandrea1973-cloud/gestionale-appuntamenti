@@ -13,6 +13,10 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 # Install ALL dependencies (tsx needed for production)
 RUN npm ci
 
+# Force cache invalidation - change this date to rebuild
+ARG CACHE_DATE=2026-01-28-16:00
+RUN echo "Build timestamp: ${CACHE_DATE}"
+
 # Copy ALL source code
 COPY . .
 
