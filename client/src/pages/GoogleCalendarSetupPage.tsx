@@ -19,7 +19,12 @@ import {
   AlertCircle,
   Users,
   Download,
-  CheckSquare
+  CheckSquare,
+  Upload,
+  FileSpreadsheet,
+  ChevronDown,
+  ChevronUp,
+  Info
 } from "lucide-react";
 import { useLicense } from '@/hooks/use-license';
 
@@ -57,6 +62,13 @@ export default function GoogleCalendarSetupPage() {
   const [contactsLoaded, setContactsLoaded] = useState(false);
   const [importResult, setImportResult] = useState<{ success: boolean; message: string } | null>(null);
   const [needsContactsReauth, setNeedsContactsReauth] = useState(false);
+  
+  // Stati per importazione CSV
+  const [csvContacts, setCsvContacts] = useState<Array<{name: string; email: string; phone: string}>>([]);
+  const [selectedCsvContacts, setSelectedCsvContacts] = useState<Set<number>>(new Set());
+  const [isImportingCsv, setIsImportingCsv] = useState(false);
+  const [csvImportResult, setCsvImportResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [showCsvInstructions, setShowCsvInstructions] = useState(false);
   
   useEffect(() => {
     const checkGoogleAuthStatus = async () => {
@@ -392,6 +404,162 @@ export default function GoogleCalendarSetupPage() {
     } finally {
       setIsImporting(false);
     }
+  };
+
+  // === Funzioni per importazione CSV ===
+  const handleCsvFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const text = e.target?.result as string;
+        const lines = text.split('\n').filter(line => line.trim());
+        
+        if (lines.length < 2) {
+          toast({
+            title: "File vuoto",
+            description: "Il file CSV non contiene dati",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        // Parse header
+        const header = lines[0].toLowerCase().split(/[,;]/);
+        const nameIdx = header.findIndex(h => h.includes('nome') || h.includes('name'));
+        const emailIdx = header.findIndex(h => h.includes('email') || h.includes('mail'));
+        const phoneIdx = header.findIndex(h => h.includes('telefono') || h.includes('phone') || h.includes('tel'));
+
+        if (nameIdx === -1 && emailIdx === -1 && phoneIdx === -1) {
+          toast({
+            title: "Formato non valido",
+            description: "Il file deve contenere colonne: nome, email o telefono",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        // Parse contacts
+        const parsedContacts = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(/[,;]/);
+          const contact = {
+            name: nameIdx >= 0 ? values[nameIdx]?.trim().replace(/"/g, '') || '' : '',
+            email: emailIdx >= 0 ? values[emailIdx]?.trim().replace(/"/g, '') || '' : '',
+            phone: phoneIdx >= 0 ? values[phoneIdx]?.trim().replace(/"/g, '') || '' : '',
+          };
+          
+          // Aggiungi solo se ha almeno un dato
+          if (contact.name || contact.email || contact.phone) {
+            parsedContacts.push(contact);
+          }
+        }
+
+        setCsvContacts(parsedContacts);
+        setSelectedCsvContacts(new Set(parsedContacts.map((_, i) => i)));
+        setCsvImportResult(null);
+        
+        toast({
+          title: "File caricato",
+          description: `Trovati ${parsedContacts.length} contatti nel file`,
+        });
+      } catch (error) {
+        toast({
+          title: "Errore lettura file",
+          description: "Impossibile leggere il file CSV",
+          variant: "destructive",
+        });
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleImportCsvContacts = async () => {
+    if (selectedCsvContacts.size === 0) {
+      toast({
+        title: "Nessun contatto selezionato",
+        description: "Seleziona almeno un contatto da importare",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsImportingCsv(true);
+    setCsvImportResult(null);
+
+    try {
+      const contactsToImport = csvContacts
+        .filter((_, i) => selectedCsvContacts.has(i))
+        .map(c => ({
+          firstName: c.name.split(' ')[0] || c.name,
+          lastName: c.name.split(' ').slice(1).join(' ') || '',
+          email: c.email,
+          phone: c.phone,
+          notes: 'Importato da file CSV'
+        }));
+
+      const response = await fetch('/api/clients/import-csv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ contacts: contactsToImport }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setCsvImportResult({ 
+          success: true, 
+          message: `Importati ${data.imported} contatti` + (data.skipped > 0 ? `, ${data.skipped} già esistenti` : '')
+        });
+        toast({
+          title: "Importazione completata",
+          description: `Importati ${data.imported} contatti`,
+        });
+        // Pulisci la lista
+        setCsvContacts([]);
+        setSelectedCsvContacts(new Set());
+        queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      } else {
+        setCsvImportResult({ success: false, message: data.error || "Errore nell'importazione" });
+        toast({
+          title: "Errore",
+          description: data.error || "Errore nell'importazione",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      setCsvImportResult({ success: false, message: "Errore di connessione" });
+      toast({
+        title: "Errore",
+        description: "Errore di connessione",
+        variant: "destructive",
+      });
+    } finally {
+      setIsImportingCsv(false);
+    }
+  };
+
+  const toggleCsvContact = (index: number) => {
+    setSelectedCsvContacts(prev => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
+  };
+
+  const selectAllCsv = () => {
+    setSelectedCsvContacts(new Set(csvContacts.map((_, i) => i)));
+  };
+
+  const deselectAllCsv = () => {
+    setSelectedCsvContacts(new Set());
   };
 
   if (isLoading || isCheckingStatus) {
@@ -838,6 +1006,189 @@ export default function GoogleCalendarSetupPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* === SEZIONE IMPORTAZIONE DA FILE CSV === */}
+      <Card className="mt-6">
+        <CardHeader className="bg-gradient-to-r from-green-500/10 to-green-400/5 border-b">
+          <div className="flex items-start justify-between">
+            <div>
+              <CardTitle className="flex items-center text-xl gap-2">
+                <FileSpreadsheet className="h-5 w-5 text-green-600" />
+                Importa da File (CSV/vCard)
+              </CardTitle>
+              <CardDescription className="mt-2">
+                Per chi non usa Gmail: importa i contatti dal telefono o da altri servizi
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="pt-6">
+          <div className="space-y-4">
+            {/* Istruzioni a tendina */}
+            <div className="border rounded-lg overflow-hidden">
+              <button
+                onClick={() => setShowCsvInstructions(!showCsvInstructions)}
+                className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Info className="h-4 w-4 text-blue-500" />
+                  <span className="font-medium">Come esportare i contatti dal telefono</span>
+                </div>
+                {showCsvInstructions ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
+              </button>
+              
+              {showCsvInstructions && (
+                <div className="p-4 bg-white dark:bg-gray-950 text-sm space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">📱 iPhone (iCloud)</h4>
+                    <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+                      <li>Vai su <strong>icloud.com/contacts</strong> dal computer</li>
+                      <li>Seleziona i contatti da esportare (o "Seleziona tutto")</li>
+                      <li>Clicca l'icona ingranaggio → <strong>Esporta vCard</strong></li>
+                      <li>Converti il file .vcf in CSV con un convertitore online</li>
+                    </ol>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">📱 Android (senza Gmail)</h4>
+                    <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+                      <li>Apri l'app <strong>Contatti</strong> sul telefono</li>
+                      <li>Menu → <strong>Impostazioni</strong> → <strong>Esporta</strong></li>
+                      <li>Scegli <strong>Esporta in file .vcf</strong></li>
+                      <li>Invia il file al computer e convertilo in CSV</li>
+                    </ol>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">💻 Outlook / Microsoft</h4>
+                    <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+                      <li>Apri <strong>Outlook.com</strong> → Persone</li>
+                      <li>Clicca <strong>Gestisci</strong> → <strong>Esporta contatti</strong></li>
+                      <li>Scegli formato <strong>CSV</strong></li>
+                    </ol>
+                  </div>
+                  
+                  <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">📋 Formato file richiesto</p>
+                    <p className="text-blue-700 dark:text-blue-300 text-xs">
+                      Il file CSV deve avere le colonne: <strong>Nome</strong>, <strong>Email</strong>, <strong>Telefono</strong><br/>
+                      Esempio: <code>Nome,Email,Telefono</code> oppure <code>Name,Email,Phone</code>
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Upload file */}
+            <div className="flex items-center gap-4">
+              <Label
+                htmlFor="csv-upload"
+                className="flex-1 cursor-pointer"
+              >
+                <div className="flex items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-950 transition-colors">
+                  <Upload className="h-5 w-5 text-green-600" />
+                  <span>Clicca per caricare un file CSV</span>
+                </div>
+                <Input
+                  id="csv-upload"
+                  type="file"
+                  accept=".csv,.txt"
+                  className="hidden"
+                  onChange={handleCsvFileUpload}
+                />
+              </Label>
+            </div>
+
+            {/* Lista contatti caricati */}
+            {csvContacts.length > 0 && (
+              <>
+                <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                  <p className="font-medium text-green-900 dark:text-green-100">
+                    Trovati {csvContacts.length} contatti
+                  </p>
+                  <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                    {selectedCsvContacts.size} selezionati per l'importazione
+                  </p>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={selectAllCsv}>
+                    Seleziona tutti
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={deselectAllCsv}>
+                    Deseleziona tutti
+                  </Button>
+                  <Button 
+                    className="ml-auto bg-green-600 hover:bg-green-700"
+                    size="sm"
+                    onClick={handleImportCsvContacts}
+                    disabled={isImportingCsv || selectedCsvContacts.size === 0}
+                  >
+                    {isImportingCsv ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                        Importazione...
+                      </>
+                    ) : (
+                      <>
+                        <Download className="h-4 w-4 mr-2" />
+                        Importa {selectedCsvContacts.size} contatti
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                <ScrollArea className="h-64 border rounded-lg p-2">
+                  <div className="space-y-1">
+                    {csvContacts.map((contact, index) => (
+                      <div
+                        key={index}
+                        className={`flex items-center gap-3 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-900 ${
+                          selectedCsvContacts.has(index) ? 'bg-green-50 dark:bg-green-950' : ''
+                        }`}
+                      >
+                        <Checkbox
+                          checked={selectedCsvContacts.has(index)}
+                          onCheckedChange={() => toggleCsvContact(index)}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate">{contact.name || 'Senza nome'}</p>
+                          <div className="flex gap-2 text-xs text-muted-foreground">
+                            {contact.email && <span>{contact.email}</span>}
+                            {contact.phone && <span>{contact.phone}</span>}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </>
+            )}
+
+            {/* Risultato importazione */}
+            {csvImportResult && (
+              <div className={`p-3 rounded-lg text-sm ${
+                csvImportResult.success 
+                  ? 'bg-green-50 dark:bg-green-950 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                  : 'bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+              }`}>
+                {csvImportResult.success ? '✅' : '❌'} {csvImportResult.message}
+              </div>
+            )}
+
+            {/* Note */}
+            <div className="text-xs text-muted-foreground">
+              <p>• Formati supportati: CSV (separatore virgola o punto e virgola)</p>
+              <p>• I contatti già esistenti verranno saltati automaticamente</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

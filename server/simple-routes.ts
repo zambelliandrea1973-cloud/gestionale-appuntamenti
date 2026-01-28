@@ -681,6 +681,65 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Endpoint per importazione contatti da file CSV
+  app.post("/api/clients/import-csv", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const ownerId = user.type === 'staff' ? user.userId : user.id;
+
+    console.log(`📥 [CSV IMPORT] Utente ${user.id} avvia importazione CSV`);
+
+    try {
+      const { contacts } = req.body;
+      
+      if (!contacts || !Array.isArray(contacts)) {
+        return res.status(400).json({ success: false, error: 'Dati non validi' });
+      }
+
+      let imported = 0;
+      let skipped = 0;
+      
+      for (const contact of contacts) {
+        // Verifica se il contatto esiste già (stesso email o telefono)
+        const existingClients = await storage.getClients(ownerId);
+        const exists = existingClients.some(c => 
+          (contact.email && c.email && c.email.toLowerCase() === contact.email.toLowerCase()) ||
+          (contact.phone && c.phone && c.phone.replace(/\s/g, '') === contact.phone.replace(/\s/g, ''))
+        );
+
+        if (exists) {
+          skipped++;
+          continue;
+        }
+
+        // Crea il nuovo cliente
+        const clientData = {
+          firstName: contact.firstName || '',
+          lastName: contact.lastName || '',
+          email: contact.email || '',
+          phone: contact.phone || '',
+          notes: contact.notes || 'Importato da file CSV',
+          userId: ownerId,
+        };
+
+        await storage.createClient(clientData);
+        imported++;
+      }
+
+      console.log(`✅ [CSV IMPORT] Importati ${imported} contatti, saltati ${skipped}`);
+
+      res.json({ 
+        success: true, 
+        imported, 
+        skipped,
+        message: `Importati ${imported} contatti` + (skipped > 0 ? `, ${skipped} già esistenti` : '')
+      });
+    } catch (error) {
+      console.error('[CSV IMPORT] Errore:', error);
+      res.status(500).json({ success: false, error: 'Errore durante l\'importazione' });
+    }
+  });
+
   // Admin-only endpoint: Migrazione automatica codici clienti (vecchio → nuovo formato)
   app.post("/api/clients/migrate-codes", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
