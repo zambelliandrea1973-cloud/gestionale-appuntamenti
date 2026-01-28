@@ -107,12 +107,15 @@ function AppRoutes() {
   
   // Effetto per reindirizzare SOLO gli utenti non autenticati dalle pagine protette alla home
   useEffect(() => {
+    // Usa window.location.pathname per evitare problemi di inizializzazione di wouter
+    const actualPath = window.location.pathname;
+    
     // PRIORITÀ MASSIMA: Pagine partnership e promozioni - SEMPRE accessibili
-    const isPartnershipPage = location.startsWith('/partnership/');
-    const isPromotionPage = location.startsWith('/promozioni/');
+    const isPartnershipPage = actualPath.startsWith('/partnership/') || location.startsWith('/partnership/');
+    const isPromotionPage = actualPath.startsWith('/promozioni/') || location.startsWith('/promozioni/');
     
     if (isPartnershipPage || isPromotionPage) {
-      console.log('🎯 Pagina pubblica partnership/promozione:', location);
+      console.log('🎯 Pagina pubblica partnership/promozione:', actualPath);
       return; // Non fare NULLA, lascia caricare la pagina
     }
     
