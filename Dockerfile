@@ -1,5 +1,5 @@
 # Single-stage build - use tsx like Replit does
-# Cache bust: 2025-10-23-10:51 - Force rebuild for manifest detection logs
+# Cache bust: 2026-01-28-15:40 - Force rebuild for partnership page changes
 FROM node:20-alpine
 
 WORKDIR /app
