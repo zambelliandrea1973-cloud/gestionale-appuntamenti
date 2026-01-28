@@ -638,7 +638,15 @@ function App() {
           {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
           <BetaStatusChecker />
           <WouterRouter>
-            <AppRoutes />
+            {/* Route pubbliche SEPARATE - nessun controllo autenticazione */}
+            <Switch>
+              <Route path="/partnership/bicom">
+                <LandingBicom />
+              </Route>
+              <Route>
+                <AppRoutes />
+              </Route>
+            </Switch>
           </WouterRouter>
         </TenantContextProvider>
       </UserLicenseProvider>
