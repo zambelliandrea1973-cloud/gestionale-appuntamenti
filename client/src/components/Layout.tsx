@@ -14,9 +14,11 @@ import {
   Clock,
   Sparkles,
   BookOpen,
-  ClipboardList
+  ClipboardList,
+  Bell
 } from "lucide-react";
 import { useLicense } from "@/hooks/use-license";
+import { usePendingRequests } from "@/hooks/use-pending-requests";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useMobileSync } from "@/hooks/use-mobile-sync";
 import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
@@ -44,6 +46,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   
   // Sistema di sincronizzazione forzata per mobile - stesso percorso del PC
   const { syncData, isForcesynced, clientsCount } = useMobileForcedSync();
+  
+  // Richieste appuntamento pendenti per notifica campanella
+  const { pendingCount, hasPendingRequests } = usePendingRequests();
   
   // Debug per verificare sincronizzazione
   if (isMobile && syncData) {
@@ -101,9 +106,18 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 <Link href="/booking-requests">
-                  <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 h-8">
-                    <ClipboardList className="h-4 w-4 mr-1" />
+                  <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 h-8 relative">
+                    {hasPendingRequests && !isActive("/booking-requests") ? (
+                      <Bell className="h-4 w-4 mr-1 text-amber-300 animate-bounce" />
+                    ) : (
+                      <ClipboardList className="h-4 w-4 mr-1" />
+                    )}
                     <span className="text-xs whitespace-nowrap">{t('navigation.requests')}</span>
+                    {hasPendingRequests && !isActive("/booking-requests") && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                        {pendingCount}
+                      </span>
+                    )}
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
@@ -224,9 +238,18 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 <Link href="/booking-requests">
-                  <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
-                    <ClipboardList className="h-3 w-3 mr-1" />
+                  <Button variant={isActive("/booking-requests") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs relative">
+                    {hasPendingRequests && !isActive("/booking-requests") ? (
+                      <Bell className="h-3 w-3 mr-1 text-amber-300 animate-bounce" />
+                    ) : (
+                      <ClipboardList className="h-3 w-3 mr-1" />
+                    )}
                     <span>{t('navigation.requests')}</span>
+                    {hasPendingRequests && !isActive("/booking-requests") && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                        {pendingCount}
+                      </span>
+                    )}
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
