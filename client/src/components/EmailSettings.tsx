@@ -576,8 +576,7 @@ export default function EmailSettings() {
                         <Input {...field} placeholder="esempio@gmail.com" />
                       </FormControl>
                       <FormDescription className="text-xs mt-1">
-                        <p>Se utilizzi Gmail, dovrai anche configurare un server SMTP separatamente.</p>
-                        <p className="mt-1">Server SMTP per Gmail: <span className="font-mono bg-muted p-0.5 rounded">smtp.gmail.com</span>, porta: <span className="font-mono bg-muted p-0.5 rounded">587</span></p>
+                        <p>Inserisci il tuo indirizzo email Gmail. Il sistema si collegherà automaticamente ai server di Google.</p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
