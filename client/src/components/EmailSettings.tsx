@@ -663,6 +663,7 @@ export default function EmailSettings() {
                         <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
                         <p className="mt-2 font-medium text-amber-700">1. Prima attiva la "Verifica in due passaggi" da <a href="https://myaccount.google.com/signinoptions/two-step-verification" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/signinoptions/two-step-verification</a></p>
                         <p className="mt-1 font-medium">2. Poi genera una "Password per le app" da <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/apppasswords</a></p>
+                        <p className="mt-1 font-medium text-green-700">3. Copia e incolla la password generata nel campo "Password / Chiave App" qui sopra</p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
