@@ -1599,8 +1599,16 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
     // Recupera i clienti esistenti per evitare duplicati
     const existingClients = await storage.getVisibleClientsForUser(userId, 'admin');
-    const existingEmails = new Set(existingClients.map((c: any) => c.email?.toLowerCase()).filter(Boolean));
+    
+    // Crea set per verifica duplicati: priorità a nome+telefono, poi email
+    const existingNamePhone = new Set(existingClients.map((c: any) => {
+      const name = `${c.firstName || ''} ${c.lastName || ''}`.toLowerCase().trim();
+      const phone = c.phone?.replace(/\s+/g, '') || '';
+      return phone ? `${name}|${phone}` : null;
+    }).filter(Boolean));
+    
     const existingPhones = new Set(existingClients.map((c: any) => c.phone?.replace(/\s+/g, '')).filter(Boolean));
+    const existingEmails = new Set(existingClients.map((c: any) => c.email?.toLowerCase()).filter(Boolean));
 
     let imported = 0;
     let skipped = 0;
@@ -1608,15 +1616,26 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
     for (const contact of contactsToImport) {
       try {
-        // Verifica duplicati per email o telefono
-        const emailNormalized = contact.email?.toLowerCase();
-        const phoneNormalized = contact.phone?.replace(/\s+/g, '');
+        // Normalizza i dati del contatto
+        const nameNormalized = `${contact.firstName || ''} ${contact.lastName || ''}`.toLowerCase().trim();
+        const phoneNormalized = contact.phone?.replace(/\s+/g, '') || '';
+        const emailNormalized = contact.email?.toLowerCase() || '';
+        const namePhoneKey = phoneNormalized ? `${nameNormalized}|${phoneNormalized}` : null;
 
-        if (emailNormalized && existingEmails.has(emailNormalized)) {
+        // Priorità 1: Verifica duplicati per nome+telefono (criterio principale)
+        if (namePhoneKey && existingNamePhone.has(namePhoneKey)) {
           skipped++;
           continue;
         }
+        
+        // Priorità 2: Verifica duplicati per solo telefono (se presente)
         if (phoneNormalized && existingPhones.has(phoneNormalized)) {
+          skipped++;
+          continue;
+        }
+        
+        // Priorità 3: Verifica duplicati per email (se presente e non vuota)
+        if (emailNormalized && existingEmails.has(emailNormalized)) {
           skipped++;
           continue;
         }
@@ -1662,8 +1681,9 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         imported++;
 
         // Aggiungi alle liste per evitare duplicati nel batch corrente
-        if (emailNormalized) existingEmails.add(emailNormalized);
+        if (namePhoneKey) existingNamePhone.add(namePhoneKey);
         if (phoneNormalized) existingPhones.add(phoneNormalized);
+        if (emailNormalized) existingEmails.add(emailNormalized);
 
       } catch (err: any) {
         const contactName = `${contact.firstName} ${contact.lastName}`.trim() || 'Contatto';
