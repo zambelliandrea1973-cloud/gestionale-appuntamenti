@@ -1382,15 +1382,27 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     // Inizializza People API
     const people = google.people({ version: 'v1', auth: userOAuth2Client });
 
-    // Recupera i contatti
-    const response = await people.people.connections.list({
-      resourceName: 'people/me',
-      pageSize: 500,
-      personFields: 'names,emailAddresses,phoneNumbers,addresses',
-      sortOrder: 'FIRST_NAME_ASCENDING'
-    });
+    // Recupera TUTTI i contatti con paginazione
+    let allConnections: any[] = [];
+    let nextPageToken: string | undefined = undefined;
+    
+    do {
+      const response = await people.people.connections.list({
+        resourceName: 'people/me',
+        pageSize: 1000,
+        personFields: 'names,emailAddresses,phoneNumbers,addresses',
+        sortOrder: 'FIRST_NAME_ASCENDING',
+        pageToken: nextPageToken
+      });
+      
+      const connections = response.data.connections || [];
+      allConnections = allConnections.concat(connections);
+      nextPageToken = response.data.nextPageToken || undefined;
+      
+      console.log(`📇 [CONTACTS] Pagina caricata: ${connections.length} contatti (totale finora: ${allConnections.length})`);
+    } while (nextPageToken);
 
-    const connections = response.data.connections || [];
+    const connections = allConnections;
     
     // Trasforma i dati in un formato più semplice
     const contacts = connections.map((person: any) => {
@@ -1525,22 +1537,35 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
     let contactsToImport: Array<{firstName: string, lastName: string, email: string, phone: string, address: string}> = [];
 
     if (importAll) {
-      // Recupera tutti i contatti
-      const response = await people.people.connections.list({
-        resourceName: 'people/me',
-        pageSize: 500,
-        personFields: 'names,emailAddresses,phoneNumbers,addresses',
-        sortOrder: 'FIRST_NAME_ASCENDING'
-      });
+      // Recupera TUTTI i contatti con paginazione
+      let allConnections: any[] = [];
+      let nextPageToken: string | undefined = undefined;
+      
+      do {
+        const response = await people.people.connections.list({
+          resourceName: 'people/me',
+          pageSize: 1000,
+          personFields: 'names,emailAddresses,phoneNumbers,addresses',
+          sortOrder: 'FIRST_NAME_ASCENDING',
+          pageToken: nextPageToken
+        });
+        
+        const connections = response.data.connections || [];
+        allConnections = allConnections.concat(connections);
+        nextPageToken = response.data.nextPageToken || undefined;
+        
+        console.log(`📇 [IMPORT] Pagina caricata: ${connections.length} contatti (totale finora: ${allConnections.length})`);
+      } while (nextPageToken);
 
-      const connections = response.data.connections || [];
-      contactsToImport = connections.map((person: any) => ({
+      contactsToImport = allConnections.map((person: any) => ({
         firstName: person.names?.[0]?.givenName || person.names?.[0]?.displayName || '',
         lastName: person.names?.[0]?.familyName || '',
         email: person.emailAddresses?.[0]?.value || '',
         phone: person.phoneNumbers?.[0]?.value || '',
         address: person.addresses?.[0]?.formattedValue || ''
       })).filter((c: any) => (c.firstName || c.lastName) || c.email || c.phone);
+      
+      console.log(`📇 [IMPORT] Totale contatti da importare: ${contactsToImport.length}`);
     } else if (resourceNames && resourceNames.length > 0) {
       // Recupera solo i contatti selezionati tramite i loro resourceNames
       // Usa batchGet per efficienza
