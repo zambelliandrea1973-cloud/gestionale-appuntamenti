@@ -26,6 +26,13 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
    - `VITE_STRIPE_PUBLIC_KEY` = `pk_live_...`
 4. **Verifica `PAYMENT_MODE` = `production`**
 
+### TODO: Richiesta OAuth Contatti Google (dopo i test)
+- **Stato attuale**: Scope `contacts.readonly` disponibile solo per email tester
+- **Azione richiesta**: Dopo completamento fase test Google Play (14 giorni), richiedere verifica OAuth per scope contatti
+- **Dove**: Google Cloud Console → OAuth consent screen → Submit for verification
+- **Scope da richiedere**: `https://www.googleapis.com/auth/contacts.readonly`
+- **Callback URL da aggiungere**: `https://gestionale-appuntamenti.sliplane.app/api/google-auth/contacts/callback`
+
 ## System Architecture
 
 ### UI/UX Decisions
