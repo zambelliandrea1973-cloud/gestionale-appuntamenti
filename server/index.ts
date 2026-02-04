@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
 import { storage } from "./storage";
 import path from "path";
+import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 
 const app = express();
 
@@ -57,6 +58,9 @@ app.use((req, res, next) => {
   } catch (error) {
     console.error('Errore durante l\'inizializzazione del servizio di setup:', error);
   }
+
+  // Avvia il monitoraggio scalabilità (controlla ogni 6 ore)
+  scalabilityMonitorService.startMonitoring(6);
   
   const server = await registerRoutes(app);
 
