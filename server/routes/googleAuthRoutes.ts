@@ -71,10 +71,14 @@ const oauth2Client = new google.auth.OAuth2(
   redirectUri
 );
 
-// Scopes necessari per Calendar, Gmail e Contatti
+// Scopes base per Calendar e Gmail (autorizzazione principale)
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
   'https://www.googleapis.com/auth/gmail.send',
+];
+
+// Scope separato per Contatti (autorizzazione separata, richiede verifica Google)
+const CONTACTS_SCOPES = [
   'https://www.googleapis.com/auth/contacts.readonly',
 ];
 
@@ -1331,6 +1335,117 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
 // ================ GOOGLE CONTACTS API ================
 
 /**
+ * Verifica se l'utente ha autorizzato l'accesso ai contatti Google
+ * GET /api/google-auth/contacts/status
+ */
+router.get('/contacts/status', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, authorized: false });
+    }
+
+    const user = await storage.getUser(userId);
+    const hasContactsAuth = !!user?.googleContactsToken;
+    
+    res.json({ 
+      success: true, 
+      authorized: hasContactsAuth,
+      message: hasContactsAuth ? 'Contatti Google autorizzati' : 'Autorizzazione contatti Google richiesta'
+    });
+  } catch (error) {
+    console.error('📇 [CONTACTS STATUS] Errore:', error);
+    res.status(500).json({ success: false, authorized: false });
+  }
+});
+
+/**
+ * Genera URL per autorizzare l'accesso ai contatti Google (separato da Calendar/Gmail)
+ * GET /api/google-auth/contacts/authorize
+ */
+router.get('/contacts/authorize', isAuthenticated, async (req, res) => {
+  try {
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+    }
+
+    const contactsAuthUrl = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: CONTACTS_SCOPES,
+      state: `contacts_${userId}`,
+      prompt: 'consent',
+    });
+
+    console.log(`📇 [CONTACTS AUTH] URL generato per utente ${userId}`);
+    res.json({ success: true, authUrl: contactsAuthUrl });
+  } catch (error) {
+    console.error('📇 [CONTACTS AUTH] Errore generazione URL:', error);
+    res.status(500).json({ success: false, error: 'Errore nella generazione dell\'URL di autorizzazione' });
+  }
+});
+
+/**
+ * Callback per l'autorizzazione contatti Google
+ * GET /api/google-auth/contacts/callback
+ */
+router.get('/contacts/callback', async (req, res) => {
+  try {
+    const { code, state } = req.query;
+    
+    if (!code || !state || !String(state).startsWith('contacts_')) {
+      return res.status(400).send('Parametri mancanti o non validi');
+    }
+
+    const userId = parseInt(String(state).replace('contacts_', ''));
+    if (!userId) {
+      return res.status(400).send('ID utente non valido');
+    }
+
+    const callbackOauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      `${getRedirectUri().replace('/callback', '/contacts/callback')}`
+    );
+
+    const { tokens } = await callbackOauth2Client.getToken(code as string);
+    
+    // Salva il token dei contatti separatamente
+    const encryptedToken = EncryptionService.encrypt(JSON.stringify(tokens));
+    await db.update(users)
+      .set({ googleContactsToken: encryptedToken })
+      .where(eq(users.id, userId));
+
+    console.log(`✅ [CONTACTS AUTH] Token contatti salvato per utente ${userId}`);
+
+    // Redirect alla pagina clienti con messaggio di successo
+    res.send(`
+      <html>
+        <head><title>Autorizzazione Contatti Completata</title></head>
+        <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+          <h2>✅ Autorizzazione Contatti Google Completata!</h2>
+          <p>Ora puoi importare i contatti dalla tua rubrica Google.</p>
+          <p>Questa finestra si chiuderà automaticamente...</p>
+          <script>
+            setTimeout(() => {
+              if (window.opener) {
+                window.opener.postMessage({ type: 'GOOGLE_CONTACTS_AUTHORIZED' }, '*');
+                window.close();
+              } else {
+                window.location.href = '/clients';
+              }
+            }, 2000);
+          </script>
+        </body>
+      </html>
+    `);
+  } catch (error) {
+    console.error('📇 [CONTACTS CALLBACK] Errore:', error);
+    res.status(500).send('Errore durante l\'autorizzazione dei contatti Google');
+  }
+});
+
+/**
  * Recupera i contatti dalla rubrica Google dell'utente
  * GET /api/google-auth/contacts
  */
@@ -1344,18 +1459,18 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
       return res.status(401).json({ success: false, error: 'Utente non autenticato' });
     }
 
-    // Recupera i token dell'utente dal database
+    // Recupera i token dell'utente dal database - usa token CONTATTI separato
     const user = await storage.getUser(userId);
-    if (!user?.googleAuthToken) {
+    if (!user?.googleContactsToken) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Account Google non collegato. Riconnetti il tuo account Google.',
-        needsReauth: true
+        error: 'Autorizzazione contatti Google non presente. Clicca su "Autorizza Contatti Google" per abilitare l\'importazione.',
+        needsContactsAuth: true
       });
     }
 
-    // Decifra il token se necessario (i token potrebbero essere crittografati o in chiaro)
-    let tokenString = user.googleAuthToken;
+    // Decifra il token se necessario
+    let tokenString = user.googleContactsToken;
     if (EncryptionService.isEncrypted(tokenString)) {
       tokenString = EncryptionService.decrypt(tokenString);
     }
@@ -1497,18 +1612,18 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       });
     }
 
-    // Recupera i token dell'utente
+    // Recupera i token CONTATTI dell'utente (separato da Calendar/Gmail)
     const user = await storage.getUser(userId);
-    if (!user?.googleAuthToken) {
+    if (!user?.googleContactsToken) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Account Google non collegato',
-        needsReauth: true
+        error: 'Autorizzazione contatti Google non presente. Clicca su "Autorizza Contatti Google" per abilitare l\'importazione.',
+        needsContactsAuth: true
       });
     }
 
-    // Decifra il token se necessario
-    let tokenString = user.googleAuthToken;
+    // Decifra il token contatti se necessario
+    let tokenString = user.googleContactsToken;
     if (EncryptionService.isEncrypted(tokenString)) {
       tokenString = EncryptionService.decrypt(tokenString);
     }

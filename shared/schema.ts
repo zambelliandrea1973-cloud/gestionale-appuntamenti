@@ -451,7 +451,8 @@ export const users = pgTable("users", {
   autoPayoutEnabled: boolean("auto_payout_enabled").default(true), // Abilita payout automatico PayPal
   resetToken: text("reset_token"), // Token per recupero password
   resetTokenExpiry: timestamp("reset_token_expiry"), // Scadenza token reset
-  googleAuthToken: text("google_auth_token"), // Token OAuth di Google (encrypted)
+  googleAuthToken: text("google_auth_token"), // Token OAuth di Google per Calendar/Gmail (encrypted)
+  googleContactsToken: text("google_contacts_token"), // Token OAuth separato per Contatti Google (encrypted)
   googleCalendarEnabled: boolean("google_calendar_enabled").default(false), // Sincronizzazione Google Calendar abilitata
   googleCalendarId: text("google_calendar_id"), // ID del calendario Google (default "primary")
   lastGoogleSyncAt: timestamp("last_google_sync_at"), // Ultima sincronizzazione con Google Calendar
