@@ -59,8 +59,9 @@ app.use((req, res, next) => {
     console.error('Errore durante l\'inizializzazione del servizio di setup:', error);
   }
 
-  // Avvia il monitoraggio scalabilità (controlla ogni 6 ore)
-  scalabilityMonitorService.startMonitoring(6);
+  // Avvia il monitoraggio scalabilità (controlla ogni 120 ore = 5 giorni)
+  // NOTA: Da rimuovere dopo implementazione paginazione
+  scalabilityMonitorService.startMonitoring(120);
   
   const server = await registerRoutes(app);
 
