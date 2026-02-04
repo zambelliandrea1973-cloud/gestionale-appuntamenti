@@ -33,6 +33,12 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Scope da richiedere**: `https://www.googleapis.com/auth/contacts.readonly`
 - **Callback URL da aggiungere**: `https://gestionale-appuntamenti.sliplane.app/api/google-auth/contacts/callback`
 
+### TODO: Icone PWA multiple per stesso cliente (dopo i test)
+- **Problema**: Se un cliente installa PWA di più professionisti, le icone si sovrascrivono (cache Android)
+- **Soluzione proposta**: Modificare Service Worker per cache icone separate per ownerId
+- **Rischio**: Modifica delicata, da fare solo dopo fase test completata
+- **Workaround attuale**: Il nome sotto l'icona è diverso per ogni professionista
+
 ## System Architecture
 
 ### UI/UX Decisions
