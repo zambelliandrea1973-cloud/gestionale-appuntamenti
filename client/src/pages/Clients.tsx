@@ -14,7 +14,11 @@ import {
   UserX, 
   RefreshCw,
   Server,
-  Phone
+  Phone,
+  Download,
+  Eye,
+  EyeOff,
+  Building2
 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ClientForm from "@/components/ClientForm";
@@ -22,12 +26,25 @@ import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
 import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 
+interface ClientsSummary {
+  ownerId: number;
+  clientCount: number;
+  ownerName: string;
+  ownerEmail: string | null;
+  isCurrentUser: boolean;
+}
+
 export default function Clients() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+  
+  // Stato per clienti caricati on-demand per professionista (lazy loading)
+  const [loadedOwnerClients, setLoadedOwnerClients] = useState<Record<number, any[]>>({});
+  const [loadingOwner, setLoadingOwner] = useState<number | null>(null);
+  const [expandedOwners, setExpandedOwners] = useState<Set<number>>(new Set());
   
   // Clean React Query implementation for multi-tenant system
   const queryClient = useQueryClient();
@@ -177,6 +194,54 @@ export default function Clients() {
     queryKey: ['/api/client-owners'],
     enabled: currentUser?.type === 'admin' && activeTab === "by-staff"
   });
+
+  // 🚀 LAZY LOADING: Query per riepilogo professionisti (solo conteggio, non dati completi)
+  const { data: clientsSummary = [], isLoading: summaryLoading } = useQuery<ClientsSummary[]>({
+    queryKey: ['/api/admin/clients-summary'],
+    enabled: currentUser?.type === 'admin' && activeTab === "by-staff"
+  });
+
+  // Funzione per caricare clienti di un professionista on-demand
+  const loadOwnerClients = async (ownerId: number) => {
+    if (loadedOwnerClients[ownerId]) {
+      // Toggle expand/collapse se già caricati
+      setExpandedOwners(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(ownerId)) {
+          newSet.delete(ownerId);
+        } else {
+          newSet.add(ownerId);
+        }
+        return newSet;
+      });
+      return;
+    }
+
+    setLoadingOwner(ownerId);
+    try {
+      const response = await fetch(`/api/admin/clients-by-owner/${ownerId}`, {
+        credentials: 'include'
+      });
+      if (!response.ok) throw new Error('Errore caricamento');
+      const data = await response.json();
+      
+      setLoadedOwnerClients(prev => ({ ...prev, [ownerId]: data }));
+      setExpandedOwners(prev => new Set(prev).add(ownerId));
+      
+      toast({
+        title: "Clienti caricati",
+        description: `Caricati ${data.length} clienti`,
+      });
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Impossibile caricare i clienti",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingOwner(null);
+    }
+  };
 
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
@@ -395,7 +460,108 @@ export default function Clients() {
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-6">
-            {filteredClients.length === 0 ? (
+            {/* 🚀 ADMIN BY-STAFF: Usa logica separata basata su clientsSummary */}
+            {activeTab === "by-staff" && currentUser?.type === 'admin' ? (
+              // 🚀 LAZY LOADING: Vista riepilogo professionisti con caricamento on-demand
+              <div className="space-y-4">
+                {summaryLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <RefreshCw className="h-6 w-6 animate-spin mr-2" />
+                    <span>Caricamento riepilogo...</span>
+                  </div>
+                ) : clientsSummary.length === 0 ? (
+                  <Card>
+                    <CardContent className="flex flex-col items-center justify-center py-16">
+                      <Building2 className="h-12 w-12 text-muted-foreground mb-4" />
+                      <h3 className="text-lg font-semibold mb-2">Nessun professionista trovato</h3>
+                      <p className="text-muted-foreground text-center">
+                        Non ci sono ancora clienti nel sistema.
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  clientsSummary.map((summary) => {
+                    const isExpanded = expandedOwners.has(summary.ownerId);
+                    const ownerClients = loadedOwnerClients[summary.ownerId] || [];
+                    const isLoadingThis = loadingOwner === summary.ownerId;
+                    
+                    return (
+                      <Card key={summary.ownerId} className={`border-2 ${summary.isCurrentUser ? 'border-green-300' : 'border-gray-200'}`}>
+                        <CardHeader 
+                          className={`cursor-pointer hover:bg-gray-50 transition-colors ${summary.isCurrentUser ? 'bg-green-50' : 'bg-blue-50'}`}
+                          onClick={() => loadOwnerClients(summary.ownerId)}
+                        >
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              {summary.isCurrentUser ? (
+                                <span className="text-green-600">👑</span>
+                              ) : (
+                                <Building2 className="h-5 w-5 text-blue-600" />
+                              )}
+                              <span className="font-medium">
+                                {summary.ownerName}
+                              </span>
+                              {summary.ownerEmail && !summary.isCurrentUser && (
+                                <span className="text-sm text-muted-foreground hidden md:inline">
+                                  ({summary.ownerEmail})
+                                </span>
+                              )}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <Badge variant={summary.isCurrentUser ? "default" : "secondary"} className="text-sm">
+                                {summary.clientCount} {summary.clientCount === 1 ? 'cliente' : 'clienti'}
+                              </Badge>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                disabled={isLoadingThis}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  loadOwnerClients(summary.ownerId);
+                                }}
+                              >
+                                {isLoadingThis ? (
+                                  <RefreshCw className="h-4 w-4 animate-spin" />
+                                ) : isExpanded ? (
+                                  <EyeOff className="h-4 w-4" />
+                                ) : (
+                                  <Eye className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </div>
+                          </CardTitle>
+                        </CardHeader>
+                        
+                        {/* Clienti caricati on-demand */}
+                        {isExpanded && (
+                          <CardContent className="pt-6">
+                            {ownerClients.length > 0 ? (
+                              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {ownerClients.map((client: any) => (
+                                  <ClientCard
+                                    key={client.id}
+                                    client={client}
+                                    onUpdate={handleClientUpdated}
+                                    onDelete={handleClientDeleted}
+                                    isOtherAccount={!summary.isCurrentUser}
+                                  />
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-center py-8 text-muted-foreground">
+                                <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                <p>Nessun cliente trovato per questo professionista</p>
+                              </div>
+                            )}
+                          </CardContent>
+                        )}
+                      </Card>
+                    );
+                  })
+                )}
+              </div>
+            ) : filteredClients.length === 0 ? (
+              // Empty state per altri tab
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16">
                   <Users className="h-12 w-12 text-muted-foreground mb-4" />
@@ -405,7 +571,9 @@ export default function Clients() {
                   <p className="text-muted-foreground text-center mb-6">
                     {searchQuery.length >= 2 
                       ? t("clients.noSearchResultsDescription")
-                      : t("clients.noClientsDescription")
+                      : currentUser?.type === 'admin' 
+                        ? "I tuoi clienti personali appariranno qui. Usa il tab 'Staff' per vedere i clienti di altri professionisti."
+                        : t("clients.noClientsDescription")
                     }
                   </p>
                   {searchQuery.length < 2 && (
@@ -416,77 +584,12 @@ export default function Clients() {
                   )}
                 </CardContent>
               </Card>
-            ) : activeTab === "by-staff" && currentUser?.type === 'admin' ? (
-              // Vista raggruppata per professionista (solo admin)
-              <div className="space-y-6">
-                {Object.entries(clientsByStaff).map(([ownerId, staffClients]: [string, any]) => {
-                  // Trova owner metadata
-                  const owner = clientOwners.find((o) => o.id === parseInt(ownerId));
-                  const isAdminClients = parseInt(ownerId) === currentUser.id;
-                  
-                  // Costruisci intestazione con formato: "BUS1422 - busnari.silvia@libero.it"
-                  const ownerName = isAdminClients 
-                    ? `👑 ${owner?.assignmentCode || 'ADMIN'} - ${t("clientsPageNotifications.clientPersonal")}` 
-                    : owner && owner.assignmentCode
-                      ? `${owner.assignmentCode} - ${owner.username}` 
-                      : owner
-                        ? owner.username
-                        : `Professionista ID ${ownerId}`;
-                  
-                  return (
-                    <Card key={ownerId} className="border-2">
-                      <CardHeader className={`${isAdminClients ? 'bg-green-50' : 'bg-blue-50'}`}>
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="flex items-center gap-2">
-                            <Users className="h-5 w-5" />
-                            {ownerName}
-                          </span>
-                          <Badge variant="secondary" className="text-sm">
-                            {staffClients.length} {staffClients.length === 1 ? t("clientsPageNotifications.clientSingular") : t("clientsPageNotifications.clientPlural")}
-                          </Badge>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-6">
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                          {staffClients.map((client: any) => {
-                            const clientUserId = client.user_id || client.ownerId;
-                            const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
-                            
-                            return (
-                              <ClientCard
-                                key={client.id}
-                                client={client}
-                                onUpdate={handleClientUpdated}
-                                onDelete={handleClientDeleted}
-                                isOtherAccount={isOtherAccount}
-                              />
-                            );
-                          })}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
             ) : (
               // Vista normale (griglia semplice)
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredClients.map((client: any, index: number) => {
-                  // SOLUZIONE SEMPLICE: usa user_id (il vero campo di ownership)
+                {filteredClients.map((client: any) => {
                   const clientUserId = client.user_id || client.ownerId;
                   const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
-                  
-                  // Debug per Marco Berto e Bruna Pizzolato
-                  if (client.id === 14003 || client.id === 14004) {
-                    console.log(`🟢 BADGE [${client.firstName} ${client.lastName}]`, {
-                      id: client.id,
-                      user_id: client.user_id,
-                      ownerId: client.ownerId,
-                      myAdminId: currentUser?.id,
-                      isOtherAccount,
-                      BADGE: isOtherAccount ? '🟠 ARANCIONE' : '❌ nessuno'
-                    });
-                  }
                   
                   return (
                     <ClientCard

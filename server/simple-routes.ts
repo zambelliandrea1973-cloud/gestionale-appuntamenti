@@ -492,7 +492,124 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // =====================================================
+  // ADMIN: Riepilogo clienti per professionista (lazy loading)
+  // Restituisce solo il conteggio, non i dati completi
+  // =====================================================
+  app.get("/api/admin/clients-summary", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    // Solo admin può vedere il riepilogo di tutti i professionisti
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso riservato agli amministratori" });
+    }
+    
+    console.log(`📊 [ADMIN-SUMMARY] Richiesta riepilogo clienti per admin ${user.id}`);
+    
+    try {
+      // Conta clienti raggruppati per ownerId (escludi Google Calendar imports)
+      const summary = await db.select({
+        ownerId: clients.ownerId,
+        clientCount: count()
+      })
+      .from(clients)
+      .where(or(
+        sql`${clients.email} IS NULL`,
+        not(like(clients.email, '%@imported.local'))
+      ))
+      .groupBy(clients.ownerId);
+      
+      // Arricchisci con info professionista
+      const enrichedSummary = await Promise.all(summary.map(async (item) => {
+        if (!item.ownerId) return { ...item, ownerName: 'Sconosciuto', ownerEmail: null };
+        
+        const [owner] = await db.select({
+          id: users.id,
+          email: users.email,
+          firstName: users.firstName,
+          lastName: users.lastName,
+          businessName: users.businessName
+        }).from(users).where(eq(users.id, item.ownerId));
+        
+        const ownerName = owner 
+          ? (owner.businessName || `${owner.firstName || ''} ${owner.lastName || ''}`.trim() || owner.email)
+          : 'Sconosciuto';
+        
+        return {
+          ownerId: item.ownerId,
+          clientCount: item.clientCount,
+          ownerName,
+          ownerEmail: owner?.email || null,
+          isCurrentUser: item.ownerId === user.id
+        };
+      }));
+      
+      // Ordina: prima l'utente corrente, poi per numero clienti decrescente
+      enrichedSummary.sort((a, b) => {
+        if (a.isCurrentUser) return -1;
+        if (b.isCurrentUser) return 1;
+        return b.clientCount - a.clientCount;
+      });
+      
+      console.log(`📊 [ADMIN-SUMMARY] Trovati ${enrichedSummary.length} professionisti con clienti`);
+      res.json(enrichedSummary);
+    } catch (error) {
+      console.error(`❌ [ADMIN-SUMMARY] Errore:`, error);
+      res.status(500).json({ message: "Errore nel recupero riepilogo" });
+    }
+  });
+  
+  // =====================================================
+  // ADMIN: Carica clienti di un singolo professionista on-demand
+  // =====================================================
+  app.get("/api/admin/clients-by-owner/:ownerId", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso riservato agli amministratori" });
+    }
+    
+    const ownerId = parseInt(req.params.ownerId, 10);
+    if (isNaN(ownerId)) {
+      return res.status(400).json({ message: "ownerId non valido" });
+    }
+    
+    console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Admin ${user.id} richiede clienti di ownerId ${ownerId}`);
+    
+    try {
+      const ownerClients = await db.select().from(clients)
+        .where(and(
+          eq(clients.ownerId, ownerId),
+          or(
+            sql`${clients.email} IS NULL`,
+            not(like(clients.email, '%@imported.local'))
+          )
+        ))
+        .orderBy(clients.lastName);
+      
+      // Arricchisci con conteggio accessi
+      const clientsWithAccessCount = await Promise.all(ownerClients.map(async (client) => {
+        const [accessResult] = await db.select({ count: count() })
+          .from(clientAccesses)
+          .where(eq(clientAccesses.clientId, client.id));
+        return {
+          ...client,
+          accessCount: accessResult?.count || 0
+        };
+      }));
+      
+      console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Caricati ${clientsWithAccessCount.length} clienti per ownerId ${ownerId}`);
+      res.json(clientsWithAccessCount);
+    } catch (error) {
+      console.error(`❌ [ADMIN-CLIENTS-BY-OWNER] Errore:`, error);
+      res.status(500).json({ message: "Errore nel caricamento clienti" });
+    }
+  });
+
   // Sistema lineare semplice - Clienti
+  // NOTA: Per admin, carica SOLO i propri clienti (lazy loading per gli altri)
   app.get("/api/clients", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
@@ -517,9 +634,25 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per clienti mobile - timestamp: ${Date.now()}`);
     }
     
-    // 🔄 USA POSTGRESQL: Carica dati dal database condiviso (Replit ↔ Sliplane sync)
-    const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
-    console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL (${user.type === 'admin' ? 'tutti' : 'solo propri'})`);
+    // 🔄 LAZY LOADING: Per admin, carica SOLO i propri clienti (usa /api/admin/clients-by-owner per gli altri)
+    let userClients;
+    if (user.type === 'admin') {
+      // Admin: carica SOLO i propri clienti per performance (lazy loading)
+      userClients = await db.select().from(clients)
+        .where(and(
+          eq(clients.ownerId, user.id),
+          or(
+            sql`${clients.email} IS NULL`,
+            not(like(clients.email, '%@imported.local'))
+          )
+        ))
+        .orderBy(clients.lastName);
+      console.log(`📦 [/api/clients] [${deviceType}] Admin: caricati SOLO ${userClients.length} clienti propri (lazy loading attivo)`);
+    } else {
+      // Altri ruoli: usa la funzione standard
+      userClients = await storage.getVisibleClientsForUser(user.id, user.type);
+      console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL`);
+    }
     
     // Arricchisci ogni cliente con il conteggio accessi dalla tabella clientAccesses
     const clientsWithAccessCount = await Promise.all(userClients.map(async (client) => {
@@ -542,23 +675,6 @@ export function registerSimpleRoutes(app: Express): Server {
       accessCount: c.accessCount
     }));
     console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
-    
-    // Debug per admin: mostra distribuzione ownership
-    if (user.type === 'admin') {
-      const ownershipStats = {};
-      clientsWithAccessCount.forEach(client => {
-        const owner = client.ownerId || 'undefined';
-        ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
-      });
-      console.log(`👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId:`, ownershipStats);
-      console.log(`👑 [ADMIN-DEBUG] Admin ID corrente: ${user.id}`);
-      
-      // Conta clienti propri vs altri
-      const ownClients = clientsWithAccessCount.filter(c => c.ownerId === user.id).length;
-      const otherClients = clientsWithAccessCount.filter(c => c.ownerId !== user.id).length;
-      console.log(`👑 [ADMIN-DEBUG] Clienti propri (ownerId ${user.id}): ${ownClients}`);
-      console.log(`👑 [ADMIN-DEBUG] Clienti altri account: ${otherClients}`);
-    }
     
     // Log totale con uniqueCode per identificare il problema
     const clientsWithCodes = clientsWithAccessCount.filter(c => c.uniqueCode);
