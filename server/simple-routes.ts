@@ -70,7 +70,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
 import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable } from '../shared/schema';
-import { eq, and, asc, desc, gte, lte, or, lt, gt, innerJoin, sql, count } from 'drizzle-orm';
+import { eq, and, asc, desc, gte, lte, or, lt, gt, not, like, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
 interface Client {
