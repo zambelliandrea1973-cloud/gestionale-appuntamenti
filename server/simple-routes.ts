@@ -69,7 +69,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses } from '../shared/schema';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
@@ -7768,69 +7768,51 @@ Studio Professionale`;
     }
   });
 
-  // Consent endpoints
-  app.get("/api/consents/client", (req, res) => {
+  // Consent endpoints - USANO DATABASE POSTGRESQL
+  app.get("/api/consents/client", async (req, res) => {
     try {
-      const storageData = loadStorageData();
-      const consents = storageData.consents || [];
+      const allConsents = await db.select().from(consentsTable);
       
-      console.log(`📋 [GET CONSENTS] Richiesta lista consensi - trovati ${consents.length} consensi`);
+      console.log(`📋 [GET CONSENTS DB] Richiesta lista consensi - trovati ${allConsents.length} consensi`);
       
-      res.json(consents);
+      res.json(allConsents);
     } catch (error) {
       console.error('❌ [ERRORE GET CONSENTS]:', error);
       res.status(500).json({ error: 'Errore durante il caricamento dei consensi' });
     }
   });
 
-  app.post("/api/consents", (req, res) => {
+  app.post("/api/consents", async (req, res) => {
     try {
-      const { clientId, consentText, signature } = req.body;
+      const { clientId, consentText, consentProvided, signature } = req.body;
+      const user = (req as any).user;
       
-      console.log(`📋 [POST CONSENT] Registrazione consenso per cliente ${clientId}`);
+      console.log(`📋 [POST CONSENT DB] Registrazione consenso per cliente ${clientId}, user: ${user?.id}`);
       
-      if (!clientId || !consentText) {
-        return res.status(400).json({ error: 'ClientId e consentText sono richiesti' });
+      if (!clientId) {
+        return res.status(400).json({ error: 'ClientId è richiesto' });
       }
       
-      const storageData = loadStorageData();
+      const parsedClientId = parseInt(clientId);
+      const userId = user?.id || 0;
       
-      // Crea il nuovo consenso
-      const consent = {
-        id: Date.now(),
-        clientId: parseInt(clientId),
-        consentText,
+      const newConsent = await storage.createConsent({
+        userId,
+        clientId: parsedClientId,
+        consentText: consentText || 'Consenso digitale GDPR',
+        consentProvided: consentProvided !== undefined ? consentProvided : true,
         signature: signature || `Consenso digitale - ${new Date().toLocaleString()}`,
-        createdAt: new Date().toISOString(),
-        isActive: true
-      };
+      });
       
-      // Salva il consenso
-      if (!storageData.consents) storageData.consents = [];
-      storageData.consents.push(consent);
-      
-      // AGGIORNA AUTOMATICAMENTE IL CLIENTE CON hasConsent: true
-      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === parseInt(clientId));
-      if (clientIndex !== -1) {
-        const [id, client] = storageData.clients[clientIndex];
-        client.hasConsent = true;
-        console.log(`✅ [AUTO UPDATE] Cliente ${client.firstName} ${client.lastName} aggiornato con hasConsent: true`);
-      } else {
-        console.warn(`⚠️ [CONSENT WARNING] Cliente ${clientId} non trovato per aggiornamento hasConsent`);
-      }
-      
-      // Salva tutti i dati
-      saveStorageData(storageData);
-      
-      console.log(`✅ [CONSENT SUCCESS] Consenso registrato per cliente ${clientId} e flag hasConsent aggiornato`);
+      console.log(`✅ [CONSENT DB SUCCESS] Consenso ID ${newConsent.id} registrato per cliente ${parsedClientId} e hasConsent aggiornato nel database`);
       
       res.json({ 
         success: true, 
         message: 'Consenso registrato con successo',
-        consent 
+        consent: newConsent
       });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ [ERRORE POST CONSENT]:', error);
       res.status(500).json({ error: 'Errore durante la registrazione del consenso' });
     }
