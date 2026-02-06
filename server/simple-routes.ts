@@ -69,7 +69,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable } from '../shared/schema';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, not, like, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
@@ -527,14 +527,20 @@ export function registerSimpleRoutes(app: Express): Server {
         const [owner] = await db.select({
           id: users.id,
           email: users.email,
-          firstName: users.firstName,
-          lastName: users.lastName,
-          businessName: users.businessName
+          username: users.username
         }).from(users).where(eq(users.id, item.ownerId));
         
-        const ownerName = owner 
-          ? (owner.businessName || `${owner.firstName || ''} ${owner.lastName || ''}`.trim() || owner.email)
-          : 'Sconosciuto';
+        let ownerName = owner?.email || owner?.username || 'Sconosciuto';
+        
+        if (owner) {
+          const [settings] = await db.select({
+            businessName: userSettingsTable.businessName
+          }).from(userSettingsTable).where(eq(userSettingsTable.userId, owner.id));
+          
+          if (settings?.businessName) {
+            ownerName = settings.businessName;
+          }
+        }
         
         return {
           ownerId: item.ownerId,
