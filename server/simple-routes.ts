@@ -51,6 +51,8 @@ import { calculateAvailableSlots } from './services/bookingAvailability';
 
 // Lock per prevenire race condition nel tracking accessi client
 const clientAccessLocks = new Map<number, number>();
+// Lock per prevenire duplicati nel tracking accessi utenti (30 minuti tra un accesso e l'altro)
+const userAccessLocks = new Map<number, number>();
 
 // Import centralizzato per JSON storage
 import { loadStorageData, saveStorageData } from './utils/jsonStorage';
@@ -69,7 +71,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable } from '../shared/schema';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable, userLogins } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, not, like, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
@@ -1176,6 +1178,27 @@ export function registerSimpleRoutes(app: Express): Server {
     const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`🔐 [${deviceType}] /api/user-with-license per utente ${user.id} (${user.username})`);
+    
+    // 📊 TRACKING SESSIONE: Registra accesso ogni 30 minuti per utenti staff/admin
+    try {
+      const now = Date.now();
+      const lastAccess = userAccessLocks.get(user.id) || 0;
+      const thirtyMinutesInMs = 30 * 60 * 1000;
+      
+      if (now - lastAccess > thirtyMinutesInMs) {
+        userAccessLocks.set(user.id, now);
+        const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+        const ua = req.headers['user-agent'] || 'unknown';
+        await db.insert(userLogins).values({
+          userId: user.id,
+          ipAddress: ip.substring(0, 45),
+          userAgent: ua.substring(0, 500)
+        });
+        console.log(`📊 [SESSION-TRACKING] Accesso registrato per utente ${user.id} (${user.username}) - pausa >30min`);
+      }
+    } catch (trackErr) {
+      console.error(`⚠️ [SESSION-TRACKING] Errore (non bloccante):`, trackErr);
+    }
     
     // Carica dati completi dal storage per nome/cognome aggiornati
     const storageData = loadStorageData();
