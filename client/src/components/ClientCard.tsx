@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -74,38 +74,37 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     }
   }, [client.id, client.ownerId, currentUser?.id, isOtherAccountProp, isOtherAccount]);
   
-  // Verifica se esiste già un token per questo cliente
+  const cardRef = useRef<HTMLDivElement>(null);
+  const qrLoadedRef = useRef(false);
+
   useEffect(() => {
-    const checkExistingQrCode = async () => {
-      try {
-        console.log(`🔍 [FRONTEND] Richiesta QR per cliente: ${client.firstName} ${client.lastName} (ID: ${client.id})`);
-        const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
-        if (response.ok) {
-          const data = await response.json();
-          console.log(`✅ [FRONTEND] QR ricevuto per cliente: ${data.clientName || 'Nome non disponibile'}`);
-          if (data && data.qrCode) {
-            setClientQrCode(data.qrCode);
-          }
-          if (data && data.token) {
-            setClientToken(data.token);
-          }
-        } else if (response.status === 404) {
-          // Cliente non esiste nel sistema - ignora silenziosamente
-          return;
+    if (qrLoadedRef.current || clientQrCode) return;
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && !qrLoadedRef.current) {
+          qrLoadedRef.current = true;
+          observer.disconnect();
+          (async () => {
+            try {
+              const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
+              if (response.ok) {
+                const data = await response.json();
+                if (data?.qrCode) setClientQrCode(data.qrCode);
+                if (data?.token) setClientToken(data.token);
+              }
+            } catch (_) {}
+          })();
         }
-      } catch (error) {
-        // Ignora completamente gli errori 404 per evitare spam nei log
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        if (errorMessage.includes('404') || errorMessage.includes('Cliente non trovato')) {
-          return;
-        }
-        // Log solo per errori reali (non 404)
-        console.error(t('errors.qrCodeFetchError'), error);
-      }
-    };
-    
-    checkExistingQrCode();
-  }, [client.id]);
+      },
+      { rootMargin: '200px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [client.id, clientQrCode]);
   
   // Delete mutation con prevenzione totale del caching
   // Mutazione per sbloccare la cancellazione di clienti importati eliminati alla fonte
@@ -265,7 +264,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   const isDeletionUnlocked = client.deletionUnlocked === true;
 
   return (
-    <Card className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''} ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : ''}`}>
+    <Card ref={cardRef} className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''} ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : ''}`}>
       {/* Notifica cliente eliminato alla fonte */}
       {isDeletedAtSource && (
         <div className="bg-red-100 px-3 py-2 text-xs text-red-800 font-medium border-b border-red-200 flex items-center justify-between">
