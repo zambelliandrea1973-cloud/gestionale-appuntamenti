@@ -650,50 +650,63 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per clienti mobile - timestamp: ${Date.now()}`);
     }
     
-    // 🔄 LAZY LOADING: Per admin, carica SOLO i propri clienti (usa /api/admin/clients-by-owner per gli altri)
-    let userClients;
+    const startTime = Date.now();
+    
+    const excludeImported = or(
+      sql`${clients.email} IS NULL`,
+      not(like(clients.email, '%@imported.local'))
+    );
+    
+    let ownerCondition;
     if (user.type === 'admin') {
-      // Admin: carica SOLO i propri clienti per performance (lazy loading)
-      userClients = await db.select().from(clients)
-        .where(and(
-          eq(clients.ownerId, user.id),
-          or(
-            sql`${clients.email} IS NULL`,
-            not(like(clients.email, '%@imported.local'))
-          )
-        ))
-        .orderBy(clients.lastName);
-      console.log(`📦 [/api/clients] [${deviceType}] Admin: caricati SOLO ${userClients.length} clienti propri (lazy loading attivo)`);
-    } else {
-      // Altri ruoli: usa la funzione standard
-      userClients = await storage.getVisibleClientsForUser(user.id, user.type);
-      console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL`);
-    }
-    
-    const clientIds = userClients.map(c => c.id);
-    let accessCountMap: Record<number, number> = {};
-    if (clientIds.length > 0) {
-      const accessCounts = await db.select({
-        clientId: clientAccesses.clientId,
-        count: count()
-      })
-        .from(clientAccesses)
-        .where(sql`${clientAccesses.clientId} IN (${sql.join(clientIds.map(id => sql`${id}`), sql`, `)})`)
-        .groupBy(clientAccesses.clientId);
-      
-      for (const row of accessCounts) {
-        accessCountMap[row.clientId] = row.count;
+      ownerCondition = eq(clients.ownerId, user.id);
+    } else if (user.type === 'staff') {
+      const [staffUser] = await db.select().from(users).where(eq(users.id, user.id));
+      if (!staffUser?.assignmentCode) {
+        return res.json([]);
       }
+      const userPrefix = staffUser.assignmentCode.substring(0, 3);
+      ownerCondition = or(
+        eq(clients.ownerId, user.id),
+        like(clients.uniqueCode, `${userPrefix}-%`)
+      );
+    } else {
+      ownerCondition = eq(clients.ownerId, user.id);
     }
     
-    const clientsWithAccessCount = userClients.map(client => ({
-      ...client,
-      accessCount: accessCountMap[client.id] || 0
-    }));
+    const results = await db.select({
+      id: clients.id,
+      userId: clients.userId,
+      firstName: clients.firstName,
+      lastName: clients.lastName,
+      phone: clients.phone,
+      email: clients.email,
+      address: clients.address,
+      birthday: clients.birthday,
+      notes: clients.notes,
+      isFrequent: clients.isFrequent,
+      medicalNotes: clients.medicalNotes,
+      allergies: clients.allergies,
+      createdAt: clients.createdAt,
+      hasConsent: clients.hasConsent,
+      ownerId: clients.ownerId,
+      assignmentCode: clients.assignmentCode,
+      uniqueCode: clients.uniqueCode,
+      newUniqueCode: clients.newUniqueCode,
+      taxCode: clients.taxCode,
+      vatNumber: clients.vatNumber,
+      emailBlocked: clients.emailBlocked,
+      emailBlockedReason: clients.emailBlockedReason,
+      accessCount: sql<number>`COALESCE((SELECT COUNT(*) FROM client_accesses WHERE client_accesses.client_id = ${clients.id}), 0)`.as('accessCount'),
+    })
+      .from(clients)
+      .where(and(ownerCondition, excludeImported))
+      .orderBy(clients.lastName);
     
-    console.log(`📦 [/api/clients] [${deviceType}] Totale: ${clientsWithAccessCount.length} clienti, ${Object.keys(accessCountMap).length} con accessi`);
+    const elapsed = Date.now() - startTime;
+    console.log(`📦 [/api/clients] [${deviceType}] ${results.length} clienti in ${elapsed}ms (1 query con subquery conteggio)`);
     
-    res.json(clientsWithAccessCount);
+    res.json(results);
   });
 
   app.post("/api/clients", async (req, res) => {
