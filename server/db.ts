@@ -9,18 +9,21 @@ if (!process.env.DATABASE_URL) {
 }
 
 // Crea il client postgres con configurazione sicura
+const isProduction = process.env.NODE_ENV === 'production' || process.env.SLIPLANE_SKIP_GZIP === 'true';
+
 const client = postgres(process.env.DATABASE_URL, {
-  max: 10, // massimo numero di connessioni
-  ssl: 'prefer', // abilitare SSL per la sicurezza
-  prepare: false, // disabilitare la preparazione automatica delle dichiarazioni
-  onnotice: () => {}, // gestione degli avvisi
-  debug: (connection, query, params) => {
-    // LOG CRITICO: Cattura TUTTE le query SQL per debug errore "syntax error at or near '='"
-    console.log('🔍 [SQL DEBUG] Query:', query);
-    if (params && params.length > 0) {
-      console.log('🔍 [SQL DEBUG] Params:', params);
-    }
-  },
+  max: 10,
+  ssl: 'prefer',
+  prepare: false,
+  onnotice: () => {},
+  ...(isProduction ? {} : {
+    debug: (connection: any, query: string, params: any[]) => {
+      console.log('🔍 [SQL DEBUG] Query:', query);
+      if (params && params.length > 0) {
+        console.log('🔍 [SQL DEBUG] Params:', params);
+      }
+    },
+  }),
 });
 
 export const db = drizzle(client, { schema });

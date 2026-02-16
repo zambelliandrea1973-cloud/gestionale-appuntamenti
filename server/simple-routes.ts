@@ -597,15 +597,23 @@ export function registerSimpleRoutes(app: Express): Server {
         ))
         .orderBy(clients.lastName);
       
-      // Arricchisci con conteggio accessi
-      const clientsWithAccessCount = await Promise.all(ownerClients.map(async (client) => {
-        const [accessResult] = await db.select({ count: count() })
+      const ownerClientIds = ownerClients.map(c => c.id);
+      let ownerAccessMap: Record<number, number> = {};
+      if (ownerClientIds.length > 0) {
+        const ownerAccessCounts = await db.select({
+          clientId: clientAccesses.clientId,
+          count: count()
+        })
           .from(clientAccesses)
-          .where(eq(clientAccesses.clientId, client.id));
-        return {
-          ...client,
-          accessCount: accessResult?.count || 0
-        };
+          .where(sql`${clientAccesses.clientId} IN (${sql.join(ownerClientIds.map(id => sql`${id}`), sql`, `)})`)
+          .groupBy(clientAccesses.clientId);
+        for (const row of ownerAccessCounts) {
+          ownerAccessMap[row.clientId] = row.count;
+        }
+      }
+      const clientsWithAccessCount = ownerClients.map(client => ({
+        ...client,
+        accessCount: ownerAccessMap[client.id] || 0
       }));
       
       console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Caricati ${clientsWithAccessCount.length} clienti per ownerId ${ownerId}`);
@@ -662,31 +670,28 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL`);
     }
     
-    // Arricchisci ogni cliente con il conteggio accessi dalla tabella clientAccesses
-    const clientsWithAccessCount = await Promise.all(userClients.map(async (client) => {
-      const [accessResult] = await db.select({ count: count() })
+    const clientIds = userClients.map(c => c.id);
+    let accessCountMap: Record<number, number> = {};
+    if (clientIds.length > 0) {
+      const accessCounts = await db.select({
+        clientId: clientAccesses.clientId,
+        count: count()
+      })
         .from(clientAccesses)
-        .where(eq(clientAccesses.clientId, client.id));
-      return {
-        ...client,
-        accessCount: accessResult?.count || 0
-      };
+        .where(sql`${clientAccesses.clientId} IN (${sql.join(clientIds.map(id => sql`${id}`), sql`, `)})`)
+        .groupBy(clientAccesses.clientId);
+      
+      for (const row of accessCounts) {
+        accessCountMap[row.clientId] = row.count;
+      }
+    }
+    
+    const clientsWithAccessCount = userClients.map(client => ({
+      ...client,
+      accessCount: accessCountMap[client.id] || 0
     }));
     
-    // Log dettagliato dei primi 5 clienti per debugging completo
-    const sampleClients = clientsWithAccessCount.slice(0, 5).map(c => ({
-      id: c.id,
-      firstName: c.firstName,
-      lastName: c.lastName,
-      uniqueCode: c.uniqueCode,
-      ownerId: c.ownerId,
-      accessCount: c.accessCount
-    }));
-    console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
-    
-    // Log totale con uniqueCode per identificare il problema
-    const clientsWithCodes = clientsWithAccessCount.filter(c => c.uniqueCode);
-    console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${clientsWithAccessCount.length}`);
+    console.log(`📦 [/api/clients] [${deviceType}] Totale: ${clientsWithAccessCount.length} clienti, ${Object.keys(accessCountMap).length} con accessi`);
     
     res.json(clientsWithAccessCount);
   });
@@ -699,8 +704,10 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`📝 [POST /api/clients] Dati ricevuti:`, req.body);
     
     try {
-      // 🔄 USA POSTGRESQL: Verifica limiti basati sul piano
-      const currentClients = (await storage.getVisibleClientsForUser(user.id, user.type)).length;
+      const [clientCountResult] = await db.select({ count: count() })
+        .from(clients)
+        .where(eq(clients.ownerId, user.id));
+      const currentClients = clientCountResult?.count || 0;
       
       const limits = {
         admin: 'unlimited',
