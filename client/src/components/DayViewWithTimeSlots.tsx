@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Loader2, Trash2, Edit, Plus, Calendar } from "lucide-react";
+import { Loader2, Trash2, Edit, Plus, Calendar, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -900,8 +901,19 @@ export default function DayViewWithTimeSlots({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-4 text-gray-500">
-                Nessun servizio disponibile
+              <div className="text-center py-6 text-gray-500 space-y-3">
+                <p>{t('services.noServices', 'Nessun servizio disponibile. Crea il primo servizio!')}</p>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => {
+                    setShowServiceSelector(false);
+                    window.location.href = '/settings';
+                  }}
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  {t('services.goToSettings', 'Vai alle Impostazioni')}
+                </Button>
               </div>
             )}
           </div>

@@ -255,8 +255,9 @@ export default function SimpleServiceManager() {
           {loading && services.length === 0 ? (
             <div className="text-center py-8">{t('services.loading')}</div>
           ) : services.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              {t('services.noServices')}
+            <div className="text-center py-8 text-muted-foreground space-y-3">
+              <p>{t('services.noServices')}</p>
+              <p className="text-sm">{t('services.noServicesHint', 'Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.')}</p>
             </div>
           ) : (
             <Table>

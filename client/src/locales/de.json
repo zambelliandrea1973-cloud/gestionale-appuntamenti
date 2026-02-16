@@ -184,6 +184,8 @@
     "price": "Preis",
     "loading": "Dienste werden geladen...",
     "noServices": "Keine Dienste vorhanden. Erstellen Sie Ihren ersten Dienst!",
+    "goToSettings": "Zu den Einstellungen",
+    "noServicesHint": "Konfigurieren Sie die Dienste, die Sie anbieten, um Buchungen zu erhalten.",
     "name": "Name",
     "duration": "Dauer",
     "color": "Farbe",

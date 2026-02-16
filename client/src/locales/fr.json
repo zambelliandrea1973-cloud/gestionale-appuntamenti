@@ -184,6 +184,8 @@
     "price": "Prix",
     "loading": "Chargement des services...",
     "noServices": "Aucun service présent. Créez votre premier service !",
+    "goToSettings": "Aller aux Paramètres",
+    "noServicesHint": "Configurez les services que vous proposez pour commencer à recevoir des réservations.",
     "name": "Nom",
     "duration": "Durée",
     "color": "Couleur",

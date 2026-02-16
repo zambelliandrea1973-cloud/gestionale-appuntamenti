@@ -713,8 +713,9 @@ export default function ServiceManager() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-4">
-                    Nessun servizio disponibile. Aggiungi il tuo primo servizio!
+                  <TableCell colSpan={5} className="text-center py-6">
+                    <p className="text-muted-foreground">Nessun servizio disponibile. Aggiungi il tuo primo servizio!</p>
+                    <p className="text-sm text-muted-foreground mt-1">Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.</p>
                   </TableCell>
                 </TableRow>
               )}

@@ -184,6 +184,8 @@
     "price": "Preț",
     "loading": "Se încarcă serviciile...",
     "noServices": "Niciun serviciu prezent. Creează primul tău serviciu!",
+    "goToSettings": "Mergi la Setări",
+    "noServicesHint": "Configurează serviciile pe care le oferi pentru a începe să primești rezervări.",
     "name": "Nume",
     "duration": "Durată",
     "color": "Culoare",

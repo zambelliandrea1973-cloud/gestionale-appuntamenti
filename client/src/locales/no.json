@@ -184,6 +184,8 @@
     "price": "Pris",
     "loading": "Laster tjenester...",
     "noServices": "Ingen tjenester tilstede. Opprett din første tjeneste!",
+    "goToSettings": "Gå til Innstillinger",
+    "noServicesHint": "Konfigurer tjenestene du tilbyr for å begynne å motta bestillinger.",
     "name": "Navn",
     "duration": "Varighet",
     "color": "Farge",

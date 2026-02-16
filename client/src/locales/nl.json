@@ -184,6 +184,8 @@
     "price": "Prijs",
     "loading": "Diensten laden...",
     "noServices": "Geen diensten aanwezig. Maak uw eerste dienst aan!",
+    "goToSettings": "Ga naar Instellingen",
+    "noServicesHint": "Configureer de diensten die u aanbiedt om boekingen te ontvangen.",
     "name": "Naam",
     "duration": "Duur",
     "color": "Kleur",
