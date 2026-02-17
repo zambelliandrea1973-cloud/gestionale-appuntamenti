@@ -901,6 +901,27 @@ export default function AppointmentForm({
                         {/* Lista dei risultati filtrati */}
                         {isServiceDropdownOpen && (
                           <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1">
+                            {services.length === 0 ? (
+                              <div className="p-3 text-center">
+                                <p className="text-sm text-muted-foreground mb-2">
+                                  {t('calendar.noServicesAvailable', 'Nessun servizio disponibile')}
+                                </p>
+                                <a 
+                                  href="/settings"
+                                  className="text-sm text-primary font-medium hover:underline cursor-pointer"
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    window.location.href = '/settings';
+                                  }}
+                                >
+                                  {t('calendar.goToSettingsToCreateService', 'Vai alle Impostazioni per creare un servizio')}
+                                </a>
+                              </div>
+                            ) : filteredServices.length === 0 ? (
+                              <div className="p-3 text-center text-sm text-muted-foreground">
+                                {t('calendar.noServicesFound', 'Nessun servizio trovato')}
+                              </div>
+                            ) : null}
                             {filteredServices.map((service: any) => {
                               const isFromPackage = packageServiceIds.has(service.id);
                               const packageForService = isFromPackage ? getPackageForService(service.id) : null;
