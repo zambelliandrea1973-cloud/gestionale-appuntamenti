@@ -1,0 +1,1251 @@
+17/02/2026, 14:42:09:
+runtime
+1:42:09 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:09:
+runtime
+1:42:09 PM [express] GET /api/client-access/count/4593 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:09:
+runtime
+1:42:09 PM [express] GET /api/client-access/count/82 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:15:
+runtime
+1:42:15 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/576 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/70 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4585 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4583 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4599 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/82 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4593 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/577 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:19:
+runtime
+1:42:19 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/576 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4582 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4583 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/4591 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:29:
+runtime
+1:42:29 PM [express] GET /api/client-access/count/577 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4585 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/78 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4583 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4603 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/14004 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4600 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4593 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4592 401 in 4ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/82 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:39:
+runtime
+1:42:39 PM [express] GET /api/client-access/count/577 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:46:
+runtime
+1:42:46 PM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4582 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4584 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4603 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:49:
+runtime
+1:42:49 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4601 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/14004 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/14002 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/95 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4599 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:42:59:
+runtime
+1:42:59 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/577 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/78 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4603 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:09:
+runtime
+1:43:09 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:16:
+runtime
+1:43:16 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/577 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4591 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/95 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4599 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4601 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4603 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/78 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/110 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/14002 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:19:
+runtime
+1:43:19 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:29:
+runtime
+1:43:29 PM [express] GET /api/client-access/count/576 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4583 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4600 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4602 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/82 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/78 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4584 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4593 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4585 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:30:
+runtime
+1:43:30 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/95 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4584 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4591 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4590 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:40:
+runtime
+1:43:40 PM [express] GET /api/client-access/count/4603 401 in 4ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:46:
+runtime
+1:43:46 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/576 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4591 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/14004 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/82 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4603 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:43:50:
+runtime
+1:43:50 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4582 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/14002 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/78 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4591 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4600 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/14004 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:00:
+runtime
+1:44:00 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/95 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/4603 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:10:
+runtime
+1:44:10 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:16:
+runtime
+1:44:16 PM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/576 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/95 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/14002 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/82 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:20:
+runtime
+1:44:20 PM [express] GET /api/client-access/count/4601 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:21:
+runtime
+1:44:21 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:21:
+runtime
+1:44:21 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:21:
+runtime
+1:44:21 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4582 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:30:
+runtime
+1:44:30 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:31:
+runtime
+1:44:31 PM [express] GET /api/client-access/count/578 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:31:
+runtime
+1:44:31 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:31:
+runtime
+1:44:31 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/577 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4591 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/95 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4582 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4599 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/576 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:43:
+runtime
+1:44:43 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:48:
+runtime
+1:44:48 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:53:
+runtime
+1:44:53 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:53:
+runtime
+1:44:53 PM [express] GET /api/client-access/count/4597 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 14:44:53:
+runtime
+1:44:53 PM [express] GET /api/client-access/count/14002 401 in 0ms :: {"me
