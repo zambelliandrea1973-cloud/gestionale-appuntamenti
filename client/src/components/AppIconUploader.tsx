@@ -394,7 +394,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
             disabled={isUsingDefault}
           >
             <Undo2 className="h-3 w-3" />
-            {isUsingDefault ? 'Ripristino...' : 'Ripristina'}
+            {isUsingDefault ? 'Ripristino...' : 'Ripristina l\'icona predefinita'}
           </Button>
         </div>
       </div>
