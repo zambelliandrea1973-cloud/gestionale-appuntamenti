@@ -355,12 +355,15 @@ export default function Clients() {
           <Input
             placeholder={t("clients.searchPlaceholder")}
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setVisibleCount(CLIENTS_PER_PAGE);
+            }}
             className="pl-10"
           />
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={(val) => { setActiveTab(val); setVisibleCount(CLIENTS_PER_PAGE); }} className="w-full">
           <TabsList className={`grid w-full gap-1 ${currentUser?.type === 'admin' ? 'grid-cols-3 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-3'}`}>
             <TabsTrigger value="all" className="flex items-center gap-1 text-xs sm:text-sm px-2">
               <Users className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -529,23 +532,37 @@ export default function Clients() {
                 </CardContent>
               </Card>
             ) : (
-              // Vista normale (griglia semplice)
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredClients.map((client: any) => {
-                  const clientUserId = client.user_id || client.ownerId;
-                  const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
-                  
-                  return (
-                    <ClientCard
-                      key={client.id}
-                      client={client}
-                      onUpdate={handleClientUpdated}
-                      onDelete={handleClientDeleted}
-                      isOtherAccount={isOtherAccount}
-                    />
-                  );
-                })}
-              </div>
+              // Vista normale (griglia semplice) con paginazione
+              <>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredClients.slice(0, visibleCount).map((client: any) => {
+                    const clientUserId = client.user_id || client.ownerId;
+                    const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
+                    
+                    return (
+                      <ClientCard
+                        key={client.id}
+                        client={client}
+                        onUpdate={handleClientUpdated}
+                        onDelete={handleClientDeleted}
+                        isOtherAccount={isOtherAccount}
+                      />
+                    );
+                  })}
+                </div>
+                {visibleCount < filteredClients.length && (
+                  <div className="flex justify-center mt-6">
+                    <Button
+                      variant="outline"
+                      onClick={() => setVisibleCount(prev => prev + CLIENTS_PER_PAGE)}
+                      className="px-8"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      {Math.min(visibleCount, filteredClients.length)} / {filteredClients.length} — {t("clients.loadMore", "Carica altri")}
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
           </TabsContent>
         </Tabs>
