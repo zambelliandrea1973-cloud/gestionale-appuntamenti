@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, Check, AlertCircle, Image as ImageIcon, RefreshCw, Undo2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -290,25 +290,31 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Icona dell'App Cliente</h3>
-        {!isLoadingInfo && iconInfo?.exists && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex items-center text-xs"
-            onClick={fetchIconInfo}
-            disabled={isLoadingInfo}
-          >
-            <RefreshCw className={`h-3 w-3 mr-1 ${isLoadingInfo ? 'animate-spin' : ''}`} />
-            Aggiorna
-          </Button>
-        )}
-      </div>
-      <p className="text-sm text-muted-foreground mb-4">
-        Carica un'icona personalizzata che verrà usata sia per l'app principale che per l'app cliente. Questa icona sarà visualizzata sulla schermata home di tutti i dispositivi (sia i tuoi che quelli dei clienti).
-      </p>
+    <Card className="border-2">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <ImageIcon className="h-5 w-5" />
+            Icona dell'App Cliente
+          </CardTitle>
+          {!isLoadingInfo && iconInfo?.exists && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex items-center text-xs"
+              onClick={fetchIconInfo}
+              disabled={isLoadingInfo}
+            >
+              <RefreshCw className={`h-3 w-3 mr-1 ${isLoadingInfo ? 'animate-spin' : ''}`} />
+              Aggiorna
+            </Button>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Carica un'icona personalizzata che verrà usata sia per l'app principale che per l'app cliente. Questa icona sarà visualizzata sulla schermata home di tutti i dispositivi (sia i tuoi che quelli dei clienti).
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-4">
 
       {!isLoadingInfo && iconInfo?.exists && iconInfo.lastModified && (
         <div className="flex items-center mb-4">
@@ -473,6 +479,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           </div>
         </div>
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

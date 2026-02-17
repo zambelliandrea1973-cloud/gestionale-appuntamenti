@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -308,27 +308,17 @@ export default function Settings() {
                 {t('settings.appearanceDesc', 'Personalizza l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Questa impostazione si applicherà sia all\'app principale che all\'app cliente.')}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-8">
-              <div>
-                <AppIconUploader onIconUpdated={() => {
-                  toast({
-                    title: "Icona Aggiornata",
-                    description: "L'icona PWA è stata personalizzata con successo. I clienti vedranno il tuo logo quando installeranno l'app.",
-                  });
-                }} />
-              </div>
+            <CardContent className="space-y-6">
+              <AppIconUploader onSuccess={() => {
+                toast({
+                  title: "Icona Aggiornata",
+                  description: "L'icona PWA è stata personalizzata con successo. I clienti vedranno il tuo logo quando installeranno l'app.",
+                });
+              }} />
               
-              <div className="pt-4 border-t">
-                <div className="flex items-center mb-4">
-                  <Type className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">{t('settings.companyName', 'Nome Aziendale')}</h3>
-                </div>
-                <CompanyNameEditor />
-              </div>
+              <CompanyNameEditor />
 
-              <div className="pt-4 border-t">
-                <CompanyBusinessDataEditor />
-              </div>
+              <CompanyBusinessDataEditor />
             </CardContent>
           </Card>
         </TabsContent>

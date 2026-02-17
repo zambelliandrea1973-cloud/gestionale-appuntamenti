@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
@@ -145,22 +145,27 @@ export default function CompanyNameEditor() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Nome Aziendale</h3>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="flex items-center gap-2"
-          onClick={handleToggleEnabled}
-        >
-          {settings.enabled ? 'Disattiva' : 'Attiva'}
-        </Button>
-      </div>
-      
-      <p className="text-sm text-muted-foreground">
-        Personalizza il nome aziendale che verrà mostrato nell'app cliente. Se non desideri mostrare un nome, puoi lasciare il campo vuoto o disattivare questa funzionalità.
-      </p>
+    <Card className="border-2">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Type className="h-5 w-5" />
+            Nome Aziendale
+          </CardTitle>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center gap-2"
+            onClick={handleToggleEnabled}
+          >
+            {settings.enabled ? 'Disattiva' : 'Attiva'}
+          </Button>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Personalizza il nome aziendale che verrà mostrato nell'app cliente. Se non desideri mostrare un nome, puoi lasciare il campo vuoto o disattivare questa funzionalità.
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-6">
 
       {saveSuccess && (
         <Alert className="mb-4">
@@ -182,8 +187,7 @@ export default function CompanyNameEditor() {
         </Alert>
       )}
 
-      <Card className={settings.enabled ? "" : "opacity-60"}>
-        <CardContent className="p-6">
+      <div className={settings.enabled ? "" : "opacity-60"}>
           <div className="space-y-6">
             {/* Anteprima */}
             <div>
@@ -323,17 +327,18 @@ export default function CompanyNameEditor() {
             </div>
 
             <div className="pt-4">
-              <Button onClick={saveSettings} className="w-full" disabled={!settings.enabled}>
-                Salva impostazioni
+              <Button onClick={saveSettings} className="w-full flex items-center justify-center gap-2" disabled={!settings.enabled}>
+                <Check className="h-4 w-4" />
+                Salva Nome Aziendale
               </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </div>
 
       <div className="text-xs text-muted-foreground mt-2">
         Nota: Il nome aziendale apparirà nell'app cliente insieme all'icona che hai impostato.
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

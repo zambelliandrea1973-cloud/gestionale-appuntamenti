@@ -115,7 +115,7 @@ export default function CompanyBusinessDataEditor() {
   }
 
   return (
-    <Card>
+    <Card className="border-2">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Building className="h-5 w-5" />
@@ -233,11 +233,11 @@ export default function CompanyBusinessDataEditor() {
           </div>
         </div>
 
-        <div className="flex justify-end pt-4">
+        <div className="pt-4">
           <Button 
             onClick={handleSave} 
             disabled={saving}
-            className="flex items-center gap-2"
+            className="w-full flex items-center justify-center gap-2"
           >
             {saving ? (
               <Loader2 className="h-4 w-4 animate-spin" />
