@@ -365,6 +365,40 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         </div>
       </div>
 
+      <div className="p-4 bg-muted/20 rounded-lg">
+        <div className="flex items-center gap-3">
+          {defaultIconInfo ? (
+            <img 
+              src={defaultIconInfo.url} 
+              alt="Icona predefinita" 
+              className="w-12 h-12 rounded-md object-cover border"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-md border flex items-center justify-center bg-muted">
+              <ImageIcon className="h-6 w-6 text-muted-foreground" />
+            </div>
+          )}
+          <div className="flex-1">
+            <h4 className="text-sm font-medium">
+              Icona predefinita: {defaultIconInfo?.name || "Fleur de Vie multicolore"}
+            </h4>
+            <p className="text-xs text-muted-foreground">
+              Puoi ripristinare questa icona predefinita in qualsiasi momento.
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            className="flex items-center gap-1 shrink-0"
+            onClick={useDefaultIcon}
+            disabled={isUsingDefault}
+          >
+            <Undo2 className="h-3 w-3" />
+            {isUsingDefault ? 'Ripristino...' : 'Ripristina'}
+          </Button>
+        </div>
+      </div>
+
       <Button
         className="w-full flex items-center justify-center gap-2"
         onClick={() => {
@@ -383,39 +417,6 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         <Save className="h-4 w-4" />
         {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
       </Button>
-
-      <Button
-        className="w-full flex items-center justify-center gap-2"
-        onClick={useDefaultIcon}
-        disabled={isUsingDefault}
-      >
-        <Undo2 className="h-4 w-4" />
-        {isUsingDefault ? 'Ripristino in corso...' : 'Torna alla icona predefinita'}
-      </Button>
-      
-      <div className="p-4 bg-muted/20 rounded-lg">
-        <div className="flex items-center gap-3">
-          {defaultIconInfo ? (
-            <img 
-              src={defaultIconInfo.url} 
-              alt="Icona predefinita" 
-              className="w-12 h-12 rounded-md object-cover border"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-md border flex items-center justify-center bg-muted">
-              <ImageIcon className="h-6 w-6 text-muted-foreground" />
-            </div>
-          )}
-          <div>
-            <h4 className="text-sm font-medium">
-              Icona predefinita: {defaultIconInfo?.name || "Fleur de Vie multicolore"}
-            </h4>
-            <p className="text-xs text-muted-foreground">
-              Puoi ripristinare questa icona predefinita in qualsiasi momento.
-            </p>
-          </div>
-        </div>
-      </div>
       </CardContent>
     </Card>
   );
