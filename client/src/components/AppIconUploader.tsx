@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Upload, Check, AlertCircle, Image as ImageIcon, RefreshCw, Undo2 } from 'lucide-react';
+import { Upload, Check, AlertCircle, Image as ImageIcon, Undo2, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
 import { apiRequest } from '@/lib/queryClient';
 
 interface AppIconUploaderProps {
@@ -15,7 +14,6 @@ interface IconInfo {
   exists: boolean;
   isCustom?: boolean;
   iconPath?: string;
-  lastModified?: string;
 }
 
 interface DefaultIconInfo {
@@ -28,14 +26,15 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const [isUsingDefault, setIsUsingDefault] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [currentIconUrl, setCurrentIconUrl] = useState<string | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [pendingPreviewUrl, setPendingPreviewUrl] = useState<string | null>(null);
   const [iconInfo, setIconInfo] = useState<IconInfo | null>(null);
   const [defaultIconInfo, setDefaultIconInfo] = useState<DefaultIconInfo | null>(null);
   const [isLoadingInfo, setIsLoadingInfo] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  // Carica le informazioni sull'icona esistente al mount
   useEffect(() => {
     fetchIconInfo();
   }, []);
@@ -43,23 +42,14 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const fetchIconInfo = async () => {
     setIsLoadingInfo(true);
     try {
-      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
       const response = await apiRequest('GET', '/api/client-app-info');
       if (!response.ok) {
         throw new Error('Errore nel recupero delle informazioni sull\'icona');
       }
 
       const data = await response.json();
-      
-      // STESSA LOGICA NOME AZIENDALE - accesso diretto ai dati
       const iconUrl = data.icon;
       const isDefaultFleurDeVie = iconUrl.startsWith("data:image/jpeg;base64,") && iconUrl.length > 50000;
-      console.log('🖼️ ICONA DEBUG:', {
-        url: iconUrl.substring(0, 50) + '...',
-        length: iconUrl.length,
-        isFleurDeVie: isDefaultFleurDeVie,
-        type: iconUrl.split(';')[0]
-      });
       
       setIconInfo({ 
         exists: true, 
@@ -67,15 +57,11 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         iconPath: iconUrl
       });
 
-      // Carica anche le informazioni sull'icona predefinita per la sezione informativa
       await fetchDefaultIconInfo();
-
-      // Mostra sempre l'icona ricevuta dai dati
-      setPreviewUrl(iconUrl);
+      setCurrentIconUrl(iconUrl);
     } catch (error) {
       console.error('Errore durante il caricamento dell\'icona:', error);
-      // Icona predefinita di fallback
-      setPreviewUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+");
+      setCurrentIconUrl(null);
     } finally {
       setIsLoadingInfo(false);
     }
@@ -83,39 +69,19 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
   const fetchDefaultIconInfo = async () => {
     try {
-      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
       const response = await apiRequest('GET', '/api/default-app-icon');
       if (!response.ok) {
         throw new Error(`Errore HTTP ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
-      
-      console.log('🖼️ ICONA PREDEFINITA RICEVUTA:', {
-        url: data.icon?.substring(0, 50) + '...',
-        length: data.icon?.length,
-        isFleurDeVie: data.icon?.startsWith("data:image/jpeg;base64,") && data.icon?.length > 50000,
-        name: data.name
-      });
-      
       setDefaultIconInfo({
         url: data.icon,
         name: data.name || "Fleur de Vie multicolore"
       });
     } catch (error) {
       console.error('Errore durante il caricamento dell\'icona predefinita:', error);
-      // Non usare fallback - mantieni vuoto per vedere il vero problema
       setDefaultIconInfo(null);
-    }
-  };
-
-  // Funzione per notificare il Service Worker dell'aggiornamento dell'icona
-  const notifyServiceWorkerIconUpdate = (iconUrl: string) => {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'UPDATE_ICON',
-        iconUrl: iconUrl
-      });
     }
   };
 
@@ -125,9 +91,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     setUploadSuccess(false);
 
     try {
-      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
       const response = await apiRequest('POST', '/api/reset-app-icon');
-
       const data = await response.json();
 
       if (!response.ok) {
@@ -135,13 +99,14 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       }
 
       setUploadSuccess(true);
+      setPendingFile(null);
+      setPendingPreviewUrl(null);
       
-      // Ricarica l'icona dal server per ottenere la Fleur de Vie
       window.location.reload();
       
       toast({
         title: "Icona predefinita impostata",
-        description: "L'icona predefinita è stata impostata con successo.",
+        description: "L'icona predefinita è stata ripristinata con successo.",
         variant: "default",
       });
 
@@ -151,10 +116,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
     } catch (error: any) {
       console.error('Errore durante l\'impostazione dell\'icona predefinita:', error);
-      setUploadError(error.message || 'Si è verificato un errore durante l\'impostazione dell\'icona predefinita.');
+      setUploadError(error.message || 'Si è verificato un errore.');
       toast({
         title: "Errore",
-        description: error.message || 'Si è verificato un errore durante l\'impostazione dell\'icona predefinita.',
+        description: error.message || 'Si è verificato un errore.',
         variant: "destructive",
       });
     } finally {
@@ -168,89 +133,84 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     }
   };
 
-  const processFile = (file: File) => {
-    // Verifica dimensione file (max 2MB)
+  const handleFileSelect = (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
       setUploadError('L\'immagine selezionata è troppo grande. La dimensione massima è 2MB.');
       return;
     }
 
-    // Verifica il tipo di file
     if (!file.type.startsWith('image/')) {
       setUploadError('Per favore seleziona un file immagine valido.');
       return;
     }
 
-    // Genera l'URL di anteprima
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewUrl(objectUrl);
+    setUploadError(null);
+    setUploadSuccess(false);
 
-    // Carica il file
-    uploadFile(file);
-    
-    // Non revochiamo l'URL dell'oggetto per mantenere l'anteprima visibile
+    if (pendingPreviewUrl) {
+      URL.revokeObjectURL(pendingPreviewUrl);
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPendingFile(file);
+    setPendingPreviewUrl(objectUrl);
   };
 
-  const uploadFile = async (file: File) => {
+  const saveIcon = async () => {
+    if (!pendingFile) return;
+
     setIsUploading(true);
     setUploadError(null);
     setUploadSuccess(false);
 
     try {
-      // STESSA LOGICA NOME AZIENDALE - converti file in base64
       const reader = new FileReader();
       reader.onload = async (e) => {
-        const iconData = e.target?.result as string;
-        
-        // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
-        const response = await apiRequest('POST', '/api/upload-app-icon', { iconData });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || 'Errore durante il caricamento dell\'icona');
-        }
-
-        setUploadSuccess(true);
-        
-        // Aggiorna immediatamente l'anteprima con l'icona caricata
-        setPreviewUrl(iconData);
-        
-        // SINCRONIZZAZIONE AUTOMATICA ICONE PWA
         try {
-          // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
-          const syncResponse = await apiRequest('POST', '/api/sync-pwa-icons');
-          
-          if (syncResponse.ok) {
-            console.log('✅ Icone PWA sincronizzate automaticamente');
+          const iconData = e.target?.result as string;
+          const response = await apiRequest('POST', '/api/upload-app-icon', { iconData });
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || 'Errore durante il caricamento dell\'icona');
           }
-        } catch (syncError) {
-          console.warn('Errore sincronizzazione PWA:', syncError);
-        }
-        
-        toast({
-          title: "Icona caricata con successo",
-          description: "L'icona dell'app è stata aggiornata e sincronizzata automaticamente per i clienti.",
-          variant: "default",
-        });
 
-        if (onSuccess) {
-          onSuccess();
-        }
+          setUploadSuccess(true);
+          setCurrentIconUrl(iconData);
+          setPendingFile(null);
+          setPendingPreviewUrl(null);
+          setIconInfo(prev => prev ? { ...prev, isCustom: true } : prev);
 
-        setIsUploading(false);
+          try {
+            await apiRequest('POST', '/api/sync-pwa-icons');
+          } catch (syncError) {
+            console.warn('Errore sincronizzazione PWA:', syncError);
+          }
+
+          toast({
+            title: "Icona salvata",
+            description: "L'icona dell'app è stata aggiornata e sincronizzata per i clienti.",
+            variant: "default",
+          });
+
+          if (onSuccess) {
+            onSuccess();
+          }
+        } catch (error: any) {
+          setUploadError(error.message || 'Si è verificato un errore durante il salvataggio.');
+          toast({
+            title: "Errore",
+            description: error.message || 'Si è verificato un errore.',
+            variant: "destructive",
+          });
+        } finally {
+          setIsUploading(false);
+        }
       };
       
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(pendingFile);
     } catch (error: any) {
-      console.error('Errore durante il caricamento dell\'icona:', error);
-      setUploadError(error.message || 'Si è verificato un errore durante il caricamento dell\'icona.');
-      toast({
-        title: "Errore di caricamento",
-        description: error.message || 'Si è verificato un errore durante il caricamento dell\'icona.',
-        variant: "destructive",
-      });
-    } finally {
+      setUploadError(error.message || 'Si è verificato un errore.');
       setIsUploading(false);
     }
   };
@@ -258,7 +218,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      processFile(files[0]);
+      handleFileSelect(files[0]);
     }
   };
 
@@ -268,7 +228,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
     const files = event.dataTransfer.files;
     if (files && files.length > 0) {
-      processFile(files[0]);
+      handleFileSelect(files[0]);
     }
   };
 
@@ -277,65 +237,33 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     event.stopPropagation();
   };
 
-  // Funzione per formattare la data
-  const formatLastModified = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('it-IT', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  };
+  const displayUrl = pendingPreviewUrl || currentIconUrl;
 
   return (
     <Card className="border-2">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <ImageIcon className="h-5 w-5" />
-            Icona dell'App Cliente
-          </CardTitle>
-          {!isLoadingInfo && iconInfo?.exists && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex items-center text-xs"
-              onClick={fetchIconInfo}
-              disabled={isLoadingInfo}
-            >
-              <RefreshCw className={`h-3 w-3 mr-1 ${isLoadingInfo ? 'animate-spin' : ''}`} />
-              Aggiorna
-            </Button>
-          )}
-        </div>
+        <CardTitle className="flex items-center gap-2">
+          <ImageIcon className="h-5 w-5" />
+          Icona dell'App Cliente
+        </CardTitle>
         <p className="text-sm text-muted-foreground">
           Carica un'icona personalizzata che verrà usata sia per l'app principale che per l'app cliente. Questa icona sarà visualizzata sulla schermata home di tutti i dispositivi (sia i tuoi che quelli dei clienti).
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
 
-      {!isLoadingInfo && iconInfo?.exists && iconInfo.lastModified && (
-        <div className="flex items-center mb-4">
-          <Badge variant="outline" className="text-xs font-normal">
-            Ultima modifica: {formatLastModified(iconInfo.lastModified)}
-          </Badge>
-        </div>
-      )}
-
       {uploadSuccess && (
-        <Alert className="mb-4">
+        <Alert>
           <Check className="h-4 w-4" />
-          <AlertTitle>Caricamento completato</AlertTitle>
+          <AlertTitle>Salvato</AlertTitle>
           <AlertDescription>
-            L'icona dell'app è stata aggiornata con successo. Questa icona sarà utilizzata sia per l'app principale che per l'app cliente.
+            L'icona dell'app è stata aggiornata con successo.
           </AlertDescription>
         </Alert>
       )}
 
       {uploadError && (
-        <Alert variant="destructive" className="mb-4">
+        <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Errore</AlertTitle>
           <AlertDescription>
@@ -354,7 +282,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           >
             <Upload className="h-10 w-10 mb-2 mx-auto text-muted-foreground" />
             <p className="text-sm font-medium mb-1">
-              {isUploading ? 'Caricamento in corso...' : 'Trascina qui l\'immagine o fai clic per selezionarla'}
+              Trascina qui l'immagine o fai clic per selezionarla
             </p>
             <p className="text-xs text-muted-foreground">
               SVG, PNG o JPG (max. 2MB)
@@ -373,7 +301,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
               className="mt-4"
               disabled={isUploading}
             >
-              {isUploading ? 'Caricamento...' : 'Seleziona file'}
+              Seleziona file
             </Button>
           </div>
         </div>
@@ -390,10 +318,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
                 ) : (
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-center p-4 bg-background rounded-lg border">
-                      {previewUrl ? (
+                      {displayUrl ? (
                         <img 
-                          src={previewUrl} 
-                          alt="App Icon Preview" 
+                          src={displayUrl} 
+                          alt="Anteprima icona" 
                           className="max-w-full max-h-24 object-contain"
                         />
                       ) : (
@@ -409,10 +337,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
                         <span className="text-muted-foreground">Dispositivo cliente:</span>
                         <div className="flex items-center">
                           <span className="flex items-center justify-center w-8 h-8 bg-background rounded-md border mr-1 shadow-sm">
-                            {previewUrl ? (
+                            {displayUrl ? (
                               <img 
-                                src={previewUrl} 
-                                alt="App Icon Preview Small"
+                                src={displayUrl} 
+                                alt="Icona piccola"
                                 className="max-w-full max-h-6 object-contain" 
                               />
                             ) : (
@@ -423,7 +351,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
                         </div>
                       </div>
                       
-                      {previewUrl && (
+                      {displayUrl && (
                         <p className="text-xs text-muted-foreground mt-2">
                           L'icona verrà visualizzata sulla home screen dei dispositivi quando i clienti installeranno l'app.
                         </p>
@@ -434,29 +362,33 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
               </div>
             </CardContent>
           </Card>
-          
-          {/* Pulsante per usare l'icona predefinita */}
-          {!isLoadingInfo && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4 w-full flex items-center justify-center gap-2"
-              onClick={useDefaultIcon}
-              disabled={isUsingDefault || (iconInfo?.exists && !iconInfo?.isCustom)}
-            >
-              <Undo2 className="h-4 w-4" />
-              {isUsingDefault ? 'Impostazione...' : (
-                iconInfo?.exists && !iconInfo?.isCustom 
-                  ? 'Icona predefinita già in uso'
-                  : 'Usa icona predefinita'
-              )}
-            </Button>
-          )}
         </div>
       </div>
+
+      {pendingFile && (
+        <Button
+          className="w-full"
+          onClick={saveIcon}
+          disabled={isUploading}
+        >
+          <Save className="h-4 w-4 mr-2" />
+          {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
+        </Button>
+      )}
       
-      {/* Informazioni sull'icona predefinita */}
-      <div className="mt-6 p-4 bg-muted/20 rounded-lg">
+      {!isLoadingInfo && iconInfo?.isCustom && (
+        <Button
+          variant="outline"
+          className="w-full flex items-center justify-center gap-2"
+          onClick={useDefaultIcon}
+          disabled={isUsingDefault}
+        >
+          <Undo2 className="h-4 w-4" />
+          {isUsingDefault ? 'Ripristino in corso...' : 'Torna alla icona predefinita'}
+        </Button>
+      )}
+      
+      <div className="p-4 bg-muted/20 rounded-lg">
         <div className="flex items-center gap-3">
           {defaultIconInfo ? (
             <img 
