@@ -366,8 +366,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       </div>
 
       <Button
-        className="w-full"
-        variant={pendingFile ? "default" : "outline"}
+        className="w-full flex items-center justify-center gap-2"
         onClick={() => {
           if (!pendingFile) {
             toast({
@@ -381,12 +380,11 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         }}
         disabled={isUploading}
       >
-        <Save className="h-4 w-4 mr-2" />
+        <Save className="h-4 w-4" />
         {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
       </Button>
 
       <Button
-        variant="outline"
         className="w-full flex items-center justify-center gap-2"
         onClick={useDefaultIcon}
         disabled={isUsingDefault}
