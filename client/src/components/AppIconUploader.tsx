@@ -365,23 +365,21 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         </div>
       </div>
 
-      {pendingFile && (
-        <Button
-          className="w-full"
-          onClick={saveIcon}
-          disabled={isUploading}
-        >
-          <Save className="h-4 w-4 mr-2" />
-          {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
-        </Button>
-      )}
-      
-      {!isLoadingInfo && iconInfo?.isCustom && (
+      <Button
+        className="w-full"
+        onClick={saveIcon}
+        disabled={isUploading || !pendingFile}
+      >
+        <Save className="h-4 w-4 mr-2" />
+        {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
+      </Button>
+
+      {!isLoadingInfo && (
         <Button
           variant="outline"
           className="w-full flex items-center justify-center gap-2"
           onClick={useDefaultIcon}
-          disabled={isUsingDefault}
+          disabled={isUsingDefault || !iconInfo?.isCustom}
         >
           <Undo2 className="h-4 w-4" />
           {isUsingDefault ? 'Ripristino in corso...' : 'Torna alla icona predefinita'}
