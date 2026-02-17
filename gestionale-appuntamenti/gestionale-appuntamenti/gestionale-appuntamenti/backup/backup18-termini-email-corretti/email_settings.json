@@ -1,0 +1,12 @@
+{
+  "emailEnabled": true,
+  "emailAddress": "zambelli.andrea.1973@gmail.com",
+  "emailPassword": "jdxz cthu lmsu lakn",
+  "emailTemplate": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale",
+  "emailSubject": "Promemoria appuntamento del {{data}}",
+  "calendarEnabled": false,
+  "calendarId": "",
+  "googleAuthStatus": {
+    "authorized": false
+  }
+}

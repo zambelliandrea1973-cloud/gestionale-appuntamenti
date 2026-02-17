@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test QR Diretto Marco</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .button { display: inline-block; padding: 15px 25px; background-color: #28a745; color: white; text-decoration: none; border-radius: 8px; margin: 10px 0; }
+        .old-button { background-color: #dc3545; }
+        .info { background-color: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <h1>Test QR Code Diretto per Marco Berto</h1>
+    
+    <div class="info">
+        <h3>Nuovo Flusso Diretto (Riparato):</h3>
+        <p>QR → /client-area?token=...&clientId=...&autoLogin=true</p>
+        <p>Dovrebbe aprire direttamente la PWA di Marco senza passaggi intermedi</p>
+    </div>
+    
+    <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3&clientId=1750177330362&autoLogin=true" 
+       class="button" target="_blank">
+        🎯 NUOVO QR DIRETTO - Marco Berto
+    </a>
+    
+    <hr>
+    
+    <div class="info">
+        <h3>Vecchio Flusso (Problematico):</h3>
+        <p>QR → /activate → /auto-login → /client-area</p>
+        <p>Questo causava il problema di login manuale</p>
+    </div>
+    
+    <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3" 
+       class="button old-button" target="_blank">
+        🔄 VECCHIO QR (Per confronto)
+    </a>
+    
+    <hr>
+    
+    <h3>Cosa dovrebbe succedere con il NUOVO QR:</h3>
+    <ol>
+        <li>Vai direttamente alla client-area</li>
+        <li>Parametri URL automaticamente rilevati</li>
+        <li>Token validato tramite API</li>
+        <li>Autenticazione automatica come Marco</li>
+        <li>PWA personale di Marco visualizzata</li>
+    </ol>
+    
+    <h3>Debug Info:</h3>
+    <p><strong>Token:</strong> PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3</p>
+    <p><strong>Client ID:</strong> 1750177330362</p>
+    <p><strong>Auto Login:</strong> true</p>
+</body>
+</html>

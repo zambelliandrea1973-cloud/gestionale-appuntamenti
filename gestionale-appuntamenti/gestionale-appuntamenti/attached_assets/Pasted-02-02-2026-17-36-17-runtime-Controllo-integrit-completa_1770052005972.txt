@@ -1,0 +1,3371 @@
+02/02/2026, 17:36:17:
+runtime
+✅ Controllo integrità completato
+02/02/2026, 17:36:17:
+runtime
+4:36:17 PM [express] serving on port 5000
+02/02/2026, 17:36:17:
+runtime
+✅ PostgreSQL database is available
+02/02/2026, 17:36:18:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 17:36:18:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 17:36:18:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 17:36:18:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 17:36:18:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 17:36:18:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 17:36:18:
+runtime
+      order by b.oid
+02/02/2026, 17:36:18:
+runtime
+    
+02/02/2026, 17:36:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "phone_number", "is_verified", "is_active", "created_at", "updated_at" from "phones" where "phones"."is_active" = $1
+02/02/2026, 17:36:18:
+runtime
+🔍 [SQL DEBUG] Params: [ true ]
+02/02/2026, 17:36:18:
+runtime
+Telefono caricato dal database: +393472550110
+02/02/2026, 17:36:22:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+02/02/2026, 17:36:22:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 17:36:22:
+runtime
+  '2026-02-02T15:36:22.748Z',
+02/02/2026, 17:36:22:
+runtime
+  '2026-02-03T22:36:22.748Z',
+02/02/2026, 17:36:22:
+runtime
+  '%sent%',
+02/02/2026, 17:36:22:
+runtime
+  '%email%'
+02/02/2026, 17:36:22:
+runtime
+]
+02/02/2026, 17:41:01:
+build
+Enumerating objects: 25404, done.
+02/02/2026, 17:41:01:
+build
+Counting objects: 100% (3649/3649), done.
+02/02/2026, 17:41:01:
+build
+Compressing objects: 100% (366/366), done.
+02/02/2026, 17:41:33:
+build
+Total 25404 (delta 3486), reused 3370 (delta 3283), pack-reused 21755 (from 3)
+02/02/2026, 17:42:41:
+build
+#1 [service_event_x46iv63misdp internal] load build definition from Dockerfile
+02/02/2026, 17:42:41:
+build
+#1 transferring dockerfile: 927B done
+02/02/2026, 17:42:41:
+build
+#1 DONE 0.0s
+02/02/2026, 17:42:41:
+build
+02/02/2026, 17:42:41:
+build
+#2 [service_event_x46iv63misdp internal] load metadata for docker.io/library/node:20-alpine
+02/02/2026, 17:42:42:
+build
+#2 DONE 0.9s
+02/02/2026, 17:42:42:
+build
+02/02/2026, 17:42:42:
+build
+02/02/2026, 17:42:42:
+build
+#3 [service_event_x46iv63misdp internal] load .dockerignore
+02/02/2026, 17:42:42:
+build
+#3 transferring context: 740B done
+02/02/2026, 17:42:42:
+build
+#3 DONE 0.0s
+02/02/2026, 17:42:42:
+build
+#4 [service_event_x46iv63misdp 1/8] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+02/02/2026, 17:42:42:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0.0s done
+02/02/2026, 17:42:42:
+build
+#4 DONE 0.0s
+02/02/2026, 17:42:42:
+build
+02/02/2026, 17:42:42:
+build
+#5 [service_event_x46iv63misdp internal] load build context
+02/02/2026, 17:42:47:
+build
+#5 transferring context: 1.58GB 4.9s
+02/02/2026, 17:42:51:
+build
+#5 transferring context: 2.99GB 9.4s done
+02/02/2026, 17:42:55:
+build
+#5 DONE 13.1s
+02/02/2026, 17:42:55:
+build
+02/02/2026, 17:42:55:
+build
+#6 [service_event_x46iv63misdp 2/8] WORKDIR /app
+02/02/2026, 17:42:55:
+build
+#6 CACHED
+02/02/2026, 17:42:55:
+build
+02/02/2026, 17:42:55:
+build
+#7 [service_event_x46iv63misdp 3/8] COPY package.json package-lock.json ./
+02/02/2026, 17:42:55:
+build
+#7 CACHED
+02/02/2026, 17:42:55:
+build
+02/02/2026, 17:42:55:
+build
+#8 [service_event_x46iv63misdp 4/8] RUN npm ci
+02/02/2026, 17:42:55:
+build
+#8 CACHED
+02/02/2026, 17:42:55:
+build
+02/02/2026, 17:42:55:
+build
+#9 [service_event_x46iv63misdp 5/8] RUN echo "Build timestamp: 2026-01-28-16:00"
+02/02/2026, 17:42:55:
+build
+#9 CACHED
+02/02/2026, 17:42:55:
+build
+02/02/2026, 17:42:55:
+build
+#10 [service_event_x46iv63misdp 6/8] COPY . .
+02/02/2026, 17:43:28:
+build
+#10 DONE 33.4s
+02/02/2026, 17:43:29:
+build
+02/02/2026, 17:43:29:
+build
+#11 [service_event_x46iv63misdp 7/8] RUN npx vite build
+02/02/2026, 17:43:30:
+build
+#11 1.337 vite v5.4.14 building for production...
+02/02/2026, 17:43:30:
+build
+#11 1.842 
+02/02/2026, 17:43:30:
+build
+#11 1.856 
+02/02/2026, 17:43:30:
+build
+#11 1.856 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+02/02/2026, 17:43:31:
+build
+#11 1.862 transforming...
+02/02/2026, 17:43:31:
+build
+#11 1.912 Browserslist: browsers data (caniuse-lite) is 16 months old. Please run:
+02/02/2026, 17:43:31:
+build
+#11 1.912   npx update-browserslist-db@latest
+02/02/2026, 17:43:31:
+build
+#11 1.912   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+02/02/2026, 17:43:43:
+build
+#11 14.86 ✓ 3694 modules transformed.
+02/02/2026, 17:43:45:
+build
+#11 16.37 [plugin:vite:reporter] [plugin vite:reporter] 
+02/02/2026, 17:43:45:
+build
+#11 16.37 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/ForgotPasswordPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+02/02/2026, 17:43:45:
+build
+#11 16.37 
+02/02/2026, 17:43:45:
+build
+#11 16.37 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.#11 16.37 [plugin:vite:reporter] [plugin vite:reporter] 
+02/02/2026, 17:43:45:
+build
+02/02/2026, 17:43:45:
+build
+#11 16.37 
+02/02/2026, 17:43:45:
+build
+#11 16.37 rendering chunks...
+02/02/2026, 17:43:45:
+build
+#11 16.45 computing gzip size...
+02/02/2026, 17:43:45:
+build
+#11 16.55 ../dist/public/index.html                    15.38 kB │ gzip:   4.41 kB
+02/02/2026, 17:43:45:
+build
+#11 16.55 ../dist/public/assets/index-BdU4QYLA.css    124.15 kB │ gzip:  19.43 kB
+02/02/2026, 17:43:45:
+build
+#11 16.55 ../dist/public/assets/index-BbkS6jbA.js   2,661.01 kB │ gzip: 725.08 kB
+02/02/2026, 17:43:45:
+build
+#11 16.55 
+02/02/2026, 17:43:45:
+build
+#11 16.55 (!) Some chunks are larger than 500 kB after minification. Consider:
+02/02/2026, 17:43:45:
+build
+#11 16.55 - Using dynamic import() to code-split the application
+02/02/2026, 17:43:45:
+build
+#11 16.55 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+02/02/2026, 17:43:45:
+build
+#11 16.55 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+02/02/2026, 17:43:45:
+build
+#11 16.55 ✓ built in 15.16s
+02/02/2026, 17:43:45:
+build
+#11 DONE 16.7s
+02/02/2026, 17:43:45:
+build
+02/02/2026, 17:43:45:
+build
+#12 [service_event_x46iv63misdp 8/8] RUN cp -r dist/public server/public
+02/02/2026, 17:43:45:
+build
+#12 DONE 0.2s
+02/02/2026, 17:43:45:
+build
+02/02/2026, 17:43:45:
+build
+#13 [service_event_x46iv63misdp] exporting to image
+02/02/2026, 17:43:45:
+build
+#13 exporting layers
+02/02/2026, 17:44:56:
+build
+#13 exporting layers 70.6s done
+02/02/2026, 17:44:56:
+build
+#13 exporting manifest sha256:77c653fae5139feaa437279c4272430329f28b0bee5b16fecb6b1ad9d5c351b5 0.0s done
+02/02/2026, 17:44:56:
+build
+#13 exporting config sha256:05a9859e3e16ee1a580c46527bc87f3ef808b4c49f35865c0c7ff14500b45567 0.0s done
+02/02/2026, 17:44:56:
+build
+#13 pushing layers
+02/02/2026, 17:45:01:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 17:45:01:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 17:45:01:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 17:45:01:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 17:45:01:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 17:45:01:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 17:45:01:
+runtime
+      order by b.oid
+02/02/2026, 17:45:01:
+runtime
+    
+02/02/2026, 17:45:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+02/02/2026, 17:45:01:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 17:45:01:
+runtime
+  '2026-02-02T15:45:00.350Z',
+02/02/2026, 17:45:01:
+runtime
+  '2026-02-03T22:45:00.350Z',
+02/02/2026, 17:45:01:
+runtime
+  '%sent%',
+02/02/2026, 17:45:01:
+runtime
+  '%email%'
+02/02/2026, 17:45:01:
+runtime
+]
+02/02/2026, 17:45:24:
+build
+#13 pushing layers 27.6s done
+02/02/2026, 17:45:24:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_x46iv63misdp@sha256:77c653fae5139feaa437279c4272430329f28b0bee5b16fecb6b1ad9d5c351b5
+02/02/2026, 17:45:24:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_x46iv63misdp@sha256:77c653fae5139feaa437279c4272430329f28b0bee5b16fecb6b1ad9d5c351b5 0.1s done
+02/02/2026, 17:45:24:
+build
+#13 DONE 98.4s
+02/02/2026, 17:45:25:
+build
+service_event_x46iv63misdp: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+02/02/2026, 17:45:25:
+build
+589002ba0eae: Already exists
+02/02/2026, 17:45:25:
+build
+ad6d96c196e3: Already exists
+02/02/2026, 17:45:25:
+build
+eb87f4721c91: Already exists
+02/02/2026, 17:45:25:
+build
+e31b20165522: Already exists
+02/02/2026, 17:45:25:
+build
+4ba4e4caec76: Already exists
+02/02/2026, 17:45:25:
+build
+fb2c669ad8db: Already exists
+02/02/2026, 17:45:25:
+build
+24266be3c570: Already exists
+02/02/2026, 17:45:25:
+build
+4f4fb700ef54: Already exists
+02/02/2026, 17:45:25:
+build
+9a3ff47facba: Pulling fs layer
+02/02/2026, 17:45:25:
+build
+8690d848ae25: Pulling fs layer
+02/02/2026, 17:45:25:
+build
+cf84015be125: Pulling fs layer
+02/02/2026, 17:45:25:
+build
+8690d848ae25: Verifying Checksum
+02/02/2026, 17:45:25:
+build
+8690d848ae25: Download complete
+02/02/2026, 17:45:25:
+build
+cf84015be125: Verifying Checksum
+02/02/2026, 17:45:25:
+build
+cf84015be125: Download complete
+02/02/2026, 17:45:36:
+build
+9a3ff47facba: Verifying Checksum
+02/02/2026, 17:45:36:
+build
+9a3ff47facba: 9a3ff47facba: Pull complete
+02/02/2026, 17:45:58:
+build
+8690d848ae25: Pull complete
+02/02/2026, 17:45:58:
+build
+cf84015be125: Pull complete
+02/02/2026, 17:45:58:
+build
+Digest: sha256:77c653fae5139feaa437279c4272430329f28b0bee5b16fecb6b1ad9d5c351b5
+02/02/2026, 17:45:58:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_x46iv63misdp
+02/02/2026, 17:46:02:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+02/02/2026, 17:46:03:
+runtime
+Servizio gestione telefono diretto inizializzato
+02/02/2026, 17:46:03:
+runtime
+Debug OAuth URL: {
+02/02/2026, 17:46:03:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+02/02/2026, 17:46:03:
+runtime
+}
+02/02/2026, 17:46:03:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+02/02/2026, 17:46:03:
+runtime
+Google Credentials: {
+02/02/2026, 17:46:03:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+02/02/2026, 17:46:03:
+runtime
+  secretPresent: 'Present'
+02/02/2026, 17:46:03:
+runtime
+}
+02/02/2026, 17:46:03:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+02/02/2026, 17:46:03:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+02/02/2026, 17:46:03:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 17:46:04:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 17:46:04:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 17:46:04:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 17:46:04:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      order by b.oid
+02/02/2026, 17:46:04:
+runtime
+    
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 17:46:04:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 17:46:04:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 17:46:04:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 17:46:04:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      order by b.oid
+02/02/2026, 17:46:04:
+runtime
+    
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 17:46:04:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 17:46:04:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 17:46:04:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 17:46:04:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 17:46:04:
+runtime
+      order by b.oid
+02/02/2026, 17:46:04:
+runtime
+    
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "phone_number", "is_verified", "is_active", "created_at", "updated_at" from "phones" where "phones"."is_active" = $1
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Params: [ true ]
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: select count(*) from "users"
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" limit $1
+02/02/2026, 17:46:04:
+runtime
+🔍 [SQL DEBUG] Params: [ 1 ]
+02/02/2026, 17:46:05:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+02/02/2026, 17:46:05:
+runtime
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+02/02/2026, 17:46:05:
+runtime
+🔐 [AUTH] Cookie settings: secure=true, sameSite=none
+02/02/2026, 17:46:05:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+02/02/2026, 17:46:05:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+02/02/2026, 17:46:05:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+02/02/2026, 17:46:05:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+02/02/2026, 17:46:05:
+runtime
+🔍 Controllo integrità all'avvio:
+02/02/2026, 17:46:05:
+runtime
+   📅 Appuntamenti caricati: 50
+02/02/2026, 17:46:05:
+runtime
+   👥 Clienti caricati: 40
+02/02/2026, 17:46:05:
+runtime
+   🔍 Primi 3 appuntamenti: [
+02/02/2026, 17:46:05:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+02/02/2026, 17:46:05:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+02/02/2026, 17:46:05:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+02/02/2026, 17:46:05:
+runtime
+]
+02/02/2026, 17:46:05:
+runtime
+✅ Controllo integrità completato
+02/02/2026, 17:46:05:
+runtime
+4:46:05 PM [express] serving on port 5000
+02/02/2026, 17:46:05:
+runtime
+Telefono caricato dal database: +393472550110
+02/02/2026, 17:46:05:
+runtime
+✅ PostgreSQL database is available
+02/02/2026, 17:46:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+02/02/2026, 17:46:10:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 17:46:10:
+runtime
+  '2026-02-02T15:46:10.076Z',
+02/02/2026, 17:46:10:
+runtime
+  '2026-02-03T22:46:10.076Z',
+02/02/2026, 17:46:10:
+runtime
+  '%sent%',
+02/02/2026, 17:46:10:
+runtime
+  '%email%'
+02/02/2026, 17:46:10:
+runtime
+]
+02/02/2026, 17:50:48:
+runtime
+4:50:48 PM [express] GET /api/license/has-business-access 200 in 4ms
+02/02/2026, 17:50:48:
+runtime
+4:50:48 PM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+02/02/2026, 17:50:48:
+runtime
+4:50:48 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] Session ID: yQWiUJ2h7SM0BiMgRzcCs1-akGmiNoI9
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] req.user: undefined
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] Cookie header: present
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 17:50:48:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+02/02/2026, 17:50:48:
+runtime
+4:50:48 PM [express] GET /api/license/has-pro-access 200 in 2ms
+02/02/2026, 17:50:49:
+runtime
+4:50:49 PM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 17:52:32:
+runtime
+4:52:32 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+02/02/2026, 17:52:32:
+runtime
+4:52:32 PM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] Session ID: EV8QKfyVYPZGgcNKubIef5XBNdltWTDT
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] req.user: undefined
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] Cookie header: present
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 17:52:32:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+02/02/2026, 17:52:32:
+runtime
+4:52:32 PM [express] GET /api/license/has-pro-access 304 in 2ms
+02/02/2026, 17:52:32:
+runtime
+4:52:32 PM [express] GET /api/license/has-business-access 304 in 4ms
+02/02/2026, 17:52:34:
+runtime
+4:52:34 PM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 17:53:06:
+runtime
+4:53:06 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 17:53:06:
+runtime
+4:53:06 PM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] Session ID: RCRt9Q2qu4NtB-eDfge5TMVCOWYECrNK
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] req.user: undefined
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] Cookie header: present
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 17:53:06:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+02/02/2026, 17:53:06:
+runtime
+4:53:06 PM [express] GET /api/license/has-pro-access 304 in 2ms
+02/02/2026, 17:53:06:
+runtime
+4:53:06 PM [express] GET /api/license/has-business-access 304 in 1ms
+02/02/2026, 17:53:07:
+runtime
+4:53:07 PM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:00:01:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:00:01:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:00:01:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:00:01:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:00:01:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:00:01:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:00:01:
+runtime
+      order by b.oid
+02/02/2026, 18:00:01:
+runtime
+    
+02/02/2026, 18:00:02:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+02/02/2026, 18:00:02:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:00:02:
+runtime
+  '2026-02-02T16:00:00.997Z',
+02/02/2026, 18:00:02:
+runtime
+  '2026-02-03T23:00:00.997Z',
+02/02/2026, 18:00:02:
+runtime
+  '%sent%',
+02/02/2026, 18:00:02:
+runtime
+  '%email%'
+02/02/2026, 18:00:02:
+runtime
+]
+02/02/2026, 18:00:59:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+02/02/2026, 18:00:59:
+runtime
+Logout completato con successo
+02/02/2026, 18:00:59:
+runtime
+5:00:59 PM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+02/02/2026, 18:01:00:
+runtime
+5:01:00 PM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+02/02/2026, 18:01:00:
+runtime
+5:01:00 PM [express] GET /api/license/has-business-access 304 in 0ms
+02/02/2026, 18:01:00:
+runtime
+5:01:00 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] Session ID: GGWysRR-QrTKJSkjJIfAh4IglhZsprcr
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] req.user: undefined
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] Cookie header: missing
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 18:01:00:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+02/02/2026, 18:01:00:
+runtime
+5:01:00 PM [express] GET /api/license/has-pro-access 304 in 1ms
+02/02/2026, 18:01:00:
+runtime
+5:01:00 PM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:01:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+02/02/2026, 18:01:01:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1770051661614-default
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:01:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+02/02/2026, 18:01:01:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1770051661622.225&android=1","/pwa-icon/192x192?owner=default&v=1770051661622.225&android=1","/pwa-icon/512x512?owner=default&v=1770051661622.225&android=1"]
+02/02/2026, 18:01:01:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+02/02/2026, 18:01:01:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+02/02/2026, 18:01:01:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+02/02/2026, 18:01:01:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+02/02/2026, 18:01:01:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+02/02/2026, 18:01:03:
+runtime
+5:01:03 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+02/02/2026, 18:01:03:
+runtime
+5:01:03 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:03:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+02/02/2026, 18:01:03:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1770051663968-default
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:03:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:03:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+02/02/2026, 18:01:03:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1770051663968.498&android=1","/pwa-icon/192x192?owner=default&v=1770051663968.498&android=1","/pwa-icon/512x512?owner=default&v=1770051663968.498&android=1"]
+02/02/2026, 18:01:03:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+02/02/2026, 18:01:03:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+02/02/2026, 18:01:04:
+runtime
+5:01:04 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+02/02/2026, 18:01:04:
+runtime
+5:01:04 PM [express] GET /api/timezone-settings 304 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+02/02/2026, 18:01:04:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:04:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1770051664396-default
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:01:04:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:04:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+02/02/2026, 18:01:04:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1770051664397.7024&android=1","/pwa-icon/192x192?owner=default&v=1770051664397.7024&android=1","/pwa-icon/512x512?owner=default&v=1770051664397.7024&android=1"]
+02/02/2026, 18:01:04:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+02/02/2026, 18:01:04:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+02/02/2026, 18:01:04:
+runtime
+5:01:04 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Ro…
+02/02/2026, 18:01:07:
+runtime
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+02/02/2026, 18:01:07:
+runtime
+🔐 [LOGIN] IP: 94.162.41.58, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Sa
+02/02/2026, 18:01:07:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+02/02/2026, 18:01:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where ("users"."username" = $1 or "users"."email" = $2)
+02/02/2026, 18:01:07:
+runtime
+🔍 [SQL DEBUG] Params: [ 'zambelli.andrea.1973@gmail.com', 'zambelli.andrea.1973@gmail.com' ]
+02/02/2026, 18:01:07:
+runtime
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+02/02/2026, 18:01:07:
+runtime
+🔐 [LOGIN] Session ID: o2TYUjOF3cxt51m5Lw1wKY_PFj0GqcTH
+02/02/2026, 18:01:07:
+runtime
+🔐 [LOGIN] Session saved: yes
+02/02/2026, 18:01:07:
+runtime
+🔍 [SQL DEBUG] Query: insert into "user_logins" ("id", "user_id", "login_at", "ip_address", "user_agent") values (default, $1, default, $2, $3)
+02/02/2026, 18:01:07:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:01:07:
+runtime
+  3,
+02/02/2026, 18:01:07:
+runtime
+  '94.162.41.58',
+02/02/2026, 18:01:07:
+runtime
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Sa'
+02/02/2026, 18:01:07:
+runtime
+]
+02/02/2026, 18:01:07:
+runtime
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+02/02/2026, 18:01:07:
+runtime
+5:01:07 PM [express] POST /api/staff/login 200 in 337ms :: {"id":3,"username":"zambelli.andrea.1973@…
+02/02/2026, 18:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:08:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /dashboard
+02/02/2026, 18:01:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:08:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /forced-style.css
+02/02/2026, 18:01:08:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:08:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:08:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:08:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:08:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:08:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:08:
+runtime
+      order by b.oid
+02/02/2026, 18:01:08:
+runtime
+    
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:09:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+02/02/2026, 18:01:09:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:09:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:09:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:09:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:09:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      order by b.oid
+02/02/2026, 18:01:09:
+runtime
+    
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:09:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:09:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:09:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:09:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      order by b.oid
+02/02/2026, 18:01:09:
+runtime
+    
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:09:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:09:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:09:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:09:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:09:
+runtime
+      order by b.oid
+02/02/2026, 18:01:09:
+runtime
+    
+02/02/2026, 18:01:09:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+02/02/2026, 18:01:09:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+02/02/2026, 18:01:09:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+02/02/2026, 18:01:09:
+runtime
+  id: 3,
+02/02/2026, 18:01:09:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:01:09:
+runtime
+  firstName: null,
+02/02/2026, 18:01:09:
+runtime
+  lastName: null,
+02/02/2026, 18:01:09:
+runtime
+  licenseType: 'passepartout'
+02/02/2026, 18:01:09:
+runtime
+}
+02/02/2026, 18:01:09:
+runtime
+5:01:09 PM [express] GET /api/user-with-license 200 in 1608ms :: {"id":3,"username":"zambelli.andrea…
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:09:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-BdU4QYLA.css
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /disable-vite-overlay.js
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-BbkS6jbA.js
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+02/02/2026, 18:01:10:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+02/02/2026, 18:01:10:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1770051670308-default
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+02/02/2026, 18:01:10:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:01:10:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+02/02/2026, 18:01:10:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1770051670312.8408&android=1","/pwa-icon/192x192?owner=default&v=1770051670312.8408&android=1","/pwa-icon/512x512?owner=default&v=1770051670312.8408&android=1"]
+02/02/2026, 18:01:10:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+02/02/2026, 18:01:10:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+02/02/2026, 18:01:10:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+02/02/2026, 18:01:10:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+02/02/2026, 18:01:10:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] GET /api/timezone-settings 200 in 246ms :: {"timezone":"Europe/Rome","offset":-…
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/client-app-info
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] Session ID: o2TYUjOF3cxt51m5Lw1wKY_PFj0GqcTH
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] Cookie header: present
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 18:01:10:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+02/02/2026, 18:01:10:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/license-info
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] GET /api/license/has-pro-access 200 in 288ms :: true
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] GET /api/license/license-info 200 in 291ms :: {"hasLicense":true,"type":"passep…
+02/02/2026, 18:01:10:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+02/02/2026, 18:01:10:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] GET /api/client-app-info 200 in 437ms :: {"appName":"Gestionale Appuntamenti","…
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:10:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+02/02/2026, 18:01:10:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+02/02/2026, 18:01:10:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+02/02/2026, 18:01:10:
+runtime
+  id: 3,
+02/02/2026, 18:01:10:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:01:10:
+runtime
+  firstName: null,
+02/02/2026, 18:01:10:
+runtime
+  lastName: null,
+02/02/2026, 18:01:10:
+runtime
+  licenseType: 'passepartout'
+02/02/2026, 18:01:10:
+runtime
+}
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] GET /api/user-with-license 304 in 549ms :: {"id":3,"username":"zambelli.andrea.…
+02/02/2026, 18:01:10:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+02/02/2026, 18:01:10:
+runtime
+5:01:10 PM [express] POST /api/timezone-settings 200 in 235ms :: {"success":true,"timezone":"Europe/…
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+02/02/2026, 18:01:11:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+02/02/2026, 18:01:11:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1770051675538' }
+02/02/2026, 18:01:11:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+02/02/2026, 18:01:11:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+02/02/2026, 18:01:11:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+02/02/2026, 18:01:11:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1770051671035.746&admin=1","/pwa-icon/192x192?owner=3&v=1770051671035.746&admin=1","/pwa-icon/512x512?owner=3&v=1770051671035.746&admin=1"]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:11:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:11:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:11:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:11:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      order by b.oid
+02/02/2026, 18:01:11:
+runtime
+    
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:11:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:11:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:11:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:11:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      order by b.oid
+02/02/2026, 18:01:11:
+runtime
+    
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:11:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:11:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:11:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:11:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      order by b.oid
+02/02/2026, 18:01:11:
+runtime
+    
+02/02/2026, 18:01:11:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:01:11:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:01:11:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:01:11:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:01:11:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:01:11:
+runtime
+      order by b.oid
+02/02/2026, 18:01:11:
+runtime
+    
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/company-name-settings
+02/02/2026, 18:01:11:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+02/02/2026, 18:01:11:
+runtime
+Recupero impostazioni per utente 3
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/contact-info
+02/02/2026, 18:01:11:
+runtime
+Recupero impostazioni per utente 3
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/tenant-context 200 in 244ms :: {"userId":3,"userType":"admin","tenantI…
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+Impostazioni trovate per utente 3: SI
+02/02/2026, 18:01:11:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+02/02/2026, 18:01:11:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+02/02/2026, 18:01:11:
+runtime
+  showBusinessName: true,
+02/02/2026, 18:01:11:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:01:11:
+runtime
+  fontSize: 24,
+02/02/2026, 18:01:11:
+runtime
+  fontFamily: 'Times New Roman',
+02/02/2026, 18:01:11:
+runtime
+  fontStyle: 'normal',
+02/02/2026, 18:01:11:
+runtime
+  color: '#000000',
+02/02/2026, 18:01:11:
+runtime
+  enabled: true
+02/02/2026, 18:01:11:
+runtime
+}
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/company-name-settings 200 in 490ms :: {"businessName":"Gestionale Appu…
+02/02/2026, 18:01:11:
+runtime
+Impostazioni trovate per utente 3: SI
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/contact-info 200 in 485ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/license/has-business-access 200 in 1304ms :: true
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/application-title
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/license/application-title 304 in 1318ms :: {"title":"Gestionale Appunt…
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:11:
+runtime
+5:01:11 PM [express] GET /api/booking-requests 200 in 1575ms :: []
+02/02/2026, 18:01:11:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+02/02/2026, 18:01:11:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+02/02/2026, 18:01:11:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:27:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+02/02/2026, 18:01:27:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+02/02/2026, 18:01:27:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1770051692464' }
+02/02/2026, 18:01:27:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+02/02/2026, 18:01:27:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+02/02/2026, 18:01:27:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+02/02/2026, 18:01:27:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1770051687969.0825&admin=1","/pwa-icon/192x192?owner=3&v=1770051687969.0825&admin=1","/pwa-icon/512x512?owner=3&v=1770051687969.0825&admin=1"]
+02/02/2026, 18:01:28:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:28:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/currency-settings
+02/02/2026, 18:01:28:
+runtime
+💰 [GET] Recupero impostazioni valuta per utente 3
+02/02/2026, 18:01:28:
+runtime
+💰 Recupero impostazioni valuta per utente 3
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "currency", "symbol", "created_at", "updated_at" from "currency_settings" where "currency_settings"."user_id" = $1 limit $2
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:01:28:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:01:28:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/services
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."user_id" = $1 order by "services"."name"
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:28:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/admin/notifications
+02/02/2026, 18:01:28:
+runtime
+5:01:28 PM [express] GET /api/admin/notifications 200 in 277ms :: [{"id":1769248444049,"clientId":0,…
+02/02/2026, 18:01:28:
+runtime
+ℹ️ Nessuna impostazione valuta per utente 3, uso default EUR €
+02/02/2026, 18:01:28:
+runtime
+5:01:28 PM [express] GET /api/currency-settings 304 in 473ms :: {"currency":"EUR","symbol":"€"}
+02/02/2026, 18:01:28:
+runtime
+✅ NUOVO Sistema: 10 servizi per utente 3 - SEPARAZIONE COMPLETA
+02/02/2026, 18:01:28:
+runtime
+🔧 [/api/services] [desktop] Caricati 10 servizi da PostgreSQL per utente 3
+02/02/2026, 18:01:28:
+runtime
+5:01:28 PM [express] GET /api/services 304 in 484ms :: [{"id":75,"userId":3,"name":"Bicom","duration…
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:28:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:28:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:01:28:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+02/02/2026, 18:01:28:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+02/02/2026, 18:01:29:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:29:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:30:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/email-calendar-settings
+02/02/2026, 18:01:30:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+02/02/2026, 18:01:30:
+runtime
+Recupero impostazioni per utente 3
+02/02/2026, 18:01:30:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:01:30:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:01:30:
+runtime
+Impostazioni trovate per utente 3: SI
+02/02/2026, 18:01:30:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+02/02/2026, 18:01:30:
+runtime
+5:01:30 PM [express] GET /api/email-calendar-settings 304 in 470ms :: {"emailEnabled":true,"emailAdd…
+02/02/2026, 18:01:41:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:01:41:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:42:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:01:42:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:01:42:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:01:42:
+runtime
+5:01:42 PM [express] GET /api/booking-requests 304 in 467ms :: []
+02/02/2026, 18:02:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:02:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:02:12:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:02:12:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:02:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:02:12:
+runtime
+5:02:12 PM [express] GET /api/booking-requests 304 in 480ms :: []
+02/02/2026, 18:02:43:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:02:43:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:02:43:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:02:43:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:02:43:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:02:43:
+runtime
+5:02:43 PM [express] GET /api/booking-requests 304 in 470ms :: []
+02/02/2026, 18:03:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:03:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:03:13:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:03:13:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:03:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:03:14:
+runtime
+5:03:14 PM [express] GET /api/booking-requests 304 in 471ms :: []
+02/02/2026, 18:03:44:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:03:44:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:03:44:
+runtime
+5:03:44 PM [express] GET /api/booking-requests 304 in 465ms :: []
+02/02/2026, 18:04:01:
+runtime
+5:04:01 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+02/02/2026, 18:04:01:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:01:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:01:
+runtime
+5:04:01 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:04:01:
+runtime
+5:04:01 PM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Ro…
+02/02/2026, 18:04:02:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+02/02/2026, 18:04:02:
+runtime
+✅ [PWA ACCESS] Contatori JSON aggiornati per Andrea Zambelli
+02/02/2026, 18:04:02:
+runtime
+✅ [PWA ACCESS] Cliente Andrea Zambelli (PROF_014_9C1F_CLIENT_14002_09A9) - Accesso registrato, token generato
+02/02/2026, 18:04:02:
+runtime
+5:04:02 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14002_09A9 200 in 322ms :: {"succe…
+02/02/2026, 18:04:02:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:02:
+runtime
+🏠 [CLIENT ACCESS PG] Cliente autenticato: Andrea Zambelli
+02/02/2026, 18:04:02:
+runtime
+5:04:02 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14002_09A9 200 in 239ms :: {"id":1…
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:02:
+runtime
+✅ [QR-AUTH] Token valido per cliente Andrea Zambelli (PROF_014_9C1F_CLIENT_14002_09A9), legacyId: 14002
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Query: insert into "client_accesses" ("id", "client_id", "access_time", "ip_address", "user_agent") values (default, $1, $2, $3, $4)
+02/02/2026, 18:04:02:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:04:02:
+runtime
+  14002,
+02/02/2026, 18:04:02:
+runtime
+  '2026-02-02T17:04:02.871Z',
+02/02/2026, 18:04:02:
+runtime
+  '94.162.41.58',
+02/02/2026, 18:04:02:
+runtime
+  'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36'
+02/02/2026, 18:04:02:
+runtime
+]
+02/02/2026, 18:04:03:
+runtime
+📊 [AUTO-TRACKING] Accesso registrato per cliente 14002 (Andrea Zambelli)
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "package_purchase_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent", "reminder_confirmed", "reminder_confirmed_at", "synced", "imported_from_google", "google_event_id", "google_organizer_self", "google_event_title", "created_at" from "appointments" where "appointments"."client_id" = $1 order by "appointments"."date", "appointments"."start_time"
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:03:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:04:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Params: [ 62 ]
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:06:
+runtime
+🔍 [SQL DEBUG] Params: [ 61 ]
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:07:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:08:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 63 ]
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:09:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 63 ]
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:10:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 63 ]
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 60 ]
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:11:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:12:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:13:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:14:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:15:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:15:
+runtime
+5:04:15 PM [express] GET /api/booking-requests 304 in 468ms :: []
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Params: [ 70 ]
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:16:
+runtime
+🔍 [SQL DEBUG] Params: [ 68 ]
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:17:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:18:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:19:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:20:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Params: [ 66 ]
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:21:
+runtime
+🔍 [SQL DEBUG] Params: [ 91 ]
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Params: [ 94 ]
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:22:
+runtime
+🔍 [SQL DEBUG] Params: [ 65 ]
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Params: [ 67 ]
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:23:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002 ]
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Params: [ 64 ]
+02/02/2026, 18:04:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" order by "services"."name"
+02/02/2026, 18:04:25:
+runtime
+📅 [CLIENT-API] 46 appuntamenti trovati per cliente PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:25:
+runtime
+5:04:25 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14002_09A9/appointments 200 in 2253…
+02/02/2026, 18:04:25:
+runtime
+📄 [CLIENT-INVOICES] Richiesta fatture per cliente: PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:25:
+runtime
+✅ [QR-AUTH] Token valido per cliente Andrea Zambelli (PROF_014_9C1F_CLIENT_14002_09A9), legacyId: 14002
+02/02/2026, 18:04:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "invoice_number", "total_amount", "tax", "date", "due_date", "status", "notes", "created_at", "published_to_pwa" from "invoices" where (("invoices"."client_id" = $1 or "invoices"."client_id" = $2) and "invoices"."user_id" = $3) order by "invoices"."date" desc
+02/02/2026, 18:04:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002, 14002, 14 ]
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 32 (BUS1422-001/2026): publishedToPwa=true, result=true
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 33 (BUS1422-002/2026): publishedToPwa=true, result=true
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 34 (BUS1422-003/2026): publishedToPwa=false, result=false
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 30 (BUS1422-003/2025): publishedToPwa=true, result=true
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 29 (BUS1422-002/2025): publishedToPwa=true, result=true
+02/02/2026, 18:04:25:
+runtime
+🔍 [PWA-FILTER] Fattura 28 (BUS1422-001/2025): publishedToPwa=true, result=true
+02/02/2026, 18:04:25:
+runtime
+✅ [CLIENT-INVOICES] 5/6 fatture inviate trovate per cliente PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:25:
+runtime
+5:04:25 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14002_09A9/invoices 200 in 473ms ::…
+02/02/2026, 18:04:25:
+runtime
+Recupero impostazioni per utente 14
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 14, 1 ]
+02/02/2026, 18:04:26:
+runtime
+Impostazioni trovate per utente 14: SI
+02/02/2026, 18:04:26:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+02/02/2026, 18:04:26:
+runtime
+  email: 'busnari.silvia@gmail.com',
+02/02/2026, 18:04:26:
+runtime
+  phone: '3471445767',
+02/02/2026, 18:04:26:
+runtime
+  phone1: '3471445767',
+02/02/2026, 18:04:26:
+runtime
+  phone2: '',
+02/02/2026, 18:04:26:
+runtime
+  website: 'biomedicinaintegrata.it',
+02/02/2026, 18:04:26:
+runtime
+  instagram: 'biomedicinaintegrata',
+02/02/2026, 18:04:26:
+runtime
+  facebook: 'SilviaBusnari'
+02/02/2026, 18:04:26:
+runtime
+}
+02/02/2026, 18:04:26:
+runtime
+5:04:26 PM [express] GET /api/owner-contact-info/14 200 in 237ms :: {"email":"busnari.silvia@gmail.c…
+02/02/2026, 18:04:26:
+runtime
+🔍 [CLIENT SERVICES] Richiesta servizi per clientCode: PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:26:
+runtime
+👥 [CLIENT STAFF] Richiesta collaboratori per clientCode: PROF_014_9C1F_CLIENT_14002_09A9
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:04:26:
+runtime
+5:04:26 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."user_id" = $1 order by "services"."name"
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 14 ]
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "first_name", "last_name", "email", "phone", "specialization", "iban", "bic", "bank_name", "account_holder", "is_active", "reset_token", "reset_token_expiry", "created_at" from "staff" where ("staff"."user_id" = $1 and "staff"."is_active" = $2) order by "staff"."first_name", "staff"."last_name"
+02/02/2026, 18:04:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 14, true ]
+02/02/2026, 18:04:26:
+runtime
+✅ NUOVO Sistema: 6 servizi per utente 14 - SEPARAZIONE COMPLETA
+02/02/2026, 18:04:26:
+runtime
+✅ [CLIENT SERVICES] Ritornati 6 servizi per ownerId: 14
+02/02/2026, 18:04:26:
+runtime
+5:04:26 PM [express] GET /api/client-services 200 in 471ms :: [{"id":91,"name":"Controllo","duration…
+02/02/2026, 18:04:26:
+runtime
+✅ [CLIENT STAFF] Ritornati 3 collaboratori attivi per ownerId: 14
+02/02/2026, 18:04:26:
+runtime
+5:04:26 PM [express] GET /api/client-staff 200 in 470ms :: [{"id":5,"firstName":"monica","lastName":…
+02/02/2026, 18:04:45:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:04:45:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:04:45:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:04:45:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:04:45:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:04:45:
+runtime
+5:04:45 PM [express] GET /api/booking-requests 304 in 465ms :: []
+02/02/2026, 18:05:00:
+runtime
+📝 [BOOKING REQUEST] Nuova richiesta da cliente PROF_014_9C1F_CLIENT_14002_09A9 senza preferenza staff
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."uniqueCode" = $1 limit $2
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Params: [ 'PROF_014_9C1F_CLIENT_14002_09A9', 1 ]
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "duration", "color", "price" from "services" where "services"."id" = $1 limit $2
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Params: [ 66, 1 ]
+02/02/2026, 18:05:00:
+runtime
+🔍 [AVAILABILITY] Calcolo slot per userId=14, data=2026-02-03, fascia=09:00-13:00, durata=120min
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "name", "description", "color", "is_active", "created_at" from "treatment_rooms" where ("treatment_rooms"."user_id" = $1 and "treatment_rooms"."is_active" = $2)
+02/02/2026, 18:05:00:
+runtime
+🔍 [SQL DEBUG] Params: [ 14, true ]
+02/02/2026, 18:05:01:
+runtime
+🏢 [AVAILABILITY] Trovate 3 stanze attive
+02/02/2026, 18:05:01:
+runtime
+🔍 [SQL DEBUG] Query: select "start_time", "end_time", "staff_id", "room_id" from "appointments" where ("appointments"."user_id" = $1 and "appointments"."date" = $2 and (("appointments"."start_time" >= $3 and "appointments"."start_time" < $4) or ("appointments"."end_time" > $5 and "appointments"."end_time" <= $6) or ("appointments"."start_time" <= $7 and "appointments"."end_time" >= $8))) order by "appointments"."start_time"
+02/02/2026, 18:05:01:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:05:01:
+runtime
+  14,      '2026-02-03',
+02/02/2026, 18:05:01:
+runtime
+  '09:00', '13:00',
+02/02/2026, 18:05:01:
+runtime
+  '09:00', '13:00',
+02/02/2026, 18:05:01:
+runtime
+  '09:00', '13:00'
+02/02/2026, 18:05:01:
+runtime
+]
+02/02/2026, 18:05:01:
+runtime
+📅 [AVAILABILITY] Trovati 0 appuntamenti esistenti nella finestra
+02/02/2026, 18:05:01:
+runtime
+✅ [AVAILABILITY] Trovati 5 slot, fermata ricerca
+02/02/2026, 18:05:01:
+runtime
+✅ [AVAILABILITY] 5 slot disponibili trovati
+02/02/2026, 18:05:01:
+runtime
+🔍 [SQL DEBUG] Query: insert into "booking_requests" ("id", "user_id", "client_id", "service_id", "staff_id", "room_id", "requested_date", "requested_time_start", "requested_time_end", "proposed_slots", "selected_slot", "status", "client_notes", "admin_notes", "appointment_id", "channel", "selection_expires_at", "status_updated_at", "created_at", "updated_at") values (default, $1, $2, $3, $4, default, $5, $6, $7, $8, default, $9, $10, default, default, $11, $12, $13, default, default) returning "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "requested_date", "requested_time_start", "requested_time_end", "proposed_slots", "selected_slot", "status", "client_notes", "admin_notes", "appointment_id", "channel", "selection_expires_at", "status_updated_at", "created_at", "updated_at"
+02/02/2026, 18:05:01:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:05:01:
+runtime
+  14,
+02/02/2026, 18:05:01:
+runtime
+  14002,
+02/02/2026, 18:05:01:
+runtime
+  66,
+02/02/2026, 18:05:01:
+runtime
+  null,
+02/02/2026, 18:05:01:
+runtime
+  '2026-02-03',
+02/02/2026, 18:05:01:
+runtime
+  '09:00',
+02/02/2026, 18:05:01:
+runtime
+  '13:00',
+02/02/2026, 18:05:01:
+runtime
+  '[{"start":"09:00","end":"11:00"},{"start":"09:15","end":"11:15"},{"start":"09:30","end":"11:30"},{"start":"09:45","end":"11:45"},{"start":"10:00","end":"12:00"}]',
+02/02/2026, 18:05:01:
+runtime
+  'slots_proposed',
+02/02/2026, 18:05:01:
+runtime
+  '',
+02/02/2026, 18:05:01:
+runtime
+  'pwa',
+02/02/2026, 18:05:01:
+runtime
+  '2026-02-04T17:05:01.434Z',
+02/02/2026, 18:05:01:
+runtime
+  '2026-02-02T17:05:01.434Z'
+02/02/2026, 18:05:01:
+runtime
+]
+02/02/2026, 18:05:01:
+runtime
+✅ [BOOKING REQUEST] Richiesta 30 creata con 5 slot proposti
+02/02/2026, 18:05:01:
+runtime
+5:05:01 PM [express] POST /api/booking-requests 201 in 1184ms :: {"request":{"id":30,"userId":14,"cl…
+02/02/2026, 18:05:01:
+runtime
+5:05:01 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "requested_date", "requested_time_start", "requested_time_end", "proposed_slots", "selected_slot", "status", "client_notes", "admin_notes", "appointment_id", "channel", "selection_expires_at", "status_updated_at", "created_at", "updated_at" from "booking_requests" where "booking_requests"."id" = $1 limit $2
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 30, 1 ]
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1 limit $2
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Params: [ 14002, 1 ]
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Query: update "booking_requests" set "selected_slot" = $1, "status" = $2, "status_updated_at" = $3 where "booking_requests"."id" = $4 returning "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "requested_date", "requested_time_start", "requested_time_end", "proposed_slots", "selected_slot", "status", "client_notes", "admin_notes", "appointment_id", "channel", "selection_expires_at", "status_updated_at", "created_at", "updated_at"
+02/02/2026, 18:05:05:
+runtime
+🔍 [SQL DEBUG] Params: [
+02/02/2026, 18:05:05:
+runtime
+  '{"end":"11:00","start":"09:00"}',
+02/02/2026, 18:05:05:
+runtime
+  'client_selected',
+02/02/2026, 18:05:05:
+runtime
+  '2026-02-02T17:05:05.776Z',
+02/02/2026, 18:05:05:
+runtime
+  30
+02/02/2026, 18:05:05:
+runtime
+]
+02/02/2026, 18:05:06:
+runtime
+✅ [BOOKING REQUEST] Cliente ha selezionato slot per richiesta 30
+02/02/2026, 18:05:06:
+runtime
+5:05:06 PM [express] PUT /api/booking-requests/30/select-slot 200 in 709ms :: {"id":30,"userId":14,"…
+02/02/2026, 18:05:06:
+runtime
+5:05:06 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+02/02/2026, 18:05:15:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:15:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:16:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:05:16:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:05:16:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:16:
+runtime
+5:05:16 PM [express] GET /api/booking-requests 304 in 471ms :: []
+02/02/2026, 18:05:24:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:24:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:24:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-BdU4QYLA.css
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /disable-vite-overlay.js
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /assets/index-BbkS6jbA.js
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /forced-style.css
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:05:25:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:05:25:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1770051925780-default
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+02/02/2026, 18:05:25:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+02/02/2026, 18:05:25:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner default)
+02/02/2026, 18:05:25:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1770051925781.9614&android=1","/pwa-icon/192x192?owner=default&v=1770051925781.9614&android=1","/pwa-icon/512x512?owner=default&v=1770051925781.9614&android=1"]
+02/02/2026, 18:05:25:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+02/02/2026, 18:05:25:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:25:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+02/02/2026, 18:05:25:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+02/02/2026, 18:05:25:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+02/02/2026, 18:05:25:
+runtime
+5:05:25 PM [express] GET /api/timezone-settings 200 in 236ms :: {"timezone":"Europe/Rome","offset":-…
+02/02/2026, 18:05:25:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+02/02/2026, 18:05:25:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:25:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:05:26:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+02/02/2026, 18:05:26:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+02/02/2026, 18:05:26:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+02/02/2026, 18:05:26:
+runtime
+  id: 3,
+02/02/2026, 18:05:26:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:05:26:
+runtime
+  firstName: null,
+02/02/2026, 18:05:26:
+runtime
+  lastName: null,
+02/02/2026, 18:05:26:
+runtime
+  licenseType: 'passepartout'
+02/02/2026, 18:05:26:
+runtime
+}
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/user-with-license 200 in 511ms :: {"id":3,"username":"zambelli.andrea.…
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] POST /api/timezone-settings 200 in 237ms :: {"success":true,"timezone":"Europe/…
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:05:26:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+02/02/2026, 18:05:26:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+02/02/2026, 18:05:26:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1770051930925' }
+02/02/2026, 18:05:26:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+02/02/2026, 18:05:26:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+02/02/2026, 18:05:26:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+02/02/2026, 18:05:26:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1770051926560.919&admin=1","/pwa-icon/192x192?owner=3&v=1770051926560.919&admin=1","/pwa-icon/512x512?owner=3&v=1770051926560.919&admin=1"]
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/tenant-context 200 in 237ms :: {"userId":3,"userType":"admin","tenantI…
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+02/02/2026, 18:05:26:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/application-title
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/contact-info
+02/02/2026, 18:05:26:
+runtime
+Recupero impostazioni per utente 3
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/company-name-settings
+02/02/2026, 18:05:26:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+02/02/2026, 18:05:26:
+runtime
+Recupero impostazioni per utente 3
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "business_name", "description", "website", "address", "contact_email", "contact_phone", "contact_phone2", "instagram_handle", "facebook_page", "linkedin_profile", "logo_url", "app_icon_path", "primary_color", "secondary_color", "theme", "appearance", "email_provider", "email_api_key", "email_from_name", "email_from_address", "email_signature", "smtp_enabled", "smtp_email", "smtp_password_encrypted", "smtp_server", "smtp_port", "email_template", "email_subject", "sms_enabled", "whatsapp_enabled", "whatsapp_number", "whatsapp_api_key", "whatsapp_template", "working_hours_start", "working_hours_end", "working_days", "time_slot_duration", "reminder_enabled", "reminder_hours_before", "email_notifications_enabled", "sms_notifications_enabled", "calendar_integration_enabled", "default_calendar_id", "timezone_settings", "invoice_prefix", "invoice_counter", "tax_rate", "payment_terms", "gdpr_compliant", "consent_required", "data_retention_months", "preferences", "created_at", "updated_at" from "user_settings" where "user_settings"."user_id" = $1 limit $2
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3, 1 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/client-app-info
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/license-info
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/license/application-title 304 in 265ms :: {"title":"Gestionale Appunta…
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/license/license-info 304 in 258ms :: {"hasLicense":true,"type":"passep…
+02/02/2026, 18:05:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "icon_base64", "created_at", "updated_at" from "user_icons" where "user_icons"."user_id" = $1
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/license/has-business-access 304 in 277ms :: true
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/booking-requests
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Query: select "booking_requests"."id", "booking_requests"."user_id", "booking_requests"."client_id", "booking_requests"."service_id", "booking_requests"."staff_id", "booking_requests"."room_id", "booking_requests"."requested_date", "booking_requests"."requested_time_start", "booking_requests"."requested_time_end", "booking_requests"."proposed_slots", "booking_requests"."selected_slot", "booking_requests"."status", "booking_requests"."client_notes", "booking_requests"."admin_notes", "booking_requests"."appointment_id", "booking_requests"."channel", "booking_requests"."selection_expires_at", "booking_requests"."status_updated_at", "booking_requests"."created_at", "booking_requests"."updated_at", "clients"."firstName", "clients"."lastName" from "booking_requests" inner join "clients" on "booking_requests"."client_id" = "clients"."id" where "booking_requests"."user_id" = $1 order by "booking_requests"."created_at" desc
+02/02/2026, 18:05:26:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:26:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+02/02/2026, 18:05:26:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/client-app-info 200 in 443ms :: {"appName":"Gestionale Appuntamenti","…
+02/02/2026, 18:05:26:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:05:26:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+02/02/2026, 18:05:26:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+02/02/2026, 18:05:26:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+02/02/2026, 18:05:26:
+runtime
+  id: 3,
+02/02/2026, 18:05:26:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:05:26:
+runtime
+  firstName: null,
+02/02/2026, 18:05:26:
+runtime
+  lastName: null,
+02/02/2026, 18:05:26:
+runtime
+  licenseType: 'passepartout'
+02/02/2026, 18:05:26:
+runtime
+}
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/user-with-license 304 in 514ms :: {"id":3,"username":"zambelli.andrea.…
+02/02/2026, 18:05:26:
+runtime
+Impostazioni trovate per utente 3: SI
+02/02/2026, 18:05:26:
+runtime
+Impostazioni trovate per utente 3: SI
+02/02/2026, 18:05:26:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+02/02/2026, 18:05:26:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+02/02/2026, 18:05:26:
+runtime
+  showBusinessName: true,
+02/02/2026, 18:05:26:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+02/02/2026, 18:05:26:
+runtime
+  fontSize: 24,
+02/02/2026, 18:05:26:
+runtime
+  fontFamily: 'Times New Roman',
+02/02/2026, 18:05:26:
+runtime
+  fontStyle: 'normal',
+02/02/2026, 18:05:26:
+runtime
+  color: '#000000',
+02/02/2026, 18:05:26:
+runtime
+  enabled: true
+02/02/2026, 18:05:26:
+runtime
+}
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/contact-info 200 in 504ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/company-name-settings 200 in 508ms :: {"businessName":"Gestionale Appu…
+02/02/2026, 18:05:26:
+runtime
+5:05:26 PM [express] GET /api/booking-requests 304 in 513ms :: []
+02/02/2026, 18:05:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:27:
+runtime
+🔍 [SQL DEBUG] Query: 
+02/02/2026, 18:05:27:
+runtime
+      select b.oid, b.typarray
+02/02/2026, 18:05:27:
+runtime
+      from pg_catalog.pg_type a
+02/02/2026, 18:05:27:
+runtime
+      left join pg_catalog.pg_type b on b.oid = a.typelem
+02/02/2026, 18:05:27:
+runtime
+      where a.typcategory = 'A'
+02/02/2026, 18:05:27:
+runtime
+      group by b.oid, b.typarray
+02/02/2026, 18:05:27:
+runtime
+      order by b.oid
+02/02/2026, 18:05:27:
+runtime
+    
+02/02/2026, 18:05:27:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+02/02/2026, 18:05:27:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+02/02/2026, 18:05:27:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /icons/icon-96x96.png
+02/02/2026, 18:05:27:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "username", "password", "email", "role", "client_id", "type", "assignment_code", "referral_code", "referred_by", "iban", "bic", "bank_name", "account_holder", "paypal_email", "auto_payout_enabled", "reset_token", "reset_token_expiry", "google_auth_token", "google_calendar_enabled", "google_calendar_id", "last_google_sync_at", "terms_accepted_at", "created_at" from "users" where "users"."id" = $1
+02/02/2026, 18:05:27:
+runtime
+🔍 [SQL DEBUG] Params: [ 3 ]
+02/02/2026, 18:05:27:
+runtime
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] Session ID: o2TYUjOF3cxt51m5Lw1wKY_PFj0GqcTH
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] Cookie header: present
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] ============================
+02/02/2026, 18:05:27:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+02/02/2026, 18:05:27:
+runtime
+5:05:27 PM [express] GET /api/license/has-pro-access 304 in 1439ms :: true

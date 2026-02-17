@@ -1,0 +1,19 @@
+{
+  "name": "backup14-attuale-sicuro-2025-05-27T14-54-22-496Z",
+  "originalName": "backup14-attuale-sicuro",
+  "created": "2025-05-27T14:54:22.822Z",
+  "description": "Backup sicuro con timestamp per evitare sovrascritture",
+  "files": [
+    "client",
+    "server",
+    "shared",
+    "public",
+    "package.json",
+    "package-lock.json",
+    "drizzle.config.ts",
+    "vite.config.ts",
+    "tsconfig.json",
+    "tailwind.config.ts",
+    "theme.json"
+  ]
+}

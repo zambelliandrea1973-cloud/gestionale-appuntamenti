@@ -1,0 +1,254 @@
+ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero dashboard pagamenti admin...
+7:27:32 PM [express] GET /api/license/license-info 304 in 147ms :: {"hasLicense":true,"type":"passep…
+7:27:32 PM [express] GET /api/license/has-pro-access 304 in 146ms :: true
+Nessuna transazione trovata per il dashboard. Generando dati di test...
+Generati 5 transazioni fittizie per il dashboard
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+7:27:32 PM [express] GET /api/license/has-business-access 304 in 95ms :: true
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/application-title
+7:27:32 PM [express] GET /api/license/application-title 304 in 88ms :: {"title":"Gestionale Appuntam…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/admin/banking-settings
+🏦 GET /api/admin/banking-settings chiamato da: zambelli.andrea.1973@gmail.com
+Recupero impostazioni per utente 1
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/dashboard
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero dashboard pagamenti admin...
+Impostazioni trovate per utente 1: NO
+💳 Nessuna impostazione bancaria trovata, ritorno default
+🏦 Settings ricevute da storage: {"bankName":"","accountHolder":"","iban":"","bic":"","address":"","autoPayEnabled":false,"paymentDelay":30,"minimumAmount":1,"description":"Commissione referral sistema gestione appuntamenti","isConfigured":false}
+🏦 Ritorno al frontend: {"bankName":"","accountHolder":"","iban":"","bic":"","address":"","autoPayEnabled":false,"paymentDelay":30,"minimumAmount":1,"description":"Commissione referral sistema gestione appuntamenti","isConfigured":false}
+7:27:32 PM [express] GET /api/admin/banking-settings 200 in 188ms :: {"bankName":"","accountHolder":…
+Impostazioni trovate per utente 1: NO
+💳 Nessuna impostazione bancaria trovata, ritorno default
+🏦 Settings ricevute da storage: {"bankName":"","accountHolder":"","iban":"","bic":"","address":"","autoPayEnabled":false,"paymentDelay":30,"minimumAmount":1,"description":"Commissione referral sistema gestione appuntamenti","isConfigured":false}
+🏦 Ritorno al frontend: {"bankName":"","accountHolder":"","iban":"","bic":"","address":"","autoPayEnabled":false,"paymentDelay":30,"minimumAmount":1,"description":"Commissione referral sistema gestione appuntamenti","isConfigured":false}
+7:27:32 PM [express] GET /api/admin/banking-settings 200 in 495ms :: {"bankName":"","accountHolder":…
+Recupero tutte le licenze dal database
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+7:27:32 PM [express] GET /api/timezone-settings 304 in 95ms :: {"timezone":"Europe/Rome","offset":2}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+Nessuna transazione trovata per il dashboard. Generando dati di test...
+Generati 5 transazioni fittizie per il dashboard
+7:27:32 PM [express] GET /api/tenant-context 200 in 95ms :: {"userId":3,"userType":"admin","tenantId…
+Trovate 20 licenze totali
+Trovati 5 transazioni, 3 abbonamenti attivi e 20 licenze attive
+7:27:32 PM [express] GET /api/payments/payment-admin/dashboard 200 in 594ms :: {"transactionStats":{…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+7:27:32 PM [express] POST /api/timezone-settings 200 in 120ms :: {"success":true,"timezone":"Europe/…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /service-worker.js
+Recupero tutte le licenze dal database
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/timezone-settings
+7:27:32 PM [express] POST /api/timezone-settings 200 in 127ms :: {"success":true,"timezone":"Europe/…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/transactions
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero transazioni pagamenti...
+Trovate 20 licenze totali
+Trovati 5 transazioni, 3 abbonamenti attivi e 20 licenze attive
+7:27:32 PM [express] GET /api/payments/payment-admin/dashboard 200 in 699ms :: {"transactionStats":{…
+Nessuna transazione trovata. Generando dati di test...
+📞 Recupero impostazioni contatto per tenant 3
+📞 Recupero impostazioni contatto per tenant 16
+📞 Recupero impostazioni contatto per tenant 14
+📞 Recupero impostazioni contatto per tenant 14
+📞 Recupero impostazioni contatto per tenant 3
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 14: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 16: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 14: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+Generati 5 transazioni fittizie con dati utente reali
+Trovate 5 transazioni
+7:27:33 PM [express] GET /api/payments/payment-admin/transactions 200 in 463ms :: [{"id":1001,"userI…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/transactions
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero transazioni pagamenti...
+Nessuna transazione trovata. Generando dati di test...
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/subscriptions
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero abbonamenti...
+📞 Recupero impostazioni contatto per tenant 16
+📞 Recupero impostazioni contatto per tenant 14
+📞 Recupero impostazioni contatto per tenant 14
+📞 Recupero impostazioni contatto per tenant 3
+📞 Recupero impostazioni contatto per tenant 3
+✅ Impostazioni contatto trovate per tenant 16: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 14: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 14: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+Generati 5 transazioni fittizie con dati utente reali
+Trovate 5 transazioni
+7:27:33 PM [express] GET /api/payments/payment-admin/transactions 200 in 448ms :: [{"id":1001,"userI…
+📞 Recupero impostazioni contatto per tenant 27
+📞 Recupero impostazioni contatto per tenant 10
+📞 Recupero impostazioni contatto per tenant 29
+📞 Recupero impostazioni contatto per tenant 9
+📞 Recupero impostazioni contatto per tenant 24
+📞 Recupero impostazioni contatto per tenant 12
+Recupero licenze per l'utente ID 15
+📞 Recupero impostazioni contatto per tenant 11
+ℹ️ Nessuna impostazione contatto per tenant 29
+Recupero licenze per l'utente ID 29
+ℹ️ Nessuna impostazione contatto per tenant 24
+Recupero licenze per l'utente ID 24
+✅ Impostazioni contatto trovate per tenant 9: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea@libero.it',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 9
+ℹ️ Nessuna impostazione contatto per tenant 27
+Recupero licenze per l'utente ID 27
+✅ Impostazioni contatto trovate per tenant 10: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 10
+ℹ️ Nessuna impostazione contatto per tenant 12
+Recupero licenze per l'utente ID 12
+ℹ️ Nessuna impostazione contatto per tenant 11
+Recupero licenze per l'utente ID 11
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/subscriptions
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero abbonamenti...
+Trovate 0 licenze per l'utente 15
+Trovate 1 licenze per l'utente 29
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 27
+Trovate 1 licenze per l'utente 10
+Trovate 1 licenze per l'utente 12
+Trovate 1 licenze per l'utente 11
+📞 Recupero impostazioni contatto per tenant 27
+📞 Recupero impostazioni contatto per tenant 9
+Totale: 8 abbonamenti con dettagli utente e licenza
+7:27:33 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 621ms :: [{"id":14,"userId…
+📞 Recupero impostazioni contatto per tenant 29
+📞 Recupero impostazioni contatto per tenant 24
+📞 Recupero impostazioni contatto per tenant 12
+📞 Recupero impostazioni contatto per tenant 10
+📞 Recupero impostazioni contatto per tenant 11
+Recupero licenze per l'utente ID 15
+✅ Impostazioni contatto trovate per tenant 9: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea@libero.it',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 9
+ℹ️ Nessuna impostazione contatto per tenant 29
+Recupero licenze per l'utente ID 29
+ℹ️ Nessuna impostazione contatto per tenant 27
+Recupero licenze per l'utente ID 27
+✅ Impostazioni contatto trovate per tenant 10: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 10
+ℹ️ Nessuna impostazione contatto per tenant 24
+Recupero licenze per l'utente ID 24
+ℹ️ Nessuna impostazione contatto per tenant 11
+Recupero licenze per l'utente ID 11
+ℹ️ Nessuna impostazione contatto per tenant 12
+Recupero licenze per l'utente ID 12
+Trovate 0 licenze per l'utente 15
+Trovate 1 licenze per l'utente 27
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 29
+Trovate 1 licenze per l'utente 10
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 11
+Trovate 1 licenze per l'utente 12
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Totale: 8 abbonamenti con dettagli utente e licenza
+7:27:34 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 549ms :: [{"id":14,"userId…
+Trovate 20 licenze normali e 0 licenze di test
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: K8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na
+🔐 Cookies: session-id=s%3AK8c2-MQy7A_bquh8IHvwu2mS_Aeqn-Na.ytLqSJA2GTrnKZDHp0JJyHsTsxvpqBNltEFpyBbdgTs
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Caricati 23 utenti standard e 14 client account
+Trovate 20 licenze normali e 0 licenze di test
+Totale licenze restituite: 20
+7:27:34 PM [express] GET /api/payments/payment-admin/licenses 200 in 806ms :: [{"id":29,"code":"TRIA…
+Caricati 23 utenti standard e 14 client account
+Totale licenze restituite: 20
+7:27:35 PM [express] GET /api/payments/payment-admin/licenses 200 in 1549ms :: [{"id":29,"code":"TRI…

@@ -1,0 +1,52 @@
+Console.js:61 Warning: Encountered two children with the same key, `6`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+    at tbody
+    at _c5 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/table.tsx:55:12)
+    at table
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/table.tsx:20:11)
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at SimpleServiceManager (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/SimpleServiceManager.tsx:30:20)
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=cd093048:41:13
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-IX5B5GHC.js?v=cd093048:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…orkspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=cd093048:450:13
+    at _c5 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=cd093048:41:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=cd093048:38:15)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=cd093048:328:7
+    at div
+    at Settings (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Settings.tsx:35:27)
+    at div
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:39:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=gmE1WkLwXjPyQ4Trq8YPk:80:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=gmE1WkLwXjPyQ4Trq8YPk:90:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:291:17)
+    at TenantContextProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-tenant-context.tsx:23:41)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…rkspace/node_modules/.vite/deps/@tanstack_react-query.js?v=cd093048:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=gmE1WkLwXjPyQ4Trq8YPk:661:3)
+Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 Esecuzione richiesta GET a /api/tenant-context 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/tenant-context: 
+Object
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+﻿
+

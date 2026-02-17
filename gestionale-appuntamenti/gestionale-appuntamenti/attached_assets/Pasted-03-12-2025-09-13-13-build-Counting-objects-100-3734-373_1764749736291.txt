@@ -1,0 +1,208 @@
+03/12/2025, 09:13:13:
+build
+Counting objects: 100% (3734/3734), done.
+03/12/2025, 09:13:14:
+build
+Compressing objects: 100% (410/410), done.
+03/12/2025, 09:13:15:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)Total 22315 (delta 3536), reused 3459 (delta 3323), pack-reused 18581 (from 2)
+03/12/2025, 09:13:43:
+runtime
+[SYSTEM] Log sampling applied: 1 logs reduced to 1 (dropped 1 logs within 1 second)#1 [service_event_onqrl7yir9wn internal] load build definition from Dockerfile
+03/12/2025, 09:14:21:
+build
+#1 transferring dockerfile: 693B done
+03/12/2025, 09:14:21:
+build
+#1 DONE 0.0s
+03/12/2025, 09:14:21:
+build
+03/12/2025, 09:14:21:
+build
+#2 [service_event_onqrl7yir9wn internal] load metadata for docker.io/library/node:20-alpine
+03/12/2025, 09:14:22:
+build
+#2 DONE 0.9s
+03/12/2025, 09:14:22:
+build
+03/12/2025, 09:14:22:
+build
+#3 [service_event_onqrl7yir9wn internal] load .dockerignore
+03/12/2025, 09:14:22:
+build
+#3 transferring context: 740B done
+03/12/2025, 09:14:22:
+build
+#3 DONE 0.0s
+03/12/2025, 09:14:22:
+build
+03/12/2025, 09:14:22:
+build
+#4 [service_event_onqrl7yir9wn] importing cache manifest from local:17255636234859322766
+03/12/2025, 09:14:22:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+03/12/2025, 09:14:22:
+build
+#4 DONE 0.0s
+03/12/2025, 09:14:22:
+build
+03/12/2025, 09:14:22:
+build
+#5 [service_event_onqrl7yir9wn 1/7] FROM docker.io/library/node:20-alpine@sha256:16858294071a56ffd4cce9f17b57136cc39e41507b40e245b4f8e906f7a19463
+03/12/2025, 09:14:22:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:16858294071a56ffd4cce9f17b57136cc39e41507b40e245b4f8e906f7a19463 0.0s done
+03/12/2025, 09:14:22:
+build
+#5 DONE 0.0s
+03/12/2025, 09:14:22:
+build
+03/12/2025, 09:14:22:
+build
+#6 [service_event_onqrl7yir9wn internal] load build context
+03/12/2025, 09:14:22:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)#6 transferring context: 1.41GB 4.3s done
+03/12/2025, 09:14:27:
+build
+#6 DONE 4.4s
+03/12/2025, 09:14:27:
+build
+03/12/2025, 09:14:27:
+build
+#7 [service_event_onqrl7yir9wn 2/7] WORKDIR /app
+03/12/2025, 09:14:27:
+build
+#7 CACHED
+03/12/2025, 09:14:27:
+build
+03/12/2025, 09:14:27:
+build
+#8 [service_event_onqrl7yir9wn 3/7] COPY package.json package-lock.json ./
+03/12/2025, 09:14:27:
+build
+#8 CACHED
+03/12/2025, 09:14:27:
+build
+03/12/2025, 09:14:27:
+build
+#9 [service_event_onqrl7yir9wn 4/7] RUN npm ci
+03/12/2025, 09:14:27:
+build
+#9 CACHED
+03/12/2025, 09:14:27:
+build
+03/12/2025, 09:14:27:
+build
+#10 [service_event_onqrl7yir9wn 5/7] COPY . .
+03/12/2025, 09:14:27:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)[SYSTEM] Log sampling applied: 3 logs reduced to 3 (dropped 3 logs within 1 second)#10 DONE 20.1s
+03/12/2025, 09:14:47:
+build
+03/12/2025, 09:14:47:
+build
+#11 [service_event_onqrl7yir9wn 6/7] RUN npx vite build
+03/12/2025, 09:14:48:
+runtime
+[SYSTEM] Log sampling applied: 3 logs reduced to 3 (dropped 3 logs within 1 second)#11 1.861 vite v5.4.14 building for production...
+03/12/2025, 09:14:49:
+build
+#11 2.471 
+03/12/2025, 09:14:49:
+build
+#11 2.485 
+03/12/2025, 09:14:49:
+build
+#11 2.485 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+03/12/2025, 09:14:49:
+build
+#11 2.490 transforming...
+03/12/2025, 09:14:49:
+build
+#11 2.540 Browserslist: browsers data (caniuse-lite) is 14 months old. Please run:
+03/12/2025, 09:14:49:
+build
+#11 2.540   npx update-browserslist-db@latest
+03/12/2025, 09:14:49:
+build
+#11 2.540   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+03/12/2025, 09:14:49:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)[SYSTEM] Log sampling applied: 6 logs reduced to 6 (dropped 6 logs within 1 second)#11 15.47 ✓ 3689 modules transformed.
+03/12/2025, 09:15:03:
+runtime
+[SYSTEM] Log sampling applied: 2 logs reduced to 2 (dropped 2 logs within 1 second)#11 16.93 [plugin:vite:reporter] [plugin vite:reporter] 
+03/12/2025, 09:15:04:
+build
+#11 16.93 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/ForgotPasswordPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+03/12/2025, 09:15:04:
+build
+#11 16.93 
+03/12/2025, 09:15:04:
+build
+#11 16.93 [plugin:vite:reporter] [plugin vite:reporter] 
+03/12/2025, 09:15:04:
+build
+#11 16.93 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+03/12/2025, 09:15:04:
+build
+#11 16.93 
+03/12/2025, 09:15:04:
+build
+#11 16.93 rendering chunks...
+03/12/2025, 09:15:04:
+build
+#11 17.00 computing gzip size...
+03/12/2025, 09:15:04:
+build
+#11 17.09 ../dist/public/index.html                    13.14 kB │ gzip:   3.76 kB
+03/12/2025, 09:15:04:
+build
+#11 17.09 ../dist/public/assets/index-CBu9Jy6N.css    119.91 kB │ gzip:  18.93 kB
+03/12/2025, 09:15:04:
+build
+#11 17.09 ../dist/public/assets/index-CGYBIf9t.js   2,291.71 kB │ gzip: 614.54 kB[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)
+03/12/2025, 09:15:04:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)#11 17.09 
+03/12/2025, 09:15:04:
+build
+#11 17.09 (!) Some chunks are larger than 500 kB after minification. Consider:
+03/12/2025, 09:15:04:
+build
+#11 17.09 - Using dynamic import() to code-split the application
+03/12/2025, 09:15:04:
+build
+#11 17.09 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+03/12/2025, 09:15:04:
+build
+#11 17.09 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+03/12/2025, 09:15:04:
+build
+#11 17.09 ✓ built in 15.19s
+03/12/2025, 09:15:04:
+build
+#11 DONE 17.2s
+03/12/2025, 09:15:04:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)
+03/12/2025, 09:15:04:
+build
+#12 [service_event_onqrl7yir9wn 7/7] RUN cp -r dist/public server/public
+03/12/2025, 09:15:04:
+build
+#12 DONE 0.2s
+03/12/2025, 09:15:04:
+build
+03/12/2025, 09:15:04:
+build
+#13 [service_event_onqrl7yir9wn] exporting to image
+03/12/2025, 09:15:04:
+build
+#13 exporting layers
+03/12/2025, 09:15:04:
+runtime
+[SYSTEM] Log sampling applied: 10 logs reduced to 10 (dropped 10 logs within 1 second)[SYSTEM] Log sampling applied: 1 logs reduced to 1 (dropped 1 logs within 1 second)

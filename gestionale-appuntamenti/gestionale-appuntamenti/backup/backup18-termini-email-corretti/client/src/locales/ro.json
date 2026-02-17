@@ -1,0 +1,476 @@
+{
+  "app": {
+    "title": "Gestionare Programări",
+    "welcome": "Bine ați venit la Gestionarea Programărilor",
+    "description": "Gestionați cu ușurință programări, clienți și facturi"
+  },
+  "language": {
+    "it": "Italiană",
+    "en": "Engleză",
+    "de": "Germană",
+    "fr": "Franceză",
+    "es": "Spaniolă",
+    "ru": "Rusă",
+    "nl": "Olandeză",
+    "no": "Norvegiană",
+    "ro": "Română",
+    "select": "Selectați limba"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "Vizualizați și gestionați toate programările",
+      "content": "Vizualizați programările în modul zilnic, săptămânal sau lunar și creați cu ușurință programări noi.",
+      "button": "Accesați Calendarul"
+    },
+    "clients": {
+      "title": "Clienți",
+      "description": "Gestionați informațiile clienților",
+      "content": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale.",
+      "button": "Gestionați Clienții"
+    },
+    "invoices": {
+      "title": "Facturi",
+      "description": "Gestionați facturi și plăți",
+      "content": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real.",
+      "button": "Gestionați Facturile"
+    },
+    "reports": {
+      "title": "Rapoarte",
+      "description": "Analizați performanța afacerii",
+      "content": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii.",
+      "button": "Vizualizați Rapoartele"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "daily": "Zilnic",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "addAppointment": "Programare Nouă",
+    "today": "Astăzi",
+    "days": {
+      "monday": "Luni",
+      "tuesday": "Marți",
+      "wednesday": "Miercuri",
+      "thursday": "Joi",
+      "friday": "Vineri",
+      "saturday": "Sâmbătă",
+      "sunday": "Duminică"
+    },
+    "months": {
+      "january": "Ianuarie",
+      "february": "Februarie",
+      "march": "Martie",
+      "april": "Aprilie",
+      "may": "Mai",
+      "june": "Iunie",
+      "july": "Iulie",
+      "august": "August",
+      "september": "Septembrie",
+      "october": "Octombrie",
+      "november": "Noiembrie",
+      "december": "Decembrie"
+    },
+    "description": "[NEEDS TRANSLATION] Visualizza e gestisci tutti gli appuntamenti",
+    "subDescription": "[NEEDS TRANSLATION] Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, e crea facilmente nuovi appuntamenti",
+    "goTo": "[NEEDS TRANSLATION] Vai al Calendario",
+    "weekView": "[NEEDS TRANSLATION] Vista settimanale",
+    "monthView": "[NEEDS TRANSLATION] Vista mensile",
+    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
+    "searchResults": "[NEEDS TRANSLATION] Risultati della ricerca",
+    "noAppointmentsFound": "[NEEDS TRANSLATION] Nessun appuntamento trovato per",
+    "goToDay": "[NEEDS TRANSLATION] Vai al giorno",
+    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
+    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
+    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
+    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
+    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
+    "selected": "[NEEDS TRANSLATION] Selezionato",
+    "select": "[NEEDS TRANSLATION] Seleziona"
+  },
+  "clients": {
+    "title": "Clienți",
+    "description": "Gestionați informațiile clienților",
+    "subDescription": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale",
+    "goTo": "Gestionați Clienții",
+    "addClient": "Client Nou",
+    "newClient": "Client Nou",
+    "addFirstClient": "Adăugați primul client",
+    "search": {
+      "placeholder": "Căutare clienți după nume, telefon sau email...",
+      "minLength": "Introduceți cel puțin 2 caractere pentru a căuta"
+    },
+    "filter": {
+      "all": "Toți",
+      "frequent": "Frecvenți",
+      "noConsent": "Fără Consimțământ"
+    },
+    "noClientsFound": "Nu s-au găsit clienți",
+    "noClientsInSystem": "Nu există clienți înregistrați în sistem",
+    "noResultsMatch": "Niciun client nu corespunde criteriilor de căutare \"{{query}}\"",
+    "refreshSuccess": "Datele clienților au fost actualizate",
+    "lastUpdate": "Ultima actualizare",
+    "autoUpdate": "Actualizare automată la fiecare oră și la 23:59",
+    "stats": {
+      "total": "Număr total de clienți",
+      "frequent": "Clienți frecvenți",
+      "noConsent": "Fără consimțământ"
+    },
+    "table": {
+      "name": "Prenume",
+      "surname": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "actions": "Acțiuni"
+    },
+    "details": {
+      "title": "Detalii Client",
+      "personalInfo": "Informații Personale",
+      "medicalInfo": "Informații Medicale",
+      "appointments": "Programări",
+      "notes": "Note",
+      "consents": "Consimțăminte",
+      "clientFile": "Dosar Client",
+      "addAppointment": "Programare Nouă",
+      "generateQRCode": "Generare Cod QR",
+      "accessActivated": "Cod QR acces client",
+      "showDetails": "Detalii",
+      "deleteClient": "Șterge Client",
+      "deleteClientConfirmation": "Sigur doriți să ștergeți acest client? Toate programările lor vor fi, de asemenea, șterse. Această acțiune nu poate fi anulată.",
+      "notFound": "Client negăsit",
+      "notSpecified": "Nespecificat",
+      "frequentClient": "Client frecvent",
+      "dataConsent": "Consimțământ de procesare a datelor",
+      "obtained": "Obținut",
+      "notObtained": "Neobținut",
+      "viewAllAppointments": "Vizualizați toate programările",
+      "backToClients": "Înapoi la lista de clienți",
+      "structuredNotes": "Note structurate",
+      "legacyMedicalData": "Date medicale vechi",
+      "otherInfo": "Alte informații",
+      "viewMode": "Mod de vizualizare note",
+      "stackedView": "Carduri suprapuse",
+      "classicView": "Vizualizare clasică",
+      "stackedViewDescription": "Notele sunt afișate ca carduri suprapuse. Faceți clic pe carduri sau utilizați butoanele de navigare pentru a le parcurge.",
+      "classicViewDescription": "Notele sunt afișate în ordine verticală.",
+      "generalNotes": "Note generale",
+      "medicalNotes": "Note medicale",
+      "allergiesInfo": "Alergii și informații de sănătate",
+      "medicalNotesLegacy": "Note medicale (vechi)",
+      "allergiesInfoLegacy": "Alergii și informații de sănătate (vechi)",
+      "generalNotesLegacy": "Note generale (vechi)",
+      "noMedicalNotes": "Nu există note medicale înregistrate",
+      "noAllergiesInfo": "Nu există alergii sau informații de sănătate înregistrate",
+      "noGeneralNotes": "Nu există note generale înregistrate"
+    },
+    "form": {
+      "firstName": "Prenume",
+      "lastName": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "birthDate": "Data Nașterii",
+      "address": "Adresă",
+      "city": "Oraș",
+      "zipCode": "Cod Poștal",
+      "notes": "Note",
+      "save": "Salvare",
+      "cancel": "Anulare"
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+  },
+  "invoices": {
+    "title": "Facturi",
+    "description": "Gestionați facturi și plăți",
+    "subDescription": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real",
+    "goTo": "Gestionați Facturile",
+    "addInvoice": "Factură Nouă",
+    "table": {
+      "number": "Număr",
+      "date": "Data",
+      "client": "Client",
+      "amount": "Sumă",
+      "status": "Stare",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "paid": "Plătită",
+      "unpaid": "Neplătită",
+      "partial": "Plată Parțială"
+    }
+  },
+  "reports": {
+    "title": "Rapoarte",
+    "description": "Analizați performanța afacerii",
+    "subDescription": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii",
+    "goTo": "Vizualizați Rapoartele",
+    "daily": "Raport Zilnic",
+    "weekly": "Raport Săptămânal",
+    "monthly": "Raport Lunar",
+    "appointments": "Programări",
+    "clients": "Clienți",
+    "revenue": "Venituri"
+  },
+  "settings": {
+    "title": "Setări",
+    "general": "Generale",
+    "profile": "Profil",
+    "appearance": "Aspect",
+    "notifications": "Notificări",
+    "language": "Limbă",
+    "theme": "Temă",
+    "save": "Salvare Setări",
+    "googleCalendar": "Google calendar",
+    "contacts": "Contacte",
+    "saving": "Se salvează...",
+    "contactsTitle": "Informații de Contact",
+    "contactsDesc": "Gestionați informațiile de contact care vor fi afișate în subsolul aplicației pentru clienți",
+    "appName": "Nume Aplicație",
+    "appIcon": "Pictogramă Aplicație",
+    "integrations": "Integrări",
+    "appearanceTitle": "Identitate Corporativă",
+    "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți."
+  },
+  "common": {
+    "save": "Salvare",
+    "cancel": "Anulare",
+    "edit": "Editare",
+    "delete": "Ștergere",
+    "view": "Vizualizare",
+    "search": "Căutare",
+    "back": "Înapoi",
+    "next": "Înainte",
+    "previous": "Anterior",
+    "actions": "Acțiuni",
+    "name": "Nume",
+    "email": "Email",
+    "phone": "Telefon",
+    "address": "Adresă",
+    "date": "Data",
+    "time": "Ora",
+    "description": "Descriere",
+    "support": "Asistență",
+    "terms": "Termeni și condiții",
+    "refresh": "Reîmprospătare",
+    "error": "Eroare",
+    "birthday": "Data Nașterii",
+    "yes": "Da",
+    "no": "Nu"
+  },
+  "notifications": {
+    "success": "Operațiune finalizată cu succes",
+    "error": "A apărut o eroare",
+    "warning": "Avertisment",
+    "info": "Informație",
+    "clientDeleted": "Client șters",
+    "clientDeletedSuccess": "Clientul a fost șters cu succes"
+  },
+  "whatsappNotifications": {
+    "title": "Notificări clienți",
+    "description": "Gestionare memento-uri pentru programări",
+    "subDescription": "Trimiteți memento-uri WhatsApp clienților pentru programările lor viitoare",
+    "goTo": "Gestionare notificări"
+  },
+  "notificationsPage": {
+    "title": "Notificări clienți",
+    "subtitle": "Gestionați memento-urile pentru programările clienților",
+    "refresh": "Reîmprospătare",
+    "tabs": {
+      "upcoming": "De trimis",
+      "history": "Istoric",
+      "settings": "Setări notificări",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "Cum funcționează notificările WhatsApp",
+      "steps": [
+        "Selectați programările pentru care doriți să trimiteți un memento",
+        "Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri",
+        "Se vor genera link-uri care deschid WhatsApp cu texte precompletate",
+        "Puteți personaliza textul standard înainte de trimitere"
+      ]
+    },
+    "customMessage": {
+      "title": "Mesaj personalizat (opțional)",
+      "description": "Dacă este specificat, acest text va fi adăugat la mesajul standard",
+      "placeholder": "De ex. Nu uitați să aduceți documentația medicală anterioară.",
+      "characters": "caractere",
+      "clear": "Golire"
+    },
+    "noAppointments": {
+      "loading": "Se încarcă programările...",
+      "empty": "Nu există programări de notificat",
+      "description": "Nu există programări viitoare care să necesite memento-uri."
+    },
+    "table": {
+      "client": "Client",
+      "service": "Serviciu",
+      "time": "Ora",
+      "actions": "Acțiuni",
+      "send": "Trimite",
+      "selectAll": "Selectează tot"
+    },
+    "buttons": {
+      "generating": "Se generează...",
+      "generateWhatsApp": "Generare notificări WhatsApp"
+    },
+    "history": {
+      "title": "Istoric notificări",
+      "description": "Memento-uri trimise recent prin WhatsApp",
+      "noNotifications": "Nu au fost trimise notificări recent",
+      "table": {
+        "date": "Data",
+        "message": "Mesaj",
+        "actions": "Acțiuni",
+        "reopen": "Redeschide",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Selectează tot",
+      "actions": "Acțiuni",
+      "sendButton": "Generare notificări WhatsApp",
+      "sending": "Se generează notificările..."
+    },
+    "errors": {
+      "loadingAppointments": "Nu s-au putut încărca programările",
+      "loadingHistory": "Nu s-a putut încărca istoricul",
+      "noneSelected": "Selectați cel puțin o programare pentru a trimite notificări",
+      "sendingFailed": "Nu s-au putut trimite memento-urile"
+    },
+    "success": {
+      "remindersSent": "Memento-urile au fost generate cu succes"
+    },
+    "whatsappLink": "Deschide WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Setări notificări",
+    "enableEmailNotifications": "Activare notificări prin e-mail",
+    "emailSetup": {
+      "title": "Configurare rapidă e-mail",
+      "email": "E-mail",
+      "emailPlaceholder": "Introduceți adresa dvs. de e-mail",
+      "password": "Parolă",
+      "passwordPlaceholder": "Introduceți parola dvs. de e-mail",
+      "description": "Această configurație setează contul dvs. de e-mail pentru trimiterea notificărilor.",
+      "autoDetect": "Detectare automată a setărilor",
+      "emailRequired": "Introduceți adresa dvs. de e-mail pentru a detecta setările"
+    },
+    "errors": {
+      "loadingSettings": "Nu s-au putut încărca setările de notificare",
+      "savingSettings": "Nu s-au putut salva setările",
+      "testEmailMissing": "Introduceți o adresă de e-mail pentru testare"
+    },
+    "success": {
+      "settingsSaved": "Setările notificărilor au fost salvate cu succes",
+      "testEmailSent": "E-mail de test trimis cu succes",
+      "remindersProcessed": "Memento-urile au fost procesate cu succes"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Configurare integrare Google Calendar",
+    "emailLabel": "Cont Gmail",
+    "emailPlaceholder": "adresa.ta@gmail.com",
+    "emailDescription": "Contul Google pe care doriți să-l utilizați pentru calendar",
+    "connected": "Cont conectat",
+    "notConnected": "Cont încă neconectat",
+    "clientIdLabel": "ID Client",
+    "clientIdPlaceholder": "ID-ul tău Google Client",
+    "clientIdDescription": "Obțineți această valoare din consola Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Client Secret-ul tău Google",
+    "clientSecretDescription": "Obțineți această valoare din consola Google Cloud",
+    "configHelp": "Ajutor pentru configurare",
+    "errors": {
+      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare"
+    },
+    "success": {
+      "settingsSaved": "Setările de sincronizare au fost salvate cu succes",
+      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes"
+    }
+  },
+  "errors": {
+    "genericError": "A apărut o eroare: {{error}}",
+    "qrCodeFetchError": "Eroare la obținerea codului QR existent:"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "username": "Nume utilizator",
+    "password": "Parola",
+    "rememberMe": "Ține-mă minte",
+    "forgotPassword": "Ați uitat parola?",
+    "loginButton": "Autentificare"
+  },
+  "clientArea": {
+    "title": "Zona Clientului",
+    "welcome": "Bine ați venit în Zona Personală",
+    "appointments": "Programările Dumneavoastră",
+    "personalInfo": "Informații Personale",
+    "consents": "Gestionare Consimțăminte",
+    "messages": "Mesaje"
+  },
+  "contacts": {
+    "accessOurContacts": "Accesați contactele noastre"
+  },
+  "appointment": {
+    "selectTimeSlots": "Selectați ora pentru programarea nouă",
+    "confirmAndAssociateClient": "Confirmați și asociați clientul",
+    "selected": "Selectat",
+    "selectSlots": "Selectați intervalele orare",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "navigation": {
+    "home": "Home",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
+  },
+  "sidebar": {
+    "clients": "Clienți",
+    "calendar": "Calendar",
+    "invoices": "Facturi",
+    "reports": "Rapoarte",
+    "settings": "Setări"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
+  }
+}

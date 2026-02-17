@@ -1,0 +1,284 @@
+{
+  "app": {
+    "title": "Gestion des Rendez-vous",
+    "welcome": "Bienvenue dans la Gestion des Rendez-vous",
+    "description": "Gérez facilement les rendez-vous, les clients et les factures"
+  },
+  "navigation": {
+    "home": "Accueil"
+  },
+  "sidebar": {
+    "clients": "Clients",
+    "calendar": "Calendrier",
+    "invoices": "Factures",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
+  "language": {
+    "it": "Italien",
+    "en": "Anglais",
+    "de": "Allemand",
+    "fr": "Français",
+    "es": "Espagnol",
+    "ru": "Russe",
+    "nl": "Néerlandais",
+    "no": "Norvégien",
+    "ro": "Roumain",
+    "select": "Sélectionner la langue"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendrier",
+      "description": "Visualisez et gérez tous les rendez-vous",
+      "content": "Affichez les rendez-vous en mode quotidien, hebdomadaire ou mensuel, et créez facilement de nouveaux rendez-vous.",
+      "button": "Accéder au Calendrier"
+    },
+    "clients": {
+      "title": "Clients",
+      "description": "Gérez les informations des clients",
+      "content": "Ajoutez, modifiez et visualisez les données des clients, y compris les informations personnelles et médicales.",
+      "button": "Gérer les Clients"
+    },
+    "invoices": {
+      "title": "Factures",
+      "description": "Gérez les factures et les paiements",
+      "content": "Créez et gérez des factures, enregistrez les paiements et suivez l'état des factures en temps réel.",
+      "button": "Gérer les Factures"
+    },
+    "reports": {
+      "title": "Rapports",
+      "description": "Analysez la performance de l'entreprise",
+      "content": "Consultez des rapports quotidiens, hebdomadaires et mensuels pour analyser la performance de l'entreprise.",
+      "button": "Voir les Rapports"
+    }
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "description": "Visualisez et gérez tous les rendez-vous",
+    "subDescription": "Affichez les rendez-vous en mode quotidien, hebdomadaire ou mensuel, et créez facilement de nouveaux rendez-vous",
+    "goTo": "Accéder au Calendrier",
+    "daily": "Quotidien",
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel",
+    "weekView": "Vue hebdomadaire",
+    "monthView": "Vue mensuelle",
+    "addAppointment": "Nouveau Rendez-vous",
+    "today": "Aujourd'hui",
+    "searchResults": "Résultats de recherche",
+    "noAppointmentsFound": "Aucun rendez-vous trouvé pour",
+    "goToDay": "Aller au jour",
+    "days": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    },
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    }
+  },
+  "clients": {
+    "title": "Clients",
+    "description": "Gérez les informations des clients",
+    "subDescription": "Ajoutez, modifiez et visualisez les données des clients, y compris les informations personnelles et médicales",
+    "goTo": "Gérer les Clients",
+    "addClient": "Nouveau Client",
+    "newClient": "Nouveau Client",
+    "addFirstClient": "Ajouter le premier client",
+    "search": {
+      "placeholder": "Rechercher des clients par nom, téléphone ou email...",
+      "minLength": "Entrez au moins 2 caractères pour rechercher"
+    },
+    "filter": {
+      "all": "Tous",
+      "frequent": "Fréquents",
+      "noConsent": "Sans Consentement"
+    },
+    "noClientsFound": "Aucun client trouvé",
+    "noClientsInSystem": "Aucun client n'est enregistré dans le système",
+    "noResultsMatch": "Aucun client ne correspond aux critères de recherche \"{{query}}\"",
+    "refreshSuccess": "Les données des clients ont été mises à jour",
+    "lastUpdate": "Dernière mise à jour",
+    "autoUpdate": "Mise à jour automatique toutes les heures et à 23h59",
+    "stats": {
+      "total": "Total des clients",
+      "frequent": "Clients fréquents",
+      "noConsent": "Sans consentement"
+    },
+    "search": "Rechercher un client",
+    "table": {
+      "name": "Prénom",
+      "surname": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "actions": "Actions"
+    },
+    "details": {
+      "title": "Détails du Client",
+      "personalInfo": "Informations Personnelles",
+      "medicalInfo": "Informations Médicales",
+      "appointments": "Rendez-vous",
+      "notes": "Notes",
+      "consents": "Consentements",
+      "clientFile": "Dossier Client",
+      "addAppointment": "Nouveau Rendez-vous",
+      "generateQRCode": "Générer QR Code",
+      "accessActivated": "QR Code d'accès client",
+      "showDetails": "Détails",
+      "deleteClient": "Supprimer client",
+      "deleteClientConfirmation": "Êtes-vous sûr de vouloir supprimer ce client? Tous ses rendez-vous seront également supprimés. Cette action ne peut pas être annulée.",
+      "notFound": "Client non trouvé",
+      "notSpecified": "Non spécifié",
+      "frequentClient": "Client fréquent",
+      "dataConsent": "Consentement au traitement des données",
+      "obtained": "Obtenu",
+      "notObtained": "Non obtenu",
+      "viewAllAppointments": "Voir tous les rendez-vous",
+      "backToClients": "Retour à la liste des clients",
+      "structuredNotes": "Notes structurées",
+      "legacyMedicalData": "Données médicales anciennes",
+      "otherInfo": "Autres informations",
+      "viewMode": "Mode d'affichage des notes",
+      "stackedView": "Vue en cartes empilées",
+      "classicView": "Vue classique",
+      "stackedViewDescription": "Les notes sont affichées sous forme de cartes empilées. Cliquez sur les cartes ou utilisez les boutons de navigation pour les parcourir.",
+      "classicViewDescription": "Les notes sont affichées en séquence verticale.",
+      "generalNotes": "Notes générales",
+      "medicalNotes": "Notes médicales",
+      "allergiesInfo": "Allergies et informations sanitaires",
+      "medicalNotesLegacy": "Notes médicales (anciennes)",
+      "allergiesInfoLegacy": "Allergies et informations sanitaires (anciennes)",
+      "generalNotesLegacy": "Notes générales (anciennes)",
+      "noMedicalNotes": "Aucune note médicale enregistrée",
+      "noAllergiesInfo": "Aucune allergie ou information sanitaire enregistrée",
+      "noGeneralNotes": "Aucune note générale enregistrée"
+    },
+    "form": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "birthDate": "Date de Naissance",
+      "address": "Adresse",
+      "city": "Ville",
+      "zipCode": "Code Postal",
+      "notes": "Notes",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "invoices": {
+    "title": "Factures",
+    "description": "Gérez les factures et les paiements",
+    "subDescription": "Créez et gérez des factures, enregistrez les paiements et suivez l'état des factures en temps réel",
+    "goTo": "Gérer les Factures",
+    "addInvoice": "Nouvelle Facture",
+    "table": {
+      "number": "Numéro",
+      "date": "Date",
+      "client": "Client",
+      "amount": "Montant",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "paid": "Payée",
+      "unpaid": "Non Payée",
+      "partial": "Paiement Partiel"
+    }
+  },
+  "reports": {
+    "title": "Rapports",
+    "description": "Analysez la performance de l'entreprise",
+    "subDescription": "Consultez des rapports quotidiens, hebdomadaires et mensuels pour analyser la performance de l'entreprise",
+    "goTo": "Voir les Rapports",
+    "daily": "Rapport Quotidien",
+    "weekly": "Rapport Hebdomadaire",
+    "monthly": "Rapport Mensuel",
+    "appointments": "Rendez-vous",
+    "clients": "Clients",
+    "revenue": "Revenus"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "general": "Général",
+    "profile": "Profil",
+    "appearance": "Apparence",
+    "notifications": "Notifications",
+    "language": "Langue",
+    "theme": "Thème",
+    "save": "Enregistrer les Paramètres"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir",
+    "search": "Rechercher",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "actions": "Actions",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "date": "Date",
+    "time": "Heure",
+    "description": "Description",
+    "support": "Support",
+    "terms": "Conditions d'utilisation",
+    "refresh": "Actualiser",
+    "error": "Erreur",
+    "birthday": "Date de naissance",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "notifications": {
+    "success": "Opération réussie",
+    "error": "Une erreur s'est produite",
+    "warning": "Avertissement",
+    "info": "Information",
+    "clientDeleted": "Client supprimé",
+    "clientDeletedSuccess": "Le client a été supprimé avec succès"
+  },
+  "errors": {
+    "genericError": "Une erreur s'est produite: {{error}}",
+    "qrCodeFetchError": "Erreur lors de la récupération du QR code existant:"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié?",
+    "loginButton": "Se connecter"
+  },
+  "clientArea": {
+    "title": "Espace Client",
+    "welcome": "Bienvenue dans votre Espace Personnel",
+    "appointments": "Vos Rendez-vous",
+    "personalInfo": "Informations Personnelles",
+    "consents": "Gestion des Consentements",
+    "messages": "Messages"
+  },
+  "contacts": {
+    "accessOurContacts": "Accéder à nos contacts"
+  }
+}

@@ -1,0 +1,77 @@
+Console.js:61 The above error occurred in the <ConsentForm> component:
+
+    at ConsentForm (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ConsentForm.tsx:69:39)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-RDMGRIFY.js?v=3572cf0e:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…orkspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:450:13
+    at _c5 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at form
+    at FormProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…nner/workspace/node_modules/.vite/deps/chunk-ZEF6PIFK.js?v=3572cf0e:102:11)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:328:7
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:251:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…rkspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:280:7
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:537:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:518:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:615:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…rkspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:634:5
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1769:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1692:58
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1009:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1683:64
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:897:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:878:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:975:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:991:22
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1009:11)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at DialogPortal (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1646:11)
+    at _c3 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/dialog.tsx:51:12)
+    at ClientForm (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientForm.tsx:85:3)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at Dialog (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=3572cf0e:1587:5)
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-RDMGRIFY.js?v=3572cf0e:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…orkspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:450:13
+    at _c5 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:328:7
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:41:17)
+    at div
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=ckRyDv_PmbC9Ec4ENhyql:80:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=ckRyDv_PmbC9Ec4ENhyql:90:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:291:17)
+    at TenantContextProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-tenant-context.tsx:23:41)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…rkspace/node_modules/.vite/deps/@tanstack_react-query.js?v=3572cf0e:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=ckRyDv_PmbC9Ec4ENhyql:661:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+chunk-C43VWYGG.js?v=3572cf0e:12281 Uncaught Error: Rendered more hooks than during the previous render.
+    at ConsentForm (ConsentForm.tsx:176:11)
+﻿
+

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Sanitario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 600px;
+            overflow: hidden;
+        }
+        
+        .login-form {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .login-form h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .dashboard {
+            padding: 40px;
+            display: none;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .dashboard-header h1 {
+            color: #333;
+        }
+        
+        .clients-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .clients-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .client-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .client-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .client-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .client-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .add-client-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .add-client-form h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+        
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+        }
+        
+        .success {
+            color: #155724;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+        }
+        
+        .credentials-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .credentials-info h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+        
+        .credentials-info ul {
+            list-style: none;
+        }
+        
+        .credentials-info li {
+            padding: 5px 0;
+            color: #333;
+        }
+        
+        .credentials-info strong {
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form di Login -->
+        <div class="login-form" id="loginSection">
+            <h1>Gestionale Sanitario</h1>
+            
+            <div class="credentials-info">
+                <h3>Credenziali di Accesso</h3>
+                <ul>
+                    <li><strong>Andrea Zambelli:</strong> zambelli.andrea.1973@gmail.com</li>
+                    <li><strong>Silvia Busnari:</strong> busnari.silvia@libero.it</li>
+                    <li><strong>Elisa Faverio:</strong> elisa.faverio@gmail.com</li>
+                    <li><em>Password per tutti: staff123</em></li>
+                </ul>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Accedi</button>
+            </form>
+            
+            <div id="loginMessage"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboardSection">
+            <div class="dashboard-header">
+                <h1>Benvenuto nel Gestionale</h1>
+                <div>
+                    <span id="userEmail"></span>
+                    <button onclick="logout()" class="btn" style="margin-left: 15px;">Logout</button>
+                </div>
+            </div>
+            
+            <div class="add-client-form">
+                <h3>Aggiungi Nuovo Cliente</h3>
+                <form id="addClientForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientName">Nome Completo</label>
+                            <input type="text" id="clientName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEmail">Email</label>
+                            <input type="email" id="clientEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPhone">Telefono</label>
+                            <input type="tel" id="clientPhone" name="phone" required>
+                        </div>
+                        <button type="submit" class="btn">Aggiungi</button>
+                    </div>
+                </form>
+                <div id="clientMessage"></div>
+            </div>
+            
+            <div class="clients-section">
+                <h2>I Tuoi Clienti</h2>
+                <div class="client-list" id="clientList">
+                    <!-- I clienti verranno caricati qui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema di autenticazione e dati locali
+        const users = {
+            'zambelli.andrea.1973@gmail.com': {
+                id: 3,
+                name: 'Andrea Zambelli',
+                studio: 'Studio Andrea Zambelli'
+            },
+            'busnari.silvia@libero.it': {
+                id: 14,
+                name: 'Silvia Busnari',
+                studio: 'Studio Medico Silvia Busnari'
+            },
+            'elisa.faverio@gmail.com': {
+                id: 15,
+                name: 'Elisa Faverio',
+                studio: 'Studio Medico Elisa Faverio'
+            }
+        };
+
+        let currentUser = null;
+        let clients = JSON.parse(localStorage.getItem('gestionale_clients') || '[]');
+
+        // Gestione login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (users[email] && password === 'staff123') {
+                currentUser = users[email];
+                currentUser.email = email;
+                
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                document.getElementById('userEmail').textContent = 'Utente: ' + email;
+                
+                loadClients();
+                showMessage('loginMessage', 'Login effettuato con successo!', 'success');
+            } else {
+                showMessage('loginMessage', 'Credenziali non valide', 'error');
+            }
+        });
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Carica clienti
+        function loadClients() {
+            const userClients = clients.filter(client => client.professionalId === currentUser.id);
+            const clientList = document.getElementById('clientList');
+            
+            if (userClients.length === 0) {
+                clientList.innerHTML = '<p>Nessun cliente trovato. Aggiungi il primo cliente!</p>';
+            } else {
+                clientList.innerHTML = '';
+                userClients.forEach(client => {
+                    const clientCard = document.createElement('div');
+                    clientCard.className = 'client-card';
+                    clientCard.innerHTML = `
+                        <div class="client-info">
+                            <h3>${client.name}</h3>
+                            <p>Email: ${client.email}</p>
+                            <p>Telefono: ${client.phone}</p>
+                            <p>Aggiunto: ${new Date(client.createdAt).toLocaleDateString('it-IT')}</p>
+                        </div>
+                        <button onclick="removeClient(${client.id})" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Rimuovi</button>
+                    `;
+                    clientList.appendChild(clientCard);
+                });
+            }
+        }
+
+        // Aggiungi cliente
+        document.getElementById('addClientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const formData = new FormData(this);
+            const newClient = {
+                id: Date.now(),
+                professionalId: currentUser.id,
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                createdAt: new Date().toISOString()
+            };
+            
+            clients.push(newClient);
+            localStorage.setItem('gestionale_clients', JSON.stringify(clients));
+            
+            this.reset();
+            loadClients();
+            showMessage('clientMessage', 'Cliente aggiunto con successo!', 'success');
+        });
+
+        // Rimuovi cliente
+        function removeClient(clientId) {
+            if (confirm('Sei sicuro di voler rimuovere questo cliente?')) {
+                clients = clients.filter(client => client.id !== clientId);
+                localStorage.setItem('gestionale_clients', JSON.stringify(clients));
+                loadClients();
+                showMessage('clientMessage', 'Cliente rimosso con successo!', 'success');
+            }
+        }
+
+        // Mostra messaggi
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${type}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

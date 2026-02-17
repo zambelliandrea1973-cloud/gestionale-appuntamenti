@@ -1,0 +1,204 @@
+17/10/2025, 15:20:21:
+runtime
+    "ownerId": 14
+17/10/2025, 15:20:21:
+runtime
+  }
+17/10/2025, 15:20:21:
+runtime
+]
+17/10/2025, 15:20:21:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 15:20:21:
+runtime
+1:20:21 PM [express] GET /api/clients 200 in 2343ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 15:20:22:
+runtime
+1:20:22 PM [express] GET /api/clients/77 304 in 3412ms :: {"id":77,"firstName":"qqqqqqqqq","lastName…
+17/10/2025, 15:20:22:
+runtime
+[DEBUG COUNT] Cliente 68 (Cliente Trial) - accessCount: 0 → display: 0
+17/10/2025, 15:20:22:
+runtime
+1:20:22 PM [express] GET /api/client-access/count/68 200 in 3413ms :: {"count":0}
+17/10/2025, 15:20:22:
+runtime
+1:20:22 PM [express] GET /api/clients/69 304 in 3421ms :: {"id":69,"firstName":"Bruna ","lastName":"…
+17/10/2025, 15:20:22:
+runtime
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:22:
+runtime
+1:20:22 PM [express] GET /api/client-access/count/70 200 in 3422ms :: {"count":0}
+17/10/2025, 15:20:22:
+runtime
+1:20:22 PM [express] GET /api/clients/70 304 in 3425ms :: {"id":70,"firstName":"Marco","lastName":"B…
+17/10/2025, 15:20:28:
+runtime
+1:20:28 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 15:20:31:
+runtime
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+runtime
+1:20:31 PM [express] GET /api/client-access/count/77 200 in 465ms :: {"count":0}
+17/10/2025, 15:20:31:
+runtime
+[DEBUG COUNT] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+runtime
+1:20:31 PM [express] GET /api/client-access/count/14002 200 in 457ms :: {"count":0}
+17/10/2025, 15:20:31:
+runtime
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+runtime
+1:20:31 PM [express] GET /api/client-access/count/75 200 in 462ms :: {"count":0}
+17/10/2025, 15:20:31:
+runtime
+[DEBUG COUNT] Cliente 69 (Bruna  Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+runtime
+1:20:31 PM [express] GET /api/client-access/count/69 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:31:
+runtime
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+runtime
+1:20:31 PM [express] GET /api/client-access/count/76 200 in 462ms :: {"count":0}
+17/10/2025, 15:20:33:
+runtime
+[DEBUG COUNT] Cliente 68 (Cliente Trial) - accessCount: 0 → display: 0
+17/10/2025, 15:20:33:
+runtime
+1:20:33 PM [express] GET /api/client-access/count/68 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:33:
+runtime
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:33:
+runtime
+1:20:33 PM [express] GET /api/client-access/count/70 200 in 461ms :: {"count":0}
+17/10/2025, 15:20:42:
+runtime
+[DEBUG COUNT] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+runtime
+1:20:42 PM [express] GET /api/client-access/count/14002 200 in 459ms :: {"count":0}
+17/10/2025, 15:20:42:
+runtime
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+runtime
+1:20:42 PM [express] GET /api/client-access/count/75 200 in 461ms :: {"count":0}
+17/10/2025, 15:20:42:
+runtime
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+runtime
+1:20:42 PM [express] GET /api/client-access/count/77 200 in 464ms :: {"count":0}
+17/10/2025, 15:20:42:
+runtime
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+runtime
+1:20:42 PM [express] GET /api/client-access/count/76 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:42:
+runtime
+[DEBUG COUNT] Cliente 69 (Bruna  Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+runtime
+1:20:42 PM [express] GET /api/client-access/count/69 200 in 463ms :: {"count":0}
+17/10/2025, 15:20:43:
+runtime
+[DEBUG COUNT] Cliente 68 (Cliente Trial) - accessCount: 0 → display: 0
+17/10/2025, 15:20:43:
+runtime
+1:20:43 PM [express] GET /api/client-access/count/68 200 in 459ms :: {"count":0}
+17/10/2025, 15:20:43:
+runtime
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:43:
+runtime
+1:20:43 PM [express] GET /api/client-access/count/70 200 in 458ms :: {"count":0}
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] GET /api/timezone-settings 200 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:20:57:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:20:57:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 428
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 64ms :: {"succes…
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:20:57:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:20:57:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 16ms :: {"id":14…
+17/10/2025, 15:20:57:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+17/10/2025, 15:20:57:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:20:57:
+runtime
+1:20:57 PM [express] GET /api/client-appointments/14004 200 in 17ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:20:57:
+runtime
+📱 PWA ICON: Trovato ownerId 14 da token QR nel referer
+17/10/2025, 15:20:57:
+runtime
+🔍 PWA ICON: Identificato proprietario 14 da token QR o fallback
+17/10/2025, 15:20:57:
+runtime
+📱 Servendo icona PWA personalizzata 192x192 per proprietario 14
+17/10/2025, 15:20:57:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:20:58:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:20:58:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:20:58:
+runtime
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:20:58:
+runtime
+  phone: '+39 3471445767',
+17/10/2025, 15:20:58:
+runtime
+  phone1: '+39 3471445767',
+17/10/2025, 15:20:58:
+runtime
+  phone2: '',
+17/10/2025, 15:20:58:
+runtime
+  website: '',
+17/10/2025, 15:20:58:
+runtime
+  instagram: 'zambelli1105',
+17/10/2025, 15:20:58:
+runtime
+  facebook: ''
+17/10/2025, 15:20:58:
+runtime
+}
+17/10/2025, 15:20:58:
+runtime
+1:20:58 PM [express] GET /api/owner-contact-info/14 200 in 233ms :: {"email":"silvia.busnari@libero.…

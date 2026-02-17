@@ -1,0 +1,1812 @@
+15/10/2025, 19:53:35:
+runtime
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+15/10/2025, 19:53:35:
+runtime
+✅ [desktop] Icone PWA per utente 9, icon length: 815939
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] GET /api/client-app-info 200 in 368ms :: {"appName":"Gestionale Sanitario","ico…
+15/10/2025, 19:53:35:
+runtime
+Trovate 1 licenze per l'utente 9
+15/10/2025, 19:53:35:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+15/10/2025, 19:53:35:
+runtime
+  id: 9,
+15/10/2025, 19:53:35:
+runtime
+  username: 'zambelli.andrea.1973A@gmail.com',
+15/10/2025, 19:53:35:
+runtime
+  firstName: null,
+15/10/2025, 19:53:35:
+runtime
+  lastName: null,
+15/10/2025, 19:53:35:
+runtime
+  licenseType: 'trial'
+15/10/2025, 19:53:35:
+runtime
+}
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] GET /api/user-with-license 200 in 493ms :: {"id":9,"username":"zambelli.andrea.…
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] POST /api/timezone-settings 200 in 317ms :: {"success":true,"timezone":"Europe/…
+15/10/2025, 19:53:35:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 9 (customer)
+15/10/2025, 19:53:35:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 9 (customer): {
+15/10/2025, 19:53:35:
+runtime
+  businessName: 'Studio Medico',
+15/10/2025, 19:53:35:
+runtime
+  showBusinessName: true,
+15/10/2025, 19:53:35:
+runtime
+  name: 'zambelli.andrea.1973A@gmail.com',
+15/10/2025, 19:53:35:
+runtime
+  fontSize: 24,
+15/10/2025, 19:53:35:
+runtime
+  fontFamily: 'Arial, sans-serif',
+15/10/2025, 19:53:35:
+runtime
+  fontStyle: 'normal',
+15/10/2025, 19:53:35:
+runtime
+  color: '#000000',
+15/10/2025, 19:53:35:
+runtime
+  enabled: true
+15/10/2025, 19:53:35:
+runtime
+}
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] GET /api/company-name-settings 200 in 238ms :: {"businessName":"Studio Medico",…
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] GET /api/contact-info 200 in 236ms :: {"email":"info@studiomedico.it","phone":"…
+15/10/2025, 19:53:35:
+runtime
+5:53:35 PM [express] GET /api/tenant-context 200 in 246ms :: {"userId":9,"userType":"customer","tena…
+15/10/2025, 19:53:36:
+runtime
+5:53:36 PM [express] GET /api/license/application-title 304 in 1157ms :: {"title":"Gestionale Sanita…
+15/10/2025, 19:53:36:
+runtime
+Recupero licenze per l'utente ID 9
+15/10/2025, 19:53:36:
+runtime
+Trovate 1 licenze per l'utente 9
+15/10/2025, 19:53:36:
+runtime
+5:53:36 PM [express] GET /api/license/license-info 200 in 1412ms :: {"hasLicense":true,"type":"trial…
+15/10/2025, 19:53:40:
+runtime
+🔧 [/api/services] [desktop] Caricati 1 servizi per utente 9
+15/10/2025, 19:53:40:
+runtime
+5:53:40 PM [express] GET /api/services 200 in 244ms :: [{"id":1759318197759,"ownerId":9,"name":"pedi…
+15/10/2025, 19:53:42:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 9
+15/10/2025, 19:53:42:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 9
+15/10/2025, 19:53:42:
+runtime
+5:53:42 PM [express] GET /api/email-calendar-settings 304 in 232ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:53:47:
+runtime
+🔧 [/api/services] [desktop] Caricati 1 servizi per utente 9
+15/10/2025, 19:53:47:
+runtime
+5:53:47 PM [express] GET /api/services 304 in 242ms :: [{"id":1759318197759,"ownerId":9,"name":"pedi…
+15/10/2025, 19:53:50:
+runtime
+📞 GET /api/contact-settings per utente 9
+15/10/2025, 19:53:50:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 9
+15/10/2025, 19:53:50:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 9
+15/10/2025, 19:53:50:
+runtime
+📞 Recupero impostazioni contatto per tenant 9
+15/10/2025, 19:53:50:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:53:50:
+runtime
+📅 [NOTIFICHE JSON] Trovati 1 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:53:50:
+runtime
+✅ [NOTIFICHE JSON] Processati 1 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:53:50:
+runtime
+5:53:50 PM [express] GET /api/notifications/upcoming-appointments 200 in 241ms :: {"success":true,"a…
+15/10/2025, 19:53:50:
+runtime
+✅ Impostazioni contatto trovate per tenant 9: {
+15/10/2025, 19:53:50:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:53:50:
+runtime
+  email: 'zambelli.andrea@libero.it',
+15/10/2025, 19:53:50:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:53:50:
+runtime
+}
+15/10/2025, 19:53:50:
+runtime
+5:53:50 PM [express] GET /api/contact-settings 200 in 461ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:53:51:
+runtime
+📞 GET /api/contact-settings per utente 9
+15/10/2025, 19:53:51:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 9
+15/10/2025, 19:53:51:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 9
+15/10/2025, 19:53:51:
+runtime
+📞 Recupero impostazioni contatto per tenant 9
+15/10/2025, 19:53:51:
+runtime
+✅ Impostazioni contatto trovate per tenant 9: {
+15/10/2025, 19:53:51:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:53:51:
+runtime
+  email: 'zambelli.andrea@libero.it',
+15/10/2025, 19:53:51:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:53:51:
+runtime
+}
+15/10/2025, 19:53:51:
+runtime
+5:53:51 PM [express] GET /api/contact-settings 304 in 467ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:53:51:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:53:51:
+runtime
+📅 [NOTIFICHE JSON] Trovati 1 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:53:51:
+runtime
+✅ [NOTIFICHE JSON] Processati 1 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:53:51:
+runtime
+5:53:51 PM [express] GET /api/notifications/upcoming-appointments 304 in 240ms :: {"success":true,"a…
+15/10/2025, 19:53:51:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 9
+15/10/2025, 19:53:51:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 9
+15/10/2025, 19:53:51:
+runtime
+5:53:51 PM [express] GET /api/email-calendar-settings 304 in 237ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:54:00:
+runtime
+Tentativo di logout per utente zambelli.andrea.1973A@gmail.com, tipo: customer
+15/10/2025, 19:54:00:
+runtime
+Logout completato con successo
+15/10/2025, 19:54:00:
+runtime
+5:54:00 PM [express] POST /api/logout 200 in 231ms :: {"success":true,"message":"Logout completato c…
+15/10/2025, 19:54:01:
+runtime
+5:54:01 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+15/10/2025, 19:54:01:
+runtime
+5:54:01 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+15/10/2025, 19:54:01:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+15/10/2025, 19:54:01:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760550841959-default
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+15/10/2025, 19:54:01:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+15/10/2025, 19:54:01:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+15/10/2025, 19:54:01:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760550841959.6204&android=1","/pwa-icon/192x192?owner=default&v=1760550841959.6204&android=1","/pwa-icon/512x512?owner=default&v=1760550841959.6204&android=1"]
+15/10/2025, 19:54:01:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+15/10/2025, 19:54:01:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+15/10/2025, 19:54:01:
+runtime
+5:54:01 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+15/10/2025, 19:54:01:
+runtime
+5:54:01 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+15/10/2025, 19:54:02:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+15/10/2025, 19:54:02:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+15/10/2025, 19:54:04:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+15/10/2025, 19:54:04:
+runtime
+Logout completato con successo
+15/10/2025, 19:54:04:
+runtime
+5:54:04 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+15/10/2025, 19:54:04:
+runtime
+5:54:04 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+15/10/2025, 19:54:10:
+runtime
+Login staff richiesto per: elisafaverio6@gmail.com
+15/10/2025, 19:54:10:
+runtime
+User not found in DB, trying JSON storage for: elisafaverio6@gmail.com
+15/10/2025, 19:54:10:
+runtime
+Login staff fallito per: elisafaverio6@gmail.com
+15/10/2025, 19:54:10:
+runtime
+5:54:10 PM [express] POST /api/staff/login 401 in 242ms :: {"message":"Username o password non valid…
+15/10/2025, 19:54:21:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+15/10/2025, 19:54:21:
+runtime
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+15/10/2025, 19:54:21:
+runtime
+5:54:21 PM [express] POST /api/staff/login 200 in 290ms :: {"id":14,"username":"busnari.silvia@liber…
+15/10/2025, 19:54:22:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760550862361-default
+15/10/2025, 19:54:22:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+15/10/2025, 19:54:22:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+15/10/2025, 19:54:22:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+15/10/2025, 19:54:22:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760550862362.3127&android=1","/pwa-icon/192x192?owner=default&v=1760550862362.3127&android=1","/pwa-icon/512x512?owner=default&v=1760550862362.3127&android=1"]
+15/10/2025, 19:54:22:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+15/10/2025, 19:54:22:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+15/10/2025, 19:54:22:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+15/10/2025, 19:54:22:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/timezone-settings 200 in 235ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/license/has-pro-access 304 in 233ms :: true
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/license/application-title 304 in 232ms :: {"title":"Gestionale Sanitar…
+15/10/2025, 19:54:22:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+15/10/2025, 19:54:22:
+runtime
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+15/10/2025, 19:54:22:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+15/10/2025, 19:54:22:
+runtime
+  id: 14,
+15/10/2025, 19:54:22:
+runtime
+  username: 'busnari.silvia@libero.it',
+15/10/2025, 19:54:22:
+runtime
+  firstName: null,
+15/10/2025, 19:54:22:
+runtime
+  lastName: null,
+15/10/2025, 19:54:22:
+runtime
+  licenseType: 'staff_free_10years'
+15/10/2025, 19:54:22:
+runtime
+}
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/user-with-license 200 in 302ms :: {"id":14,"username":"busnari.silvia@…
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/license/license-info 200 in 325ms :: {"hasLicense":true,"type":"staff_…
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/license/has-business-access 304 in 329ms :: true
+15/10/2025, 19:54:22:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+15/10/2025, 19:54:22:
+runtime
+✅ [desktop] Icone PWA per utente 14, icon length: 11967
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/client-app-info 200 in 453ms :: {"appName":"Gestionale Sanitario","ico…
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] POST /api/timezone-settings 200 in 241ms :: {"success":true,"timezone":"Europe/…
+15/10/2025, 19:54:22:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+15/10/2025, 19:54:22:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+15/10/2025, 19:54:22:
+runtime
+  businessName: 'Studio Medico',
+15/10/2025, 19:54:22:
+runtime
+  showBusinessName: true,
+15/10/2025, 19:54:22:
+runtime
+  name: 'Silvia Busnari',
+15/10/2025, 19:54:22:
+runtime
+  fontSize: 45,
+15/10/2025, 19:54:22:
+runtime
+  fontFamily: 'Lucida Sans Unicode',
+15/10/2025, 19:54:22:
+runtime
+  fontStyle: 'italic',
+15/10/2025, 19:54:22:
+runtime
+  color: '#006400',
+15/10/2025, 19:54:22:
+runtime
+  enabled: true
+15/10/2025, 19:54:22:
+runtime
+}
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/company-name-settings 200 in 247ms :: {"businessName":"Studio Medico",…
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/tenant-context 200 in 232ms :: {"userId":14,"userType":"staff","tenant…
+15/10/2025, 19:54:22:
+runtime
+5:54:22 PM [express] GET /api/contact-info 200 in 245ms :: {"email":"busnari.silvia@libero.it","phon…
+15/10/2025, 19:54:25:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:54:25:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:54:25:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:54:25:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:54:25:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:54:25:
+runtime
+📅 [NOTIFICHE JSON] Trovati 10 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:54:25:
+runtime
+✅ [NOTIFICHE JSON] Processati 10 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:54:25:
+runtime
+5:54:25 PM [express] GET /api/notifications/upcoming-appointments 200 in 242ms :: {"success":true,"a…
+15/10/2025, 19:54:25:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:54:25:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:54:25:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:54:25:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:54:25:
+runtime
+}
+15/10/2025, 19:54:25:
+runtime
+5:54:25 PM [express] GET /api/contact-settings 200 in 465ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:54:25:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:54:25:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:54:25:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:54:25:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:54:25:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:54:25:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:54:25:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:54:25:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:54:25:
+runtime
+}
+15/10/2025, 19:54:25:
+runtime
+5:54:25 PM [express] GET /api/contact-settings 304 in 459ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:54:26:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:54:26:
+runtime
+📅 [NOTIFICHE JSON] Trovati 10 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:54:26:
+runtime
+✅ [NOTIFICHE JSON] Processati 10 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:54:26:
+runtime
+5:54:26 PM [express] GET /api/notifications/upcoming-appointments 304 in 242ms :: {"success":true,"a…
+15/10/2025, 19:54:26:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 14
+15/10/2025, 19:54:26:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 14
+15/10/2025, 19:54:26:
+runtime
+5:54:26 PM [express] GET /api/email-calendar-settings 304 in 234ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:54:33:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:54:33:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:54:33:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:54:33:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:54:34:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:54:34:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:54:34:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:54:34:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:54:34:
+runtime
+}
+15/10/2025, 19:54:34:
+runtime
+5:54:34 PM [express] GET /api/contact-settings 304 in 461ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:54:34:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:54:34:
+runtime
+📅 [NOTIFICHE JSON] Trovati 10 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:54:34:
+runtime
+✅ [NOTIFICHE JSON] Processati 10 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:54:34:
+runtime
+5:54:34 PM [express] GET /api/notifications/upcoming-appointments 304 in 246ms :: {"success":true,"a…
+15/10/2025, 19:54:34:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 14
+15/10/2025, 19:54:34:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 14
+15/10/2025, 19:54:34:
+runtime
+5:54:34 PM [express] GET /api/email-calendar-settings 304 in 239ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/timezone-settings 200 in 231ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 19:54:37:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:54:37:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:54:37:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 35 appuntamenti
+15/10/2025, 19:54:37:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 35 appuntamenti
+15/10/2025, 19:54:37:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-15
+15/10/2025, 19:54:37:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 48
+15/10/2025, 19:54:37:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:54:37:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-15: 0
+15/10/2025, 19:54:37:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:54:37:
+runtime
+📦 [/api/clients] [desktop] Caricati 39 clienti totali dal storage
+15/10/2025, 19:54:37:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+15/10/2025, 19:54:37:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+15/10/2025, 19:54:37:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 5 clienti propri
+15/10/2025, 19:54:37:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+15/10/2025, 19:54:37:
+runtime
+  {
+15/10/2025, 19:54:37:
+runtime
+    "id": 14001,
+15/10/2025, 19:54:37:
+runtime
+    "firstName": "Cliente",
+15/10/2025, 19:54:37:
+runtime
+    "lastName": "Trial",
+15/10/2025, 19:54:37:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+15/10/2025, 19:54:37:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:37:
+runtime
+  },
+15/10/2025, 19:54:37:
+runtime
+  {
+15/10/2025, 19:54:37:
+runtime
+    "id": 14002,
+15/10/2025, 19:54:37:
+runtime
+    "firstName": "andrea",
+15/10/2025, 19:54:37:
+runtime
+    "lastName": "zambelli",
+15/10/2025, 19:54:37:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+15/10/2025, 19:54:37:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:37:
+runtime
+  },
+15/10/2025, 19:54:37:
+runtime
+  {
+15/10/2025, 19:54:37:
+runtime
+    "id": 14004,
+15/10/2025, 19:54:37:
+runtime
+    "firstName": "Bruna ",
+15/10/2025, 19:54:37:
+runtime
+    "lastName": "Pizzolato",
+15/10/2025, 19:54:37:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
+15/10/2025, 19:54:37:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:37:
+runtime
+  },
+15/10/2025, 19:54:37:
+runtime
+  {
+15/10/2025, 19:54:37:
+runtime
+    "id": 14003,
+15/10/2025, 19:54:37:
+runtime
+    "firstName": "Marco",
+15/10/2025, 19:54:37:
+runtime
+    "lastName": "Berto",
+15/10/2025, 19:54:37:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+15/10/2025, 19:54:37:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:37:
+runtime
+  },
+15/10/2025, 19:54:37:
+runtime
+  {
+15/10/2025, 19:54:37:
+runtime
+    "id": 14005,
+15/10/2025, 19:54:37:
+runtime
+    "firstName": "ADV",
+15/10/2025, 19:54:37:
+runtime
+    "lastName": "ADSVA",
+15/10/2025, 19:54:37:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14005",
+15/10/2025, 19:54:37:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:37:
+runtime
+  }
+15/10/2025, 19:54:37:
+runtime
+]
+15/10/2025, 19:54:37:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 5/5
+15/10/2025, 19:54:37:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi per utente 14
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/appointments/date/2025-10-15 304 in 262ms :: []
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/clients 200 in 264ms :: [{"id":14001,"firstName":"Cliente","lastName":…
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/services 200 in 263ms :: [{"id":1750225060109,"ownerId":14,"name":"bio…
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/appointments 200 in 272ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/treatment-rooms 200 in 512ms :: [{"id":1,"userId":14,"name":"cabina 2"…
+15/10/2025, 19:54:37:
+runtime
+🔍 DEBUG API COLLABORATORS: {
+15/10/2025, 19:54:37:
+runtime
+  userId: 14,
+15/10/2025, 19:54:37:
+runtime
+  count: 2,
+15/10/2025, 19:54:37:
+runtime
+  collaborators: [
+15/10/2025, 19:54:37:
+runtime
+    {
+15/10/2025, 19:54:37:
+runtime
+      id: 1,
+15/10/2025, 19:54:37:
+runtime
+      firstName: 'nicol',
+15/10/2025, 19:54:37:
+runtime
+      lastName: 'kidman',
+15/10/2025, 19:54:37:
+runtime
+      isActive: true,
+15/10/2025, 19:54:37:
+runtime
+      hasIsActiveField: true,
+15/10/2025, 19:54:37:
+runtime
+      allFields: [Array]
+15/10/2025, 19:54:37:
+runtime
+    },
+15/10/2025, 19:54:37:
+runtime
+    {
+15/10/2025, 19:54:37:
+runtime
+      id: 2,
+15/10/2025, 19:54:37:
+runtime
+      firstName: 'silvia',
+15/10/2025, 19:54:37:
+runtime
+      lastName: 'busnari',
+15/10/2025, 19:54:37:
+runtime
+      isActive: true,
+15/10/2025, 19:54:37:
+runtime
+      hasIsActiveField: true,
+15/10/2025, 19:54:37:
+runtime
+      allFields: [Array]
+15/10/2025, 19:54:37:
+runtime
+    }
+15/10/2025, 19:54:37:
+runtime
+  ]
+15/10/2025, 19:54:37:
+runtime
+}
+15/10/2025, 19:54:37:
+runtime
+5:54:37 PM [express] GET /api/collaborators 200 in 520ms :: [{"id":1,"userId":14,"firstName":"nicol"…
+15/10/2025, 19:54:40:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:54:40:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 48
+15/10/2025, 19:54:40:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:54:40:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 0
+15/10/2025, 19:54:40:
+runtime
+5:54:40 PM [express] GET /api/appointments/date/2025-10-16 200 in 239ms :: []
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/user 200 in 236ms
+15/10/2025, 19:54:54:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi per utente 14
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/services 304 in 243ms :: [{"id":1750225060109,"ownerId":14,"name":"bio…
+15/10/2025, 19:54:54:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:54:54:
+runtime
+📦 [/api/clients] [desktop] Caricati 39 clienti totali dal storage
+15/10/2025, 19:54:54:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+15/10/2025, 19:54:54:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+15/10/2025, 19:54:54:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 5 clienti propri
+15/10/2025, 19:54:54:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+15/10/2025, 19:54:54:
+runtime
+  {
+15/10/2025, 19:54:54:
+runtime
+    "id": 14001,
+15/10/2025, 19:54:54:
+runtime
+    "firstName": "Cliente",
+15/10/2025, 19:54:54:
+runtime
+    "lastName": "Trial",
+15/10/2025, 19:54:54:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+15/10/2025, 19:54:54:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:54:
+runtime
+  },
+15/10/2025, 19:54:54:
+runtime
+  {
+15/10/2025, 19:54:54:
+runtime
+    "id": 14002,
+15/10/2025, 19:54:54:
+runtime
+    "firstName": "andrea",
+15/10/2025, 19:54:54:
+runtime
+    "lastName": "zambelli",
+15/10/2025, 19:54:54:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+15/10/2025, 19:54:54:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:54:
+runtime
+  },
+15/10/2025, 19:54:54:
+runtime
+  {
+15/10/2025, 19:54:54:
+runtime
+    "id": 14004,
+15/10/2025, 19:54:54:
+runtime
+    "firstName": "Bruna ",
+15/10/2025, 19:54:54:
+runtime
+    "lastName": "Pizzolato",
+15/10/2025, 19:54:54:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
+15/10/2025, 19:54:54:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:54:
+runtime
+  },
+15/10/2025, 19:54:54:
+runtime
+  {
+15/10/2025, 19:54:54:
+runtime
+    "id": 14003,
+15/10/2025, 19:54:54:
+runtime
+    "firstName": "Marco",
+15/10/2025, 19:54:54:
+runtime
+    "lastName": "Berto",
+15/10/2025, 19:54:54:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+15/10/2025, 19:54:54:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:54:
+runtime
+  },
+15/10/2025, 19:54:54:
+runtime
+  {
+15/10/2025, 19:54:54:
+runtime
+    "id": 14005,
+15/10/2025, 19:54:54:
+runtime
+    "firstName": "ADV",
+15/10/2025, 19:54:54:
+runtime
+    "lastName": "ADSVA",
+15/10/2025, 19:54:54:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14005",
+15/10/2025, 19:54:54:
+runtime
+    "ownerId": 14
+15/10/2025, 19:54:54:
+runtime
+  }
+15/10/2025, 19:54:54:
+runtime
+]
+15/10/2025, 19:54:54:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 5/5
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/clients 304 in 265ms :: [{"id":14001,"firstName":"Cliente","lastName":…
+15/10/2025, 19:54:54:
+runtime
+🔍 DEBUG API COLLABORATORS: {
+15/10/2025, 19:54:54:
+runtime
+  userId: 14,
+15/10/2025, 19:54:54:
+runtime
+  count: 2,
+15/10/2025, 19:54:54:
+runtime
+  collaborators: [
+15/10/2025, 19:54:54:
+runtime
+    {
+15/10/2025, 19:54:54:
+runtime
+      id: 1,
+15/10/2025, 19:54:54:
+runtime
+      firstName: 'nicol',
+15/10/2025, 19:54:54:
+runtime
+      lastName: 'kidman',
+15/10/2025, 19:54:54:
+runtime
+      isActive: true,
+15/10/2025, 19:54:54:
+runtime
+      hasIsActiveField: true,
+15/10/2025, 19:54:54:
+runtime
+      allFields: [Array]
+15/10/2025, 19:54:54:
+runtime
+    },
+15/10/2025, 19:54:54:
+runtime
+    {
+15/10/2025, 19:54:54:
+runtime
+      id: 2,
+15/10/2025, 19:54:54:
+runtime
+      firstName: 'silvia',
+15/10/2025, 19:54:54:
+runtime
+      lastName: 'busnari',
+15/10/2025, 19:54:54:
+runtime
+      isActive: true,
+15/10/2025, 19:54:54:
+runtime
+      hasIsActiveField: true,
+15/10/2025, 19:54:54:
+runtime
+      allFields: [Array]
+15/10/2025, 19:54:54:
+runtime
+    }
+15/10/2025, 19:54:54:
+runtime
+  ]
+15/10/2025, 19:54:54:
+runtime
+}
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/collaborators 304 in 462ms :: [{"id":1,"userId":14,"firstName":"nicol"…
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/treatment-rooms 304 in 505ms :: [{"id":1,"userId":14,"name":"cabina 2"…
+15/10/2025, 19:54:54:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi per utente 14
+15/10/2025, 19:54:54:
+runtime
+5:54:54 PM [express] GET /api/services 200 in 235ms :: [{"id":1750225060109,"ownerId":14,"name":"bio…
+15/10/2025, 19:55:05:
+runtime
+📅 [/api/appointments] POST - Creazione appuntamento per utente 14
+15/10/2025, 19:55:05:
+runtime
+📝 Dati ricevuti: {
+15/10/2025, 19:55:05:
+runtime
+  clientId: 14004,
+15/10/2025, 19:55:05:
+runtime
+  serviceId: 1750225060109,
+15/10/2025, 19:55:05:
+runtime
+  staffId: 1,
+15/10/2025, 19:55:05:
+runtime
+  roomId: 1,
+15/10/2025, 19:55:05:
+runtime
+  date: '2025-10-16',
+15/10/2025, 19:55:05:
+runtime
+  startTime: '08:00:00',
+15/10/2025, 19:55:05:
+runtime
+  endTime: '09:00:00',
+15/10/2025, 19:55:05:
+runtime
+  notes: '',
+15/10/2025, 19:55:05:
+runtime
+  reminderType: '',
+15/10/2025, 19:55:05:
+runtime
+  status: 'scheduled'
+15/10/2025, 19:55:05:
+runtime
+}
+15/10/2025, 19:55:05:
+runtime
+✅ [VALIDAZIONE] Cliente e servizio verificati per appuntamento
+15/10/2025, 19:55:05:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 19:55:05:
+runtime
+✅ [JSON] Appuntamento 1760550905276 salvato nel JSON con staffId: 1, roomId: 1
+15/10/2025, 19:55:05:
+runtime
+📝 [NOTIFICHE] Appuntamento creato senza invio automatico - verrà gestito manualmente o dal job scheduler
+15/10/2025, 19:55:05:
+runtime
+5:55:05 PM [express] POST /api/appointments 201 in 245ms :: {"id":1760550905276,"clientId":14004,"se…
+15/10/2025, 19:55:05:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:05:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:05:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:05:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:05:
+runtime
+5:55:05 PM [express] GET /api/appointments 200 in 272ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:06:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:06:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:06:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:06:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:06:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:06:
+runtime
+5:55:06 PM [express] GET /api/appointments/date/2025-10-16 200 in 244ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:06:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:06:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:06:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:06:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:06:
+runtime
+5:55:06 PM [express] GET /api/appointments 304 in 257ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:06:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:06:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:06:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:06:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:06:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:06:
+runtime
+5:55:06 PM [express] GET /api/appointments/date/2025-10-16 304 in 257ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:07:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:07:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:07:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:07:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:07:
+runtime
+5:55:07 PM [express] GET /api/appointments 304 in 257ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:07:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:07:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:07:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:07:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:07:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:07:
+runtime
+5:55:07 PM [express] GET /api/appointments/date/2025-10-16 304 in 263ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:07:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:07:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:07:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:07:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:07:
+runtime
+5:55:07 PM [express] GET /api/appointments 304 in 264ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:07:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:07:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:07:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:07:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:07:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:07:
+runtime
+5:55:07 PM [express] GET /api/appointments/date/2025-10-16 304 in 243ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:07:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:07:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:07:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:07:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:07:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:07:
+runtime
+5:55:07 PM [express] GET /api/appointments/date/2025-10-16 304 in 238ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:08:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:08:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:08:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:08:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:08:
+runtime
+5:55:08 PM [express] GET /api/appointments 304 in 248ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:08:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:08:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:08:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:08:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:08:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:08:
+runtime
+5:55:08 PM [express] GET /api/appointments/date/2025-10-16 304 in 239ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:55:08:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+15/10/2025, 19:55:08:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+15/10/2025, 19:55:08:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 5 clienti, 36 appuntamenti
+15/10/2025, 19:55:08:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 36 appuntamenti
+15/10/2025, 19:55:08:
+runtime
+5:55:08 PM [express] GET /api/appointments 304 in 256ms :: [{"id":1750226496608,"clientId":14004,"se…
+15/10/2025, 19:55:09:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+15/10/2025, 19:55:09:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+15/10/2025, 19:55:09:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+15/10/2025, 19:55:09:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 1
+15/10/2025, 19:55:09:
+runtime
+🔍 [desktop] Processing appointment 1760550905276, clientId: 14004, serviceId: 1750225060109
+15/10/2025, 19:55:09:
+runtime
+5:55:09 PM [express] GET /api/appointments/date/2025-10-16 304 in 242ms :: [{"id":1760550905276,"cli…
+15/10/2025, 19:57:38:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:57:38:
+runtime
+📅 [NOTIFICHE JSON] Trovati 11 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:57:38:
+runtime
+✅ [NOTIFICHE JSON] Processati 11 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:57:38:
+runtime
+5:57:38 PM [express] GET /api/notifications/upcoming-appointments 200 in 4342ms :: {"success":true,"…
+15/10/2025, 19:57:38:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:57:38:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:57:38:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:57:38:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:57:38:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:57:38:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:57:38:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:57:38:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:57:38:
+runtime
+}
+15/10/2025, 19:57:38:
+runtime
+5:57:38 PM [express] GET /api/contact-settings 304 in 4591ms :: {"success":true,"settings":{"phone":…
+15/10/2025, 19:57:38:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:57:38:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:57:38:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:57:38:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:57:39:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:57:39:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:57:39:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:57:39:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:57:39:
+runtime
+}
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/contact-settings 304 in 567ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:57:39:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:57:39:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:57:39:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:57:39:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:57:39:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:57:39:
+runtime
+📅 [NOTIFICHE JSON] Trovati 11 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:57:39:
+runtime
+✅ [NOTIFICHE JSON] Processati 11 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/notifications/upcoming-appointments 304 in 241ms :: {"success":true,"a…
+15/10/2025, 19:57:39:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 14
+15/10/2025, 19:57:39:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 14
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/email-calendar-settings 304 in 232ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:57:39:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:57:39:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:57:39:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:57:39:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:57:39:
+runtime
+}
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/contact-settings 304 in 460ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:57:39:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:57:39:
+runtime
+📅 [NOTIFICHE JSON] Trovati 11 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:57:39:
+runtime
+✅ [NOTIFICHE JSON] Processati 11 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/notifications/upcoming-appointments 304 in 239ms :: {"success":true,"a…
+15/10/2025, 19:57:39:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 14
+15/10/2025, 19:57:39:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 14
+15/10/2025, 19:57:39:
+runtime
+5:57:39 PM [express] GET /api/email-calendar-settings 304 in 232ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 19:57:44:
+runtime
+📞 GET /api/contact-settings per utente 14
+15/10/2025, 19:57:44:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 14
+15/10/2025, 19:57:44:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 14
+15/10/2025, 19:57:44:
+runtime
+📞 Recupero impostazioni contatto per tenant 14
+15/10/2025, 19:57:44:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:57:44:
+runtime
+📅 [NOTIFICHE JSON] Trovati 11 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:57:44:
+runtime
+✅ [NOTIFICHE JSON] Processati 11 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:57:44:
+runtime
+5:57:44 PM [express] GET /api/notifications/upcoming-appointments 304 in 240ms :: {"success":true,"a…
+15/10/2025, 19:57:44:
+runtime
+✅ Impostazioni contatto trovate per tenant 14: {
+15/10/2025, 19:57:44:
+runtime
+  phone: '+393472550110',
+15/10/2025, 19:57:44:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+15/10/2025, 19:57:44:
+runtime
+  whatsappOptIn: true
+15/10/2025, 19:57:44:
+runtime
+}
+15/10/2025, 19:57:44:
+runtime
+5:57:44 PM [express] GET /api/contact-settings 304 in 519ms :: {"success":true,"settings":{"phone":"…
+15/10/2025, 19:57:44:
+runtime
+🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-05 - 2025-10-16
+15/10/2025, 19:57:44:
+runtime
+📅 [NOTIFICHE JSON] Trovati 11 appuntamenti da 2025-10-05 a 2025-10-16
+15/10/2025, 19:57:44:
+runtime
+✅ [NOTIFICHE JSON] Processati 11 appuntamenti per notifiche WhatsApp
+15/10/2025, 19:57:44:
+runtime
+5:57:44 PM [express] GET /api/notifications/upcoming-appointments 304 in 238ms :: {"success":true,"a…
+15/10/2025, 19:57:44:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 14
+15/10/2025, 19:57:44:
+runtime
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 14
+15/10/2025, 19:57:44:
+runtime
+5:57:44 PM [express] GET /api/email-calendar-settings 304 in 247ms :: {"emailEnabled":true,"emailAdd…
+15/10/2025, 20:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-15T18:00:00.968Z
+15/10/2025, 20:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+15/10/2025, 20:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 1 appuntamenti per domani (Thu Oct 16 2025)
+15/10/2025, 20:00:00:
+runtime
+📧 [NOTIFICHE JSON] Appuntamento ID 1760550905276 del 2025-10-16 alle 08:00:00 aggiunto ai promemoria di domani
+15/10/2025, 20:00:00:
+runtime
+Trovati 1 appuntamenti di domani che necessitano di promemoria automatici
+15/10/2025, 20:00:00:
+runtime
+Generazione link WhatsApp per +393270881677
+15/10/2025, 20:00:00:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 20:00:00:
+runtime
+✅ Notifica aggiunta al centro notifiche JSON per il cliente 0
+15/10/2025, 20:00:00:
+runtime
+WhatsApp inviato con successo per l'appuntamento 1760550905276 direct-whatsapp-1760551200996
+15/10/2025, 20:00:01:
+runtime
+Invio email promemoria a brunapizzolato77@gmail.com con oggetto: Promemoria appuntamento del 15/10/2025
+15/10/2025, 20:00:01:
+runtime
+Email promemoria inviata con successo: 
+15/10/2025, 20:00:01:
+runtime
+Email inviata con successo per l'appuntamento 1760550905276 a brunapizzolato77@gmail.com
+15/10/2025, 20:00:01:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 20:00:01:
+runtime
+✅ [NOTIFICHE JSON] Promemoria inviato con successo per l'appuntamento 1760550905276. Canali riusciti: 2, falliti: 0
+15/10/2025, 20:00:01:
+runtime
+Inviati 1/1 promemoria
+15/10/2025, 20:00:01:
+runtime
+Job completato: inviati 1 promemoria
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+15/10/2025, 20:00:04:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 20:00:04:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 414
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 15ms :: {"succes…
+15/10/2025, 20:00:04:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+15/10/2025, 20:00:04:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 7ms :: {"id":140…
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+15/10/2025, 20:00:04:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+15/10/2025, 20:00:04:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 9 appuntamenti per cliente 14004
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/client-appointments/14004 200 in 7ms :: [{"id":1750226496608,"date":"2…
+15/10/2025, 20:00:04:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+15/10/2025, 20:00:04:
+runtime
+  email: 'busnari.silvia@libero.it',
+15/10/2025, 20:00:04:
+runtime
+  phone: '+39 123 456 7890',
+15/10/2025, 20:00:04:
+runtime
+  phone1: '+39 3471445767',
+15/10/2025, 20:00:04:
+runtime
+  website: 'biomedicinaintegrata.it',
+15/10/2025, 20:00:04:
+runtime
+  instagram: 'Biomedicinaintegrata'
+15/10/2025, 20:00:04:
+runtime
+}
+15/10/2025, 20:00:04:
+runtime
+6:00:04 PM [express] GET /api/owner-contact-info/14 304 in 9ms :: {"email":"busnari.silvia@libero.it…
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+15/10/2025, 20:00:08:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 20:00:08:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 415
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 16ms :: {"succes…
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+15/10/2025, 20:00:08:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+15/10/2025, 20:00:08:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 6ms :: {"id":140…
+15/10/2025, 20:00:08:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+15/10/2025, 20:00:08:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 9 appuntamenti per cliente 14004
+15/10/2025, 20:00:08:
+runtime
+6:00:08 PM [express] GET /api/client-appointments/14004 200 in 7ms :: [{"id":1750226496608,"date":"2…
+15/10/2025, 20:00:08:
+runtime
+📱 PWA ICON: Trovato ownerId 14 da token QR nel referer
+15/10/2025, 20:00:08:
+runtime
+🔍 PWA ICON: Identificato proprietario 14 da token QR o fallback
+15/10/2025, 20:00:08:
+runtime
+📱 Servendo icona PWA personalizzata 192x192 per proprietario 14
+15/10/2025, 20:00:09:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+15/10/2025, 20:00:09:
+runtime
+  email: 'busnari.silvia@libero.it',
+15/10/2025, 20:00:09:
+runtime
+  phone: '+39 123 456 7890',
+15/10/2025, 20:00:09:
+runtime
+  phone1: '+39 3471445767',
+15/10/2025, 20:00:09:
+runtime
+  website: 'biomedicinaintegrata.it',
+15/10/2025, 20:00:09:
+runtime
+  instagram: 'Biomedicinaintegrata'
+15/10/2025, 20:00:09:
+runtime
+}
+15/10/2025, 20:00:09:
+runtime
+6:00:09 PM [express] GET /api/owner-contact-info/14 304 in 6ms :: {"email":"busnari.silvia@libero.it…
+15/10/2025, 20:00:13:
+runtime
+6:00:13 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 20:00:13:
+runtime
+6:00:13 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+15/10/2025, 20:00:13:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+15/10/2025, 20:00:13:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 416
+15/10/2025, 20:00:13:
+runtime
+6:00:13 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 18ms :: {"succes…
+15/10/2025, 20:00:13:
+runtime
+6:00:13 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+15/10/2025, 20:00:14:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+15/10/2025, 20:00:14:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+15/10/2025, 20:00:14:
+runtime
+6:00:14 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 9ms :: {"id":140…
+15/10/2025, 20:00:14:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+15/10/2025, 20:00:14:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 9 appuntamenti per cliente 14004
+15/10/2025, 20:00:14:
+runtime
+6:00:14 PM [express] GET /api/client-appointments/14004 200 in 8ms :: [{"id":1750226496608,"date":"2…
+15/10/2025, 20:00:14:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+15/10/2025, 20:00:14:
+runtime
+  email: 'busnari.silvia@libero.it',
+15/10/2025, 20:00:14:
+runtime
+  phone: '+39 123 456 7890',
+15/10/2025, 20:00:14:
+runtime
+  phone1: '+39 3471445767',
+15/10/2025, 20:00:14:
+runtime
+  website: 'biomedicinaintegrata.it',
+15/10/2025, 20:00:14:
+runtime
+  instagram: 'Biomedicinaintegrata'
+15/10/2025, 20:00:14:
+runtime
+}
+15/10/2025, 20:00:14:
+runtime
+6:00:14 PM [express] GET /api/owner-contact-info/14 304 in 6ms :: {"email":"busnari.silvia@libero.it…
+15/10/2025, 20:02:52:
+runtime
+6:02:52 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+15/10/2025, 20:03:02:
+runtime
+6:03:02 PM [express] GET /api/debug/storage-check 200 in 1ms

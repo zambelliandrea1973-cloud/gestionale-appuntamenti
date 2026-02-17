@@ -1,0 +1,201 @@
+27/10/2025, 16:31:36:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+27/10/2025, 16:31:37:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+27/10/2025, 16:31:37:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 14, dimensione: 678765 bytes
+27/10/2025, 16:31:37:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+27/10/2025, 16:31:37:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/75
+27/10/2025, 16:31:37:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/85
+27/10/2025, 16:31:37:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/81
+27/10/2025, 16:31:37:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/70
+27/10/2025, 16:31:37:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/86
+27/10/2025, 16:31:37:
+runtime
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+27/10/2025, 16:31:37:
+runtime
+3:31:37 PM [express] GET /api/client-access/count/75 200 in 470ms :: {"count":0}
+27/10/2025, 16:31:37:
+runtime
+[DEBUG COUNT] Cliente 81 (Ciccio Lippo) - accessCount: 0 → display: 0
+27/10/2025, 16:31:37:
+runtime
+3:31:37 PM [express] GET /api/client-access/count/81 200 in 466ms :: {"count":0}
+27/10/2025, 16:31:37:
+runtime
+[DEBUG COUNT] Cliente 85 (Ffff Dddd) - accessCount: 0 → display: 0
+27/10/2025, 16:31:37:
+runtime
+3:31:37 PM [express] GET /api/client-access/count/85 200 in 474ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 86 (Ffff Dddd) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/86 200 in 471ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/70 200 in 557ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/82
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/14004
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/83
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 82 (Erika  Dipietro) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/82 200 in 464ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 14004 (Bruna  Pizzolato) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/14004 200 in 466ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/14002
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/88
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/78
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 83 (Rrrr Tttt) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/83 200 in 460ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/14002 200 in 458ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 88 (And Zam) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/88 200 in 460ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+[DEBUG COUNT] Cliente 78 (Stefania Zambelli ) - accessCount: 0 → display: 0
+27/10/2025, 16:31:38:
+runtime
+3:31:38 PM [express] GET /api/client-access/count/78 200 in 466ms :: {"count":0}
+27/10/2025, 16:31:38:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/68
+27/10/2025, 16:31:39:
+runtime
+[DEBUG COUNT] Cliente 68 (Cliente Trial) - accessCount: 0 → display: 0
+27/10/2025, 16:31:39:
+runtime
+3:31:39 PM [express] GET /api/client-access/count/68 200 in 466ms :: {"count":0}
+27/10/2025, 16:31:39:
+runtime
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-access/count/84
+27/10/2025, 16:31:39:
+runtime
+[DEBUG COUNT] Cliente 84 (Ppppp Qqqq) - accessCount: 0 → display: 0
+27/10/2025, 16:31:39:
+runtime
+3:31:39 PM [express] GET /api/client-access/count/84 200 in 464ms :: {"count":0}
+27/10/2025, 16:31:41:
+runtime
+3:31:41 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+27/10/2025, 16:31:41:
+runtime
+3:31:41 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"America/L…
+27/10/2025, 16:31:41:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+27/10/2025, 16:31:41:
+runtime
+✅ [PWA ACCESS] Cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C) - Accesso registrato: 68
+27/10/2025, 16:31:41:
+runtime
+3:31:41 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14003_816C 200 in 47ms :: {"succes…
+27/10/2025, 16:31:41:
+runtime
+3:31:41 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+27/10/2025, 16:31:41:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14003_816C
+27/10/2025, 16:31:41:
+runtime
+🏠 [CLIENT ACCESS PG] Cliente autenticato: Marco Berto
+27/10/2025, 16:31:41:
+runtime
+3:31:41 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14003_816C 200 in 233ms :: {"id":7…
+27/10/2025, 16:31:41:
+runtime
+📅 [CLIENT APPOINTMENTS PG] Caricamento per cliente: 70 Owner: 14
+27/10/2025, 16:31:42:
+runtime
+📅 [CLIENT APPOINTMENTS PG] Trovati 11 appuntamenti per cliente 70
+27/10/2025, 16:31:42:
+runtime
+3:31:42 PM [express] GET /api/client-appointments/70 200 in 232ms :: [{"id":133,"date":"2025-06-19",…
+27/10/2025, 16:31:42:
+runtime
+Recupero impostazioni per utente 14
+27/10/2025, 16:31:42:
+runtime
+Impostazioni trovate per utente 14: SI
+27/10/2025, 16:31:42:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+27/10/2025, 16:31:42:
+runtime
+  email: 'silvia.busnari@libero.it',
+27/10/2025, 16:31:42:
+runtime
+  phone: '+39 3471445767',
+27/10/2025, 16:31:42:
+runtime
+  phone1: '+39 3471445767',
+27/10/2025, 16:31:42:
+runtime
+  phone2: '',
+27/10/2025, 16:31:42:
+runtime
+  website: 'biomedicinaintegrata.it',
+27/10/2025, 16:31:42:
+runtime
+  instagram: 'biomedicinaintegrata',
+27/10/2025, 16:31:42:
+runtime
+  facebook: 'SilviaBusnari'
+27/10/2025, 16:31:42:
+runtime
+}
+27/10/2025, 16:31:42:
+runtime
+3:31:42 PM [express] GET /api/owner-contact-info/14 200 in 232ms :: {"email":"silvia.busnari@libero.…

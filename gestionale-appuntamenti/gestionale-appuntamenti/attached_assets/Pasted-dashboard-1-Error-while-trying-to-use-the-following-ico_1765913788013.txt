@@ -1,0 +1,2536 @@
+dashboard:1 Error while trying to use the following icon from the Manifest: https://wife-scheduler-zambelliandrea1.replit.app/pwa-icon/192x192?owner=default&v=1765913697130.5088&android=1 (Download error or resource isn't a valid image)
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<' (at disable-vite-overlay.js:1:1)
+dashboard:130 🚨 NUKE MODE: Unregistering ALL service workers...
+dashboard:184 PWA check - standalone mode: false
+dashboard:185 PWA check - iOS fullscreen: undefined
+dashboard:286 🚫 Service Worker registration DISABLED to prevent stale bundle caching
+index-Bsy6A5hi.js:728 Nessuna informazione di contatto disponibile
+index-Bsy6A5hi.js:1350 Fuso orario rilevato: Europe/Zurich (Ora standard dell’Europa centrale), Offset: UTC+1
+index-Bsy6A5hi.js:751 🏠 HOME AppIcon: Inizio caricamento icona
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:751 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+dashboard:163 ✅ Service worker check complete, no reload needed
+index-Bsy6A5hi.js:751 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-Bsy6A5hi.js:1350 Fuso orario diverso da quello salvato, aggiornamento...
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+Fetch ha finito di caricare: GET "<URL>".
+manifest.json:1 Manifest: property 'scope' ignored. Start url should be within scope of scope URL.
+index-Bsy6A5hi.js:751 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-Bsy6A5hi.js:728 Nessuna informazione di contatto disponibile
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/dashboard'}
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+index-Bsy6A5hi.js:751 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765913697899
+index-Bsy6A5hi.js:751 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:1350 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:728 Nessuna informazione di contatto disponibile
+index-Bsy6A5hi.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-Bsy6A5hi.js:751 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-Bsy6A5hi.js:1350 Fuso orario aggiornato con successo
+index-Bsy6A5hi.js:1350 Fetch ha finito di caricare: POST "https://wife-scheduler-zambelliandrea1.replit.app/api/timezone-settings".
+(anonime) @ index-Bsy6A5hi.js:1350
+await in (anonime)
+(anonime) @ index-Bsy6A5hi.js:1350
+Pb @ index-Bsy6A5hi.js:40
+Au @ index-Bsy6A5hi.js:40
+uT @ index-Bsy6A5hi.js:40
+cc @ index-Bsy6A5hi.js:38
+MJ @ index-Bsy6A5hi.js:40
+Cc @ index-Bsy6A5hi.js:40
+N5 @ index-Bsy6A5hi.js:40
+N @ index-Bsy6A5hi.js:25
+P @ index-Bsy6A5hi.js:25
+index-Bsy6A5hi.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-Bsy6A5hi.js:751 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+index-Bsy6A5hi.js:48 Risposta da /api/contact-info: 200  ok: true
+index-Bsy6A5hi.js:728 ✅ Informazioni di contatto caricate da API per utente 3: {email: 'zambelli.andrea.1973@gmail.com', phone: '+393472550110', phone1: '+393472550110', phone2: '', website: '', …}
+index-Bsy6A5hi.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-Bsy6A5hi.js:751 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-Bsy6A5hi.js:751 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Gestionale Appuntamenti', showBusinessName: true, name: 'zambelli.andrea.1973@gmail.com', fontSize: 24, fontFamily: 'Times New Roman', …}
+index-Bsy6A5hi.js:751 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 212927, url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD...'}
+index-Bsy6A5hi.js:751 ✅ HOME AppIcon: Icona impostata correttamente
+dashboard:196 Evento beforeinstallprompt catturato BeforeInstallPromptEvent {isTrusted: true, platforms: Array(1), userChoice: Promise, type: 'beforeinstallprompt', target: Window, …}
+dashboard:211 Deferring PWA install prompt
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-Bsy6A5hi.js:751 🧹 [MANIFEST INJECTOR] Manifest rimosso
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/calendar'}
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+index-Bsy6A5hi.js:751 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765913699022
+index-Bsy6A5hi.js:1350 Stato autenticazione: {user: true, location: '/calendar', isLoading: false}
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 160px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 160px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+dashboard:196 Evento beforeinstallprompt catturato BeforeInstallPromptEvent {isTrusted: true, platforms: Array(1), userChoice: Promise, type: 'beforeinstallprompt', target: Window, …}
+dashboard:211 Deferring PWA install prompt
+calendar:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 160px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 160px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 320px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 320px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 480px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 480px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 640px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 640px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 800px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 800px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:813 CONTEGGIO CLIENTI: Ricevuti: 84, Filtrati: 84, Tab attivo: all
+index-Bsy6A5hi.js:813 👑 OWNERSHIP - Distribuzione per user_id: {3: 18, 8: 2, 9: 6, 10: 7, 11: 5, 12: 5, 14: 15, 16: 14, 27: 2, 29: 5, 31: 1, 35: 2, 37: 1, 40: 1}
+index-Bsy6A5hi.js:813 👑 ADMIN ID: 3
+index-Bsy6A5hi.js:813 👑 CLIENTI: Miei: 18, Altri account: 66
+index-Bsy6A5hi.js:813 🟢 BADGE [Marco Berto] {id: 14003, user_id: undefined, ownerId: 3, myAdminId: 3, isOtherAccount: false, …}
+index-Bsy6A5hi.js:813 🟢 BADGE [Bruna  Pizzolato] {id: 14004, user_id: undefined, ownerId: 14, myAdminId: 3, isOtherAccount: true, …}
+ 🧹 [MANIFEST INJECTOR] Manifest rimosso
+ 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/clients'}
+ 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+ ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765913707561
+ 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 58)
+ Esecuzione richiesta GET a /api/clients/58/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/58/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 72)
+ Esecuzione richiesta GET a /api/clients/72/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/72/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Business Account (ID: 48)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/48/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/48/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Pro Account (ID: 16)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/16/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/16/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 74)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/74/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/74/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Business Account (ID: 3)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/3/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: ADV1 ADSVA (ID: 75)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/75/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/75/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli  Andrea (ID: 21)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/21/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/21/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli Andrea (ID: 32)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/32/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/32/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli 1 Andrea 1 (ID: 39)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/39/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/39/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Leila Baldovin (ID: 12)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/12/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/12/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aa bb (ID: 93)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/93/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/93/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aa bb (ID: 92)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/92/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/92/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aaaa bbb (ID: 89)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/89/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/89/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Hhh Bbb (ID: 106)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/106/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/106/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aaaaaaaaaa bbbbbbbbbb (ID: 91)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/91/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/91/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🟠 CLIENT CARD [Marco Berto]: {id: 14003, ownerId: 3, originalOwnerId: undefined, currentUserId: undefined, isOtherAccountProp: false, …}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Marco Berto (ID: 14003)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/14003/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/14003/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Marco Berto (ID: 70)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/70/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/70/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Bianchi (ID: 33)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/33/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/33/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Franco Bianchi (ID: 67)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/67/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/67/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Franco Bianchi (ID: 63)
+ Esecuzione richiesta GET a /api/clients/63/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/63/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Anna  Borghi (ID: 110)
+ Esecuzione richiesta GET a /api/clients/110/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/110/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Luisa  Brendolini (ID: 95)
+ Esecuzione richiesta GET a /api/clients/95/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/95/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Francesca Briani (ID: 102)
+ Esecuzione richiesta GET a /api/clients/102/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/102/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Silvia Bus (ID: 60)
+ Esecuzione richiesta GET a /api/clients/60/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/60/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Business (ID: 5)
+ Esecuzione richiesta GET a /api/clients/5/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Business (ID: 41)
+ Esecuzione richiesta GET a /api/clients/41/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/41/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Silvia Busnari (ID: 18)
+ Esecuzione richiesta GET a /api/clients/18/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/18/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Rrr Ccc (ID: 105)
+ Esecuzione richiesta GET a /api/clients/105/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/105/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: acqua chiara (ID: 108)
+ Esecuzione richiesta GET a /api/clients/108/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/108/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: prova cliente (ID: 30)
+ Esecuzione richiesta GET a /api/clients/30/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/30/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Valentina  Cotrino (ID: 20)
+ Esecuzione richiesta GET a /api/clients/20/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/20/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Valentina Cotrino (ID: 43)
+ Esecuzione richiesta GET a /api/clients/43/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/43/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ffff Dddd (ID: 86)
+ Esecuzione richiesta GET a /api/clients/86/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/86/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Antonio Di Tomaso (ID: 109)
+ Esecuzione richiesta GET a /api/clients/109/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/109/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Erika  Dipietro (ID: 82)
+ Esecuzione richiesta GET a /api/clients/82/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/82/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: provaci ancora  due (ID: 26)
+ Esecuzione richiesta GET a /api/clients/26/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Evento Google Calendar (ID: 112)
+ Esecuzione richiesta GET a /api/clients/112/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/112/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Gggg Iiiikkk (ID: 107)
+ Esecuzione richiesta GET a /api/clients/107/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/107/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Matteo Libera (ID: 14)
+ Esecuzione richiesta GET a /api/clients/14/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ciccio Lippo (ID: 81)
+ Esecuzione richiesta GET a /api/clients/81/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/81/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Luca Lo Grande (ID: 104)
+ Esecuzione richiesta GET a /api/clients/104/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/104/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Emanuele Luongo (ID: 96)
+ Esecuzione richiesta GET a /api/clients/96/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/96/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Michela  Mancuso (ID: 100)
+ Esecuzione richiesta GET a /api/clients/100/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/100/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cinzia Munaretto (ID: 4)
+ Esecuzione richiesta GET a /api/clients/4/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/4/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Anna Neri (ID: 64)
+ Esecuzione richiesta GET a /api/clients/64/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/64/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Barbara Pangallo (ID: 101)
+ Esecuzione richiesta GET a /api/clients/101/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/101/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Michela Peron (ID: 111)
+ Esecuzione richiesta GET a /api/clients/111/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/111/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🟠 CLIENT CARD [Bruna  Pizzolato]: {id: 14004, ownerId: 14, originalOwnerId: undefined, currentUserId: undefined, isOtherAccountProp: true, …}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Bruna  Pizzolato (ID: 14004)
+ Esecuzione richiesta GET a /api/clients/14004/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14004/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Pro (ID: 6)
+ Esecuzione richiesta GET a /api/clients/6/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/6/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: MANUEL PURICELLI (ID: 98)
+ Esecuzione richiesta GET a /api/clients/98/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/98/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ppppp Qqqq (ID: 84)
+ Esecuzione richiesta GET a /api/clients/84/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/84/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: giovanni ribbio (ID: 51)
+ Esecuzione richiesta GET a /api/clients/51/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/51/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: giovanni rizzo (ID: 50)
+ Esecuzione richiesta GET a /api/clients/50/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/50/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 38)
+ Esecuzione richiesta GET a /api/clients/38/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/38/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 61)
+ Esecuzione richiesta GET a /api/clients/61/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/61/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 65)
+ Esecuzione richiesta GET a /api/clients/65/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/65/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Paolo Scuccato (ID: 99)
+ Esecuzione richiesta GET a /api/clients/99/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/99/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Matteo Somaschini (ID: 15)
+ Esecuzione richiesta GET a /api/clients/15/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/15/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Eleonora Tentori (ID: 10)
+ Esecuzione richiesta GET a /api/clients/10/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/10/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 40)
+ Esecuzione richiesta GET a /api/clients/40/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/40/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 73)
+ Esecuzione richiesta GET a /api/clients/73/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/73/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 7)
+ Esecuzione richiesta GET a /api/clients/7/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/7/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 25)
+ Esecuzione richiesta GET a /api/clients/25/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 71)
+ Esecuzione richiesta GET a /api/clients/71/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/71/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 68)
+ Esecuzione richiesta GET a /api/clients/68/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/68/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 14001)
+ Esecuzione richiesta GET a /api/clients/14001/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14001/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Rrrr Tttt (ID: 83)
+ Esecuzione richiesta GET a /api/clients/83/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/83/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: crea uno (ID: 29)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/29/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/29/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: uno uno (ID: 80)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/80/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/80/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: maaa vaaa (ID: 24)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/24/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/24/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Cristina Valetti (ID: 8)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/8/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/8/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Verdi (ID: 62)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/62/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/62/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Marco Verdi (ID: 34)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/34/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/34/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Verdi (ID: 66)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/66/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/66/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 90)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/90/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/90/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 97)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/97/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/97/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 59)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/59/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/59/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea prova  Zambelli (ID: 28)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/28/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/28/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 27)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/27/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/27/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 14002)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/14002/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/14002/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Stefania Zambelli  (ID: 78)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/78/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/78/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli prova 1 (ID: 103)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/103/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/103/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Silvia  Zampa (ID: 94)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/94/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/94/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+index-Bsy6A5hi.js:813 🔍 [CLIENTS-TAB] useEffect triggered {currentUser: {…}, hasInitialized: false}
+index-Bsy6A5hi.js:813 🔍 [CLIENTS-TAB] Checking user type: admin
+index-Bsy6A5hi.js:813 ✅ [CLIENTS-TAB] Admin rilevato, tab impostato a 'by-staff'
+index-Bsy6A5hi.js:1350 Stato autenticazione: {user: true, location: '/clients', isLoading: false}
+index-Bsy6A5hi.js:813 CONTEGGIO CLIENTI: Ricevuti: 84, Filtrati: 84, Tab attivo: by-staff
+index-Bsy6A5hi.js:813 👑 OWNERSHIP - Distribuzione per user_id: {3: 18, 8: 2, 9: 6, 10: 7, 11: 5, 12: 5, 14: 15, 16: 14, 27: 2, 29: 5, 31: 1, 35: 2, 37: 1, 40: 1}
+index-Bsy6A5hi.js:813 👑 ADMIN ID: 3
+index-Bsy6A5hi.js:813 👑 CLIENTI: Miei: 18, Altri account: 66
+ 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli 1 Andrea 1 (ID: 39)
+ Esecuzione richiesta GET a /api/clients/39/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/39/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🟠 CLIENT CARD [Marco Berto]: {id: 14003, ownerId: 3, originalOwnerId: undefined, currentUserId: undefined, isOtherAccountProp: false, …}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Marco Berto (ID: 14003)
+ Esecuzione richiesta GET a /api/clients/14003/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14003/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Franco Bianchi (ID: 67)
+ Esecuzione richiesta GET a /api/clients/67/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/67/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Franco Bianchi (ID: 63)
+ Esecuzione richiesta GET a /api/clients/63/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/63/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Silvia Bus (ID: 60)
+ Esecuzione richiesta GET a /api/clients/60/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/60/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: prova cliente (ID: 30)
+ Esecuzione richiesta GET a /api/clients/30/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/30/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Evento Google Calendar (ID: 112)
+ Esecuzione richiesta GET a /api/clients/112/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/112/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Michela  Mancuso (ID: 100)
+ Esecuzione richiesta GET a /api/clients/100/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/100/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Anna Neri (ID: 64)
+ Esecuzione richiesta GET a /api/clients/64/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/64/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: giovanni ribbio (ID: 51)
+ Esecuzione richiesta GET a /api/clients/51/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/51/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: giovanni rizzo (ID: 50)
+ Esecuzione richiesta GET a /api/clients/50/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/50/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 38)
+ Esecuzione richiesta GET a /api/clients/38/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/38/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 61)
+ Esecuzione richiesta GET a /api/clients/61/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/61/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Mario Rossi (ID: 65)
+ Esecuzione richiesta GET a /api/clients/65/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/65/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 14001)
+ Esecuzione richiesta GET a /api/clients/14001/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14001/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: crea uno (ID: 29)
+ Esecuzione richiesta GET a /api/clients/29/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/29/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Verdi (ID: 62)
+ Esecuzione richiesta GET a /api/clients/62/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/62/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Verdi (ID: 66)
+ Esecuzione richiesta GET a /api/clients/66/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/66/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Paolo Scuccato (ID: 99)
+ Esecuzione richiesta GET a /api/clients/99/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/99/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: uno uno (ID: 80)
+ Esecuzione richiesta GET a /api/clients/80/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/80/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 58)
+ Esecuzione richiesta GET a /api/clients/58/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/58/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 40)
+ Esecuzione richiesta GET a /api/clients/40/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/40/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 7)
+ Esecuzione richiesta GET a /api/clients/7/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/7/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 59)
+ Esecuzione richiesta GET a /api/clients/59/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/59/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Andrea prova  Zambelli (ID: 28)
+ Esecuzione richiesta GET a /api/clients/28/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/28/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 27)
+ Esecuzione richiesta GET a /api/clients/27/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/27/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 72)
+ Esecuzione richiesta GET a /api/clients/72/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/72/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli  Andrea (ID: 21)
+ Esecuzione richiesta GET a /api/clients/21/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/21/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Giulia Bianchi (ID: 33)
+ Esecuzione richiesta GET a /api/clients/33/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/33/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Valentina  Cotrino (ID: 20)
+ Esecuzione richiesta GET a /api/clients/20/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/20/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 25)
+ Esecuzione richiesta GET a /api/clients/25/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 71)
+ Esecuzione richiesta GET a /api/clients/71/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/71/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: maaa vaaa (ID: 24)
+ Esecuzione richiesta GET a /api/clients/24/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/24/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Pro Account (ID: 16)
+ Esecuzione richiesta GET a /api/clients/16/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/16/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Trial Account (ID: 74)
+ Esecuzione richiesta GET a /api/clients/74/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/74/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: provaci ancora  due (ID: 26)
+ Esecuzione richiesta GET a /api/clients/26/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Pro (ID: 6)
+ Esecuzione richiesta GET a /api/clients/6/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/6/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 73)
+ Esecuzione richiesta GET a /api/clients/73/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/73/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Business Account (ID: 48)
+ Esecuzione richiesta GET a /api/clients/48/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/48/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Business Account (ID: 3)
+ Esecuzione richiesta GET a /api/clients/3/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Business (ID: 5)
+ Esecuzione richiesta GET a /api/clients/5/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Business (ID: 41)
+ Esecuzione richiesta GET a /api/clients/41/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/41/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Marco Verdi (ID: 34)
+ Esecuzione richiesta GET a /api/clients/34/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/34/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: ADV1 ADSVA (ID: 75)
+ Esecuzione richiesta GET a /api/clients/75/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/75/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Marco Berto (ID: 70)
+ Esecuzione richiesta GET a /api/clients/70/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/70/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Anna  Borghi (ID: 110)
+ Esecuzione richiesta GET a /api/clients/110/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/110/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Luisa  Brendolini (ID: 95)
+ Esecuzione richiesta GET a /api/clients/95/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/95/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ffff Dddd (ID: 86)
+ Esecuzione richiesta GET a /api/clients/86/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/86/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Erika  Dipietro (ID: 82)
+ Esecuzione richiesta GET a /api/clients/82/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/82/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ciccio Lippo (ID: 81)
+ Esecuzione richiesta GET a /api/clients/81/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/81/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🟠 CLIENT CARD [Bruna  Pizzolato]: {id: 14004, ownerId: 14, originalOwnerId: undefined, currentUserId: undefined, isOtherAccountProp: true, …}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Bruna  Pizzolato (ID: 14004)
+ Esecuzione richiesta GET a /api/clients/14004/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14004/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Ppppp Qqqq (ID: 84)
+ Esecuzione richiesta GET a /api/clients/84/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/84/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Cliente Trial (ID: 68)
+ Esecuzione richiesta GET a /api/clients/68/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/68/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Rrrr Tttt (ID: 83)
+ Esecuzione richiesta GET a /api/clients/83/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/83/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 14002)
+ Esecuzione richiesta GET a /api/clients/14002/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14002/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Stefania Zambelli  (ID: 78)
+ Esecuzione richiesta GET a /api/clients/78/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/78/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli prova 1 (ID: 103)
+ Esecuzione richiesta GET a /api/clients/103/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/103/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Silvia  Zampa (ID: 94)
+ Esecuzione richiesta GET a /api/clients/94/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/94/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Zambelli Andrea (ID: 32)
+ Esecuzione richiesta GET a /api/clients/32/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/32/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Leila Baldovin (ID: 12)
+ Esecuzione richiesta GET a /api/clients/12/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/12/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Francesca Briani (ID: 102)
+ Esecuzione richiesta GET a /api/clients/102/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/102/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Silvia Busnari (ID: 18)
+ Esecuzione richiesta GET a /api/clients/18/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/18/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Valentina Cotrino (ID: 43)
+ Esecuzione richiesta GET a /api/clients/43/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/43/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Matteo Libera (ID: 14)
+ Esecuzione richiesta GET a /api/clients/14/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/14/activation-token: {method: 'GET', headers: {…}, body: undefined}
+ 🔍 [FRONTEND] Richiesta QR per cliente: Luca Lo Grande (ID: 104)
+ Esecuzione richiesta GET a /api/clients/104/activation-token 
+ Header anti-cache aggiunti per garantire dati sempre freschi
+ Header x-device-type aggiunto: desktop
+ Dettagli richiesta GET a /api/clients/104/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Emanuele Luongo (ID: 96)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/96/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/96/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Cinzia Munaretto (ID: 4)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/4/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/4/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Barbara Pangallo (ID: 101)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/101/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/101/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: MANUEL PURICELLI (ID: 98)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/98/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/98/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Matteo Somaschini (ID: 15)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/15/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/15/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Eleonora Tentori (ID: 10)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/10/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/10/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Cristina Valetti (ID: 8)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/8/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/8/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Hhh Bbb (ID: 106)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/106/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/106/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Gggg Iiiikkk (ID: 107)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/107/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/107/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aa bb (ID: 93)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/93/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/93/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aa bb (ID: 92)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/92/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/92/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aaaa bbb (ID: 89)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/89/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/89/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: aaaaaaaaaa bbbbbbbbbb (ID: 91)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/91/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/91/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 90)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/90/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/90/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Andrea Zambelli (ID: 97)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/97/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/97/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Rrr Ccc (ID: 105)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/105/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/105/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: acqua chiara (ID: 108)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/108/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/108/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Michela Peron (ID: 111)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/111/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/111/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:813 🔍 [FRONTEND] Richiesta QR per cliente: Antonio Di Tomaso (ID: 109)
+index-Bsy6A5hi.js:48 Esecuzione richiesta GET a /api/clients/109/activation-token 
+index-Bsy6A5hi.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-Bsy6A5hi.js:48 Header x-device-type aggiunto: desktop
+index-Bsy6A5hi.js:48 Dettagli richiesta GET a /api/clients/109/activation-token: {method: 'GET', headers: {…}, body: undefined}
+index-Bsy6A5hi.js:48 Risposta da /api/clients/58/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/72/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/48/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/3/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Business Account
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Business Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/74/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/16/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Pro Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/32/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli Andrea
+index-Bsy6A5hi.js:48 Risposta da /api/clients/39/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli 1 Andrea 1
+index-Bsy6A5hi.js:48 Risposta da /api/clients/106/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Hhh Bbb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/21/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/75/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli  Andrea
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: ADV1 ADSVA
+index-Bsy6A5hi.js:48 Risposta da /api/clients/93/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aa bb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/12/activation-token: 200  ok: true
+index-Bsy6A5hi.js:751 🧹 [MANIFEST INJECTOR] Manifest rimosso
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/calendar'}
+index-Bsy6A5hi.js:751 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 3
+index-Bsy6A5hi.js:751 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=3&ts=1765913709186
+index-Bsy6A5hi.js:1350 Stato autenticazione: {user: true, location: '/calendar', isLoading: false}
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Leila Baldovin
+index-Bsy6A5hi.js:48 Risposta da /api/clients/92/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aa bb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/110/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Anna  Borghi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/5/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Business
+index-Bsy6A5hi.js:48 Risposta da /api/clients/67/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/91/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aaaaaaaaaa bbbbbbbbbb
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Franco Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/70/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Berto
+index-Bsy6A5hi.js:48 Risposta da /api/clients/89/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aaaa bbb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/63/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Franco Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/41/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Business
+index-Bsy6A5hi.js:48 Risposta da /api/clients/102/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Francesca Briani
+index-Bsy6A5hi.js:48 Risposta da /api/clients/18/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14003/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia Busnari
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Berto
+index-Bsy6A5hi.js:48 Risposta da /api/clients/33/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/60/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia Bus
+index-Bsy6A5hi.js:48 Risposta da /api/clients/95/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Luisa  Brendolini
+index-Bsy6A5hi.js:48 Risposta da /api/clients/43/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Valentina Cotrino
+index-Bsy6A5hi.js:48 Risposta da /api/clients/100/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Michela  Mancuso
+index-Bsy6A5hi.js:48 Risposta da /api/clients/105/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/20/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Rrr Ccc
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Valentina  Cotrino
+index-Bsy6A5hi.js:48 Risposta da /api/clients/26/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: provaci ancora  due
+index-Bsy6A5hi.js:48 Risposta da /api/clients/86/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/4/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ffff Dddd
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cinzia Munaretto
+index-Bsy6A5hi.js:48 Risposta da /api/clients/108/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: acqua chiara
+index-Bsy6A5hi.js:48 Risposta da /api/clients/104/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Luca Lo Grande
+index-Bsy6A5hi.js:48 Risposta da /api/clients/109/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Antonio Di Tomaso
+index-Bsy6A5hi.js:48 Risposta da /api/clients/81/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ciccio Lippo
+index-Bsy6A5hi.js:48 Risposta da /api/clients/64/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Anna Neri
+index-Bsy6A5hi.js:48 Risposta da /api/clients/107/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Gggg Iiiikkk
+index-Bsy6A5hi.js:48 Risposta da /api/clients/30/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/96/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: prova cliente
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Emanuele Luongo
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Matteo Libera
+index-Bsy6A5hi.js:48 Risposta da /api/clients/112/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Evento Google Calendar
+index-Bsy6A5hi.js:48 Risposta da /api/clients/82/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Erika  Dipietro
+index-Bsy6A5hi.js:48 Risposta da /api/clients/101/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Barbara Pangallo
+index-Bsy6A5hi.js:48 Risposta da /api/clients/111/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Michela Peron
+index-Bsy6A5hi.js:48 Risposta da /api/clients/6/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Pro
+index-Bsy6A5hi.js:48 Risposta da /api/clients/98/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14004/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: MANUEL PURICELLI
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Bruna  Pizzolato
+index-Bsy6A5hi.js:48 Risposta da /api/clients/84/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ppppp Qqqq
+index-Bsy6A5hi.js:48 Risposta da /api/clients/51/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: giovanni ribbio
+index-Bsy6A5hi.js:48 Risposta da /api/clients/50/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: giovanni rizzo
+index-Bsy6A5hi.js:48 Risposta da /api/clients/38/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/61/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/65/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/15/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Matteo Somaschini
+index-Bsy6A5hi.js:48 Risposta da /api/clients/99/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Paolo Scuccato
+index-Bsy6A5hi.js:48 Risposta da /api/clients/10/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Eleonora Tentori
+index-Bsy6A5hi.js:48 Risposta da /api/clients/40/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/73/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/71/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/7/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/25/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/29/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: crea uno
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14001/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/68/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/80/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: uno uno
+index-Bsy6A5hi.js:48 Risposta da /api/clients/62/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Verdi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/83/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Rrrr Tttt
+index-Bsy6A5hi.js:48 Risposta da /api/clients/8/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cristina Valetti
+index-Bsy6A5hi.js:48 Risposta da /api/clients/24/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: maaa vaaa
+index-Bsy6A5hi.js:48 Risposta da /api/clients/34/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Verdi
+index-Bsy6A5hi.js:813 [desktop] Ricevuti 84 clienti dal nuovo sistema multi-tenant
+index-Bsy6A5hi.js:813 [desktop] Sample clienti: (3) [{…}, {…}, {…}]
+index-Bsy6A5hi.js:48 Risposta da /api/clients/90/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/66/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Verdi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/97/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/59/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/28/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea prova  Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/78/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Stefania Zambelli 
+index-Bsy6A5hi.js:48 Risposta da /api/clients/27/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/94/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14002/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia  Zampa
+index-Bsy6A5hi.js:48 Risposta da /api/clients/103/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli prova 1
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14003/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Berto
+index-Bsy6A5hi.js:48 Risposta da /api/clients/67/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Franco Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/39/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli 1 Andrea 1
+index-Bsy6A5hi.js:48 Risposta da /api/clients/63/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Franco Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/60/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/100/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/51/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia Bus
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Michela  Mancuso
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: giovanni ribbio
+index-Bsy6A5hi.js:48 Risposta da /api/clients/30/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: prova cliente
+index-Bsy6A5hi.js:48 Risposta da /api/clients/112/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Evento Google Calendar
+index-Bsy6A5hi.js:48 Risposta da /api/clients/64/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Anna Neri
+index-Bsy6A5hi.js:48 Risposta da /api/clients/38/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/50/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: giovanni rizzo
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14001/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/61/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/65/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Mario Rossi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/29/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: crea uno
+index-Bsy6A5hi.js:48 Risposta da /api/clients/66/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/62/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Verdi
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Verdi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/99/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Paolo Scuccato
+index-Bsy6A5hi.js:48 Risposta da /api/clients/80/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: uno uno
+index-Bsy6A5hi.js:48 Risposta da /api/clients/58/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/59/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/40/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/7/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/28/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea prova  Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/72/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/27/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/33/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Giulia Bianchi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/20/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Valentina  Cotrino
+index-Bsy6A5hi.js:48 Risposta da /api/clients/21/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli  Andrea
+index-Bsy6A5hi.js:48 Risposta da /api/clients/25/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/26/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: provaci ancora  due
+index-Bsy6A5hi.js:48 Risposta da /api/clients/71/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:48 Risposta da /api/clients/16/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/74/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Pro Account
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Trial Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/6/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Pro
+dashboard:196 Evento beforeinstallprompt catturato BeforeInstallPromptEvent {isTrusted: true, platforms: Array(1), userChoice: Promise, type: 'beforeinstallprompt', target: Window, …}
+dashboard:211 Deferring PWA install prompt
+calendar:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-Bsy6A5hi.js:48 Risposta da /api/clients/73/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/24/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: maaa vaaa
+index-Bsy6A5hi.js:48 Risposta da /api/clients/48/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Business Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/3/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Business Account
+index-Bsy6A5hi.js:48 Risposta da /api/clients/34/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Verdi
+index-Bsy6A5hi.js:48 Risposta da /api/clients/5/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Business
+index-Bsy6A5hi.js:48 Risposta da /api/clients/75/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: ADV1 ADSVA
+index-Bsy6A5hi.js:48 Risposta da /api/clients/41/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Business
+index-Bsy6A5hi.js:48 Risposta da /api/clients/70/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/95/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Marco Berto
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Luisa  Brendolini
+index-Bsy6A5hi.js:48 Risposta da /api/clients/82/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Erika  Dipietro
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14004/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/110/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/81/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/86/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Bruna  Pizzolato
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Anna  Borghi
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ciccio Lippo
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ffff Dddd
+index-Bsy6A5hi.js:48 Risposta da /api/clients/83/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Rrrr Tttt
+index-Bsy6A5hi.js:48 Risposta da /api/clients/78/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/84/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/68/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14002/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Stefania Zambelli 
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Ppppp Qqqq
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cliente Trial
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/102/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/32/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Francesca Briani
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Zambelli Andrea
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 160px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 160px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:48 Risposta da /api/clients/103/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/94/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli prova 1
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia  Zampa
+index-Bsy6A5hi.js:48 Risposta da /api/clients/18/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/12/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Silvia Busnari
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Leila Baldovin
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:48 Risposta da /api/clients/96/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/104/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/14/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/43/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Emanuele Luongo
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Luca Lo Grande
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Matteo Libera
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Valentina Cotrino
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:48 Risposta da /api/clients/98/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/4/activation-token: 200  ok: true
+index-Bsy6A5hi.js:48 Risposta da /api/clients/101/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: MANUEL PURICELLI
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cinzia Munaretto
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Barbara Pangallo
+index-Bsy6A5hi.js:48 Risposta da /api/clients/8/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Cristina Valetti
+index-Bsy6A5hi.js:48 Risposta da /api/clients/15/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Matteo Somaschini
+index-Bsy6A5hi.js:48 Risposta da /api/clients/106/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Hhh Bbb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/10/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Eleonora Tentori
+index-Bsy6A5hi.js:48 Risposta da /api/clients/90/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/107/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Gggg Iiiikkk
+index-Bsy6A5hi.js:48 Risposta da /api/clients/92/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aa bb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/91/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aaaaaaaaaa bbbbbbbbbb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/89/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aaaa bbb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/93/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: aa bb
+index-Bsy6A5hi.js:48 Risposta da /api/clients/97/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Andrea Zambelli
+index-Bsy6A5hi.js:48 Risposta da /api/clients/105/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Rrr Ccc
+index-Bsy6A5hi.js:48 Risposta da /api/clients/108/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: acqua chiara
+index-Bsy6A5hi.js:48 Risposta da /api/clients/111/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Michela Peron
+index-Bsy6A5hi.js:48 Risposta da /api/clients/109/activation-token: 200  ok: true
+index-Bsy6A5hi.js:813 ✅ [FRONTEND] QR ricevuto per cliente: Antonio Di Tomaso
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Bsy6A5hi.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 165px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 165px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 09:00 - 10:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 160px
+index-Bsy6A5hi.js:780   | Orario: 09:00-10:00, Top calcolato: 160px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 320px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 320px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 480px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 480px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 640px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 640px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: 800px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 800px, Altezza: 160px
+index-Bsy6A5hi.js:763 AppointmentModal - isOpen: false
+index-Bsy6A5hi.js:763 AppointmentModal - defaultTime: 08:00
+index-Bsy6A5hi.js:763 AppointmentModal - selectedSlots: []
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 660px
+index-Bsy6A5hi.js:780   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Bsy6A5hi.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 10:00 - 11:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 330px
+index-Bsy6A5hi.js:780   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 11:00 - 12:00
+index-Bsy6A5hi.js:780   | Slot trovato: Posizione esatta top: 495px
+index-Bsy6A5hi.js:780   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+index-Bsy6A5hi.js:780 Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+ Calcolo posizione per appuntamento: 10:00 - 11:00
+   | Slot trovato: Posizione esatta top: 330px
+   | Orario: 10:00-11:00, Top calcolato: 330px, Altezza: 160px
+ Calcolo posizione per appuntamento: 11:00 - 12:00
+   | Slot trovato: Posizione esatta top: 495px
+   | Orario: 11:00-12:00, Top calcolato: 495px, Altezza: 160px
+ Calcolo posizione per appuntamento: 12:00 - 13:00
+   | Slot trovato: Posizione esatta top: 660px
+   | Orario: 12:00-13:00, Top calcolato: 660px, Altezza: 160px
+ Calcolo posizione per appuntamento: 13:00 - 14:00
+   | Slot trovato: Posizione esatta top: 825px
+   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px

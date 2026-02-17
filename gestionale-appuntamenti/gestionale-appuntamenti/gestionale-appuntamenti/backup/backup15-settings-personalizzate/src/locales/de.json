@@ -1,0 +1,476 @@
+{
+  "app": {
+    "title": "Terminverwaltung",
+    "welcome": "Willkommen bei der Terminverwaltung",
+    "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
+  },
+  "sidebar": {
+    "clients": "Kunden",
+    "calendar": "Kalender",
+    "invoices": "Rechnungen",
+    "reports": "Berichte",
+    "settings": "Einstellungen"
+  },
+  "language": {
+    "it": "Italienisch",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "ru": "Russisch",
+    "nl": "Niederländisch",
+    "no": "Norwegisch",
+    "ro": "Rumänisch",
+    "select": "Sprache auswählen"
+  },
+  "home": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Termine anzeigen und verwalten",
+      "content": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen.",
+      "button": "Zum Kalender"
+    },
+    "clients": {
+      "title": "Kunden",
+      "description": "Kundeninformationen verwalten",
+      "content": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen.",
+      "button": "Kunden verwalten"
+    },
+    "invoices": {
+      "title": "Rechnungen",
+      "description": "Rechnungen und Zahlungen verwalten",
+      "content": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit.",
+      "button": "Rechnungen verwalten"
+    },
+    "reports": {
+      "title": "Berichte",
+      "description": "Geschäftsentwicklung analysieren",
+      "content": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren.",
+      "button": "Berichte anzeigen"
+    }
+  },
+  "calendar": {
+    "title": "Kalender",
+    "description": "Termine anzeigen und verwalten",
+    "subDescription": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen",
+    "goTo": "Zum Kalender",
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "weekView": "Wochenansicht",
+    "monthView": "Monatsansicht",
+    "addAppointment": "Neuer Termin",
+    "today": "Heute",
+    "searchResults": "Suchergebnisse",
+    "noAppointmentsFound": "Keine Termine gefunden für",
+    "goToDay": "Zum Tag gehen",
+    "days": {
+      "monday": "Montag",
+      "tuesday": "Dienstag",
+      "wednesday": "Mittwoch",
+      "thursday": "Donnerstag",
+      "friday": "Freitag",
+      "saturday": "Samstag",
+      "sunday": "Sonntag"
+    },
+    "months": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "März",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Dezember"
+    },
+    "selectNewAppointment": "Neuen Termin auswählen",
+    "selectTimeNewAppointment": "Uhrzeit für neuen Termin auswählen",
+    "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
+    "hasAppointments": "Hat Termine",
+    "slotOccupied": "Zeitfenster durch vorherigen Termin belegt",
+    "customDuration": "Benutzerdefinierte Dauer",
+    "incrementBy15Min": "Um 15 Min erhöhen",
+    "decrementBy15Min": "Um 15 Min verringern",
+    "selected": "Ausgewählt",
+    "select": "Auswählen"
+  },
+  "clients": {
+    "title": "Kunden",
+    "description": "Kundeninformationen verwalten",
+    "subDescription": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen",
+    "goTo": "Kunden verwalten",
+    "addClient": "Neuer Kunde",
+    "newClient": "Neuer Kunde",
+    "addFirstClient": "Ersten Kunden hinzufügen",
+    "search": {
+      "placeholder": "Kunden nach Name, Telefon oder E-Mail suchen...",
+      "minLength": "Geben Sie mindestens 2 Zeichen ein, um zu suchen"
+    },
+    "filter": {
+      "all": "Alle",
+      "frequent": "Häufig",
+      "noConsent": "Ohne Einwilligung"
+    },
+    "noClientsFound": "Keine Kunden gefunden",
+    "noClientsInSystem": "Es sind keine Kunden im System registriert",
+    "noResultsMatch": "Keine Kunden entsprechen den Suchkriterien \"{{query}}\"",
+    "refreshSuccess": "Die Kundendaten wurden aktualisiert",
+    "lastUpdate": "Letzte Aktualisierung",
+    "autoUpdate": "Automatische Aktualisierung jede Stunde und um 23:59 Uhr",
+    "stats": {
+      "total": "Kunden gesamt",
+      "frequent": "Häufige Kunden",
+      "noConsent": "Ohne Einwilligung"
+    },
+    "table": {
+      "name": "Vorname",
+      "surname": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "actions": "Aktionen"
+    },
+    "details": {
+      "title": "Kundendetails",
+      "personalInfo": "Persönliche Informationen",
+      "medicalInfo": "Medizinische Informationen",
+      "appointments": "Termine",
+      "notes": "Notizen",
+      "consents": "Einwilligungen",
+      "clientFile": "Kundenakte",
+      "addAppointment": "Neuer Termin",
+      "generateQRCode": "QR-Code generieren",
+      "accessActivated": "Kunden-Zugangs-QR-Code",
+      "showDetails": "Details",
+      "deleteClient": "Kunde löschen",
+      "deleteClientConfirmation": "Sind Sie sicher, dass Sie diesen Kunden löschen möchten? Alle zugehörigen Termine werden ebenfalls gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "notFound": "Kunde nicht gefunden",
+      "notSpecified": "Nicht angegeben",
+      "frequentClient": "Stammkunde",
+      "dataConsent": "Datenschutzeinwilligung",
+      "obtained": "Erhalten",
+      "notObtained": "Nicht erhalten",
+      "viewAllAppointments": "Alle Termine anzeigen",
+      "backToClients": "Zurück zur Kundenliste",
+      "structuredNotes": "Strukturierte Notizen",
+      "legacyMedicalData": "Alte medizinische Daten",
+      "otherInfo": "Weitere Informationen",
+      "viewMode": "Ansichtsmodus für Notizen",
+      "stackedView": "Gestapelte Karten-Ansicht",
+      "classicView": "Klassische Ansicht",
+      "stackedViewDescription": "Notizen werden als gestapelte Karten angezeigt. Klicken Sie auf die Karten oder verwenden Sie die Navigationsschaltflächen zum Durchblättern.",
+      "classicViewDescription": "Notizen werden in vertikaler Folge angezeigt.",
+      "generalNotes": "Allgemeine Notizen",
+      "medicalNotes": "Medizinische Notizen",
+      "allergiesInfo": "Allergien und Gesundheitsinformationen",
+      "medicalNotesLegacy": "Medizinische Notizen (alt)",
+      "allergiesInfoLegacy": "Allergien und Gesundheitsinformationen (alt)",
+      "generalNotesLegacy": "Allgemeine Notizen (alt)",
+      "noMedicalNotes": "Keine medizinischen Notizen registriert",
+      "noAllergiesInfo": "Keine Allergien oder Gesundheitsinformationen registriert",
+      "noGeneralNotes": "Keine allgemeinen Notizen registriert"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "birthDate": "Geburtsdatum",
+      "address": "Adresse",
+      "city": "Stadt",
+      "zipCode": "PLZ",
+      "notes": "Notizen",
+      "save": "Speichern",
+      "cancel": "Abbrechen"
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+  },
+  "invoices": {
+    "title": "Rechnungen",
+    "description": "Rechnungen und Zahlungen verwalten",
+    "subDescription": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit",
+    "goTo": "Rechnungen verwalten",
+    "addInvoice": "Neue Rechnung",
+    "table": {
+      "number": "Nummer",
+      "date": "Datum",
+      "client": "Kunde",
+      "amount": "Betrag",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "paid": "Bezahlt",
+      "unpaid": "Unbezahlt",
+      "partial": "Teilweise bezahlt"
+    }
+  },
+  "reports": {
+    "title": "Berichte",
+    "description": "Geschäftsentwicklung analysieren",
+    "subDescription": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren",
+    "goTo": "Berichte anzeigen",
+    "daily": "Tagesbericht",
+    "weekly": "Wochenbericht",
+    "monthly": "Monatsbericht",
+    "appointments": "Termine",
+    "clients": "Kunden",
+    "revenue": "Einnahmen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "general": "Allgemein",
+    "profile": "Profil",
+    "appearance": "Erscheinungsbild",
+    "notifications": "Benachrichtigungen",
+    "language": "Sprache",
+    "theme": "Thema",
+    "save": "Einstellungen speichern",
+    "googleCalendar": "Google Kalender",
+    "contacts": "Kontakte",
+    "saving": "Wird gespeichert...",
+    "contactsTitle": "Kontaktinformationen",
+    "contactsDesc": "Verwalten Sie Ihre Kontaktinformationen, die in der Fußzeile der Kunden-App angezeigt werden",
+    "appName": "App-Name",
+    "appIcon": "App-Symbol",
+    "integrations": "Integrationen",
+    "appearanceTitle": "Markenidentität",
+    "appearanceDesc": "Passen Sie den Namen und das Symbol der Anwendung an, um die Identität Ihres Unternehmens widerzuspiegeln. Diese Einstellungen gelten sowohl für die Haupt-App als auch für die Kunden-App."
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "view": "Anzeigen",
+    "search": "Suchen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "actions": "Aktionen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "date": "Datum",
+    "time": "Zeit",
+    "description": "Beschreibung",
+    "support": "Unterstützung",
+    "terms": "Nutzungsbedingungen",
+    "refresh": "Aktualisieren",
+    "error": "Fehler",
+    "birthday": "Geburtsdatum",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "notifications": {
+    "success": "Vorgang erfolgreich abgeschlossen",
+    "error": "Es ist ein Fehler aufgetreten",
+    "warning": "Warnung",
+    "info": "Information",
+    "clientDeleted": "Kunde gelöscht",
+    "clientDeletedSuccess": "Der Kunde wurde erfolgreich gelöscht"
+  },
+  "whatsappNotifications": {
+    "title": "Kundenbenachrichtigungen",
+    "description": "Terminerinnerungen verwalten",
+    "subDescription": "Senden Sie WhatsApp-Erinnerungen an Kunden für ihre bevorstehenden Termine",
+    "goTo": "Benachrichtigungen verwalten"
+  },
+  "notificationsPage": {
+    "title": "Kundenbenachrichtigungen",
+    "subtitle": "Verwalten Sie Erinnerungen für Kundentermine",
+    "refresh": "Aktualisieren",
+    "tabs": {
+      "upcoming": "Zu senden",
+      "history": "Verlauf",
+      "settings": "Benachrichtigungseinstellungen",
+      "calendar": "Google Kalender"
+    },
+    "howItWorks": {
+      "title": "Wie WhatsApp-Benachrichtigungen funktionieren",
+      "steps": [
+        "Wählen Sie Termine aus, für die Sie eine Erinnerung senden möchten",
+        "Klicken Sie auf \"WhatsApp-Benachrichtigungen generieren\", um Links zu erstellen",
+        "Es werden Links generiert, die WhatsApp mit vorausgefüllten Texten öffnen",
+        "Sie können den Standardtext vor dem Versenden anpassen"
+      ]
+    },
+    "customMessage": {
+      "title": "Benutzerdefinierte Nachricht (optional)",
+      "description": "Falls angegeben, wird dieser Text zur Standardnachricht hinzugefügt",
+      "placeholder": "z.B. Bitte bringen Sie Ihre vorherige medizinische Dokumentation mit.",
+      "characters": "Zeichen",
+      "clear": "Löschen"
+    },
+    "noAppointments": {
+      "loading": "Termine werden geladen...",
+      "empty": "Keine Termine zum Benachrichtigen",
+      "description": "Es gibt keine bevorstehenden Termine, die Erinnerungen benötigen."
+    },
+    "appointmentList": {
+      "selectAll": "Alle auswählen",
+      "actions": "Aktionen",
+      "sendButton": "WhatsApp-Benachrichtigungen generieren",
+      "sending": "Benachrichtigungen werden generiert..."
+    },
+    "errors": {
+      "loadingAppointments": "Termine können nicht geladen werden",
+      "loadingHistory": "Verlauf kann nicht geladen werden",
+      "noneSelected": "Wählen Sie mindestens einen Termin aus, um Benachrichtigungen zu senden",
+      "sendingFailed": "Erinnerungen können nicht gesendet werden"
+    },
+    "success": {
+      "remindersSent": "Erinnerungen erfolgreich generiert"
+    },
+    "whatsappLink": "WhatsApp öffnen",
+    "table": {
+      "client": "Cliente",
+      "service": "Servizio",
+      "time": "Orario",
+      "actions": "Azioni",
+      "send": "Invia",
+      "selectAll": "Seleziona tutti"
+    },
+    "buttons": {
+      "generating": "Generazione in corso...",
+      "generateWhatsApp": "Genera notifiche WhatsApp"
+    },
+    "history": {
+      "title": "Cronologia notifiche inviate",
+      "description": "Ultimi promemoria inviati tramite WhatsApp",
+      "noNotifications": "Nessuna notifica inviata recentemente",
+      "noSmsNotifications": "Nessun SMS inviato finora",
+      "table": {
+        "date": "Data",
+        "message": "Messaggio",
+        "actions": "Azioni",
+        "reopen": "Riapri",
+        "client": "Cliente",
+        "status": "Stato"
+      },
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    }
+  },
+  "notificationSettings": {
+    "title": "Benachrichtigungseinstellungen",
+    "enableEmailNotifications": "E-Mail-Benachrichtigungen aktivieren",
+    "emailSetup": {
+      "title": "Schnelle E-Mail-Einrichtung",
+      "email": "E-Mail",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "password": "Passwort",
+      "passwordPlaceholder": "Geben Sie Ihr E-Mail-Passwort ein",
+      "description": "Diese Konfiguration richtet Ihr E-Mail-Konto für den Versand von Benachrichtigungen ein.",
+      "autoDetect": "Automatisch erkennen",
+      "emailRequired": "Geben Sie Ihre E-Mail-Adresse ein, um Einstellungen zu erkennen"
+    },
+    "errors": {
+      "loadingSettings": "Benachrichtigungseinstellungen können nicht geladen werden",
+      "savingSettings": "Einstellungen können nicht gespeichert werden",
+      "testEmailMissing": "Geben Sie eine E-Mail-Adresse für den Test ein"
+    },
+    "success": {
+      "settingsSaved": "Benachrichtigungseinstellungen erfolgreich gespeichert",
+      "testEmailSent": "Test-E-Mail erfolgreich gesendet",
+      "remindersProcessed": "Erinnerungen erfolgreich verarbeitet"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Kalender",
+    "setupInstructions": "Richten Sie die Google Kalender-Integration ein",
+    "emailLabel": "Gmail-Konto",
+    "emailPlaceholder": "ihre.adresse@gmail.com",
+    "emailDescription": "Das Google-Konto, das Sie für den Kalender verwenden möchten",
+    "connected": "Konto verbunden",
+    "notConnected": "Konto noch nicht verbunden",
+    "clientIdLabel": "Client-ID",
+    "clientIdPlaceholder": "Ihre Google-Client-ID",
+    "clientIdDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
+    "clientSecretLabel": "Client-Secret",
+    "clientSecretPlaceholder": "Ihr Google-Client-Secret",
+    "clientSecretDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
+    "configHelp": "Hilfe bei der Konfiguration",
+    "errors": {
+      "authorizationUrlFailed": "Autorisierungs-URL kann nicht generiert werden"
+    },
+    "success": {
+      "settingsSaved": "Synchronisierungseinstellungen wurden erfolgreich gespeichert",
+      "authorizationComplete": "Ihr Google-Konto wurde erfolgreich verbunden"
+    }
+  },
+  "errors": {
+    "genericError": "Ein Fehler ist aufgetreten: {{error}}",
+    "qrCodeFetchError": "Fehler beim Abrufen des vorhandenen QR-Codes:"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "rememberMe": "Angemeldet bleiben",
+    "forgotPassword": "Passwort vergessen?",
+    "loginButton": "Anmelden"
+  },
+  "clientArea": {
+    "title": "Kundenbereich",
+    "welcome": "Willkommen in Ihrem persönlichen Bereich",
+    "appointments": "Ihre Termine",
+    "personalInfo": "Persönliche Informationen",
+    "consents": "Einwilligungsverwaltung",
+    "messages": "Nachrichten"
+  },
+  "contacts": {
+    "accessOurContacts": "Zugriff auf unsere Kontakte"
+  },
+  "appointment": {
+    "selectTimeSlots": "Zeitslot für neuen Termin auswählen",
+    "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
+    "selected": "Ausgewählt",
+    "selectSlots": "Zeitslots auswählen",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Autocompilazione Token</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        .test-link { 
+            display: block; 
+            margin: 15px 0; 
+            padding: 15px; 
+            background-color: #e3f2fd; 
+            border-left: 4px solid #2196f3; 
+            text-decoration: none; 
+            color: #0d47a1; 
+            border-radius: 4px;
+        }
+        .test-link:hover { background-color: #bbdefb; }
+        .scenario { 
+            margin: 30px 0; 
+            padding: 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            background-color: #f9f9f9;
+        }
+        .expected { 
+            background-color: #e8f5e8; 
+            padding: 10px; 
+            border-radius: 4px; 
+            margin-top: 10px;
+        }
+        h3 { color: #1976d2; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>Test Sistema Autocompilazione Token</h1>
+    
+    <div class="scenario">
+        <h3>Scenario 1: Token da URL (primo accesso QR)</h3>
+        <p>Simula la scansione di un QR code con token nell'URL</p>
+        <a href="/client-login?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3" 
+           class="test-link" target="_blank">
+            Test Login con Token Marco nell'URL
+        </a>
+        <div class="expected">
+            <strong>Risultato atteso:</strong>
+            <ul>
+                <li>Banner verde "Token rilevato automaticamente"</li>
+                <li>Campo username precompilato con il token</li>
+                <li>Campo evidenziato in verde</li>
+                <li>Placeholder "Token precompilato automaticamente"</li>
+                <li>Label "Nome utente (Token)"</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="scenario">
+        <h3>Scenario 2: Token da localStorage (PWA persistente)</h3>
+        <p>Simula un accesso PWA con token salvato localmente</p>
+        <button onclick="simulateStoredToken()" style="padding: 10px 20px; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            1. Salva Token in localStorage
+        </button>
+        <br><br>
+        <a href="/client-login" class="test-link" target="_blank">
+            2. Test Login con Token da localStorage
+        </a>
+        <div class="expected">
+            <strong>Risultato atteso:</strong>
+            <ul>
+                <li>Stessi indicatori visuali del Scenario 1</li>
+                <li>Token caricato automaticamente dal localStorage</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="scenario">
+        <h3>Scenario 3: Login normale senza token</h3>
+        <a href="/client-login" class="test-link" target="_blank">
+            Test Login Normale (senza token)
+        </a>
+        <div class="expected">
+            <strong>Risultato atteso:</strong>
+            <ul>
+                <li>Nessun banner di autocompilazione</li>
+                <li>Campo username vuoto</li>
+                <li>Placeholder "Inserisci il tuo nome utente"</li>
+                <li>Label "Nome utente" (senza "(Token)")</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="scenario">
+        <h3>Scenario 4: Sessione scaduta</h3>
+        <a href="/client-login?expired=true" class="test-link" target="_blank">
+            Test Sessione Scaduta
+        </a>
+        <div class="expected">
+            <strong>Risultato atteso:</strong>
+            <ul>
+                <li>Banner rosso "Sessione scaduta"</li>
+                <li>Token localStorage pulito</li>
+                <li>Nessuna autocompilazione</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Test Comportamento Console</h2>
+    <p>Apri la console del browser per vedere i log di debug:</p>
+    <ul>
+        <li><code>🔧 Token rilevato nell'URL - Autocompilazione campo</code></li>
+        <li><code>📱 Token rilevato in localStorage - Autocompilazione campo</code></li>
+        <li><code>Sessione scaduta, pulizia token</code></li>
+    </ul>
+    
+    <script>
+        function simulateStoredToken() {
+            localStorage.setItem('clientAccessToken', 'PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3');
+            localStorage.setItem('clientId', '1750177330362');
+            alert('Token salvato in localStorage! Ora clicca il link qui sotto.');
+        }
+        
+        // Debug localStorage
+        console.log('localStorage clientAccessToken:', localStorage.getItem('clientAccessToken'));
+        console.log('localStorage clientId:', localStorage.getItem('clientId'));
+    </script>
+</body>
+</html>

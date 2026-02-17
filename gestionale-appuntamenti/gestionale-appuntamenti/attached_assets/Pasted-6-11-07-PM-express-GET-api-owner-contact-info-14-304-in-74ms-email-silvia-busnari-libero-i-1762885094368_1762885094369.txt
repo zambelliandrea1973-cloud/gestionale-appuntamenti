@@ -1,0 +1,601 @@
+6:11:07 PM [express] GET /api/owner-contact-info/14 304 in 74ms :: {"email":"silvia.busnari@libero.i…
+Recupero impostazioni per utente 14
+Impostazioni trovate per utente 14: SI
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+  email: 'silvia.busnari@libero.it',
+  phone: '3471445767',
+  phone1: '3471445767',
+  phone2: '',
+  website: 'biomedicinaintegrata.it',
+  instagram: 'biomedicinaintegrata',
+  facebook: 'SilviaBusnari'
+}
+6:11:07 PM [express] GET /api/owner-contact-info/14 304 in 73ms :: {"email":"silvia.busnari@libero.i…
+6:11:07 PM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 9 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 009/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:13 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/9/pdf 500 in 22…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 8 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 008/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:15 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/8/pdf 500 in 22…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 2 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 002/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:17 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/2/pdf 500 in 20…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 2 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 002/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:18 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/2/pdf 500 in 21…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 5 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 005/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:18 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/5/pdf 500 in 22…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 5 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 005/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:19 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/5/pdf 500 in 21…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 5 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 005/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:19 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/5/pdf 500 in 23…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 5 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 005/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:20 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/5/pdf 500 in 21…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices/1
+🗑️ [/api/invoices/1] Richiesta eliminazione per utente 14
+❌ Errore eliminazione fattura: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '36',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:11:41 PM [express] DELETE /api/invoices/1 500 in 186ms :: {"message":"Errore durante l'eliminazion…
+6:11:56 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+📄 [/api/invoices] Utente non autenticato
+6:11:56 PM [express] GET /api/invoices 401 in 1ms :: {"message":"Non autenticato"}
+6:12:24 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+6:12:24 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+6:12:24 PM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+6:12:24 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+6:12:24 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+6:12:26 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+Logout completato con successo
+6:12:26 PM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+6:12:26 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+6:12:26 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+🔐 [LOGIN] Richiesta login staff: busnari.silvia@libero.it
+🔐 [LOGIN] IP: 10.83.3.80, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Sa
+🔐 [LOGIN] Headers: secure=true, protocol=https
+✅ [LOGIN] Login completato per: busnari.silvia@libero.it (ID: 14, tipo: staff)
+🔐 [LOGIN] Session ID: WibWpBc97BiK11t0DJZFSZNs8kCXzeBK
+🔐 [LOGIN] Session saved: yes
+✅ [LOGIN] Sessione salvata con successo per busnari.silvia@libero.it
+6:12:29 PM [express] POST /api/staff/login 200 in 143ms :: {"id":14,"username":"busnari.silvia@liber…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /dashboard
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /@vite/client
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /disable-vite-overlay.js
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /forced-style.css
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /@react-refresh
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /@fs/home/runner/workspace/node_modules/vite/dist/client/env.mjs
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/main.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/i18n.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/App.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/toaster.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/index.css
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/it.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/de.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/fr.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/en.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/ru.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/es.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/nl.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/no.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/locales/ro.json
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-toast.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/toast.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/queryClient.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/Layout.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientLayout.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/PwaSessionManager.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/BetaStatusChecker.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-user-with-license.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ManifestInjector.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-tenant-context.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Home.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Calendar.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Clients.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/BookingRequests.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Reports.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Invoices.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Settings.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/EmailSettings.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ClientMedicalDetails.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ActivateAccount.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/AutoLogin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PwaLauncher.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PureClientArea.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ClientArea.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ConsentPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/TestNotificationsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ClientAppointments.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/BetaPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/BetaAdmin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Terms.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PaymentAdmin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/StaffManagementPageFixed.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/Inventory.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/SubscribePage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/RegisterPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/StaffLogin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/CustomerLogin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/WhatsAppCenterPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/GoogleSetupInstructionsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/GoogleTroubleshootingPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ProFeaturesPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PaymentSuccess.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PaymentCancel.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/WelcomePage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ReferralPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ReferralCommissionsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/BankingSettingsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/OnboardingWizard.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/StaffCollaboratorsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/TreatmentRoomsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/AIChat.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/AdminUsersPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/MarketingCampaignsPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/PromotionPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ProFeatureGuard.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ManualAdminPage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/TimezoneDetector.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/ManualePage.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/pages/not-found.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/utils.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/button.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-license.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-mobile-force-sync.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/language-selector.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-mobile-sync.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/UserLicenseBadge.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/LogoutButton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/FooterContactIcons.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/FooterContent.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/betaUtils.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/card.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/input.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/utils/date.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/DayViewWithTimeSlots.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/WeekView.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/MonthView.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/badge.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/tabs.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/dialog.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientForm.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientCard.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/select.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/label.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/reports.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-currency.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/textarea.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/form.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/dropdown-menu.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AppIconUploader.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ContactInfoEditor.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/CompanyNameEditor.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/CompanyBusinessDataEditor.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/SimpleServiceManager.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/EmailSettings.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AdminNotifications.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/SubscriptionPlansAdmin.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/RestartAppButton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/CurrencySelector.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientLegacyNotes.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientStackedNotes.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/switch.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/scroll-area.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/collapsible.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/PwaInstallButton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/DirectLinkAccess.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/TokenExpiryAlert.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/PrivacyConsentForm.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/NotificationTester.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/table.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-auth.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/alert.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/separator.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/calendar.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/popover.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/payment/PaymentMethodsConfig.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/autoRefresh.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/alert-dialog.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AuthorizedRoute.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/hooks/use-capabilities.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/UpgradePrompt.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/checkbox.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/password-input.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/FooterOnly.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/GoogleCalendarSimpleSetup.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/progress.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/accordion.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/tooltip.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/contactInfo.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/skeleton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AppointmentCardSmall.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AppointmentForm.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AppointmentModal.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/FloatingActionButton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /@fs/home/runner/workspace/shared/schema.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ConsentForm.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/AppointmentFormModal.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/QRCodeModal.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientAccessCounter.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientAccessesDialog.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ui/slider.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/lib/privacyConsents.ts
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/SaveDirectButton.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/DirectLinkGenerator.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /src/components/ClientAccessesDetails.tsx
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/timezone-settings
+6:12:35 PM [express] GET /api/timezone-settings 200 in 73ms :: {"timezone":"Europe/Rome","offset":2}
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/license/has-pro-access
+6:12:35 PM [express] GET /api/license/has-pro-access 200 in 75ms :: true
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/license/license-info
+6:12:35 PM [express] GET /api/license/license-info 200 in 77ms :: {"hasLicense":true,"type":"staff_f…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-app-info
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/license/has-business-access
+6:12:35 PM [express] GET /api/license/has-business-access 200 in 107ms :: true
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/user-with-license
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+📱💻 [desktop] Dati utente unificati: {
+  id: 14,
+  username: 'busnari.silvia@libero.it',
+  firstName: null,
+  lastName: null,
+  licenseType: 'staff_free_10years'
+}
+6:12:35 PM [express] GET /api/user-with-license 200 in 147ms :: {"id":14,"username":"busnari.silvia@…
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [desktop] Icone PWA per utente 14, icon length: 837291
+6:12:35 PM [express] GET /api/client-app-info 200 in 245ms :: {"appName":"Gestionale Appuntamenti","…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/license/application-title
+6:12:35 PM [express] GET /api/license/application-title 200 in 73ms :: {"title":"Gestionale Appuntam…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/client-app-info
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/timezone-settings
+6:12:35 PM [express] GET /api/timezone-settings 304 in 79ms :: {"timezone":"Europe/Rome","offset":2}
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/timezone-settings
+6:12:35 PM [express] POST /api/timezone-settings 200 in 84ms :: {"success":true,"timezone":"Europe/Z…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /service-worker.js
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [desktop] Icone PWA per utente 14, icon length: 837291
+6:12:36 PM [express] GET /api/client-app-info 200 in 196ms :: {"appName":"Gestionale Appuntamenti","…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/company-name-settings
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+Recupero impostazioni per utente 14
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/contact-info
+Recupero impostazioni per utente 14
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/tenant-context
+6:12:36 PM [express] GET /api/tenant-context 200 in 74ms :: {"userId":14,"userType":"staff","tenantI…
+Impostazioni trovate per utente 14: SI
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'Silvia Busnari ',
+  fontSize: 42,
+  fontFamily: 'Lucida Sans Unicode',
+  fontStyle: 'italic',
+  color: '#FF0000',
+  enabled: true
+}
+6:12:36 PM [express] GET /api/company-name-settings 200 in 161ms :: {"businessName":"Studio Medico",…
+Impostazioni trovate per utente 14: SI
+6:12:36 PM [express] GET /api/contact-info 200 in 159ms :: {"email":"silvia.busnari@libero.it","phon…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/timezone-settings
+6:12:36 PM [express] POST /api/timezone-settings 200 in 74ms :: {"success":true,"timezone":"Europe/Z…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/google-auth/status
+6:12:48 PM [express] GET /api/google-auth/status 200 in 78ms
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/google-auth/status
+6:12:48 PM [express] GET /api/google-auth/status 200 in 80ms
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/currency-settings
+💰 [GET] Recupero impostazioni valuta per utente 14
+💰 Recupero impostazioni valuta per utente 14
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices
+📄 [/api/invoices] Richiesta fatture per utente: 14
+📄 [/api/invoices] Restituisco 9 fatture per utente 14
+✅ Impostazioni valuta trovate per utente 14: { currency: 'EUR', symbol: '€' }
+6:12:49 PM [express] GET /api/invoices 200 in 146ms :: [{"id":9,"invoiceNumber":"009/2025","clientId…
+6:12:49 PM [express] GET /api/currency-settings 200 in 147ms :: {"currency":"EUR","symbol":"€"}
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices/9/status
+📄 [/api/invoices/9/status] Aggiornamento stato per utente 14: paid
+✅ [JSON STORAGE] Dati salvati correttamente
+✅ [/api/invoices/9/status] Stato aggiornato a: paid
+6:12:53 PM [express] PATCH /api/invoices/9/status 200 in 122ms :: {"success":true,"status":"paid","i…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices
+📄 [/api/invoices] Richiesta fatture per utente: 14
+📄 [/api/invoices] Restituisco 9 fatture per utente 14
+6:12:54 PM [express] GET /api/invoices 200 in 178ms :: [{"id":9,"invoiceNumber":"009/2025","clientId…
+6:16:24 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+6:16:24 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+6:16:24 PM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+6:16:24 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+6:16:24 PM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1762884984498&ownerId=014&clientToken=PROF_014_9C1F_CLIENT_14003_816C
+🔍 PWA MANIFEST: Query params: {
+  v: '1762884984498',
+  ownerId: '014',
+  clientToken: 'PROF_014_9C1F_CLIENT_14003_816C'
+}
+🔍 PWA MANIFEST: Headers referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14003_816C
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+📱 PWA MANIFEST: Owner ID da query param: 14
+🔄 MANIFEST: Versione aggiornata: 1762884984967-14
+🔍 PWA MANIFEST: Analizzando referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14003_816C
+🔍 PWA MANIFEST: Query params: {
+  v: '1762884984498',
+  ownerId: '014',
+  clientToken: 'PROF_014_9C1F_CLIENT_14003_816C'
+}
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_014_9C1F_CLIENT_14003_816C
+📱 MANIFEST DINAMICO: Servendo manifest per Silvia Busnari (owner 14)
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1762884984967.726&android=1","/pwa-icon/192x192?owner=14&v=1762884984967.726&android=1","/pwa-icon/512x512?owner=14&v=1762884984967.726&android=1"]
+📱 MANIFEST ID: silvia-busnari-cliente-14
+📱 MANIFEST NAME: Silvia Busnari - Area Cliente
+✅ [JSON STORAGE] Dati salvati correttamente
+✅ [PWA ACCESS] Contatori JSON aggiornati per Marco Berto
+✅ [PWA ACCESS] Cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C) - Accesso registrato, token generato
+6:16:25 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14003_816C 200 in 890ms :: {"succe…
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14003_816C
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+✅ [JSON STORAGE] Dati salvati correttamente
+✅ [PWA ACCESS] Contatori JSON aggiornati per Marco Berto
+✅ [PWA ACCESS] Cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C) - Accesso registrato, token generato
+6:16:25 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14003_816C 200 in 1484ms :: {"succ…
+🏠 [CLIENT ACCESS PG] Cliente autenticato: Marco Berto
+6:16:25 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14003_816C 200 in 487ms :: {"id":7…
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14003_816C
+🏠 [CLIENT ACCESS PG] Cliente autenticato: Marco Berto
+6:16:25 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14003_816C 200 in 73ms :: {"id":70…
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+📅 [CLIENT-API] 22 appuntamenti trovati per cliente PROF_014_9C1F_CLIENT_14003_816C
+6:16:29 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/appointments 200 in 3666…
+📅 [CLIENT-API] 22 appuntamenti trovati per cliente PROF_014_9C1F_CLIENT_14003_816C
+6:16:29 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/appointments 200 in 3600…
+📄 [CLIENT-INVOICES] Richiesta fatture per cliente: PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+📄 [CLIENT-INVOICES] Richiesta fatture per cliente: PROF_014_9C1F_CLIENT_14003_816C
+✅ [CLIENT-INVOICES] 6 fatture trovate per cliente PROF_014_9C1F_CLIENT_14003_816C
+6:16:29 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices 200 in 156ms ::…
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICES] 6 fatture trovate per cliente PROF_014_9C1F_CLIENT_14003_816C
+6:16:29 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices 200 in 155ms ::…
+Recupero impostazioni per utente 14
+Impostazioni trovate per utente 14: SI
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+  email: 'silvia.busnari@libero.it',
+  phone: '3471445767',
+  phone1: '3471445767',
+  phone2: '',
+  website: 'biomedicinaintegrata.it',
+  instagram: 'biomedicinaintegrata',
+  facebook: 'SilviaBusnari'
+}
+6:16:30 PM [express] GET /api/owner-contact-info/14 304 in 91ms :: {"email":"silvia.busnari@libero.i…
+Recupero impostazioni per utente 14
+Impostazioni trovate per utente 14: SI
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+  email: 'silvia.busnari@libero.it',
+  phone: '3471445767',
+  phone1: '3471445767',
+  phone2: '',
+  website: 'biomedicinaintegrata.it',
+  instagram: 'biomedicinaintegrata',
+  facebook: 'SilviaBusnari'
+}
+6:16:30 PM [express] GET /api/owner-contact-info/14 304 in 86ms :: {"email":"silvia.busnari@libero.i…
+6:16:30 PM [express] GET /api/booking-requests 401 in 6ms :: {"message":"Non autenticato"}
+👥 [CLIENT STAFF] Richiesta collaboratori per clientCode: PROF_014_9C1F_CLIENT_14003_816C
+🔍 [CLIENT SERVICES] Richiesta servizi per clientCode: PROF_014_9C1F_CLIENT_14003_816C
+✅ NUOVO Sistema: 6 servizi per utente 14 - SEPARAZIONE COMPLETA
+✅ [CLIENT SERVICES] Ritornati 6 servizi per ownerId: 14
+6:16:30 PM [express] GET /api/client-services 304 in 147ms :: [{"id":91,"name":"Controllo","duration…
+✅ [CLIENT STAFF] Ritornati 3 collaboratori attivi per ownerId: 14
+6:16:30 PM [express] GET /api/client-staff 304 in 159ms :: [{"id":5,"firstName":"monica","lastName":…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 2 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 002/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:16:40 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/2/pdf 500 in 20…
+📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura 2 per cliente PROF_014_9C1F_CLIENT_14003_816C
+✅ [QR-AUTH] Token valido per cliente Marco Berto (PROF_014_9C1F_CLIENT_14003_816C), legacyId: 14003
+✅ [CLIENT-INVOICE-PDF] Fattura 002/2025 validata per cliente PROF_014_9C1F_CLIENT_14003_816C
+❌ [CLIENT-INVOICE-PDF] Errore nel download PDF: PostgresError: syntax error at or near "="
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42601',
+  position: '139',
+  file: 'scan.l',
+  line: '1244',
+  routine: 'scanner_yyerror'
+}
+6:16:42 PM [express] GET /api/simple/client/PROF_014_9C1F_CLIENT_14003_816C/invoices/2/pdf 500 in 18…

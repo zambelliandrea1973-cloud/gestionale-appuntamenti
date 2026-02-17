@@ -1,0 +1,1709 @@
+{
+  "app": {
+    "title": "Gestión de Citas",
+    "welcome": "Bienvenido a la Gestión de Citas",
+    "description": "Gestione fácilmente citas, clientes y facturas"
+  },
+  "welcomePage": {
+    "title": "Bienvenido a Gestión de Citas",
+    "subtitle": "Elige cómo quieres proceder",
+    "createAccount": "Crear una nueva cuenta",
+    "createAccountDesc": "Para nuevos usuarios que quieren comenzar a usar el sistema",
+    "professionalLogin": "Acceso Profesional",
+    "staffLogin": "Acceso Personal/Admin",
+    "chooseAccessType": "Elige el tipo de acceso apropiado",
+    "version": "Gestión de Citas v3.5.0",
+    "copyright": "© 2023-2025 Todos los derechos reservados",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestión de Citas"
+  },
+  "staffLoginPage": {
+    "title": "Acceso Personal",
+    "adminTitle": "Acceso Administrador",
+    "description": "Accede al panel de administración",
+    "adminDescription": "Accede con credenciales de administrador",
+    "username": "Usuario",
+    "usernamePlaceholder": "Introduce tu usuario",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Introduce tu contraseña",
+    "rememberMe": "Recordar mi cuenta",
+    "login": "Acceder",
+    "loggingIn": "Accediendo...",
+    "error": "Error",
+    "loginError": "Error de acceso",
+    "errorOccurred": "Se ha producido un error durante el acceso",
+    "enterCredentials": "Introduce usuario y contraseña",
+    "forgotPassword": "Olvidé mi contraseña",
+    "clearCache": "Limpiar caché de la app",
+    "clearing": "Limpiando...",
+    "clearCacheHint": "Usa este botón si ves datos de otros usuarios",
+    "noAccount": "¿No tienes cuenta?",
+    "register": "Regístrate",
+    "areProfessional": "¿Eres profesional?",
+    "loginAsProfessional": "Acceder como Profesional",
+    "adminPanel": "Panel de Administración",
+    "adminPanelDesc": "Gestiona tu negocio desde una única interfaz:",
+    "featureCalendar": "Calendario de citas",
+    "featureClients": "Gestión de clientes",
+    "featureBilling": "Facturación y pagos",
+    "featureNotifications": "Notificaciones y recordatorios",
+    "accessRestricted": "Acceso reservado para personal y administradores."
+  },
+  "homeFooter": {
+    "systemInfo": "Información del Sistema",
+    "appVersion": "Gestión de Citas v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Todos los derechos reservados",
+    "privacySecurity": "Privacidad y Seguridad",
+    "technicalSupport": "Soporte técnico:",
+    "privacyPolicy": "Política de Privacidad →",
+    "termsOfService": "Términos de servicio y condiciones →"
+  },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Actualización completada",
+    "refreshSuccessDesc": "{count} clientes cargados desde el servidor",
+    "refreshError": "Error",
+    "refreshErrorDesc": "No se puede actualizar desde el servidor",
+    "staffLabel": "Por Profesional",
+    "myClientsLabel": "Mis Clientes",
+    "otherAccountsLabel": "Otras Cuentas",
+    "clientPersonal": "Clientes Personales",
+    "clientSingular": "cliente",
+    "clientPlural": "clientes",
+    "loadingClients": "Cargando clientes...",
+    "errorLoadingClients": "Error al cargar clientes:",
+    "retry": "Reintentar"
+  },
+  "proPages": {
+    "syncGoogleCalendar": "Sincronizar Google Calendar",
+    "syncGoogleCalendarDesc": "Gestiona la sincronización de tus citas con Google Calendar",
+    "clickToConfigure": "Haz clic para configurar y gestionar la sincronización con Google Calendar",
+    "invoiceCreated": "Factura creada con éxito",
+    "invoiceCreateError": "Error al crear la factura",
+    "clientRequired": "Cliente requerido",
+    "amountPositive": "El importe debe ser positivo",
+    "dateRequired": "Fecha requerida",
+    "dueDateRequired": "Fecha de vencimiento requerida",
+    "invalidEmail": "Email no válido",
+    "subjectRequired": "Asunto requerido",
+    "emailSent": "Email enviado con éxito",
+    "emailSentTo": "Factura enviada a",
+    "emailSendError": "Error al enviar el email",
+    "checkEmailSettings": "Verifica la configuración de email",
+    "statusUpdated": "Estado actualizado",
+    "markedAs": "Factura marcada como:",
+    "paid": "Pagada",
+    "unpaid": "No pagada",
+    "statusUpdateError": "Error al actualizar estado",
+    "promotionalPackages": "Paquetes Promocionales",
+    "newPackage": "Nuevo Paquete",
+    "createNewPackage": "Crear Nuevo Paquete Promocional",
+    "packageName": "Nombre del Paquete",
+    "descriptionOptional": "Descripción (opcional)",
+    "numberOfSessions": "Número de Sesiones",
+    "totalPrice": "Precio Total",
+    "validityDays": "Validez (días, opcional)",
+    "includedServices": "Servicios Incluidos",
+    "addService": "Añadir servicio...",
+    "templateCreated": "Plantilla creada",
+    "packageCreatedDesc": "Paquete promocional creado con éxito",
+    "cannotCreateTemplate": "No se puede crear la plantilla",
+    "packageSold": "Paquete vendido",
+    "packageAssigned": "Paquete asignado al cliente",
+    "cannotSellPackage": "No se puede vender el paquete",
+    "templateDeleted": "Plantilla eliminada",
+    "templateDeletedDesc": "Plantilla eliminada con éxito",
+    "cannotDeleteTemplate": "No se puede eliminar la plantilla",
+    "inventory": "Inventario",
+    "categoryRequired": "Nombre de categoría requerido",
+    "productRequired": "Nombre de producto requerido",
+    "pricePositive": "El precio debe ser positivo",
+    "costPositive": "El costo debe ser positivo",
+    "stockPositive": "El stock debe ser positivo",
+    "minStockPositive": "El stock mínimo debe ser positivo",
+    "quantityPositive": "La cantidad debe ser positiva",
+    "maxDiscount": "Descuento máximo 100%",
+    "categoryCreated": "Categoría creada con éxito",
+    "invalidFileType": "Tipo de archivo no válido",
+    "selectImage": "Selecciona una imagen (JPG, PNG, GIF, WEBP)",
+    "fileTooLarge": "Archivo demasiado grande",
+    "maxImageSize": "La imagen debe ser máximo 5MB",
+    "productCreatedImageError": "Producto creado, pero error al subir imagen",
+    "canAddImageLater": "Puedes editar el producto para añadir la imagen",
+    "productCreated": "Producto creado con éxito",
+    "productCreateError": "Error al crear producto",
+    "productUpdated": "Producto actualizado con éxito",
+    "productUpdateError": "Error al actualizar producto",
+    "productDeleted": "Producto eliminado con éxito",
+    "productDeleteError": "Error al eliminar producto",
+    "unknownError": "Error desconocido",
+    "reports": "Informes",
+    "statisticalReports": "Informes Estadísticos",
+    "reportsAvailablePro": "Los informes detallados de actividad están disponibles desde el plan Pro.",
+    "downloadPdf": "Descargar PDF",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "week": "Semana",
+    "totalAppointments": "Total de Citas",
+    "totalRevenue": "Ingresos Totales",
+    "dailyAverage": "Promedio Diario",
+    "appointmentDetails": "Detalle de Citas",
+    "day": "Día",
+    "date": "Fecha",
+    "month": "Mes",
+    "numberOfAppointments": "Número de Citas",
+    "revenue": "Ingresos",
+    "serviceDetails": "Detalle de Servicios",
+    "service": "Servicio",
+    "generatedOn": "Generado el"
+  },
+  "paymentPages": {
+    "popular": "Popular",
+    "error": "Error",
+    "unableToLoadDashboard": "No se pueden cargar los datos del panel",
+    "dataRefresh": "Actualización de datos",
+    "dataRefreshInProgress": "Actualización de datos en curso...",
+    "settingsSaved": "Configuración guardada",
+    "bankingSettingsUpdated": "La configuración bancaria se ha actualizado correctamente",
+    "cannotSaveBankingSettings": "No se puede guardar la configuración bancaria",
+    "testCompleted": "Prueba completada",
+    "paymentSystemConfigured": "El sistema de pago está configurado correctamente",
+    "testFailed": "Prueba fallida",
+    "verifyBankingConfig": "Verifica la configuración de datos bancarios",
+    "trialExtended": "Período de prueba extendido",
+    "cannotExtendTrial": "No se puede extender el período de prueba",
+    "dateUpdated": "Fecha actualizada"
+  },
+  "services": {
+    "title": "Gestión de Servicios",
+    "description": "Gestiona los servicios ofrecidos por tu negocio.",
+    "newService": "Nuevo Servicio",
+    "createInstruction": "Completa el nuevo servicio que deseas crear y guárdalo con el botón",
+    "serviceName": "Nombre del servicio",
+    "durationMin": "Duración (min)",
+    "price": "Precio",
+    "loading": "Cargando servicios...",
+    "noServices": "No hay servicios. ¡Crea tu primer servicio!",
+    "name": "Nombre",
+    "duration": "Duración",
+    "color": "Color",
+    "actions": "Acciones",
+    "editService": "Editar servicio",
+    "deleteService": "Eliminar servicio",
+    "servicesLoaded": "Servicios cargados",
+    "lastUpdate": "Última actualización",
+    "never": "Nunca",
+    "editTitle": "Editar Servicio",
+    "servicePlaceholder": "Nombre del servicio",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "serviceCreated": "¡Servicio creado!",
+    "serviceDeleted": "¡Servicio eliminado!",
+    "serviceUpdated": "¡Servicio actualizado!",
+    "enterName": "Introduce un nombre para el servicio",
+    "createError": "Error al crear",
+    "deleteError": "Error al eliminar",
+    "updateError": "Error al actualizar"
+  },
+  "settingsPage": {
+    "accessDenied": "Acceso denegado",
+    "adminOnlyAccess": "Solo los administradores pueden acceder a esta área",
+    "staffAndRooms": "Personal y Salas",
+    "security": "Seguridad",
+    "admin": "Admin",
+    "administrativeArea": "Área Administrativa",
+    "adminAreaDescription": "Accede al área de administración beta para gestionar invitaciones y monitorear comentarios de usuarios beta.",
+    "accessBetaAdminDashboard": "Acceder al Panel de Admin Beta",
+    "systemManagement": "Gestión del Sistema",
+    "systemManagementDescription": "Desde aquí puedes gestionar el sistema, reiniciar la aplicación o verificar el estado de salud.",
+    "serverStatus": "Estado del servidor:",
+    "online": "En línea",
+    "collaboratorsManagement": "Gestión de Colaboradores",
+    "collaboratorsManagementDesc": "Gestiona los colaboradores del estudio y sus especializaciones",
+    "collaboratorsDescription": "Añade y gestiona los colaboradores que trabajan en tu estudio. Podrás asignarlos a citas y personalizar las comunicaciones.",
+    "manageCollaborators": "Gestionar Colaboradores",
+    "roomsManagement": "Gestión de Salas/Cabinas",
+    "roomsManagementDesc": "Configura las salas y cabinas de tratamiento de tu estudio",
+    "roomsDescription": "Organiza las salas de tu estudio con colores personalizados para el calendario. Asigna salas a las citas para una mejor organización.",
+    "manageRooms": "Gestionar Salas",
+    "iconUpdated": "Icono Actualizado",
+    "iconUpdatedDescription": "El icono PWA ha sido personalizado con éxito. Los clientes verán tu logo cuando instalen la aplicación."
+  },
+  "notificationsPageExtra": {
+    "marketingCampaigns": "Campañas de Marketing IA",
+    "phoneConfig": "Configuración de Teléfono",
+    "advancedConfig": "Configuración avanzada (método QR)",
+    "whatsappNotifications": "Notificaciones de WhatsApp",
+    "whatsappInfo": "Información sobre notificaciones de WhatsApp:",
+    "whatsappInfoList": [
+      "Los mensajes de WhatsApp son gratuitos y más confiables que los SMS",
+      "Verifique que los números de teléfono sean correctos con prefijo internacional (ej. +34612345678)",
+      "Todos los mensajes generan un enlace de WhatsApp que se abre automáticamente"
+    ],
+    "error": "Error",
+    "messageTemplates": "Plantillas de Mensajes",
+    "messageTemplatesDesc": "Personalice las plantillas de mensajes de recordatorio",
+    "noAppointmentSelected": "Ninguna cita seleccionada",
+    "selectAppointmentForNotifications": "Seleccione al menos una cita para enviar notificaciones",
+    "selectAppointmentForSMS": "Seleccione al menos una cita para enviar SMS",
+    "whatsappRemindersGenerated": "Recordatorios WhatsApp generados",
+    "whatsappRemindersGeneratedDesc": "Recordatorios WhatsApp generados con éxito",
+    "cannotSendWhatsApp": "No se pueden enviar recordatorios WhatsApp:",
+    "smsDelivered": "SMS enviados",
+    "smsDeliveredDesc": "SMS enviados con éxito",
+    "cannotSendSMS": "No se pueden enviar SMS:",
+    "twilioLimitations": "Cuenta Twilio con limitaciones",
+    "twilioLimitationsDesc": "Su cuenta Twilio tiene limitaciones y puede no entregar SMS a todos los números.",
+    "smsError": "Error de envío de SMS",
+    "recipient": "destinatario",
+    "recipients": "destinatarios",
+    "loadingError": "Error de carga:",
+    "cannotLoadAppointments": "No se pueden cargar las citas:",
+    "cannotLoadHistory": "No se puede cargar el historial:",
+    "cannotLoadSmsHistory": "No se puede cargar el historial de SMS:",
+    "unknownError": "Error desconocido"
+  },
+  "bookingRequests": {
+    "title": "Solicitudes de Reserva",
+    "subtitle": "Gestiona las solicitudes de cita de los clientes",
+    "toManage": "Por gestionar",
+    "confirmed": "Confirmadas",
+    "rejected": "Rechazadas",
+    "tabToManage": "Por Gestionar",
+    "tabAll": "Todas",
+    "noRequestsToManage": "No hay solicitudes por gestionar",
+    "noRequestsFound": "No se encontraron solicitudes",
+    "statusChooseSlot": "Elegir horario",
+    "statusPending": "Pendiente",
+    "statusConfirmed": "Confirmado",
+    "statusRejected": "Rechazada",
+    "preference": "Preferencia:",
+    "requestedTimeSlot": "Franja horaria solicitada:",
+    "clientSelectedSlot": "Horario seleccionado por el cliente:",
+    "proposedSlots": "Horarios propuestos:",
+    "clientNotes": "Notas del cliente:",
+    "approveAndCreate": "Aprobar y Crear Cita",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "no": "No",
+    "confirmAppointment": "Confirmar Cita",
+    "confirmAppointmentDesc": "Seleccione colaborador y sala para la cita. La asignación automática elegirá el primer recurso disponible.",
+    "clientRequested": "El cliente solicitó:",
+    "collaborator": "Colaborador",
+    "room": "Sala",
+    "autoAssignment": "Asignación Automática",
+    "cancel": "Cancelar",
+    "creating": "Creando...",
+    "confirmAndCreate": "Confirmar y Crear",
+    "requestApproved": "Solicitud Aprobada",
+    "appointmentCreated": "Cita creada con éxito",
+    "error": "Error",
+    "cannotApprove": "No se puede aprobar la solicitud",
+    "requestRejected": "Solicitud Rechazada",
+    "clientWillBeNotified": "El cliente será notificado",
+    "cannotReject": "No se puede rechazar la solicitud"
+  },
+  "professionalLoginPage": {
+    "title": "Acceso Profesional",
+    "description": "Accede a tu cuenta profesional para gestionar clientes y citas",
+    "username": "Usuario",
+    "usernamePlaceholder": "Introduce tu usuario",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Introduce tu contraseña",
+    "rememberMe": "Recordar mi cuenta",
+    "login": "Acceder",
+    "loggingIn": "Accediendo...",
+    "error": "Error",
+    "loginError": "Error de acceso",
+    "errorOccurred": "Se ha producido un error durante el acceso",
+    "enterCredentials": "Introduce usuario y contraseña",
+    "forgotPassword": "Olvidé mi contraseña",
+    "areStaffOrAdmin": "¿Eres personal o administrador?",
+    "loginAsStaff": "Acceder como Personal",
+    "professionalManagement": "Gestión Profesional",
+    "professionalManagementDesc": "Accede a tu cuenta profesional para gestionar clientes, citas y todas las herramientas para tu trabajo.",
+    "featureClients": "Gestión de Clientes",
+    "featureClientsDesc": "Organiza y gestiona todos tus clientes en un solo lugar",
+    "featureAppointments": "Citas",
+    "featureAppointmentsDesc": "Planifica y monitoriza citas con facilidad",
+    "featureReports": "Informes y Análisis",
+    "featureReportsDesc": "Monitoriza el rendimiento de tu negocio"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "notifications": "Notificaciones",
+    "referral": "Referidos",
+    "aiSetup": "Configuración IA",
+    "aiSettings": "Ajustes IA",
+    "aiAssistant": "Asistente IA",
+    "staff": "Personal",
+    "payments": "Pagos",
+    "requests": "Solicitudes"
+  },
+  "sidebar": {
+    "clients": "Clientes",
+    "calendar": "Calendario",
+    "invoices": "Facturas",
+    "reports": "Informes",
+    "settings": "Ajustes"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "Inglés",
+    "de": "Alemán",
+    "fr": "Francés",
+    "es": "Español",
+    "ru": "Ruso",
+    "nl": "Holandés",
+    "no": "Noruego",
+    "ro": "Rumano",
+    "select": "Seleccionar idioma"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendario",
+      "description": "Ver y gestionar todas las citas",
+      "content": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas.",
+      "button": "Ir al Calendario"
+    },
+    "clients": {
+      "title": "Clientes",
+      "description": "Gestionar información de clientes",
+      "content": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica.",
+      "button": "Gestionar Clientes"
+    },
+    "invoices": {
+      "title": "Facturas",
+      "description": "Gestionar facturas y pagos",
+      "content": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real.",
+      "button": "Gestionar Facturas"
+    },
+    "reports": {
+      "title": "Informes",
+      "description": "Analizar el rendimiento del negocio",
+      "content": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio.",
+      "button": "Ver Informes"
+    },
+    "manual": {
+      "title": "Manual",
+      "description": "Guía completa de uso",
+      "content": "Consulte el manual de usuario con capturas de pantalla y tutoriales en video para cada funcionalidad",
+      "button": "Ir al Manual"
+    }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "description": "Ver y gestionar todas las citas",
+    "subDescription": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas",
+    "goTo": "Ir al Calendario",
+    "daily": "Diario",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "weekView": "Vista semanal",
+    "monthView": "Vista mensual",
+    "addAppointment": "Nueva Cita",
+    "today": "Hoy",
+    "searchResults": "Resultados de búsqueda",
+    "noAppointmentsFound": "No se encontraron citas para",
+    "goToDay": "Ir al día",
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "selectNewAppointment": "Seleccionar nueva cita",
+    "selectTimeNewAppointment": "Seleccionar hora de la nueva cita",
+    "confirmAndAssociateClient": "Confirmar y asociar cliente",
+    "hasAppointments": "Tiene citas",
+    "slotOccupied": "Espacio ocupado por cita anterior",
+    "customDuration": "Duración personalizada",
+    "incrementBy15Min": "Incrementar 15 min",
+    "decrementBy15Min": "Decrementar 15 min",
+    "selected": "Seleccionado",
+    "select": "Seleccionar"
+  },
+  "clients": {
+    "title": "Clientes",
+    "description": "Gestionar información de clientes",
+    "subDescription": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica",
+    "goTo": "Gestionar Clientes",
+    "addClient": "Nuevo Cliente",
+    "newClient": "Nuevo Cliente",
+    "addFirstClient": "Añadir primer cliente",
+    "search": {
+      "placeholder": "Buscar clientes por nombre, teléfono o email...",
+      "minLength": "Introduzca al menos 2 caracteres para buscar"
+    },
+    "filter": {
+      "all": "Todos",
+      "frequent": "Frecuentes",
+      "noConsent": "Sin Consentimiento"
+    },
+    "noClientsFound": "No se encontraron clientes",
+    "noClientsInSystem": "No hay clientes registrados en el sistema",
+    "noResultsMatch": "Ningún cliente coincide con los criterios de búsqueda \"{{query}}\"",
+    "refreshSuccess": "Los datos de clientes se han actualizado",
+    "lastUpdate": "Última actualización",
+    "autoUpdate": "Actualización automática cada hora y a las 23:59",
+    "stats": {
+      "total": "Total de clientes",
+      "frequent": "Clientes frecuentes",
+      "noConsent": "Sin consentimiento"
+    },
+    "table": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "actions": "Acciones"
+    },
+    "details": {
+      "title": "Detalles del Cliente",
+      "personalInfo": "Información Personal",
+      "medicalInfo": "Información Médica",
+      "appointments": "Citas",
+      "notes": "Notas",
+      "consents": "Consentimientos",
+      "clientDataConsent": "Datos cliente/consentimiento",
+      "clientFile": "Carpeta del Cliente",
+      "showDetails": "Mostrar detalles",
+      "accessActivated": "QR Code de acceso cliente",
+      "generateQRCode": "Generar código QR",
+      "addAppointment": "Añadir cita",
+      "medicalNotes": "Notas médicas",
+      "deleteClient": "Eliminar cliente",
+      "deleteClientConfirmation": "¿Está seguro de que desea eliminar este cliente? Todas sus citas también serán eliminadas. Esta acción no se puede deshacer.",
+      "notFound": "Cliente no encontrado",
+      "notSpecified": "No especificado",
+      "frequentClient": "Cliente frecuente",
+      "dataConsent": "Consentimiento de tratamiento de datos",
+      "obtained": "Obtenido",
+      "notObtained": "No obtenido",
+      "viewAllAppointments": "Ver todas las citas",
+      "backToClients": "Volver a la lista de clientes",
+      "structuredNotes": "Notas estructuradas",
+      "legacyMedicalData": "Datos médicos antiguos",
+      "otherInfo": "Otra información",
+      "viewMode": "Modo de visualización de notas",
+      "stackedView": "Vista de tarjetas apiladas",
+      "classicView": "Vista clásica",
+      "stackedViewDescription": "Las notas se muestran como tarjetas apiladas. Haga clic en las tarjetas o use los botones de navegación para explorarlas.",
+      "classicViewDescription": "Las notas se muestran en secuencia vertical.",
+      "generalNotes": "Notas generales",
+      "allergiesInfo": "Alergias e información de salud",
+      "medicalNotesLegacy": "Notas médicas (antiguas)",
+      "allergiesInfoLegacy": "Alergias e información de salud (antiguas)",
+      "generalNotesLegacy": "Notas generales (antiguas)",
+      "noMedicalNotes": "No hay notas médicas registradas",
+      "noAllergiesInfo": "No hay alergias o información de salud registrada",
+      "noGeneralNotes": "No hay notas generales registradas"
+    },
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de Nacimiento",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "zipCode": "Código Postal",
+      "notes": "Notas",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    },
+    "loading": "Cargando clientes...",
+    "loadingAccessStatus": "Verificando acceso del cliente...",
+    "showDetails": "Detalles",
+    "showAppointments": "Citas",
+    "clientAccess": "Acceso del Cliente",
+    "qrGenerated": "QR generado",
+    "qrNotGenerated": "QR no generado",
+    "generateQR": "Generar QR",
+    "manageClient": "Administrar Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "Administre todos sus clientes",
+    "total": "clientes",
+    "searchPlaceholder": "Buscar clientes por nombre, teléfono o email...",
+    "allClients": "Todos los clientes",
+    "frequentClients": "Clientes frecuentes",
+    "noConsent": "Sin consentimiento"
+  },
+  "invoices": {
+    "title": "Facturas",
+    "description": "Gestionar facturas y pagos",
+    "subDescription": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real",
+    "goTo": "Gestionar Facturas",
+    "addInvoice": "Nueva Factura",
+    "table": {
+      "number": "Número",
+      "date": "Fecha",
+      "client": "Cliente",
+      "amount": "Importe",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "paid": "Pagada",
+      "unpaid": "No Pagada",
+      "partial": "Pago Parcial"
+    }
+  },
+  "reports": {
+    "title": "Informes",
+    "description": "Analizar el rendimiento del negocio",
+    "subDescription": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio",
+    "goTo": "Ver Informes",
+    "daily": "Informe Diario",
+    "weekly": "Informe Semanal",
+    "monthly": "Informe Mensual",
+    "appointments": "Citas",
+    "clients": "Clientes",
+    "revenue": "Ingresos"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "general": "General",
+    "profile": "Perfil",
+    "appearance": "Apariencia",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "theme": "Tema",
+    "save": "Guardar Ajustes",
+    "googleCalendar": "Google calendario",
+    "contacts": "Contactos",
+    "saving": "Guardando...",
+    "contactsTitle": "Información de Contacto",
+    "contactsDesc": "Administre la información de contacto que se mostrará en el pie de página de la aplicación del cliente",
+    "appName": "Nombre de la App",
+    "appIcon": "Icono de la App",
+    "integrations": "Integraciones",
+    "appearanceTitle": "Identidad Corporativa",
+    "appearanceDesc": "Personalice el nombre y el icono de la aplicación para reflejar la identidad de su empresa. Estas configuraciones se aplicarán tanto a la aplicación principal como a la del cliente."
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "actions": "Acciones",
+    "name": "Nombre",
+    "email": "Email",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "date": "Fecha",
+    "time": "Hora",
+    "description": "Descripción",
+    "support": "Soporte",
+    "terms": "Términos de Servicio",
+    "refresh": "Actualizar",
+    "error": "Error",
+    "birthday": "Fecha de nacimiento",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "notifications": {
+    "success": "Operación completada con éxito",
+    "error": "Se ha producido un error",
+    "warning": "Advertencia",
+    "info": "Información",
+    "clientDeleted": "Cliente eliminado",
+    "clientDeletedSuccess": "El cliente ha sido eliminado correctamente"
+  },
+  "whatsappNotifications": {
+    "title": "Notificaciones a clientes",
+    "description": "Gestionar recordatorios de citas",
+    "subDescription": "Enviar recordatorios de WhatsApp a los clientes para sus próximas citas",
+    "goTo": "Gestionar notificaciones"
+  },
+  "notificationsPage": {
+    "title": "Notificaciones a clientes",
+    "subtitle": "Gestiona los recordatorios para las citas de clientes",
+    "refresh": "Actualizar",
+    "tabs": {
+      "upcoming": "Por enviar",
+      "history": "Historial",
+      "settings": "Configuración de notificaciones",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "Cómo funcionan las notificaciones de WhatsApp",
+      "steps": [
+        "Selecciona las citas para las que quieres enviar un recordatorio",
+        "Haz clic en \"Generar notificaciones de WhatsApp\" para crear enlaces",
+        "Se generarán enlaces que abren WhatsApp con textos preestablecidos",
+        "Puedes personalizar el texto estándar antes de enviar"
+      ]
+    },
+    "customMessage": {
+      "title": "Mensaje personalizado (opcional)",
+      "description": "Si se especifica, este texto se añadirá al mensaje estándar",
+      "placeholder": "Ej. Recuerde traer su documentación médica anterior.",
+      "characters": "caracteres",
+      "clear": "Borrar"
+    },
+    "noAppointments": {
+      "loading": "Cargando citas...",
+      "empty": "No hay citas para notificar",
+      "description": "No hay próximas citas que requieran recordatorios."
+    },
+    "appointmentList": {
+      "selectAll": "Seleccionar todo",
+      "actions": "Acciones",
+      "sendButton": "Generar notificaciones de WhatsApp",
+      "sending": "Generando notificaciones..."
+    },
+    "errors": {
+      "loadingAppointments": "No se pueden cargar las citas",
+      "loadingHistory": "No se puede cargar el historial",
+      "noneSelected": "Seleccione al menos una cita para enviar notificaciones",
+      "sendingFailed": "No se pueden enviar los recordatorios"
+    },
+    "success": {
+      "remindersSent": "Recordatorios generados con éxito"
+    },
+    "whatsappLink": "Abrir WhatsApp",
+    "table": {
+      "client": "Cliente",
+      "service": "Servizio",
+      "time": "Orario",
+      "actions": "Azioni",
+      "send": "Invia",
+      "selectAll": "Seleziona tutti"
+    },
+    "buttons": {
+      "generating": "Generazione in corso...",
+      "generateWhatsApp": "Genera notifiche WhatsApp"
+    },
+    "history": {
+      "title": "Cronologia notifiche inviate",
+      "description": "Ultimi promemoria inviati tramite WhatsApp",
+      "noNotifications": "Nessuna notifica inviata recentemente",
+      "noSmsNotifications": "Nessun SMS inviato finora",
+      "table": {
+        "date": "Data",
+        "message": "Messaggio",
+        "actions": "Azioni",
+        "reopen": "Riapri",
+        "client": "Cliente",
+        "status": "Stato"
+      },
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    }
+  },
+  "notificationSettings": {
+    "title": "Configuración de notificaciones",
+    "enableEmailNotifications": "Habilitar notificaciones por correo electrónico",
+    "emailSetup": {
+      "title": "Configuración rápida de correo electrónico",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Introduce tu dirección de correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Introduce tu contraseña de correo electrónico",
+      "description": "Esta configuración establece tu cuenta de correo electrónico para el envío de notificaciones.",
+      "autoDetect": "Detectar automáticamente",
+      "emailRequired": "Introduce tu dirección de correo electrónico para detectar la configuración"
+    },
+    "errors": {
+      "loadingSettings": "No se puede cargar la configuración de notificaciones",
+      "savingSettings": "No se puede guardar la configuración",
+      "testEmailMissing": "Introduce una dirección de correo electrónico para la prueba"
+    },
+    "success": {
+      "settingsSaved": "Configuración de notificaciones guardada con éxito",
+      "testEmailSent": "Correo electrónico de prueba enviado con éxito",
+      "remindersProcessed": "Recordatorios procesados con éxito"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Configurar la integración con Google Calendar",
+    "emailLabel": "Cuenta de Gmail",
+    "emailPlaceholder": "tu.direccion@gmail.com",
+    "emailDescription": "La cuenta de Google que deseas utilizar para el calendario",
+    "connected": "Cuenta conectada",
+    "notConnected": "Cuenta aún no conectada",
+    "clientIdLabel": "ID de cliente",
+    "clientIdPlaceholder": "Tu ID de cliente de Google",
+    "clientIdDescription": "Obtén este valor desde la consola de Google Cloud",
+    "clientSecretLabel": "Secreto del cliente",
+    "clientSecretPlaceholder": "Tu secreto de cliente de Google",
+    "clientSecretDescription": "Obtén este valor desde la consola de Google Cloud",
+    "configHelp": "Ayuda con la configuración",
+    "errors": {
+      "authorizationUrlFailed": "No se puede generar la URL de autorización",
+      "emailRequired": "Ingresa el email de Google que deseas sincronizar",
+      "popupBlocked": "El popup fue bloqueado. Desactiva el bloqueador de popups para este sitio.",
+      "authError": "Error durante la autorización"
+    },
+    "success": {
+      "settingsSaved": "La configuración de sincronización se ha guardado con éxito",
+      "authorizationComplete": "Tu cuenta de Google se ha conectado con éxito",
+      "connected": "Google Calendar conectado con éxito"
+    },
+    "setup": {
+      "backToProFeatures": "Volver a las funciones PRO",
+      "syncTitle": "Sincronizar Google Calendar",
+      "syncDescription": "Añade automáticamente tus citas a Google Calendar",
+      "howItWorks": "Cómo funciona:",
+      "step1Title": "Ingresa tu dirección de email de Google",
+      "step1Desc": "El email con el que accedes a Google Calendar",
+      "step2Title": "Haz clic en \"Conectar con Google\"",
+      "step2Desc": "Autorizarás el acceso a tu calendario",
+      "step3Title": "Activa la sincronización",
+      "step3Desc": "A partir de ahora, las citas se sincronizarán automáticamente",
+      "emailLabel": "Email de Google",
+      "emailPlaceholder": "ejemplo@gmail.com",
+      "emailHint": "Debe coincidir con el email de tu cuenta de Google",
+      "connectButton": "Conectar con Google",
+      "connecting": "Conectando...",
+      "connectedSuccess": "¡Conectado con éxito!",
+      "connectedEmail": "{{email}} se ha vinculado a Google Calendar",
+      "enableSync": "Activar sincronización",
+      "syncToGoogle": "Nuevas citas → Google Calendar",
+      "syncEnabled": "Sincronización activa",
+      "syncEnabledDesc": "Las nuevas citas se añadirán automáticamente a Google Calendar",
+      "syncDisabled": "Sincronización desactivada",
+      "privacyTitle": "Tu privacidad está protegida",
+      "privacyDesc": "Usamos OAuth de Google - un protocolo seguro que no nos permite acceder a tu contraseña. Puedes revocar el acceso en cualquier momento.",
+      "proFeatureTitle": "Google Calendar - Función PRO",
+      "proFeatureDesc": "Sincroniza tus citas con Google Calendar",
+      "proOnlyMessage": "Esta función solo está disponible con el plan PRO.",
+      "upgradeToPro": "Actualizar a PRO",
+      "backToDashboard": "Volver al Dashboard"
+    }
+  },
+  "errors": {
+    "genericError": "Se ha producido un error: {{error}}",
+    "qrCodeFetchError": "Error al recuperar el código QR existente:"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidó la contraseña?",
+    "loginButton": "Iniciar sesión"
+  },
+  "clientArea": {
+    "title": "Área de Cliente",
+    "welcome": "Bienvenido a su Área Personal",
+    "appointments": "Sus Citas",
+    "personalInfo": "Información Personal",
+    "consents": "Gestión de Consentimientos",
+    "messages": "Mensajes"
+  },
+  "contacts": {
+    "accessOurContacts": "Accede a nuestros contactos"
+  },
+  "appointment": {
+    "selectTimeSlots": "Seleccionar hora para nueva cita",
+    "confirmAndAssociateClient": "Confirmar y asociar cliente",
+    "selected": "Seleccionado",
+    "selectSlots": "Seleccionar rangos horarios",
+    "confirmDelete": "¿Está seguro de que desea eliminar esta cita?",
+    "confirmDeleteTitle": "Eliminar cita"
+  },
+  "trial": {
+    "days": "días",
+    "expired": "Expirado",
+    "upgradeMessage": "Descubrir planes premium"
+  },
+  "banking": {
+    "title": "Configuración de Pagos",
+    "subtitle": "Gestionar datos bancarios para pagos automáticos de comisiones de referidos",
+    "bankName": "Nombre del Banco",
+    "bankNamePlaceholder": "ej. Banco Santander",
+    "accountHolder": "Titular de la Cuenta",
+    "accountHolderPlaceholder": "Nombre completo / Razón social",
+    "iban": "IBAN",
+    "ibanPlaceholder": "ES91 2100 0418 4502 0005 1332",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "ej. CAIXESBBXXX",
+    "address": "Dirección",
+    "addressPlaceholder": "Dirección completa de facturación",
+    "autoPayEnabled": "Pago Automático de Comisiones",
+    "paymentDelay": "Retraso de Pago (días)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Cantidad Mínima (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Descripción que aparecerá en las transferencias",
+    "showIban": "Mostrar IBAN",
+    "hideIban": "Ocultar IBAN",
+    "testPayment": "Probar Pago",
+    "saveSettings": "Guardar Ajustes",
+    "configured": "Configurado",
+    "notConfigured": "No Configurado",
+    "status": {
+      "configured": "Los datos bancarios están correctamente configurados",
+      "notConfigured": "Configurar datos bancarios para habilitar pagos de comisiones"
+    },
+    "alerts": {
+      "security": "Los datos bancarios están protegidos y cifrados. Solo los administradores pueden verlos.",
+      "paymentInfo": "Las comisiones se pagarán automáticamente cuando el saldo supere la cantidad mínima configurada."
+    },
+    "success": {
+      "saved": "Ajustes guardados",
+      "savedDescription": "La configuración bancaria se ha actualizado correctamente",
+      "testComplete": "Prueba completada",
+      "testSuccess": "El sistema de pago está configurado correctamente"
+    },
+    "errors": {
+      "saveFailed": "No se pudieron guardar los ajustes bancarios",
+      "testFailed": "Verificar la configuración de datos bancarios"
+    }
+  },
+  "payments": {
+    "title": "Administración de Pagos",
+    "subtitle": "Gestionar suscripciones, transacciones y comisiones",
+    "tabs": {
+      "overview": "Resumen",
+      "transactions": "Transacciones",
+      "methods": "Métodos de Pago",
+      "settings": "Ajustes"
+    },
+    "demo": "DEMO",
+    "realData": "Datos Reales",
+    "testTransaction": "Transacción de prueba",
+    "filterByLicense": "Filtrar por licencia",
+    "allLicenses": "Todas las licencias",
+    "stats": {
+      "totalRevenue": "Ingresos Totales",
+      "activeSubscriptions": "Suscripciones Activas",
+      "pendingCommissions": "Comisiones Pendientes"
+    },
+    "table": {
+      "date": "Fecha",
+      "user": "Usuario",
+      "license": "Licencia",
+      "amount": "Cantidad",
+      "method": "Método",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "completed": "Completado",
+      "pending": "Pendiente",
+      "failed": "Fallido",
+      "cancelled": "Cancelado"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Transferencia Bancaria",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Sistema de Referidos",
+    "subtitle": "Gane comisiones invitando nuevos clientes",
+    "adminOnly": "Solo los administradores pueden gestionar referidos, coordinar y verificar suscripciones patrocinadas por el personal para proceder con los pagos",
+    "yourCode": "Su Código de Referido",
+    "copyCode": "Copiar código",
+    "shareCode": "Compartir",
+    "copyToClipboard": "Copiar al portapapeles",
+    "share": "Compartir",
+    "earnings": {
+      "title": "Sus Ganancias",
+      "total": "Total Ganado",
+      "pending": "Pendiente",
+      "paid": "Pagado"
+    },
+    "iban": {
+      "title": "IBAN para Pagos",
+      "placeholder": "ES91 2100 0418 4502 0005 1332",
+      "description": "Ingrese su IBAN para recibir comisiones",
+      "save": "Guardar IBAN",
+      "saved": "IBAN guardado correctamente"
+    },
+    "commissions": {
+      "title": "Comisiones",
+      "customer": "Cliente",
+      "license": "Licencia",
+      "amount": "Cantidad",
+      "status": "Estado",
+      "date": "Fecha",
+      "noCommissions": "Aún no hay comisiones",
+      "pending": "Pendiente",
+      "paid": "Pagado"
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "step1": "Comparta su código de referido con clientes potenciales",
+      "step2": "Cuando se registren usando su código, se convierten en sus referidos",
+      "step3": "Gana el 25% en cada suscripción que activen",
+      "step4": "Las comisiones se pagan a su IBAN"
+    }
+  },
+  "manual": {
+    "pwa": {
+      "title": "Solicitudes de Cita PWA Cliente",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Cómo funciona para el cliente",
+          "badge": {
+            "text": "Cómo funciona para el cliente",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Acceso PWA",
+                  "text": "El cliente abre su app PWA personal (instalada mediante código QR)"
+                },
+                {
+                  "title": "Menú Citas",
+                  "text": "Hace clic en \"Solicitar Cita\" desde el menú principal"
+                },
+                {
+                  "title": "Selección de Servicio",
+                  "text": "Elige el tratamiento deseado de la lista"
+                },
+                {
+                  "title": "Preferencia de Colaborador",
+                  "text": "OPCIONAL",
+                  "items": [
+                    "Puede elegir un colaborador preferido del menú desplegable",
+                    "O dejar \"Sin preferencia\" para asignación automática"
+                  ]
+                },
+                {
+                  "title": "Fecha y Hora",
+                  "text": "Selecciona la fecha y la franja horaria deseada"
+                },
+                {
+                  "title": "Envío de Solicitud",
+                  "text": "Hace clic en \"Enviar Solicitud\" - la solicitud llega a su sección \"Solicitudes de Reserva\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Gestión de solicitudes (Admin)",
+          "badge": {
+            "text": "Gestión de solicitudes (Admin)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Ruta: Menú principal → Solicitudes de Reserva"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Recibe la notificación",
+                  "text": "Visualiza la solicitud con todos los detalles (cliente, servicio, fecha, hora, preferencia de colaborador)"
+                },
+                {
+                  "title": "Confirmación Automática",
+                  "items": [
+                    "Hace clic en \"Aprobar\" para confirmación rápida",
+                    "El sistema asigna automáticamente el colaborador preferido (si está disponible) o uno libre",
+                    "Asigna automáticamente la primera sala libre"
+                  ]
+                },
+                {
+                  "title": "Confirmación Manual",
+                  "items": [
+                    "Se abre un cuadro de diálogo con opciones de selección",
+                    "Puede elegir manualmente colaborador y sala",
+                    "Útil para optimizar la organización o gestionar preferencias especiales"
+                  ]
+                },
+                {
+                  "title": "Notificación al Cliente",
+                  "text": "El cliente recibe confirmación de la cita con detalles completos (colaborador y sala asignados)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Otras Funcionalidades PWA Cliente",
+          "badge": {
+            "text": "Otras Funcionalidades PWA Cliente",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Visualizar Citas",
+                  "items": [
+                    "Lista completa de todas las citas (pasadas y futuras)",
+                    "Detalles: fecha, hora, servicio, colaborador asignado, sala",
+                    "Estado de la cita (confirmada, completada, cancelada)",
+                    "Actualización en tiempo real"
+                  ]
+                },
+                {
+                  "title": "📄 Documentos y Facturas",
+                  "items": [
+                    "Acceso a todas las facturas emitidas",
+                    "Descarga de PDF directamente desde la app",
+                    "Historial completo de pagos"
+                  ]
+                },
+                {
+                  "title": "📞 Contactos Directos",
+                  "items": [
+                    "📧 Email: Toque para abrir cliente de email con dirección precompletada",
+                    "📱 Teléfono: Toque para llamar directamente al consultorio",
+                    "🌐 Sitio Web: Enlace directo a su sitio web",
+                    "📷 Instagram: Apertura del perfil de Instagram",
+                    "👍 Facebook: Enlace a la página de Facebook"
+                  ]
+                },
+                {
+                  "title": "🔔 Notificaciones Push",
+                  "items": [
+                    "Recordatorios automáticos de citas",
+                    "Confirmaciones de reservas",
+                    "Actualizaciones importantes del consultorio"
+                  ]
+                },
+                {
+                  "title": "📱 Funciona Sin Conexión",
+                  "items": [
+                    "Acceso a los datos incluso sin conexión",
+                    "Sincronización automática cuando vuelve a estar en línea"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "benefits": {
+        "title": "✨ Ventajas de la App PWA para los Clientes",
+        "items": [
+          {
+            "title": "Sin Descarga desde Tiendas",
+            "text": "Instalación instantánea mediante código QR, sin pasar por App Store o Google Play"
+          },
+          {
+            "title": "Siempre Actualizada",
+            "text": "Actualizaciones automáticas sin necesidad de instalar nuevas versiones"
+          },
+          {
+            "title": "Personalizada",
+            "text": "Cada cliente ve solo sus datos (citas, facturas, documentos)"
+          },
+          {
+            "title": "Icono Personalizado",
+            "text": "La app muestra el logo de su consultorio en la pantalla de inicio del teléfono"
+          },
+          {
+            "title": "Acceso Rápido",
+            "text": "Un toque en el icono y el cliente está dentro de su área reservada"
+          },
+          {
+            "title": "Multiplataforma",
+            "text": "Funciona en iPhone, Android, tablet y ordenador"
+          },
+          {
+            "title": "Segura",
+            "text": "Autenticación mediante token único, sin contraseña que recordar"
+          },
+          {
+            "title": "Contacto Directo",
+            "text": "Email, teléfono y redes sociales al alcance de un toque"
+          }
+        ]
+      },
+      "tips": {
+        "proTip": "Muestre a los clientes cómo instalar la app durante la primera visita. Verán inmediatamente el valor añadido y se sentirán más involucrados en la relación con su consultorio.",
+        "retention": "La app PWA personalizada crea un vínculo más fuerte con los clientes, aumentando la retención y reduciendo las ausencias gracias a los recordatorios automáticos y la experiencia de usuario premium."
+      }
+    }
+  },
+  "planFeatures": {
+    "calendar": "Calendario de citas",
+    "clients": "Gestión de clientes",
+    "qrPwa": "App QR/PWA para clientes",
+    "appointmentRequests": "Solicitudes de citas de clientes",
+    "notifications": "Notificaciones a clientes",
+    "invoices": "Generación de facturas",
+    "googleCalendar": "Sincronización Google Calendar",
+    "reports": "Informes y estadísticas",
+    "packages": "Paquetes promocionales",
+    "multiStaff": "Gestión de múltiples empleados",
+    "inventory": "Inventario de productos",
+    "marketingAI": "Campañas de Marketing IA"
+  },
+  "whatsappCenter": {
+    "pageTitle": "Centro de Configuración y Envío de Notificaciones",
+    "pageSubtitle": "Gestiona las notificaciones para tus clientes a través de WhatsApp y Email",
+    "emailNotifications": {
+      "title": "Configuración de Notificaciones por Email",
+      "description": "Configura las plantillas y ajustes para enviar recordatorios automáticos por email a tus clientes",
+      "configureButton": "Configurar Email"
+    },
+    "marketingAI": {
+      "title": "Campañas de Marketing IA",
+      "description": "Crea campañas de marketing profesionales con texto generado por IA y envía por email o WhatsApp",
+      "createButton": "Crear Campaña IA"
+    },
+    "whatsappConfig": {
+      "sectionTitle": "Configuración y Uso de WhatsApp",
+      "systemTitle": "Sistema de Notificaciones WhatsApp",
+      "systemDescription": "Configuración del teléfono y envío de mensajes WhatsApp",
+      "phoneStatus": "Estado del teléfono",
+      "configured": "Configurado",
+      "notConfigured": "No configurado",
+      "unknown": "Desconocido",
+      "updated": "Actualizado"
+    },
+    "tabs": {
+      "phoneSetup": "Configuración del teléfono",
+      "sendNotifications": "Enviar notificaciones",
+      "marketingCampaigns": "Campañas de Marketing"
+    },
+    "phoneSetup": {
+      "title": "Configuración del Teléfono WhatsApp",
+      "description": "Configura tu dispositivo para enviar notificaciones WhatsApp",
+      "configurePhone": "Configura tu teléfono",
+      "enterPhonePrompt": "Introduce tu número de teléfono para empezar a enviar notificaciones WhatsApp a los clientes",
+      "phoneNumber": "Número de teléfono",
+      "email": "Email",
+      "optional": "opcional",
+      "phonePlaceholder": "+34612345678",
+      "phoneHint": "Introduce el número completo con prefijo internacional (ej. +34612345678)",
+      "whatsappAutoEnabled": "Las notificaciones WhatsApp se activarán automáticamente",
+      "saving": "Guardando...",
+      "saveConfig": "Guardar configuración",
+      "updating": "Actualizando...",
+      "updatePhone": "Actualizar teléfono",
+      "test": "Probar",
+      "removePhone": "Eliminar teléfono",
+      "configuredSuccess": "Teléfono configurado correctamente",
+      "configuredDescription": "WhatsApp está configurado y puede usarse para enviar notificaciones a los clientes",
+      "howItWorks": "Cómo funciona",
+      "howItWorksDescription": "Sigue estos pasos para enviar notificaciones WhatsApp a tus clientes",
+      "step1": "Ve a la pestaña \"Enviar notificaciones\" y selecciona las citas",
+      "step2": "Genera los enlaces WhatsApp y sigue las instrucciones en pantalla",
+      "step3": "Los mensajes se enviarán uno a uno a través de tu app WhatsApp",
+      "howNotificationsWork": "Cómo funcionan las notificaciones:",
+      "notificationsExplanation": "Después de guardar tu teléfono, podrás enviar notificaciones WhatsApp a los clientes mediante enlaces directos que se abren en tu app WhatsApp.",
+      "contactInfo": "Tu información de contacto para notificaciones",
+      "featureNotImplemented": "Función por implementar",
+      "removePhoneDescription": "La eliminación del teléfono se implementará en el nuevo sistema ContactSettings"
+    },
+    "sendNotifications": {
+      "title": "Enviar Notificaciones WhatsApp",
+      "description": "Selecciona las citas y envía notificaciones a través de WhatsApp",
+      "noPhoneConfigured": "Ningún teléfono configurado",
+      "noPhoneDescription": "Primero debes configurar un teléfono para poder enviar notificaciones WhatsApp",
+      "loadingAppointments": "Cargando citas...",
+      "noAppointments": "No se encontraron citas",
+      "noAppointmentsDescription": "No hay citas disponibles para los próximos días",
+      "refresh": "Actualizar",
+      "refreshList": "Actualizar lista",
+      "selectOnlyUnsent": "Seleccionar solo no enviados",
+      "info": "Información",
+      "selectAndSendInfo": "Selecciona varias citas y pulsa \"Enviar en secuencia\" para enviarlas una tras otra",
+      "sendAllTomorrow": "Enviar Todos para Mañana",
+      "sendingAuto": "Enviando automáticamente...",
+      "sendSequence": "Enviar en secuencia",
+      "sending": "Enviando...",
+      "upcomingAppointments": "Próximas citas",
+      "sent": "ENVIADO",
+      "send": "Enviar",
+      "customMessage": "Mensaje personalizado",
+      "customMessageHint": "Introduce un mensaje adicional que se incluirá en los mensajes WhatsApp para todos los clientes seleccionados arriba. Esto te permite personalizar el contenido del mensaje estándar.",
+      "customMessagePlaceholder": "Introduce un mensaje personalizado que se añadirá al texto estándar...",
+      "noAppointmentSelected": "Ninguna cita seleccionada",
+      "selectAtLeastOne": "Selecciona al menos una cita para enviar notificaciones",
+      "sendComplete": "Envío completado",
+      "allMessagesSent": "Todos los mensajes han sido enviados",
+      "completed": "Completado",
+      "allMessagesProcessed": "Todos los mensajes han sido procesados",
+      "error": "Error",
+      "cannotGenerateLinks": "No se pueden generar los enlaces WhatsApp. Por favor, inténtalo de nuevo.",
+      "linksGenerated": "Enlaces generados",
+      "linksGeneratedCount": "Se han generado {{count}} enlaces WhatsApp",
+      "noLinksGenerated": "Ninguna cita seleccionada",
+      "selectAppointmentsForLinks": "Selecciona al menos una cita para generar enlaces WhatsApp"
+    },
+    "marketing": {
+      "title": "Mensajes de Marketing WhatsApp",
+      "description": "Mensajes WhatsApp de campañas de marketing listos para envío manual",
+      "loadingMessages": "Cargando mensajes...",
+      "noMessages": "Sin mensajes de marketing",
+      "noMessagesDescription": "No hay mensajes de marketing WhatsApp pendientes de envío",
+      "messagesPending": "mensajes pendientes",
+      "messagePending": "mensaje pendiente",
+      "messages": "mensajes",
+      "message": "mensaje",
+      "noName": "Sin nombre"
+    },
+    "linkModal": {
+      "sequentialSend": "Envío secuencial",
+      "whatsappLinks": "Enlaces WhatsApp",
+      "contact": "Contacto",
+      "of": "de",
+      "whatsappOpened": "WhatsApp se ha abierto en una nueva ventana",
+      "afterSending": "Después de enviar el mensaje:",
+      "nextContact": "Ir al siguiente contacto",
+      "finishSend": "Terminar envío",
+      "openWhatsApp": "Abrir WhatsApp",
+      "next": "Siguiente",
+      "finish": "Terminar"
+    },
+    "toast": {
+      "configSaved": "¡Configuración guardada!",
+      "configSavedDescription": "Los ajustes del teléfono se han guardado correctamente",
+      "saveError": "Error al guardar",
+      "saveErrorDescription": "Se ha producido un error al guardar los ajustes",
+      "autoSendComplete": "¡Envío Automático Completado!",
+      "autoSendDescription": "¡{{count}} mensajes preparados para mañana!",
+      "autoSendErrors": "{{count}} errores.",
+      "messagesReady": "¡Mensajes Listos!",
+      "messagesReadyDescription": "Haz clic en \"Abrir WhatsApp\" para empezar a enviar los {{count}} mensajes preparados.",
+      "autoSendError": "Error de Envío Automático",
+      "autoSendErrorDescription": "No se pudieron enviar los mensajes automáticamente. Por favor, inténtalo de nuevo.",
+      "loadError": "No se pudieron cargar las citas.",
+      "loadMarketingError": "No se pudieron cargar los mensajes de marketing."
+    }
+  },
+  "pro": {
+    "title": "Funcionalidades PRO",
+    "googleCalendar": "Google Calendar",
+    "invoices": "Facturas",
+    "packages": "Paquetes",
+    "inventory": "Inventario",
+    "reports": "Informes",
+    "syncGoogleCalendar": "Sincronizar Google Calendar",
+    "syncDescription": "Gestiona la sincronización de tus citas con Google Calendar",
+    "clickToConfigure": "Haz clic para configurar y gestionar la sincronización con Google Calendar",
+    "googleCalendarIntegration": "Integración con Google Calendar",
+    "googleCalendarLocked": "La integración con Google Calendar está disponible en la versión PRO. Actualiza tu plan para acceder a esta funcionalidad."
+  },
+  "proFeature": {
+    "title": "Funcionalidad PRO",
+    "subtitle": "solo está disponible con la suscripción PRO",
+    "reportsDescription": "Los informes detallados de actividad están disponibles a partir del plan Pro.",
+    "benefits": {
+      "title": "Con PRO obtienes",
+      "invoices": "Gestión completa de facturas",
+      "reports": "Informes detallados de actividad",
+      "googleCalendar": "Integración con Google Calendar",
+      "support": "Soporte prioritario"
+    },
+    "upgradeButton": "Pasar a PRO"
+  },
+  "common": {
+    "backToHome": "Volver al Inicio",
+    "loading": "Cargando...",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "save": "Guardar",
+    "send": "Enviar",
+    "close": "Cerrar"
+  },
+  "invoices": {
+    "title": "Gestión de Facturas",
+    "subtitle": "Crea y gestiona las facturas de tus clientes",
+    "updateInvoices": "Actualizar Facturas",
+    "updating": "Migrando...",
+    "cleanupNumbering": "Limpiar Numeración",
+    "cleaning": "Limpiando...",
+    "newInvoice": "Nueva Factura",
+    "noInvoices": "No se encontraron facturas",
+    "startCreating": "Comienza creando tu primera factura",
+    "createFirst": "Crear Primera Factura",
+    "invoiceNumber": "Factura #",
+    "client": "Cliente",
+    "date": "Fecha",
+    "dueDate": "Fecha de vencimiento",
+    "amount": "Importe",
+    "status": "Estado",
+    "paid": "Pagada",
+    "unpaid": "Pendiente de pago",
+    "sentToClient": "Enviada al cliente",
+    "preview": "Vista previa",
+    "print": "Imprimir",
+    "sendEmail": "Enviar Email",
+    "sendMultichannel": "Enviar Factura",
+    "markAsPaid": "Marcar como Pagada",
+    "markAsUnpaid": "Marcar como No Pagada",
+    "deleteInvoice": "Eliminar Factura",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar esta factura?",
+    "irreversibleAction": "¡Esta acción es irreversible!",
+    "form": {
+      "clientRequired": "Cliente requerido",
+      "amountPositive": "El importe debe ser positivo",
+      "dateRequired": "Fecha requerida",
+      "dueDateRequired": "Fecha de vencimiento requerida",
+      "description": "Descripción",
+      "selectClient": "Seleccionar cliente"
+    },
+    "email": {
+      "title": "Enviar Factura por Email",
+      "recipient": "Email del destinatario",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "invalidEmail": "Email inválido",
+      "subjectRequired": "Asunto requerido"
+    },
+    "channels": {
+      "pwa": "App Cliente",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "noChannelSelected": "Selecciona al menos un canal de envío"
+    },
+    "toast": {
+      "created": "Factura creada con éxito",
+      "createError": "Error al crear la factura",
+      "emailSent": "Email enviado con éxito",
+      "emailError": "Error al enviar el email",
+      "statusUpdated": "Estado actualizado",
+      "statusError": "Error al actualizar el estado",
+      "sent": "Factura enviada",
+      "printStarted": "Impresión iniciada",
+      "printWindowWillOpen": "La ventana de impresión se abrirá automáticamente",
+      "printError": "Popup bloqueado. Habilita los popups para imprimir",
+      "previewGenerated": "Vista previa generada",
+      "previewDescription": "Así aparecerá la factura",
+      "cleanupCompleted": "Limpieza completada",
+      "cleanupError": "Error en la limpieza de numeración"
+    }
+  },
+  "packages": {
+    "title": "Gestión de Paquetes Promocionales",
+    "subtitle": "Crea y gestiona paquetes de tratamientos para tus clientes",
+    "newPackage": "Nuevo Paquete",
+    "newShort": "Nuevo",
+    "noPackages": "No se encontraron paquetes",
+    "startCreating": "Comienza creando tu primer paquete promocional",
+    "createFirst": "Crear Primer Paquete",
+    "noPackagesCreated": "Ningún paquete promocional creado",
+    "createFirstPackage": "Crea tu primer paquete",
+    "noPackagesSold": "Ningún paquete vendido todavía",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "completed": "Completado",
+    "expired": "Expirado",
+    "soldTo": "Vendido a",
+    "used": "Usadas",
+    "of": "de",
+    "sessions": "sesiones",
+    "sessionsLabel": "Sesiones",
+    "remaining": "Restantes",
+    "valid": "Válido",
+    "until": "hasta",
+    "validity": "Validez",
+    "days": "días",
+    "price": "Precio",
+    "originalPrice": "Precio original",
+    "discount": "Descuento",
+    "services": "Servicios",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar este paquete?",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteDesc": "¿Estás seguro de que quieres eliminar esta plantilla? Esta acción no se puede deshacer.",
+    "tabs": {
+      "templates": "Plantillas de Paquetes",
+      "sold": "Paquetes Vendidos"
+    },
+    "sell": "Vender",
+    "sellPackage": "Vender Paquete",
+    "sellPackageTitle": "Vender Paquete",
+    "selling": "Vendiendo...",
+    "client": "Cliente",
+    "selectClient": "Seleccionar cliente...",
+    "purchaseDate": "Fecha de Compra",
+    "notesOptional": "Notas (opcional)",
+    "sessionProgress": "Progreso de sesiones",
+    "purchasedOn": "Comprado el",
+    "expiresOn": "Expira el",
+    "remainingSessions": "Sesiones restantes",
+    "pricePaid": "Precio pagado",
+    "notes": "Notas",
+    "form": {
+      "name": "Nombre del paquete",
+      "namePlaceholder": "ej. 10 Tratamientos Faciales Premium",
+      "description": "Descripción",
+      "descriptionOptional": "Descripción (opcional)",
+      "descriptionPlaceholder": "Descripción del paquete...",
+      "totalSessions": "Número de Sesiones",
+      "totalPrice": "Precio Total",
+      "price": "Precio con descuento",
+      "originalPrice": "Precio original",
+      "validDays": "Validez (días, opcional)",
+      "includedServices": "Servicios Incluidos",
+      "addService": "Agregar servicio...",
+      "selectClient": "Seleccionar cliente",
+      "selectTreatment": "Seleccionar tratamiento",
+      "cancel": "Cancelar",
+      "creating": "Creando...",
+      "createPackage": "Crear Paquete",
+      "createNewPackage": "Crear Nuevo Paquete Promocional"
+    },
+    "toast": {
+      "created": "Paquete creado con éxito",
+      "createdDesc": "El paquete promocional ha sido creado con éxito",
+      "updated": "Paquete actualizado",
+      "deleted": "Paquete eliminado",
+      "deletedDesc": "La plantilla ha sido eliminada con éxito",
+      "sold": "Paquete vendido",
+      "soldDesc": "El paquete ha sido asignado al cliente",
+      "error": "Error en operación de paquete",
+      "cannotCreate": "No se puede crear la plantilla",
+      "cannotSell": "No se puede vender el paquete",
+      "cannotDelete": "No se puede eliminar la plantilla"
+    }
+  },
+  "inventory": {
+    "title": "Gestión de Inventario",
+    "subtitle": "Gestiona tus productos e inventario",
+    "newProduct": "Nuevo Producto",
+    "addNewProduct": "Agregar Nuevo Producto",
+    "editProduct": "Editar Producto",
+    "noProducts": "No se encontraron productos",
+    "startCreating": "Comienza agregando tu primer producto",
+    "createFirst": "Agregar Primer Producto",
+    "available": "Disponible",
+    "inStock": "En stock",
+    "lowStock": "Stock bajo",
+    "outOfStock": "Agotado",
+    "quantity": "Cantidad",
+    "minStock": "Stock mínimo",
+    "price": "Precio",
+    "cost": "Costo",
+    "min": "Mín",
+    "stock": "Stock",
+    "sku": "Código SKU",
+    "barcode": "Código de barras",
+    "category": "Categoría",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirmDelete": "Confirmar eliminación",
+    "confirmDeleteDesc": "¿Estás seguro de que quieres eliminar el producto",
+    "cannotUndo": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "adjustStock": "Ajustar Stock",
+    "addStock": "Agregar",
+    "removeStock": "Quitar",
+    "tabs": {
+      "products": "Productos",
+      "movements": "Movimientos",
+      "sales": "Ventas",
+      "categories": "Categorías"
+    },
+    "dashboard": {
+      "totalProducts": "Productos Totales",
+      "lowStock": "Stock Bajo",
+      "warehouseValue": "Valor del Almacén",
+      "categories": "Categorías"
+    },
+    "alert": {
+      "lowStockAlert": "Alerta de Stock Bajo"
+    },
+    "search": {
+      "placeholder": "Buscar por nombre, SKU o código de barras...",
+      "allCategories": "Todas las categorías"
+    },
+    "form": {
+      "name": "Nombre del Producto",
+      "description": "Descripción",
+      "sku": "Código SKU",
+      "category": "Categoría",
+      "selectCategory": "Seleccionar categoría",
+      "noCategories": "No hay categorías disponibles",
+      "createCategoryFirst": "Crea primero una categoría en la sección Categorías",
+      "price": "Precio de venta",
+      "costPrice": "Costo de Compra",
+      "quantity": "Cantidad disponible",
+      "minStock": "Stock mínimo",
+      "maxStock": "Stock máximo",
+      "unit": "Unidad",
+      "supplier": "Proveedor",
+      "supplierContact": "Contacto del proveedor",
+      "location": "Ubicación en almacén",
+      "image": "Imagen del Producto (opcional)",
+      "changeImage": "Cambiar Imagen",
+      "uploadImage": "Subir Imagen"
+    },
+    "stock": {
+      "load": "Carga",
+      "loadGoods": "Carga de Mercancía",
+      "sell": "Vender",
+      "registerSale": "Registrar Venta",
+      "unitPrice": "Precio Unitario",
+      "reference": "Referencia (Factura, etc.)",
+      "registering": "Registrando...",
+      "registerLoad": "Registrar Carga",
+      "registerSaleBtn": "Registrar Venta"
+    },
+    "sale": {
+      "clientOptional": "Cliente (opcional)",
+      "selectClient": "Seleccionar cliente",
+      "discount": "Descuento (%)"
+    },
+    "movements": {
+      "title": "Movimientos de Almacén Recientes",
+      "noMovements": "Sin movimientos recientes",
+      "in": "Entrada",
+      "out": "Salida",
+      "sale": "Venta",
+      "adjustment": "Ajuste",
+      "waste": "Desperdicio"
+    },
+    "sales": {
+      "title": "Ventas de Productos",
+      "inDevelopment": "Funcionalidad de ventas en desarrollo..."
+    },
+    "categories": {
+      "title": "Categorías de Productos",
+      "newCategory": "Nueva Categoría",
+      "addNewCategory": "Agregar Nueva Categoría",
+      "name": "Nombre de Categoría",
+      "description": "Descripción",
+      "color": "Color",
+      "products": "productos",
+      "creating": "Creando...",
+      "create": "Crear Categoría"
+    },
+    "saving": "Guardando...",
+    "saveChanges": "Guardar Cambios",
+    "formError": "Error en formulario",
+    "checkFields": "Verifica los campos ingresados",
+    "locked": {
+      "title": "Inventario No Disponible",
+      "description": "La gestión de inventario y almacén solo está disponible en el plan",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Cambiar a Business"
+    },
+    "toast": {
+      "created": "Producto creado exitosamente",
+      "updated": "Producto actualizado exitosamente",
+      "deleted": "Producto eliminado exitosamente",
+      "stockUpdated": "Movimiento de almacén registrado",
+      "saleRecorded": "Venta registrada exitosamente",
+      "error": "Error en operación de producto"
+    }
+  },
+  "reports": {
+    "title": "Informes y Estadísticas",
+    "subtitle": "Analiza el rendimiento de tu negocio",
+    "period": "Período",
+    "today": "Hoy",
+    "thisWeek": "Esta semana",
+    "thisMonth": "Este mes",
+    "thisYear": "Este año",
+    "custom": "Personalizado",
+    "from": "Desde",
+    "to": "Hasta",
+    "revenue": "Ingresos",
+    "appointments": "Citas",
+    "clients": "Clientes",
+    "newClients": "Nuevos clientes",
+    "averageTicket": "Ticket promedio",
+    "mostPopularTreatments": "Tratamientos más populares",
+    "revenueByProfessional": "Ingresos por profesional",
+    "appointmentsByDay": "Citas por día",
+    "export": "Exportar",
+    "exportPdf": "Exportar PDF",
+    "exportCsv": "Exportar CSV",
+    "noData": "No hay datos disponibles para este período",
+    "loading": "Cargando informes...",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "previous": "Anterior",
+    "current": "Actual",
+    "next": "Siguiente",
+    "totalAppointments": "Total de Citas",
+    "estimatedRevenue": "Ingresos Estimados",
+    "totalRevenue": "Ingresos Totales",
+    "dailyAverage": "Promedio Diario",
+    "noAppointmentsInPeriod": "Sin citas en el período",
+    "perDay": "por día",
+    "appointmentsPerDay": "citas por día",
+    "appointmentsBy": "Citas por",
+    "revenueBy": "Ingresos por",
+    "day": "Día",
+    "date": "Fecha",
+    "month": "Mes",
+    "year": "Año",
+    "week": "Semana",
+    "numberOfAppointments": "Número de Citas",
+    "serviceDistribution": "Distribución de Servicios",
+    "appointmentDetails": "Detalle de Citas",
+    "serviceDetails": "Detalle de Servicios",
+    "service": "Servicio",
+    "generatedOn": "Generado el",
+    "at": "a las",
+    "noDataForPeriod": "Sin datos para el período seleccionado",
+    "noAppointmentsRegistered": "No hay citas registradas para el período indicado."
+  },
+  "aiChat": {
+    "title": "Asistente IA",
+    "subtitle": "Pídeme que genere mensajes, busque información o te dé sugerencias para tu negocio",
+    "welcome": "Bienvenido al Asistente IA",
+    "tryAsking": "Intenta preguntar:",
+    "example1": "Genera un mensaje de recordatorio para mañana",
+    "example2": "Sugiéreme cómo gestionar mejor las citas",
+    "example3": "Busca información sobre técnicas de fisioterapia",
+    "error": "Error",
+    "errorMessage": "No se puede comunicar con la IA. Inténtalo de nuevo.",
+    "messageApproved": "Mensaje aprobado",
+    "messageApprovedDesc": "El mensaje ha sido aprobado y puede ser enviado.",
+    "messageRejected": "Mensaje rechazado",
+    "messageRejectedDesc": "Puedes pedir a la IA que genere un nuevo mensaje.",
+    "previewTitle": "Mensaje generado - Requiere aprobación",
+    "recipient": "Destinatario",
+    "approveAndUse": "Aprobar y usar",
+    "reject": "Rechazar",
+    "placeholder": "Escribe tu mensaje..."
+  }
+}

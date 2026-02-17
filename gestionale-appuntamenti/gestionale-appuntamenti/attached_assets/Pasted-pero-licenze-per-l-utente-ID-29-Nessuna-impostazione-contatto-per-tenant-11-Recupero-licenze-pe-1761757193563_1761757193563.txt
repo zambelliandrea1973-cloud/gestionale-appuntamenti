@@ -1,0 +1,170 @@
+pero licenze per l'utente ID 29
+ℹ️ Nessuna impostazione contatto per tenant 11
+Recupero licenze per l'utente ID 11
+✅ Impostazioni contatto trovate per tenant 9: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea@libero.it',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 9
+Trovate 1 licenze per l'utente 10
+Trovate 0 licenze per l'utente 15
+Trovate 1 licenze per l'utente 27
+Trovate 1 licenze per l'utente 12
+Trovate 1 licenze per l'utente 29
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 11
+Trovate 1 licenze per l'utente 9
+Totale: 8 abbonamenti con dettagli utente e licenza
+4:58:53 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 528ms :: [{"id":14,"userId…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: g3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN
+🔐 Cookies: session-id=s%3Ag3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN.kpS3SBPWsRR3Y2TH77QhhBmuLIhsCfSXVHWbV7VIP18
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Trovate 20 licenze normali e 0 licenze di test
+Caricati 23 utenti standard e 14 client account
+Totale licenze restituite: 20
+4:58:55 PM [express] GET /api/payments/payment-admin/licenses 200 in 1043ms :: [{"id":29,"code":"TRI…
+📞 Recupero impostazioni contatto per tenant 12
+ℹ️ Nessuna impostazione contatto per tenant 12
+Recupero licenze per l'utente ID 12
+Trovate 1 licenze per l'utente 12
+Totale: 8 abbonamenti con dettagli utente e licenza
+4:58:55 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 3022ms :: [{"id":14,"userI…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: g3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN
+🔐 Cookies: session-id=s%3Ag3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN.kpS3SBPWsRR3Y2TH77QhhBmuLIhsCfSXVHWbV7VIP18
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Trovate 20 licenze normali e 0 licenze di test
+Caricati 23 utenti standard e 14 client account
+Totale licenze restituite: 20
+4:58:56 PM [express] GET /api/payments/payment-admin/licenses 200 in 948ms :: [{"id":29,"code":"TRIA…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/payment-methods
+Headers ricevuti payment admin: {
+  host: 'd6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
+  accept: '*/*',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7,es-ES;q=0.6,es;q=0.5,hr;q=0.4',
+  authorization: 'Bearer gironico',
+  'cache-control': 'no-cache, no-store, must-revalidate, max-age=0',
+  cookie: 'session-id=s%3Ag3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN.kpS3SBPWsRR3Y2TH77QhhBmuLIhsCfSXVHWbV7VIP18',
+  expires: '0',
+  'if-modified-since': 'Mon, 26 Jul 1997 05:00:00 GMT',
+  'if-none-match': '*',
+  pragma: 'no-cache',
+  referer: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment-admin',
+  'sec-ch-ua': '"Google Chrome";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Windows"',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-storage-access': 'active',
+  'x-auth-token': 'gironico',
+  'x-beta-admin-token': 'gironico',
+  'x-device-type': 'desktop',
+  'x-forwarded-for': '31.44.38.17, 10.83.8.50',
+  'x-forwarded-proto': 'https',
+  'x-replit-user-bio': '',
+  'x-replit-user-id': '',
+  'x-replit-user-name': '',
+  'x-replit-user-profile-image': '',
+  'x-replit-user-roles': '',
+  'x-replit-user-teams': '',
+  'x-replit-user-url': ''
+}
+Token di autenticazione ricevuti payment admin: { adminToken: 'gironico', bearerToken: 'gironico' }
+Autenticazione payment admin riuscita come admin
+Recupero metodi di pagamento configurati
+Recuperati 4 metodi di pagamento configurati
+4:58:57 PM [express] GET /api/payments/payment-admin/payment-methods 200 in 94ms :: [{"id":"stripe",…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/payment-methods
+Headers ricevuti payment admin: {
+  host: 'd6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
+  accept: '*/*',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7,es-ES;q=0.6,es;q=0.5,hr;q=0.4',
+  authorization: 'Bearer gironico',
+  'cache-control': 'no-cache, no-store, must-revalidate, max-age=0',
+  cookie: 'session-id=s%3Ag3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN.kpS3SBPWsRR3Y2TH77QhhBmuLIhsCfSXVHWbV7VIP18',
+  expires: '0',
+  'if-modified-since': 'Mon, 26 Jul 1997 05:00:00 GMT',
+  'if-none-match': '*',
+  pragma: 'no-cache',
+  referer: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment-admin',
+  'sec-ch-ua': '"Google Chrome";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Windows"',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-storage-access': 'active',
+  'x-auth-token': 'gironico',
+  'x-beta-admin-token': 'gironico',
+  'x-device-type': 'desktop',
+  'x-forwarded-for': '31.44.38.17, 10.83.1.252',
+  'x-forwarded-proto': 'https',
+  'x-replit-user-bio': '',
+  'x-replit-user-id': '',
+  'x-replit-user-name': '',
+  'x-replit-user-profile-image': '',
+  'x-replit-user-roles': '',
+  'x-replit-user-teams': '',
+  'x-replit-user-url': ''
+}
+Token di autenticazione ricevuti payment admin: { adminToken: 'gironico', bearerToken: 'gironico' }
+Autenticazione payment admin riuscita come admin
+Recupero metodi di pagamento configurati
+Recuperati 4 metodi di pagamento configurati
+4:58:57 PM [express] GET /api/payments/payment-admin/payment-methods 200 in 96ms :: [{"id":"stripe",…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/test-payment-method/paypal
+Headers ricevuti payment admin: {
+  host: 'd6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
+  'content-length': '218',
+  accept: '*/*',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7,es-ES;q=0.6,es;q=0.5,hr;q=0.4',
+  authorization: 'Bearer gironico',
+  'cache-control': 'no-cache, no-store, must-revalidate, max-age=0',
+  'content-type': 'application/json',
+  cookie: 'session-id=s%3Ag3jwHUfs5MYdMLUarjUZnPwF_PVxX6lN.kpS3SBPWsRR3Y2TH77QhhBmuLIhsCfSXVHWbV7VIP18',
+  expires: '0',
+  'if-modified-since': 'Mon, 26 Jul 1997 05:00:00 GMT',
+  'if-none-match': '*',
+  origin: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev',
+  pragma: 'no-cache',
+  referer: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment-admin',
+  'sec-ch-ua': '"Google Chrome";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Windows"',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-storage-access': 'active',
+  'x-auth-token': 'gironico',
+  'x-beta-admin-token': 'gironico',
+  'x-device-type': 'desktop',
+  'x-forwarded-for': '31.44.38.17, 10.83.1.252',
+  'x-forwarded-proto': 'https',
+  'x-replit-user-bio': '',
+  'x-replit-user-id': '',
+  'x-replit-user-name': '',
+  'x-replit-user-profile-image': '',
+  'x-replit-user-roles': '',
+  'x-replit-user-teams': '',
+  'x-replit-user-url': ''
+}
+Token di autenticazione ricevuti payment admin: { adminToken: 'gironico', bearerToken: 'gironico' }
+Autenticazione payment admin riuscita come admin
+4:59:00 PM [express] POST /api/payments/payment-admin/test-payment-method/paypal 400 in 103ms :: {"s…

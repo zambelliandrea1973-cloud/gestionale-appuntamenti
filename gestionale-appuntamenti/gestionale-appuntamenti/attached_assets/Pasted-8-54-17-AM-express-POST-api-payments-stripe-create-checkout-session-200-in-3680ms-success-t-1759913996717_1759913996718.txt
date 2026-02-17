@@ -1,0 +1,274 @@
+8:54:17 AM [express] POST /api/payments/stripe/create-checkout-session 200 in 3680ms :: {"success":t…
+8:56:26 AM [vite] hmr update /src/pages/SubscribePage.tsx, /src/index.css?v=5j59LaoIBwweh_X83Nuut
+8:56:32 AM [express] GET /api/payments/plans 200 in 230ms :: [{"id":5,"name":"Base Mensile","descrip…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: UpxosApf5lEd1N_1RRQ631FMoJUEnmpc
+🔐 Cookies: session-id=s%3AUpxosApf5lEd1N_1RRQ631FMoJUEnmpc.AVig47vPxPbyc%2BfPDWu4DgT%2F07RTi3nminnbpDLLxr8
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+Recupero licenze per l'utente ID 9
+Trovate 1 licenze per l'utente 9
+8:56:33 AM [express] GET /api/license/has-pro-access 304 in 148ms :: true
+8:56:33 AM [express] GET /api/payments/subscription 200 in 719ms :: {"id":12,"userId":9,"planId":7,"…
+8:56:33 AM [express] GET /api/license/license-info 304 in 450ms :: {"hasLicense":true,"type":"trial"…
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+8:56:33 AM [express] GET /api/license/application-title 304 in 440ms :: {"title":"Gestionale Sanitar…
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+8:56:33 AM [express] GET /api/user-with-license 200 in 230ms :: {"id":9,"username":"zambelli.andrea.…
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+8:56:33 AM [express] GET /api/user-with-license 200 in 584ms :: {"id":9,"username":"zambelli.andrea.…
+8:56:33 AM [express] GET /api/user-with-license 200 in 220ms :: {"id":9,"username":"zambelli.andrea.…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: UpxosApf5lEd1N_1RRQ631FMoJUEnmpc
+🔐 Cookies: session-id=s%3AUpxosApf5lEd1N_1RRQ631FMoJUEnmpc.AVig47vPxPbyc%2BfPDWu4DgT%2F07RTi3nminnbpDLLxr8
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+8:56:33 AM [express] GET /api/payments/plans 200 in 211ms :: [{"id":5,"name":"Base Mensile","descrip…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: UpxosApf5lEd1N_1RRQ631FMoJUEnmpc
+🔐 Cookies: session-id=s%3AUpxosApf5lEd1N_1RRQ631FMoJUEnmpc.AVig47vPxPbyc%2BfPDWu4DgT%2F07RTi3nminnbpDLLxr8
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+8:56:33 AM [express] GET /api/payments/plans 200 in 499ms :: [{"id":5,"name":"Base Mensile","descrip…
+8:56:33 AM [express] GET /api/license/has-pro-access 304 in 140ms :: true
+8:56:33 AM [express] GET /api/payments/subscription 200 in 425ms :: {"id":12,"userId":9,"planId":7,"…
+Recupero licenze per l'utente ID 9
+8:56:34 AM [express] GET /api/payments/subscription 200 in 427ms :: {"id":12,"userId":9,"planId":7,"…
+Trovate 1 licenze per l'utente 9
+8:56:34 AM [express] GET /api/license/application-title 304 in 140ms :: {"title":"Gestionale Sanitar…
+8:56:34 AM [express] GET /api/license/has-pro-access 304 in 140ms :: true
+8:56:34 AM [express] GET /api/license/license-info 304 in 218ms :: {"hasLicense":true,"type":"trial"…
+Recupero licenze per l'utente ID 9
+8:56:34 AM [express] GET /api/license/application-title 304 in 149ms :: {"title":"Gestionale Sanitar…
+Trovate 1 licenze per l'utente 9
+8:56:34 AM [express] GET /api/license/license-info 304 in 212ms :: {"hasLicense":true,"type":"trial"…
+8:56:35 AM [express] GET /api/license/has-business-access 304 in 2369ms :: true
+8:56:35 AM [express] GET /api/license/has-business-access 304 in 143ms :: true
+8:56:35 AM [express] GET /api/license/has-business-access 304 in 147ms :: true
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: UpxosApf5lEd1N_1RRQ631FMoJUEnmpc
+🔐 Cookies: session-id=s%3AUpxosApf5lEd1N_1RRQ631FMoJUEnmpc.AVig47vPxPbyc%2BfPDWu4DgT%2F07RTi3nminnbpDLLxr8
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+8:57:05 AM [express] GET /api/timezone-settings 200 in 366ms :: {"timezone":"Europe/Rome","offset":2}
+8:57:05 AM [express] GET /api/tenant-context 200 in 368ms :: {"userId":9,"userType":"customer","tena…
+8:57:05 AM [express] GET /api/payments/plans 200 in 450ms :: [{"id":5,"name":"Base Mensile","descrip…
+8:57:05 AM [express] POST /api/timezone-settings 200 in 148ms :: {"success":true,"timezone":"Europe/…
+8:57:05 AM [express] GET /api/payments/subscription 200 in 638ms :: {"id":12,"userId":9,"planId":7,"…
+8:57:05 AM [express] POST /api/timezone-settings 200 in 140ms :: {"success":true,"timezone":"Europe/…
+🏢 [/api/company-name-settings] [desktop] GET per utente 9 (customer)
+🏢 [/api/company-name-settings] [desktop] Settings per utente 9 (customer): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli.andrea.1973A@gmail.com',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+🏢 [/api/company-name-settings] [desktop] GET per utente 9 (customer)
+🏢 [/api/company-name-settings] [desktop] Settings per utente 9 (customer): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli.andrea.1973A@gmail.com',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+8:57:07 AM [express] GET /api/company-name-settings 200 in 156ms :: {"businessName":"Studio Medico",…
+8:57:07 AM [express] GET /api/company-name-settings 200 in 159ms :: {"businessName":"Studio Medico",…
+8:57:07 AM [express] GET /api/contact-info 200 in 171ms :: {"email":"info@studiomedico.it","phone":"…
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [desktop] Icone PWA per utente 9, icon length: 815939
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [desktop] Icone PWA per utente 9, icon length: 815939
+8:57:07 AM [express] GET /api/client-app-info 200 in 682ms :: {"appName":"Gestionale Sanitario","ico…
+8:57:07 AM [express] GET /api/client-app-info 200 in 712ms :: {"appName":"Gestionale Sanitario","ico…
+8:57:07 AM [express] GET /api/contact-info 200 in 147ms :: {"email":"info@studiomedico.it","phone":"…
+Tentativo di logout per utente zambelli.andrea.1973A@gmail.com, tipo: customer
+Logout completato con successo
+8:57:10 AM [express] POST /api/logout 200 in 218ms :: {"success":true,"message":"Logout completato c…
+8:57:12 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+8:57:12 AM [express] GET /api/client-app-info 200 in 5ms :: {"appName":"Gestionale Sanitario","icon"…
+8:57:12 AM [express] GET /api/company-name-settings 200 in 0ms :: {"businessName":"Studio Medico","s…
+8:57:12 AM [express] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+8:57:12 AM [express] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+8:57:12 AM [express] GET /api/client-app-info 200 in 5ms :: {"appName":"Gestionale Sanitario","icon"…
+8:57:16 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+8:57:16 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+8:57:16 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+8:57:16 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+8:57:16 AM [express] POST /api/timezone-settings 200 in 3ms :: {"success":true,"timezone":"Europe/Zu…
+Login staff richiesto per: zambelli.andrea.1973A@gmail.com
+Login staff completato con successo per: zambelli.andrea.1973A@gmail.com tipo: customer
+8:57:33 AM [express] POST /api/staff/login 200 in 556ms :: {"id":9,"username":"zambelli.andrea.1973A…
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+8:57:33 AM [express] GET /api/user-with-license 200 in 222ms :: {"id":9,"username":"zambelli.andrea.…
+Recupero licenze per l'utente ID 9
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+8:57:42 AM [express] GET /api/timezone-settings 200 in 147ms :: {"timezone":"Europe/Rome","offset":2}
+8:57:42 AM [express] GET /api/license/has-pro-access 304 in 144ms :: true
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+8:57:42 AM [express] GET /api/license/license-info 304 in 214ms :: {"hasLicense":true,"type":"trial"…
+8:57:42 AM [express] GET /api/user-with-license 304 in 226ms :: {"id":9,"username":"zambelli.andrea.…
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [desktop] Icone PWA per utente 9, icon length: 815939
+8:57:42 AM [express] GET /api/client-app-info 200 in 298ms :: {"appName":"Gestionale Sanitario","ico…
+8:57:42 AM [express] GET /api/license/has-business-access 304 in 372ms :: true
+8:57:42 AM [express] GET /api/license/application-title 304 in 148ms :: {"title":"Gestionale Sanitar…
+8:57:42 AM [express] GET /api/timezone-settings 304 in 141ms :: {"timezone":"Europe/Rome","offset":2}
+8:57:42 AM [express] POST /api/timezone-settings 200 in 138ms :: {"success":true,"timezone":"Europe/…
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [desktop] Icone PWA per utente 9, icon length: 815939
+8:57:42 AM [express] GET /api/client-app-info 200 in 238ms :: {"appName":"Gestionale Sanitario","ico…
+🏢 [/api/company-name-settings] [desktop] GET per utente 9 (customer)
+🏢 [/api/company-name-settings] [desktop] Settings per utente 9 (customer): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli.andrea.1973A@gmail.com',
+  fontSize: 24,
+  fontFamily: 'Arial, sans-serif',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+8:57:42 AM [express] GET /api/company-name-settings 200 in 149ms :: {"businessName":"Studio Medico",…
+8:57:42 AM [express] GET /api/contact-info 200 in 148ms :: {"email":"info@studiomedico.it","phone":"…
+8:57:42 AM [express] GET /api/tenant-context 200 in 145ms :: {"userId":9,"userType":"customer","tena…
+8:57:42 AM [express] POST /api/timezone-settings 200 in 140ms :: {"success":true,"timezone":"Europe/…
+8:58:13 AM [express] GET /api/google-auth/status 200 in 407ms
+8:58:13 AM [express] GET /api/google-auth/status 200 in 153ms
+🔐 [desktop] /api/user-with-license per utente 9 (zambelli.andrea.1973A@gmail.com)
+Recupero licenze per l'utente ID 9
+Recupero licenze per l'utente ID 9
+8:58:23 AM [express] GET /api/timezone-settings 200 in 142ms :: {"timezone":"Europe/Rome","offset":2}
+8:58:23 AM [express] GET /api/license/has-pro-access 304 in 141ms :: true
+Trovate 1 licenze per l'utente 9
+📱💻 [desktop] Dati utente unificati: {
+  id: 9,
+  username: 'zambelli.andrea.1973A@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'trial'
+}
+Trovate 1 licenze per l'utente 9
+8:58:23 AM [express] GET /api/payments/plans 200 in 204ms :: [{"id":5,"name":"Base Mensile","descrip…
+8:58:23 AM [express] GET /api/user-with-license 304 in 211ms :: {"id":9,"username":"zambelli.andrea.…
+8:58:23 AM [express] GET /api/license/license-info 304 in 215ms :: {"hasLicense":true,"type":"trial"…
+8:58:23 AM [express] GET /api/license/has-business-access 304 in 356ms :: true
+8:58:23 AM [express] GET /api/license/application-title 304 in 142ms :: {"title":"Gestionale Sanitar…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+8:58:23 AM [express] GET /api/timezone-settings 304 in 138ms :: {"timezone":"Europe/Rome","offset":2}
+8:58:23 AM [express] POST /api/timezone-settings 200 in 140ms :: {"success":true,"timezone":"Europe/…
+8:58:23 AM [express] GET /api/tenant-context 200 in 138ms :: {"userId":9,"userType":"customer","tena…
+8:58:23 AM [express] POST /api/timezone-settings 200 in 144ms :: {"success":true,"timezone":"Europe/…
+8:58:23 AM [express] GET /api/payments/subscription 200 in 425ms :: {"id":12,"userId":9,"planId":7,"…
+🔐 MIDDLEWARE isAuthenticated chiamato per POST /stripe/create-checkout-session
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero metodi di pagamento configurati
+Recuperati 4 metodi di pagamento configurati
+🔐 Stripe: usando chiave dal DATABASE TEST 🧪
+Stripe: Prefisso chiave: sk_test_...
+Stripe session creata: {
+  id: 'cs_test_a16suovfNGVZfXfZsmUtc1wx4amcYjBVJTSuDY6aTC1lODI7bofb0GniFU',
+  url: 'https://checkout.stripe.com/c/pay/cs_test_a16suovfNGVZfXfZsmUtc1wx4amcYjBVJTSuDY6aTC1lODI7bofb0GniFU#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdkdWxOYHwnPyd1blpxYHZxWjA0V0JnQTxGZDNDPTZfN05HXF1ETlNRb01yTWdmaGtgfEs1amJ%2FMWA2bzZTRG9NQG50fXNsaj1BdUJpS189bzdvUGZ8YzxiYVxfdW9wRG9pTjcxZ3NKfGlqNTU8RF9jaktOcCcpJ2N3amhWYHdzYHcnP3F3cGApJ2dkZm5id2pwa2FGamlqdyc%2FJyZjY2NjY2MnKSdpZHxqcHFRfHVgJz8ndmxrYmlgWmxxYGgnKSdga2RnaWBVaWRmYG1qaWFgd3YnP3F3cGB4JSUl',
+  hasUrl: true,
+  mode: 'payment',
+  status: 'open'
+}
+Recupero sottoscrizione per l'utente con ID 9
+Abbonamento esistente trovato (ID: 12), lo aggiorno invece di crearne uno nuovo
+Aggiornamento abbonamento ID: 12 con dati: {
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T08:58:44.526Z,
+  currentPeriodEnd: 2025-11-08T08:58:44.526Z,
+  cancelAtPeriodEnd: false,
+  stripeSessionId: 'cs_test_a16suovfNGVZfXfZsmUtc1wx4amcYjBVJTSuDY6aTC1lODI7bofb0GniFU',
+  paymentMethod: 'stripe'
+}
+Abbonamento aggiornato: {
+  id: 12,
+  userId: 9,
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T08:58:44.526Z,
+  currentPeriodEnd: 2025-11-08T08:58:44.526Z,
+  cancelAtPeriodEnd: false,
+  paypalSubscriptionId: '5KY74785FX201082N',
+  wiseSubscriptionId: null,
+  stripeCustomerId: null,
+  stripeSubscriptionId: null,
+  stripeSessionId: 'cs_test_a16suovfNGVZfXfZsmUtc1wx4amcYjBVJTSuDY6aTC1lODI7bofb0GniFU',
+  paymentMethod: 'stripe',
+  metadata: null,
+  createdAt: 2025-10-07T13:17:02.314Z,
+  updatedAt: 2025-10-07T13:17:02.314Z
+}
+8:58:44 AM [express] POST /api/payments/stripe/create-checkout-session 200 in 1326ms :: {"success":t…

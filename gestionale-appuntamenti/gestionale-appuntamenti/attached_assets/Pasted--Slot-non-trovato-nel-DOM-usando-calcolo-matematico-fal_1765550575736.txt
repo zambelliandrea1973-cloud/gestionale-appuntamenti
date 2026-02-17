@@ -1,0 +1,80 @@
+  | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 07:00 - 08:00
+index-Rs8gIQ3O.js:780   | Slot non trovato nel DOM, usando calcolo matematico fallback: -160px
+index-Rs8gIQ3O.js:780   | Orario: 07:00-08:00, Top calcolato: -160px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 08:00 - 09:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 0px
+index-Rs8gIQ3O.js:780   | Orario: 08:00-09:00, Top calcolato: 0px, Altezza: 160px
+index-Rs8gIQ3O.js:780 Calcolo posizione per appuntamento: 13:00 - 14:00
+index-Rs8gIQ3O.js:780   | Slot trovato: Posizione esatta top: 825px
+index-Rs8gIQ3O.js:780   | Orario: 13:00-14:00, Top calcolato: 825px, Altezza: 160px

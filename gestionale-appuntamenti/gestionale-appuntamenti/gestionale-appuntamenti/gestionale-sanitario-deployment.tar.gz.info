@@ -1,0 +1,36 @@
+GESTIONALE SANITARIO - PACCHETTO DEPLOYMENT
+==========================================
+
+File: gestionale-sanitario-deployment.tar.gz
+Destinazione: biomedicinaintegrata.it
+
+ISTRUZIONI DOWNLOAD:
+1. Vai a "Files" nel pannello sinistro di Replit
+2. Trova il file "gestionale-sanitario-deployment.tar.gz"
+3. Click destro sul file → "Download"
+4. Salva sul tuo computer
+
+ISTRUZIONI UPLOAD AL SERVER:
+1. scp gestionale-sanitario-deployment.tar.gz root@biomedicinaintegrata.it:/root/
+2. ssh root@biomedicinaintegrata.it
+3. tar -xzf gestionale-sanitario-deployment.tar.gz
+4. cd gestionale-sanitario-deployment/
+5. chmod +x install.sh
+6. ./install.sh biomedicinaintegrata.it
+
+CONTENUTO PACCHETTO:
+- Codice completo applicazione
+- Script installazione automatica
+- Configurazione Nginx ottimizzata
+- Docker Compose per alternative deployment
+- File .env.example configurato
+- Documentazione completa
+
+RISULTATO FINALE:
+- URL: https://biomedicinaintegrata.it
+- Login: admin / (password generata durante installazione)
+- SSL automatico
+- Backup automatici
+- Tutte le funzionalità: QR clienti, PWA, fatturazione, magazzino PRO
+
+Supporto: zambelli.andrea.1973@gmail.com

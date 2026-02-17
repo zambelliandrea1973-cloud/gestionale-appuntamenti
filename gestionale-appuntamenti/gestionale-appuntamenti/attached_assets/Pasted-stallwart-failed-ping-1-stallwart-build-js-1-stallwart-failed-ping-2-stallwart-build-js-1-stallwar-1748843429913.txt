@@ -1,0 +1,1095 @@
+stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+stallwart.build.js:1 stallwart: failed ping 3
+stallwart.build.js:1 stallwart: failed ping 4
+stallwart.build.js:1 stallwart: failed ping 5
+stallwart.build.js:1 stallwart: session stalled
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'battery'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.Understand this warning
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=NoS9RfFRlavz' failed: 
+setupWebSocket @ client:536Understand this error
+service-worker.js:89 Service Worker: Script caricato correttamente
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=NoS9RfFRlavz' failed: 
+setupWebSocket @ client:536Understand this error
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/503/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/504/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/504/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/505/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/505/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/506/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/506/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/507/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/507/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/508/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/508/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/509/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/509/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/510/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/510/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/511/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/511/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/478/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/478/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/271/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/271/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/479/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/479/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/472/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/472/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/470/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/470/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/473/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/473/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/471/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/471/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/474/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/474/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/475/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/475/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/476/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/476/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/477/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/477/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/483/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/483/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/482/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/482/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/481/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/481/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/480/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/480/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/289/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/289/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/288/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/288/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/258/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/258/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/301/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/301/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/300/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/300/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/299/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/299/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/298/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/298/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/297/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/297/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/296/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/296/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/295/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/295/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/294/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/294/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/293/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/293/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/292/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/292/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/291/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/291/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/290/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/290/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/484/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/484/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/269/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/269/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/272/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/272/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/442/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/442/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/443/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/443/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/444/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/444/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/445/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/445/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/446/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/446/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/447/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/447/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/448/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/448/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/449/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/449/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/450/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/450/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/451/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/451/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/452/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/452/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/453/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/453/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/454/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/454/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/455/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/455/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/485/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/485/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/486/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/486/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/487/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/487/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/488/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/488/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/489/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/489/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/490/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/490/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/491/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/491/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/492/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/492/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/493/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/493/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/494/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/494/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/495/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/495/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/496/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/496/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/497/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/497/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/251/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/251/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/27/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/27/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/256/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/256/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/414/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/414/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/267/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/267/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/417/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/417/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/418/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/418/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/419/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/419/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/420/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/420/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/427/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/427/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/426/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/426/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/425/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/425/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/424/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/424/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/423/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/423/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/422/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/422/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/415/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/415/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/416/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/416/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/421/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/421/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/406/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/406/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/407/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/407/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/408/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/408/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/409/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/409/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/410/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/410/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/411/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/411/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/412/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/412/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/413/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/413/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/402/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/402/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/400/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/400/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/266/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/266/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/401/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/401/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/403/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/403/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/404/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/404/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/405/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/405/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/362/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/362/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/364/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/364/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/363/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/363/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/361/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/361/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/360/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/360/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/359/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/359/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/358/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/358/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/263/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/263/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/366/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/366/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/367/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/367/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/368/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/368/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/369/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/369/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/370/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/370/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/371/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/371/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/365/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/365/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/457/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/457/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/469/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/469/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/468/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/468/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/458/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/458/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/459/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/459/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/460/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/460/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/461/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/461/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/462/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/462/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/463/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/463/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/467/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/467/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/464/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/464/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/466/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/466/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/456/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/456/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/465/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/465/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/270/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/270/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/306/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/306/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/307/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/307/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/305/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/305/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/304/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/304/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/303/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/303/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/302/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/302/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/259/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/259/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/315/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/315/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/314/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/314/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/313/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/313/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/312/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/312/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/311/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/311/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/310/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/310/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/309/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/309/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/308/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/308/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/25/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/25/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/335/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/335/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/334/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/334/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/333/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/333/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/332/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/332/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/331/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/331/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/330/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/330/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/341/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/341/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/342/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/342/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/337/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/337/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/261/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/261/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/336/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/336/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/339/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/339/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/340/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/340/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/338/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/338/activation-token: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/343/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/343/activation-token: Object
+queryClient.ts:99 Risposta da /api/clients/260/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/329/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/321/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/357/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/356/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/354/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/353/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/352/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/344/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/320/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/319/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/318/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/316/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/317/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/377/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/376/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/375/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/374/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/373/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/372/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/385/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/384/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/381/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/380/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/322/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/379/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/323/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/264/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/325/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/262/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/378/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/326/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/398/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/392/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/393/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/390/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/389/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/388/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/387/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/386/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/394/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/395/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/396/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/397/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/399/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/391/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/265/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/437/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/436/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/435/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/439/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/440/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/441/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/434/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/433/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/432/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/431/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/430/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/429/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/268/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/428/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/438/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/252/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/28/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/275/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/277/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/278/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/279/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/280/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/281/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/276/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/282/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/283/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/284/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/285/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/286/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/287/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/257/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/274/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/253/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/500/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/273/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/498/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/499/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/501/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/502/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/503/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/504/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/505/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/506/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/507/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/508/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/509/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/510/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/511/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/478/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/271/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/479/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/472/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/470/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/473/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/471/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/474/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/475/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/476/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/477/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/483/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/482/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/481/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/480/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/289/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/288/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/258/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/301/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/300/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/299/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/298/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/297/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/296/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/295/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/294/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/293/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/292/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/291/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/290/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/484/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/269/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/272/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/442/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/443/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/444/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/445/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/446/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/447/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/448/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/449/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/450/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/451/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/452/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/453/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/454/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/455/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/485/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/486/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/487/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/488/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/489/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/490/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/491/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/492/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/493/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/494/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/495/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/496/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/497/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/251/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/27/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/256/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/414/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/267/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/417/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/418/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/419/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/420/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/427/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/426/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/425/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/424/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/423/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/422/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/415/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/416/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/421/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/406/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/407/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/408/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/409/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/410/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/411/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/412/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/413/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/402/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/400/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/266/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/401/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/403/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/404/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/405/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/362/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/364/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/363/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/361/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/360/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/359/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/358/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/263/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/366/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/367/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/368/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/369/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/370/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/371/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/365/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/457/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/469/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/468/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/458/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/459/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/460/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/461/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/462/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/463/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/467/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/464/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/466/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/456/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/465/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/270/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/306/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/307/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/305/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/304/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/303/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/302/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/259/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/315/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/314/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/313/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/312/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/311/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/310/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/309/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/308/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/335/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/334/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/333/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/332/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/331/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/330/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/341/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/342/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/337/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/261/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/336/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/339/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/340/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/338/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/343/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/260/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/329/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/321/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/357/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/356/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/354/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/353/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/352/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/344/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/320/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/319/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/318/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/316/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/317/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/377/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/376/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/375/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/374/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/373/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/372/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/385/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/384/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/381/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/380/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/322/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/379/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/323/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/264/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/325/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/262/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/378/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/326/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/398/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/392/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/393/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/390/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/389/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/388/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/387/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/386/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/394/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/395/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/396/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/397/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/399/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/391/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/265/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/437/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/436/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/435/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/439/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/440/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/441/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/434/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/433/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/432/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/431/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/430/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/429/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/268/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/428/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/438/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/252/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/28/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/275/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/277/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/278/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/279/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/280/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/281/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/276/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/282/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/283/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/284/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/285/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/286/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/287/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/257/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/274/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/253/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/500/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/273/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/498/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/499/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/501/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/502/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/503/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/504/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/505/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/506/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/507/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/508/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/509/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/510/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/511/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/478/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/271/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/479/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/472/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/470/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/473/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/471/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/474/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/475/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/476/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/477/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/483/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/482/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/481/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/480/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/289/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/288/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/258/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/301/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/300/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/299/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/298/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/297/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/296/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/295/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/294/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/293/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/292/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/291/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/290/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/484/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/269/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/272/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/442/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/443/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/444/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/445/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/446/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/447/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/448/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/449/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/450/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/451/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/452/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/453/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/454/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/455/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/485/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/486/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/487/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/488/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/489/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/490/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/491/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/492/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/493/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/494/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/495/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/496/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/497/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/251/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/256/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/27/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/414/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/267/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/417/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/418/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/419/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/420/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/427/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/426/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/425/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/424/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/423/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/422/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/415/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/416/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/421/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/406/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/407/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/408/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/409/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/410/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/411/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/412/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/413/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/402/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/400/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/266/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/401/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/403/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/404/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/405/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/362/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/364/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/363/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/361/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/360/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/359/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/358/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/263/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/366/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/367/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/368/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/369/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/370/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/371/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/365/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/457/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/469/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/468/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/458/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/459/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/460/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/461/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/462/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/463/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/467/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/464/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/466/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/456/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/465/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/270/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/306/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/307/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/305/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/304/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/303/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/302/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/259/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/315/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/314/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/313/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/312/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/311/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/310/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/309/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/308/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/335/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/334/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/333/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/332/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/331/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/330/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/341/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/342/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/337/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/261/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/336/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/339/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/340/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/338/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/343/activation-token: 200 OK ok: true
+chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `SlotClone`.
+    at Badge (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1987:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:416:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx?t=1748458525542:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:77:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:87:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx?t=1748458525542:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a298f9ce:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:631:3)
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521Understand this error
+8chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521Understand this error
+chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GCT6QPCO.js?v=a298f9ce:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:473:64
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tooltip.tsx:24:11)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx?t=1748458525542:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:77:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:87:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx?t=1748458525542:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a298f9ce:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:631:3)
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521Understand this error

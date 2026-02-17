@@ -1,0 +1,98 @@
+queryClient.ts:119 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/clients/1749667437316/activation-token 404 (Not Found)
+window.fetch @ Network.js:219
+apiRequest @ queryClient.ts:119
+checkExistingQrCode @ ClientCard.tsx:53
+(anonymous) @ ClientCard.tsx:69
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=3572cf0e:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=3572cf0e:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=3572cf0e:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595
+setTimeout
+scheduleFn @ @tanstack_react-query.js?v=3572cf0e:555
+flush @ @tanstack_react-query.js?v=3572cf0e:569
+batch @ @tanstack_react-query.js?v=3572cf0e:587
+dispatch_fn @ @tanstack_react-query.js?v=3572cf0e:996
+setData @ @tanstack_react-query.js?v=3572cf0e:696
+onSuccess @ @tanstack_react-query.js?v=3572cf0e:897
+resolve @ @tanstack_react-query.js?v=3572cf0e:456
+Promise.then
+run @ @tanstack_react-query.js?v=3572cf0e:498
+start @ @tanstack_react-query.js?v=3572cf0e:536
+fetch @ @tanstack_react-query.js?v=3572cf0e:926
+executeFetch_fn @ @tanstack_react-query.js?v=3572cf0e:2211
+onSubscribe @ @tanstack_react-query.js?v=3572cf0e:1898
+subscribe @ @tanstack_react-query.js?v=3572cf0e:24
+(anonymous) @ @tanstack_react-query.js?v=3572cf0e:3022
+subscribeToStore @ chunk-C43VWYGG.js?v=3572cf0e:12587
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=3572cf0e:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=3572cf0e:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=3572cf0e:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=3572cf0e:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595Understand this error
+Console.js:61 Risposta da /api/clients/1749667437316/activation-token: 404 Not Found ok: false
+Console.js:61 Errore API (404): {"message":"Cliente non trovato nel sistema"}
+Mt.forEach.n.<computed> @ Console.js:61
+apiRequest @ queryClient.ts:130
+await in apiRequest
+checkExistingQrCode @ ClientCard.tsx:53
+(anonymous) @ ClientCard.tsx:69
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=3572cf0e:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=3572cf0e:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=3572cf0e:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595
+setTimeout
+scheduleFn @ @tanstack_react-query.js?v=3572cf0e:555
+flush @ @tanstack_react-query.js?v=3572cf0e:569
+batch @ @tanstack_react-query.js?v=3572cf0e:587
+dispatch_fn @ @tanstack_react-query.js?v=3572cf0e:996
+setData @ @tanstack_react-query.js?v=3572cf0e:696
+onSuccess @ @tanstack_react-query.js?v=3572cf0e:897
+resolve @ @tanstack_react-query.js?v=3572cf0e:456
+Promise.then
+run @ @tanstack_react-query.js?v=3572cf0e:498
+start @ @tanstack_react-query.js?v=3572cf0e:536
+fetch @ @tanstack_react-query.js?v=3572cf0e:926
+executeFetch_fn @ @tanstack_react-query.js?v=3572cf0e:2211
+onSubscribe @ @tanstack_react-query.js?v=3572cf0e:1898
+subscribe @ @tanstack_react-query.js?v=3572cf0e:24
+(anonymous) @ @tanstack_react-query.js?v=3572cf0e:3022
+subscribeToStore @ chunk-C43VWYGG.js?v=3572cf0e:12587
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=3572cf0e:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=3572cf0e:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=3572cf0e:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=3572cf0e:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595Understand this error
+Console.js:61 Eccezione durante la richiesta a /api/clients/1749667437316/activation-token: Error: Errore 404: {"message":"Cliente non trovato nel sistema"}
+    at apiRequest (queryClient.ts:131:13)
+    at async checkExistingQrCode (ClientCard.tsx:53:26)

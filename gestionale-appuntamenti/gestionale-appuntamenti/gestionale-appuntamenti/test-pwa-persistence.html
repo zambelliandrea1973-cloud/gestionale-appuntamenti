@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PWA Marco - Persistenza Token</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .step { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 8px; }
+        .test-button { 
+            display: inline-block; 
+            padding: 15px 25px; 
+            background-color: #007bff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Persistenza PWA - Marco Berto</h1>
+    
+    <div class="step">
+        <h3>Passo 1: Primo accesso via QR</h3>
+        <p>Clicca questo link per simulare la scansione QR di Marco:</p>
+        <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area?token=PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3&clientId=1750177330362&autoLogin=true" 
+           class="test-button" target="_blank">
+            Primo Accesso QR Marco
+        </a>
+        <p><small>Questo dovrebbe salvare il token nel localStorage</small></p>
+    </div>
+    
+    <div class="step">
+        <h3>Passo 2: Test persistenza</h3>
+        <p>Dopo il primo accesso, chiudi la tab e riapri direttamente l'area clienti:</p>
+        <a href="https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-area" 
+           class="test-button" target="_blank">
+            Accesso Diretto (senza parametri)
+        </a>
+        <p><small>Questo dovrebbe usare il token salvato nel localStorage</small></p>
+    </div>
+    
+    <h3>Cosa dovrebbe succedere ora:</h3>
+    <ol>
+        <li>Primo accesso: Token salvato in localStorage</li>
+        <li>Accessi successivi: Auto-login con token localStorage</li>
+        <li>Nessuna richiesta di "token mancante"</li>
+        <li>PWA di Marco sempre disponibile</li>
+    </ol>
+    
+    <h3>Debug localStorage:</h3>
+    <p>Apri console browser e controlla:</p>
+    <ul>
+        <li><code>localStorage.getItem('clientAccessToken')</code></li>
+        <li><code>localStorage.getItem('clientId')</code></li>
+    </ul>
+    
+    <p><strong>Token atteso:</strong> PROF_014_9C1F_CLIENT_1750177330362_816C_5c1bfbc3</p>
+    <p><strong>Client ID atteso:</strong> 1750177330362</p>
+</body>
+</html>

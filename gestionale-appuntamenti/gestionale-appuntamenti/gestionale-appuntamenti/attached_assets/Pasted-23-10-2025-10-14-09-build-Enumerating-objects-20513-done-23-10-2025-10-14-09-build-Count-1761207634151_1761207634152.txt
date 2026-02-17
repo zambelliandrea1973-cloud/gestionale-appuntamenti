@@ -1,0 +1,326 @@
+23/10/2025, 10:14:09:
+build
+Enumerating objects: 20513, done.
+23/10/2025, 10:14:09:
+build
+Counting objects: 100% (619/619), done.
+23/10/2025, 10:14:09:
+build
+Compressing objects: 100% (109/109), done.
+23/10/2025, 10:14:34:
+build
+Total 20513 (delta 563), reused 544 (delta 510), pack-reused 19894 (from 4)
+23/10/2025, 10:14:52:
+runtime
+8:14:52 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:14:52:
+runtime
+8:14:52 AM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:15:03:
+build
+#1 [service_event_rensmxhw7sdg internal] load build definition from Dockerfile
+23/10/2025, 10:15:03:
+build
+#1 transferring dockerfile: 618B done
+23/10/2025, 10:15:03:
+build
+#1 DONE 0.0s
+23/10/2025, 10:15:03:
+build
+23/10/2025, 10:15:03:
+build
+#2 [service_event_rensmxhw7sdg internal] load metadata for docker.io/library/node:20-alpine
+23/10/2025, 10:15:04:
+build
+#2 DONE 0.8s
+23/10/2025, 10:15:04:
+build
+23/10/2025, 10:15:04:
+build
+#3 [service_event_rensmxhw7sdg internal] load .dockerignore
+23/10/2025, 10:15:04:
+build
+#3 transferring context: 740B done
+23/10/2025, 10:15:04:
+build
+#3 DONE 0.0s
+23/10/2025, 10:15:04:
+build
+23/10/2025, 10:15:04:
+build
+#4 [service_event_rensmxhw7sdg] importing cache manifest from local:15690177274457218163
+23/10/2025, 10:15:04:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+23/10/2025, 10:15:04:
+build
+#4 DONE 0.0s
+23/10/2025, 10:15:04:
+build
+23/10/2025, 10:15:04:
+build
+#5 [service_event_rensmxhw7sdg 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+23/10/2025, 10:15:04:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+23/10/2025, 10:15:04:
+build
+#5 DONE 0.0s
+23/10/2025, 10:15:04:
+build
+23/10/2025, 10:15:04:
+build
+#6 [service_event_rensmxhw7sdg internal] load build context
+23/10/2025, 10:15:08:
+build
+#6 transferring context: 1.24GB 3.7s done
+23/10/2025, 10:15:08:
+build
+#6 DONE 3.7s
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#7 [service_event_rensmxhw7sdg 5/7] COPY . .
+23/10/2025, 10:15:08:
+build
+#7 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#8 [service_event_rensmxhw7sdg 6/7] RUN npx vite build
+23/10/2025, 10:15:08:
+build
+#8 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#9 [service_event_rensmxhw7sdg 4/7] RUN npm ci
+23/10/2025, 10:15:08:
+build
+#9 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#10 [service_event_rensmxhw7sdg 2/7] WORKDIR /app
+23/10/2025, 10:15:08:
+build
+#10 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#11 [service_event_rensmxhw7sdg 3/7] COPY package.json package-lock.json ./
+23/10/2025, 10:15:08:
+build
+#11 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#12 [service_event_rensmxhw7sdg 7/7] RUN cp -r dist/public server/public
+23/10/2025, 10:15:08:
+build
+#12 CACHED
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#13 [service_event_rensmxhw7sdg] exporting to image
+23/10/2025, 10:15:08:
+build
+#13 exporting layers done
+23/10/2025, 10:15:08:
+build
+#13 exporting manifest sha256:d268834d7b432cc039aa010d200cfcb75da45de8ea0254961dffa79d5ea9771b done
+23/10/2025, 10:15:08:
+build
+#13 exporting config sha256:f1734f7e42539ec66a72f601ec47115e1f064e308922d8cc5bf859a0c54fafcb done
+23/10/2025, 10:15:08:
+build
+#13 pushing layers 0.1s done
+23/10/2025, 10:15:08:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_rensmxhw7sdg@sha256:d268834d7b432cc039aa010d200cfcb75da45de8ea0254961dffa79d5ea9771b
+23/10/2025, 10:15:08:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_rensmxhw7sdg@sha256:d268834d7b432cc039aa010d200cfcb75da45de8ea0254961dffa79d5ea9771b 0.1s done
+23/10/2025, 10:15:08:
+build
+#13 DONE 0.2s
+23/10/2025, 10:15:08:
+build
+23/10/2025, 10:15:08:
+build
+#14 [service_event_rensmxhw7sdg] exporting cache to client directory
+23/10/2025, 10:15:08:
+build
+#14 preparing build cache for export
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:1c78b0d8bf6a72a947aa675909c793673122730143b6d0679a378526b85fc78e
+23/10/2025, 10:15:08:
+build
+#14 preparing build cache for export 0.0s done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:1c78b0d8bf6a72a947aa675909c793673122730143b6d0679a378526b85fc78e done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:2a70fc48f811849eb967b5f4314459cde353528e2a2a45ba9142b148812de142 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:56aa6c63645e5199c235a75a8bdb8df13f86479a50f18fe1dd0e33d9cd94e3f8 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:580cff294211da40c71df0dcc7b477dd007a1128447d3e5d2b4538125d5e40b7 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:5ce72441c59fa5034bc7304c88d72830d0dbd55185b822cbe4193cd55f9c28fc done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:98ac53eef54d90190504bc24947c456131b8ac82cc9268e3de9bdd9bdff1e1e0 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+23/10/2025, 10:15:08:
+build
+#14 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 done
+23/10/2025, 10:15:08:
+build
+#14 writing config sha256:cb2eef3cbb5c97463d5a88d1a80ddd42bf5ca557e295db6c4b205ac3f604866e done
+23/10/2025, 10:15:08:
+build
+#14 writing cache image manifest sha256:b3c00ddf0cb67283724dc5deff1c2c15590d4f4e65cf2bcd5bb76ef7170ea564 done
+23/10/2025, 10:15:08:
+build
+#14 DONE 0.0s
+23/10/2025, 10:15:09:
+build
+service_event_rensmxhw7sdg: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+23/10/2025, 10:15:09:
+build
+Digest: sha256:d268834d7b432cc039aa010d200cfcb75da45de8ea0254961dffa79d5ea9771b
+23/10/2025, 10:15:09:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_rensmxhw7sdg
+23/10/2025, 10:15:14:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+23/10/2025, 10:15:14:
+runtime
+Servizio gestione telefono diretto inizializzato
+23/10/2025, 10:15:14:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+23/10/2025, 10:15:14:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+23/10/2025, 10:15:16:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+23/10/2025, 10:15:16:
+runtime
+Scheduler dei promemoria avviato con successo
+23/10/2025, 10:15:16:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+23/10/2025, 10:15:16:
+runtime
+Tutti gli scheduler inizializzati
+23/10/2025, 10:15:16:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+23/10/2025, 10:15:16:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+23/10/2025, 10:15:16:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+23/10/2025, 10:15:16:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+23/10/2025, 10:15:16:
+runtime
+🔍 Controllo integrità all'avvio:
+23/10/2025, 10:15:16:
+runtime
+   📅 Appuntamenti caricati: 48
+23/10/2025, 10:15:16:
+runtime
+   👥 Clienti caricati: 40
+23/10/2025, 10:15:16:
+runtime
+   🔍 Primi 3 appuntamenti: [
+23/10/2025, 10:15:16:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+23/10/2025, 10:15:16:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+23/10/2025, 10:15:16:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+23/10/2025, 10:15:16:
+runtime
+]
+23/10/2025, 10:15:16:
+runtime
+✅ Controllo integrità completato
+23/10/2025, 10:15:16:
+runtime
+8:15:16 AM [express] serving on port 5000
+23/10/2025, 10:15:16:
+runtime
+Telefono caricato dal database: +393472550110
+23/10/2025, 10:15:16:
+runtime
+✅ PostgreSQL database is available
+23/10/2025, 10:15:21:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+23/10/2025, 10:15:21:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+23/10/2025, 10:15:21:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Fri Oct 24 2025)
+23/10/2025, 10:15:21:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+23/10/2025, 10:15:21:
+runtime
+Inviati 0/0 promemoria
+23/10/2025, 10:15:21:
+runtime
+Job iniziale completato: inviati 0 promemoria
+23/10/2025, 10:15:51:
+build
+Enumerating objects: 20513, done.
+23/10/2025, 10:15:51:
+build
+Counting objects: 100% (619/619), done.
+23/10/2025, 10:15:52:
+build
+Compressing objects: 100% (109/109), done.
+23/10/2025, 10:16:49:
+runtime
+8:16:49 AM [express] GET /api/tenant-context 401 in 5ms :: {"message":"Non autenticato"}
+23/10/2025, 10:16:49:
+runtime
+8:16:49 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:18:10:
+runtime
+8:18:10 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:18:10:
+runtime
+8:18:10 AM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}

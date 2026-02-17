@@ -1,0 +1,48 @@
+Recupero licenze per l'utente ID 9
+ℹ️ Nessuna impostazione contatto per tenant 24
+Recupero licenze per l'utente ID 24
+7:39:56 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 470ms :: [{"id":14,"userId…
+✅ Impostazioni contatto trovate per tenant 10: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+Recupero licenze per l'utente ID 10
+ℹ️ Nessuna impostazione contatto per tenant 12
+Recupero licenze per l'utente ID 12
+Trovate 0 licenze per l'utente 15
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 29
+ℹ️ Nessuna impostazione contatto per tenant 11
+Recupero licenze per l'utente ID 11
+Trovate 1 licenze per l'utente 27
+Trovate 1 licenze per l'utente 10
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 12
+Trovate 1 licenze per l'utente 11
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: BhiGYIxSywt07MwP9T09D3yTb_bSK9OH
+🔐 Cookies: session-id=s%3ABhiGYIxSywt07MwP9T09D3yTb_bSK9OH.pMmg34LpNmhZhBE9SwDyj3zzxbusA2KB2lkUJwUCxjQ
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Totale: 8 abbonamenti con dettagli utente e licenza
+7:39:56 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 505ms :: [{"id":14,"userId…
+Trovate 20 licenze normali e 0 licenze di test
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/payments/payment-admin/licenses
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: BhiGYIxSywt07MwP9T09D3yTb_bSK9OH
+🔐 Cookies: session-id=s%3ABhiGYIxSywt07MwP9T09D3yTb_bSK9OH.pMmg34LpNmhZhBE9SwDyj3zzxbusA2KB2lkUJwUCxjQ
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Caricati 23 utenti standard e 14 client account
+Trovate 20 licenze normali e 0 licenze di test
+Totale licenze restituite: 20
+7:39:57 PM [express] GET /api/payments/payment-admin/licenses 200 in 625ms :: [{"id":29,"code":"TRIA…
+Caricati 23 utenti standard e 14 client account
+Totale licenze restituite: 20
+7:39:57 PM [express] GET /api/payments/payment-admin/licenses 200 in 733ms :: [{"id":29,"code":"TRIA…

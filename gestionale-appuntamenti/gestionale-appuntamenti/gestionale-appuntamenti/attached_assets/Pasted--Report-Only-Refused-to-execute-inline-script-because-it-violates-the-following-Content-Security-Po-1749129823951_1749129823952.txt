@@ -1,0 +1,22 @@
+[Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-YqKb8ec3wf4TWfTKtt6BcHUqs1yTM9GNMtA3C3o/cK4='), or a nonce ('nonce-...') is required to enable inline execution.
+
+48[Report Only] Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+login:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-XYvVliZ7kJ9JIDhACMzGUvidf8E8T+euknSiwFmyDfg='), or a nonce ('nonce-...') is required to enable inline execution.
+
+login:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-q0uYXd/EjY8dh9TMB0fCzZ6buPPvS6FpeCcVGhF/1dU='), or a nonce ('nonce-...') is required to enable inline execution.
+
+login:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-FLUCBuiPnRHsXNz2JUZzPWRuZBbaA9hVYolm51skjSo='), or a nonce ('nonce-...') is required to enable inline execution.
+
+login:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-07l5B4sWF6cor6yDQ+CQBYw+BXfYaB+C6wxFZmj0wqo='), or a nonce ('nonce-...') is required to enable inline execution.
+
+login?goto=%2F%40zambelliandrea1%2FWifeScheduler&error=unauthorized:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-oYWwBc09SvWv7bl3QueQb/RtarF+XV9gMwpafB6Ijik='), or a nonce ('nonce-...') is required to enable inline execution.
+
+_app-a09bbd1d5d48747a.js:26 [Report Only] Refused to create a worker from 'https://replit.com/public/stallwart.build.js' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'worker-src' was not explicitly set, so 'script-src' is used as a fallback.
+
+_app-a09bbd1d5d48747a.js:38 [LaunchDarkly] LaunchDarkly client initialized
+9654-0e38f07e19e099f6.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+
+9654-0e38f07e19e099f6.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+
+_app-a09bbd1d5d48747a.js:38 Replit version b03d593e, pid2 version 0.0.1367

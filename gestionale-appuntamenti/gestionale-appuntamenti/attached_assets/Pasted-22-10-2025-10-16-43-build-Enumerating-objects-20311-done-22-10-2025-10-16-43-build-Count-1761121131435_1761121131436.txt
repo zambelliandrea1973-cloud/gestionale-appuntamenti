@@ -1,0 +1,299 @@
+22/10/2025, 10:16:43:
+build
+Enumerating objects: 20311, done.
+22/10/2025, 10:16:43:
+build
+Counting objects: 100% (432/432), done.
+22/10/2025, 10:16:44:
+build
+Compressing objects: 100% (28/28), done.
+22/10/2025, 10:17:08:
+build
+Total 20311 (delta 428), reused 404 (delta 404), pack-reused 19879 (from 3)
+22/10/2025, 10:17:38:
+build
+#1 [service_event_3m1vglv218ie internal] load build definition from Dockerfile
+22/10/2025, 10:17:38:
+build
+#1 transferring dockerfile: 618B done
+22/10/2025, 10:17:38:
+build
+#1 DONE 0.0s
+22/10/2025, 10:17:38:
+build
+22/10/2025, 10:17:38:
+build
+#2 [service_event_3m1vglv218ie internal] load metadata for docker.io/library/node:20-alpine
+22/10/2025, 10:17:38:
+build
+#2 DONE 0.8s
+22/10/2025, 10:17:39:
+build
+22/10/2025, 10:17:39:
+build
+#3 [service_event_3m1vglv218ie internal] load .dockerignore
+22/10/2025, 10:17:39:
+build
+#3 transferring context: 740B done
+22/10/2025, 10:17:39:
+build
+#3 DONE 0.0s
+22/10/2025, 10:17:39:
+build
+22/10/2025, 10:17:39:
+build
+#4 [service_event_3m1vglv218ie 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 10:17:39:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+22/10/2025, 10:17:39:
+build
+#4 DONE 0.0s
+22/10/2025, 10:17:39:
+build
+22/10/2025, 10:17:39:
+build
+#5 [service_event_3m1vglv218ie] importing cache manifest from local:3333447800284268840
+22/10/2025, 10:17:39:
+build
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+22/10/2025, 10:17:39:
+build
+#5 DONE 0.0s
+22/10/2025, 10:17:39:
+build
+22/10/2025, 10:17:39:
+build
+#6 [service_event_3m1vglv218ie internal] load build context
+22/10/2025, 10:17:43:
+build
+#6 transferring context: 1.23GB 4.2s done
+22/10/2025, 10:17:43:
+build
+#6 DONE 4.2s
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#7 [service_event_3m1vglv218ie 5/7] COPY . .
+22/10/2025, 10:17:43:
+build
+#7 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#8 [service_event_3m1vglv218ie 2/7] WORKDIR /app
+22/10/2025, 10:17:43:
+build
+#8 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#9 [service_event_3m1vglv218ie 6/7] RUN npx vite build
+22/10/2025, 10:17:43:
+build
+#9 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#10 [service_event_3m1vglv218ie 3/7] COPY package.json package-lock.json ./
+22/10/2025, 10:17:43:
+build
+#10 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#11 [service_event_3m1vglv218ie 4/7] RUN npm ci
+22/10/2025, 10:17:43:
+build
+#11 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#12 [service_event_3m1vglv218ie 7/7] RUN cp -r dist/public server/public
+22/10/2025, 10:17:43:
+build
+#12 CACHED
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#13 [service_event_3m1vglv218ie] exporting to image
+22/10/2025, 10:17:43:
+build
+#13 exporting layers done
+22/10/2025, 10:17:43:
+build
+#13 exporting manifest sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53 done
+22/10/2025, 10:17:43:
+build
+#13 exporting config sha256:f5a18bc3bb2fe8ccd62fa62c3519fa771aa492266f96cfe4acb95c12420223ba done
+22/10/2025, 10:17:43:
+build
+#13 pushing layers 0.1s done
+22/10/2025, 10:17:43:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3m1vglv218ie@sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53
+22/10/2025, 10:17:43:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3m1vglv218ie@sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53 0.0s done
+22/10/2025, 10:17:43:
+build
+#13 DONE 0.2s
+22/10/2025, 10:17:43:
+build
+22/10/2025, 10:17:43:
+build
+#14 [service_event_3m1vglv218ie] exporting cache to client directory
+22/10/2025, 10:17:43:
+build
+#14 preparing build cache for export
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:1adc3c0c1600bca7b807a4b71b99588c3706ca4d23e6025597e975502b453349
+22/10/2025, 10:17:43:
+build
+#14 preparing build cache for export 0.0s done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:1adc3c0c1600bca7b807a4b71b99588c3706ca4d23e6025597e975502b453349 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:1ece4c1e9ab4a18f61288601e6240b80789e9d0d2a211fc931e280c008f4789a done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:44985de0cc97719ded703c75dc227773879e8ffcaa864bcc91182d22c843c3e8 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 done
+22/10/2025, 10:17:43:
+build
+#14 writing layer sha256:f689d7656b588a19e98f548eec95197b2580fd19659658da84f9b2dfae24c428 done
+22/10/2025, 10:17:43:
+build
+#14 writing config sha256:6185abf86bf10b0df54759dc7119b78cc6a57ed67925fdf3be047abb04433be9 done
+22/10/2025, 10:17:43:
+build
+#14 writing cache image manifest sha256:df54c1b50546457a8b069a24be66aa7606b2d758c8ef623e8ff4789b80717b42 done
+22/10/2025, 10:17:43:
+build
+#14 DONE 0.0s
+22/10/2025, 10:17:45:
+build
+service_event_3m1vglv218ie: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+22/10/2025, 10:17:45:
+build
+Digest: sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53
+22/10/2025, 10:17:45:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3m1vglv218ie
+22/10/2025, 10:17:49:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+22/10/2025, 10:17:49:
+runtime
+Servizio gestione telefono diretto inizializzato
+22/10/2025, 10:17:49:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+22/10/2025, 10:17:49:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+22/10/2025, 10:17:51:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+22/10/2025, 10:17:51:
+runtime
+Scheduler dei promemoria avviato con successo
+22/10/2025, 10:17:51:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+22/10/2025, 10:17:51:
+runtime
+Tutti gli scheduler inizializzati
+22/10/2025, 10:17:51:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+22/10/2025, 10:17:51:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+22/10/2025, 10:17:51:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+22/10/2025, 10:17:51:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+22/10/2025, 10:17:51:
+runtime
+🔍 Controllo integrità all'avvio:
+22/10/2025, 10:17:51:
+runtime
+   📅 Appuntamenti caricati: 48
+22/10/2025, 10:17:51:
+runtime
+   👥 Clienti caricati: 40
+22/10/2025, 10:17:51:
+runtime
+   🔍 Primi 3 appuntamenti: [
+22/10/2025, 10:17:51:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+22/10/2025, 10:17:51:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+22/10/2025, 10:17:51:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+22/10/2025, 10:17:51:
+runtime
+]
+22/10/2025, 10:17:51:
+runtime
+✅ Controllo integrità completato
+22/10/2025, 10:17:51:
+runtime
+8:17:51 AM [express] serving on port 5000
+22/10/2025, 10:17:51:
+runtime
+Telefono caricato dal database: +393472550110
+22/10/2025, 10:17:51:
+runtime
+✅ PostgreSQL database is available
+22/10/2025, 10:17:56:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+22/10/2025, 10:17:56:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+22/10/2025, 10:17:56:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Thu Oct 23 2025)
+22/10/2025, 10:17:56:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+22/10/2025, 10:17:56:
+runtime
+Inviati 0/0 promemoria
+22/10/2025, 10:17:56:
+runtime
+Job iniziale completato: inviati 0 promemoria

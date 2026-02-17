@@ -1,0 +1,52 @@
+{
+  "name": "Gestione Appuntamenti",
+  "short_name": "App Cliente",
+  "description": "Gestione appuntamenti e consensi",
+  "start_url": "/pwa",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "categories": [
+    "healthcare",
+    "business",
+    "appointments"
+  ],
+  "lang": "it-IT",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "scope": "/",
+  "id": "gestione-appuntamenti-client",
+  "icons": [
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Home page dell'applicazione"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Area Cliente",
+      "url": "/client-area",
+      "description": "Accedi alla tua area personale",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": []
+}

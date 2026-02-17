@@ -1,0 +1,120 @@
+Navigator serviceWorker: ServiceWorkerContainer
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: Object
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: Object
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: Object
+2Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+Console.js:61 🔍 Risposta user-with-license: 200 true
+Console.js:61 🔍 Dati utente ricevuti FRESCHI: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+2Console.js:61 🔧 SIMPLE: ServiceManager per utente 3
+Console.js:61 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Console.js:61 🔧 SETTINGS: Tab attiva impostata a: appearance
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: app
+Console.js:61 Stato autenticazione: Object
+Console.js:61 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Console.js:61 🔧 SETTINGS: Tab attiva impostata a: appearance
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: app
+2Console.js:61 🔧 SIMPLE: ServiceManager per utente 3
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: appearance
+Console.js:61 🏢 Impostazioni nome aziendale caricate: Object
+Console.js:61 🏢 Impostazioni nome aziendale caricate: Object
+Console.js:61 🏢 Salvataggio impostazioni nome aziendale: Object
+Console.js:61 🏢 Impostazioni nome aziendale salvate: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+Console.js:61 Esecuzione richiesta GET a /api/company-name-settings 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/company-name-settings: Object
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+Console.js:61 Esecuzione richiesta GET a /api/company-name-settings 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/company-name-settings: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+2Console.js:61 🔧 SIMPLE: ServiceManager per utente 3
+Console.js:61 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Console.js:61 🔧 SETTINGS: Tab attiva impostata a: appearance
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: app
+Console.js:61 Stato autenticazione: Object
+Console.js:61 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Console.js:61 🔧 SETTINGS: Tab attiva impostata a: appearance
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: app
+2Console.js:61 🔧 SIMPLE: ServiceManager per utente 3
+Console.js:61 🔧 SETTINGS: Tab attualmente attiva: appearance
+Console.js:61 🏢 Impostazioni nome aziendale caricate: Object
+Console.js:61 🏢 Impostazioni nome aziendale caricate: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+Console.js:61 Esecuzione richiesta GET a /api/company-name-settings 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/company-name-settings: Object
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+Console.js:61 Esecuzione richiesta GET a /api/company-name-settings 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/company-name-settings: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object

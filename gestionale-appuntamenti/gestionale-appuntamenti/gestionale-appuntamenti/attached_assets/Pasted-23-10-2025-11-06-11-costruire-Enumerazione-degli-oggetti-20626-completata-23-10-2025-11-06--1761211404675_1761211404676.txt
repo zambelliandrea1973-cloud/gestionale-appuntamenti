@@ -1,0 +1,959 @@
+23/10/2025, 11:06:11:
+costruire
+Enumerazione degli oggetti: 20626, completata.
+23/10/2025, 11:06:11:
+costruire
+Conteggio oggetti: 100% (732/732), fatto.
+23/10/2025, 11:06:12:
+costruire
+Compressione oggetti: 100% (143/143), fatto.
+23/10/2025, 11:07:25:
+costruire
+Totale 20626 (delta 646), riutilizzati 648 (delta 589), riutilizzati in confezioni 19894 (da 4)
+23/10/2025, 11:07:58:
+costruire
+#1 [service_event_p66oq2uhr84c internal] carica la definizione di build dal Dockerfile
+23/10/2025, 11:07:58:
+costruire
+#1 trasferimento dockerfile: 693B completato
+23/10/2025, 11:07:58:
+costruire
+#1 FATTO 0.0s
+23/10/2025, 11:07:58:
+costruire
+23/10/2025, 11:07:58:
+costruire
+#2 [service_event_p66oq2uhr84c interno] carica i metadati per docker.io/library/node:20-alpine
+23/10/2025, 11:07:59:
+costruire
+#2 FATTO 0,8s
+23/10/2025, 11:07:59:
+costruire
+23/10/2025, 11:07:59:
+costruire
+#3 [service_event_p66oq2uhr84c interno] carica .dockerignore
+23/10/2025, 11:07:59:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+23/10/2025, 11:07:59:
+costruire
+#3 FATTO 0.0s
+23/10/2025, 11:07:59:
+costruire
+23/10/2025, 11:07:59:
+costruire
+#4 [service_event_p66oq2uhr84c] importazione del manifesto della cache da locale:6051621548130656324
+23/10/2025, 11:07:59:
+costruire
+#4 tipo di manifesto della cache dedotto: application/vnd.oci.image.manifest.v1+json eseguito
+23/10/2025, 11:07:59:
+costruire
+#4 FATTO 0.0s
+23/10/2025, 11:07:59:
+costruire
+23/10/2025, 11:07:59:
+costruire
+#5 [service_event_p66oq2uhr84c 1/7] DA docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+23/10/2025, 11:07:59:
+costruire
+#5 risolvi docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 fatto
+23/10/2025, 11:07:59:
+costruire
+#5 FATTO 0.0s
+23/10/2025, 11:07:59:
+costruire
+23/10/2025, 11:07:59:
+costruire
+#6 [service_event_p66oq2uhr84c interno] carica il contesto di compilazione
+23/10/2025, 11:08:03:
+costruire
+#6 trasferimento contesto: 1,24 GB 3,6 s completato
+23/10/2025, 11:08:03:
+costruire
+#6 FATTO 3.7s
+23/10/2025, 11:08:03:
+costruire
+23/10/2025, 11:08:03:
+costruire
+#7 [service_event_p66oq2uhr84c 2/7] WORKDIR /app
+23/10/2025, 11:08:03:
+costruire
+#7 NELLA CACHE
+23/10/2025, 11:08:03:
+costruire
+23/10/2025, 11:08:03:
+costruire
+#8 [service_event_p66oq2uhr84c 3/7] COPIA package.json package-lock.json ./
+23/10/2025, 11:08:03:
+costruire
+#8 NELLA CACHE
+23/10/2025, 11:08:03:
+costruire
+23/10/2025, 11:08:03:
+costruire
+#9 [service_event_p66oq2uhr84c 4/7] ESEGUI npm ci
+23/10/2025, 11:08:03:
+costruire
+#9 NELLA CACHE
+23/10/2025, 11:08:03:
+costruire
+23/10/2025, 11:08:03:
+costruire
+#10 [service_event_p66oq2uhr84c 5/7] COPIA . .
+23/10/2025, 11:08:07:
+costruire
+#10 FATTO 4.3s
+23/10/2025, 11:08:07:
+costruire
+23/10/2025, 11:08:07:
+costruire
+#11 [service_event_p66oq2uhr84c 6/7] ESEGUI la build npx vite
+23/10/2025, 11:08:08:
+costruire
+#11 1.229 vite v5.4.14 in fase di compilazione per la produzione...
+23/10/2025, 11:08:08:
+costruire
+#11 1.368
+23/10/2025, 11:08:09:
+costruire
+#11 1.719
+23/10/2025, 11:08:09:
+costruire
+#11 1.719 /forced-style.css non esiste in fase di compilazione, rimarrà invariato per essere risolto in fase di esecuzione
+23/10/2025, 11:08:09:
+costruire
+#11 1.724 trasformando...
+23/10/2025, 11:08:09:
+costruire
+#11 1.939 Browserslist: i dati del browser (caniuse-lite) risalgono a 12 mesi fa. Eseguire:
+23/10/2025, 11:08:09:
+costruire
+#11 1.939 npx update-browserslist-db@latest
+23/10/2025, 11:08:09:
+costruire
+#11 1.939 Perché dovresti farlo regolarmente: https://github.com/browserslist/update-db#readme
+23/10/2025, 11:08:20:
+costruire
+#11 13.14 ✓ 3669 moduli trasformati.
+23/10/2025, 11:08:21:
+costruire
+#11 14.37 [plugin:vite:reporter] [plugin vite:reporter]
+23/10/2025, 11:08:21:
+costruire
+#11 14.37 (!) /app/client/src/lib/queryClient.ts viene importato dinamicamente da /app/client/src/lib/autoRefresh.ts ma anche importato staticamente da /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+23/10/2025, 11:08:21:
+costruire
+#11 14.37
+23/10/2025, 11:08:22:
+costruire
+#11 14.37 [plugin:vite:reporter] [plugin vite:reporter]
+23/10/2025, 11:08:22:
+costruire
+#11 14.37 (!) /app/client/src/lib/betaUtils.ts viene importato dinamicamente da /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx ma anche importato staticamente da /app/client/src/components/BetaStatusChecker.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+23/10/2025, 11:08:22:
+costruire
+#11 14.37
+23/10/2025, 11:08:22:
+costruire
+#11 14.37 rendering di blocchi...
+23/10/2025, 11:08:22:
+costruire
+#11 14.44 calcolo dimensione gzip...
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 ../dist/public/index.html 14.63 kB │ gzip: 4.18 kB
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 ../dist/public/assets/index-C_B_X5sh.css 111,14 kB │ gzip: 17,83 kB
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 ../dist/public/assets/index-DPqE_dPo.js 2.041,84 kB │ gzip: 550,98 kB
+23/10/2025, 11:08:22:
+costruire
+#11 14.51
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 (!) Alcuni blocchi sono più grandi di 500 kB dopo la minimizzazione. Considera:
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 - Utilizzo di dynamic import() per suddividere il codice dell'applicazione
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 - Utilizzare build.rollupOptions.output.manualChunks per migliorare la suddivisione in blocchi: https://rollupjs.org/configuration-options/#output-manualchunks
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 - Regola il limite della dimensione del blocco per questo avviso tramite build.chunkSizeWarningLimit.
+23/10/2025, 11:08:22:
+costruire
+#11 14.51 ✓ costruito in 13.25s
+23/10/2025, 11:08:22:
+costruire
+#11 FATTO 14.7s
+23/10/2025, 11:08:22:
+costruire
+23/10/2025, 11:08:22:
+costruire
+#12 [service_event_p66oq2uhr84c 7/7] ESEGUI cp -r dist/public server/public
+23/10/2025, 11:08:22:
+costruire
+#12 FATTO 0,1s
+23/10/2025, 11:08:22:
+costruire
+23/10/2025, 11:08:22:
+costruire
+#13 [service_event_p66oq2uhr84c] esportazione in immagine
+23/10/2025, 11:08:22:
+costruire
+#13 esportazione di livelli
+23/10/2025, 11:08:47:
+costruire
+#13 esportazione livelli 24.7s completata
+23/10/2025, 11:08:47:
+costruire
+#13 esportazione del manifesto sha256:c94f35b1a07854aedad059cc63fc6c687a9855197b8a617760735cf22c220148 eseguito
+23/10/2025, 11:08:47:
+costruire
+#13 esportazione configurazione sha256:1a8dea1e9c14745280a5093a994e20146d2d4f8592457fcbc1b03ed62cf2142c fatto
+23/10/2025, 11:08:47:
+costruire
+#13 spingendo gli strati
+23/10/2025, 11:08:57:
+costruire
+#13 spinta degli strati 10.5s fatto
+23/10/2025, 11:08:57:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_p66oq2uhr84c@sha256:c94f35b1a07854aedad059cc63fc6c687a9855197b8a617760735cf22c220148
+23/10/2025, 11:08:57:
+costruire
+#13 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_p66oq2uhr84c@sha256:c94f35b1a07854aedad059cc63fc6c687a9855197b8a617760735cf22c220148 0,0 s completato
+23/10/2025, 11:08:57:
+costruire
+#13 FATTO 35.3s
+23/10/2025, 11:08:57:
+costruire
+23/10/2025, 11:08:57:
+costruire
+#14 [service_event_p66oq2uhr84c] esportazione della cache nella directory client
+23/10/2025, 11:08:57:
+costruire
+#14 preparazione della cache di compilazione per l'esportazione
+23/10/2025, 11:08:57:
+costruire
+#14 livello di scrittura sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b fatto
+23/10/2025, 11:08:57:
+costruire
+#14 strato di scrittura sha256:5a5621c35f0c60bbe96f323e16af4c1efbacc3a5251ed1cf96d6c7422466d962 fatto
+23/10/2025, 11:08:57:
+costruire
+#14 livello di scrittura sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 fatto
+23/10/2025, 11:08:57:
+costruire
+#14 livello di scrittura sha256:8c8d524c30e502f7470f888bfb713f6689599c3ea54d2f98d63ed398b4381411 0,0 s fatto
+23/10/2025, 11:08:58:
+costruire
+#14 livello di scrittura sha256:b978ca04c87332e3768528ca940aa857a2fc654b02d627c1387ca9b4217aca1d fatto
+23/10/2025, 11:08:58:
+costruire
+#14 livello di scrittura sha256:d96f947ae05e76607b985427def5778c3736695850c18897032a33679318d2d7 fatto
+23/10/2025, 11:08:58:
+costruire
+#14 livello di scrittura sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 fatto
+23/10/2025, 11:08:58:
+costruire
+#14 livello di scrittura sha256:dc72893d312bf408907484fbc71e4fc586804b4fc1d2745ef6b8f1962c1c0160 fatto
+23/10/2025, 11:08:58:
+costruire
+#14 livello di scrittura sha256:e6958d3e057bbd4c47332f9a9a0e9868a969259b64a6873d578f28f2bd99ecfd
+23/10/2025, 11:09:04:
+costruire
+#14 livello di scrittura sha256:e6958d3e057bbd4c47332f9a9a0e9868a969259b64a6873d578f28f2bd99ecfd 6.4s fatto
+23/10/2025, 11:09:04:
+costruire
+#14 livello di scrittura sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720
+23/10/2025, 11:09:04:
+costruire
+#14 preparazione della cache di compilazione per l'esportazione 6.5s completata
+23/10/2025, 11:09:04:
+costruire
+#14 livello di scrittura sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 fatto
+23/10/2025, 11:09:04:
+costruire
+#14 scrittura configurazione sha256:4cb0238aea28289e7a3693862f4254540542c276f786bcb99eb5d035ee764287 fatto
+23/10/2025, 11:09:04:
+costruire
+#14 scrittura del manifesto dell'immagine della cache sha256:3549941d5af6680dfdefeb807ea095655f93abe6ffebac3d5b4e3f086ec904a7 fatto
+23/10/2025, 11:09:04:
+costruire
+#14 FATTO 6.5s
+23/10/2025, 11:09:05:
+costruire
+service_event_p66oq2uhr84c: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+23/10/2025, 11:09:05:
+costruire
+2d35ebdb57d9: Esiste già
+23/10/2025, 11:09:05:
+costruire
+60e45a9660cf: Esiste già
+23/10/2025, 11:09:05:
+costruire
+e74e4ed823e9: Esiste già
+23/10/2025, 11:09:05:
+costruire
+da04d522c98f: Esiste già
+23/10/2025, 11:09:05:
+costruire
+5a5621c35f0c: Esiste già
+23/10/2025, 11:09:05:
+costruire
+b978ca04c873: Esiste già
+23/10/2025, 11:09:05:
+costruire
+d96f947ae05e: Esiste già
+23/10/2025, 11:09:05:
+costruire
+e6958d3e057b: Estrazione del livello fs
+23/10/2025, 11:09:05:
+costruire
+8c8d524c30e5: Estrazione del livello fs
+23/10/2025, 11:09:05:
+costruire
+dc72893d312b: Estrazione del livello fs
+23/10/2025, 11:09:06:
+costruire
+8c8d524c30e5: Verifica del checksum
+23/10/2025, 11:09:06:
+costruire
+8c8d524c30e5: Download completato
+23/10/2025, 11:09:06:
+costruire
+dc72893d312b: Verifica del checksum
+23/10/2025, 11:09:06:
+costruire
+dc72893d312b: Download completato
+23/10/2025, 11:09:11:
+costruire
+e6958d3e057b: Verifica del checksum
+23/10/2025, 11:09:11:
+costruire
+e6958d3e057b: Download completato
+23/10/2025, 11:09:20:
+costruire
+e6958d3e057b: Estrazione completata
+23/10/2025, 11:09:20:
+costruire
+8c8d524c30e5: Estrazione completata
+23/10/2025, 11:09:20:
+costruire
+dc72893d312b: Estrazione completata
+23/10/2025, 11:09:20:
+costruire
+Riepilogo: sha256:c94f35b1a07854aedad059cc63fc6c687a9855197b8a617760735cf22c220148
+23/10/2025, 11:09:20:
+costruire
+Stato: scaricata l'immagine più recente per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_p66oq2uhr84c
+23/10/2025, 11:09:24:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+23/10/2025, 11:09:25:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+23/10/2025, 11:09:25:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+23/10/2025, 11:09:25:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+23/10/2025, 11:09:29:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+23/10/2025, 11:09:29:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+23/10/2025, 11:09:29:
+tempo di esecuzione
+Scheduler del promemoria avviato con successo
+23/10/2025, 11:09:29:
+tempo di esecuzione
+💰 Scheduler dei pagamenti PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+23/10/2025, 11:09:29:
+tempo di esecuzione
+Tutti gli scheduler inizializzati
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+23/10/2025, 11:09:30:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+23/10/2025, 11:09:30:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 48
+23/10/2025, 11:09:30:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+23/10/2025, 11:09:30:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+23/10/2025, 11:09:30:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+23/10/2025, 11:09:30:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+23/10/2025, 11:09:30:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+23/10/2025, 11:09:30:
+tempo di esecuzione
+]
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ Controllo integrità completato
+23/10/2025, 11:09:30:
+tempo di esecuzione
+9:09:30 AM [express] in servizio sulla porta 5000
+23/10/2025, 11:09:30:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+23/10/2025, 11:09:34:
+tempo di esecuzione
+Esecuzione immediata del job di promemoria all'avvio del server
+23/10/2025, 11:09:34:
+tempo di esecuzione
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per gli appuntamenti di domani
+23/10/2025, 11:09:35:
+tempo di esecuzione
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (venerdì 24 ottobre 2025)
+23/10/2025, 11:09:35:
+tempo di esecuzione
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+23/10/2025, 11:09:35:
+tempo di esecuzione
+Inviati 0/0 promemoria
+23/10/2025, 11:09:35:
+tempo di esecuzione
+Lavoro iniziale completato: inviati 0 promemoria
+23/10/2025, 11:18:44:
+tempo di esecuzione
+9:18:44 AM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:44:
+tempo di esecuzione
+9:18:44 AM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:50:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 11:18:50:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 11:18:50:
+tempo di esecuzione
+9:18:50 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/license/has-business-access 200 in 1 ms
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/license/application-title 200 in 1ms :: {"title":"Gestionale Appuntame…
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/client-app-info 200 in 10ms :: {"appName":"Gestionale Appuntamenti","i…
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/license/has-pro-access 200 in 1 ms
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 [espresso] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:51:
+tempo di esecuzione
+9:18:51 AM [express] GET /api/company-name-settings 200 in 1ms :: {"businessName":"Gestionale Apunt…
+23/10/2025, 11:18:52:
+tempo di esecuzione
+9:18:52 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:18:52:
+tempo di esecuzione
+9:18:52 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:52:
+tempo di esecuzione
+9:18:52 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 11:18:52:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:18:52:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:18:52:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:18:52:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:18:52:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:18:52:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211132215.302&admin=1","/pwa-icon/192x192?owner=defaul t&v=1761211132215.302&admin=1","/pwa-icon/512x512?owner=default&v=1761211132215.302&admin=1"]
+23/10/2025, 11:18:52:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:18:52:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:18:52:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:18:53:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 11:18:53:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 11:18:53:
+tempo di esecuzione
+9:18:53 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 11:18:53:
+tempo di esecuzione
+9:18:53 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:54:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 11:18:54:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:18:54:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:54:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] POST /api/logout 200 in 5ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 11:18:54:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:18:54:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:18:54:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:18:54:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:18:54:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:18:54:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211134739.35&admin=1","/pwa-icon/192x192?owner=defaul t&v=1761211134739.35&admin=1","/pwa-icon/512x512?owner=default&v=1761211134739.35&admin=1"]
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 11:18:54:
+tempo di esecuzione
+9:18:54 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:18:54:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:18:54:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:18:54:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:18:57:
+tempo di esecuzione
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+23/10/2025, 11:18:59:
+tempo di esecuzione
+Login staff completato con successo per: zambelli.andrea.1973@gmail.com tipo: admin
+23/10/2025, 11:18:59:
+tempo di esecuzione
+9:18:59 [espresso] POST /api/staff/login 200 in 1812ms :: {"id":3,"username":"zambelli.andrea.1973…
+23/10/2025, 11:19:01:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:19:01:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:19:01:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:19:01:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:19:01:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:19:01:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211141772.3909&admin=1","/pwa-icon/192x192?owner=default &v=1761211141772.3909&admin=1","/pwa-icon/512x512?owner=default&v=1761211141772.3909&admin=1"]
+23/10/2025, 11:19:01:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:19:01:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:19:01:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:19:01:
+tempo di esecuzione
+9:19:01 AM [express] GET /api/timezone-settings 200 in 232ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:19:01:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:19:02:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:19:02:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:19:02:
+tempo di esecuzione
+}
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/user-with-license 200 in 288ms :: {"id":3,"username":"zambelli.andrea.…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/license/license-info 200 in 288ms :: {"hasLicense":true,"type":"passep…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+23/10/2025, 11:19:02:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/client-app-info 200 in 430ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] POST /api/timezone-settings 200 in 231ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+23/10/2025, 11:19:02:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":3,"userType":"admin","tenantI…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:19:02:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:19:02:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  dimensione carattere: 24,
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  fontStyle: 'normale',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  colore: '#000000',
+23/10/2025, 11:19:02:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 11:19:02:
+tempo di esecuzione
+}
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/company-name-settings 200 in 469ms :: {"businessName":"Gestionale Appu…
+23/10/2025, 11:19:02:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:19:02:
+tempo di esecuzione
+9:19:02 AM [express] GET /api/contact-info 200 in 475ms :: {"email":"info@studiomedico.it","phone":"…
+23/10/2025, 11:19:03:
+tempo di esecuzione
+9:19:03 AM [express] GET /api/license/has-pro-access 200 in 1278ms :: true
+23/10/2025, 11:19:03:
+tempo di esecuzione
+9:19:03 AM [express] GET /api/license/application-title 200 in 1298ms :: {"title":"Gestionale Appunt…
+23/10/2025, 11:19:03:
+tempo di esecuzione
+9:19:03 AM [express] GET /api/license/has-business-access 200 in 1302ms :: true
+23/10/2025, 11:19:55:
+tempo di esecuzione
+9:19:55 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:19:55:
+tempo di esecuzione
+9:19:55 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:19:55:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:19:55:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:19:55:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:19:55:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:19:55:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:19:55:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211195683.2278&admin=1","/pwa-icon/192x192?owner=default &v=1761211195683.2278&admin=1","/pwa-icon/512x512?owner=default&v=1761211195683.2278&admin=1"]
+23/10/2025, 11:19:55:
+tempo di esecuzione
+9:19:55 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 11:19:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:19:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:19:55:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:20:03:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 11:20:03:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 11:20:03:
+tempo di esecuzione
+9:20:03 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 11:20:03:
+tempo di esecuzione
+9:20:03 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 11:20:05:
+tempo di esecuzione
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+23/10/2025, 11:20:05:
+tempo di esecuzione
+Login staff completato con successo per: zambelli.andrea.1973@gmail.com tipo: admin
+23/10/2025, 11:20:05:
+tempo di esecuzione
+9:20:05 [espresso] POST /api/staff/login 200 in 289ms :: {"id":3,"username":"zambelli.andrea.1973@…
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:20:06:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:20:06:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:20:06:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:20:06:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211206665.7146&admin=1","/pwa-icon/192x192?owner=default &v=1761211206665.7146&admin=1","/pwa-icon/512x512?owner=default&v=1761211206665.7146&admin=1"]
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:20:06:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/timezone-settings 200 in 230ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/license/license-info 200 in 230ms :: {"hasLicense":true,"type":"passep…
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/license/has-business-access 200 in 235ms :: true
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/license/application-title 200 in 237ms :: {"title":"Gestionale Appunta…
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/license/has-pro-access 200 in 242ms :: true
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:20:06:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:20:06:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:20:06:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:20:06:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:20:06:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:20:06:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:20:06:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:20:06:
+tempo di esecuzione
+}
+23/10/2025, 11:20:06:
+tempo di esecuzione
+9:20:06 AM [express] GET /api/user-with-license 200 in 289ms :: {"id":3,"username":"zambelli.andrea.…
+23/10/2025, 11:20:07:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+23/10/2025, 11:20:07:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927
+23/10/2025, 11:20:07:
+tempo di esecuzione
+9:20:07 AM [express] GET /api/client-app-info 200 in 409ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 11:20:07:
+tempo di esecuzione
+9:20:07 AM [express] POST /api/timezone-settings 200 in 236ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 11:20:07:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+23/10/2025, 11:20:07:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:20:07:
+tempo di esecuzione
+9:20:07 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":3,"userType":"admin","tenantI…
+23/10/2025, 11:20:07:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:20:07:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:20:07:
+tempo di esecuzione
+9:20:07 AM [express] GET /api/contact-info 200 in 468ms :: {"email":"info@studiomedico.it","phone":"…
+23/10/2025, 11:20:07:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:20:07:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  dimensione carattere: 24,
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  fontStyle: 'normale',
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  colore: '#000000',
+23/10/2025, 11:20:07:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 11:20:07:
+tempo di esecuzione
+}
+23/10/2025, 11:20:07:
+tempo di esecuzione
+9:20:07 AM [express] GET /api/company-name-settings 200 in 553ms :: {"businessName":"Gestionale Appu…
+23/10/2025, 11:20:55:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:20:55:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:20:55:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:20:55:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:20:55:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:20:55:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:20:55:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:20:55:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:20:55:
+tempo di esecuzione
+}
+23/10/2025, 11:20:55:
+tempo di esecuzione
+9:20:55 AM [express] GET /api/user-with-license 304 in 266ms :: {"id":3,"username":"zambelli.andrea.…

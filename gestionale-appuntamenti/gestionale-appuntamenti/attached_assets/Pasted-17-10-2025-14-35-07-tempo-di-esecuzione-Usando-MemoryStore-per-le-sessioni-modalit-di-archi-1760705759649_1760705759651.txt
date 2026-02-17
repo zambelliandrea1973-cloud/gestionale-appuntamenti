@@ -1,0 +1,3756 @@
+17/10/2025, 14:35:07:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+17/10/2025, 14:35:07:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+17/10/2025, 14:35:07:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+17/10/2025, 14:35:07:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+17/10/2025, 14:35:08:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+17/10/2025, 14:35:08:
+tempo di esecuzione
+Scheduler del promemoria avviato con successo
+17/10/2025, 14:35:08:
+tempo di esecuzione
+💰 Scheduler dei pagamenti PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+17/10/2025, 14:35:08:
+tempo di esecuzione
+Tutti gli scheduler inizializzati
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+17/10/2025, 14:35:08:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+17/10/2025, 14:35:08:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 48
+17/10/2025, 14:35:08:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+17/10/2025, 14:35:08:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+17/10/2025, 14:35:08:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+17/10/2025, 14:35:08:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+17/10/2025, 14:35:08:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+17/10/2025, 14:35:08:
+tempo di esecuzione
+]
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ Controllo integrità completato
+17/10/2025, 14:35:08:
+tempo di esecuzione
+12:35:08 PM [express] in servizio sulla porta 5000
+17/10/2025, 14:35:08:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+17/10/2025, 14:35:08:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+17/10/2025, 14:35:13:
+tempo di esecuzione
+Esecuzione immediata del job di promemoria all'avvio del server
+17/10/2025, 14:35:13:
+tempo di esecuzione
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per gli appuntamenti di domani
+17/10/2025, 14:35:13:
+tempo di esecuzione
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Sab Oct 18 2025)
+17/10/2025, 14:35:13:
+tempo di esecuzione
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+17/10/2025, 14:35:13:
+tempo di esecuzione
+Inviati 0/0 promemoria
+17/10/2025, 14:35:13:
+tempo di esecuzione
+Lavoro iniziale completato: inviati 0 promemoria
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/69 401 in 10ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/69 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/14002 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/77 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/76 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/68 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/76 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/75 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/14002 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/75 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/clients/70 401 in 3ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/77 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/client-access/count/68 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:49:
+tempo di esecuzione
+12:37:49 PM [express] GET /api/user 200 in 12ms
+17/10/2025, 14:37:51:
+tempo di esecuzione
+12:37:51 PM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:53:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+17/10/2025, 14:37:53:
+tempo di esecuzione
+Logout completato con successo
+17/10/2025, 14:37:53:
+tempo di esecuzione
+12:37:53 PM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 [express] GET /api/client-app-info 200 in 12ms :: {"appName":"Gestionale Sanitario","icon…
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Sanitario…
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/license/has-pro-access 200 in 2ms
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/license/license-info 200 in 2ms :: {"hasLicense":false,"type":"none"}
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 [espresso] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/company-name-settings 200 in 2ms :: {"businessName":"Studio Medico","s…
+17/10/2025, 14:37:54:
+tempo di esecuzione
+12:37:54 PM [express] GET /api/license/has-business-access 200 in 1 ms
+17/10/2025, 14:37:55:
+tempo di esecuzione
+12:37:55 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 14:37:55:
+tempo di esecuzione
+12:37:55 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:55:
+tempo di esecuzione
+12:37:55 PM [express] POST /api/timezone-settings 200 in 3ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+17/10/2025, 14:37:55:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1760704675326-default
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+17/10/2025, 14:37:55:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (default titolare)
+17/10/2025, 14:37:55:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1760704675334.175&android=1","/pwa-icon/192x192?owner=default &v=1760704675334.175&android=1","/pwa-icon/512x512?owner=default&v=1760704675334.175&android=1"]
+17/10/2025, 14:37:55:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+17/10/2025, 14:37:55:
+tempo di esecuzione
+📱 NOME MANIFESTA: Studio Medico - Area Cliente
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+17/10/2025, 14:37:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+17/10/2025, 14:37:55:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+17/10/2025, 14:37:56:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+17/10/2025, 14:37:56:
+tempo di esecuzione
+Logout completato con successo
+17/10/2025, 14:37:56:
+tempo di esecuzione
+12:37:56 PM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+17/10/2025, 14:37:56:
+tempo di esecuzione
+12:37:56 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 14:37:58:
+tempo di esecuzione
+Login staff richiesto per: busnari.silvia@libero.it
+17/10/2025, 14:38:00:
+tempo di esecuzione
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+17/10/2025, 14:38:00:
+tempo di esecuzione
+12:38:00 PM [express] POST /api/staff/login 200 in 1688ms :: {"id":14,"username":"busnari.silvia@libe…
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1760704682472-default
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (default titolare)
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1760704682473.955&android=1","/pwa-icon/192x192?owner=default &v=1760704682473.955&android=1","/pwa-icon/512x512?owner=default&v=1760704682473.955&android=1"]
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱 NOME MANIFESTA: Studio Medico - Area Cliente
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+17/10/2025, 14:38:02:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+17/10/2025, 14:38:02:
+tempo di esecuzione
+12:38:02 PM [express] GET /api/timezone-settings 200 in 240ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:38:02:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:38:02:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:38:02:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:38:02:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:38:02:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:38:02:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:38:02:
+tempo di esecuzione
+}
+17/10/2025, 14:38:02:
+tempo di esecuzione
+12:38:02 PM [express] GET /api/user-with-license 200 in 299ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:38:02:
+tempo di esecuzione
+12:38:02 PM [express] GET /api/license/has-pro-access 200 in 336ms :: true
+17/10/2025, 14:38:02:
+tempo di esecuzione
+12:38:02 PM [express] POST /api/timezone-settings 200 in 230ms :: {"success":true,"timezone":"Europe/…
+17/10/2025, 14:38:02:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:02:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+17/10/2025, 14:38:02:
+tempo di esecuzione
+12:38:02 [express] GET /api/client-app-info 200 in 577ms :: {"appName":"Gestionale Sanitario","ico…
+17/10/2025, 14:38:02:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+17/10/2025, 14:38:02:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 14:38:03:
+tempo di esecuzione
+12:38:03 PM [express] GET /api/tenant-context 200 in 233ms :: {"userId":14,"userType":"staff","tenant…
+17/10/2025, 14:38:03:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 14:38:03:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 14:38:03:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  showBusinessName: vero,
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  dimensione carattere: 45,
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  colore: '#9932CC',
+17/10/2025, 14:38:03:
+tempo di esecuzione
+  abilitato: vero
+17/10/2025, 14:38:03:
+tempo di esecuzione
+}
+17/10/2025, 14:38:03:
+tempo di esecuzione
+12:38:03 PM [express] GET /api/company-name-settings 200 in 475ms :: {"businessName":"Studio Medico",…
+17/10/2025, 14:38:03:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 14:38:03:
+tempo di esecuzione
+12:38:03 PM [express] GET /api/contact-info 200 in 468ms :: {"email":"silvia.busnari@libero.it","phon…
+17/10/2025, 14:38:03:
+tempo di esecuzione
+12:38:03 PM [express] GET /api/license/license-info 200 in 1237ms :: {"hasLicense":true,"type":"staff…
+17/10/2025, 14:38:04:
+tempo di esecuzione
+12:38:04 PM [express] GET /api/user 304 in 233ms
+17/10/2025, 14:38:04:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:38:04:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:38:04:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:38:05:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  {
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  },
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  {
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  },
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  {
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  },
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  {
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  },
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  {
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:38:05:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:38:05:
+tempo di esecuzione
+  }
+17/10/2025, 14:38:05:
+tempo di esecuzione
+]
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/clients 200 in 715ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 75 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 69 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/license/application-title 200 in 3244ms :: {"title":"Gestionale Sanita…
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/license/has-business-access 200 in 3252ms :: true
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 14002 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 70 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 68 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 77 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Richiesta QR per cliente ID: 76 da utente: 14 (busnari.silvia@libero.it)
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/clients/75 304 in 733ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:38:05:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:38:05:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/client-access/count/68 200 in 719ms :: {"count":0}
+17/10/2025, 14:38:05:
+tempo di esecuzione
+12:38:05 PM [express] GET /api/client-access/count/70 200 in 718ms :: {"count":0}
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Cliente trovato: ADV ADSVA (ID: 75, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/client-access/count/69 200 in 890ms :: {"count":0}
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: Bruna Pizzolato (ID: 69, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: Andrea Zambelli (ID: 14002, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: Marco Berto (ID: 70, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:38:06:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/69 304 in 1108ms :: {"id":69,"firstName":"Bruna ","lastName":"…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/77 304 in 1088ms :: {"id":77,"firstName":"qqqqqqqqq","lastName…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/client-access/count/77 200 in 1088ms :: {"count":0}
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/client-access/count/76 200 in 1086ms :: {"count":0}
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 75 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14002 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 70 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 69 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Trial (ID: 68, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/68 304 in 1285ms :: {"id":68,"firstName":"Cliente","lastName":…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 68 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: qqqqqqqqq wwwwwwwwwwww (ID: 77, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: zzzzzzzzzzzzz xxxxxxxxxxxx (ID: 76, Proprietario: 14)
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/70 304 in 1458ms :: {"id":70,"firstName":"Marco","lastName":"B…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/14002 304 in 1454ms :: {"id":14002,"firstName":"Andrea","lastN…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/76 304 in 1457ms :: {"id":76,"firstName":"zzzzzzzzzzzzz","last…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/client-access/count/14002 200 in 1456ms :: {"count":0}
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 76 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Cliente: ADV ADSVA
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C14005_a1bd0b4f
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C14005?token=PROF_014_9C1F_C14005_a1bd0b4f&autoLogin=true
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/75/activation-token 200 in 1667ms :: {"token":"PROF_014_9C1F_C…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Cliente: Marco Berto
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_CLIENT_14003_816C_af2d9001
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14003_816C?token=PROF_014_9C1F_CLIENT_14003_816C_af2d9001&autoLogin=true
+17/10/2025, 14:38:06:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 77 con icona del proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Cliente: Andrea Zambelli
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_CLIENT_14002_09A9_27538b03
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14002_09A9?token=PROF_014_9C1F_CLIENT_14002_09A9_27538b03&autoLogin=true
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/70/activation-token 200 in 1699ms :: {"token":"PROF_014_9C1F_C…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/14002/activation-token 200 in 1702ms :: {"token":"PROF_014_9C1…
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:06:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Cliente: Bruna Pizzolato
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_CLIENT_14004_340F_91a30ec9
+17/10/2025, 14:38:06:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+17/10/2025, 14:38:06:
+tempo di esecuzione
+12:38:06 PM [express] GET /api/clients/69/activation-token 200 in 1722ms :: {"token":"PROF_014_9C1F_C…
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - Cliente: zzzzzzzzzzzz xxxxxxxxxxxx
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C00076_f1fe4288
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C00076?token=PROF_014_9C1F_C00076_f1fe4288&autoLogin=true
+17/10/2025, 14:38:07:
+tempo di esecuzione
+12:38:07 PM [express] GET /api/clients/76/activation-token 200 in 1876ms :: {"token":"PROF_014_9C1F_C…
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+17/10/2025, 14:38:07:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - Cliente: qqqqqqqqq wwwwwwwwwwww
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C00077_097404b8
+17/10/2025, 14:38:07:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C00077?token=PROF_014_9C1F_C00077_097404b8&autoLogin=true
+17/10/2025, 14:38:07:
+tempo di esecuzione
+12:38:07 PM [express] GET /api/clients/77/activation-token 200 in 1894ms :: {"token":"PROF_014_9C1F_C…
+17/10/2025, 14:38:14:
+tempo di esecuzione
+12:38:14 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:38:16:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:38:16:
+tempo di esecuzione
+12:38:16 PM [express] GET /api/client-access/count/68 200 in 464ms :: {"count":0}
+17/10/2025, 14:38:16:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:38:16:
+tempo di esecuzione
+12:38:16 PM [express] GET /api/client-access/count/70 200 in 462ms :: {"count":0}
+17/10/2025, 14:38:16:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:38:16:
+tempo di esecuzione
+12:38:16 PM [express] GET /api/client-access/count/69 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:16:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:38:16:
+tempo di esecuzione
+12:38:16 PM [express] GET /api/client-access/count/77 200 in 462ms :: {"count":0}
+17/10/2025, 14:38:16:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:38:16:
+tempo di esecuzione
+12:38:16 PM [express] GET /api/client-access/count/76 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:17:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:38:17:
+tempo di esecuzione
+12:38:17 PM [express] GET /api/client-access/count/14002 200 in 464ms :: {"count":0}
+17/10/2025, 14:38:17:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:38:17:
+tempo di esecuzione
+12:38:17 PM [express] GET /api/client-access/count/75 200 in 457ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/68 200 in 462ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/70 200 in 459ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/69 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/77 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/76 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:27:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:38:27:
+tempo di esecuzione
+12:38:27 PM [express] GET /api/client-access/count/14002 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:28:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] GET /api/client-access/count/75 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 14:38:28:
+tempo di esecuzione
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 14:38:28:
+tempo di esecuzione
+✅ [PWA ACCESS] Cliente Bruna Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 420
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 71ms :: {"successo…
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 14:38:28:
+tempo di esecuzione
+🏠 [ACCESSO CLIENT] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 14:38:28:
+tempo di esecuzione
+🏠 [ACCESSO CLIENTE] Cliente autenticato: Bruna Pizzolato
+17/10/2025, 14:38:28:
+tempo di esecuzione
+12:38:28 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 17ms :: {"id":14…
+17/10/2025, 14:38:29:
+tempo di esecuzione
+📅 [APPUNTAMENTI CLIENTI] Caricamento per cliente: 14004 Titolare: 14
+17/10/2025, 14:38:29:
+tempo di esecuzione
+📅 [APPUNTAMENTI CON I CLIENTI] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 14:38:29:
+tempo di esecuzione
+12:38:29 PM [express] GET /api/client-appointments/14004 200 in 14ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 14:38:29:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 14:38:29:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 14:38:29:
+tempo di esecuzione
+🏥 [CONTATTI PWA] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  telefono: '+39 3471445767',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  telefono1: '+39 3471445767',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  telefono2: '',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  sito web: '',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  instagram: 'zambelli1105',
+17/10/2025, 14:38:29:
+tempo di esecuzione
+  Facebook: ''
+17/10/2025, 14:38:29:
+tempo di esecuzione
+}
+17/10/2025, 14:38:29:
+tempo di esecuzione
+12:38:29 PM [express] GET /api/owner-contact-info/14 304 in 234ms :: {"email":"silvia.busnari@libero.…
+17/10/2025, 14:38:37:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:38:37:
+tempo di esecuzione
+12:38:37 PM [express] GET /api/client-access/count/68 200 in 468ms :: {"count":0}
+17/10/2025, 14:38:37:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:38:37:
+tempo di esecuzione
+12:38:37 PM [express] GET /api/client-access/count/70 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:37:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:38:37:
+tempo di esecuzione
+12:38:37 PM [express] GET /api/client-access/count/69 200 in 463ms :: {"count":0}
+17/10/2025, 14:38:37:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:38:37:
+tempo di esecuzione
+12:38:37 PM [express] GET /api/client-access/count/77 200 in 471ms :: {"count":0}
+17/10/2025, 14:38:37:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:38:37:
+tempo di esecuzione
+12:38:37 PM [express] GET /api/client-access/count/76 200 in 462ms :: {"count":0}
+17/10/2025, 14:38:38:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:38:38:
+tempo di esecuzione
+12:38:38 PM [express] GET /api/client-access/count/14002 200 in 464ms :: {"count":0}
+17/10/2025, 14:38:38:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:38:38:
+tempo di esecuzione
+12:38:38 PM [express] GET /api/client-access/count/75 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 14:38:39:
+tempo di esecuzione
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 14:38:39:
+tempo di esecuzione
+✅ [PWA ACCESS] Cliente Bruna Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 421
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 84ms :: {"successo…
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 14:38:39:
+tempo di esecuzione
+🏠 [ACCESSO CLIENT] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 14:38:39:
+tempo di esecuzione
+🏠 [ACCESSO CLIENTE] Cliente autenticato: Bruna Pizzolato
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 25ms :: {"id":14…
+17/10/2025, 14:38:39:
+tempo di esecuzione
+📅 [APPUNTAMENTI CLIENTI] Caricamento per cliente: 14004 Titolare: 14
+17/10/2025, 14:38:39:
+tempo di esecuzione
+📅 [APPUNTAMENTI CON I CLIENTI] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] GET /api/client-appointments/14004 200 in 34ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 14:38:39:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 14:38:39:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 14:38:39:
+tempo di esecuzione
+🏥 [CONTATTI PWA] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  telefono: '+39 3471445767',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  telefono1: '+39 3471445767',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  telefono2: '',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  sito web: '',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  instagram: 'zambelli1105',
+17/10/2025, 14:38:39:
+tempo di esecuzione
+  Facebook: ''
+17/10/2025, 14:38:39:
+tempo di esecuzione
+}
+17/10/2025, 14:38:39:
+tempo di esecuzione
+12:38:39 PM [express] GET /api/owner-contact-info/14 304 in 231ms :: {"email":"silvia.busnari@libero.…
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/68 200 in 460ms :: {"count":0}
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/70 200 in 458ms :: {"count":0}
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/69 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/77 200 in 461ms :: {"count":0}
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/76 200 in 459ms :: {"count":0}
+17/10/2025, 14:38:48:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:38:48:
+tempo di esecuzione
+12:38:48 PM [express] GET /api/client-access/count/14002 200 in 467ms :: {"count":0}
+17/10/2025, 14:38:49:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:38:49:
+tempo di esecuzione
+12:38:49 PM [express] GET /api/client-access/count/75 200 in 461ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:41:59:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:41:59:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:41:59:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:41:59:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:41:59:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:41:59:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:41:59:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:41:59:
+tempo di esecuzione
+}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/user-with-license 200 in 291ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/user 304 in 287ms
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/14002 200 in 528ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:41:59:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/76 200 in 543ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/76 304 in 542ms :: {"id":76,"firstName":"zzzzzzzzzzzzzz","lastN…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/70 304 in 689ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/68 200 in 692ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/14002 304 in 743ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/77 304 in 749ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/68 304 in 751ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/75 304 in 750ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/clients/69 304 in 750ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:41:59:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/75 200 in 755ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/77 200 in 755ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/70 200 in 895ms :: {"count":0}
+17/10/2025, 14:41:59:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:41:59:
+tempo di esecuzione
+12:41:59 PM [express] GET /api/client-access/count/69 200 in 897ms :: {"count":0}
+17/10/2025, 14:42:00:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:42:00:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:42:00:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:42:00:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:00:
+tempo di esecuzione
+  }
+17/10/2025, 14:42:00:
+tempo di esecuzione
+]
+17/10/2025, 14:42:00:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:42:00:
+tempo di esecuzione
+12:42:00 PM [express] GET /api/clients 200 in 985ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:42:14:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:42:14:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:42:14:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:42:14:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:42:14:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:42:14:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:42:14:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:42:14:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:42:14:
+tempo di esecuzione
+}
+17/10/2025, 14:42:14:
+tempo di esecuzione
+12:42:14 PM [express] GET /api/user-with-license 200 in 288ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:42:14:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:42:14:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:42:14:
+tempo di esecuzione
+12:42:14 PM [express] GET /api/user 304 in 279ms
+17/10/2025, 14:42:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:42:14:
+tempo di esecuzione
+12:42:14 PM [express] GET /api/client-access/count/75 200 in 511ms :: {"count":0}
+17/10/2025, 14:42:14:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:42:14:
+tempo di esecuzione
+12:42:14 PM [express] GET /api/clients/14002 304 in 516ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:42:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:42:14:
+tempo di esecuzione
+12:42:14 PM [express] GET /api/client-access/count/70 200 in 718ms :: {"count":0}
+17/10/2025, 14:42:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/client-access/count/68 200 in 738ms :: {"count":0}
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/70 304 in 742ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/69 304 in 742ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/client-access/count/69 200 in 742ms :: {"count":0}
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/77 304 in 741ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:42:15:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:42:15:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:42:15:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:42:15:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:15:
+tempo di esecuzione
+  }
+17/10/2025, 14:42:15:
+tempo di esecuzione
+]
+17/10/2025, 14:42:15:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/client-access/count/77 200 in 741ms :: {"count":0}
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients 200 in 752ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/75 304 in 748ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/68 304 in 746ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/clients/76 304 in 937ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:42:15:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/client-access/count/76 200 in 957ms :: {"count":0}
+17/10/2025, 14:42:15:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:42:15:
+tempo di esecuzione
+12:42:15 PM [express] GET /api/client-access/count/14002 200 in 961ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:42:48:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:42:48:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:42:48:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:42:48:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:42:48:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:42:48:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:42:48:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:42:48:
+tempo di esecuzione
+}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/user-with-license 200 in 292ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/user 304 in 310ms
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/69 304 in 540ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:42:48:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/75 304 in 548ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/77 200 in 551ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/76 200 in 742ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/75 200 in 760ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/68 304 in 763ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/70 200 in 770ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/68 200 in 774ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/14002 304 in 766ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/76 304 in 763ms :: {"id":76,"firstName":"zzzzzzzzzzzzzz","lastN…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/70 304 in 764ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/14002 200 in 768ms :: {"count":0}
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/clients/77 304 in 770ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:42:48:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:42:48:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:42:48:
+tempo di esecuzione
+12:42:48 PM [express] GET /api/client-access/count/69 200 in 972ms :: {"count":0}
+17/10/2025, 14:42:49:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:42:49:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:42:49:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  },
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  {
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:42:49:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:42:49:
+tempo di esecuzione
+  }
+17/10/2025, 14:42:49:
+tempo di esecuzione
+]
+17/10/2025, 14:42:49:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:42:49:
+tempo di esecuzione
+12:42:49 PM [express] GET /api/clients 200 in 1183ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:44:55:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:44:55:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:44:55:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:44:55:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:44:55:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:44:55:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:44:55:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:44:55:
+tempo di esecuzione
+}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/user-with-license 200 in 351ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:44:55:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/tenant-context 200 in 333ms :: {"userId":14,"userType":"staff","tenant…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/user 304 in 334ms
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/69 304 in 554ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/client-access/count/77 200 in 570ms :: {"count":0}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/14002 304 in 771ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/75 304 in 785ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/client-access/count/68 200 in 774ms :: {"count":0}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:44:55:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/client-access/count/14002 200 in 791ms :: {"count":0}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:44:55:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/client-access/count/69 200 in 780ms :: {"count":0}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/client-access/count/75 200 in 776ms :: {"count":0}
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/68 304 in 777ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/76 304 in 787ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:44:55:
+tempo di esecuzione
+12:44:55 PM [express] GET /api/clients/70 304 in 785ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:44:56:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:44:56:
+tempo di esecuzione
+12:44:56 PM [express] GET /api/client-access/count/70 200 in 984ms :: {"count":0}
+17/10/2025, 14:44:56:
+tempo di esecuzione
+12:44:56 PM [express] GET /api/clients/77 304 in 990ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:44:56:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:44:56:
+tempo di esecuzione
+12:44:56 PM [express] GET /api/client-access/count/76 200 in 993ms :: {"count":0}
+17/10/2025, 14:44:56:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:44:56:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:44:56:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  {
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  },
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  {
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  },
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  {
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  },
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  {
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  },
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  {
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:44:56:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:44:56:
+tempo di esecuzione
+  }
+17/10/2025, 14:44:56:
+tempo di esecuzione
+]
+17/10/2025, 14:44:56:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:44:56:
+tempo di esecuzione
+12:44:56 PM [express] GET /api/clients 200 in 1025ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:45:09:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:45:09:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:45:09:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:45:09:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:45:09:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:45:09:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:45:09:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:45:09:
+tempo di esecuzione
+}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/user-with-license 200 in 272ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:45:09:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/68 200 in 491ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/user 304 in 473ms
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/69 200 in 496ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/77 200 in 493ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/69 304 in 700ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/14002 200 in 710ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/68 304 in 711ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/76 304 in 712ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/14002 304 in 709ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/77 304 in 707ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/75 200 in 709ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/75 304 in 708ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/clients/70 304 in 707ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/76 200 in 713ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:45:09:
+tempo di esecuzione
+12:45:09 PM [express] GET /api/client-access/count/70 200 in 919ms :: {"count":0}
+17/10/2025, 14:45:09:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:45:10:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:45:10:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:45:10:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:10:
+tempo di esecuzione
+  }
+17/10/2025, 14:45:10:
+tempo di esecuzione
+]
+17/10/2025, 14:45:10:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:45:10:
+tempo di esecuzione
+12:45:10 PM [express] GET /api/clients 200 in 1168ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 14:45:41:
+tempo di esecuzione
+12:45:41 PM [express] GET /api/clients/14002 304 in 901ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:45:41:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:45:41:
+tempo di esecuzione
+12:45:41 PM [express] GET /api/client-access/count/14002 200 in 902ms :: {"count":0}
+17/10/2025, 14:45:41:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:45:41:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:45:41:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  },
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  {
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:45:41:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:45:41:
+tempo di esecuzione
+  }
+17/10/2025, 14:45:41:
+tempo di esecuzione
+]
+17/10/2025, 14:45:41:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:45:41:
+tempo di esecuzione
+12:45:41 PM [express] GET /api/clients 200 in 966ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:46:25:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:46:25:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:46:25:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:46:25:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:46:25:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:46:25:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:46:25:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:46:25:
+tempo di esecuzione
+}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/user-with-license 200 in 269ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/14002 304 in 487ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:46:25:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/user 304 in 477ms
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/70 200 in 493ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/76 200 in 559ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/69 304 in 700ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/69 200 in 709ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/70 304 in 712ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/14002 200 in 709ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/75 304 in 714ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/76 304 in 710ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/68 200 in 716ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/75 200 in 711ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/77 304 in 711ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/clients/68 304 in 778ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:46:25:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:46:25:
+tempo di esecuzione
+12:46:25 PM [express] GET /api/client-access/count/77 200 in 917ms :: {"count":0}
+17/10/2025, 14:46:25:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:46:26:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:46:26:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:46:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:46:26:
+tempo di esecuzione
+  }
+17/10/2025, 14:46:26:
+tempo di esecuzione
+]
+17/10/2025, 14:46:26:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:46:26:
+tempo di esecuzione
+12:46:26 PM [express] GET /api/clients 200 in 1156ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 14:47:25:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:47:25:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:47:25:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:47:25:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:47:25:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:47:25:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:47:25:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:47:25:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:47:25:
+tempo di esecuzione
+}
+17/10/2025, 14:47:25:
+tempo di esecuzione
+12:47:25 PM [express] GET /api/user-with-license 200 in 296ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:47:25:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:47:25:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:47:25:
+tempo di esecuzione
+12:47:25 PM [express] GET /api/clients/69 304 in 516ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:47:25:
+tempo di esecuzione
+12:47:25 PM [express] GET /api/clients/14002 304 in 521ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:47:25:
+tempo di esecuzione
+12:47:25 PM [express] GET /api/clients/77 304 in 523ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:47:25:
+tempo di esecuzione
+12:47:25 PM [express] GET /api/user 304 in 512 ms
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/clients/76 304 in 733ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/clients/68 304 in 740ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/76 200 in 740ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/69 200 in 744ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/70 200 in 744ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/clients/70 304 in 745ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/68 200 in 740ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/77 200 in 747ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/75 200 in 749ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/client-access/count/14002 200 in 953ms :: {"count":0}
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/clients/75 304 in 956ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:47:26:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:47:26:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:47:26:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  },
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  {
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:47:26:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:47:26:
+tempo di esecuzione
+  }
+17/10/2025, 14:47:26:
+tempo di esecuzione
+]
+17/10/2025, 14:47:26:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:47:26:
+tempo di esecuzione
+12:47:26 PM [express] GET /api/clients 200 in 978ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:48:07:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:48:07:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:48:07:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:48:07:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:48:07:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:48:07:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:48:07:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:48:07:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:48:07:
+tempo di esecuzione
+}
+17/10/2025, 14:48:07:
+tempo di esecuzione
+12:48:07 PM [express] GET /api/user-with-license 200 in 277ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:48:07:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:48:07:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:48:07:
+tempo di esecuzione
+12:48:07 PM [express] GET /api/user 304 in 274ms
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/76 200 in 486ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/77 304 in 492ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/75 304 in 708ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/70 200 in 713ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/14002 200 in 717ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/76 304 in 718ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/68 304 in 716ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/70 304 in 716ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:48:08:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:48:08:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:48:08:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:08:
+tempo di esecuzione
+  }
+17/10/2025, 14:48:08:
+tempo di esecuzione
+]
+17/10/2025, 14:48:08:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/14002 304 in 719ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients/69 304 in 728ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/75 200 in 727ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/clients 200 in 739ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/68 200 in 932ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/77 200 in 934ms :: {"count":0}
+17/10/2025, 14:48:08:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:48:08:
+tempo di esecuzione
+12:48:08 PM [express] GET /api/client-access/count/69 200 in 937ms :: {"count":0}
+17/10/2025, 14:48:34:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:48:34:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:48:34:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:48:34:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:48:34:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:48:34:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:48:34:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:48:34:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:48:34:
+tempo di esecuzione
+}
+17/10/2025, 14:48:34:
+tempo di esecuzione
+12:48:34 PM [express] GET /api/user-with-license 200 in 294ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:48:34:
+tempo di esecuzione
+12:48:34 PM [express] GET /api/user 304 in 306ms
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/77 304 in 540ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:48:35:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/76 200 in 545ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/14002 200 in 545ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/76 304 in 689ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/75 200 in 748ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/75 304 in 751ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/70 304 in 752ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/77 200 in 753ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/68 200 in 755ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/70 200 in 755ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/69 304 in 754ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/client-access/count/69 200 in 756ms :: {"count":0}
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/68 304 in 760ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients/14002 304 in 897ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:48:35:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:48:35:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:48:35:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  },
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  {
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:48:35:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:48:35:
+tempo di esecuzione
+  }
+17/10/2025, 14:48:35:
+tempo di esecuzione
+]
+17/10/2025, 14:48:35:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:48:35:
+tempo di esecuzione
+12:48:35 PM [express] GET /api/clients 200 in 1190ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:49:01:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:49:01:
+tempo di esecuzione
+}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/user-with-license 200 in 283ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/user 304 in 278ms
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/76 200 in 510ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/70 304 in 509ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/75 304 in 720ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/77 200 in 726ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/14002 200 in 731ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/69 304 in 727ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/68 304 in 732ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/14002 304 in 729ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/70 200 in 728ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/76 304 in 734ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/75 200 in 731ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/69 200 in 736ms :: {"count":0}
+17/10/2025, 14:49:01:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:49:01:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:49:01:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:01:
+tempo di esecuzione
+  }
+17/10/2025, 14:49:01:
+tempo di esecuzione
+]
+17/10/2025, 14:49:01:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients 200 in 955ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/clients/77 304 in 949ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:49:01:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:49:01:
+tempo di esecuzione
+12:49:01 PM [express] GET /api/client-access/count/68 200 in 951ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 14:49:14:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  ID: 14,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  Nome: null,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  cognome: null,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+17/10/2025, 14:49:14:
+tempo di esecuzione
+}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/user-with-license 200 in 321ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 14, ruolo: staff
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/user 304 in 312ms
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/70 200 in 555ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/14002 200 in 561ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/69 200 in 562ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/76 200 in 690ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/68 304 in 691ms :: {"id":68,"firstName":"Cliente","lastName":"…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/77 304 in 685ms :: {"id":77,"firstName":"qqqqqqqqq","lastName"…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🔍Archiviazione database: Cerco clienti con prefisso BUS per utente 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/68 200 in 762ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/70 304 in 763ms :: {"id":70,"firstName":"Marco","lastName":"Sii…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/14002 304 in 767ms :: {"id":14002,"firstName":"Andrea","lastNa…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/75 200 in 758ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/76 304 in 764ms :: {"id":76,"firstName":"zzzzzzzzzzzz","lastN…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/69 304 in 766ms :: {"id":69,"firstName":"Bruna ","lastName":"P…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients/75 304 in 891ms :: {"id":75,"firstName":"ADV","lastName":"ADSV…
+17/10/2025, 14:49:14:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/client-access/count/77 200 in 897ms :: {"count":0}
+17/10/2025, 14:49:14:
+tempo di esecuzione
+✅ Archiviazione database: Utente 14 (BUS) vede 7 clienti
+17/10/2025, 14:49:14:
+tempo di esecuzione
+📦 [/api/clients] [desktop] Caricati 7 clienti da PostgreSQL (solo propri)
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Esempio primi 5 clienti: [
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "id": 75,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "nome": "AVV",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "cognome": "ADSVA",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_C14005",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "id": 70,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "nome": "Marco",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "cognome": "Berto",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14003_816C",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "id": 69,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "nome": "Bruna ",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "cognome": "Pizzolato",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14004_340F",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "id": 68,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "nome": "Cliente",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "cognome": "Prova",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14001_A665",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  },
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  {
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 14:49:14:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 14:49:14:
+tempo di esecuzione
+  }
+17/10/2025, 14:49:14:
+tempo di esecuzione
+]
+17/10/2025, 14:49:14:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 14:49:14:
+tempo di esecuzione
+12:49:14 PM [express] GET /api/clients 200 in 993ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…

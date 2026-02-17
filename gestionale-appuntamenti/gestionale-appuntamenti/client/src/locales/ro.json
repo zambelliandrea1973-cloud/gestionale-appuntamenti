@@ -1,0 +1,1709 @@
+{
+  "app": {
+    "title": "Gestionare Programări",
+    "welcome": "Bine ați venit la Gestionarea Programărilor",
+    "description": "Gestionați cu ușurință programări, clienți și facturi"
+  },
+  "welcomePage": {
+    "title": "Bine ați venit la Gestionare Programări",
+    "subtitle": "Alegeți cum doriți să continuați",
+    "createAccount": "Creați un cont nou",
+    "createAccountDesc": "Pentru utilizatori noi care doresc să înceapă să utilizeze sistemul",
+    "professionalLogin": "Acces Profesional",
+    "staffLogin": "Acces Personal/Admin",
+    "chooseAccessType": "Alegeți tipul de acces potrivit",
+    "version": "Gestionare Programări v3.5.0",
+    "copyright": "© 2023-2025 Toate drepturile rezervate",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestionare Programări"
+  },
+  "staffLoginPage": {
+    "title": "Acces Personal",
+    "adminTitle": "Acces Administrator",
+    "description": "Accesați panoul de administrare",
+    "adminDescription": "Conectați-vă cu datele de administrator",
+    "username": "Nume utilizator",
+    "usernamePlaceholder": "Introduceți numele de utilizator",
+    "password": "Parolă",
+    "passwordPlaceholder": "Introduceți parola",
+    "rememberMe": "Memorează contul meu",
+    "login": "Conectare",
+    "loggingIn": "Conectare în curs...",
+    "error": "Eroare",
+    "loginError": "Eroare de conectare",
+    "errorOccurred": "A apărut o eroare în timpul conectării",
+    "enterCredentials": "Introduceți atât numele de utilizator, cât și parola",
+    "forgotPassword": "Am uitat parola",
+    "clearCache": "Golește cache-ul aplicației",
+    "clearing": "Se golește...",
+    "clearCacheHint": "Folosiți acest buton dacă vedeți date ale altor utilizatori",
+    "noAccount": "Nu aveți cont?",
+    "register": "Înregistrați-vă",
+    "areProfessional": "Sunteți profesionist?",
+    "loginAsProfessional": "Conectați-vă ca Profesionist",
+    "adminPanel": "Panou de Administrare",
+    "adminPanelDesc": "Gestionați afacerea dvs. dintr-o singură interfață:",
+    "featureCalendar": "Calendar programări",
+    "featureClients": "Gestionare clienți",
+    "featureBilling": "Facturare și plăți",
+    "featureNotifications": "Notificări și memento-uri",
+    "accessRestricted": "Acces rezervat personalului și administratorilor."
+  },
+  "homeFooter": {
+    "systemInfo": "Informații Sistem",
+    "appVersion": "Gestionare Programări v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Toate drepturile rezervate",
+    "privacySecurity": "Confidențialitate și Securitate",
+    "technicalSupport": "Suport tehnic:",
+    "privacyPolicy": "Politica de Confidențialitate →",
+    "termsOfService": "Termeni și condiții de utilizare →"
+  },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Actualizare completă",
+    "refreshSuccessDesc": "{count} clienți încărcați de pe server",
+    "refreshError": "Eroare",
+    "refreshErrorDesc": "Nu se poate actualiza de pe server",
+    "staffLabel": "Per Profesionist",
+    "myClientsLabel": "Clienții Mei",
+    "otherAccountsLabel": "Alte Conturi",
+    "clientPersonal": "Clienți Personali",
+    "clientSingular": "client",
+    "clientPlural": "clienți",
+    "loadingClients": "Se încarcă clienți...",
+    "errorLoadingClients": "Eroare la încărcarea clienților:",
+    "retry": "Reîncercați"
+  },
+  "proPages": {
+    "syncGoogleCalendar": "Sincronizează Google Calendar",
+    "syncGoogleCalendarDesc": "Gestionează sincronizarea programărilor tale cu Google Calendar",
+    "clickToConfigure": "Click pentru a configura și gestiona sincronizarea cu Google Calendar",
+    "invoiceCreated": "Factură creată cu succes",
+    "invoiceCreateError": "Eroare la crearea facturii",
+    "clientRequired": "Client necesar",
+    "amountPositive": "Suma trebuie să fie pozitivă",
+    "dateRequired": "Dată necesară",
+    "dueDateRequired": "Dată scadentă necesară",
+    "invalidEmail": "Email invalid",
+    "subjectRequired": "Subiect necesar",
+    "emailSent": "Email trimis cu succes",
+    "emailSentTo": "Factură trimisă către",
+    "emailSendError": "Eroare la trimiterea emailului",
+    "checkEmailSettings": "Verifică setările de email",
+    "statusUpdated": "Status actualizat",
+    "markedAs": "Factură marcată ca:",
+    "paid": "Plătită",
+    "unpaid": "Neplătită",
+    "statusUpdateError": "Eroare la actualizarea statusului",
+    "promotionalPackages": "Pachete Promoționale",
+    "newPackage": "Pachet Nou",
+    "createNewPackage": "Crează Pachet Promoțional Nou",
+    "packageName": "Nume Pachet",
+    "descriptionOptional": "Descriere (opțional)",
+    "numberOfSessions": "Număr Ședințe",
+    "totalPrice": "Preț Total",
+    "validityDays": "Valabilitate (zile, opțional)",
+    "includedServices": "Servicii Incluse",
+    "addService": "Adaugă serviciu...",
+    "templateCreated": "Șablon creat",
+    "packageCreatedDesc": "Pachet promoțional creat cu succes",
+    "cannotCreateTemplate": "Nu se poate crea șablonul",
+    "packageSold": "Pachet vândut",
+    "packageAssigned": "Pachet atribuit clientului",
+    "cannotSellPackage": "Nu se poate vinde pachetul",
+    "templateDeleted": "Șablon șters",
+    "templateDeletedDesc": "Șablon șters cu succes",
+    "cannotDeleteTemplate": "Nu se poate șterge șablonul",
+    "inventory": "Stoc",
+    "categoryRequired": "Nume categorie necesar",
+    "productRequired": "Nume produs necesar",
+    "pricePositive": "Prețul trebuie să fie pozitiv",
+    "costPositive": "Costul trebuie să fie pozitiv",
+    "stockPositive": "Stocul trebuie să fie pozitiv",
+    "minStockPositive": "Stocul minim trebuie să fie pozitiv",
+    "quantityPositive": "Cantitatea trebuie să fie pozitivă",
+    "maxDiscount": "Reducere maximă 100%",
+    "categoryCreated": "Categorie creată cu succes",
+    "invalidFileType": "Tip de fișier invalid",
+    "selectImage": "Selectează o imagine (JPG, PNG, GIF, WEBP)",
+    "fileTooLarge": "Fișier prea mare",
+    "maxImageSize": "Imaginea trebuie să fie maxim 5MB",
+    "productCreatedImageError": "Produs creat, dar eroare la încărcarea imaginii",
+    "canAddImageLater": "Poți edita produsul pentru a adăuga imaginea",
+    "productCreated": "Produs creat cu succes",
+    "productCreateError": "Eroare la crearea produsului",
+    "productUpdated": "Produs actualizat cu succes",
+    "productUpdateError": "Eroare la actualizarea produsului",
+    "productDeleted": "Produs șters cu succes",
+    "productDeleteError": "Eroare la ștergerea produsului",
+    "unknownError": "Eroare necunoscută",
+    "reports": "Rapoarte",
+    "statisticalReports": "Rapoarte Statistice",
+    "reportsAvailablePro": "Rapoartele detaliate de activitate sunt disponibile de la planul Pro.",
+    "downloadPdf": "Descarcă PDF",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "yearly": "Anual",
+    "week": "Săptămână",
+    "totalAppointments": "Total Programări",
+    "totalRevenue": "Venituri Totale",
+    "dailyAverage": "Medie Zilnică",
+    "appointmentDetails": "Detalii Programări",
+    "day": "Zi",
+    "date": "Dată",
+    "month": "Lună",
+    "numberOfAppointments": "Număr Programări",
+    "revenue": "Venituri",
+    "serviceDetails": "Detalii Servicii",
+    "service": "Serviciu",
+    "generatedOn": "Generat pe"
+  },
+  "paymentPages": {
+    "popular": "Popular",
+    "error": "Eroare",
+    "unableToLoadDashboard": "Nu se pot încărca datele tabloului de bord",
+    "dataRefresh": "Actualizare date",
+    "dataRefreshInProgress": "Actualizare date în curs...",
+    "settingsSaved": "Setări salvate",
+    "bankingSettingsUpdated": "Setările bancare au fost actualizate cu succes",
+    "cannotSaveBankingSettings": "Nu se pot salva setările bancare",
+    "testCompleted": "Test finalizat",
+    "paymentSystemConfigured": "Sistemul de plată este configurat corect",
+    "testFailed": "Test eșuat",
+    "verifyBankingConfig": "Verifică configurația datelor bancare",
+    "trialExtended": "Perioadă de probă extinsă",
+    "cannotExtendTrial": "Nu se poate extinde perioada de probă",
+    "dateUpdated": "Dată actualizată"
+  },
+  "services": {
+    "title": "Gestionare Servicii",
+    "description": "Gestionează serviciile oferite de afacerea ta.",
+    "newService": "Serviciu Nou",
+    "createInstruction": "Completează noul serviciu pe care vrei să-l creezi și salvează cu butonul",
+    "serviceName": "Nume serviciu",
+    "durationMin": "Durată (min)",
+    "price": "Preț",
+    "loading": "Se încarcă serviciile...",
+    "noServices": "Niciun serviciu prezent. Creează primul tău serviciu!",
+    "name": "Nume",
+    "duration": "Durată",
+    "color": "Culoare",
+    "actions": "Acțiuni",
+    "editService": "Editează serviciul",
+    "deleteService": "Șterge serviciul",
+    "servicesLoaded": "Servicii încărcate",
+    "lastUpdate": "Ultima actualizare",
+    "never": "Niciodată",
+    "editTitle": "Editează Serviciul",
+    "servicePlaceholder": "Numele serviciului",
+    "cancel": "Anulează",
+    "save": "Salvează",
+    "saving": "Se salvează...",
+    "serviceCreated": "Serviciu creat!",
+    "serviceDeleted": "Serviciu șters!",
+    "serviceUpdated": "Serviciu actualizat!",
+    "enterName": "Introdu un nume pentru serviciu",
+    "createError": "Eroare la creare",
+    "deleteError": "Eroare la ștergere",
+    "updateError": "Eroare la actualizare"
+  },
+  "settingsPage": {
+    "accessDenied": "Acces refuzat",
+    "adminOnlyAccess": "Doar administratorii pot accesa această zonă",
+    "staffAndRooms": "Personal & Camere",
+    "security": "Securitate",
+    "admin": "Admin",
+    "administrativeArea": "Zonă Administrativă",
+    "adminAreaDescription": "Accesează zona de administrare beta pentru a gestiona invitațiile și a monitoriza feedback-ul utilizatorilor beta.",
+    "accessBetaAdminDashboard": "Accesează Tabloul de Bord Admin Beta",
+    "systemManagement": "Gestionare Sistem",
+    "systemManagementDescription": "De aici poți gestiona sistemul, reporni aplicația sau verifica starea de sănătate.",
+    "serverStatus": "Stare server:",
+    "online": "Online",
+    "collaboratorsManagement": "Gestionare Colaboratori",
+    "collaboratorsManagementDesc": "Gestionează colaboratorii studioului și specializările lor",
+    "collaboratorsDescription": "Adaugă și gestionează colaboratorii care lucrează în studiul tău. Îi poți atribui programărilor și personaliza comunicările.",
+    "manageCollaborators": "Gestionează Colaboratori",
+    "roomsManagement": "Gestionare Camere/Cabine",
+    "roomsManagementDesc": "Configurează camerele și cabinele de tratament din studiul tău",
+    "roomsDescription": "Organizează camerele studioului cu culori personalizate pentru calendar. Atribuie camere programărilor pentru o organizare mai bună.",
+    "manageRooms": "Gestionează Camere",
+    "iconUpdated": "Pictogramă Actualizată",
+    "iconUpdatedDescription": "Pictograma PWA a fost personalizată cu succes. Clienții vor vedea logo-ul tău când instalează aplicația."
+  },
+  "notificationsPageExtra": {
+    "marketingCampaigns": "Campanii Marketing AI",
+    "phoneConfig": "Configurare Telefon",
+    "advancedConfig": "Configurare avansată (metoda QR)",
+    "whatsappNotifications": "Notificări WhatsApp",
+    "whatsappInfo": "Informații despre notificările WhatsApp:",
+    "whatsappInfoList": [
+      "Mesajele WhatsApp sunt gratuite și mai fiabile decât SMS-urile",
+      "Verificați că numerele de telefon sunt corecte cu prefix internațional (ex. +40712345678)",
+      "Toate mesajele generează un link WhatsApp care se deschide automat"
+    ],
+    "error": "Eroare",
+    "messageTemplates": "Șabloane Mesaje",
+    "messageTemplatesDesc": "Personalizați șabloanele de mesaje memento",
+    "noAppointmentSelected": "Nicio programare selectată",
+    "selectAppointmentForNotifications": "Selectați cel puțin o programare pentru a trimite notificări",
+    "selectAppointmentForSMS": "Selectați cel puțin o programare pentru a trimite SMS",
+    "whatsappRemindersGenerated": "Memento-uri WhatsApp generate",
+    "whatsappRemindersGeneratedDesc": "Memento-uri WhatsApp generate cu succes",
+    "cannotSendWhatsApp": "Nu se pot trimite memento-uri WhatsApp:",
+    "smsDelivered": "SMS trimise",
+    "smsDeliveredDesc": "SMS trimise cu succes",
+    "cannotSendSMS": "Nu se pot trimite SMS-uri:",
+    "twilioLimitations": "Cont Twilio cu limitări",
+    "twilioLimitationsDesc": "Contul dvs. Twilio are limitări și poate să nu livreze SMS-uri la toate numerele.",
+    "smsError": "Eroare trimitere SMS",
+    "recipient": "destinatar",
+    "recipients": "destinatari",
+    "loadingError": "Eroare de încărcare:",
+    "cannotLoadAppointments": "Nu se pot încărca programările:",
+    "cannotLoadHistory": "Nu se poate încărca istoricul:",
+    "cannotLoadSmsHistory": "Nu se poate încărca istoricul SMS:",
+    "unknownError": "Eroare necunoscută"
+  },
+  "bookingRequests": {
+    "title": "Cereri de Rezervare",
+    "subtitle": "Gestionați cererile de programare ale clienților",
+    "toManage": "De gestionat",
+    "confirmed": "Confirmate",
+    "rejected": "Respinse",
+    "tabToManage": "De Gestionat",
+    "tabAll": "Toate",
+    "noRequestsToManage": "Nicio cerere de gestionat",
+    "noRequestsFound": "Nu s-au găsit cereri",
+    "statusChooseSlot": "Alegeți intervalul",
+    "statusPending": "În așteptare",
+    "statusConfirmed": "Confirmat",
+    "statusRejected": "Respins",
+    "preference": "Preferință:",
+    "requestedTimeSlot": "Interval solicitat:",
+    "clientSelectedSlot": "Interval selectat de client:",
+    "proposedSlots": "Intervale propuse:",
+    "clientNotes": "Note client:",
+    "approveAndCreate": "Aprobați și Creați Programare",
+    "approve": "Aprobați",
+    "reject": "Respingeți",
+    "no": "Nu",
+    "confirmAppointment": "Confirmați Programarea",
+    "confirmAppointmentDesc": "Selectați colaboratorul și camera pentru programare. Atribuirea automată va alege prima resursă disponibilă.",
+    "clientRequested": "Clientul a solicitat:",
+    "collaborator": "Colaborator",
+    "room": "Cameră",
+    "autoAssignment": "Atribuire Automată",
+    "cancel": "Anulați",
+    "creating": "Se creează...",
+    "confirmAndCreate": "Confirmați și Creați",
+    "requestApproved": "Cerere Aprobată",
+    "appointmentCreated": "Programare creată cu succes",
+    "error": "Eroare",
+    "cannotApprove": "Nu se poate aproba cererea",
+    "requestRejected": "Cerere Respinsă",
+    "clientWillBeNotified": "Clientul va fi notificat",
+    "cannotReject": "Nu se poate respinge cererea"
+  },
+  "professionalLoginPage": {
+    "title": "Acces Profesional",
+    "description": "Accesați contul profesional pentru a gestiona clienți și programări",
+    "username": "Nume utilizator",
+    "usernamePlaceholder": "Introduceți numele de utilizator",
+    "password": "Parolă",
+    "passwordPlaceholder": "Introduceți parola",
+    "rememberMe": "Memorează contul meu",
+    "login": "Conectare",
+    "loggingIn": "Conectare în curs...",
+    "error": "Eroare",
+    "loginError": "Eroare de conectare",
+    "errorOccurred": "A apărut o eroare în timpul conectării",
+    "enterCredentials": "Introduceți atât numele de utilizator, cât și parola",
+    "forgotPassword": "Am uitat parola",
+    "areStaffOrAdmin": "Sunteți personal sau administrator?",
+    "loginAsStaff": "Conectați-vă ca Personal",
+    "professionalManagement": "Gestionare Profesională",
+    "professionalManagementDesc": "Accesați contul profesional pentru a gestiona clienți, programări și toate instrumentele pentru munca dvs.",
+    "featureClients": "Gestionare Clienți",
+    "featureClientsDesc": "Organizați și gestionați toți clienții într-un singur loc",
+    "featureAppointments": "Programări",
+    "featureAppointmentsDesc": "Planificați și monitorizați programările cu ușurință",
+    "featureReports": "Rapoarte și Analize",
+    "featureReportsDesc": "Monitorizați performanța afacerii dvs."
+  },
+  "language": {
+    "it": "Italiană",
+    "en": "Engleză",
+    "de": "Germană",
+    "fr": "Franceză",
+    "es": "Spaniolă",
+    "ru": "Rusă",
+    "nl": "Olandeză",
+    "no": "Norvegiană",
+    "ro": "Română",
+    "select": "Selectați limba"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "Vizualizați și gestionați toate programările",
+      "content": "Vizualizați programările în modul zilnic, săptămânal sau lunar și creați cu ușurință programări noi.",
+      "button": "Accesați Calendarul"
+    },
+    "clients": {
+      "title": "Clienți",
+      "description": "Gestionați informațiile clienților",
+      "content": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale.",
+      "button": "Gestionați Clienții"
+    },
+    "invoices": {
+      "title": "Facturi",
+      "description": "Gestionați facturi și plăți",
+      "content": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real.",
+      "button": "Gestionați Facturile"
+    },
+    "reports": {
+      "title": "Rapoarte",
+      "description": "Analizați performanța afacerii",
+      "content": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii.",
+      "button": "Vizualizați Rapoartele"
+    },
+    "manual": {
+      "title": "Manual",
+      "description": "Ghid complet de utilizare",
+      "content": "Consultați manualul de utilizare cu capturi de ecran și tutoriale video pentru fiecare funcționalitate",
+      "button": "Mergi la Manual"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "daily": "Zilnic",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "addAppointment": "Programare Nouă",
+    "today": "Astăzi",
+    "days": {
+      "monday": "Luni",
+      "tuesday": "Marți",
+      "wednesday": "Miercuri",
+      "thursday": "Joi",
+      "friday": "Vineri",
+      "saturday": "Sâmbătă",
+      "sunday": "Duminică"
+    },
+    "months": {
+      "january": "Ianuarie",
+      "february": "Februarie",
+      "march": "Martie",
+      "april": "Aprilie",
+      "may": "Mai",
+      "june": "Iunie",
+      "july": "Iulie",
+      "august": "August",
+      "september": "Septembrie",
+      "october": "Octombrie",
+      "november": "Noiembrie",
+      "december": "Decembrie"
+    },
+    "description": "Vizualizează și gestionează toate programările",
+    "subDescription": "Vizualizează programările în mod zilnic, săptămânal sau lunar și creează ușor programări noi",
+    "goTo": "Mergi la Calendar",
+    "weekView": "Vizualizare săptămânală",
+    "monthView": "Vizualizare lunară",
+    "selectNewAppointment": "Selectează programare nouă",
+    "selectTimeNewAppointment": "Selectează ora pentru programarea nouă",
+    "confirmAndAssociateClient": "Confirmă și asociază clientul",
+    "searchResults": "Rezultatele căutării",
+    "noAppointmentsFound": "Nicio programare găsită pentru",
+    "goToDay": "Mergi la zi",
+    "hasAppointments": "Are programări",
+    "slotOccupied": "Interval ocupat de programarea anterioară",
+    "customDuration": "Durată personalizată",
+    "incrementBy15Min": "Crește cu 15 min",
+    "decrementBy15Min": "Scade cu 15 min",
+    "selected": "Selectat",
+    "select": "Selectează"
+  },
+  "clients": {
+    "title": "Clienți",
+    "description": "Gestionați informațiile clienților",
+    "subDescription": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale",
+    "goTo": "Gestionați Clienții",
+    "addClient": "Client Nou",
+    "newClient": "Client Nou",
+    "addFirstClient": "Adăugați primul client",
+    "search": {
+      "placeholder": "Căutare clienți după nume, telefon sau email...",
+      "minLength": "Introduceți cel puțin 2 caractere pentru a căuta"
+    },
+    "filter": {
+      "all": "Toți",
+      "frequent": "Frecvenți",
+      "noConsent": "Fără Consimțământ"
+    },
+    "noClientsFound": "Nu s-au găsit clienți",
+    "noClientsInSystem": "Nu există clienți înregistrați în sistem",
+    "noResultsMatch": "Niciun client nu corespunde criteriilor de căutare \"{{query}}\"",
+    "refreshSuccess": "Datele clienților au fost actualizate",
+    "lastUpdate": "Ultima actualizare",
+    "autoUpdate": "Actualizare automată la fiecare oră și la 23:59",
+    "stats": {
+      "total": "Număr total de clienți",
+      "frequent": "Clienți frecvenți",
+      "noConsent": "Fără consimțământ"
+    },
+    "table": {
+      "name": "Prenume",
+      "surname": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "actions": "Acțiuni"
+    },
+    "details": {
+      "title": "Detalii Client",
+      "personalInfo": "Informații Personale",
+      "medicalInfo": "Informații Medicale",
+      "appointments": "Programări",
+      "notes": "Note",
+      "consents": "Consimțăminte",
+      "clientDataConsent": "Date client/consimțământ",
+      "clientFile": "Dosar Client",
+      "addAppointment": "Programare Nouă",
+      "generateQRCode": "Generare Cod QR",
+      "accessActivated": "Cod QR acces client",
+      "showDetails": "Detalii",
+      "deleteClient": "Șterge Client",
+      "deleteClientConfirmation": "Sigur doriți să ștergeți acest client? Toate programările lor vor fi, de asemenea, șterse. Această acțiune nu poate fi anulată.",
+      "notFound": "Client negăsit",
+      "notSpecified": "Nespecificat",
+      "frequentClient": "Client frecvent",
+      "dataConsent": "Consimțământ de procesare a datelor",
+      "obtained": "Obținut",
+      "notObtained": "Neobținut",
+      "viewAllAppointments": "Vizualizați toate programările",
+      "backToClients": "Înapoi la lista de clienți",
+      "structuredNotes": "Note structurate",
+      "legacyMedicalData": "Date medicale vechi",
+      "otherInfo": "Alte informații",
+      "viewMode": "Mod de vizualizare note",
+      "stackedView": "Carduri suprapuse",
+      "classicView": "Vizualizare clasică",
+      "stackedViewDescription": "Notele sunt afișate ca carduri suprapuse. Faceți clic pe carduri sau utilizați butoanele de navigare pentru a le parcurge.",
+      "classicViewDescription": "Notele sunt afișate în ordine verticală.",
+      "generalNotes": "Note generale",
+      "medicalNotes": "Note medicale",
+      "allergiesInfo": "Alergii și informații de sănătate",
+      "medicalNotesLegacy": "Note medicale (vechi)",
+      "allergiesInfoLegacy": "Alergii și informații de sănătate (vechi)",
+      "generalNotesLegacy": "Note generale (vechi)",
+      "noMedicalNotes": "Nu există note medicale înregistrate",
+      "noAllergiesInfo": "Nu există alergii sau informații de sănătate înregistrate",
+      "noGeneralNotes": "Nu există note generale înregistrate"
+    },
+    "form": {
+      "firstName": "Prenume",
+      "lastName": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "birthDate": "Data Nașterii",
+      "address": "Adresă",
+      "city": "Oraș",
+      "zipCode": "Cod Poștal",
+      "notes": "Note",
+      "save": "Salvare",
+      "cancel": "Anulare"
+    },
+    "loading": "Se încarcă clienții...",
+    "loadingAccessStatus": "Se verifică accesul clientului...",
+    "showDetails": "Detalii",
+    "showAppointments": "Programări",
+    "clientAccess": "Acces Client",
+    "qrGenerated": "QR generat",
+    "qrNotGenerated": "QR negenerat",
+    "generateQR": "Generează QR",
+    "manageClient": "Gestionează Clientul",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "Gestionează toți clienții tăi",
+    "total": "clienți",
+    "searchPlaceholder": "Caută clienți după nume, telefon sau email...",
+    "allClients": "Toți clienții",
+    "frequentClients": "Clienți fideli",
+    "noConsent": "Fără consimțământ"
+  },
+  "invoices": {
+    "title": "Facturi",
+    "description": "Gestionați facturi și plăți",
+    "subDescription": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real",
+    "goTo": "Gestionați Facturile",
+    "addInvoice": "Factură Nouă",
+    "table": {
+      "number": "Număr",
+      "date": "Data",
+      "client": "Client",
+      "amount": "Sumă",
+      "status": "Stare",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "paid": "Plătită",
+      "unpaid": "Neplătită",
+      "partial": "Plată Parțială"
+    }
+  },
+  "reports": {
+    "title": "Rapoarte",
+    "description": "Analizați performanța afacerii",
+    "subDescription": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii",
+    "goTo": "Vizualizați Rapoartele",
+    "daily": "Raport Zilnic",
+    "weekly": "Raport Săptămânal",
+    "monthly": "Raport Lunar",
+    "appointments": "Programări",
+    "clients": "Clienți",
+    "revenue": "Venituri"
+  },
+  "settings": {
+    "title": "Setări",
+    "general": "Generale",
+    "profile": "Profil",
+    "appearance": "Aspect",
+    "notifications": "Notificări",
+    "language": "Limbă",
+    "theme": "Temă",
+    "save": "Salvare Setări",
+    "googleCalendar": "Google calendar",
+    "contacts": "Contacte",
+    "saving": "Se salvează...",
+    "contactsTitle": "Informații de Contact",
+    "contactsDesc": "Gestionați informațiile de contact care vor fi afișate în subsolul aplicației pentru clienți",
+    "appName": "Nume Aplicație",
+    "appIcon": "Pictogramă Aplicație",
+    "integrations": "Integrări",
+    "appearanceTitle": "Identitate Corporativă",
+    "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți."
+  },
+  "common": {
+    "save": "Salvare",
+    "cancel": "Anulare",
+    "edit": "Editare",
+    "delete": "Ștergere",
+    "view": "Vizualizare",
+    "search": "Căutare",
+    "back": "Înapoi",
+    "next": "Înainte",
+    "previous": "Anterior",
+    "actions": "Acțiuni",
+    "name": "Nume",
+    "email": "Email",
+    "phone": "Telefon",
+    "address": "Adresă",
+    "date": "Data",
+    "time": "Ora",
+    "description": "Descriere",
+    "support": "Asistență",
+    "terms": "Termeni și condiții",
+    "refresh": "Reîmprospătare",
+    "error": "Eroare",
+    "birthday": "Data Nașterii",
+    "yes": "Da",
+    "no": "Nu"
+  },
+  "notifications": {
+    "success": "Operațiune finalizată cu succes",
+    "error": "A apărut o eroare",
+    "warning": "Avertisment",
+    "info": "Informație",
+    "clientDeleted": "Client șters",
+    "clientDeletedSuccess": "Clientul a fost șters cu succes"
+  },
+  "whatsappNotifications": {
+    "title": "Notificări clienți",
+    "description": "Gestionare memento-uri pentru programări",
+    "subDescription": "Trimiteți memento-uri WhatsApp clienților pentru programările lor viitoare",
+    "goTo": "Gestionare notificări"
+  },
+  "notificationsPage": {
+    "title": "Notificări clienți",
+    "subtitle": "Gestionați memento-urile pentru programările clienților",
+    "refresh": "Reîmprospătare",
+    "tabs": {
+      "upcoming": "De trimis",
+      "history": "Istoric",
+      "settings": "Setări notificări",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "Cum funcționează notificările WhatsApp",
+      "steps": [
+        "Selectați programările pentru care doriți să trimiteți un memento",
+        "Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri",
+        "Se vor genera link-uri care deschid WhatsApp cu texte precompletate",
+        "Puteți personaliza textul standard înainte de trimitere"
+      ]
+    },
+    "customMessage": {
+      "title": "Mesaj personalizat (opțional)",
+      "description": "Dacă este specificat, acest text va fi adăugat la mesajul standard",
+      "placeholder": "De ex. Nu uitați să aduceți documentația medicală anterioară.",
+      "characters": "caractere",
+      "clear": "Golire"
+    },
+    "noAppointments": {
+      "loading": "Se încarcă programările...",
+      "empty": "Nu există programări de notificat",
+      "description": "Nu există programări viitoare care să necesite memento-uri."
+    },
+    "table": {
+      "client": "Client",
+      "service": "Serviciu",
+      "time": "Ora",
+      "actions": "Acțiuni",
+      "send": "Trimite",
+      "selectAll": "Selectează tot"
+    },
+    "buttons": {
+      "generating": "Se generează...",
+      "generateWhatsApp": "Generare notificări WhatsApp"
+    },
+    "history": {
+      "title": "Istoric notificări",
+      "description": "Memento-uri trimise recent prin WhatsApp",
+      "noNotifications": "Nu au fost trimise notificări recent",
+      "table": {
+        "date": "Data",
+        "message": "Mesaj",
+        "actions": "Acțiuni",
+        "reopen": "Redeschide",
+        "client": "Client",
+        "status": "Status"
+      },
+      "noSmsNotifications": "Niciun SMS trimis încă",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Selectează tot",
+      "actions": "Acțiuni",
+      "sendButton": "Generare notificări WhatsApp",
+      "sending": "Se generează notificările..."
+    },
+    "errors": {
+      "loadingAppointments": "Nu s-au putut încărca programările",
+      "loadingHistory": "Nu s-a putut încărca istoricul",
+      "noneSelected": "Selectați cel puțin o programare pentru a trimite notificări",
+      "sendingFailed": "Nu s-au putut trimite memento-urile"
+    },
+    "success": {
+      "remindersSent": "Memento-urile au fost generate cu succes"
+    },
+    "whatsappLink": "Deschide WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Setări notificări",
+    "enableEmailNotifications": "Activare notificări prin e-mail",
+    "emailSetup": {
+      "title": "Configurare rapidă e-mail",
+      "email": "E-mail",
+      "emailPlaceholder": "Introduceți adresa dvs. de e-mail",
+      "password": "Parolă",
+      "passwordPlaceholder": "Introduceți parola dvs. de e-mail",
+      "description": "Această configurație setează contul dvs. de e-mail pentru trimiterea notificărilor.",
+      "autoDetect": "Detectare automată a setărilor",
+      "emailRequired": "Introduceți adresa dvs. de e-mail pentru a detecta setările"
+    },
+    "errors": {
+      "loadingSettings": "Nu s-au putut încărca setările de notificare",
+      "savingSettings": "Nu s-au putut salva setările",
+      "testEmailMissing": "Introduceți o adresă de e-mail pentru testare"
+    },
+    "success": {
+      "settingsSaved": "Setările notificărilor au fost salvate cu succes",
+      "testEmailSent": "E-mail de test trimis cu succes",
+      "remindersProcessed": "Memento-urile au fost procesate cu succes"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Configurare integrare Google Calendar",
+    "emailLabel": "Cont Gmail",
+    "emailPlaceholder": "adresa.ta@gmail.com",
+    "emailDescription": "Contul Google pe care doriți să-l utilizați pentru calendar",
+    "connected": "Cont conectat",
+    "notConnected": "Cont încă neconectat",
+    "clientIdLabel": "ID Client",
+    "clientIdPlaceholder": "ID-ul tău Google Client",
+    "clientIdDescription": "Obțineți această valoare din consola Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Client Secret-ul tău Google",
+    "clientSecretDescription": "Obțineți această valoare din consola Google Cloud",
+    "configHelp": "Ajutor pentru configurare",
+    "errors": {
+      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare",
+      "emailRequired": "Introduceți email-ul Google pe care doriți să îl sincronizați",
+      "popupBlocked": "Popup-ul a fost blocat. Dezactivați blocarea popup-urilor pentru acest site.",
+      "authError": "Eroare în timpul autorizării"
+    },
+    "success": {
+      "settingsSaved": "Setările de sincronizare au fost salvate cu succes",
+      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes",
+      "connected": "Google Calendar conectat cu succes"
+    },
+    "setup": {
+      "backToProFeatures": "Înapoi la funcțiile PRO",
+      "syncTitle": "Sincronizare Google Calendar",
+      "syncDescription": "Adaugă automat programările tale în Google Calendar",
+      "howItWorks": "Cum funcționează:",
+      "step1Title": "Introdu adresa ta de email Google",
+      "step1Desc": "Email-ul cu care accesezi Google Calendar",
+      "step2Title": "Apasă \"Conectare cu Google\"",
+      "step2Desc": "Vei autoriza accesul la calendarul tău",
+      "step3Title": "Activează sincronizarea",
+      "step3Desc": "De acum încolo, programările se vor sincroniza automat",
+      "emailLabel": "Email Google",
+      "emailPlaceholder": "exemplu@gmail.com",
+      "emailHint": "Trebuie să corespundă cu email-ul contului tău Google",
+      "connectButton": "Conectare cu Google",
+      "connecting": "Se conectează...",
+      "connectedSuccess": "Conectat cu succes!",
+      "connectedEmail": "{{email}} a fost conectat la Google Calendar",
+      "enableSync": "Activează sincronizarea",
+      "syncToGoogle": "Programări noi → Google Calendar",
+      "syncEnabled": "Sincronizare activă",
+      "syncEnabledDesc": "Programările noi vor fi adăugate automat în Google Calendar",
+      "syncDisabled": "Sincronizare dezactivată",
+      "privacyTitle": "Confidențialitatea ta este protejată",
+      "privacyDesc": "Folosim Google OAuth - un protocol sigur care nu ne permite să accesăm parola ta. Poți revoca accesul oricând.",
+      "proFeatureTitle": "Google Calendar - Funcție PRO",
+      "proFeatureDesc": "Sincronizează programările tale cu Google Calendar",
+      "proOnlyMessage": "Această funcție este disponibilă doar cu planul PRO.",
+      "upgradeToPro": "Treci la PRO",
+      "backToDashboard": "Înapoi la Dashboard"
+    }
+  },
+  "errors": {
+    "genericError": "A apărut o eroare: {{error}}",
+    "qrCodeFetchError": "Eroare la obținerea codului QR existent:"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "username": "Nume utilizator",
+    "password": "Parola",
+    "rememberMe": "Ține-mă minte",
+    "forgotPassword": "Ați uitat parola?",
+    "loginButton": "Autentificare"
+  },
+  "clientArea": {
+    "title": "Zona Clientului",
+    "welcome": "Bine ați venit în Zona Personală",
+    "appointments": "Programările Dumneavoastră",
+    "personalInfo": "Informații Personale",
+    "consents": "Gestionare Consimțăminte",
+    "messages": "Mesaje"
+  },
+  "contacts": {
+    "accessOurContacts": "Accesați contactele noastre"
+  },
+  "appointment": {
+    "selectTimeSlots": "Selectați ora pentru programarea nouă",
+    "confirmAndAssociateClient": "Confirmați și asociați clientul",
+    "selected": "Selectat",
+    "selectSlots": "Selectați intervalele orare",
+    "confirmDelete": "Ești sigur că vrei să ștergi această programare?",
+    "confirmDeleteTitle": "Șterge programarea"
+  },
+  "navigation": {
+    "home": "Acasă",
+    "notifications": "Notificări",
+    "referral": "Recomandare",
+    "aiSetup": "Configurare AI",
+    "aiSettings": "Setări AI",
+    "aiAssistant": "Asistent AI",
+    "staff": "Personal",
+    "payments": "Plăți",
+    "requests": "Cereri"
+  },
+  "sidebar": {
+    "clients": "Clienți",
+    "calendar": "Calendar",
+    "invoices": "Facturi",
+    "reports": "Rapoarte",
+    "settings": "Setări"
+  },
+  "trial": {
+    "days": "zile",
+    "expired": "Expirat",
+    "upgradeMessage": "Descoperiți planurile premium"
+  },
+  "banking": {
+    "title": "Configurare Plăți",
+    "subtitle": "Gestionați detaliile bancare pentru plățile automate de comisioane de recomandare",
+    "bankName": "Nume Bancă",
+    "bankNamePlaceholder": "ex. Banca Transilvania",
+    "accountHolder": "Titular Cont",
+    "accountHolderPlaceholder": "Nume complet / Denumire firmă",
+    "iban": "IBAN",
+    "ibanPlaceholder": "RO49 AAAA 1B31 0075 9384 0000",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "ex. BTRLRO22",
+    "address": "Adresă",
+    "addressPlaceholder": "Adresă completă de facturare",
+    "autoPayEnabled": "Plată Automată Comisioane",
+    "paymentDelay": "Întârziere Plată (zile)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Sumă Minimă (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Descriere",
+    "descriptionPlaceholder": "Descriere pentru transferuri",
+    "showIban": "Afișare IBAN",
+    "hideIban": "Ascundere IBAN",
+    "testPayment": "Testare Plată",
+    "saveSettings": "Salvare Setări",
+    "configured": "Configurat",
+    "notConfigured": "Neconfigurat",
+    "status": {
+      "configured": "Detaliile bancare sunt configurate corect",
+      "notConfigured": "Configurați detaliile bancare pentru a activa plățile de comisioane"
+    },
+    "alerts": {
+      "security": "Detaliile bancare sunt protejate și criptate. Doar administratorii le pot vizualiza.",
+      "paymentInfo": "Comisioanele vor fi plătite automat când soldul depășește suma minimă configurată."
+    },
+    "success": {
+      "saved": "Setări salvate",
+      "savedDescription": "Setările bancare au fost actualizate cu succes",
+      "testComplete": "Test finalizat",
+      "testSuccess": "Sistemul de plată este configurat corect"
+    },
+    "errors": {
+      "saveFailed": "Nu s-au putut salva setările bancare",
+      "testFailed": "Verificați configurarea detaliilor bancare"
+    }
+  },
+  "payments": {
+    "title": "Administrare Plăți",
+    "subtitle": "Gestionați abonamente, tranzacții și comisioane",
+    "tabs": {
+      "overview": "Prezentare",
+      "transactions": "Tranzacții",
+      "methods": "Metode de Plată",
+      "settings": "Setări"
+    },
+    "demo": "DEMO",
+    "realData": "Date Reale",
+    "testTransaction": "Tranzacție test",
+    "filterByLicense": "Filtrare după licență",
+    "allLicenses": "Toate licențele",
+    "stats": {
+      "totalRevenue": "Venit Total",
+      "activeSubscriptions": "Abonamente Active",
+      "pendingCommissions": "Comisioane în Așteptare"
+    },
+    "table": {
+      "date": "Dată",
+      "user": "Utilizator",
+      "license": "Licență",
+      "amount": "Sumă",
+      "method": "Metodă",
+      "status": "Status",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "completed": "Finalizat",
+      "pending": "În așteptare",
+      "failed": "Eșuat",
+      "cancelled": "Anulat"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Transfer Bancar",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Sistem Recomandări",
+    "subtitle": "Câștigați comisioane invitând clienți noi",
+    "adminOnly": "Doar administratorii pot gestiona recomandările, coordona și verifica abonamentele sponsorizate de personal pentru a procesa plățile",
+    "yourCode": "Codul Dvs. de Recomandare",
+    "copyCode": "Copiați codul",
+    "shareCode": "Partajare",
+    "copyToClipboard": "Copiere în clipboard",
+    "share": "Partajare",
+    "earnings": {
+      "title": "Câștigurile Dvs.",
+      "total": "Total Câștigat",
+      "pending": "În așteptare",
+      "paid": "Plătit"
+    },
+    "iban": {
+      "title": "IBAN pentru Plăți",
+      "placeholder": "RO49 AAAA 1B31 0075 9384 0000",
+      "description": "Introduceți IBAN-ul pentru a primi comisioane",
+      "save": "Salvare IBAN",
+      "saved": "IBAN salvat cu succes"
+    },
+    "commissions": {
+      "title": "Comisioane",
+      "customer": "Client",
+      "license": "Licență",
+      "amount": "Sumă",
+      "status": "Status",
+      "date": "Dată",
+      "noCommissions": "Încă nu există comisioane",
+      "pending": "În așteptare",
+      "paid": "Plătit"
+    },
+    "howItWorks": {
+      "title": "Cum Funcționează",
+      "step1": "Partajați codul dvs. de recomandare cu clienți potențiali",
+      "step2": "Când se înregistrează folosind codul dvs., devin recomandările dvs.",
+      "step3": "Câștigați 25% din fiecare abonament pe care îl activează",
+      "step4": "Comisioanele sunt plătite pe IBAN-ul dvs."
+    }
+  },
+  "manual": {
+    "pwa": {
+      "title": "Solicitări Programări PWA Client",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Cum funcționează pentru client",
+          "badge": {
+            "text": "Cum funcționează pentru client",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Acces PWA",
+                  "text": "Clientul deschide aplicația PWA personalizată (instalată prin cod QR)"
+                },
+                {
+                  "title": "Meniu Programări",
+                  "text": "Apasă pe \"Solicită Programare\" din meniul principal"
+                },
+                {
+                  "title": "Selectare Serviciu",
+                  "text": "Alege tratamentul dorit din listă"
+                },
+                {
+                  "title": "Preferință Colaborator",
+                  "text": "OPȚIONAL",
+                  "items": [
+                    "Poate alege un colaborator preferat din meniul drop-down",
+                    "Sau poate lăsa \"Nicio preferință\" pentru alocare automată"
+                  ]
+                },
+                {
+                  "title": "Dată și Oră",
+                  "text": "Selectează data și intervalul orar dorit"
+                },
+                {
+                  "title": "Trimitere Solicitare",
+                  "text": "Apasă \"Trimite Solicitare\" - solicitarea ajunge în secțiunea dumneavoastră \"Solicitări Rezervare\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Gestionare solicitări (Admin)",
+          "badge": {
+            "text": "Gestionare solicitări (Admin)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Percurs: Meniu principal → Solicitări Rezervare"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Primiți notificarea",
+                  "text": "Vizualizați solicitarea cu toate detaliile (client, serviciu, dată, oră, preferință colaborator)"
+                },
+                {
+                  "title": "Confirmare Automată",
+                  "items": [
+                    "Apăsați \"Aprobare\" pentru confirmare rapidă",
+                    "Sistemul alocă automat colaboratorul preferat (dacă este disponibil) sau unul liber",
+                    "Alocă automat prima cameră liberă"
+                  ]
+                },
+                {
+                  "title": "Confirmare Manuală",
+                  "items": [
+                    "Se deschide un dialog cu opțiuni de selectare",
+                    "Puteți alege manual colaboratorul și camera",
+                    "Util pentru optimizarea organizării sau gestionarea preferințelor speciale"
+                  ]
+                },
+                {
+                  "title": "Notificare Client",
+                  "text": "Clientul primește confirmarea programării cu detalii complete (colaborator și cameră alocate)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Alte Funcționalități PWA Client",
+          "badge": {
+            "text": "Alte Funcționalități PWA Client",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Vizualizare Programări",
+                  "items": [
+                    "Lista completă a tuturor programărilor (trecute și viitoare)",
+                    "Detalii: dată, oră, serviciu, colaborator alocat, cameră",
+                    "Stare programare (confirmată, finalizată, anulată)",
+                    "Actualizare în timp real"
+                  ]
+                },
+                {
+                  "title": "📄 Documente și Facturi",
+                  "items": [
+                    "Acces la toate facturile emise",
+                    "Descărcare PDF direct din aplicație",
+                    "Istoric complet al plăților"
+                  ]
+                },
+                {
+                  "title": "📞 Contacte Directe",
+                  "items": [
+                    "📧 Email: Apăsați pentru a deschide clientul de email cu adresa precompletată",
+                    "📱 Telefon: Apăsați pentru a apela direct cabinetul",
+                    "🌐 Site Web: Legătură directă către site-ul dumneavoastră",
+                    "📷 Instagram: Deschidere profil Instagram",
+                    "👍 Facebook: Legătură către pagina Facebook"
+                  ]
+                },
+                {
+                  "title": "🔔 Notificări Push",
+                  "items": [
+                    "Mementouri automate pentru programări",
+                    "Confirmări rezervări",
+                    "Actualizări importante de la cabinet"
+                  ]
+                },
+                {
+                  "title": "📱 Funcționează Offline",
+                  "items": [
+                    "Acces la date chiar și fără conexiune",
+                    "Sincronizare automată când revine online"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "benefits": {
+        "title": "✨ Avantajele Aplicației PWA pentru Clienți",
+        "items": [
+          {
+            "title": "Fără Descărcare din Store",
+            "text": "Instalare instantanee prin cod QR, fără a trece prin App Store sau Google Play"
+          },
+          {
+            "title": "Întotdeauna Actualizată",
+            "text": "Actualizări automate fără necesitatea instalării de noi versiuni"
+          },
+          {
+            "title": "Personalizată",
+            "text": "Fiecare client vede doar datele sale (programări, facturi, documente)"
+          },
+          {
+            "title": "Pictogramă Personalizată",
+            "text": "Aplicația afișează logo-ul cabinetului dumneavoastră pe ecranul telefonului"
+          },
+          {
+            "title": "Acces Rapid",
+            "text": "O apăsare pe pictogramă și clientul intră în zona sa rezervată"
+          },
+          {
+            "title": "Multi-Platformă",
+            "text": "Funcționează pe iPhone, Android, tabletă și desktop"
+          },
+          {
+            "title": "Sigură",
+            "text": "Autentificare prin token unic, fără parolă de reținut"
+          },
+          {
+            "title": "Contact Direct",
+            "text": "Email, telefon și rețele sociale la o apăsare distanță"
+          }
+        ]
+      },
+      "tips": {
+        "proTip": "Arătați clienților cum să instaleze aplicația în timpul primei vizite. Vor vedea imediat valoarea adăugată și se vor simți mai implicați în relația cu cabinetul dumneavoastră!",
+        "retention": "Aplicația PWA personalizată creează o legătură mai strânsă cu clienții, crescând loialitatea și reducând absențele neconfirmate datorită mementourilor automate și experienței premium pentru utilizatori."
+      }
+    }
+  },
+  "planFeatures": {
+    "calendar": "Calendar programări",
+    "clients": "Gestionare clienți",
+    "qrPwa": "Aplicație QR/PWA pentru clienți",
+    "appointmentRequests": "Cereri de programări de la clienți",
+    "notifications": "Notificări clienți",
+    "invoices": "Generare facturi",
+    "googleCalendar": "Sincronizare Google Calendar",
+    "reports": "Rapoarte și statistici",
+    "packages": "Pachete promoționale",
+    "multiStaff": "Gestionare angajați multipli",
+    "inventory": "Inventar produse",
+    "marketingAI": "Campanii Marketing AI"
+  },
+  "whatsappCenter": {
+    "pageTitle": "Centru de Configurare și Trimitere Notificări",
+    "pageSubtitle": "Gestionați notificările pentru clienții dvs. prin WhatsApp și Email",
+    "emailNotifications": {
+      "title": "Setări Notificări Email",
+      "description": "Configurați șabloanele și setările pentru a trimite memento-uri automate prin email către clienții dvs.",
+      "configureButton": "Configurare Email"
+    },
+    "marketingAI": {
+      "title": "Campanii Marketing AI",
+      "description": "Creați campanii de marketing profesionale cu text generat de AI și trimiteți prin email sau WhatsApp",
+      "createButton": "Creare Campanie AI"
+    },
+    "whatsappConfig": {
+      "sectionTitle": "Configurare și Utilizare WhatsApp",
+      "systemTitle": "Sistem de Notificări WhatsApp",
+      "systemDescription": "Configurare telefon și trimitere mesaje WhatsApp",
+      "phoneStatus": "Stare telefon",
+      "configured": "Configurat",
+      "notConfigured": "Neconfigurat",
+      "unknown": "Necunoscut",
+      "updated": "Actualizat"
+    },
+    "tabs": {
+      "phoneSetup": "Configurare telefon",
+      "sendNotifications": "Trimitere notificări",
+      "marketingCampaigns": "Campanii Marketing"
+    },
+    "phoneSetup": {
+      "title": "Configurare Telefon WhatsApp",
+      "description": "Configurați dispozitivul dvs. pentru a trimite notificări WhatsApp",
+      "configurePhone": "Configurați telefonul dvs.",
+      "enterPhonePrompt": "Introduceți numărul dvs. de telefon pentru a începe să trimiteți notificări WhatsApp către clienți",
+      "phoneNumber": "Număr de telefon",
+      "email": "Email",
+      "optional": "opțional",
+      "phonePlaceholder": "+40712345678",
+      "phoneHint": "Introduceți numărul complet cu prefix internațional (ex. +40712345678)",
+      "whatsappAutoEnabled": "Notificările WhatsApp vor fi activate automat",
+      "saving": "Se salvează...",
+      "saveConfig": "Salvare configurație",
+      "updating": "Se actualizează...",
+      "updatePhone": "Actualizare telefon",
+      "test": "Test",
+      "removePhone": "Eliminare telefon",
+      "configuredSuccess": "Telefon configurat cu succes",
+      "configuredDescription": "WhatsApp este configurat și poate fi utilizat pentru a trimite notificări către clienți",
+      "howItWorks": "Cum funcționează",
+      "howItWorksDescription": "Urmați acești pași pentru a trimite notificări WhatsApp către clienții dvs.",
+      "step1": "Mergeți la tab-ul \"Trimitere notificări\" și selectați programările",
+      "step2": "Generați link-urile WhatsApp și urmați instrucțiunile de pe ecran",
+      "step3": "Mesajele vor fi trimise unul câte unul prin aplicația dvs. WhatsApp",
+      "howNotificationsWork": "Cum funcționează notificările:",
+      "notificationsExplanation": "După salvarea telefonului, puteți trimite notificări WhatsApp către clienți prin link-uri directe care se deschid în aplicația dvs. WhatsApp.",
+      "contactInfo": "Informațiile dvs. de contact pentru notificări",
+      "featureNotImplemented": "Funcție de implementat",
+      "removePhoneDescription": "Eliminarea telefonului va fi implementată în noul sistem ContactSettings"
+    },
+    "sendNotifications": {
+      "title": "Trimitere Notificări WhatsApp",
+      "description": "Selectați programările și trimiteți notificări prin WhatsApp",
+      "noPhoneConfigured": "Niciun telefon configurat",
+      "noPhoneDescription": "Trebuie mai întâi să configurați un telefon pentru a trimite notificări WhatsApp",
+      "loadingAppointments": "Se încarcă programările...",
+      "noAppointments": "Nicio programare găsită",
+      "noAppointmentsDescription": "Nu există programări disponibile pentru zilele următoare",
+      "refresh": "Actualizare",
+      "refreshList": "Actualizare listă",
+      "selectOnlyUnsent": "Selectare doar netrimise",
+      "info": "Informații",
+      "selectAndSendInfo": "Selectați mai multe programări și apăsați \"Trimitere în secvență\" pentru a le trimite una după alta",
+      "sendAllTomorrow": "Trimitere Toate pentru Mâine",
+      "sendingAuto": "Trimitere automată...",
+      "sendSequence": "Trimitere în secvență",
+      "sending": "Se trimite...",
+      "upcomingAppointments": "Programări viitoare",
+      "sent": "TRIMIS",
+      "send": "Trimite",
+      "customMessage": "Mesaj personalizat",
+      "customMessageHint": "Introduceți un mesaj suplimentar care va fi inclus în mesajele WhatsApp pentru toți clienții selectați mai sus. Acest lucru vă permite să personalizați conținutul mesajului standard.",
+      "customMessagePlaceholder": "Introduceți un mesaj personalizat care va fi adăugat la textul standard...",
+      "noAppointmentSelected": "Nicio programare selectată",
+      "selectAtLeastOne": "Selectați cel puțin o programare pentru a trimite notificări",
+      "sendComplete": "Trimitere finalizată",
+      "allMessagesSent": "Toate mesajele au fost trimise",
+      "completed": "Finalizat",
+      "allMessagesProcessed": "Toate mesajele au fost procesate",
+      "error": "Eroare",
+      "cannotGenerateLinks": "Imposibil de generat link-urile WhatsApp. Încercați din nou.",
+      "linksGenerated": "Link-uri generate",
+      "linksGeneratedCount": "Au fost generate {{count}} link-uri WhatsApp",
+      "noLinksGenerated": "Nicio programare selectată",
+      "selectAppointmentsForLinks": "Selectați cel puțin o programare pentru a genera link-uri WhatsApp"
+    },
+    "marketing": {
+      "title": "Mesaje Marketing WhatsApp",
+      "description": "Mesaje WhatsApp din campaniile de marketing gata pentru trimitere manuală",
+      "loadingMessages": "Se încarcă mesajele...",
+      "noMessages": "Niciun mesaj de marketing",
+      "noMessagesDescription": "Nu există mesaje de marketing WhatsApp în așteptare de trimitere",
+      "messagesPending": "mesaje în așteptare",
+      "messagePending": "mesaj în așteptare",
+      "messages": "mesaje",
+      "message": "mesaj",
+      "noName": "Fără nume"
+    },
+    "linkModal": {
+      "sequentialSend": "Trimitere secvențială",
+      "whatsappLinks": "Link-uri WhatsApp",
+      "contact": "Contact",
+      "of": "din",
+      "whatsappOpened": "WhatsApp s-a deschis într-o fereastră nouă",
+      "afterSending": "După trimiterea mesajului:",
+      "nextContact": "Mergi la următorul contact",
+      "finishSend": "Finalizare trimitere",
+      "openWhatsApp": "Deschide WhatsApp",
+      "next": "Următorul",
+      "finish": "Finalizare"
+    },
+    "toast": {
+      "configSaved": "Configurație salvată!",
+      "configSavedDescription": "Setările telefonului au fost salvate cu succes",
+      "saveError": "Eroare la salvare",
+      "saveErrorDescription": "A apărut o eroare la salvarea setărilor",
+      "autoSendComplete": "Trimitere Automată Finalizată!",
+      "autoSendDescription": "{{count}} mesaje pregătite pentru mâine!",
+      "autoSendErrors": "{{count}} erori.",
+      "messagesReady": "Mesaje Pregătite!",
+      "messagesReadyDescription": "Faceți clic pe \"Deschide WhatsApp\" pentru a începe trimiterea celor {{count}} mesaje pregătite.",
+      "autoSendError": "Eroare Trimitere Automată",
+      "autoSendErrorDescription": "Imposibil de trimis mesajele automat. Încercați din nou.",
+      "loadError": "Imposibil de încărcat programările.",
+      "loadMarketingError": "Imposibil de încărcat mesajele de marketing."
+    }
+  },
+  "pro": {
+    "title": "Funcționalități PRO",
+    "googleCalendar": "Google Calendar",
+    "invoices": "Facturi",
+    "packages": "Pachete",
+    "inventory": "Inventar",
+    "reports": "Rapoarte",
+    "syncGoogleCalendar": "Sincronizează Google Calendar",
+    "syncDescription": "Gestionează sincronizarea programărilor tale cu Google Calendar",
+    "clickToConfigure": "Click pentru a configura și gestiona sincronizarea cu Google Calendar",
+    "googleCalendarIntegration": "Integrare Google Calendar",
+    "googleCalendarLocked": "Integrarea Google Calendar este disponibilă în versiunea PRO. Actualizează-ți planul pentru a accesa această funcționalitate."
+  },
+  "proFeature": {
+    "title": "Funcționalitate PRO",
+    "subtitle": "este disponibilă doar cu abonamentul PRO",
+    "reportsDescription": "Rapoartele detaliate de activitate sunt disponibile începând cu planul Pro.",
+    "benefits": {
+      "title": "Cu PRO primești",
+      "invoices": "Gestionare completă a facturilor",
+      "reports": "Rapoarte detaliate de activitate",
+      "googleCalendar": "Integrare Google Calendar",
+      "support": "Suport prioritar"
+    },
+    "upgradeButton": "Treci la PRO"
+  },
+  "common": {
+    "backToHome": "Înapoi la Acasă",
+    "loading": "Se încarcă...",
+    "cancel": "Anulează",
+    "confirm": "Confirmă",
+    "delete": "Șterge",
+    "edit": "Editează",
+    "save": "Salvează",
+    "send": "Trimite",
+    "close": "Închide"
+  },
+  "invoices": {
+    "title": "Gestionare Facturi",
+    "subtitle": "Creează și gestionează facturile pentru clienții tăi",
+    "updateInvoices": "Actualizează Facturi",
+    "updating": "Migrare...",
+    "cleanupNumbering": "Curăță Numerotare",
+    "cleaning": "Curățare...",
+    "newInvoice": "Factură Nouă",
+    "noInvoices": "Nu s-au găsit facturi",
+    "startCreating": "Începe prin crearea primei tale facturi",
+    "createFirst": "Creează Prima Factură",
+    "invoiceNumber": "Factura #",
+    "client": "Client",
+    "date": "Data",
+    "dueDate": "Data scadenței",
+    "amount": "Sumă",
+    "status": "Status",
+    "paid": "Plătită",
+    "unpaid": "Neplătită",
+    "sentToClient": "Trimisă clientului",
+    "preview": "Previzualizare",
+    "print": "Tipărește",
+    "sendEmail": "Trimite Email",
+    "sendMultichannel": "Trimite Factura",
+    "markAsPaid": "Marchează ca Plătită",
+    "markAsUnpaid": "Marchează ca Neplătită",
+    "deleteInvoice": "Șterge Factura",
+    "confirmDelete": "Ești sigur că vrei să ștergi această factură?",
+    "irreversibleAction": "Această acțiune este ireversibilă!",
+    "form": {
+      "clientRequired": "Client necesar",
+      "amountPositive": "Suma trebuie să fie pozitivă",
+      "dateRequired": "Data necesară",
+      "dueDateRequired": "Data scadenței necesară",
+      "description": "Descriere",
+      "selectClient": "Selectează client"
+    },
+    "email": {
+      "title": "Trimite Factura prin Email",
+      "recipient": "Email destinatar",
+      "subject": "Subiect",
+      "message": "Mesaj",
+      "invalidEmail": "Email invalid",
+      "subjectRequired": "Subiect necesar"
+    },
+    "channels": {
+      "pwa": "App Client",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "noChannelSelected": "Selectează cel puțin un canal de trimitere"
+    },
+    "toast": {
+      "created": "Factură creată cu succes",
+      "createError": "Eroare la crearea facturii",
+      "emailSent": "Email trimis cu succes",
+      "emailError": "Eroare la trimiterea emailului",
+      "statusUpdated": "Status actualizat",
+      "statusError": "Eroare la actualizarea statusului",
+      "sent": "Factură trimisă",
+      "printStarted": "Tipărire începută",
+      "printWindowWillOpen": "Fereastra de tipărire se va deschide automat",
+      "printError": "Popup blocat. Activează popupurile pentru a tipări",
+      "previewGenerated": "Previzualizare generată",
+      "previewDescription": "Așa va arăta factura",
+      "cleanupCompleted": "Curățare completă",
+      "cleanupError": "Eroare la curățarea numerotării"
+    }
+  },
+  "packages": {
+    "title": "Gestionare Pachete Promoționale",
+    "subtitle": "Creează și gestionează pachete de tratamente pentru clienții tăi",
+    "newPackage": "Pachet Nou",
+    "newShort": "Nou",
+    "noPackages": "Nu s-au găsit pachete",
+    "startCreating": "Începe prin crearea primului tău pachet promoțional",
+    "createFirst": "Creează Primul Pachet",
+    "noPackagesCreated": "Niciun pachet promoțional creat",
+    "createFirstPackage": "Creează primul tău pachet",
+    "noPackagesSold": "Niciun pachet vândut încă",
+    "active": "Activ",
+    "inactive": "Inactiv",
+    "completed": "Finalizat",
+    "expired": "Expirat",
+    "soldTo": "Vândut către",
+    "used": "Folosite",
+    "of": "din",
+    "sessions": "ședințe",
+    "sessionsLabel": "Ședințe",
+    "remaining": "Rămase",
+    "valid": "Valid",
+    "until": "până la",
+    "validity": "Valabilitate",
+    "days": "zile",
+    "price": "Preț",
+    "originalPrice": "Preț original",
+    "discount": "Reducere",
+    "services": "Servicii",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "confirmDelete": "Ești sigur că vrei să ștergi acest pachet?",
+    "confirmDeleteTitle": "Confirmă ștergerea",
+    "confirmDeleteDesc": "Ești sigur că vrei să ștergi acest șablon? Această acțiune nu poate fi anulată.",
+    "tabs": {
+      "templates": "Șabloane Pachete",
+      "sold": "Pachete Vândute"
+    },
+    "sell": "Vinde",
+    "sellPackage": "Vinde Pachet",
+    "sellPackageTitle": "Vinde Pachet",
+    "selling": "Vânzare...",
+    "client": "Client",
+    "selectClient": "Selectează client...",
+    "purchaseDate": "Data Achiziției",
+    "notesOptional": "Note (opțional)",
+    "sessionProgress": "Progres ședințe",
+    "purchasedOn": "Achiziționat pe",
+    "expiresOn": "Expiră pe",
+    "remainingSessions": "Ședințe rămase",
+    "pricePaid": "Preț plătit",
+    "notes": "Note",
+    "form": {
+      "name": "Nume pachet",
+      "namePlaceholder": "ex. 10 Tratamente Faciale Premium",
+      "description": "Descriere",
+      "descriptionOptional": "Descriere (opțional)",
+      "descriptionPlaceholder": "Descrierea pachetului...",
+      "totalSessions": "Număr Ședințe",
+      "totalPrice": "Preț Total",
+      "price": "Preț redus",
+      "originalPrice": "Preț original",
+      "validDays": "Valabilitate (zile, opțional)",
+      "includedServices": "Servicii Incluse",
+      "addService": "Adaugă serviciu...",
+      "selectClient": "Selectează client",
+      "selectTreatment": "Selectează tratament",
+      "cancel": "Anulează",
+      "creating": "Creare...",
+      "createPackage": "Creează Pachet",
+      "createNewPackage": "Creează Pachet Promoțional Nou"
+    },
+    "toast": {
+      "created": "Pachet creat cu succes",
+      "createdDesc": "Pachetul promoțional a fost creat cu succes",
+      "updated": "Pachet actualizat",
+      "deleted": "Pachet șters",
+      "deletedDesc": "Șablonul a fost șters cu succes",
+      "sold": "Pachet vândut",
+      "soldDesc": "Pachetul a fost atribuit clientului",
+      "error": "Eroare operațiune pachet",
+      "cannotCreate": "Nu se poate crea șablonul",
+      "cannotSell": "Nu se poate vinde pachetul",
+      "cannotDelete": "Nu se poate șterge șablonul"
+    }
+  },
+  "inventory": {
+    "title": "Gestionare Stoc",
+    "subtitle": "Gestionează produsele și stocul tău",
+    "newProduct": "Produs Nou",
+    "addNewProduct": "Adaugă Produs Nou",
+    "editProduct": "Editează Produs",
+    "noProducts": "Nu s-au găsit produse",
+    "startCreating": "Începe prin adăugarea primului tău produs",
+    "createFirst": "Adaugă Primul Produs",
+    "available": "Disponibil",
+    "inStock": "În stoc",
+    "lowStock": "Stoc scăzut",
+    "outOfStock": "Epuizat",
+    "quantity": "Cantitate",
+    "minStock": "Stoc minim",
+    "price": "Preț",
+    "cost": "Cost",
+    "min": "Min",
+    "stock": "Stoc",
+    "sku": "Cod SKU",
+    "barcode": "Cod de bare",
+    "category": "Categorie",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "confirmDelete": "Confirmă ștergerea",
+    "confirmDeleteDesc": "Ești sigur că vrei să ștergi produsul",
+    "cannotUndo": "Această acțiune nu poate fi anulată.",
+    "cancel": "Anulează",
+    "adjustStock": "Ajustează Stocul",
+    "addStock": "Adaugă",
+    "removeStock": "Elimină",
+    "tabs": {
+      "products": "Produse",
+      "movements": "Mișcări",
+      "sales": "Vânzări",
+      "categories": "Categorii"
+    },
+    "dashboard": {
+      "totalProducts": "Total Produse",
+      "lowStock": "Stoc Scăzut",
+      "warehouseValue": "Valoare Depozit",
+      "categories": "Categorii"
+    },
+    "alert": {
+      "lowStockAlert": "Alertă Stoc Scăzut"
+    },
+    "search": {
+      "placeholder": "Caută după nume, SKU sau cod de bare...",
+      "allCategories": "Toate categoriile"
+    },
+    "form": {
+      "name": "Nume Produs",
+      "description": "Descriere",
+      "sku": "Cod SKU",
+      "category": "Categorie",
+      "selectCategory": "Selectează categorie",
+      "noCategories": "Nicio categorie disponibilă",
+      "createCategoryFirst": "Creează mai întâi o categorie în secțiunea Categorii",
+      "price": "Preț vânzare",
+      "costPrice": "Cost Achiziție",
+      "quantity": "Cantitate disponibilă",
+      "minStock": "Stoc minim",
+      "maxStock": "Stoc maxim",
+      "unit": "Unitate",
+      "supplier": "Furnizor",
+      "supplierContact": "Contact furnizor",
+      "location": "Locație depozit",
+      "image": "Imagine Produs (opțional)",
+      "changeImage": "Schimbă Imaginea",
+      "uploadImage": "Încarcă Imagine"
+    },
+    "stock": {
+      "load": "Intrare",
+      "loadGoods": "Recepție Marfă",
+      "sell": "Vinde",
+      "registerSale": "Înregistrează Vânzare",
+      "unitPrice": "Preț Unitar",
+      "reference": "Referință (Factură, etc.)",
+      "registering": "Înregistrare...",
+      "registerLoad": "Înregistrează Intrare",
+      "registerSaleBtn": "Înregistrează Vânzare"
+    },
+    "sale": {
+      "clientOptional": "Client (opțional)",
+      "selectClient": "Selectează client",
+      "discount": "Reducere (%)"
+    },
+    "movements": {
+      "title": "Mișcări Recente Depozit",
+      "noMovements": "Nicio mișcare recentă",
+      "in": "Intrare",
+      "out": "Ieșire",
+      "sale": "Vânzare",
+      "adjustment": "Ajustare",
+      "waste": "Pierdere"
+    },
+    "sales": {
+      "title": "Vânzări Produse",
+      "inDevelopment": "Funcționalitate vânzări în dezvoltare..."
+    },
+    "categories": {
+      "title": "Categorii Produse",
+      "newCategory": "Categorie Nouă",
+      "addNewCategory": "Adaugă Categorie Nouă",
+      "name": "Nume Categorie",
+      "description": "Descriere",
+      "color": "Culoare",
+      "products": "produse",
+      "creating": "Creare...",
+      "create": "Creează Categorie"
+    },
+    "saving": "Salvare...",
+    "saveChanges": "Salvează Modificările",
+    "formError": "Eroare formular",
+    "checkFields": "Verifică câmpurile introduse",
+    "locked": {
+      "title": "Stoc Indisponibil",
+      "description": "Gestionarea stocului și depozitului este disponibilă doar în planul",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Treci la Business"
+    },
+    "toast": {
+      "created": "Produs creat cu succes",
+      "updated": "Produs actualizat cu succes",
+      "deleted": "Produs șters cu succes",
+      "stockUpdated": "Mișcare depozit înregistrată",
+      "saleRecorded": "Vânzare înregistrată cu succes",
+      "error": "Eroare operațiune produs"
+    }
+  },
+  "reports": {
+    "title": "Rapoarte și Statistici",
+    "subtitle": "Analizează performanța afacerii tale",
+    "period": "Perioadă",
+    "today": "Astăzi",
+    "thisWeek": "Săptămâna aceasta",
+    "thisMonth": "Luna aceasta",
+    "thisYear": "Anul acesta",
+    "custom": "Personalizat",
+    "from": "De la",
+    "to": "Până la",
+    "revenue": "Venituri",
+    "appointments": "Programări",
+    "clients": "Clienți",
+    "newClients": "Clienți noi",
+    "averageTicket": "Bon mediu",
+    "mostPopularTreatments": "Cele mai populare tratamente",
+    "revenueByProfessional": "Venituri per profesionist",
+    "appointmentsByDay": "Programări pe zi",
+    "export": "Exportă",
+    "exportPdf": "Exportă PDF",
+    "exportCsv": "Exportă CSV",
+    "noData": "Nu există date disponibile pentru această perioadă",
+    "loading": "Se încarcă rapoartele...",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "yearly": "Anual",
+    "previous": "Anterior",
+    "current": "Curent",
+    "next": "Următor",
+    "totalAppointments": "Total Programări",
+    "estimatedRevenue": "Venituri Estimate",
+    "totalRevenue": "Venituri Totale",
+    "dailyAverage": "Medie Zilnică",
+    "noAppointmentsInPeriod": "Nicio programare în perioadă",
+    "perDay": "pe zi",
+    "appointmentsPerDay": "programări pe zi",
+    "appointmentsBy": "Programări pe",
+    "revenueBy": "Venituri pe",
+    "day": "Zi",
+    "date": "Dată",
+    "month": "Lună",
+    "year": "An",
+    "week": "Săptămână",
+    "numberOfAppointments": "Număr Programări",
+    "serviceDistribution": "Distribuția Serviciilor",
+    "appointmentDetails": "Detalii Programări",
+    "serviceDetails": "Detalii Servicii",
+    "service": "Serviciu",
+    "generatedOn": "Generat pe",
+    "at": "la",
+    "noDataForPeriod": "Nu există date pentru perioada selectată",
+    "noAppointmentsRegistered": "Nu există programări înregistrate pentru perioada indicată."
+  },
+  "aiChat": {
+    "title": "Asistent AI",
+    "subtitle": "Cere-mi să generez mesaje, să caut informații sau să îți dau sugestii pentru afacerea ta",
+    "welcome": "Bine ai venit la Asistentul AI",
+    "tryAsking": "Încearcă să întrebi:",
+    "example1": "Generează un mesaj de reamintire pentru mâine",
+    "example2": "Sugerează-mi cum să gestionez mai bine programările",
+    "example3": "Caută informații despre tehnici de fizioterapie",
+    "error": "Eroare",
+    "errorMessage": "Nu se poate comunica cu AI. Încearcă din nou.",
+    "messageApproved": "Mesaj aprobat",
+    "messageApprovedDesc": "Mesajul a fost aprobat și poate fi trimis.",
+    "messageRejected": "Mesaj respins",
+    "messageRejectedDesc": "Poți cere AI-ului să genereze un mesaj nou.",
+    "previewTitle": "Mesaj generat - Necesită aprobare",
+    "recipient": "Destinatar",
+    "approveAndUse": "Aprobă și folosește",
+    "reject": "Respinge",
+    "placeholder": "Scrie mesajul tău..."
+  }
+}

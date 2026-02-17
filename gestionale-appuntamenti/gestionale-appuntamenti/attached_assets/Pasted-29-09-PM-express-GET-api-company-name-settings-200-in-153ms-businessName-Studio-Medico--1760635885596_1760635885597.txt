@@ -1,0 +1,221 @@
+29:09 PM [express] GET /api/company-name-settings 200 in 153ms :: {"businessName":"Studio Medico",…
+Recupero impostazioni per utente 3
+5:29:09 PM [express] GET /api/tenant-context 200 in 74ms :: {"userId":3,"userType":"admin","tenantId…
+5:29:09 PM [express] POST /api/timezone-settings 200 in 75ms :: {"success":true,"timezone":"Europe/Z…
+Impostazioni trovate per utente 3: NO
+5:29:09 PM [express] GET /api/contact-info 200 in 153ms :: {"email":"info@studiomedico.it","phone":"…
+5:29:09 PM [express] POST /api/timezone-settings 200 in 73ms :: {"success":true,"timezone":"Europe/Z…
+5:29:19 PM [express] GET /api/staff/users 200 in 78ms
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /staff
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+🚀 ROUTER REFERRAL: Richiesta staff referral per utente ID: 3, email: zambelli.andrea.1973@gmail.com
+🎯 STAFF REFERRAL INDIVIDUALE: zambelli.andrea.1973@gmail.com (ID: 3)
+❌ Errore nel sistema referral individuale: TypeError: storage.getReferralCommissions is not a function
+    at getIndividualStaffReferral (/home/runner/workspace/server/api/individualStaffReferral.ts:17:43)
+    at <anonymous> (/home/runner/workspace/server/routes/referralRoutes.ts:144:11)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at isAuthenticated (/home/runner/workspace/server/auth.ts:612:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/home/runner/workspace/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/runner/workspace/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at strategy.pass (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:355:9)
+    at /home/runner/workspace/node_modules/passport/lib/strategies/session.js:120:12
+    at pass (/home/runner/workspace/node_modules/passport/lib/authenticator.js:352:31)
+    at deserialized (/home/runner/workspace/node_modules/passport/lib/authenticator.js:364:7)
+    at <anonymous> (/home/runner/workspace/server/auth.ts:196:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+5:29:32 PM [express] GET /api/referral/staff 500 in 85ms :: {"error":"Errore nel caricamento dati re…
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+5:29:33 PM [express] GET /api/user-with-license 200 in 131ms :: {"id":3,"username":"zambelli.andrea.…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero dashboard pagamenti admin...
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero dashboard pagamenti admin...
+5:29:34 PM [express] GET /api/admin/banking-settings 200 in 98ms
+5:29:34 PM [express] GET /api/admin/banking-settings 200 in 110ms
+Nessuna transazione trovata per il dashboard. Generando dati di test...
+Generati 5 transazioni fittizie per il dashboard
+Nessuna transazione trovata per il dashboard. Generando dati di test...
+Generati 5 transazioni fittizie per il dashboard
+Recupero tutte le licenze dal database
+Recupero tutte le licenze dal database
+Trovate 14 licenze totali
+Trovati 5 transazioni, 3 abbonamenti attivi e 14 licenze attive
+5:29:34 PM [express] GET /api/payments/payment-admin/dashboard 200 in 424ms :: {"transactionStats":{…
+Trovate 14 licenze totali
+Trovati 5 transazioni, 3 abbonamenti attivi e 14 licenze attive
+5:29:34 PM [express] GET /api/payments/payment-admin/dashboard 200 in 421ms :: {"transactionStats":{…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero transazioni pagamenti...
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero transazioni pagamenti...
+Nessuna transazione trovata. Generando dati di test...
+Generati 5 transazioni fittizie per la visualizzazione
+Trovate 5 transazioni
+5:29:35 PM [express] GET /api/payments/payment-admin/transactions 200 in 216ms :: [{"id":1001,"userI…
+Nessuna transazione trovata. Generando dati di test...
+Generati 5 transazioni fittizie per la visualizzazione
+Trovate 5 transazioni
+5:29:35 PM [express] GET /api/payments/payment-admin/transactions 200 in 218ms :: [{"id":1001,"userI…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero abbonamenti...
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero abbonamenti...
+Recupero licenze per l'utente ID 9
+Recupero licenze per l'utente ID 11
+Recupero licenze per l'utente ID 12
+Recupero licenze per l'utente ID 24
+Recupero licenze per l'utente ID 9
+Recupero licenze per l'utente ID 10
+Recupero licenze per l'utente ID 11
+Recupero licenze per l'utente ID 15
+Trovate 1 licenze per l'utente 12
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 11
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 9
+Trovate 1 licenze per l'utente 10
+Trovate 1 licenze per l'utente 11
+Trovate 0 licenze per l'utente 15
+Recupero licenze per l'utente ID 10
+Recupero licenze per l'utente ID 24
+Recupero licenze per l'utente ID 12
+Recupero licenze per l'utente ID 15
+Trovate 1 licenze per l'utente 10
+Trovate 0 licenze per l'utente 24
+Trovate 1 licenze per l'utente 12
+Trovate 0 licenze per l'utente 15
+Totale: 6 abbonamenti con dettagli utente e licenza
+5:29:36 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 646ms :: [{"id":12,"userId…
+Totale: 6 abbonamenti con dettagli utente e licenza
+5:29:36 PM [express] GET /api/payments/payment-admin/subscriptions 200 in 670ms :: [{"id":12,"userId…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973@gmail.com (ID: 3)
+🔐 Session ID: UJnlE5Yqyqn3POibThdvunwoQgIV_bna
+🔐 Cookies: session-id=s%3AUJnlE5Yqyqn3POibThdvunwoQgIV_bna.l9YbA7qKRRs9VDeftNcBgSoeKjjkAYEb2BLPnqpHz0o
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+Recupero licenze con dettagli utente...
+Trovate 14 licenze normali e 0 licenze di test
+Trovate 14 licenze normali e 0 licenze di test
+Caricati 17 utenti standard e 14 client account
+Caricati 17 utenti standard e 14 client account
+Totale licenze restituite: 14
+5:29:36 PM [express] GET /api/payments/payment-admin/licenses 200 in 590ms :: [{"id":23,"code":"STAF…
+Totale licenze restituite: 14
+5:29:36 PM [express] GET /api/payments/payment-admin/licenses 200 in 586ms :: [{"id":23,"code":"STAF…
+5:29:39 PM [express] GET /api/staff/users 200 in 82ms
+📞 GET /api/contact-settings per utente 3
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 3
+🔧 ContactSettingsService: Recupero impostazioni per tenant 3
+📞 Recupero impostazioni contatto per tenant 3
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-06 - 2025-10-17
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+5:30:56 PM [express] GET /api/contact-settings 304 in 3334ms :: {"success":true,"settings":{"phone":…
+📅 [NOTIFICHE PG] Trovati 1 appuntamenti da 2025-10-06 a 2025-10-17
+✅ [NOTIFICHE PG] Processati 1 appuntamenti per notifiche WhatsApp
+5:30:56 PM [express] GET /api/notifications/upcoming-appointments 304 in 3402ms :: {"success":true,"…
+📞 GET /api/contact-settings per utente 3
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 3
+🔧 ContactSettingsService: Recupero impostazioni per tenant 3
+📞 Recupero impostazioni contatto per tenant 3
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-06 - 2025-10-17
+5:30:57 PM [express] GET /api/contact-settings 304 in 148ms :: {"success":true,"settings":{"phone":"…
+📅 [NOTIFICHE PG] Trovati 1 appuntamenti da 2025-10-06 a 2025-10-17
+✅ [NOTIFICHE PG] Processati 1 appuntamenti per notifiche WhatsApp
+5:30:57 PM [express] GET /api/notifications/upcoming-appointments 304 in 152ms :: {"success":true,"a…
+📞 GET /api/contact-settings per utente 3
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 3
+🔧 ContactSettingsService: Recupero impostazioni per tenant 3
+📞 Recupero impostazioni contatto per tenant 3
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 3
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 3
+5:30:57 PM [express] GET /api/email-calendar-settings 304 in 76ms :: {"emailEnabled":true,"emailAddr…
+✅ Impostazioni contatto trovate per tenant 3: {
+  phone: '+393472550110',
+  email: 'zambelli.andrea.1973@gmail.com',
+  whatsappOptIn: true
+}
+5:30:57 PM [express] GET /api/contact-settings 304 in 146ms :: {"success":true,"settings":{"phone":"…
+📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente 3
+📧 [EMAIL SETTINGS] Caricate dal backup15 per utente 3
+5:30:57 PM [express] GET /api/email-calendar-settings 304 in 75ms :: {"emailEnabled":true,"emailAddr…
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-06 - 2025-10-17
+📅 [NOTIFICHE PG] Trovati 1 appuntamenti da 2025-10-06 a 2025-10-17
+✅ [NOTIFICHE PG] Processati 1 appuntamenti per notifiche WhatsApp
+5:30:57 PM [express] GET /api/notifications/upcoming-appointments 304 in 459ms :: {"success":true,"a…
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2025-10-06 - 2025-10-17
+📅 [NOTIFICHE PG] Trovati 1 appuntamenti da 2025-10-06 a 2025-10-17
+✅ [NOTIFICHE PG] Processati 1 appuntamenti per notifiche WhatsApp
+5:30:58 PM [express] GET /api/notifications/upcoming-appointments 304 in 162ms :: {"success":true,"a…
+5:30:58 PM [express] GET /api/staff/users 200 in 2382ms

@@ -1,0 +1,291 @@
+27/10/2025, 10:58:26:
+runtime
+9:58:26 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+27/10/2025, 10:58:40:
+runtime
+9:58:40 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+27/10/2025, 10:58:42:
+runtime
+🔐 [LOGIN] Richiesta login staff: faverioelisa6@gmail.com
+27/10/2025, 10:58:42:
+runtime
+🔐 [LOGIN] IP: 151.34.231.30, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Sa
+27/10/2025, 10:58:42:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+27/10/2025, 10:58:42:
+runtime
+✅ [LOGIN] Login completato per: faverioelisa6@gmail.com (ID: 16, tipo: staff)
+27/10/2025, 10:58:42:
+runtime
+🔐 [LOGIN] Session ID: rZUxRedUaxR1uQvRRGKEBkn4FK4ENhhc
+27/10/2025, 10:58:42:
+runtime
+🔐 [LOGIN] Session saved: yes
+27/10/2025, 10:58:42:
+runtime
+✅ [LOGIN] Sessione salvata con successo per faverioelisa6@gmail.com
+27/10/2025, 10:58:42:
+runtime
+9:58:42 AM [express] POST /api/staff/login 200 in 315ms :: {"id":16,"username":"faverioelisa6@gmail.…
+27/10/2025, 10:58:42:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /dashboard
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /forced-style.css
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /disable-vite-overlay.js
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /assets/index-HjUeHgbh.css
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /assets/index-vDR6dr2f.js
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /service-worker.js
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/user-with-license
+27/10/2025, 10:58:43:
+runtime
+🔐 [desktop] /api/user-with-license per utente 16 (faverioelisa6@gmail.com)
+27/10/2025, 10:58:43:
+runtime
+🏷️ [desktop] Codice professionista per utente 16: PROF_016_B17E
+27/10/2025, 10:58:43:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+27/10/2025, 10:58:43:
+runtime
+  id: 16,
+27/10/2025, 10:58:43:
+runtime
+  username: 'faverioelisa6@gmail.com',
+27/10/2025, 10:58:43:
+runtime
+  firstName: null,
+27/10/2025, 10:58:43:
+runtime
+  lastName: null,
+27/10/2025, 10:58:43:
+runtime
+  licenseType: 'staff_free_10years'
+27/10/2025, 10:58:43:
+runtime
+}
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/user-with-license 200 in 281ms :: {"id":16,"username":"faverioelisa6@g…
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/timezone-settings
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/client-app-info
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/has-pro-access
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/license-info
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/application-title
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/license/has-business-access
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/timezone-settings 200 in 287ms :: {"timezone":"Europe/Rome","offset":2}
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/license/has-pro-access 200 in 283ms :: true
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/license/license-info 200 in 283ms :: {"hasLicense":true,"type":"staff_…
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/license/application-title 200 in 283ms :: {"title":"Gestionale Appunta…
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/license/has-business-access 200 in 285ms :: true
+27/10/2025, 10:58:43:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /icons/icon-96x96.png
+27/10/2025, 10:58:43:
+runtime
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+27/10/2025, 10:58:43:
+runtime
+✅ [desktop] Icone PWA per utente 16, icon length: 4123
+27/10/2025, 10:58:43:
+runtime
+9:58:43 AM [express] GET /api/client-app-info 200 in 399ms :: {"appName":"Gestionale Appuntamenti","…
+27/10/2025, 10:58:44:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/company-name-settings
+27/10/2025, 10:58:44:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 16 (staff)
+27/10/2025, 10:58:44:
+runtime
+Recupero impostazioni per utente 16
+27/10/2025, 10:58:44:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/timezone-settings
+27/10/2025, 10:58:44:
+runtime
+9:58:44 AM [express] POST /api/timezone-settings 200 in 233ms :: {"success":true,"timezone":"Europe/…
+27/10/2025, 10:58:44:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/contact-info
+27/10/2025, 10:58:44:
+runtime
+Recupero impostazioni per utente 16
+27/10/2025, 10:58:44:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /icons/icon-96x96.png
+27/10/2025, 10:58:44:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/tenant-context
+27/10/2025, 10:58:44:
+runtime
+9:58:44 AM [express] GET /api/tenant-context 200 in 233ms :: {"userId":16,"userType":"staff","tenant…
+27/10/2025, 10:58:44:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+27/10/2025, 10:58:44:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+27/10/2025, 10:58:44:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '16', ts: '1761559123798' }
+27/10/2025, 10:58:44:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 16
+27/10/2025, 10:58:44:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 16)
+27/10/2025, 10:58:44:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+27/10/2025, 10:58:44:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=16&v=1761559124202.4368&admin=1","/pwa-icon/192x192?owner=16&v=1761559124202.4368&admin=1","/pwa-icon/512x512?owner=16&v=1761559124202.4368&admin=1"]
+27/10/2025, 10:58:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 16
+27/10/2025, 10:58:44:
+runtime
+Impostazioni trovate per utente 16: SI
+27/10/2025, 10:58:44:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 16 (staff): {
+27/10/2025, 10:58:44:
+runtime
+  businessName: 'Studio Medico',
+27/10/2025, 10:58:44:
+runtime
+  showBusinessName: true,
+27/10/2025, 10:58:44:
+runtime
+  name: 'faverioelisa6@gmail.com',
+27/10/2025, 10:58:44:
+runtime
+  fontSize: 36,
+27/10/2025, 10:58:44:
+runtime
+  fontFamily: 'Arial, sans-serif',
+27/10/2025, 10:58:44:
+runtime
+  fontStyle: 'normal',
+27/10/2025, 10:58:44:
+runtime
+  color: '#FFA500',
+27/10/2025, 10:58:44:
+runtime
+  enabled: true
+27/10/2025, 10:58:44:
+runtime
+}
+27/10/2025, 10:58:44:
+runtime
+9:58:44 AM [express] GET /api/company-name-settings 200 in 467ms :: {"businessName":"Studio Medico",…
+27/10/2025, 10:58:44:
+runtime
+Impostazioni trovate per utente 16: SI
+27/10/2025, 10:58:44:
+runtime
+9:58:44 AM [express] GET /api/contact-info 200 in 464ms :: {"email":"info@studiomedico.it","phone":"…
+27/10/2025, 10:58:44:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 16: SÌ
+27/10/2025, 10:58:44:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 16, dimensione: 23828 bytes
+27/10/2025, 10:58:48:
+runtime
+🔒 [TRIAL CHECK] User 16 (staff/staff) accessing /api/user-with-license
+27/10/2025, 10:58:48:
+runtime
+🔐 [desktop] /api/user-with-license per utente 16 (faverioelisa6@gmail.com)
+27/10/2025, 10:58:48:
+runtime
+🏷️ [desktop] Codice professionista per utente 16: PROF_016_B17E
+27/10/2025, 10:58:48:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+27/10/2025, 10:58:48:
+runtime
+  id: 16,
+27/10/2025, 10:58:48:
+runtime
+  username: 'faverioelisa6@gmail.com',
+27/10/2025, 10:58:48:
+runtime
+  firstName: null,
+27/10/2025, 10:58:48:
+runtime
+  lastName: null,
+27/10/2025, 10:58:48:
+runtime
+  licenseType: 'staff_free_10years'
+27/10/2025, 10:58:48:
+runtime
+}
+27/10/2025, 10:58:48:
+runtime
+9:58:48 AM [express] GET /api/user-with-license 200 in 329ms :: {"id":16,"username":"faverioelisa6@g…
+27/10/2025, 10:58:49:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+27/10/2025, 10:58:49:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+27/10/2025, 10:58:49:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '16', ts: '1761559128953' }
+27/10/2025, 10:58:49:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 16
+27/10/2025, 10:58:49:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 16)
+27/10/2025, 10:58:49:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+27/10/2025, 10:58:49:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=16&v=1761559129012.289&admin=1","/pwa-icon/192x192?owner=16&v=1761559129012.289&admin=1","/pwa-icon/512x512?owner=16&v=1761559129012.289&admin=1"]
+27/10/2025, 10:58:49:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 16
+27/10/2025, 10:58:49:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 16: SÌ
+27/10/2025, 10:58:49:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 16, dimensione: 23828 bytes

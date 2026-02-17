@@ -1,0 +1,1418 @@
+13/10/2025, 21:10:40:
+build
+#13 DONE 0.1s
+13/10/2025, 21:10:40:
+build
+13/10/2025, 21:10:40:
+build
+#14 [service_event_ofkg8f7by6ro] exporting cache to client directory
+13/10/2025, 21:10:40:
+build
+#14 preparing build cache for export
+13/10/2025, 21:10:40:
+build
+#14 preparing build cache for export 0.0s done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:1dd8d124130e505b40d0194549b6a220a4e713d4330639daf7d0c0f09bf8c4e4 done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:a725628ca49616571ce2dcddcdcaa1efe88a3cee7fa8fe830cbbf3f5bd6d480b done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:abc2a000ea1fcc62cf7e497b64621619d0a7b4e530ac0ca17db6423ed43a1fe2 done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:b296c7b2d6e86fc6982b2ae4a89237d47cc4bb9b2377572f1ca372e94b502840 done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:b448a30ce2272c0d20adaa59b3c9de1c5bd7b4f2117e7d8edde60c823bc7b886 done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:d8b03bfa90e3475d6ecd2e14786a685a9ca9723f3aaffd3a66e564b790b18a38 done
+13/10/2025, 21:10:40:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+13/10/2025, 21:10:40:
+build
+#14 writing config sha256:a5d5b52f284c2a919a8332628561395adacec03558613f603d58b0cbf939db58 done
+13/10/2025, 21:10:40:
+build
+#14 writing cache image manifest sha256:3a1c5f2441142d6e3aea9eef7058fd1caececfb54f5ea7d48f34bbfff48e7a87 done
+13/10/2025, 21:10:40:
+build
+#14 DONE 0.0s
+13/10/2025, 21:10:41:
+build
+service_event_ofkg8f7by6ro: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+13/10/2025, 21:10:41:
+build
+Digest: sha256:baee127aa1b7ab0fafd4c61952a096b22e5c1db32d26b16af64101973e2181c0
+13/10/2025, 21:10:41:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_ofkg8f7by6ro
+13/10/2025, 21:10:45:
+runtime
+Servizio gestione telefono diretto inizializzato
+13/10/2025, 21:10:45:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+13/10/2025, 21:10:45:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+13/10/2025, 21:10:45:
+runtime
+Errore nel caricamento del telefono dal database: PostgresError: password authentication failed for user "postgres"
+13/10/2025, 21:10:45:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+13/10/2025, 21:10:45:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+13/10/2025, 21:10:45:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+13/10/2025, 21:10:45:
+runtime
+    at Socket.emit (node:events:524:28)
+13/10/2025, 21:10:45:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+13/10/2025, 21:10:45:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+13/10/2025, 21:10:45:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+13/10/2025, 21:10:45:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+13/10/2025, 21:10:45:
+runtime
+  severity_local: 'FATAL',
+13/10/2025, 21:10:45:
+runtime
+  severity: 'FATAL',
+13/10/2025, 21:10:45:
+runtime
+  code: '28P01',
+13/10/2025, 21:10:45:
+runtime
+  file: 'auth.c',
+13/10/2025, 21:10:45:
+runtime
+  line: '323',
+13/10/2025, 21:10:45:
+runtime
+  routine: 'auth_failed'
+13/10/2025, 21:10:45:
+runtime
+}
+13/10/2025, 21:10:45:
+runtime
+Errore durante l'inizializzazione: PostgresError: password authentication failed for user "postgres"
+13/10/2025, 21:10:45:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+13/10/2025, 21:10:45:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+13/10/2025, 21:10:45:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+13/10/2025, 21:10:45:
+runtime
+    at Socket.emit (node:events:524:28)
+13/10/2025, 21:10:45:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+13/10/2025, 21:10:45:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+13/10/2025, 21:10:45:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+13/10/2025, 21:10:45:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+13/10/2025, 21:10:45:
+runtime
+  severity_local: 'FATAL',
+13/10/2025, 21:10:45:
+runtime
+  severity: 'FATAL',
+13/10/2025, 21:10:45:
+runtime
+  code: '28P01',
+13/10/2025, 21:10:45:
+runtime
+  file: 'auth.c',
+13/10/2025, 21:10:45:
+runtime
+  line: '323',
+13/10/2025, 21:10:45:
+runtime
+  routine: 'auth_failed'
+13/10/2025, 21:10:45:
+runtime
+}
+13/10/2025, 21:10:45:
+runtime
+Scheduler dei promemoria avviato con successo
+13/10/2025, 21:10:45:
+runtime
+Tutti gli scheduler inizializzati
+13/10/2025, 21:10:45:
+runtime
+🔍 Controllo integrità all'avvio:
+13/10/2025, 21:10:45:
+runtime
+   📅 Appuntamenti caricati: 0
+13/10/2025, 21:10:45:
+runtime
+   👥 Clienti caricati: 0
+13/10/2025, 21:10:45:
+runtime
+✅ Controllo integrità completato
+13/10/2025, 21:10:45:
+runtime
+7:10:45 PM [express] serving on port 5000
+13/10/2025, 21:10:50:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+13/10/2025, 21:10:50:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+13/10/2025, 21:10:50:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 14 2025)
+13/10/2025, 21:10:50:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+13/10/2025, 21:10:50:
+runtime
+Inviati 0/0 promemoria
+13/10/2025, 21:10:50:
+runtime
+Job iniziale completato: inviati 0 promemoria
+13/10/2025, 21:13:49:
+runtime
+7:13:49 PM [express] GET /api/timezone-settings 200 in 5ms :: {"timezone":"Europe/Rome","offset":2}
+13/10/2025, 21:13:49:
+runtime
+7:13:49 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+13/10/2025, 21:13:49:
+runtime
+7:13:49 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+13/10/2025, 21:13:49:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+13/10/2025, 21:13:49:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760382829712-default
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+13/10/2025, 21:13:49:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+13/10/2025, 21:13:49:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+13/10/2025, 21:13:49:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760382829713.2327&android=1","/pwa-icon/192x192?owner=default&v=1760382829713.2327&android=1","/pwa-icon/512x512?owner=default&v=1760382829713.2327&android=1"]
+13/10/2025, 21:13:49:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+13/10/2025, 21:13:49:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+13/10/2025, 21:13:49:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+13/10/2025, 21:13:49:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+13/10/2025, 22:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-13T20:00:00.130Z
+13/10/2025, 22:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+13/10/2025, 22:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 14 2025)
+13/10/2025, 22:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+13/10/2025, 22:00:00:
+runtime
+Inviati 0/0 promemoria
+13/10/2025, 22:00:00:
+runtime
+Job completato: inviati 0 promemoria
+13/10/2025, 23:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-13T21:00:00.083Z
+13/10/2025, 23:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+13/10/2025, 23:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 14 2025)
+13/10/2025, 23:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+13/10/2025, 23:00:00:
+runtime
+Inviati 0/0 promemoria
+13/10/2025, 23:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 00:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-13T22:00:00.987Z
+14/10/2025, 00:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 00:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 14 2025)
+14/10/2025, 00:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 00:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 00:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 01:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-13T23:00:00.775Z
+14/10/2025, 01:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 01:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Tue Oct 14 2025)
+14/10/2025, 01:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 01:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 01:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 02:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T00:00:00.661Z
+14/10/2025, 02:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 02:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 02:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 02:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 02:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 03:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T01:00:00.532Z
+14/10/2025, 03:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 03:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 03:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 03:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 03:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 04:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T02:00:00.404Z
+14/10/2025, 04:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 04:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 04:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 04:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 04:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 05:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T03:00:00.281Z
+14/10/2025, 05:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 05:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 05:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 05:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 05:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 06:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T04:00:00.151Z
+14/10/2025, 06:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 06:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 06:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 06:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 06:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 07:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T05:00:00.969Z
+14/10/2025, 07:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 07:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 07:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 07:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 07:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 08:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T06:00:00.808Z
+14/10/2025, 08:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 08:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 08:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 08:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 08:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 09:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T07:00:00.714Z
+14/10/2025, 09:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 09:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 09:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 09:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 09:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 10:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T08:00:00.607Z
+14/10/2025, 10:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 10:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 10:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 10:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 10:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 11:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T09:00:00.378Z
+14/10/2025, 11:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 11:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 11:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 11:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 11:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 12:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T10:00:00.204Z
+14/10/2025, 12:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 12:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 12:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 12:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 12:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 13:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T11:00:00.071Z
+14/10/2025, 13:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 13:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 13:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 13:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 13:00:00:
+runtime
+Job completato: inviati 0 promemoria
+14/10/2025, 13:15:53:
+runtime
+11:15:53 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 13:15:53:
+runtime
+11:15:53 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 13:15:53:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760440553320-default
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 13:15:53:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 13:15:53:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:15:53:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 13:15:53:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760440553320.2776&android=1","/pwa-icon/192x192?owner=default&v=1760440553320.2776&android=1","/pwa-icon/512x512?owner=default&v=1760440553320.2776&android=1"]
+14/10/2025, 13:15:53:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 13:15:53:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 13:15:53:
+runtime
+11:15:53 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 13:15:53:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 13:15:53:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 13:16:01:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:16:01:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:16:01:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:01:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:01:
+runtime
+11:16:01 AM [express] POST /api/logout 500 in 30ms :: {"message":"The server does not support SSL con…
+14/10/2025, 13:16:01:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:16:01:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:01:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:01:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:14:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 13:16:14:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:16:14:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:14:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:14:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:14:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:14:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:14:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:16:14:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:16:14:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:16:14:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:16:14:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:16:14:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:16:14:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:16:14:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:16:14:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:16:14:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:16:14:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:16:14:
+runtime
+  code: '28P01',
+14/10/2025, 13:16:14:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:16:14:
+runtime
+  line: '323',
+14/10/2025, 13:16:14:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:16:14:
+runtime
+}
+14/10/2025, 13:16:14:
+runtime
+Login staff fallito per: busnari.silvia@libero.it
+14/10/2025, 13:16:14:
+runtime
+11:16:14 AM [express] POST /api/staff/login 401 in 21ms :: {"message":"Username o password non validi…
+14/10/2025, 13:16:31:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:16:31:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:16:31:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:31:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:31:
+runtime
+11:16:31 AM [express] POST /api/logout 500 in 1ms :: {"message":"The server does not support SSL conn…
+14/10/2025, 13:16:31:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:16:31:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:31:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:31:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:53:
+runtime
+Login staff richiesto per: zambelli.andrea.1973B@gmail.com
+14/10/2025, 13:16:53:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:16:53:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:16:53:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:16:53:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:16:53:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:16:53:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:16:53:
+runtime
+Login staff fallito per: zambelli.andrea.1973B@gmail.com
+14/10/2025, 13:16:53:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:16:53:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:16:53:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:16:53:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:16:53:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:16:53:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:16:53:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:16:53:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:16:53:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:16:53:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:16:53:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:16:53:
+runtime
+  code: '28P01',
+14/10/2025, 13:16:53:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:16:53:
+runtime
+  line: '323',
+14/10/2025, 13:16:53:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:16:53:
+runtime
+}
+14/10/2025, 13:16:53:
+runtime
+11:16:53 AM [express] POST /api/staff/login 401 in 12ms :: {"message":"Username o password non validi…
+14/10/2025, 13:17:04:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:17:04:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:17:04:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:17:04:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:17:04:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:17:04:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:17:04:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:17:04:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:17:04:
+runtime
+11:17:04 AM [express] POST /api/logout 500 in 1ms :: {"message":"The server does not support SSL conn…
+14/10/2025, 13:17:34:
+runtime
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+14/10/2025, 13:17:34:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:17:34:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:17:34:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:17:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:17:34:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:17:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:17:34:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:17:34:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:17:34:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:17:34:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:17:34:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:17:34:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:17:34:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:17:34:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:17:34:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:17:34:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:17:34:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:17:34:
+runtime
+  code: '28P01',
+14/10/2025, 13:17:34:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:17:34:
+runtime
+  line: '323',
+14/10/2025, 13:17:34:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:17:34:
+runtime
+}
+14/10/2025, 13:17:34:
+runtime
+Login staff fallito per: zambelli.andrea.1973@gmail.com
+14/10/2025, 13:17:34:
+runtime
+11:17:34 AM [express] POST /api/staff/login 401 in 16ms :: {"message":"Username o password non validi…
+14/10/2025, 13:17:39:
+runtime
+11:17:39 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 13:18:10:
+runtime
+11:17:39 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 13:18:10:
+runtime
+11:17:39 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:18:10:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:10:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760440659218-default
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:10:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:18:10:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 13:18:10:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760440659218.586&android=1","/pwa-icon/192x192?owner=default&v=1760440659218.586&android=1","/pwa-icon/512x512?owner=default&v=1760440659218.586&android=1"]
+14/10/2025, 13:18:10:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 13:18:10:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 13:18:10:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 13:18:10:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 13:18:12:
+runtime
+11:18:12 AM [express] POST /api/register 200 in 3ms
+14/10/2025, 13:18:12:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:18:12:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:18:12:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:12:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:12:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:18:12:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:12:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:12:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:12:
+runtime
+11:18:12 AM [express] POST /api/logout 500 in 1ms :: {"message":"The server does not support SSL conn…
+14/10/2025, 13:18:19:
+runtime
+Login staff richiesto per: prova
+14/10/2025, 13:18:23:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:18:23:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:23:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:23:
+runtime
+Login staff fallito per: prova
+14/10/2025, 13:18:23:
+runtime
+11:18:19 AM [express] POST /api/staff/login 401 in 16ms :: {"message":"Username o password non validi…
+14/10/2025, 13:18:23:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:18:23:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:18:23:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:18:23:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:18:23:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:18:23:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:18:23:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:18:23:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:18:23:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:18:23:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:18:23:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:18:23:
+runtime
+  code: '28P01',
+14/10/2025, 13:18:23:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:18:23:
+runtime
+  line: '323',
+14/10/2025, 13:18:23:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:18:23:
+runtime
+}
+14/10/2025, 13:18:23:
+runtime
+Login staff richiesto per: prova
+14/10/2025, 13:18:23:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:18:23:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:23:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:23:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:23:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:18:23:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:18:23:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:18:23:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:18:23:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:18:23:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:18:23:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:18:23:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:18:23:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:18:23:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:18:23:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:18:23:
+runtime
+  code: '28P01',
+14/10/2025, 13:18:23:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:18:23:
+runtime
+  line: '323',
+14/10/2025, 13:18:23:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:18:23:
+runtime
+}
+14/10/2025, 13:18:23:
+runtime
+Login staff fallito per: prova
+14/10/2025, 13:18:23:
+runtime
+11:18:22 AM [express] POST /api/staff/login 401 in 11ms :: {"message":"Username o password non validi…
+14/10/2025, 13:18:29:
+runtime
+11:18:29 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 13:18:29:
+runtime
+11:18:29 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 13:18:29:
+runtime
+11:18:29 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 13:18:29:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:29:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760440709711-default
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/register
+14/10/2025, 13:18:29:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760440709711.4604&android=1","/pwa-icon/192x192?owner=default&v=1760440709711.4604&android=1","/pwa-icon/512x512?owner=default&v=1760440709711.4604&android=1"]
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 13:18:29:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 13:18:29:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 13:18:58:
+runtime
+11:18:58 AM [express] POST /api/register 200 in 2ms
+14/10/2025, 13:18:58:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:18:58:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:18:58:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:58:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:58:
+runtime
+11:18:58 AM [express] POST /api/logout 500 in 1ms :: {"message":"The server does not support SSL conn…
+14/10/2025, 13:18:58:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:18:58:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:58:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:19:02:
+runtime
+Login staff richiesto per: prova
+14/10/2025, 13:19:18:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:19:18:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:19:18:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:19:18:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:19:18:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:19:18:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:19:18:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:19:18:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:19:18:
+runtime
+Login staff fallito per: prova
+14/10/2025, 13:19:18:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:19:18:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:19:18:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:19:18:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:19:18:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:19:18:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:19:18:
+runtime
+  code: '28P01',
+14/10/2025, 13:19:18:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:19:18:
+runtime
+  line: '323',
+14/10/2025, 13:19:18:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:19:18:
+runtime
+}
+14/10/2025, 13:19:18:
+runtime
+11:19:02 AM [express] POST /api/staff/login 401 in 22ms :: {"message":"Username o password non validi…
+14/10/2025, 13:19:18:
+runtime
+11:19:13 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+14/10/2025, 13:20:00:
+runtime
+11:20:00 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 13:37:34:
+runtime
+Failed to prune sessions: Error: The server does not support SSL connections
+14/10/2025, 13:37:34:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:37:34:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:48:40:
+runtime
+Failed to prune sessions: Error: The server does not support SSL connections
+14/10/2025, 13:48:40:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:48:40:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)

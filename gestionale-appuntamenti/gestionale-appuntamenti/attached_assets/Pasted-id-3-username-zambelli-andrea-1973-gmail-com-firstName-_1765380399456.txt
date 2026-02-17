@@ -1,0 +1,198 @@
+id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+3:05:11 PM [express] GET /api/user-with-license 304 in 2542ms :: {"id":3,"username":"zambelli.andrea…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+3:14:10 PM [express] GET /api/tenant-context 200 in 839ms :: {"userId":3,"userType":"admin","tenantI…
+3:14:10 PM [express] GET /api/license/has-pro-access 304 in 837ms :: true
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+3:14:10 PM [express] GET /api/user-with-license 304 in 937ms :: {"id":3,"username":"zambelli.andrea.…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+3:14:10 PM [express] GET /api/license/has-business-access 304 in 1387ms :: true
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+3:14:38 PM [express] GET /api/license/has-pro-access 304 in 81ms :: true
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+3:14:38 PM [express] GET /api/license/has-business-access 304 in 70ms :: true
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+3:14:38 PM [express] GET /api/user-with-license 304 in 179ms :: {"id":3,"username":"zambelli.andrea.…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+3:14:53 PM [express] GET /api/license/has-business-access 304 in 84ms :: true
+3:14:53 PM [express] GET /api/license/has-pro-access 304 in 85ms :: true
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+3:14:53 PM [express] GET /api/user-with-license 304 in 188ms :: {"id":3,"username":"zambelli.andrea.…
+⏰ Esecuzione del job di promemoria appuntamenti: 2025-12-10T15:15:00.124Z
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra 2025-12-10T14:15:00.126Z e 2025-12-11T21:15:00.126Z
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+✅ [EMAIL SCHEDULER] Inviati 0/0 promemoria EMAIL
+✅ Job completato: inviati 0 promemoria
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/tenant-context
+3:22:08 PM [express] GET /api/tenant-context 200 in 774ms :: {"userId":3,"userType":"admin","tenantI…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-pro-access
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/user-with-license
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+3:22:08 PM [express] GET /api/license/has-pro-access 304 in 776ms :: true
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+3:22:08 PM [express] GET /api/user-with-license 304 in 875ms :: {"id":3,"username":"zambelli.andrea.…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/license/has-business-access
+3:22:08 PM [express] GET /api/license/has-business-access 304 in 933ms :: true
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/start
+Google OAuth start per utente: admin:3
+Google Client ID: 264039705899-vr2c92du81eq1qpkdr7trqot2152np35.apps.googleusercontent.com
+Redirect URI esatto: https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback
+Generazione URL di autorizzazione manuale...
+Auth URL generato manualmente: https://accounts.google.com/o/oauth2/v2/auth?client_id=264039705899-vr2c92du81eq1qpkdr7trqot2152np35.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fwife-scheduler-zambelliandrea1.replit.app%2Fapi%2Fgoogle-auth%2Fcallback&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.send&access_type=offline&prompt=consent&state=eyJ1c2VySWQiOiJhZG1pbjozIn0%3D
+Confronto URL libreria: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.send&prompt=consent&redirect_uri=https%3A%2F%2Fwife-scheduler-zambelliandrea1.replit.app%2Fapi%2Fgoogle-auth%2Fcallback&include_granted_scopes=true&client_id=264039705899-vr2c92du81eq1qpkdr7trqot2152np35.apps.googleusercontent.com
+3:22:14 PM [express] GET /api/google-auth/start 304 in 77ms :: {"success":true,"authUrl":"https://ac…
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:16 PM [express] GET /api/google-auth/status 304 in 80ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:18 PM [express] GET /api/google-auth/status 304 in 70ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:21 PM [express] GET /api/google-auth/status 304 in 74ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:22 PM [express] GET /api/google-auth/status 304 in 72ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:24 PM [express] GET /api/google-auth/status 304 in 76ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:26 PM [express] GET /api/google-auth/status 304 in 71ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:28 PM [express] GET /api/google-auth/status 304 in 77ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:31 PM [express] GET /api/google-auth/status 304 in 73ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:32 PM [express] GET /api/google-auth/status 304 in 77ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:34 PM [express] GET /api/google-auth/status 304 in 69ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:36 PM [express] GET /api/google-auth/status 304 in 71ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:38 PM [express] GET /api/google-auth/status 304 in 76ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:41 PM [express] GET /api/google-auth/status 304 in 79ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:42 PM [express] GET /api/google-auth/status 304 in 71ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:44 PM [express] GET /api/google-auth/status 304 in 73ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:46 PM [express] GET /api/google-auth/status 304 in 72ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:48 PM [express] GET /api/google-auth/status 304 in 78ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:51 PM [express] GET /api/google-auth/status 304 in 69ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:52 PM [express] GET /api/google-auth/status 304 in 71ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:54 PM [express] GET /api/google-auth/status 304 in 74ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:56 PM [express] GET /api/google-auth/status 304 in 78ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:22:58 PM [express] GET /api/google-auth/status 304 in 69ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:23:00 PM [express] GET /api/google-auth/status 304 in 72ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:23:02 PM [express] GET /api/google-auth/status 304 in 72ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:23:04 PM [express] GET /api/google-auth/status 304 in 77ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:23:06 PM [express] GET /api/google-auth/status 304 in 70ms :: {"success":true,"authorized":false}
+🔒 [TRIAL CHECK] User 3 (admin/admin) accessing /api/google-auth/status
+Auth status check. Current state: { authorized: false }
+3:23:08 PM [express] GET /api/google-auth/status 304 in 73ms :: {"success":true,"authorized":false}
+Tentativo di logout per utente zambelli.andrea.1973@gmail.com, tipo: admin
+Logout completato con successo
+3:23:10 PM [express] POST /api/logout 200 in 72ms :: {"success":true,"message":"Logout completato co…
+Auth status check. Current state: { authorized: false }
+3:23:10 PM [express] GET /api/google-auth/status 304 in 1ms :: {"success":true,"authorized":false}
+3:23:12 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+3:23:12 PM [express] GET /api/client-app-info 200 in 8ms :: {"appName":"Gestionale Appuntamenti","ic…
+3:23:13 PM [express] GET /api/company-name-settings 200 in 1ms :: {"businessName":"Gestionale Appunt…
+3:23:13 PM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+3:23:13 PM [express] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+🔐 [has-pro-access] Utente NON autenticato - return false
+3:23:13 PM [express] GET /api/license/has-pro-access 200 in 1ms
+3:23:13 PM [express] GET /api/license/has-business-access 200 in 1ms
+3:23:13 PM [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Appuntame…
+3:23:13 PM [express] GET /api/client-app-info 200 in 8ms :: {"appName":"Gestionale Appuntamenti","ic…
+3:23:13 PM [express] GET /api/company-name-settings 200 in 1ms :: {"businessName":"Gestionale Appunt…
+3:23:13 PM [express] GET /api/contact-info 401 in 0ms :: {"message":"Non autenticato"}
+Auth status check. Current state: { authorized: false }
+3:23:13 PM [express] GET /api/google-auth/status 304 in 1ms :: {"success":true,"authorized":false}
+3:23:43 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+3:23:43 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+3:23:43 PM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+3:23:44 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+3:23:44 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+3:25:27 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}

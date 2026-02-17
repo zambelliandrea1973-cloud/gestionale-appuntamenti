@@ -1,0 +1,1709 @@
+{
+  "app": {
+    "title": "Управление Записями",
+    "welcome": "Добро пожаловать в Управление Записями",
+    "description": "Легко управляйте записями, клиентами и счетами"
+  },
+  "welcomePage": {
+    "title": "Добро пожаловать в Управление Записями",
+    "subtitle": "Выберите, как вы хотите продолжить",
+    "createAccount": "Создать новый аккаунт",
+    "createAccountDesc": "Для новых пользователей, которые хотят начать использовать систему",
+    "professionalLogin": "Профессиональный Вход",
+    "staffLogin": "Вход для Персонала/Админа",
+    "chooseAccessType": "Выберите подходящий тип доступа",
+    "version": "Управление Записями v3.5.0",
+    "copyright": "© 2023-2025 Все права защищены",
+    "footerCopyright": "© 2023-2025 Zambelli Andrea - Управление Записями"
+  },
+  "staffLoginPage": {
+    "title": "Вход для Персонала",
+    "adminTitle": "Вход Администратора",
+    "description": "Доступ к панели администрирования",
+    "adminDescription": "Войдите с учетными данными администратора",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "Введите ваше имя пользователя",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введите ваш пароль",
+    "rememberMe": "Запомнить мой аккаунт",
+    "login": "Войти",
+    "loggingIn": "Вход...",
+    "error": "Ошибка",
+    "loginError": "Ошибка входа",
+    "errorOccurred": "Произошла ошибка при входе",
+    "enterCredentials": "Введите имя пользователя и пароль",
+    "forgotPassword": "Забыли пароль",
+    "clearCache": "Очистить кэш приложения",
+    "clearing": "Очистка...",
+    "clearCacheHint": "Используйте эту кнопку, если видите данные других пользователей",
+    "noAccount": "Нет аккаунта?",
+    "register": "Регистрация",
+    "areProfessional": "Вы профессионал?",
+    "loginAsProfessional": "Войти как Профессионал",
+    "adminPanel": "Панель Администрирования",
+    "adminPanelDesc": "Управляйте своим бизнесом из единого интерфейса:",
+    "featureCalendar": "Календарь записей",
+    "featureClients": "Управление клиентами",
+    "featureBilling": "Выставление счетов и платежи",
+    "featureNotifications": "Уведомления и напоминания",
+    "accessRestricted": "Доступ только для персонала и администраторов."
+  },
+  "homeFooter": {
+    "systemInfo": "Информация о Системе",
+    "appVersion": "Управление Записями v2.1.0",
+    "copyright": "© 2025 Zambelli Development",
+    "allRightsReserved": "Все права защищены",
+    "privacySecurity": "Конфиденциальность и Безопасность",
+    "technicalSupport": "Техническая поддержка:",
+    "privacyPolicy": "Политика Конфиденциальности →",
+    "termsOfService": "Условия использования →"
+  },
+  "clientsPageNotifications": {
+    "refreshSuccess": "Обновление завершено",
+    "refreshSuccessDesc": "{count} клиентов загружено с сервера",
+    "refreshError": "Ошибка",
+    "refreshErrorDesc": "Не удается обновить с сервера",
+    "staffLabel": "По Профессионалу",
+    "myClientsLabel": "Мои Клиенты",
+    "otherAccountsLabel": "Другие Учетные Записи",
+    "clientPersonal": "Персональные Клиенты",
+    "clientSingular": "клиент",
+    "clientPlural": "клиентов",
+    "loadingClients": "Загрузка клиентов...",
+    "errorLoadingClients": "Ошибка при загрузке клиентов:",
+    "retry": "Повторить"
+  },
+  "proPages": {
+    "syncGoogleCalendar": "Синхронизировать Google Calendar",
+    "syncGoogleCalendarDesc": "Управляйте синхронизацией ваших записей с Google Calendar",
+    "clickToConfigure": "Нажмите для настройки и управления синхронизацией с Google Calendar",
+    "invoiceCreated": "Счёт успешно создан",
+    "invoiceCreateError": "Ошибка при создании счёта",
+    "clientRequired": "Клиент обязателен",
+    "amountPositive": "Сумма должна быть положительной",
+    "dateRequired": "Дата обязательна",
+    "dueDateRequired": "Срок оплаты обязателен",
+    "invalidEmail": "Неверный email",
+    "subjectRequired": "Тема обязательна",
+    "emailSent": "Email успешно отправлен",
+    "emailSentTo": "Счёт отправлен на",
+    "emailSendError": "Ошибка при отправке email",
+    "checkEmailSettings": "Проверьте настройки email",
+    "statusUpdated": "Статус обновлён",
+    "markedAs": "Счёт отмечен как:",
+    "paid": "Оплачен",
+    "unpaid": "Не оплачен",
+    "statusUpdateError": "Ошибка обновления статуса",
+    "promotionalPackages": "Промо-пакеты",
+    "newPackage": "Новый Пакет",
+    "createNewPackage": "Создать Новый Промо-пакет",
+    "packageName": "Название Пакета",
+    "descriptionOptional": "Описание (необязательно)",
+    "numberOfSessions": "Количество Сеансов",
+    "totalPrice": "Общая Цена",
+    "validityDays": "Срок действия (дни, необязательно)",
+    "includedServices": "Включённые Услуги",
+    "addService": "Добавить услугу...",
+    "templateCreated": "Шаблон создан",
+    "packageCreatedDesc": "Промо-пакет успешно создан",
+    "cannotCreateTemplate": "Невозможно создать шаблон",
+    "packageSold": "Пакет продан",
+    "packageAssigned": "Пакет назначен клиенту",
+    "cannotSellPackage": "Невозможно продать пакет",
+    "templateDeleted": "Шаблон удалён",
+    "templateDeletedDesc": "Шаблон успешно удалён",
+    "cannotDeleteTemplate": "Невозможно удалить шаблон",
+    "inventory": "Склад",
+    "categoryRequired": "Название категории обязательно",
+    "productRequired": "Название продукта обязательно",
+    "pricePositive": "Цена должна быть положительной",
+    "costPositive": "Стоимость должна быть положительной",
+    "stockPositive": "Запас должен быть положительным",
+    "minStockPositive": "Минимальный запас должен быть положительным",
+    "quantityPositive": "Количество должно быть положительным",
+    "maxDiscount": "Максимальная скидка 100%",
+    "categoryCreated": "Категория успешно создана",
+    "invalidFileType": "Неверный тип файла",
+    "selectImage": "Выберите изображение (JPG, PNG, GIF, WEBP)",
+    "fileTooLarge": "Файл слишком большой",
+    "maxImageSize": "Изображение должно быть не более 5МБ",
+    "productCreatedImageError": "Продукт создан, но ошибка загрузки изображения",
+    "canAddImageLater": "Вы можете отредактировать продукт, чтобы добавить изображение",
+    "productCreated": "Продукт успешно создан",
+    "productCreateError": "Ошибка при создании продукта",
+    "productUpdated": "Продукт успешно обновлён",
+    "productUpdateError": "Ошибка при обновлении продукта",
+    "productDeleted": "Продукт успешно удалён",
+    "productDeleteError": "Ошибка при удалении продукта",
+    "unknownError": "Неизвестная ошибка",
+    "reports": "Отчёты",
+    "statisticalReports": "Статистические Отчёты",
+    "reportsAvailablePro": "Подробные отчёты о деятельности доступны начиная с плана Pro.",
+    "downloadPdf": "Скачать PDF",
+    "weekly": "Еженедельный",
+    "monthly": "Ежемесячный",
+    "yearly": "Годовой",
+    "week": "Неделя",
+    "totalAppointments": "Всего Записей",
+    "totalRevenue": "Общий Доход",
+    "dailyAverage": "Среднее за День",
+    "appointmentDetails": "Детали Записей",
+    "day": "День",
+    "date": "Дата",
+    "month": "Месяц",
+    "numberOfAppointments": "Количество Записей",
+    "revenue": "Доход",
+    "serviceDetails": "Детали Услуг",
+    "service": "Услуга",
+    "generatedOn": "Сгенерировано"
+  },
+  "paymentPages": {
+    "popular": "Популярный",
+    "error": "Ошибка",
+    "unableToLoadDashboard": "Невозможно загрузить данные панели управления",
+    "dataRefresh": "Обновление данных",
+    "dataRefreshInProgress": "Обновление данных...",
+    "settingsSaved": "Настройки сохранены",
+    "bankingSettingsUpdated": "Банковские настройки успешно обновлены",
+    "cannotSaveBankingSettings": "Невозможно сохранить банковские настройки",
+    "testCompleted": "Тест завершён",
+    "paymentSystemConfigured": "Платёжная система настроена правильно",
+    "testFailed": "Тест не пройден",
+    "verifyBankingConfig": "Проверьте настройки банковских данных",
+    "trialExtended": "Пробный период продлён",
+    "cannotExtendTrial": "Невозможно продлить пробный период",
+    "dateUpdated": "Дата обновлена"
+  },
+  "services": {
+    "title": "Управление Услугами",
+    "description": "Управляйте услугами, предлагаемыми вашим бизнесом.",
+    "newService": "Новая Услуга",
+    "createInstruction": "Заполните новую услугу, которую хотите создать, и сохраните кнопкой",
+    "serviceName": "Название услуги",
+    "durationMin": "Длительность (мин)",
+    "price": "Цена",
+    "loading": "Загрузка услуг...",
+    "noServices": "Услуг нет. Создайте первую услугу!",
+    "name": "Название",
+    "duration": "Длительность",
+    "color": "Цвет",
+    "actions": "Действия",
+    "editService": "Редактировать услугу",
+    "deleteService": "Удалить услугу",
+    "servicesLoaded": "Услуги загружены",
+    "lastUpdate": "Последнее обновление",
+    "never": "Никогда",
+    "editTitle": "Редактировать Услугу",
+    "servicePlaceholder": "Название услуги",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "serviceCreated": "Услуга создана!",
+    "serviceDeleted": "Услуга удалена!",
+    "serviceUpdated": "Услуга обновлена!",
+    "enterName": "Введите название услуги",
+    "createError": "Ошибка при создании",
+    "deleteError": "Ошибка при удалении",
+    "updateError": "Ошибка при обновлении"
+  },
+  "settingsPage": {
+    "accessDenied": "Доступ запрещён",
+    "adminOnlyAccess": "Только администраторы могут получить доступ к этой области",
+    "staffAndRooms": "Персонал и Кабинеты",
+    "security": "Безопасность",
+    "admin": "Админ",
+    "administrativeArea": "Административная Область",
+    "adminAreaDescription": "Получите доступ к бета-области администрирования для управления приглашениями и мониторинга отзывов бета-пользователей.",
+    "accessBetaAdminDashboard": "Доступ к Панели Бета-Админа",
+    "systemManagement": "Управление Системой",
+    "systemManagementDescription": "Отсюда вы можете управлять системой, перезапускать приложение или проверять состояние здоровья.",
+    "serverStatus": "Статус сервера:",
+    "online": "Онлайн",
+    "collaboratorsManagement": "Управление Сотрудниками",
+    "collaboratorsManagementDesc": "Управляйте сотрудниками студии и их специализациями",
+    "collaboratorsDescription": "Добавляйте и управляйте сотрудниками, работающими в вашей студии. Вы можете назначать их на записи и персонализировать коммуникации.",
+    "manageCollaborators": "Управление Сотрудниками",
+    "roomsManagement": "Управление Кабинетами",
+    "roomsManagementDesc": "Настройте процедурные кабинеты и кабинки в вашей студии",
+    "roomsDescription": "Организуйте кабинеты студии с пользовательскими цветами для календаря. Назначайте кабинеты записям для лучшей организации.",
+    "manageRooms": "Управление Кабинетами",
+    "iconUpdated": "Иконка Обновлена",
+    "iconUpdatedDescription": "Иконка PWA успешно персонализирована. Клиенты увидят ваш логотип при установке приложения."
+  },
+  "notificationsPageExtra": {
+    "marketingCampaigns": "Маркетинговые Кампании AI",
+    "phoneConfig": "Настройка Телефона",
+    "advancedConfig": "Расширенная настройка (QR-метод)",
+    "whatsappNotifications": "Уведомления WhatsApp",
+    "whatsappInfo": "Информация об уведомлениях WhatsApp:",
+    "whatsappInfoList": [
+      "Сообщения WhatsApp бесплатны и надежнее SMS",
+      "Убедитесь, что номера телефонов указаны правильно с международным кодом (напр. +79123456789)",
+      "Все сообщения создают ссылку WhatsApp, которая открывается автоматически"
+    ],
+    "error": "Ошибка",
+    "messageTemplates": "Шаблоны Сообщений",
+    "messageTemplatesDesc": "Настройте шаблоны напоминаний",
+    "noAppointmentSelected": "Запись не выбрана",
+    "selectAppointmentForNotifications": "Выберите хотя бы одну запись для отправки уведомлений",
+    "selectAppointmentForSMS": "Выберите хотя бы одну запись для отправки SMS",
+    "whatsappRemindersGenerated": "Напоминания WhatsApp созданы",
+    "whatsappRemindersGeneratedDesc": "Напоминания WhatsApp успешно созданы",
+    "cannotSendWhatsApp": "Невозможно отправить напоминания WhatsApp:",
+    "smsDelivered": "SMS отправлены",
+    "smsDeliveredDesc": "SMS успешно отправлены",
+    "cannotSendSMS": "Невозможно отправить SMS:",
+    "twilioLimitations": "Аккаунт Twilio с ограничениями",
+    "twilioLimitationsDesc": "Ваш аккаунт Twilio имеет ограничения и может не доставлять SMS на все номера.",
+    "smsError": "Ошибка отправки SMS",
+    "recipient": "получатель",
+    "recipients": "получателей",
+    "loadingError": "Ошибка загрузки:",
+    "cannotLoadAppointments": "Невозможно загрузить записи:",
+    "cannotLoadHistory": "Невозможно загрузить историю:",
+    "cannotLoadSmsHistory": "Невозможно загрузить историю SMS:",
+    "unknownError": "Неизвестная ошибка"
+  },
+  "bookingRequests": {
+    "title": "Запросы на Бронирование",
+    "subtitle": "Управляйте запросами клиентов на запись",
+    "toManage": "К управлению",
+    "confirmed": "Подтверждено",
+    "rejected": "Отклонено",
+    "tabToManage": "К Управлению",
+    "tabAll": "Все",
+    "noRequestsToManage": "Нет запросов для управления",
+    "noRequestsFound": "Запросы не найдены",
+    "statusChooseSlot": "Выберите слот",
+    "statusPending": "Ожидает",
+    "statusConfirmed": "Подтверждено",
+    "statusRejected": "Отклонено",
+    "preference": "Предпочтение:",
+    "requestedTimeSlot": "Запрошенный временной интервал:",
+    "clientSelectedSlot": "Слот, выбранный клиентом:",
+    "proposedSlots": "Предложенные слоты:",
+    "clientNotes": "Заметки клиента:",
+    "approveAndCreate": "Одобрить и Создать Запись",
+    "approve": "Одобрить",
+    "reject": "Отклонить",
+    "no": "Нет",
+    "confirmAppointment": "Подтвердить Запись",
+    "confirmAppointmentDesc": "Выберите сотрудника и кабинет для записи. Автоматическое назначение выберет первый доступный ресурс.",
+    "clientRequested": "Клиент запросил:",
+    "collaborator": "Сотрудник",
+    "room": "Кабинет",
+    "autoAssignment": "Автоматическое Назначение",
+    "cancel": "Отмена",
+    "creating": "Создание...",
+    "confirmAndCreate": "Подтвердить и Создать",
+    "requestApproved": "Запрос Одобрен",
+    "appointmentCreated": "Запись успешно создана",
+    "error": "Ошибка",
+    "cannotApprove": "Невозможно одобрить запрос",
+    "requestRejected": "Запрос Отклонен",
+    "clientWillBeNotified": "Клиент будет уведомлен",
+    "cannotReject": "Невозможно отклонить запрос"
+  },
+  "professionalLoginPage": {
+    "title": "Профессиональный Вход",
+    "description": "Войдите в свой профессиональный аккаунт для управления клиентами и записями",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "Введите ваше имя пользователя",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введите ваш пароль",
+    "rememberMe": "Запомнить мой аккаунт",
+    "login": "Войти",
+    "loggingIn": "Вход...",
+    "error": "Ошибка",
+    "loginError": "Ошибка входа",
+    "errorOccurred": "Произошла ошибка при входе",
+    "enterCredentials": "Введите имя пользователя и пароль",
+    "forgotPassword": "Забыли пароль",
+    "areStaffOrAdmin": "Вы сотрудник или администратор?",
+    "loginAsStaff": "Войти как Персонал",
+    "professionalManagement": "Профессиональное Управление",
+    "professionalManagementDesc": "Войдите в свой профессиональный аккаунт для управления клиентами, записями и всеми инструментами для вашей работы.",
+    "featureClients": "Управление Клиентами",
+    "featureClientsDesc": "Организуйте и управляйте всеми клиентами в одном месте",
+    "featureAppointments": "Записи",
+    "featureAppointmentsDesc": "Планируйте и отслеживайте записи с легкостью",
+    "featureReports": "Отчеты и Аналитика",
+    "featureReportsDesc": "Мониторинг производительности вашего бизнеса"
+  },
+  "navigation": {
+    "home": "Главная",
+    "notifications": "Уведомления",
+    "referral": "Рекомендации",
+    "aiSetup": "Настройка ИИ",
+    "aiSettings": "Настройки ИИ",
+    "aiAssistant": "Ассистент ИИ",
+    "staff": "Персонал",
+    "payments": "Платежи",
+    "requests": "Заявки"
+  },
+  "sidebar": {
+    "clients": "Клиенты",
+    "calendar": "Календарь",
+    "invoices": "Счета",
+    "reports": "Отчеты",
+    "settings": "Настройки"
+  },
+  "language": {
+    "it": "Итальянский",
+    "en": "Английский",
+    "de": "Немецкий",
+    "fr": "Французский",
+    "es": "Испанский",
+    "ru": "Русский",
+    "nl": "Голландский",
+    "no": "Норвежский",
+    "ro": "Румынский",
+    "select": "Выбрать язык"
+  },
+  "home": {
+    "calendar": {
+      "title": "Календарь",
+      "description": "Просмотр и управление всеми записями",
+      "content": "Просматривайте записи в ежедневном, еженедельном или ежемесячном режиме, и легко создавайте новые записи.",
+      "button": "Перейти к Календарю"
+    },
+    "clients": {
+      "title": "Клиенты",
+      "description": "Управление информацией о клиентах",
+      "content": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию.",
+      "button": "Управление Клиентами"
+    },
+    "invoices": {
+      "title": "Счета",
+      "description": "Управление счетами и платежами",
+      "content": "Создавайте и управляйте счетами, регистрируйте платежи и отслеживайте статус счетов в реальном времени.",
+      "button": "Управление Счетами"
+    },
+    "reports": {
+      "title": "Отчеты",
+      "description": "Анализ производительности бизнеса",
+      "content": "Просматривайте ежедневные, еженедельные и ежемесячные отчеты для анализа производительности бизнеса.",
+      "button": "Просмотр Отчетов"
+    },
+    "manual": {
+      "title": "Руководство",
+      "description": "Полное руководство пользователя",
+      "content": "Ознакомьтесь с руководством пользователя со скриншотами и видеоуроками для каждой функции",
+      "button": "Перейти к Руководству"
+    }
+  },
+  "calendar": {
+    "title": "Календарь",
+    "description": "Просмотр и управление всеми записями",
+    "subDescription": "Просматривайте записи в ежедневном, еженедельном или ежемесячном режиме, и легко создавайте новые записи",
+    "goTo": "Перейти к Календарю",
+    "daily": "Ежедневно",
+    "weekly": "Еженедельно",
+    "monthly": "Ежемесячно",
+    "weekView": "Недельный вид",
+    "monthView": "Месячный вид",
+    "addAppointment": "Новая Запись",
+    "today": "Сегодня",
+    "searchResults": "Результаты поиска",
+    "noAppointmentsFound": "Не найдено записей на",
+    "goToDay": "Перейти к дате",
+    "days": {
+      "monday": "Понедельник",
+      "tuesday": "Вторник",
+      "wednesday": "Среда",
+      "thursday": "Четверг",
+      "friday": "Пятница",
+      "saturday": "Суббота",
+      "sunday": "Воскресенье"
+    },
+    "months": {
+      "january": "Январь",
+      "february": "Февраль",
+      "march": "Март",
+      "april": "Апрель",
+      "may": "Май",
+      "june": "Июнь",
+      "july": "Июль",
+      "august": "Август",
+      "september": "Сентябрь",
+      "october": "Октябрь",
+      "november": "Ноябрь",
+      "december": "Декабрь"
+    },
+    "selectNewAppointment": "Выберите новую запись",
+    "selectTimeNewAppointment": "Выберите время для новой записи",
+    "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
+    "hasAppointments": "Есть записи",
+    "slotOccupied": "Слот занят предыдущей записью",
+    "customDuration": "Пользовательская длительность",
+    "incrementBy15Min": "Увеличить на 15 мин",
+    "decrementBy15Min": "Уменьшить на 15 мин",
+    "selected": "Выбрано",
+    "select": "Выбрать"
+  },
+  "clients": {
+    "title": "Клиенты",
+    "description": "Управление информацией о клиентах",
+    "subDescription": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию",
+    "goTo": "Управление Клиентами",
+    "addClient": "Новый Клиент",
+    "newClient": "Новый Клиент",
+    "addFirstClient": "Добавить первого клиента",
+    "search": {
+      "placeholder": "Поиск клиентов по имени, телефону или email...",
+      "minLength": "Введите не менее 2 символов для поиска"
+    },
+    "filter": {
+      "all": "Все",
+      "frequent": "Частые",
+      "noConsent": "Без согласия"
+    },
+    "noClientsFound": "Клиенты не найдены",
+    "noClientsInSystem": "В системе нет зарегистрированных клиентов",
+    "noResultsMatch": "Ни один клиент не соответствует критериям поиска \"{{query}}\"",
+    "refreshSuccess": "Данные клиентов обновлены",
+    "lastUpdate": "Последнее обновление",
+    "autoUpdate": "Автоматическое обновление каждый час и в 23:59",
+    "stats": {
+      "total": "Всего клиентов",
+      "frequent": "Частые клиенты",
+      "noConsent": "Без согласия"
+    },
+    "table": {
+      "name": "Имя",
+      "surname": "Фамилия",
+      "email": "Email",
+      "phone": "Телефон",
+      "actions": "Действия"
+    },
+    "details": {
+      "title": "Детали Клиента",
+      "personalInfo": "Личная Информация",
+      "medicalInfo": "Медицинская Информация",
+      "appointments": "Записи",
+      "notes": "Заметки",
+      "consents": "Согласия",
+      "clientDataConsent": "Данные клиента/согласие",
+      "clientFile": "Карточка клиента",
+      "addAppointment": "Новая запись",
+      "generateQRCode": "Создать QR-код",
+      "accessActivated": "QR-код доступа клиента",
+      "showDetails": "Подробности",
+      "deleteClient": "Удалить клиента",
+      "deleteClientConfirmation": "Вы уверены, что хотите удалить этого клиента? Все его записи также будут удалены. Это действие нельзя отменить.",
+      "notFound": "Клиент не найден",
+      "notSpecified": "Не указано",
+      "frequentClient": "Частый клиент",
+      "dataConsent": "Согласие на обработку данных",
+      "obtained": "Получено",
+      "notObtained": "Не получено",
+      "viewAllAppointments": "Просмотреть все записи",
+      "backToClients": "Вернуться к списку клиентов",
+      "structuredNotes": "Структурированные заметки",
+      "legacyMedicalData": "Устаревшие медицинские данные",
+      "otherInfo": "Другая информация",
+      "viewMode": "Режим просмотра заметок",
+      "stackedView": "Вид стопкой карточек",
+      "classicView": "Классический вид",
+      "stackedViewDescription": "Заметки отображаются как стопка карточек. Нажмите на карточки или используйте кнопки навигации для просмотра.",
+      "classicViewDescription": "Заметки отображаются в вертикальной последовательности.",
+      "generalNotes": "Общие заметки",
+      "medicalNotes": "Медицинские заметки",
+      "allergiesInfo": "Аллергии и информация о здоровье",
+      "medicalNotesLegacy": "Медицинские заметки (устаревшие)",
+      "allergiesInfoLegacy": "Аллергии и информация о здоровье (устаревшие)",
+      "generalNotesLegacy": "Общие заметки (устаревшие)",
+      "noMedicalNotes": "Медицинские заметки не записаны",
+      "noAllergiesInfo": "Аллергии и информация о здоровье не записаны",
+      "noGeneralNotes": "Общие заметки не записаны"
+    },
+    "form": {
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "Email",
+      "phone": "Телефон",
+      "birthDate": "Дата Рождения",
+      "address": "Адрес",
+      "city": "Город",
+      "zipCode": "Почтовый Индекс",
+      "notes": "Заметки",
+      "save": "Сохранить",
+      "cancel": "Отмена"
+    },
+    "loading": "Загрузка клиентов...",
+    "loadingAccessStatus": "Проверка доступа клиента...",
+    "showDetails": "Детали",
+    "showAppointments": "Записи",
+    "clientAccess": "Доступ клиента",
+    "qrGenerated": "QR создан",
+    "qrNotGenerated": "QR не создан",
+    "generateQR": "Создать QR",
+    "manageClient": "Управление клиентом",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "Управляйте всеми вашими клиентами",
+    "total": "клиентов",
+    "searchPlaceholder": "Поиск клиентов по имени, телефону или email...",
+    "allClients": "Все клиенты",
+    "frequentClients": "Постоянные клиенты",
+    "noConsent": "Без согласия"
+  },
+  "invoices": {
+    "title": "Счета",
+    "description": "Управление счетами и платежами",
+    "subDescription": "Создавайте и управляйте счетами, регистрируйте платежи и отслеживайте статус счетов в реальном времени",
+    "goTo": "Управление Счетами",
+    "addInvoice": "Новый Счет",
+    "table": {
+      "number": "Номер",
+      "date": "Дата",
+      "client": "Клиент",
+      "amount": "Сумма",
+      "status": "Статус",
+      "actions": "Действия"
+    },
+    "status": {
+      "paid": "Оплачен",
+      "unpaid": "Не Оплачен",
+      "partial": "Частично Оплачен"
+    }
+  },
+  "reports": {
+    "title": "Отчеты",
+    "description": "Анализ производительности бизнеса",
+    "subDescription": "Просматривайте ежедневные, еженедельные и ежемесячные отчеты для анализа производительности бизнеса",
+    "goTo": "Просмотр Отчетов",
+    "daily": "Ежедневный Отчет",
+    "weekly": "Еженедельный Отчет",
+    "monthly": "Ежемесячный Отчет",
+    "appointments": "Записи",
+    "clients": "Клиенты",
+    "revenue": "Доход"
+  },
+  "settings": {
+    "title": "Настройки",
+    "general": "Общие",
+    "profile": "Профиль",
+    "appearance": "Внешний Вид",
+    "notifications": "Уведомления",
+    "language": "Язык",
+    "theme": "Тема",
+    "save": "Сохранить Настройки",
+    "googleCalendar": "Google календарь",
+    "contacts": "Контакты",
+    "saving": "Сохранение...",
+    "contactsTitle": "Контактная Информация",
+    "contactsDesc": "Управляйте контактной информацией, которая будет отображаться в нижней части приложения для клиентов",
+    "appName": "Название Приложения",
+    "appIcon": "Иконка Приложения",
+    "integrations": "Интеграции",
+    "appearanceTitle": "Фирменный Стиль",
+    "appearanceDesc": "Настройте название и иконку приложения в соответствии с фирменным стилем вашей компании. Эти настройки будут применены как к основному приложению, так и к приложению для клиентов."
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "view": "Просмотр",
+    "search": "Поиск",
+    "back": "Назад",
+    "next": "Вперед",
+    "previous": "Назад",
+    "actions": "Действия",
+    "name": "Имя",
+    "email": "Email",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "date": "Дата",
+    "time": "Время",
+    "description": "Описание",
+    "support": "Поддержка",
+    "terms": "Условия использования",
+    "refresh": "Обновить",
+    "error": "Ошибка",
+    "birthday": "Дата рождения",
+    "yes": "Да",
+    "no": "Нет"
+  },
+  "notifications": {
+    "success": "Операция успешно завершена",
+    "error": "Произошла ошибка",
+    "warning": "Предупреждение",
+    "info": "Информация",
+    "clientDeleted": "Клиент удален",
+    "clientDeletedSuccess": "Клиент был успешно удален"
+  },
+  "whatsappNotifications": {
+    "title": "Уведомления клиентов",
+    "description": "Управление напоминаниями о встречах",
+    "subDescription": "Отправляйте WhatsApp-напоминания клиентам о предстоящих встречах",
+    "goTo": "Управление уведомлениями"
+  },
+  "notificationsPage": {
+    "title": "Уведомления клиентов",
+    "subtitle": "Управление напоминаниями о встречах клиентов",
+    "refresh": "Обновить",
+    "tabs": {
+      "upcoming": "Для отправки",
+      "history": "История",
+      "settings": "Настройки уведомлений",
+      "calendar": "Google Календарь"
+    },
+    "howItWorks": {
+      "title": "Как работают WhatsApp уведомления",
+      "steps": [
+        "Выберите записи, для которых хотите отправить напоминание",
+        "Нажмите \"Создать WhatsApp уведомления\" для создания ссылок",
+        "Будут созданы ссылки, открывающие WhatsApp с предварительно заполненными текстами",
+        "Вы можете настроить стандартный текст перед отправкой"
+      ]
+    },
+    "customMessage": {
+      "title": "Персонализированное сообщение (опционально)",
+      "description": "Если указано, этот текст будет добавлен к стандартному сообщению",
+      "placeholder": "Например: Не забудьте принести предыдущую медицинскую документацию.",
+      "characters": "символов",
+      "clear": "Очистить"
+    },
+    "noAppointments": {
+      "loading": "Загрузка записей...",
+      "empty": "Нет записей для уведомления",
+      "description": "Нет предстоящих записей, требующих напоминаний."
+    },
+    "table": {
+      "client": "Клиент",
+      "service": "Услуга",
+      "time": "Время",
+      "actions": "Действия",
+      "send": "Отправить",
+      "selectAll": "Выбрать все"
+    },
+    "buttons": {
+      "generating": "Создание...",
+      "generateWhatsApp": "Создать WhatsApp уведомления"
+    },
+    "history": {
+      "title": "История уведомлений",
+      "description": "Последние напоминания, отправленные через WhatsApp",
+      "noNotifications": "Недавно не отправлено ни одного уведомления",
+      "table": {
+        "date": "Дата",
+        "message": "Сообщение",
+        "actions": "Действия",
+        "reopen": "Повторно открыть",
+        "client": "Клиент",
+        "status": "Статус"
+      },
+      "noSmsNotifications": "SMS еще не отправлялись",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Выбрать все",
+      "actions": "Действия",
+      "sendButton": "Создать WhatsApp уведомления",
+      "sending": "Создание уведомлений..."
+    },
+    "errors": {
+      "loadingAppointments": "Невозможно загрузить записи",
+      "loadingHistory": "Невозможно загрузить историю",
+      "noneSelected": "Выберите хотя бы одну запись для отправки уведомлений",
+      "sendingFailed": "Не удалось отправить напоминания"
+    },
+    "success": {
+      "remindersSent": "Напоминания успешно созданы"
+    },
+    "whatsappLink": "Открыть WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Настройки уведомлений",
+    "enableEmailNotifications": "Включить уведомления по электронной почте",
+    "emailSetup": {
+      "title": "Быстрая настройка электронной почты",
+      "email": "Электронная почта",
+      "emailPlaceholder": "Введите свой адрес электронной почты",
+      "password": "Пароль",
+      "passwordPlaceholder": "Введите пароль от электронной почты",
+      "description": "Эта конфигурация настраивает вашу учетную запись электронной почты для отправки уведомлений.",
+      "autoDetect": "Автоматическое определение настроек",
+      "emailRequired": "Введите свой адрес электронной почты для определения настроек"
+    },
+    "errors": {
+      "loadingSettings": "Невозможно загрузить настройки уведомлений",
+      "savingSettings": "Невозможно сохранить настройки",
+      "testEmailMissing": "Введите адрес электронной почты для тестирования"
+    },
+    "success": {
+      "settingsSaved": "Настройки уведомлений успешно сохранены",
+      "testEmailSent": "Тестовое письмо успешно отправлено",
+      "remindersProcessed": "Напоминания успешно обработаны"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Календарь",
+    "setupInstructions": "Настройка интеграции с Google Calendar",
+    "emailLabel": "Аккаунт Gmail",
+    "emailPlaceholder": "ваш.адрес@gmail.com",
+    "emailDescription": "Аккаунт Google, который вы хотите использовать для календаря",
+    "connected": "Аккаунт подключен",
+    "notConnected": "Аккаунт еще не подключен",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Ваш Client ID Google",
+    "clientIdDescription": "Получите это значение из консоли Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Ваш Client Secret Google",
+    "clientSecretDescription": "Получите это значение из консоли Google Cloud",
+    "configHelp": "Помощь с настройкой",
+    "errors": {
+      "authorizationUrlFailed": "Невозможно создать URL авторизации",
+      "emailRequired": "Введите email Google, который хотите синхронизировать",
+      "popupBlocked": "Всплывающее окно заблокировано. Отключите блокировку всплывающих окон для этого сайта.",
+      "authError": "Ошибка при авторизации"
+    },
+    "success": {
+      "settingsSaved": "Настройки синхронизации успешно сохранены",
+      "authorizationComplete": "Ваш аккаунт Google успешно подключен",
+      "connected": "Google Календарь успешно подключен"
+    },
+    "setup": {
+      "backToProFeatures": "Назад к PRO-функциям",
+      "syncTitle": "Синхронизация Google Календаря",
+      "syncDescription": "Автоматически добавляйте ваши встречи в Google Календарь",
+      "howItWorks": "Как это работает:",
+      "step1Title": "Введите ваш email Google",
+      "step1Desc": "Email, с которым вы входите в Google Календарь",
+      "step2Title": "Нажмите \"Подключить Google\"",
+      "step2Desc": "Вы авторизуете доступ к вашему календарю",
+      "step3Title": "Включите синхронизацию",
+      "step3Desc": "С этого момента встречи будут синхронизироваться автоматически",
+      "emailLabel": "Email Google",
+      "emailPlaceholder": "пример@gmail.com",
+      "emailHint": "Должен совпадать с email вашего аккаунта Google",
+      "connectButton": "Подключить Google",
+      "connecting": "Подключение...",
+      "connectedSuccess": "Успешно подключено!",
+      "connectedEmail": "{{email}} подключен к Google Календарю",
+      "enableSync": "Включить синхронизацию",
+      "syncToGoogle": "Новые встречи → Google Календарь",
+      "syncEnabled": "Синхронизация активна",
+      "syncEnabledDesc": "Новые встречи будут автоматически добавляться в Google Календарь",
+      "syncDisabled": "Синхронизация отключена",
+      "privacyTitle": "Ваша конфиденциальность защищена",
+      "privacyDesc": "Мы используем Google OAuth - безопасный протокол, который не позволяет нам получить доступ к вашему паролю. Вы можете отозвать доступ в любое время.",
+      "proFeatureTitle": "Google Календарь - PRO-функция",
+      "proFeatureDesc": "Синхронизируйте ваши встречи с Google Календарём",
+      "proOnlyMessage": "Эта функция доступна только с планом PRO.",
+      "upgradeToPro": "Перейти на PRO",
+      "backToDashboard": "Вернуться к Dashboard"
+    }
+  },
+  "errors": {
+    "genericError": "Произошла ошибка: {{error}}",
+    "qrCodeFetchError": "Ошибка при получении существующего QR-кода:"
+  },
+  "auth": {
+    "login": "Вход",
+    "logout": "Выход",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "rememberMe": "Запомнить меня",
+    "forgotPassword": "Забыли пароль?",
+    "loginButton": "Войти"
+  },
+  "clientArea": {
+    "title": "Личный Кабинет",
+    "welcome": "Добро пожаловать в ваш Личный Кабинет",
+    "appointments": "Ваши Записи",
+    "personalInfo": "Личная Информация",
+    "consents": "Управление Согласиями",
+    "messages": "Сообщения"
+  },
+  "contacts": {
+    "accessOurContacts": "Доступ к нашим контактам"
+  },
+  "appointment": {
+    "selectTimeSlots": "Выберите время для новой записи",
+    "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
+    "selected": "Выбрано",
+    "selectSlots": "Выберите временные интервалы",
+    "confirmDelete": "Вы уверены, что хотите удалить эту запись?",
+    "confirmDeleteTitle": "Удалить запись"
+  },
+  "trial": {
+    "days": "дней",
+    "expired": "Истёк",
+    "upgradeMessage": "Открыть премиум планы"
+  },
+  "banking": {
+    "title": "Настройка Платежей",
+    "subtitle": "Управление банковскими данными для автоматических платежей реферальных комиссий",
+    "bankName": "Название Банка",
+    "bankNamePlaceholder": "напр. Сбербанк",
+    "accountHolder": "Владелец Счета",
+    "accountHolderPlaceholder": "Полное имя / Название компании",
+    "iban": "IBAN",
+    "ibanPlaceholder": "RU12 3456 7890 1234 5678 9012 3456",
+    "bic": "БИК/SWIFT",
+    "bicPlaceholder": "напр. SABRRUMMXXX",
+    "address": "Адрес",
+    "addressPlaceholder": "Полный адрес для выставления счетов",
+    "autoPayEnabled": "Автоматическая Выплата Комиссий",
+    "paymentDelay": "Задержка Платежа (дней)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Минимальная Сумма (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Описание",
+    "descriptionPlaceholder": "Описание для банковских переводов",
+    "showIban": "Показать IBAN",
+    "hideIban": "Скрыть IBAN",
+    "testPayment": "Проверить Платеж",
+    "saveSettings": "Сохранить Настройки",
+    "configured": "Настроено",
+    "notConfigured": "Не Настроено",
+    "status": {
+      "configured": "Банковские данные правильно настроены",
+      "notConfigured": "Настройте банковские данные для активации выплат комиссий"
+    },
+    "alerts": {
+      "security": "Банковские данные защищены и зашифрованы. Только администраторы могут их просматривать.",
+      "paymentInfo": "Комиссии будут выплачиваться автоматически когда баланс превысит настроенную минимальную сумму."
+    },
+    "success": {
+      "saved": "Настройки сохранены",
+      "savedDescription": "Банковские настройки успешно обновлены",
+      "testComplete": "Проверка завершена",
+      "testSuccess": "Платежная система настроена правильно"
+    },
+    "errors": {
+      "saveFailed": "Не удалось сохранить банковские настройки",
+      "testFailed": "Проверьте конфигурацию банковских данных"
+    }
+  },
+  "payments": {
+    "title": "Администрирование Платежей",
+    "subtitle": "Управление подписками, транзакциями и комиссиями",
+    "tabs": {
+      "overview": "Обзор",
+      "transactions": "Транзакции",
+      "methods": "Способы Оплаты",
+      "settings": "Настройки"
+    },
+    "demo": "ДЕМО",
+    "realData": "Реальные Данные",
+    "testTransaction": "Тестовая транзакция",
+    "filterByLicense": "Фильтр по лицензии",
+    "allLicenses": "Все лицензии",
+    "stats": {
+      "totalRevenue": "Общий Доход",
+      "activeSubscriptions": "Активные Подписки",
+      "pendingCommissions": "Ожидающие Комиссии"
+    },
+    "table": {
+      "date": "Дата",
+      "user": "Пользователь",
+      "license": "Лицензия",
+      "amount": "Сумма",
+      "method": "Способ",
+      "status": "Статус",
+      "actions": "Действия"
+    },
+    "status": {
+      "completed": "Завершено",
+      "pending": "Ожидает",
+      "failed": "Не удалось",
+      "cancelled": "Отменено"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Банковский Перевод",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Реферальная Система",
+    "subtitle": "Зарабатывайте комиссии приглашая новых клиентов",
+    "adminOnly": "Только администраторы могут управлять рефералами, координировать и проверять подписки спонсированные персоналом для осуществления платежей",
+    "yourCode": "Ваш Реферальный Код",
+    "copyCode": "Копировать код",
+    "shareCode": "Поделиться",
+    "copyToClipboard": "Копировать в буфер обмена",
+    "share": "Поделиться",
+    "earnings": {
+      "title": "Ваш Заработок",
+      "total": "Всего Заработано",
+      "pending": "Ожидает",
+      "paid": "Оплачено"
+    },
+    "iban": {
+      "title": "IBAN для Платежей",
+      "placeholder": "RU12 3456 7890 1234 5678 9012 3456",
+      "description": "Введите ваш IBAN для получения комиссий",
+      "save": "Сохранить IBAN",
+      "saved": "IBAN успешно сохранен"
+    },
+    "commissions": {
+      "title": "Комиссии",
+      "customer": "Клиент",
+      "license": "Лицензия",
+      "amount": "Сумма",
+      "status": "Статус",
+      "date": "Дата",
+      "noCommissions": "Комиссий пока нет",
+      "pending": "Ожидает",
+      "paid": "Оплачено"
+    },
+    "howItWorks": {
+      "title": "Как Это Работает",
+      "step1": "Поделитесь вашим реферальным кодом с потенциальными клиентами",
+      "step2": "Когда они регистрируются используя ваш код, они становятся вашими рефералами",
+      "step3": "Вы зарабатываете 25% с каждой подписки которую они активируют",
+      "step4": "Комиссии выплачиваются на ваш IBAN"
+    }
+  },
+  "manual": {
+    "pwa": {
+      "title": "Запросы на Запись через PWA Клиента",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Как это работает для клиента",
+          "badge": {
+            "text": "Как это работает для клиента",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Доступ к PWA",
+                  "text": "Клиент открывает свое персональное PWA-приложение (установленное через QR-код)"
+                },
+                {
+                  "title": "Меню Записей",
+                  "text": "Нажимает на \"Запросить Запись\" в главном меню"
+                },
+                {
+                  "title": "Выбор Услуги",
+                  "text": "Выбирает желаемую процедуру из списка"
+                },
+                {
+                  "title": "Предпочтение по Специалисту",
+                  "text": "ОПЦИОНАЛЬНО",
+                  "items": [
+                    "Может выбрать предпочтительного специалиста из выпадающего меню",
+                    "Или оставить \"Без предпочтений\" для автоматического назначения"
+                  ]
+                },
+                {
+                  "title": "Дата и Время",
+                  "text": "Выбирает желаемую дату и временное окно"
+                },
+                {
+                  "title": "Отправка Запроса",
+                  "text": "Нажимает \"Отправить Запрос\" - запрос поступает в Ваш раздел \"Запросы на Бронирование\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Управление запросами (Админ)",
+          "badge": {
+            "text": "Управление запросами (Админ)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Путь: Главное меню → Запросы на Бронирование"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Получение уведомления",
+                  "text": "Вы видите запрос со всеми деталями (клиент, услуга, дата, время, предпочтение по специалисту)"
+                },
+                {
+                  "title": "Автоматическое Подтверждение",
+                  "items": [
+                    "Нажмите \"Одобрить\" для быстрого подтверждения",
+                    "Система автоматически назначает предпочтительного специалиста (если доступен) или свободного",
+                    "Автоматически назначает первый свободный кабинет"
+                  ]
+                },
+                {
+                  "title": "Ручное Подтверждение",
+                  "items": [
+                    "Открывается диалог с опциями выбора",
+                    "Вы можете вручную выбрать специалиста и кабинет",
+                    "Полезно для оптимизации организации или обработки особых предпочтений"
+                  ]
+                },
+                {
+                  "title": "Уведомление Клиента",
+                  "text": "Клиент получает подтверждение записи с полными деталями (назначенный специалист и кабинет)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Другие Функции PWA Клиента",
+          "badge": {
+            "text": "Другие Функции PWA Клиента",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Просмотр Записей",
+                  "items": [
+                    "Полный список всех записей (прошлых и будущих)",
+                    "Детали: дата, время, услуга, назначенный специалист, кабинет",
+                    "Статус записи (подтверждена, завершена, отменена)",
+                    "Обновление в реальном времени"
+                  ]
+                },
+                {
+                  "title": "📄 Документы и Счета",
+                  "items": [
+                    "Доступ ко всем выставленным счетам",
+                    "Скачивание PDF прямо из приложения",
+                    "Полная история платежей"
+                  ]
+                },
+                {
+                  "title": "📞 Прямые Контакты",
+                  "items": [
+                    "📧 Email: Нажатие для открытия почтового клиента с предзаполненным адресом",
+                    "📱 Телефон: Нажатие для прямого звонка в клинику",
+                    "🌐 Веб-сайт: Прямая ссылка на Ваш сайт",
+                    "📷 Instagram: Открытие профиля Instagram",
+                    "👍 Facebook: Ссылка на страницу Facebook"
+                  ]
+                },
+                {
+                  "title": "🔔 Push-Уведомления",
+                  "items": [
+                    "Автоматические напоминания о записях",
+                    "Подтверждения бронирований",
+                    "Важные обновления от клиники"
+                  ]
+                },
+                {
+                  "title": "📱 Работает Офлайн",
+                  "items": [
+                    "Доступ к данным даже без подключения",
+                    "Автоматическая синхронизация при восстановлении связи"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "benefits": {
+        "title": "✨ Преимущества PWA-Приложения для Клиентов",
+        "items": [
+          {
+            "title": "Не Требуется Загрузка из Магазина",
+            "text": "Мгновенная установка через QR-код, без необходимости обращаться в App Store или Google Play"
+          },
+          {
+            "title": "Всегда Обновлено",
+            "text": "Автоматические обновления без необходимости устанавливать новые версии"
+          },
+          {
+            "title": "Персонализировано",
+            "text": "Каждый клиент видит только свои данные (записи, счета, документы)"
+          },
+          {
+            "title": "Персональная Иконка",
+            "text": "Приложение отображает логотип Вашей клиники на главном экране телефона"
+          },
+          {
+            "title": "Быстрый Доступ",
+            "text": "Одно нажатие на иконку - и клиент в своей личной области"
+          },
+          {
+            "title": "Мультиплатформенность",
+            "text": "Работает на iPhone, Android, планшетах и десктопах"
+          },
+          {
+            "title": "Безопасность",
+            "text": "Аутентификация через уникальный токен, не нужно запоминать пароль"
+          },
+          {
+            "title": "Прямой Контакт",
+            "text": "Email, телефон и социальные сети в одно нажатие"
+          }
+        ]
+      },
+      "tips": {
+        "proTip": "Покажите клиентам как установить приложение во время первого визита. Они сразу увидят добавленную ценность и почувствуют себя более вовлеченными в отношения с Вашей клиникой!",
+        "retention": "Персонализированное PWA-приложение создает более прочную связь с клиентами, увеличивая удержание и снижая количество неявок благодаря автоматическим напоминаниям и премиальному пользовательскому опыту."
+      }
+    }
+  },
+  "planFeatures": {
+    "calendar": "Календарь записей",
+    "clients": "Управление клиентами",
+    "qrPwa": "QR/PWA-приложение для клиентов",
+    "appointmentRequests": "Запросы клиентов на запись",
+    "notifications": "Уведомления клиентам",
+    "invoices": "Создание счетов",
+    "googleCalendar": "Синхронизация Google Calendar",
+    "reports": "Отчеты и статистика",
+    "packages": "Промо-пакеты",
+    "multiStaff": "Управление несколькими сотрудниками",
+    "inventory": "Складской учет продуктов",
+    "marketingAI": "AI-маркетинговые кампании"
+  },
+  "whatsappCenter": {
+    "pageTitle": "Центр Настройки и Отправки Уведомлений",
+    "pageSubtitle": "Управляйте уведомлениями для ваших клиентов через WhatsApp и Email",
+    "emailNotifications": {
+      "title": "Настройки Email-уведомлений",
+      "description": "Настройте шаблоны и параметры для отправки автоматических email-напоминаний вашим клиентам",
+      "configureButton": "Настроить Email"
+    },
+    "marketingAI": {
+      "title": "AI-Маркетинговые Кампании",
+      "description": "Создавайте профессиональные маркетинговые кампании с AI-генерированным текстом и отправляйте по email или WhatsApp",
+      "createButton": "Создать AI-Кампанию"
+    },
+    "whatsappConfig": {
+      "sectionTitle": "Настройка и Использование WhatsApp",
+      "systemTitle": "Система Уведомлений WhatsApp",
+      "systemDescription": "Настройка телефона и отправка сообщений WhatsApp",
+      "phoneStatus": "Статус телефона",
+      "configured": "Настроен",
+      "notConfigured": "Не настроен",
+      "unknown": "Неизвестно",
+      "updated": "Обновлено"
+    },
+    "tabs": {
+      "phoneSetup": "Настройка телефона",
+      "sendNotifications": "Отправка уведомлений",
+      "marketingCampaigns": "Маркетинговые Кампании"
+    },
+    "phoneSetup": {
+      "title": "Настройка Телефона WhatsApp",
+      "description": "Настройте ваше устройство для отправки уведомлений WhatsApp",
+      "configurePhone": "Настройте ваш телефон",
+      "enterPhonePrompt": "Введите номер телефона, чтобы начать отправку уведомлений WhatsApp клиентам",
+      "phoneNumber": "Номер телефона",
+      "email": "Email",
+      "optional": "необязательно",
+      "phonePlaceholder": "+79001234567",
+      "phoneHint": "Введите полный номер с международным префиксом (напр. +79001234567)",
+      "whatsappAutoEnabled": "Уведомления WhatsApp будут включены автоматически",
+      "saving": "Сохранение...",
+      "saveConfig": "Сохранить настройки",
+      "updating": "Обновление...",
+      "updatePhone": "Обновить телефон",
+      "test": "Тест",
+      "removePhone": "Удалить телефон",
+      "configuredSuccess": "Телефон успешно настроен",
+      "configuredDescription": "WhatsApp настроен и может использоваться для отправки уведомлений клиентам",
+      "howItWorks": "Как это работает",
+      "howItWorksDescription": "Следуйте этим шагам для отправки уведомлений WhatsApp вашим клиентам",
+      "step1": "Перейдите на вкладку \"Отправка уведомлений\" и выберите записи",
+      "step2": "Сгенерируйте ссылки WhatsApp и следуйте инструкциям на экране",
+      "step3": "Сообщения будут отправлены по одному через ваше приложение WhatsApp",
+      "howNotificationsWork": "Как работают уведомления:",
+      "notificationsExplanation": "После сохранения телефона вы сможете отправлять уведомления WhatsApp клиентам через прямые ссылки, которые открываются в вашем приложении WhatsApp.",
+      "contactInfo": "Ваша контактная информация для уведомлений",
+      "featureNotImplemented": "Функция будет реализована",
+      "removePhoneDescription": "Удаление телефона будет реализовано в новой системе ContactSettings"
+    },
+    "sendNotifications": {
+      "title": "Отправка Уведомлений WhatsApp",
+      "description": "Выберите записи и отправьте уведомления через WhatsApp",
+      "noPhoneConfigured": "Телефон не настроен",
+      "noPhoneDescription": "Сначала необходимо настроить телефон для отправки уведомлений WhatsApp",
+      "loadingAppointments": "Загрузка записей...",
+      "noAppointments": "Записи не найдены",
+      "noAppointmentsDescription": "Нет доступных записей на ближайшие дни",
+      "refresh": "Обновить",
+      "refreshList": "Обновить список",
+      "selectOnlyUnsent": "Выбрать только неотправленные",
+      "info": "Информация",
+      "selectAndSendInfo": "Выберите несколько записей и нажмите \"Отправить последовательно\", чтобы отправить их одну за другой",
+      "sendAllTomorrow": "Отправить Все на Завтра",
+      "sendingAuto": "Автоматическая отправка...",
+      "sendSequence": "Отправить последовательно",
+      "sending": "Отправка...",
+      "upcomingAppointments": "Предстоящие записи",
+      "sent": "ОТПРАВЛЕНО",
+      "send": "Отправить",
+      "customMessage": "Персональное сообщение",
+      "customMessageHint": "Введите дополнительное сообщение, которое будет включено в сообщения WhatsApp для всех выбранных выше клиентов. Это позволяет персонализировать содержание стандартного сообщения.",
+      "customMessagePlaceholder": "Введите персональное сообщение для добавления к стандартному тексту...",
+      "noAppointmentSelected": "Запись не выбрана",
+      "selectAtLeastOne": "Выберите хотя бы одну запись для отправки уведомлений",
+      "sendComplete": "Отправка завершена",
+      "allMessagesSent": "Все сообщения отправлены",
+      "completed": "Завершено",
+      "allMessagesProcessed": "Все сообщения обработаны",
+      "error": "Ошибка",
+      "cannotGenerateLinks": "Невозможно сгенерировать ссылки WhatsApp. Попробуйте снова.",
+      "linksGenerated": "Ссылки сгенерированы",
+      "linksGeneratedCount": "Сгенерировано {{count}} ссылок WhatsApp",
+      "noLinksGenerated": "Запись не выбрана",
+      "selectAppointmentsForLinks": "Выберите хотя бы одну запись для генерации ссылок WhatsApp"
+    },
+    "marketing": {
+      "title": "Маркетинговые Сообщения WhatsApp",
+      "description": "Сообщения WhatsApp из маркетинговых кампаний готовы для ручной отправки",
+      "loadingMessages": "Загрузка сообщений...",
+      "noMessages": "Нет маркетинговых сообщений",
+      "noMessagesDescription": "Нет сообщений WhatsApp маркетинга, ожидающих отправки",
+      "messagesPending": "сообщений ожидает",
+      "messagePending": "сообщение ожидает",
+      "messages": "сообщений",
+      "message": "сообщение",
+      "noName": "Без имени"
+    },
+    "linkModal": {
+      "sequentialSend": "Последовательная отправка",
+      "whatsappLinks": "Ссылки WhatsApp",
+      "contact": "Контакт",
+      "of": "из",
+      "whatsappOpened": "WhatsApp открылся в новом окне",
+      "afterSending": "После отправки сообщения:",
+      "nextContact": "Перейти к следующему контакту",
+      "finishSend": "Завершить отправку",
+      "openWhatsApp": "Открыть WhatsApp",
+      "next": "Далее",
+      "finish": "Завершить"
+    },
+    "toast": {
+      "configSaved": "Настройки сохранены!",
+      "configSavedDescription": "Настройки телефона успешно сохранены",
+      "saveError": "Ошибка сохранения",
+      "saveErrorDescription": "Произошла ошибка при сохранении настроек",
+      "autoSendComplete": "Автоматическая Отправка Завершена!",
+      "autoSendDescription": "{{count}} сообщений подготовлено на завтра!",
+      "autoSendErrors": "{{count}} ошибок.",
+      "messagesReady": "Сообщения Готовы!",
+      "messagesReadyDescription": "Нажмите \"Открыть WhatsApp\", чтобы начать отправку {{count}} подготовленных сообщений.",
+      "autoSendError": "Ошибка Автоматической Отправки",
+      "autoSendErrorDescription": "Невозможно отправить сообщения автоматически. Попробуйте снова.",
+      "loadError": "Невозможно загрузить записи.",
+      "loadMarketingError": "Невозможно загрузить маркетинговые сообщения."
+    }
+  },
+  "pro": {
+    "title": "PRO-функции",
+    "googleCalendar": "Google Календарь",
+    "invoices": "Счета",
+    "packages": "Пакеты",
+    "inventory": "Склад",
+    "reports": "Отчёты",
+    "syncGoogleCalendar": "Синхронизировать Google Календарь",
+    "syncDescription": "Управляйте синхронизацией ваших записей с Google Календарём",
+    "clickToConfigure": "Нажмите, чтобы настроить и управлять синхронизацией с Google Календарём",
+    "googleCalendarIntegration": "Интеграция Google Календаря",
+    "googleCalendarLocked": "Интеграция Google Календаря доступна в PRO-версии. Обновите план, чтобы получить доступ к этой функции."
+  },
+  "proFeature": {
+    "title": "PRO-функция",
+    "subtitle": "доступна только с подпиской PRO",
+    "reportsDescription": "Подробные отчёты о деятельности доступны начиная с плана Pro.",
+    "benefits": {
+      "title": "С PRO вы получаете",
+      "invoices": "Полное управление счетами",
+      "reports": "Подробные отчёты о деятельности",
+      "googleCalendar": "Интеграция Google Календаря",
+      "support": "Приоритетная поддержка"
+    },
+    "upgradeButton": "Перейти на PRO"
+  },
+  "common": {
+    "backToHome": "Вернуться на Главную",
+    "loading": "Загрузка...",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "save": "Сохранить",
+    "send": "Отправить",
+    "close": "Закрыть"
+  },
+  "invoices": {
+    "title": "Управление счетами",
+    "subtitle": "Создавайте и управляйте счетами для ваших клиентов",
+    "updateInvoices": "Обновить счета",
+    "updating": "Миграция...",
+    "cleanupNumbering": "Очистить нумерацию",
+    "cleaning": "Очистка...",
+    "newInvoice": "Новый счёт",
+    "noInvoices": "Счета не найдены",
+    "startCreating": "Начните с создания первого счёта",
+    "createFirst": "Создать первый счёт",
+    "invoiceNumber": "Счёт #",
+    "client": "Клиент",
+    "date": "Дата",
+    "dueDate": "Срок оплаты",
+    "amount": "Сумма",
+    "status": "Статус",
+    "paid": "Оплачен",
+    "unpaid": "Не оплачен",
+    "sentToClient": "Отправлен клиенту",
+    "preview": "Предпросмотр",
+    "print": "Печать",
+    "sendEmail": "Отправить Email",
+    "sendMultichannel": "Отправить счёт",
+    "markAsPaid": "Отметить как Оплачен",
+    "markAsUnpaid": "Отметить как Не оплачен",
+    "deleteInvoice": "Удалить счёт",
+    "confirmDelete": "Вы уверены, что хотите удалить этот счёт?",
+    "irreversibleAction": "Это действие необратимо!",
+    "form": {
+      "clientRequired": "Клиент обязателен",
+      "amountPositive": "Сумма должна быть положительной",
+      "dateRequired": "Дата обязательна",
+      "dueDateRequired": "Срок оплаты обязателен",
+      "description": "Описание",
+      "selectClient": "Выберите клиента"
+    },
+    "email": {
+      "title": "Отправить счёт по Email",
+      "recipient": "Email получателя",
+      "subject": "Тема",
+      "message": "Сообщение",
+      "invalidEmail": "Неверный email",
+      "subjectRequired": "Тема обязательна"
+    },
+    "channels": {
+      "pwa": "Приложение клиента",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "noChannelSelected": "Выберите хотя бы один канал отправки"
+    },
+    "toast": {
+      "created": "Счёт успешно создан",
+      "createError": "Ошибка создания счёта",
+      "emailSent": "Email успешно отправлен",
+      "emailError": "Ошибка отправки email",
+      "statusUpdated": "Статус обновлён",
+      "statusError": "Ошибка обновления статуса",
+      "sent": "Счёт отправлен",
+      "printStarted": "Печать начата",
+      "printWindowWillOpen": "Окно печати откроется автоматически",
+      "printError": "Всплывающее окно заблокировано. Включите всплывающие окна для печати",
+      "previewGenerated": "Предпросмотр создан",
+      "previewDescription": "Так будет выглядеть счёт",
+      "cleanupCompleted": "Очистка завершена",
+      "cleanupError": "Ошибка очистки нумерации"
+    }
+  },
+  "packages": {
+    "title": "Управление рекламными пакетами",
+    "subtitle": "Создавайте и управляйте пакетами процедур для ваших клиентов",
+    "newPackage": "Новый пакет",
+    "newShort": "Новый",
+    "noPackages": "Пакеты не найдены",
+    "startCreating": "Начните с создания первого рекламного пакета",
+    "createFirst": "Создать первый пакет",
+    "noPackagesCreated": "Рекламный пакет не создан",
+    "createFirstPackage": "Создайте свой первый пакет",
+    "noPackagesSold": "Пакеты ещё не проданы",
+    "active": "Активен",
+    "inactive": "Неактивен",
+    "completed": "Завершён",
+    "expired": "Истёк",
+    "soldTo": "Продан",
+    "used": "Использовано",
+    "of": "из",
+    "sessions": "сеансов",
+    "sessionsLabel": "Сеансы",
+    "remaining": "Осталось",
+    "valid": "Действителен",
+    "until": "до",
+    "validity": "Срок действия",
+    "days": "дней",
+    "price": "Цена",
+    "originalPrice": "Исходная цена",
+    "discount": "Скидка",
+    "services": "Услуги",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "confirmDelete": "Вы уверены, что хотите удалить этот пакет?",
+    "confirmDeleteTitle": "Подтвердить удаление",
+    "confirmDeleteDesc": "Вы уверены, что хотите удалить этот шаблон? Это действие нельзя отменить.",
+    "tabs": {
+      "templates": "Шаблоны пакетов",
+      "sold": "Проданные пакеты"
+    },
+    "sell": "Продать",
+    "sellPackage": "Продать пакет",
+    "sellPackageTitle": "Продать пакет",
+    "selling": "Продажа...",
+    "client": "Клиент",
+    "selectClient": "Выберите клиента...",
+    "purchaseDate": "Дата покупки",
+    "notesOptional": "Заметки (необязательно)",
+    "sessionProgress": "Прогресс сеансов",
+    "purchasedOn": "Куплено",
+    "expiresOn": "Истекает",
+    "remainingSessions": "Оставшиеся сеансы",
+    "pricePaid": "Оплаченная цена",
+    "notes": "Заметки",
+    "form": {
+      "name": "Название пакета",
+      "namePlaceholder": "напр. 10 Премиум процедур для лица",
+      "description": "Описание",
+      "descriptionOptional": "Описание (необязательно)",
+      "descriptionPlaceholder": "Описание пакета...",
+      "totalSessions": "Количество сеансов",
+      "totalPrice": "Общая цена",
+      "price": "Цена со скидкой",
+      "originalPrice": "Исходная цена",
+      "validDays": "Срок действия (дней, необязательно)",
+      "includedServices": "Включённые услуги",
+      "addService": "Добавить услугу...",
+      "selectClient": "Выберите клиента",
+      "selectTreatment": "Выберите процедуру",
+      "cancel": "Отмена",
+      "creating": "Создание...",
+      "createPackage": "Создать пакет",
+      "createNewPackage": "Создать новый рекламный пакет"
+    },
+    "toast": {
+      "created": "Пакет успешно создан",
+      "createdDesc": "Рекламный пакет успешно создан",
+      "updated": "Пакет обновлён",
+      "deleted": "Пакет удалён",
+      "deletedDesc": "Шаблон успешно удалён",
+      "sold": "Пакет продан",
+      "soldDesc": "Пакет назначен клиенту",
+      "error": "Ошибка операции с пакетом",
+      "cannotCreate": "Невозможно создать шаблон",
+      "cannotSell": "Невозможно продать пакет",
+      "cannotDelete": "Невозможно удалить шаблон"
+    }
+  },
+  "inventory": {
+    "title": "Управление складом",
+    "subtitle": "Управляйте вашими продуктами и запасами",
+    "newProduct": "Новый продукт",
+    "addNewProduct": "Добавить новый продукт",
+    "editProduct": "Редактировать продукт",
+    "noProducts": "Продукты не найдены",
+    "startCreating": "Начните с добавления первого продукта",
+    "createFirst": "Добавить первый продукт",
+    "available": "Доступен",
+    "inStock": "В наличии",
+    "lowStock": "Мало на складе",
+    "outOfStock": "Нет в наличии",
+    "quantity": "Количество",
+    "minStock": "Минимальный запас",
+    "price": "Цена",
+    "cost": "Стоимость",
+    "min": "Мин",
+    "stock": "Запас",
+    "sku": "Код SKU",
+    "barcode": "Штрих-код",
+    "category": "Категория",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "confirmDelete": "Подтвердите удаление",
+    "confirmDeleteDesc": "Вы уверены, что хотите удалить продукт",
+    "cannotUndo": "Это действие нельзя отменить.",
+    "cancel": "Отмена",
+    "adjustStock": "Изменить запас",
+    "addStock": "Добавить",
+    "removeStock": "Убрать",
+    "tabs": {
+      "products": "Продукты",
+      "movements": "Движения",
+      "sales": "Продажи",
+      "categories": "Категории"
+    },
+    "dashboard": {
+      "totalProducts": "Всего продуктов",
+      "lowStock": "Мало на складе",
+      "warehouseValue": "Стоимость склада",
+      "categories": "Категории"
+    },
+    "alert": {
+      "lowStockAlert": "Предупреждение о низком запасе"
+    },
+    "search": {
+      "placeholder": "Поиск по названию, SKU или штрих-коду...",
+      "allCategories": "Все категории"
+    },
+    "form": {
+      "name": "Название продукта",
+      "description": "Описание",
+      "sku": "Код SKU",
+      "category": "Категория",
+      "selectCategory": "Выберите категорию",
+      "noCategories": "Категории недоступны",
+      "createCategoryFirst": "Сначала создайте категорию в разделе Категории",
+      "price": "Цена продажи",
+      "costPrice": "Закупочная цена",
+      "quantity": "Доступное количество",
+      "minStock": "Минимальный запас",
+      "maxStock": "Максимальный запас",
+      "unit": "Единица",
+      "supplier": "Поставщик",
+      "supplierContact": "Контакт поставщика",
+      "location": "Расположение на складе",
+      "image": "Изображение продукта (необязательно)",
+      "changeImage": "Изменить изображение",
+      "uploadImage": "Загрузить изображение"
+    },
+    "stock": {
+      "load": "Приход",
+      "loadGoods": "Приход товара",
+      "sell": "Продать",
+      "registerSale": "Зарегистрировать продажу",
+      "unitPrice": "Цена за единицу",
+      "reference": "Ссылка (Счёт и т.д.)",
+      "registering": "Регистрация...",
+      "registerLoad": "Зарегистрировать приход",
+      "registerSaleBtn": "Зарегистрировать продажу"
+    },
+    "sale": {
+      "clientOptional": "Клиент (необязательно)",
+      "selectClient": "Выберите клиента",
+      "discount": "Скидка (%)"
+    },
+    "movements": {
+      "title": "Последние движения склада",
+      "noMovements": "Нет последних движений",
+      "in": "Приход",
+      "out": "Расход",
+      "sale": "Продажа",
+      "adjustment": "Корректировка",
+      "waste": "Списание"
+    },
+    "sales": {
+      "title": "Продажи продуктов",
+      "inDevelopment": "Функционал продаж в разработке..."
+    },
+    "categories": {
+      "title": "Категории продуктов",
+      "newCategory": "Новая категория",
+      "addNewCategory": "Добавить новую категорию",
+      "name": "Название категории",
+      "description": "Описание",
+      "color": "Цвет",
+      "products": "продуктов",
+      "creating": "Создание...",
+      "create": "Создать категорию"
+    },
+    "saving": "Сохранение...",
+    "saveChanges": "Сохранить изменения",
+    "formError": "Ошибка формы",
+    "checkFields": "Проверьте введённые поля",
+    "locked": {
+      "title": "Склад недоступен",
+      "description": "Управление складом и запасами доступно только в плане",
+      "businessPlan": "Business",
+      "upgradeToBusiness": "Перейти на Business"
+    },
+    "toast": {
+      "created": "Продукт успешно создан",
+      "updated": "Продукт успешно обновлён",
+      "deleted": "Продукт успешно удалён",
+      "stockUpdated": "Движение склада зарегистрировано",
+      "saleRecorded": "Продажа успешно зарегистрирована",
+      "error": "Ошибка операции с продуктом"
+    }
+  },
+  "reports": {
+    "title": "Отчёты и статистика",
+    "subtitle": "Анализируйте эффективность вашего бизнеса",
+    "period": "Период",
+    "today": "Сегодня",
+    "thisWeek": "Эта неделя",
+    "thisMonth": "Этот месяц",
+    "thisYear": "Этот год",
+    "custom": "Произвольный",
+    "from": "С",
+    "to": "По",
+    "revenue": "Выручка",
+    "appointments": "Записи",
+    "clients": "Клиенты",
+    "newClients": "Новые клиенты",
+    "averageTicket": "Средний чек",
+    "mostPopularTreatments": "Самые популярные процедуры",
+    "revenueByProfessional": "Выручка по специалистам",
+    "appointmentsByDay": "Записи по дням",
+    "export": "Экспорт",
+    "exportPdf": "Экспорт PDF",
+    "exportCsv": "Экспорт CSV",
+    "noData": "Нет данных за этот период",
+    "loading": "Загрузка отчётов...",
+    "weekly": "Еженедельно",
+    "monthly": "Ежемесячно",
+    "yearly": "Ежегодно",
+    "previous": "Предыдущий",
+    "current": "Текущий",
+    "next": "Следующий",
+    "totalAppointments": "Всего записей",
+    "estimatedRevenue": "Ожидаемая выручка",
+    "totalRevenue": "Общая выручка",
+    "dailyAverage": "Дневное среднее",
+    "noAppointmentsInPeriod": "Нет записей за период",
+    "perDay": "в день",
+    "appointmentsPerDay": "записей в день",
+    "appointmentsBy": "Записи по",
+    "revenueBy": "Выручка по",
+    "day": "День",
+    "date": "Дата",
+    "month": "Месяц",
+    "year": "Год",
+    "week": "Неделя",
+    "numberOfAppointments": "Количество записей",
+    "serviceDistribution": "Распределение услуг",
+    "appointmentDetails": "Детали записей",
+    "serviceDetails": "Детали услуг",
+    "service": "Услуга",
+    "generatedOn": "Сгенерировано",
+    "at": "в",
+    "noDataForPeriod": "Нет данных за выбранный период",
+    "noAppointmentsRegistered": "Нет записей за указанный период."
+  },
+  "aiChat": {
+    "title": "ИИ-Ассистент",
+    "subtitle": "Попросите меня создать сообщения, найти информацию или дать вам предложения для вашего бизнеса",
+    "welcome": "Добро пожаловать в ИИ-Ассистент",
+    "tryAsking": "Попробуйте спросить:",
+    "example1": "Создайте напоминание на завтра",
+    "example2": "Подскажите, как лучше управлять записями",
+    "example3": "Найдите информацию о методах физиотерапии",
+    "error": "Ошибка",
+    "errorMessage": "Невозможно связаться с ИИ. Попробуйте снова.",
+    "messageApproved": "Сообщение одобрено",
+    "messageApprovedDesc": "Сообщение было одобрено и может быть отправлено.",
+    "messageRejected": "Сообщение отклонено",
+    "messageRejectedDesc": "Вы можете попросить ИИ создать новое сообщение.",
+    "previewTitle": "Сгенерированное сообщение - Требует одобрения",
+    "recipient": "Получатель",
+    "approveAndUse": "Одобрить и использовать",
+    "reject": "Отклонить",
+    "placeholder": "Напишите ваше сообщение..."
+  }
+}

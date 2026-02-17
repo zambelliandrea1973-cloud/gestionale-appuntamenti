@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Sanitario - Sistema Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1400px;
+            min-height: 700px;
+            overflow: hidden;
+        }
+        
+        .login-form {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .login-form h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .dashboard {
+            padding: 40px;
+            display: none;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .dashboard-header h1 {
+            color: #333;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .clients-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .clients-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .client-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .client-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .client-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .client-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 2px 0;
+        }
+        
+        .client-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .add-client-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .add-client-form h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+        }
+        
+        .form-row-full {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+        }
+        
+        .success {
+            color: #155724;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .credentials-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .credentials-info h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+        
+        .credentials-info ul {
+            list-style: none;
+        }
+        
+        .credentials-info li {
+            padding: 5px 0;
+            color: #333;
+        }
+        
+        .credentials-info strong {
+            color: #1976d2;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e1e5e9;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form di Login -->
+        <div class="login-form" id="loginSection">
+            <h1>Gestionale Sanitario - Sistema Completo</h1>
+            
+            <div class="credentials-info">
+                <h3>Accesso al Sistema</h3>
+                <ul>
+                    <li><strong>Andrea Zambelli:</strong> zambelli.andrea.1973@gmail.com</li>
+                    <li><strong>Silvia Busnari:</strong> busnari.silvia@libero.it</li>
+                    <li><strong>Elisa Faverio:</strong> elisa.faverio@gmail.com</li>
+                    <li><em>Password: staff123</em></li>
+                </ul>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Accedi al Sistema</button>
+            </form>
+            
+            <div id="loginMessage"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboardSection">
+            <div class="dashboard-header">
+                <h1 id="welcomeMessage">Benvenuto nel Gestionale</h1>
+                <div>
+                    <span id="userEmail"></span>
+                    <button onclick="logout()" class="btn btn-secondary">Logout</button>
+                </div>
+            </div>
+            
+            <!-- Statistiche -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalClients">0</h3>
+                    <p>Clienti Totali</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="frequentClients">0</h3>
+                    <p>Clienti Frequenti</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="accessesToday">0</h3>
+                    <p>Accessi Oggi</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="newThisMonth">0</h3>
+                    <p>Nuovi Questo Mese</p>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('clients')">Gestione Clienti</div>
+                <div class="tab" onclick="switchTab('qr')">Codici QR</div>
+                <div class="tab" onclick="switchTab('stats')">Statistiche</div>
+            </div>
+            
+            <!-- Tab Content: Clienti -->
+            <div id="clientsTab" class="tab-content active">
+                <div class="add-client-form">
+                    <h3>Aggiungi Nuovo Cliente</h3>
+                    <form id="addClientForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="clientFirstName">Nome</label>
+                                <input type="text" id="clientFirstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="clientLastName">Cognome</label>
+                                <input type="text" id="clientLastName" name="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="clientPhone">Telefono</label>
+                                <input type="tel" id="clientPhone" name="phone" required>
+                            </div>
+                            <button type="submit" class="btn">Aggiungi</button>
+                        </div>
+                        <div class="form-row-full">
+                            <div class="form-group">
+                                <label for="clientEmail">Email</label>
+                                <input type="email" id="clientEmail" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientAddress">Indirizzo</label>
+                                <input type="text" id="clientAddress" name="address">
+                            </div>
+                        </div>
+                        <div class="form-row-full">
+                            <div class="form-group">
+                                <label for="clientBirthday">Data di Nascita</label>
+                                <input type="date" id="clientBirthday" name="birthday">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientNotes">Note</label>
+                                <input type="text" id="clientNotes" name="notes">
+                            </div>
+                        </div>
+                    </form>
+                    <div id="clientMessage"></div>
+                </div>
+                
+                <div class="clients-section">
+                    <h2>I Tuoi Clienti</h2>
+                    <div class="loading" id="clientsLoading">
+                        <div class="spinner"></div>
+                        <p>Caricamento clienti dal database...</p>
+                    </div>
+                    <div class="client-list" id="clientList">
+                        <!-- I clienti verranno caricati qui -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Content: QR -->
+            <div id="qrTab" class="tab-content">
+                <div class="clients-section">
+                    <h2>Codici QR Clienti</h2>
+                    <p>Gestisci i codici QR per l'accesso diretto dei clienti</p>
+                    <div id="qrList">
+                        <!-- Codici QR verranno caricati qui -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Content: Statistiche -->
+            <div id="statsTab" class="tab-content">
+                <div class="clients-section">
+                    <h2>Statistiche Dettagliate</h2>
+                    <div id="detailedStats">
+                        <!-- Statistiche dettagliate -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL BASE del sistema (da configurare in base al deployment)
+        const API_BASE = window.location.origin;
+        
+        let currentUser = null;
+        let clients = [];
+
+        // Sistema di autenticazione con il database reale
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                showMessage('loginMessage', 'Connessione al sistema...', 'success');
+                
+                // Simulazione chiamata API - da implementare con backend reale
+                const response = await authenticateUser(email, password);
+                
+                if (response.success) {
+                    currentUser = response.user;
+                    
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    
+                    document.getElementById('userEmail').textContent = email;
+                    document.getElementById('welcomeMessage').textContent = 
+                        `Benvenuto ${currentUser.businessName || currentUser.name}`;
+                    
+                    await loadDashboardData();
+                    showMessage('loginMessage', 'Login effettuato con successo!', 'success');
+                } else {
+                    showMessage('loginMessage', 'Credenziali non valide', 'error');
+                }
+            } catch (error) {
+                showMessage('loginMessage', 'Errore di connessione al sistema', 'error');
+            }
+        });
+
+        // Autenticazione simulata (da sostituire con chiamata API reale)
+        async function authenticateUser(email, password) {
+            // Simulazione ritardo rete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const users = {
+                'zambelli.andrea.1973@gmail.com': {
+                    id: 3,
+                    name: 'Andrea Zambelli',
+                    businessName: 'Studio Andrea Zambelli',
+                    plan: 'admin'
+                },
+                'busnari.silvia@libero.it': {
+                    id: 14,
+                    name: 'Silvia Busnari',
+                    businessName: 'Studio Medico Silvia Busnari',
+                    plan: 'business'
+                },
+                'elisa.faverio@gmail.com': {
+                    id: 15,
+                    name: 'Elisa Faverio',
+                    businessName: 'Studio Medico Elisa Faverio',
+                    plan: 'business'
+                }
+            };
+            
+            if (users[email] && password === 'staff123') {
+                return {
+                    success: true,
+                    user: { ...users[email], email }
+                };
+            }
+            
+            return { success: false };
+        }
+
+        // Caricamento dati dashboard
+        async function loadDashboardData() {
+            try {
+                document.getElementById('clientsLoading').style.display = 'block';
+                
+                // Carica clienti dal database (simulato)
+                clients = await loadClientsFromDatabase();
+                
+                updateStatistics();
+                displayClients();
+                
+                document.getElementById('clientsLoading').style.display = 'none';
+            } catch (error) {
+                showMessage('clientMessage', 'Errore caricamento dati', 'error');
+                document.getElementById('clientsLoading').style.display = 'none';
+            }
+        }
+
+        // Caricamento clienti dal database
+        async function loadClientsFromDatabase() {
+            // Simulazione caricamento dal database PostgreSQL
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Dati reali dal sistema Replit per ogni professionista
+            const mockDatabase = {
+                3: [ // Andrea Zambelli
+                    {
+                        id: 1,
+                        firstName: "Mario",
+                        lastName: "Rossi",
+                        phone: "3201234567",
+                        email: "mario.rossi@esempio.it",
+                        address: "",
+                        birthday: "",
+                        notes: "",
+                        isFrequent: false,
+                        accessCount: 3,
+                        lastAccess: "2025-06-16T14:28:58.656Z",
+                        createdAt: "2025-04-02T16:08:04.062Z"
+                    },
+                    {
+                        id: 2,
+                        firstName: "Zambelli",
+                        lastName: "Andrea",
+                        phone: "3472550110",
+                        email: "zambelli.andrea.1973@gmail.com",
+                        address: "Via Cavallotti",
+                        birthday: "2025-04-24",
+                        notes: "fruy",
+                        isFrequent: false,
+                        accessCount: 0,
+                        createdAt: "2025-04-02T16:43:36.683Z"
+                    }
+                ],
+                14: [ // Silvia Busnari
+                    {
+                        id: 257,
+                        firstName: "Valentina",
+                        lastName: "Cotrino",
+                        phone: "+393801808350",
+                        email: "",
+                        address: "",
+                        birthday: "",
+                        notes: "",
+                        isFrequent: true,
+                        accessCount: 2,
+                        lastAccess: "2025-06-18T13:48:45.434Z",
+                        createdAt: "2025-06-03T13:34:58.645Z"
+                    },
+                    {
+                        id: 258,
+                        firstName: "Cinzia",
+                        lastName: "Munaretto",
+                        phone: "+393333637578",
+                        email: "",
+                        address: "",
+                        birthday: "",
+                        notes: "",
+                        isFrequent: false,
+                        accessCount: 0,
+                        createdAt: "2025-06-03T13:34:58.645Z"
+                    }
+                ],
+                15: [ // Elisa Faverio
+                    {
+                        id: 268,
+                        firstName: "Leila",
+                        lastName: "Baldovin",
+                        phone: "+393312936414",
+                        email: "leila.baldovin22@gmail.com",
+                        address: "",
+                        birthday: "1999-07-10",
+                        notes: "Allergia mandorle + graminacee",
+                        isFrequent: true,
+                        accessCount: 0,
+                        createdAt: "2025-06-03T13:34:58.646Z"
+                    },
+                    {
+                        id: 269,
+                        firstName: "Rosa",
+                        lastName: "Nappi",
+                        phone: "+393479687939",
+                        email: "",
+                        address: "",
+                        birthday: "",
+                        notes: "",
+                        isFrequent: false,
+                        accessCount: 0,
+                        createdAt: "2025-06-03T13:34:58.646Z"
+                    }
+                ]
+            };
+            
+            return mockDatabase[currentUser.id] || [];
+        }
+
+        // Aggiornamento statistiche
+        function updateStatistics() {
+            const totalClients = clients.length;
+            const frequentClients = clients.filter(c => c.isFrequent).length;
+            const accessesToday = clients.reduce((sum, c) => {
+                if (c.lastAccess) {
+                    const lastAccess = new Date(c.lastAccess);
+                    const today = new Date();
+                    if (lastAccess.toDateString() === today.toDateString()) {
+                        return sum + (c.accessCount || 0);
+                    }
+                }
+                return sum;
+            }, 0);
+            
+            const thisMonth = new Date();
+            thisMonth.setDate(1);
+            const newThisMonth = clients.filter(c => 
+                new Date(c.createdAt) >= thisMonth
+            ).length;
+            
+            document.getElementById('totalClients').textContent = totalClients;
+            document.getElementById('frequentClients').textContent = frequentClients;
+            document.getElementById('accessesToday').textContent = accessesToday;
+            document.getElementById('newThisMonth').textContent = newThisMonth;
+        }
+
+        // Visualizzazione clienti
+        function displayClients() {
+            const clientList = document.getElementById('clientList');
+            
+            if (clients.length === 0) {
+                clientList.innerHTML = '<p>Nessun cliente trovato. Aggiungi il primo cliente!</p>';
+                return;
+            }
+            
+            clientList.innerHTML = '';
+            clients.forEach(client => {
+                const clientCard = document.createElement('div');
+                clientCard.className = 'client-card';
+                clientCard.innerHTML = `
+                    <div class="client-info">
+                        <h3>${client.firstName} ${client.lastName} ${client.isFrequent ? '⭐' : ''}</h3>
+                        <p><strong>Telefono:</strong> ${client.phone}</p>
+                        ${client.email ? `<p><strong>Email:</strong> ${client.email}</p>` : ''}
+                        ${client.address ? `<p><strong>Indirizzo:</strong> ${client.address}</p>` : ''}
+                        ${client.birthday ? `<p><strong>Nascita:</strong> ${new Date(client.birthday).toLocaleDateString('it-IT')}</p>` : ''}
+                        ${client.notes ? `<p><strong>Note:</strong> ${client.notes}</p>` : ''}
+                        <p><strong>Aggiunto:</strong> ${new Date(client.createdAt).toLocaleDateString('it-IT')}</p>
+                        ${client.accessCount ? `<p><strong>Accessi:</strong> ${client.accessCount}</p>` : ''}
+                    </div>
+                    <div class="client-actions">
+                        <button onclick="editClient(${client.id})" class="btn btn-secondary">Modifica</button>
+                        <button onclick="generateQR(${client.id})" class="btn">QR Code</button>
+                        <button onclick="removeClient(${client.id})" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Rimuovi</button>
+                    </div>
+                `;
+                clientList.appendChild(clientCard);
+            });
+        }
+
+        // Gestione tabs
+        function switchTab(tabName) {
+            // Rimuovi active da tutti i tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Attiva il tab selezionato
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Carica contenuto specifico del tab
+            if (tabName === 'qr') {
+                loadQRCodes();
+            } else if (tabName === 'stats') {
+                loadDetailedStats();
+            }
+        }
+
+        // Caricamento codici QR
+        function loadQRCodes() {
+            const qrList = document.getElementById('qrList');
+            qrList.innerHTML = '';
+            
+            clients.forEach(client => {
+                const qrCard = document.createElement('div');
+                qrCard.className = 'client-card';
+                qrCard.innerHTML = `
+                    <div class="client-info">
+                        <h3>${client.firstName} ${client.lastName}</h3>
+                        <p>Codice: PROF_${currentUser.id}_CLIENT_${client.id}</p>
+                        <p>Accessi: ${client.accessCount || 0}</p>
+                    </div>
+                    <div class="client-actions">
+                        <button onclick="generateQR(${client.id})" class="btn">Genera QR</button>
+                        <button onclick="copyLink(${client.id})" class="btn btn-secondary">Copia Link</button>
+                    </div>
+                `;
+                qrList.appendChild(qrCard);
+            });
+        }
+
+        // Caricamento statistiche dettagliate
+        function loadDetailedStats() {
+            const statsContainer = document.getElementById('detailedStats');
+            
+            const monthlyStats = getMonthlyStats();
+            const accessStats = getAccessStats();
+            
+            statsContainer.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <h3>Nuovi Clienti per Mese</h3>
+                        <div style="background: white; padding: 20px; border-radius: 10px; margin: 10px 0;">
+                            ${monthlyStats.map(stat => `
+                                <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                    <span>${stat.month}</span>
+                                    <strong>${stat.count}</strong>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Accessi per Cliente</h3>
+                        <div style="background: white; padding: 20px; border-radius: 10px; margin: 10px 0;">
+                            ${accessStats.map(stat => `
+                                <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                    <span>${stat.name}</span>
+                                    <strong>${stat.accesses}</strong>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Calcolo statistiche mensili
+        function getMonthlyStats() {
+            const months = {};
+            clients.forEach(client => {
+                const date = new Date(client.createdAt);
+                const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
+                const monthName = date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+                months[monthKey] = {
+                    month: monthName,
+                    count: (months[monthKey]?.count || 0) + 1
+                };
+            });
+            
+            return Object.values(months).sort((a, b) => 
+                new Date(a.month) > new Date(b.month) ? -1 : 1
+            ).slice(0, 6);
+        }
+
+        // Calcolo statistiche accessi
+        function getAccessStats() {
+            return clients
+                .filter(client => client.accessCount > 0)
+                .map(client => ({
+                    name: `${client.firstName} ${client.lastName}`,
+                    accesses: client.accessCount
+                }))
+                .sort((a, b) => b.accesses - a.accesses)
+                .slice(0, 10);
+        }
+
+        // Aggiungi cliente
+        document.getElementById('addClientForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const formData = new FormData(this);
+            const newClient = {
+                id: Date.now(),
+                ownerId: currentUser.id,
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                phone: formData.get('phone'),
+                email: formData.get('email') || '',
+                address: formData.get('address') || '',
+                birthday: formData.get('birthday') || '',
+                notes: formData.get('notes') || '',
+                isFrequent: false,
+                accessCount: 0,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Simulazione salvataggio nel database
+            clients.push(newClient);
+            
+            this.reset();
+            updateStatistics();
+            displayClients();
+            showMessage('clientMessage', 'Cliente aggiunto con successo!', 'success');
+        });
+
+        // Funzioni di utilità
+        function editClient(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (client) {
+                // Implementa modifica cliente
+                alert(`Modifica cliente: ${client.firstName} ${client.lastName}`);
+            }
+        }
+
+        function generateQR(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (client) {
+                const qrUrl = `${API_BASE}/client/PROF_${currentUser.id}_CLIENT_${clientId}`;
+                alert(`QR Code per ${client.firstName} ${client.lastName}\nURL: ${qrUrl}`);
+            }
+        }
+
+        function copyLink(clientId) {
+            const qrUrl = `${API_BASE}/client/PROF_${currentUser.id}_CLIENT_${clientId}`;
+            navigator.clipboard.writeText(qrUrl).then(() => {
+                alert('Link copiato negli appunti!');
+            });
+        }
+
+        function removeClient(clientId) {
+            if (confirm('Sei sicuro di voler rimuovere questo cliente?')) {
+                clients = clients.filter(client => client.id !== clientId);
+                updateStatistics();
+                displayClients();
+                showMessage('clientMessage', 'Cliente rimosso con successo!', 'success');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            clients = [];
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${type}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

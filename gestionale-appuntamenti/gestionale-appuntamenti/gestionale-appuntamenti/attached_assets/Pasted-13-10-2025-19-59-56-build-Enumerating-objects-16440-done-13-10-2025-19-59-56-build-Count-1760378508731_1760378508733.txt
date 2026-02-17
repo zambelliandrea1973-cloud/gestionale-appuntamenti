@@ -1,0 +1,205 @@
+13/10/2025, 19:59:56:
+build
+Enumerating objects: 16440, done.
+13/10/2025, 19:59:56:
+build
+Counting objects: 100% (160/160), done.
+13/10/2025, 19:59:57:
+build
+Compressing objects: 100% (68/68), done.
+13/10/2025, 20:00:20:
+build
+Total 16440 (delta 118), reused 132 (delta 92), pack-reused 16280 (from 1)
+13/10/2025, 20:00:49:
+build
+#1 [service_event_jf6t90b3st15 internal] load build definition from Dockerfile
+13/10/2025, 20:00:49:
+build
+#1 transferring dockerfile: 870B done
+13/10/2025, 20:00:49:
+build
+#1 DONE 0.0s
+13/10/2025, 20:00:49:
+build
+13/10/2025, 20:00:49:
+build
+#2 [service_event_jf6t90b3st15 internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 20:00:49:
+build
+#2 DONE 0.8s
+13/10/2025, 20:00:49:
+build
+13/10/2025, 20:00:49:
+build
+#3 [service_event_jf6t90b3st15 internal] load .dockerignore
+13/10/2025, 20:00:49:
+build
+#3 transferring context: 673B done
+13/10/2025, 20:00:49:
+build
+#3 DONE 0.0s
+13/10/2025, 20:00:49:
+build
+13/10/2025, 20:00:49:
+build
+#4 [service_event_jf6t90b3st15] importing cache manifest from local:13183800235059124447
+13/10/2025, 20:00:49:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 20:00:49:
+build
+#4 DONE 0.0s
+13/10/2025, 20:00:49:
+build
+13/10/2025, 20:00:49:
+build
+#5 [service_event_jf6t90b3st15 builder 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 20:00:49:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 20:00:49:
+build
+#5 DONE 0.0s
+13/10/2025, 20:00:49:
+build
+13/10/2025, 20:00:49:
+build
+#6 [service_event_jf6t90b3st15 internal] load build context
+13/10/2025, 20:00:53:
+build
+#6 transferring context: 1.21GB 3.5s done
+13/10/2025, 20:00:53:
+build
+#6 DONE 3.6s
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#7 [service_event_jf6t90b3st15 builder 2/7] WORKDIR /app
+13/10/2025, 20:00:53:
+build
+#7 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#8 [service_event_jf6t90b3st15 builder 3/7] COPY package.json package-lock.json ./
+13/10/2025, 20:00:53:
+build
+#8 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#9 [service_event_jf6t90b3st15 stage-1 4/6] RUN npm ci --omit=dev
+13/10/2025, 20:00:53:
+build
+#9 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#10 [service_event_jf6t90b3st15 builder 4/7] RUN npm ci
+13/10/2025, 20:00:53:
+build
+#10 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#11 [service_event_jf6t90b3st15 builder 5/7] COPY . .
+13/10/2025, 20:00:53:
+build
+#11 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#12 [service_event_jf6t90b3st15 builder 6/7] RUN npx vite build
+13/10/2025, 20:00:53:
+build
+#12 CACHED
+13/10/2025, 20:00:53:
+build
+13/10/2025, 20:00:53:
+build
+#13 [service_event_jf6t90b3st15 builder 7/7] RUN node build-server.mjs
+13/10/2025, 20:00:53:
+build
+#13 0.461 /app/node_modules/@esbuild-plugins/tsconfig-paths/dist/index.js:22
+13/10/2025, 20:00:53:
+build
+#13 0.461 function TsconfigPathsPlugin({ name = NAME, absolute = true, onResolved, tsconfig, }) {
+13/10/2025, 20:00:53:
+build
+#13 0.461                                ^
+13/10/2025, 20:00:53:
+build
+#13 0.461 
+13/10/2025, 20:00:53:
+build
+#13 0.461 TypeError: Cannot read properties of undefined (reading 'name')
+13/10/2025, 20:00:53:
+build
+#13 0.461     at TsconfigPathsPlugin (/app/node_modules/@esbuild-plugins/tsconfig-paths/dist/index.js:22:32)
+13/10/2025, 20:00:53:
+build
+#13 0.461     at file:///app/build-server.mjs:10:13
+13/10/2025, 20:00:53:
+build
+#13 0.461     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+13/10/2025, 20:00:53:
+build
+#13 0.461     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+13/10/2025, 20:00:53:
+build
+#13 0.461     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+13/10/2025, 20:00:53:
+build
+#13 0.461 
+13/10/2025, 20:00:53:
+build
+#13 0.461 Node.js v20.19.5
+13/10/2025, 20:00:54:
+build
+#13 ERROR: process "/bin/sh -c node build-server.mjs" did not complete successfully: exit code: 1
+13/10/2025, 20:00:54:
+build
+------
+13/10/2025, 20:00:54:
+build
+ > [service_event_jf6t90b3st15 builder 7/7] RUN node build-server.mjs:
+13/10/2025, 20:00:54:
+build
+0.461                                ^
+13/10/2025, 20:00:54:
+build
+0.461 
+13/10/2025, 20:00:54:
+build
+0.461 TypeError: Cannot read properties of undefined (reading 'name')
+13/10/2025, 20:00:54:
+build
+0.461     at TsconfigPathsPlugin (/app/node_modules/@esbuild-plugins/tsconfig-paths/dist/index.js:22:32)
+13/10/2025, 20:00:54:
+build
+0.461     at file:///app/build-server.mjs:10:13
+13/10/2025, 20:00:54:
+build
+0.461     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+13/10/2025, 20:00:54:
+build
+0.461     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+13/10/2025, 20:00:54:
+build
+0.461     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+13/10/2025, 20:00:54:
+build
+0.461 
+13/10/2025, 20:00:54:
+build
+0.461 Node.js v20.19.5
+13/10/2025, 20:00:54:
+build
+------
+Loading...

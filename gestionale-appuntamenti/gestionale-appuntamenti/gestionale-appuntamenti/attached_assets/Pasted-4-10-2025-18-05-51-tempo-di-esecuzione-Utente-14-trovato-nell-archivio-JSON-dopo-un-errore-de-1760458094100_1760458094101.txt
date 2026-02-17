@@ -1,0 +1,1437 @@
+4/10/2025, 18:05:51:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+Errore durante la creazione del personale: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    },
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    }
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  ]
+14/10/2025, 18:05:51:
+tempo di esecuzione
+}
+14/10/2025, 18:05:51:
+tempo di esecuzione
+Errore creazione collaboratore: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    },
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:05:51:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:05:51:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:05:51:
+tempo di esecuzione
+    }
+14/10/2025, 18:05:51:
+tempo di esecuzione
+  ]
+14/10/2025, 18:05:51:
+tempo di esecuzione
+}
+14/10/2025, 18:05:51:
+tempo di esecuzione
+16:05:51 [express] POST /api/collaborators 500 in 16ms :: {"message":"Errore interno del server"}
+14/10/2025, 18:06:00:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:00:
+tempo di esecuzione
+}
+14/10/2025, 18:06:00:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+Errore durante la creazione del personale: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:00:
+tempo di esecuzione
+}
+14/10/2025, 18:06:00:
+tempo di esecuzione
+Errore creazione collaboratore: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:00:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:00:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:00:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:00:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:00:
+tempo di esecuzione
+}
+14/10/2025, 18:06:00:
+tempo di esecuzione
+16:06:00 [express] POST /api/collaborators 500 in 20ms :: {"message":"Errore interno del server"}
+14/10/2025, 18:06:27:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:27:
+tempo di esecuzione
+}
+14/10/2025, 18:06:27:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+14/10/2025, 18:06:27:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  ID: 14,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  Nome: null,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  cognome: null,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+14/10/2025, 18:06:27:
+tempo di esecuzione
+}
+14/10/2025, 18:06:27:
+tempo di esecuzione
+16:06:27 [express] GET /api/user-with-license 200 in 26ms :: {"id":14,"username":"busnari.silvia@l…
+14/10/2025, 18:06:27:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:27:
+tempo di esecuzione
+}
+14/10/2025, 18:06:27:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+Errore durante il recupero del personale per l'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:27:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:27:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:27:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:27:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:27:
+tempo di esecuzione
+}
+14/10/2025, 18:06:27:
+tempo di esecuzione
+🔍 COLLABORATORI API DI DEBUG: { userId: 14, conteggio: 0, collaboratori: [] }
+14/10/2025, 18:06:27:
+tempo di esecuzione
+16:06:27 [express] GET /api/collaborators 304 in 44ms :: []
+14/10/2025, 18:06:34:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:34:
+tempo di esecuzione
+}
+14/10/2025, 18:06:34:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+🔧 [/api/services] [desktop] Caricati 4 servizi per utente 14
+14/10/2025, 18:06:34:
+tempo di esecuzione
+16:06:34 [express] GET /api/services 304 in 28ms :: [{"id":1750225060109,"ownerId":14,"name":"bio …
+14/10/2025, 18:06:34:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:34:
+tempo di esecuzione
+}
+14/10/2025, 18:06:34:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:34:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:34:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:34:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:34:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:34:
+tempo di esecuzione
+}
+14/10/2025, 18:06:34:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:35:
+tempo di esecuzione
+}
+14/10/2025, 18:06:35:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+Errore durante l'acquisizione delle sale di trattamento per l'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:35:
+tempo di esecuzione
+}
+14/10/2025, 18:06:35:
+tempo di esecuzione
+16:06:35 [express] GET /api/treatment-rooms 304 in 13ms :: []
+14/10/2025, 18:06:35:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:35:
+tempo di esecuzione
+}
+14/10/2025, 18:06:35:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:35:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:35:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:35:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:35:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:35:
+tempo di esecuzione
+}
+14/10/2025, 18:06:35:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+Errore durante l'acquisizione dell'utente: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:45:
+tempo di esecuzione
+}
+14/10/2025, 18:06:45:
+tempo di esecuzione
+✅ Utente 14 trovato nell'archivio JSON (dopo un errore del DB)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+Errore durante la creazione della sala di trattamento: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:45:
+tempo di esecuzione
+}
+14/10/2025, 18:06:45:
+tempo di esecuzione
+16:06:45 [express] POST /api/treatment-rooms 500 in 17ms :: {"message":"Errore interno del server"}
+14/10/2025, 18:06:45:
+tempo di esecuzione
+Errore creazione stanza: AggregateError [ECONNREFUSED]:
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    in afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  [errori]: [
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED ::1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '::1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    },
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    Errore: connessione ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in createConnectionError (node:net:1652:14)
+14/10/2025, 18:06:45:
+tempo di esecuzione
+        in afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      errore: -111,
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      codice: 'ECONNREFUSED',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      chiamata di sistema: 'connetti',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      indirizzo: '127.0.0.1',
+14/10/2025, 18:06:45:
+tempo di esecuzione
+      porta: 5432
+14/10/2025, 18:06:45:
+tempo di esecuzione
+    }
+14/10/2025, 18:06:45:
+tempo di esecuzione
+  ]
+14/10/2025, 18:06:45:
+tempo di esecuzione
+}

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riavvio d'emergenza</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      color: #e11d48;
+    }
+    
+    main {
+      flex: 1;
+      padding: 2rem 0;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: #111;
+    }
+    
+    .warning {
+      background-color: #fff1f2;
+      border-left: 4px solid #e11d48;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background-color: #e11d48;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      background-color: #be123c;
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    .btn:disabled {
+      background-color: #f9a8b9;
+      cursor: not-allowed;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #e11d48;
+      color: #e11d48;
+    }
+    
+    .btn-outline:hover {
+      background-color: #fff1f2;
+    }
+    
+    .input-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .status-message {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    
+    .status-success {
+      background-color: #ecfdf5;
+      border-left: 4px solid #10b981;
+    }
+    
+    .status-error {
+      background-color: #fff1f2;
+      border-left: 4px solid #e11d48;
+    }
+    
+    .countdown {
+      font-weight: bold;
+      color: #e11d48;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      background-color: #fff;
+      border-top: 1px solid #eee;
+      font-size: 0.875rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pannello di Riavvio d'Emergenza</h1>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="card">
+        <h2>Stato del Sistema</h2>
+        <p id="status-message">Verifica dello stato del sistema in corso...</p>
+        
+        <div id="status-indicator" class="warning hidden">
+          <p>Il sistema è offline o non risponde. Puoi utilizzare questa pagina per riavviarlo.</p>
+        </div>
+        
+        <button id="check-status" class="btn btn-outline">
+          Verifica Stato
+        </button>
+      </div>
+      
+      <div class="card">
+        <h2>Riavvio d'Emergenza</h2>
+        <div class="warning">
+          <p><strong>Attenzione:</strong> Utilizzare questa funzione solo se il sistema è bloccato o non risponde. Il riavvio causerà un'interruzione temporanea del servizio.</p>
+        </div>
+        
+        <div class="input-group">
+          <label for="security-key">Chiave di Sicurezza:</label>
+          <input type="password" id="security-key" placeholder="Inserisci la chiave di sicurezza">
+        </div>
+        
+        <button id="restart-button" class="btn">
+          Riavvia Sistema
+        </button>
+        
+        <div id="restart-status" class="status-message hidden"></div>
+        
+        <div id="countdown-container" class="hidden">
+          <p>Il sistema sarà nuovamente online tra <span id="countdown" class="countdown">15</span> secondi.</p>
+          <p>La pagina si aggiornerà automaticamente al termine del riavvio.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 - Pannello di Riavvio d'Emergenza</p>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const statusMessage = document.getElementById('status-message');
+      const statusIndicator = document.getElementById('status-indicator');
+      const checkStatusButton = document.getElementById('check-status');
+      const securityKeyInput = document.getElementById('security-key');
+      const restartButton = document.getElementById('restart-button');
+      const restartStatus = document.getElementById('restart-status');
+      const countdownContainer = document.getElementById('countdown-container');
+      const countdownElement = document.getElementById('countdown');
+      
+      // Chiave di sicurezza per il riavvio
+      const EMERGENCY_RESTART_KEY = 'gironico-restart-2025';
+      
+      // URL del server
+      const serverUrl = window.location.origin;
+      
+      // Verifica lo stato del sistema all'avvio
+      checkSystemStatus();
+      
+      // Aggiungi event listener per il pulsante di verifica stato
+      checkStatusButton.addEventListener('click', () => {
+        checkSystemStatus();
+      });
+      
+      // Aggiungi event listener per il pulsante di riavvio
+      restartButton.addEventListener('click', () => {
+        const securityKey = securityKeyInput.value.trim();
+        
+        if (!securityKey) {
+          showRestartStatus('Inserisci la chiave di sicurezza', 'error');
+          return;
+        }
+        
+        restartSystem(securityKey);
+      });
+      
+      // Funzione per verificare lo stato del sistema
+      function checkSystemStatus() {
+        statusMessage.textContent = 'Verifica dello stato del sistema in corso...';
+        checkStatusButton.disabled = true;
+        
+        // Aggiungi spinner al pulsante
+        checkStatusButton.innerHTML = '<span class="spinner"></span> Verifica in corso...';
+        
+        fetch(`${serverUrl}/api/health`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Stato HTTP: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            statusMessage.textContent = `Sistema online. Ultimo controllo: ${new Date().toLocaleTimeString()}`;
+            statusIndicator.classList.add('hidden');
+            checkStatusButton.innerHTML = 'Verifica Stato';
+            checkStatusButton.disabled = false;
+          })
+          .catch(error => {
+            statusMessage.textContent = `Il sistema non risponde. Ultimo controllo: ${new Date().toLocaleTimeString()}`;
+            statusIndicator.classList.remove('hidden');
+            checkStatusButton.innerHTML = 'Verifica Stato';
+            checkStatusButton.disabled = false;
+          });
+      }
+      
+      // Funzione per riavviare il sistema
+      function restartSystem(securityKey) {
+        restartButton.disabled = true;
+        restartButton.innerHTML = '<span class="spinner"></span> Riavvio in corso...';
+        
+        fetch(`${serverUrl}/api/admin/emergency-restart?key=${securityKey}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Stato HTTP: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.success) {
+              showRestartStatus('Riavvio avviato con successo! Il sistema sarà nuovamente disponibile tra poco.', 'success');
+              startCountdown();
+            } else {
+              showRestartStatus(`Errore durante il riavvio: ${data.message}`, 'error');
+              restartButton.innerHTML = 'Riavvia Sistema';
+              restartButton.disabled = false;
+            }
+          })
+          .catch(error => {
+            // Se il server è offline, consideriamo comunque che il riavvio potrebbe essere stato avviato
+            showRestartStatus('Richiesta di riavvio inviata. Il sistema potrebbe essere già in fase di riavvio.', 'success');
+            startCountdown();
+          });
+      }
+      
+      // Funzione per mostrare lo stato del riavvio
+      function showRestartStatus(message, type) {
+        restartStatus.textContent = message;
+        restartStatus.className = 'status-message';
+        restartStatus.classList.add(`status-${type}`);
+        restartStatus.classList.remove('hidden');
+      }
+      
+      // Funzione per avviare il conto alla rovescia
+      function startCountdown() {
+        let seconds = 15;
+        countdownElement.textContent = seconds;
+        countdownContainer.classList.remove('hidden');
+        
+        const interval = setInterval(() => {
+          seconds--;
+          countdownElement.textContent = seconds;
+          
+          if (seconds <= 0) {
+            clearInterval(interval);
+            window.location.href = serverUrl;
+          }
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>

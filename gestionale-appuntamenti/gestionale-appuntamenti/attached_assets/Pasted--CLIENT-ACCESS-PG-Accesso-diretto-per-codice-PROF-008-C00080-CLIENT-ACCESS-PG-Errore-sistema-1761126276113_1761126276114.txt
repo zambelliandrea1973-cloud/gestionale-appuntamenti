@@ -1,0 +1,201 @@
+ [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+    at <anonymous> (/home/runner/workspace/server/simple-routes.ts:5659:15)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at param (/home/runner/workspace/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/runner/workspace/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:421:3)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at strategy.pass (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:355:9)
+    at SessionStrategy.authenticate (/home/runner/workspace/node_modules/passport/lib/strategies/session.js:126:10)
+    at attempt (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:378:16)
+    at authenticate (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:379:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at initialize (/home/runner/workspace/node_modules/passport/lib/middleware/initialize.js:98:5)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at session (/home/runner/workspace/node_modules/express-session/index.js:487:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at <anonymous> (/home/runner/workspace/server/index.ts:46:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/home/runner/workspace/node_modules/body-parser/lib/types/urlencoded.js:94:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at jsonParser (/home/runner/workspace/node_modules/body-parser/lib/types/json.js:113:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at expressInit (/home/runner/workspace/node_modules/express/lib/middleware/init.js:40:5)
+9:40:54 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+    at <anonymous> (/home/runner/workspace/server/simple-routes.ts:5659:15)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at param (/home/runner/workspace/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/runner/workspace/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:421:3)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at strategy.pass (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:355:9)
+    at SessionStrategy.authenticate (/home/runner/workspace/node_modules/passport/lib/strategies/session.js:126:10)
+    at attempt (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:378:16)
+    at authenticate (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:379:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at initialize (/home/runner/workspace/node_modules/passport/lib/middleware/initialize.js:98:5)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at session (/home/runner/workspace/node_modules/express-session/index.js:487:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at <anonymous> (/home/runner/workspace/server/index.ts:46:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/home/runner/workspace/node_modules/body-parser/lib/types/urlencoded.js:94:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at jsonParser (/home/runner/workspace/node_modules/body-parser/lib/types/json.js:113:7)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at expressInit (/home/runner/workspace/node_modules/express/lib/middleware/init.js:40:5)
+9:40:54 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+9:40:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+9:40:54 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+🔍 PWA MANIFEST: Headers referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+🔄 MANIFEST: Versione aggiornata: 1761126054561-8
+🔍 PWA MANIFEST: Analizzando referer: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761126054561.5645&android=1","/pwa-icon/192x192?owner=8&v=1761126054561.5645&android=1","/pwa-icon/512x512?owner=8&v=1761126054561.5645&android=1"]
+📱 MANIFEST ID: silvia-busnari-cliente-8
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 8
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 8
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 8, dimensione: 50811 bytes
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 8, dimensione: 218956 bytes
+9:42:11 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+🔍 [/api/clients] [mobile] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+9:43:46 AM [express] GET /api/tenant-context 200 in 79ms :: {"userId":8,"userType":"staff","tenantId…
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+📱💻 [desktop] Dati utente unificati: {
+  id: 8,
+  username: 'zambelli.andrea.19732@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'staff_free_10years'
+}
+9:43:46 AM [express] GET /api/user-with-license 200 in 105ms :: {"id":8,"username":"zambelli.andrea.…
+🔍 [/api/clients] [mobile] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+9:43:46 AM [express] GET /api/tenant-context 200 in 105ms :: {"userId":8,"userType":"staff","tenantI…
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+9:43:46 AM [express] GET /api/client-access/count/80 200 in 178ms :: {"count":0}
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+📦 [/api/clients] [mobile] Caricati 1 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [mobile] Sample primi 5 clienti: [
+  {
+    "id": 80,
+    "firstName": "uno",
+    "lastName": "uno",
+    "uniqueCode": "PROF_008_C00080",
+    "ownerId": 8
+  }
+]
+🏷️ [/api/clients] [mobile] Clienti con uniqueCode: 1/1
+9:43:46 AM [express] GET /api/clients 200 in 227ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+📦 [/api/clients] [mobile] Caricati 1 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [mobile] Sample primi 5 clienti: [
+  {
+    "id": 80,
+    "firstName": "uno",
+    "lastName": "uno",
+    "uniqueCode": "PROF_008_C00080",
+    "ownerId": 8
+  }
+]
+🏷️ [/api/clients] [mobile] Clienti con uniqueCode: 1/1
+9:43:46 AM [express] GET /api/clients 200 in 245ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+9:43:46 AM [express] GET /api/license/has-pro-access 304 in 68ms :: true
+9:43:46 AM [express] GET /api/license/license-info 304 in 75ms :: {"hasLicense":true,"type":"staff_f…
+9:43:46 AM [express] GET /api/license/has-business-access 304 in 70ms :: true
+9:43:46 AM [express] GET /api/license/application-title 304 in 71ms :: {"title":"Gestionale Appuntam…
+9:43:46 AM [express] GET /api/user 200 in 76ms
+🔐 [desktop] /api/user-with-license per utente 8 (zambelli.andrea.19732@gmail.com)
+🏷️ [desktop] Codice professionista per utente 8: PROF_008
+📱💻 [desktop] Dati utente unificati: {
+  id: 8,
+  username: 'zambelli.andrea.19732@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'staff_free_10years'
+}
+9:43:46 AM [express] GET /api/user-with-license 200 in 113ms :: {"id":8,"username":"zambelli.andrea.…
+9:43:46 AM [express] GET /api/clients/80 304 in 174ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+9:43:56 AM [express] GET /api/client-access/count/80 200 in 142ms :: {"count":0}
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+9:44:06 AM [express] GET /api/client-access/count/80 200 in 235ms :: {"count":0}
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+9:44:17 AM [express] GET /api/client-access/count/80 200 in 148ms :: {"count":0}
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+9:44:27 AM [express] GET /api/client-access/count/80 200 in 143ms :: {"count":0}

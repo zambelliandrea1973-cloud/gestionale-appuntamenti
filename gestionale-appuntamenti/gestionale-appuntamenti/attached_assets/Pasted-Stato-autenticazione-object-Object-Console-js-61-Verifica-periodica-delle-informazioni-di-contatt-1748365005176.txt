@@ -1,0 +1,54 @@
+Stato autenticazione: [object Object]
+Console.js:61 Verifica periodica delle informazioni di contatto...
+Console.js:61 Esecuzione richiesta GET a /api/contact-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta GET a /api/contact-info: [object Object]
+Console.js:61 Risposta da /api/contact-info: 200 OK ok: true
+Console.js:61 Informazioni di contatto caricate da API: [object Object]
+Console.js:61 Esecuzione richiesta POST a /api/staff/login {"username":"busnari.silvia@libero.it","password":"gironico"}
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta POST a /api/staff/login: [object Object]
+Console.js:61 Risposta da /api/staff/login: 200 OK ok: true
+Console.js:61 Login riuscito, dati utente: [object Object]
+Console.js:61 Utente standard, reindirizzamento alla dashboard
+Console.js:61 Stato autenticazione: [object Object]
+Console.js:61 PWA check - standalone mode: false
+Console.js:61 PWA check - iOS fullscreen: undefined
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Errore durante la registrazione del Service Worker: TypeError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): A bad HTTP response code (404) was received when fetching the script.
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): A bad HTTP response code (404) was received when fetching the script.
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Navigator serviceWorker: ServiceWorkerContainer
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: Object
+2Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object
+Console.js:61 Layout Debug: Object

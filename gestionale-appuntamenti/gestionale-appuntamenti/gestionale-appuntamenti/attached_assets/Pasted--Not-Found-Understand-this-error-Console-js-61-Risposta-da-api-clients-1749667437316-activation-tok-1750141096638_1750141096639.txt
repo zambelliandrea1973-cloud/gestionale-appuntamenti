@@ -1,0 +1,45 @@
+(Not Found)Understand this error
+Console.js:61 Risposta da /api/clients/1749667437316/activation-token: 404 Not Found ok: false
+Console.js:61 Risposta da /api/clients/1749667437320/activation-token: 200 OK ok: true
+Console.js:61 Risposta da /api/clients/1749666196976/activation-token: 200 OK ok: true
+Console.js:61 Errore API (404): {"message":"Cliente non trovato nel sistema"}
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Eccezione durante la richiesta a /api/clients/1749667437316/activation-token: Error: Errore 404: {"message":"Cliente non trovato nel sistema"}
+    at apiRequest (queryClient.ts:131:13)
+    at async checkExistingQrCode (ClientCard.tsx:53:26)
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Errore nel recupero del QR code esistente: Error: Errore 404: {"message":"Cliente non trovato nel sistema"}
+    at apiRequest (queryClient.ts:131:13)
+    at async checkExistingQrCode (ClientCard.tsx:53:26)
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+6Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Mt.forEach.n.<computed> @ Console.js:61Understand this warning
+Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ @radix-ui_react-dialog.js?v=3572cf0e:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=3572cf0e:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=3572cf0e:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=3572cf0e:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=3572cf0e:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595Understand this warning
+Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ @radix-ui_react-dialog.js?v=3572cf0e:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=3572cf0e:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=3572cf0e:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=3572cf0e:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595Understand this warning
