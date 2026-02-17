@@ -1,0 +1,3339 @@
+
+Add time filter
+To
+Add time filter
+Search
+Add search filter
+Type
+Add Logtype filter
+
+
+
+Live
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 819 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.110Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 2765 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.111Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 571 ]
+17/02/2026, 15:05:55:
+runtime
+[DEBUG COUNT] Cliente 2253 (Manuela Cartoccio ipnosi) - accessi: 0
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/client-access/count/2253 200 in 27618ms :: {"count":0}
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.169Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.177Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3830 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+✅ Icone PWA aggiornate per utente 51 con logo aziendale
+17/02/2026, 15:05:55:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 51
+17/02/2026, 15:05:55:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/02/2026, 15:05:55:
+runtime
+   - Cliente: Ceci De Cesare Ceci De Cesare
+17/02/2026, 15:05:55:
+runtime
+   - Token: PROF_051_C00818_edd8bca8
+17/02/2026, 15:05:55:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_051_C00818?token=PROF_051_C00818_edd8bca8&clientId=818&autoLogin=true
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/clients/818/activation-token 200 in 22115ms :: {"token":"PROF_051_C008…
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.279Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 825 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.281Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.301Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.341Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 1484 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/clients/819 200 in 21683ms :: {"id":819,"firstName":"Ceci De Cesare Ne…
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/clients/2765 200 in 21620ms :: {"id":2765,"firstName":"Pamela","lastNa…
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 572 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: B&b Alloggino Campiglia Marittima B&b Alloggino Campiglia Marittima (ID: 571, Owner: 51)
+17/02/2026, 15:05:55:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 571 con icona del proprietario 51
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.404Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 920 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 827 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.414Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.427Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 1385 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.507Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+✅ Icone PWA aggiornate per utente 51 con logo aziendale
+17/02/2026, 15:05:55:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 51
+17/02/2026, 15:05:55:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/02/2026, 15:05:55:
+runtime
+   - Cliente: B&b Alloggino Campiglia Marittima B&b Alloggino Campiglia Marittima
+17/02/2026, 15:05:55:
+runtime
+   - Token: PROF_051_C00571_e7317b19
+17/02/2026, 15:05:55:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_051_C00571?token=PROF_051_C00571_e7317b19&clientId=571&autoLogin=true
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/clients/571/activation-token 200 in 21726ms :: {"token":"PROF_051_C005…
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.538Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 573 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.574Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 827 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.575Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.576Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 963 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.635Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select count(*)::int from "client_accesses" where "client_accesses"."client_id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 4041 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.657Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 323 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.735Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.737Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 2673 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 744 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.770Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select count(*)::int from "client_accesses" where "client_accesses"."client_id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 558 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: B&C Morena B&C Morena (ID: 573, Owner: 51)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 827 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.832Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.846Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/clients/827 200 in 21200ms :: {"id":827,"firstName":"Ceffo","lastName"…
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+[DEBUG COUNT] Cliente 4041 (Servizi Attivi) - accessi: 0
+17/02/2026, 15:05:55:
+runtime
+2:05:55 PM [express] GET /api/client-access/count/4041 200 in 26861ms :: {"count":0}
+17/02/2026, 15:05:55:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 573 con icona del proprietario 51
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.929Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 4515 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.945Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.965Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:55:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:55:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:55:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:55:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:55:
+runtime
+  now: '2026-02-17T14:05:55.967Z'
+17/02/2026, 15:05:55:
+runtime
+}
+17/02/2026, 15:05:55:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+✅ Icone PWA aggiornate per utente 51 con logo aziendale
+17/02/2026, 15:05:56:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 51
+17/02/2026, 15:05:56:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/02/2026, 15:05:56:
+runtime
+   - Cliente: B&C Morena B&C Morena
+17/02/2026, 15:05:56:
+runtime
+   - Token: PROF_051_C00573_45176fdc
+17/02/2026, 15:05:56:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_051_C00573?token=PROF_051_C00573_45176fdc&clientId=573&autoLogin=true
+17/02/2026, 15:05:56:
+runtime
+2:05:56 PM [express] GET /api/clients/573/activation-token 200 in 21405ms :: {"token":"PROF_051_C005…
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+[DEBUG COUNT] Cliente 558 (Aurelia Aurelia) - accessi: 0
+17/02/2026, 15:05:56:
+runtime
+2:05:56 PM [express] GET /api/client-access/count/558 200 in 26875ms :: {"count":0}
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 744 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.082Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: Ceffo Ceffo (ID: 827, Owner: 51)
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.099Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 827 con icona del proprietario 51
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 1977 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.123Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 4274 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.177Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.178Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 1977 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.194Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.197Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+✅ Icone PWA aggiornate per utente 51 con logo aziendale
+17/02/2026, 15:05:56:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 51
+17/02/2026, 15:05:56:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+17/02/2026, 15:05:56:
+runtime
+   - Cliente: Ceffo Ceffo
+17/02/2026, 15:05:56:
+runtime
+   - Token: PROF_051_C00827_0df70e3b
+17/02/2026, 15:05:56:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_051_C00827?token=PROF_051_C00827_0df70e3b&clientId=827&autoLogin=true
+17/02/2026, 15:05:56:
+runtime
+2:05:56 PM [express] GET /api/clients/827/activation-token 200 in 21202ms :: {"token":"PROF_051_C008…
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.291Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.295Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+2:05:56 PM [express] GET /api/clients/744 200 in 20801ms :: {"id":744,"firstName":"Caprino","lastNam…
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.330Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.333Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "firstName", "lastName", "phone", "email", "address", "birthday", "notes", "isFrequent", "medicalNotes", "allergies", "createdAt", "hasConsent", "ownerId", "assignmentCode", "uniqueCode", "newUniqueCode", "taxCode", "vatNumber", "email_blocked", "email_blocked_reason" from "clients" where "clients"."id" = $1
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 4274 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.409Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 488 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+2:05:56 PM [express] GET /api/clients/1977 200 in 20559ms :: {"id":1977,"firstName":"Karolina","last…
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "code", "type", "is_active", "created_at", "activated_at", "expires_at", "user_id", "sponsored_by", "trial_notification_sent", "trial_notification_sent_at" from "licenses" where ("licenses"."user_id" = $1 and "licenses"."is_active" = $2) order by "licenses"."created_at", $3 limit $4
+17/02/2026, 15:05:56:
+runtime
+🔍 [SQL DEBUG] Params: [ 51, true, 'desc', 1 ]
+17/02/2026, 15:05:56:
+runtime
+Trovata licenza di tipo trial per utente 51 (ID licenza: 52)
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] License info: {
+17/02/2026, 15:05:56:
+runtime
+  type: 'trial',
+17/02/2026, 15:05:56:
+runtime
+  expiresAt: 2026-02-23T14:17:31.837Z,
+17/02/2026, 15:05:56:
+runtime
+  now: '2026-02-17T14:05:56.426Z'
+17/02/2026, 15:05:56:
+runtime
+}
+17/02/2026, 15:05:56:
+runtime
+🔒 [TRIAL CHECK] Is expired? false Type: trial
+17/02/2026, 15:05:56:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 821 da utente: 51 (simone14.76@gmail.com)
+17/02/2026, 15:05:59:
+runtime
+🔍 [SQL DEBUG] Query: select "id", "user_id", "client_id", "service_id", "staff_id", "room_id", "date", "start_time", "end_time", "notes", "status", "reminder_type", "reminder_status", "reminder_time", "reminder_sent" from "appointments" where ("appointments"."reminder_time" >= $1 and "appointments"."reminder_time" <= $2 and not "appointments"."reminder_status" like $3 and "appointments"."reminder_type" like $4)
+17/02/2026, 15:05:59:
+runtime
+🔍 [SQL DEBUG] Params: [
+17/02/2026, 15:05:59:
+runtime
+  '2026-02-17T13:05:59.193Z',
+17/02/2026, 15:05:59:
+runtime
+  '2026-02-18T20:05:59.193Z',
+17/02/2026, 15:05:59:
+runtime
+  '%sent%',
+17/02/2026, 15:05:59:
+runtime
+  '%email%'
+17/02/2026, 15:05:59:
+runtime
+]
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/579 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4598 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4590 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/110 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:00:
+runtime
+2:06:00 PM [express] GET /api/client-access/count/4584 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:04:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+17/02/2026, 15:06:04:
+runtime
+🔍 [SQL DEBUG] Query: select count(*) from "users"
+17/02/2026, 15:06:04:
+runtime
+🔍 [SQL DEBUG] Query: select count(*) from "clients"
+17/02/2026, 15:06:04:
+runtime
+🔍 [SQL DEBUG] Query: select count(*) from "appointments"
+17/02/2026, 15:06:04:
+runtime
+2:06:04 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:04:
+runtime
+🔍 [SQL DEBUG] Query: 
+17/02/2026, 15:06:04:
+runtime
+      SELECT u.email, COUNT(c.id) as client_count 
+17/02/2026, 15:06:04:
+runtime
+      FROM users u 
+17/02/2026, 15:06:04:
+runtime
+      LEFT JOIN clients c ON c.user_id = u.id 
+17/02/2026, 15:06:04:
+runtime
+      GROUP BY u.id, u.email 
+17/02/2026, 15:06:04:
+runtime
+      ORDER BY client_count DESC 
+17/02/2026, 15:06:04:
+runtime
+      LIMIT 1
+17/02/2026, 15:06:04:
+runtime
+    
+17/02/2026, 15:06:04:
+runtime
+2:06:04 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:04:
+runtime
+2:06:04 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:04:
+runtime
+📊 [MONITOR] Stats: 52 utenti, 4541 clienti, 355 appuntamenti, max 0 clienti/utente
+17/02/2026, 15:06:04:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4598 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4583 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/14002 401 in 6ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4585 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4601 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:10:
+runtime
+2:06:10 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:14:
+runtime
+2:06:14 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:14:
+runtime
+2:06:14 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:14:
+runtime
+2:06:14 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4603 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4600 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4594 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:20:
+runtime
+2:06:20 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:23:
+runtime
+2:06:23 PM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:24:
+runtime
+2:06:24 PM [express] GET /api/client-access/count/95 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:24:
+runtime
+2:06:24 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:24:
+runtime
+2:06:24 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/579 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/82 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4592 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4585 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/78 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4601 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4583 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/70 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/577 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4584 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/578 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/110 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4599 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:30:
+runtime
+2:06:30 PM [express] GET /api/client-access/count/4594 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:34:
+runtime
+2:06:34 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:34:
+runtime
+2:06:34 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:34:
+runtime
+2:06:34 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4592 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/82 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/579 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4603 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4590 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/14002 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4591 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/14004 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4585 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/78 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4593 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4583 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/70 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/577 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4582 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/576 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4584 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/578 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/110 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:40:
+runtime
+2:06:40 PM [express] GET /api/client-access/count/4599 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:44:
+runtime
+2:06:44 PM [express] GET /api/client-access/count/95 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:44:
+runtime
+2:06:44 PM [express] GET /api/client-access/count/4602 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:06:44:
+runtime
+2:06:44 PM [express] GET /api/client-access/count/4597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/197 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1430 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/255 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/255 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/308 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/658 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/304 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/658 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3728 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/201 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1430 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1809 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/308 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/197 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3728 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/309 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/256 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/256 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3955 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1358 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/257 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/257 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/258 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/181 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/261 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2077 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4299 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/271 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/287 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/284 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/282 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1809 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/284 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/282 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4299 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/309 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/315 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/348 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/357 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/357 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/348 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4474 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2673 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2242 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1358 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3877 401 in 4ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2673 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/363 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/365 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/361 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/361 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/360 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/360 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/359 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/359 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/358 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/358 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2242 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4474 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/363 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/274 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/368 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/367 401 in 4ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/367 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1659 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/374 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3838 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/372 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3838 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/372 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/373 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/374 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/373 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4206 401 in 5ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/371 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4206 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/368 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/369 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/365 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/369 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/701 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/272 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/370 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/370 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/371 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/376 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/376 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1659 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/386 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/384 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2763 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/386 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/384 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/701 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/274 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2608 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3882 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/405 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/405 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/403 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/403 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/401 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/402 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/402 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/401 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/400 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/400 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/396 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/396 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1603 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4478 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4478 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2876 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2876 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/710 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3882 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/413 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/272 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/408 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/408 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1602 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2608 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/445 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1334 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/445 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/439 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/439 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/432 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/432 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/429 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/429 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/426 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/426 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/425 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/419 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/419 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/413 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/425 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/271 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4381 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2187 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/453 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1926 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1926 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/453 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/446 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/449 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/449 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/446 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/268 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/268 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1334 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/239 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/240 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/456 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2187 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4381 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/456 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3907 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/239 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/240 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4190 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/483 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/476 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1229 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/471 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/471 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/568 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/568 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/483 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/469 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1229 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1140 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/469 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/467 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/465 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/467 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/465 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4190 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1140 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4132 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/482 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/481 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/489 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/481 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/488 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/482 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/488 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/476 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4523 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/489 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/490 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4527 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/491 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/490 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4523 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/491 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/503 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/503 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3985 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3907 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/511 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3985 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/506 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/506 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/508 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/508 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/511 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/513 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/238 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/517 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/514 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/514 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/513 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/517 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/521 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/521 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/525 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/525 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/526 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/526 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/236 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/307 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/531 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/531 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/821 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/821 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/527 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/527 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/307 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1133 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/238 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/638 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/535 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/638 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1132 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1132 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1133 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/535 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3692 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/236 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/235 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/235 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3692 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4160 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/541 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/541 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/538 401 in 3ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4161 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/538 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4160 401 in 5ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1567 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/547 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/547 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/544 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/544 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4161 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1525 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1525 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/550 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1298 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1057 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/559 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/559 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/558 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/558 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/565 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/551 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/550 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/551 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/553 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4014 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/553 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4014 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4041 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4041 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1057 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/562 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/562 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1992 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1992 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/858 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/858 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/565 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2445 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1567 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2524 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2174 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2174 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1272 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/895 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2524 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/895 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2765 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2765 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/269 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/744 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/574 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1752 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1977 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/594 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2445 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1830 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/747 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1830 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3799 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/747 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2647 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2647 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3799 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2351 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2351 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/218 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/611 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/608 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/617 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/610 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3286 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3286 401 in 2ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1753 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1753 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/748 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1734 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/617 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/619 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/619 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2007 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2007 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/597 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/598 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/601 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/606 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/302 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4444 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/775 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/624 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2213 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2213 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/647 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1406 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/645 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1385 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/644 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1385 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/644 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/645 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/655 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/655 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1539 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1539 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2667 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/636 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/636 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1770 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1770 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1406 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4444 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/304 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/829 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/662 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/666 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/666 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4056 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2312 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4056 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2312 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3426 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4209 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/668 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/668 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/667 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/667 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3426 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/673 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/678 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/677 401 in 5ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/673 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/680 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/680 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/681 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2774 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/647 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/829 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3982 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4181 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4181 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/648 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3982 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/648 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1744 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2320 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2320 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1744 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1537 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/302 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1537 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/410 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/681 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2028 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2556 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/690 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/690 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/694 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/600 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/600 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/693 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3140 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/693 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3140 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4515 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2501 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4515 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/823 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/694 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/823 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/749 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1338 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/749 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4443 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1338 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4443 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/494 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1464 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/494 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/342 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2556 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2416 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/298 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/724 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/724 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/529 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2439 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2439 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/460 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1766 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2554 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4516 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/746 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1766 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/735 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4516 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/733 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/741 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2895 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1260 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4482 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2895 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/746 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2740 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3995 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3995 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2078 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/3403 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2740 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/3403 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2078 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/751 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/2030 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1800 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/342 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/2030 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1800 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/454 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/454 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/460 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/529 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/737 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/291 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4524 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/753 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/737 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/770 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/1138 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4525 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/1138 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4525 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4371 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4371 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4001 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/4001 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/768 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/768 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/627 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/773 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/627 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/770 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/773 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/782 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/776 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/4524 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/764 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/clients/766 401 in 1ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/291 401 in 0ms :: {"message":"Non autenticato"}
+17/02/2026, 15:08:54:
+runtime
+2:08:54 PM [express] GET /api/client-access/count/777 401 in 0ms :: {"message":"Non autenticato"}
