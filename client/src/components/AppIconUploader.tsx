@@ -367,24 +367,33 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       <Button
         className="w-full"
-        onClick={saveIcon}
-        disabled={isUploading || !pendingFile}
+        variant={pendingFile ? "default" : "outline"}
+        onClick={() => {
+          if (!pendingFile) {
+            toast({
+              title: "Nessun file selezionato",
+              description: "Seleziona prima un'immagine da caricare.",
+              variant: "destructive",
+            });
+            return;
+          }
+          saveIcon();
+        }}
+        disabled={isUploading}
       >
         <Save className="h-4 w-4 mr-2" />
         {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
       </Button>
 
-      {!isLoadingInfo && (
-        <Button
-          variant="outline"
-          className="w-full flex items-center justify-center gap-2"
-          onClick={useDefaultIcon}
-          disabled={isUsingDefault || !iconInfo?.isCustom}
-        >
-          <Undo2 className="h-4 w-4" />
-          {isUsingDefault ? 'Ripristino in corso...' : 'Torna alla icona predefinita'}
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        className="w-full flex items-center justify-center gap-2"
+        onClick={useDefaultIcon}
+        disabled={isUsingDefault}
+      >
+        <Undo2 className="h-4 w-4" />
+        {isUsingDefault ? 'Ripristino in corso...' : 'Torna alla icona predefinita'}
+      </Button>
       
       <div className="p-4 bg-muted/20 rounded-lg">
         <div className="flex items-center gap-3">
