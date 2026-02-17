@@ -26,7 +26,6 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
     const userType = user.type;
     const userRole = user.role;
 
-    console.log(`🔒 [TRIAL CHECK] User ${userId} (${userType}/${userRole}) accessing ${req.path}`);
 
     // Admin e passepartout hanno sempre accesso
     if (userType === 'admin' || userRole === 'admin') {
@@ -43,22 +42,12 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
       // Ottieni info licenza dell'utente
       const licenseInfo = await licenseService.getCurrentLicenseInfo(userId);
       
-      console.log(`🔒 [TRIAL CHECK] License info:`, {
-        type: licenseInfo.type,
-        expiresAt: licenseInfo.expiresAt,
-        now: new Date().toISOString()
-      });
 
-      // Se la licenza non ha scadenza (passepartout), passa sempre
       if (!licenseInfo.expiresAt) {
-        console.log(`🔒 [TRIAL CHECK] No expiry date, allowing access`);
         return next();
       }
 
-      // Controlla se la licenza è scaduta
       const isExpired = new Date(licenseInfo.expiresAt) < new Date();
-      
-      console.log(`🔒 [TRIAL CHECK] Is expired?`, isExpired, `Type:`, licenseInfo.type);
 
       if (isExpired && licenseInfo.type === 'trial') {
         // TRIAL SCADUTO: blocca l'accesso eccetto alcune route

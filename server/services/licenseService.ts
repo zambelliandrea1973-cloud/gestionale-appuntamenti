@@ -41,6 +41,9 @@ export interface LicenseInfo {
   daysLeft: number | null;
 }
 
+const licenseCache = new Map<number, { info: LicenseInfo; expiry: number }>();
+const LICENSE_CACHE_TTL = 60_000;
+
 class LicenseService {
   /**
    * Genera un codice di attivazione per una licenza
@@ -102,6 +105,8 @@ class LicenseService {
     // Impostiamo questa licenza come quella corrente
     await this.setCurrentLicense(normalizedCode);
     
+    licenseCache.clear();
+    
     return { 
       success: true, 
       message: `Licenza ${license.type} attivata con successo` 
@@ -133,23 +138,22 @@ class LicenseService {
    * Ottiene informazioni sulla licenza corrente
    * Se userId è fornito, cerca licenze specifiche di quell'utente
    */
-  async getCurrentLicenseInfo(userId?: number): Promise<LicenseInfo> {
-    console.log(`Ottengo info licenza${userId ? ` per utente ${userId}` : " corrente"}`);
-    
-    // Se userId è fornito, controlla se l'utente ha licenze specifiche
+  clearLicenseCache(userId?: number) {
     if (userId) {
+      licenseCache.delete(userId);
+    } else {
+      licenseCache.clear();
+    }
+  }
+
+  async getCurrentLicenseInfo(userId?: number): Promise<LicenseInfo> {
+    if (userId) {
+      const cached = licenseCache.get(userId);
+      if (cached && Date.now() < cached.expiry) {
+        return cached.info;
+      }
+
       try {
-        // DEBUG: Mostriamo tutte le licenze per questo utente
-        const userLicenses = await db.select()
-          .from(licenses)
-          .where(eq(licenses.userId, userId));
-        
-        console.log(`DEBUG: Trovate ${userLicenses.length} licenze totali per l'utente ${userId}`);
-        for (const lic of userLicenses) {
-          console.log(`- ID: ${lic.id}, Tipo: ${lic.type}, Attiva: ${lic.isActive}, Scadenza: ${lic.expiresAt}`);
-        }
-        
-        // Cerca la licenza attiva più recente per questo utente
         const [userLicense] = await db.select()
           .from(licenses)
           .where(
@@ -162,16 +166,15 @@ class LicenseService {
           .limit(1);
         
         if (userLicense) {
-          console.log(`Trovata licenza di tipo ${userLicense.type} per utente ${userId} (ID licenza: ${userLicense.id})`);
           const daysLeft = this.calculateDaysLeft(userLicense.expiresAt);
-          return {
+          const info: LicenseInfo = {
             type: userLicense.type as LicenseType,
             expiresAt: userLicense.expiresAt,
             isActive: true,
             daysLeft
           };
-        } else {
-          console.log(`Nessuna licenza trovata per utente ${userId}, utilizzando licenza di sistema`);
+          licenseCache.set(userId, { info, expiry: Date.now() + LICENSE_CACHE_TTL });
+          return info;
         }
       } catch (error) {
         console.error('Errore durante il recupero licenza utente:', error);

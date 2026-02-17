@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "../../../shared/schema";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +25,6 @@ import {
 import ClientForm from "./ClientForm";
 import AppointmentFormModal from "./AppointmentFormModal";
 import QRCodeModal from "./QRCodeModal";
-import ClientAccessCounter from "./ClientAccessCounter";
 import ClientAccessesDialog from "./ClientAccessesDialog";
 
 interface ClientCardProps {
@@ -405,7 +404,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
               className="cursor-pointer" 
               onClick={() => setIsAccessesDialogOpen(true)}
             >
-              <ClientAccessCounter clientId={client.id} />
+              <Badge variant="outline" className="ml-2 cursor-help">
+                <Eye className="h-3 w-3 mr-1 text-blue-500" />
+                {(client as any).accessCount || 0}
+              </Badge>
             </div>
           </div>
         </div>
