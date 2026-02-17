@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,6 +40,8 @@ export default function Clients() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+  const CLIENTS_PER_PAGE = 50;
+  const [visibleCount, setVisibleCount] = useState(CLIENTS_PER_PAGE);
   
   // Stato per clienti caricati on-demand per professionista (lazy loading)
   const [loadedOwnerClients, setLoadedOwnerClients] = useState<Record<number, any[]>>({});
@@ -74,7 +76,6 @@ export default function Clients() {
     queryKey: ['/api/clients'],
     queryFn: async () => {
       const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
-      console.log(`[${deviceType}] Chiamata /api/clients con nuovo sistema multi-tenant`);
       
       const response = await fetch('/api/clients', {
         credentials: 'include',
@@ -92,15 +93,7 @@ export default function Clients() {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      const data = await response.json();
-      console.log(`[${deviceType}] Ricevuti ${data.length} clienti dal nuovo sistema multi-tenant`);
-      console.log(`[${deviceType}] Sample clienti:`, data.slice(0, 3).map(c => ({
-        id: c.id, 
-        firstName: c.firstName, 
-        lastName: c.lastName, 
-        uniqueCode: c.uniqueCode 
-      })));
-      return data;
+      return await response.json();
     },
     enabled: !isMobile || !effectiveClients // Disabilita query se mobile ha dati sincronizzati
   });
@@ -109,32 +102,17 @@ export default function Clients() {
   const clients = effectiveClients || queryClients;
   const isLoading = isMobile ? !isForcesynced : queryLoading;
   
-  // Debug per mobile
-  if (isMobile && effectiveClients) {
-    console.log(`📱 [CLIENTS] Mobile usando dati sincronizzati: ${effectiveClients.length} clienti`);
-  }
-  
-  // Imposta tab "by-staff" come default per admin al primo caricamento
   const hasInitializedTab = useRef(false);
   useEffect(() => {
-    console.log("🔍 [CLIENTS-TAB] useEffect triggered", { 
-      currentUser: currentUser ? { id: currentUser.id, type: currentUser.type } : null,
-      hasInitialized: hasInitializedTab.current
-    });
     if (currentUser && !hasInitializedTab.current) {
       hasInitializedTab.current = true;
-      console.log("🔍 [CLIENTS-TAB] Checking user type:", currentUser.type);
       if (currentUser.type === 'admin') {
         setActiveTab("by-staff");
-        console.log("✅ [CLIENTS-TAB] Admin rilevato, tab impostato a 'by-staff'");
-      } else {
-        console.log("⚠️ [CLIENTS-TAB] User is not admin, type:", currentUser.type);
       }
     }
   }, [currentUser]);
   
   const forceRefreshFromServer = async () => {
-    console.log("Refresh con nuovo sistema multi-tenant");
     try {
       const result = await refetchClients();
       const clientCount = result.data?.length || 0;
@@ -155,8 +133,6 @@ export default function Clients() {
 
   // Handle client form submission and refresh data
   const handleClientCreated = async () => {
-    console.log("Cliente creato/aggiornato, refreshing data...");
-    
     try {
       await queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
       await refetchClients();
@@ -177,15 +153,11 @@ export default function Clients() {
     }
   };
 
-  // Handle client update
   const handleClientUpdated = async () => {
-    console.log("Cliente aggiornato, refreshing data...");
     await refetchClients();
   };
 
-  // Handle client deletion
   const handleClientDeleted = async () => {
-    console.log("Cliente eliminato, refreshing data...");
     await refetchClients();
   };
 
@@ -278,31 +250,6 @@ export default function Clients() {
     });
   }
 
-  console.log(`CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
-  
-  // Debug ownership per admin - usa user_id
-  if (currentUser?.type === 'admin' && clients.length > 0) {
-    const userStats = {};
-    
-    clients.forEach(client => {
-      const userId = client.user_id || client.ownerId || 'NULL';
-      userStats[userId] = (userStats[userId] || 0) + 1;
-    });
-    
-    console.log(`👑 OWNERSHIP - Distribuzione per user_id:`, userStats);
-    console.log(`👑 ADMIN ID: ${currentUser.id}`);
-    
-    const ownClients = clients.filter(c => {
-      const userId = c.user_id || c.ownerId;
-      return !userId || userId === currentUser.id;
-    }).length;
-    const otherClients = clients.filter(c => {
-      const userId = c.user_id || c.ownerId;
-      return userId && userId !== currentUser.id;
-    }).length;
-    console.log(`👑 CLIENTI: Miei: ${ownClients}, Altri account: ${otherClients}`);
-  }
-
   // Loading state
   if (isLoading) {
     return (
@@ -346,7 +293,6 @@ export default function Clients() {
           {isMobile && (
             <Button
               onClick={async () => {
-                console.log(`📱 [MOBILE-SYNC-TEST] Forzando sincronizzazione mobile`);
                 await queryClient.invalidateQueries({ queryKey: ['/api/mobile-sync'] });
                 toast({
                   title: "Sincronizzazione Mobile",
@@ -371,8 +317,6 @@ export default function Clients() {
           </Button>
           <Button
             onClick={async () => {
-              const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
-              console.log(`🚀 [${deviceType}] DEBUG: Forzando refresh completo`);
               await queryClient.clear();
               await refetchClients();
             }}

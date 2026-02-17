@@ -16,14 +16,6 @@ const client = postgres(process.env.DATABASE_URL, {
   ssl: 'prefer',
   prepare: false,
   onnotice: () => {},
-  ...(isProduction ? {} : {
-    debug: (connection: any, query: string, params: any[]) => {
-      console.log('🔍 [SQL DEBUG] Query:', query);
-      if (params && params.length > 0) {
-        console.log('🔍 [SQL DEBUG] Params:', params);
-      }
-    },
-  }),
 });
 
 export const db = drizzle(client, { schema });

@@ -91,7 +91,6 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
         const isAllowed = allowedPaths.some(path => req.path.startsWith(path));
 
         if (!isAllowed) {
-          console.log(`🔒 [TRIAL EXPIRED] BLOCKING access to ${req.path}`);
           // Se è una richiesta API, restituisci errore JSON
           if (req.path.startsWith('/api/')) {
             return res.status(403).json({
@@ -104,8 +103,6 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
 
           // Se è una pagina HTML, redirect a /subscribe
           return res.redirect('/subscribe?expired=true');
-        } else {
-          console.log(`✅ [TRIAL EXPIRED] ALLOWING access to ${req.path} (whitelisted)`);
         }
       }
     }

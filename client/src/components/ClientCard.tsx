@@ -59,20 +59,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     ? isOtherAccountProp 
     : (currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id);
   
-  // Debug temporaneo
-  useEffect(() => {
-    if (client.id === 14003 || client.id === 14004) {
-      console.log(`🟠 CLIENT CARD [${client.firstName} ${client.lastName}]:`, {
-        id: client.id,
-        ownerId: client.ownerId,
-        originalOwnerId: (client as any).originalOwnerId,
-        currentUserId: currentUser?.id,
-        isOtherAccountProp,
-        isOtherAccountCalculated: isOtherAccount
-      });
-    }
-  }, [client.id, client.ownerId, currentUser?.id, isOtherAccountProp, isOtherAccount]);
-  
   const cardRef = useRef<HTMLDivElement>(null);
   const qrLoadedRef = useRef(false);
 
@@ -109,11 +95,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   // Mutazione per sbloccare la cancellazione di clienti importati eliminati alla fonte
   const unlockDeletionMutation = useMutation({
     mutationFn: async () => {
-      console.log(`🔓 Sblocco cancellazione cliente importato ${client.id}`);
       return apiRequest("POST", `/api/unlock-client-deletion/${client.id}`);
     },
     onSuccess: async () => {
-      console.log(`✅ Cancellazione sbloccata per cliente ${client.id}`);
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
         title: "Cancellazione sbloccata",
@@ -122,7 +106,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       if (onUpdate) onUpdate();
     },
     onError: (error: any) => {
-      console.error(`❌ Errore sblocco cancellazione:`, error);
       toast({
         title: "Errore",
         description: error.message || "Impossibile sbloccare la cancellazione",
@@ -134,11 +117,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   // Mutazione per simulare eliminazione alla fonte (solo per test)
   const markDeletedAtSourceMutation = useMutation({
     mutationFn: async () => {
-      console.log(`⚠️ Simulazione eliminazione alla fonte per cliente ${client.id}`);
       return apiRequest("POST", `/api/mark-client-deleted-at-source/${client.id}`);
     },
     onSuccess: async () => {
-      console.log(`🚨 Cliente ${client.id} marcato come eliminato alla fonte`);
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
         title: "Notifica eliminazione",
@@ -148,7 +129,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       if (onUpdate) onUpdate();
     },
     onError: (error: any) => {
-      console.error(`❌ Errore simulazione eliminazione:`, error);
       toast({
         title: "Errore",
         description: error.message || "Impossibile simulare eliminazione",
@@ -159,13 +139,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      console.log(`🚀 Eliminazione definitiva cliente ${client.id}`);
       return apiRequest("DELETE", `/api/clients/${client.id}`);
     },
     onMutate: async () => {
-      // Prevenzione caching PRIMA della richiesta
-      console.log(`🚫 Rimozione preventiva cliente ${client.id} dalla cache`);
-      
       // Cancella TUTTI i tipi di cache correlati
       await queryClient.cancelQueries({ queryKey: ['/api/clients'] });
       await queryClient.cancelQueries({ queryKey: ['/api/clients', client.id] });
@@ -177,12 +153,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       queryClient.setQueryData(['/api/clients'], (oldData: any) => {
         if (!oldData) return [];
         const newData = oldData.filter((c: any) => c.id !== client.id);
-        console.log(`Cache aggiornata: ${oldData.length} -> ${newData.length} clienti`);
         return newData;
       });
     },
     onSuccess: async () => {
-      console.log(`✅ Cliente ${client.id} eliminato definitivamente`);
       
       // Rimozione aggressiva da TUTTE le cache
       queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
@@ -203,7 +177,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       
       // Anche in caso di errore, rimuovi dalla cache se è 404
       if (error.message?.includes("Client not found") || error.message?.includes("404")) {
-        console.log(`🗑️ Cliente ${client.id} non esistente sul server, pulizia cache`);
         
         // Rimozione completa dalla cache
         queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
@@ -232,7 +205,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
 
   // Funzione per aggiornare la lista clienti
   const refreshClientList = async () => {
-    console.log(`🔄 Aggiornamento lista clienti dopo operazione su cliente ${client.id}`);
     
     // Invalida completamente la cache
     await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
@@ -245,11 +217,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       await onUpdate();
     }
     
-    console.log(`✅ Lista clienti aggiornata`);
   };
   
   const handleDelete = () => {
-    console.log(`🗑️ ELIMINAZIONE CLIENTE ${client.id} - ${client.firstName} ${client.lastName}`);
     deleteMutation.mutate();
   };
   
