@@ -175,10 +175,27 @@ export function serveDynamicManifest(req: Request, res: Response) {
       };
     }
     
-    // SOLUZIONE ANDROID: Usa proxy per icone con headers anti-cache
+    // SOLUZIONE: Se non abbiamo un owner specifico, NON includere icone nel manifest
+    // Questo impedisce a Chrome di memorizzare icone default nel prompt "Apri nell'app"
+    // Il ManifestInjector aggiungerà il manifest corretto con le icone personalizzate
+    if (!ownerUserId) {
+      console.log('📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)');
+      const minimalManifest = {
+        ...baseManifest,
+        "icons": []
+      };
+      res.set({
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      });
+      return res.json(minimalManifest);
+    }
+    
     const iconTimestamp = Date.now() + Math.random();
     const iconBaseUrl = `/pwa-icon`;
-    const iconParams = `?owner=${ownerUserId || 'default'}&v=${iconTimestamp}&android=1`;
+    const iconParams = `?owner=${ownerUserId}&v=${iconTimestamp}&android=1`;
     
     const manifest = {
       ...baseManifest,
