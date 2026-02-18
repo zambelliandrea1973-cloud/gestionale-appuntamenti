@@ -21,6 +21,7 @@ import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import FooterContactIcons from "@/components/FooterContactIcons";
+import WelcomeGuide from "@/components/WelcomeGuide";
 
 // Componente per l'icona dell'app - STESSA LOGICA NOME AZIENDALE
 function AppIcon() {
@@ -191,9 +192,17 @@ export default function Home() {
   const [_, navigate] = useLocation();
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
+  const [showWelcomeGuide, setShowWelcomeGuide] = useState(false);
+
+  useEffect(() => {
+    if (user && user.type !== 'client' && !user.hideWelcomeGuide) {
+      setShowWelcomeGuide(true);
+    }
+  }, [user]);
 
   return (
     <div className="space-y-6 relative">
+      <WelcomeGuide open={showWelcomeGuide} onClose={() => setShowWelcomeGuide(false)} />
       <BetaBadge />
       <div className="text-center my-8">
         <div className="flex flex-col items-center mb-6">

@@ -1176,6 +1176,67 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  app.get("/api/working-hours", requireAuth, async (req, res) => {
+    try {
+      const user = req.user! as any;
+      const settings = await storage.getUserSettings(user.id);
+      res.json({
+        workingHoursStart: settings?.workingHoursStart || "09:00",
+        workingHoursEnd: settings?.workingHoursEnd || "18:00",
+        workingDays: settings?.workingDays || ["monday", "tuesday", "wednesday", "thursday", "friday"],
+        lunchBreakEnabled: settings?.lunchBreakEnabled || false,
+        lunchBreakStart: settings?.lunchBreakStart || "13:00",
+        lunchBreakEnd: settings?.lunchBreakEnd || "14:00",
+        timeSlotDuration: settings?.timeSlotDuration || 30,
+      });
+    } catch (error) {
+      console.error('Errore caricamento orari di lavoro:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
+  app.post("/api/working-hours", requireAuth, async (req, res) => {
+    try {
+      const user = req.user! as any;
+      const { workingHoursStart, workingHoursEnd, workingDays, lunchBreakEnabled, lunchBreakStart, lunchBreakEnd, timeSlotDuration } = req.body;
+
+      const timeRegex = /^\d{2}:\d{2}$/;
+      const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+      const validDurations = [15, 30, 45, 60, 90];
+
+      const settingsUpdate: any = {};
+      if (workingHoursStart !== undefined && timeRegex.test(workingHoursStart)) settingsUpdate.workingHoursStart = workingHoursStart;
+      if (workingHoursEnd !== undefined && timeRegex.test(workingHoursEnd)) settingsUpdate.workingHoursEnd = workingHoursEnd;
+      if (workingDays !== undefined && Array.isArray(workingDays) && workingDays.every((d: string) => validDays.includes(d))) settingsUpdate.workingDays = workingDays;
+      if (lunchBreakEnabled !== undefined && typeof lunchBreakEnabled === 'boolean') settingsUpdate.lunchBreakEnabled = lunchBreakEnabled;
+      if (lunchBreakStart !== undefined && timeRegex.test(lunchBreakStart)) settingsUpdate.lunchBreakStart = lunchBreakStart;
+      if (lunchBreakEnd !== undefined && timeRegex.test(lunchBreakEnd)) settingsUpdate.lunchBreakEnd = lunchBreakEnd;
+      if (timeSlotDuration !== undefined && validDurations.includes(Number(timeSlotDuration))) settingsUpdate.timeSlotDuration = Number(timeSlotDuration);
+
+      if (Object.keys(settingsUpdate).length === 0) {
+        return res.status(400).json({ error: 'Nessun dato valido fornito' });
+      }
+
+      await storage.updateUserSettings(user.id, settingsUpdate);
+      res.json({ success: true, message: 'Orari di lavoro salvati con successo' });
+    } catch (error) {
+      console.error('Errore salvataggio orari di lavoro:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
+  app.post("/api/hide-welcome-guide", requireAuth, async (req, res) => {
+    try {
+      const user = req.user! as any;
+      const { hide } = req.body;
+      await db.update(users).set({ hideWelcomeGuide: hide !== false }).where(eq(users.id, user.id));
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Errore aggiornamento welcome guide:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
   // Info applicazione rimossa - usa l'endpoint unificato sopra
 
   // Contesto tenant
@@ -1283,6 +1344,12 @@ export function registerSimpleRoutes(app: Express): Server {
       }
     }
     
+    let hideWelcomeGuide = false;
+    try {
+      const dbUser = await db.select({ hideWelcomeGuide: users.hideWelcomeGuide }).from(users).where(eq(users.id, user.id));
+      if (dbUser[0]) hideWelcomeGuide = dbUser[0].hideWelcomeGuide || false;
+    } catch (e) {}
+
     const response = {
       id: user.id,
       username: user.username,
@@ -1290,9 +1357,10 @@ export function registerSimpleRoutes(app: Express): Server {
       type: user.type,
       firstName: firstName,
       lastName: lastName,
-      assignmentCode: assignmentCode, // NUOVO formato uniformato (BUS1422)
-      legacyProfessionistCode: legacyProfessionistCode, // VECCHIO formato (PROF_014_9C1F) - retrocompatibilità
-      professionistCode: assignmentCode || legacyProfessionistCode, // Compatibilità: priorità al nuovo
+      hideWelcomeGuide: hideWelcomeGuide,
+      assignmentCode: assignmentCode,
+      legacyProfessionistCode: legacyProfessionistCode,
+      professionistCode: assignmentCode || legacyProfessionistCode,
       licenseType: licenseType,  // Campo aggiunto per il badge
       licenseInfo: {
         type: licenseType,

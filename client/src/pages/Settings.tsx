@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -25,6 +25,7 @@ import EmailSettings from '@/components/EmailSettings';
 import AdminNotifications from '@/components/AdminNotifications';
 import SubscriptionPlansAdmin from '@/components/SubscriptionPlansAdmin';
 import CurrencySelector from '@/components/CurrencySelector';
+import WorkingHoursEditor from '@/components/WorkingHoursEditor';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
@@ -204,20 +205,24 @@ export default function Settings() {
         </TabsContent>
 
         <TabsContent value="contacts">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Contact className="mr-2 h-5 w-5" />
-                {t('settings.contactsTitle', 'Informazioni di Contatto')}
-              </CardTitle>
-              <CardDescription>
-                {t('settings.contactsDesc', 'Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell\'app cliente')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ContactInfoEditor />
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Contact className="mr-2 h-5 w-5" />
+                  {t('settings.contactsTitle', 'Informazioni di Contatto')}
+                </CardTitle>
+                <CardDescription>
+                  {t('settings.contactsDesc', 'Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell\'app cliente')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ContactInfoEditor />
+              </CardContent>
+            </Card>
+
+            <WorkingHoursEditor />
+          </div>
         </TabsContent>
 
         <TabsContent value="staff">

@@ -457,6 +457,7 @@ export const users = pgTable("users", {
   googleCalendarId: text("google_calendar_id"), // ID del calendario Google (default "primary")
   lastGoogleSyncAt: timestamp("last_google_sync_at"), // Ultima sincronizzazione con Google Calendar
   termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
+  hideWelcomeGuide: boolean("hide_welcome_guide").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -838,6 +839,9 @@ export const userSettings = pgTable("user_settings", {
   workingHoursStart: time("working_hours_start").default("09:00"),
   workingHoursEnd: time("working_hours_end").default("18:00"),
   workingDays: json("working_days").$type<string[]>().default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
+  lunchBreakEnabled: boolean("lunch_break_enabled").default(false),
+  lunchBreakStart: time("lunch_break_start").default("13:00"),
+  lunchBreakEnd: time("lunch_break_end").default("14:00"),
   timeSlotDuration: integer("time_slot_duration").default(30), // minuti
   
   // Impostazioni Notifiche
