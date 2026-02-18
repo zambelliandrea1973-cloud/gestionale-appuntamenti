@@ -6,9 +6,19 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "../../../shared/schema";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertTriangle } from "lucide-react";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useEffect, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   DialogContent,
   DialogHeader,
@@ -86,9 +96,13 @@ export default function ClientForm({
   onClientCreated
 }: ClientFormProps) {
   const { toast } = useToast();
-  const { user } = useUserWithLicense(); // Ottieni utente corrente
-  const [prefix, setPrefix] = useState("+39"); // Default a prefisso italiano
+  const { user } = useUserWithLicense();
+  const [prefix, setPrefix] = useState("+39");
   const [activeTab, setActiveTab] = useState("personal");
+  const [showDuplicateAlert, setShowDuplicateAlert] = useState(false);
+  const [duplicateClients, setDuplicateClients] = useState<any[]>([]);
+  const [pendingData, setPendingData] = useState<any>(null);
+  const [isCheckingDuplicates, setIsCheckingDuplicates] = useState(false);
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
@@ -214,12 +228,7 @@ export default function ClientForm({
     }
   });
   
-  const onSubmit = (data: FormData) => {
-    console.log("🔘 Submit button clicked");
-    console.log("🔄 Form submit - Dati inviati:", data);
-    console.log("📝 Form errors:", form.formState.errors);
-    
-    // ✅ FIX: Aggiungi userId ai dati
+  const submitClientData = (data: FormData) => {
     if (!user?.id) {
       toast({
         title: "Errore",
@@ -229,21 +238,60 @@ export default function ClientForm({
       return;
     }
     
-    // Combina prefisso e numero di telefono se necessario
     if (data.phone && !data.phone.startsWith('+')) {
       data.phone = `${prefix}${data.phone}`;
-      console.log("📞 Telefono combinato:", data.phone);
     }
     
-    // ✅ FIX: Aggiungi userId ai dati prima dell'invio
     const dataWithUserId = {
       ...data,
       userId: user.id,
-      ownerId: user.id // Anche ownerId per multi-tenant
+      ownerId: user.id
     };
     
-    console.log("📤 Dati finali con userId:", dataWithUserId);
     mutation.mutate(dataWithUserId);
+  };
+
+  const onSubmit = async (data: FormData) => {
+    if (clientId) {
+      submitClientData(data);
+      return;
+    }
+    
+    if (!user?.id) {
+      toast({
+        title: "Errore",
+        description: "Utente non autenticato. Effettua il login.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (data.phone && !data.phone.startsWith('+')) {
+      data.phone = `${prefix}${data.phone}`;
+    }
+    
+    setIsCheckingDuplicates(true);
+    try {
+      const response = await apiRequest("POST", "/api/clients/check-duplicate", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone
+      });
+      const result = await response.json();
+      
+      if (result.hasDuplicates && result.duplicates.length > 0) {
+        setDuplicateClients(result.duplicates);
+        setPendingData(data);
+        setShowDuplicateAlert(true);
+        return;
+      }
+    } catch (error) {
+      console.error("Errore controllo duplicati:", error);
+    } finally {
+      setIsCheckingDuplicates(false);
+    }
+    
+    submitClientData(data);
   };
   
   // Loading state
@@ -573,11 +621,10 @@ export default function ClientForm({
                 {activeTab !== "consent" && (
                   <Button 
                     type="submit" 
-                    disabled={mutation.isPending}
-                    onClick={() => console.log("🔘 Submit button clicked")}
+                    disabled={mutation.isPending || isCheckingDuplicates}
                   >
-                    {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {clientId ? "Aggiorna Dati" : "Salva"}
+                    {(mutation.isPending || isCheckingDuplicates) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isCheckingDuplicates ? "Controllo duplicati..." : clientId ? "Aggiorna Dati" : "Salva"}
                   </Button>
                 )}
               </DialogFooter>
@@ -585,6 +632,49 @@ export default function ClientForm({
           </Form>
         </Tabs>
       )}
+      
+      <AlertDialog open={showDuplicateAlert} onOpenChange={setShowDuplicateAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-500" />
+              Cliente potenzialmente duplicato
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div>
+                <p className="mb-3">Esistono già clienti con nome o telefono simili:</p>
+                <div className="space-y-2 mb-3">
+                  {duplicateClients.map((dc, i) => (
+                    <div key={i} className="bg-amber-50 border border-amber-200 rounded-md p-3 text-sm text-foreground">
+                      <span className="font-medium">{dc.firstName} {dc.lastName}</span>
+                      {dc.phone && <span className="ml-2 text-muted-foreground">| {dc.phone}</span>}
+                      {dc.email && <span className="ml-2 text-muted-foreground">| {dc.email}</span>}
+                    </div>
+                  ))}
+                </div>
+                <p>Vuoi comunque creare un nuovo cliente?</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setShowDuplicateAlert(false);
+              setPendingData(null);
+            }}>
+              Annulla
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => {
+              setShowDuplicateAlert(false);
+              if (pendingData) {
+                submitClientData(pendingData);
+                setPendingData(null);
+              }
+            }}>
+              Crea comunque
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </DialogContent>
   );
 }

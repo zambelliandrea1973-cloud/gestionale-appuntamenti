@@ -713,6 +713,66 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(results);
   });
 
+  app.post("/api/clients/check-duplicate", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const tenantId = user.ownerId ?? user.tenantId ?? user.id;
+    const { firstName, lastName, phone } = req.body;
+    
+    try {
+      const conditions = [eq(clients.ownerId, tenantId)];
+      
+      if (firstName && lastName) {
+        conditions.push(sql`LOWER(${clients.firstName}) = LOWER(${firstName})`);
+        conditions.push(sql`LOWER(${clients.lastName}) = LOWER(${lastName})`);
+      }
+      
+      const duplicates = await db.select({
+        id: clients.id,
+        firstName: clients.firstName,
+        lastName: clients.lastName,
+        phone: clients.phone,
+        email: clients.email
+      })
+      .from(clients)
+      .where(and(...conditions));
+      
+      const phoneNormalized = phone ? phone.replace(/[\s\-()]/g, '') : '';
+      const matches = duplicates.filter(d => {
+        const dPhone = (d.phone || '').replace(/[\s\-()]/g, '');
+        const nameMatch = true;
+        const phoneMatch = phoneNormalized && dPhone && (dPhone.includes(phoneNormalized) || phoneNormalized.includes(dPhone));
+        return nameMatch || phoneMatch;
+      });
+      
+      if (phone && phoneNormalized.length >= 6) {
+        const phoneDuplicates = await db.select({
+          id: clients.id,
+          firstName: clients.firstName,
+          lastName: clients.lastName,
+          phone: clients.phone,
+          email: clients.email
+        })
+        .from(clients)
+        .where(and(
+          eq(clients.ownerId, tenantId),
+          sql`REPLACE(REPLACE(REPLACE(REPLACE(${clients.phone}, ' ', ''), '-', ''), '(', ''), ')', '') LIKE ${'%' + phoneNormalized.slice(-8)}`
+        ));
+        
+        for (const pd of phoneDuplicates) {
+          if (!matches.find(m => m.id === pd.id)) {
+            matches.push(pd);
+          }
+        }
+      }
+      
+      res.json({ hasDuplicates: matches.length > 0, duplicates: matches });
+    } catch (error) {
+      console.error("Errore check duplicati:", error);
+      res.status(500).json({ message: "Errore controllo duplicati" });
+    }
+  });
+
   app.post("/api/clients", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
