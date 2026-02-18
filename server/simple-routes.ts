@@ -1181,13 +1181,14 @@ export function registerSimpleRoutes(app: Express): Server {
       const user = req.user! as any;
       const settings = await storage.getUserSettings(user.id);
       res.json({
-        workingHoursStart: settings?.workingHoursStart || "09:00",
-        workingHoursEnd: settings?.workingHoursEnd || "18:00",
-        workingDays: settings?.workingDays || ["monday", "tuesday", "wednesday", "thursday", "friday"],
+        workingHoursStart: settings?.workingHoursStart || "08:00",
+        workingHoursEnd: settings?.workingHoursEnd || "22:00",
+        workingDays: settings?.workingDays || ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"],
         lunchBreakEnabled: settings?.lunchBreakEnabled || false,
         lunchBreakStart: settings?.lunchBreakStart || "13:00",
         lunchBreakEnd: settings?.lunchBreakEnd || "14:00",
-        timeSlotDuration: settings?.timeSlotDuration || 30,
+        holidaysEnabled: (settings as any)?.holidaysEnabled || false,
+        holidaysCountry: (settings as any)?.holidaysCountry || "IT",
       });
     } catch (error) {
       console.error('Errore caricamento orari di lavoro:', error);
@@ -1198,11 +1199,11 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/working-hours", requireAuth, async (req, res) => {
     try {
       const user = req.user! as any;
-      const { workingHoursStart, workingHoursEnd, workingDays, lunchBreakEnabled, lunchBreakStart, lunchBreakEnd, timeSlotDuration } = req.body;
+      const { workingHoursStart, workingHoursEnd, workingDays, lunchBreakEnabled, lunchBreakStart, lunchBreakEnd, holidaysEnabled, holidaysCountry } = req.body;
 
       const timeRegex = /^\d{2}:\d{2}$/;
       const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-      const validDurations = [15, 30, 45, 60, 90];
+      const validCountries = ['IT', 'US', 'DE', 'FR', 'ES', 'RU', 'NL', 'NO', 'RO'];
 
       const settingsUpdate: any = {};
       if (workingHoursStart !== undefined && timeRegex.test(workingHoursStart)) settingsUpdate.workingHoursStart = workingHoursStart;
@@ -1211,7 +1212,8 @@ export function registerSimpleRoutes(app: Express): Server {
       if (lunchBreakEnabled !== undefined && typeof lunchBreakEnabled === 'boolean') settingsUpdate.lunchBreakEnabled = lunchBreakEnabled;
       if (lunchBreakStart !== undefined && timeRegex.test(lunchBreakStart)) settingsUpdate.lunchBreakStart = lunchBreakStart;
       if (lunchBreakEnd !== undefined && timeRegex.test(lunchBreakEnd)) settingsUpdate.lunchBreakEnd = lunchBreakEnd;
-      if (timeSlotDuration !== undefined && validDurations.includes(Number(timeSlotDuration))) settingsUpdate.timeSlotDuration = Number(timeSlotDuration);
+      if (holidaysEnabled !== undefined && typeof holidaysEnabled === 'boolean') settingsUpdate.holidaysEnabled = holidaysEnabled;
+      if (holidaysCountry !== undefined && validCountries.includes(holidaysCountry)) settingsUpdate.holidaysCountry = holidaysCountry;
 
       if (Object.keys(settingsUpdate).length === 0) {
         return res.status(400).json({ error: 'Nessun dato valido fornito' });

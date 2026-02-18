@@ -836,13 +836,15 @@ export const userSettings = pgTable("user_settings", {
   whatsappTemplate: text("whatsapp_template"),
   
   // Impostazioni Appuntamenti
-  workingHoursStart: time("working_hours_start").default("09:00"),
-  workingHoursEnd: time("working_hours_end").default("18:00"),
-  workingDays: json("working_days").$type<string[]>().default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
+  workingHoursStart: time("working_hours_start").default("08:00"),
+  workingHoursEnd: time("working_hours_end").default("22:00"),
+  workingDays: json("working_days").$type<string[]>().default(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]),
   lunchBreakEnabled: boolean("lunch_break_enabled").default(false),
   lunchBreakStart: time("lunch_break_start").default("13:00"),
   lunchBreakEnd: time("lunch_break_end").default("14:00"),
-  timeSlotDuration: integer("time_slot_duration").default(30), // minuti
+  holidaysEnabled: boolean("holidays_enabled").default(false),
+  holidaysCountry: text("holidays_country").default("IT"),
+  timeSlotDuration: integer("time_slot_duration").default(30),
   
   // Impostazioni Notifiche
   reminderEnabled: boolean("reminder_enabled").default(true),
