@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from 'react-i18next';
 import { 
@@ -38,7 +38,7 @@ export default function Calendar() {
     offset: number;
     name: string;
   } | null>(null);
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const clockRef = useRef<HTMLSpanElement>(null);
   
   // 🔄 AUTO-SYNC: Sincronizzazione automatica OGNI volta che si apre la pagina calendario
   useEffect(() => {
@@ -105,12 +105,14 @@ export default function Calendar() {
     fetchTimezoneInfo();
   }, []);
   
-  // Aggiorna l'orario corrente ogni secondo
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    
+    const updateClock = () => {
+      if (clockRef.current) {
+        clockRef.current.textContent = new Date().toLocaleTimeString();
+      }
+    };
+    updateClock();
+    const timer = setInterval(updateClock, 1000);
     return () => clearInterval(timer);
   }, []);
   
@@ -161,16 +163,13 @@ export default function Calendar() {
       })
     : [];
   
-  // Navigate to today
-  const goToToday = () => {
+  const goToToday = useCallback(() => {
     setSelectedDate(new Date());
-  };
+  }, []);
   
-  // Navigate to previous period (day, week, month)
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setSelectedDate(prevDate => {
-      const newDate = new Date(prevDate);
-      
+      const newDate = new Date(prevDate.getTime());
       if (view === "day") {
         newDate.setDate(newDate.getDate() - 1);
       } else if (view === "week") {
@@ -178,16 +177,13 @@ export default function Calendar() {
       } else {
         newDate.setMonth(newDate.getMonth() - 1);
       }
-      
       return newDate;
     });
-  };
+  }, [view]);
   
-  // Navigate to next period (day, week, month)
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setSelectedDate(prevDate => {
-      const newDate = new Date(prevDate);
-      
+      const newDate = new Date(prevDate.getTime());
       if (view === "day") {
         newDate.setDate(newDate.getDate() + 1);
       } else if (view === "week") {
@@ -195,10 +191,9 @@ export default function Calendar() {
       } else {
         newDate.setMonth(newDate.getMonth() + 1);
       }
-      
       return newDate;
     });
-  };
+  }, [view]);
   
   // Handle refresh of data
   const handleRefresh = () => {
@@ -339,7 +334,7 @@ export default function Calendar() {
         <div className="mt-2 flex items-center justify-center px-3 py-1.5 bg-green-50 border border-green-200 rounded-md shadow-sm">
           <Globe className="h-4 w-4 text-primary mr-2" />
           <span className="text-sm font-medium flex items-center">
-            <span className="text-green-700 font-mono">{currentTime.toLocaleTimeString()}</span>
+            <span ref={clockRef} className="text-green-700 font-mono"></span>
             <span className="mx-1 text-gray-400">|</span>
             <span className="text-gray-700">
               {timezoneInfo?.name || 'UTC'} 
