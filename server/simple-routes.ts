@@ -1787,25 +1787,28 @@ export function registerSimpleRoutes(app: Express): Server {
       }
     }
 
-    // Se non riusciamo a determinare l'utente, usa l'icona predefinita
     if (!targetUserId) {
       return res.json({ 
         appName: "Gestionale Appuntamenti", 
-        icon: defaultIconBase64 
+        icon: defaultIconBase64,
+        isCustomIcon: false
       });
     }
 
     const dbIcon = await app.locals.storage.getUserIcon(targetUserId);
-    const userIcon = dbIcon || storageData.userIcons[targetUserId] || defaultIconBase64;
+    const storageIcon = storageData.userIcons[targetUserId];
+    const hasCustom = !!(dbIcon || storageIcon);
+    const userIcon = dbIcon || storageIcon || defaultIconBase64;
     
     await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
     
     const deviceType = req.headers['x-device-type'] || 'unknown';
-    console.log(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}`);
+    console.log(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}, custom: ${hasCustom}`);
     
     res.json({ 
       appName: "Gestionale Appuntamenti", 
-      icon: userIcon 
+      icon: userIcon,
+      isCustomIcon: hasCustom
     });
   });
 
@@ -1820,15 +1823,16 @@ export function registerSimpleRoutes(app: Express): Server {
       }
 
       const dbIcon = await app.locals.storage.getUserIcon(ownerId);
-      const userIcon = dbIcon || storageData.userIcons[ownerId] || defaultIconBase64;
+      const storageIcon = storageData.userIcons[ownerId];
+      const hasCustom = !!(dbIcon || storageIcon);
+      const userIcon = dbIcon || storageIcon || defaultIconBase64;
       
       await updatePWAIconsFromCompanyLogo(ownerId, userIcon);
       
-      console.log(`✅ Icone PWA aggiornate per professionista ${ownerId} con logo aziendale (richiesta client)`);
-      
       res.json({ 
         appName: "Gestionale Appuntamenti", 
-        icon: userIcon 
+        icon: userIcon,
+        isCustomIcon: hasCustom
       });
     } catch (error) {
       console.error('Errore nel caricamento icona app:', error);

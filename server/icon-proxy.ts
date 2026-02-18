@@ -16,7 +16,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
     
     // Determina dimensione numerica (supporta sia "192" che "192x192")
     const sizeNum = parseInt(size.split('x')[0]);
-    if (!sizeNum || ![96, 192, 512].includes(sizeNum)) {
+    if (!sizeNum || ![16, 32, 48, 64, 96, 128, 144, 152, 192, 384, 512].includes(sizeNum)) {
       console.log(`❌ ICON PROXY DB: Dimensione non valida: ${size} → ${sizeNum}`);
       return res.status(400).send('Dimensione icona non valida');
     }

@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { 
   CalendarDays, 
@@ -25,6 +26,44 @@ import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
+
+function UserIcon({ className, userId }: { className?: string; userId?: number }) {
+  const { data: hasCustomIcon } = useQuery({
+    queryKey: ['/api/client-app-info', 'icon-check', userId],
+    queryFn: async () => {
+      if (!userId) return false;
+      try {
+        const res = await fetch(`/api/client-app-info/${userId}`);
+        if (!res.ok) {
+          const fallback = await fetch(`/api/client-app-info`);
+          if (!fallback.ok) return false;
+          const data = await fallback.json();
+          return !!data.isCustomIcon;
+        }
+        const data = await res.json();
+        return !!data.isCustomIcon;
+      } catch { return false; }
+    },
+    enabled: !!userId,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  if (!hasCustomIcon || !userId) {
+    return <CalendarDays className={className} />;
+  }
+
+  return (
+    <img 
+      src={`/pwa-icon/96x96?owner=${userId}&ts=${Math.floor(Date.now() / 300000)}`}
+      alt="App icon"
+      className={`${className} rounded-sm object-cover`}
+      onError={(e) => {
+        const el = e.target as HTMLImageElement;
+        el.style.display = 'none';
+      }}
+    />
+  );
+}
 
 interface LayoutProps {
   children: ReactNode;
@@ -68,7 +107,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             {/* Header con titolo app e badge utente */}
             <div className="w-full flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <CalendarDays className="h-5 w-5 flex-shrink-0" />
+                <UserIcon className="h-5 w-5 flex-shrink-0" userId={userWithLicense?.id} />
                 <h1 className="text-lg font-medium whitespace-nowrap">{appTitle || t('app.title')}</h1>
                 <UserLicenseBadge />
                 {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
@@ -186,7 +225,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             {/* Informazioni utente mobile - identiche al desktop */}
             <div className="w-full mb-2">
               <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
-                <CalendarDays className="h-6 w-6 flex-shrink-0" />
+                <UserIcon className="h-6 w-6 flex-shrink-0" userId={userWithLicense?.id} />
                 <div className="w-full">
                   <h1 className="text-xl font-medium">
                     {appTitle || t('app.title')}
