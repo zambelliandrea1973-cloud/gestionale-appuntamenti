@@ -313,7 +313,12 @@ export default function WorkingHoursEditor() {
   }, []);
 
   const currentYear = new Date().getFullYear();
-  const currentHolidays = useMemo(() => getHolidays(data.holidaysCountry, currentYear), [data.holidaysCountry, currentYear]);
+  const currentHolidays = useMemo(() => {
+    const thisYear = getHolidays(data.holidaysCountry, currentYear);
+    const nextYear = getHolidays(data.holidaysCountry, currentYear + 1);
+    const janNextYear = nextYear.filter(h => h.date.getMonth() === 0);
+    return [...thisYear, ...janNextYear].sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [data.holidaysCountry, currentYear]);
 
   const toggleDay = (day: string) => {
     setData(prev => ({
@@ -487,12 +492,12 @@ export default function WorkingHoursEditor() {
               {currentHolidays.length > 0 && (
                 <div className="bg-muted/50 rounded-md p-3">
                   <p className="text-xs font-medium mb-2 text-muted-foreground">
-                    Festività {currentYear} — aggiornate automaticamente ogni anno:
+                    Festività {currentYear} + gennaio {currentYear + 1} — aggiornate automaticamente:
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
                     {currentHolidays.map((h, i) => (
                       <p key={i} className="text-xs text-muted-foreground">
-                        <span className="font-medium">{h.dateStr}</span> — {h.name}
+                        <span className="font-medium">{h.date.getFullYear() > currentYear ? fmtFull(h.date) : h.dateStr}</span> — {h.name}
                       </p>
                     ))}
                   </div>
