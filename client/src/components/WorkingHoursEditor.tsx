@@ -23,7 +23,6 @@ interface WorkingHoursData {
   lunchBreakEnabled: boolean;
   lunchBreakStart: string;
   lunchBreakEnd: string;
-  timeSlotDuration: number;
 }
 
 export default function WorkingHoursEditor() {
@@ -37,7 +36,6 @@ export default function WorkingHoursEditor() {
     lunchBreakEnabled: false,
     lunchBreakStart: '13:00',
     lunchBreakEnd: '14:00',
-    timeSlotDuration: 30,
   });
 
   useEffect(() => {
@@ -55,7 +53,6 @@ export default function WorkingHoursEditor() {
             lunchBreakEnabled: result.lunchBreakEnabled || false,
             lunchBreakStart: result.lunchBreakStart || '13:00',
             lunchBreakEnd: result.lunchBreakEnd || '14:00',
-            timeSlotDuration: result.timeSlotDuration || 30,
           });
         }
       } catch (error) {
@@ -168,42 +165,43 @@ export default function WorkingHoursEditor() {
             />
           </div>
           {data.lunchBreakEnabled && (
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              <div>
-                <Label className="text-xs text-muted-foreground">Inizio pausa</Label>
-                <input
-                  type="time"
-                  value={data.lunchBreakStart}
-                  onChange={e => setData(prev => ({ ...prev, lunchBreakStart: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
-                />
+            <>
+              <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                  <Label className="text-xs text-muted-foreground">Inizio pausa</Label>
+                  <input
+                    type="time"
+                    value={data.lunchBreakStart}
+                    onChange={e => setData(prev => ({ ...prev, lunchBreakStart: e.target.value }))}
+                    className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs text-muted-foreground">Fine pausa</Label>
+                  <input
+                    type="time"
+                    value={data.lunchBreakEnd}
+                    onChange={e => setData(prev => ({ ...prev, lunchBreakEnd: e.target.value }))}
+                    className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
+                  />
+                </div>
               </div>
-              <div>
-                <Label className="text-xs text-muted-foreground">Fine pausa</Label>
-                <input
-                  type="time"
-                  value={data.lunchBreakEnd}
-                  onChange={e => setData(prev => ({ ...prev, lunchBreakEnd: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
-                />
-              </div>
-            </div>
+              {(() => {
+                const [sh, sm] = data.lunchBreakStart.split(':').map(Number);
+                const [eh, em] = data.lunchBreakEnd.split(':').map(Number);
+                const diff = (eh * 60 + em) - (sh * 60 + sm);
+                if (diff <= 0) return (
+                  <p className="text-xs text-destructive mt-1">L'orario di fine deve essere dopo l'inizio</p>
+                );
+                const hours = Math.floor(diff / 60);
+                const mins = diff % 60;
+                const label = hours > 0 && mins > 0 ? `${hours}h ${mins}min` : hours > 0 ? `${hours}h` : `${mins}min`;
+                return (
+                  <p className="text-xs text-muted-foreground mt-1">Durata pausa: <span className="font-medium">{label}</span></p>
+                );
+              })()}
+            </>
           )}
-        </div>
-
-        <div className="border-t pt-4">
-          <Label className="text-sm font-medium">Durata slot appuntamenti (minuti)</Label>
-          <select
-            value={data.timeSlotDuration}
-            onChange={e => setData(prev => ({ ...prev, timeSlotDuration: parseInt(e.target.value) }))}
-            className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
-          >
-            <option value={15}>15 minuti</option>
-            <option value={30}>30 minuti</option>
-            <option value={45}>45 minuti</option>
-            <option value={60}>60 minuti</option>
-            <option value={90}>90 minuti</option>
-          </select>
         </div>
 
         <Button onClick={handleSave} disabled={saving} className="w-full">
