@@ -89,14 +89,16 @@ export function serveDynamicManifest(req: Request, res: Response) {
       }
     }
     
-    // Metodo 4: Fallback agli utenti esistenti
-    if (!ownerUserId) {
-      const storageData = loadStorageData();
-      const usersWithIcons = Object.keys(storageData.userIcons || {});
-      if (usersWithIcons.length === 1) {
-        ownerUserId = parseInt(usersWithIcons[0]);
-        console.log(`📱 PWA MANIFEST: Usando fallback owner ${ownerUserId}`);
-      }
+    // Metodo 4: Sessione utente loggato (ADMIN che installa PWA)
+    if (!ownerUserId && req.user) {
+      ownerUserId = (req.user as any).id;
+      console.log(`📱 PWA MANIFEST: Owner ID da sessione utente loggato: ${ownerUserId}`);
+    }
+    
+    // Metodo 5: Query param userId (usato dal ManifestInjector)
+    if (!ownerUserId && req.query.userId) {
+      ownerUserId = parseInt(req.query.userId as string);
+      console.log(`📱 PWA MANIFEST: Owner ID da query userId: ${ownerUserId}`);
     }
     
     // Crea manifest dinamico con start_url che preserva il contesto del cliente
@@ -107,66 +109,71 @@ export function serveDynamicManifest(req: Request, res: Response) {
     const manifestVersion = `${Date.now()}-${ownerUserId || 'default'}`;
     console.log(`🔄 MANIFEST: Versione aggiornata: ${manifestVersion}`);
     
-    // Determina start_url in base al referer per preservare il contesto del cliente
-    let startUrl = "/";
+    // Determina se siamo in area admin o area cliente
     const referer = req.get('referer') || '';
+    const isClientArea = referer.includes('/client/') || !!req.query.clientToken;
+    const isAdminArea = req.user && !isClientArea;
     
-    console.log(`🔍 PWA MANIFEST: Analizzando referer: ${referer}`);
-    console.log(`🔍 PWA MANIFEST: Query params:`, req.query);
+    console.log(`🔍 PWA MANIFEST: Referer: ${referer}, isClientArea: ${isClientArea}, isAdminArea: ${isAdminArea}`);
     
-    // Prima priorità: token client nei query params
-    if (req.query.clientToken) {
-      startUrl = `/client/${req.query.clientToken}`;
-      console.log(`📱 PWA MANIFEST: Start URL costruito da query token: ${startUrl}`);
-    }
-    // Seconda priorità: estrai percorso /client/ dal referer
-    else if (referer) {
-      const clientPathMatch = referer.match(/(\/client\/[^?#\s]+)/);
-      if (clientPathMatch) {
-        startUrl = clientPathMatch[1];
-        console.log(`📱 PWA MANIFEST: Start URL estratto da referer: ${startUrl}`);
-      }
-    }
-    // Fallback generico per altri utenti
-    else if (ownerUserId && !startUrl.includes('/client/')) {
-      const storageData = loadStorageData();
-      const clients = storageData.clients || [];
-      
-      let targetClient = null;
-      for (const [clientId, clientData] of clients) {
-        if (clientData.ownerId === ownerUserId) {
-          if (!targetClient || clientId > targetClient.id) {
-            targetClient = { id: clientId, data: clientData };
-          }
+    // Determina start_url in base al contesto
+    let startUrl = "/";
+    
+    if (isClientArea) {
+      if (req.query.clientToken) {
+        startUrl = `/client/${req.query.clientToken}`;
+      } else {
+        const clientPathMatch = referer.match(/(\/client\/[^?#\s]+)/);
+        if (clientPathMatch) {
+          startUrl = clientPathMatch[1];
         }
       }
-      
-      if (targetClient && targetClient.data.uniqueCode) {
-        startUrl = `/client/${targetClient.data.uniqueCode}`;
-        console.log(`📱 PWA MANIFEST: Start URL costruito per cliente ${targetClient.data.firstName} ${targetClient.data.lastName}: ${startUrl}`);
-      }
+      console.log(`📱 PWA MANIFEST: Start URL area cliente: ${startUrl}`);
+    } else if (isAdminArea) {
+      startUrl = "/";
+      console.log(`📱 PWA MANIFEST: Start URL area admin: ${startUrl}`);
     }
     
-    // Usa il nome del professionista dal database
     const professionalName = ownerName;
     
-    const baseManifest = {
-      "name": `${professionalName} - Area Cliente`,
-      "short_name": `${professionalName}`, 
-      "description": `Accedi alla tua area personale - ${professionalName}`,
-      "start_url": startUrl,
-      "display": "standalone",
-      "background_color": "#ffffff",
-      "theme_color": "#006400",
-      "orientation": "any",
-      "categories": ["healthcare", "business"],
-      "lang": "it-IT",
-      "dir": "ltr",
-      "prefer_related_applications": false,
-      "scope": "/client/",
-      "id": ownerUserId ? `area-cliente-${ownerUserId}` : `area-cliente-generic`,
-      "version": manifestVersion
-    };
+    let baseManifest;
+    if (isAdminArea) {
+      baseManifest = {
+        "name": `${professionalName} - Dashboard Professionale`,
+        "short_name": professionalName,
+        "description": `Dashboard completa per gestione clienti, appuntamenti e servizi - ${professionalName}`,
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#006400",
+        "orientation": "any",
+        "categories": ["business", "healthcare", "productivity"],
+        "lang": "it-IT",
+        "dir": "ltr",
+        "prefer_related_applications": false,
+        "scope": "/",
+        "id": ownerUserId ? `gestionale-appuntamenti-admin-${ownerUserId}` : `gestionale-appuntamenti-admin-generic`,
+        "version": manifestVersion
+      };
+    } else {
+      baseManifest = {
+        "name": `${professionalName} - Area Cliente`,
+        "short_name": `${professionalName}`, 
+        "description": `Accedi alla tua area personale - ${professionalName}`,
+        "start_url": startUrl,
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#006400",
+        "orientation": "any",
+        "categories": ["healthcare", "business"],
+        "lang": "it-IT",
+        "dir": "ltr",
+        "prefer_related_applications": false,
+        "scope": "/client/",
+        "id": ownerUserId ? `area-cliente-${ownerUserId}` : `area-cliente-generic`,
+        "version": manifestVersion
+      };
+    }
     
     // SOLUZIONE ANDROID: Usa proxy per icone con headers anti-cache
     const iconTimestamp = Date.now() + Math.random();
