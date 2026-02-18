@@ -265,11 +265,15 @@ export default function PackagesPage() {
                         <FormLabel>{t('packages.form.totalPrice')} ({symbol})</FormLabel>
                         <FormControl>
                           <Input 
-                            type="number" 
-                            step="0.01"
-                            placeholder="500.00"
-                            {...field} 
-                            onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)} 
+                            type="text" 
+                            inputMode="numeric"
+                            placeholder="300"
+                            {...field}
+                            value={field.value || ''}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/[^0-9]/g, '');
+                              field.onChange(val ? parseInt(val) : 0);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
