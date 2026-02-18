@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "../../../shared/schema";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock, Eye } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock, Eye, UserCog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -232,8 +232,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   // Determina se la cancellazione è stata sbloccata
   const isDeletionUnlocked = client.deletionUnlocked === true;
 
+  const isIncompleteData = !client.phone || client.phone.trim() === '';
+
   return (
-    <Card ref={cardRef} className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''} ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : ''}`}>
+    <Card ref={cardRef} className={`h-full ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : isIncompleteData ? 'border-red-400 bg-red-50/30' : isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''}`}>
       {/* Notifica cliente eliminato alla fonte */}
       {isDeletedAtSource && (
         <div className="bg-red-100 px-3 py-2 text-xs text-red-800 font-medium border-b border-red-200 flex items-center justify-between">
@@ -267,6 +269,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
           👥 Cliente di altro account (sola visualizzazione)
         </div>
       )}
+      {isIncompleteData && !isDeletedAtSource && (
+        <div className="bg-red-500 px-3 py-2 text-xs text-white font-medium border-b border-red-600 flex items-center gap-2">
+          <UserCog className="h-4 w-4" />
+          Dati cliente da completare
+        </div>
+      )}
       <CardContent className="pt-6">
         <div className="flex justify-between items-start">
           <div className="flex-1 min-w-0">
@@ -276,10 +284,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                 <Star className="h-4 w-4 ml-1.5 text-pink-500" />
               )}
             </h3>
-            <div className="flex items-center text-sm text-gray-500 mt-1">
-              <Phone className="h-3.5 w-3.5 mr-1.5" />
-              {client.phone}
-            </div>
+            {client.phone && client.phone.trim() !== '' && (
+              <div className="flex items-center text-sm text-gray-500 mt-1">
+                <Phone className="h-3.5 w-3.5 mr-1.5" />
+                {client.phone}
+              </div>
+            )}
             
             {client.email && (
               <div className="flex items-center text-sm text-gray-500 mt-1">

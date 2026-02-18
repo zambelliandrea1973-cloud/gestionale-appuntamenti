@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 // import { insertAppointmentSchema } from "../../../shared/schema"; // Rimosso per evitare limiti integer
-import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users, Package } from "lucide-react";
+import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users, Package, UserPlus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -702,6 +702,49 @@ export default function AppointmentForm({
     queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
   };
 
+  const [isCreatingQuickClient, setIsCreatingQuickClient] = useState(false);
+
+  const createQuickClient = async (searchTerm: string, field: any) => {
+    if (isCreatingQuickClient) return;
+    setIsCreatingQuickClient(true);
+    try {
+      const parts = searchTerm.trim().split(/\s+/);
+      const firstName = parts[0] || searchTerm.trim();
+      const lastName = parts.slice(1).join(' ') || '-';
+
+      const response = await apiRequest('POST', '/api/clients', {
+        firstName,
+        lastName,
+        phone: '',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Errore nella creazione del cliente');
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+
+      field.onChange(data.id);
+      setClientSearchTerm(`${data.firstName} ${data.lastName}`);
+      setIsClientDropdownOpen(false);
+
+      toast({
+        title: "Cliente creato",
+        description: `${data.firstName} ${data.lastName} creato. Potrai completare i dati in seguito.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Errore",
+        description: error.message || 'Impossibile creare il cliente',
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreatingQuickClient(false);
+    }
+  };
+
   // Loading state
   const isLoading = isLoadingClients || isLoadingServices || isLoadingCollaborators || isLoadingRooms || (appointmentId && isLoadingAppointment);
 
@@ -775,38 +818,58 @@ export default function AppointmentForm({
                         {/* Lista dei risultati filtrati */}
                         {isClientDropdownOpen && (
                           <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1">
-                            {clients
-                              .filter((client: any) => 
+                            {(() => {
+                              const filteredClients = clients.filter((client: any) => 
                                 clientSearchTerm.length === 0 || 
                                 `${client.firstName} ${client.lastName}`
                                   .toLowerCase()
                                   .includes(clientSearchTerm.toLowerCase())
-                              )
-                              .map((client: any) => {
-                                // Usa ownerId o originalOwnerId per consistenza
-                                const clientOwnerId = client.ownerId || client.originalOwnerId;
-                                const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
-                                return (
-                                  <div 
-                                    key={client.id} 
-                                    className={`p-2 hover:bg-slate-100 cursor-pointer flex items-center justify-between ${isOtherAccount ? 'bg-orange-50/50' : ''}`}
-                                    onClick={() => {
-                                      field.onChange(client.id);
-                                      setClientSearchTerm(`${client.firstName} ${client.lastName}`);
-                                      setIsClientDropdownOpen(false);
-                                    }}
-                                  >
-                                    <span>{client.firstName} {client.lastName}</span>
-                                    {isOtherAccount && (
-                                      <span className="flex items-center text-xs text-orange-600">
-                                        <Users className="h-3 w-3 mr-1" />
-                                        Altro account
-                                      </span>
-                                    )}
-                                  </div>
-                                );
-                              })
-                            }
+                              );
+                              const showQuickCreate = clientSearchTerm.trim().length >= 2 && filteredClients.length === 0;
+                              return (
+                                <>
+                                  {filteredClients.map((client: any) => {
+                                    const clientOwnerId = client.ownerId || client.originalOwnerId;
+                                    const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
+                                    return (
+                                      <div 
+                                        key={client.id} 
+                                        className={`p-2 hover:bg-slate-100 cursor-pointer flex items-center justify-between ${isOtherAccount ? 'bg-orange-50/50' : ''}`}
+                                        onClick={() => {
+                                          field.onChange(client.id);
+                                          setClientSearchTerm(`${client.firstName} ${client.lastName}`);
+                                          setIsClientDropdownOpen(false);
+                                        }}
+                                      >
+                                        <span>{client.firstName} {client.lastName}</span>
+                                        {isOtherAccount && (
+                                          <span className="flex items-center text-xs text-orange-600">
+                                            <Users className="h-3 w-3 mr-1" />
+                                            Altro account
+                                          </span>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                  {showQuickCreate && (
+                                    <div
+                                      className="p-3 hover:bg-green-50 cursor-pointer border-t border-dashed flex items-center gap-2 text-green-700 font-medium"
+                                      onClick={() => createQuickClient(clientSearchTerm, field)}
+                                    >
+                                      <UserPlus className="h-4 w-4" />
+                                      {isCreatingQuickClient ? (
+                                        <span className="flex items-center gap-2">
+                                          <Loader2 className="h-3 w-3 animate-spin" />
+                                          Creazione in corso...
+                                        </span>
+                                      ) : (
+                                        <span>+ Crea "<strong>{clientSearchTerm.trim()}</strong>" come nuovo cliente</span>
+                                      )}
+                                    </div>
+                                  )}
+                                </>
+                              );
+                            })()}
                           </div>
                         )}
                       </div>
