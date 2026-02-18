@@ -1,7 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { 
   CalendarDays, 
@@ -28,39 +27,18 @@ import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
 
 function UserIcon({ className, userId }: { className?: string; userId?: number }) {
-  const { data: hasCustomIcon } = useQuery({
-    queryKey: ['/api/client-app-info', 'icon-check', userId],
-    queryFn: async () => {
-      if (!userId) return false;
-      try {
-        const res = await fetch(`/api/client-app-info/${userId}`);
-        if (!res.ok) {
-          const fallback = await fetch(`/api/client-app-info`);
-          if (!fallback.ok) return false;
-          const data = await fallback.json();
-          return !!data.isCustomIcon;
-        }
-        const data = await res.json();
-        return !!data.isCustomIcon;
-      } catch { return false; }
-    },
-    enabled: !!userId,
-    staleTime: 5 * 60 * 1000,
-  });
+  const [imgError, setImgError] = useState(false);
 
-  if (!hasCustomIcon || !userId) {
+  if (!userId || imgError) {
     return <CalendarDays className={className} />;
   }
 
   return (
     <img 
-      src={`/pwa-icon/96x96?owner=${userId}&ts=${Math.floor(Date.now() / 300000)}`}
+      src={`/pwa-icon/96x96?owner=${userId}`}
       alt="App icon"
       className={`${className} rounded-sm object-cover`}
-      onError={(e) => {
-        const el = e.target as HTMLImageElement;
-        el.style.display = 'none';
-      }}
+      onError={() => setImgError(true)}
     />
   );
 }

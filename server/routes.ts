@@ -1,6 +1,7 @@
 import { registerSimpleRoutes } from "./simple-routes";
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import path from 'path';
 
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'
@@ -8,6 +9,25 @@ import { serveAdminManifest } from './admin-manifest'
 import { servePlayStoreManifest } from './manifest-playstore'
 
 export function registerRoutes(app: Express): Server {
+
+  app.get('/favicon.ico', async (req, res) => {
+    res.set('Cache-Control', 'private, no-cache, must-revalidate');
+    res.set('Vary', 'Cookie');
+    try {
+      let ownerId: number | null = null;
+      if (req.isAuthenticated && req.isAuthenticated() && req.user) {
+        ownerId = req.user.id;
+      }
+      if (ownerId) {
+        req.params = { size: '32x32' };
+        (req.query as any).owner = ownerId.toString();
+        return serveCustomIcon(req, res);
+      }
+    } catch (e) {}
+    const iconPath = path.join(process.cwd(), 'public', 'icons', 'icon-96x96.png');
+    res.sendFile(iconPath);
+  });
+
   // Android App Links - Digital Asset Links per verifica dominio Google Play
   app.get('/.well-known/assetlinks.json', (req, res) => {
     const assetLinks = [
