@@ -383,9 +383,13 @@ export function registerSimpleRoutes(app: Express): Server {
     
     try {
       // 🔄 USA POSTGRESQL: Crea servizio nel database condiviso
+      const { name, duration, price, color } = req.body;
       const serviceData = {
         userId: user.id,
-        ...req.body
+        name,
+        duration: typeof duration === 'string' ? parseInt(duration) : duration,
+        price: typeof price === 'string' ? Math.round(parseFloat(price)) : (typeof price === 'number' ? Math.round(price) : 0),
+        color: color || '#3f51b5'
       };
       
       const newService = await storage.createService(serviceData);
