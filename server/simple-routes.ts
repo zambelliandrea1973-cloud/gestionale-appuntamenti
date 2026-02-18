@@ -1791,9 +1791,9 @@ export function registerSimpleRoutes(app: Express): Server {
       });
     }
 
-    const userIcon = storageData.userIcons[targetUserId] || defaultIconBase64;
+    const dbIcon = await app.locals.storage.getUserIcon(targetUserId);
+    const userIcon = dbIcon || storageData.userIcons[targetUserId] || defaultIconBase64;
     
-    // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
     await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
     
     const deviceType = req.headers['x-device-type'] || 'unknown';
@@ -1805,8 +1805,6 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // RIMOSSO: Handler duplicato - gestito in routes.ts
-
   // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
   app.get("/api/client-app-info/:ownerId", async (req, res) => {
     try {
@@ -1817,10 +1815,9 @@ export function registerSimpleRoutes(app: Express): Server {
         return res.status(400).json({ error: "ID professionista non valido" });
       }
 
-      const storageData = loadStorageData();
-      const userIcon = storageData.userIcons[ownerId] || defaultIconBase64;
+      const dbIcon = await app.locals.storage.getUserIcon(ownerId);
+      const userIcon = dbIcon || storageData.userIcons[ownerId] || defaultIconBase64;
       
-      // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
       await updatePWAIconsFromCompanyLogo(ownerId, userIcon);
       
       console.log(`✅ Icone PWA aggiornate per professionista ${ownerId} con logo aziendale (richiesta client)`);
@@ -1935,13 +1932,14 @@ export function registerSimpleRoutes(app: Express): Server {
   }
 
   // Endpoint per sincronizzare icone PWA con logo aziendale
-  app.post("/api/sync-pwa-icons", (req, res) => {
+  app.post("/api/sync-pwa-icons", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ success: false, message: "Non autenticato" });
     }
 
     const userId = req.user.id;
-    const userIcon = storageData.userIcons[userId] || defaultIconBase64;
+    const dbIcon = await app.locals.storage.getUserIcon(userId);
+    const userIcon = dbIcon || storageData.userIcons[userId] || defaultIconBase64;
     
     updatePWAIconsFromCompanyLogo(userId, userIcon);
     
@@ -3437,7 +3435,8 @@ export function registerSimpleRoutes(app: Express): Server {
       
       // CORREZIONE CRITICA: Sincronizza icone PWA con l'icona del proprietario del cliente
       const storageData = loadStorageData();
-      const ownerIcon = storageData.userIcons[ownerUserId] || defaultIconBase64;
+      const dbOwnerIcon = await app.locals.storage.getUserIcon(ownerUserId);
+      const ownerIcon = dbOwnerIcon || storageData.userIcons[ownerUserId] || defaultIconBase64;
       console.log(`🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente ${clientId} con icona del proprietario ${ownerUserId}`);
       
       try {
@@ -8144,7 +8143,7 @@ Studio Professionale`;
   });
 
   // Endpoint per icone specifiche del proprietario
-  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+  app.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       const size = req.params.size;
@@ -8152,8 +8151,9 @@ Studio Professionale`;
       
       console.log(`🔍 PWA ICON OWNER: Richiesta icona per proprietario ${ownerId}, dimensione ${size}`);
       
-      // Recupera l'icona del professionista specifico
-      const userIcon = storageData.userIcons[ownerId];
+      // Recupera l'icona del professionista specifico dal database
+      const dbIcon = await app.locals.storage.getUserIcon(ownerId);
+      const userIcon = dbIcon || storageData.userIcons[ownerId];
       
       if (userIcon) {
         console.log(`✅ PWA ICON OWNER: Trovata icona per proprietario ${ownerId}`);
@@ -8172,7 +8172,7 @@ Studio Professionale`;
   });
 
   // Endpoint per servire icone PWA dinamiche basate sul proprietario del cliente (da token QR)
-  app.get('/icons/custom-icon-:size.png', (req, res) => {
+  app.get('/icons/custom-icon-:size.png', async (req, res) => {
     try {
       const size = req.params.size; // es: 96x96, 192x192, 512x512
       const storageData = loadStorageData();
@@ -8234,8 +8234,9 @@ Studio Professionale`;
         return res.redirect('/icons/icon-' + size + '.png');
       }
       
-      // Recupera l'icona del professionista dalla struttura userIcons
-      const userIcon = ownerUserId ? storageData.userIcons[ownerUserId] : null;
+      // Recupera l'icona del professionista dal database
+      const dbIcon = ownerUserId ? await app.locals.storage.getUserIcon(ownerUserId) : null;
+      const userIcon = dbIcon || (ownerUserId ? storageData.userIcons[ownerUserId] : null);
       
       if (!userIcon) {
         console.log(`🔄 Nessuna icona personalizzata trovata per utente ${ownerUserId}, uso default`);
@@ -8276,7 +8277,7 @@ Studio Professionale`;
   });
 
   // Endpoint per servire icone PWA dinamiche per proprietari specifici
-  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+  app.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       const size = req.params.size;
@@ -8293,8 +8294,9 @@ Studio Professionale`;
         }
       }
       
-      // Recupera l'icona del professionista dalla struttura userIcons
-      const userIcon = storageData.userIcons[ownerId];
+      // Recupera l'icona del professionista dal database
+      const dbIconOwner = await app.locals.storage.getUserIcon(ownerId);
+      const userIcon = dbIconOwner || storageData.userIcons[ownerId];
       
       if (userIcon && userIcon.startsWith('data:image/')) {
         const base64Data = userIcon.split(',')[1];
