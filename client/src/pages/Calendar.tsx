@@ -275,7 +275,7 @@ export default function Calendar() {
       <div className="bg-white shadow-md rounded-lg p-4 mb-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-2">
-            <h2 className="text-2xl font-bold text-primary">
+            <h2 className="text-2xl font-bold text-primary min-w-[200px]">
               {view === "month" 
                 ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate, i18n.language)}`
                 : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
@@ -306,7 +306,7 @@ export default function Calendar() {
               variant="outline" 
               size="sm"
               onClick={goToToday}
-              className="ml-2"
+              className="ml-4"
             >
               {t('calendar.today')}
             </Button>
