@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -16,101 +16,245 @@ const DAYS = [
   { key: 'sunday', label: 'Domenica' },
 ];
 
-const LANG_TO_COUNTRY: Record<string, { code: string; label: string }> = {
-  it: { code: 'IT', label: 'Italia' },
-  en: { code: 'US', label: 'United States' },
-  de: { code: 'DE', label: 'Deutschland' },
-  fr: { code: 'FR', label: 'France' },
-  es: { code: 'ES', label: 'España' },
-  ru: { code: 'RU', label: 'Россия' },
-  nl: { code: 'NL', label: 'Nederland' },
-  no: { code: 'NO', label: 'Norge' },
-  ro: { code: 'RO', label: 'România' },
+const COUNTRIES: Array<{ code: string; label: string }> = [
+  { code: 'IT', label: 'Italia' },
+  { code: 'CH', label: 'Svizzera / Schweiz' },
+  { code: 'DE', label: 'Deutschland' },
+  { code: 'FR', label: 'France' },
+  { code: 'ES', label: 'España' },
+  { code: 'US', label: 'United States' },
+  { code: 'NL', label: 'Nederland' },
+  { code: 'NO', label: 'Norge' },
+  { code: 'RO', label: 'România' },
+  { code: 'RU', label: 'Россия' },
+];
+
+const LANG_TO_COUNTRY: Record<string, string> = {
+  it: 'IT', en: 'US', de: 'DE', fr: 'FR', es: 'ES', ru: 'RU', nl: 'NL', no: 'NO', ro: 'RO',
 };
 
-const HOLIDAYS: Record<string, Array<{ date: string; name: string }>> = {
-  IT: [
-    { date: '01-01', name: 'Capodanno' },
-    { date: '01-06', name: 'Epifania' },
-    { date: '04-25', name: 'Festa della Liberazione' },
-    { date: '05-01', name: 'Festa del Lavoro' },
-    { date: '06-02', name: 'Festa della Repubblica' },
-    { date: '08-15', name: 'Ferragosto' },
-    { date: '11-01', name: 'Tutti i Santi' },
-    { date: '12-08', name: 'Immacolata Concezione' },
-    { date: '12-25', name: 'Natale' },
-    { date: '12-26', name: 'Santo Stefano' },
-  ],
-  US: [
-    { date: '01-01', name: "New Year's Day" },
-    { date: '07-04', name: 'Independence Day' },
-    { date: '11-11', name: "Veterans Day" },
-    { date: '12-25', name: 'Christmas Day' },
-  ],
-  DE: [
-    { date: '01-01', name: 'Neujahrstag' },
-    { date: '05-01', name: 'Tag der Arbeit' },
-    { date: '10-03', name: 'Tag der Deutschen Einheit' },
-    { date: '12-25', name: 'Weihnachtstag' },
-    { date: '12-26', name: 'Zweiter Weihnachtstag' },
-  ],
-  FR: [
-    { date: '01-01', name: "Jour de l'An" },
-    { date: '05-01', name: 'Fête du Travail' },
-    { date: '05-08', name: 'Victoire 1945' },
-    { date: '07-14', name: 'Fête Nationale' },
-    { date: '08-15', name: 'Assomption' },
-    { date: '11-01', name: 'Toussaint' },
-    { date: '11-11', name: 'Armistice' },
-    { date: '12-25', name: 'Noël' },
-  ],
-  ES: [
-    { date: '01-01', name: 'Año Nuevo' },
-    { date: '01-06', name: 'Epifanía' },
-    { date: '05-01', name: 'Día del Trabajo' },
-    { date: '08-15', name: 'Asunción' },
-    { date: '10-12', name: 'Fiesta Nacional' },
-    { date: '11-01', name: 'Todos los Santos' },
-    { date: '12-06', name: 'Constitución' },
-    { date: '12-08', name: 'Inmaculada' },
-    { date: '12-25', name: 'Navidad' },
-  ],
-  RU: [
-    { date: '01-01', name: 'Новый год' },
-    { date: '01-07', name: 'Рождество' },
-    { date: '02-23', name: 'День защитника Отечества' },
-    { date: '03-08', name: 'Международный женский день' },
-    { date: '05-01', name: 'Праздник Весны и Труда' },
-    { date: '05-09', name: 'День Победы' },
-    { date: '06-12', name: 'День России' },
-    { date: '11-04', name: 'День народного единства' },
-  ],
-  NL: [
-    { date: '01-01', name: 'Nieuwjaarsdag' },
-    { date: '04-27', name: 'Koningsdag' },
-    { date: '05-05', name: 'Bevrijdingsdag' },
-    { date: '12-25', name: 'Kerstdag' },
-    { date: '12-26', name: 'Tweede Kerstdag' },
-  ],
-  NO: [
-    { date: '01-01', name: 'Nyttårsdag' },
-    { date: '05-01', name: 'Arbeidernes dag' },
-    { date: '05-17', name: 'Grunnlovsdag' },
-    { date: '12-25', name: 'Første juledag' },
-    { date: '12-26', name: 'Andre juledag' },
-  ],
-  RO: [
-    { date: '01-01', name: 'Anul Nou' },
-    { date: '01-24', name: 'Unirea Principatelor' },
-    { date: '05-01', name: 'Ziua Muncii' },
-    { date: '06-01', name: 'Ziua Copilului' },
-    { date: '08-15', name: 'Adormirea Maicii Domnului' },
-    { date: '11-30', name: 'Sf. Andrei' },
-    { date: '12-01', name: 'Ziua Națională' },
-    { date: '12-25', name: 'Crăciunul' },
-    { date: '12-26', name: 'A doua zi de Crăciun' },
-  ],
-};
+function computeEaster(year: number): Date {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+
+function addDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+function fmt(date: Date): string {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  return `${dd}/${mm}`;
+}
+
+function fmtFull(date: Date): string {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  return `${dd}/${mm}/${date.getFullYear()}`;
+}
+
+interface Holiday {
+  date: Date;
+  name: string;
+  dateStr: string;
+}
+
+function getHolidays(country: string, year: number): Holiday[] {
+  const easter = computeEaster(year);
+  const easterMonday = addDays(easter, 1);
+  const goodFriday = addDays(easter, -2);
+  const ascension = addDays(easter, 39);
+  const whitsun = addDays(easter, 49);
+  const whitMonday = addDays(easter, 50);
+  const corpusChristi = addDays(easter, 60);
+
+  const fixed = (month: number, day: number, name: string): Holiday => {
+    const d = new Date(year, month - 1, day);
+    return { date: d, name, dateStr: fmt(d) };
+  };
+  const mobile = (d: Date, name: string): Holiday => ({ date: d, name, dateStr: fmt(d) });
+
+  const nthWeekday = (month: number, weekday: number, n: number, name: string): Holiday => {
+    const first = new Date(year, month - 1, 1);
+    let dayOfWeek = first.getDay();
+    let diff = (weekday - dayOfWeek + 7) % 7;
+    const d = new Date(year, month - 1, 1 + diff + (n - 1) * 7);
+    return { date: d, name, dateStr: fmt(d) };
+  };
+
+  const lastWeekday = (month: number, weekday: number, name: string): Holiday => {
+    const last = new Date(year, month, 0);
+    let dayOfWeek = last.getDay();
+    let diff = (dayOfWeek - weekday + 7) % 7;
+    const d = new Date(year, month - 1, last.getDate() - diff);
+    return { date: d, name, dateStr: fmt(d) };
+  };
+
+  const holidays: Holiday[] = [];
+
+  switch (country) {
+    case 'IT':
+      holidays.push(
+        fixed(1, 1, 'Capodanno'),
+        fixed(1, 6, 'Epifania'),
+        mobile(easterMonday, 'Lunedì dell\'Angelo'),
+        fixed(4, 25, 'Festa della Liberazione'),
+        fixed(5, 1, 'Festa del Lavoro'),
+        fixed(6, 2, 'Festa della Repubblica'),
+        fixed(8, 15, 'Ferragosto'),
+        fixed(11, 1, 'Tutti i Santi'),
+        fixed(12, 8, 'Immacolata Concezione'),
+        fixed(12, 25, 'Natale'),
+        fixed(12, 26, 'Santo Stefano'),
+      );
+      break;
+    case 'CH':
+      holidays.push(
+        fixed(1, 1, 'Neujahr / Capodanno'),
+        fixed(1, 2, 'Berchtoldstag'),
+        mobile(goodFriday, 'Karfreitag / Venerdì Santo'),
+        mobile(easterMonday, 'Ostermontag / Lunedì di Pasqua'),
+        mobile(ascension, 'Auffahrt / Ascensione'),
+        mobile(whitMonday, 'Pfingstmontag / Lunedì di Pentecoste'),
+        mobile(corpusChristi, 'Fronleichnam / Corpus Domini'),
+        fixed(8, 1, 'Bundesfeiertag / Festa nazionale'),
+        fixed(8, 15, 'Mariä Himmelfahrt / Assunzione'),
+        fixed(11, 1, 'Allerheiligen / Ognissanti'),
+        fixed(12, 25, 'Weihnachten / Natale'),
+        fixed(12, 26, 'Stephanstag / Santo Stefano'),
+      );
+      break;
+    case 'DE':
+      holidays.push(
+        fixed(1, 1, 'Neujahrstag'),
+        mobile(goodFriday, 'Karfreitag'),
+        mobile(easterMonday, 'Ostermontag'),
+        fixed(5, 1, 'Tag der Arbeit'),
+        mobile(ascension, 'Christi Himmelfahrt'),
+        mobile(whitMonday, 'Pfingstmontag'),
+        fixed(10, 3, 'Tag der Deutschen Einheit'),
+        fixed(12, 25, 'Erster Weihnachtstag'),
+        fixed(12, 26, 'Zweiter Weihnachtstag'),
+      );
+      break;
+    case 'FR':
+      holidays.push(
+        fixed(1, 1, "Jour de l'An"),
+        mobile(easterMonday, 'Lundi de Pâques'),
+        fixed(5, 1, 'Fête du Travail'),
+        fixed(5, 8, 'Victoire 1945'),
+        mobile(ascension, 'Ascension'),
+        mobile(whitMonday, 'Lundi de Pentecôte'),
+        fixed(7, 14, 'Fête Nationale'),
+        fixed(8, 15, 'Assomption'),
+        fixed(11, 1, 'Toussaint'),
+        fixed(11, 11, 'Armistice'),
+        fixed(12, 25, 'Noël'),
+      );
+      break;
+    case 'ES':
+      holidays.push(
+        fixed(1, 1, 'Año Nuevo'),
+        fixed(1, 6, 'Epifanía'),
+        mobile(goodFriday, 'Viernes Santo'),
+        fixed(5, 1, 'Día del Trabajo'),
+        fixed(8, 15, 'Asunción'),
+        fixed(10, 12, 'Fiesta Nacional'),
+        fixed(11, 1, 'Todos los Santos'),
+        fixed(12, 6, 'Constitución'),
+        fixed(12, 8, 'Inmaculada'),
+        fixed(12, 25, 'Navidad'),
+      );
+      break;
+    case 'US':
+      holidays.push(
+        fixed(1, 1, "New Year's Day"),
+        nthWeekday(1, 1, 3, "Martin Luther King Jr. Day"),
+        nthWeekday(2, 1, 3, "Presidents' Day"),
+        lastWeekday(5, 1, "Memorial Day"),
+        fixed(6, 19, "Juneteenth"),
+        fixed(7, 4, "Independence Day"),
+        nthWeekday(9, 1, 1, "Labor Day"),
+        nthWeekday(10, 1, 2, "Columbus Day"),
+        fixed(11, 11, "Veterans Day"),
+        nthWeekday(11, 4, 4, "Thanksgiving Day"),
+        fixed(12, 25, "Christmas Day"),
+      );
+      break;
+    case 'NL':
+      holidays.push(
+        fixed(1, 1, 'Nieuwjaarsdag'),
+        mobile(goodFriday, 'Goede Vrijdag'),
+        mobile(easterMonday, 'Tweede Paasdag'),
+        fixed(4, 27, 'Koningsdag'),
+        mobile(ascension, 'Hemelvaartsdag'),
+        mobile(whitMonday, 'Tweede Pinksterdag'),
+        fixed(12, 25, 'Eerste Kerstdag'),
+        fixed(12, 26, 'Tweede Kerstdag'),
+      );
+      break;
+    case 'NO':
+      holidays.push(
+        fixed(1, 1, 'Nyttårsdag'),
+        mobile(goodFriday, 'Langfredag'),
+        mobile(easterMonday, 'Andre påskedag'),
+        fixed(5, 1, 'Arbeidernes dag'),
+        mobile(ascension, 'Kristi himmelfartsdag'),
+        fixed(5, 17, 'Grunnlovsdag'),
+        mobile(whitMonday, 'Andre pinsedag'),
+        fixed(12, 25, 'Første juledag'),
+        fixed(12, 26, 'Andre juledag'),
+      );
+      break;
+    case 'RO':
+      holidays.push(
+        fixed(1, 1, 'Anul Nou'),
+        fixed(1, 2, 'A doua zi de Anul Nou'),
+        fixed(1, 24, 'Unirea Principatelor'),
+        mobile(goodFriday, 'Vinerea Mare'),
+        mobile(easterMonday, 'A doua zi de Paște'),
+        fixed(5, 1, 'Ziua Muncii'),
+        fixed(6, 1, 'Ziua Copilului'),
+        mobile(whitMonday, 'A doua zi de Rusalii'),
+        fixed(8, 15, 'Adormirea Maicii Domnului'),
+        fixed(11, 30, 'Sf. Andrei'),
+        fixed(12, 1, 'Ziua Națională'),
+        fixed(12, 25, 'Crăciunul'),
+        fixed(12, 26, 'A doua zi de Crăciun'),
+      );
+      break;
+    case 'RU':
+      holidays.push(
+        fixed(1, 1, 'Новый год'),
+        fixed(1, 7, 'Рождество'),
+        fixed(2, 23, 'День защитника Отечества'),
+        fixed(3, 8, 'Международный женский день'),
+        fixed(5, 1, 'Праздник Весны и Труда'),
+        fixed(5, 9, 'День Победы'),
+        fixed(6, 12, 'День России'),
+        fixed(11, 4, 'День народного единства'),
+      );
+      break;
+  }
+
+  return holidays.sort((a, b) => a.date.getTime() - b.date.getTime());
+}
 
 interface WorkingHoursData {
   workingHoursStart: string;
@@ -146,7 +290,8 @@ export default function WorkingHoursEditor() {
         });
         if (response.ok) {
           const result = await response.json();
-          const detectedCountry = detectCountryFromLang();
+          const lang = localStorage.getItem('i18nextLng')?.substring(0, 2) || 'it';
+          const detectedCountry = LANG_TO_COUNTRY[lang] || 'IT';
           setData({
             workingHoursStart: result.workingHoursStart || '08:00',
             workingHoursEnd: result.workingHoursEnd || '22:00',
@@ -167,10 +312,8 @@ export default function WorkingHoursEditor() {
     load();
   }, []);
 
-  const detectCountryFromLang = (): string => {
-    const lang = localStorage.getItem('i18nextLng')?.substring(0, 2) || 'it';
-    return LANG_TO_COUNTRY[lang]?.code || 'IT';
-  };
+  const currentYear = new Date().getFullYear();
+  const currentHolidays = useMemo(() => getHolidays(data.holidaysCountry, currentYear), [data.holidaysCountry, currentYear]);
 
   const toggleDay = (day: string) => {
     setData(prev => ({
@@ -200,8 +343,6 @@ export default function WorkingHoursEditor() {
       setSaving(false);
     }
   };
-
-  const currentHolidays = HOLIDAYS[data.holidaysCountry] || [];
 
   if (loading) {
     return (
@@ -338,18 +479,20 @@ export default function WorkingHoursEditor() {
                   onChange={e => setData(prev => ({ ...prev, holidaysCountry: e.target.value }))}
                   className="w-full mt-1 px-3 py-2 border rounded-md text-sm bg-background"
                 >
-                  {Object.entries(LANG_TO_COUNTRY).map(([, info]) => (
-                    <option key={info.code} value={info.code}>{info.label}</option>
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
                   ))}
                 </select>
               </div>
               {currentHolidays.length > 0 && (
                 <div className="bg-muted/50 rounded-md p-3">
-                  <p className="text-xs font-medium mb-2 text-muted-foreground">Giorni festivi che verranno bloccati:</p>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                    {currentHolidays.map(h => (
-                      <p key={h.date} className="text-xs text-muted-foreground">
-                        <span className="font-medium">{h.date.replace('-', '/')}</span> — {h.name}
+                  <p className="text-xs font-medium mb-2 text-muted-foreground">
+                    Festività {currentYear} — aggiornate automaticamente ogni anno:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
+                    {currentHolidays.map((h, i) => (
+                      <p key={i} className="text-xs text-muted-foreground">
+                        <span className="font-medium">{h.dateStr}</span> — {h.name}
                       </p>
                     ))}
                   </div>

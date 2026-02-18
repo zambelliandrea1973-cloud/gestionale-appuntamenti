@@ -1203,7 +1203,7 @@ export function registerSimpleRoutes(app: Express): Server {
 
       const timeRegex = /^\d{2}:\d{2}$/;
       const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-      const validCountries = ['IT', 'US', 'DE', 'FR', 'ES', 'RU', 'NL', 'NO', 'RO'];
+      const validCountries = ['IT', 'CH', 'US', 'DE', 'FR', 'ES', 'RU', 'NL', 'NO', 'RO'];
 
       const settingsUpdate: any = {};
       if (workingHoursStart !== undefined && timeRegex.test(workingHoursStart)) settingsUpdate.workingHoursStart = workingHoursStart;
