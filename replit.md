@@ -76,7 +76,13 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`).
 - **Database**: Shared PostgreSQL instance.
 - **Build command**: `npm run build`.
-- **Push command**: `git push sliplane main`.
+
+### Procedura Deploy in Produzione
+1. **Da Replit**: Push su GitHub con `git push origin main` (lo fa l'agente automaticamente)
+2. **L'utente**: Da Sliplane fa il deploy manualmente dal suo pannello
+- **NOTA**: `git push sliplane main` dalla shell di Replit NON funziona (DNS bloccato). NON tentare.
+- L'utente ha Git configurato sul suo PC e collegato a Sliplane.
+- Flusso: Replit → GitHub → Sliplane (deploy manuale dall'utente)
 
 ## External Dependencies
 
