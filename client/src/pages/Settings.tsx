@@ -99,7 +99,7 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
-            <span>{t('settings.contacts', 'Contatti')}</span>
+            <span>{t('settings.contacts', 'Contatti & Orari')}</span>
           </TabsTrigger>
           <TabsTrigger value="staff" className="flex items-center whitespace-nowrap">
             <Users className="mr-2 h-4 w-4" />
