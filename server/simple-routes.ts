@@ -2401,23 +2401,19 @@ export function registerSimpleRoutes(app: Express): Server {
         userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
       }
       
-      console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length} da PostgreSQL`);
-      
-      // Formatta appuntamenti con relazioni per il report
-      const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
-        // Log dettagliato per debug fatturato
-        if (appointment.service) {
-          console.log(`💰 Appuntamento ${appointment.id}: Servizio ${appointment.service.name}, Prezzo: ${appointment.service.price} centesimi (${(appointment.service.price || 0) / 100}€)`);
-        } else {
-          console.log(`⚠️ Appuntamento ${appointment.id}: Servizio non trovato per serviceId ${appointment.serviceId}`);
-        }
-        
-        return { 
-          ...appointment, 
-          client: appointment.client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
-          service: appointment.service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
-        };
+      const beforeFilterCount = userRangeAppointments.length;
+      userRangeAppointments = userRangeAppointments.filter(apt => {
+        const importedValue = apt.importedFromGoogle as any;
+        const isImported = importedValue === true || importedValue === 'true' || importedValue === 't';
+        return !isImported;
       });
+      console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length} da PostgreSQL (esclusi ${beforeFilterCount - userRangeAppointments.length} importati da Google Calendar)`);
+      
+      const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => ({
+        ...appointment, 
+        client: appointment.client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+        service: appointment.service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
+      }));
       
       console.log(`💰 [${deviceType}] Report PostgreSQL: calcolato ricavi per ${rangeAppointmentsWithDetails.length} appuntamenti`);
       res.json(rangeAppointmentsWithDetails);

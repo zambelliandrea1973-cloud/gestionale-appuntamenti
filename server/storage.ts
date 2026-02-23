@@ -1417,27 +1417,25 @@ export class DatabaseStorage implements IStorage {
 
   async getAppointmentsByDateRange(startDate: string, endDate: string): Promise<AppointmentWithDetails[]> {
     try {
-      const result: AppointmentWithDetails[] = [];
-      const appointmentsList = await db
-        .select()
+      const rows = await db
+        .select({
+          appointment: appointments,
+          client: clients,
+          service: services,
+        })
         .from(appointments)
+        .leftJoin(clients, eq(appointments.clientId, clients.id))
+        .leftJoin(services, eq(appointments.serviceId, services.id))
         .where(and(gte(appointments.date, startDate), lte(appointments.date, endDate)))
         .orderBy(appointments.date, appointments.startTime);
 
-      for (const appointment of appointmentsList) {
-        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
-        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
-        
-        if (client && service) {
-          result.push({
-            ...appointment,
-            client,
-            service
-          });
-        }
-      }
-
-      return result;
+      return rows
+        .filter(row => row.client && row.service)
+        .map(row => ({
+          ...row.appointment,
+          client: row.client!,
+          service: row.service!,
+        }));
     } catch (error) {
       console.error("Error getting appointments by date range:", error);
       return [];
