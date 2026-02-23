@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
-
-const SYSTEM_EMAIL = 'zambelli.andrea.1973@gmail.com';
+import { getEmailConfig } from '../utils/emailConfig';
+import { db } from '../db';
+import { users } from '../../shared/schema';
+import { eq } from 'drizzle-orm';
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
@@ -10,22 +12,22 @@ export const welcomeEmailService = {
     name?: string
   ): Promise<boolean> {
     try {
-      const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
+      const adminEmailConfig = await getAdminEmailConfig();
       
-      if (!systemPassword) {
-        console.log('📧 [WELCOME EMAIL] SYSTEM_EMAIL_PASSWORD non configurata, skip invio');
+      if (!adminEmailConfig) {
+        console.log('📧 [WELCOME EMAIL] Nessuna configurazione email admin disponibile, skip invio');
         return false;
       }
 
-      console.log('📧 [WELCOME EMAIL] Configurazione SMTP: smtp.gmail.com:587');
+      console.log(`📧 [WELCOME EMAIL] Usando credenziali admin: ${adminEmailConfig.emailAddress}`);
 
       const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
+        host: adminEmailConfig.smtpServer || 'smtp.gmail.com',
+        port: adminEmailConfig.smtpPort || 587,
         secure: false,
         auth: {
-          user: SYSTEM_EMAIL,
-          pass: systemPassword.replace(/\s/g, ''),
+          user: adminEmailConfig.emailAddress,
+          pass: adminEmailConfig.emailPassword,
         },
       });
 
@@ -108,7 +110,7 @@ Grazie per aver scelto Gestionale Appuntamenti!
       `;
 
       const mailOptions = {
-        from: `"Gestionale Appuntamenti" <${SYSTEM_EMAIL}>`,
+        from: `"Gestionale Appuntamenti" <${adminEmailConfig.emailAddress}>`,
         to: recipientEmail,
         subject: 'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
         text: textContent,
@@ -130,3 +132,24 @@ Grazie per aver scelto Gestionale Appuntamenti!
     }
   }
 };
+
+async function getAdminEmailConfig() {
+  try {
+    const [admin] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
+    if (!admin) {
+      console.log('📧 [WELCOME EMAIL] Nessun utente admin trovato');
+      return null;
+    }
+    
+    const config = await getEmailConfig(admin.id);
+    if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
+      return config;
+    }
+    
+    console.log(`📧 [WELCOME EMAIL] Config email admin (ID ${admin.id}) non completa o disabilitata`);
+    return null;
+  } catch (error) {
+    console.error('📧 [WELCOME EMAIL] Errore caricamento config admin:', error);
+    return null;
+  }
+}
