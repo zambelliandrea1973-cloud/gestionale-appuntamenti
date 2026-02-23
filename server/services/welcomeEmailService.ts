@@ -118,8 +118,14 @@ Grazie per aver scelto Gestionale Appuntamenti!
       const info = await transporter.sendMail(mailOptions);
       console.log(`📧 [WELCOME EMAIL] Email di benvenuto inviata a ${recipientEmail}: ${info.messageId}`);
       return true;
-    } catch (error) {
-      console.error('📧 [WELCOME EMAIL] Errore invio email di benvenuto:', error);
+    } catch (error: any) {
+      console.error('📧 [WELCOME EMAIL] Errore invio email di benvenuto:', error.message);
+      console.error('📧 [WELCOME EMAIL] Dettagli errore:', {
+        code: error.code,
+        responseCode: error.responseCode,
+        command: error.command,
+        response: error.response,
+      });
       return false;
     }
   }

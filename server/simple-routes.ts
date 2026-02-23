@@ -7788,6 +7788,79 @@ Studio Professionale`;
     }
   });
 
+  // API diagnostica per testare l'email di sistema (benvenuto)
+  app.post('/api/test-system-email', requireAuth, async (req, res) => {
+    try {
+      const user = req.user as any;
+      if (user.type !== 'admin') {
+        return res.status(403).json({ success: false, error: 'Solo admin' });
+      }
+      
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ success: false, error: 'Indirizzo email richiesto' });
+      }
+      
+      const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
+      if (!systemPassword) {
+        return res.status(500).json({ 
+          success: false, 
+          error: 'SYSTEM_EMAIL_PASSWORD non configurata su questo server',
+          diagnostics: { envPresent: false }
+        });
+      }
+      
+      const cleanPassword = systemPassword.replace(/\s/g, '');
+      console.log(`📧 [SYSTEM EMAIL TEST] Test invio a ${email}, password length: ${cleanPassword.length}`);
+      
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'zambelli.andrea.1973@gmail.com',
+          pass: cleanPassword,
+        },
+      });
+      
+      try {
+        await transporter.verify();
+        console.log(`✅ [SYSTEM EMAIL TEST] Connessione SMTP verificata`);
+      } catch (verifyErr: any) {
+        console.error(`❌ [SYSTEM EMAIL TEST] Verifica SMTP fallita:`, verifyErr.message);
+        return res.status(500).json({
+          success: false,
+          error: `Connessione SMTP fallita: ${verifyErr.message}`,
+          diagnostics: { 
+            envPresent: true, 
+            passwordLength: cleanPassword.length,
+            smtpError: verifyErr.message 
+          }
+        });
+      }
+      
+      const info = await transporter.sendMail({
+        from: '"Gestionale Appuntamenti" <zambelli.andrea.1973@gmail.com>',
+        to: email,
+        subject: 'Test Email Sistema - Verifica Funzionamento',
+        html: `<h2>Test Email di Sistema</h2>
+               <p>Questa email conferma che il sistema di invio email di benvenuto funziona correttamente.</p>
+               <p><strong>Server:</strong> ${process.env.PRODUCTION_DOMAIN || 'Replit development'}</p>
+               <p><strong>Data:</strong> ${new Date().toLocaleString('it-IT')}</p>`
+      });
+      
+      console.log(`✅ [SYSTEM EMAIL TEST] Email inviata: ${info.messageId}`);
+      res.json({ success: true, messageId: info.messageId });
+    } catch (error: any) {
+      console.error(`❌ [SYSTEM EMAIL TEST] Errore:`, error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message,
+        diagnostics: { code: error.code, responseCode: error.responseCode }
+      });
+    }
+  });
+
   // API per inviare email di test - USA CREDENZIALI UTENTE
   app.post('/api/email-calendar-settings/send-test-email', requireAuth, async (req, res) => {
     try {
