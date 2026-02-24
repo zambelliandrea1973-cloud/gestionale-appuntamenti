@@ -10001,16 +10001,22 @@ Studio Professionale`;
       `;
 
       try {
-        // COPIATO DAL TEST EMAIL (line 7035-7055) - Usa le stesse credenziali SMTP
         const { getEmailConfig } = await import('./utils/emailConfig');
-        const emailConfig = await getEmailConfig(user.id);
         
-        if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
-          console.warn(`⚠️ Email di reset non inviata a ${email}: credenziali non configurate`);
-          return res.status(500).json({ error: "Configurazione email non trovata nell'account. Configura prima le credenziali SMTP." });
+        const [adminUser] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
+        if (!adminUser) {
+          console.warn(`⚠️ Email di reset non inviata: nessun admin trovato`);
+          return res.status(500).json({ error: "Configurazione email non disponibile" });
         }
         
-        console.log(`📧 [RESET PASSWORD] Usando: ${emailConfig.emailAddress}`);
+        const emailConfig = await getEmailConfig(adminUser.id);
+        
+        if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+          console.warn(`⚠️ Email di reset non inviata a ${email}: credenziali admin non configurate`);
+          return res.status(500).json({ error: "Configurazione email non disponibile" });
+        }
+        
+        console.log(`📧 [RESET PASSWORD] Usando credenziali admin: ${emailConfig.emailAddress}`);
         
         // Crea transporter ESATTAMENTE come nel test email
         const transporter = nodemailer.createTransport({
