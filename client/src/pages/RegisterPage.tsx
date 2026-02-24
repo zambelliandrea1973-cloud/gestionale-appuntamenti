@@ -113,29 +113,31 @@ export default function RegisterPage() {
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="name">Nome completo</Label>
+                <Label htmlFor="name">Nome completo <span className="text-red-500">*</span></Label>
                 <Input
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Inserisci il tuo nome completo"
+                  required
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">Username <span className="text-red-500">*</span></Label>
                 <Input
                   id="username"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Scegli un username"
+                  required
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
                 <Input
                   id="email"
                   name="email"
@@ -143,11 +145,12 @@ export default function RegisterPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="La tua email"
+                  required
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Password <span className="text-red-500">*</span></Label>
                 <PasswordInput
                   id="password"
                   name="password"
@@ -158,7 +161,7 @@ export default function RegisterPage() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Conferma password</Label>
+                <Label htmlFor="confirmPassword">Conferma password <span className="text-red-500">*</span></Label>
                 <PasswordInput
                   id="confirmPassword"
                   name="confirmPassword"
