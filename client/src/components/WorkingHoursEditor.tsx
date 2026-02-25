@@ -403,6 +403,11 @@ export default function WorkingHoursEditor() {
           <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-muted-foreground" />
           <span>Configura gli orari per ogni giorno della settimana. Ogni giorno può avere orari e pausa pranzo indipendenti.</span>
         </CardDescription>
+        <div className="mt-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-md px-3 py-2">
+          <p className="text-xs text-blue-700 dark:text-blue-300">
+            <strong>Nota:</strong> Questi orari si applicano alle prenotazioni online dei clienti. Dal tuo calendario puoi comunque creare appuntamenti in qualsiasi giorno e orario, anche se disattivato.
+          </p>
+        </div>
       </CardHeader>
       <CardContent className="space-y-3">
         {DAYS.map(day => {
