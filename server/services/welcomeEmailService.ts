@@ -137,12 +137,22 @@ async function getAdminEmailConfig() {
   try {
     const [admin] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
     if (!admin) {
-      console.log('📧 [WELCOME EMAIL] Nessun utente admin trovato');
+      console.log('📧 [WELCOME EMAIL] Nessun utente admin trovato nel database');
       return null;
     }
     
+    console.log(`📧 [WELCOME EMAIL] Admin trovato: ID ${admin.id}, username: ${admin.username}`);
+    
     const config = await getEmailConfig(admin.id);
-    if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
+    
+    if (!config) {
+      console.log(`📧 [WELCOME EMAIL] getEmailConfig ha restituito null per admin ID ${admin.id}`);
+      return null;
+    }
+    
+    console.log(`📧 [WELCOME EMAIL] Config admin: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}, smtp=${config.smtpServer}:${config.smtpPort}`);
+    
+    if (config.emailEnabled && config.emailAddress && config.emailPassword) {
       return config;
     }
     
