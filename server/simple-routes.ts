@@ -1251,6 +1251,7 @@ export function registerSimpleRoutes(app: Express): Server {
         lunchBreakEnabled: settings?.lunchBreakEnabled || false,
         lunchBreakStart: settings?.lunchBreakStart || "13:00",
         lunchBreakEnd: settings?.lunchBreakEnd || "14:00",
+        dailySchedule: (settings as any)?.dailySchedule || null,
         holidaysEnabled: (settings as any)?.holidaysEnabled || false,
         holidaysCountry: (settings as any)?.holidaysCountry || "IT",
       });
@@ -1263,7 +1264,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/working-hours", requireAuth, async (req, res) => {
     try {
       const user = req.user! as any;
-      const { workingHoursStart, workingHoursEnd, workingDays, lunchBreakEnabled, lunchBreakStart, lunchBreakEnd, holidaysEnabled, holidaysCountry } = req.body;
+      const { workingHoursStart, workingHoursEnd, workingDays, lunchBreakEnabled, lunchBreakStart, lunchBreakEnd, holidaysEnabled, holidaysCountry, dailySchedule } = req.body;
 
       const timeRegex = /^\d{2}:\d{2}$/;
       const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -1278,6 +1279,7 @@ export function registerSimpleRoutes(app: Express): Server {
       if (lunchBreakEnd !== undefined && timeRegex.test(lunchBreakEnd)) settingsUpdate.lunchBreakEnd = lunchBreakEnd;
       if (holidaysEnabled !== undefined && typeof holidaysEnabled === 'boolean') settingsUpdate.holidaysEnabled = holidaysEnabled;
       if (holidaysCountry !== undefined && validCountries.includes(holidaysCountry)) settingsUpdate.holidaysCountry = holidaysCountry;
+      if (dailySchedule !== undefined && typeof dailySchedule === 'object') settingsUpdate.dailySchedule = dailySchedule;
 
       if (Object.keys(settingsUpdate).length === 0) {
         return res.status(400).json({ error: 'Nessun dato valido fornito' });

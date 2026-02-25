@@ -842,6 +842,7 @@ export const userSettings = pgTable("user_settings", {
   lunchBreakEnabled: boolean("lunch_break_enabled").default(false),
   lunchBreakStart: time("lunch_break_start").default("13:00"),
   lunchBreakEnd: time("lunch_break_end").default("14:00"),
+  dailySchedule: json("daily_schedule").$type<Record<string, { enabled: boolean; start: string; end: string; lunchEnabled: boolean; lunchStart: string; lunchEnd: string }>>(),
   holidaysEnabled: boolean("holidays_enabled").default(false),
   holidaysCountry: text("holidays_country").default("IT"),
   timeSlotDuration: integer("time_slot_duration").default(30),
