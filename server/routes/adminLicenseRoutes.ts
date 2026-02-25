@@ -228,17 +228,19 @@ router.post('/revoke-license', async (req, res) => {
 // Ottieni la lista degli utenti staff che possono ricevere una licenza
 router.get('/staff-users', async (req, res) => {
   try {
-    const staffUsers = await db.select({
+    const allNonAdminUsers = await db.select({
       id: users.id,
       username: users.username,
+      email: users.email,
       type: users.type,
       role: users.role,
-      // Altri campi utili
+      createdAt: users.createdAt,
     })
     .from(users)
-    .where(eq(users.type, 'staff'));
+    .where(ne(users.role, 'admin'))
+    .orderBy(desc(users.createdAt));
     
-    res.json(staffUsers);
+    res.json(allNonAdminUsers);
   } catch (error: any) {
     console.error('Errore nel recupero degli utenti staff:', error);
     res.status(500).json({ message: error.message || 'Errore durante il recupero degli utenti staff' });
