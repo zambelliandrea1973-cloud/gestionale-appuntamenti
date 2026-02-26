@@ -442,4 +442,157 @@ router.get('/access-stats', async (req, res) => {
   }
 });
 
+/**
+ * Elimina un account utente e tutti i dati associati
+ * Solo admin può eseguire questa operazione
+ * L'admin non può eliminare se stesso
+ */
+router.delete('/delete-user/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const adminUser = req.user as any;
+    
+    if (isNaN(userId)) {
+      return res.status(400).json({ success: false, message: 'ID utente non valido' });
+    }
+    
+    if (userId === adminUser.id) {
+      return res.status(400).json({ success: false, message: 'Non puoi eliminare il tuo stesso account' });
+    }
+    
+    const [targetUser] = await db.select().from(users).where(eq(users.id, userId));
+    if (!targetUser) {
+      return res.status(404).json({ success: false, message: 'Utente non trovato' });
+    }
+    
+    if (targetUser.role === 'admin') {
+      return res.status(400).json({ success: false, message: 'Non puoi eliminare un account admin' });
+    }
+    
+    console.log(`🗑️ [ADMIN] Eliminazione account utente ID ${userId} (${targetUser.username}) richiesta da admin ID ${adminUser.id}`);
+    
+    const {
+      onboardingProgress, clients, services, appointments, bookingRequests,
+      treatmentRooms, marketingMessages, marketingCampaigns, userIcons,
+      consents, invoices, invoiceItems, payments, packageTemplates,
+      packagePurchases, packageRedemptions, clientAccounts, clientNotes,
+      notifications, activationTokens, googleCalendarEvents,
+      googleCalendarSettings, googleCalendarSyncTokens, clientAccesses,
+      notificationSettings, betaFeedback, referralCommissions,
+      staffCommissions, referralPayments, reminderTemplates, appSettings,
+      phones, userSettings, productCategories, products, stockMovements,
+      productSales, companyNameSettings, contactSettings, currencySettings,
+      paymentMethodsConfig, emailCalendarSettings, contactInfo, manualContent,
+      userLogins, pushSubscriptions, emailBounces, subscriptions: subscriptionsTable,
+      paymentMethods: paymentMethodsTable, paymentTransactions
+    } = await import('../../shared/schema');
+    
+    await db.transaction(async (tx) => {
+      // Elimina tabelle figlie che referenziano altre tabelle dell'utente
+      const userClients = await tx.select({ id: clients.id }).from(clients).where(eq(clients.userId, userId));
+      const clientIds = userClients.map(c => c.id);
+      
+      if (clientIds.length > 0) {
+        const { inArray } = await import('drizzle-orm');
+        await tx.delete(clientAccesses).where(inArray(clientAccesses.clientId, clientIds));
+        await tx.delete(consents).where(inArray(consents.clientId, clientIds));
+        await tx.delete(clientNotes).where(inArray(clientNotes.clientId, clientIds));
+        await tx.delete(clientAccounts).where(inArray(clientAccounts.clientId, clientIds));
+      }
+
+      const userInvoices = await tx.select({ id: invoices.id }).from(invoices).where(eq(invoices.userId, userId));
+      const invoiceIds = userInvoices.map(i => i.id);
+      if (invoiceIds.length > 0) {
+        const { inArray } = await import('drizzle-orm');
+        await tx.delete(invoiceItems).where(inArray(invoiceItems.invoiceId, invoiceIds));
+      }
+
+      // Elimina prodotti correlati (stockMovements e productSales referenziano products)
+      const userProducts = await tx.select({ id: products.id }).from(products).where(eq(products.userId, userId));
+      const productIds = userProducts.map(p => p.id);
+      if (productIds.length > 0) {
+        const { inArray } = await import('drizzle-orm');
+        await tx.delete(stockMovements).where(inArray(stockMovements.productId, productIds));
+        await tx.delete(productSales).where(inArray(productSales.productId, productIds));
+      }
+
+      // Elimina tutte le tabelle che referenziano users.id
+      const tablesToClean: Array<{ table: any; col: any }> = [
+        { table: appointments, col: appointments.userId },
+        { table: bookingRequests, col: bookingRequests.userId },
+        { table: clients, col: clients.userId },
+        { table: services, col: services.userId },
+        { table: treatmentRooms, col: treatmentRooms.userId },
+        { table: marketingMessages, col: marketingMessages.userId },
+        { table: marketingCampaigns, col: marketingCampaigns.userId },
+        { table: userIcons, col: userIcons.userId },
+        { table: invoices, col: invoices.userId },
+        { table: payments, col: payments.userId },
+        { table: packageTemplates, col: packageTemplates.userId },
+        { table: packagePurchases, col: packagePurchases.userId },
+        { table: packageRedemptions, col: packageRedemptions.userId },
+        { table: notifications, col: notifications.userId },
+        { table: activationTokens, col: activationTokens.userId },
+        { table: googleCalendarEvents, col: googleCalendarEvents.userId },
+        { table: googleCalendarSettings, col: googleCalendarSettings.userId },
+        { table: googleCalendarSyncTokens, col: googleCalendarSyncTokens.userId },
+        { table: notificationSettings, col: notificationSettings.userId },
+        { table: betaFeedback, col: betaFeedback.userId },
+        { table: referralCommissions, col: referralCommissions.referrerId },
+        { table: referralCommissions, col: referralCommissions.referredId },
+        { table: staffCommissions, col: staffCommissions.staffId },
+        { table: referralPayments, col: referralPayments.userId },
+        { table: reminderTemplates, col: reminderTemplates.userId },
+        { table: appSettings, col: appSettings.userId },
+        { table: phones, col: phones.userId },
+        { table: licenses, col: licenses.userId },
+        { table: onboardingProgress, col: onboardingProgress.userId },
+        { table: userSettings, col: userSettings.userId },
+        { table: productCategories, col: productCategories.userId },
+        { table: products, col: products.userId },
+        { table: stockMovements, col: stockMovements.userId },
+        { table: productSales, col: productSales.userId },
+        { table: companyNameSettings, col: companyNameSettings.userId },
+        { table: contactSettings, col: contactSettings.userId },
+        { table: currencySettings, col: currencySettings.userId },
+        { table: paymentMethodsConfig, col: paymentMethodsConfig.userId },
+        { table: emailCalendarSettings, col: emailCalendarSettings.userId },
+        { table: contactInfo, col: contactInfo.userId },
+        { table: manualContent, col: manualContent.userId },
+        { table: userLogins, col: userLogins.userId },
+        { table: pushSubscriptions, col: pushSubscriptions.userId },
+        { table: emailBounces, col: emailBounces.ownerId },
+        { table: subscriptionsTable, col: subscriptionsTable.userId },
+        { table: paymentMethodsTable, col: paymentMethodsTable.userId },
+        { table: paymentTransactions, col: paymentTransactions.userId },
+      ];
+      
+      for (const { table, col } of tablesToClean) {
+        try {
+          await tx.delete(table).where(eq(col, userId));
+        } catch (e) {
+          console.log(`⚠️ [ADMIN] Skip tabella durante eliminazione: ${e}`);
+        }
+      }
+      
+      // Infine elimina l'utente
+      await tx.delete(users).where(eq(users.id, userId));
+    });
+    
+    console.log(`✅ [ADMIN] Account utente ${targetUser.username} (${targetUser.email}) eliminato con successo`);
+    
+    res.json({ 
+      success: true, 
+      message: `Account ${targetUser.username} eliminato con successo`,
+      deletedUser: { id: targetUser.id, username: targetUser.username, email: targetUser.email }
+    });
+  } catch (error: any) {
+    console.error('❌ [ADMIN] Errore eliminazione account:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || 'Errore durante l\'eliminazione dell\'account' 
+    });
+  }
+});
+
 export default router;

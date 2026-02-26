@@ -27,7 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, ShieldCheck, Users, KeyRound, Calendar, X, Check, Activity } from "lucide-react";
+import { Loader2, ShieldCheck, Users, KeyRound, Calendar, X, Check, Activity, Trash2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Dialog,
@@ -88,6 +88,9 @@ export default function AdminLicenseManagementPage() {
   const [isCreatingLicense, setIsCreatingLicense] = useState(false);
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [selectedLicenseId, setSelectedLicenseId] = useState<number | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteTargetUser, setDeleteTargetUser] = useState<{ id: number; username: string } | null>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
   // Verifica che l'utente sia un amministratore
   useEffect(() => {
@@ -243,6 +246,37 @@ export default function AdminLicenseManagementPage() {
         variant: "destructive",
       });
       setConfirmationDialogOpen(false);
+    }
+  });
+
+  // Mutation per eliminare un account utente
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const response = await apiRequest("DELETE", `/api/admin-license/delete-user/${userId}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Errore nell'eliminazione dell'account");
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Account eliminato",
+        description: data.message || "L'account è stato eliminato con successo",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin-license/licenses"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin-license/staff-users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin-license/all-users"] });
+      setDeleteDialogOpen(false);
+      setDeleteTargetUser(null);
+      setDeleteConfirmText("");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Errore",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   });
 
@@ -502,6 +536,18 @@ export default function AdminLicenseManagementPage() {
                                   Revoca licenza
                                 </DropdownMenuItem>
                               )}
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                className="text-destructive focus:text-destructive"
+                                onClick={() => {
+                                  setDeleteTargetUser({ id: license.license.userId, username: license.username });
+                                  setDeleteConfirmText("");
+                                  setDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Elimina account
+                              </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -515,6 +561,60 @@ export default function AdminLicenseManagementPage() {
         </Card>
       </div>
       
+      {/* Dialog di conferma eliminazione account */}
+      <Dialog open={deleteDialogOpen} onOpenChange={(open) => {
+        setDeleteDialogOpen(open);
+        if (!open) { setDeleteTargetUser(null); setDeleteConfirmText(""); }
+      }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-destructive flex items-center gap-2">
+              <Trash2 className="h-5 w-5" /> Elimina Account
+            </DialogTitle>
+            <DialogDescription>
+              Stai per eliminare definitivamente l'account <strong>{deleteTargetUser?.username}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <Label htmlFor="confirm-delete">
+              Digita <strong>{deleteTargetUser?.username}</strong> per confermare:
+            </Label>
+            <Input
+              id="confirm-delete"
+              value={deleteConfirmText}
+              onChange={(e) => setDeleteConfirmText(e.target.value)}
+              placeholder="Digita il nome utente..."
+              disabled={deleteUserMutation.isPending}
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => { setDeleteDialogOpen(false); setDeleteTargetUser(null); setDeleteConfirmText(""); }}
+              disabled={deleteUserMutation.isPending}
+            >
+              Annulla
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (deleteTargetUser) deleteUserMutation.mutate(deleteTargetUser.id);
+              }}
+              disabled={deleteUserMutation.isPending || deleteConfirmText !== deleteTargetUser?.username}
+            >
+              {deleteUserMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Eliminazione...
+                </>
+              ) : (
+                "Elimina definitivamente"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Dialog di conferma per la revoca */}
       <Dialog open={confirmationDialogOpen} onOpenChange={setConfirmationDialogOpen}>
         <DialogContent>
