@@ -482,7 +482,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
       staffCommissions, referralPayments, reminderTemplates, appSettings,
       phones, userSettings, productCategories, products, stockMovements,
       productSales, companyNameSettings, contactSettings, currencySettings,
-      paymentMethodsConfig, emailCalendarSettings, contactInfo, manualContent,
+      paymentMethodsConfig, manualContent,
       userLogins, pushSubscriptions, emailBounces, subscriptions: subscriptionsTable,
       paymentMethods: paymentMethodsTable, paymentTransactions
     } = await import('../../shared/schema');
@@ -516,8 +516,8 @@ router.delete('/delete-user/:userId', async (req, res) => {
         await tx.delete(productSales).where(inArray(productSales.productId, productIds));
       }
 
-      // Elimina tutte le tabelle che referenziano users.id
-      const tablesToClean: Array<{ table: any; col: any }> = [
+      // Elenco tabelle da pulire
+      const tablesToClean = [
         { table: appointments, col: appointments.userId },
         { table: bookingRequests, col: bookingRequests.userId },
         { table: clients, col: clients.userId },
@@ -556,8 +556,6 @@ router.delete('/delete-user/:userId', async (req, res) => {
         { table: contactSettings, col: contactSettings.userId },
         { table: currencySettings, col: currencySettings.userId },
         { table: paymentMethodsConfig, col: paymentMethodsConfig.userId },
-        { table: emailCalendarSettings, col: emailCalendarSettings.userId },
-        { table: contactInfo, col: contactInfo.userId },
         { table: manualContent, col: manualContent.userId },
         { table: userLogins, col: userLogins.userId },
         { table: pushSubscriptions, col: pushSubscriptions.userId },
@@ -568,10 +566,12 @@ router.delete('/delete-user/:userId', async (req, res) => {
       ];
       
       for (const { table, col } of tablesToClean) {
-        try {
-          await tx.delete(table).where(eq(col, userId));
-        } catch (e) {
-          console.log(`⚠️ [ADMIN] Skip tabella durante eliminazione: ${e}`);
+        if (table && col) {
+          try {
+            await tx.delete(table).where(eq(col, userId));
+          } catch (e) {
+            console.log(`⚠️ [ADMIN] Skip tabella durante eliminazione: ${e}`);
+          }
         }
       }
       
