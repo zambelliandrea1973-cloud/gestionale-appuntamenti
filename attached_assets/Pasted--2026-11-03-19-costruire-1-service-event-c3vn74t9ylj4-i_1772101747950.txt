@@ -1,0 +1,3243 @@
+/2026, 11:03:19:
+costruire
+#1 [service_event_c3vn74t9ylj4 interno] carica la definizione di build dal Dockerfile
+26/02/2026, 11:03:19:
+costruire
+#1 trasferimento dockerfile: 940B completato
+26/02/2026, 11:03:19:
+costruire
+#1 FATTO 0.0s
+26/02/2026, 11:03:19:
+costruire
+26/02/2026, 11:03:19:
+costruire
+#2 [service_event_c3vn74t9ylj4 interno] carica i metadati per docker.io/library/node:20-alpine
+26/02/2026, 11:03:20:
+costruire
+#2 FATTO 0,7s
+26/02/2026, 11:03:20:
+costruire
+26/02/2026, 11:03:20:
+costruire
+#3 [service_event_c3vn74t9ylj4 interno] carica .dockerignore
+26/02/2026, 11:03:20:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+26/02/2026, 11:03:20:
+costruire
+#3 FATTO 0.0s
+26/02/2026, 11:03:20:
+costruire
+26/02/2026, 11:03:20:
+costruire
+#4 [service_event_c3vn74t9ylj4 1/8] DA docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+26/02/2026, 11:03:20:
+costruire
+#4 risoluzione docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0,0 s fatto
+26/02/2026, 11:03:20:
+costruire
+#4 FATTO 0.0s
+26/02/2026, 11:03:20:
+costruire
+26/02/2026, 11:03:20:
+costruire
+#5 [service_event_c3vn74t9ylj4 interno] carica il contesto di compilazione
+26/02/2026, 11:03:25:
+costruire
+#5 trasferimento contesto: 1,57 GB 4,9 s
+26/02/2026, 11:03:28:
+tempo di esecuzione
+10:03:28 AM [express] GET /api/booking-requests 304 in 467ms :: []
+26/02/2026, 11:03:30:
+costruire
+#5 trasferimento contesto: 3,08 GB 9,9 s
+26/02/2026, 11:03:35:
+costruire
+#5 trasferimento contesto: 4,48 GB 14,9 s
+26/02/2026, 11:03:50:
+costruire
+#5 trasferimento contesto: 6,05 GB 19,8 s completato
+26/02/2026, 11:03:51:
+costruire
+#5 FATTO 31.0s
+26/02/2026, 11:03:53:
+costruire
+#8 [service_event_c3vn74t9ylj4 4/8] ESEGUI npm ci
+26/02/2026, 11:03:53:
+costruire
+26/02/2026, 11:03:53:
+costruire
+#6 [service_event_c3vn74t9ylj4 3/8] COPIA package.json package-lock.json ./
+26/02/2026, 11:03:53:
+costruire
+#6 NELLA CACHE
+26/02/2026, 11:03:53:
+costruire
+26/02/2026, 11:03:53:
+costruire
+#7 [service_event_c3vn74t9ylj4 2/8] WORKDIR /app
+26/02/2026, 11:03:53:
+costruire
+#7 NELLA CACHE
+26/02/2026, 11:03:53:
+costruire
+26/02/2026, 11:03:53:
+costruire
+#8 NELLA CACHE
+26/02/2026, 11:03:53:
+costruire
+26/02/2026, 11:03:53:
+costruire
+#9 [service_event_c3vn74t9ylj4 5/8] ESEGUI echo "Timestamp di compilazione: 2026-02-26-11:00"
+26/02/2026, 11:03:53:
+costruire
+#9 0.826 Data e ora di compilazione: 2026-02-26-11:00
+26/02/2026, 11:03:59:
+tempo di esecuzione
+10:03:59 AM [express] GET /api/booking-requests 304 in 468ms :: []
+26/02/2026, 11:04:05:
+costruire
+#9 FATTO 12.2s
+26/02/2026, 11:04:05:
+costruire
+26/02/2026, 11:04:05:
+costruire
+#10 [service_event_c3vn74t9ylj4 6/8] COPIA . .
+26/02/2026, 11:04:30:
+tempo di esecuzione
+10:04:30 AM [express] GET /api/booking-requests 304 in 477ms :: []
+26/02/2026, 11:04:46:
+costruire
+#10 FATTO 41.4s
+26/02/2026, 11:04:46:
+costruire
+26/02/2026, 11:04:46:
+costruire
+#11 [service_event_c3vn74t9ylj4 7/8] ESEGUI la build npx vite
+26/02/2026, 11:04:48:
+costruire
+#11 1.419 vite v5.4.14 in fase di compilazione per la produzione...
+26/02/2026, 11:04:48:
+costruire
+#11 1.838
+26/02/2026, 11:04:48:
+costruire
+#11 1.852
+26/02/2026, 11:04:48:
+costruire
+#11 1.852 /forced-style.css non esiste in fase di compilazione, rimarrà invariato per essere risolto in fase di esecuzione
+26/02/2026, 11:04:48:
+costruire
+#11 1.858 trasformando...
+26/02/2026, 11:04:48:
+costruire
+#11 1.925 Browserslist: i dati del browser (caniuse-lite) risalgono a 16 mesi fa. Eseguire:
+26/02/2026, 11:04:48:
+costruire
+#11 1.925 npx update-browserslist-db@latest
+26/02/2026, 11:04:48:
+costruire
+#11 1.925 Perché dovresti farlo regolarmente: https://github.com/browserslist/update-db#readme
+26/02/2026, 11:05:00:
+tempo di esecuzione
+10:05:00 AM [express] GET /api/booking-requests 304 in 477ms :: []
+26/02/2026, 11:05:02:
+costruire
+#11 15.75 ✓ 3695 moduli trasformati.
+26/02/2026, 11:05:03:
+costruire
+#11 17.24 [plugin:vite:reporter] [plugin vite:reporter]
+26/02/2026, 11:05:03:
+costruire
+#11 17.24 (!) /app/client/src/lib/queryClient.ts viene importato dinamicamente da /app/client/src/lib/autoRefresh.ts ma anche importato staticamente da /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx,/app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+26/02/2026, 11:05:03:
+costruire
+#11 17.24
+26/02/2026, 11:05:03:
+costruire
+#11 17.24 #11 17.24 [plugin:vite:reporter] [plugin vite:reporter]
+26/02/2026, 11:05:03:
+costruire
+#11 17.24 (!) /app/client/src/lib/betaUtils.ts viene importato dinamicamente da /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx ma anche importato staticamente da /app/client/src/components/BetaStatusChecker.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+26/02/2026, 11:05:03:
+costruire
+26/02/2026, 11:05:03:
+costruire
+#11 17.25 rendering di blocchi...
+26/02/2026, 11:05:03:
+costruire
+#11 17.32 calcolo dimensione gzip...
+26/02/2026, 11:05:03:
+costruire
+#11 17.40 ../dist/public/index.html 15.20 kB │ gzip: 4.41 kB
+26/02/2026, 11:05:04:
+costruire
+26/02/2026, 11:05:04:
+costruire
+#11 17.40
+26/02/2026, 11:05:04:
+costruire
+#11 17.40 (!) Alcuni blocchi sono più grandi di 500 kB dopo la minimizzazione. Considera:
+26/02/2026, 11:05:04:
+costruire
+#11 17.40 - Utilizzo di dynamic import() per suddividere il codice dell'applicazione
+26/02/2026, 11:05:04:
+costruire
+26/02/2026, 11:05:04:
+costruire
+#11 17.40 ✓ costruito in 15.95s
+26/02/2026, 11:05:04:
+costruire
+#11 FATTO 17.7s
+26/02/2026, 11:05:04:
+costruire
+26/02/2026, 11:05:04:
+costruire
+#12 [service_event_c3vn74t9ylj4 8/8] ESEGUI cp -r dist/public server/public
+26/02/2026, 11:05:04:
+costruire
+#12 FATTO 0,1s
+26/02/2026, 11:05:04:
+costruire
+26/02/2026, 11:05:04:
+costruire
+#13 [service_event_c3vn74t9ylj4] esportazione in immagine
+26/02/2026, 11:05:04:
+costruire
+#13 esportazione di livelli
+26/02/2026, 11:05:31:
+tempo di esecuzione
+10:05:31 AM [express] GET /api/booking-requests 304 in 457ms :: []
+26/02/2026, 11:06:01:
+tempo di esecuzione
+10:06:01 AM [express] GET /api/booking-requests 304 in 462ms :: []
+26/02/2026, 11:06:05:
+tempo di esecuzione
+10:06:05 AM [express] GET /api/license/has-business-access 200 in 1 ms
+26/02/2026, 11:06:06:
+tempo di esecuzione
+10:06:06 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:06:06:
+tempo di esecuzione
+10:06:06 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: zFQr_xK40BsNrawpfBzc62ube4gV-nH9
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:06:07:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:06:07:
+tempo di esecuzione
+10:06:07 AM [express] GET /api/license/has-pro-access 200 in 1 ms
+26/02/2026, 11:06:07:
+tempo di esecuzione
+10:06:07 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:06:08:
+tempo di esecuzione
+10:06:08 AM [express] GET /api/license/application-title 200 in 1ms :: {"title":"Gestionale Appuntame…
+26/02/2026, 11:06:08:
+tempo di esecuzione
+10:06:08 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:06:10:
+tempo di esecuzione
+10:06:10 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:06:10:
+tempo di esecuzione
+10:06:10 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:06:10:
+tempo di esecuzione
+10:06:10 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:06:11:
+tempo di esecuzione
+10:06:11 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:06:32:
+tempo di esecuzione
+10:06:32 AM [express] GET /api/booking-requests 304 in 464ms :: []
+26/02/2026, 11:07:03:
+tempo di esecuzione
+10:07:03 AM [express] GET /api/booking-requests 304 in 465ms :: []
+26/02/2026, 11:07:20:
+costruire
+#13 esportazione livelli 135.7s completata
+26/02/2026, 11:07:20:
+costruire
+#13 esportazione del manifesto sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70 0,0 s completato
+26/02/2026, 11:07:20:
+costruire
+#13 esportazione configurazione sha256:7af81826af940728466b23623ef724e7234b5575eca9f64dd47f86985cd9803d fatto
+26/02/2026, 11:07:20:
+costruire
+#13 spingendo gli strati
+26/02/2026, 11:07:33:
+tempo di esecuzione
+10:07:33 AM [express] GET /api/booking-requests 304 in 472ms :: []
+26/02/2026, 11:08:04:
+tempo di esecuzione
+10:08:04 AM [express] GET /api/booking-requests 304 in 459ms :: []
+26/02/2026, 11:08:10:
+costruire
+#13 spinta degli strati 50.7s completata
+26/02/2026, 11:08:10:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c3vn74t9ylj4@sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70
+26/02/2026, 11:08:11:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c3vn74t9ylj4@sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70 0,1 s completato
+26/02/2026, 11:08:11:
+costruire
+#13 FATTO 186,5s
+26/02/2026, 11:08:12:
+costruire
+service_event_c3vn74t9ylj4: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+26/02/2026, 11:08:12:
+costruire
+589002ba0eae: Esiste già
+26/02/2026, 11:08:12:
+costruire
+ad6d96c196e3: Esiste già
+26/02/2026, 11:08:12:
+costruire
+eb87f4721c91: Esiste già
+26/02/2026, 11:08:12:
+costruire
+e31b20165522: Esiste già
+26/02/2026, 11:08:12:
+costruire
+0684d9cdf0ac: Esiste già
+26/02/2026, 11:08:12:
+costruire
+ff393ed59e87: Esiste già
+26/02/2026, 11:08:12:
+costruire
+60cfc0189b62: Esiste già
+26/02/2026, 11:08:12:
+costruire
+4f4fb700ef54: Esiste già
+26/02/2026, 11:08:12:
+costruire
+329148d3c4fa: Estrazione del livello fs
+26/02/2026, 11:08:12:
+costruire
+130c414def79: Estrazione del livello fs
+26/02/2026, 11:08:12:
+costruire
+55fe36993116: Estrazione del livello fs
+26/02/2026, 11:08:12:
+costruire
+55fe36993116: Verifica del checksum
+26/02/2026, 11:08:12:
+costruire
+55fe36993116: Download completato
+26/02/2026, 11:08:12:
+costruire
+130c414def79: Verifica del checksum
+26/02/2026, 11:08:12:
+costruire
+130c414def79: Download completato
+26/02/2026, 11:08:34:
+tempo di esecuzione
+10:08:34 AM [express] GET /api/booking-requests 304 in 463ms :: []
+26/02/2026, 11:09:05:
+tempo di esecuzione
+10:09:05 AM [express] GET /api/booking-requests 304 in 471ms :: []
+26/02/2026, 11:09:05:
+costruire
+329148d3c4fa: Verifica del checksum
+26/02/2026, 11:09:05:
+costruire
+329148d3c4fa: Download completato
+26/02/2026, 11:09:36:
+tempo di esecuzione
+10:09:36 AM [express] GET /api/booking-requests 304 in 467ms :: []
+26/02/2026, 11:09:50:
+costruire
+329148d3c4fa: Estrazione completata
+26/02/2026, 11:09:50:
+costruire
+130c414def79: Estrazione completata
+26/02/2026, 11:09:50:
+costruire
+55fe36993116: Estrazione completata
+26/02/2026, 11:09:50:
+costruire
+Riepilogo: sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70
+26/02/2026, 11:09:50:
+costruire
+Stato: scaricata l'immagine più recente per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_c3vn74t9ylj4
+26/02/2026, 11:09:54:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+26/02/2026, 11:09:55:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+26/02/2026, 11:09:55:
+tempo di esecuzione
+URL di debug OAuth: {
+26/02/2026, 11:09:55:
+tempo di esecuzione
+  reindirizzamentoUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+26/02/2026, 11:09:55:
+tempo di esecuzione
+}
+26/02/2026, 11:09:55:
+tempo di esecuzione
+URL di callback di Google OAuth: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+26/02/2026, 11:09:55:
+tempo di esecuzione
+Credenziali Google: {
+26/02/2026, 11:09:55:
+tempo di esecuzione
+  clientId: 'Presente (primi caratteri: 26403...)',
+26/02/2026, 11:09:55:
+tempo di esecuzione
+  secretPresent: 'Presente'
+26/02/2026, 11:09:55:
+tempo di esecuzione
+}
+26/02/2026, 11:09:55:
+tempo di esecuzione
+⚠️ [PUSH] Chiavi VAPID non configurate - notifiche push disabilitate
+26/02/2026, 11:09:55:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+26/02/2026, 11:09:55:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+26/02/2026, 11:09:57:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+26/02/2026, 11:09:57:
+tempo di esecuzione
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+26/02/2026, 11:09:57:
+tempo di esecuzione
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+26/02/2026, 11:09:57:
+tempo di esecuzione
+🔐 [AUTH] Impostazioni cookie: secure=true, sameSite=none
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 27 già presenti
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+26/02/2026, 11:09:57:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+26/02/2026, 11:09:57:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 50
+26/02/2026, 11:09:57:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+26/02/2026, 11:09:57:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+26/02/2026, 11:09:57:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+26/02/2026, 11:09:57:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+26/02/2026, 11:09:57:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+26/02/2026, 11:09:57:
+tempo di esecuzione
+]
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ Controllo integrità completato
+26/02/2026, 11:09:57:
+tempo di esecuzione
+10:09:57 AM [express] in servizio sulla porta 5000
+26/02/2026, 11:09:57:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+26/02/2026, 11:09:57:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+26/02/2026, 11:10:06:
+tempo di esecuzione
+10:10:06 AM [express] GET /api/booking-requests 401 in 9ms :: {"message":"Non autenticato"}
+26/02/2026, 11:10:07:
+tempo di esecuzione
+🔍 [MONITOR] Controllo soglie scalabilità...
+26/02/2026, 11:10:07:
+tempo di esecuzione
+📊 [MONITOR] Statistiche: 57 utenti, 4540 clienti, 372 appuntamenti, max 0 clienti/utente
+26/02/2026, 11:10:07:
+tempo di esecuzione
+✅ [MONITOR] Nessuna soglia critica raggiunta
+26/02/2026, 11:10:36:
+tempo di esecuzione
+10:10:36 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:11:06:
+tempo di esecuzione
+10:11:06 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:11:36:
+tempo di esecuzione
+10:11:36 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:12:06:
+tempo di esecuzione
+10:12:06 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:12:36:
+tempo di esecuzione
+10:12:36 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:13:06:
+tempo di esecuzione
+10:13:06 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: RdMM260UJOiiaQfnEY578B77WHqAb6jU
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:18:16:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/license/has-pro-access 200 in 2ms
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/license/has-business-access 200 in 2 ms
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/currency-settings 304 in 1ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:16:
+tempo di esecuzione
+10:18:16 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:17:
+tempo di esecuzione
+10:18:17 AM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:46:
+costruire
+Enumerazione degli oggetti: 26108, completata.
+26/02/2026, 11:18:46:
+costruire
+Conteggio oggetti: 100% (3433/3433), fatto.
+26/02/2026, 11:18:47:
+costruire
+Compressione oggetti: 100% (379/379), fatto.
+26/02/2026, 11:18:54:
+tempo di esecuzione
+10:18:54 AM [express] GET /api/license/has-business-access 304 in 1 ms
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: qxwL4AMpp4X5wyC3Ter-BJiVERb1BeJQ
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:18:54:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:18:54:
+tempo di esecuzione
+10:18:54 AM [express] GET /api/license/has-pro-access 304 in 1 ms
+26/02/2026, 11:18:54:
+tempo di esecuzione
+10:18:54 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:54:
+tempo di esecuzione
+10:18:54 AM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:54:
+tempo di esecuzione
+10:18:54 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:55:
+tempo di esecuzione
+10:18:55 AM [express] GET /api/tenant-context 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:56:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+26/02/2026, 11:18:56:
+tempo di esecuzione
+Logout completato con successo
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] POST /api/logout 200 in 5ms :: {"success":true,"message":"Logout completato con…
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/booking-requests 401 in 0ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: g5cVuFNB1Ezj1gXOQqqVewiJvKJSsu1z
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:18:56:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/license/has-pro-access 304 in 1 ms
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/license/license-info 200 in 2ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/currency-settings 304 in 1ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:18:56:
+tempo di esecuzione
+10:18:56 AM [express] GET /api/license/has-business-access 304 in 1 ms
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:18:57:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101137575-default
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:18:57:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:18:57:
+tempo di esecuzione
+10:18:57 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:18:57:
+tempo di esecuzione
+10:18:57 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:18:57:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101137979-default
+26/02/2026, 11:18:57:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:18:57:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:18:58:
+tempo di esecuzione
+10:18:58 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:18:58:
+tempo di esecuzione
+10:18:58 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+26/02/2026, 11:18:58:
+tempo di esecuzione
+10:18:58 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:18:58:
+tempo di esecuzione
+10:18:58 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:19:01:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:19:01:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/144.0.0.0 Sa
+26/02/2026, 11:19:01:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+26/02/2026, 11:19:03:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+26/02/2026, 11:19:03:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:03:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+26/02/2026, 11:19:03:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+26/02/2026, 11:19:03:
+tempo di esecuzione
+10:19:03 [espresso] POST /api/staff/login 200 in 1825ms :: {"id":3,"username":"zambelli.andrea.1973…
+26/02/2026, 11:19:04:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:19:04:
+tempo di esecuzione
+📊 [SESSION-TRACKING] Accesso registrato per utente 3 (zambelli.andrea.1973@gmail.com) - pausa >30min
+26/02/2026, 11:19:04:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:19:04:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:19:05:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:19:05:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:19:05:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:19:05:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:19:05:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:19:05:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:19:05:
+tempo di esecuzione
+}
+26/02/2026, 11:19:05:
+tempo di esecuzione
+10:19:05 AM [express] GET /api/user-with-license 200 in 2027ms :: {"id":3,"username":"zambelli.andrea…
+26/02/2026, 11:19:05:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:19:05:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:19:05:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:19:05:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:19:05:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:19:05:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101146016-default
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:19:06:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 AM [express] GET /api/timezone-settings 200 in 238ms :: {"timezone":"Europe/Rome","offset":-…
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 AM [express] GET /api/license/has-business-access 200 in 236ms :: true
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 [espresso] GET /api/license/application-title 304 in 260ms :: {"title":"Gestionale Appunta…
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 AM [express] POST /api/timezone-settings 200 in 232ms :: {"success":true,"timezone":"Europe/…
+26/02/2026, 11:19:06:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:19:06:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:19:06:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:19:06:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:19:06:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:19:06:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:19:06:
+tempo di esecuzione
+}
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 AM [express] GET /api/user-with-license 304 in 746ms :: {"id":3,"username":"zambelli.andrea.…
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101146725' }
+26/02/2026, 11:19:06:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:19:06:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:19:06:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:19:06:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101146780.323&admin=1","/pwa-icon/192x192?owner=3&v =1772101146780.323&admin=1","/pwa-icon/512x512?owner=3&v=1772101146780.323&admin=1"]
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:19:06:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+26/02/2026, 11:19:06:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:19:06:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:19:06:
+tempo di esecuzione
+10:19:06 AM [express] GET /api/tenant-context 200 in 236ms :: {"userId":3,"userType":"admin","tenantI…
+26/02/2026, 11:19:07:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+26/02/2026, 11:19:07:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927, personalizzato: vero
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 [express] GET /api/client-app-info 200 in 1124ms :: {"appName":"Gestionale Appuntamenti",…
+26/02/2026, 11:19:07:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  showBusinessName: vero,
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  dimensione carattere: 24,
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  fontFamily: 'Times New Roman',
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  fontStyle: 'normale',
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  colore: '#000000',
+26/02/2026, 11:19:07:
+tempo di esecuzione
+  abilitato: vero
+26/02/2026, 11:19:07:
+tempo di esecuzione
+}
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 AM [express] GET /api/company-name-settings 200 in 488ms :: {"businessName":"Gestionale Appu…
+26/02/2026, 11:19:07:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 AM [express] GET /api/contact-info 200 in 477ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 3, tipo: admin
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 AM [express] GET /api/license/has-pro-access 200 in 1301ms :: true
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 AM [express] GET /api/license/license-info 200 in 1337ms :: {"hasLicense":true,"type":"passe…
+26/02/2026, 11:19:07:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:19:07:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:19:07:
+tempo di esecuzione
+10:19:07 AM [express] GET /api/booking-requests 304 in 1579ms :: []
+26/02/2026, 11:19:08:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:19:08:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:19:14:
+costruire
+Totale 26108 (delta 3275), riutilizzati 3132 (delta 3054), riutilizzati in confezioni 22675 (da 2)
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101162191' }
+26/02/2026, 11:19:22:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:19:22:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:19:22:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:19:22:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101162241.1975&admin=1","/pwa-icon/192x192?owner=3&v= 1772101162241.1975&admin=1","/pwa-icon/512x512?owner=3&v=1772101162241.1975&admin=1"]
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:19:22:
+tempo di esecuzione
+💰 [OTTIENI] Recupero impostazioni valuta per utente 3
+26/02/2026, 11:19:22:
+tempo di esecuzione
+💰 Recupero impostazioni valuta per utente 3
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔐 ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Akt5ljw1wiblh7YYQwYVklaZrDm1fmA9J.gabUBB%2FNOOsqDQJYk8tegzbic4pKhIaM2aO3WGq5aJo
+26/02/2026, 11:19:22:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:19:22:
+tempo di esecuzione
+Recupero dashboard pagamenti admin...
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🏦 GET /api/admin/banking-settings chiamato da: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:19:22:
+tempo di esecuzione
+Recupero impostazioni per utente 1
+26/02/2026, 11:19:22:
+tempo di esecuzione
+ℹ️ Nessuna impostazione valuta per utente 3, uso predefinito EUR €
+26/02/2026, 11:19:22:
+tempo di esecuzione
+10:19:22 AM [express] GET /api/currency-settings 304 in 477ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:19:22:
+tempo di esecuzione
+Impostazioni trovate per utente 1: SI
+26/02/2026, 11:19:22:
+tempo di esecuzione
+💳 Impostazioni bancarie caricate da PostgreSQL
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🏦 Impostazioni ricevute da storage: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🏦 Ritorno al frontend: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:19:22:
+tempo di esecuzione
+10:19:22 AM [express] GET /api/admin/banking-settings 200 in 465ms :: {"bic":"uncritm1124","iban":"IT…
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:19:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:19:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:19:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:19:23:
+tempo di esecuzione
+Recuperare tutte le licenze dal database
+26/02/2026, 11:19:23:
+tempo di esecuzione
+Trovate 53 licenze totali
+26/02/2026, 11:19:23:
+tempo di esecuzione
+Trovati 6 transazioni, 6 abbonamenti attivi e 53 licenze attive
+26/02/2026, 11:19:23:
+tempo di esecuzione
+10:19:23 AM [express] GET /api/payments/payment-admin/dashboard 200 in 1418ms :: {"transactionStats":…
+26/02/2026, 11:19:23:
+tempo di esecuzione
+10:19:23 AM [express] GET /api/admin-license/access-stats 200 in 1642ms :: {"success":true,"stats":{"…
+26/02/2026, 11:19:23:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+26/02/2026, 11:19:23:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:19:23:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:19:23:
+tempo di esecuzione
+🔐 ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:23:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Akt5ljw1wiblh7YYQwYVklaZrDm1fmA9J.gabUBB%2FNOOsqDQJYk8tegzbic4pKhIaM2aO3WGq5aJo
+26/02/2026, 11:19:23:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:19:23:
+tempo di esecuzione
+Recupero transazioni pagamenti...
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:19:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:19:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:19:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:19:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:19:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:19:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:19:24:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:19:24:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:19:24:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:19:24:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:19:24:
+tempo di esecuzione
+}
+26/02/2026, 11:19:24:
+tempo di esecuzione
+Trovate 6 transazioni
+26/02/2026, 11:19:24:
+tempo di esecuzione
+10:19:24 AM [express] GET /api/payments/payment-admin/transactions 200 in 1166ms :: [{"id":6,"userId"…
+26/02/2026, 11:19:25:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+26/02/2026, 11:19:25:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:19:25:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:19:25:
+tempo di esecuzione
+🔐 ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:25:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Akt5ljw1wiblh7YYQwYVklaZrDm1fmA9J.gabUBB%2FNOOsqDQJYk8tegzbic4pKhIaM2aO3WGq5aJo
+26/02/2026, 11:19:25:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero abbonamenti...
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 27
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 10
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 24
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 29
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:19:25:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 11
+26/02/2026, 11:19:25:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 48
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 15
+26/02/2026, 11:19:25:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 27
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 27
+26/02/2026, 11:19:25:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:19:25:
+tempo di esecuzione
+}
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'ID utente 9
+26/02/2026, 11:19:25:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 10: {
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  e-mail: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:19:25:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:19:25:
+tempo di esecuzione
+}
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 10
+26/02/2026, 11:19:25:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 24
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 24
+26/02/2026, 11:19:25:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 29: { phone: '', email: '', whatsappOptIn: false }
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 29
+26/02/2026, 11:19:25:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 49
+26/02/2026, 11:19:25:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:19:25:
+tempo di esecuzione
+Recupero licenza per l'utente ID 47
+26/02/2026, 11:19:26:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 11
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Recupero licenza per l'ID utente 11
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 48
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 15
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 27
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovare 1 licenza per l'utente 9
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 10
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 24
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 49
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 29
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 47
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Trova 1 licenza per l'utente 11
+26/02/2026, 11:19:26:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 12
+26/02/2026, 11:19:26:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 12
+26/02/2026, 11:19:26:
+tempo di esecuzione
+Recupero licenza per l'utente ID 12
+26/02/2026, 11:19:27:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 12
+26/02/2026, 11:19:27:
+tempo di esecuzione
+Totale: 11 abbonamenti con dettagli utente e licenza
+26/02/2026, 11:19:27:
+tempo di esecuzione
+10:19:27 AM [express] GET /api/payments/payment-admin/subscriptions 200 in 2458ms :: [{"id":17,"userI…
+26/02/2026, 11:19:27:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+26/02/2026, 11:19:27:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:19:27:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:19:27:
+tempo di esecuzione
+🔐 ID sessione: kt5ljw1wiblh7YYQwYVklaZrDm1fmA9J
+26/02/2026, 11:19:27:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Akt5ljw1wiblh7YYQwYVklaZrDm1fmA9J.gabUBB%2FNOOsqDQJYk8tegzbic4pKhIaM2aO3WGq5aJo
+26/02/2026, 11:19:27:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:19:27:
+tempo di esecuzione
+Recupero licenza con dettagli utente...
+26/02/2026, 11:19:27:
+tempo di esecuzione
+Trovate 53 licenze normali e 0 licenze di test
+26/02/2026, 11:19:29:
+tempo di esecuzione
+Caricati 57 utenti, 14 account cliente, 4540 clienti
+26/02/2026, 11:19:30:
+tempo di esecuzione
+Totale licenze restituite: 53
+26/02/2026, 11:19:30:
+tempo di esecuzione
+10:19:30 AM [express] GET /api/payments/payment-admin/licenses 200 in 2943ms :: [{"id":79,"code":"TRI…
+26/02/2026, 11:19:38:
+tempo di esecuzione
+10:19:38 AM [express] GET /api/booking-requests 304 in 471ms :: []
+26/02/2026, 11:20:08:
+tempo di esecuzione
+10:20:08 AM [express] GET /api/booking-requests 304 in 457ms :: []
+26/02/2026, 11:20:51:
+costruire
+#1 [service_event_n1bp1uyx6cr6 interno] carica la definizione di build dal Dockerfile
+26/02/2026, 11:20:51:
+costruire
+#1 trasferimento dockerfile: 940B completato
+26/02/2026, 11:20:51:
+costruire
+#1 FATTO 0.0s
+26/02/2026, 11:20:51:
+costruire
+26/02/2026, 11:20:51:
+costruire
+#2 [service_event_n1bp1uyx6cr6 interno] carica i metadati per docker.io/library/node:20-alpine
+26/02/2026, 11:20:51:
+costruire
+#2 FATTO 0,7s
+26/02/2026, 11:20:51:
+costruire
+26/02/2026, 11:20:51:
+costruire
+#3 [service_event_n1bp1uyx6cr6 interno] carica .dockerignore
+26/02/2026, 11:20:51:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+26/02/2026, 11:20:51:
+costruire
+#3 FATTO 0.0s
+26/02/2026, 11:20:51:
+costruire
+26/02/2026, 11:20:51:
+costruire
+#4 [service_event_n1bp1uyx6cr6 1/8] DA docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+26/02/2026, 11:20:51:
+costruire
+#4 risoluzione docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0,0 s fatto
+26/02/2026, 11:20:51:
+costruire
+#4 FATTO 0.0s
+26/02/2026, 11:20:51:
+costruire
+26/02/2026, 11:20:51:
+costruire
+#5 [service_event_n1bp1uyx6cr6 interno] carica il contesto di compilazione
+26/02/2026, 11:20:56:
+costruire
+#5 trasferimento contesto: 1,51 GB 4,8 s
+26/02/2026, 11:21:04:
+costruire
+#5 trasferimento contesto: 2,98 GB 12,2 s
+26/02/2026, 11:21:18:
+costruire
+#5 trasferimento contesto: 3,66 GB 26,8 s
+26/02/2026, 11:21:23:
+costruire
+#5 trasferimento contesto: 5,24 GB 32,0 s
+26/02/2026, 11:21:26:
+costruire
+#5 trasferimento contesto: 6,05 GB 34,8 s completato
+26/02/2026, 11:21:32:
+costruire
+#5 FATTO 40.5s
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#6 [service_event_n1bp1uyx6cr6 2/8] WORKDIR /app
+26/02/2026, 11:21:32:
+costruire
+#6 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#7 [service_event_n1bp1uyx6cr6 3/8] COPIA package.json package-lock.json ./
+26/02/2026, 11:21:32:
+costruire
+#7 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#8 [service_event_n1bp1uyx6cr6 4/8] ESEGUI npm ci
+26/02/2026, 11:21:32:
+costruire
+#8 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#9 [service_event_n1bp1uyx6cr6 5/8] ESEGUI echo "Timestamp di build: 2026-02-26-11:00"
+26/02/2026, 11:21:32:
+costruire
+#9 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#10 [service_event_n1bp1uyx6cr6 6/8] COPIA . .
+26/02/2026, 11:21:32:
+costruire
+#10 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#11 [service_event_n1bp1uyx6cr6 7/8] ESEGUI la build npx vite
+26/02/2026, 11:21:32:
+costruire
+#11 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#12 [service_event_n1bp1uyx6cr6 8/8] ESEGUI cp -r dist/public server/public
+26/02/2026, 11:21:32:
+costruire
+#12 NELLA CACHE
+26/02/2026, 11:21:32:
+costruire
+26/02/2026, 11:21:32:
+costruire
+#13 [service_event_n1bp1uyx6cr6] esportazione in immagine
+26/02/2026, 11:21:32:
+costruire
+#13 esportazione livelli completata
+26/02/2026, 11:21:32:
+costruire
+#13 esportazione del manifesto sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70 0,1 s completato
+26/02/2026, 11:21:32:
+costruire
+#13 esportazione configurazione sha256:7af81826af940728466b23623ef724e7234b5575eca9f64dd47f86985cd9803d
+26/02/2026, 11:21:33:
+costruire
+#13 esportazione della configurazione sha256:7af81826af940728466b23623ef724e7234b5575eca9f64dd47f86985cd9803d 0,1 s completato
+26/02/2026, 11:21:33:
+costruire
+#13 spingendo gli strati
+26/02/2026, 11:21:34:
+costruire
+#13 spinta dei livelli 2.0 completata
+26/02/2026, 11:21:34:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_n1bp1uyx6cr6@sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70
+26/02/2026, 11:21:35:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_n1bp1uyx6cr6@sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70 0,2 s completato
+26/02/2026, 11:21:35:
+costruire
+#13 FATTO 2.3s
+26/02/2026, 11:21:42:
+costruire
+service_event_n1bp1uyx6cr6: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+26/02/2026, 11:21:42:
+costruire
+Riepilogo: sha256:03707826a21998c823c41bf40c430f8cf50e3595d606085a7c682949cec24a70
+26/02/2026, 11:21:42:
+costruire
+Stato: scaricata l'immagine più recente per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_n1bp1uyx6cr6
+26/02/2026, 11:21:45:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+26/02/2026, 11:21:47:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+26/02/2026, 11:21:47:
+tempo di esecuzione
+URL di debug OAuth: {
+26/02/2026, 11:21:47:
+tempo di esecuzione
+  reindirizzamentoUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+26/02/2026, 11:21:47:
+tempo di esecuzione
+}
+26/02/2026, 11:21:47:
+tempo di esecuzione
+URL di callback di Google OAuth: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+26/02/2026, 11:21:47:
+tempo di esecuzione
+Credenziali Google: {
+26/02/2026, 11:21:47:
+tempo di esecuzione
+  clientId: 'Presente (primi caratteri: 26403...)',
+26/02/2026, 11:21:47:
+tempo di esecuzione
+  secretPresent: 'Presente'
+26/02/2026, 11:21:47:
+tempo di esecuzione
+}
+26/02/2026, 11:21:47:
+tempo di esecuzione
+⚠️ [PUSH] Chiavi VAPID non configurate - notifiche push disabilitate
+26/02/2026, 11:21:47:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+26/02/2026, 11:21:47:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+26/02/2026, 11:21:48:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+26/02/2026, 11:21:48:
+tempo di esecuzione
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+26/02/2026, 11:21:48:
+tempo di esecuzione
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+26/02/2026, 11:21:48:
+tempo di esecuzione
+🔐 [AUTH] Impostazioni cookie: secure=true, sameSite=none
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 27 già presenti
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+26/02/2026, 11:21:48:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+26/02/2026, 11:21:48:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 50
+26/02/2026, 11:21:48:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+26/02/2026, 11:21:48:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+26/02/2026, 11:21:48:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+26/02/2026, 11:21:48:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+26/02/2026, 11:21:48:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+26/02/2026, 11:21:48:
+tempo di esecuzione
+]
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ Controllo integrità completato
+26/02/2026, 11:21:48:
+tempo di esecuzione
+10:21:48 AM [express] in servizio sulla porta 5000
+26/02/2026, 11:21:48:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+26/02/2026, 11:21:48:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+26/02/2026, 11:21:58:
+tempo di esecuzione
+🔍 [MONITOR] Controllo soglie scalabilità...
+26/02/2026, 11:21:59:
+tempo di esecuzione
+📊 [MONITOR] Statistiche: 57 utenti, 4540 clienti, 372 appuntamenti, max 0 clienti/utente
+26/02/2026, 11:21:59:
+tempo di esecuzione
+✅ [MONITOR] Nessuna soglia critica raggiunta
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/license/has-business-access 200 in 5 ms
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: niD31r42Ii46jsShPNCeoBFjBBjs7AUH
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:26:31:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/license/has-pro-access 200 in 4 ms
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/tenant-context 401 in 3ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:31:
+tempo di esecuzione
+10:26:31 AM [express] GET /api/currency-settings 304 in 1ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:26:32:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+26/02/2026, 11:26:32:
+tempo di esecuzione
+Logout completato con successo
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: kg2jEnU6mdptUHzBW0qQqWgqFVkfCnah
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:26:32:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/license/has-pro-access 304 in 1 ms
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/license/has-business-access 304 in 1 ms
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/currency-settings 304 in 1ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:26:32:
+tempo di esecuzione
+10:26:32 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:33:
+tempo di esecuzione
+10:26:33 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:26:33:
+tempo di esecuzione
+10:26:33 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:26:33:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101593915-default
+26/02/2026, 11:26:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:26:33:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:26:34:
+tempo di esecuzione
+10:26:34 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:26:34:
+tempo di esecuzione
+10:26:34 AM [express] GET /api/timezone-settings 304 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:26:34:
+tempo di esecuzione
+10:26:34 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+26/02/2026, 11:26:34:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101594182-default
+26/02/2026, 11:26:34:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:26:34:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:26:34:
+tempo di esecuzione
+10:26:34 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:26:36:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:26:36:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/144.0.0.0 Sa
+26/02/2026, 11:26:36:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+26/02/2026, 11:26:37:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+26/02/2026, 11:26:37:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:37:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+26/02/2026, 11:26:37:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+26/02/2026, 11:26:37:
+tempo di esecuzione
+10:26:37 AM [express] POST /api/staff/login 200 in 1373ms :: {"id":3,"username":"zambelli.andrea.1973…
+26/02/2026, 11:26:39:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:26:39:
+tempo di esecuzione
+📊 [SESSION-TRACKING] Accesso registrato per utente 3 (zambelli.andrea.1973@gmail.com) - pausa >30min
+26/02/2026, 11:26:39:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:26:39:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:26:39:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:26:39:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:26:39:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:26:39:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:26:39:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:26:39:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:26:39:
+tempo di esecuzione
+}
+26/02/2026, 11:26:39:
+tempo di esecuzione
+10:26:39 AM [express] GET /api/user-with-license 200 in 2086ms :: {"id":3,"username":"zambelli.andrea…
+26/02/2026, 11:26:40:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101600898-default
+26/02/2026, 11:26:40:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:26:40:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/timezone-settings 200 in 236ms :: {"timezone":"Europe/Rome","offset":-…
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/license/application-title 304 in 284ms :: {"title":"Gestionale Appunta…
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/booking-requests 304 in 530ms :: []
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] POST /api/timezone-settings 200 in 234ms :: {"success":true,"timezone":"Europe/…
+26/02/2026, 11:26:41:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:26:41:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:26:41:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:26:41:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:26:41:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:26:41:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:26:41:
+tempo di esecuzione
+}
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/user-with-license 304 in 759ms :: {"id":3,"username":"zambelli.andrea.…
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101601602' }
+26/02/2026, 11:26:41:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:26:41:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:26:41:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:26:41:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101601654.5552&admin=1","/pwa-icon/192x192?owner=3&v= 1772101601654.5552&admin=1","/pwa-icon/512x512?owner=3&v=1772101601654.5552&admin=1"]
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:26:41:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+26/02/2026, 11:26:41:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/tenant-context 200 in 233ms :: {"userId":3,"userType":"admin","tenantI…
+26/02/2026, 11:26:41:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:26:41:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+26/02/2026, 11:26:41:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927, personalizzato: vero
+26/02/2026, 11:26:41:
+tempo di esecuzione
+10:26:41 AM [express] GET /api/client-app-info 200 in 1089ms :: {"appName":"Gestionale Appuntamenti",…
+26/02/2026, 11:26:42:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  showBusinessName: vero,
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  dimensione carattere: 24,
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  fontFamily: 'Times New Roman',
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  fontStyle: 'normale',
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  colore: '#000000',
+26/02/2026, 11:26:42:
+tempo di esecuzione
+  abilitato: vero
+26/02/2026, 11:26:42:
+tempo di esecuzione
+}
+26/02/2026, 11:26:42:
+tempo di esecuzione
+10:26:42 AM [express] GET /api/company-name-settings 200 in 479ms :: {"businessName":"Gestionale Appu…
+26/02/2026, 11:26:42:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:26:42:
+tempo di esecuzione
+10:26:42 AM [express] GET /api/contact-info 200 in 468ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+26/02/2026, 11:26:42:
+tempo di esecuzione
+10:26:42 AM [express] GET /api/license/license-info 200 in 1326ms :: {"hasLicense":true,"type":"passe…
+26/02/2026, 11:26:42:
+tempo di esecuzione
+10:26:42 AM [express] GET /api/license/has-business-access 200 in 1332ms :: true
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 3, tipo: admin
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+26/02/2026, 11:26:42:
+tempo di esecuzione
+10:26:42 AM [express] GET /api/license/has-pro-access 200 in 1367ms :: true
+26/02/2026, 11:26:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:26:42:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:26:43:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:26:43:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:26:44:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:26:44:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:26:44:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+26/02/2026, 11:26:44:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101604824' }
+26/02/2026, 11:26:44:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:26:44:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:26:44:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:26:44:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101604973.547&admin=1","/pwa-icon/192x192?owner=3&v =1772101604973.547&admin=1","/pwa-icon/512x512?owner=3&v=1772101604973.547&admin=1"]
+26/02/2026, 11:26:44:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:26:45:
+tempo di esecuzione
+💰 [OTTIENI] Recupero impostazioni valuta per utente 3
+26/02/2026, 11:26:45:
+tempo di esecuzione
+💰 Recupero impostazioni valuta per utente 3
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🏦 GET /api/admin/banking-settings chiamato da: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:26:45:
+tempo di esecuzione
+Recupero impostazioni per utente 1
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🔐 ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Ar16nT_1V3An6D3WnM8giOowZmlY4R30q.MTqcAYIYdfltfM3C860y48WuAxNbiQYO6iZYGY3LCtY
+26/02/2026, 11:26:45:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:26:45:
+tempo di esecuzione
+Recupero dashboard pagamenti admin...
+26/02/2026, 11:26:45:
+tempo di esecuzione
+ℹ️ Nessuna impostazione valuta per utente 3, uso predefinito EUR €
+26/02/2026, 11:26:45:
+tempo di esecuzione
+10:26:45 AM [express] GET /api/currency-settings 304 in 470ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:26:45:
+tempo di esecuzione
+Impostazioni trovate per utente 1: SI
+26/02/2026, 11:26:45:
+tempo di esecuzione
+💳 Impostazioni bancarie caricate da PostgreSQL
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🏦 Impostazioni ricevute da storage: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🏦 Ritorno al frontend: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:26:45:
+tempo di esecuzione
+10:26:45 AM [express] GET /api/admin/banking-settings 200 in 465ms :: {"bic":"uncritm1124","iban":"IT…
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:26:45:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:26:45:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:26:45:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:26:46:
+tempo di esecuzione
+Recuperare tutte le licenze dal database
+26/02/2026, 11:26:46:
+tempo di esecuzione
+Trovate 53 licenze totali
+26/02/2026, 11:26:46:
+tempo di esecuzione
+Trovati 6 transazioni, 6 abbonamenti attivi e 53 licenze attive
+26/02/2026, 11:26:46:
+tempo di esecuzione
+10:26:46 AM [express] GET /api/payments/payment-admin/dashboard 200 in 1413ms :: {"transactionStats":…
+26/02/2026, 11:26:46:
+tempo di esecuzione
+10:26:46 AM [express] GET /api/admin-license/access-stats 200 in 1640ms :: {"success":true,"stats":{"…
+26/02/2026, 11:26:46:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+26/02/2026, 11:26:46:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:26:46:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:26:46:
+tempo di esecuzione
+🔐 ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:46:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Ar16nT_1V3An6D3WnM8giOowZmlY4R30q.MTqcAYIYdfltfM3C860y48WuAxNbiQYO6iZYGY3LCtY
+26/02/2026, 11:26:46:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:26:46:
+tempo di esecuzione
+Recupero transazioni pagamenti...
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:26:47:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:26:47:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:26:47:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:26:47:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:26:47:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:26:47:
+tempo di esecuzione
+}
+26/02/2026, 11:26:47:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:26:47:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:26:47:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:26:47:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:26:47:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:26:47:
+tempo di esecuzione
+Trovate 6 transazioni
+26/02/2026, 11:26:47:
+tempo di esecuzione
+10:26:47 AM [express] GET /api/payments/payment-admin/transactions 200 in 1195ms :: [{"id":6,"userId"…
+26/02/2026, 11:26:47:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+26/02/2026, 11:26:47:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:26:47:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:26:47:
+tempo di esecuzione
+🔐 ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:47:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Ar16nT_1V3An6D3WnM8giOowZmlY4R30q.MTqcAYIYdfltfM3C860y48WuAxNbiQYO6iZYGY3LCtY
+26/02/2026, 11:26:47:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:26:47:
+tempo di esecuzione
+Recupero abbonamenti...
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 24
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 10
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 27
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 29
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:26:48:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 11
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 15
+26/02/2026, 11:26:48:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:26:48:
+tempo di esecuzione
+}
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'ID utente 9
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 48
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 49
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 27
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 27
+26/02/2026, 11:26:48:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 10: {
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  e-mail: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:26:48:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:26:48:
+tempo di esecuzione
+}
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 10
+26/02/2026, 11:26:48:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 29: { phone: '', email: '', whatsappOptIn: false }
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 29
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 47
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 24
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'utente ID 24
+26/02/2026, 11:26:48:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 11
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Recupero licenza per l'ID utente 11
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovare 1 licenza per l'utente 9
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 15
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 48
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 49
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 47
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 27
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 10
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 29
+26/02/2026, 11:26:48:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 24
+26/02/2026, 11:26:49:
+tempo di esecuzione
+Trova 1 licenza per l'utente 11
+26/02/2026, 11:26:49:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 12
+26/02/2026, 11:26:49:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 12
+26/02/2026, 11:26:49:
+tempo di esecuzione
+Recupero licenza per l'utente ID 12
+26/02/2026, 11:26:49:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 12
+26/02/2026, 11:26:50:
+tempo di esecuzione
+Totale: 11 abbonamenti con dettagli utente e licenza
+26/02/2026, 11:26:50:
+tempo di esecuzione
+10:26:50 AM [express] GET /api/payments/payment-admin/subscriptions 200 in 2534ms :: [{"id":17,"userI…
+26/02/2026, 11:26:50:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+26/02/2026, 11:26:50:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:26:50:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:26:50:
+tempo di esecuzione
+🔐 ID sessione: r16nT_1V3An6D3WnM8giOowZmlY4R30q
+26/02/2026, 11:26:50:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3Ar16nT_1V3An6D3WnM8giOowZmlY4R30q.MTqcAYIYdfltfM3C860y48WuAxNbiQYO6iZYGY3LCtY
+26/02/2026, 11:26:50:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:26:50:
+tempo di esecuzione
+Recupero licenza con dettagli utente...
+26/02/2026, 11:26:50:
+tempo di esecuzione
+Trovate 53 licenze normali e 0 licenze di test
+26/02/2026, 11:26:52:
+tempo di esecuzione
+Caricati 57 utenti, 14 account cliente, 4540 clienti
+26/02/2026, 11:26:53:
+tempo di esecuzione
+Totale licenze restituite: 53
+26/02/2026, 11:26:53:
+tempo di esecuzione
+10:26:53 AM [express] GET /api/payments/payment-admin/licenses 200 in 3153ms :: [{"id":79,"code":"TRI…
+26/02/2026, 11:28:08:
+tempo di esecuzione
+10:28:08 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:08:
+tempo di esecuzione
+10:28:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:08:
+tempo di esecuzione
+10:28:08 AM [express] GET /api/license/has-business-access 200 in 1 ms
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: osuJte31_VY_m4GNwkSzA4GeI7UyQ-iF
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:28:08:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:28:08:
+tempo di esecuzione
+10:28:08 AM [express] GET /api/license/has-pro-access 200 in 1 ms
+26/02/2026, 11:28:09:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+26/02/2026, 11:28:09:
+tempo di esecuzione
+Logout completato con successo
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: y6GHD6JdgyR7leXOypyFhMBRGoqZ1sNP
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:28:09:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/license/has-pro-access 304 in 1 ms
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/license/license-info 200 in 1 ms :: {"hasLicense":false,"type":"none"}
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/currency-settings 200 in 1ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/license/application-title 200 in 1ms :: {"title":"Gestionale Appuntame…
+26/02/2026, 11:28:09:
+tempo di esecuzione
+10:28:09 AM [express] GET /api/license/has-business-access 304 in 1 ms
+26/02/2026, 11:28:10:
+tempo di esecuzione
+10:28:10 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:28:10:
+tempo di esecuzione
+10:28:10 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:10:
+tempo di esecuzione
+10:28:10 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:28:10:
+tempo di esecuzione
+10:28:10 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+26/02/2026, 11:28:10:
+tempo di esecuzione
+10:28:10 AM [express] GET /api/timezone-settings 304 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+26/02/2026, 11:28:11:
+tempo di esecuzione
+10:28:11 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/144.0.0.0 Sa
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:15:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+26/02/2026, 11:28:15:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+26/02/2026, 11:28:15:
+tempo di esecuzione
+10:28:15 [espresso] POST /api/staff/login 200 in 318ms :: {"id":3,"username":"zambelli.andrea.1973@…
+26/02/2026, 11:28:15:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:28:16:
+tempo di esecuzione
+}
+26/02/2026, 11:28:16:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:28:16:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:28:16:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:28:16:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:28:16:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:28:16:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/user-with-license 200 in 760ms :: {"id":3,"username":"zambelli.andrea.…
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+26/02/2026, 11:28:16:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+26/02/2026, 11:28:16:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772101696477-default
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/timezone-settings 200 in 236ms :: {"timezone":"Europe/Rome","offset":-…
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 3, tipo: admin
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/license/license-info 200 in 294ms :: {"hasLicense":true,"type":"passep…
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/license/application-title 304 in 293ms :: {"title":"Gestionale Appunta…
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/license/has-pro-access 200 in 291ms :: true
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/license/has-business-access 200 in 302ms :: true
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 3: ZAM0319
+26/02/2026, 11:28:16:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 3: PROF_003_4678
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] GET /api/booking-requests 200 in 530ms :: []
+26/02/2026, 11:28:16:
+tempo di esecuzione
+10:28:16 AM [express] POST /api/timezone-settings 200 in 229ms :: {"success":true,"timezone":"Europe/…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+}
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  licenseType: 'passepartout'
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  cognome: null,
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  Nome: null,
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  ID: 3,
+26/02/2026, 11:28:17:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+26/02/2026, 11:28:17:
+tempo di esecuzione
+10:28:17 AM [express] GET /api/user-with-license 200 in 767ms :: {"id":3,"username":"zambelli.andrea.…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per proprietario 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101697170.6226&admin=1","/pwa-icon/192x192?owner=3&v= 1772101697170.6226&admin=1","/pwa-icon/512x512?owner=3&v=1772101697170.6226&admin=1"]
+26/02/2026, 11:28:17:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:28:17:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101697120' }
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+26/02/2026, 11:28:17:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+10:28:17 AM [express] GET /api/tenant-context 200 in 234ms :: {"userId":3,"userType":"admin","tenantI…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927, personalizzato: vero
+26/02/2026, 11:28:17:
+tempo di esecuzione
+10:28:17 AM [express] GET /api/client-app-info 200 in 1079ms :: {"appName":"Gestionale Appuntamenti",…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+26/02/2026, 11:28:17:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  fontFamily: 'Times New Roman',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  dimensione carattere: 24,
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  showBusinessName: vero,
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  fontStyle: 'normale',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  colore: '#000000',
+26/02/2026, 11:28:17:
+tempo di esecuzione
+  abilitato: vero
+26/02/2026, 11:28:17:
+tempo di esecuzione
+}
+26/02/2026, 11:28:17:
+tempo di esecuzione
+10:28:17 AM [express] GET /api/company-name-settings 200 in 469ms :: {"businessName":"Gestionale Appu…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+Impostazioni trovate per utente 3: SI
+26/02/2026, 11:28:17:
+tempo di esecuzione
+10:28:17 [espresso] GET /api/contact-info 200 in 464ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 96x96 per proprietario 3, dimensione: 18487 byte
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:28:17:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:28:17:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+26/02/2026, 11:28:21:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=3&v=1772101701365.8384&admin=1","/pwa-icon/192x192?owner=3&v= 1772101701365.8384&admin=1","/pwa-icon/512x512?owner=3&v=1772101701365.8384&admin=1"]
+26/02/2026, 11:28:21:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+26/02/2026, 11:28:21:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 3)
+26/02/2026, 11:28:21:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 3
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '3', ts: '1772101701318' }
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 3
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 3
+26/02/2026, 11:28:21:
+tempo di esecuzione
+💰 [OTTIENI] Recupero impostazioni valuta per utente 3
+26/02/2026, 11:28:21:
+tempo di esecuzione
+💰 Recupero impostazioni valuta per utente 3
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/dashboard
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔐 ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3A5wlq_bedcWkaQ9HnGW8YDyTSx47la826.2yRuvAA5tB09rH5otFk4GS%2F3imGhtB8Rmit534delSY
+26/02/2026, 11:28:21:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:28:21:
+tempo di esecuzione
+Recupero dashboard pagamenti admin...
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🏦 GET /api/admin/banking-settings chiamato da: zambelli.andrea.1973@gmail.com
+26/02/2026, 11:28:21:
+tempo di esecuzione
+Recupero impostazioni per utente 1
+26/02/2026, 11:28:21:
+tempo di esecuzione
+ℹ️ Nessuna impostazione valuta per utente 3, uso predefinito EUR €
+26/02/2026, 11:28:21:
+tempo di esecuzione
+10:28:21 AM [express] GET /api/currency-settings 304 in 462ms :: {"currency":"EUR","symbol":"€"}
+26/02/2026, 11:28:21:
+tempo di esecuzione
+Impostazioni trovate per utente 1: SI
+26/02/2026, 11:28:21:
+tempo di esecuzione
+💳 Impostazioni bancarie caricate da PostgreSQL
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🏦 Impostazioni ricevute da storage: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:28:21:
+tempo di esecuzione
+🏦 Ritorno al frontend: {"bic":"uncritm1124","iban":"IT22I0200851620000100456243","address":"","bankName":"unicredit","updatedAt":"2026-01-07T22:13:52.338Z","description":"Commissione referral","isConfigured":true,"paymentDelay":30,"accountHolder":"Andrea Zambelli","minimumAmount":100,"autoPayEnabled":true}
+26/02/2026, 11:28:21:
+tempo di esecuzione
+10:28:21 AM [express] GET /api/admin/banking-settings 200 in 472ms :: {"bic":"uncritm1124","iban":"IT…
+26/02/2026, 11:28:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:28:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+26/02/2026, 11:28:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+26/02/2026, 11:28:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+26/02/2026, 11:28:22:
+tempo di esecuzione
+Recuperare tutte le licenze dal database
+26/02/2026, 11:28:22:
+tempo di esecuzione
+Trovati 6 transazioni, 6 abbonamenti attivi e 53 licenze attive
+26/02/2026, 11:28:22:
+tempo di esecuzione
+Trovate 53 licenze totali
+26/02/2026, 11:28:22:
+tempo di esecuzione
+10:28:22 AM [express] GET /api/payments/payment-admin/dashboard 200 in 1402ms :: {"transactionStats":…
+26/02/2026, 11:28:22:
+tempo di esecuzione
+10:28:22 AM [express] GET /api/admin-license/access-stats 200 in 1624ms :: {"success":true,"stats":{"…
+26/02/2026, 11:28:23:
+tempo di esecuzione
+Recupero transazioni pagamenti...
+26/02/2026, 11:28:23:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:28:23:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3A5wlq_bedcWkaQ9HnGW8YDyTSx47la826.2yRuvAA5tB09rH5otFk4GS%2F3imGhtB8Rmit534delSY
+26/02/2026, 11:28:23:
+tempo di esecuzione
+🔐 ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:23:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:28:23:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:28:23:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/transactions
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:28:23:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:28:23:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:28:23:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:28:23:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:28:23:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:28:23:
+tempo di esecuzione
+Trovate 6 transazioni
+26/02/2026, 11:28:23:
+tempo di esecuzione
+}
+26/02/2026, 11:28:23:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:28:23:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:28:23:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:28:23:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:28:23:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:28:23:
+tempo di esecuzione
+10:28:23 AM [express] GET /api/payments/payment-admin/transactions 200 in 1165ms :: [{"id":6,"userId"…
+26/02/2026, 11:28:24:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:28:24:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/subscriptions
+26/02/2026, 11:28:24:
+tempo di esecuzione
+🔐 ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:24:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero abbonamenti...
+26/02/2026, 11:28:24:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:28:24:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3A5wlq_bedcWkaQ9HnGW8YDyTSx47la826.2yRuvAA5tB09rH5otFk4GS%2F3imGhtB8Rmit534delSY
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 49
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 29
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 10
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 24
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 12
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 11
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 27
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 47
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatti per inquilino 9
+26/02/2026, 11:28:24:
+tempo di esecuzione
+📞 Recupero impostazioni contatto per inquilino 48
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 15
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 49
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 49
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 29
+26/02/2026, 11:28:24:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 29: { phone: '', email: '', whatsappOptIn: false }
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 10
+26/02/2026, 11:28:24:
+tempo di esecuzione
+}
+26/02/2026, 11:28:24:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:28:24:
+tempo di esecuzione
+  e-mail: 'zambelli.andrea.1973@gmail.com',
+26/02/2026, 11:28:24:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:28:24:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 10: {
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 24
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 24
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'ID utente 11
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 11
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 12
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 12
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 47
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 47
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 48
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 48
+26/02/2026, 11:28:24:
+tempo di esecuzione
+Recupero licenza per l'utente ID 27
+26/02/2026, 11:28:24:
+tempo di esecuzione
+ℹ️ Nessuna impostazione contatto per inquilino 27
+26/02/2026, 11:28:25:
+tempo di esecuzione
+✅ Impostazioni contatto trovate per inquilino 9: {
+26/02/2026, 11:28:25:
+tempo di esecuzione
+  telefono: '+393472550110',
+26/02/2026, 11:28:25:
+tempo di esecuzione
+  email: 'zambelli.andrea@libero.it',
+26/02/2026, 11:28:25:
+tempo di esecuzione
+  whatsappOptIn: vero
+26/02/2026, 11:28:25:
+tempo di esecuzione
+}
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Recupero licenza per l'ID utente 9
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 15
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 29
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 49
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 0 licenze per l'utente 24
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 10
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trova 1 licenza per l'utente 11
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 12
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 47
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 27
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 48
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Trovare 1 licenza per l'utente 9
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Totale: 11 abbonamenti con dettagli utente e licenza
+26/02/2026, 11:28:25:
+tempo di esecuzione
+10:28:25 AM [express] GET /api/payments/payment-admin/subscriptions 200 in 1648ms :: [{"id":17,"userI…
+26/02/2026, 11:28:25:
+tempo di esecuzione
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /payment-admin/licenses
+26/02/2026, 11:28:25:
+tempo di esecuzione
+🔐 req.isAuthenticated(): true
+26/02/2026, 11:28:25:
+tempo di esecuzione
+🔐 utente richiesto: zambelli.andrea.1973@gmail.com (ID: 3)
+26/02/2026, 11:28:25:
+tempo di esecuzione
+🔐 ID sessione: 5wlq_bedcWkaQ9HnGW8YDyTSx47la826
+26/02/2026, 11:28:25:
+tempo di esecuzione
+🔐 Cookie: session-id=s%3A5wlq_bedcWkaQ9HnGW8YDyTSx47la826.2yRuvAA5tB09rH5otFk4GS%2F3imGhtB8Rmit534delSY
+26/02/2026, 11:28:25:
+tempo di esecuzione
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973@gmail.com tipo: admin
+26/02/2026, 11:28:25:
+tempo di esecuzione
+Recupero licenza con dettagli utente...
+26/02/2026, 11:28:26:
+tempo di esecuzione
+Trovate 53 licenze normali e 0 licenze di test
+26/02/2026, 11:28:27:
+tempo di esecuzione
+Caricati 57 utenti, 14 account cliente, 4540 clienti
+26/02/2026, 11:28:28:
+tempo di esecuzione
+Totale licenze restituite: 53
+26/02/2026, 11:28:28:
+tempo di esecuzione
+10:28:28 AM [express] GET /api/payments/payment-admin/licenses 200 in 3041ms :: [{"id":79,"code":"TRI…
