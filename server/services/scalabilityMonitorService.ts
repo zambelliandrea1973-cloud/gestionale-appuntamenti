@@ -1,9 +1,7 @@
-import nodemailer from 'nodemailer';
 import { db } from '../db';
 import { users, clients, appointments } from '../../shared/schema';
 import { sql } from 'drizzle-orm';
-
-const ADMIN_EMAIL = 'zambelli.andrea.1973@gmail.com';
+import { sendSystemEmail } from './systemEmailService';
 
 const THRESHOLDS = {
   TOTAL_USERS_WARNING: 500,
@@ -67,23 +65,21 @@ export const scalabilityMonitorService = {
 
   async sendWarningEmail(subject: string, htmlContent: string): Promise<boolean> {
     try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.SYSTEM_EMAIL_USER || 'gestionale.appuntamenti.noreply@gmail.com',
-          pass: process.env.SYSTEM_EMAIL_PASSWORD,
-        },
-      });
+      const [admin] = await db.select().from(users).where(sql`type = 'admin'`).limit(1);
+      const adminEmail = admin?.email || 'zambelli.andrea.1973@gmail.com';
 
-      await transporter.sendMail({
-        from: '"Gestionale Appuntamenti - Monitor" <gestionale.appuntamenti.noreply@gmail.com>',
-        to: ADMIN_EMAIL,
-        subject: `⚠️ SCALABILITY WARNING: ${subject}`,
-        html: htmlContent,
-      });
+      const result = await sendSystemEmail(
+        adminEmail,
+        `⚠️ SCALABILITY WARNING: ${subject}`,
+        htmlContent
+      );
 
-      console.log(`📧 [MONITOR] Warning email inviata: ${subject}`);
-      return true;
+      if (result.success) {
+        console.log(`📧 [MONITOR] Warning email inviata: ${subject}`);
+      } else {
+        console.error(`❌ [MONITOR] Errore invio email warning: ${result.error}`);
+      }
+      return result.success;
     } catch (error) {
       console.error(`❌ [MONITOR] Errore invio email warning:`, error);
       return false;
