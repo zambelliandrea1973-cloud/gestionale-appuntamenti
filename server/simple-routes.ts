@@ -9962,28 +9962,42 @@ Studio Professionale`;
         return res.status(400).json({ error: "Email richiesta" });
       }
 
-      // Verifica se l'utente esiste
-      const user = await storage.getUserByEmail(email);
-      if (!user) {
-        // Non rivelare se email esiste per sicurezza
+      console.log(`📧 [FORGOT-PASSWORD] Richiesta reset per: ${email}`);
+
+      // Cerca l'utente sia nella tabella users che staff
+      const [userRecord] = await db.select().from(users).where(eq(users.email, email));
+      const [staffRecord] = await db.select().from(staff).where(eq(staff.email, email));
+      
+      const isStaff = !userRecord && !!staffRecord;
+      const foundUser = userRecord || staffRecord;
+
+      if (!foundUser) {
+        console.log(`📧 [FORGOT-PASSWORD] Email non trovata: ${email}`);
         return res.status(200).json({ message: "Se l'email esiste, riceverai un link di reset" });
       }
+
+      console.log(`📧 [FORGOT-PASSWORD] Utente trovato: ID ${foundUser.id}, tabella: ${isStaff ? 'staff' : 'users'}`);
 
       // Genera token temporaneo (valido per 1 ora)
       const crypto = await import('crypto');
       const resetToken = crypto.randomBytes(32).toString('hex');
       const tokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 ora
 
-      // Salva il token nel database (aggiorna utente con resetToken e resetTokenExpiry)
+      // Salva il token nella tabella corretta (users o staff)
       try {
-        console.log(`📝 [DEBUG] Saving reset token for user ${user.id}: token=${resetToken}, expiry=${tokenExpiry}`);
-        await storage.updateUser(user.id, {
-          resetToken,
-          resetTokenExpiry: tokenExpiry
-        });
-        console.log(`✅ [DEBUG] Token saved successfully`);
+        console.log(`📝 [FORGOT-PASSWORD] Salvataggio token per ${isStaff ? 'staff' : 'user'} ID ${foundUser.id}`);
+        if (isStaff) {
+          await db.update(staff)
+            .set({ resetToken, resetTokenExpiry: tokenExpiry })
+            .where(eq(staff.id, foundUser.id));
+        } else {
+          await db.update(users)
+            .set({ resetToken, resetTokenExpiry: tokenExpiry })
+            .where(eq(users.id, foundUser.id));
+        }
+        console.log(`✅ [FORGOT-PASSWORD] Token salvato con successo`);
       } catch (updateError) {
-        console.error('❌ Errore nel salvataggio del token:', updateError);
+        console.error('❌ [FORGOT-PASSWORD] Errore nel salvataggio del token:', updateError);
         return res.status(500).json({ error: "Errore nel salvataggio della richiesta di reset" });
       }
 

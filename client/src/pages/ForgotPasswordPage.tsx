@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle, Loader2, ArrowLeft, Mail } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
@@ -29,29 +28,26 @@ export default function ForgotPasswordPage() {
 
     setIsLoading(true);
     try {
-      const response = await apiRequest("POST", "/api/forgot-password", { email });
-      if (response.ok) {
-        const data = await response.json();
+      const res = await fetch("/api/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
         setSuccessMessage(data.message || "Email di recupero inviata! Controlla la tua casella di posta.");
         toast({
           title: "Email inviata",
           description: "Controlla il tuo email per il link di reset password",
         });
-        // Clear form
         setEmail("");
-        // Redirect after 3 seconds
         setTimeout(() => navigate("/staff-login"), 3000);
       } else {
-        try {
-          const errorData = await response.json();
-          setError(errorData.error || "Errore durante l'invio dell'email.");
-        } catch {
-          const errorText = await response.text();
-          setError(errorText || "Errore durante l'invio dell'email. Riprova più tardi.");
-        }
+        setError(data.error || "Errore durante l'invio dell'email. Riprova più tardi.");
       }
-    } catch (err) {
-      setError("Errore durante l'invio dell'email. Riprova più tardi.");
+    } catch (err: any) {
+      setError(err.message || "Errore durante l'invio dell'email. Riprova più tardi.");
     } finally {
       setIsLoading(false);
     }
