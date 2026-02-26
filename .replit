@@ -36,7 +36,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "nohup npm run dev"
+args = "npm run dev"
 waitForPort = 5000
 
 [agent]
