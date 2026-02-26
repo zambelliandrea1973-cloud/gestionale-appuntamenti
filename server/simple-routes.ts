@@ -10017,49 +10017,43 @@ Studio Professionale`;
       `;
 
       try {
-        const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
-        const systemEmail = 'zambelli.andrea.1973@gmail.com';
-
+        const { getEmailConfig } = await import('./utils/emailConfig');
+        const [adminUser] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
+        
         let transporter: any;
+        let senderEmail: string = '';
 
-        if (systemPassword) {
-          console.log(`📧 [RESET PASSWORD] Usando account di sistema: ${systemEmail}`);
+        if (adminUser) {
+          const emailConfig = await getEmailConfig(adminUser.id);
+          if (emailConfig?.emailAddress && emailConfig?.emailPassword) {
+            console.log(`📧 [RESET PASSWORD] Usando credenziali admin: ${emailConfig.emailAddress}`);
+            senderEmail = emailConfig.emailAddress;
+            transporter = nodemailer.createTransport({
+              host: emailConfig.smtpServer || 'smtp.gmail.com',
+              port: emailConfig.smtpPort || 587,
+              secure: false,
+              auth: { user: emailConfig.emailAddress, pass: emailConfig.emailPassword }
+            });
+          }
+        }
+
+        if (!transporter) {
+          const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
+          if (!systemPassword) {
+            return res.status(500).json({ error: "Configurazione email non disponibile" });
+          }
+          senderEmail = 'zambelli.andrea.1973@gmail.com';
+          console.log(`📧 [RESET PASSWORD] Fallback account di sistema: ${senderEmail}`);
           transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
             secure: false,
-            auth: {
-              user: systemEmail,
-              pass: systemPassword.replace(/\s/g, '')
-            }
-          });
-        } else {
-          // Fallback: usa config email admin
-          const { getEmailConfig } = await import('./utils/emailConfig');
-          const [adminUser] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
-          if (!adminUser) {
-            console.warn(`⚠️ Email di reset non inviata: nessun admin trovato`);
-            return res.status(500).json({ error: "Configurazione email non disponibile" });
-          }
-          const emailConfig = await getEmailConfig(adminUser.id);
-          if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
-            console.warn(`⚠️ Email di reset non inviata a ${email}: credenziali non configurate`);
-            return res.status(500).json({ error: "Configurazione email non disponibile" });
-          }
-          console.log(`📧 [RESET PASSWORD] Fallback credenziali admin: ${emailConfig.emailAddress}`);
-          transporter = nodemailer.createTransport({
-            host: emailConfig.smtpServer || 'smtp.gmail.com',
-            port: emailConfig.smtpPort || 587,
-            secure: false,
-            auth: {
-              user: emailConfig.emailAddress,
-              pass: emailConfig.emailPassword
-            }
+            auth: { user: senderEmail, pass: systemPassword.replace(/\s/g, '') }
           });
         }
 
         await transporter.sendMail({
-          from: systemPassword ? 'zambelli.andrea.1973@gmail.com' : undefined,
+          from: `"Gestionale Appuntamenti" <${senderEmail}>`,
           to: email,
           subject: 'Recupero Password - Gestionale Appuntamenti',
           html: emailHtml

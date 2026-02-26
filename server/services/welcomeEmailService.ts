@@ -12,24 +12,41 @@ export const welcomeEmailService = {
     name?: string
   ): Promise<boolean> {
     try {
-      const adminEmailConfig = await getAdminEmailConfig();
-      
-      if (!adminEmailConfig) {
-        console.log('📧 [WELCOME EMAIL] Nessuna configurazione email admin disponibile, skip invio');
-        return false;
+      const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
+      const systemEmail = 'zambelli.andrea.1973@gmail.com';
+      let senderEmail: string;
+      let transporter: nodemailer.Transporter;
+
+      if (systemPassword) {
+        console.log(`📧 [WELCOME EMAIL] Usando account di sistema: ${systemEmail}`);
+        senderEmail = systemEmail;
+        transporter = nodemailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false,
+          auth: {
+            user: systemEmail,
+            pass: systemPassword.replace(/\s/g, ''),
+          },
+        });
+      } else {
+        const adminEmailConfig = await getAdminEmailConfig();
+        if (!adminEmailConfig) {
+          console.log('📧 [WELCOME EMAIL] Nessuna configurazione email disponibile, skip invio');
+          return false;
+        }
+        console.log(`📧 [WELCOME EMAIL] Fallback credenziali admin: ${adminEmailConfig.emailAddress}`);
+        senderEmail = adminEmailConfig.emailAddress;
+        transporter = nodemailer.createTransport({
+          host: adminEmailConfig.smtpServer || 'smtp.gmail.com',
+          port: adminEmailConfig.smtpPort || 587,
+          secure: false,
+          auth: {
+            user: adminEmailConfig.emailAddress,
+            pass: adminEmailConfig.emailPassword,
+          },
+        });
       }
-
-      console.log(`📧 [WELCOME EMAIL] Usando credenziali admin: ${adminEmailConfig.emailAddress}`);
-
-      const transporter = nodemailer.createTransport({
-        host: adminEmailConfig.smtpServer || 'smtp.gmail.com',
-        port: adminEmailConfig.smtpPort || 587,
-        secure: false,
-        auth: {
-          user: adminEmailConfig.emailAddress,
-          pass: adminEmailConfig.emailPassword,
-        },
-      });
 
       const displayName = name || username;
       const appUrl = process.env.PRODUCTION_DOMAIN || process.env.APP_BASE_URL || 'https://gestionale-appuntamenti.sliplane.app';
@@ -110,7 +127,7 @@ Grazie per aver scelto Gestionale Appuntamenti!
       `;
 
       const mailOptions = {
-        from: `"Gestionale Appuntamenti" <${adminEmailConfig.emailAddress}>`,
+        from: `"Gestionale Appuntamenti" <${senderEmail}>`,
         to: recipientEmail,
         subject: 'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
         text: textContent,
