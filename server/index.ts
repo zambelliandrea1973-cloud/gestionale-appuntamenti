@@ -6,8 +6,6 @@ import { storage } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 
-process.on('SIGHUP', () => console.log('⚠️ SIGHUP ricevuto - ignorato per mantenere il server attivo'));
-
 const app = express();
 
 // Configura Express per fidarsi del proxy (Replit) - necessario per HTTPS corretto

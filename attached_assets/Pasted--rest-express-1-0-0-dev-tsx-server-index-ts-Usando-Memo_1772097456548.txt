@@ -1,0 +1,80 @@
+
+> rest-express@1.0.0 dev
+> tsx server/index.ts
+
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+⚠️ [ENCRYPTION] ENCRYPTION_KEY non impostata, usando chiave di default (NON SICURO IN PRODUZIONE!)
+Servizio gestione telefono diretto inizializzato
+Debug OAuth URL: {
+  redirectUri: 'https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback'
+}
+Google OAuth callback URL: https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback
+Google Credentials: {
+  clientId: 'Present (first chars: 26403...)',
+  secretPresent: 'Present'
+}
+🔔 [PUSH] VAPID keys configurate correttamente
+✅ Icona Fleur de Vie caricata: 611937 bytes
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+🔐 [AUTH] Configurazione sessione: production=false, replit=true, sliplane=false
+🔐 [AUTH] Cookie settings: secure=true, sameSite=none
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+Tutti gli scheduler inizializzati
+✅ [ICON SYNC] Icone per utente 3 già presenti
+✅ [ICON SYNC] Icone per utente 14 già presenti
+✅ [ICON SYNC] Icone per utente 16 già presenti
+✅ [ICON SYNC] Icone per utente 27 già presenti
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+🔍 Controllo integrità all'avvio:
+   📅 Appuntamenti caricati: 50
+   👥 Clienti caricati: 40
+   🔍 Primi 3 appuntamenti: [
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+]
+✅ Controllo integrità completato
+✅ PostgreSQL database is available
+Telefono caricato dal database: +393472550110
+9:15:56 AM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 16 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra 2026-02-26T08:16:02.179Z e 2026-02-27T15:16:02.179Z
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+✅ [EMAIL SCHEDULER] Inviati 0/0 promemoria EMAIL
+✅ Job iniziale completato: inviati 0 promemoria
+9:16:05 AM [express] GET /api/timezone-settings 200 in 5ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:05 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+9:16:05 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:05 AM [express] GET /api/timezone-settings 304 in 3ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:05 AM [express] GET /api/user-with-license 401 in 4ms :: {"message":"Non autenticato"}
+9:16:05 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:05 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"UTC","off…
+9:16:05 AM [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"UTC","off…
+🔍 [MONITOR] Controllo soglie scalabilità...
+📊 [MONITOR] Stats: 57 utenti, 4540 clienti, 372 appuntamenti, max 0 clienti/utente
+✅ [MONITOR] Nessuna soglia critica raggiunta
+⚠️ SIGHUP ricevuto - ignorato per mantenere il server attivo
+9:16:23 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:23 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+9:16:23 AM [express] GET /api/timezone-settings 304 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+9:16:23 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+9:16:23 AM [express] POST /api/timezone-settings 200 in 3ms :: {"success":true,"timezone":"Europe/Zu…
+9:16:24 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+🔐 [LOGIN] IP: 10.83.10.61, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Sa
+🔐 [LOGIN] Headers: secure=true, protocol=https
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+🔐 [LOGIN] Session ID: WxY-ikxku3k5sHUFFUeG6iLz1hhpWstZ
+🔐 [LOGIN] Session saved: yes
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+9:16:39 AM [express] POST /api/staff/login 200 in 142ms :: {"id":3,"username":"zambelli.andrea.1973@…
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+📊 [SESSION-TRACKING] Accesso registrato per utente 3 (zambelli.andrea.1973@gmail.com) - pausa >30min
