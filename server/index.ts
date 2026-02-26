@@ -6,6 +6,24 @@ import { storage } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 
+// Impedisce al processo di terminare quando Replit invia SIGHUP per la gestione del container
+process.on('SIGHUP', () => {
+  console.log('🛡️ SIGHUP ricevuto - ignorato per stabilità del server');
+});
+
+// In sviluppo, intercetta process.exit(1) causato da errori esbuild/Vite
+// quando il processo riceve segnali di sistema
+if (process.env.NODE_ENV !== 'production') {
+  const _originalExit = process.exit;
+  process.exit = ((code?: number | string) => {
+    if (code === 1) {
+      console.log('🛡️ process.exit(1) intercettato in sviluppo - server continua a girare');
+      return undefined as never;
+    }
+    return _originalExit(code as number);
+  }) as typeof process.exit;
+}
+
 const app = express();
 
 // Configura Express per fidarsi del proxy (Replit) - necessario per HTTPS corretto
