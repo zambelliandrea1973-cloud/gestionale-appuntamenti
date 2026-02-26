@@ -10017,51 +10017,20 @@ Studio Professionale`;
       `;
 
       try {
-        const { getEmailConfig } = await import('./utils/emailConfig');
-        const [adminUser] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
-        
-        let transporter: any;
-        let senderEmail: string = '';
+        const { sendSystemEmail } = await import('./services/systemEmailService');
+        const result = await sendSystemEmail(
+          email,
+          'Recupero Password - Gestionale Appuntamenti',
+          emailHtml
+        );
 
-        if (adminUser) {
-          const emailConfig = await getEmailConfig(adminUser.id);
-          if (emailConfig?.emailAddress && emailConfig?.emailPassword) {
-            console.log(`📧 [RESET PASSWORD] Usando credenziali admin: ${emailConfig.emailAddress}`);
-            senderEmail = emailConfig.emailAddress;
-            transporter = nodemailer.createTransport({
-              host: emailConfig.smtpServer || 'smtp.gmail.com',
-              port: emailConfig.smtpPort || 587,
-              secure: false,
-              auth: { user: emailConfig.emailAddress, pass: emailConfig.emailPassword }
-            });
-          }
+        if (result.success) {
+          console.log(`✅ Email di reset password inviata a ${email} da ${result.senderEmail}`);
+          return res.status(200).json({ message: "Email di reset inviata. Controlla la tua casella di posta." });
+        } else {
+          console.error(`❌ Email di reset password fallita: ${result.error}`);
+          return res.status(500).json({ error: `Errore nell'invio dell'email: ${result.error}` });
         }
-
-        if (!transporter) {
-          const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
-          if (!systemPassword) {
-            return res.status(500).json({ error: "Configurazione email non disponibile" });
-          }
-          senderEmail = 'zambelli.andrea.1973@gmail.com';
-          console.log(`📧 [RESET PASSWORD] Fallback account di sistema: ${senderEmail}`);
-          transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            auth: { user: senderEmail, pass: systemPassword.replace(/\s/g, '') }
-          });
-        }
-
-        await transporter.sendMail({
-          from: `"Gestionale Appuntamenti" <${senderEmail}>`,
-          to: email,
-          subject: 'Recupero Password - Gestionale Appuntamenti',
-          html: emailHtml
-        });
-        
-        console.log(`✅ Email di reset password inviata a ${email}`);
-        return res.status(200).json({ message: "Email di reset inviata. Controlla la tua casella di posta." });
-        
       } catch (emailError: any) {
         console.error('❌ Errore nell\'invio email reset-password:', emailError);
         return res.status(500).json({ error: `Errore nell'invio dell'email: ${emailError.message}` });

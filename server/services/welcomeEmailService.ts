@@ -1,8 +1,4 @@
-import nodemailer from 'nodemailer';
-import { getEmailConfig } from '../utils/emailConfig';
-import { db } from '../db';
-import { users } from '../../shared/schema';
-import { eq } from 'drizzle-orm';
+import { sendSystemEmail } from './systemEmailService';
 
 export const welcomeEmailService = {
   async sendWelcomeEmail(
@@ -12,42 +8,6 @@ export const welcomeEmailService = {
     name?: string
   ): Promise<boolean> {
     try {
-      const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
-      const systemEmail = 'zambelli.andrea.1973@gmail.com';
-      let senderEmail: string;
-      let transporter: nodemailer.Transporter;
-
-      if (systemPassword) {
-        console.log(`📧 [WELCOME EMAIL] Usando account di sistema: ${systemEmail}`);
-        senderEmail = systemEmail;
-        transporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 587,
-          secure: false,
-          auth: {
-            user: systemEmail,
-            pass: systemPassword.replace(/\s/g, ''),
-          },
-        });
-      } else {
-        const adminEmailConfig = await getAdminEmailConfig();
-        if (!adminEmailConfig) {
-          console.log('📧 [WELCOME EMAIL] Nessuna configurazione email disponibile, skip invio');
-          return false;
-        }
-        console.log(`📧 [WELCOME EMAIL] Fallback credenziali admin: ${adminEmailConfig.emailAddress}`);
-        senderEmail = adminEmailConfig.emailAddress;
-        transporter = nodemailer.createTransport({
-          host: adminEmailConfig.smtpServer || 'smtp.gmail.com',
-          port: adminEmailConfig.smtpPort || 587,
-          secure: false,
-          auth: {
-            user: adminEmailConfig.emailAddress,
-            pass: adminEmailConfig.emailPassword,
-          },
-        });
-      }
-
       const displayName = name || username;
       const appUrl = process.env.PRODUCTION_DOMAIN || process.env.APP_BASE_URL || 'https://gestionale-appuntamenti.sliplane.app';
       
@@ -126,70 +86,22 @@ Accedi alla piattaforma: ${appUrl}
 Grazie per aver scelto Gestionale Appuntamenti!
       `;
 
-      const mailOptions = {
-        from: `"Gestionale Appuntamenti" <${senderEmail}>`,
-        to: recipientEmail,
-        subject: 'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
-        text: textContent,
-        html: htmlContent,
-      };
+      const result = await sendSystemEmail(
+        recipientEmail,
+        'Benvenuto in Gestionale Appuntamenti - Le tue credenziali di accesso',
+        htmlContent,
+        textContent
+      );
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`📧 [WELCOME EMAIL] Email di benvenuto inviata a ${recipientEmail}: ${info.messageId}`);
-      return true;
+      if (result.success) {
+        console.log(`📧 [WELCOME EMAIL] Email di benvenuto inviata a ${recipientEmail}`);
+      } else {
+        console.log(`📧 [WELCOME EMAIL] Email di benvenuto NON inviata a ${recipientEmail}: ${result.error}`);
+      }
+      return result.success;
     } catch (error: any) {
       console.error('📧 [WELCOME EMAIL] Errore invio email di benvenuto:', error.message);
-      console.error('📧 [WELCOME EMAIL] Dettagli errore:', {
-        code: error.code,
-        responseCode: error.responseCode,
-        command: error.command,
-        response: error.response,
-      });
       return false;
     }
   }
 };
-
-async function getAdminEmailConfig() {
-  try {
-    const admins = await db.select().from(users).where(eq(users.type, 'admin'));
-    if (!admins.length) {
-      console.log('📧 [WELCOME EMAIL] Nessun utente admin trovato nel database');
-      return null;
-    }
-    
-    console.log(`📧 [WELCOME EMAIL] Trovati ${admins.length} admin, cercando quello con SMTP configurato...`);
-    
-    const { userSettings } = await import('../../shared/schema');
-    
-    for (const admin of admins) {
-      console.log(`📧 [WELCOME EMAIL] Verifico admin ID ${admin.id} (${admin.username})...`);
-      
-      const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, admin.id)).limit(1);
-      
-      if (settings?.smtpEnabled && settings?.smtpEmail && settings?.smtpPasswordEncrypted) {
-        console.log(`📧 [WELCOME EMAIL] Admin ID ${admin.id} ha SMTP configurato nel DB, uso questo`);
-        const config = await getEmailConfig(admin.id);
-        if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
-          console.log(`📧 [WELCOME EMAIL] Config admin: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}, smtp=${config.smtpServer}:${config.smtpPort}`);
-          return config;
-        }
-      } else {
-        console.log(`📧 [WELCOME EMAIL] Admin ID ${admin.id} NON ha SMTP nel DB, salto`);
-      }
-    }
-    
-    console.log(`📧 [WELCOME EMAIL] Nessun admin con SMTP configurato nel DB, provo fallback con primo admin...`);
-    const config = await getEmailConfig(admins[0].id);
-    if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
-      console.log(`📧 [WELCOME EMAIL] Config fallback: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}`);
-      return config;
-    }
-    
-    console.log(`📧 [WELCOME EMAIL] Nessuna configurazione email valida trovata per nessun admin`);
-    return null;
-  } catch (error) {
-    console.error('📧 [WELCOME EMAIL] Errore caricamento config admin:', error);
-    return null;
-  }
-}
