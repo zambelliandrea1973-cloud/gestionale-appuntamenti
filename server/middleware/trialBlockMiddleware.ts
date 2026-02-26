@@ -72,11 +72,14 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
           '/api/client-app-info',    // Info app
           '/api/company-name-settings', // Impostazioni azienda
           '/api/contact-info',       // Info contatto
+          '/api/forgot-password',    // Recupero password (disponibile per tutti)
+          '/api/reset-password',     // Reset password con token
+          '/api/verify-reset-token', // Verifica token reset
+          '/api/register',           // Registrazione nuovi utenti
           '/manifest-admin.json',    // PWA manifest
           '/icon-proxy',             // Icone PWA
           '/pwa-icon',               // Icone PWA alternative
           '/api/license',            // API licenze (per mostrare info scadenza)
-          // Risorse statiche necessarie per caricare /subscribe
           '/@vite',                  // Vite HMR
           '/src/',                   // File sorgente React
           '/assets/',                // Asset compilati
