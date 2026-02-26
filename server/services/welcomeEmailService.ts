@@ -135,28 +135,41 @@ Grazie per aver scelto Gestionale Appuntamenti!
 
 async function getAdminEmailConfig() {
   try {
-    const [admin] = await db.select().from(users).where(eq(users.type, 'admin')).limit(1);
-    if (!admin) {
+    const admins = await db.select().from(users).where(eq(users.type, 'admin'));
+    if (!admins.length) {
       console.log('📧 [WELCOME EMAIL] Nessun utente admin trovato nel database');
       return null;
     }
     
-    console.log(`📧 [WELCOME EMAIL] Admin trovato: ID ${admin.id}, username: ${admin.username}`);
+    console.log(`📧 [WELCOME EMAIL] Trovati ${admins.length} admin, cercando quello con SMTP configurato...`);
     
-    const config = await getEmailConfig(admin.id);
+    const { userSettings } = await import('../../shared/schema');
     
-    if (!config) {
-      console.log(`📧 [WELCOME EMAIL] getEmailConfig ha restituito null per admin ID ${admin.id}`);
-      return null;
+    for (const admin of admins) {
+      console.log(`📧 [WELCOME EMAIL] Verifico admin ID ${admin.id} (${admin.username})...`);
+      
+      const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, admin.id)).limit(1);
+      
+      if (settings?.smtpEnabled && settings?.smtpEmail && settings?.smtpPasswordEncrypted) {
+        console.log(`📧 [WELCOME EMAIL] Admin ID ${admin.id} ha SMTP configurato nel DB, uso questo`);
+        const config = await getEmailConfig(admin.id);
+        if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
+          console.log(`📧 [WELCOME EMAIL] Config admin: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}, smtp=${config.smtpServer}:${config.smtpPort}`);
+          return config;
+        }
+      } else {
+        console.log(`📧 [WELCOME EMAIL] Admin ID ${admin.id} NON ha SMTP nel DB, salto`);
+      }
     }
     
-    console.log(`📧 [WELCOME EMAIL] Config admin: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}, smtp=${config.smtpServer}:${config.smtpPort}`);
-    
-    if (config.emailEnabled && config.emailAddress && config.emailPassword) {
+    console.log(`📧 [WELCOME EMAIL] Nessun admin con SMTP configurato nel DB, provo fallback con primo admin...`);
+    const config = await getEmailConfig(admins[0].id);
+    if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
+      console.log(`📧 [WELCOME EMAIL] Config fallback: enabled=${config.emailEnabled}, address=${config.emailAddress}, hasPassword=${!!config.emailPassword}`);
       return config;
     }
     
-    console.log(`📧 [WELCOME EMAIL] Config email admin (ID ${admin.id}) non completa o disabilitata`);
+    console.log(`📧 [WELCOME EMAIL] Nessuna configurazione email valida trovata per nessun admin`);
     return null;
   } catch (error) {
     console.error('📧 [WELCOME EMAIL] Errore caricamento config admin:', error);
