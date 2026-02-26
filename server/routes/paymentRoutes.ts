@@ -1305,34 +1305,57 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       .select()
       .from(clientAccounts);
       
-    console.log(`Caricati ${allUsers.length} utenti standard e ${allClientAccounts.length} client account`);
-    
-    // Carica tutti i clienti per recuperare informazioni aggiuntive
     const allClients = await db
       .select()
       .from(clients);
     
-    // Arricchisci i dati con informazioni sugli utenti
-    const enrichedLicenses = await Promise.all(mappedLicenses.map(async (license) => {
-      // Ottieni dati utente associato alla licenza
+    console.log(`Caricati ${allUsers.length} utenti, ${allClientAccounts.length} client account, ${allClients.length} clienti`);
+    
+    const allSubscriptions = await db
+      .select()
+      .from(subscriptions)
+      .orderBy(desc(subscriptions.createdAt));
+    
+    const allPlans = await db
+      .select()
+      .from(subscriptionPlans);
+    
+    const now = new Date();
+    const todayStart = new Date(now);
+    todayStart.setHours(0, 0, 0, 0);
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    weekAgo.setHours(0, 0, 0, 0);
+    
+    const allLoginCounts = await db
+      .select({ userId: userLogins.userId, loginAt: userLogins.loginAt })
+      .from(userLogins);
+    
+    const accessMap = new Map<number, { today: number; week: number; total: number }>();
+    for (const login of allLoginCounts) {
+      if (!login.userId) continue;
+      if (!accessMap.has(login.userId)) {
+        accessMap.set(login.userId, { today: 0, week: 0, total: 0 });
+      }
+      const entry = accessMap.get(login.userId)!;
+      entry.total++;
+      if (login.loginAt && login.loginAt >= weekAgo) entry.week++;
+      if (login.loginAt && login.loginAt >= todayStart) entry.today++;
+    }
+    
+    const enrichedLicenses = mappedLicenses.map((license) => {
       let user = null;
       let clientAccount = null;
       let client = null;
       
-      // Prima verifica se la licenza è associata a un utente standard
       if (license.userId) {
         user = allUsers.find(u => u.id === license.userId) || null;
       }
       
-      // Se non c'è un utente, cerca negli account client
       if (!user) {
-        // Cerca account cliente che potrebbe essere associato alla licenza
-        // Nota: potremmo non avere una relazione diretta, quindi cerchiamo per email
         for (const ca of allClientAccounts) {
-          // Per ora facciamo una ricerca basata sul codice licenza o altre corrispondenze
           if (ca.username && ca.username.includes(`${license.type}@`)) {
             clientAccount = ca;
-            // Trova cliente associato
             if (clientAccount.clientId) {
               client = allClients.find(c => c.id === clientAccount.clientId) || null;
             }
@@ -1341,36 +1364,16 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         }
       }
       
-      // Ottieni abbonamento associato all'utente
       let subscription = null;
       let plan = null;
       
       if (user) {
-        const subscriptionResult = await db
-          .select()
-          .from(subscriptions)
-          .where(eq(subscriptions.userId, user.id))
-          .orderBy(desc(subscriptions.createdAt))
-          .limit(1);
-        
-        if (subscriptionResult.length > 0) {
-          subscription = subscriptionResult[0];
-          
-          if (subscription.planId) {
-            const planResult = await db
-              .select()
-              .from(subscriptionPlans)
-              .where(eq(subscriptionPlans.id, subscription.planId))
-              .limit(1);
-            
-            if (planResult.length > 0) {
-              plan = planResult[0];
-            }
-          }
+        subscription = allSubscriptions.find(s => s.userId === user!.id) || null;
+        if (subscription?.planId) {
+          plan = allPlans.find(p => p.id === subscription!.planId) || null;
         }
       }
       
-      // Crea un oggetto utente unificato
       const unifiedUser = user ? {
         id: user.id,
         username: user.username,
@@ -1382,58 +1385,21 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         id: clientAccount.id,
         username: clientAccount.username,
         email: client?.email || null,
-        type: 'customer', // Per client accounts, usa 'customer'
+        type: 'customer' as const,
         role: 'customer',
         createdAt: clientAccount.createdAt,
-        // Info aggiuntive specifiche per clientAccount
         clientId: clientAccount.clientId,
         clientName: client ? `${client.firstName} ${client.lastName}` : null
       } : null;
       
-      // Conta gli accessi per questo utente (oggi, settimana, totale)
-      let accessToday = 0;
-      let accessWeek = 0;
-      let accessTotal = 0;
-      
-      if (license.userId) {
-        const now = new Date();
-        const todayStart = new Date(now);
-        todayStart.setHours(0, 0, 0, 0);
-        const weekAgo = new Date(now);
-        weekAgo.setDate(weekAgo.getDate() - 7);
-        weekAgo.setHours(0, 0, 0, 0);
-        
-        // Accessi oggi
-        const todayResult = await db
-          .select({ count: count() })
-          .from(userLogins)
-          .where(and(eq(userLogins.userId, license.userId), gte(userLogins.loginAt, todayStart)));
-        accessToday = todayResult[0]?.count || 0;
-        
-        // Accessi ultimi 7 giorni
-        const weekResult = await db
-          .select({ count: count() })
-          .from(userLogins)
-          .where(and(eq(userLogins.userId, license.userId), gte(userLogins.loginAt, weekAgo)));
-        accessWeek = weekResult[0]?.count || 0;
-        
-        // Accessi totali
-        const totalResult = await db
-          .select({ count: count() })
-          .from(userLogins)
-          .where(eq(userLogins.userId, license.userId));
-        accessTotal = totalResult[0]?.count || 0;
-      }
+      const access = license.userId ? accessMap.get(license.userId) || { today: 0, week: 0, total: 0 } : { today: 0, week: 0, total: 0 };
       
       return {
         ...license,
-        // Aggiungi dati utente
         user: unifiedUser,
-        // Aggiungi conteggio accessi (oggi, settimana, totale)
-        accessToday,
-        accessWeek,
-        accessTotal,
-        // Aggiungi dati abbonamento
+        accessToday: access.today,
+        accessWeek: access.week,
+        accessTotal: access.total,
         subscription: subscription ? {
           id: subscription.id,
           status: subscription.status,
@@ -1443,7 +1409,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
           currentPeriodEnd: subscription.currentPeriodEnd
         } : null
       };
-    }));
+    });
     
     // Aggiungi manualmente le licenze di test che potrebbero non essere nel database
     // ma sono state create nell'ambiente di test
