@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -37,7 +38,9 @@ import {
   Shield,
   Banknote,
   Loader2,
-  Activity
+  Activity,
+  Trash2,
+  MoreHorizontal
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
@@ -68,6 +71,9 @@ export default function PaymentAdmin() {
   const [extendingUserId, setExtendingUserId] = useState<number | null>(null);
   const [editingDateField, setEditingDateField] = useState<{ licenseId: number; field: 'created' | 'expiry' } | null>(null);
   const [accessStats, setAccessStats] = useState<{ today: number; week: number; total: number; uniqueToday: number; uniqueWeek: number } | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteTargetUser, setDeleteTargetUser] = useState<{ id: number; username: string } | null>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
   // Carica i dati automaticamente all'avvio del componente
   useEffect(() => {
@@ -243,6 +249,27 @@ export default function PaymentAdmin() {
         variant: 'destructive',
       });
       setEditingDateField(null);
+    },
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const response = await apiRequest("DELETE", `/api/admin-license/delete-user/${userId}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore nell'eliminazione dell'account");
+      }
+      return await response.json();
+    },
+    onSuccess: (data) => {
+      toast({ title: "Account eliminato", description: data.message || "L'account è stato eliminato con successo" });
+      setDeleteDialogOpen(false);
+      setDeleteTargetUser(null);
+      setDeleteConfirmText("");
+      fetchDashboardData();
+    },
+    onError: (error: any) => {
+      toast({ title: "Errore", description: error.message || "Impossibile eliminare l'account", variant: "destructive" });
     },
   });
 
@@ -798,25 +825,49 @@ export default function PaymentAdmin() {
                                 
                                 <div>
                                   <p className="text-xs text-muted-foreground mb-1">Azioni</p>
-                                  {license.type === 'trial' && license.user?.id ? (
-                                    <Button
-                                      size="sm"
-                                      className="h-8 w-full"
-                                      onClick={() => extendTrialMutation.mutate(license.user.id)}
-                                      disabled={extendingUserId === license.user.id}
-                                      data-testid={`button-extend-trial-${license.user.id}`}
-                                    >
-                                      {extendingUserId === license.user.id ? (
-                                        <><Loader2 className="w-3 h-3 mr-1 animate-spin" /><span className="text-xs">Estendendo...</span></>
-                                      ) : (
-                                        <span className="text-xs">+40 giorni</span>
-                                      )}
-                                    </Button>
-                                  ) : (
-                                    <div className="h-8 flex items-center justify-center">
-                                      <span className="text-xs text-muted-foreground">-</span>
-                                    </div>
-                                  )}
+                                  <div className="flex items-center gap-1">
+                                    {license.type === 'trial' && license.user?.id ? (
+                                      <Button
+                                        size="sm"
+                                        className="h-8 flex-1"
+                                        onClick={() => extendTrialMutation.mutate(license.user.id)}
+                                        disabled={extendingUserId === license.user.id}
+                                        data-testid={`button-extend-trial-${license.user.id}`}
+                                      >
+                                        {extendingUserId === license.user.id ? (
+                                          <><Loader2 className="w-3 h-3 mr-1 animate-spin" /><span className="text-xs">Estendendo...</span></>
+                                        ) : (
+                                          <span className="text-xs">+40 giorni</span>
+                                        )}
+                                      </Button>
+                                    ) : (
+                                      <div className="h-8 flex-1" />
+                                    )}
+                                    {license.user?.id && (
+                                      <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 shrink-0">
+                                            <MoreHorizontal className="h-4 w-4" />
+                                          </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                          <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                                          <DropdownMenuSeparator />
+                                          <DropdownMenuItem
+                                            className="text-destructive focus:text-destructive"
+                                            onClick={() => {
+                                              setDeleteTargetUser({ id: license.user.id, username: license.user.username || license.user.email || `Utente ${license.user.id}` });
+                                              setDeleteConfirmText("");
+                                              setDeleteDialogOpen(true);
+                                            }}
+                                          >
+                                            <Trash2 className="h-4 w-4 mr-2" />
+                                            Elimina account
+                                          </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                      </DropdownMenu>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </CardContent>
@@ -1115,6 +1166,48 @@ export default function PaymentAdmin() {
           </Tabs>
         </div>
       )}
+
+      <Dialog open={deleteDialogOpen} onOpenChange={(open) => {
+        setDeleteDialogOpen(open);
+        if (!open) { setDeleteTargetUser(null); setDeleteConfirmText(""); }
+      }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <Trash2 className="h-5 w-5" /> Elimina Account
+            </DialogTitle>
+            <DialogDescription>
+              Stai per eliminare definitivamente l'account <strong>{deleteTargetUser?.username}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2 py-2">
+            <Label htmlFor="confirm-delete-payment">
+              Digita <strong>{deleteTargetUser?.username}</strong> per confermare:
+            </Label>
+            <Input
+              id="confirm-delete-payment"
+              value={deleteConfirmText}
+              onChange={(e) => setDeleteConfirmText(e.target.value)}
+              placeholder={deleteTargetUser?.username}
+              disabled={deleteUserMutation.isPending}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setDeleteDialogOpen(false); setDeleteTargetUser(null); setDeleteConfirmText(""); }} disabled={deleteUserMutation.isPending}>
+              Annulla
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => { if (deleteTargetUser) deleteUserMutation.mutate(deleteTargetUser.id); }}
+              disabled={deleteUserMutation.isPending || deleteConfirmText !== deleteTargetUser?.username}
+            >
+              {deleteUserMutation.isPending ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Eliminazione...</>
+              ) : "Elimina definitivamente"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

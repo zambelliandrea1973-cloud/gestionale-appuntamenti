@@ -1,5 +1,5 @@
 # Single-stage build - use tsx like Replit does
-# Cache bust: 2026-02-26-11:00 - Force rebuild for delete account + license optimization
+# Cache bust: 2026-02-26-12:00 - Add delete account button to PaymentAdmin Licenze tab
 FROM node:20-alpine
 
 WORKDIR /app
@@ -14,7 +14,7 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN npm ci
 
 # Force cache invalidation - change this date to rebuild
-ARG CACHE_DATE=2026-02-26-11:00
+ARG CACHE_DATE=2026-02-26-12:00
 RUN echo "Build timestamp: ${CACHE_DATE}"
 
 # Copy ALL source code
