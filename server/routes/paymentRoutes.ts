@@ -1327,20 +1327,37 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
     weekAgo.setDate(weekAgo.getDate() - 7);
     weekAgo.setHours(0, 0, 0, 0);
     
-    const allLoginCounts = await db
-      .select({ userId: userLogins.userId, loginAt: userLogins.loginAt })
-      .from(userLogins);
+    const totalCounts = await db
+      .select({ userId: userLogins.userId, cnt: count() })
+      .from(userLogins)
+      .groupBy(userLogins.userId);
+    
+    const weekCounts = await db
+      .select({ userId: userLogins.userId, cnt: count() })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, weekAgo))
+      .groupBy(userLogins.userId);
+    
+    const todayCounts = await db
+      .select({ userId: userLogins.userId, cnt: count() })
+      .from(userLogins)
+      .where(gte(userLogins.loginAt, todayStart))
+      .groupBy(userLogins.userId);
     
     const accessMap = new Map<number, { today: number; week: number; total: number }>();
-    for (const login of allLoginCounts) {
-      if (!login.userId) continue;
-      if (!accessMap.has(login.userId)) {
-        accessMap.set(login.userId, { today: 0, week: 0, total: 0 });
-      }
-      const entry = accessMap.get(login.userId)!;
-      entry.total++;
-      if (login.loginAt && login.loginAt >= weekAgo) entry.week++;
-      if (login.loginAt && login.loginAt >= todayStart) entry.today++;
+    for (const r of totalCounts) {
+      if (!r.userId) continue;
+      accessMap.set(r.userId, { today: 0, week: 0, total: Number(r.cnt) });
+    }
+    for (const r of weekCounts) {
+      if (!r.userId) continue;
+      const entry = accessMap.get(r.userId);
+      if (entry) entry.week = Number(r.cnt);
+    }
+    for (const r of todayCounts) {
+      if (!r.userId) continue;
+      const entry = accessMap.get(r.userId);
+      if (entry) entry.today = Number(r.cnt);
     }
     
     const enrichedLicenses = mappedLicenses.map((license) => {
