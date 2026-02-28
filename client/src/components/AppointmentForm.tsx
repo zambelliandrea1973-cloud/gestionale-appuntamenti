@@ -1,3 +1,4 @@
+import { useLocation } from "wouter";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -94,6 +95,7 @@ export default function AppointmentForm({
   selectedSlots = [],
 }: AppointmentFormProps) {
   const { toast } = useToast();
+  const [, navigate] = useLocation();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [clientSearchTerm, setClientSearchTerm] = useState("");
   const [serviceSearchTerm, setServiceSearchTerm] = useState("");
@@ -969,16 +971,18 @@ export default function AppointmentForm({
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {t('calendar.noServicesAvailable', 'Nessun servizio disponibile')}
                                 </p>
-                                <a 
-                                  href="/settings"
+                                <button 
+                                  type="button"
                                   className="text-sm text-primary font-medium hover:underline cursor-pointer"
                                   onMouseDown={(e) => {
                                     e.preventDefault();
-                                    window.location.href = '/settings';
+                                    e.stopPropagation();
+                                    if (onClose) onClose();
+                                    navigate('/settings');
                                   }}
                                 >
                                   {t('calendar.goToSettingsToCreateService', 'Vai alle Impostazioni per creare un servizio')}
-                                </a>
+                                </button>
                               </div>
                             ) : filteredServices.length === 0 ? (
                               <div className="p-3 text-center text-sm text-muted-foreground">

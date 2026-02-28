@@ -177,7 +177,7 @@
   "services": {
     "title": "Service Management",
     "description": "Manage services offered by your business.",
-    "newService": "New Service",
+    "newService": "Save New Service",
     "createInstruction": "Fill in the new service you want to create and save with the button",
     "serviceName": "Service name",
     "durationMin": "Duration (min)",

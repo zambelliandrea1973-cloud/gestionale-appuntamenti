@@ -177,7 +177,7 @@
   "services": {
     "title": "Dienstverwaltung",
     "description": "Verwalten Sie die von Ihrem Unternehmen angebotenen Dienste.",
-    "newService": "Neuer Dienst",
+    "newService": "Neuen Dienst Speichern",
     "createInstruction": "Füllen Sie den neuen Dienst aus, den Sie erstellen möchten, und speichern Sie mit der Schaltfläche",
     "serviceName": "Dienstname",
     "durationMin": "Dauer (min)",

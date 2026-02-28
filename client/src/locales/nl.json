@@ -177,7 +177,7 @@
   "services": {
     "title": "Dienstenbeheer",
     "description": "Beheer de diensten die door uw bedrijf worden aangeboden.",
-    "newService": "Nieuwe Dienst",
+    "newService": "Nieuwe Dienst Opslaan",
     "createInstruction": "Vul de nieuwe dienst in die u wilt aanmaken en sla op met de knop",
     "serviceName": "Dienstnaam",
     "durationMin": "Duur (min)",

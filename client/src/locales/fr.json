@@ -177,7 +177,7 @@
   "services": {
     "title": "Gestion des Services",
     "description": "Gérez les services proposés par votre entreprise.",
-    "newService": "Nouveau Service",
+    "newService": "Enregistrer Nouveau Service",
     "createInstruction": "Remplissez le nouveau service que vous souhaitez créer et enregistrez avec le bouton",
     "serviceName": "Nom du service",
     "durationMin": "Durée (min)",

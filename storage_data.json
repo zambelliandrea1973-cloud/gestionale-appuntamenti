@@ -24961,6 +24961,24 @@
       "timestamp": "2026-01-24T09:54:04.049Z",
       "read": false,
       "channel": "app"
+    },
+    {
+      "id": 1772204401373,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Bendaggio%20gambe%20%2B%20Massaggio%20del%2001%2F03%2F2026%20alle%20ore%2009%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2026-02-27T15:00:01.373Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1772204401750,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20bio%20bicom%20con%20monica%20bellucci%20del%2001%2F03%2F2026%20alle%20ore%2009%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2026-02-27T15:00:01.750Z",
+      "read": false,
+      "channel": "app"
     }
   ],
   "productCategories": [

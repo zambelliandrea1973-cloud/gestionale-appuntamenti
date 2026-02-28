@@ -219,7 +219,7 @@ export default function SimpleServiceManager() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4 italic">
-            {t('services.createInstruction')} <span className="font-semibold">+{t('services.newService')}</span>
+            {t('services.createInstruction')} <span className="font-semibold">{t('services.newService')}</span>
           </p>
           
           {/* Form per nuovo servizio */}

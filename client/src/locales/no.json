@@ -177,7 +177,7 @@
   "services": {
     "title": "Tjenestestyring",
     "description": "Administrer tjenestene som tilbys av din virksomhet.",
-    "newService": "Ny Tjeneste",
+    "newService": "Lagre Ny Tjeneste",
     "createInstruction": "Fyll ut den nye tjenesten du ønsker å opprette og lagre med knappen",
     "serviceName": "Tjenestenavn",
     "durationMin": "Varighet (min)",

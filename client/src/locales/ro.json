@@ -177,7 +177,7 @@
   "services": {
     "title": "Gestionare Servicii",
     "description": "Gestionează serviciile oferite de afacerea ta.",
-    "newService": "Serviciu Nou",
+    "newService": "Salvare Serviciu Nou",
     "createInstruction": "Completează noul serviciu pe care vrei să-l creezi și salvează cu butonul",
     "serviceName": "Nume serviciu",
     "durationMin": "Durată (min)",

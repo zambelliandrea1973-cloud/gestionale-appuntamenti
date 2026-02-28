@@ -177,7 +177,7 @@
   "services": {
     "title": "Gestión de Servicios",
     "description": "Gestiona los servicios ofrecidos por tu negocio.",
-    "newService": "Nuevo Servicio",
+    "newService": "Guardar Nuevo Servicio",
     "createInstruction": "Completa el nuevo servicio que deseas crear y guárdalo con el botón",
     "serviceName": "Nombre del servicio",
     "durationMin": "Duración (min)",
