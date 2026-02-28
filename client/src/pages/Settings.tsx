@@ -39,12 +39,20 @@ export default function Settings() {
   
   // Recupera la tab selezionata da localStorage quando il componente viene montato
   useEffect(() => {
-    const savedTab = localStorage.getItem('settings_active_tab');
-    console.log("🔧 SETTINGS: Tab salvata in localStorage:", savedTab);
-    if (savedTab) {
-      setActiveTab(savedTab);
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get('section');
+    if (section === 'services') {
+      setActiveTab('app');
+      setTimeout(() => {
+        const el = document.getElementById('service-manager-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    } else {
+      const savedTab = localStorage.getItem('settings_active_tab');
+      if (savedTab) {
+        setActiveTab(savedTab);
+      }
     }
-    console.log("🔧 SETTINGS: Tab attiva impostata a:", savedTab || "app");
   }, []);
 
   // Debug del tab attivo
@@ -134,7 +142,9 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              <SimpleServiceManager />
+              <div id="service-manager-section">
+                <SimpleServiceManager />
+              </div>
               
               <div className="pt-6 mt-6 border-t">
                 <CurrencySelector />

@@ -978,7 +978,7 @@ export default function AppointmentForm({
                                     e.preventDefault();
                                     e.stopPropagation();
                                     if (onClose) onClose();
-                                    navigate('/settings');
+                                    navigate('/settings?section=services');
                                   }}
                                 >
                                   {t('calendar.goToSettingsToCreateService', 'Vai alle Impostazioni per creare un servizio')}
