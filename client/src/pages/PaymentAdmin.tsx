@@ -716,8 +716,8 @@ export default function PaymentAdmin() {
                               <Separator className="my-3" />
                               
                               {/* Seconda Riga: Date e Giorni Rimanenti */}
-                              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-                                <div>
+                              <div className="grid grid-cols-3 gap-2 items-end">
+                                <div className="min-w-0">
                                   <p className="text-xs text-muted-foreground mb-1">Data Creazione</p>
                                   <Popover>
                                     <PopoverTrigger asChild>
@@ -730,8 +730,8 @@ export default function PaymentAdmin() {
                                         )}
                                         data-testid={`edit-created-${license.id}`}
                                       >
-                                        <Calendar className="mr-2 h-3 w-3" />
-                                        <span className="text-xs">{license.createdAt ? formatDate(license.createdAt) : "Seleziona"}</span>
+                                        <Calendar className="mr-1 h-3 w-3 shrink-0" />
+                                        <span className="text-xs truncate">{license.createdAt ? formatDate(license.createdAt) : "Seleziona"}</span>
                                       </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0" align="start">
@@ -753,7 +753,7 @@ export default function PaymentAdmin() {
                                   </Popover>
                                 </div>
                                 
-                                <div>
+                                <div className="min-w-0">
                                   <p className="text-xs text-muted-foreground mb-1">Scadenza</p>
                                   {license.type === 'passepartout' && !license.expiresAt ? (
                                     <div className="h-8 flex items-center">
@@ -771,8 +771,8 @@ export default function PaymentAdmin() {
                                           )}
                                           data-testid={`edit-expiry-${license.id}`}
                                         >
-                                          <Calendar className="mr-2 h-3 w-3" />
-                                          <span className="text-xs">{license.expiresAt ? formatDate(license.expiresAt) : "Seleziona"}</span>
+                                          <Calendar className="mr-1 h-3 w-3 shrink-0" />
+                                          <span className="text-xs truncate">{license.expiresAt ? formatDate(license.expiresAt) : "Seleziona"}</span>
                                         </Button>
                                       </PopoverTrigger>
                                       <PopoverContent className="w-auto p-0" align="start">
@@ -796,7 +796,7 @@ export default function PaymentAdmin() {
                                   )}
                                 </div>
                                 
-                                <div className="md:col-span-2">
+                                <div className="min-w-0">
                                   <p className="text-xs text-muted-foreground mb-1">Giorni Rimanenti</p>
                                   {daysLeft !== null ? (
                                     <div className="flex flex-col">
