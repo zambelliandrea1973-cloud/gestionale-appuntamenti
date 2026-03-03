@@ -2,6 +2,53 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
+const requestQueue: Array<{
+  resolve: (value: any) => void;
+  reject: (error: any) => void;
+  fn: () => Promise<any>;
+}> = [];
+let activeRequests = 0;
+const MAX_CONCURRENT = 10;
+const MIN_INTERVAL_MS = 4500;
+let lastRequestTime = 0;
+
+async function processQueue() {
+  if (requestQueue.length === 0 || activeRequests >= MAX_CONCURRENT) return;
+
+  const now = Date.now();
+  const waitTime = Math.max(0, lastRequestTime + MIN_INTERVAL_MS - now);
+
+  if (waitTime > 0) {
+    setTimeout(() => processQueue(), waitTime);
+    return;
+  }
+
+  const item = requestQueue.shift();
+  if (!item) return;
+
+  activeRequests++;
+  lastRequestTime = Date.now();
+
+  try {
+    const result = await item.fn();
+    item.resolve(result);
+  } catch (error) {
+    item.reject(error);
+  } finally {
+    activeRequests--;
+    if (requestQueue.length > 0) {
+      setTimeout(() => processQueue(), MIN_INTERVAL_MS);
+    }
+  }
+}
+
+function enqueueRequest<T>(fn: () => Promise<T>): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    requestQueue.push({ resolve, reject, fn });
+    processQueue();
+  });
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
@@ -48,110 +95,124 @@ Per ricerche online, indica chiaramente che stai cercando informazioni.
 Per suggerimenti generali, fornisci consigli pratici e applicabili.`;
 
 export async function processChatMessage(request: ChatRequest): Promise<AIResponse> {
-  try {
-    console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
-    
-    if (!process.env.GEMINI_API_KEY) {
-      console.error('❌ [AI CHAT] GEMINI_API_KEY non configurata');
-      return {
-        message: 'Il servizio AI non è configurato. Contatta l\'amministratore.',
-        intent: 'general'
-      };
-    }
-
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-    const chatHistory = request.messages
-      .filter(m => m.role !== 'system')
-      .map(m => ({
-        role: m.role === 'assistant' ? 'model' as const : 'user' as const,
-        parts: [{ text: m.content }]
-      }));
-
-    const lastUserMessage = chatHistory.pop();
-    if (!lastUserMessage) {
-      return { message: 'Nessun messaggio da processare.', intent: 'general' };
-    }
-
-    const chat = model.startChat({
-      history: chatHistory.length > 0 ? chatHistory : undefined,
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 1000,
-      },
-    });
-
-    const prompt = chatHistory.length === 0
-      ? `${SYSTEM_PROMPT}\n\n${lastUserMessage.parts[0].text}`
-      : lastUserMessage.parts[0].text;
-
-    const result = await chat.sendMessage(prompt);
-    const aiMessage = result.response.text() || 'Mi dispiace, non sono riuscito a processare la richiesta.';
-    
-    console.log('✅ [AI CHAT] Risposta ricevuta da Gemini');
-
-    const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
-    const preview = extractMessagePreview(aiMessage);
-
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('❌ [AI CHAT] GEMINI_API_KEY non configurata');
     return {
-      message: aiMessage,
-      intent,
-      actionRequired: !!preview,
-      preview
-    };
-
-  } catch (error: any) {
-    console.error('❌ [AI CHAT] Errore:', error.message);
-    
-    if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('RATE_LIMIT') || error.message?.includes('RESOURCE_EXHAUSTED')) {
-      console.log('⏳ [AI CHAT] Rate limit raggiunto, riprovo tra 3 secondi...');
-      try {
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-        const retryResult = await model.generateContent(
-          SYSTEM_PROMPT + '\n\n' + request.messages[request.messages.length - 1].content
-        );
-        const retryMessage = retryResult.response.text();
-        if (retryMessage) {
-          console.log('✅ [AI CHAT] Retry riuscito');
-          const intent = detectIntent(request.messages[request.messages.length - 1].content, retryMessage);
-          return { message: retryMessage, intent };
-        }
-      } catch (retryError: any) {
-        console.error('❌ [AI CHAT] Anche il retry ha fallito:', retryError.message);
-      }
-      return {
-        message: 'Il servizio è momentaneamente sovraccarico. Riprova tra 30 secondi.',
-        intent: 'general'
-      };
-    }
-
-    return {
-      message: 'Mi dispiace, si è verificato un errore. Riprova tra poco.',
+      message: 'Il servizio AI non è configurato. Contatta l\'amministratore.',
       intent: 'general'
     };
   }
+
+  const queueSize = requestQueue.length;
+  if (queueSize > 50) {
+    return {
+      message: 'Il servizio AI è molto richiesto in questo momento. Riprova tra qualche minuto.',
+      intent: 'general'
+    };
+  }
+
+  if (queueSize > 0) {
+    console.log(`⏳ [AI CHAT] Richiesta in coda (posizione ${queueSize + 1})`);
+  }
+
+  return enqueueRequest(async () => {
+    try {
+      console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
+
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+      const chatHistory = request.messages
+        .filter(m => m.role !== 'system')
+        .map(m => ({
+          role: m.role === 'assistant' ? 'model' as const : 'user' as const,
+          parts: [{ text: m.content }]
+        }));
+
+      const lastUserMessage = chatHistory.pop();
+      if (!lastUserMessage) {
+        return { message: 'Nessun messaggio da processare.', intent: 'general' } as AIResponse;
+      }
+
+      const chat = model.startChat({
+        history: chatHistory.length > 0 ? chatHistory : undefined,
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1000,
+        },
+      });
+
+      const prompt = chatHistory.length === 0
+        ? `${SYSTEM_PROMPT}\n\n${lastUserMessage.parts[0].text}`
+        : lastUserMessage.parts[0].text;
+
+      const result = await chat.sendMessage(prompt);
+      const aiMessage = result.response.text() || 'Mi dispiace, non sono riuscito a processare la richiesta.';
+
+      console.log('✅ [AI CHAT] Risposta ricevuta da Gemini');
+
+      const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
+      const preview = extractMessagePreview(aiMessage);
+
+      return {
+        message: aiMessage,
+        intent,
+        actionRequired: !!preview,
+        preview
+      } as AIResponse;
+
+    } catch (error: any) {
+      console.error('❌ [AI CHAT] Errore:', error.message);
+
+      if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('RATE_LIMIT') || error.message?.includes('RESOURCE_EXHAUSTED')) {
+        console.log('⏳ [AI CHAT] Rate limit, riprovo tra 5 secondi...');
+        try {
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+          const retryResult = await model.generateContent(
+            SYSTEM_PROMPT + '\n\n' + request.messages[request.messages.length - 1].content
+          );
+          const retryMessage = retryResult.response.text();
+          if (retryMessage) {
+            console.log('✅ [AI CHAT] Retry riuscito');
+            const intent = detectIntent(request.messages[request.messages.length - 1].content, retryMessage);
+            return { message: retryMessage, intent } as AIResponse;
+          }
+        } catch (retryError: any) {
+          console.error('❌ [AI CHAT] Anche il retry ha fallito:', retryError.message);
+        }
+        return {
+          message: 'Il servizio è momentaneamente sovraccarico. Riprova tra 30 secondi.',
+          intent: 'general'
+        } as AIResponse;
+      }
+
+      return {
+        message: 'Mi dispiace, si è verificato un errore. Riprova tra poco.',
+        intent: 'general'
+      } as AIResponse;
+    }
+  });
 }
 
 function detectIntent(userMessage: string, aiResponse: string): AIResponse['intent'] {
   const lowerMessage = userMessage.toLowerCase();
-  
-  if (lowerMessage.includes('genera') || lowerMessage.includes('scrivi') || 
+
+  if (lowerMessage.includes('genera') || lowerMessage.includes('scrivi') ||
       lowerMessage.includes('messaggio') || lowerMessage.includes('reminder') ||
       lowerMessage.includes('promemoria') || lowerMessage.includes('notifica')) {
     return 'generate_message';
   }
-  
-  if (lowerMessage.includes('cerca') || lowerMessage.includes('trova') || 
+
+  if (lowerMessage.includes('cerca') || lowerMessage.includes('trova') ||
       lowerMessage.includes('informazioni su') || lowerMessage.includes('cos\'è')) {
     return 'search_info';
   }
-  
-  if (lowerMessage.includes('suggerisci') || lowerMessage.includes('consiglia') || 
+
+  if (lowerMessage.includes('suggerisci') || lowerMessage.includes('consiglia') ||
       lowerMessage.includes('come posso') || lowerMessage.includes('migliorare')) {
     return 'suggestion';
   }
-  
+
   return 'general';
 }
 
@@ -166,7 +227,7 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
         recipient: preview.recipient
       };
     }
-    
+
     const messageMatch = aiResponse.match(/(?:messaggio:|testo:)\s*"([^"]+)"/i);
     if (messageMatch) {
       return {
@@ -174,7 +235,7 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
         content: messageMatch[1]
       };
     }
-    
+
     return undefined;
   } catch {
     return undefined;
@@ -182,20 +243,21 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
 }
 
 export async function generateMarketingCampaign(userPrompt: string): Promise<{ title: string; message: string }> {
-  try {
-    console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
-    
-    if (!process.env.GEMINI_API_KEY) {
-      return {
-        title: 'Servizio AI non configurato',
-        message: 'Contatta l\'amministratore per configurare il servizio AI.'
-      };
-    }
+  if (!process.env.GEMINI_API_KEY) {
+    return {
+      title: 'Servizio AI non configurato',
+      message: 'Contatta l\'amministratore per configurare il servizio AI.'
+    };
+  }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+  return enqueueRequest(async () => {
+    try {
+      console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
 
-    const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
-    
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+      const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
+
 Il tuo compito è creare campagne marketing professionali, convincenti e personalizzate.
 
 FORMATO RISPOSTA:
@@ -217,49 +279,52 @@ LINEE GUIDA PER IL MESSAGGIO:
 Ora genera la campagna basata sulla richiesta dell'utente:
 ${userPrompt}`;
 
-    const result = await model.generateContent(prompt);
-    const aiResponse = result.response.text() || '';
-    console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
+      const result = await model.generateContent(prompt);
+      const aiResponse = result.response.text() || '';
+      console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
 
-    const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
-    if (jsonMatch) {
-      const campaign = JSON.parse(jsonMatch[0]);
+      const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
+      if (jsonMatch) {
+        const campaign = JSON.parse(jsonMatch[0]);
+        return {
+          title: campaign.title.substring(0, 60),
+          message: campaign.message.substring(0, 500)
+        };
+      }
+
       return {
-        title: campaign.title.substring(0, 60),
-        message: campaign.message.substring(0, 500)
+        title: 'Nuova Comunicazione ai Clienti',
+        message: aiResponse.substring(0, 500) || 'Messaggio generato con AI'
+      };
+
+    } catch (error: any) {
+      console.error('❌ [AI CAMPAIGN] Errore:', error.message);
+
+      return {
+        title: 'Nuova Campagna Marketing',
+        message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
       };
     }
-
-    return {
-      title: 'Nuova Comunicazione ai Clienti',
-      message: aiResponse.substring(0, 500) || 'Messaggio generato con AI'
-    };
-
-  } catch (error: any) {
-    console.error('❌ [AI CAMPAIGN] Errore:', error.message);
-    
-    return {
-      title: 'Nuova Campagna Marketing',
-      message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
-    };
-  }
+  });
 }
 
 export async function searchOnlineInfo(query: string): Promise<string> {
-  try {
-    if (!process.env.GEMINI_API_KEY) {
-      return 'Il servizio AI non è configurato.';
-    }
-
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-    const result = await model.generateContent(
-      `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
-    );
-
-    return result.response.text() || 'Nessuna informazione trovata.';
-  } catch (error) {
-    console.error('❌ [AI SEARCH] Errore ricerca:', error);
-    return 'Mi dispiace, non sono riuscito a trovare informazioni al momento.';
+  if (!process.env.GEMINI_API_KEY) {
+    return 'Il servizio AI non è configurato.';
   }
+
+  return enqueueRequest(async () => {
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+      const result = await model.generateContent(
+        `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
+      );
+
+      return result.response.text() || 'Nessuna informazione trovata.';
+    } catch (error) {
+      console.error('❌ [AI SEARCH] Errore ricerca:', error);
+      return 'Mi dispiace, non sono riuscito a trovare informazioni al momento.';
+    }
+  });
 }
