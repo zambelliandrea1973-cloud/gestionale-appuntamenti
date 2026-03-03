@@ -119,7 +119,7 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
     try {
       console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
 
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const chatHistory = request.messages
         .filter(m => m.role !== 'system')
@@ -167,7 +167,7 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
         console.log('⏳ [AI CHAT] Rate limit, riprovo tra 5 secondi...');
         try {
           await new Promise(resolve => setTimeout(resolve, 5000));
-          const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
+          const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
           const retryResult = await model.generateContent(
             SYSTEM_PROMPT + '\n\n' + request.messages[request.messages.length - 1].content
           );
@@ -254,7 +254,7 @@ export async function generateMarketingCampaign(userPrompt: string): Promise<{ t
     try {
       console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
 
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
 
@@ -315,7 +315,7 @@ export async function searchOnlineInfo(query: string): Promise<string> {
 
   return enqueueRequest(async () => {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const result = await model.generateContent(
         `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
