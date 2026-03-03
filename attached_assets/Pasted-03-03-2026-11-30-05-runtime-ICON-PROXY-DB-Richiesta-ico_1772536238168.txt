@@ -1,0 +1,3492 @@
+03/03/2026, 11:30:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 11:30:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 11:30:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 11:30:05:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+03/03/2026, 11:30:05:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 11:30:05:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+03/03/2026, 11:30:05:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927, custom: true
+03/03/2026, 11:30:05:
+runtime
+10:30:05 AM [express] GET /api/client-app-info 200 in 1093ms :: {"appName":"Gestionale Appuntamenti",…
+03/03/2026, 11:30:05:
+runtime
+10:30:05 AM [express] GET /api/tenant-context 200 in 232ms :: {"userId":3,"userType":"admin","tenantI…
+03/03/2026, 11:30:05:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 11:30:06:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 11:30:06:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+03/03/2026, 11:30:06:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+03/03/2026, 11:30:06:
+runtime
+  showBusinessName: true,
+03/03/2026, 11:30:06:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:30:06:
+runtime
+  fontSize: 24,
+03/03/2026, 11:30:06:
+runtime
+  fontFamily: 'Times New Roman',
+03/03/2026, 11:30:06:
+runtime
+  fontStyle: 'normal',
+03/03/2026, 11:30:06:
+runtime
+  color: '#000000',
+03/03/2026, 11:30:06:
+runtime
+  enabled: true
+03/03/2026, 11:30:06:
+runtime
+}
+03/03/2026, 11:30:06:
+runtime
+10:30:06 AM [express] GET /api/company-name-settings 200 in 471ms :: {"businessName":"Gestionale Appu…
+03/03/2026, 11:30:06:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 11:30:06:
+runtime
+10:30:06 AM [express] GET /api/contact-info 200 in 476ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+03/03/2026, 11:30:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 11:30:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:30:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:06:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:30:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 11:30:06:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 11:30:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 11:30:12:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 11:30:12:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 11:30:12:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772533812376' }
+03/03/2026, 11:30:12:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 11:30:12:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 11:30:12:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 11:30:12:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772533812407.1558&admin=1","/pwa-icon/192x192?owner=3&v=1772533812407.1558&admin=1","/pwa-icon/512x512?owner=3&v=1772533812407.1558&admin=1"]
+03/03/2026, 11:30:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 11:30:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 11:30:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 11:30:13:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:13:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 11:30:13:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:13:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:13:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:30:13:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 11:30:13:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:30:13:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 11:30:31:
+runtime
+10:30:31 AM [express] GET /api/booking-requests 304 in 586ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:30:35:
+runtime
+10:30:35 AM [express] GET /api/booking-requests 304 in 464ms :: []
+03/03/2026, 11:30:45:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 11:30:45:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 11:30:45:
+runtime
+❌ [AI CHAT] Errore: 401 You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.
+03/03/2026, 11:30:45:
+runtime
+10:30:45 AM [express] POST /api/ai-chat 200 in 424ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 11:31:02:
+runtime
+10:31:02 AM [express] GET /api/booking-requests 304 in 575ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:31:32:
+runtime
+10:31:32 AM [express] GET /api/booking-requests 304 in 588ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:32:03:
+runtime
+10:32:03 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:32:34:
+runtime
+10:32:34 AM [express] GET /api/booking-requests 304 in 579ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:33:04:
+runtime
+10:33:04 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:33:35:
+runtime
+10:33:35 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:34:06:
+runtime
+10:34:06 AM [express] GET /api/booking-requests 304 in 582ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:34:37:
+runtime
+10:34:37 AM [express] GET /api/booking-requests 304 in 579ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:35:08:
+runtime
+10:35:08 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:35:39:
+runtime
+10:35:39 AM [express] GET /api/booking-requests 304 in 585ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:36:10:
+runtime
+10:36:10 AM [express] GET /api/booking-requests 304 in 579ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:36:40:
+runtime
+10:36:40 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:37:11:
+runtime
+10:37:11 AM [express] GET /api/booking-requests 304 in 586ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:37:42:
+runtime
+10:37:42 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:38:12:
+runtime
+10:38:12 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:38:43:
+runtime
+10:38:43 AM [express] GET /api/booking-requests 304 in 602ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:39:14:
+runtime
+10:39:14 AM [express] GET /api/booking-requests 304 in 579ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:39:45:
+runtime
+10:39:45 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:40:16:
+runtime
+10:40:16 AM [express] GET /api/booking-requests 304 in 585ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:40:47:
+runtime
+10:40:47 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:41:18:
+runtime
+10:41:18 AM [express] GET /api/booking-requests 304 in 577ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:41:48:
+runtime
+10:41:48 AM [express] GET /api/booking-requests 304 in 583ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:42:19:
+runtime
+10:42:19 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:42:50:
+runtime
+10:42:50 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:43:21:
+runtime
+10:43:21 AM [express] GET /api/booking-requests 304 in 584ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:43:51:
+runtime
+10:43:51 AM [express] GET /api/booking-requests 304 in 578ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:44:22:
+runtime
+10:44:22 AM [express] GET /api/booking-requests 304 in 591ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:44:53:
+runtime
+10:44:53 AM [express] GET /api/booking-requests 304 in 585ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:45:23:
+runtime
+10:45:23 AM [express] GET /api/booking-requests 304 in 588ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:45:41:
+build
+Enumerating objects: 26237, done.
+03/03/2026, 11:45:41:
+build
+Counting objects: 100% (3562/3562), done.
+03/03/2026, 11:45:41:
+build
+Compressing objects: 100% (466/466), done.
+03/03/2026, 11:45:54:
+runtime
+10:45:54 AM [express] GET /api/booking-requests 304 in 584ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:46:17:
+build
+Total 26237 (delta 3367), reused 3206 (delta 3096), pack-reused 22675 (from 2)
+03/03/2026, 11:46:25:
+runtime
+10:46:25 AM [express] GET /api/booking-requests 304 in 583ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:46:56:
+runtime
+10:46:56 AM [express] GET /api/booking-requests 304 in 582ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:47:26:
+runtime
+10:47:26 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:47:57:
+runtime
+10:47:57 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:48:14:
+build
+#1 [service_event_4klt0vhxfbjb internal] load build definition from Dockerfile
+03/03/2026, 11:48:14:
+build
+#1 transferring dockerfile: 938B done
+03/03/2026, 11:48:14:
+build
+#1 DONE 0.0s
+03/03/2026, 11:48:14:
+build
+03/03/2026, 11:48:14:
+build
+#2 [service_event_4klt0vhxfbjb internal] load metadata for docker.io/library/node:20-alpine
+03/03/2026, 11:48:15:
+build
+03/03/2026, 11:48:15:
+build
+#3 [service_event_4klt0vhxfbjb internal] load .dockerignore
+03/03/2026, 11:48:15:
+build
+#4 [service_event_4klt0vhxfbjb 1/8] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+03/03/2026, 11:48:15:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0.0s done
+03/03/2026, 11:48:15:
+build
+#4 DONE 0.1s
+03/03/2026, 11:48:15:
+build
+03/03/2026, 11:48:15:
+build
+#5 [service_event_4klt0vhxfbjb internal] load build context
+03/03/2026, 11:48:17:
+build
+#5 ...
+03/03/2026, 11:48:17:
+build
+03/03/2026, 11:48:17:
+build
+#4 [service_event_4klt0vhxfbjb 1/8] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+03/03/2026, 11:48:17:
+build
+#4 sha256:e31b2016552274339ed88ed4a438d78bf37e0f6bdf328d02207b2a598c1ef86d 445B / 445B 0.1s done
+03/03/2026, 11:48:17:
+build
+#4 sha256:eb87f4721c91769ed5206f34a9ab6ec98fc1d5235c12c2fc956665b1155e9ecb 1.26MB / 1.26MB 0.3s done
+03/03/2026, 11:48:17:
+build
+#4 sha256:ad6d96c196e3198e14ea37df8bba4f54bf92fb525eb65e49fa4027c7dee13f80 42.78MB / 42.78MB 1.0s done
+03/03/2026, 11:48:17:
+build
+#4 sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153 3.86MB / 3.86MB 1.0s done
+03/03/2026, 11:48:17:
+build
+#4 extracting sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153 0.1s done
+03/03/2026, 11:48:17:
+build
+#4 extracting sha256:ad6d96c196e3198e14ea37df8bba4f54bf92fb525eb65e49fa4027c7dee13f80 1.3s done
+03/03/2026, 11:48:17:
+build
+#4 extracting sha256:eb87f4721c91769ed5206f34a9ab6ec98fc1d5235c12c2fc956665b1155e9ecb 0.0s done
+03/03/2026, 11:48:17:
+build
+#4 extracting sha256:e31b2016552274339ed88ed4a438d78bf37e0f6bdf328d02207b2a598c1ef86d 0.0s done
+03/03/2026, 11:48:17:
+build
+#4 DONE 2.6s
+03/03/2026, 11:48:17:
+build
+03/03/2026, 11:48:17:
+build
+#5 [service_event_4klt0vhxfbjb internal] load build context
+03/03/2026, 11:48:20:
+build
+#5 transferring context: 1.56GB 5.1s
+03/03/2026, 11:48:27:
+build
+#5 ...
+03/03/2026, 11:48:28:
+runtime
+10:48:28 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:48:29:
+build
+03/03/2026, 11:48:29:
+build
+#6 [service_event_4klt0vhxfbjb 2/8] WORKDIR /app
+03/03/2026, 11:48:29:
+build
+#6 ...
+03/03/2026, 11:48:29:
+build
+03/03/2026, 11:48:29:
+build
+#5 [service_event_4klt0vhxfbjb internal] load build context
+03/03/2026, 11:48:29:
+build
+#5 transferring context: 2.29GB 14.0s
+03/03/2026, 11:48:29:
+build
+#6 DONE 11.5s
+03/03/2026, 11:48:29:
+build
+#5 ...
+03/03/2026, 11:48:29:
+build
+03/03/2026, 11:48:29:
+build
+#6 [service_event_4klt0vhxfbjb 2/8] WORKDIR /app
+03/03/2026, 11:48:29:
+build
+03/03/2026, 11:48:29:
+build
+#5 [service_event_4klt0vhxfbjb internal] load build context
+03/03/2026, 11:48:34:
+build
+#5 transferring context: 3.92GB 19.1s
+03/03/2026, 11:48:39:
+build
+#5 transferring context: 5.48GB 24.2s
+03/03/2026, 11:48:54:
+build
+#5 transferring context: 5.74GB 39.4s
+03/03/2026, 11:48:55:
+build
+#5 transferring context: 6.06GB 40.6s done
+03/03/2026, 11:48:59:
+runtime
+10:48:59 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:49:00:
+build
+#5 DONE 45.7s
+03/03/2026, 11:49:01:
+build
+03/03/2026, 11:49:01:
+build
+#7 [service_event_4klt0vhxfbjb 3/8] COPY package.json package-lock.json ./
+03/03/2026, 11:49:02:
+build
+#7 DONE 2.0s
+03/03/2026, 11:49:03:
+build
+03/03/2026, 11:49:03:
+build
+#8 [service_event_4klt0vhxfbjb 4/8] RUN npm ci
+03/03/2026, 11:49:06:
+build
+#8 3.997 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+03/03/2026, 11:49:07:
+build
+#8 4.743 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+03/03/2026, 11:49:08:
+build
+#8 5.167 npm warn deprecated fstream@1.0.12: This package is no longer supported.
+03/03/2026, 11:49:09:
+build
+#8 6.295 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+03/03/2026, 11:49:09:
+build
+#8 6.327 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+03/03/2026, 11:49:09:
+build
+#8 6.743 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+03/03/2026, 11:49:09:
+build
+#8 6.867 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+03/03/2026, 11:49:09:
+build
+#8 6.999 npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+03/03/2026, 11:49:10:
+build
+#8 7.000 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+03/03/2026, 11:49:10:
+build
+#8 7.456 npm warn deprecated @paypal/checkout-server-sdk@1.0.3: Package no longer supported. The author suggests using the @paypal/paypal-server-sdk package instead: https://www.npmjs.com/package/@paypal/paypal-server-sdk. Contact Support at https://www.npmjs.com/support for more info.
+03/03/2026, 11:49:10:
+build
+#8 7.680 npm warn deprecated puppeteer@18.2.1: < 24.9.0 is no longer supported
+03/03/2026, 11:49:17:
+build
+#8 14.43 
+03/03/2026, 11:49:17:
+build
+#8 14.43 added 949 packages, and audited 950 packages in 14s
+03/03/2026, 11:49:17:
+build
+#8 14.43 
+03/03/2026, 11:49:17:
+build
+#8 14.43 101 packages are looking for funding
+03/03/2026, 11:49:17:
+build
+#8 14.43   run `npm fund` for details
+03/03/2026, 11:49:17:
+build
+#8 14.50 
+03/03/2026, 11:49:17:
+build
+#8 14.50 29 vulnerabilities (5 low, 11 moderate, 11 high, 2 critical)
+03/03/2026, 11:49:17:
+build
+#8 14.50 
+03/03/2026, 11:49:17:
+build
+#8 14.50 To address issues that do not require attention, run:
+03/03/2026, 11:49:17:
+build
+#8 14.50   npm audit fix
+03/03/2026, 11:49:17:
+build
+#8 14.50 
+03/03/2026, 11:49:17:
+build
+#8 14.50 To address all issues (including breaking changes), run:
+03/03/2026, 11:49:17:
+build
+#8 14.50   npm audit fix --force
+03/03/2026, 11:49:17:
+build
+#8 14.50 
+03/03/2026, 11:49:17:
+build
+#8 14.50 Run `npm audit` for details.
+03/03/2026, 11:49:17:
+build
+#8 14.50 npm notice
+03/03/2026, 11:49:17:
+build
+#8 14.50 npm notice New major version of npm available! 10.8.2 -> 11.11.0
+03/03/2026, 11:49:17:
+build
+#8 14.50 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.11.0
+03/03/2026, 11:49:17:
+build
+#8 14.50 npm notice To update run: npm install -g npm@11.11.0
+03/03/2026, 11:49:17:
+build
+#8 14.50 npm notice
+03/03/2026, 11:49:23:
+build
+#8 DONE 20.5s
+03/03/2026, 11:49:23:
+build
+03/03/2026, 11:49:23:
+build
+#9 [service_event_4klt0vhxfbjb 5/8] RUN echo "Build timestamp: 2026-02-26-12:00"
+03/03/2026, 11:49:23:
+build
+#9 0.381 Build timestamp: 2026-02-26-12:00
+03/03/2026, 11:49:23:
+build
+#9 DONE 0.5s
+03/03/2026, 11:49:24:
+build
+03/03/2026, 11:49:24:
+build
+#10 [service_event_4klt0vhxfbjb 6/8] COPY . .
+03/03/2026, 11:49:30:
+runtime
+10:49:30 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:50:01:
+runtime
+10:50:01 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:50:04:
+build
+#10 DONE 40.2s
+03/03/2026, 11:50:04:
+build
+03/03/2026, 11:50:04:
+build
+#11 [service_event_4klt0vhxfbjb 7/8] RUN npx vite build
+03/03/2026, 11:50:05:
+build
+#11 1.176 vite v5.4.14 building for production...
+03/03/2026, 11:50:05:
+build
+#11 1.280 
+03/03/2026, 11:50:05:
+build
+03/03/2026, 11:50:05:
+build
+#11 1.295 
+03/03/2026, 11:50:05:
+build
+#11 1.295 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime#11 1.299 transforming...
+03/03/2026, 11:50:05:
+build
+#11 1.555 Browserslist: browsers data (caniuse-lite) is 17 months old. Please run:
+03/03/2026, 11:50:05:
+build
+#11 1.555   npx update-browserslist-db@latest
+03/03/2026, 11:50:05:
+build
+#11 1.555   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+03/03/2026, 11:50:18:
+build
+#11 14.46 ✓ 3695 modules transformed.
+03/03/2026, 11:50:20:
+build
+#11 16.05 [plugin:vite:reporter] [plugin vite:reporter] 
+03/03/2026, 11:50:20:
+build
+#11 16.05 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+03/03/2026, 11:50:20:
+build
+#11 16.05 
+03/03/2026, 11:50:20:
+build
+#11 16.05 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.#11 16.05 [plugin:vite:reporter] [plugin vite:reporter] 
+03/03/2026, 11:50:20:
+build
+03/03/2026, 11:50:20:
+build
+#11 16.05 
+03/03/2026, 11:50:20:
+build
+#11 16.06 rendering chunks...
+03/03/2026, 11:50:20:
+build
+#11 16.13 computing gzip size...
+03/03/2026, 11:50:20:
+build
+#11 16.23 ../dist/public/index.html                    15.20 kB │ gzip:   4.41 kB
+03/03/2026, 11:50:20:
+build
+#11 16.23 ../dist/public/assets/index-DA0hvyBR.css    124.71 kB │ gzip:  19.51 kB
+03/03/2026, 11:50:20:
+build
+#11 16.23 
+03/03/2026, 11:50:20:
+build
+#11 16.23 (!) Some chunks are larger than 500 kB after minification. Consider:
+03/03/2026, 11:50:20:
+build
+#11 16.23 - Using dynamic import() to code-split the application
+03/03/2026, 11:50:20:
+build
+#11 16.23 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+03/03/2026, 11:50:20:
+build
+#11 16.23 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+03/03/2026, 11:50:20:
+build
+#11 16.23 ../dist/public/assets/index-BSlGPxtm.js   2,686.33 kB │ gzip: 732.12 kB
+03/03/2026, 11:50:20:
+build
+#11 16.23 ✓ built in 15.03s
+03/03/2026, 11:50:20:
+build
+#11 DONE 16.4s
+03/03/2026, 11:50:20:
+build
+03/03/2026, 11:50:20:
+build
+#12 [service_event_4klt0vhxfbjb 8/8] RUN cp -r dist/public server/public
+03/03/2026, 11:50:20:
+build
+#12 DONE 0.2s
+03/03/2026, 11:50:20:
+build
+03/03/2026, 11:50:20:
+build
+#13 [service_event_4klt0vhxfbjb] exporting to image
+03/03/2026, 11:50:20:
+build
+#13 exporting layers
+03/03/2026, 11:50:31:
+runtime
+10:50:31 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:51:02:
+runtime
+10:51:02 AM [express] GET /api/booking-requests 304 in 582ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:51:33:
+runtime
+10:51:33 AM [express] GET /api/booking-requests 304 in 583ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:52:03:
+runtime
+10:52:03 AM [express] GET /api/booking-requests 304 in 581ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:52:30:
+build
+#13 exporting layers 130.1s done
+03/03/2026, 11:52:31:
+build
+#13 exporting manifest sha256:f97a94fcb8e8a9705c5267b44c101e0ce950324c46219497cee5029c144ab875 done
+03/03/2026, 11:52:31:
+build
+#13 exporting config sha256:3fff2927eafe53afe0df2ac75dc7b579e400dea36255ec64d745123cf2c30cca done
+03/03/2026, 11:52:31:
+build
+#13 pushing layers
+03/03/2026, 11:52:34:
+runtime
+10:52:34 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:53:05:
+runtime
+10:53:05 AM [express] GET /api/booking-requests 304 in 587ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:53:23:
+build
+#13 pushing layers 52.4s done
+03/03/2026, 11:53:23:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_4klt0vhxfbjb@sha256:f97a94fcb8e8a9705c5267b44c101e0ce950324c46219497cee5029c144ab875
+03/03/2026, 11:53:23:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_4klt0vhxfbjb@sha256:f97a94fcb8e8a9705c5267b44c101e0ce950324c46219497cee5029c144ab875 0.1s done
+03/03/2026, 11:53:23:
+build
+#13 DONE 182.7s
+03/03/2026, 11:53:26:
+build
+service_event_4klt0vhxfbjb: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+03/03/2026, 11:53:26:
+build
+589002ba0eae: Already exists
+03/03/2026, 11:53:26:
+build
+ad6d96c196e3: Already exists
+03/03/2026, 11:53:26:
+build
+eb87f4721c91: Already exists
+03/03/2026, 11:53:26:
+build
+e31b20165522: Already exists
+03/03/2026, 11:53:26:
+build
+6c04baff8a56: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+402ee97cdc5a: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+11a59bb1ef30: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+4f4fb700ef54: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+e33ec9fd662c: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+d96f5d92d3ab: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+587ba4b46359: Pulling fs layer
+03/03/2026, 11:53:26:
+build
+4f4fb700ef54: Waiting
+03/03/2026, 11:53:26:
+build
+e33ec9fd662c: Waiting
+03/03/2026, 11:53:26:
+build
+d96f5d92d3ab: Waiting
+03/03/2026, 11:53:26:
+build
+587ba4b46359: Waiting
+03/03/2026, 11:53:26:
+build
+6c04baff8a56: Verifying Checksum
+03/03/2026, 11:53:26:
+build
+6c04baff8a56: Pull complete
+03/03/2026, 11:53:26:
+build
+402ee97cdc5a: Verifying Checksum
+03/03/2026, 11:53:26:
+build
+402ee97cdc5a: Download complete
+03/03/2026, 11:53:26:
+build
+402ee97cdc5a: Pull complete
+03/03/2026, 11:53:26:
+build
+4f4fb700ef54: Verifying Checksum
+03/03/2026, 11:53:26:
+build
+4f4fb700ef54: Download complete
+03/03/2026, 11:53:26:
+build
+d96f5d92d3ab: Verifying Checksum
+03/03/2026, 11:53:26:
+build
+d96f5d92d3ab: Download complete
+03/03/2026, 11:53:26:
+build
+587ba4b46359: Verifying Checksum
+03/03/2026, 11:53:26:
+build
+587ba4b46359: Download complete
+03/03/2026, 11:53:28:
+build
+11a59bb1ef30: Verifying Checksum
+03/03/2026, 11:53:28:
+build
+11a59bb1ef30: Download complete
+03/03/2026, 11:53:36:
+runtime
+10:53:36 AM [express] GET /api/booking-requests 304 in 610ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:53:47:
+build
+11a59bb1ef30: Pull complete
+03/03/2026, 11:53:47:
+build
+4f4fb700ef54: Pull complete
+03/03/2026, 11:54:02:
+build
+e33ec9fd662c: Verifying Checksum
+03/03/2026, 11:54:02:
+build
+e33ec9fd662c: Download complete
+03/03/2026, 11:54:06:
+runtime
+10:54:06 AM [express] GET /api/booking-requests 304 in 580ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:54:37:
+runtime
+10:54:37 AM [express] GET /api/booking-requests 304 in 584ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 11:54:45:
+build
+e33ec9fd662c: Pull complete
+03/03/2026, 11:54:46:
+build
+d96f5d92d3ab: Pull complete
+03/03/2026, 11:54:46:
+build
+587ba4b46359: Pull complete
+03/03/2026, 11:54:46:
+build
+Digest: sha256:f97a94fcb8e8a9705c5267b44c101e0ce950324c46219497cee5029c144ab875
+03/03/2026, 11:54:46:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_4klt0vhxfbjb
+03/03/2026, 11:54:50:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+03/03/2026, 11:54:52:
+runtime
+Servizio gestione telefono diretto inizializzato
+03/03/2026, 11:54:52:
+runtime
+Debug OAuth URL: {
+03/03/2026, 11:54:52:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+03/03/2026, 11:54:52:
+runtime
+}
+03/03/2026, 11:54:52:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+03/03/2026, 11:54:52:
+runtime
+Google Credentials: {
+03/03/2026, 11:54:52:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+03/03/2026, 11:54:52:
+runtime
+  secretPresent: 'Present'
+03/03/2026, 11:54:52:
+runtime
+}
+03/03/2026, 11:54:52:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+03/03/2026, 11:54:52:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+03/03/2026, 11:54:52:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+03/03/2026, 11:54:53:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+03/03/2026, 11:54:53:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+03/03/2026, 11:54:53:
+runtime
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+03/03/2026, 11:54:53:
+runtime
+🔐 [AUTH] Cookie settings: secure=true, sameSite=none
+03/03/2026, 11:54:53:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+03/03/2026, 11:54:53:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+03/03/2026, 11:54:53:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+03/03/2026, 11:54:53:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+03/03/2026, 11:54:53:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+03/03/2026, 11:54:53:
+runtime
+🔍 Controllo integrità all'avvio:
+03/03/2026, 11:54:53:
+runtime
+   📅 Appuntamenti caricati: 50
+03/03/2026, 11:54:53:
+runtime
+   👥 Clienti caricati: 40
+03/03/2026, 11:54:53:
+runtime
+   🔍 Primi 3 appuntamenti: [
+03/03/2026, 11:54:53:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+03/03/2026, 11:54:53:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+03/03/2026, 11:54:53:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+03/03/2026, 11:54:53:
+runtime
+]
+03/03/2026, 11:54:53:
+runtime
+✅ Controllo integrità completato
+03/03/2026, 11:54:54:
+runtime
+10:54:53 AM [express] serving on port 5000
+03/03/2026, 11:54:54:
+runtime
+✅ PostgreSQL database is available
+03/03/2026, 11:54:54:
+runtime
+Telefono caricato dal database: +393472550110
+03/03/2026, 11:55:03:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+03/03/2026, 11:55:04:
+runtime
+📊 [MONITOR] Stats: 56 utenti, 4540 clienti, 398 appuntamenti, max 0 clienti/utente
+03/03/2026, 11:55:04:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+03/03/2026, 11:55:07:
+runtime
+10:55:07 AM [express] GET /api/booking-requests 401 in 8ms :: {"message":"Non autenticato"}
+03/03/2026, 11:55:37:
+runtime
+10:55:37 AM [express] GET /api/booking-requests 401 in 3ms :: {"message":"Non autenticato"}
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 11:55:42:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 11:55:42:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535342816-default
+03/03/2026, 11:55:42:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+03/03/2026, 11:55:42:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/timezone-settings 200 in 3ms :: {"timezone":"Europe/Rome","offset":-1,…
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/license/has-business-access 200 in 1ms
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/client-app-info 200 in 14ms :: {"appName":"Gestionale Appuntamenti","i…
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] Session ID: -CBJrnejG8gBqj3hd8kn4Ne1C4PzvDJ7
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] req.user: undefined
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 11:55:43:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] GET /api/license/has-pro-access 200 in 2ms
+03/03/2026, 11:55:43:
+runtime
+10:55:43 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+03/03/2026, 11:55:46:
+runtime
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+03/03/2026, 11:55:46:
+runtime
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Sa
+03/03/2026, 11:55:46:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+03/03/2026, 11:55:46:
+runtime
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+03/03/2026, 11:55:46:
+runtime
+🔐 [LOGIN] Session ID: tPepegEFEV8wbZFVXnErvtk2g5VAezsB
+03/03/2026, 11:55:46:
+runtime
+🔐 [LOGIN] Session saved: yes
+03/03/2026, 11:55:46:
+runtime
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+03/03/2026, 11:55:46:
+runtime
+10:55:46 AM [express] POST /api/staff/login 200 in 332ms :: {"id":3,"username":"zambelli.andrea.1973@…
+03/03/2026, 11:55:46:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 11:55:46:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 11:55:46:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535346920-default
+03/03/2026, 11:55:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+03/03/2026, 11:55:46:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 11:55:46:
+runtime
+📊 [SESSION-TRACKING] Accesso registrato per utente 3 (zambelli.andrea.1973@gmail.com) - pausa >30min
+03/03/2026, 11:55:47:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 11:55:47:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 11:55:47:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 11:55:47:
+runtime
+  id: 3,
+03/03/2026, 11:55:47:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:55:47:
+runtime
+  firstName: null,
+03/03/2026, 11:55:47:
+runtime
+  lastName: null,
+03/03/2026, 11:55:47:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 11:55:47:
+runtime
+}
+03/03/2026, 11:55:47:
+runtime
+10:55:47 AM [express] GET /api/user-with-license 200 in 997ms :: {"id":3,"username":"zambelli.andrea.…
+03/03/2026, 11:55:48:
+runtime
+10:55:48 AM [express] GET /api/timezone-settings 200 in 235ms :: {"timezone":"Europe/Rome","offset":-…
+03/03/2026, 11:55:48:
+runtime
+10:55:48 AM [express] GET /api/license/application-title 304 in 235ms :: {"title":"Gestionale Appunta…
+03/03/2026, 11:55:48:
+runtime
+10:55:48 AM [express] GET /api/license/has-business-access 200 in 247ms :: true
+03/03/2026, 11:55:48:
+runtime
+10:55:48 AM [express] GET /api/booking-requests 304 in 478ms :: []
+03/03/2026, 11:55:48:
+runtime
+10:55:48 AM [express] POST /api/timezone-settings 200 in 230ms :: {"success":true,"timezone":"Europe/…
+03/03/2026, 11:55:49:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+03/03/2026, 11:55:49:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927, custom: true
+03/03/2026, 11:55:49:
+runtime
+10:55:49 AM [express] GET /api/client-app-info 200 in 1038ms :: {"appName":"Gestionale Appuntamenti",…
+03/03/2026, 11:55:49:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] Session ID: tPepegEFEV8wbZFVXnErvtk2g5VAezsB
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 11:55:49:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 11:55:49:
+runtime
+10:55:49 AM [express] GET /api/license/has-pro-access 200 in 1296ms :: true
+03/03/2026, 11:55:49:
+runtime
+10:55:49 AM [express] GET /api/license/license-info 200 in 1314ms :: {"hasLicense":true,"type":"passe…
+03/03/2026, 11:55:49:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 11:55:50:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 11:55:50:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 11:55:50:
+runtime
+  id: 3,
+03/03/2026, 11:55:50:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:55:50:
+runtime
+  firstName: null,
+03/03/2026, 11:55:50:
+runtime
+  lastName: null,
+03/03/2026, 11:55:50:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 11:55:50:
+runtime
+}
+03/03/2026, 11:55:50:
+runtime
+10:55:50 AM [express] GET /api/user-with-license 304 in 1805ms :: {"id":3,"username":"zambelli.andrea…
+03/03/2026, 11:55:50:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 11:55:50:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 11:55:50:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 11:55:50:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772535350291' }
+03/03/2026, 11:55:50:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 11:55:50:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 11:55:50:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 11:55:50:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772535350360.0283&admin=1","/pwa-icon/192x192?owner=3&v=1772535350360.0283&admin=1","/pwa-icon/512x512?owner=3&v=1772535350360.0283&admin=1"]
+03/03/2026, 11:55:50:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 11:55:50:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 11:55:50:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 11:55:50:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+03/03/2026, 11:55:50:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 11:55:50:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 11:55:50:
+runtime
+10:55:50 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":3,"userType":"admin","tenantI…
+03/03/2026, 11:55:50:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 11:55:50:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+03/03/2026, 11:55:50:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+03/03/2026, 11:55:50:
+runtime
+  showBusinessName: true,
+03/03/2026, 11:55:50:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:55:50:
+runtime
+  fontSize: 24,
+03/03/2026, 11:55:50:
+runtime
+  fontFamily: 'Times New Roman',
+03/03/2026, 11:55:50:
+runtime
+  fontStyle: 'normal',
+03/03/2026, 11:55:50:
+runtime
+  color: '#000000',
+03/03/2026, 11:55:50:
+runtime
+  enabled: true
+03/03/2026, 11:55:50:
+runtime
+}
+03/03/2026, 11:55:50:
+runtime
+10:55:50 AM [express] GET /api/company-name-settings 200 in 473ms :: {"businessName":"Gestionale Appu…
+03/03/2026, 11:55:50:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 11:55:50:
+runtime
+10:55:50 AM [express] GET /api/contact-info 200 in 463ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+03/03/2026, 11:55:51:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:51:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 11:55:51:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:51:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:51:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:51:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:55:51:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 11:55:51:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 11:55:56:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 11:55:56:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 11:55:56:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772535356174' }
+03/03/2026, 11:55:56:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 11:55:56:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 11:55:56:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 11:55:56:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772535356209.4458&admin=1","/pwa-icon/192x192?owner=3&v=1772535356209.4458&admin=1","/pwa-icon/512x512?owner=3&v=1772535356209.4458&admin=1"]
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 11:56:08:
+runtime
+10:56:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:56:14:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 11:56:14:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 11:56:15:
+runtime
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+03/03/2026, 11:56:15:
+runtime
+10:56:15 AM [express] POST /api/ai-chat 200 in 383ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 11:56:19:
+runtime
+10:56:19 AM [express] GET /api/booking-requests 304 in 471ms :: []
+03/03/2026, 11:56:38:
+runtime
+10:56:38 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 11:57:05:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] Session ID: tPepegEFEV8wbZFVXnErvtk2g5VAezsB
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 11:57:05:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 11:57:05:
+runtime
+10:57:05 AM [express] GET /api/license/has-pro-access 304 in 246ms :: true
+03/03/2026, 11:57:05:
+runtime
+10:57:05 AM [express] GET /api/license/has-business-access 304 in 246ms :: true
+03/03/2026, 11:57:05:
+runtime
+10:57:05 AM [express] GET /api/tenant-context 200 in 245ms :: {"userId":3,"userType":"admin","tenantI…
+03/03/2026, 11:57:05:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 11:57:05:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 11:57:05:
+runtime
+10:57:05 AM [express] GET /api/booking-requests 304 in 542ms :: []
+03/03/2026, 11:57:05:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 11:57:05:
+runtime
+  id: 3,
+03/03/2026, 11:57:05:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:57:05:
+runtime
+  firstName: null,
+03/03/2026, 11:57:05:
+runtime
+  lastName: null,
+03/03/2026, 11:57:05:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 11:57:05:
+runtime
+}
+03/03/2026, 11:57:05:
+runtime
+10:57:05 AM [express] GET /api/user-with-license 304 in 734ms :: {"id":3,"username":"zambelli.andrea.…
+03/03/2026, 11:57:08:
+runtime
+10:57:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:57:09:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] Session ID: tPepegEFEV8wbZFVXnErvtk2g5VAezsB
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 11:57:09:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 11:57:09:
+runtime
+10:57:09 AM [express] GET /api/license/has-pro-access 304 in 247ms :: true
+03/03/2026, 11:57:09:
+runtime
+10:57:09 AM [express] GET /api/license/has-business-access 304 in 247ms :: true
+03/03/2026, 11:57:09:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 11:57:09:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 11:57:09:
+runtime
+10:57:09 AM [express] GET /api/booking-requests 304 in 538ms :: []
+03/03/2026, 11:57:09:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 11:57:09:
+runtime
+  id: 3,
+03/03/2026, 11:57:09:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 11:57:09:
+runtime
+  firstName: null,
+03/03/2026, 11:57:09:
+runtime
+  lastName: null,
+03/03/2026, 11:57:09:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 11:57:09:
+runtime
+}
+03/03/2026, 11:57:09:
+runtime
+10:57:09 AM [express] GET /api/user-with-license 304 in 777ms :: {"id":3,"username":"zambelli.andrea.…
+03/03/2026, 11:57:31:
+build
+Compressing objects: 100% (468/468), done.
+03/03/2026, 11:57:38:
+runtime
+10:57:38 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:58:08:
+runtime
+10:58:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:58:10:
+build
+Total 26241 (delta 3370), reused 3209 (delta 3098), pack-reused 22675 (from 2)
+03/03/2026, 11:58:38:
+runtime
+10:58:38 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:08:
+runtime
+10:59:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4597 401 in 6ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4592 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4582 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/579 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/tenant-context 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4605 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4601 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/license/application-title 304 in 0ms :: {"title":"Gestionale Appuntame…
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/82 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4593 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4599 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/578 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/576 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4602 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4594 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4583 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4585 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/14004 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/577 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4600 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] Session ID: u9KYX_Cv0y9PyeGnSjGkOBDHu1tSvhaV
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] req.user: undefined
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 11:59:45:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/license/has-pro-access 200 in 3ms
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/78 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/14002 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/110 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/95 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4604 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/license/has-business-access 200 in 1ms
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/70 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4598 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4590 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4591 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4584 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:45:
+runtime
+10:59:45 AM [express] GET /api/clients/4603 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 11:59:46:
+runtime
+10:59:46 AM [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:00:07:
+build
+#1 [service_event_dtr442mbnsrt internal] load build definition from Dockerfile
+03/03/2026, 12:00:07:
+build
+#1 transferring dockerfile: 938B done
+03/03/2026, 12:00:07:
+build
+#1 DONE 0.0s
+03/03/2026, 12:00:07:
+build
+03/03/2026, 12:00:07:
+build
+#2 [service_event_dtr442mbnsrt internal] load metadata for docker.io/library/node:20-alpine
+03/03/2026, 12:00:13:
+build
+#2 DONE 6.7s
+03/03/2026, 12:00:14:
+build
+#5 [service_event_dtr442mbnsrt internal] load build context
+03/03/2026, 12:00:14:
+build
+03/03/2026, 12:00:14:
+build
+#3 [service_event_dtr442mbnsrt internal] load .dockerignore
+03/03/2026, 12:00:14:
+build
+#3 transferring context: 740B done
+03/03/2026, 12:00:14:
+build
+#3 DONE 0.0s
+03/03/2026, 12:00:14:
+build
+03/03/2026, 12:00:14:
+build
+#4 [service_event_dtr442mbnsrt 1/8] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+03/03/2026, 12:00:14:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 done
+03/03/2026, 12:00:14:
+build
+#4 DONE 0.0s
+03/03/2026, 12:00:14:
+build
+03/03/2026, 12:00:15:
+runtime
+11:00:15 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:00:18:
+build
+#5 transferring context: 1.56GB 4.8s
+03/03/2026, 12:00:23:
+build
+#5 transferring context: 3.01GB 9.8s
+03/03/2026, 12:00:41:
+build
+#5 transferring context: 3.98GB 27.6s
+03/03/2026, 12:00:45:
+runtime
+11:00:45 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:00:46:
+build
+#5 transferring context: 5.52GB 32.6s
+03/03/2026, 12:00:48:
+build
+#5 transferring context: 6.06GB 34.6s done
+03/03/2026, 12:00:51:
+build
+#5 DONE 37.9s
+03/03/2026, 12:00:51:
+build
+03/03/2026, 12:00:51:
+build
+#6 [service_event_dtr442mbnsrt 2/8] WORKDIR /app
+03/03/2026, 12:00:51:
+build
+#6 CACHED
+03/03/2026, 12:00:51:
+build
+03/03/2026, 12:00:51:
+build
+#7 [service_event_dtr442mbnsrt 3/8] COPY package.json package-lock.json ./
+03/03/2026, 12:00:51:
+build
+#7 CACHED
+03/03/2026, 12:00:51:
+build
+03/03/2026, 12:00:51:
+build
+#8 [service_event_dtr442mbnsrt 4/8] RUN npm ci
+03/03/2026, 12:00:51:
+build
+#8 CACHED
+03/03/2026, 12:00:51:
+build
+03/03/2026, 12:00:52:
+build
+#9 [service_event_dtr442mbnsrt 5/8] RUN echo "Build timestamp: 2026-02-26-12:00"
+03/03/2026, 12:00:52:
+build
+#9 CACHED
+03/03/2026, 12:00:52:
+build
+03/03/2026, 12:00:52:
+build
+#10 [service_event_dtr442mbnsrt 6/8] COPY . .
+03/03/2026, 12:01:15:
+runtime
+11:01:15 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:01:43:
+build
+#10 DONE 51.5s
+03/03/2026, 12:01:43:
+build
+03/03/2026, 12:01:43:
+build
+#11 [service_event_dtr442mbnsrt 7/8] RUN npx vite build
+03/03/2026, 12:01:44:
+build
+#11 1.489 vite v5.4.14 building for production...
+03/03/2026, 12:01:44:
+build
+#11 1.589 
+03/03/2026, 12:01:44:
+build
+#11 1.603 
+03/03/2026, 12:01:44:
+build
+#11 1.603 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+03/03/2026, 12:01:45:
+build
+#11 1.609 transforming...
+03/03/2026, 12:01:45:
+build
+#11 2.026 Browserslist: browsers data (caniuse-lite) is 17 months old. Please run:
+03/03/2026, 12:01:45:
+build
+#11 2.026   npx update-browserslist-db@latest
+03/03/2026, 12:01:45:
+build
+#11 2.026   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+03/03/2026, 12:01:45:
+runtime
+11:01:45 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:01:58:
+build
+#11 15.02 ✓ 3695 modules transformed.
+03/03/2026, 12:01:59:
+build
+#11 16.49 [plugin:vite:reporter] [plugin vite:reporter] 
+03/03/2026, 12:01:59:
+build
+#11 16.49 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+03/03/2026, 12:01:59:
+build
+#11 16.49 
+03/03/2026, 12:02:00:
+build
+#11 16.49 [plugin:vite:reporter] [plugin vite:reporter] 
+03/03/2026, 12:02:00:
+build
+#11 16.49 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+03/03/2026, 12:02:00:
+build
+#11 16.49 
+03/03/2026, 12:02:00:
+build
+#11 16.49 rendering chunks...
+03/03/2026, 12:02:00:
+build
+#11 16.59 computing gzip size...
+03/03/2026, 12:02:00:
+build
+#11 16.69 ../dist/public/index.html                    15.20 kB │ gzip:   4.41 kB
+03/03/2026, 12:02:00:
+build
+#11 16.69 ../dist/public/assets/index-DA0hvyBR.css    124.71 kB │ gzip:  19.51 kB
+03/03/2026, 12:02:00:
+build
+#11 16.69 
+03/03/2026, 12:02:00:
+build
+#11 16.69 (!) Some chunks are larger than 500 kB after minification. Consider:
+03/03/2026, 12:02:00:
+build
+#11 16.69 - Using dynamic import() to code-split the application
+03/03/2026, 12:02:00:
+build
+#11 16.69 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+03/03/2026, 12:02:00:
+build
+#11 16.69 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+03/03/2026, 12:02:00:
+build
+#11 16.69 ../dist/public/assets/index-BSlGPxtm.js   2,686.33 kB │ gzip: 732.12 kB
+03/03/2026, 12:02:00:
+build
+#11 16.69 ✓ built in 15.17s
+03/03/2026, 12:02:00:
+build
+#11 DONE 16.9s
+03/03/2026, 12:02:00:
+build
+03/03/2026, 12:02:00:
+build
+#12 [service_event_dtr442mbnsrt 8/8] RUN cp -r dist/public server/public
+03/03/2026, 12:02:00:
+build
+#12 DONE 0.2s
+03/03/2026, 12:02:00:
+build
+03/03/2026, 12:02:00:
+build
+#13 [service_event_dtr442mbnsrt] exporting to image
+03/03/2026, 12:02:00:
+build
+#13 exporting layers
+03/03/2026, 12:02:16:
+runtime
+11:02:16 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:02:46:
+runtime
+11:02:46 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:03:16:
+runtime
+11:03:16 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:03:46:
+runtime
+11:03:46 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:03:
+runtime
+11:04:03 AM [express] GET /api/clients 401 in 6ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:10:
+build
+#13 exporting layers 130.0s done
+03/03/2026, 12:04:10:
+build
+#13 exporting manifest sha256:c8605abf9f12f90d9ffa8ad93ebe36c713983beeed5dca3afb678b0c8d697a9a done
+03/03/2026, 12:04:10:
+build
+#13 exporting config sha256:627fd27c779fedb043379fd4fc2d379e3d4297d639aaa9eacca7af2dde9cb00e done
+03/03/2026, 12:04:10:
+build
+#13 pushing layers
+03/03/2026, 12:04:10:
+runtime
+11:04:10 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:14:
+runtime
+11:04:14 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:14:
+runtime
+11:04:14 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:15:
+runtime
+11:04:15 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:15:
+runtime
+11:04:15 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:16:
+runtime
+11:04:16 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:36:
+runtime
+11:04:36 AM [express] GET /api/clients 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:36:
+runtime
+11:04:36 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:36:
+runtime
+11:04:36 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:36:
+runtime
+11:04:36 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:40:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+03/03/2026, 12:04:40:
+runtime
+Logout completato con successo
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/license/license-info 304 in 1ms :: {"hasLicense":false,"type":"none"}
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] Session ID: Q8TKyFQWzLAoQ6O-y4RpVvxrBIMvQM-B
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] req.user: undefined
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] Cookie header: missing
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:04:40:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/license/has-pro-access 304 in 1ms
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/license/has-business-access 304 in 1ms
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:40:
+runtime
+11:04:40 AM [express] GET /api/license/application-title 304 in 0ms :: {"title":"Gestionale Appuntame…
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:04:40:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:40:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535880847-default
+03/03/2026, 12:04:40:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:04:40:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:42:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:04:42:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535882458-default
+03/03/2026, 12:04:42:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:04:42:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:04:44:
+runtime
+11:04:44 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+03/03/2026, 12:04:44:
+runtime
+11:04:44 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:44:
+runtime
+11:04:44 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:04:44:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+03/03/2026, 12:04:44:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535884861-default
+03/03/2026, 12:04:44:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:04:44:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:04:45:
+runtime
+11:04:45 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+03/03/2026, 12:04:45:
+runtime
+11:04:45 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:04:45:
+runtime
+11:04:45 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+03/03/2026, 12:05:00:
+build
+#13 pushing layers 50.1s done
+03/03/2026, 12:05:00:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_dtr442mbnsrt@sha256:c8605abf9f12f90d9ffa8ad93ebe36c713983beeed5dca3afb678b0c8d697a9a
+03/03/2026, 12:05:00:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_dtr442mbnsrt@sha256:c8605abf9f12f90d9ffa8ad93ebe36c713983beeed5dca3afb678b0c8d697a9a 0.1s done
+03/03/2026, 12:05:00:
+build
+#13 DONE 180.2s
+03/03/2026, 12:05:03:
+build
+service_event_dtr442mbnsrt: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+03/03/2026, 12:05:03:
+build
+589002ba0eae: Already exists
+03/03/2026, 12:05:03:
+build
+ad6d96c196e3: Already exists
+03/03/2026, 12:05:03:
+build
+eb87f4721c91: Already exists
+03/03/2026, 12:05:03:
+build
+e31b20165522: Already exists
+03/03/2026, 12:05:03:
+build
+6c04baff8a56: Already exists
+03/03/2026, 12:05:03:
+build
+402ee97cdc5a: Already exists
+03/03/2026, 12:05:03:
+build
+11a59bb1ef30: Already exists
+03/03/2026, 12:05:03:
+build
+4f4fb700ef54: Already exists
+03/03/2026, 12:05:03:
+build
+9108e7dfb12e: Pulling fs layer
+03/03/2026, 12:05:03:
+build
+beeca820dfcf: Pulling fs layer
+03/03/2026, 12:05:03:
+build
+dd81fa4c4e0d: Pulling fs layer
+03/03/2026, 12:05:03:
+build
+dd81fa4c4e0d: Verifying Checksum
+03/03/2026, 12:05:03:
+build
+dd81fa4c4e0d: Download complete
+03/03/2026, 12:05:03:
+build
+beeca820dfcf: Verifying Checksum
+03/03/2026, 12:05:03:
+build
+beeca820dfcf: Download complete
+03/03/2026, 12:05:57:
+build
+9108e7dfb12e: Verifying Checksum
+03/03/2026, 12:05:57:
+build
+9108e7dfb12e: Download complete
+03/03/2026, 12:06:01:
+runtime
+🔐 [LOGIN] Richiesta login staff: busnari.silvia@libero.it
+03/03/2026, 12:06:01:
+runtime
+🔐 [LOGIN] IP: 93.34.194.6, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Sa
+03/03/2026, 12:06:01:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+03/03/2026, 12:06:03:
+runtime
+✅ [LOGIN] Login completato per: busnari.silvia@libero.it (ID: 14, tipo: staff)
+03/03/2026, 12:06:03:
+runtime
+🔐 [LOGIN] Session ID: GeppmLVh_VEMIUDod0huP8CG9dRqPZ2q
+03/03/2026, 12:06:03:
+runtime
+🔐 [LOGIN] Session saved: yes
+03/03/2026, 12:06:03:
+runtime
+✅ [LOGIN] Sessione salvata con successo per busnari.silvia@libero.it
+03/03/2026, 12:06:03:
+runtime
+11:06:03 AM [express] POST /api/staff/login 200 in 1859ms :: {"id":14,"username":"busnari.silvia@libe…
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:06:04:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:06:04:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772535964169-default
+03/03/2026, 12:06:04:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:06:04:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:06:04:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+03/03/2026, 12:06:05:
+runtime
+📊 [SESSION-TRACKING] Accesso registrato per utente 14 (busnari.silvia@libero.it) - pausa >30min
+03/03/2026, 12:06:05:
+runtime
+🏷️ [desktop] Assignment code per utente 14: BUS1422
+03/03/2026, 12:06:05:
+runtime
+🏷️ [desktop] Legacy code per utente 14: PROF_014_9C1F
+03/03/2026, 12:06:05:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 12:06:05:
+runtime
+  id: 14,
+03/03/2026, 12:06:05:
+runtime
+  username: 'busnari.silvia@libero.it',
+03/03/2026, 12:06:05:
+runtime
+  firstName: null,
+03/03/2026, 12:06:05:
+runtime
+  lastName: null,
+03/03/2026, 12:06:05:
+runtime
+  licenseType: 'staff_free_10years'
+03/03/2026, 12:06:05:
+runtime
+}
+03/03/2026, 12:06:05:
+runtime
+11:06:05 AM [express] GET /api/user-with-license 200 in 2083ms :: {"id":14,"username":"busnari.silvia…
+03/03/2026, 12:06:05:
+runtime
+11:06:05 AM [express] GET /api/timezone-settings 200 in 249ms :: {"timezone":"Europe/Rome","offset":-…
+03/03/2026, 12:06:05:
+runtime
+11:06:05 AM [express] GET /api/license/has-business-access 200 in 248ms :: true
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] Session ID: GeppmLVh_VEMIUDod0huP8CG9dRqPZ2q
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] req.user: User ID 14, type: staff
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:06:05:
+runtime
+🔐 [has-pro-access] Utente 14 (staff) - admin/staff = true
+03/03/2026, 12:06:05:
+runtime
+11:06:05 AM [express] GET /api/license/has-pro-access 200 in 249ms :: true
+03/03/2026, 12:06:05:
+runtime
+11:06:05 AM [express] GET /api/license/license-info 200 in 251ms :: {"hasLicense":true,"type":"staff_…
+03/03/2026, 12:06:06:
+runtime
+11:06:06 AM [express] POST /api/timezone-settings 200 in 230ms :: {"success":true,"timezone":"Europe/…
+03/03/2026, 12:06:07:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+03/03/2026, 12:06:07:
+runtime
+11:06:07 AM [express] GET /api/license/application-title 304 in 1303ms :: {"title":"Gestionale Appunt…
+03/03/2026, 12:06:07:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+03/03/2026, 12:06:07:
+runtime
+✅ [desktop] Icone PWA per utente 14, icon length: 837291, custom: true
+03/03/2026, 12:06:07:
+runtime
+11:06:07 AM [express] GET /api/client-app-info 200 in 1421ms :: {"appName":"Gestionale Appuntamenti",…
+03/03/2026, 12:06:07:
+runtime
+🏷️ [desktop] Assignment code per utente 14: BUS1422
+03/03/2026, 12:06:07:
+runtime
+🏷️ [desktop] Legacy code per utente 14: PROF_014_9C1F
+03/03/2026, 12:06:07:
+runtime
+11:06:07 AM [express] GET /api/booking-requests 304 in 1645ms :: [{"id":30,"userId":14,"clientId":140…
+03/03/2026, 12:06:07:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 12:06:07:
+runtime
+  id: 14,
+03/03/2026, 12:06:07:
+runtime
+  username: 'busnari.silvia@libero.it',
+03/03/2026, 12:06:07:
+runtime
+  firstName: null,
+03/03/2026, 12:06:07:
+runtime
+  lastName: null,
+03/03/2026, 12:06:07:
+runtime
+  licenseType: 'staff_free_10years'
+03/03/2026, 12:06:07:
+runtime
+}
+03/03/2026, 12:06:07:
+runtime
+11:06:07 AM [express] GET /api/user-with-license 200 in 1810ms :: {"id":14,"username":"busnari.silvia…
+03/03/2026, 12:06:07:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 14
+03/03/2026, 12:06:07:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:06:07:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:06:07:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '14', ts: '1772535967889' }
+03/03/2026, 12:06:07:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 14
+03/03/2026, 12:06:07:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 14)
+03/03/2026, 12:06:07:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:06:07:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1772535967781.8857&admin=1","/pwa-icon/192x192?owner=14&v=1772535967781.8857&admin=1","/pwa-icon/512x512?owner=14&v=1772535967781.8857&admin=1"]
+03/03/2026, 12:06:07:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+03/03/2026, 12:06:07:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 14
+03/03/2026, 12:06:07:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 14
+03/03/2026, 12:06:07:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+03/03/2026, 12:06:07:
+runtime
+Recupero impostazioni per utente 14
+03/03/2026, 12:06:07:
+runtime
+11:06:07 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":14,"userType":"staff","tenant…
+03/03/2026, 12:06:07:
+runtime
+Recupero impostazioni per utente 14
+03/03/2026, 12:06:08:
+runtime
+Impostazioni trovate per utente 14: SI
+03/03/2026, 12:06:08:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+03/03/2026, 12:06:08:
+runtime
+  businessName: 'Studio Medico',
+03/03/2026, 12:06:08:
+runtime
+  showBusinessName: true,
+03/03/2026, 12:06:08:
+runtime
+  name: 'Silvia Busnari ',
+03/03/2026, 12:06:08:
+runtime
+  fontSize: 42,
+03/03/2026, 12:06:08:
+runtime
+  fontFamily: 'Lucida Sans Unicode',
+03/03/2026, 12:06:08:
+runtime
+  fontStyle: 'italic',
+03/03/2026, 12:06:08:
+runtime
+  color: '#FF0000',
+03/03/2026, 12:06:08:
+runtime
+  enabled: true
+03/03/2026, 12:06:08:
+runtime
+}
+03/03/2026, 12:06:08:
+runtime
+11:06:08 AM [express] GET /api/company-name-settings 200 in 481ms :: {"businessName":"Studio Medico",…
+03/03/2026, 12:06:08:
+runtime
+Impostazioni trovate per utente 14: SI
+03/03/2026, 12:06:08:
+runtime
+11:06:08 AM [express] GET /api/contact-info 200 in 481ms :: {"email":"busnari.silvia@gmail.com","phon…
+03/03/2026, 12:06:08:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+03/03/2026, 12:06:08:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 14, dimensione: 3122 bytes
+03/03/2026, 12:06:08:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+03/03/2026, 12:06:08:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+03/03/2026, 12:06:08:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+03/03/2026, 12:06:08:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+03/03/2026, 12:06:08:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 14, dimensione: 678765 bytes
+03/03/2026, 12:06:08:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 14, dimensione: 26572 bytes
+03/03/2026, 12:06:38:
+runtime
+11:06:38 AM [express] GET /api/booking-requests 304 in 579ms :: [{"id":30,"userId":14,"clientId":1400…
+03/03/2026, 12:06:42:
+build
+9108e7dfb12e: Pull complete
+03/03/2026, 12:06:42:
+build
+beeca820dfcf: Pull complete
+03/03/2026, 12:06:42:
+build
+dd81fa4c4e0d: Pull complete
+03/03/2026, 12:06:42:
+build
+Digest: sha256:c8605abf9f12f90d9ffa8ad93ebe36c713983beeed5dca3afb678b0c8d697a9a
+03/03/2026, 12:06:42:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_dtr442mbnsrt
+03/03/2026, 12:06:47:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+03/03/2026, 12:06:49:
+runtime
+Servizio gestione telefono diretto inizializzato
+03/03/2026, 12:06:49:
+runtime
+Debug OAuth URL: {
+03/03/2026, 12:06:49:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+03/03/2026, 12:06:49:
+runtime
+}
+03/03/2026, 12:06:49:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+03/03/2026, 12:06:49:
+runtime
+Google Credentials: {
+03/03/2026, 12:06:49:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+03/03/2026, 12:06:49:
+runtime
+  secretPresent: 'Present'
+03/03/2026, 12:06:49:
+runtime
+}
+03/03/2026, 12:06:49:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+03/03/2026, 12:06:49:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+03/03/2026, 12:06:49:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+03/03/2026, 12:06:51:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+03/03/2026, 12:06:51:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+03/03/2026, 12:06:51:
+runtime
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+03/03/2026, 12:06:51:
+runtime
+🔐 [AUTH] Cookie settings: secure=true, sameSite=none
+03/03/2026, 12:06:51:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+03/03/2026, 12:06:51:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+03/03/2026, 12:06:51:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+03/03/2026, 12:06:51:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+03/03/2026, 12:06:51:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+03/03/2026, 12:06:51:
+runtime
+🔍 Controllo integrità all'avvio:
+03/03/2026, 12:06:51:
+runtime
+   📅 Appuntamenti caricati: 50
+03/03/2026, 12:06:51:
+runtime
+   👥 Clienti caricati: 40
+03/03/2026, 12:06:51:
+runtime
+   🔍 Primi 3 appuntamenti: [
+03/03/2026, 12:06:51:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+03/03/2026, 12:06:51:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+03/03/2026, 12:06:51:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+03/03/2026, 12:06:51:
+runtime
+]
+03/03/2026, 12:06:51:
+runtime
+✅ Controllo integrità completato
+03/03/2026, 12:06:51:
+runtime
+11:06:51 AM [express] serving on port 5000
+03/03/2026, 12:06:51:
+runtime
+✅ PostgreSQL database is available
+03/03/2026, 12:06:51:
+runtime
+Telefono caricato dal database: +393472550110
+03/03/2026, 12:07:01:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+03/03/2026, 12:07:01:
+runtime
+📊 [MONITOR] Stats: 56 utenti, 4540 clienti, 398 appuntamenti, max 0 clienti/utente
+03/03/2026, 12:07:01:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+03/03/2026, 12:07:08:
+runtime
+11:07:08 AM [express] GET /api/booking-requests 401 in 5ms :: {"message":"Non autenticato"}
+03/03/2026, 12:07:38:
+runtime
+11:07:38 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:07:46:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:07:46:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772536066275-default
+03/03/2026, 12:07:46:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:07:46:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":-1,…
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/license/has-business-access 200 in 1ms
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/client-app-info 200 in 10ms :: {"appName":"Gestionale Appuntamenti","i…
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/booking-requests 401 in 0ms :: {"message":"Non autenticato"}
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] Session ID: kPn8DJIsV2SUzpf-mrwV20c0XiXLl6KE
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] req.user: undefined
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:07:46:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/license/has-pro-access 200 in 2ms
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] GET /api/license/application-title 304 in 1ms :: {"title":"Gestionale Appuntame…
+03/03/2026, 12:07:46:
+runtime
+11:07:46 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+03/03/2026, 12:07:48:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+03/03/2026, 12:07:48:
+runtime
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Sa
+03/03/2026, 12:07:48:
+runtime
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:07:49:
+runtime
+🔐 [LOGIN] Session saved: yes
+03/03/2026, 12:07:49:
+runtime
+🔐 [LOGIN] Session ID: XPoexJrV__RCFcJZflmw3KpK0RL_HY0p
+03/03/2026, 12:07:49:
+runtime
+✅ [LOGIN] Login completato per: zambelli.andrea.1973@gmail.com (ID: 3, tipo: admin)
+03/03/2026, 12:07:49:
+runtime
+✅ [LOGIN] Sessione salvata con successo per zambelli.andrea.1973@gmail.com
+03/03/2026, 12:07:49:
+runtime
+11:07:49 AM [express] POST /api/staff/login 200 in 293ms :: {"id":3,"username":"zambelli.andrea.1973@…
+03/03/2026, 12:07:49:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+03/03/2026, 12:07:49:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+03/03/2026, 12:07:49:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+03/03/2026, 12:07:49:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+03/03/2026, 12:07:49:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772536069738-default
+03/03/2026, 12:07:49:
+runtime
+📊 [SESSION-TRACKING] Accesso registrato per utente 3 (zambelli.andrea.1973@gmail.com) - pausa >30min
+03/03/2026, 12:07:50:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 12:07:50:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 12:07:50:
+runtime
+}
+03/03/2026, 12:07:50:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 12:07:50:
+runtime
+  lastName: null,
+03/03/2026, 12:07:50:
+runtime
+  firstName: null,
+03/03/2026, 12:07:50:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 12:07:50:
+runtime
+  id: 3,
+03/03/2026, 12:07:50:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 12:07:50:
+runtime
+11:07:50 AM [express] GET /api/user-with-license 200 in 993ms :: {"id":3,"username":"zambelli.andrea.…
+03/03/2026, 12:07:51:
+runtime
+11:07:51 AM [express] GET /api/timezone-settings 200 in 235ms :: {"timezone":"Europe/Rome","offset":-…
+03/03/2026, 12:07:51:
+runtime
+11:07:51 AM [express] GET /api/license/has-business-access 200 in 238ms :: true
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] Session ID: XPoexJrV__RCFcJZflmw3KpK0RL_HY0p
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 12:07:51:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 12:07:51:
+runtime
+11:07:51 AM [express] GET /api/license/has-pro-access 200 in 245ms :: true
+03/03/2026, 12:07:51:
+runtime
+11:07:51 AM [express] GET /api/license/application-title 304 in 245ms :: {"title":"Gestionale Appunta…
+03/03/2026, 12:07:51:
+runtime
+11:07:51 AM [express] POST /api/timezone-settings 200 in 234ms :: {"success":true,"timezone":"Europe/…
+03/03/2026, 12:07:52:
+runtime
+✅ [desktop] Icone PWA per utente 3, icon length: 212927, custom: true
+03/03/2026, 12:07:52:
+runtime
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+03/03/2026, 12:07:52:
+runtime
+11:07:52 AM [express] GET /api/client-app-info 200 in 1139ms :: {"appName":"Gestionale Appuntamenti",…
+03/03/2026, 12:07:52:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 12:07:52:
+runtime
+11:07:52 AM [express] GET /api/license/license-info 200 in 1393ms :: {"hasLicense":true,"type":"passe…
+03/03/2026, 12:07:52:
+runtime
+11:07:52 AM [express] GET /api/booking-requests 304 in 1552ms :: []
+03/03/2026, 12:07:52:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 12:07:52:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 12:07:53:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 12:07:53:
+runtime
+  lastName: null,
+03/03/2026, 12:07:53:
+runtime
+  firstName: null,
+03/03/2026, 12:07:53:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 12:07:53:
+runtime
+  id: 3,
+03/03/2026, 12:07:53:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 12:07:53:
+runtime
+}
+03/03/2026, 12:07:53:
+runtime
+11:07:53 AM [express] GET /api/user-with-license 304 in 1895ms :: {"id":3,"username":"zambelli.andrea…
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 12:07:53:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:07:53:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:07:53:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772536073134' }
+03/03/2026, 12:07:53:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 12:07:53:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 12:07:53:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:07:53:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772536073177.152&admin=1","/pwa-icon/192x192?owner=3&v=1772536073177.152&admin=1","/pwa-icon/512x512?owner=3&v=1772536073177.152&admin=1"]
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 12:07:53:
+runtime
+11:07:53 AM [express] GET /api/tenant-context 200 in 234ms :: {"userId":3,"userType":"admin","tenantI…
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:07:53:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:07:53:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:07:53:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:07:53:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 12:07:53:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 12:08:08:
+runtime
+11:08:08 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:08:09:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 12:08:09:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 12:08:09:
+runtime
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+03/03/2026, 12:08:09:
+runtime
+11:08:09 AM [express] POST /api/ai-chat 200 in 349ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 12:08:16:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:08:16:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:08:16:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772536096304' }
+03/03/2026, 12:08:16:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 12:08:16:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 12:08:16:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:08:16:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772536096345.9824&admin=1","/pwa-icon/192x192?owner=3&v=1772536096345.9824&admin=1","/pwa-icon/512x512?owner=3&v=1772536096345.9824&admin=1"]
+03/03/2026, 12:08:16:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 12:08:16:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 12:08:16:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 12:08:16:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 12:08:16:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:08:16:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:08:16:
+runtime
+📞 GET /api/contact-settings per utente 3
+03/03/2026, 12:08:16:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 3
+03/03/2026, 12:08:16:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 3
+03/03/2026, 12:08:16:
+runtime
+📞 Recupero impostazioni contatto per tenant 3
+03/03/2026, 12:08:16:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:08:16:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:08:16:
+runtime
+11:08:16 AM [express] GET /api/email-calendar-settings 200 in 470ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:08:16:
+runtime
+✅ Impostazioni contatto trovate per tenant 3: {
+03/03/2026, 12:08:16:
+runtime
+  phone: '+393472550110',
+03/03/2026, 12:08:16:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 12:08:16:
+runtime
+  whatsappOptIn: true
+03/03/2026, 12:08:16:
+runtime
+}
+03/03/2026, 12:08:16:
+runtime
+11:08:16 AM [express] GET /api/contact-settings 200 in 463ms :: {"success":true,"settings":{"phone":"…
+03/03/2026, 12:08:17:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:17:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 12:08:17:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:17:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:17:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:17:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 12:08:17:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 12:08:17:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 12:08:17:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:08:17:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:08:17:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-21 - 2026-03-04
+03/03/2026, 12:08:17:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:08:17:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:08:17:
+runtime
+11:08:17 AM [express] GET /api/email-calendar-settings 304 in 467ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:08:17:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-21 a 2026-03-04
+03/03/2026, 12:08:17:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+03/03/2026, 12:08:17:
+runtime
+11:08:17 AM [express] GET /api/notifications/upcoming-appointments 200 in 474ms :: {"success":true,"a…
+03/03/2026, 12:08:17:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:08:17:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:08:17:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-21 - 2026-03-04
+03/03/2026, 12:08:17:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:08:17:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:08:17:
+runtime
+11:08:17 AM [express] GET /api/email-calendar-settings 304 in 465ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:08:17:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-21 a 2026-03-04
+03/03/2026, 12:08:17:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+03/03/2026, 12:08:17:
+runtime
+11:08:17 AM [express] GET /api/notifications/upcoming-appointments 304 in 471ms :: {"success":true,"a…
+03/03/2026, 12:08:18:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:08:18:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:08:18:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772536098214' }
+03/03/2026, 12:08:18:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 12:08:18:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 12:08:18:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:08:18:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772536098273.957&admin=1","/pwa-icon/192x192?owner=3&v=1772536098273.957&admin=1","/pwa-icon/512x512?owner=3&v=1772536098273.957&admin=1"]
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] Session ID: XPoexJrV__RCFcJZflmw3KpK0RL_HY0p
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:08:18:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 12:08:18:
+runtime
+11:08:18 AM [express] GET /api/license/has-pro-access 304 in 234ms :: true
+03/03/2026, 12:08:18:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+03/03/2026, 12:08:18:
+runtime
+11:08:18 AM [express] GET /api/license/has-business-access 304 in 235ms :: true
+03/03/2026, 12:08:18:
+runtime
+11:08:18 AM [express] GET /api/campaigns 200 in 469ms :: [{"id":14,"userId":3,"title":"Promo di Dicem…
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:18:
+runtime
+📦 [/api/clients] [desktop] 20 clienti in 356ms (1 query con subquery conteggio)
+03/03/2026, 12:08:18:
+runtime
+11:08:18 AM [express] GET /api/clients 200 in 590ms :: [{"id":39,"userId":3,"firstName":"Zambelli 1",…
+03/03/2026, 12:08:18:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:18:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:08:18:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 12:08:18:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 12:08:18:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 12:08:38:
+runtime
+11:08:38 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 12:08:48:
+runtime
+📧 [CAMPAIGN API] Generazione campagna per utente 3 - Licenza: passepartout
+03/03/2026, 12:08:48:
+runtime
+📧 [AI CAMPAIGN] Generando campagna marketing per: scrivi una promozione del 205 per marzo di biorisonanza
+03/03/2026, 12:08:48:
+runtime
+❌ [AI CAMPAIGN] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+03/03/2026, 12:08:48:
+runtime
+11:08:48 AM [express] POST /api/ai/generate-campaign 200 in 562ms :: {"message":"✅ Ho creato la tua c…
+03/03/2026, 12:09:09:
+runtime
+11:09:09 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:09:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 12:09:23:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 12:09:23:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772536163808' }
+03/03/2026, 12:09:23:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:09:23:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:09:23:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772536163882.0361&admin=1","/pwa-icon/192x192?owner=3&v=1772536163882.0361&admin=1","/pwa-icon/512x512?owner=3&v=1772536163882.0361&admin=1"]
+03/03/2026, 12:09:23:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:09:23:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 12:09:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 12:09:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 12:09:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 12:09:24:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 12:09:24:
+runtime
+📞 GET /api/contact-settings per utente 3
+03/03/2026, 12:09:24:
+runtime
+🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant 3
+03/03/2026, 12:09:24:
+runtime
+📞 Recupero impostazioni contatto per tenant 3
+03/03/2026, 12:09:24:
+runtime
+🔧 ContactSettingsService: Recupero impostazioni per tenant 3
+03/03/2026, 12:09:24:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:09:24:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] Session ID: XPoexJrV__RCFcJZflmw3KpK0RL_HY0p
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:09:24:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/license/has-business-access 304 in 290ms :: true
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/license/has-pro-access 304 in 289ms :: true
+03/03/2026, 12:09:24:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 12:09:24:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+03/03/2026, 12:09:24:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:09:24:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/email-calendar-settings 304 in 515ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:09:24:
+runtime
+✅ Impostazioni contatto trovate per tenant 3: {
+03/03/2026, 12:09:24:
+runtime
+  phone: '+393472550110',
+03/03/2026, 12:09:24:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 12:09:24:
+runtime
+  whatsappOptIn: true
+03/03/2026, 12:09:24:
+runtime
+}
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/contact-settings 304 in 521ms :: {"success":true,"settings":{"phone":"…
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/booking-requests 304 in 527ms :: []
+03/03/2026, 12:09:24:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+03/03/2026, 12:09:24:
+runtime
+  id: 3,
+03/03/2026, 12:09:24:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+03/03/2026, 12:09:24:
+runtime
+  firstName: null,
+03/03/2026, 12:09:24:
+runtime
+  lastName: null,
+03/03/2026, 12:09:24:
+runtime
+  licenseType: 'passepartout'
+03/03/2026, 12:09:24:
+runtime
+}
+03/03/2026, 12:09:24:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/user-with-license 304 in 770ms :: {"id":3,"username":"zambelli.andrea.…
+03/03/2026, 12:09:24:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 12:09:24:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:24:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:09:24:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:09:24:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-21 - 2026-03-04
+03/03/2026, 12:09:24:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 12:09:24:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:09:24:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/email-calendar-settings 304 in 482ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:09:24:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-21 a 2026-03-04
+03/03/2026, 12:09:24:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+03/03/2026, 12:09:24:
+runtime
+11:09:24 AM [express] GET /api/notifications/upcoming-appointments 304 in 478ms :: {"success":true,"a…
+03/03/2026, 12:09:25:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+03/03/2026, 12:09:25:
+runtime
+Recupero impostazioni per utente 3
+03/03/2026, 12:09:25:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-21 - 2026-03-04
+03/03/2026, 12:09:25:
+runtime
+Impostazioni trovate per utente 3: SI
+03/03/2026, 12:09:25:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+03/03/2026, 12:09:25:
+runtime
+11:09:25 AM [express] GET /api/email-calendar-settings 304 in 465ms :: {"emailEnabled":true,"emailAdd…
+03/03/2026, 12:09:25:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-21 a 2026-03-04
+03/03/2026, 12:09:25:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+03/03/2026, 12:09:25:
+runtime
+11:09:25 AM [express] GET /api/notifications/upcoming-appointments 304 in 467ms :: {"success":true,"a…
+03/03/2026, 12:09:25:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:25:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:25:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 12:09:25:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 12:09:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 12:09:26:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 12:09:26:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 12:09:26:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772536166894' }
+03/03/2026, 12:09:26:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 12:09:26:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 12:09:26:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 12:09:26:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772536166931.9238&admin=1","/pwa-icon/192x192?owner=3&v=1772536166931.9238&admin=1","/pwa-icon/512x512?owner=3&v=1772536166931.9238&admin=1"]
+03/03/2026, 12:09:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 12:09:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 12:09:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 12:09:27:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:27:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 12:09:27:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:27:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:27:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 12:09:27:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 12:09:27:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 12:09:27:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 12:09:39:
+runtime
+11:09:39 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:09:52:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 12:09:52:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 12:09:52:
+runtime
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+03/03/2026, 12:09:52:
+runtime
+11:09:52 AM [express] POST /api/ai-chat 200 in 340ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 12:09:54:
+runtime
+11:09:54 AM [express] GET /api/booking-requests 304 in 464ms :: []
+03/03/2026, 12:10:09:
+runtime
+11:10:09 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] Session ID: XPoexJrV__RCFcJZflmw3KpK0RL_HY0p
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 12:10:18:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 12:10:18:
+runtime
+11:10:18 AM [express] GET /api/license/has-pro-access 304 in 235ms :: true
+03/03/2026, 12:10:18:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+03/03/2026, 12:10:18:
+runtime
+11:10:18 AM [express] GET /api/license/has-business-access 304 in 365ms :: true
+03/03/2026, 12:10:18:
+runtime
+11:10:18 AM [express] GET /api/booking-requests 304 in 467ms :: []
+03/03/2026, 12:10:18:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+03/03/2026, 12:10:18:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
