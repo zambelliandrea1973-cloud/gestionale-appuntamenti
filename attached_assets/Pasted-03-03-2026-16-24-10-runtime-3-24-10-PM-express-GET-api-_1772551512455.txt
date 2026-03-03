@@ -1,0 +1,129 @@
+03/03/2026, 16:24:10:
+runtime
+3:24:10 PM [express] GET /api/company-name-settings 200 in 486ms :: {"businessName":"Gestionale Appu…
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] Session ID: BevqYEOBTnkyeVMNGXZiunaroo6mvnNo
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] Cookie header: present
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] ============================
+03/03/2026, 16:24:10:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+03/03/2026, 16:24:10:
+runtime
+3:24:10 PM [express] GET /api/license/has-pro-access 200 in 1339ms :: true
+03/03/2026, 16:24:10:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:10:
+runtime
+3:24:10 PM [express] GET /api/license/application-title 304 in 1370ms :: {"title":"Gestionale Appunt…
+03/03/2026, 16:24:10:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 16:24:10:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:10:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 16:24:11:
+runtime
+3:24:11 PM [express] GET /api/booking-requests 304 in 1586ms :: []
+03/03/2026, 16:24:11:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:11:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 16:24:11:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:11:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 16:24:18:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+03/03/2026, 16:24:18:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+03/03/2026, 16:24:18:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772551458615' }
+03/03/2026, 16:24:18:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+03/03/2026, 16:24:18:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+03/03/2026, 16:24:18:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+03/03/2026, 16:24:18:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772551458650.04&admin=1","/pwa-icon/192x192?owner=3&v=1772551458650.04&admin=1","/pwa-icon/512x512?owner=3&v=1772551458650.04&admin=1"]
+03/03/2026, 16:24:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 16:24:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 16:24:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 16:24:18:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 16:24:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 16:24:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 16:24:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 16:24:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 16:24:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 16:24:32:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 16:24:32:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 16:24:33:
+runtime
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [404 Not Found] This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.
+03/03/2026, 16:24:33:
+runtime
+3:24:33 PM [express] POST /api/ai-chat 200 in 461ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 16:24:41:
+runtime
+3:24:41 PM [express] GET /api/booking-requests 304 in 474ms :: []
