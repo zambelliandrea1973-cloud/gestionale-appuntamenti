@@ -1,9 +1,6 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Usa OpenAI invece di Gemini
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -29,18 +26,7 @@ interface AIResponse {
   };
 }
 
-/**
- * Processa una richiesta chat con l'AI
- * Riconosce intenti e fornisce risposte appropriate
- */
-export async function processChatMessage(request: ChatRequest): Promise<AIResponse> {
-  try {
-    console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
-    
-    // Sistema prompt che definisce il comportamento dell'AI
-    const systemPrompt: ChatMessage = {
-      role: 'system',
-      content: `Sei un assistente AI per un sistema gestionale medico/sanitario. 
+const SYSTEM_PROMPT = `Sei un assistente AI per un sistema gestionale medico/sanitario. 
       
 Il tuo compito è aiutare l'utente con:
 1. Generazione di messaggi personalizzati per clienti (reminder, promemoria, comunicazioni)
@@ -59,38 +45,56 @@ Se riconosci una richiesta di generazione messaggio, rispondi SEMPRE con JSON ne
 {"type": "message_preview", "content": "Il tuo messaggio qui", "recipient": "chi lo riceve"}
 
 Per ricerche online, indica chiaramente che stai cercando informazioni.
-Per suggerimenti generali, fornisci consigli pratici e applicabili.`
-    };
+Per suggerimenti generali, fornisci consigli pratici e applicabili.`;
 
-    // Prepara i messaggi per OpenAI
-    const messages: ChatMessage[] = [
-      systemPrompt,
-      ...request.messages
-    ];
+export async function processChatMessage(request: ChatRequest): Promise<AIResponse> {
+  try {
+    console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
+    
+    if (!process.env.GEMINI_API_KEY) {
+      console.error('❌ [AI CHAT] GEMINI_API_KEY non configurata');
+      return {
+        message: 'Il servizio AI non è configurato. Contatta l\'amministratore.',
+        intent: 'general'
+      };
+    }
 
-    // Chiama OpenAI
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Modello economico e veloce
-      messages: messages.map(m => ({
-        role: m.role === 'system' ? 'system' : m.role === 'user' ? 'user' : 'assistant',
-        content: m.content
-      })),
-      temperature: 0.7,
-      max_tokens: 1000
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const chatHistory = request.messages
+      .filter(m => m.role !== 'system')
+      .map(m => ({
+        role: m.role === 'assistant' ? 'model' as const : 'user' as const,
+        parts: [{ text: m.content }]
+      }));
+
+    const lastUserMessage = chatHistory.pop();
+    if (!lastUserMessage) {
+      return { message: 'Nessun messaggio da processare.', intent: 'general' };
+    }
+
+    const chat = model.startChat({
+      history: chatHistory.length > 0 ? chatHistory : undefined,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1000,
+      },
     });
 
-    const aiMessage = response.choices[0]?.message?.content || 'Mi dispiace, non sono riuscito a processare la richiesta.';
-    
-    console.log('✅ [AI CHAT] Risposta ricevuta da OpenAI');
+    const prompt = chatHistory.length === 0
+      ? `${SYSTEM_PROMPT}\n\n${lastUserMessage.parts[0].text}`
+      : lastUserMessage.parts[0].text;
 
-    // Analizza l'intento dalla risposta
-    const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
+    const result = await chat.sendMessage(prompt);
+    const aiMessage = result.response.text() || 'Mi dispiace, non sono riuscito a processare la richiesta.';
     
-    // Controlla se è una preview di messaggio
+    console.log('✅ [AI CHAT] Risposta ricevuta da Gemini');
+
+    const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
     const preview = extractMessagePreview(aiMessage);
 
     return {
-      message: preview ? aiMessage : aiMessage,
+      message: aiMessage,
       intent,
       actionRequired: !!preview,
       preview
@@ -99,10 +103,9 @@ Per suggerimenti generali, fornisci consigli pratici e applicabili.`
   } catch (error: any) {
     console.error('❌ [AI CHAT] Errore:', error.message);
     
-    // Fallback intelligente in caso di errore
-    if (error.code === 'insufficient_quota') {
+    if (error.message?.includes('quota') || error.message?.includes('RATE_LIMIT')) {
       return {
-        message: 'Il servizio AI ha raggiunto il limite di utilizzo. Riprova più tardi o contatta l\'amministratore.',
+        message: 'Il servizio AI ha raggiunto il limite di utilizzo. Riprova tra qualche minuto.',
         intent: 'general'
       };
     }
@@ -114,26 +117,20 @@ Per suggerimenti generali, fornisci consigli pratici e applicabili.`
   }
 }
 
-/**
- * Rileva l'intento dell'utente dal messaggio
- */
 function detectIntent(userMessage: string, aiResponse: string): AIResponse['intent'] {
   const lowerMessage = userMessage.toLowerCase();
   
-  // Parole chiave per generazione messaggi
   if (lowerMessage.includes('genera') || lowerMessage.includes('scrivi') || 
       lowerMessage.includes('messaggio') || lowerMessage.includes('reminder') ||
       lowerMessage.includes('promemoria') || lowerMessage.includes('notifica')) {
     return 'generate_message';
   }
   
-  // Parole chiave per ricerca
   if (lowerMessage.includes('cerca') || lowerMessage.includes('trova') || 
       lowerMessage.includes('informazioni su') || lowerMessage.includes('cos\'è')) {
     return 'search_info';
   }
   
-  // Parole chiave per suggerimenti
   if (lowerMessage.includes('suggerisci') || lowerMessage.includes('consiglia') || 
       lowerMessage.includes('come posso') || lowerMessage.includes('migliorare')) {
     return 'suggestion';
@@ -142,12 +139,8 @@ function detectIntent(userMessage: string, aiResponse: string): AIResponse['inte
   return 'general';
 }
 
-/**
- * Estrae preview di messaggio dalla risposta AI se presente
- */
 function extractMessagePreview(aiResponse: string): AIResponse['preview'] | undefined {
   try {
-    // Cerca pattern JSON nella risposta
     const jsonMatch = aiResponse.match(/\{[^}]*"type":\s*"message_preview"[^}]*\}/);
     if (jsonMatch) {
       const preview = JSON.parse(jsonMatch[0]);
@@ -158,7 +151,6 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
       };
     }
     
-    // Pattern alternativo: cerca blocchi di testo tra virgolette o dopo "messaggio:"
     const messageMatch = aiResponse.match(/(?:messaggio:|testo:)\s*"([^"]+)"/i);
     if (messageMatch) {
       return {
@@ -173,14 +165,20 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
   }
 }
 
-/**
- * Genera una campagna marketing professionale
- */
 export async function generateMarketingCampaign(userPrompt: string): Promise<{ title: string; message: string }> {
   try {
     console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
     
-    const systemPrompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
+    if (!process.env.GEMINI_API_KEY) {
+      return {
+        title: 'Servizio AI non configurato',
+        message: 'Contatta l\'amministratore per configurare il servizio AI.'
+      };
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
     
 Il tuo compito è creare campagne marketing professionali, convincenti e personalizzate.
 
@@ -200,29 +198,13 @@ LINEE GUIDA PER IL MESSAGGIO:
 - Usa emoji con moderazione (max 2-3)
 - Firma professionale se appropriato
 
-ESEMPI DI BUONE CAMPAGNE:
-1. Promemoria check-up: "Ricordati della tua salute! 🏥 È passato un anno dall'ultimo controllo. Prenota ora il tuo check-up annuale e approfitta del 15% di sconto per tutto marzo. Il tuo benessere è la nostra priorità!"
+Ora genera la campagna basata sulla richiesta dell'utente:
+${userPrompt}`;
 
-2. Nuova apertura: "Abbiamo una bella notizia! 🎉 Da lunedì apriamo anche il sabato mattina, per venirti incontro. Prenota subito il tuo appuntamento nel weekend!"
+    const result = await model.generateContent(prompt);
+    const aiResponse = result.response.text() || '';
+    console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
 
-3. Promo sconto: "Solo per te: sconto 20% su tutti i trattamenti prenotati entro domenica! 💆‍♀️ Non perdere questa occasione. Chiama ora!"
-
-Ora genera la campagna basata sulla richiesta dell'utente.`;
-
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      temperature: 0.8,
-      max_tokens: 800
-    });
-
-    const aiResponse = response.choices[0]?.message?.content || '';
-    console.log('✅ [AI CAMPAIGN] Risposta ricevuta da OpenAI:', aiResponse.substring(0, 200));
-
-    // Estrae JSON dalla risposta
     const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
     if (jsonMatch) {
       const campaign = JSON.parse(jsonMatch[0]);
@@ -232,7 +214,6 @@ Ora genera la campagna basata sulla richiesta dell'utente.`;
       };
     }
 
-    // Fallback: crea campagna generica
     return {
       title: 'Nuova Comunicazione ai Clienti',
       message: aiResponse.substring(0, 500) || 'Messaggio generato con AI'
@@ -241,7 +222,6 @@ Ora genera la campagna basata sulla richiesta dell'utente.`;
   } catch (error: any) {
     console.error('❌ [AI CAMPAIGN] Errore:', error.message);
     
-    // Fallback intelligente
     return {
       title: 'Nuova Campagna Marketing',
       message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
@@ -249,23 +229,19 @@ Ora genera la campagna basata sulla richiesta dell'utente.`;
   }
 }
 
-/**
- * Ricerca informazioni online usando OpenAI
- * (Funzionalità futura con web browsing)
- */
 export async function searchOnlineInfo(query: string): Promise<string> {
-  // Usa OpenAI per la ricerca di informazioni
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'user', content: `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.` }
-      ],
-      temperature: 0.5,
-      max_tokens: 800
-    });
+    if (!process.env.GEMINI_API_KEY) {
+      return 'Il servizio AI non è configurato.';
+    }
 
-    return response.choices[0]?.message?.content || 'Nessuna informazione trovata.';
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const result = await model.generateContent(
+      `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
+    );
+
+    return result.response.text() || 'Nessuna informazione trovata.';
   } catch (error) {
     console.error('❌ [AI SEARCH] Errore ricerca:', error);
     return 'Mi dispiace, non sono riuscito a trovare informazioni al momento.';

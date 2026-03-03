@@ -1,17 +1,15 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-// Lazy initialization: create client only when needed
-let openai: OpenAI | null = null;
+let genAI: GoogleGenerativeAI | null = null;
 
-function getOpenAIClient(): OpenAI {
-  if (!openai) {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error("OPENAI_API_KEY environment variable is not configured");
+function getGeminiClient(): GoogleGenerativeAI {
+  if (!genAI) {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY environment variable is not configured");
     }
-    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   }
-  return openai;
+  return genAI;
 }
 
 export interface BusinessAnalysis {
@@ -33,7 +31,11 @@ export async function analyzeBusinessNeeds(responses: {
   teamSize?: number;
 }): Promise<BusinessAnalysis> {
   try {
-    const prompt = `Analyze this business for appointment management setup:
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `You are an expert business consultant specializing in appointment management systems. Provide practical, actionable recommendations based on business analysis. Always respond with valid JSON only, no extra text.
+
+Analyze this business for appointment management setup:
 
 Business Name: ${responses.businessName || 'Not specified'}
 Description: ${responses.businessDescription || 'Not specified'}
@@ -42,7 +44,7 @@ Target Clients: ${responses.targetClients || 'Not specified'}
 Existing Tools: ${responses.existingTools?.join(', ') || 'None'}
 Team Size: ${responses.teamSize || 'Not specified'}
 
-Provide recommendations in JSON format:
+Provide recommendations in this exact JSON format:
 {
   "suggestedBusinessType": "medical|beauty|consulting|fitness|legal|other",
   "recommendedServices": ["service1", "service2", "service3"],
@@ -53,29 +55,17 @@ Provide recommendations in JSON format:
   "personalizedTips": ["tip1", "tip2", "tip3"]
 }`;
 
-    const response = await getOpenAIClient().chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert business consultant specializing in appointment management systems. Provide practical, actionable recommendations based on business analysis. Always respond with valid JSON."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 1500,
-    });
-
-    const content = response.choices[0].message.content;
-    if (!content) throw new Error("No response from OpenAI");
-    const analysis = JSON.parse(content);
+    const result = await model.generateContent(prompt);
+    const content = result.response.text();
+    if (!content) throw new Error("No response from Gemini");
+    
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("No JSON in response");
+    
+    const analysis = JSON.parse(jsonMatch[0]);
     return analysis;
   } catch (error) {
     console.error("Error analyzing business needs:", error);
-    // Fallback recommendations
     return {
       suggestedBusinessType: "consulting",
       recommendedServices: ["Consultation", "Meeting", "Session"],
@@ -98,32 +88,26 @@ export async function generateCustomizedRecommendations(
   userResponses: any
 ): Promise<string[]> {
   try {
-    const prompt = `Generate 3 specific, actionable recommendations for a ${businessType} business at onboarding step ${currentStep}.
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `You are a helpful assistant providing personalized business setup recommendations. Focus on practical, implementable advice. Respond with valid JSON only.
+
+Generate 3 specific, actionable recommendations for a ${businessType} business at onboarding step ${currentStep}.
 
 User responses so far: ${JSON.stringify(userResponses)}
 
-Provide recommendations as a JSON array of strings, each recommendation should be practical and specific to their business type and current progress.`;
+Respond with this exact JSON format:
+{"recommendations": ["recommendation1", "recommendation2", "recommendation3"]}`;
 
-    const response = await getOpenAIClient().chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful assistant providing personalized business setup recommendations. Focus on practical, implementable advice."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 800,
-    });
-
-    const content = response.choices[0].message.content;
-    if (!content) throw new Error("No response from OpenAI");
-    const result = JSON.parse(content);
-    return result.recommendations || [];
+    const result = await model.generateContent(prompt);
+    const content = result.response.text();
+    if (!content) throw new Error("No response from Gemini");
+    
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("No JSON in response");
+    
+    const parsed = JSON.parse(jsonMatch[0]);
+    return parsed.recommendations || [];
   } catch (error) {
     console.error("Error generating recommendations:", error);
     return [
@@ -136,22 +120,13 @@ Provide recommendations as a JSON array of strings, each recommendation should b
 
 export async function generateWelcomeMessage(businessName: string, businessType: string): Promise<string> {
   try {
-    const response = await getOpenAIClient().chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are a friendly AI assistant helping business owners set up their appointment management system. Generate a warm, personalized welcome message."
-        },
-        {
-          role: "user",
-          content: `Generate a welcome message for ${businessName}, a ${businessType} business. Keep it professional but friendly, and mention the benefits of a well-organized appointment system.`
-        }
-      ],
-      max_tokens: 300,
-    });
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-    return response.choices[0].message.content || `Welcome to ${businessName}! Let's set up your appointment management system to help you serve your clients better.`;
+    const result = await model.generateContent(
+      `You are a friendly AI assistant helping business owners set up their appointment management system. Generate a warm, personalized welcome message for ${businessName}, a ${businessType} business. Keep it professional but friendly, and mention the benefits of a well-organized appointment system. Keep it under 200 words.`
+    );
+
+    return result.response.text() || `Welcome to ${businessName}! Let's set up your appointment management system to help you serve your clients better.`;
   } catch (error) {
     console.error("Error generating welcome message:", error);
     return `Welcome to ${businessName}! Let's set up your appointment management system to help you serve your clients better.`;
