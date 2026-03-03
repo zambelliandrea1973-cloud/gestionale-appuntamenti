@@ -103,9 +103,25 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
   } catch (error: any) {
     console.error('❌ [AI CHAT] Errore:', error.message);
     
-    if (error.message?.includes('quota') || error.message?.includes('RATE_LIMIT')) {
+    if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('RATE_LIMIT') || error.message?.includes('RESOURCE_EXHAUSTED')) {
+      console.log('⏳ [AI CHAT] Rate limit raggiunto, riprovo tra 3 secondi...');
+      try {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const retryResult = await model.generateContent(
+          SYSTEM_PROMPT + '\n\n' + request.messages[request.messages.length - 1].content
+        );
+        const retryMessage = retryResult.response.text();
+        if (retryMessage) {
+          console.log('✅ [AI CHAT] Retry riuscito');
+          const intent = detectIntent(request.messages[request.messages.length - 1].content, retryMessage);
+          return { message: retryMessage, intent };
+        }
+      } catch (retryError: any) {
+        console.error('❌ [AI CHAT] Anche il retry ha fallito:', retryError.message);
+      }
       return {
-        message: 'Il servizio AI ha raggiunto il limite di utilizzo. Riprova tra qualche minuto.',
+        message: 'Il servizio è momentaneamente sovraccarico. Riprova tra 30 secondi.',
         intent: 'general'
       };
     }
