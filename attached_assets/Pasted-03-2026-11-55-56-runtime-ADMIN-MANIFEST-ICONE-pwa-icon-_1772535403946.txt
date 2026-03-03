@@ -1,0 +1,57 @@
+03/2026, 11:55:56:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772535356209.4458&admin=1","/pwa-icon/192x192?owner=3&v=1772535356209.4458&admin=1","/pwa-icon/512x512?owner=3&v=1772535356209.4458&admin=1"]
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+03/03/2026, 11:55:56:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+03/03/2026, 11:56:08:
+runtime
+10:56:08 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+03/03/2026, 11:56:14:
+runtime
+💬 [AI CHAT] Nuova richiesta da utente 3
+03/03/2026, 11:56:14:
+runtime
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+03/03/2026, 11:56:15:
+runtime
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+03/03/2026, 11:56:15:
+runtime
+10:56:15 AM [express] POST /api/ai-chat 200 in 383ms :: {"message":"Mi dispiace, si è verificato un e…
+03/03/2026, 11:56:19:
+runtime
+10:56:19 AM [express] GET /api/booking-requests 304 in 471ms :: []

@@ -59,7 +59,7 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
       };
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const chatHistory = request.messages
       .filter(m => m.role !== 'system')
@@ -176,7 +176,7 @@ export async function generateMarketingCampaign(userPrompt: string): Promise<{ t
       };
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
     
@@ -235,7 +235,7 @@ export async function searchOnlineInfo(query: string): Promise<string> {
       return 'Il servizio AI non è configurato.';
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const result = await model.generateContent(
       `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
