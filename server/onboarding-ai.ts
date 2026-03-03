@@ -31,7 +31,7 @@ export async function analyzeBusinessNeeds(responses: {
   teamSize?: number;
 }): Promise<BusinessAnalysis> {
   try {
-    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const prompt = `You are an expert business consultant specializing in appointment management systems. Provide practical, actionable recommendations based on business analysis. Always respond with valid JSON only, no extra text.
 
@@ -88,7 +88,7 @@ export async function generateCustomizedRecommendations(
   userResponses: any
 ): Promise<string[]> {
   try {
-    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const prompt = `You are a helpful assistant providing personalized business setup recommendations. Focus on practical, implementable advice. Respond with valid JSON only.
 
@@ -120,7 +120,7 @@ Respond with this exact JSON format:
 
 export async function generateWelcomeMessage(businessName: string, businessType: string): Promise<string> {
   try {
-    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const result = await model.generateContent(
       `You are a friendly AI assistant helping business owners set up their appointment management system. Generate a warm, personalized welcome message for ${businessName}, a ${businessType} business. Keep it professional but friendly, and mention the benefits of a well-organized appointment system. Keep it under 200 words.`
