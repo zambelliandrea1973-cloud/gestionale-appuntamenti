@@ -4,7 +4,21 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
+const Dialog = ({ modal, ...props }: DialogPrimitive.DialogProps) => {
+  const isMobile = useIsMobile();
+  return <DialogPrimitive.Root modal={isMobile ? false : (modal ?? true)} {...props} />;
+};
 
 const DialogTrigger = DialogPrimitive.Trigger
 
@@ -27,65 +41,32 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(false);
-  React.useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
-}
-
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const isMobile = useIsMobile();
 
-  if (isMobile) {
-    return (
-      <DialogPortal>
-        <DialogOverlay />
-        <DialogPrimitive.Content
-          ref={ref}
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
-          forceMount
-          className={cn(
-            "fixed inset-0 z-50 bg-background overflow-y-auto overscroll-contain",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-            className
-          )}
-          style={{ touchAction: "pan-y pinch-zoom" }}
-          {...props}
-        >
-          <div className="min-h-[calc(100%+1px)] p-6 pb-12">
-            {children}
-          </div>
-          <DialogPrimitive.Close className="fixed right-4 top-4 z-[51] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        </DialogPrimitive.Content>
-      </DialogPortal>
-    );
-  }
-
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Content
         ref={ref}
+        onPointerDownOutside={(e) => { if (isMobile) e.preventDefault(); }}
+        onInteractOutside={(e) => { if (isMobile) e.preventDefault(); }}
         className={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-[90vh]",
+          isMobile
+            ? "fixed inset-0 z-50 bg-background overflow-y-auto p-6 pb-12 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+            : "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-[90vh]",
           className
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <DialogPrimitive.Close className={cn(
+          "rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+          isMobile ? "fixed right-4 top-4 z-[51]" : "absolute right-4 top-4"
+        )}>
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
