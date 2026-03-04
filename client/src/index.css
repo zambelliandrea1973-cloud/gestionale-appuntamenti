@@ -108,3 +108,16 @@ button[data-appointment-link="true"],
     transform: rotate(30deg);
   }
 }
+
+@media (max-width: 639px) {
+  [data-radix-dialog-content] {
+    touch-action: pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-y: scroll !important;
+  }
+  
+  [data-radix-scroll-guard],
+  [data-radix-dialog-overlay] {
+    touch-action: pan-y pinch-zoom !important;
+  }
+}
