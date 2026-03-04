@@ -1,0 +1,42 @@
+ id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null,
+  licenseType: 'passepartout'
+}
+10:04:54 AM [express] GET /api/user-with-license 304 in 249ms :: {"id":3,"username":"zambelli.andrea.…
+10:04:54 AM [express] GET /api/license/application-title 304 in 68ms :: {"title":"Gestionale Appuntam…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927, custom: true
+10:04:54 AM [express] GET /api/client-app-info 200 in 334ms :: {"appName":"Gestionale Appuntamenti","…
+10:04:54 AM [express] GET /api/timezone-settings 304 in 71ms :: {"timezone":"Europe/Rome","offset":-1…
+10:04:54 AM [express] GET /api/booking-requests 304 in 143ms :: []
+10:04:54 AM [express] POST /api/timezone-settings 200 in 67ms :: {"success":true,"timezone":"Europe/Z…
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+Recupero impostazioni per utente 3
+Impostazioni trovate per utente 3: SI
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+  businessName: 'Gestionale Appuntamenti',
+  showBusinessName: true,
+  name: 'zambelli.andrea.1973@gmail.com',
+  fontSize: 24,
+  fontFamily: 'Times New Roman',
+  fontStyle: 'normal',
+  color: '#000000',
+  enabled: true
+}
+10:04:54 AM [express] GET /api/company-name-settings 200 in 138ms :: {"businessName":"Gestionale Appu…
+Recupero impostazioni per utente 3
+10:04:54 AM [express] GET /api/tenant-context 200 in 72ms :: {"userId":3,"userType":"admin","tenantId…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927, custom: true
+10:04:54 AM [express] GET /api/client-app-info 200 in 332ms :: {"appName":"Gestionale Appuntamenti","…
+Impostazioni trovate per utente 3: SI
+10:04:54 AM [express] GET /api/contact-info 200 in 136ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+10:04:54 AM [express] POST /api/timezone-settings 200 in 69ms :: {"success":true,"timezone":"Europe/Z…
+10:05:24 AM [express] GET /api/booking-requests 304 in 140ms :: []
+💬 [AI CHAT] Nuova richiesta da utente 3
+🤖 [AI CHAT] Processando messaggio con 2 messaggi nella storia
+❌ [AI CHAT] Errore: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [404 Not Found] This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.
+10:05:38 AM [express] POST /api/ai-chat 200 in 380ms :: {"message":"Mi dispiace, si è verificato un e…
+10:05:55 AM [express] GET /api/booking-requests 304 in 140ms :: []
