@@ -9369,16 +9369,19 @@ Studio Professionale`;
       const existingCampaign = await db
         .select()
         .from(marketingCampaigns)
-        .where(eq(marketingCampaigns.idempotencyKey, idempotencyKey))
-        .where(eq(marketingCampaigns.status, 'sent'))
+        .where(and(
+          eq(marketingCampaigns.idempotencyKey, idempotencyKey),
+          eq(marketingCampaigns.status, 'sent')
+        ))
         .limit(1);
       
       if (existingCampaign.length > 0) {
+        const sentTime = new Date(existingCampaign[0].createdAt!).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
         console.log('🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi:', title);
         return res.status(400).json({ 
           success: false,
           alreadySent: true,
-          message: `⚠️ Questa campagna è già stata inviata oggi alle ${new Date(existingCampaign[0].createdAt!).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}. Potrai inviarla di nuovo domani.`,
+          message: `⚠️ Questa campagna è già stata inviata oggi alle ${sentTime}. Potrai inviarla di nuovo domani.`,
           sentDate: existingCampaign[0].createdAt,
           sentTo: existingCampaign[0].sentTo
         });
