@@ -1,0 +1,324 @@
+/03/2026, 11:51:43:
+runtime
+✅ Impostazioni contatto trovate per tenant 3: {
+04/03/2026, 11:51:43:
+runtime
+  phone: '+393472550110',
+04/03/2026, 11:51:43:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+04/03/2026, 11:51:43:
+runtime
+  whatsappOptIn: true
+04/03/2026, 11:51:43:
+runtime
+}
+04/03/2026, 11:51:43:
+runtime
+10:51:43 AM [express] GET /api/contact-settings 200 in 477ms :: {"success":true,"settings":{"phone":"…
+04/03/2026, 11:51:43:
+runtime
+Impostazioni trovate per utente 3: SI
+04/03/2026, 11:51:43:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+04/03/2026, 11:51:43:
+runtime
+10:51:43 AM [express] GET /api/email-calendar-settings 200 in 472ms :: {"emailEnabled":true,"emailAdd…
+04/03/2026, 11:51:43:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:43:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:43:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+04/03/2026, 11:51:43:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+04/03/2026, 11:51:43:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:43:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:43:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-22 - 2026-03-05
+04/03/2026, 11:51:43:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+04/03/2026, 11:51:43:
+runtime
+Recupero impostazioni per utente 3
+04/03/2026, 11:51:43:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+04/03/2026, 11:51:43:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+04/03/2026, 11:51:43:
+runtime
+Impostazioni trovate per utente 3: SI
+04/03/2026, 11:51:43:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+04/03/2026, 11:51:43:
+runtime
+10:51:43 AM [express] GET /api/email-calendar-settings 304 in 475ms :: {"emailEnabled":true,"emailAdd…
+04/03/2026, 11:51:43:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-22 a 2026-03-05
+04/03/2026, 11:51:43:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+04/03/2026, 11:51:43:
+runtime
+10:51:43 AM [express] GET /api/notifications/upcoming-appointments 200 in 495ms :: {"success":true,"a…
+04/03/2026, 11:51:43:
+runtime
+📧 [GET EMAIL SETTINGS] Richiesta per utente 3
+04/03/2026, 11:51:43:
+runtime
+Recupero impostazioni per utente 3
+04/03/2026, 11:51:43:
+runtime
+🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: 2026-02-22 - 2026-03-05
+04/03/2026, 11:51:44:
+runtime
+Impostazioni trovate per utente 3: SI
+04/03/2026, 11:51:44:
+runtime
+✅ [EMAIL SETTINGS] Caricate per utente 3 - Email: zambelli.andrea.1973@gmail.com
+04/03/2026, 11:51:44:
+runtime
+10:51:44 AM [express] GET /api/email-calendar-settings 304 in 470ms :: {"emailEnabled":true,"emailAdd…
+04/03/2026, 11:51:44:
+runtime
+📅 [NOTIFICHE PG] Trovati 3 appuntamenti da 2026-02-22 a 2026-03-05
+04/03/2026, 11:51:44:
+runtime
+✅ [NOTIFICHE PG] Processati 3 appuntamenti per notifiche WhatsApp
+04/03/2026, 11:51:44:
+runtime
+10:51:44 AM [express] GET /api/notifications/upcoming-appointments 304 in 465ms :: {"success":true,"a…
+04/03/2026, 11:51:44:
+runtime
+10:51:44 AM [express] GET /api/booking-requests 304 in 467ms :: []
+04/03/2026, 11:51:44:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1772621504634.6746&admin=1","/pwa-icon/192x192?owner=3&v=1772621504634.6746&admin=1","/pwa-icon/512x512?owner=3&v=1772621504634.6746&admin=1"]
+04/03/2026, 11:51:44:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+04/03/2026, 11:51:44:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+04/03/2026, 11:51:44:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+04/03/2026, 11:51:44:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1772621504595' }
+04/03/2026, 11:51:44:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+04/03/2026, 11:51:44:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+04/03/2026, 11:51:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+04/03/2026, 11:51:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+04/03/2026, 11:51:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+04/03/2026, 11:51:44:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+04/03/2026, 11:51:44:
+runtime
+10:51:44 AM [express] GET /api/license/has-business-access 304 in 235ms :: true
+04/03/2026, 11:51:44:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] Session ID: ocQ5kVCoJrK5gxr_QxFxWybD_n680yZl
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] Cookie header: present
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] ============================
+04/03/2026, 11:51:44:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+04/03/2026, 11:51:44:
+runtime
+10:51:44 AM [express] GET /api/license/has-pro-access 304 in 242ms :: true
+04/03/2026, 11:51:45:
+runtime
+10:51:45 AM [express] GET /api/campaigns 200 in 475ms :: [{"id":14,"userId":3,"title":"Promo di Dicem…
+04/03/2026, 11:51:45:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:45:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+04/03/2026, 11:51:45:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:45:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+04/03/2026, 11:51:45:
+runtime
+📦 [/api/clients] [desktop] 20 clienti in 365ms (1 query con subquery conteggio)
+04/03/2026, 11:51:45:
+runtime
+10:51:45 AM [express] GET /api/clients 200 in 607ms :: [{"id":39,"userId":3,"firstName":"Zambelli 1",…
+04/03/2026, 11:51:45:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:45:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+04/03/2026, 11:51:45:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+04/03/2026, 11:51:45:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+04/03/2026, 11:52:15:
+runtime
+📧 [CAMPAIGN API] Generazione campagna per utente 3 - Licenza: passepartout
+04/03/2026, 11:52:15:
+runtime
+📧 [AI CAMPAIGN] Generando campagna marketing per: crea campagna biorisonanza sconto 30% per marzo
+04/03/2026, 11:52:19:
+runtime
+✅ [AI CAMPAIGN] Risposta ricevuta da Gemini: ```json
+04/03/2026, 11:52:19:
+runtime
+{
+04/03/2026, 11:52:19:
+runtime
+  "title": "Biorisonanza: 30% di Sconto per il Tuo Benessere a Marzo",
+04/03/2026, 11:52:19:
+runtime
+  "message": "Ritrova il tuo equilibrio e migliora il tuo benessere con la Biorisonanza! ✨ Per tutto il mese di marzo, 
+04/03/2026, 11:52:19:
+runtime
+10:52:19 AM [express] POST /api/ai/generate-campaign 200 in 4981ms :: {"message":"✅ Ho creato la tua …
+04/03/2026, 11:53:27:
+runtime
+10:53:27 AM [express] POST /api/promotions/create 200 in 479ms :: {"success":true,"code":"MDW8GU","id…
+04/03/2026, 11:53:28:
+runtime
+📤 [CAMPAIGN NEW] Richiesta invio campagna: Biorisonanza: 30% di Sconto per il Tuo Benessere a Marzo - Canale: both
+04/03/2026, 11:53:28:
+runtime
+🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi: Biorisonanza: 30% di Sconto per il Tuo Benessere a Marzo
+04/03/2026, 11:53:28:
+runtime
+10:53:28 AM [express] POST /api/campaigns/send-batch 400 in 702ms :: {"success":false,"alreadySent":t…
+04/03/2026, 11:53:50:
+runtime
+10:53:50 AM [express] POST /api/promotions/create 200 in 471ms :: {"success":true,"code":"BT564C","id…
+04/03/2026, 11:53:50:
+runtime
+📤 [CAMPAIGN NEW] Richiesta invio campagna: Biorisonanza: 30% di Sconto per il Tuo Benessere a Marzo - Canale: both
+04/03/2026, 11:53:51:
+runtime
+🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi: Biorisonanza: 30% di Sconto per il Tuo Benessere a Marzo
+04/03/2026, 11:53:51:
+runtime
+10:53:51 AM [express] POST /api/campaigns/send-batch 400 in 701ms :: {"success":false,"alreadySent":t…
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] Session ID: ocQ5kVCoJrK5gxr_QxFxWybD_n680yZl
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] Cookie header: present
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] ============================
+04/03/2026, 11:57:39:
+runtime
+🔐 [has-pro-access] Utente 3 (admin) - admin/staff = true
+04/03/2026, 11:57:39:
+runtime
+10:57:39 AM [express] GET /api/license/has-pro-access 304 in 1290ms :: true
+04/03/2026, 11:57:39:
+runtime
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+04/03/2026, 11:57:39:
+runtime
+10:57:39 AM [express] GET /api/license/has-business-access 304 in 1327ms :: true
+04/03/2026, 11:57:39:
+runtime
+10:57:39 AM [express] GET /api/tenant-context 200 in 1344ms :: {"userId":3,"userType":"admin","tenant…
+04/03/2026, 11:57:39:
+runtime
+🏷️ [desktop] Assignment code per utente 3: ZAM0319
+04/03/2026, 11:57:39:
+runtime
+🏷️ [desktop] Legacy code per utente 3: PROF_003_4678
+04/03/2026, 11:57:39:
+runtime
+10:57:39 AM [express] GET /api/campaigns 200 in 1593ms :: [{"id":19,"userId":3,"title":"Biorisonanza:…
+04/03/2026, 11:57:39:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+04/03/2026, 11:57:39:
+runtime
+  id: 3,
+04/03/2026, 11:57:39:
+runtime
+  username: 'zambelli.andrea.1973@gmail.com',
+04/03/2026, 11:57:39:
+runtime
+  firstName: null,
+04/03/2026, 11:57:39:
+runtime
+  lastName: null,
+04/03/2026, 11:57:39:
+runtime
+  licenseType: 'passepartout'
+04/03/2026, 11:57:39:
+runtime
+}
+04/03/2026, 11:57:39:
+runtime
+10:57:39 AM [express] GET /api/user-with-license 200 in 1889ms :: {"id":3,"username":"zambelli.andrea…
+04/03/2026, 12:01:01:
+build
+Enumerating objects: 26358, done.
+04/03/2026, 12:01:01:
+build
+Counting objects: 100% (3683/3683), done.
+04/03/2026, 12:01:01:
+build
+Compressing objects: 100% (527/527), done.
