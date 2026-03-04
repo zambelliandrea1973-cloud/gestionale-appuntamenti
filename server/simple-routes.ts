@@ -9365,17 +9365,28 @@ Studio Professionale`;
       const idempotencyData = `${user.id}-${title}-${message}-${currentDate}`;
       const idempotencyKey = crypto.createHash('sha256').update(idempotencyData).digest('hex');
       
-      // 🔒 STEP 2: BLOCCO GIORNALIERO - Una campagna con stesso contenuto può essere inviata UNA SOLA VOLTA al giorno
+      // 🔒 STEP 2: BLOCCO - Verifica se la campagna è già stata inviata o è in corso
       const existingCampaign = await db
         .select()
         .from(marketingCampaigns)
         .where(and(
           eq(marketingCampaigns.idempotencyKey, idempotencyKey),
-          eq(marketingCampaigns.status, 'sent')
+          or(
+            eq(marketingCampaigns.status, 'sent'),
+            eq(marketingCampaigns.status, 'locked')
+          )
         ))
         .limit(1);
       
       if (existingCampaign.length > 0) {
+        if (existingCampaign[0].status === 'locked') {
+          console.log('🔒 [CAMPAIGN IN PROGRESS] Campagna già in fase di invio:', title);
+          return res.status(400).json({ 
+            success: false,
+            alreadySent: true,
+            message: `⚠️ Questa campagna è in fase di invio. Attendi il completamento.`
+          });
+        }
         const sentTime = new Date(existingCampaign[0].createdAt!).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
         console.log('🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi:', title);
         return res.status(400).json({ 
@@ -9482,7 +9493,10 @@ Studio Professionale`;
             auth: {
               user: emailConfig.emailAddress,
               pass: emailConfig.emailPassword,
-            }
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 15000,
           });
           
           const linkifyHtml = (text: string) => {
