@@ -311,10 +311,10 @@ export default function ClientForm({
         </div>
       ) : (
         <Tabs defaultValue="personal" value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 min-h-0">
-          <TabsList className="grid w-full grid-cols-3 mx-6 mb-2 flex-shrink-0">
-            <TabsTrigger value="personal">Dati Personali</TabsTrigger>
-            <TabsTrigger value="medical">Dati Medici</TabsTrigger>
-            <TabsTrigger value="consent">Consenso Dati</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mx-6 mb-2 flex-shrink-0" style={{ maxWidth: "calc(100% - 3rem)" }}>
+            <TabsTrigger value="personal" className="text-xs sm:text-sm px-1 sm:px-3">Dati Personali</TabsTrigger>
+            <TabsTrigger value="medical" className="text-xs sm:text-sm px-1 sm:px-3">Dati Medici</TabsTrigger>
+            <TabsTrigger value="consent" className="text-xs sm:text-sm px-1 sm:px-3">Consenso Dati</TabsTrigger>
           </TabsList>
           
           <Form {...form}>
@@ -405,11 +405,11 @@ export default function ClientForm({
                       return (
                         <FormItem>
                           <FormLabel>Telefono *</FormLabel>
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-1">
                             <Select value={prefix} onValueChange={handlePrefixChange}>
                               <FormControl>
-                                <SelectTrigger className="w-[140px]">
-                                  <SelectValue placeholder="Prefisso" />
+                                <SelectTrigger className="w-[90px] shrink-0 px-2">
+                                  <SelectValue placeholder="Pref." />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
