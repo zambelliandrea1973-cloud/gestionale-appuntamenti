@@ -9217,7 +9217,7 @@ Studio Professionale`;
       const activeLicense = userLicenses.find(l => l.isActive);
       const licenseType = activeLicense?.type || 'trial';
       
-      const allowedTypes = ['pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
+      const allowedTypes = ['trial', 'pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
       if (!allowedTypes.includes(licenseType)) {
         return res.status(403).json({ 
           message: 'Funzionalità disponibile solo per utenti Pro o superiori',
@@ -9354,7 +9354,7 @@ Studio Professionale`;
       const activeLicense = userLicenses.find(l => l.isActive);
       const licenseType = activeLicense?.type || 'trial';
       
-      const allowedTypes = ['pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
+      const allowedTypes = ['trial', 'pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
       if (!allowedTypes.includes(licenseType)) {
         return res.status(403).json({ 
           message: 'Funzionalità disponibile solo per utenti Pro o superiori',
