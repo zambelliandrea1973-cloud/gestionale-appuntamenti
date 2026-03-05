@@ -9232,11 +9232,19 @@ Studio Professionale`;
       }
       
       console.log('📧 [CAMPAIGN API] Generazione campagna per utente', user.id, '- Licenza:', licenseType);
+      console.log('📧 [CAMPAIGN API] GEMINI_API_KEY presente:', !!process.env.GEMINI_API_KEY, '- Primi 10 char:', process.env.GEMINI_API_KEY?.substring(0, 10));
       
-      // Genera campagna con AI
-      const campaign = await generateMarketingCampaign(prompt);
+      let campaign;
+      try {
+        campaign = await generateMarketingCampaign(prompt);
+      } catch (aiError: any) {
+        console.error('❌ [CAMPAIGN API] Errore AI generazione:', aiError?.message || aiError);
+        campaign = {
+          title: 'Nuova Campagna Marketing',
+          message: `Messaggio personalizzato: ${prompt.substring(0, 300)}`
+        };
+      }
       
-      // Restituisci nel formato atteso dal frontend
       res.json({
         message: `✅ Ho creato la tua campagna: "${campaign.title}"!\n\nPuoi modificare il messaggio se vuoi, oppure clicca sui pulsanti qui sotto per inviarla ai tuoi clienti.`,
         campaign: {
@@ -9245,7 +9253,7 @@ Studio Professionale`;
         }
       });
     } catch (error) {
-      console.error('❌ [CAMPAIGN API] Errore:', error);
+      console.error('❌ [CAMPAIGN API] Errore generale:', error);
       res.status(500).json({ 
         message: 'Errore nella generazione della campagna',
         error: error instanceof Error ? error.message : 'Unknown error'
