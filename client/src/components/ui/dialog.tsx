@@ -23,6 +23,10 @@ const Dialog = ({ open, onOpenChange, children, ...props }: DialogPrimitive.Dial
     onOpenChange?.(v);
   }, [isControlled, onOpenChange]);
 
+  React.useEffect(() => {
+    if (isControlled) setInternalOpen(open!);
+  }, [open, isControlled]);
+
   return (
     <DialogContext.Provider value={{ open: currentOpen, onOpenChange: handleChange }}>
       <DialogPrimitive.Root open={currentOpen} onOpenChange={handleChange} {...props}>
@@ -53,55 +57,6 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const TouchDialogContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { onCloseClick: () => void }
->(({ className, children, onCloseClick, ...props }, ref) => {
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseClick();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onCloseClick]);
-
-  return createPortal(
-    <>
-      <div
-        className="fixed inset-0 z-50 bg-black/80 animate-in fade-in-0"
-        onClick={onCloseClick}
-      />
-      <div
-        ref={ref}
-        role="dialog"
-        aria-modal="true"
-        className={cn(
-          "fixed inset-0 z-50 bg-background overflow-y-auto animate-in fade-in-0",
-          className
-        )}
-        style={{
-          WebkitOverflowScrolling: "touch",
-          overscrollBehavior: "contain"
-        }}
-        {...props}
-      >
-        <div className="p-6 pb-24" style={{ minHeight: "calc(100% + 1px)" }}>
-          {children}
-        </div>
-        <button
-          onClick={onCloseClick}
-          className="fixed right-4 top-4 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 hover:opacity-100 focus:outline-none"
-        >
-          <X className="h-5 w-5" />
-          <span className="sr-only">Close</span>
-        </button>
-      </div>
-    </>,
-    document.body
-  );
-});
-TouchDialogContent.displayName = "TouchDialogContent";
-
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -109,21 +64,49 @@ const DialogContent = React.forwardRef<
   const isTouch = isTouchDevice();
   const { open, onOpenChange } = React.useContext(DialogContext);
 
+  React.useEffect(() => {
+    if (!isTouch || !open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onOpenChange(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isTouch, open, onOpenChange]);
+
   if (isTouch && open) {
-    return (
-      <TouchDialogContent
-        ref={ref as any}
-        className={className}
-        onCloseClick={() => onOpenChange(false)}
-      >
-        {children}
-      </TouchDialogContent>
+    return createPortal(
+      <>
+        <div
+          className="fixed inset-0 z-50 bg-black/80"
+          style={{ touchAction: "none" }}
+        />
+        <div
+          ref={ref}
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-background overflow-y-auto"
+          style={{
+            WebkitOverflowScrolling: "touch",
+            overscrollBehavior: "contain"
+          }}
+        >
+          <div className="relative min-h-full p-4 pb-24">
+            {children}
+          </div>
+          <button
+            onClick={() => onOpenChange(false)}
+            className="fixed right-3 top-3 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 hover:opacity-100 focus:outline-none"
+            aria-label="Close"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+      </>,
+      document.body
     );
   }
 
-  if (isTouch && !open) {
-    return null;
-  }
+  if (isTouch && !open) return null;
 
   return (
     <DialogPortal>
