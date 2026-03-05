@@ -4,14 +4,9 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-function useIsTouchDevice() {
-  const [isTouch, setIsTouch] = React.useState(() =>
-    typeof window !== "undefined"
-      ? ("ontouchstart" in window || navigator.maxTouchPoints > 0)
-      : false
-  );
-  return isTouch;
-}
+const isTouchDevice = () =>
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
 const Dialog = DialogPrimitive.Root
 
@@ -40,56 +35,61 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const isTouch = useIsTouchDevice();
-  const contentRef = React.useRef<HTMLDivElement>(null);
+  const isTouch = isTouchDevice();
+  const innerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!isTouch) return;
 
-    const unlockScroll = () => {
+    const dialogEl = innerRef.current;
+    if (!dialogEl) return;
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (dialogEl.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (dialogEl.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+      }
+    };
+
+    document.addEventListener("touchmove", onTouchMove, { capture: true, passive: true } as any);
+    document.addEventListener("touchstart", onTouchStart, { capture: true, passive: true } as any);
+
+    document.body.style.removeProperty("overflow");
+
+    const observer = new MutationObserver(() => {
       document.body.style.removeProperty("overflow");
       document.body.style.removeProperty("padding-right");
       document.body.style.removeProperty("margin-right");
-      const locked = document.querySelectorAll("[data-scroll-locked]");
-      locked.forEach(el => {
-        (el as HTMLElement).style.removeProperty("overflow");
-        (el as HTMLElement).style.removeProperty("margin-right");
-        (el as HTMLElement).style.removeProperty("padding-right");
-      });
-    };
-
-    const observer = new MutationObserver(unlockScroll);
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["style", "data-scroll-locked"]
     });
-    unlockScroll();
+    observer.observe(document.body, { attributes: true, attributeFilter: ["style"] });
 
-    const container = contentRef.current;
-    if (container) {
-      const preventBlock = (e: TouchEvent) => {
-        e.stopPropagation();
-      };
-      container.addEventListener("touchmove", preventBlock, { passive: true, capture: true });
-      return () => {
-        observer.disconnect();
-        container.removeEventListener("touchmove", preventBlock, { capture: true } as any);
-      };
-    }
-
-    return () => observer.disconnect();
+    return () => {
+      document.removeEventListener("touchmove", onTouchMove, { capture: true } as any);
+      document.removeEventListener("touchstart", onTouchStart, { capture: true } as any);
+      observer.disconnect();
+    };
   }, [isTouch]);
+
+  const setRefs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      (innerRef as any).current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as any).current = node;
+    },
+    [ref]
+  );
 
   if (isTouch) {
     return (
       <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Content
-          ref={(node) => {
-            (contentRef as any).current = node;
-            if (typeof ref === "function") ref(node);
-            else if (ref) (ref as any).current = node;
-          }}
+          ref={setRefs}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           className={cn(
