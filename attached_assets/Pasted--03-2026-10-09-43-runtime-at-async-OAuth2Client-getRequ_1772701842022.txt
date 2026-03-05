@@ -1,0 +1,3708 @@
+/03/2026, 10:09:43:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:43:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:43:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:43:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:43:
+runtime
+❌ Errore importazione Google Calendar: GaxiosError: invalid_grant
+05/03/2026, 10:09:45:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12275: GaxiosError: invalid_grant
+05/03/2026, 10:09:45:
+runtime
+}
+05/03/2026, 10:09:45:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:45:
+runtime
+  status: 400,
+05/03/2026, 10:09:45:
+runtime
+  error: undefined,
+05/03/2026, 10:09:45:
+runtime
+  },
+05/03/2026, 10:09:45:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:45:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:45:
+runtime
+    status: 400,
+05/03/2026, 10:09:45:
+runtime
+    },
+05/03/2026, 10:09:45:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:45:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:45:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:45:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:45:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:45:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:45:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:45:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:45:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:45 GMT',
+05/03/2026, 10:09:45:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:45:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:45:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:45:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:45:
+runtime
+    headers: {
+05/03/2026, 10:09:45:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:45:
+runtime
+    },
+05/03/2026, 10:09:45:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:45:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:45:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:45:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:45:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:45:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:45:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:45:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:45:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:45:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:45:
+runtime
+      retry: true,
+05/03/2026, 10:09:45:
+runtime
+    config: {
+05/03/2026, 10:09:45:
+runtime
+  response: {
+05/03/2026, 10:09:45:
+runtime
+  },
+05/03/2026, 10:09:45:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:45:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:45:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:45:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:45:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:45:
+runtime
+    },
+05/03/2026, 10:09:45:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:45:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:45:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:45:
+runtime
+    headers: {
+05/03/2026, 10:09:45:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:45:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:45:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:45:
+runtime
+    },
+05/03/2026, 10:09:45:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:45:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:45:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:45:
+runtime
+      timeOfFirstRequest: 1772701785186,
+05/03/2026, 10:09:45:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:45:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:45:
+runtime
+      retry: 3,
+05/03/2026, 10:09:45:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:45:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:45:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:45:
+runtime
+    retry: true,
+05/03/2026, 10:09:45:
+runtime
+  config: {
+05/03/2026, 10:09:45:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:45:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:45:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:45:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:45:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:45:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:46:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:46:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:46:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:46:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:46:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:46:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12269: GaxiosError: invalid_grant
+05/03/2026, 10:09:46:
+runtime
+}
+05/03/2026, 10:09:46:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:46:
+runtime
+  status: 400,
+05/03/2026, 10:09:46:
+runtime
+  error: undefined,
+05/03/2026, 10:09:46:
+runtime
+  },
+05/03/2026, 10:09:46:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:46:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:46:
+runtime
+    status: 400,
+05/03/2026, 10:09:46:
+runtime
+    },
+05/03/2026, 10:09:46:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:46:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:46:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:46:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:46:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:46:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:46:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:46:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:46:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:46 GMT',
+05/03/2026, 10:09:46:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:46:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:46:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:46:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:46:
+runtime
+    headers: {
+05/03/2026, 10:09:46:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:46:
+runtime
+    },
+05/03/2026, 10:09:46:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:46:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:46:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:46:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:46:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:46:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:46:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:46:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:46:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:46:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:46:
+runtime
+      retry: true,
+05/03/2026, 10:09:46:
+runtime
+    config: {
+05/03/2026, 10:09:46:
+runtime
+  response: {
+05/03/2026, 10:09:46:
+runtime
+  },
+05/03/2026, 10:09:46:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:46:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:46:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:46:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:46:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:46:
+runtime
+    },
+05/03/2026, 10:09:46:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:46:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:46:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:46:
+runtime
+    headers: {
+05/03/2026, 10:09:46:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:46:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:46:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:46:
+runtime
+    },
+05/03/2026, 10:09:46:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:46:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:46:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:46:
+runtime
+      timeOfFirstRequest: 1772701786162,
+05/03/2026, 10:09:46:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:46:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:46:
+runtime
+      retry: 3,
+05/03/2026, 10:09:46:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:46:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:46:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:46:
+runtime
+    retry: true,
+05/03/2026, 10:09:46:
+runtime
+  config: {
+05/03/2026, 10:09:46:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:46:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:46:
+runtime
+9:09:46 AM [express] GET /api/user 304 in 233ms
+05/03/2026, 10:09:46:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+05/03/2026, 10:09:46:
+runtime
+📖 [/api/appointments/:id] GET - Richiesta appuntamento 12379 da utente 3
+05/03/2026, 10:09:47:
+runtime
+      allFields: [Array]
+05/03/2026, 10:09:47:
+runtime
+      hasIsActiveField: true,
+05/03/2026, 10:09:47:
+runtime
+      isActive: true,
+05/03/2026, 10:09:47:
+runtime
+      lastName: 'colombari',
+05/03/2026, 10:09:47:
+runtime
+      firstName: 'martina',
+05/03/2026, 10:09:47:
+runtime
+      id: 7,
+05/03/2026, 10:09:47:
+runtime
+    {
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      allFields: [Array]
+05/03/2026, 10:09:47:
+runtime
+      hasIsActiveField: true,
+05/03/2026, 10:09:47:
+runtime
+      isActive: true,
+05/03/2026, 10:09:47:
+runtime
+      lastName: 'Busnari',
+05/03/2026, 10:09:47:
+runtime
+      firstName: 'Silvia',
+05/03/2026, 10:09:47:
+runtime
+      id: 4,
+05/03/2026, 10:09:47:
+runtime
+    {
+05/03/2026, 10:09:47:
+runtime
+  collaborators: [
+05/03/2026, 10:09:47:
+runtime
+  count: 4,
+05/03/2026, 10:09:47:
+runtime
+  userId: 3,
+05/03/2026, 10:09:47:
+runtime
+🔍 DEBUG API COLLABORATORS: {
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+🔧 [/api/services] [desktop] Caricati 10 servizi da PostgreSQL per utente 3
+05/03/2026, 10:09:47:
+runtime
+✅ NUOVO Sistema: 10 servizi per utente 3 - SEPARAZIONE COMPLETA
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/collaborators 304 in 467ms :: [{"id":4,"userId":3,"firstName":"Silvia"…
+05/03/2026, 10:09:47:
+runtime
+}
+05/03/2026, 10:09:47:
+runtime
+  ]
+05/03/2026, 10:09:47:
+runtime
+    }
+05/03/2026, 10:09:47:
+runtime
+      allFields: [Array]
+05/03/2026, 10:09:47:
+runtime
+      hasIsActiveField: true,
+05/03/2026, 10:09:47:
+runtime
+      isActive: true,
+05/03/2026, 10:09:47:
+runtime
+      lastName: 'stone',
+05/03/2026, 10:09:47:
+runtime
+      firstName: 'sharon ',
+05/03/2026, 10:09:47:
+runtime
+      id: 3,
+05/03/2026, 10:09:47:
+runtime
+    {
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      allFields: [Array]
+05/03/2026, 10:09:47:
+runtime
+      hasIsActiveField: true,
+05/03/2026, 10:09:47:
+runtime
+      isActive: true,
+05/03/2026, 10:09:47:
+runtime
+      lastName: 'kidman',
+05/03/2026, 10:09:47:
+runtime
+      firstName: 'nicole',
+05/03/2026, 10:09:47:
+runtime
+      id: 6,
+05/03/2026, 10:09:47:
+runtime
+    {
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/treatment-rooms 304 in 472ms :: [{"id":4,"userId":3,"name":"stanza 1",…
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/services 304 in 472ms :: [{"id":75,"userId":3,"name":"Bicom","duration…
+05/03/2026, 10:09:47:
+runtime
+✅ [PostgreSQL] Appuntamento 12379 recuperato
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/appointments/12379 304 in 483ms :: {"id":12379,"userId":3,"clientId":1…
+05/03/2026, 10:09:47:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:47:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:47:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:47:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:47:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:47:
+runtime
+      retry: true,
+05/03/2026, 10:09:47:
+runtime
+    config: {
+05/03/2026, 10:09:47:
+runtime
+  response: {
+05/03/2026, 10:09:47:
+runtime
+  },
+05/03/2026, 10:09:47:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:47:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:47:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:47:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:47:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:47:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:47:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:47:
+runtime
+    headers: {
+05/03/2026, 10:09:47:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:47:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:47:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:47:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:47:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:47:
+runtime
+      timeOfFirstRequest: 1772701787160,
+05/03/2026, 10:09:47:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:47:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:47:
+runtime
+      retry: 3,
+05/03/2026, 10:09:47:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:47:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:47:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:47:
+runtime
+    retry: true,
+05/03/2026, 10:09:47:
+runtime
+  config: {
+05/03/2026, 10:09:47:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:47:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:47:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:47:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:47:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:47:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:47:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:47:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12270: GaxiosError: invalid_grant
+05/03/2026, 10:09:47:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:47:
+runtime
+    status: 400,
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:47:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:47:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:47:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:47:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:47:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:47:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:47:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:47:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:47 GMT',
+05/03/2026, 10:09:47:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:47:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:47:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:47:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:47:
+runtime
+    headers: {
+05/03/2026, 10:09:47:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:47:
+runtime
+    },
+05/03/2026, 10:09:47:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:47:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:47:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:47:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:47:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:47:
+runtime
+}
+05/03/2026, 10:09:47:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:47:
+runtime
+  status: 400,
+05/03/2026, 10:09:47:
+runtime
+  error: undefined,
+05/03/2026, 10:09:47:
+runtime
+  },
+05/03/2026, 10:09:47:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:47:
+runtime
+📦 [/api/clients] [desktop] 20 clienti in 345ms (1 query con subquery conteggio)
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/clients 304 in 581ms :: [{"id":39,"userId":3,"firstName":"Zambelli 1",…
+05/03/2026, 10:09:47:
+runtime
+🔧 [/api/services] [desktop] Caricati 10 servizi da PostgreSQL per utente 3
+05/03/2026, 10:09:47:
+runtime
+✅ NUOVO Sistema: 10 servizi per utente 3 - SEPARAZIONE COMPLETA
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/services 200 in 468ms :: [{"id":75,"userId":3,"name":"Bicom","duration…
+05/03/2026, 10:09:47:
+runtime
+9:09:47 AM [express] GET /api/packages/purchases 304 in 472ms :: []
+05/03/2026, 10:09:48:
+runtime
+}
+05/03/2026, 10:09:48:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:48:
+runtime
+  status: 400,
+05/03/2026, 10:09:48:
+runtime
+  error: undefined,
+05/03/2026, 10:09:48:
+runtime
+  },
+05/03/2026, 10:09:48:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:48:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:48:
+runtime
+    status: 400,
+05/03/2026, 10:09:48:
+runtime
+    },
+05/03/2026, 10:09:48:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:48:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:48:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:48:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:48:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:48:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:48:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:48:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:48:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:48 GMT',
+05/03/2026, 10:09:48:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:48:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:48:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:48:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:48:
+runtime
+    headers: {
+05/03/2026, 10:09:48:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:48:
+runtime
+    },
+05/03/2026, 10:09:48:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:48:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:48:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:48:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:48:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:48:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:48:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:48:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:48:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:48:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:48:
+runtime
+      retry: true,
+05/03/2026, 10:09:48:
+runtime
+    config: {
+05/03/2026, 10:09:48:
+runtime
+  response: {
+05/03/2026, 10:09:48:
+runtime
+  },
+05/03/2026, 10:09:48:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:48:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:48:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:48:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:48:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:48:
+runtime
+    },
+05/03/2026, 10:09:48:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:48:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:48:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:48:
+runtime
+    headers: {
+05/03/2026, 10:09:48:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:48:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:48:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:48:
+runtime
+    },
+05/03/2026, 10:09:48:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:48:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:48:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:48:
+runtime
+      timeOfFirstRequest: 1772701788117,
+05/03/2026, 10:09:48:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:48:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:48:
+runtime
+      retry: 3,
+05/03/2026, 10:09:48:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:48:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:48:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:48:
+runtime
+    retry: true,
+05/03/2026, 10:09:48:
+runtime
+  config: {
+05/03/2026, 10:09:48:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:48:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:48:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:48:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:48:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:48:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:48:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12351: GaxiosError: invalid_grant
+05/03/2026, 10:09:49:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12352: GaxiosError: invalid_grant
+05/03/2026, 10:09:49:
+runtime
+}
+05/03/2026, 10:09:49:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:49:
+runtime
+  status: 400,
+05/03/2026, 10:09:49:
+runtime
+  error: undefined,
+05/03/2026, 10:09:49:
+runtime
+  },
+05/03/2026, 10:09:49:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:49:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:49:
+runtime
+    status: 400,
+05/03/2026, 10:09:49:
+runtime
+    },
+05/03/2026, 10:09:49:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:49:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:49:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:49:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:49:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:49:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:49:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:49:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:49:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:49 GMT',
+05/03/2026, 10:09:49:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:49:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:49:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:49:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:49:
+runtime
+    headers: {
+05/03/2026, 10:09:49:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:49:
+runtime
+    },
+05/03/2026, 10:09:49:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:49:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:49:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:49:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:49:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:49:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:49:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:49:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:49:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:49:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:49:
+runtime
+      retry: true,
+05/03/2026, 10:09:49:
+runtime
+    config: {
+05/03/2026, 10:09:49:
+runtime
+  response: {
+05/03/2026, 10:09:49:
+runtime
+  },
+05/03/2026, 10:09:49:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:49:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:49:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:49:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:49:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:49:
+runtime
+    },
+05/03/2026, 10:09:49:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:49:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:49:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:49:
+runtime
+    headers: {
+05/03/2026, 10:09:49:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:49:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:49:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:49:
+runtime
+    },
+05/03/2026, 10:09:49:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:49:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:49:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:49:
+runtime
+      timeOfFirstRequest: 1772701789089,
+05/03/2026, 10:09:49:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:49:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:49:
+runtime
+      retry: 3,
+05/03/2026, 10:09:49:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:49:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:49:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:49:
+runtime
+    retry: true,
+05/03/2026, 10:09:49:
+runtime
+  config: {
+05/03/2026, 10:09:49:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:49:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:49:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:49:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:49:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:49:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:49:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:50:
+runtime
+}
+05/03/2026, 10:09:50:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:50:
+runtime
+  status: 400,
+05/03/2026, 10:09:50:
+runtime
+  error: undefined,
+05/03/2026, 10:09:50:
+runtime
+  },
+05/03/2026, 10:09:50:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:50:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:50:
+runtime
+    status: 400,
+05/03/2026, 10:09:50:
+runtime
+    },
+05/03/2026, 10:09:50:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:50:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:50:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:50:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:50:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:50:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:50:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:50:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:50:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:50 GMT',
+05/03/2026, 10:09:50:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:50:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:50:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:50:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:50:
+runtime
+    headers: {
+05/03/2026, 10:09:50:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:50:
+runtime
+    },
+05/03/2026, 10:09:50:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:50:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:50:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:50:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:50:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:50:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:50:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:50:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:50:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:50:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:50:
+runtime
+      retry: true,
+05/03/2026, 10:09:50:
+runtime
+    config: {
+05/03/2026, 10:09:50:
+runtime
+  response: {
+05/03/2026, 10:09:50:
+runtime
+  },
+05/03/2026, 10:09:50:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:50:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:50:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:50:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:50:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:50:
+runtime
+    },
+05/03/2026, 10:09:50:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:50:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:50:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:50:
+runtime
+    headers: {
+05/03/2026, 10:09:50:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:50:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:50:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:50:
+runtime
+    },
+05/03/2026, 10:09:50:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:50:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:50:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:50:
+runtime
+      timeOfFirstRequest: 1772701790051,
+05/03/2026, 10:09:50:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:50:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:50:
+runtime
+      retry: 3,
+05/03/2026, 10:09:50:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:50:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:50:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:50:
+runtime
+    retry: true,
+05/03/2026, 10:09:50:
+runtime
+  config: {
+05/03/2026, 10:09:50:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:50:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:50:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:50:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:50:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:50:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:50:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:50:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12350: GaxiosError: invalid_grant
+05/03/2026, 10:09:51:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:51:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:51:
+runtime
+    },
+05/03/2026, 10:09:51:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:51:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:51:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:51:
+runtime
+    headers: {
+05/03/2026, 10:09:51:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:51:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:51:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:51:
+runtime
+    },
+05/03/2026, 10:09:51:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:51:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:51:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:51:
+runtime
+      timeOfFirstRequest: 1772701791022,
+05/03/2026, 10:09:51:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:51:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:51:
+runtime
+      retry: 3,
+05/03/2026, 10:09:51:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:51:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:51:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:51:
+runtime
+    retry: true,
+05/03/2026, 10:09:51:
+runtime
+  config: {
+05/03/2026, 10:09:51:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:51:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:51:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:51:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:51:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:51:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:51:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:51:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12271: GaxiosError: invalid_grant
+05/03/2026, 10:09:51:
+runtime
+}
+05/03/2026, 10:09:51:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:51:
+runtime
+  status: 400,
+05/03/2026, 10:09:51:
+runtime
+  error: undefined,
+05/03/2026, 10:09:51:
+runtime
+  },
+05/03/2026, 10:09:51:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:51:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:51:
+runtime
+    status: 400,
+05/03/2026, 10:09:51:
+runtime
+    },
+05/03/2026, 10:09:51:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:51:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:51:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:51:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:51:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:51:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:51:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:51:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:51:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:51 GMT',
+05/03/2026, 10:09:51:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:51:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:51:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:51:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:51:
+runtime
+    headers: {
+05/03/2026, 10:09:51:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:51:
+runtime
+    },
+05/03/2026, 10:09:51:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:51:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:51:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:51:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:51:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:51:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:51:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:51:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:51:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:51:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:51:
+runtime
+      retry: true,
+05/03/2026, 10:09:51:
+runtime
+    config: {
+05/03/2026, 10:09:51:
+runtime
+  response: {
+05/03/2026, 10:09:51:
+runtime
+  },
+05/03/2026, 10:09:51:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:51:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:51:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:52:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:52:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:52:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:52:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12272: GaxiosError: invalid_grant
+05/03/2026, 10:09:52:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:52:
+runtime
+}
+05/03/2026, 10:09:52:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:52:
+runtime
+  status: 400,
+05/03/2026, 10:09:52:
+runtime
+  error: undefined,
+05/03/2026, 10:09:52:
+runtime
+  },
+05/03/2026, 10:09:52:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:52:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:52:
+runtime
+    status: 400,
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:52:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:52:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:52:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:52:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:52:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:52:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:52:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:52:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:51 GMT',
+05/03/2026, 10:09:52:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:52:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:52:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:52:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:52:
+runtime
+    headers: {
+05/03/2026, 10:09:52:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:52:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:52:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:52:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:52:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:52:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:52:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:52:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:52:
+runtime
+      retry: true,
+05/03/2026, 10:09:52:
+runtime
+    config: {
+05/03/2026, 10:09:52:
+runtime
+  response: {
+05/03/2026, 10:09:52:
+runtime
+  },
+05/03/2026, 10:09:52:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:52:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:52:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:52:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:52:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:52:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:52:
+runtime
+    headers: {
+05/03/2026, 10:09:52:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:52:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:52:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:52:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:52:
+runtime
+      timeOfFirstRequest: 1772701792002,
+05/03/2026, 10:09:52:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:52:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:52:
+runtime
+      retry: 3,
+05/03/2026, 10:09:52:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:52:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:52:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:52:
+runtime
+    retry: true,
+05/03/2026, 10:09:52:
+runtime
+  config: {
+05/03/2026, 10:09:52:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:52:
+runtime
+    retry: true,
+05/03/2026, 10:09:52:
+runtime
+  config: {
+05/03/2026, 10:09:52:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:52:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:52:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:52:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:52:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:52:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12379: GaxiosError: invalid_grant
+05/03/2026, 10:09:52:
+runtime
+}
+05/03/2026, 10:09:52:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:52:
+runtime
+  status: 400,
+05/03/2026, 10:09:52:
+runtime
+  error: undefined,
+05/03/2026, 10:09:52:
+runtime
+  },
+05/03/2026, 10:09:52:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:52:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:52:
+runtime
+    status: 400,
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:52:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:52:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:52:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:52:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:52:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:52:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:52:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:52:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:52 GMT',
+05/03/2026, 10:09:52:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:52:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:52:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:52:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:52:
+runtime
+    headers: {
+05/03/2026, 10:09:52:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:52:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:52:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:52:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:52:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:52:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:52:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:52:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:52:
+runtime
+      retry: true,
+05/03/2026, 10:09:52:
+runtime
+    config: {
+05/03/2026, 10:09:52:
+runtime
+  response: {
+05/03/2026, 10:09:52:
+runtime
+  },
+05/03/2026, 10:09:52:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:52:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:52:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:52:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:52:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:52:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:52:
+runtime
+    headers: {
+05/03/2026, 10:09:52:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:52:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:52:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:52:
+runtime
+    },
+05/03/2026, 10:09:52:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:52:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:52:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:52:
+runtime
+      timeOfFirstRequest: 1772701792959,
+05/03/2026, 10:09:52:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:52:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:52:
+runtime
+      retry: 3,
+05/03/2026, 10:09:52:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:52:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:53:
+runtime
+}
+05/03/2026, 10:09:53:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:53:
+runtime
+  status: 400,
+05/03/2026, 10:09:53:
+runtime
+  error: undefined,
+05/03/2026, 10:09:53:
+runtime
+  },
+05/03/2026, 10:09:53:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:53:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:53:
+runtime
+    status: 400,
+05/03/2026, 10:09:53:
+runtime
+    },
+05/03/2026, 10:09:53:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:53:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:53:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:53:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:53:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:53:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:53:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:53:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:53:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:53 GMT',
+05/03/2026, 10:09:53:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:53:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:53:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:53:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:53:
+runtime
+    headers: {
+05/03/2026, 10:09:53:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:53:
+runtime
+    },
+05/03/2026, 10:09:53:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:53:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:53:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:53:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:53:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:53:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:53:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:53:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:53:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:53:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:53:
+runtime
+      retry: true,
+05/03/2026, 10:09:53:
+runtime
+    config: {
+05/03/2026, 10:09:53:
+runtime
+  response: {
+05/03/2026, 10:09:53:
+runtime
+  },
+05/03/2026, 10:09:53:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:53:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:53:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:53:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:53:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:53:
+runtime
+    },
+05/03/2026, 10:09:53:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:53:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:53:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:53:
+runtime
+    headers: {
+05/03/2026, 10:09:53:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:53:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:53:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:53:
+runtime
+    },
+05/03/2026, 10:09:53:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:53:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:53:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:53:
+runtime
+      timeOfFirstRequest: 1772701793931,
+05/03/2026, 10:09:53:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:53:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:53:
+runtime
+      retry: 3,
+05/03/2026, 10:09:53:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:53:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:53:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:53:
+runtime
+    retry: true,
+05/03/2026, 10:09:53:
+runtime
+  config: {
+05/03/2026, 10:09:53:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:53:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:53:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:53:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:53:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:53:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:53:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:53:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12380: GaxiosError: invalid_grant
+05/03/2026, 10:09:54:
+runtime
+    retry: true,
+05/03/2026, 10:09:54:
+runtime
+  config: {
+05/03/2026, 10:09:54:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:54:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:54:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:54:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:54:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:54:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:54:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:54:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12273: GaxiosError: invalid_grant
+05/03/2026, 10:09:54:
+runtime
+}
+05/03/2026, 10:09:54:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:54:
+runtime
+  status: 400,
+05/03/2026, 10:09:54:
+runtime
+  error: undefined,
+05/03/2026, 10:09:54:
+runtime
+  },
+05/03/2026, 10:09:54:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:54:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:54:
+runtime
+    status: 400,
+05/03/2026, 10:09:54:
+runtime
+    },
+05/03/2026, 10:09:54:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:54:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:54:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:54:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:54:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:54:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:54:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:54:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:54:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:54 GMT',
+05/03/2026, 10:09:54:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:54:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:54:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:54:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:54:
+runtime
+    headers: {
+05/03/2026, 10:09:54:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:54:
+runtime
+    },
+05/03/2026, 10:09:54:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:54:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:54:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:54:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:54:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:54:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:54:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:54:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:54:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:54:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:54:
+runtime
+      retry: true,
+05/03/2026, 10:09:54:
+runtime
+    config: {
+05/03/2026, 10:09:54:
+runtime
+  response: {
+05/03/2026, 10:09:54:
+runtime
+  },
+05/03/2026, 10:09:54:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:54:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:54:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:54:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:54:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:54:
+runtime
+    },
+05/03/2026, 10:09:54:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:54:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:54:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:54:
+runtime
+    headers: {
+05/03/2026, 10:09:54:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:54:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:54:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:54:
+runtime
+    },
+05/03/2026, 10:09:54:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:54:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:54:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:54:
+runtime
+      timeOfFirstRequest: 1772701794884,
+05/03/2026, 10:09:54:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:54:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:54:
+runtime
+      retry: 3,
+05/03/2026, 10:09:54:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:54:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:54:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:55:
+runtime
+}
+05/03/2026, 10:09:55:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:55:
+runtime
+  status: 400,
+05/03/2026, 10:09:55:
+runtime
+  error: undefined,
+05/03/2026, 10:09:55:
+runtime
+  },
+05/03/2026, 10:09:55:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:55:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:55:
+runtime
+    status: 400,
+05/03/2026, 10:09:55:
+runtime
+    },
+05/03/2026, 10:09:55:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:55:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:55:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:55:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:55:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:55:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:55:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:55:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:55:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:55 GMT',
+05/03/2026, 10:09:55:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:55:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:55:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:55:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:55:
+runtime
+    headers: {
+05/03/2026, 10:09:55:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:55:
+runtime
+    },
+05/03/2026, 10:09:55:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:55:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:55:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:55:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:55:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:55:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:55:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:55:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:55:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:55:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:55:
+runtime
+      retry: true,
+05/03/2026, 10:09:55:
+runtime
+    config: {
+05/03/2026, 10:09:55:
+runtime
+  response: {
+05/03/2026, 10:09:55:
+runtime
+  },
+05/03/2026, 10:09:55:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:55:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:55:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:55:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:55:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:55:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:55:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:55:
+runtime
+    headers: {
+05/03/2026, 10:09:55:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:55:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:55:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:55:
+runtime
+    },
+05/03/2026, 10:09:55:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:55:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:55:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:55:
+runtime
+      timeOfFirstRequest: 1772701795848,
+05/03/2026, 10:09:55:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:55:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:55:
+runtime
+      retry: 3,
+05/03/2026, 10:09:55:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:55:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:55:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:55:
+runtime
+    retry: true,
+05/03/2026, 10:09:55:
+runtime
+  config: {
+05/03/2026, 10:09:55:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:55:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:55:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:55:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:55:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:55:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:55:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:55:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12334: GaxiosError: invalid_grant
+05/03/2026, 10:09:55:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:55:
+runtime
+    },
+05/03/2026, 10:09:56:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:56:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:56:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:56:
+runtime
+    headers: {
+05/03/2026, 10:09:56:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:56:
+runtime
+    },
+05/03/2026, 10:09:56:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:56:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:56:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:56:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:56:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:56:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:56:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:56:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:56:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:56:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:56:
+runtime
+      retry: true,
+05/03/2026, 10:09:56:
+runtime
+    config: {
+05/03/2026, 10:09:56:
+runtime
+  response: {
+05/03/2026, 10:09:56:
+runtime
+  },
+05/03/2026, 10:09:56:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:56:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:56:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:56:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:56:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:56:
+runtime
+    },
+05/03/2026, 10:09:56:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:56:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:56:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:56:
+runtime
+    headers: {
+05/03/2026, 10:09:56:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:56:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:56:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:56:
+runtime
+    },
+05/03/2026, 10:09:56:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:56:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:56:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:56:
+runtime
+      timeOfFirstRequest: 1772701796830,
+05/03/2026, 10:09:56:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:56:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:56:
+runtime
+      retry: 3,
+05/03/2026, 10:09:56:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:56:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:56:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:56:
+runtime
+    retry: true,
+05/03/2026, 10:09:56:
+runtime
+  config: {
+05/03/2026, 10:09:56:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:56:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:56:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:56:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:56:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:56:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:56:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:56:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12335: GaxiosError: invalid_grant
+05/03/2026, 10:09:56:
+runtime
+}
+05/03/2026, 10:09:56:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:56:
+runtime
+  status: 400,
+05/03/2026, 10:09:56:
+runtime
+  error: undefined,
+05/03/2026, 10:09:56:
+runtime
+  },
+05/03/2026, 10:09:56:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:56:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:56:
+runtime
+    status: 400,
+05/03/2026, 10:09:56:
+runtime
+    },
+05/03/2026, 10:09:56:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:56:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:56:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:56:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:56:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:56:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:56:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:56:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:56:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:56 GMT',
+05/03/2026, 10:09:56:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:57:
+runtime
+      pragma: 'no-cache',
+05/03/2026, 10:09:57:
+runtime
+      expires: 'Mon, 01 Jan 1990 00:00:00 GMT',
+05/03/2026, 10:09:57:
+runtime
+      date: 'Thu, 05 Mar 2026 09:09:57 GMT',
+05/03/2026, 10:09:57:
+runtime
+      'content-type': 'application/json; charset=utf-8',
+05/03/2026, 10:09:57:
+runtime
+      'content-encoding': 'gzip',
+05/03/2026, 10:09:57:
+runtime
+      'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
+05/03/2026, 10:09:57:
+runtime
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+05/03/2026, 10:09:57:
+runtime
+    headers: {
+05/03/2026, 10:09:57:
+runtime
+    data: { error: 'invalid_grant', error_description: 'Bad Request' },
+05/03/2026, 10:09:57:
+runtime
+    },
+05/03/2026, 10:09:57:
+runtime
+      errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:57:
+runtime
+      responseType: 'unknown',
+05/03/2026, 10:09:57:
+runtime
+      validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:57:
+runtime
+      body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:57:
+runtime
+      paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:57:
+runtime
+      headers: [Object],
+05/03/2026, 10:09:57:
+runtime
+      data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:57:
+runtime
+      url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:57:
+runtime
+      method: 'POST',
+05/03/2026, 10:09:57:
+runtime
+      retryConfig: [Object],
+05/03/2026, 10:09:57:
+runtime
+      retry: true,
+05/03/2026, 10:09:57:
+runtime
+    config: {
+05/03/2026, 10:09:57:
+runtime
+  response: {
+05/03/2026, 10:09:57:
+runtime
+  },
+05/03/2026, 10:09:57:
+runtime
+    errorRedactor: [Function: defaultErrorRedactor]
+05/03/2026, 10:09:57:
+runtime
+    responseType: 'unknown',
+05/03/2026, 10:09:57:
+runtime
+    validateStatus: [Function: validateStatus],
+05/03/2026, 10:09:57:
+runtime
+    body: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:57:
+runtime
+    paramsSerializer: [Function: paramsSerializer],
+05/03/2026, 10:09:57:
+runtime
+    },
+05/03/2026, 10:09:57:
+runtime
+      'x-goog-api-client': 'gl-node/20.20.0'
+05/03/2026, 10:09:57:
+runtime
+      'User-Agent': 'google-api-nodejs-client/9.15.1',
+05/03/2026, 10:09:57:
+runtime
+      'Content-Type': 'application/x-www-form-urlencoded',
+05/03/2026, 10:09:57:
+runtime
+    headers: {
+05/03/2026, 10:09:57:
+runtime
+    data: '< - See `errorRedactor` option in `gaxios` for configuration>.',
+05/03/2026, 10:09:57:
+runtime
+    url: 'https://oauth2.googleapis.com/token',
+05/03/2026, 10:09:57:
+runtime
+    method: 'POST',
+05/03/2026, 10:09:57:
+runtime
+    },
+05/03/2026, 10:09:57:
+runtime
+      statusCodesToRetry: [Array]
+05/03/2026, 10:09:57:
+runtime
+      maxRetryDelay: 9007199254740991,
+05/03/2026, 10:09:57:
+runtime
+      totalTimeout: 9007199254740991,
+05/03/2026, 10:09:57:
+runtime
+      timeOfFirstRequest: 1772701797804,
+05/03/2026, 10:09:57:
+runtime
+      retryDelayMultiplier: 2,
+05/03/2026, 10:09:57:
+runtime
+      noResponseRetries: 2,
+05/03/2026, 10:09:57:
+runtime
+      retry: 3,
+05/03/2026, 10:09:57:
+runtime
+      currentRetryAttempt: 0,
+05/03/2026, 10:09:57:
+runtime
+      httpMethodsToRetry: [Array],
+05/03/2026, 10:09:57:
+runtime
+    retryConfig: {
+05/03/2026, 10:09:57:
+runtime
+    retry: true,
+05/03/2026, 10:09:57:
+runtime
+  config: {
+05/03/2026, 10:09:57:
+runtime
+    at async  (/app/server/simple-routes.ts:10264:22) {
+05/03/2026, 10:09:57:
+runtime
+    at async syncBidirectional (/app/server/services/googleCalendarSync.ts:756:26)
+05/03/2026, 10:09:57:
+runtime
+    at async OAuth2Client.requestAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:418:23)
+05/03/2026, 10:09:57:
+runtime
+    at async OAuth2Client.getRequestMetadataAsync (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:333:17)
+05/03/2026, 10:09:57:
+runtime
+    at async OAuth2Client.refreshTokenNoCache (/app/node_modules/google-auth-library/build/src/auth/oauth2client.js:212:19)
+05/03/2026, 10:09:57:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+05/03/2026, 10:09:57:
+runtime
+    at Gaxios._request (/app/node_modules/gaxios/src/gaxios.ts:146:15)
+05/03/2026, 10:09:57:
+runtime
+❌ [SYNC] Errore esportazione appuntamento 12274: GaxiosError: invalid_grant
+05/03/2026, 10:09:57:
+runtime
+  error: undefined,
+05/03/2026, 10:09:57:
+runtime
+  status: 400,
+05/03/2026, 10:09:57:
+runtime
+  [Symbol(gaxios-gaxios-error)]: '6.7.1'
+05/03/2026, 10:09:57:
+runtime
+}
+05/03/2026, 10:09:57:
+runtime
+  },
+05/03/2026, 10:09:57:
+runtime
+    request: { responseURL: 'https://oauth2.googleapis.com/token' }
+05/03/2026, 10:09:57:
+runtime
+    statusText: 'Bad Request',
+05/03/2026, 10:09:57:
+runtime
+    status: 400,
+05/03/2026, 10:09:57:
+runtime
+    },
+05/03/2026, 10:09:57:
+runtime
+      'x-xss-protection': '0'
+05/03/2026, 10:09:57:
+runtime
+      'x-frame-options': 'SAMEORIGIN',
+05/03/2026, 10:09:57:
+runtime
+      'x-content-type-options': 'nosniff',
+05/03/2026, 10:09:57:
+runtime
+      vary: 'Origin, X-Origin, Referer',
+05/03/2026, 10:09:57:
+runtime
+      'transfer-encoding': 'chunked',
+05/03/2026, 10:09:57:
+runtime
+      server: 'scaffolding on HTTPServer2',
+05/03/2026, 10:09:59:
+runtime
+9:09:59 AM [express] GET /api/booking-requests 304 in 468ms :: [{"id":33,"userId":3,"clientId":60,"s…
+05/03/2026, 10:10:02:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 175: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:02:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 197: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:03:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 121: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:04:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 125: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:05:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 126: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:06:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 128: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:07:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 129: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:08:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 217: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:09:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 320 - importato da Google Calendar
+05/03/2026, 10:10:09:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 320: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:09:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12159 - importato da Google Calendar
+05/03/2026, 10:10:09:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12159: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:09:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 221: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:10:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 256: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:11:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12192 - importato da Google Calendar
+05/03/2026, 10:10:11:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12192: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:12:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12154 - importato da Google Calendar
+05/03/2026, 10:10:12:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12154: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:12:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12175 - importato da Google Calendar
+05/03/2026, 10:10:12:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12175: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:12:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12141 - importato da Google Calendar
+05/03/2026, 10:10:12:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12141: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:12:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 265: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:13:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12173 - importato da Google Calendar
+05/03/2026, 10:10:13:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12173: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:13:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 259: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:14:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12174 - importato da Google Calendar
+05/03/2026, 10:10:14:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12174: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:15:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 211: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:16:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12125 - importato da Google Calendar
+05/03/2026, 10:10:16:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12125: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:16:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12130 - importato da Google Calendar
+05/03/2026, 10:10:16:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12130: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:16:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12194 - importato da Google Calendar
+05/03/2026, 10:10:16:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12194: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:16:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 222: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:17:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12191 - importato da Google Calendar
+05/03/2026, 10:10:17:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12191: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:18:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12145 - importato da Google Calendar
+05/03/2026, 10:10:18:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12145: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:18:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 322 - importato da Google Calendar
+05/03/2026, 10:10:18:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 322: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:18:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12190 - importato da Google Calendar
+05/03/2026, 10:10:18:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12190: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:18:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12186 - importato da Google Calendar
+05/03/2026, 10:10:18:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12186: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:19:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12155 - importato da Google Calendar
+05/03/2026, 10:10:19:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12155: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:19:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12195 - importato da Google Calendar
+05/03/2026, 10:10:19:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12195: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:19:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12188 - importato da Google Calendar
+05/03/2026, 10:10:19:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12188: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:19:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 319 - importato da Google Calendar
+05/03/2026, 10:10:19:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 319: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:19:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12187 - importato da Google Calendar
+05/03/2026, 10:10:19:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12187: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:20:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 216: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:21:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12131 - importato da Google Calendar
+05/03/2026, 10:10:21:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12131: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:21:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 342 - importato da Google Calendar
+05/03/2026, 10:10:21:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 342: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:21:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12189 - importato da Google Calendar
+05/03/2026, 10:10:21:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12189: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:21:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 343 - importato da Google Calendar
+05/03/2026, 10:10:21:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 343: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12156 - importato da Google Calendar
+05/03/2026, 10:10:22:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12156: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 346 - importato da Google Calendar
+05/03/2026, 10:10:22:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 346: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12119 - importato da Google Calendar
+05/03/2026, 10:10:22:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12119: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 348 - importato da Google Calendar
+05/03/2026, 10:10:22:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 348: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12110: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:22:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12110 - importato da Google Calendar
+05/03/2026, 10:10:23:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12239 - importato da Google Calendar
+05/03/2026, 10:10:23:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12239: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:23:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12108 - importato da Google Calendar
+05/03/2026, 10:10:23:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12108: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:23:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12132: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:23:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12132 - importato da Google Calendar
+05/03/2026, 10:10:23:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12157 - importato da Google Calendar
+05/03/2026, 10:10:23:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12157: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:24:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 198: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:25:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 340 - importato da Google Calendar
+05/03/2026, 10:10:25:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 340: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:25:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12209 - importato da Google Calendar
+05/03/2026, 10:10:25:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12209: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:25:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12207 - importato da Google Calendar
+05/03/2026, 10:10:25:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12207: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:25:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12235: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:25:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12235 - importato da Google Calendar
+05/03/2026, 10:10:26:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12193 - importato da Google Calendar
+05/03/2026, 10:10:26:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12193: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:26:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12118 - importato da Google Calendar
+05/03/2026, 10:10:26:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12118: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:26:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 347 - importato da Google Calendar
+05/03/2026, 10:10:26:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 347: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:26:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12236 - importato da Google Calendar
+05/03/2026, 10:10:26:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12236: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:26:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12244: importedFromGoogle = "false" (type: boolean) → isImported: false
+05/03/2026, 10:10:27:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12242 - importato da Google Calendar
+05/03/2026, 10:10:27:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12242: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:28:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12082: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:28:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12082 - importato da Google Calendar
+05/03/2026, 10:10:28:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12158 - importato da Google Calendar
+05/03/2026, 10:10:28:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12158: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:28:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12184 - importato da Google Calendar
+05/03/2026, 10:10:28:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12184: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:28:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12133 - importato da Google Calendar
+05/03/2026, 10:10:28:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12133: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:29:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12137 - importato da Google Calendar
+05/03/2026, 10:10:29:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12137: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:29:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12185 - importato da Google Calendar
+05/03/2026, 10:10:29:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12185: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:29:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12153 - importato da Google Calendar
+05/03/2026, 10:10:29:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12153: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:29:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12208 - importato da Google Calendar
+05/03/2026, 10:10:29:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12208: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:30:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12121 - importato da Google Calendar
+05/03/2026, 10:10:30:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12121: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:30:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12210 - importato da Google Calendar
+05/03/2026, 10:10:30:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12210: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:30:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12113 - importato da Google Calendar
+05/03/2026, 10:10:30:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12113: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:30:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12237 - importato da Google Calendar
+05/03/2026, 10:10:30:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12237: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:30:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12246 - importato da Google Calendar
+05/03/2026, 10:10:30:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12246: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:31:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12243 - importato da Google Calendar
+05/03/2026, 10:10:31:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12243: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:31:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 415 - importato da Google Calendar
+05/03/2026, 10:10:31:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 415: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:31:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 344 - importato da Google Calendar
+05/03/2026, 10:10:31:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 344: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:31:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12160 - importato da Google Calendar
+05/03/2026, 10:10:31:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12160: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:32:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12211: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:32:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12211 - importato da Google Calendar
+05/03/2026, 10:10:32:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 414: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:32:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 414 - importato da Google Calendar
+05/03/2026, 10:10:32:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12114: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:32:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12114 - importato da Google Calendar
+05/03/2026, 10:10:32:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 417: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:32:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 417 - importato da Google Calendar
+05/03/2026, 10:10:33:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 418: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:33:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 418 - importato da Google Calendar
+05/03/2026, 10:10:33:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 419: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:33:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 419 - importato da Google Calendar
+05/03/2026, 10:10:33:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12135: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:33:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 12135 - importato da Google Calendar
+05/03/2026, 10:10:33:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 336: importedFromGoogle = "true" (type: boolean) → isImported: true
+05/03/2026, 10:10:33:
+runtime
+⏭️ [SYNC] Skip update per appuntamento 336 - importato da Google Calendar
+05/03/2026, 10:10:33:
+runtime
+🔍 [SYNC DEBUG] Appuntamento 12247: importedFromGoogle = "false" (type: boolean) → isImported: false
