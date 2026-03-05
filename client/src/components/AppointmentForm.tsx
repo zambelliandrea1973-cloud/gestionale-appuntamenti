@@ -194,14 +194,20 @@ export default function AppointmentForm({
   // Update form values when editing existing appointment
   useEffect(() => {
     if (appointment) {
-      // Parse the date string into a Date object
       const appointmentDate = new Date(appointment.date);
-      const startTime = appointment.startTime.substring(0, 5); // Extract HH:MM part
+      const startTime = appointment.startTime.substring(0, 5);
       
       form.reset({
-        ...appointment,
+        clientId: appointment.clientId,
+        serviceId: appointment.serviceId,
+        staffId: appointment.staffId ?? undefined,
+        roomId: appointment.roomId ?? undefined,
+        packagePurchaseId: appointment.packagePurchaseId ?? undefined,
         date: appointmentDate,
-        startTime: startTime
+        startTime: startTime,
+        endTime: appointment.endTime ?? undefined,
+        notes: appointment.notes ?? undefined,
+        reminderType: appointment.reminderType ?? undefined,
       });
     }
   }, [appointment]);
