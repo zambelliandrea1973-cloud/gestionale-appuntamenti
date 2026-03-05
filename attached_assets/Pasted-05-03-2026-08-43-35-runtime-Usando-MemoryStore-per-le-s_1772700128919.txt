@@ -1,0 +1,1731 @@
+05/03/2026, 08:43:35:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+05/03/2026, 08:43:36:
+runtime
+7:43:36 AM [express] GET /api/booking-requests 304 in 691ms :: []
+05/03/2026, 08:43:37:
+runtime
+Servizio gestione telefono diretto inizializzato
+05/03/2026, 08:43:37:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+05/03/2026, 08:43:37:
+runtime
+}
+05/03/2026, 08:43:37:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+05/03/2026, 08:43:37:
+runtime
+Debug OAuth URL: {
+05/03/2026, 08:43:37:
+runtime
+  secretPresent: 'Present'
+05/03/2026, 08:43:37:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+05/03/2026, 08:43:37:
+runtime
+}
+05/03/2026, 08:43:37:
+runtime
+Google Credentials: {
+05/03/2026, 08:43:37:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+05/03/2026, 08:43:37:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+05/03/2026, 08:43:37:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+05/03/2026, 08:43:38:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+05/03/2026, 08:43:38:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+05/03/2026, 08:43:38:
+runtime
+🔐 [AUTH] Cookie settings: secure=true, sameSite=none
+05/03/2026, 08:43:38:
+runtime
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+05/03/2026, 08:43:38:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+05/03/2026, 08:43:38:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+05/03/2026, 08:43:38:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+05/03/2026, 08:43:38:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+05/03/2026, 08:43:38:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+05/03/2026, 08:43:38:
+runtime
+   👥 Clienti caricati: 40
+05/03/2026, 08:43:38:
+runtime
+   📅 Appuntamenti caricati: 50
+05/03/2026, 08:43:38:
+runtime
+🔍 Controllo integrità all'avvio:
+05/03/2026, 08:43:38:
+runtime
+✅ Controllo integrità completato
+05/03/2026, 08:43:38:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+05/03/2026, 08:43:38:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+05/03/2026, 08:43:38:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+05/03/2026, 08:43:38:
+runtime
+   🔍 Primi 3 appuntamenti: [
+05/03/2026, 08:43:38:
+runtime
+]
+05/03/2026, 08:43:38:
+runtime
+7:43:38 AM [express] serving on port 5000
+05/03/2026, 08:43:38:
+runtime
+Telefono caricato dal database: +393472550110
+05/03/2026, 08:43:38:
+runtime
+✅ PostgreSQL database is available
+05/03/2026, 08:43:48:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+05/03/2026, 08:43:49:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+05/03/2026, 08:43:49:
+runtime
+📊 [MONITOR] Stats: 56 utenti, 4553 clienti, 398 appuntamenti, max 0 clienti/utente
+05/03/2026, 08:43:50:
+runtime
+7:43:50 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 401 in 5ms :: {"message":"Non…
+05/03/2026, 08:44:06:
+runtime
+7:44:06 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:44:36:
+runtime
+7:44:36 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:02:
+runtime
+7:45:02 AM [express] GET /api/collaborators 401 in 3ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:02:
+runtime
+7:45:02 AM [express] GET /api/treatment-rooms 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:02:
+runtime
+7:45:02 AM [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:02:
+runtime
+7:45:02 AM [express] GET /api/services 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:02:
+runtime
+7:45:02 AM [express] GET /api/user 200 in 8ms
+05/03/2026, 08:45:06:
+runtime
+7:45:06 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:13:
+runtime
+7:45:13 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 401 in 2ms :: {"message":"Non…
+05/03/2026, 08:45:13:
+runtime
+7:45:13 AM [express] GET /api/appointments 401 in 3ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:23:
+runtime
+7:45:23 AM [express] GET /api/client-app-info 200 in 14ms :: {"appName":"Gestionale Appuntamenti","i…
+05/03/2026, 08:45:23:
+runtime
+7:45:23 AM [express] GET /api/company-name-settings 200 in 2ms :: {"businessName":"Gestionale Appunt…
+05/03/2026, 08:45:23:
+runtime
+7:45:23 AM [express] GET /api/contact-info 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:45:23:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:45:23:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696723570' }
+05/03/2026, 08:45:23:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:45:23:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:45:23:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696723896.763&admin=1","/pwa-icon/192x192?owner=74&v=1772696723896.763&admin=1","/pwa-icon/512x512?owner=74&v=1772696723896.763&admin=1"]
+05/03/2026, 08:45:23:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:45:23:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:45:24:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:45:24:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:45:24:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:45:24:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:45:24:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:45:24:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:45:24:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:45:26:
+runtime
+7:45:26 AM [express] GET /api/currency-settings 304 in 3ms :: {"currency":"EUR","symbol":"€"}
+05/03/2026, 08:45:26:
+runtime
+7:45:26 AM [express] GET /api/services 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:45:26:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:45:26:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:45:26:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696726205.1213&admin=1","/pwa-icon/192x192?owner=74&v=1772696726205.1213&admin=1","/pwa-icon/512x512?owner=74&v=1772696726205.1213&admin=1"]
+05/03/2026, 08:45:26:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:45:26:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:45:26:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:45:26:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696726013' }
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:45:26:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:45:26:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:45:26:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:45:36:
+runtime
+7:45:36 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:06:
+runtime
+7:46:06 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:12:
+runtime
+7:46:12 AM [express] POST /api/services 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:21:
+runtime
+7:46:21 AM [express] POST /api/services 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:36:
+runtime
+7:46:36 AM [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:41:
+runtime
+7:46:41 AM [express] GET /api/treatment-rooms 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:46:41:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696801064' }
+05/03/2026, 08:46:41:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:46:41:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:46:41:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:46:41:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696801227.9194&admin=1","/pwa-icon/192x192?owner=74&v=1772696801227.9194&admin=1","/pwa-icon/512x512?owner=74&v=1772696801227.9194&admin=1"]
+05/03/2026, 08:46:41:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:46:41:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:46:41:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:46:41:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:46:41:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:47:01:
+runtime
+7:47:01 AM [express] POST /api/treatment-rooms 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:47:06:
+runtime
+7:47:06 AM [express] GET /api/booking-requests 401 in 0ms :: {"message":"Non autenticato"}
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+05/03/2026, 08:47:10:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/treatment-rooms
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/treatment-rooms
+05/03/2026, 08:47:10:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 08:47:10:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/treatment-rooms, isClientArea: false, isAdminArea: undefined
+05/03/2026, 08:47:10:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772696830217-default
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/treatment-rooms 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/license/license-info 200 in 1ms :: {"hasLicense":false,"type":"none"}
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] Cookie header: present
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] req.user: undefined
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] Session ID: sNDN5VS1uq8pbkz5901HsCh_7z4pEqLl
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/license/has-business-access 200 in 1ms
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+05/03/2026, 08:47:11:
+runtime
+🔐 [has-pro-access] ============================
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/license/has-pro-access 200 in 0ms
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/booking-requests 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Appuntame…
+05/03/2026, 08:47:11:
+runtime
+7:47:11 AM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Pa…
+05/03/2026, 08:47:15:
+runtime
+🔐 [LOGIN] Headers: secure=true, protocol=https
+05/03/2026, 08:47:15:
+runtime
+🔐 [LOGIN] IP: 2.36.45.79, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Sa
+05/03/2026, 08:47:15:
+runtime
+🔐 [LOGIN] Richiesta login staff: nadia.artusi@gmail.com
+05/03/2026, 08:47:15:
+runtime
+🔐 [LOGIN] Session saved: yes
+05/03/2026, 08:47:15:
+runtime
+🔐 [LOGIN] Session ID: 4XNaqH_8Kb1VD4MQVW10XRAFB0tkA-3d
+05/03/2026, 08:47:15:
+runtime
+✅ [LOGIN] Login completato per: Armonia (ID: 74, tipo: customer)
+05/03/2026, 08:47:15:
+runtime
+✅ [LOGIN] Sessione salvata con successo per Armonia
+05/03/2026, 08:47:15:
+runtime
+7:47:15 AM [express] POST /api/staff/login 200 in 332ms :: {"id":74,"username":"Armonia","password":…
+05/03/2026, 08:47:15:
+runtime
+🔐 [desktop] /api/user-with-license per utente 74 (Armonia)
+05/03/2026, 08:47:16:
+runtime
+📊 [SESSION-TRACKING] Accesso registrato per utente 74 (Armonia) - pausa >30min
+05/03/2026, 08:47:16:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+05/03/2026, 08:47:16:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 08:47:16:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 08:47:16:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+05/03/2026, 08:47:16:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1772696836249-default
+05/03/2026, 08:47:16:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 08:47:16:
+runtime
+}
+05/03/2026, 08:47:16:
+runtime
+  licenseType: 'trial'
+05/03/2026, 08:47:16:
+runtime
+  lastName: null,
+05/03/2026, 08:47:16:
+runtime
+  firstName: null,
+05/03/2026, 08:47:16:
+runtime
+  username: 'Armonia',
+05/03/2026, 08:47:16:
+runtime
+  id: 74,
+05/03/2026, 08:47:16:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 08:47:16:
+runtime
+7:47:16 AM [express] GET /api/user-with-license 200 in 1252ms :: {"id":74,"username":"Armonia","emai…
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] GET /api/timezone-settings 200 in 238ms :: {"timezone":"Europe/Rome","offset":-…
+05/03/2026, 08:47:18:
+runtime
+🔐 [desktop] /api/user-with-license per utente 74 (Armonia)
+05/03/2026, 08:47:18:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 08:47:18:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 08:47:18:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] ============================
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] Cookie header: present
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] req.user: User ID 74, type: customer
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] Session ID: 4XNaqH_8Kb1VD4MQVW10XRAFB0tkA-3d
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+05/03/2026, 08:47:18:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 08:47:18:
+runtime
+🔐 [has-pro-access] Utente 74 licenza trial - hasAccess: true
+05/03/2026, 08:47:18:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] GET /api/license/has-pro-access 200 in 503ms :: true
+05/03/2026, 08:47:18:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] POST /api/timezone-settings 200 in 235ms :: {"success":true,"timezone":"Europe/…
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] GET /api/license/license-info 200 in 510ms :: {"hasLicense":true,"type":"trial"…
+05/03/2026, 08:47:18:
+runtime
+✅ [desktop] Icone PWA per utente 74, icon length: 815939, custom: false
+05/03/2026, 08:47:18:
+runtime
+✅ Icone PWA aggiornate per utente 74 con logo aziendale
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] GET /api/client-app-info 200 in 639ms :: {"appName":"Gestionale Appuntamenti","…
+05/03/2026, 08:47:18:
+runtime
+}
+05/03/2026, 08:47:18:
+runtime
+  licenseType: 'trial'
+05/03/2026, 08:47:18:
+runtime
+  lastName: null,
+05/03/2026, 08:47:18:
+runtime
+  firstName: null,
+05/03/2026, 08:47:18:
+runtime
+  username: 'Armonia',
+05/03/2026, 08:47:18:
+runtime
+  id: 74,
+05/03/2026, 08:47:18:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 08:47:18:
+runtime
+7:47:18 AM [express] GET /api/user-with-license 304 in 736ms :: {"id":74,"username":"Armonia","email…
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:47:19:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:47:19:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:47:19:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:47:19:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696838811' }
+05/03/2026, 08:47:19:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:47:19:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:47:19:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696839065.4&admin=1","/pwa-icon/192x192?owner=74&v=1772696839065.4&admin=1","/pwa-icon/512x512?owner=74&v=1772696839065.4&admin=1"]
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/license/application-title 304 in 1331ms :: {"title":"Gestionale Appunt…
+05/03/2026, 08:47:19:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 08:47:19:
+runtime
+Recupero impostazioni per utente 74
+05/03/2026, 08:47:19:
+runtime
+Recupero impostazioni per utente 74
+05/03/2026, 08:47:19:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 74 (customer)
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/tenant-context 200 in 235ms :: {"userId":74,"userType":"customer","ten…
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:47:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:47:19:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:47:19:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:47:19:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/license/has-business-access 200 in 1578ms :: true
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/booking-requests 304 in 1584ms :: []
+05/03/2026, 08:47:19:
+runtime
+Impostazioni trovate per utente 74: SI
+05/03/2026, 08:47:19:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 74 (customer): {
+05/03/2026, 08:47:19:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+05/03/2026, 08:47:19:
+runtime
+  showBusinessName: true,
+05/03/2026, 08:47:19:
+runtime
+  name: 'Armonia',
+05/03/2026, 08:47:19:
+runtime
+  fontSize: 24,
+05/03/2026, 08:47:19:
+runtime
+  fontFamily: 'Arial, sans-serif',
+05/03/2026, 08:47:19:
+runtime
+  fontStyle: 'normal',
+05/03/2026, 08:47:19:
+runtime
+  color: '#000000',
+05/03/2026, 08:47:19:
+runtime
+}
+05/03/2026, 08:47:19:
+runtime
+  enabled: true
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/company-name-settings 200 in 467ms :: {"businessName":"Gestionale Appu…
+05/03/2026, 08:47:19:
+runtime
+Impostazioni trovate per utente 74: SI
+05/03/2026, 08:47:19:
+runtime
+7:47:19 AM [express] GET /api/contact-info 200 in 467ms :: {"email":"nadia.artusi@gmail.com","phone"…
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:47:21:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:47:21:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:47:21:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696841327' }
+05/03/2026, 08:47:21:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:47:21:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:47:21:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:47:21:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696841499.1345&admin=1","/pwa-icon/192x192?owner=74&v=1772696841499.1345&admin=1","/pwa-icon/512x512?owner=74&v=1772696841499.1345&admin=1"]
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:47:21:
+runtime
+💰 [GET] Recupero impostazioni valuta per utente 74
+05/03/2026, 08:47:21:
+runtime
+💰 Recupero impostazioni valuta per utente 74
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:47:21:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:47:21:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:47:21:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:47:21:
+runtime
+ℹ️ Nessuna impostazione valuta per utente 74, uso default EUR €
+05/03/2026, 08:47:21:
+runtime
+7:47:21 AM [express] GET /api/currency-settings 304 in 460ms :: {"currency":"EUR","symbol":"€"}
+05/03/2026, 08:47:21:
+runtime
+✅ NUOVO Sistema: 6 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:47:21:
+runtime
+🔧 [/api/services] [desktop] Caricati 6 servizi da PostgreSQL per utente 74
+05/03/2026, 08:47:21:
+runtime
+7:47:21 AM [express] GET /api/services 304 in 462ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:47:49:
+runtime
+7:47:49 AM [express] GET /api/booking-requests 304 in 467ms :: []
+05/03/2026, 08:48:20:
+runtime
+7:48:20 AM [express] GET /api/booking-requests 304 in 698ms :: []
+05/03/2026, 08:48:27:
+runtime
+✅ [/api/services] Servizio "IPNO" creato in PostgreSQL per utente 74 (ID: 193)
+05/03/2026, 08:48:27:
+runtime
+7:48:27 AM [express] POST /api/services 201 in 470ms :: {"id":193,"userId":74,"name":"IPNO","duratio…
+05/03/2026, 08:48:28:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:48:28:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:48:28:
+runtime
+7:48:28 AM [express] GET /api/services 200 in 467ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:48:40:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 74
+05/03/2026, 08:48:40:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+05/03/2026, 08:48:40:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+05/03/2026, 08:48:40:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=74&v=1772696920160.4124&admin=1","/pwa-icon/192x192?owner=74&v=1772696920160.4124&admin=1","/pwa-icon/512x512?owner=74&v=1772696920160.4124&admin=1"]
+05/03/2026, 08:48:40:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+05/03/2026, 08:48:40:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 74)
+05/03/2026, 08:48:40:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 74
+05/03/2026, 08:48:40:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '74', ts: '1772696919996' }
+05/03/2026, 08:48:40:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 74
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/timezone-settings 200 in 236ms :: {"timezone":"Europe/Rome","offset":-…
+05/03/2026, 08:48:40:
+runtime
+🔐 [GOOGLE AUTH STATUS] Utente autenticato ID: 74
+05/03/2026, 08:48:40:
+runtime
+🔐 [GOOGLE AUTH STATUS] Controllo stato autorizzazione...
+05/03/2026, 08:48:40:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:48:40:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:48:40:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 74 cerca appuntamenti per data 2026-03-05
+05/03/2026, 08:48:40:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:48:40:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:48:40:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:48:40:
+runtime
+🔐 [GOOGLE AUTH STATUS] Nessun token trovato, utente non autorizzato
+05/03/2026, 08:48:40:
+runtime
+⚠️ [GOOGLE AUTH STATUS] Nessun token nel database per utente 74
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/google-auth/status 304 in 467ms :: {"success":true,"authorized":false}
+05/03/2026, 08:48:40:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per 2026-03-05
+05/03/2026, 08:48:40:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per data 2026-03-05 - utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:48:40:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:48:40:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:48:40:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:48:40:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/appointments/date/2026-03-05 304 in 485ms :: []
+05/03/2026, 08:48:40:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:48:40:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 249ms (1 query con subquery conteggio)
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/clients 304 in 501ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/services 304 in 508ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/treatment-rooms 304 in 496ms :: []
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/appointments 304 in 506ms :: []
+05/03/2026, 08:48:40:
+runtime
+7:48:40 AM [express] GET /api/collaborators 304 in 495ms :: []
+05/03/2026, 08:48:40:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 74, dimensione: 50811 bytes
+05/03/2026, 08:48:41:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 74: NO
+05/03/2026, 08:48:41:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 74
+05/03/2026, 08:48:41:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 74, dimensione: 2584 bytes
+05/03/2026, 08:48:44:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:48:44:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 0 appuntamenti
+05/03/2026, 08:48:44:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 0 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:48:44:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:48:44:
+runtime
+7:48:44 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 304 in 577ms :: []
+05/03/2026, 08:48:49:
+runtime
+7:48:49 AM [express] GET /api/user 304 in 232ms
+05/03/2026, 08:48:49:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:48:49:
+runtime
+7:48:49 AM [express] GET /api/treatment-rooms 304 in 466ms :: []
+05/03/2026, 08:48:49:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 234ms (1 query con subquery conteggio)
+05/03/2026, 08:48:49:
+runtime
+7:48:49 AM [express] GET /api/clients 304 in 473ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:48:49:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:48:49:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:48:49:
+runtime
+7:48:49 AM [express] GET /api/services 304 in 477ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:48:49:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:48:49:
+runtime
+7:48:49 AM [express] GET /api/collaborators 304 in 486ms :: []
+05/03/2026, 08:48:51:
+runtime
+7:48:51 AM [express] GET /api/booking-requests 304 in 506ms :: []
+05/03/2026, 08:48:53:
+runtime
+7:48:53 AM [express] GET /api/packages/purchases 200 in 499ms :: []
+05/03/2026, 08:49:22:
+runtime
+7:49:22 AM [express] GET /api/booking-requests 304 in 701ms :: []
+05/03/2026, 08:49:27:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 74 cerca appuntamenti per data 2026-03-05
+05/03/2026, 08:49:28:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per 2026-03-05
+05/03/2026, 08:49:28:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per data 2026-03-05 - utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:49:28:
+runtime
+7:49:28 AM [express] GET /api/appointments/date/2026-03-05 304 in 473ms :: []
+05/03/2026, 08:49:28:
+runtime
+  serviceId: 193,
+05/03/2026, 08:49:28:
+runtime
+  clientId: 4621,
+05/03/2026, 08:49:28:
+runtime
+📝 Dati ricevuti: {
+05/03/2026, 08:49:28:
+runtime
+📅 [/api/appointments] POST - Creazione appuntamento per utente 74
+05/03/2026, 08:49:28:
+runtime
+⏰ [REMINDER] Calcolato reminder_time: 2026-03-04T09:00:00.000Z (24h prima di 2026-03-05T09:00:00.000Z)
+05/03/2026, 08:49:28:
+runtime
+}
+05/03/2026, 08:49:28:
+runtime
+  status: 'scheduled'
+05/03/2026, 08:49:28:
+runtime
+  reminderType: 'whatsapp',
+05/03/2026, 08:49:28:
+runtime
+  notes: '',
+05/03/2026, 08:49:28:
+runtime
+  endTime: '10:30:00',
+05/03/2026, 08:49:28:
+runtime
+  startTime: '09:00:00',
+05/03/2026, 08:49:28:
+runtime
+  date: '2026-03-05',
+05/03/2026, 08:49:28:
+runtime
+  packagePurchaseId: null,
+05/03/2026, 08:49:28:
+runtime
+  roomId: null,
+05/03/2026, 08:49:28:
+runtime
+  staffId: null,
+05/03/2026, 08:49:28:
+runtime
+✅ [PostgreSQL] Appuntamento 12377 creato con staffId: null, roomId: null, packagePurchaseId: null, reminderTime: 2026-03-04T09:00:00.000Z
+05/03/2026, 08:49:28:
+runtime
+7:49:28 AM [express] POST /api/appointments 201 in 696ms :: {"id":12377,"userId":74,"clientId":4621,…
+05/03/2026, 08:49:28:
+runtime
+📧 [NOTIFICHE] Appuntamento creato - email automatica schedulata per 2026-03-04T09:00:00.000Z
+05/03/2026, 08:49:29:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:49:29:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:49:29:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:49:29:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:49:29:
+runtime
+7:49:29 AM [express] GET /api/appointments 200 in 477ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:49:29:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:49:29:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:49:29:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:49:29:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:49:29:
+runtime
+7:49:29 AM [express] GET /api/appointments 304 in 474ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:49:30:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:49:30:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:49:30:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:49:30:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:49:30:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:49:30:
+runtime
+7:49:30 AM [express] GET /api/appointments 304 in 469ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:49:30:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:49:30:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:49:30:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:49:30:
+runtime
+7:49:30 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 200 in 587ms :: [{"id":12377,…
+05/03/2026, 08:49:41:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:49:41:
+runtime
+7:49:41 AM [express] GET /api/user 304 in 232ms
+05/03/2026, 08:49:41:
+runtime
+📖 [/api/appointments/:id] GET - Richiesta appuntamento 12377 da utente 74
+05/03/2026, 08:49:42:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 231ms (1 query con subquery conteggio)
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/clients 304 in 461ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:49:42:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:49:42:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/services 304 in 467ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/treatment-rooms 304 in 466ms :: []
+05/03/2026, 08:49:42:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/collaborators 304 in 470ms :: []
+05/03/2026, 08:49:42:
+runtime
+✅ [PostgreSQL] Appuntamento 12377 recuperato
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/appointments/12377 200 in 474ms :: {"id":12377,"userId":74,"clientId":…
+05/03/2026, 08:49:42:
+runtime
+7:49:42 AM [express] GET /api/packages/purchases 304 in 465ms :: []
+05/03/2026, 08:49:52:
+runtime
+7:49:52 AM [express] GET /api/booking-requests 304 in 470ms :: []
+05/03/2026, 08:50:23:
+runtime
+7:50:23 AM [express] GET /api/booking-requests 304 in 704ms :: []
+05/03/2026, 08:50:53:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:50:53:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:50:53:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:50:53:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:50:53:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:50:53:
+runtime
+7:50:53 AM [express] GET /api/appointments 304 in 461ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:50:53:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:50:53:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:50:53:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:50:53:
+runtime
+7:50:53 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 304 in 580ms :: [{"id":12377,…
+05/03/2026, 08:50:54:
+runtime
+7:50:54 AM [express] GET /api/booking-requests 304 in 466ms :: []
+05/03/2026, 08:50:57:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:50:57:
+runtime
+📖 [/api/appointments/:id] GET - Richiesta appuntamento 12377 da utente 74
+05/03/2026, 08:50:57:
+runtime
+7:50:57 AM [express] GET /api/user 304 in 258ms
+05/03/2026, 08:50:58:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 229ms (1 query con subquery conteggio)
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/clients 304 in 464ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:50:58:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/collaborators 304 in 466ms :: []
+05/03/2026, 08:50:58:
+runtime
+✅ [PostgreSQL] Appuntamento 12377 recuperato
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/appointments/12377 304 in 475ms :: {"id":12377,"userId":74,"clientId":…
+05/03/2026, 08:50:58:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:50:58:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/services 304 in 485ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/treatment-rooms 304 in 477ms :: []
+05/03/2026, 08:50:58:
+runtime
+7:50:58 AM [express] GET /api/packages/purchases 304 in 462ms :: []
+05/03/2026, 08:51:24:
+runtime
+7:51:24 AM [express] GET /api/booking-requests 304 in 703ms :: []
+05/03/2026, 08:51:55:
+runtime
+7:51:55 AM [express] GET /api/booking-requests 304 in 465ms :: []
+05/03/2026, 08:52:08:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:52:08:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:52:08:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:52:08:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:52:08:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:52:08:
+runtime
+7:52:08 AM [express] GET /api/appointments 304 in 466ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:52:08:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:52:08:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:52:08:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:52:08:
+runtime
+7:52:08 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 304 in 579ms :: [{"id":12377,…
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/user 304 in 239ms
+05/03/2026, 08:52:14:
+runtime
+📖 [/api/appointments/:id] GET - Richiesta appuntamento 12377 da utente 74
+05/03/2026, 08:52:14:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:52:14:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:52:14:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/services 304 in 469ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:52:14:
+runtime
+✅ [PostgreSQL] Appuntamento 12377 recuperato
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/appointments/12377 304 in 470ms :: {"id":12377,"userId":74,"clientId":…
+05/03/2026, 08:52:14:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 234ms (1 query con subquery conteggio)
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/treatment-rooms 304 in 473ms :: []
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/clients 304 in 480ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:52:14:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:52:14:
+runtime
+7:52:14 AM [express] GET /api/collaborators 304 in 472ms :: []
+05/03/2026, 08:52:15:
+runtime
+7:52:15 AM [express] GET /api/packages/purchases 304 in 464ms :: []
+05/03/2026, 08:52:25:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:52:25:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:52:25:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:52:25:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:52:25:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:52:25:
+runtime
+7:52:25 AM [express] GET /api/appointments 304 in 699ms :: [{"id":12377,"date":"2026-03-05","startTi…
+05/03/2026, 08:52:25:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:52:25:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:52:25:
+runtime
+7:52:25 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 304 in 817ms :: [{"id":12377,…
+05/03/2026, 08:52:25:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:52:25:
+runtime
+7:52:25 AM [express] GET /api/booking-requests 304 in 469ms :: []
+05/03/2026, 08:52:28:
+runtime
+🗑️ [DELETE] Step 1: Recupero appuntamento 12377...
+05/03/2026, 08:52:28:
+runtime
+🗑️ [DELETE] Tentativo eliminazione appuntamento 12377 da utente 74 (customer)
+05/03/2026, 08:52:28:
+runtime
+🗑️ [DELETE] ===== INIZIO RICHIESTA DELETE =====
+05/03/2026, 08:52:29:
+runtime
+🗑️ [DELETE] Step 3: Verifica mapping google_calendar_events...
+05/03/2026, 08:52:29:
+runtime
+🗑️ [DELETE] Step 2: Appuntamento trovato: true, importedFromGoogle: false
+05/03/2026, 08:52:29:
+runtime
+🗑️ [DELETE] Step 5: isGoogleImport = false
+05/03/2026, 08:52:29:
+runtime
+🗑️ [DELETE] Step 4: Mapping trovato: false, syncDirection: undefined
+05/03/2026, 08:52:29:
+runtime
+✅ [DELETE] Appuntamento 12377 eliminato da PostgreSQL per utente 74
+05/03/2026, 08:52:29:
+runtime
+7:52:29 AM [express] DELETE /api/appointments/12377 200 in 944ms :: {"message":"Appuntamento elimina…
+05/03/2026, 08:52:29:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:52:29:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:52:30:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:52:30:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:52:30:
+runtime
+7:52:30 AM [express] GET /api/appointments 200 in 468ms :: []
+05/03/2026, 08:52:30:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:52:30:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:52:30:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:52:30:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:52:30:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:52:30:
+runtime
+7:52:30 AM [express] GET /api/appointments 304 in 469ms :: []
+05/03/2026, 08:52:30:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 0 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:52:30:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:52:30:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 0 appuntamenti
+05/03/2026, 08:52:30:
+runtime
+7:52:30 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 200 in 578ms :: []
+05/03/2026, 08:52:56:
+runtime
+7:52:56 AM [express] GET /api/booking-requests 304 in 465ms :: []
+05/03/2026, 08:53:06:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 08:53:06:
+runtime
+7:53:06 AM [express] GET /api/user 304 in 238ms
+05/03/2026, 08:53:06:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 232ms (1 query con subquery conteggio)
+05/03/2026, 08:53:06:
+runtime
+7:53:06 AM [express] GET /api/clients 304 in 461ms :: [{"id":4621,"userId":74,"firstName":"Ilaria ",…
+05/03/2026, 08:53:06:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 08:53:06:
+runtime
+7:53:06 AM [express] GET /api/collaborators 304 in 461ms :: []
+05/03/2026, 08:53:06:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 08:53:06:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 08:53:06:
+runtime
+7:53:06 AM [express] GET /api/treatment-rooms 304 in 468ms :: []
+05/03/2026, 08:53:06:
+runtime
+7:53:06 AM [express] GET /api/services 304 in 473ms :: [{"id":183,"userId":74,"name":"Aromacolor tot…
+05/03/2026, 08:53:18:
+runtime
+7:53:18 AM [express] GET /api/packages/purchases 304 in 466ms :: []
+05/03/2026, 08:53:27:
+runtime
+7:53:27 AM [express] GET /api/booking-requests 304 in 703ms :: []
+05/03/2026, 08:53:39:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 74 cerca appuntamenti per data 2026-03-07
+05/03/2026, 08:53:39:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per 2026-03-07
+05/03/2026, 08:53:39:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per data 2026-03-07 - utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:53:39:
+runtime
+7:53:39 AM [express] GET /api/appointments/date/2026-03-07 200 in 477ms :: []
+05/03/2026, 08:53:39:
+runtime
+📅 [/api/appointments] POST - Creazione appuntamento per utente 74
+05/03/2026, 08:53:39:
+runtime
+⏰ [REMINDER] Calcolato reminder_time: 2026-03-06T14:30:00.000Z (24h prima di 2026-03-07T14:30:00.000Z)
+05/03/2026, 08:53:39:
+runtime
+}
+05/03/2026, 08:53:39:
+runtime
+  status: 'scheduled'
+05/03/2026, 08:53:39:
+runtime
+  reminderType: 'whatsapp',
+05/03/2026, 08:53:39:
+runtime
+  notes: '',
+05/03/2026, 08:53:39:
+runtime
+  endTime: '16:00:00',
+05/03/2026, 08:53:39:
+runtime
+  startTime: '14:30:00',
+05/03/2026, 08:53:39:
+runtime
+  date: '2026-03-07',
+05/03/2026, 08:53:39:
+runtime
+  packagePurchaseId: null,
+05/03/2026, 08:53:39:
+runtime
+  roomId: null,
+05/03/2026, 08:53:39:
+runtime
+  staffId: null,
+05/03/2026, 08:53:39:
+runtime
+  serviceId: 193,
+05/03/2026, 08:53:39:
+runtime
+  clientId: 4621,
+05/03/2026, 08:53:39:
+runtime
+📝 Dati ricevuti: {
+05/03/2026, 08:53:40:
+runtime
+✅ [PostgreSQL] Appuntamento 12378 creato con staffId: null, roomId: null, packagePurchaseId: null, reminderTime: 2026-03-06T14:30:00.000Z
+05/03/2026, 08:53:40:
+runtime
+📧 [NOTIFICHE] Appuntamento creato - email automatica schedulata per 2026-03-06T14:30:00.000Z
+05/03/2026, 08:53:40:
+runtime
+7:53:40 AM [express] POST /api/appointments 201 in 694ms :: {"id":12378,"userId":74,"clientId":4621,…
+05/03/2026, 08:53:40:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:53:40:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:53:40:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:53:40:
+runtime
+7:53:40 AM [express] GET /api/appointments 200 in 465ms :: [{"id":12378,"date":"2026-03-07","startTi…
+05/03/2026, 08:53:40:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:53:41:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:53:41:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:53:41:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:53:41:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:53:41:
+runtime
+7:53:41 AM [express] GET /api/appointments 304 in 474ms :: [{"id":12378,"date":"2026-03-07","startTi…
+05/03/2026, 08:53:41:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-02-2026-03-08
+05/03/2026, 08:53:41:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 08:53:41:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 08:53:41:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 08:53:41:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:53:41:
+runtime
+7:53:41 AM [express] GET /api/appointments 304 in 466ms :: [{"id":12378,"date":"2026-03-07","startTi…
+05/03/2026, 08:53:42:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:53:42:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-02-2026-03-08: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:53:42:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:53:42:
+runtime
+7:53:42 AM [express] GET /api/appointments/range/2026-03-02/2026-03-08 200 in 585ms :: [{"id":12378,…
+05/03/2026, 08:53:57:
+runtime
+7:53:57 AM [express] GET /api/booking-requests 304 in 463ms :: []
+05/03/2026, 08:54:00:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-03-01-2026-03-31
+05/03/2026, 08:54:01:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 1 appuntamenti
+05/03/2026, 08:54:01:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-03-01-2026-03-31: 1 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:54:01:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:54:01:
+runtime
+7:54:01 AM [express] GET /api/appointments/range/2026-03-01/2026-03-31 200 in 577ms :: [{"id":12378,…
+05/03/2026, 08:54:11:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 74 cerca appuntamenti per data 2026-02-28
+05/03/2026, 08:54:11:
+runtime
+7:54:11 AM [express] GET /api/appointments/date/2026-02-28 200 in 471ms :: []
+05/03/2026, 08:54:11:
+runtime
+📅 [desktop] Caricati 0 appuntamenti da PostgreSQL per 2026-02-28
+05/03/2026, 08:54:11:
+runtime
+✅ NUOVO Sistema multi-tenant: 0 appuntamenti per data 2026-02-28 - utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 08:54:15:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-02-01-2026-02-28
+05/03/2026, 08:54:16:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 0 appuntamenti
+05/03/2026, 08:54:16:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-02-01-2026-02-28: 0 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 08:54:16:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 08:54:16:
+runtime
+7:54:16 AM [express] GET /api/appointments/range/2026-02-01/2026-02-28 200 in 701ms :: []
+05/03/2026, 08:54:28:
+runtime
+7:54:28 AM [express] GET /api/booking-requests 304 in 695ms :: []
+05/03/2026, 08:54:59:
+runtime
+7:54:59 AM [express] GET /api/booking-requests 304 in 469ms :: []
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] Session ID: 4XNaqH_8Kb1VD4MQVW10XRAFB0tkA-3d
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+05/03/2026, 09:13:12:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] ============================
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] Cookie header: present
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] req.user: User ID 74, type: customer
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/tenant-context 200 in 2070ms :: {"userId":74,"userType":"customer","te…
+05/03/2026, 09:13:12:
+runtime
+📊 [/api/appointments/range PG] [desktop] Utente 74 cerca appuntamenti per range 2026-02-01-2026-02-28
+05/03/2026, 09:13:12:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+05/03/2026, 09:13:12:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:74, tipo:customer, email:Armonia
+05/03/2026, 09:13:12:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 09:13:12:
+runtime
+🔐 [desktop] /api/user-with-license per utente 74 (Armonia)
+05/03/2026, 09:13:12:
+runtime
+Recupero licenze per l'utente ID 74
+05/03/2026, 09:13:12:
+runtime
+🔐 [has-pro-access] Utente 74 licenza trial - hasAccess: true
+05/03/2026, 09:13:12:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/license/has-pro-access 304 in 2325ms :: true
+05/03/2026, 09:13:12:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:74, tipo:customer, email:nadia.artusi@gmail.com
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/booking-requests 304 in 2417ms :: []
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/appointments 304 in 2461ms :: [{"id":12378,"date":"2026-03-07","startT…
+05/03/2026, 09:13:12:
+runtime
+📅 [desktop] Caricati 1 appuntamenti da PostgreSQL per utente 74
+05/03/2026, 09:13:12:
+runtime
+✅ NUOVO Sistema multi-tenant: 1 appuntamenti per utente 74 (con staff/room) - SEPARAZIONE COMPLETA
+05/03/2026, 09:13:12:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/license/has-business-access 304 in 2499ms :: true
+05/03/2026, 09:13:12:
+runtime
+👩‍⚕️ [desktop] Staff - Filtro per appuntamenti propri
+05/03/2026, 09:13:12:
+runtime
+💰 [desktop] Report PostgreSQL: calcolato ricavi per 0 appuntamenti
+05/03/2026, 09:13:12:
+runtime
+📊💻 [desktop] Appuntamenti range 2026-02-01-2026-02-28: 0 da PostgreSQL (esclusi 0 importati da Google Calendar)
+05/03/2026, 09:13:12:
+runtime
+8:13:12 AM [express] GET /api/appointments/range/2026-02-01/2026-02-28 304 in 2535ms :: []
+05/03/2026, 09:13:12:
+runtime
+Trovate 1 licenze per l'utente 74
+05/03/2026, 09:13:13:
+runtime
+🔧 [/api/services] [desktop] Caricati 7 servizi da PostgreSQL per utente 74
+05/03/2026, 09:13:13:
+runtime
+✅ NUOVO Sistema: 7 servizi per utente 74 - SEPARAZIONE COMPLETA
+05/03/2026, 09:13:13:
+runtime
+8:13:13 AM [express] GET /api/services 304 in 2654ms :: [{"id":183,"userId":74,"name":"Aromacolor to…
+05/03/2026, 09:13:13:
+runtime
+📦 [/api/clients] [desktop] 4 clienti in 256ms (1 query con subquery conteggio)
+05/03/2026, 09:13:13:
+runtime
+8:13:13 AM [express] GET /api/clients 304 in 2661ms :: [{"id":4621,"userId":74,"firstName":"Ilaria "…
+05/03/2026, 09:13:13:
+runtime
+🔍 DEBUG API COLLABORATORS: { userId: 74, count: 0, collaborators: [] }
+05/03/2026, 09:13:13:
+runtime
+8:13:13 AM [express] GET /api/collaborators 304 in 2694ms :: []
+05/03/2026, 09:13:13:
+runtime
+8:13:13 AM [express] GET /api/treatment-rooms 304 in 2701ms :: []
+05/03/2026, 09:13:13:
+runtime
+}
+05/03/2026, 09:13:13:
+runtime
+  licenseType: 'trial'
+05/03/2026, 09:13:13:
+runtime
+  lastName: null,
+05/03/2026, 09:13:13:
+runtime
+  firstName: null,
+05/03/2026, 09:13:13:
+runtime
+  username: 'Armonia',
+05/03/2026, 09:13:13:
+runtime
+  id: 74,
+05/03/2026, 09:13:13:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 09:13:13:
+runtime
+8:13:13 AM [express] GET /api/user-with-license 304 in 2779ms :: {"id":74,"username":"Armonia","emai…
+05/03/2026, 09:27:41:
+runtime
+8:27:41 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 09:37:12:
+runtime
+8:37:12 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
