@@ -464,7 +464,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       
       {/* Dialog per creare/modificare le note */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="md:max-w-[500px]">
+        <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>
               {editingNote ? 'Modifica nota' : 'Crea nuova nota'}

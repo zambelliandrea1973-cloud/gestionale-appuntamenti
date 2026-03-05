@@ -317,7 +317,7 @@ export default function SimpleServiceManager() {
       </Card>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="md:max-w-[425px]">
+        <DialogContent className="min-[1200px]:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t('services.editTitle')}</DialogTitle>
           </DialogHeader>

@@ -327,7 +327,7 @@ export default function StaffManagementPageFixed() {
                   Aggiungi Staff
                 </Button>
               </DialogTrigger>
-              <DialogContent className="md:max-w-[500px]">
+              <DialogContent className="min-[1200px]:max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Crea Nuovo Membro Staff</DialogTitle>
                   <DialogDescription>
@@ -535,7 +535,7 @@ export default function StaffManagementPageFixed() {
 
       {/* Dialog per modificare staff */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="md:max-w-[500px]">
+        <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Modifica Staff: {selectedStaff?.username}</DialogTitle>
             <DialogDescription>
@@ -672,7 +672,7 @@ export default function StaffManagementPageFixed() {
 
       {/* Dialog Dati Bancari Staff */}
       <Dialog open={isBankingDialogOpen} onOpenChange={setIsBankingDialogOpen}>
-        <DialogContent className="md:max-w-[500px]">
+        <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5 text-green-600" />

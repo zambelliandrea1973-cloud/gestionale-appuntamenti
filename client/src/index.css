@@ -109,7 +109,7 @@ button[data-appointment-link="true"],
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1199px) {
   [data-radix-dialog-content] {
     width: 95vw !important;
     max-width: 95vw !important;

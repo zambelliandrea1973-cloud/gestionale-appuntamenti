@@ -757,7 +757,7 @@ export default function AppointmentForm({
   const isLoading = isLoadingClients || isLoadingServices || isLoadingCollaborators || isLoadingRooms || (appointmentId && isLoadingAppointment);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] md:max-w-[600px]">
+    <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] min-[1200px]:max-w-[600px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">
           {appointmentId ? "Modifica Appuntamento" : "Nuovo Appuntamento"}

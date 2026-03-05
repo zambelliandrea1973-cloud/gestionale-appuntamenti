@@ -92,7 +92,7 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
 
   return (
     <Dialog open={open} onOpenChange={() => handleClose()}>
-      <DialogContent className="md:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="min-[1200px]:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader className="text-center pb-2">
           <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-3">
             <Sparkles className="h-7 w-7 text-primary" />

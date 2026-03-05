@@ -298,9 +298,9 @@ export default function ClientForm({
   const isLoading = clientId && isLoadingClient;
   
   return (
-    <DialogContent className="md:max-w-[600px] max-h-[85vh] md:max-h-[90vh] flex flex-col p-0">
-      <DialogHeader className="px-4 pt-4 md:px-6 md:pt-6">
-        <DialogTitle className="text-xl md:text-lg">
+    <DialogContent className="min-[1200px]:max-w-[600px] max-h-[85vh] min-[1200px]:max-h-[90vh] flex flex-col p-0">
+      <DialogHeader className="px-4 pt-4 min-[1200px]:px-6 min-[1200px]:pt-6">
+        <DialogTitle className="text-xl min-[1200px]:text-lg">
           {clientId ? "Modifica Cliente" : "Nuovo Cliente"}
         </DialogTitle>
       </DialogHeader>
@@ -311,10 +311,10 @@ export default function ClientForm({
         </div>
       ) : (
         <Tabs defaultValue="personal" value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 min-h-0">
-          <TabsList className="grid w-full grid-cols-3 mx-4 md:mx-6 mb-2 flex-shrink-0" style={{ maxWidth: "calc(100% - 2rem)" }}>
-            <TabsTrigger value="personal" className="text-sm px-2 sm:px-3">Dati Personali</TabsTrigger>
-            <TabsTrigger value="medical" className="text-sm px-2 sm:px-3">Dati Medici</TabsTrigger>
-            <TabsTrigger value="consent" className="text-sm px-2 sm:px-3">Consenso Dati</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mx-4 min-[1200px]:mx-6 mb-2 flex-shrink-0" style={{ maxWidth: "calc(100% - 2rem)" }}>
+            <TabsTrigger value="personal" className="text-sm px-2">Dati Personali</TabsTrigger>
+            <TabsTrigger value="medical" className="text-sm px-2">Dati Medici</TabsTrigger>
+            <TabsTrigger value="consent" className="text-sm px-2">Consenso Dati</TabsTrigger>
           </TabsList>
           
           <Form {...form}>

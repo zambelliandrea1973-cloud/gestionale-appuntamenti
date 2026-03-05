@@ -21,7 +21,7 @@ export default function ClientAccessesDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="md:max-w-[800px] max-h-[90vh] overflow-auto">
+      <DialogContent className="min-[1200px]:max-w-[800px] max-h-[90vh] overflow-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl">
             {t('clients.accesses.detailsTitle', 'Accessi di {{name}}', { name: clientName })}

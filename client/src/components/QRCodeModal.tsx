@@ -132,7 +132,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
   
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="md:max-w-md">
+      <DialogContent className="min-[1200px]:max-w-md">
         <DialogHeader>
           <DialogTitle>Codice QR di Attivazione Cliente</DialogTitle>
           <DialogDescription>

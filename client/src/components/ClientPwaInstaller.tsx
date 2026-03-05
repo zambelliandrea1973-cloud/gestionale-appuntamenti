@@ -184,7 +184,7 @@ export function ClientPwaInstaller() {
                 Vedi istruzioni iOS
               </Button>
             </DialogTrigger>
-            <DialogContent className="md:max-w-md">
+            <DialogContent className="min-[1200px]:max-w-md">
               <DialogHeader>
                 <DialogTitle>Installazione su iOS</DialogTitle>
                 <DialogDescription>
