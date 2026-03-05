@@ -4,7 +4,9 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+const Dialog: React.FC<DialogPrimitive.DialogProps> = (props) => {
+  return <DialogPrimitive.Root modal={false} {...props} />;
+};
 
 const DialogTrigger = DialogPrimitive.Trigger
 
@@ -19,9 +21,10 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
+    style={{ pointerEvents: 'auto' }}
     {...props}
   />
 ))
@@ -40,7 +43,7 @@ const DialogContent = React.forwardRef<
       style={{
         width: '95vw',
         maxWidth: window.innerWidth >= 1200 ? '32rem' : '95vw',
-        touchAction: 'pan-x pan-y pinch-zoom',
+        touchAction: 'manipulation',
         WebkitOverflowScrolling: 'touch',
       }}
       className={cn(
