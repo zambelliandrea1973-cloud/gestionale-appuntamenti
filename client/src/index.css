@@ -109,15 +109,21 @@ button[data-appointment-link="true"],
   }
 }
 
-@media (max-width: 639px) {
+@media (pointer: coarse) {
+  body[data-scroll-locked] {
+    overflow: auto !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
   [data-radix-dialog-content] {
-    touch-action: pan-y pinch-zoom !important;
+    touch-action: pan-x pan-y pinch-zoom !important;
     -webkit-overflow-scrolling: touch !important;
     overflow-y: scroll !important;
   }
-  
+
   [data-radix-scroll-guard],
   [data-radix-dialog-overlay] {
-    touch-action: pan-y pinch-zoom !important;
+    touch-action: pan-x pan-y pinch-zoom !important;
   }
 }

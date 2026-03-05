@@ -1,20 +1,16 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(() => 
-    typeof window !== "undefined" ? window.innerWidth < 640 : false
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = React.useState(() =>
+    typeof window !== "undefined"
+      ? ("ontouchstart" in window || navigator.maxTouchPoints > 0)
+      : false
   );
-  React.useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
+  return isTouch;
 }
 
 const Dialog = DialogPrimitive.Root
@@ -40,69 +36,83 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const MobileDialogContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { onCloseClick?: () => void }
->(({ className, children, ...props }, ref) => {
-  const context = React.useContext(DialogPrimitive.Root.__context || ({} as any));
-
-  return createPortal(
-    <div className="fixed inset-0 z-50" style={{ touchAction: "auto" }}>
-      <div className="fixed inset-0 bg-black/80 animate-in fade-in-0" />
-      <div
-        ref={ref}
-        className={cn(
-          "fixed inset-0 z-50 bg-background overflow-y-auto animate-in fade-in-0",
-          className
-        )}
-        style={{ 
-          WebkitOverflowScrolling: "touch",
-          overscrollBehavior: "contain",
-          touchAction: "auto"
-        }}
-      >
-        <div className="p-6 pb-20">
-          {children}
-        </div>
-      </div>
-    </div>,
-    document.body
-  );
-});
-MobileDialogContent.displayName = "MobileDialogContent";
-
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const isMobile = useIsMobile();
+  const isTouch = useIsTouchDevice();
+  const contentRef = React.useRef<HTMLDivElement>(null);
 
-  if (isMobile) {
+  React.useEffect(() => {
+    if (!isTouch) return;
+
+    const unlockScroll = () => {
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("padding-right");
+      document.body.style.removeProperty("margin-right");
+      const locked = document.querySelectorAll("[data-scroll-locked]");
+      locked.forEach(el => {
+        (el as HTMLElement).style.removeProperty("overflow");
+        (el as HTMLElement).style.removeProperty("margin-right");
+        (el as HTMLElement).style.removeProperty("padding-right");
+      });
+    };
+
+    const observer = new MutationObserver(unlockScroll);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["style", "data-scroll-locked"]
+    });
+    unlockScroll();
+
+    const container = contentRef.current;
+    if (container) {
+      const preventBlock = (e: TouchEvent) => {
+        e.stopPropagation();
+      };
+      container.addEventListener("touchmove", preventBlock, { passive: true, capture: true });
+      return () => {
+        observer.disconnect();
+        container.removeEventListener("touchmove", preventBlock, { capture: true } as any);
+      };
+    }
+
+    return () => observer.disconnect();
+  }, [isTouch]);
+
+  if (isTouch) {
     return (
-      <>
-        <DialogPortal>
-          <DialogPrimitive.Content
-            className="fixed inset-0 z-50 bg-background overflow-y-auto"
-            style={{
-              WebkitOverflowScrolling: "touch",
-              overscrollBehavior: "contain",
-              touchAction: "auto"
-            }}
-            onPointerDownOutside={(e) => e.preventDefault()}
-            onInteractOutside={(e) => e.preventDefault()}
-            {...props}
-            ref={ref}
-          >
-            <div className={cn("p-6 pb-20", className)}>
-              {children}
-            </div>
-            <DialogPrimitive.Close className="fixed right-4 top-4 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none">
-              <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
-            </DialogPrimitive.Close>
-          </DialogPrimitive.Content>
-        </DialogPortal>
-      </>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Content
+          ref={(node) => {
+            (contentRef as any).current = node;
+            if (typeof ref === "function") ref(node);
+            else if (ref) (ref as any).current = node;
+          }}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+          className={cn(
+            "fixed inset-0 z-50 bg-background overflow-y-scroll",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+            className
+          )}
+          style={{
+            WebkitOverflowScrolling: "touch",
+            overscrollBehavior: "contain",
+            touchAction: "pan-x pan-y pinch-zoom"
+          }}
+          {...props}
+        >
+          <div className="p-6 pb-24" style={{ minHeight: "calc(100% + 1px)" }}>
+            {children}
+          </div>
+          <DialogPrimitive.Close className="fixed right-4 top-4 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none">
+            <X className="h-5 w-5" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        </DialogPrimitive.Content>
+      </DialogPortal>
     );
   }
 
