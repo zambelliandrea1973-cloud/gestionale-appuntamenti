@@ -254,19 +254,20 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
 
 export async function generateMarketingCampaign(userPrompt: string): Promise<{ title: string; message: string }> {
   if (!process.env.GEMINI_API_KEY) {
+    console.error('❌ [AI CAMPAIGN] GEMINI_API_KEY non configurata');
     return {
       title: 'Servizio AI non configurato',
       message: 'Contatta l\'amministratore per configurare il servizio AI.'
     };
   }
 
-  return enqueueRequest(async () => {
-    try {
-      console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
+  try {
+    console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
+    console.log('📧 [AI CAMPAIGN] API Key presente:', !!process.env.GEMINI_API_KEY);
 
-      const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-      const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
+    const prompt = `Sei un esperto di marketing per studi medici e professionisti della salute.
 
 Il tuo compito è creare campagne marketing professionali, convincenti e personalizzate.
 
@@ -289,33 +290,34 @@ LINEE GUIDA PER IL MESSAGGIO:
 Ora genera la campagna basata sulla richiesta dell'utente:
 ${userPrompt}`;
 
-      const result = await model.generateContent(prompt);
-      const aiResponse = result.response.text() || '';
-      console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
+    const result = await model.generateContent(prompt);
+    const aiResponse = result.response.text() || '';
+    console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
 
-      const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
-      if (jsonMatch) {
-        const campaign = JSON.parse(jsonMatch[0]);
-        return {
-          title: campaign.title.substring(0, 60),
-          message: campaign.message.substring(0, 500)
-        };
-      }
-
+    const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
+    if (jsonMatch) {
+      const campaign = JSON.parse(jsonMatch[0]);
       return {
-        title: 'Nuova Comunicazione ai Clienti',
-        message: aiResponse.substring(0, 500) || 'Messaggio generato con AI'
-      };
-
-    } catch (error: any) {
-      console.error('❌ [AI CAMPAIGN] Errore:', error.message);
-
-      return {
-        title: 'Nuova Campagna Marketing',
-        message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
+        title: campaign.title.substring(0, 60),
+        message: campaign.message.substring(0, 500)
       };
     }
-  });
+
+    return {
+      title: 'Nuova Comunicazione ai Clienti',
+      message: aiResponse.substring(0, 500) || 'Messaggio generato con AI'
+    };
+
+  } catch (error: any) {
+    console.error('❌ [AI CAMPAIGN] Errore completo:', error);
+    console.error('❌ [AI CAMPAIGN] Errore messaggio:', error?.message);
+    console.error('❌ [AI CAMPAIGN] Errore status:', error?.status);
+
+    return {
+      title: 'Nuova Campagna Marketing',
+      message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
+    };
+  }
 }
 
 export async function searchOnlineInfo(query: string): Promise<string> {
