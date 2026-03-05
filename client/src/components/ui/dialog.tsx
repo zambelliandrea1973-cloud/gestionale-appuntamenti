@@ -4,10 +4,7 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog: React.FC<DialogPrimitive.DialogProps> = ({ modal, ...props }) => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1200;
-  return <DialogPrimitive.Root modal={isMobile ? false : (modal ?? true)} {...props} />;
-};
+const Dialog = DialogPrimitive.Root
 
 const DialogTrigger = DialogPrimitive.Trigger
 
@@ -45,7 +42,6 @@ const DialogContent = React.forwardRef<
         maxWidth: window.innerWidth >= 1200 ? '32rem' : '95vw',
         touchAction: 'pan-x pan-y pinch-zoom',
         WebkitOverflowScrolling: 'touch',
-        overscrollBehavior: 'contain',
       }}
       className={cn(
         "fixed z-50 grid gap-4 bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] max-h-[85vh] overflow-y-auto rounded-lg border",
