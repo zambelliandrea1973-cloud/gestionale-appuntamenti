@@ -14,7 +14,7 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN npm ci
 
 # Force cache invalidation - change this date to rebuild
-ARG CACHE_DATE=2026-03-05-10:15
+ARG CACHE_DATE=2026-03-05-10:20
 RUN echo "Build timestamp: ${CACHE_DATE}"
 
 # Copy ALL source code

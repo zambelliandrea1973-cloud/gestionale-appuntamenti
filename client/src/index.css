@@ -120,6 +120,14 @@ button[data-appointment-link="true"],
     touch-action: pan-x pan-y pinch-zoom !important;
     -webkit-overflow-scrolling: touch !important;
     overflow-y: scroll !important;
+    inset: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
   }
 
   [data-radix-scroll-guard],
