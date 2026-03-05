@@ -63,18 +63,18 @@ const formSchema = z.object({
   serviceId: z.number({
     required_error: "Seleziona un servizio",
   }),
-  staffId: z.number().optional(),
-  roomId: z.number().optional(),
-  packagePurchaseId: z.number().optional(), // NUOVO: Collegamento a pacchetto acquistato
+  staffId: z.number().nullable().optional(),
+  roomId: z.number().nullable().optional(),
+  packagePurchaseId: z.number().nullable().optional(),
   date: z.date({
     required_error: "Seleziona una data per l'appuntamento",
   }),
   startTime: z.string({
     required_error: "Seleziona un orario di inizio",
   }),
-  endTime: z.string().optional(),
-  notes: z.string().optional(),
-  reminderType: z.string().optional(),
+  endTime: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+  reminderType: z.string().nullable().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
