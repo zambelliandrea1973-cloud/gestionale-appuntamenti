@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
+import { createPortal } from "react-dom"
 
 import { cn } from "@/lib/utils"
 
@@ -8,7 +9,28 @@ const isTouchDevice = () =>
   typeof window !== "undefined" &&
   ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-const Dialog = DialogPrimitive.Root
+const DialogContext = React.createContext<{
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}>({ open: false, onOpenChange: () => {} });
+
+const Dialog = ({ open, onOpenChange, children, ...props }: DialogPrimitive.DialogProps) => {
+  const [internalOpen, setInternalOpen] = React.useState(open ?? false);
+  const isControlled = open !== undefined;
+  const currentOpen = isControlled ? open! : internalOpen;
+  const handleChange = React.useCallback((v: boolean) => {
+    if (!isControlled) setInternalOpen(v);
+    onOpenChange?.(v);
+  }, [isControlled, onOpenChange]);
+
+  return (
+    <DialogContext.Provider value={{ open: currentOpen, onOpenChange: handleChange }}>
+      <DialogPrimitive.Root open={currentOpen} onOpenChange={handleChange} {...props}>
+        {children}
+      </DialogPrimitive.Root>
+    </DialogContext.Provider>
+  );
+};
 
 const DialogTrigger = DialogPrimitive.Trigger
 
@@ -23,7 +45,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -31,89 +53,76 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+const TouchDialogContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { onCloseClick: () => void }
+>(({ className, children, onCloseClick, ...props }, ref) => {
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCloseClick();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onCloseClick]);
+
+  return createPortal(
+    <>
+      <div
+        className="fixed inset-0 z-50 bg-black/80 animate-in fade-in-0"
+        onClick={onCloseClick}
+      />
+      <div
+        ref={ref}
+        role="dialog"
+        aria-modal="true"
+        className={cn(
+          "fixed inset-0 z-50 bg-background overflow-y-auto animate-in fade-in-0",
+          className
+        )}
+        style={{
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "contain"
+        }}
+        {...props}
+      >
+        <div className="p-6 pb-24" style={{ minHeight: "calc(100% + 1px)" }}>
+          {children}
+        </div>
+        <button
+          onClick={onCloseClick}
+          className="fixed right-4 top-4 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 hover:opacity-100 focus:outline-none"
+        >
+          <X className="h-5 w-5" />
+          <span className="sr-only">Close</span>
+        </button>
+      </div>
+    </>,
+    document.body
+  );
+});
+TouchDialogContent.displayName = "TouchDialogContent";
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const isTouch = isTouchDevice();
-  const innerRef = React.useRef<HTMLDivElement>(null);
+  const { open, onOpenChange } = React.useContext(DialogContext);
 
-  React.useEffect(() => {
-    if (!isTouch) return;
-
-    const dialogEl = innerRef.current;
-    if (!dialogEl) return;
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (dialogEl.contains(e.target as Node)) {
-        e.stopImmediatePropagation();
-      }
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      if (dialogEl.contains(e.target as Node)) {
-        e.stopImmediatePropagation();
-      }
-    };
-
-    document.addEventListener("touchmove", onTouchMove, { capture: true, passive: true } as any);
-    document.addEventListener("touchstart", onTouchStart, { capture: true, passive: true } as any);
-
-    document.body.style.removeProperty("overflow");
-
-    const observer = new MutationObserver(() => {
-      document.body.style.removeProperty("overflow");
-      document.body.style.removeProperty("padding-right");
-      document.body.style.removeProperty("margin-right");
-    });
-    observer.observe(document.body, { attributes: true, attributeFilter: ["style"] });
-
-    return () => {
-      document.removeEventListener("touchmove", onTouchMove, { capture: true } as any);
-      document.removeEventListener("touchstart", onTouchStart, { capture: true } as any);
-      observer.disconnect();
-    };
-  }, [isTouch]);
-
-  const setRefs = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      (innerRef as any).current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) (ref as any).current = node;
-    },
-    [ref]
-  );
-
-  if (isTouch) {
+  if (isTouch && open) {
     return (
-      <DialogPortal>
-        <DialogOverlay />
-        <DialogPrimitive.Content
-          ref={setRefs}
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
-          className={cn(
-            "fixed inset-0 z-50 bg-background overflow-y-scroll",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-            className
-          )}
-          style={{
-            WebkitOverflowScrolling: "touch",
-            overscrollBehavior: "contain",
-            touchAction: "pan-x pan-y pinch-zoom"
-          }}
-          {...props}
-        >
-          <div className="p-6 pb-24" style={{ minHeight: "calc(100% + 1px)" }}>
-            {children}
-          </div>
-          <DialogPrimitive.Close className="fixed right-4 top-4 z-[60] rounded-full bg-background shadow-md border p-1.5 opacity-90 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none">
-            <X className="h-5 w-5" />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        </DialogPrimitive.Content>
-      </DialogPortal>
+      <TouchDialogContent
+        ref={ref as any}
+        className={className}
+        onCloseClick={() => onOpenChange(false)}
+      >
+        {children}
+      </TouchDialogContent>
     );
+  }
+
+  if (isTouch && !open) {
+    return null;
   }
 
   return (
