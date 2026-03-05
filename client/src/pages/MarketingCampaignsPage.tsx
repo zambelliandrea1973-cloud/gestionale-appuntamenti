@@ -208,9 +208,15 @@ export default function MarketingCampaignsPage() {
     console.log('📤 Invio richiesta API a /api/ai/generate-campaign');
 
     try {
-      const response = await apiRequest('POST', '/api/ai/generate-campaign', {
-        prompt: userInput,
-        conversationHistory: chatMessages
+      console.log('📤 Chiamata fetch diretta a /api/ai/generate-campaign');
+      const response = await fetch('/api/ai/generate-campaign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          prompt: userInput,
+          conversationHistory: chatMessages
+        })
       });
       
       console.log('📥 Risposta API ricevuta, status:', response.status, 'ok:', response.ok);
@@ -227,7 +233,6 @@ export default function MarketingCampaignsPage() {
         
         setChatMessages(prev => [...prev, aiMessage]);
 
-        // Se l'IA ha generato una campagna, salvala
         if (data.campaign) {
           console.log('💾 Salvataggio campagna:', data.campaign);
           setGeneratedCampaign({
@@ -240,13 +245,17 @@ export default function MarketingCampaignsPage() {
       } else {
         const errorText = await response.text();
         console.error('❌ Errore API:', response.status, errorText);
-        throw new Error('Errore nella generazione');
+        toast({
+          title: 'Errore',
+          description: `Errore dal server (${response.status}): ${errorText.substring(0, 100)}`,
+          variant: 'destructive'
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Eccezione catturata:', error);
       toast({
         title: 'Errore',
-        description: 'Impossibile generare la campagna. Riprova.',
+        description: `Impossibile generare la campagna: ${error?.message || 'Riprova.'}`,
         variant: 'destructive'
       });
     } finally {
