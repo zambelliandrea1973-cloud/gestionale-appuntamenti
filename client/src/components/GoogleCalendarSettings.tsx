@@ -521,7 +521,7 @@ export default function GoogleCalendarSettingsComponent() {
       
       {/* Manteniamo il Dialog per compatibilità, ma l'utente standard non dovrebbe vederlo */}
       <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle>Autorizza Google Calendar</DialogTitle>
             <DialogDescription>
@@ -583,7 +583,7 @@ export default function GoogleCalendarSettingsComponent() {
       </Dialog>
       
       <Dialog open={showCalendarSelector} onOpenChange={setShowCalendarSelector}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle>Seleziona un calendario</DialogTitle>
             <DialogDescription>

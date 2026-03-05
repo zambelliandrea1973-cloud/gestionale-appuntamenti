@@ -415,7 +415,7 @@ export default function ServiceManager() {
               <span>Aggiungi Servizio</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="md:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>{isEditing ? "Modifica Servizio" : "Nuovo Servizio"}</DialogTitle>
             </DialogHeader>

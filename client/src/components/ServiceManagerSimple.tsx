@@ -273,7 +273,7 @@ export default function ServiceManagerSimple() {
                 Nuovo Servizio
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="md:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   {isEditing ? "Modifica Servizio" : "Nuovo Servizio"}

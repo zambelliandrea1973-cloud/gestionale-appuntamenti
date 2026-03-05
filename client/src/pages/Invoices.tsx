@@ -857,7 +857,7 @@ export default function Invoices() {
       )}
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="md:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Nuova Fattura</DialogTitle>
             <DialogDescription>
@@ -1057,7 +1057,7 @@ export default function Invoices() {
 
       {/* Dialog per invio email */}
       <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle>Invia Fattura via Email</DialogTitle>
             <DialogDescription>
@@ -1124,7 +1124,7 @@ export default function Invoices() {
 
       {/* Dialog per pulizia numerazione */}
       <Dialog open={isCleanupDialogOpen} onOpenChange={setIsCleanupDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-orange-600">🧹 Pulizia Numerazione Fatture</DialogTitle>
             <DialogDescription>
@@ -1169,7 +1169,7 @@ export default function Invoices() {
 
       {/* Dialog per anteprima fattura */}
       <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
-        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="md:max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-blue-600">👁️ Anteprima Fattura</DialogTitle>
             <DialogDescription>

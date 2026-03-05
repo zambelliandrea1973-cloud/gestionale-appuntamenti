@@ -232,7 +232,7 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
       </div>
       
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="md:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>
               {editingNote ? 'Modifica nota' : 'Crea nuova nota'}

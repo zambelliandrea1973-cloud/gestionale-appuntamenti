@@ -560,7 +560,7 @@ export default function ReferralPage() {
 
       {/* Dialog per i dati bancari */}
       <Dialog open={openBankDialog} onOpenChange={setOpenBankDialog}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="md:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Metodi di pagamento commissioni</DialogTitle>
             <DialogDescription>

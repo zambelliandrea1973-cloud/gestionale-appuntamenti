@@ -389,7 +389,7 @@ export default function BookingRequests() {
       
       {/* Dialog conferma con selezione staff/stanza */}
       <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]" data-testid="dialog-confirm-booking">
+        <DialogContent className="md:max-w-[500px]" data-testid="dialog-confirm-booking">
           <DialogHeader>
             <DialogTitle>{t("bookingRequests.confirmAppointment")}</DialogTitle>
             <DialogDescription>

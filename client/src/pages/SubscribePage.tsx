@@ -835,7 +835,7 @@ export default function SubscribePage() {
       
       {/* Dialog per le istruzioni del bonifico bancario */}
       <Dialog open={showBankTransferInfo} onOpenChange={setShowBankTransferInfo}>
-        <DialogContent className="sm:max-w-[550px]">
+        <DialogContent className="md:max-w-[550px]">
           <DialogHeader>
             <DialogTitle>{t('subscribe.bankTransfer.title', 'Pagamento con Bonifico Bancario')}</DialogTitle>
             <DialogDescription>

@@ -307,7 +307,7 @@ export default function ReminderTemplateManager() {
       </div>
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="md:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>
               {editingTemplate 

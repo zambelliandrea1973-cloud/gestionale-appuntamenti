@@ -551,7 +551,7 @@ export default function ClientArea() {
       
       {/* Dialog di chiusura sessione */}
       <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <DialogContent className="sm:max-w-md p-0 overflow-hidden border-0">
+        <DialogContent className="md:max-w-md p-0 overflow-hidden border-0">
           <div className="flex flex-col items-center text-center p-6 pt-8 max-w-sm mx-auto">
             <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mb-6">
               <Calendar className="h-8 w-8 text-white" />

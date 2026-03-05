@@ -462,7 +462,7 @@ export function PwaInstallButton() {
 
       {/* Dialog con il selettore del browser */}
       <Dialog open={showBrowserSelector} onOpenChange={setShowBrowserSelector}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Smartphone className="h-5 w-5 text-primary" />
@@ -544,7 +544,7 @@ export function PwaInstallButton() {
       
       {/* Dialog con istruzioni dettagliate per l'installazione manuale */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="md:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {dialogInstructions && renderBrowserIcon(dialogInstructions.browser)}

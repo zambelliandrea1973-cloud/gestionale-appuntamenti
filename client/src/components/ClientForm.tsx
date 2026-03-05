@@ -298,7 +298,7 @@ export default function ClientForm({
   const isLoading = clientId && isLoadingClient;
   
   return (
-    <DialogContent className="sm:max-w-[600px] sm:max-h-[90vh] flex flex-col p-0">
+    <DialogContent className="md:max-w-[600px] md:max-h-[90vh] flex flex-col p-0">
       <DialogHeader className="px-6 pt-6">
         <DialogTitle>
           {clientId ? "Modifica Cliente" : "Nuovo Cliente"}
