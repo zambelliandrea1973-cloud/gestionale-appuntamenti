@@ -772,7 +772,15 @@ export default function AppointmentForm({
         </div>
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.error("❌ [APPOINTMENT FORM] Errori validazione:", JSON.stringify(errors, null, 2));
+            const errorFields = Object.keys(errors);
+            toast({
+              title: "Errore di validazione",
+              description: `Campi con errori: ${errorFields.join(', ')}`,
+              variant: "destructive"
+            });
+          })} className="space-y-4">
             {/* Warning per cliente di altro account */}
             {selectedClient && currentUser?.type === 'admin' && (selectedClient.ownerId || selectedClient.originalOwnerId) !== currentUser.id && (
               <Alert className="border-orange-300 bg-orange-50">
