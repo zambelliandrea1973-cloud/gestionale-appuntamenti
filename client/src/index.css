@@ -137,18 +137,24 @@ button[data-appointment-link="true"],
     font-weight: 500 !important;
   }
 
+  [data-radix-dialog-content] * {
+    touch-action: manipulation !important;
+  }
+
   [data-radix-dialog-content] input,
   [data-radix-dialog-content] select,
   [data-radix-dialog-content] textarea {
     font-size: 17px !important;
     min-height: 48px !important;
     padding: 10px 12px !important;
+    touch-action: manipulation !important;
   }
 
   [data-radix-dialog-content] button {
     font-size: 17px !important;
     min-height: 48px !important;
     padding: 10px 20px !important;
+    touch-action: manipulation !important;
   }
 
   [data-radix-dialog-content] p,

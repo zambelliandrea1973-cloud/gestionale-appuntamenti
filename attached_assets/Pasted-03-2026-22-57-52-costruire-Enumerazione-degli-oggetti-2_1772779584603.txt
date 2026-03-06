@@ -1,0 +1,1346 @@
+03/2026, 22:57:52:
+costruire
+Enumerazione degli oggetti: 26790, completata.
+05/03/2026, 22:57:52:
+costruire
+Compressione oggetti: 100% (378/378), fatto.
+05/03/2026, 22:58:24:
+costruire
+Totale 26790 (delta 3270), riutilizzati 3082 (delta 3016), riutilizzati in confezioni 23396 (da 3)
+05/03/2026, 23:00:20:
+costruire
+#1 [service_event_24ml2xmw8957 interno] carica la definizione di build dal Dockerfile
+05/03/2026, 23:00:20:
+costruire
+#1 trasferimento dockerfile: 938B completato
+05/03/2026, 23:00:20:
+costruire
+#1 FATTO 0.0s
+05/03/2026, 23:00:20:
+costruire
+05/03/2026, 23:00:20:
+costruire
+#2 [service_event_24ml2xmw8957 interno] carica i metadati per docker.io/library/node:20-alpine
+05/03/2026, 23:00:21:
+costruire
+#2 FATTO 0,7s
+05/03/2026, 23:00:21:
+costruire
+05/03/2026, 23:00:21:
+costruire
+05/03/2026, 23:00:21:
+costruire
+#3 [service_event_24ml2xmw8957 interno] carica .dockerignore
+05/03/2026, 23:00:21:
+costruire
+#3 trasferimento del contesto: 740B eseguito
+05/03/2026, 23:00:21:
+costruire
+#3 FATTO 0.0s
+05/03/2026, 23:00:21:
+costruire
+#4 [service_event_24ml2xmw8957 1/8] DA docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+05/03/2026, 23:00:21:
+costruire
+#4 risoluzione docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0,0 s fatto
+05/03/2026, 23:00:21:
+costruire
+#4 FATTO 0.0s
+05/03/2026, 23:00:21:
+costruire
+05/03/2026, 23:00:21:
+costruire
+#5 [service_event_24ml2xmw8957 interno] carica il contesto di compilazione
+05/03/2026, 23:00:26:
+costruire
+#5 trasferimento contesto: 1,59 GB 4,7 s
+05/03/2026, 23:00:31:
+costruire
+#5 trasferimento contesto: 3,21 GB 9,8 s
+05/03/2026, 23:00:36:
+costruire
+#5 trasferimento contesto: 4,40 GB 14,9 s
+05/03/2026, 23:00:41:
+costruire
+#5 trasferimento contesto: 6,02 GB 19,9 s
+05/03/2026, 23:00:41:
+costruire
+#5 trasferimento contesto: 6,08 GB 20,1 s completato
+05/03/2026, 23:00:42:
+costruire
+#5 FATTO 21,5 secondi
+05/03/2026, 23:00:42:
+costruire
+05/03/2026, 23:00:42:
+costruire
+#6 [service_event_24ml2xmw8957 2/8] WORKDIR /app
+05/03/2026, 23:00:42:
+costruire
+#6 NELLA CACHE
+05/03/2026, 23:00:42:
+costruire
+05/03/2026, 23:00:42:
+costruire
+#7 [service_event_24ml2xmw8957 3/8] COPIA package.json package-lock.json ./
+05/03/2026, 23:00:42:
+costruire
+#7 NELLA CACHE
+05/03/2026, 23:00:42:
+costruire
+05/03/2026, 23:00:42:
+costruire
+#8 [service_event_24ml2xmw8957 4/8] ESEGUI npm ci
+05/03/2026, 23:00:42:
+costruire
+#8 NELLA CACHE
+05/03/2026, 23:00:42:
+costruire
+05/03/2026, 23:00:42:
+costruire
+#9 [service_event_24ml2xmw8957 5/8] ESEGUI echo "Timestamp di compilazione: 2026-03-05-22:30"
+05/03/2026, 23:00:42:
+costruire
+#9 0.186 Timestamp di compilazione: 2026-03-05-22:30
+05/03/2026, 23:00:46:
+costruire
+#9 FATTO 3.4s
+05/03/2026, 23:00:46:
+costruire
+05/03/2026, 23:00:46:
+costruire
+#10 [service_event_24ml2xmw8957 6/8] COPIA . .
+05/03/2026, 23:01:11:
+costruire
+#10 FATTO 25,8s
+05/03/2026, 23:01:12:
+costruire
+05/03/2026, 23:01:12:
+costruire
+#11 [service_event_24ml2xmw8957 7/8] ESEGUI la build npx vite
+05/03/2026, 23:01:13:
+costruire
+#11 1.798 vite v5.4.14 in fase di compilazione per la produzione...
+05/03/2026, 23:01:13:
+costruire
+#11 1.929
+05/03/2026, 23:01:14:
+costruire
+#11 2.381
+05/03/2026, 23:01:14:
+costruire
+#11 2.381 /forced-style.css non esiste in fase di compilazione, rimarrà invariato per essere risolto in fase di esecuzione
+05/03/2026, 23:01:14:
+costruire
+#11 2.385 trasformando...
+05/03/2026, 23:01:14:
+costruire
+#11 2.421 Browserslist: i dati del browser (caniuse-lite) risalgono a 17 mesi fa. Eseguire:
+05/03/2026, 23:01:14:
+costruire
+#11 2.421 npx update-browserslist-db@latest
+05/03/2026, 23:01:14:
+costruire
+#11 2.421 Perché dovresti farlo regolarmente: https://github.com/browserslist/update-db#readme
+05/03/2026, 23:01:27:
+costruire
+#11 15.39 ✓ 3695 moduli trasformati.
+05/03/2026, 23:01:28:
+costruire
+#11 16.78 [plugin:vite:reporter] [plugin vite:reporter]
+05/03/2026, 23:01:28:
+costruire
+#11 16.78 (!) /app/client/src/lib/queryClient.ts viene importato dinamicamente da /app/client/src/lib/autoRefresh.ts ma anche importato staticamente da /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx,/app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+05/03/2026, 23:01:28:
+costruire
+#11 16.78
+05/03/2026, 23:01:28:
+costruire
+#11 16.78 (!) /app/client/src/lib/betaUtils.ts viene importato dinamicamente da /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx ma anche importato staticamente da /app/client/src/components/BetaStatusChecker.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.#11 16.78 [plugin:vite:reporter] [plugin vite:reporter]
+05/03/2026, 23:01:28:
+costruire
+05/03/2026, 23:01:28:
+costruire
+#11 16.78
+05/03/2026, 23:01:28:
+costruire
+#11 16.78 rendering di blocchi...
+05/03/2026, 23:01:28:
+costruire
+#11 16.86 calcolo dimensione gzip...
+05/03/2026, 23:01:28:
+costruire
+#11 16.97 ../dist/public/index.html 15.19 kB │ gzip: 4.40 kB
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 ../dist/public/assets/index-BrDzUMx7.css 126.59 kB │ gzip: 19.93 kB
+05/03/2026, 23:01:29:
+costruire
+#11 16.97
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 (!) Alcuni blocchi sono più grandi di 500 kB dopo la minimizzazione. Considera:
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 - Utilizzo di dynamic import() per suddividere il codice dell'applicazione
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 - Utilizzare build.rollupOptions.output.manualChunks per migliorare la suddivisione in blocchi: https://rollupjs.org/configuration-options/#output-manualchunks
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 - Regola il limite della dimensione del blocco per questo avviso tramite build.chunkSizeWarningLimit.
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 ../dist/public/assets/index-B6Et5xxc.js 2.687,77 kB │ gzip: 732,61 kB
+05/03/2026, 23:01:29:
+costruire
+#11 16.97 ✓ costruito nel 15.11
+05/03/2026, 23:01:29:
+costruire
+#11 FATTO 17.3s
+05/03/2026, 23:01:29:
+costruire
+05/03/2026, 23:01:29:
+costruire
+#12 [service_event_24ml2xmw8957 8/8] ESEGUI cp -r dist/public server/public
+05/03/2026, 23:01:29:
+costruire
+#12 FATTO 0,4s
+05/03/2026, 23:01:29:
+costruire
+05/03/2026, 23:01:29:
+costruire
+#13 [service_event_24ml2xmw8957] esportazione in immagine
+05/03/2026, 23:01:29:
+costruire
+#13 esportazione di livelli
+05/03/2026, 23:03:34:
+costruire
+#13 esportazione livelli 124.7s completata
+05/03/2026, 23:03:34:
+costruire
+#13 esportazione del manifesto sha256:d6fcde42935788f84ccf44191594f5006c73e318fb81dbae30b8e1d00e1e7b2f 0,0 s completato
+05/03/2026, 23:03:34:
+costruire
+#13 esportazione configurazione sha256:dc716f85ee9212c3b5a2cd22076b552b376d35f749e0eaad9f803c9329eb4910 0,0 s fatto
+05/03/2026, 23:03:34:
+costruire
+#13 spingendo gli strati
+05/03/2026, 23:04:38:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_24ml2xmw8957@sha256:d6fcde42935788f84ccf44191594f5006c73e318fb81dbae30b8e1d00e1e7b2f
+05/03/2026, 23:04:38:
+costruire
+#13 spinta dei livelli 64.2 completata
+05/03/2026, 23:04:38:
+costruire
+#13 invio del manifesto per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_24ml2xmw8957@sha256:d6fcde42935788f84ccf44191594f5006c73e318fb81dbae30b8e1d00e1e7b2f 0,1 s completato
+05/03/2026, 23:04:38:
+costruire
+#13 FATTO 189.0s
+05/03/2026, 23:04:41:
+costruire
+service_event_24ml2xmw8957: Estrazione da org_ft3fgctptd0y/service_c0fmjewuw2c8
+05/03/2026, 23:04:41:
+costruire
+589002ba0eae: Esiste già
+05/03/2026, 23:04:41:
+costruire
+ad6d96c196e3: Esiste già
+05/03/2026, 23:04:41:
+costruire
+eb87f4721c91: Esiste già
+05/03/2026, 23:04:41:
+costruire
+e31b20165522: Esiste già
+05/03/2026, 23:04:41:
+costruire
+382e5f9f10c3: Esiste già
+05/03/2026, 23:04:41:
+costruire
+d3bc4effacf4: Esiste già
+05/03/2026, 23:04:41:
+costruire
+d4beb45ad856: Esiste già
+05/03/2026, 23:04:41:
+costruire
+4f4fb700ef54: Esiste già
+05/03/2026, 23:04:41:
+costruire
+a4003a7d235e: Estrazione del livello fs
+05/03/2026, 23:04:41:
+costruire
+02cbba41dbb7: Estrazione del livello fs
+05/03/2026, 23:04:41:
+costruire
+81ab71a814e8: Estrazione del livello fs
+05/03/2026, 23:04:41:
+costruire
+81ab71a814e8: Verifica del checksum
+05/03/2026, 23:04:41:
+costruire
+81ab71a814e8: Download completato
+05/03/2026, 23:04:41:
+costruire
+02cbba41dbb7: Verifica del checksum
+05/03/2026, 23:04:41:
+costruire
+02cbba41dbb7: Download completato
+05/03/2026, 23:05:07:
+costruire
+a4003a7d235e: Verifica del checksum
+05/03/2026, 23:05:07:
+costruire
+a4003a7d235e: Download completato
+05/03/2026, 23:05:51:
+costruire
+a4003a7d235e: Estrazione completata
+05/03/2026, 23:05:51:
+costruire
+02cbba41dbb7: Estrazione completata
+05/03/2026, 23:05:51:
+costruire
+81ab71a814e8: Estrazione completata
+05/03/2026, 23:05:51:
+costruire
+Riepilogo: sha256:d6fcde42935788f84ccf44191594f5006c73e318fb81dbae30b8e1d00e1e7b2f
+05/03/2026, 23:05:51:
+costruire
+Stato: scaricata l'immagine più recente per registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_24ml2xmw8957
+05/03/2026, 23:05:54:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+05/03/2026, 23:05:56:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+05/03/2026, 23:05:56:
+tempo di esecuzione
+URL di debug OAuth: {
+05/03/2026, 23:05:56:
+tempo di esecuzione
+  reindirizzamentoUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+05/03/2026, 23:05:56:
+tempo di esecuzione
+}
+05/03/2026, 23:05:56:
+tempo di esecuzione
+URL di callback di Google OAuth: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+05/03/2026, 23:05:56:
+tempo di esecuzione
+Credenziali Google: {
+05/03/2026, 23:05:56:
+tempo di esecuzione
+  clientId: 'Presente (primi caratteri: 26403...)',
+05/03/2026, 23:05:56:
+tempo di esecuzione
+  secretPresent: 'Presente'
+05/03/2026, 23:05:56:
+tempo di esecuzione
+}
+05/03/2026, 23:05:56:
+tempo di esecuzione
+⚠️ [PUSH] Chiavi VAPID non configurate - notifiche push disabilitate
+05/03/2026, 23:05:56:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+05/03/2026, 23:05:56:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+05/03/2026, 23:05:58:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+05/03/2026, 23:05:58:
+tempo di esecuzione
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+05/03/2026, 23:05:58:
+tempo di esecuzione
+🔐 [AUTH] Configurazione sessione: production=true, replit=false, sliplane=true
+05/03/2026, 23:05:58:
+tempo di esecuzione
+🔐 [AUTH] Impostazioni cookie: secure=true, sameSite=none
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 27 già presenti
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+05/03/2026, 23:05:58:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+05/03/2026, 23:05:58:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 50
+05/03/2026, 23:05:58:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+05/03/2026, 23:05:58:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+05/03/2026, 23:05:58:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+05/03/2026, 23:05:58:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+05/03/2026, 23:05:58:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+05/03/2026, 23:05:58:
+tempo di esecuzione
+]
+05/03/2026, 23:05:58:
+tempo di esecuzione
+✅ Controllo integrità completato
+05/03/2026, 23:05:58:
+tempo di esecuzione
+22:05:58 [express] in servizio sulla porta 5000
+05/03/2026, 23:05:58:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+05/03/2026, 23:05:59:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+05/03/2026, 23:06:08:
+tempo di esecuzione
+🔍 [MONITOR] Controllo soglie scalabilità...
+05/03/2026, 23:06:08:
+tempo di esecuzione
+📊 [MONITOR] Statistiche: 56 utenti, 4553 clienti, 401 appuntamenti, max 0 clienti/utente
+05/03/2026, 23:06:08:
+tempo di esecuzione
+✅ [MONITOR] Nessuna soglia critica raggiunta
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/tenant-context 401 in 5ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/clients 401 in 3ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/clients 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/tenant-context 401 in 3ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/license/has-business-access 200 in 3 ms
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/clients/167 401 in 4ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: Do6g3OHEhRbMrhIhDK6aevYpkpJlkjjk
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+05/03/2026, 23:15:48:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/license/has-pro-access 200 in 4 ms
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/license/license-info 200 in 2ms :: {"hasLicense":false,"type":"none"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Appuntame…
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/booking-requests 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/clients/166 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/clients/168 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:48:
+tempo di esecuzione
+22:15:48 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:15:49:
+tempo di esecuzione
+22:15:49 [express] GET /api/tenant-context 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:02:
+tempo di esecuzione
+22:16:02 [express] GET /api/client-app-info 200 in 14ms :: {"appName":"Gestionale Appuntamenti","i…
+05/03/2026, 23:16:02:
+tempo di esecuzione
+22:16:02 [express] GET /api/company-name-settings 200 in 2ms :: {"businessName":"Gestionale Apunt…
+05/03/2026, 23:16:02:
+tempo di esecuzione
+22:16:02 [espresso] GET /api/contact-info 401 in 2ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per proprietario 42
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '42', ts: '1772748962286' }
+05/03/2026, 23:16:02:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 42
+05/03/2026, 23:16:02:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 42)
+05/03/2026, 23:16:02:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+05/03/2026, 23:16:02:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=42&v=1772748962626.057&admin=1","/pwa-icon/192x192?owner=42&v =1772748962626.057&admin=1","/pwa-icon/512x512?owner=42&v=1772748962626.057&admin=1"]
+05/03/2026, 23:16:02:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:03:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:03:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:03:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:03:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 96x96 per proprietario 42, dimensione: 7824 byte
+05/03/2026, 23:16:04:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:04:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:08:
+tempo di esecuzione
+22:16:08 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:08:
+tempo di esecuzione
+22:16:08 [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '42', ts: '1772748968803' }
+05/03/2026, 23:16:08:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 42
+05/03/2026, 23:16:08:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 42)
+05/03/2026, 23:16:08:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+05/03/2026, 23:16:08:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=42&v=1772748968913.169&admin=1","/pwa-icon/192x192?owner=42&v =1772748968913.169&admin=1","/pwa-icon/512x512?owner=42&v=1772748968913.169&admin=1"]
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per proprietario 42
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per proprietario 42
+05/03/2026, 23:16:08:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 42, dimensione: 1876 bytes
+05/03/2026, 23:16:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 96x96 per proprietario 42, dimensione: 7824 byte
+05/03/2026, 23:16:10:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:10:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:11:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+05/03/2026, 23:16:11:
+tempo di esecuzione
+Logout completato con successo
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/license/license-info 304 in 1 ms :: {"hasLicense":false,"type":"none"}
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/clients 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: PO4H4iHpPWf5Nfpf5Vn-s0aviDJmPoAc
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: false
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: indefinito
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: mancante
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+05/03/2026, 23:16:11:
+tempo di esecuzione
+🔐 [has-pro-access] Utente NON autenticato - return false
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/license/has-pro-access 304 in 1 ms
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/license/has-business-access 304 in 1 ms
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/booking-requests 401 in 0ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:11:
+tempo di esecuzione
+22:16:11 [express] GET /api/license/application-title 304 in 0ms :: {"title":"Gestionale Appuntame…
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:12:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772748972773-default
+05/03/2026, 23:16:12:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+05/03/2026, 23:16:12:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:13:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772748973847-default
+05/03/2026, 23:16:13:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+05/03/2026, 23:16:13:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 23:16:13:
+tempo di esecuzione
+22:16:13 [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+05/03/2026, 23:16:13:
+tempo di esecuzione
+22:16:13 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:14:
+tempo di esecuzione
+22:16:14 [express] GET /api/timezone-settings 304 in 1ms :: {"timezone":"Europe/Rome","offset":-1,…
+05/03/2026, 23:16:14:
+tempo di esecuzione
+22:16:14 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 23:16:14:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772748974366-default
+05/03/2026, 23:16:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/, isClientArea: false, isAdminArea: undefined
+05/03/2026, 23:16:14:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 23:16:14:
+tempo di esecuzione
+22:16:14 [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Ro…
+05/03/2026, 23:16:20:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: brunapizzolato77@gmail.com
+05/03/2026, 23:16:20:
+tempo di esecuzione
+🔐 [LOGIN] IP: 94.162.2.182, UserAgent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/145.0.0.0 Safari/537.3
+05/03/2026, 23:16:20:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+05/03/2026, 23:16:20:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: Pizzolato (ID: 42, tipo: cliente)
+05/03/2026, 23:16:20:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: -MxXttcfanyYFOhegZS4yJ4uk6FrbQb_
+05/03/2026, 23:16:20:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+05/03/2026, 23:16:20:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per Pizzolato
+05/03/2026, 23:16:20:
+tempo di esecuzione
+22:16:20 [express] POST /api/staff/login 200 in 319ms :: {"id":42,"username":"Pizzolato ","passwor…
+05/03/2026, 23:16:21:
+tempo di esecuzione
+🔐 [desktop] /api/utente-con-licenza per utente 42 (Pizzolato )
+05/03/2026, 23:16:21:
+tempo di esecuzione
+📊 [SESSION-TRACKING] Accesso registrato per utente 42 (Pizzolato ) - pausa >30min
+05/03/2026, 23:16:21:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:21:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:21:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 23:16:21:
+tempo di esecuzione
+  ID: 42,
+05/03/2026, 23:16:21:
+tempo di esecuzione
+  nome utente: 'Pizzolato',
+05/03/2026, 23:16:21:
+tempo di esecuzione
+  Nome: null,
+05/03/2026, 23:16:21:
+tempo di esecuzione
+  cognome: null,
+05/03/2026, 23:16:21:
+tempo di esecuzione
+  licenseType: 'prova'
+05/03/2026, 23:16:21:
+tempo di esecuzione
+}
+05/03/2026, 23:16:21:
+tempo di esecuzione
+22:16:21 [express] GET /api/user-with-license 200 in 1200ms :: {"id":42,"username":"Pizzolato ","e…
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+05/03/2026, 23:16:23:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1772748983303-default
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente: https://gestionale-appuntamenti.sliplane.app/dashboard, isClientArea: false, isAdminArea: undefined
+05/03/2026, 23:16:23:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Nessun proprietario rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+05/03/2026, 23:16:23:
+tempo di esecuzione
+22:16:23 [express] GET /api/timezone-settings 200 in 233ms :: {"timezone":"Europe/Rome","offset":-…
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [desktop] /api/utente-con-licenza per utente 42 (Pizzolato )
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: -MxXttcfanyYFOhegZS4yJ4uk6FrbQb_
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 42, tipo: cliente
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+22:16:23 [express] GET /api/license/license-info 200 in 471ms :: {"hasLicense":true,"type":"trial"…
+05/03/2026, 23:16:23:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:23:
+tempo di esecuzione
+🔐 [has-pro-access] Utente 42 licenza trial - hasAccess: true
+05/03/2026, 23:16:23:
+tempo di esecuzione
+22:16:23 [express] GET /api/license/has-pro-access 200 in 486ms :: true
+05/03/2026, 23:16:23:
+tempo di esecuzione
+22:16:23 [express] POST /api/timezone-settings 200 in 233ms :: {"success":true,"timezone":"Europe/…
+05/03/2026, 23:16:24:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 42 con logo aziendale
+05/03/2026, 23:16:24:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 42, lunghezza icona: 109299, personalizzato: vero
+05/03/2026, 23:16:24:
+tempo di esecuzione
+22:16:24 [express] GET /api/client-app-info 200 in 1038ms :: {"appName":"Gestionale Appuntamenti",…
+05/03/2026, 23:16:24:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:24:
+tempo di esecuzione
+22:16:24 [express] GET /api/license/application-title 304 in 1314ms :: {"title":"Gestionale Appunt…
+05/03/2026, 23:16:24:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:24:
+tempo di esecuzione
+22:16:24 [express] GET /api/license/has-business-access 200 in 1529ms :: true
+05/03/2026, 23:16:24:
+tempo di esecuzione
+22:16:24 [express] GET /api/booking-requests 304 in 1534ms :: [{"id":31,"userId":42,"clientId":167…
+05/03/2026, 23:16:24:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 23:16:24:
+tempo di esecuzione
+  ID: 42,
+05/03/2026, 23:16:24:
+tempo di esecuzione
+  nome utente: 'Pizzolato',
+05/03/2026, 23:16:24:
+tempo di esecuzione
+  Nome: null,
+05/03/2026, 23:16:24:
+tempo di esecuzione
+  cognome: null,
+05/03/2026, 23:16:24:
+tempo di esecuzione
+}
+05/03/2026, 23:16:24:
+tempo di esecuzione
+  licenseType: 'prova'
+05/03/2026, 23:16:24:
+tempo di esecuzione
+22:16:24 [express] GET /api/user-with-license 200 in 1790ms :: {"id":42,"username":"Pizzolato ","e…
+05/03/2026, 23:16:25:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+05/03/2026, 23:16:25:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=42&v=1772748985215.2603&admin=1","/pwa-icon/192x192?owner=42&v =1772748985215.2603&admin=1","/pwa-icon/512x512?owner=42&v=1772748985215.2603&admin=1"]
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '42', ts: '1772748985113' }
+05/03/2026, 23:16:25:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 42)
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per proprietario 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 42 (customer)
+05/03/2026, 23:16:25:
+tempo di esecuzione
+Recupero impostazioni per utente 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+Recupero impostazioni per utente 42
+05/03/2026, 23:16:25:
+tempo di esecuzione
+22:16:25 [express] GET /api/tenant-context 200 in 229 ms :: {"userId":42,"userType":"customer","ten…
+05/03/2026, 23:16:25:
+tempo di esecuzione
+Impostazioni trovate per utente 42: SI
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 42 (customer): {
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  showBusinessName: vero,
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  nome: 'PIZZOLATO',
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  dimensione carattere: 35,
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  fontFamily: 'Courier New',
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  colore: '#9932CC',
+05/03/2026, 23:16:25:
+tempo di esecuzione
+  abilitato: vero
+05/03/2026, 23:16:25:
+tempo di esecuzione
+}
+05/03/2026, 23:16:25:
+tempo di esecuzione
+22:16:25 [express] GET /api/company-name-settings 200 in 481ms :: {"businessName":"Gestionale Appu…
+05/03/2026, 23:16:25:
+tempo di esecuzione
+Impostazioni trovate per utente 42: SI
+05/03/2026, 23:16:25:
+tempo di esecuzione
+22:16:25 [express] GET /api/contact-info 200 in 457ms :: {"email":"brunapizzolato77@gmail.com","ph…
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:25:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 96x96 per proprietario 42, dimensione: 7824 byte
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:25:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:25:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:25:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+05/03/2026, 23:16:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+05/03/2026, 23:16:42:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '42', ts: '1772749002790' }
+05/03/2026, 23:16:42:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 42
+05/03/2026, 23:16:42:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 42)
+05/03/2026, 23:16:42:
+tempo di esecuzione
+📱 ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+05/03/2026, 23:16:42:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=42&v=1772749002846.6309&admin=1","/pwa-icon/192x192?owner=42&v =1772749002846.6309&admin=1","/pwa-icon/512x512?owner=42&v=1772749002846.6309&admin=1"]
+05/03/2026, 23:16:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per proprietario 42
+05/03/2026, 23:16:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 42
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🔐 [desktop] /api/utente-con-licenza per utente 42 (Pizzolato )
+05/03/2026, 23:16:43:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:42, tipo:customer, email:brunapizzolato77@gmail.com
+05/03/2026, 23:16:43:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+05/03/2026, 23:16:43:
+tempo di esecuzione
+📦 [/api/clients] [desktop] 3 clienti in 246ms (1 query con conteggio subquery)
+05/03/2026, 23:16:43:
+tempo di esecuzione
+22:16:43 [express] GET /api/clients 200 in 495ms :: [{"id":166,"userId":42,"firstName":"marco ","l…
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:43:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 96x96 per proprietario 42, dimensione: 7824 byte
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 42: SÌ
+05/03/2026, 23:16:43:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 42, dimensione: 21437 byte
+05/03/2026, 23:16:43:
+tempo di esecuzione
+}
+05/03/2026, 23:16:43:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+05/03/2026, 23:16:43:
+tempo di esecuzione
+  ID: 42,
+05/03/2026, 23:16:43:
+tempo di esecuzione
+  nome utente: 'Pizzolato',
+05/03/2026, 23:16:43:
+tempo di esecuzione
+  Nome: null,
+05/03/2026, 23:16:43:
+tempo di esecuzione
+  cognome: null,
+05/03/2026, 23:16:43:
+tempo di esecuzione
+  licenseType: 'prova'
+05/03/2026, 23:16:43:
+tempo di esecuzione
+22:16:43 [express] GET /api/user-with-license 304 in 707ms :: {"id":42,"username":"Pizzolato ","em…
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 168 da utente: 42 (brunapizzolato77@gmail.com)
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 167 da utente: 42 (brunapizzolato77@gmail.com)
+05/03/2026, 23:16:43:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 166 da utente: 42 (brunapizzolato77@gmail.com)
+05/03/2026, 23:16:44:
+tempo di esecuzione
+22:16:44 [express] GET /api/clients/166 304 in 461ms :: {"id":166,"firstName":"marco ","lastName":…
+05/03/2026, 23:16:44:
+tempo di esecuzione
+22:16:44 [express] GET /api/clients/168 304 in 460ms :: {"id":168,"firstName":"andrea","lastName":…
+05/03/2026, 23:16:44:
+tempo di esecuzione
+22:16:44 [express] GET /api/clients/167 304 in 462ms :: {"id":167,"firstName":"Eleonora","lastName…
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: andrea zambelli (ID: 168, Proprietario: 42)
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔍 [QR-INTERFACE] Cliente trovato: marco berto (ID: 166, Proprietario: 42)
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔍 [QR-INTERFACCIA] Cliente trovato: Eleonora berto (ID: 167, Proprietario: 42)
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 167 con icona del proprietario 42
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 168 con icona del proprietario 42
+05/03/2026, 23:16:44:
+tempo di esecuzione
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 166 con icona del proprietario 42
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 42 con logo aziendale
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 42
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Cliente: Eleonora berto
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Token: PROF_042_C00167_06bf0bda
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_042_C00167?token=PROF_042_C00167_06bf0bda&clientId=167&autoLogin=true
+05/03/2026, 23:16:45:
+tempo di esecuzione
+22:16:45 [express] GET /api/clients/167/activation-token 200 in 1488ms :: {"token":"PROF_042_C0016…
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 42 con logo aziendale
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 42
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Cliente: andrea zambelli
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Token: PROF_042_C00168_420ccc6a
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_042_C00168?token=PROF_042_C00168_420ccc6a&clientId=168&autoLogin=true
+05/03/2026, 23:16:45:
+tempo di esecuzione
+22:16:45 [express] GET /api/clients/168/activation-token 200 in 1538ms :: {"token":"PROF_042_C0016…
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 42 con logo aziendale
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 42
+05/03/2026, 23:16:45:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Cliente: marco berto
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - Token: PROF_042_C00166_c83e0b7e
+05/03/2026, 23:16:45:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_042_C00166?token=PROF_042_C00166_c83e0b7e&clientId=166&autoLogin=true
+05/03/2026, 23:16:45:
+tempo di esecuzione
+22:16:45 [express] GET /api/clients/166/activation-token 200 in 1548ms :: {"token":"PROF_042_C0016…
+05/03/2026, 23:16:55:
+tempo di esecuzione
+22:16:55 [express] GET /api/booking-requests 304 in 460ms :: [{"id":31,"userId":42,"clientId":167,…
+05/03/2026, 23:17:26:
+tempo di esecuzione
+22:17:26 [express] GET /api/booking-requests 304 in 696ms :: [{"id":31,"userId":42,"clientId":167,…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/clients/167 304 in 1220ms :: {"id":167,"firstName":"Eleonora","lastNam…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [desktop] /api/utente-con-licenza per utente 42 (Pizzolato )
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/tenant-context 200 in 1295ms :: {"userId":42,"userType":"customer","te…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/license/application-title 304 in 1296ms :: {"title":"Gestionale Appunt…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔍 [/api/clients] [desktop] Richiesta da utente ID:42, tipo:customer, email:brunapizzolato77@gmail.com
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] ====== SESSIONE DI DEBUG ======
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] ID sessione: -MxXttcfanyYFOhegZS4yJ4uk6FrbQb_
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] isAuthenticated: true
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] req.user: ID utente 42, tipo: cliente
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] Intestazione cookie: presente
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] ============================
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/clients/166 304 in 1434ms :: {"id":166,"firstName":"marco ","lastName"…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/license/license-info 304 in 1524ms :: {"hasLicense":true,"type":"trial…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/booking-requests 304 in 1530ms :: [{"id":31,"userId":42,"clientId":167…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+📊 [SESSION-TRACKING] Accesso registrato per utente 42 (Pizzolato ) - pausa >30min
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Recuperare la licenza per l'utente ID 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+06/03/2026, 07:45:10:
+tempo di esecuzione
+🔐 [has-pro-access] Utente 42 licenza trial - hasAccess: true
+06/03/2026, 07:45:10:
+tempo di esecuzione
+📦 [/api/clients] [desktop] 3 clienti in 259ms (1 query con conteggio subquery)
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/license/has-business-access 304 in 1573ms :: true
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/clients/168 304 in 1568ms :: {"id":168,"firstName":"andrea","lastName"…
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/license/has-pro-access 304 in 1565ms :: true
+06/03/2026, 07:45:10:
+tempo di esecuzione
+6:45:10 AM [express] GET /api/clients 200 in 1571ms :: [{"id":166,"userId":42,"firstName":"marco ","…
+06/03/2026, 07:45:11:
+tempo di esecuzione
+Trovate 1 licenza per l'utente 42
+06/03/2026, 07:45:11:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+06/03/2026, 07:45:11:
+tempo di esecuzione
+  ID: 42,
+06/03/2026, 07:45:11:
+tempo di esecuzione
+  nome utente: 'Pizzolato',
+06/03/2026, 07:45:11:
+tempo di esecuzione
+  Nome: null,
+06/03/2026, 07:45:11:
+tempo di esecuzione
+  cognome: null,
+06/03/2026, 07:45:11:
+tempo di esecuzione
+  licenseType: 'prova'
+06/03/2026, 07:45:11:
+tempo di esecuzione
+}
+06/03/2026, 07:45:11:
+tempo di esecuzione
+6:45:11 AM [express] GET /api/user-with-license 304 in 2060ms :: {"id":42,"username":"Pizzolato ","e…
+06/03/2026, 07:45:41:
+tempo di esecuzione
+06:45:41 [express] GET /api/booking-requests 304 in 472ms :: [{"id":31,"userId":42,"clientId":167,…
+06/03/2026, 07:46:12:
+tempo di esecuzione
+06:46:12 [express] GET /api/booking-requests 304 in 697ms :: [{"id":31,"userId":42,"clientId":167,…
