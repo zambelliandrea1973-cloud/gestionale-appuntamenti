@@ -39,6 +39,14 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Rischio**: Modifica delicata, da fare solo dopo fase test completata
 - **Workaround attuale**: Il nome sotto l'icona è diverso per ogni professionista
 
+### Dialog Mobile - Soluzione Definitiva
+- **Dialog `modal={false}`**: disattiva `react-remove-scroll` che bloccava touch events
+- **Breakpoint `min-[1200px]:`** invece di `md:` — Chrome "modalità desktop" ha viewport ~980px
+- **MAI usare `touch-pan-y`** sui form scrollabili — blocca pinch-to-zoom! Usare `touch-manipulation`
+- **CSS media query `max-width: 1199px`** in index.css come fallback per dimensioni/font
+- **Inline styles** su DialogContent per width (95vw) come garanzia
+- **User-Agent**: Chrome mobile in "modalità desktop" invia `X11; Linux x86_64`
+
 ## System Architecture
 
 ### UI/UX Decisions
