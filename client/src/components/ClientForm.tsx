@@ -321,7 +321,7 @@ export default function ClientForm({
             <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
               console.log("❌ Form validation errors:", errors);
             })} className="flex flex-col flex-1 min-h-0">
-              <div className="overflow-y-auto flex-1 px-6 touch-pan-y">
+              <div className="overflow-y-auto flex-1 px-6 touch-manipulation">
                 <TabsContent value="personal" className="space-y-4 py-4 mt-0">
                 {/* Personal information fields */}
                 <div className="grid grid-cols-2 gap-4">
