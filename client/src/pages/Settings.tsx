@@ -49,8 +49,12 @@ export default function Settings() {
       }, 300);
     } else {
       const savedTab = localStorage.getItem('settings_active_tab');
-      if (savedTab) {
+      const validTabs = ['app', 'contacts', 'staff', 'integrations', 'appearance', 'security'];
+      if (savedTab && validTabs.includes(savedTab)) {
         setActiveTab(savedTab);
+      } else if (savedTab === 'admin') {
+        setActiveTab('app');
+        localStorage.setItem('settings_active_tab', 'app');
       }
     }
   }, []);
