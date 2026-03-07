@@ -150,6 +150,8 @@ export default function Settings() {
                 <CurrencySelector />
               </div>
               
+              {isAdmin && (
+              <>
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
                   <Shield className="h-5 w-5 mr-2 text-muted-foreground" />
@@ -175,16 +177,11 @@ export default function Settings() {
                     />
                   </div>
                   
-                  {/* Notifiche Admin - Solo per amministratori */}
-                  {user && user.type === 'admin' && (
-                    <div className="mt-6">
-                      <AdminNotifications />
-                    </div>
-                  )}
+                  <div className="mt-6">
+                    <AdminNotifications />
+                  </div>
                 </div>
               </div>
-              
-
 
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
@@ -210,6 +207,8 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
+              </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
