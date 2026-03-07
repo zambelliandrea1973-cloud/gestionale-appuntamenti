@@ -314,7 +314,7 @@ export default function ClientForm({
           <TabsList className="grid w-full grid-cols-3 mx-4 min-[1200px]:mx-6 mb-2 flex-shrink-0" style={{ maxWidth: "calc(100% - 2rem)" }}>
             <TabsTrigger value="personal" className="text-sm px-2">Dati Personali</TabsTrigger>
             <TabsTrigger value="medical" className="text-sm px-2">Dati Medici</TabsTrigger>
-            <TabsTrigger value="consent" className="text-sm px-2">Consenso Dati</TabsTrigger>
+            <TabsTrigger value="consent" className="text-sm px-2">Consenso Dati (GDPR)</TabsTrigger>
           </TabsList>
           
           <Form {...form}>
