@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -148,6 +148,24 @@ export default function Settings() {
               
               <div className="pt-6 mt-6 border-t">
                 <CurrencySelector />
+              </div>
+
+              <div className="pt-6 mt-6 border-t">
+                <div className="flex items-center mb-4">
+                  <CreditCard className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">Abbonamento</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Visualizza i piani disponibili, gestisci il tuo abbonamento o passa a un piano superiore.
+                </p>
+                <Button
+                  variant="default"
+                  className="flex items-center"
+                  onClick={() => setLocation('/subscribe')}
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Gestisci Abbonamento
+                </Button>
               </div>
               
               {isAdmin && (
