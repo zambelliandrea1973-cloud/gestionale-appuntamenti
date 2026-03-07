@@ -305,6 +305,8 @@ export default function SubscribePage() {
       const res = await apiRequest('GET', '/api/payments/plans');
       return await res.json();
     },
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   
   // Ottieni lo stato attuale dell'abbonamento
@@ -314,6 +316,8 @@ export default function SubscribePage() {
       const res = await apiRequest('GET', '/api/payments/subscription');
       return await res.json();
     },
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   // Definizione dei piani
