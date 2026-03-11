@@ -193,16 +193,17 @@ export default function Home() {
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const [showWelcomeGuide, setShowWelcomeGuide] = useState(false);
+  const [welcomeGuideDismissed, setWelcomeGuideDismissed] = useState(false);
 
   useEffect(() => {
-    if (user && user.type !== 'client' && !user.hideWelcomeGuide) {
+    if (user && user.type !== 'client' && !user.hideWelcomeGuide && !welcomeGuideDismissed) {
       setShowWelcomeGuide(true);
     }
-  }, [user]);
+  }, [user, welcomeGuideDismissed]);
 
   return (
     <div className="space-y-6 relative">
-      <WelcomeGuide open={showWelcomeGuide} onClose={() => setShowWelcomeGuide(false)} />
+      <WelcomeGuide open={showWelcomeGuide} onClose={() => { setShowWelcomeGuide(false); setWelcomeGuideDismissed(true); }} />
       <BetaBadge />
       <div className="text-center my-8">
         <div className="flex flex-col items-center mb-6">
