@@ -205,17 +205,17 @@ export default function SimpleServiceManager() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-          <div className="space-y-1">
-            <CardTitle>{t('services.title')}</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              {t('services.description')}
-            </p>
+        <CardHeader className="pb-7">
+          <CardTitle>{t('services.title')}</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            {t('services.description')}
+          </p>
+          <div className="pt-3">
+            <Button onClick={createService} disabled={loading} className="w-full sm:w-auto">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              {t('services.newService')}
+            </Button>
           </div>
-          <Button onClick={createService} disabled={loading}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            {t('services.newService')}
-          </Button>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4 italic">
