@@ -53,3 +53,7 @@ APP_BASE_URL = "https://wife-scheduler-zambelliandrea1.replit.app"
 
 [userenv.shared]
 VITE_VAPID_PUBLIC_KEY = "BHxKOz4CSNfVOd63lBcf1kzFHtyIPoXy3FeHLCrTbqK_JTWhamHMS3XZ2kx9_RKtRLs4gjP6waBiBP0W5agntrs"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
