@@ -419,6 +419,7 @@ export default function SubscribePage() {
     name: string;
     description?: string;
     price: number;
+    interval?: 'month' | 'year';
     features?: string;
     active?: boolean;
   }
@@ -469,7 +470,7 @@ export default function SubscribePage() {
           name: plan.name,
           description: plan.description || '',
           price: plan.price / 100, // Converti da centesimi a euro
-          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/mese`,
+          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? 'anno' : 'mese'}`,
           popular: plan.name.toLowerCase().includes('pro'),
           buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
           features: normalizedFeatures,
