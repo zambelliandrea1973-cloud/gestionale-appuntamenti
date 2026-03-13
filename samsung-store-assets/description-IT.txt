@@ -2,6 +2,8 @@ Gestionale Appuntamenti - Il sistema completo per la gestione del tuo studio pro
 
 Organizza appuntamenti, gestisci clienti e automatizza le comunicazioni con un'unica app professionale.
 
+ZERO PUBBLICITA - Nessun banner, nessun popup, nessuna interruzione. Lavora in totale tranquillita.
+
 FUNZIONALITA PRINCIPALI:
 
 Calendario Appuntamenti
@@ -46,5 +48,7 @@ PIANI DISPONIBILI:
 - BASE: Gratuito - Funzioni essenziali
 - PRO: 9.90/mese - Google Sync, Multi-stanza, Pacchetti
 - BUSINESS: 19.90/mese - Multi-staff, Commissioni, Branding personalizzato
+
+Senza pubblicita. Senza interruzioni. Solo strumenti professionali per il tuo lavoro.
 
 Ideale per: medici, fisioterapisti, osteopati, dentisti, estetiste, personal trainer, consulenti e qualsiasi professionista che gestisce appuntamenti.

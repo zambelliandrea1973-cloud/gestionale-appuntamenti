@@ -2,6 +2,8 @@ Appointment Manager - The complete system for managing your professional practic
 
 Organize appointments, manage clients, and automate communications with a single professional app.
 
+ZERO ADS - No banners, no popups, no interruptions. Work in complete peace.
+
 KEY FEATURES:
 
 Appointment Calendar
@@ -46,5 +48,7 @@ AVAILABLE PLANS:
 - BASE: Free - Essential features
 - PRO: 9.90/month - Google Sync, Multi-room, Packages
 - BUSINESS: 19.90/month - Multi-staff, Commissions, Custom branding
+
+No ads. No interruptions. Just professional tools for your work.
 
 Ideal for: doctors, physiotherapists, osteopaths, dentists, beauticians, personal trainers, consultants, and any professional who manages appointments.
