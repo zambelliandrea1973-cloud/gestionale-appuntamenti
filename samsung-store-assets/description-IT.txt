@@ -1,0 +1,50 @@
+Gestionale Appuntamenti - Il sistema completo per la gestione del tuo studio professionale.
+
+Organizza appuntamenti, gestisci clienti e automatizza le comunicazioni con un'unica app professionale.
+
+FUNZIONALITA PRINCIPALI:
+
+Calendario Appuntamenti
+- Pianifica e gestisci facilmente gli appuntamenti
+- Vista giornaliera, settimanale e mensile
+- Supporto multi-stanza per studi con piu ambienti
+
+Gestione Clienti
+- Database completo dei pazienti/clienti
+- Storico visite e trattamenti
+- Importazione contatti da Google e CSV
+- QR Code personale per accesso rapido
+
+Sincronizzazione Google Calendar (PRO)
+- Esportazione automatica degli appuntamenti
+- Importazione da Google Calendar
+- Rilevamento conflitti automatico
+- Sincronizzazione bidirezionale
+
+Notifiche Automatiche
+- Promemoria push per appuntamenti
+- Email automatiche di conferma
+- Integrazione WhatsApp
+- Notifiche personalizzabili
+
+Fatturazione e Pagamenti
+- Generazione fatture
+- Pagamenti con Stripe e PayPal
+- Pacchetti promozionali (PRO)
+- Report finanziari
+
+Multi-lingua
+- Supporto completo per 9 lingue: Italiano, English, Deutsch, Francais, Espanol, Portugues, Romana, Russkij, Arabiyya
+
+Privacy e Sicurezza
+- Conforme GDPR
+- Gestione consenso privacy integrata
+- Dati crittografati
+- Isolamento multi-tenant
+
+PIANI DISPONIBILI:
+- BASE: Gratuito - Funzioni essenziali
+- PRO: 9.90/mese - Google Sync, Multi-stanza, Pacchetti
+- BUSINESS: 19.90/mese - Multi-staff, Commissioni, Branding personalizzato
+
+Ideale per: medici, fisioterapisti, osteopati, dentisti, estetiste, personal trainer, consulenti e qualsiasi professionista che gestisce appuntamenti.

@@ -1,0 +1,50 @@
+Appointment Manager - The complete system for managing your professional practice.
+
+Organize appointments, manage clients, and automate communications with a single professional app.
+
+KEY FEATURES:
+
+Appointment Calendar
+- Easily plan and manage appointments
+- Daily, weekly, and monthly views
+- Multi-room support for practices with multiple environments
+
+Client Management
+- Complete patient/client database
+- Visit and treatment history
+- Import contacts from Google and CSV
+- Personal QR Code for quick access
+
+Google Calendar Sync (PRO)
+- Automatic appointment export
+- Import from Google Calendar
+- Automatic conflict detection
+- Bidirectional synchronization
+
+Automatic Notifications
+- Push reminders for appointments
+- Automatic confirmation emails
+- WhatsApp integration
+- Customizable notifications
+
+Billing and Payments
+- Invoice generation
+- Stripe and PayPal payments
+- Promotional packages (PRO)
+- Financial reports
+
+Multi-language
+- Full support for 9 languages: Italian, English, German, French, Spanish, Portuguese, Romanian, Russian, Arabic
+
+Privacy and Security
+- GDPR compliant
+- Integrated privacy consent management
+- Encrypted data
+- Multi-tenant isolation
+
+AVAILABLE PLANS:
+- BASE: Free - Essential features
+- PRO: 9.90/month - Google Sync, Multi-room, Packages
+- BUSINESS: 19.90/month - Multi-staff, Commissions, Custom branding
+
+Ideal for: doctors, physiotherapists, osteopaths, dentists, beauticians, personal trainers, consultants, and any professional who manages appointments.
