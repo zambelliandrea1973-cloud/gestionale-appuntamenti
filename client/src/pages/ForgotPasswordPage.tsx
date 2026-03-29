@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
           description: "Controlla il tuo email per il link di reset password",
         });
         setEmail("");
-        setTimeout(() => navigate("/staff-login"), 3000);
+        setTimeout(() => navigate("/login"), 3000);
       } else {
         setError(data.error || "Errore durante l'invio dell'email. Riprova più tardi.");
       }
@@ -121,7 +121,7 @@ export default function ForgotPasswordPage() {
               type="button"
               variant="ghost"
               className="w-full"
-              onClick={() => navigate("/staff-login")}
+              onClick={() => navigate("/login")}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Torna al Login

@@ -39,6 +39,7 @@ import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
 import CustomerLogin from "./pages/CustomerLogin";
+import UnifiedLogin from "./pages/UnifiedLogin";
 import NotificationsPage from "./pages/NotificationsPage";
 import LandingBicom from "./pages/LandingBicom";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
@@ -122,7 +123,7 @@ function AppRoutes() {
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
-      '/staff-login', '/customer-login', '/register', '/client-area', 
+      '/login', '/staff-login', '/customer-login', '/register', '/client-area', 
       '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/'
     ];
     
@@ -203,10 +204,17 @@ function AppRoutes() {
       
 
       
-      {/* Pagina di login staff */}
+      {/* Pagina di login unificata */}
+      <Route path="/login">
+        <ClientPageWrapper>
+          <UnifiedLogin />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Retrocompatibilità: vecchi URL di login reindirizzano al login unificato */}
       <Route path="/staff-login">
         <ClientPageWrapper>
-          <StaffLogin />
+          <UnifiedLogin />
         </ClientPageWrapper>
       </Route>
       
@@ -224,10 +232,10 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* Pagina di login customer (professionisti abbonati) */}
+      {/* Retrocompatibilità: vecchio URL customer-login */}
       <Route path="/customer-login">
         <ClientPageWrapper>
-          <CustomerLogin />
+          <UnifiedLogin />
         </ClientPageWrapper>
       </Route>
       

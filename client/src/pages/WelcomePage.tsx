@@ -112,26 +112,15 @@ export default function WelcomePage() {
                 className="h-12 text-base"
                 size="lg" 
                 variant="outline"
-                onClick={() => setLocation("/customer-login")}
-                data-testid="button-professional-login"
+                onClick={() => setLocation("/login")}
+                data-testid="button-login"
               >
                 <LogIn className="mr-2 h-4 w-4" />
-                {t('welcomePage.professionalLogin')}
-              </Button>
-              
-              <Button 
-                className="h-12 text-base"
-                size="lg" 
-                variant="outline"
-                onClick={() => setLocation("/staff-login")}
-                data-testid="button-staff-login"
-              >
-                <LogIn className="mr-2 h-4 w-4" />
-                {t('welcomePage.staffLogin')}
+                {t('welcomePage.login')}
               </Button>
               
               <div className="text-center text-sm text-muted-foreground">
-                {t('welcomePage.chooseAccessType')}
+                {t('welcomePage.loginDesc')}
               </div>
             </div>
           </CardContent>
