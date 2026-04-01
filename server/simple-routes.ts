@@ -8,6 +8,7 @@ import { initializeSchedulers } from "./services/schedulerService";
 import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import { syncUserIconsFromJSON } from "./services/iconSyncService";
+import { EncryptionService } from "./services/encryption";
 import multer from 'multer';
 import { checkTrialExpired } from "./middleware/trialBlockMiddleware";
 import nodemailer from 'nodemailer';
@@ -2469,7 +2470,7 @@ export function registerSimpleRoutes(app: Express): Server {
         if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
           
           // Crea direttamente l'evento in Google Calendar usando il token dell'utente
-          const tokens = JSON.parse(googleUser.googleAuthToken);
+          const tokens = JSON.parse(EncryptionService.decryptToken(googleUser.googleAuthToken));
           const oauth2Client = new google.auth.OAuth2(
             process.env.GOOGLE_CLIENT_ID,
             process.env.GOOGLE_CLIENT_SECRET,
@@ -2679,7 +2680,7 @@ export function registerSimpleRoutes(app: Express): Server {
             
             if (eventMapping) {
               
-              const tokens = JSON.parse(googleUser.googleAuthToken);
+              const tokens = JSON.parse(EncryptionService.decryptToken(googleUser.googleAuthToken));
               const oauth2Client = new google.auth.OAuth2(
                 process.env.GOOGLE_CLIENT_ID,
                 process.env.GOOGLE_CLIENT_SECRET,
@@ -2800,7 +2801,7 @@ export function registerSimpleRoutes(app: Express): Server {
           const [googleUser] = await db.select().from(users).where(eq(users.id, user.id));
           if (googleUser && googleUser.googleCalendarEnabled && googleUser.googleAuthToken) {
               
-              const tokens = JSON.parse(googleUser.googleAuthToken);
+              const tokens = JSON.parse(EncryptionService.decryptToken(googleUser.googleAuthToken));
               const oauth2Client = new google.auth.OAuth2(
                 process.env.GOOGLE_CLIENT_ID,
                 process.env.GOOGLE_CLIENT_SECRET,
@@ -10189,7 +10190,7 @@ Studio Professionale`;
         return res.status(400).json({ error: 'Utente non ha token Google' });
       }
       
-      const tokenData = JSON.parse(userRows[0].googleAuthToken);
+      const tokenData = JSON.parse(EncryptionService.decryptToken(userRows[0].googleAuthToken));
       const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET

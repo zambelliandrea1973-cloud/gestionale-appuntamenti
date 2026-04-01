@@ -8,6 +8,7 @@ import { db } from '../db';
 import { users, googleCalendarEvents } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { google } from 'googleapis';
+import { EncryptionService } from './encryption';
 
 type SyncAction = 'create' | 'update' | 'delete';
 
@@ -39,7 +40,8 @@ async function getUserGoogleToken(userId: number): Promise<{ enabled: boolean; t
       return { enabled: false };
     }
 
-    const tokens = JSON.parse(user.googleAuthToken);
+    const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
+    const tokens = JSON.parse(decryptedTokenStr);
     return { 
       enabled: true, 
       tokens,

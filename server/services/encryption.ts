@@ -51,4 +51,12 @@ export class EncryptionService {
     // Il formato AES di CryptoJS inizia normalmente con "U2FsdGVk"
     return value.startsWith('U2FsdGVk');
   }
+
+  static decryptToken(value: string): string {
+    if (!value) return value;
+    if (EncryptionService.isEncrypted(value)) {
+      return EncryptionService.decrypt(value);
+    }
+    return value;
+  }
 }

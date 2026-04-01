@@ -5,6 +5,7 @@ import { db } from '../db';
 import { users, googleCalendarEvents } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { google } from 'googleapis';
+import { EncryptionService } from '../services/encryption';
 
 const router = Router();
 
@@ -26,7 +27,8 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
       return res.json({ exists: false, error: 'Token Google non disponibile' });
     }
     
-    const tokens = JSON.parse(user[0].googleAuthToken);
+    const decryptedTokenStr = EncryptionService.decryptToken(user[0].googleAuthToken);
+    const tokens = JSON.parse(decryptedTokenStr);
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET

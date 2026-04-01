@@ -326,12 +326,13 @@ router.get('/callback', async (req, res) => {
     
     oauth2Client.setCredentials(tokens);
     
-    // SALVA I TOKEN NEL DATABASE DELL'UTENTE
+    // SALVA I TOKEN NEL DATABASE DELL'UTENTE (crittografati)
     try {
       const tokenJson = JSON.stringify(tokens);
+      const encryptedCalendarToken = EncryptionService.encrypt(tokenJson);
       await db.update(users)
         .set({
-          googleAuthToken: tokenJson,
+          googleAuthToken: encryptedCalendarToken,
           googleCalendarEnabled: true,
           googleCalendarId: 'primary',
           lastGoogleSyncAt: new Date()
@@ -494,7 +495,8 @@ router.get('/status', async (req, res) => {
         console.log("✅ [GOOGLE AUTH STATUS] Token trovato nel database per utente", userId);
         
         // Ripristina anche authInfo in memoria per retrocompatibilità
-        const tokens = JSON.parse(user.googleAuthToken);
+        const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
+        const tokens = JSON.parse(decryptedTokenStr);
         authInfo = {
           authorized: true,
           tokens

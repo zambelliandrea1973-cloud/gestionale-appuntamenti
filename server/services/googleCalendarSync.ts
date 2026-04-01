@@ -4,6 +4,7 @@ import { eq, and, gte, lt } from 'drizzle-orm';
 import { storage } from '../storage';
 import { calendar_v3, google } from 'googleapis';
 import { addAppointmentToGoogleCalendar, updateAppointmentInGoogleCalendar, deleteAppointmentFromGoogleCalendar } from './googleCalendarService';
+import { EncryptionService } from './encryption';
 
 interface SyncConflict {
   appointmentId: number;
@@ -30,9 +31,8 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     }
 
     const googleAuthToken = user[0].googleAuthToken;
-    
-    // TODO: Decrittare googleAuthToken (per ora assumiamo sia in plaintext)
-    const tokens = JSON.parse(googleAuthToken);
+    const decryptedTokenStr = EncryptionService.decryptToken(googleAuthToken);
+    const tokens = JSON.parse(decryptedTokenStr);
     
     // Crea client Google Calendar
     const oauth2Client = new google.auth.OAuth2(
@@ -681,7 +681,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           continue;
         }
         
-        const tokens = JSON.parse(user[0].googleAuthToken);
+        const tokens = JSON.parse(EncryptionService.decryptToken(user[0].googleAuthToken));
         const oauth2Client = new google.auth.OAuth2(
           process.env.GOOGLE_CLIENT_ID,
           process.env.GOOGLE_CLIENT_SECRET,
@@ -953,7 +953,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
           if (!user.length || !user[0].googleAuthToken) continue;
           
-          const tokens = JSON.parse(user[0].googleAuthToken);
+          const tokens = JSON.parse(EncryptionService.decryptToken(user[0].googleAuthToken));
           const oauth2Client = new google.auth.OAuth2(
             process.env.GOOGLE_CLIENT_ID,
             process.env.GOOGLE_CLIENT_SECRET,
@@ -1034,7 +1034,7 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     const googleAuthToken = user[0].googleAuthToken;
     const calendarId = user[0].googleCalendarId || 'primary';
     
-    const tokens = JSON.parse(googleAuthToken);
+    const tokens = JSON.parse(EncryptionService.decryptToken(googleAuthToken));
     
     // Crea client Google Calendar
     const oauth2Client = new google.auth.OAuth2(

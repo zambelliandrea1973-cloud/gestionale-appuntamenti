@@ -7,6 +7,16 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { User, ClientAccount, users, userLogins } from "../shared/schema";
 import { db } from "./db";
+import rateLimit from "express-rate-limit";
+
+const loginRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: "Troppi tentativi di login. Riprova tra 15 minuti." },
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
+});
 
 declare global {
   namespace Express {
@@ -255,7 +265,7 @@ export function setupAuth(app: Express) {
   });
 
   // Rotte di autenticazione per utenti professionali
-  app.post("/api/staff/login", (req, res, next) => {
+  app.post("/api/staff/login", loginRateLimiter, (req, res, next) => {
     const username = req.body.username;
     const userAgent = req.headers['user-agent']?.substring(0, 100);
     const ip = req.ip || req.connection.remoteAddress;
@@ -312,7 +322,7 @@ export function setupAuth(app: Express) {
 
 
   // Rotte di autenticazione per clienti finali
-  app.post("/api/client/login", async (req, res, next) => {
+  app.post("/api/client/login", loginRateLimiter, async (req, res, next) => {
     // Estrai le informazioni dalla richiesta
     const { token, clientId, username, password } = req.body;
     
