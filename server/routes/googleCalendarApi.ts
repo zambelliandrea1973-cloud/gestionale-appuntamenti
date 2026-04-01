@@ -35,6 +35,16 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
     );
     oauth2Client.setCredentials(tokens);
     
+    oauth2Client.on('tokens', async (newTokens) => {
+      try {
+        const merged = { ...tokens, ...newTokens };
+        const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
+        await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
+      } catch (err) {
+        console.error(`❌ [CALENDAR-API] Errore salvataggio token refreshato:`, err);
+      }
+    });
+    
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     const calendarId = user[0].googleCalendarId || 'primary';
     

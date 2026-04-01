@@ -6,6 +6,30 @@ import { calendar_v3, google } from 'googleapis';
 import { addAppointmentToGoogleCalendar, updateAppointmentInGoogleCalendar, deleteAppointmentFromGoogleCalendar } from './googleCalendarService';
 import { EncryptionService } from './encryption';
 
+function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.PRODUCTION_DOMAIN 
+      ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+      : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+  );
+  oauth2Client.setCredentials(tokens);
+  
+  oauth2Client.on('tokens', async (newTokens) => {
+    try {
+      const merged = { ...tokens, ...newTokens };
+      const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
+      await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
+      console.log(`🔄 [OAUTH] Token refreshato e salvato per utente ${userId}`);
+    } catch (err) {
+      console.error(`❌ [OAUTH] Errore salvataggio token refreshato per utente ${userId}:`, err);
+    }
+  });
+  
+  return oauth2Client;
+}
+
 interface SyncConflict {
   appointmentId: number;
   googleEventId: string;
@@ -34,16 +58,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const decryptedTokenStr = EncryptionService.decryptToken(googleAuthToken);
     const tokens = JSON.parse(decryptedTokenStr);
     
-    // Crea client Google Calendar
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      process.env.PRODUCTION_DOMAIN 
-        ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
-        : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
-    );
-    oauth2Client.setCredentials(tokens);
-    
+    const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
     // Range temporale: 30 giorni nel passato + 365 giorni nel futuro
@@ -682,14 +697,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         }
         
         const tokens = JSON.parse(EncryptionService.decryptToken(user[0].googleAuthToken));
-        const oauth2Client = new google.auth.OAuth2(
-          process.env.GOOGLE_CLIENT_ID,
-          process.env.GOOGLE_CLIENT_SECRET,
-          process.env.PRODUCTION_DOMAIN 
-            ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
-            : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
-        );
-        oauth2Client.setCredentials(tokens);
+        const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
         const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
         
         // Ottieni dati appuntamento
@@ -954,14 +962,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           if (!user.length || !user[0].googleAuthToken) continue;
           
           const tokens = JSON.parse(EncryptionService.decryptToken(user[0].googleAuthToken));
-          const oauth2Client = new google.auth.OAuth2(
-            process.env.GOOGLE_CLIENT_ID,
-            process.env.GOOGLE_CLIENT_SECRET,
-            process.env.PRODUCTION_DOMAIN 
-              ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
-              : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
-          );
-          oauth2Client.setCredentials(tokens);
+          const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
           const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
           
           // Usa il calendarId salvato nel tracking, fallback a 'primary' se non presente
@@ -1036,16 +1037,7 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     
     const tokens = JSON.parse(EncryptionService.decryptToken(googleAuthToken));
     
-    // Crea client Google Calendar
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      process.env.PRODUCTION_DOMAIN 
-        ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
-        : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
-    );
-    oauth2Client.setCredentials(tokens);
-    
+    const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
     // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente (con JOIN)

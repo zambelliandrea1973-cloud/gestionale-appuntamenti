@@ -54,9 +54,9 @@ async function getUserGoogleToken(userId: number): Promise<{ enabled: boolean; t
 }
 
 /**
- * Crea un client Google Calendar autenticato
+ * Crea un client Google Calendar autenticato con auto-save dei token refreshati
  */
-function createCalendarClient(tokens: any) {
+function createCalendarClient(tokens: any, userId?: number) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
@@ -65,6 +65,20 @@ function createCalendarClient(tokens: any) {
       : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
   );
   oauth2Client.setCredentials(tokens);
+  
+  if (userId) {
+    oauth2Client.on('tokens', async (newTokens) => {
+      try {
+        const merged = { ...tokens, ...newTokens };
+        const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
+        await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
+        console.log(`🔄 [AUTO-SYNC] Token refreshato e salvato per utente ${userId}`);
+      } catch (err) {
+        console.error(`❌ [AUTO-SYNC] Errore salvataggio token refreshato:`, err);
+      }
+    });
+  }
+  
   return google.calendar({ version: 'v3', auth: oauth2Client });
 }
 
@@ -109,7 +123,7 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
         return;
       }
 
-      const calendar = createCalendarClient(tokens);
+      const calendar = createCalendarClient(tokens, appointment.userId);
 
       switch (action) {
         case 'create':
