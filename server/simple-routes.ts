@@ -9,7 +9,17 @@ import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import { syncUserIconsFromJSON } from "./services/iconSyncService";
 import { EncryptionService } from "./services/encryption";
+import rateLimit from "express-rate-limit";
 import multer from 'multer';
+
+const passwordResetLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { error: "Troppi tentativi. Riprova tra 15 minuti." },
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
+});
 import { checkTrialExpired } from "./middleware/trialBlockMiddleware";
 import nodemailer from 'nodemailer';
 
@@ -9943,7 +9953,7 @@ Studio Professionale`;
   // ================= PASSWORD RECOVERY ENDPOINTS =================
 
   // 1. POST /api/forgot-password - Genera token e invia email di reset
-  app.post("/api/forgot-password", async (req, res) => {
+  app.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
     try {
       const { email } = req.body;
       if (!email) {
@@ -10081,7 +10091,7 @@ Studio Professionale`;
   });
 
   // 3. POST /api/reset-password - Resetta la password con il token valido (sia users che staff)
-  app.post("/api/reset-password", async (req, res) => {
+  app.post("/api/reset-password", passwordResetLimiter, async (req, res) => {
     try {
       const { token, newPassword } = req.body;
       if (!token || !newPassword) {

@@ -115,9 +115,10 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
         // Prova a revocare il token su Google (opzionale, potrebbe fallire)
         if (tokens.access_token) {
           try {
-            await fetch(`https://oauth2.googleapis.com/revoke?token=${tokens.access_token}`, {
+            await fetch(`https://oauth2.googleapis.com/revoke`, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: `token=${tokens.access_token}`
             });
             console.log(`✅ [REVOKE] Token revocato su Google per utente ${userId}`);
           } catch (revokeError) {

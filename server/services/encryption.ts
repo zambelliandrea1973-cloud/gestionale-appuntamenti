@@ -2,6 +2,11 @@ import CryptoJS from 'crypto-js';
 
 // Utilizziamo una chiave di crittografia basata su una variabile di ambiente
 // In produzione, questa chiave dovrebbe essere una stringa sicura e complessa
+const isProduction = process.env.PRODUCTION_DOMAIN || process.env.NODE_ENV === 'production';
+if (isProduction && !process.env.ENCRYPTION_KEY) {
+  console.error('🔴 CRITICAL: ENCRYPTION_KEY non configurata in produzione! Il server non può avviarsi in modo sicuro.');
+  process.exit(1);
+}
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'default-encryption-key-for-development';
 
 /**
