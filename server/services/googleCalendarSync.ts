@@ -642,17 +642,16 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       details.errors.push(`Errore importazione: ${errMsg}`);
       
       if (errMsg.includes('invalid_grant') || errMsg.includes('Token has been expired') || errMsg.includes('Token has been revoked')) {
-        console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - interruzione sync`);
+        console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - disabilito sync ma CONSERVO il token per retry`);
         try {
           await db.update(users).set({ 
-            googleCalendarEnabled: false,
-            googleAuthToken: null 
+            googleCalendarEnabled: false
           }).where(eq(users.id, userId));
-          console.log(`✅ [SYNC] Google Calendar disabilitato per utente ${userId}`);
+          console.log(`⚠️ [SYNC] Google Calendar disabilitato per utente ${userId} - token conservato per riconnessione`);
         } catch (dbError) {
           console.error(`❌ [SYNC] Errore disabilitazione Google Calendar:`, dbError);
         }
-        return { success: false, message: `Token OAuth scaduto per utente ${userId} - Google Calendar disabilitato`, details };
+        return { success: false, message: `Token OAuth scaduto per utente ${userId} - Google Calendar disabilitato (ricollegare dalle impostazioni)`, details };
       }
     }
 
@@ -826,13 +825,12 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         details.errors.push(`Errore esportazione appuntamento ${appointment.id}: ${errorMsg}`);
         
         if (errorMsg.includes('invalid_grant') || errorMsg.includes('Token has been expired') || errorMsg.includes('Token has been revoked')) {
-          console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - interruzione sync e disabilitazione Google Calendar`);
+          console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - disabilito sync ma CONSERVO token`);
           try {
             await db.update(users).set({ 
-              googleCalendarEnabled: false,
-              googleAuthToken: null 
+              googleCalendarEnabled: false
             }).where(eq(users.id, userId));
-            console.log(`✅ [SYNC] Google Calendar disabilitato per utente ${userId} - dovrà ricollegare l'account`);
+            console.log(`⚠️ [SYNC] Google Calendar disabilitato per utente ${userId} - token conservato`);
           } catch (dbError) {
             console.error(`❌ [SYNC] Errore disabilitazione Google Calendar:`, dbError);
           }
