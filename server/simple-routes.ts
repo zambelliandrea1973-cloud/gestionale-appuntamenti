@@ -82,7 +82,7 @@ import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable, userLogins } from '../shared/schema';
+import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable, userLogins, companyNameSettings } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, not, like, innerJoin, sql, count } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
@@ -1902,10 +1902,26 @@ export function registerSimpleRoutes(app: Express): Server {
       
       await updatePWAIconsFromCompanyLogo(ownerId, userIcon);
       
+      let professionalName = "";
+      try {
+        const companySettings = await db.select().from(companyNameSettings).where(eq(companyNameSettings.userId, ownerId)).limit(1);
+        if (companySettings.length > 0 && companySettings[0].name) {
+          professionalName = companySettings[0].name;
+        } else {
+          const ownerUser = await db.select().from(users).where(eq(users.id, ownerId)).limit(1);
+          if (ownerUser.length > 0) {
+            professionalName = ownerUser[0].businessName || ownerUser[0].username || "";
+          }
+        }
+      } catch (e) {
+        console.error('Errore caricamento nome professionista:', e);
+      }
+      
       res.json({ 
         appName: "Gestionale Appuntamenti", 
         icon: userIcon,
-        isCustomIcon: hasCustom
+        isCustomIcon: hasCustom,
+        professionalName
       });
     } catch (error) {
       console.error('Errore nel caricamento icona app:', error);

@@ -53,6 +53,7 @@ export default function ClientArea() {
   const [pwaAccessMessage, setPwaAccessMessage] = useState<boolean>(false); // Flag per messaggio PWA
   const [recoveryLoading, setRecoveryLoading] = useState<boolean>(false); // Flag per caricamento recupero
   const [professionalIcon, setProfessionalIcon] = useState<string>(""); // Icona del professionista
+  const [professionalName, setProfessionalName] = useState<string>(""); // Nome del professionista
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
@@ -196,7 +197,8 @@ export default function ClientArea() {
         if (response.ok) {
           const data = await response.json();
           setProfessionalIcon(data.icon || "");
-          console.log(`🏠 CLIENT: Icona del professionista ${ownerId} caricata`);
+          setProfessionalName(data.professionalName || "");
+          console.log(`🏠 CLIENT: Icona del professionista ${ownerId} caricata, nome: ${data.professionalName || 'N/A'}`);
         }
       } catch (error) {
         console.error("Errore nel caricamento dell'icona del professionista:", error);
@@ -607,6 +609,9 @@ export default function ClientArea() {
             />
           )}
           <div>
+            {professionalName && (
+              <p className="text-sm font-medium text-primary">{professionalName}</p>
+            )}
             <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
             {user?.client && (
               <p className="text-muted-foreground">
