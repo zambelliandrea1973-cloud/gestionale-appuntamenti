@@ -6,3 +6,9 @@ id = "UTE9VJctG1xBpAKxfRXmK"
 uri = "file://copyright-archive/app-cliente-copyright-20260401.tar.gz"
 type = "unspecified"
 title = "Archivio Copyright App Cliente - 01/04/2026"
+
+[[outputs]]
+id = "VR7wZ-GuPphWIq4uuJ2Mv"
+uri = "file://copyright-archive/gestionale-appuntamenti-completo-20260401.tar.gz"
+type = "unspecified"
+title = "Archivio Completo Gestionale Appuntamenti - 01/04/2026"
