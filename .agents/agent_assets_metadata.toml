@@ -12,3 +12,9 @@ id = "VR7wZ-GuPphWIq4uuJ2Mv"
 uri = "file://copyright-archive/gestionale-appuntamenti-completo-20260401.tar.gz"
 type = "unspecified"
 title = "Archivio Completo Gestionale Appuntamenti - 01/04/2026"
+
+[[outputs]]
+id = "1fWQg6kIi5IyYI6AMxwuT"
+uri = "file://copyright-archive/gestionale-appuntamenti-script-completo-20260402.tar.gz"
+type = "unspecified"
+title = "Script Completo Gestionale Appuntamenti - 02/04/2026 (564 file)"
