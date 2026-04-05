@@ -2,7 +2,7 @@ import { logger } from '../utils/logger';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
-import { clients as clientsTable, invoices as invoicesTable, services as servicesTable, appointments as appointmentsTable } from '../../shared/schema';
+import { clients as clientsTable, invoices as invoicesTable, invoiceItems, services as servicesTable, appointments as appointmentsTable } from '../../shared/schema';
 import { eq, and, desc, or } from 'drizzle-orm';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { getCurrencyForUser } from '../currencyHelper';
