@@ -287,7 +287,7 @@ router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
       }
       
       console.log('📧 [CAMPAIGN API] Generazione campagna per utente', user.id, '- Licenza:', licenseType);
-      console.log('📧 [CAMPAIGN API] GEMINI_API_KEY presente:', !!process.env.GEMINI_API_KEY, '- Primi 10 char:', process.env.GEMINI_API_KEY?.substring(0, 10));
+      logger.debug('📧 [CAMPAIGN API] GEMINI_API_KEY presente:', !!process.env.GEMINI_API_KEY);
       
       let campaign;
       try {
@@ -683,7 +683,7 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
           }
         })
         .from(marketingMessages)
-        .leftJoin(clients, eq(marketingMessages.clientId, clientsTable.id))
+        .leftJoin(clientsTable, eq(marketingMessages.clientId, clientsTable.id))
         .where(
           and(
             eq(marketingMessages.userId, user.id),
