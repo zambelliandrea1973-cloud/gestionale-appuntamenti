@@ -1,0 +1,970 @@
+06/04/2026, 00:31:16:
+build
+Counting objects: 100% (3249/3249), done.
+06/04/2026, 00:31:16:
+build
+Compressing objects: 100% (300/300), done.
+06/04/2026, 00:31:48:
+build
+Total 27315 (delta 3114), reused 2996 (delta 2949), pack-reused 24066 (from 3)
+06/04/2026, 00:32:33:
+build
+#1 [service_event_ab1w80v7zxy2 internal] load build definition from Dockerfile
+06/04/2026, 00:32:33:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 00:32:33:
+build
+#1 DONE 0.0s
+06/04/2026, 00:32:33:
+build
+06/04/2026, 00:32:33:
+build
+#2 [service_event_ab1w80v7zxy2 internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 00:32:34:
+build
+#2 DONE 0.7s
+06/04/2026, 00:32:34:
+build
+06/04/2026, 00:32:34:
+build
+#3 [service_event_ab1w80v7zxy2 internal] load .dockerignore
+06/04/2026, 00:32:34:
+build
+#3 transferring context: 755B done
+06/04/2026, 00:32:34:
+build
+#3 DONE 0.0s
+06/04/2026, 00:32:34:
+build
+06/04/2026, 00:32:34:
+build
+#4 [service_event_ab1w80v7zxy2 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 00:32:34:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+06/04/2026, 00:32:34:
+build
+#4 DONE 0.0s
+06/04/2026, 00:32:34:
+build
+06/04/2026, 00:32:34:
+build
+#5 [service_event_ab1w80v7zxy2 internal] load build context
+06/04/2026, 00:32:39:
+build
+#5 transferring context: 1.58GB 5.0s
+06/04/2026, 00:32:39:
+build
+#5 transferring context: 1.67GB 5.3s done
+06/04/2026, 00:32:39:
+build
+#5 DONE 5.4s
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#6 [service_event_ab1w80v7zxy2 7/8] RUN npx vite build
+06/04/2026, 00:32:39:
+build
+#6 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#7 [service_event_ab1w80v7zxy2 3/8] COPY package.json package-lock.json ./
+06/04/2026, 00:32:39:
+build
+#7 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#8 [service_event_ab1w80v7zxy2 5/8] RUN echo "Build timestamp: 2026-04-05-22:00"
+06/04/2026, 00:32:39:
+build
+#8 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#9 [service_event_ab1w80v7zxy2 2/8] WORKDIR /app
+06/04/2026, 00:32:39:
+build
+#9 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#10 [service_event_ab1w80v7zxy2 4/8] RUN npm ci
+06/04/2026, 00:32:39:
+build
+#10 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#11 [service_event_ab1w80v7zxy2 6/8] COPY . .
+06/04/2026, 00:32:39:
+build
+#11 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#12 [service_event_ab1w80v7zxy2 8/8] RUN cp -r dist/public server/public
+06/04/2026, 00:32:39:
+build
+#12 CACHED
+06/04/2026, 00:32:39:
+build
+06/04/2026, 00:32:39:
+build
+#13 [service_event_ab1w80v7zxy2] exporting to image
+06/04/2026, 00:32:39:
+build
+#13 exporting layers done
+06/04/2026, 00:32:39:
+build
+#13 exporting manifest sha256:a94b0b70f37a907689f9b2fae75bfa39012b31843abeacc77d50ab0262997fe0 0.0s done
+06/04/2026, 00:32:39:
+build
+#13 exporting config sha256:226be9383b544f739fe29570ed83583642a3eb60e2baaf2dd8fffa81721b0a8b
+06/04/2026, 00:32:39:
+build
+#13 exporting config sha256:226be9383b544f739fe29570ed83583642a3eb60e2baaf2dd8fffa81721b0a8b done
+06/04/2026, 00:32:39:
+build
+#13 pushing layers 0.1s done
+06/04/2026, 00:32:39:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_ab1w80v7zxy2@sha256:a94b0b70f37a907689f9b2fae75bfa39012b31843abeacc77d50ab0262997fe0
+06/04/2026, 00:32:39:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_ab1w80v7zxy2@sha256:a94b0b70f37a907689f9b2fae75bfa39012b31843abeacc77d50ab0262997fe0 0.1s done
+06/04/2026, 00:32:39:
+build
+#13 DONE 0.2s
+06/04/2026, 00:32:40:
+build
+service_event_ab1w80v7zxy2: Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+06/04/2026, 00:32:40:
+build
+589002ba0eae: Already exists
+06/04/2026, 00:32:40:
+build
+d7f6aca05b78: Already exists
+06/04/2026, 00:32:40:
+build
+62e0e1181d88: Already exists
+06/04/2026, 00:32:40:
+build
+c7734204880f: Already exists
+06/04/2026, 00:32:40:
+build
+7da1d38966b6: Already exists
+06/04/2026, 00:32:40:
+build
+a4ac0cfd9eda: Already exists
+06/04/2026, 00:32:40:
+build
+202153c8e96f: Already exists
+06/04/2026, 00:32:40:
+build
+4f4fb700ef54: Already exists
+06/04/2026, 00:32:40:
+build
+a32cecd77154: Already exists
+06/04/2026, 00:32:40:
+build
+fd4e12d41170: Already exists
+06/04/2026, 00:32:40:
+build
+cf42d1d6ed4d: Already exists
+06/04/2026, 00:32:40:
+build
+Digest: sha256:a94b0b70f37a907689f9b2fae75bfa39012b31843abeacc77d50ab0262997fe0
+06/04/2026, 00:32:40:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_ab1w80v7zxy2
+06/04/2026, 00:32:44:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+06/04/2026, 00:32:44:
+runtime
+❌ [ENCRYPTION] ENCRYPTION_KEY mancante in produzione Sliplane!
+06/04/2026, 00:33:41:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port
+06/04/2026, 00:37:31:
+build
+Enumerating objects: 27408, done.
+06/04/2026, 00:37:31:
+build
+Counting objects: 100% (3342/3342), done.
+06/04/2026, 00:37:31:
+build
+Compressing objects: 100% (341/341), done.
+06/04/2026, 00:38:13:
+build
+Total 27408 (delta 3170), reused 3084 (delta 3001), pack-reused 24066 (from 3)
+06/04/2026, 00:39:03:
+build
+#1 [service_event_6946ahuyxgu2 internal] load build definition from Dockerfile
+06/04/2026, 00:39:03:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 00:39:03:
+build
+#1 DONE 0.0s
+06/04/2026, 00:39:03:
+build
+06/04/2026, 00:39:03:
+build
+#2 [service_event_6946ahuyxgu2 internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 00:39:04:
+build
+#2 DONE 0.6s
+06/04/2026, 00:39:04:
+build
+06/04/2026, 00:39:04:
+build
+#3 [service_event_6946ahuyxgu2 internal] load .dockerignore
+06/04/2026, 00:39:04:
+build
+#3 transferring context: 755B done
+06/04/2026, 00:39:04:
+build
+#3 DONE 0.0s
+06/04/2026, 00:39:04:
+build
+06/04/2026, 00:39:04:
+build
+#4 [service_event_6946ahuyxgu2 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 00:39:04:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+06/04/2026, 00:39:04:
+build
+#4 DONE 0.0s
+06/04/2026, 00:39:04:
+build
+06/04/2026, 00:39:04:
+build
+#5 [service_event_6946ahuyxgu2 internal] load build context
+06/04/2026, 00:39:09:
+build
+#5 transferring context: 1.68GB 5.0s
+06/04/2026, 00:39:09:
+build
+#8 [service_event_6946ahuyxgu2 3/8] COPY package.json package-lock.json ./
+06/04/2026, 00:39:09:
+build
+#5 transferring context: 1.68GB 5.0s done
+06/04/2026, 00:39:09:
+build
+#5 DONE 5.1s
+06/04/2026, 00:39:09:
+build
+06/04/2026, 00:39:09:
+build
+#6 [service_event_6946ahuyxgu2 4/8] RUN npm ci
+06/04/2026, 00:39:09:
+build
+#6 CACHED
+06/04/2026, 00:39:09:
+build
+06/04/2026, 00:39:09:
+build
+#7 [service_event_6946ahuyxgu2 2/8] WORKDIR /app
+06/04/2026, 00:39:09:
+build
+#7 CACHED
+06/04/2026, 00:39:09:
+build
+06/04/2026, 00:39:09:
+build
+#8 CACHED
+06/04/2026, 00:39:09:
+build
+06/04/2026, 00:39:09:
+build
+#9 [service_event_6946ahuyxgu2 5/8] RUN echo "Build timestamp: 2026-04-05-22:00"
+06/04/2026, 00:39:09:
+build
+#9 CACHED
+06/04/2026, 00:39:09:
+build
+06/04/2026, 00:39:09:
+build
+#10 [service_event_6946ahuyxgu2 6/8] COPY . .
+06/04/2026, 00:39:31:
+build
+#10 DONE 22.5s
+06/04/2026, 00:39:32:
+build
+06/04/2026, 00:39:32:
+build
+#11 [service_event_6946ahuyxgu2 7/8] RUN npx vite build
+06/04/2026, 00:39:33:
+build
+#11 1.290 vite v5.4.14 building for production...
+06/04/2026, 00:39:33:
+build
+#11 1.703 
+06/04/2026, 00:39:33:
+build
+#11 1.713 
+06/04/2026, 00:39:33:
+build
+#11 1.713 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+06/04/2026, 00:39:33:
+build
+#11 1.718 transforming...
+06/04/2026, 00:39:33:
+build
+#11 1.760 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+06/04/2026, 00:39:33:
+build
+#11 1.760   npx update-browserslist-db@latest
+06/04/2026, 00:39:33:
+build
+#11 1.760   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+06/04/2026, 00:39:46:
+build
+#11 14.92 ✓ 3694 modules transformed.
+06/04/2026, 00:39:48:
+build
+#11 16.46 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:39:48:
+build
+#11 16.46 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 00:39:48:
+build
+#11 16.46 
+06/04/2026, 00:39:48:
+build
+#11 16.46 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.#11 16.46 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:39:48:
+build
+06/04/2026, 00:39:48:
+build
+#11 16.46 
+06/04/2026, 00:39:48:
+build
+#11 16.46 rendering chunks...
+06/04/2026, 00:39:48:
+build
+#11 16.56 computing gzip size...
+06/04/2026, 00:39:48:
+build
+#11 16.67 ../dist/public/index.html                    15.19 kB │ gzip:   4.40 kB
+06/04/2026, 00:39:48:
+build
+#11 16.67 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB
+06/04/2026, 00:39:48:
+build
+#11 16.67 ../dist/public/assets/index-BJi-ELTT.js   2,701.98 kB │ gzip: 737.20 kB
+06/04/2026, 00:39:48:
+build
+#11 16.67 
+06/04/2026, 00:39:48:
+build
+#11 16.67 (!) Some chunks are larger than 500 kB after minification. Consider:
+06/04/2026, 00:39:48:
+build
+#11 16.67 - Using dynamic import() to code-split the application
+06/04/2026, 00:39:48:
+build
+#11 16.67 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+06/04/2026, 00:39:48:
+build
+#11 16.67 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+06/04/2026, 00:39:48:
+build
+#11 16.67 ✓ built in 15.35s
+06/04/2026, 00:39:48:
+build
+#11 DONE 16.8s
+06/04/2026, 00:39:48:
+build
+06/04/2026, 00:39:48:
+build
+#12 [service_event_6946ahuyxgu2 8/8] RUN cp -r dist/public server/public
+06/04/2026, 00:39:48:
+build
+#12 DONE 0.2s
+06/04/2026, 00:39:49:
+build
+06/04/2026, 00:39:49:
+build
+#13 [service_event_6946ahuyxgu2] exporting to image
+06/04/2026, 00:39:49:
+build
+#13 exporting layers
+06/04/2026, 00:40:26:
+build
+#13 exporting layers 37.8s done
+06/04/2026, 00:40:26:
+build
+#13 exporting manifest sha256:9d9f761a5acb158dfccc37f5d4445d26974a9a5359319711f2eedae58d40abcb done
+06/04/2026, 00:40:26:
+build
+#13 exporting config sha256:0b4454bb18979a0d534fb9ae78ac7cfca35602b30797b4fe239e5098b0ca3637 done
+06/04/2026, 00:40:26:
+build
+#13 pushing layers
+06/04/2026, 00:40:41:
+build
+#13 pushing layers 14.4s done
+06/04/2026, 00:40:41:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_6946ahuyxgu2@sha256:9d9f761a5acb158dfccc37f5d4445d26974a9a5359319711f2eedae58d40abcb
+06/04/2026, 00:40:41:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_6946ahuyxgu2@sha256:9d9f761a5acb158dfccc37f5d4445d26974a9a5359319711f2eedae58d40abcb 0.3s done
+06/04/2026, 00:40:41:
+build
+#13 DONE 52.5s
+06/04/2026, 00:40:42:
+build
+3828e6a8398b: 52b4e1dfd01b: Verifying Checksum
+06/04/2026, 00:40:42:
+build
+52b4e1dfd01b: Download complete
+06/04/2026, 00:40:42:
+build
+Compressing objects: 100% (348/348), done.
+06/04/2026, 00:40:53:
+build
+1ebb1b090c7c: Verifying Checksum
+06/04/2026, 00:40:53:
+build
+1ebb1b090c7c: Download complete
+06/04/2026, 00:41:05:
+build
+1ebb1b090c7c: Pull complete
+06/04/2026, 00:41:05:
+build
+52b4e1dfd01b: Pull complete
+06/04/2026, 00:41:05:
+build
+3828e6a8398b: Pull complete
+06/04/2026, 00:41:05:
+build
+Digest: sha256:9d9f761a5acb158dfccc37f5d4445d26974a9a5359319711f2eedae58d40abcb
+06/04/2026, 00:41:05:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_6946ahuyxgu2
+06/04/2026, 00:41:09:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+06/04/2026, 00:41:09:
+runtime
+❌ [ENCRYPTION] ENCRYPTION_KEY mancante in produzione Sliplane!
+06/04/2026, 00:41:13:
+build
+Total 27417 (delta 3177), reused 3086 (delta 3003), pack-reused 24066 (from 3)
+06/04/2026, 00:42:03:
+build
+#1 [service_event_tnxi6bshin76 internal] load build definition from Dockerfile
+06/04/2026, 00:42:03:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 00:42:03:
+build
+#1 DONE 0.0s
+06/04/2026, 00:42:03:
+build
+06/04/2026, 00:42:03:
+build
+#2 [service_event_tnxi6bshin76 internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 00:42:03:
+build
+#2 DONE 0.4s
+06/04/2026, 00:42:03:
+build
+06/04/2026, 00:42:03:
+build
+#3 [service_event_tnxi6bshin76 internal] load .dockerignore
+06/04/2026, 00:42:03:
+build
+#3 transferring context: 755B done
+06/04/2026, 00:42:03:
+build
+#3 DONE 0.0s
+06/04/2026, 00:42:03:
+build
+06/04/2026, 00:42:03:
+build
+#4 [service_event_tnxi6bshin76 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 00:42:03:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+06/04/2026, 00:42:03:
+build
+#4 DONE 0.0s
+06/04/2026, 00:42:03:
+build
+06/04/2026, 00:42:03:
+build
+#5 [service_event_tnxi6bshin76 internal] load build context
+06/04/2026, 00:42:05:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port
+06/04/2026, 00:42:08:
+build
+#5 transferring context: 1.68GB 4.3s done
+06/04/2026, 00:42:08:
+build
+#5 DONE 4.3s
+06/04/2026, 00:42:08:
+build
+06/04/2026, 00:42:08:
+build
+#6 [service_event_tnxi6bshin76 3/8] COPY package.json package-lock.json ./
+06/04/2026, 00:42:08:
+build
+#6 CACHED
+06/04/2026, 00:42:08:
+build
+06/04/2026, 00:42:08:
+build
+#7 [service_event_tnxi6bshin76 4/8] RUN npm ci
+06/04/2026, 00:42:08:
+build
+#7 CACHED
+06/04/2026, 00:42:08:
+build
+06/04/2026, 00:42:08:
+build
+#8 [service_event_tnxi6bshin76 2/8] WORKDIR /app
+06/04/2026, 00:42:08:
+build
+#8 CACHED
+06/04/2026, 00:42:08:
+build
+06/04/2026, 00:42:08:
+build
+#9 [service_event_tnxi6bshin76 5/8] RUN echo "Build timestamp: 2026-04-05-22:00"
+06/04/2026, 00:42:08:
+build
+#9 CACHED
+06/04/2026, 00:42:08:
+build
+06/04/2026, 00:42:08:
+build
+#10 [service_event_tnxi6bshin76 6/8] COPY . .
+06/04/2026, 00:42:30:
+build
+#10 DONE 22.6s
+06/04/2026, 00:42:31:
+build
+06/04/2026, 00:42:31:
+build
+#11 [service_event_tnxi6bshin76 7/8] RUN npx vite build
+06/04/2026, 00:42:31:
+build
+#11 0.976 vite v5.4.14 building for production...
+06/04/2026, 00:42:32:
+build
+#11 1.104 
+06/04/2026, 00:42:32:
+build
+#11 1.119 
+06/04/2026, 00:42:32:
+build
+#11 1.119 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+06/04/2026, 00:42:32:
+build
+#11 1.125 transforming...
+06/04/2026, 00:42:32:
+build
+#11 1.498   npx update-browserslist-db@latest#11 1.498 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+06/04/2026, 00:42:32:
+build
+06/04/2026, 00:42:32:
+build
+#11 1.498   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+06/04/2026, 00:42:44:
+build
+#11 14.08 ✓ 3694 modules transformed.
+06/04/2026, 00:42:46:
+build
+#11 15.62 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:42:46:
+build
+#11 15.62 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 00:42:46:
+build
+#11 15.62 
+06/04/2026, 00:42:46:
+build
+#11 15.62 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:42:46:
+build
+#11 15.62 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 00:42:46:
+build
+#11 15.62 
+06/04/2026, 00:42:46:
+build
+#11 15.62 rendering chunks...
+06/04/2026, 00:42:46:
+build
+#11 15.69 computing gzip size...
+06/04/2026, 00:42:46:
+build
+#11 15.79 ../dist/public/index.html                    15.19 kB │ gzip:   4.40 kB
+06/04/2026, 00:42:46:
+build
+#11 15.79 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB#11 15.79 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+06/04/2026, 00:42:46:
+build
+#11 15.79 ../dist/public/assets/index-BJi-ELTT.js   2,701.98 kB │ gzip: 737.20 kB
+06/04/2026, 00:42:46:
+build
+#11 15.79 
+06/04/2026, 00:42:46:
+build
+#11 15.79 (!) Some chunks are larger than 500 kB after minification. Consider:
+06/04/2026, 00:42:46:
+build
+#11 15.79 - Using dynamic import() to code-split the application
+06/04/2026, 00:42:46:
+build
+06/04/2026, 00:42:46:
+build
+#11 15.79 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+06/04/2026, 00:42:46:
+build
+#11 15.79 ✓ built in 14.76s
+06/04/2026, 00:42:46:
+build
+#11 DONE 15.9s
+06/04/2026, 00:42:47:
+build
+06/04/2026, 00:42:47:
+build
+#12 [service_event_tnxi6bshin76 8/8] RUN cp -r dist/public server/public
+06/04/2026, 00:42:47:
+build
+#12 DONE 0.2s
+06/04/2026, 00:42:47:
+build
+06/04/2026, 00:42:47:
+build
+#13 [service_event_tnxi6bshin76] exporting to image
+06/04/2026, 00:42:47:
+build
+#13 exporting layers
+06/04/2026, 00:43:27:
+build
+#13 exporting layers 40.9s done
+06/04/2026, 00:43:28:
+build
+#13 exporting manifest sha256:1afaa180a6a29e25ca5d1de16166a798d72f21a521b9dd975e834a491b2f7980 done
+06/04/2026, 00:43:28:
+build
+#13 exporting config sha256:0987a8e50c6ed05147901b3180136105d38d0d2327ab102a3c9c89ec1e24e7cc done
+06/04/2026, 00:43:28:
+build
+#13 pushing layers
+06/04/2026, 00:43:42:
+build
+#13 pushing layers 14.4s done
+06/04/2026, 00:43:42:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tnxi6bshin76@sha256:1afaa180a6a29e25ca5d1de16166a798d72f21a521b9dd975e834a491b2f7980
+06/04/2026, 00:43:42:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tnxi6bshin76@sha256:1afaa180a6a29e25ca5d1de16166a798d72f21a521b9dd975e834a491b2f7980 0.1s done
+06/04/2026, 00:43:42:
+build
+#13 DONE 55.4s
+06/04/2026, 00:43:43:
+runtime
+Sliplane: Service deployment failed with reason: Error response from daemon: manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tnxi6bshin76 not found: manifest unknown: manifest unknown to registry
+06/04/2026, 00:43:43:
+build
+Enumerating objects: 27423, done.
+06/04/2026, 00:43:43:
+build
+Counting objects: 100% (3357/3357), done.
+06/04/2026, 00:43:43:
+build
+Compressing objects: 100% (354/354), done.
+06/04/2026, 00:44:15:
+build
+Total 27423 (delta 3181), reused 3087 (delta 3003), pack-reused 24066 (from 3)
+06/04/2026, 00:45:05:
+build
+#1 [service_event_aagqm37e1m4t internal] load build definition from Dockerfile
+06/04/2026, 00:45:05:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 00:45:05:
+build
+#1 DONE 0.0s
+06/04/2026, 00:45:05:
+build
+06/04/2026, 00:45:05:
+build
+#2 [service_event_aagqm37e1m4t internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 00:45:05:
+build
+#2 DONE 0.5s
+06/04/2026, 00:45:05:
+build
+06/04/2026, 00:45:05:
+build
+#3 [service_event_aagqm37e1m4t internal] load .dockerignore
+06/04/2026, 00:45:05:
+build
+#3 transferring context: 755B done
+06/04/2026, 00:45:05:
+build
+#3 DONE 0.0s
+06/04/2026, 00:45:05:
+build
+06/04/2026, 00:45:05:
+build
+#4 [service_event_aagqm37e1m4t 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 00:45:05:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+06/04/2026, 00:45:05:
+build
+#4 DONE 0.0s
+06/04/2026, 00:45:05:
+build
+06/04/2026, 00:45:05:
+build
+#5 [service_event_aagqm37e1m4t internal] load build context
+06/04/2026, 00:45:09:
+build
+#5 transferring context: 1.68GB 4.3s done
+06/04/2026, 00:45:09:
+build
+#5 DONE 4.3s
+06/04/2026, 00:45:09:
+build
+06/04/2026, 00:45:09:
+build
+#6 [service_event_aagqm37e1m4t 3/8] COPY package.json package-lock.json ./
+06/04/2026, 00:45:09:
+build
+#6 CACHED
+06/04/2026, 00:45:09:
+build
+06/04/2026, 00:45:09:
+build
+#7 [service_event_aagqm37e1m4t 4/8] RUN npm ci
+06/04/2026, 00:45:09:
+build
+#7 CACHED
+06/04/2026, 00:45:09:
+build
+06/04/2026, 00:45:09:
+build
+#8 [service_event_aagqm37e1m4t 2/8] WORKDIR /app
+06/04/2026, 00:45:09:
+build
+#8 CACHED
+06/04/2026, 00:45:09:
+build
+06/04/2026, 00:45:09:
+build
+#9 [service_event_aagqm37e1m4t 5/8] RUN echo "Build timestamp: 2026-04-05-22:00"
+06/04/2026, 00:45:09:
+build
+#9 CACHED
+06/04/2026, 00:45:09:
+build
+06/04/2026, 00:45:09:
+build
+#10 [service_event_aagqm37e1m4t 6/8] COPY . .
+06/04/2026, 00:45:32:
+build
+#10 DONE 22.8s
+06/04/2026, 00:45:32:
+build
+06/04/2026, 00:45:32:
+build
+#11 [service_event_aagqm37e1m4t 7/8] RUN npx vite build
+06/04/2026, 00:45:33:
+build
+#11 1.053 vite v5.4.14 building for production...
+06/04/2026, 00:45:33:
+build
+#11 1.141 
+06/04/2026, 00:45:33:
+build
+#11 1.154 
+06/04/2026, 00:45:33:
+build
+#11 1.154 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+06/04/2026, 00:45:33:
+build
+#11 1.160 transforming...
+06/04/2026, 00:45:34:
+build
+#11 1.490 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+06/04/2026, 00:45:34:
+build
+#11 1.490   npx update-browserslist-db@latest
+06/04/2026, 00:45:34:
+build
+#11 1.490   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+06/04/2026, 00:45:46:
+build
+#11 14.41 ✓ 3694 modules transformed.
+06/04/2026, 00:45:48:
+build
+#11 15.96 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:45:48:
+build
+#11 15.96 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 00:45:48:
+build
+#11 15.96 
+06/04/2026, 00:45:48:
+build
+#11 15.96 #11 15.96 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 00:45:48:
+build
+#11 15.96 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 00:45:48:
+build
+06/04/2026, 00:45:48:
+build
+#11 15.96 rendering chunks...
+06/04/2026, 00:45:48:
+build
+#11 16.04 computing gzip size...
+06/04/2026, 00:45:48:
+build
+#11 16.15 ../dist/public/index.html                    15.19 kB │ gzip:   4.40 kB
+06/04/2026, 00:45:48:
+build
+#11 16.15 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB
+06/04/2026, 00:45:48:
+build
+#11 16.15 ../dist/public/assets/index-BJi-ELTT.js   2,701.98 kB │ gzip: 737.20 kB#11 16.15 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+06/04/2026, 00:45:48:
+build
+#11 16.15 
+06/04/2026, 00:45:48:
+build
+#11 16.15 (!) Some chunks are larger than 500 kB after minification. Consider:
+06/04/2026, 00:45:48:
+build
+#11 16.15 - Using dynamic import() to code-split the application
+06/04/2026, 00:45:48:
+build
+#11 16.15 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+06/04/2026, 00:45:48:
+build
+06/04/2026, 00:45:48:
+build
+#11 16.15 ✓ built in 15.07s
+06/04/2026, 00:45:48:
+build
+#11 DONE 16.3s
+06/04/2026, 00:45:49:
+build
+06/04/2026, 00:45:49:
+build
+#12 [service_event_aagqm37e1m4t 8/8] RUN cp -r dist/public server/public
+06/04/2026, 00:45:49:
+build
+#12 DONE 0.1s
+06/04/2026, 00:45:49:
+build
+06/04/2026, 00:45:49:
+build
+#13 [service_event_aagqm37e1m4t] exporting to image
+06/04/2026, 00:45:49:
+build
+#13 exporting layers
+06/04/2026, 00:46:30:
+build
+#13 exporting layers 41.4s done
+06/04/2026, 00:46:30:
+build
+#13 pushing layers
+06/04/2026, 00:46:30:
+build
+#13 exporting config sha256:9d480a3a13068dc5f1640d55b318047f7eba6abd640803473afc797b98a0cdec done
+06/04/2026, 00:46:30:
+build
+#13 exporting manifest sha256:a23b697add3eee06cfff931901a756ec9d72c7fd73261523f1491dd8ff5bbc3a done
+06/04/2026, 00:46:45:
+build
+#13 pushing layers 14.6s done
+06/04/2026, 00:46:45:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_aagqm37e1m4t@sha256:a23b697add3eee06cfff931901a756ec9d72c7fd73261523f1491dd8ff5bbc3a
+06/04/2026, 00:46:45:
+build
+#13 DONE 56.2s
+06/04/2026, 00:46:45:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_aagqm37e1m4t@sha256:a23b697add3eee06cfff931901a756ec9d72c7fd73261523f1491dd8ff5bbc3a 0.1s done
+06/04/2026, 00:46:46:
+build
+Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+06/04/2026, 00:46:46:
+build
+service_event_aagqm37e1m4t: Already exists
+06/04/2026, 00:46:46:
+build
+589002ba0eae: Already exists
+06/04/2026, 00:46:46:
+build
+d7f6aca05b78: Already exists
+06/04/2026, 00:46:46:
+build
+62e0e1181d88: Already exists
+06/04/2026, 00:46:46:
+build
+c7734204880f: Already exists
+06/04/2026, 00:46:46:
+build
+7da1d38966b6: a4ac0cfd9eda: Already exists
+06/04/2026, 00:46:46:
+build
+Already exists
+06/04/2026, 00:46:46:
+build
+202153c8e96f: Already exists
+06/04/2026, 00:46:46:
+build
+4f4fb700ef54: Pulling fs layer
+06/04/2026, 00:46:46:
+build
+3f8a9caebf40: Pulling fs layer
+06/04/2026, 00:46:46:
+build
+f73451bbae94: Pulling fs layer
+06/04/2026, 00:46:46:
+build
+4d47f018a33f: Download complete
+06/04/2026, 00:46:46:
+build
+f73451bbae94: Verifying Checksum
+06/04/2026, 00:46:46:
+build
+f73451bbae94: 4d47f018a33f: Verifying Checksum
+06/04/2026, 00:46:46:
+build
+4d47f018a33f: Download complete
+06/04/2026, 00:46:46:
+build
+Enumerating objects: 27429, done.
+06/04/2026, 00:46:46:
+build
+Counting objects: 100% (3363/3363), done.
+06/04/2026, 00:46:46:
+build
+Compressing objects: 100% (359/359), done.
