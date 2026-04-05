@@ -1,0 +1,156 @@
+Ecco la tabella, separata in modo operativo.
+Tabella di valutazione
+Tema
+Valutazione
+Stato
+Perché
+simple-routes.ts troppo grande
+Agente ha ragione
+P0
+[VERIFIED] È la criticità architetturale più concreta: non tanto per performance, ma per regressioni, difficoltà di modifica, testabilità e rischio crescente a ogni feature.
+Spezzarlo un dominio alla volta
+Agente ha ragione
+P0
+[VERIFIED] Strategia prudente. Una rifattorizzazione “big bang” qui sarebbe ad alto rischio di rottura.
+helmet subito
+Agente ha ragione
+P1
+[VERIFIED] Fix semplice, a basso rischio, utile per hardening HTTP. Non risolve la scalabilità ma migliora l’igiene del sistema.
+Ridurre body limit da 1GB
+Agente ha ragione
+P1
+[VERIFIED] Fix sensato e immediato. Riduce superficie di abuso e pressure su memoria senza toccare la logica.
+Pulizia file backup/legacy
+Agente ha ragione
+P2
+[VERIFIED] Migliora ordine, peso del repo e rischio di confusione. Impatto basso sulla stabilità runtime, ma utile.
+Rate limiting già presente
+Agente ha ragione, ma parziale
+P2
+[VERIFIED] C’è almeno su login/reset flows. [INFERRED] Non va però venduto come hardening “completo”.
+Logging eccessivo è un problema reale
+Agente ha ragione
+P1
+[VERIFIED] Anche se non ci fossero leak critici, troppo logging genera rumore operativo e rende più difficile diagnosticare problemi reali.
+any diffuso non è priorità assoluta
+Agente ha ragione
+P2
+[VERIFIED] Non è il primo collo di bottiglia per stabilità o scala. Va corretto, ma dopo i punti strutturali.
+Non servono microservizi ora
+Agente ha ragione
+P2
+[VERIFIED] Microservizi adesso aumenterebbero la complessità. La direzione giusta è un monolite modulare, non una frammentazione operativa.
+“Modular monolith è prematuro”
+Agente sottostima
+P0
+[VERIFIED] Non serve introdurre microservizi, ma serve eccome modularizzare internamente. Questo non è lusso architetturale: è il modo per non far collassare la manutenibilità.
+Test automatici solo in fase 3
+Agente sottostima
+P0
+[VERIFIED] Se vuoi spezzare file enormi senza rompere il programma, i test minimi devono arrivare prima o insieme al refactoring, non dopo.
+Job queue “solo sopra 5000+ utenti”
+Agente sottostima
+P1
+[INFERRED] Non dipende solo dal numero di utenti. Dipende da email, WhatsApp, sync Google, PDF, webhook, retry. Separare lavori lenti dal ciclo HTTP diventa utile prima del caos.
+Object storage S3 “prematuro”
+Da verificare nel codice
+P2
+[VERIFIED] Nel pacchetto ispezionato esiste static serving di /uploads. Se oggi il filesystem non è usato per file importanti, il tema può aspettare. Se invece cresce, tornerà prioritario.
+CI/CD “prematuro”
+Agente sottostima
+P2
+[INFERRED] Una pipeline enterprise no. Ma almeno build/typecheck/test automatici pre-deploy sono utili anche da solo. Il punto non è DevOps avanzato, è ridurre rotture evitabili.
+Materialized views/precalcolo “prematuro”
+Agente ha ragione
+P3
+[VERIFIED] Con il carico descritto non è priorità. Prima vengono query, indici, concorrenza e struttura del codice.
+Valutazione di manutenibilità troppo severa
+Misto / semantico
+P2
+[VERIFIED] I numeri sono discutibili. [VERIFIED] Però la fragilità globale di manutenibilità resta reale: file enormi, logging diffuso, any, legacy, responsabilità miste.
+ENCRYPTION_KEY già corretta
+Da verificare nel codice
+P0
+[VERIFIED] Nel materiale ispezionato esistono segnali in conflitto: una versione con fallback e una con fail-fast. Va verificato il codice realmente in uso in produzione.
+SESSION_SECRET già corretta
+Da verificare nel codice
+P0
+[VERIFIED] Nel pacchetto analizzato c’è ancora fallback placeholder. Se è stato corretto dopo, bene, ma va verificato sul codice attuale.
+“Nel localStorage non ci sono password vere”
+Da verificare / agente probabilmente troppo ottimista
+P0
+[VERIFIED] Nel pacchetto ispezionato ci sono riferimenti a clientPassword / staffPassword nel localStorage. Se oggi non c’è più, serve prova sul codice aggiornato.
+Token OAuth nei log già corretti
+Da verificare nel codice
+P1
+[UNCERTAIN] Possibile che sia stato corretto, ma non ho dati verificati sul codice live attuale.
+Indici DB sulle query frequenti
+Agente ha ragione
+P0
+[VERIFIED] Per te contano molto più di molte ottimizzazioni premature. Sono tra gli interventi con miglior ritorno per carico reale.
+Isolamento tenant coerente in tutte le query
+Agente sottostima
+P0
+[INFERRED] In un SaaS multi-account è uno dei punti più importanti da blindare. Non basta “funziona oggi”: va reso sistematico e testato.
+Gestione concorrenza sugli appuntamenti
+Agente sottostima
+P0
+[INFERRED] Con più uso simultaneo qui possono nascere race condition, doppie prenotazioni o conflitti di sync. È un rischio concreto prima ancora della scala “massiva”.
+Logging strutturato più avanti
+Accettabile, ma non troppo avanti
+P1
+[INFERRED] Non serve farlo domani mattina, ma non dovrebbe essere rinviato troppo dopo il refactoring dei moduli principali.
+Priorità reali P0–P3
+P0 — da affrontare prima di crescita seria
+Intervento
+Motivo
+Verificare davvero ENCRYPTION_KEY e SESSION_SECRET nel codice live
+Non per supposizione, ma su file effettivamente deployati
+Verificare cosa finisce davvero nel localStorage
+Se c’è ancora salvataggio di password/token sensibili, va corretto
+Test minimi sui flussi vitali
+Necessari per refactoring senza danni
+Estrarre domini da simple-routes.ts
+Problema strutturale n. 1
+Indici DB sulle query reali
+Impatto diretto su stabilità/performance
+Concorrenza su appuntamenti / tenant isolation
+Rischio funzionale reale sotto uso simultaneo
+P1 — molto utili a breve
+Intervento
+Motivo
+helmet
+Hardening semplice
+Riduzione body limit
+Riduce abuso e consumo inutile
+Riduzione logging rumoroso
+Più chiarezza operativa
+Preparare separazione lavori lenti dal ciclo HTTP
+Email, sync, PDF, webhook non dovrebbero bloccare richieste
+Logging strutturato
+Serve appena crescono errori e casi reali
+P2 — utili ma non urgenti
+Intervento
+Motivo
+Pulizia legacy/backup
+Ordine e riduzione confusione
+Riduzione any
+Migliora qualità, ma non è il primo fattore di stabilità
+CI minima pre-deploy
+Typecheck/build/test automatici
+Valutazione object storage
+Solo se uso file cresce davvero
+P3 — da rimandare
+Intervento
+Motivo
+Materialized views / precalcoli avanzati
+Non priorità con il carico descritto
+Architetture distribuite complesse
+Inutili ora
+Conclusione operativa
+La linea più solida è questa:
+non fidarti di “già corretto” senza verifica sul codice live
+metti test minimi prima del refactoring serio
+modularizza il monolite, non microservizi
+ottimizza DB e concorrenza prima delle ottimizzazioni glamour
+Se vuoi, nel prossimo messaggio ti preparo la versione ancora più utile: una checklist di audit da dare al tuo agente, con verifiche puntuali file-per-file da eseguire senza toccare la logica.

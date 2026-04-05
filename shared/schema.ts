@@ -6,7 +6,7 @@ import { relations } from "drizzle-orm";
 // Clients table schema - RISTRUTTURATO PER MULTI-TENANT
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   firstName: text("firstName").notNull(),
   lastName: text("lastName").notNull(),
   phone: text("phone").notNull(),
@@ -19,15 +19,19 @@ export const clients = pgTable("clients", {
   allergies: text("allergies"),
   createdAt: timestamp("createdAt").defaultNow(),
   hasConsent: boolean("hasConsent").default(false),
-  ownerId: integer("ownerId"), // ID dell'utente che ha creato questo cliente
-  assignmentCode: text("assignmentCode"), // Codice usato per assegnare il cliente all'account
-  uniqueCode: text("uniqueCode"), // Codice univoco per identificare il cliente (legacy format: PROF_014_9C1F_CLIENT_14003_816C)
-  newUniqueCode: text("newUniqueCode"), // NUOVO: Codice unificato formato BUS1422-001 (11 char, migrazione graduale, nullable)
-  taxCode: text("taxCode"), // Codice fiscale
-  vatNumber: text("vatNumber"), // Partita IVA
-  emailBlocked: boolean("email_blocked").default(false), // NUOVO: Flag per bloccare invio email dopo bounce ripetuti
-  emailBlockedReason: text("email_blocked_reason"), // Motivazione blocco (es: "mailbox_full", "user_unknown")
-});
+  ownerId: integer("ownerId"),
+  assignmentCode: text("assignmentCode"),
+  uniqueCode: text("uniqueCode"),
+  newUniqueCode: text("newUniqueCode"),
+  taxCode: text("taxCode"),
+  vatNumber: text("vatNumber"),
+  emailBlocked: boolean("email_blocked").default(false),
+  emailBlockedReason: text("email_blocked_reason"),
+}, (table) => ({
+  userIdIdx: index("clients_user_id_idx").on(table.userId),
+  ownerIdIdx: index("clients_owner_id_idx").on(table.ownerId),
+  emailIdx: index("clients_email_idx").on(table.email),
+}));
 
 export const insertClientSchema = createInsertSchema(clients).omit({
   id: true,
@@ -94,12 +98,14 @@ export type InsertCodeMigrationCrosswalk = z.infer<typeof insertCodeMigrationCro
 // Services table schema - RISTRUTTURATO PER MULTI-TENANT
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   name: text("name").notNull(),
-  duration: integer("duration").notNull(), // in minutes
+  duration: integer("duration").notNull(),
   color: text("color").default("#3f51b5"),
-  price: integer("price"), // in cents
-});
+  price: integer("price"),
+}, (table) => ({
+  userIdIdx: index("services_user_id_idx").on(table.userId),
+}));
 
 export const insertServiceSchema = createInsertSchema(services).omit({
   id: true,
@@ -108,31 +114,37 @@ export const insertServiceSchema = createInsertSchema(services).omit({
 // Appointments table schema - RISTRUTTURATO PER MULTI-TENANT + STAFF/ROOMS
 export const appointments = pgTable("appointments", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   clientId: integer("client_id").notNull(),
   serviceId: integer("service_id").notNull(),
-  staffId: integer("staff_id"), // NUOVO: Collaboratore assegnato (optional)
-  roomId: integer("room_id"), // NUOVO: Stanza/cabina assegnata (optional)
-  packagePurchaseId: integer("package_purchase_id"), // NUOVO: Collegamento a pacchetto acquistato (optional, per funzionalità PRO)
-  date: text("date").notNull(), // YYYY-MM-DD format
+  staffId: integer("staff_id"),
+  roomId: integer("room_id"),
+  packagePurchaseId: integer("package_purchase_id"),
+  date: text("date").notNull(),
   startTime: time("start_time").notNull(),
   endTime: time("end_time").notNull(),
   notes: text("notes"),
-  status: text("status").default("scheduled"), // scheduled, completed, cancelled
-  reminderType: text("reminder_type"), // single: sms, whatsapp, email / multiple: sms,whatsapp,email
-  reminderStatus: text("reminder_status").default("pending"), // pending, sent, failed
-  reminderTime: timestamp("reminder_time"), // When the reminder should be sent
-  reminderSent: boolean("reminder_sent").default(false), // Flag to track if reminder was sent
-  reminderConfirmed: boolean("reminder_confirmed").default(false), // Flag to track if the client confirmed the reminder
-  reminderConfirmedAt: timestamp("reminder_confirmed_at"), // When the client confirmed the reminder
-  // Google Calendar sync columns
-  synced: boolean("synced").default(false), // Traccia se l'appuntamento è stato sincronizzato con Google Calendar
-  importedFromGoogle: boolean("imported_from_google").default(false), // Indica se l'appuntamento è stato importato da Google Calendar
-  googleEventId: text("google_event_id"), // ID dell'evento in Google Calendar
-  googleOrganizerSelf: boolean("google_organizer_self").default(true), // TRUE se siamo l'organizzatore, FALSE se siamo invitati (per eventi esterni)
-  googleEventTitle: text("google_event_title"), // Titolo originale dell'evento Google (per preservare il nome durante la visualizzazione)
+  status: text("status").default("scheduled"),
+  reminderType: text("reminder_type"),
+  reminderStatus: text("reminder_status").default("pending"),
+  reminderTime: timestamp("reminder_time"),
+  reminderSent: boolean("reminder_sent").default(false),
+  reminderConfirmed: boolean("reminder_confirmed").default(false),
+  reminderConfirmedAt: timestamp("reminder_confirmed_at"),
+  synced: boolean("synced").default(false),
+  importedFromGoogle: boolean("imported_from_google").default(false),
+  googleEventId: text("google_event_id"),
+  googleOrganizerSelf: boolean("google_organizer_self").default(true),
+  googleEventTitle: text("google_event_title"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("appointments_user_id_idx").on(table.userId),
+  userDateIdx: index("appointments_user_date_idx").on(table.userId, table.date),
+  clientIdIdx: index("appointments_client_id_idx").on(table.clientId),
+  statusIdx: index("appointments_status_idx").on(table.status),
+  googleEventIdx: index("appointments_google_event_idx").on(table.googleEventId),
+  reminderIdx: index("appointments_reminder_idx").on(table.reminderSent, table.reminderTime),
+}));
 
 export const insertAppointmentSchema = createInsertSchema(appointments).omit({
   id: true,
@@ -179,21 +191,23 @@ export type InsertBookingRequest = z.infer<typeof insertBookingRequestSchema>;
 // Staff/Collaboratori table schema
 export const staff = pgTable("staff", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // Proprietario dello studio
+  userId: integer("user_id").notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text("email"),
   phone: text("phone"),
-  specialization: text("specialization"), // Specializzazione del collaboratore
-  iban: text("iban"), // IBAN per pagamenti commissioni
-  bic: text("bic"), // BIC/SWIFT code (opzionale)
-  bankName: text("bank_name"), // Nome banca (opzionale)
-  accountHolder: text("account_holder"), // Intestatario conto
+  specialization: text("specialization"),
+  iban: text("iban"),
+  bic: text("bic"),
+  bankName: text("bank_name"),
+  accountHolder: text("account_holder"),
   isActive: boolean("is_active").default(true),
-  resetToken: text("reset_token"), // Token per recupero password
-  resetTokenExpiry: timestamp("reset_token_expiry"), // Scadenza token reset
+  resetToken: text("reset_token"),
+  resetTokenExpiry: timestamp("reset_token_expiry"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("staff_user_id_idx").on(table.userId),
+}));
 
 export const insertStaffSchema = createInsertSchema(staff).omit({
   id: true,
@@ -203,13 +217,15 @@ export const insertStaffSchema = createInsertSchema(staff).omit({
 // Treatment Rooms/Cabine table schema  
 export const treatmentRooms = pgTable("treatment_rooms", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // Proprietario dello studio
-  name: text("name").notNull(), // Nome della stanza/cabina
-  description: text("description"), // Descrizione optional
-  color: text("color").default("#3f51b5"), // Colore per il calendario
+  userId: integer("user_id").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  color: text("color").default("#3f51b5"),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("treatment_rooms_user_id_idx").on(table.userId),
+}));
 
 export const insertTreatmentRoomSchema = createInsertSchema(treatmentRooms).omit({
   id: true,
@@ -278,14 +294,17 @@ export const insertUserIconSchema = createInsertSchema(userIcons).omit({
 // Consent documents table schema - RISTRUTTURATO PER MULTI-TENANT
 export const consents = pgTable("consents", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   clientId: integer("client_id").notNull(),
   consentText: text("consent_text"),
   consentProvided: boolean("consent_provided").default(true),
   consentDate: timestamp("consent_date").defaultNow(),
   signature: text("signature"),
   signedAt: timestamp("signed_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("consents_user_id_idx").on(table.userId),
+  clientIdIdx: index("consents_client_id_idx").on(table.clientId),
+}));
 
 export const insertConsentSchema = createInsertSchema(consents).omit({
   id: true,
@@ -297,26 +316,28 @@ export const insertConsentSchema = createInsertSchema(consents).omit({
 // Invoices table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoices = pgTable("invoices", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   invoiceNumber: text("invoice_number").notNull(),
   clientId: integer("client_id").notNull(),
-  totalAmount: integer("total_amount").notNull(), // in cents
-  tax: integer("tax").default(0), // in cents
-  date: text("date").notNull(), // YYYY-MM-DD format
-  dueDate: text("due_date").notNull(), // YYYY-MM-DD format
-  status: text("status").default("unpaid"), // unpaid, paid, overdue, cancelled
+  totalAmount: integer("total_amount").notNull(),
+  tax: integer("tax").default(0),
+  date: text("date").notNull(),
+  dueDate: text("due_date").notNull(),
+  status: text("status").default("unpaid"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
-  
-  // Colonne per gestione invio multicanale (PWA, Email, WhatsApp)
-  publishedToPwa: boolean("published_to_pwa").default(false), // Flag: visibile nell'area clienti PWA
-  pwaPublishedAt: timestamp("pwa_published_at"), // Quando è stata pubblicata sulla PWA
-  sentViaEmail: boolean("sent_via_email").default(false), // Flag: inviata via email
-  emailSentAt: timestamp("email_sent_at"), // Quando è stata inviata via email
-  sentViaWhatsapp: boolean("sent_via_whatsapp").default(false), // Flag: inviata via WhatsApp
-  whatsappSentAt: timestamp("whatsapp_sent_at"), // Quando è stata inviata via WhatsApp
-  paidAt: timestamp("paid_at"), // Quando è stata segnata come pagata
-});
+  publishedToPwa: boolean("published_to_pwa").default(false),
+  pwaPublishedAt: timestamp("pwa_published_at"),
+  sentViaEmail: boolean("sent_via_email").default(false),
+  emailSentAt: timestamp("email_sent_at"),
+  sentViaWhatsapp: boolean("sent_via_whatsapp").default(false),
+  whatsappSentAt: timestamp("whatsapp_sent_at"),
+  paidAt: timestamp("paid_at"),
+}, (table) => ({
+  userIdIdx: index("invoices_user_id_idx").on(table.userId),
+  clientIdIdx: index("invoices_client_id_idx").on(table.clientId),
+  statusIdx: index("invoices_status_idx").on(table.status),
+}));
 
 export const insertInvoiceSchema = createInsertSchema(invoices).omit({
   id: true,
@@ -326,14 +347,16 @@ export const insertInvoiceSchema = createInsertSchema(invoices).omit({
 // Invoice items table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoiceItems = pgTable("invoice_items", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   invoiceId: integer("invoice_id").notNull(),
   description: text("description").notNull(),
   quantity: integer("quantity").notNull().default(1),
-  unitPrice: integer("unit_price").notNull(), // in cents
-  appointmentId: integer("appointment_id"), // Optional connection to an appointment
-  serviceId: integer("service_id"), // Optional connection to a service
-});
+  unitPrice: integer("unit_price").notNull(),
+  appointmentId: integer("appointment_id"),
+  serviceId: integer("service_id"),
+}, (table) => ({
+  invoiceIdIdx: index("invoice_items_invoice_id_idx").on(table.invoiceId),
+}));
 
 export const insertInvoiceItemSchema = createInsertSchema(invoiceItems).omit({
   id: true,
@@ -342,15 +365,18 @@ export const insertInvoiceItemSchema = createInsertSchema(invoiceItems).omit({
 // Payments table schema - RISTRUTTURATO PER MULTI-TENANT
 export const payments = pgTable("payments", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  userId: integer("user_id").notNull(),
   invoiceId: integer("invoice_id").notNull(),
-  amount: integer("amount").notNull(), // in cents
-  paymentDate: text("payment_date").notNull(), // YYYY-MM-DD format
-  paymentMethod: text("payment_method").notNull(), // cash, card, bank_transfer
-  reference: text("reference"), // e.g., transaction ID
+  amount: integer("amount").notNull(),
+  paymentDate: text("payment_date").notNull(),
+  paymentMethod: text("payment_method").notNull(),
+  reference: text("reference"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("payments_user_id_idx").on(table.userId),
+  invoiceIdIdx: index("payments_invoice_id_idx").on(table.invoiceId),
+}));
 
 export const insertPaymentSchema = createInsertSchema(payments).omit({
   id: true,
@@ -493,11 +519,13 @@ export const clientNotes = pgTable("client_notes", {
   clientId: integer("client_id").notNull(),
   title: text("title").notNull(),
   content: text("content").notNull(),
-  category: text("category").default("general"), // general, medical, allergies
-  imagePaths: json("image_paths").$type<string[]>(), // Array di percorsi foto (es. progressi trattamenti)
+  category: text("category").default("general"),
+  imagePaths: json("image_paths").$type<string[]>(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => ({
+  clientIdIdx: index("client_notes_client_id_idx").on(table.clientId),
+}));
 
 export const insertClientNoteSchema = createInsertSchema(clientNotes).omit({
   id: true,

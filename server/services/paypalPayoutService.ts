@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { storage } from '../storage';
 import axios from 'axios';
 
@@ -135,7 +136,7 @@ export class PayPalPayoutService {
       
       const batchId = response.data.batch_header.payout_batch_id;
       
-      console.log(`✅ Payout PayPal inviato con successo!`);
+      logger.debug(`✅ Payout PayPal inviato con successo!`);
       console.log(`   Email: ${recipientEmail}`);
       console.log(`   Importo: €${amountInEuro}`);
       console.log(`   Batch ID: ${batchId}`);
@@ -175,7 +176,7 @@ export class PayPalPayoutService {
         return { processed: 0, failed: 0 };
       }
       
-      console.log(`📋 Trovate ${readyForPayout.length} commissioni da processare`);
+      logger.debug(`📋 Trovate ${readyForPayout.length} commissioni da processare`);
       
       let processed = 0;
       let failed = 0;
@@ -192,7 +193,7 @@ export class PayPalPayoutService {
           
           // Verifica se ha payout automatico abilitato e email PayPal
           if (!staff.autoPayoutEnabled) {
-            console.log(`📝 Staff ${staff.username}: payout automatico disabilitato - segnato come 'manual'`);
+            logger.debug(`📝 Staff ${staff.username}: payout automatico disabilitato - segnato come 'manual'`);
             await storage.updateReferralCommission(commission.id, {
               payoutStatus: 'manual',
               payoutMethod: 'bank_transfer'
@@ -241,7 +242,7 @@ export class PayPalPayoutService {
         }
       }
       
-      console.log(`✅ Payout processati: ${processed} successo, ${failed} falliti`);
+      logger.debug(`✅ Payout processati: ${processed} successo, ${failed} falliti`);
       return { processed, failed };
     } catch (error) {
       console.error('❌ Errore generale processing payouts:', error);

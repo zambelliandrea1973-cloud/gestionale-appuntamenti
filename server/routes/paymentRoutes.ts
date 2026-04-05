@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { Router, Request, Response } from 'express';
 import { PaymentService } from '../services/paymentService';
 import { WiseService } from '../services/wiseService';
@@ -236,11 +237,11 @@ router.post('/stripe/confirm-session', isAuthenticated, async (req, res) => {
       });
     }
     
-    console.log(`💳 Conferma sessione Stripe: ${sessionId} per utente ${userId}`);
+    logger.debug(`💳 Conferma sessione Stripe: ${sessionId} per utente ${userId}`);
     
     const result = await PaymentService.confirmStripeSession(sessionId, userId);
     
-    console.log(`💳 Risultato conferma Stripe:`, result);
+    logger.debug(`💳 Risultato conferma Stripe:`, result);
     
     return res.json(result);
   } catch (error) {
@@ -299,11 +300,11 @@ router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
       });
     }
     
-    console.log(`📦 Conferma ordine PayPal: ${orderId} per utente ${userId}`);
+    logger.debug(`📦 Conferma ordine PayPal: ${orderId} per utente ${userId}`);
     
     const result = await PaymentService.finalizePayPalSubscription(orderId, userId);
     
-    console.log(`📦 Risultato conferma PayPal:`, result);
+    logger.debug(`📦 Risultato conferma PayPal:`, result);
     
     return res.json(result);
   } catch (error) {
@@ -331,11 +332,11 @@ router.post('/paypal/finalize', async (req, res) => {
       });
     }
     
-    console.log(`📦 [PAYPAL PUBLIC ENDPOINT] Finalizzazione con token: ${orderId}`);
+    logger.debug(`📦 [PAYPAL PUBLIC ENDPOINT] Finalizzazione con token: ${orderId}`);
     
     const result = await PaymentService.finalizePayPalSubscriptionByToken(orderId);
     
-    console.log(`📦 [PAYPAL PUBLIC ENDPOINT] Risultato:`, result);
+    logger.debug(`📦 [PAYPAL PUBLIC ENDPOINT] Risultato:`, result);
     
     return res.json(result);
   } catch (error) {

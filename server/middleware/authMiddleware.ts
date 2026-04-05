@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 
-/**
- * Middleware per verificare che l'utente sia autenticato come amministratore o staff
- */
+export function requireAuth(req: Request, res: Response, next: NextFunction) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Non autenticato" });
+  }
+  next();
+}
+
 export function isAdminOrStaff(req: Request, res: Response, next: NextFunction) {
   if (!req.isAuthenticated()) {
     return res.status(401).json({

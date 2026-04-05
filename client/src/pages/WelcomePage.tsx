@@ -41,19 +41,10 @@ export default function WelcomePage() {
     }
   }, [user, isLoading, setLocation]);
 
-  // Verifica la presenza di credenziali salvate per potenziale accesso rapido
   useEffect(() => {
-    // Se siamo in una PWA e ci sono credenziali salvate, potremmo fare un redirect automatico
     if (isPWA) {
-      const hasStoredStaffCredentials = localStorage.getItem('staffUsername') && localStorage.getItem('staffPassword');
-      const hasStoredClientCredentials = localStorage.getItem('clientUsername') && localStorage.getItem('clientPassword');
-      
-      // In questo caso non facciamo redirect automatico per dare sempre la possibilità di scegliere
-      // ma potremmo valutare tale opzione in futuro
-      console.log("Welcome page caricata in modalità PWA", {
-        hasStoredStaffCredentials,
-        hasStoredClientCredentials
-      });
+      const hasStoredToken = !!localStorage.getItem('clientAccessToken');
+      console.log("Welcome page caricata in modalità PWA", { hasStoredToken });
     }
   }, [isPWA]);
 

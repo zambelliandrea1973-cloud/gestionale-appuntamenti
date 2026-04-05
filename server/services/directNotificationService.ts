@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { format, addDays } from 'date-fns';
 import { Appointment, NotificationSettings } from '../../shared/schema';
 import { storage } from '../storage';
@@ -222,7 +223,7 @@ export const directNotificationService = {
       });
       
       saveStorageData(storageData);
-      console.log(`✅ Notifica aggiunta al centro notifiche JSON per il cliente ${clientId}`);
+      logger.debug(`✅ Notifica aggiunta al centro notifiche JSON per il cliente ${clientId}`);
       return true;
     } catch (error) {
       console.error('Errore nell\'aggiunta della notifica al centro notifiche:', error);

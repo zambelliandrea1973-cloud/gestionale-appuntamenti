@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
@@ -32,9 +33,14 @@ app.set('trust proxy', 1);
 // Inizializza storage in app.locals per accesso globale dalle routes
 app.locals.storage = storage;
 console.log('✅ Storage inizializzato in app.locals:', typeof app.locals.storage, 'metodi disponibili:', Object.keys(app.locals.storage).slice(0, 5).join(', '));
-// Aumenta il limite per il caricamento di immagini e video
-app.use(express.json({ limit: '1gb' }));
-app.use(express.urlencoded({ extended: false, limit: '1gb' }));
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 // Serve file uploads statici
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));

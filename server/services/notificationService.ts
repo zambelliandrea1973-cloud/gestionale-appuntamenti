@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { format, addDays, isBefore } from 'date-fns';
 import { Appointment } from '../../shared/schema';
 import { directNotificationService } from './directNotificationService';
@@ -157,7 +158,7 @@ export const notificationService = {
           })
           .where(eq(emailBounces.id, currentBounce.id));
         
-        console.log(`📧 Bounce #${newBounceCount} registrato per ${email} (tipo: ${errorInfo.type}, consecutivi permanenti: ${newConsecutivePermanent})`);
+        logger.debug(`📧 Bounce #${newBounceCount} registrato per ${email} (tipo: ${errorInfo.type}, consecutivi permanenti: ${newConsecutivePermanent})`);
         
         // Se abbiamo raggiunto 3 bounce PERMANENTI CONSECUTIVI, blocca l'email sul cliente
         if (shouldBlock && clientId) {
@@ -186,7 +187,7 @@ export const notificationService = {
           isBlocked: false,
         });
         
-        console.log(`📧 Primo bounce registrato per ${email} (tipo: ${errorInfo.type})`);
+        logger.debug(`📧 Primo bounce registrato per ${email} (tipo: ${errorInfo.type})`);
       }
     } catch (err) {
       console.error('❌ Errore registrazione bounce:', err);
@@ -233,7 +234,7 @@ export const notificationService = {
       console.log(`Invio email promemoria a ${to} con oggetto: ${finalSubject}`);
       
       const info = await transporter.sendMail(mailOptions);
-      console.log(`✅ Email promemoria inviata con successo: ${info.messageId}`);
+      logger.debug(`✅ Email promemoria inviata con successo: ${info.messageId}`);
       
       // Reset bounce streak e sblocco email in caso di successo
       // IMPORTANTE: manteniamo bounceCount per storico, resettiamo SOLO consecutivePermanentBounces
@@ -260,7 +261,7 @@ export const notificationService = {
           })
           .where(eq(clientsTable.id, clientId));
         
-        console.log(`🔓 Email ${to} sbloccata dopo invio con successo (cliente ID ${clientId}, streak reset)`);
+        logger.debug(`🔓 Email ${to} sbloccata dopo invio con successo (cliente ID ${clientId}, streak reset)`);
       }
       
       return true;
@@ -506,7 +507,7 @@ export const notificationService = {
                     ownerId
                   );
                   if (success) {
-                    console.log(`✅ Email inviata per appuntamento ${appointment.id} a ${client.email}`);
+                    logger.debug(`✅ Email inviata per appuntamento ${appointment.id} a ${client.email}`);
                     successCount++;
                   } else {
                     console.error(`❌ Errore invio email per appuntamento ${appointment.id}`);
@@ -541,7 +542,7 @@ export const notificationService = {
             .set({ reminderStatus: 'sent' })
             .where(eq(appointmentsTable.id, appointment.id));
             
-          console.log(`✅ [NOTIFICHE POSTGRESQL] Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
+          logger.debug(`✅ [NOTIFICHE POSTGRESQL] Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
         } else {
           // Aggiorna l'appuntamento in PostgreSQL
           const { db } = await import('../db');
@@ -583,7 +584,7 @@ export const notificationService = {
       const past1Hour = new Date(now.getTime() - 1 * 60 * 60 * 1000); // -1 ora (per non perdere quelli appena passati)
       
       const isVerbose = process.env.LOG_SCHEDULER !== 'false';
-      if (isVerbose) console.log(`⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra ${past1Hour.toISOString()} e ${next30Hours.toISOString()}`);
+      if (isVerbose) logger.debug(`⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra ${past1Hour.toISOString()} e ${next30Hours.toISOString()}`);
       
       // Query PostgreSQL: appuntamenti con reminder_time nelle prossime 30 ore
       const appointments = await db
@@ -614,13 +615,13 @@ export const notificationService = {
           )
         );
       
-      if (isVerbose) console.log(`📧 [EMAIL SCHEDULER] Trovati ${appointments.length} appuntamenti con email da inviare`);
+      if (isVerbose) logger.debug(`📧 [EMAIL SCHEDULER] Trovati ${appointments.length} appuntamenti con email da inviare`);
       
       let remindersSent = 0;
       
       // Invia i promemoria EMAIL
       for (const appointment of appointments) {
-        if (isVerbose) console.log(`📧 [EMAIL] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
+        if (isVerbose) logger.debug(`📧 [EMAIL] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
         
         const success = await this.sendAppointmentReminder(appointment as any);
         
@@ -629,7 +630,7 @@ export const notificationService = {
         }
       }
       
-      if (isVerbose || remindersSent > 0) console.log(`✅ [EMAIL SCHEDULER] Inviati ${remindersSent}/${appointments.length} promemoria EMAIL`);
+      if (isVerbose || remindersSent > 0) logger.debug(`✅ [EMAIL SCHEDULER] Inviati ${remindersSent}/${appointments.length} promemoria EMAIL`);
       
       return remindersSent;
     } catch (error) {
@@ -692,10 +693,10 @@ export const notificationService = {
         }];
       }
       
-      console.log(`📧 Invio email marketing a ${options.to} - Oggetto: ${options.subject}`);
+      logger.debug(`📧 Invio email marketing a ${options.to} - Oggetto: ${options.subject}`);
       
       const info = await transporter.sendMail(mailOptions);
-      console.log(`✅ Email marketing inviata con successo: ${info.messageId}`);
+      logger.debug(`✅ Email marketing inviata con successo: ${info.messageId}`);
       return true;
     } catch (error: any) {
       console.error('❌ Errore invio email marketing:', error);

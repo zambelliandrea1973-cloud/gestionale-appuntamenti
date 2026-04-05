@@ -86,6 +86,49 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support, bidirectional sync.
 - **Database Synchronization**: Real-time sync between development and production environments.
 
+### Route Modularization (completato 05/04/2026)
+- **simple-routes.ts**: Ridotto da 10,342 a ~593 righe (-94%)
+- **Contenuto residuo**: register, mobile-sync, Google Calendar debug/sync, route mounting, imports
+- **Route files estratti** (in `server/routes/`):
+  - `collaboratorRoutes.ts` — Collaboratori CRUD
+  - `treatmentRoomRoutes.ts` — Stanze trattamento CRUD
+  - `clientNoteRoutes.ts` — Note clienti con upload foto (multer)
+  - `subscriptionPlanRoutes.ts` — Piani abbonamento CRUD (admin)
+  - `serviceRoutes.ts` — Servizi CRUD con anti-cache mobile
+  - `consentRoutes.ts` — Consensi GDPR (GET/POST)
+  - `appointmentRoutes.ts` — Appuntamenti CRUD + booking requests + Google Calendar sync
+  - `clientRoutes.ts` — Clienti CRUD + import CSV + migrazione codici
+  - `settingsRoutes.ts` — Contact info, working hours, license, app icons, company settings, currency
+  - `staffCommissionRoutes.ts` — Staff management, referral codes/overview, commissioni CRUD
+  - `passwordResetRoutes.ts` — Forgot/verify/reset password con rate limiting
+  - `adminClientRoutes.ts` — Admin clients-summary, clients-by-owner, notifications
+  - `clientAccessRoutes.ts` — Client DELETE, activation-token, QR verify-token, client-access count, /activate, client-by-code, client-appointments
+  - `invoiceRoutes.ts` — Fatture CRUD, PDF generation, email invio, packages/pacchetti promozionali
+  - `clientAreaRoutes.ts` — Area clienti QR code, /api/simple/client/*, unlock/mark deleted
+  - `emailConfigRoutes.ts` — Email calendar settings, test email, SMTP config
+  - `pwaRoutes.ts` — PWA icons, client-access tracking, last-access, reminder flags, icon upload
+  - `campaignRoutes.ts` — Marketing campaigns, AI chat, onboarding, test endpoints
+- **Pattern**: Express Router, import `storage`/`db` direttamente, montati via `app.use()` in simple-routes.ts
+- **Middleware condiviso**: `server/middleware/authMiddleware.ts` (requireAuth)
+- **Nota**: drizzle tables importati con alias (es. `invoices as invoicesTable`) nei file dove variabili locali `storageData.invoices` causerebbero shadowing
+
+### Stability & Security Improvements (completato 05/04/2026)
+- **Concurrency Control**: Appointment creation uses DB transaction with conflict check (same room/staff overlap prevention, returns 409 on conflict)
+- **Async Campaign Batch**: Campaign email sending is fire-and-forget (responds immediately, processes in background via `setImmediate`)
+- **Structured Logger**: `server/utils/logger.ts` — configurable log levels (debug/info/warn/error), production defaults to `warn` via `LOG_LEVEL` env var
+- **Logging Reduction**: ~400+ verbose `console.log` converted to `logger.debug` across routes, storage, services, auth — silenced in production
+- **Unit Tests**: `vitest` with 21 tests covering appointment conflict detection, password hashing, session serialization, tenant isolation, logger behavior. Run with `npx vitest run --config vitest.config.ts`
+
+### Security Hardening (completato 02/04/2026)
+- **Helmet**: header di sicurezza HTTP attivi (X-Frame-Options, HSTS, X-Content-Type-Options, etc.)
+- **Body limit**: ridotto da 1GB a 10MB (sufficiente per icone base64)
+- **ENCRYPTION_KEY**: fail-fast in produzione (process.exit(1) se mancante)
+- **SESSION_SECRET**: fail-fast in produzione
+- **Rate limiting**: login (10/15min), forgot/reset password (5/15min)
+- **Token OAuth**: revoca via POST body (non query string), auto-refresh salvato in DB
+- **Token sync Google**: non più cancellato su errore temporaneo, solo disabilitazione sync
+- **File legacy rimossi**: routes-backup, Clients-old, simple-storage, cartella gestionale-appuntamenti (4.2GB backup)
+
 ### Deployment Strategy
 - **Development**: Replit (`https://wife-scheduler-zambelliandrea1.replit.app`).
 - **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`).

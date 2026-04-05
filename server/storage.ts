@@ -1,3 +1,4 @@
+import { logger } from './utils/logger';
 import * as fs from 'fs';
 import { 
   clients, type Client, type InsertClient,
@@ -419,7 +420,7 @@ export class DatabaseStorage implements IStorage {
 
   async getClients(ownerId?: number): Promise<Client[]> {
     try {
-      console.log(`🔍 DatabaseStorage.getClients chiamato con ownerId: ${ownerId}`);
+      logger.debug(`🔍 DatabaseStorage.getClients chiamato con ownerId: ${ownerId}`);
       
       let rawClients;
       if (ownerId !== undefined) {
@@ -427,12 +428,12 @@ export class DatabaseStorage implements IStorage {
           .where(eq(clients.ownerId, ownerId))
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
+        logger.debug(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
       } else {
         rawClients = await db.select().from(clients)
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti totali`);
+        logger.debug(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti totali`);
       }
       
       return rawClients;
@@ -455,7 +456,7 @@ export class DatabaseStorage implements IStorage {
           filteredClients = filteredClients.filter((client: Client) => client.ownerId === ownerId);
         }
         
-        console.log(`✅ Retrieved ${filteredClients.length} clients from JSON${ownerId !== undefined ? ` for owner ${ownerId}` : ''}`);
+        logger.debug(`✅ Retrieved ${filteredClients.length} clients from JSON${ownerId !== undefined ? ` for owner ${ownerId}` : ''}`);
         return filteredClients;
       } catch (jsonError) {
         console.error("Error getting clients from JSON:", jsonError);
@@ -466,7 +467,7 @@ export class DatabaseStorage implements IStorage {
 
   async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
     try {
-      console.log(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
+      logger.debug(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
       
       // Escludi solo i clienti fittizi importati da Google Calendar (email @imported.local)
       // Includi i clienti con email NULL (es. contatti importati da Google Contacts)
@@ -479,7 +480,7 @@ export class DatabaseStorage implements IStorage {
         const allClients = await db.select().from(clients)
           .where(excludeGoogleImported)
           .orderBy(clients.lastName);
-        console.log(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali (esclusi Google Calendar)`);
         return allClients;
       } else if (role === 'staff') {
         // STAFF: usa assignmentCode per vedere i clienti assegnati
@@ -490,7 +491,7 @@ export class DatabaseStorage implements IStorage {
         }
         
         const userPrefix = user.assignmentCode.substring(0, 3);
-        console.log(`🔍 DatabaseStorage: Staff ${userId} cerca clienti con prefisso ${userPrefix}`);
+        logger.debug(`🔍 DatabaseStorage: Staff ${userId} cerca clienti con prefisso ${userPrefix}`);
         
         // Filtra clienti sia per ownerId che per prefisso nel uniqueCode, escludendo Google Calendar
         const userClients = await db.select().from(clients)
@@ -505,17 +506,17 @@ export class DatabaseStorage implements IStorage {
           )
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) vede ${userClients.length} clienti (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) vede ${userClients.length} clienti (esclusi Google Calendar)`);
         return userClients;
       } else {
         // CUSTOMER: vede solo i suoi clienti (basandosi su ownerId)
-        console.log(`🔍 DatabaseStorage: Customer ${userId} cerca i propri clienti (ownerId)`);
+        logger.debug(`🔍 DatabaseStorage: Customer ${userId} cerca i propri clienti (ownerId)`);
         
         const userClients = await db.select().from(clients)
           .where(and(excludeGoogleImported, eq(clients.ownerId, userId)))
           .orderBy(clients.lastName);
         
-        console.log(`✅ DatabaseStorage: Customer ${userId} vede ${userClients.length} clienti propri (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Customer ${userId} vede ${userClients.length} clienti propri (esclusi Google Calendar)`);
         return userClients;
       }
     } catch (error) {
@@ -534,12 +535,12 @@ export class DatabaseStorage implements IStorage {
           .map(([_, client]: [number, any]) => client);
         
         if (role === 'admin') {
-          console.log(`✅ Retrieved ${allClients.length} clients from JSON for admin user ${userId}`);
+          logger.debug(`✅ Retrieved ${allClients.length} clients from JSON for admin user ${userId}`);
           return allClients;
         } else {
           // Filter by ownerId for non-admin users
           const userClients = allClients.filter((client: Client) => client.ownerId === userId);
-          console.log(`✅ Retrieved ${userClients.length} clients from JSON for user ${userId}`);
+          logger.debug(`✅ Retrieved ${userClients.length} clients from JSON for user ${userId}`);
           return userClients;
         }
       } catch (jsonError) {
@@ -578,7 +579,7 @@ export class DatabaseStorage implements IStorage {
         storageData.clients.push([newClient.id, newClient]);
         saveStorageData(storageData);
         
-        console.log(`✅ Client ${newClient.id} created in JSON storage`);
+        logger.debug(`✅ Client ${newClient.id} created in JSON storage`);
         return newClient;
       } catch (jsonError) {
         console.error("Error creating client in JSON:", jsonError);
@@ -621,7 +622,7 @@ export class DatabaseStorage implements IStorage {
         storageData.clients[clientIndex] = [id, updatedClient];
         saveStorageData(storageData);
         
-        console.log(`✅ Client ${id} updated in JSON storage`);
+        logger.debug(`✅ Client ${id} updated in JSON storage`);
         return updatedClient;
       } catch (jsonError) {
         console.error("Error updating client in JSON:", jsonError);
@@ -654,7 +655,7 @@ export class DatabaseStorage implements IStorage {
         }
         
         saveStorageData(storageData);
-        console.log(`✅ Client ${id} deleted from JSON storage`);
+        logger.debug(`✅ Client ${id} deleted from JSON storage`);
         return true;
       } catch (jsonError) {
         console.error("Error deleting client in JSON:", jsonError);
@@ -997,7 +998,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(services.userId, userId))
         .orderBy(services.name);
       
-      console.log(`✅ NUOVO Sistema: ${userServices.length} servizi per utente ${userId} - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NUOVO Sistema: ${userServices.length} servizi per utente ${userId} - SEPARAZIONE COMPLETA`);
       return userServices;
     } catch (error) {
       console.error("Error getting services for user:", error);
@@ -1015,7 +1016,7 @@ export class DatabaseStorage implements IStorage {
           .map(([_, service]: [number, any]) => service)
           .filter((s: any) => s.userId === userId);
         
-        console.log(`✅ Retrieved ${userServices.length} services from JSON for user ${userId}`);
+        logger.debug(`✅ Retrieved ${userServices.length} services from JSON for user ${userId}`);
         return userServices;
       } catch (jsonError) {
         console.error("Error getting services from JSON:", jsonError);
@@ -1053,7 +1054,7 @@ export class DatabaseStorage implements IStorage {
         storageData.services.push([newService.id, newService]);
         saveStorageData(storageData);
         
-        console.log(`✅ Service ${newService.id} created in JSON storage`);
+        logger.debug(`✅ Service ${newService.id} created in JSON storage`);
         return newService;
       } catch (jsonError) {
         console.error("Error creating service in JSON:", jsonError);
@@ -1097,7 +1098,7 @@ export class DatabaseStorage implements IStorage {
         storageData.services[serviceIndex] = [id, updatedService];
         saveStorageData(storageData);
         
-        console.log(`✅ Service ${id} updated in JSON storage`);
+        logger.debug(`✅ Service ${id} updated in JSON storage`);
         return updatedService;
       } catch (jsonError) {
         console.error("Error updating service in JSON:", jsonError);
@@ -1130,7 +1131,7 @@ export class DatabaseStorage implements IStorage {
         }
         
         saveStorageData(storageData);
-        console.log(`✅ Service ${id} deleted from JSON storage`);
+        logger.debug(`✅ Service ${id} deleted from JSON storage`);
         return true;
       } catch (jsonError) {
         console.error("Error deleting service in JSON:", jsonError);
@@ -1173,7 +1174,7 @@ export class DatabaseStorage implements IStorage {
           .map(([_, staffMember]: [number, any]) => staffMember)
           .filter((s: any) => s.userId === userId && s.isActive === true);
         
-        console.log(`✅ Retrieved ${userStaff.length} staff from JSON for user ${userId}`);
+        logger.debug(`✅ Retrieved ${userStaff.length} staff from JSON for user ${userId}`);
         return userStaff;
       } catch (jsonError) {
         console.error("Error getting staff from JSON:", jsonError);
@@ -1211,7 +1212,7 @@ export class DatabaseStorage implements IStorage {
         storageData.staff.push([newStaff.id, newStaff]);
         saveStorageData(storageData);
         
-        console.log(`✅ Staff ${newStaff.id} created in JSON storage`);
+        logger.debug(`✅ Staff ${newStaff.id} created in JSON storage`);
         return newStaff;
       } catch (jsonError) {
         console.error("Error creating staff in JSON:", jsonError);
@@ -1278,7 +1279,7 @@ export class DatabaseStorage implements IStorage {
           .map(([_, room]: [number, any]) => room)
           .filter((r: any) => r.userId === userId && r.isActive === true);
         
-        console.log(`✅ Retrieved ${userRooms.length} treatment rooms from JSON for user ${userId}`);
+        logger.debug(`✅ Retrieved ${userRooms.length} treatment rooms from JSON for user ${userId}`);
         return userRooms;
       } catch (jsonError) {
         console.error("Error getting treatment rooms from JSON:", jsonError);
@@ -1316,7 +1317,7 @@ export class DatabaseStorage implements IStorage {
         storageData.treatment_rooms.push([newRoom.id, newRoom]);
         saveStorageData(storageData);
         
-        console.log(`✅ Treatment room ${newRoom.id} created in JSON storage`);
+        logger.debug(`✅ Treatment room ${newRoom.id} created in JSON storage`);
         return newRoom;
       } catch (jsonError) {
         console.error("Error creating treatment room in JSON:", jsonError);
@@ -1475,7 +1476,7 @@ export class DatabaseStorage implements IStorage {
           room: row.room || undefined // Room opzionale
         }));
 
-      console.log(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
       return formattedResult;
     } catch (error) {
       console.error("Error getting appointments for user:", error);
@@ -1510,7 +1511,7 @@ export class DatabaseStorage implements IStorage {
           }
         }
         
-        console.log(`✅ Retrieved ${result.length} appointments from JSON for user ${userId}`);
+        logger.debug(`✅ Retrieved ${result.length} appointments from JSON for user ${userId}`);
         return result;
       } catch (jsonError) {
         console.error("Error getting appointments from JSON:", jsonError);
@@ -1554,7 +1555,7 @@ export class DatabaseStorage implements IStorage {
           room: row.room || undefined // Room opzionale
         }));
 
-      console.log(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per data ${date} - utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per data ${date} - utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
       return formattedResult;
     } catch (error) {
       console.error("Error getting appointments by date for user:", error);
@@ -1589,7 +1590,7 @@ export class DatabaseStorage implements IStorage {
           }
         }
         
-        console.log(`✅ Retrieved ${result.length} appointments from JSON for date ${date}, user ${userId}`);
+        logger.debug(`✅ Retrieved ${result.length} appointments from JSON for date ${date}, user ${userId}`);
         return result;
       } catch (jsonError) {
         console.error("Error getting appointments by date from JSON:", jsonError);
@@ -1655,7 +1656,7 @@ export class DatabaseStorage implements IStorage {
         storageData.appointments.push([newAppointment.id, newAppointment]);
         saveStorageData(storageData);
         
-        console.log(`✅ Appointment ${newAppointment.id} created in JSON storage`);
+        logger.debug(`✅ Appointment ${newAppointment.id} created in JSON storage`);
         return newAppointment;
       } catch (jsonError) {
         console.error("Error creating appointment in JSON:", jsonError);
@@ -1699,7 +1700,7 @@ export class DatabaseStorage implements IStorage {
         storageData.appointments[appointmentIndex] = [id, updatedAppointment];
         saveStorageData(storageData);
         
-        console.log(`✅ Appointment ${id} updated in JSON storage`);
+        logger.debug(`✅ Appointment ${id} updated in JSON storage`);
         return updatedAppointment;
       } catch (jsonError) {
         console.error("Error updating appointment in JSON:", jsonError);
@@ -1732,7 +1733,7 @@ export class DatabaseStorage implements IStorage {
         }
         
         saveStorageData(storageData);
-        console.log(`✅ Appointment ${id} deleted from JSON storage`);
+        logger.debug(`✅ Appointment ${id} deleted from JSON storage`);
         return true;
       } catch (jsonError) {
         console.error("Error deleting appointment in JSON:", jsonError);
@@ -1994,7 +1995,7 @@ export class DatabaseStorage implements IStorage {
         storageData.invoices.push([newInvoice.id, newInvoice]);
         saveStorageData(storageData);
         
-        console.log(`✅ Invoice ${newInvoice.id} created in JSON storage`);
+        logger.debug(`✅ Invoice ${newInvoice.id} created in JSON storage`);
         return newInvoice;
       } catch (jsonError) {
         console.error("Error creating invoice in JSON:", jsonError);
@@ -2191,7 +2192,7 @@ export class DatabaseStorage implements IStorage {
         storageData.payments.push([newPayment.id, newPayment]);
         saveStorageData(storageData);
         
-        console.log(`✅ Payment ${newPayment.id} created in JSON storage`);
+        logger.debug(`✅ Payment ${newPayment.id} created in JSON storage`);
         return newPayment;
       } catch (jsonError) {
         console.error("Error creating payment in JSON:", jsonError);
@@ -2299,7 +2300,7 @@ export class DatabaseStorage implements IStorage {
           const userEntry = storageData.users?.find(([userId, u]: [number, any]) => userId === id);
           
           if (userEntry) {
-            console.log(`✅ User ${id} found in JSON storage`);
+            logger.debug(`✅ User ${id} found in JSON storage`);
             return userEntry[1];
           }
         } catch (jsonError) {
@@ -2320,7 +2321,7 @@ export class DatabaseStorage implements IStorage {
         const userEntry = storageData.users?.find(([userId, u]: [number, any]) => userId === id);
         
         if (userEntry) {
-          console.log(`✅ User ${id} found in JSON storage (after DB error)`);
+          logger.debug(`✅ User ${id} found in JSON storage (after DB error)`);
           return userEntry[1];
         }
       } catch (jsonError) {
@@ -2370,7 +2371,7 @@ export class DatabaseStorage implements IStorage {
           );
           
           if (userEntry) {
-            console.log(`✅ User found in JSON storage: ${username}`);
+            logger.debug(`✅ User found in JSON storage: ${username}`);
             return userEntry[1];
           }
         } catch (jsonError) {
@@ -2391,7 +2392,7 @@ export class DatabaseStorage implements IStorage {
         );
         
         if (userEntry) {
-          console.log(`✅ User found in JSON storage (after DB error): ${username}`);
+          logger.debug(`✅ User found in JSON storage (after DB error): ${username}`);
           return userEntry[1];
         }
       } catch (jsonError) {
@@ -2441,7 +2442,7 @@ export class DatabaseStorage implements IStorage {
         );
         
         if (userEntry) {
-          console.log(`✅ User found in JSON storage by email: ${email}`);
+          logger.debug(`✅ User found in JSON storage by email: ${email}`);
           return userEntry[1];
         }
       } catch (jsonError) {
@@ -2461,7 +2462,7 @@ export class DatabaseStorage implements IStorage {
         );
         
         if (userEntry) {
-          console.log(`✅ User found in JSON storage by email (after DB error): ${email}`);
+          logger.debug(`✅ User found in JSON storage by email (after DB error): ${email}`);
           return userEntry[1];
         }
       } catch (jsonError) {
@@ -2474,11 +2475,11 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined> {
     try {
-      console.log(`🔍 Cercando utente con codice assegnazione: ${assignmentCode}`);
+      logger.debug(`🔍 Cercando utente con codice assegnazione: ${assignmentCode}`);
       const [user] = await db.select().from(users).where(eq(users.assignmentCode, assignmentCode));
       
       if (user) {
-        console.log(`✅ Trovato utente ${user.username} per codice ${assignmentCode}`);
+        logger.debug(`✅ Trovato utente ${user.username} per codice ${assignmentCode}`);
       } else {
         console.log(`❌ Nessun utente trovato per codice ${assignmentCode}`);
       }
@@ -2492,11 +2493,11 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
     try {
-      console.log(`🔍 Cercando utente con codice referral: ${referralCode}`);
+      logger.debug(`🔍 Cercando utente con codice referral: ${referralCode}`);
       const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
       
       if (user) {
-        console.log(`✅ Trovato utente ${user.username} (ID: ${user.id}) con codice referral ${referralCode}`);
+        logger.debug(`✅ Trovato utente ${user.username} (ID: ${user.id}) con codice referral ${referralCode}`);
       } else {
         console.log(`❌ Nessun utente trovato per codice referral ${referralCode}`);
       }
@@ -2510,10 +2511,10 @@ export class DatabaseStorage implements IStorage {
 
   async getUsersByReferrer(referrerId: number): Promise<User[]> {
     try {
-      console.log(`🔍 Cercando utenti sponsorizzati da referrer ID: ${referrerId}`);
+      logger.debug(`🔍 Cercando utenti sponsorizzati da referrer ID: ${referrerId}`);
       const referredUsers = await db.select().from(users).where(eq(users.referredBy, referrerId));
       
-      console.log(`✅ Trovati ${referredUsers.length} utenti sponsorizzati da referrer ${referrerId}`);
+      logger.debug(`✅ Trovati ${referredUsers.length} utenti sponsorizzati da referrer ${referrerId}`);
       
       return referredUsers;
     } catch (error) {
@@ -2554,7 +2555,7 @@ export class DatabaseStorage implements IStorage {
         return [];
       }
 
-      console.log(`🔍 Recupero metadata per ${ownerIds.length} professionisti owner: ${ownerIds.join(', ')}`);
+      logger.debug(`🔍 Recupero metadata per ${ownerIds.length} professionisti owner: ${ownerIds.join(', ')}`);
       
       const owners = await db
         .select({
@@ -2565,7 +2566,7 @@ export class DatabaseStorage implements IStorage {
         .from(users)
         .where(inArray(users.id, ownerIds));
       
-      console.log(`✅ Trovati ${owners.length} professionisti owner con metadata`);
+      logger.debug(`✅ Trovati ${owners.length} professionisti owner con metadata`);
       owners.forEach(owner => {
         console.log(`  - Owner ID ${owner.id}: ${owner.assignmentCode || 'NO-CODE'} - ${owner.username}`);
       });
@@ -2629,7 +2630,7 @@ export class DatabaseStorage implements IStorage {
   async createReferralCommission(commission: any): Promise<any> {
     try {
       const [newCommission] = await db.insert(referralCommissions).values(commission).returning();
-      console.log(`✅ Commissione referral creata: ${commission.monthly_amount/100}€/mese per sponsor ID ${commission.referrer_id}`);
+      logger.debug(`✅ Commissione referral creata: ${commission.monthly_amount/100}€/mese per sponsor ID ${commission.referrer_id}`);
       return newCommission;
     } catch (error) {
       console.error("Error creating referral commission:", error);
@@ -2914,7 +2915,7 @@ export class DatabaseStorage implements IStorage {
         storageData.notifications.push([newNotification.id, newNotification]);
         saveStorageData(storageData);
         
-        console.log(`✅ Notification ${newNotification.id} created in JSON storage`);
+        logger.debug(`✅ Notification ${newNotification.id} created in JSON storage`);
         return newNotification;
       } catch (jsonError) {
         console.error("Error creating notification in JSON:", jsonError);
@@ -3658,11 +3659,11 @@ export class DatabaseStorage implements IStorage {
         .where(eq(companyNameSettings.userId, userId));
       
       if (!settings) {
-        console.log(`ℹ️ Nessuna impostazione nome aziendale per utente ${userId}`);
+        logger.debug(`ℹ️ Nessuna impostazione nome aziendale per utente ${userId}`);
         return undefined;
       }
       
-      console.log(`✅ Impostazioni nome aziendale per utente ${userId}:`, settings);
+      logger.debug(`✅ Impostazioni nome aziendale per utente ${userId}:`, settings);
       return settings;
     } catch (error) {
       console.error(`Errore nel recupero delle impostazioni per utente ${userId}:`, error);
@@ -3691,7 +3692,7 @@ export class DatabaseStorage implements IStorage {
         .values(dataToSave)
         .returning();
       
-      console.log(`✅ Impostazioni nome aziendale salvate per utente ${userId}`);
+      logger.debug(`✅ Impostazioni nome aziendale salvate per utente ${userId}`);
       return saved;
     } catch (error) {
       console.error(`Errore nel salvataggio delle impostazioni per utente ${userId}:`, error);
@@ -3721,7 +3722,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(companyNameSettings.userId, userId))
         .returning();
       
-      console.log(`✅ Impostazioni nome aziendale aggiornate per utente ${userId}`);
+      logger.debug(`✅ Impostazioni nome aziendale aggiornate per utente ${userId}`);
       return updated;
     } catch (error) {
       console.error(`Errore nell'aggiornamento delle impostazioni per utente ${userId}:`, error);
@@ -4211,7 +4212,7 @@ export class DatabaseStorage implements IStorage {
         config: method.config
       }));
       
-      console.log(`✅ Recuperati ${formattedMethods.length} metodi di pagamento da PostgreSQL`);
+      logger.debug(`✅ Recuperati ${formattedMethods.length} metodi di pagamento da PostgreSQL`);
       return formattedMethods;
     } catch (error) {
       console.error('❌ Errore nel recupero dei metodi di pagamento dal database:', error);
@@ -4224,7 +4225,7 @@ export class DatabaseStorage implements IStorage {
    */
   async savePaymentMethods(methods: any[]): Promise<boolean> {
     try {
-      console.log(`💾 Salvataggio di ${methods.length} metodi di pagamento su PostgreSQL`);
+      logger.debug(`💾 Salvataggio di ${methods.length} metodi di pagamento su PostgreSQL`);
       
       for (const method of methods) {
         // Aggiorna se esiste, altrimenti inserisce
@@ -4620,13 +4621,13 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (settings) {
-        console.log(`✅ Impostazioni contatto trovate per tenant ${tenantId}:`, {
+        logger.debug(`✅ Impostazioni contatto trovate per tenant ${tenantId}:`, {
           phone: settings.phone,
           email: settings.email,
           whatsappOptIn: settings.whatsappOptIn
         });
       } else {
-        console.log(`ℹ️ Nessuna impostazione contatto per tenant ${tenantId}`);
+        logger.debug(`ℹ️ Nessuna impostazione contatto per tenant ${tenantId}`);
       }
       
       return settings;
@@ -4647,7 +4648,7 @@ export class DatabaseStorage implements IStorage {
         );
         
         if (settingsEntry) {
-          console.log(`✅ Contact settings found in JSON storage for tenant ${tenantId}`);
+          logger.debug(`✅ Contact settings found in JSON storage for tenant ${tenantId}`);
           return settingsEntry[1];
         }
         
@@ -4675,7 +4676,7 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      console.log(`✅ Impostazioni contatto create per tenant ${settings.tenantId}`);
+      logger.debug(`✅ Impostazioni contatto create per tenant ${settings.tenantId}`);
       return created;
     } catch (error) {
       console.error(`Errore nella creazione impostazioni contatto per tenant ${settings.tenantId}:`, error);
@@ -4707,7 +4708,7 @@ export class DatabaseStorage implements IStorage {
         storageData.contact_settings.push([newContactSettings.id, newContactSettings]);
         saveStorageData(storageData);
         
-        console.log(`✅ Contact settings ${newContactSettings.id} created in JSON storage for tenant ${settings.tenantId}`);
+        logger.debug(`✅ Contact settings ${newContactSettings.id} created in JSON storage for tenant ${settings.tenantId}`);
         return newContactSettings;
       } catch (jsonError) {
         console.error("Error creating contact settings in JSON:", jsonError);
@@ -4734,9 +4735,9 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        console.log(`✅ Impostazioni contatto aggiornate per tenant ${tenantId}`);
+        logger.debug(`✅ Impostazioni contatto aggiornate per tenant ${tenantId}`);
       } else {
-        console.log(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
+        logger.debug(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
       }
       
       return updated;
@@ -4768,10 +4769,10 @@ export class DatabaseStorage implements IStorage {
           storageData.contact_settings[settingsIndex] = [id, updatedSettings];
           saveStorageData(storageData);
           
-          console.log(`✅ Contact settings updated in JSON storage for tenant ${tenantId}`);
+          logger.debug(`✅ Contact settings updated in JSON storage for tenant ${tenantId}`);
           return updatedSettings;
         } else {
-          console.log(`⚠️ No contact settings found in JSON for tenant ${tenantId}`);
+          logger.debug(`⚠️ No contact settings found in JSON for tenant ${tenantId}`);
           return undefined;
         }
       } catch (jsonError) {
@@ -4791,9 +4792,9 @@ export class DatabaseStorage implements IStorage {
       
       const success = result.rowCount > 0;
       if (success) {
-        console.log(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
+        logger.debug(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
       } else {
-        console.log(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
+        logger.debug(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
       }
       
       return success;
@@ -4815,14 +4816,14 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (settings) {
-        console.log(`✅ Impostazioni valuta trovate per utente ${userId}:`, {
+        logger.debug(`✅ Impostazioni valuta trovate per utente ${userId}:`, {
           currency: settings.currency,
           symbol: settings.symbol
         });
         return settings;
       }
       
-      console.log(`ℹ️ Nessuna impostazione valuta per utente ${userId}, uso default EUR €`);
+      logger.debug(`ℹ️ Nessuna impostazione valuta per utente ${userId}, uso default EUR €`);
       return undefined;
     } catch (error) {
       console.error(`Errore nel recupero impostazioni valuta per utente ${userId}:`, error);
@@ -4846,7 +4847,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        console.log(`✅ Impostazioni valuta aggiornate per utente ${userId}`);
+        logger.debug(`✅ Impostazioni valuta aggiornate per utente ${userId}`);
         return updated;
       }
       
@@ -4861,7 +4862,7 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      console.log(`✅ Impostazioni valuta create per utente ${userId}`);
+      logger.debug(`✅ Impostazioni valuta create per utente ${userId}`);
       return created;
     } catch (error) {
       console.error(`Errore nel salvataggio impostazioni valuta per utente ${userId}:`, error);
@@ -4887,11 +4888,11 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (content) {
-        console.log(`✅ Contenuto manuale trovato per sezione ${section}`);
+        logger.debug(`✅ Contenuto manuale trovato per sezione ${section}`);
         return content;
       }
       
-      console.log(`ℹ️ Nessun contenuto manuale per sezione ${section}, locale ${locale}`);
+      logger.debug(`ℹ️ Nessun contenuto manuale per sezione ${section}, locale ${locale}`);
       return undefined;
     } catch (error) {
       console.error(`Errore nel recupero contenuto manuale:`, error);
@@ -4914,7 +4915,7 @@ export class DatabaseStorage implements IStorage {
         )
         .orderBy(asc(manualContent.section));
       
-      console.log(`✅ Trovate ${sections.length} sezioni manuale`);
+      logger.debug(`✅ Trovate ${sections.length} sezioni manuale`);
       return sections;
     } catch (error) {
       console.error(`Errore nel recupero sezioni manuale:`, error);
@@ -4940,7 +4941,7 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      console.log(`✅ Contenuto manuale salvato con ID ${saved.id}`);
+      logger.debug(`✅ Contenuto manuale salvato con ID ${saved.id}`);
       return saved;
     } catch (error) {
       console.error(`Errore nel salvataggio contenuto manuale:`, error);
@@ -4967,11 +4968,11 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        console.log(`✅ Contenuto manuale aggiornato con successo`);
+        logger.debug(`✅ Contenuto manuale aggiornato con successo`);
         return updated;
       }
       
-      console.log(`⚠️ Contenuto manuale non trovato o permessi insufficienti`);
+      logger.debug(`⚠️ Contenuto manuale non trovato o permessi insufficienti`);
       return undefined;
     } catch (error) {
       console.error(`Errore nell'aggiornamento contenuto manuale:`, error);
@@ -4994,9 +4995,9 @@ export class DatabaseStorage implements IStorage {
       
       const deleted = result.count > 0;
       if (deleted) {
-        console.log(`✅ Contenuto manuale eliminato con successo`);
+        logger.debug(`✅ Contenuto manuale eliminato con successo`);
       } else {
-        console.log(`⚠️ Contenuto manuale non trovato`);
+        logger.debug(`⚠️ Contenuto manuale non trovato`);
       }
       
       return deleted;
@@ -5108,7 +5109,7 @@ export class DatabaseStorage implements IStorage {
           })
           .where(eq(userIcons.userId, userId));
         
-        console.log(`✅ Icona aggiornata per user ${userId}`);
+        logger.debug(`✅ Icona aggiornata per user ${userId}`);
       } else {
         // Inserisci nuova icona
         await db
@@ -5118,7 +5119,7 @@ export class DatabaseStorage implements IStorage {
             iconBase64 
           });
         
-        console.log(`✅ Icona creata per user ${userId}`);
+        logger.debug(`✅ Icona creata per user ${userId}`);
       }
     } catch (error) {
       console.error(`Error saving icon for user ${userId}:`, error);
@@ -5134,7 +5135,7 @@ export class DatabaseStorage implements IStorage {
       
       const success = result.rowCount > 0;
       if (success) {
-        console.log(`✅ Icona eliminata per user ${userId}`);
+        logger.debug(`✅ Icona eliminata per user ${userId}`);
       }
       
       return success;

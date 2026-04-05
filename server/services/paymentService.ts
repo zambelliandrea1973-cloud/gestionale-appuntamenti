@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { storage } from '../storage';
 import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
 import paypal from '@paypal/checkout-server-sdk';
@@ -102,7 +103,7 @@ const getStripeClient = async () => {
     }
     
     const isLive = stripeSecretKey.startsWith('sk_live_');
-    console.log(`🔐 Stripe: usando chiave LIVE da Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
+    logger.debug(`🔐 Stripe: usando chiave LIVE da Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
     return new Stripe(stripeSecretKey, {
       apiVersion: '2023-10-16'
     });
@@ -114,7 +115,7 @@ const getStripeClient = async () => {
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
   
-  console.log(`🔐 Stripe: usando chiave dal DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
+  logger.debug(`🔐 Stripe: usando chiave dal DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
   console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
   
   return new Stripe(stripeSecretKey, {
@@ -137,7 +138,7 @@ const getPayPalClient = async () => {
     clientId = paypalConfig.config.clientId;
     clientSecret = paypalConfig.config.clientSecret;
     mode = paypalConfig.config.mode || 'sandbox';
-    console.log(`🔐 PayPal: usando credenziali dal DATABASE (${mode.toUpperCase()})`);
+    logger.debug(`🔐 PayPal: usando credenziali dal DATABASE (${mode.toUpperCase()})`);
   } else {
     // Fallback ai Secrets
     const isProduction = process.env.PAYMENT_MODE === 'production';
@@ -148,7 +149,7 @@ const getPayPalClient = async () => {
       ? process.env.PAYPAL_CLIENT_SECRET_LIVE 
       : process.env.PAYPAL_CLIENT_SECRET;
     mode = isProduction ? 'live' : 'sandbox';
-    console.log(`🔐 PayPal: usando credenziali da Secrets (fallback) - ${mode.toUpperCase()}`);
+    logger.debug(`🔐 PayPal: usando credenziali da Secrets (fallback) - ${mode.toUpperCase()}`);
   }
   
   if (!clientId || !clientSecret) {
@@ -463,12 +464,12 @@ export class PaymentService {
     orderId: string
   ): Promise<{success: boolean, message?: string, userId?: number}> {
     try {
-      console.log(`📦 [PAYPAL PUBLIC] Finalizzazione abbonamento con token: ${orderId}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Finalizzazione abbonamento con token: ${orderId}`);
       
       // Trova l'abbonamento nel database tramite PayPal Order ID
       const subscription = await storage.getSubscriptionByPayPalOrderId(orderId);
       if (!subscription) {
-        console.log(`📦 [PAYPAL PUBLIC] Abbonamento non trovato per token: ${orderId}`);
+        logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento non trovato per token: ${orderId}`);
         return {
           success: false,
           message: 'Abbonamento non trovato per questo ordine PayPal'
@@ -476,11 +477,11 @@ export class PaymentService {
       }
       
       const userId = subscription.userId;
-      console.log(`📦 [PAYPAL PUBLIC] Abbonamento trovato: ID ${subscription.id}, User ${userId}, Status: ${subscription.status}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento trovato: ID ${subscription.id}, User ${userId}, Status: ${subscription.status}`);
       
       // Se già attivo, non fare nulla
       if (subscription.status === 'active') {
-        console.log(`📦 [PAYPAL PUBLIC] Abbonamento già attivo, ritorno successo`);
+        logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento già attivo, ritorno successo`);
         return {
           success: true,
           userId
@@ -492,9 +493,9 @@ export class PaymentService {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
       
-      console.log(`📦 [PAYPAL PUBLIC] Invio richiesta di cattura a PayPal...`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Invio richiesta di cattura a PayPal...`);
       const response = await client.execute(request);
-      console.log(`📦 [PAYPAL PUBLIC] Risposta PayPal: ${response.statusCode}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Risposta PayPal: ${response.statusCode}`);
       
       if (response.statusCode !== 201) {
         return {
@@ -508,7 +509,7 @@ export class PaymentService {
         status: 'active'
       });
       
-      console.log(`📦 [PAYPAL PUBLIC] Abbonamento ${subscription.id} attivato con successo`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento ${subscription.id} attivato con successo`);
       
       // Crea/aggiorna la licenza dell'utente in base al piano pagato
       const licenseType = getLicenseTypeFromPlanName(subscription.plan.name);
@@ -532,7 +533,7 @@ export class PaymentService {
       
       await storage.createPaymentTransaction(transactionData);
       
-      console.log(`📦 [PAYPAL PUBLIC] Transazione registrata per utente ${userId}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Transazione registrata per utente ${userId}`);
       
       return {
         success: true,
@@ -809,7 +810,7 @@ export class PaymentService {
         const licenseType = getLicenseTypeFromPlanName(plan.name);
         const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
         await createOrUpdateLicense(userId, licenseType, licenseExpiry);
-        console.log(`✅ Licenza ${licenseType} attivata per utente ${userId}`);
+        logger.debug(`✅ Licenza ${licenseType} attivata per utente ${userId}`);
       }
       
       // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
@@ -944,27 +945,27 @@ export class PaymentService {
       // Verifica se l'utente è stato sponsorizzato da qualcuno
       const user = await storage.getUser(userId);
       if (!user || !user.referredBy) {
-        console.log(`ℹ️ Utente ${userId} non ha uno sponsor - nessuna commissione da creare`);
+        logger.debug(`ℹ️ Utente ${userId} non ha uno sponsor - nessuna commissione da creare`);
         return;
       }
 
       // Verifica se esiste già una commissione per questo abbonamento
       const existingCommission = await storage.getReferralCommissionsByReferred(userId);
       if (existingCommission) {
-        console.log(`⚠️ Commissione già esistente per utente ${userId} - skip`);
+        logger.debug(`⚠️ Commissione già esistente per utente ${userId} - skip`);
         return;
       }
 
       // Ottieni info piano per determinare se è annuale o mensile
       const subscription = await storage.getSubscription(subscriptionId);
       if (!subscription) {
-        console.log(`⚠️ Sottoscrizione ${subscriptionId} non trovata - commissione non creata`);
+        logger.debug(`⚠️ Sottoscrizione ${subscriptionId} non trovata - commissione non creata`);
         return;
       }
       
       const plan = await storage.getSubscriptionPlan(subscription.planId);
       if (!plan) {
-        console.log(`⚠️ Piano ${subscription.planId} non trovato - commissione non creata`);
+        logger.debug(`⚠️ Piano ${subscription.planId} non trovato - commissione non creata`);
         return;
       }
 
@@ -975,7 +976,7 @@ export class PaymentService {
       // Ottieni info sponsor
       const sponsor = await storage.getUser(user.referredBy);
       if (!sponsor) {
-        console.log(`⚠️ Sponsor ID ${user.referredBy} non trovato - commissione non creata`);
+        logger.debug(`⚠️ Sponsor ID ${user.referredBy} non trovato - commissione non creata`);
         return;
       }
 

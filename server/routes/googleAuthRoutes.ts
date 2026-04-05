@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { Router } from 'express';
 import { google } from 'googleapis';
 import { isAuthenticated } from '../auth';
@@ -98,7 +99,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
       return res.status(401).json({ success: false, error: 'Utente non autenticato' });
     }
     
-    console.log(`🔄 [REVOKE] Revoca token Google per utente ${userId}`);
+    logger.debug(`🔄 [REVOKE] Revoca token Google per utente ${userId}`);
     
     // Recupera il token esistente
     const [user] = await db.select({ googleAuthToken: users.googleAuthToken })
@@ -120,13 +121,13 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: `token=${tokens.access_token}`
             });
-            console.log(`✅ [REVOKE] Token revocato su Google per utente ${userId}`);
+            logger.debug(`✅ [REVOKE] Token revocato su Google per utente ${userId}`);
           } catch (revokeError) {
-            console.log(`⚠️ [REVOKE] Impossibile revocare su Google (normale se token scaduto):`, revokeError);
+            logger.debug(`⚠️ [REVOKE] Impossibile revocare su Google (normale se token scaduto):`, revokeError);
           }
         }
       } catch (decryptError) {
-        console.log(`⚠️ [REVOKE] Token non decodificabile, procedo con cancellazione`);
+        logger.debug(`⚠️ [REVOKE] Token non decodificabile, procedo con cancellazione`);
       }
     }
     
@@ -139,7 +140,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
       })
       .where(eq(users.id, userId));
     
-    console.log(`✅ [REVOKE] Token cancellato dal database per utente ${userId}`);
+    logger.debug(`✅ [REVOKE] Token cancellato dal database per utente ${userId}`);
     
     res.json({ success: true, message: 'Token revocato con successo' });
   } catch (error) {
@@ -1419,7 +1420,7 @@ router.get('/contacts/callback', async (req, res) => {
       .set({ googleContactsToken: encryptedToken })
       .where(eq(users.id, userId));
 
-    console.log(`✅ [CONTACTS AUTH] Token contatti salvato per utente ${userId}`);
+    logger.debug(`✅ [CONTACTS AUTH] Token contatti salvato per utente ${userId}`);
 
     // Redirect alla pagina clienti con messaggio di successo
     res.send(`
@@ -1778,7 +1779,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
           newUniqueCode = await generateClientCode(userId);
         } catch (error: any) {
           if (error.message && error.message.includes('Codice professionista non trovato')) {
-            console.log(`⚠️ Contatto importato senza newUniqueCode (professionista senza assignmentCode)`);
+            logger.debug(`⚠️ Contatto importato senza newUniqueCode (professionista senza assignmentCode)`);
           } else {
             throw error;
           }
@@ -1795,7 +1796,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         
         await storage.updateClient(newClient.id, updateData);
         
-        console.log(`✅ Contatto importato: ${contact.firstName} ${contact.lastName} - Codice: ${newUniqueCode || legacyUniqueCode}`);
+        logger.debug(`✅ Contatto importato: ${contact.firstName} ${contact.lastName} - Codice: ${newUniqueCode || legacyUniqueCode}`);
         imported++;
 
         // Aggiungi alle liste per evitare duplicati nel batch corrente

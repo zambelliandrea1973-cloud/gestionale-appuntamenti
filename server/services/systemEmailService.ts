@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import nodemailer from 'nodemailer';
 import { getEmailConfig } from '../utils/emailConfig';
 import { db } from '../db';
@@ -18,20 +19,20 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
       return null;
     }
 
-    console.log(`📧 [SYSTEM EMAIL] Trovati ${admins.length} admin, cercando quello con SMTP configurato...`);
+    logger.debug(`📧 [SYSTEM EMAIL] Trovati ${admins.length} admin, cercando quello con SMTP configurato...`);
 
     const { userSettings } = await import('../../shared/schema');
 
     for (const admin of admins) {
-      console.log(`📧 [SYSTEM EMAIL] Verifico admin ID ${admin.id} (${admin.username})...`);
+      logger.debug(`📧 [SYSTEM EMAIL] Verifico admin ID ${admin.id} (${admin.username})...`);
 
       const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, admin.id)).limit(1);
 
       if (settings?.smtpEnabled && settings?.smtpEmail && settings?.smtpPasswordEncrypted) {
-        console.log(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} ha SMTP configurato nel DB`);
+        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} ha SMTP configurato nel DB`);
         const config = await getEmailConfig(admin.id);
         if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
-          console.log(`📧 [SYSTEM EMAIL] Usando config admin ID ${admin.id}: ${config.emailAddress}`);
+          logger.debug(`📧 [SYSTEM EMAIL] Usando config admin ID ${admin.id}: ${config.emailAddress}`);
           const transporter = nodemailer.createTransport({
             host: config.smtpServer || 'smtp.gmail.com',
             port: config.smtpPort || 587,
@@ -44,14 +45,14 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
           return { transporter, senderEmail: config.emailAddress };
         }
       } else {
-        console.log(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} NON ha SMTP nel DB, salto`);
+        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} NON ha SMTP nel DB, salto`);
       }
     }
 
-    console.log(`📧 [SYSTEM EMAIL] Nessun admin con SMTP nel DB, provo fallback...`);
+    logger.debug(`📧 [SYSTEM EMAIL] Nessun admin con SMTP nel DB, provo fallback...`);
     const config = await getEmailConfig(admins[0].id);
     if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
-      console.log(`📧 [SYSTEM EMAIL] Fallback config primo admin: ${config.emailAddress}`);
+      logger.debug(`📧 [SYSTEM EMAIL] Fallback config primo admin: ${config.emailAddress}`);
       const transporter = nodemailer.createTransport({
         host: config.smtpServer || 'smtp.gmail.com',
         port: config.smtpPort || 587,
@@ -67,7 +68,7 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
     const systemPassword = process.env.SYSTEM_EMAIL_PASSWORD;
     if (systemPassword) {
       const systemEmail = 'zambelli.andrea.1973@gmail.com';
-      console.log(`📧 [SYSTEM EMAIL] Ultimo fallback: SYSTEM_EMAIL_PASSWORD con ${systemEmail}`);
+      logger.debug(`📧 [SYSTEM EMAIL] Ultimo fallback: SYSTEM_EMAIL_PASSWORD con ${systemEmail}`);
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -102,7 +103,7 @@ export async function sendSystemEmail(to: string, subject: string, html: string,
       html,
       ...(text ? { text } : {}),
     });
-    console.log(`📧 [SYSTEM EMAIL] Email inviata a ${to} da ${system.senderEmail}`);
+    logger.debug(`📧 [SYSTEM EMAIL] Email inviata a ${to} da ${system.senderEmail}`);
     return { success: true, senderEmail: system.senderEmail };
   } catch (error: any) {
     console.error(`📧 [SYSTEM EMAIL] Errore invio a ${to}:`, error.message);

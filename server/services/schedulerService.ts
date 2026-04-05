@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import cron from 'node-cron';
 import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
@@ -27,7 +28,7 @@ export const schedulerService = {
       try {
         // Elabora i promemoria per gli appuntamenti delle prossime 30 ore
         const sentCount = await notificationService.processReminders();
-        if (isVerbose || sentCount > 0) console.log(`✅ Job completato: inviati ${sentCount} promemoria`);
+        if (isVerbose || sentCount > 0) logger.debug(`✅ Job completato: inviati ${sentCount} promemoria`);
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di promemoria:', error);
       }
@@ -39,7 +40,7 @@ export const schedulerService = {
       try {
         if (isVerbose) console.log('🚀 Esecuzione immediata del job di promemoria all\'avvio del server');
         const sentCount = await notificationService.processReminders();
-        if (isVerbose || sentCount > 0) console.log(`✅ Job iniziale completato: inviati ${sentCount} promemoria`);
+        if (isVerbose || sentCount > 0) logger.debug(`✅ Job iniziale completato: inviati ${sentCount} promemoria`);
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione iniziale del job di promemoria:', error);
       }
@@ -63,7 +64,7 @@ export const schedulerService = {
       try {
         const result = await PayPalPayoutService.processScheduledPayouts();
         if (isVerbose || result.processed > 0 || result.failed > 0) {
-          console.log(`💰 Job payout completato: ${result.processed} processati, ${result.failed} falliti`);
+          logger.debug(`💰 Job payout completato: ${result.processed} processati, ${result.failed} falliti`);
         }
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di payout:', error);
@@ -100,7 +101,7 @@ export const schedulerService = {
         }
         
         if (deletedCampaigns.length > 0) {
-          console.log(`📋 Campagne eliminate: ${deletedCampaigns.map(c => c.title).join(', ')}`);
+          logger.debug(`📋 Campagne eliminate: ${deletedCampaigns.map(c => c.title).join(', ')}`);
         }
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di pulizia campagne:', error);
@@ -124,7 +125,7 @@ export const schedulerService = {
       try {
         const result = await trialNotificationService.processTrialNotifications();
         if (isVerbose || result.sent > 0 || result.failed > 0) {
-          console.log(`📧 Job notifiche trial completato: ${result.sent} inviate, ${result.failed} fallite`);
+          logger.debug(`📧 Job notifiche trial completato: ${result.sent} inviate, ${result.failed} fallite`);
         }
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di notifiche trial:', error);
@@ -173,7 +174,7 @@ export const schedulerService = {
             totalErrors += importResult.errors.length;
             
             if (importResult.imported > 0) {
-              console.log(`✅ [GOOGLE SYNC] Utente ${user.id}: importati ${importResult.imported} eventi da Google Calendar`);
+              logger.debug(`✅ [GOOGLE SYNC] Utente ${user.id}: importati ${importResult.imported} eventi da Google Calendar`);
             }
             
             // 2. Rileva eventi eliminati da Google e rimuovi dal gestionale
@@ -191,7 +192,7 @@ export const schedulerService = {
         }
         
         if (isVerbose || totalImported > 0 || totalDeleted > 0) {
-          console.log(`🔄 [GOOGLE SYNC] Completato: ${totalImported} importati, ${totalDeleted} eliminati, ${totalErrors} errori`);
+          logger.debug(`🔄 [GOOGLE SYNC] Completato: ${totalImported} importati, ${totalDeleted} eliminati, ${totalErrors} errori`);
         }
       } catch (error) {
         console.error('❌ [GOOGLE IMPORT] Errore nell\'esecuzione del job:', error);

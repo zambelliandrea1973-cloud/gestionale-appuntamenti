@@ -24254,6 +24254,30 @@
         "ownerId": 14,
         "createdAt": "2026-01-24T10:16:10.827Z"
       }
+    ],
+    [
+      36,
+      {
+        "id": 36,
+        "invoiceNumber": "ZAM0319-002/2026",
+        "clientId": 2,
+        "totalAmount": 20,
+        "date": "2026-04-05",
+        "dueDate": "2026-05-05",
+        "description": "",
+        "status": "sent",
+        "ownerId": 3,
+        "createdAt": "2026-04-05T17:49:59.054Z",
+        "emailHistory": [
+          {
+            "sentAt": "2026-04-05T17:50:28.503Z",
+            "recipientEmail": "zambelli.andrea.1973@gmail.com",
+            "subject": "Fattura ZAM0319-002/2026 - zambelli andrea",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. ZAM0319-002/2026 del Invalid Date.\n\nImporto totale: €20.00\n\nCordiali saluti,\nzambelli andrea",
+            "status": "sent"
+          }
+        ]
+      }
     ]
   ],
   "adminNotifications": [

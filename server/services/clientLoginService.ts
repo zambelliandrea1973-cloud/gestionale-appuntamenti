@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 /**
  * ClientLoginService - Servizio centralizzato per gestire l'autenticazione dei client
  * Fornisce funzionalità avanzate, supporto per autenticazione basata su token

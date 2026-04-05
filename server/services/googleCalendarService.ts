@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { calendar_v3, google } from 'googleapis';
 import type { Appointment, Client, Service as ServiceType } from '../../shared/schema';
 import { storage } from '../storage';

@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 /**
  * AutoRestartService - Servizio avanzato per il riavvio automatico dell'applicazione
  * Monitora l'applicazione e la riavvia automaticamente se rileva problemi

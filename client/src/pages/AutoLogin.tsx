@@ -38,18 +38,12 @@ export default function AutoLogin() {
 
         const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
           
-        // Recupera le credenziali salvate
-        const username = localStorage.getItem('clientUsername');
-        const password = localStorage.getItem('clientPassword');
         const token = urlToken || localStorage.getItem('clientAccessToken');
         const clientId = urlClientId || localStorage.getItem('clientId');
         
-        // Log dei dati che abbiamo (senza mostrare la password)
         console.log(`Auto-login - Dati disponibili: 
           isPWA: ${isPWA}, 
           isDuckDuckGo: ${isDuckDuckGo}, 
-          username: ${username ? 'sì' : 'no'}, 
-          password: ${password ? 'sì' : 'no'}, 
           token: ${token ? 'sì' : 'no'}, 
           clientId: ${clientId ? 'sì' : 'no'}`);
         

@@ -1,3 +1,4 @@
+import { logger } from './utils/logger';
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
@@ -52,10 +53,18 @@ export function setupAuth(app: Express) {
   const isReplit = process.env.REPL_ID !== undefined;
   const isSliplane = !isReplit && isProduction;
   
-  console.log(`🔐 [AUTH] Configurazione sessione: production=${isProduction}, replit=${isReplit}, sliplane=${isSliplane}`);
+  logger.debug(`🔐 [AUTH] Configurazione sessione: production=${isProduction}, replit=${isReplit}, sliplane=${isSliplane}`);
   
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || "secret-placeholder-change-in-production",
+    secret: (() => {
+      if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET;
+      if (isSliplane) {
+        console.error('❌ [AUTH] SESSION_SECRET mancante in produzione Sliplane!');
+        process.exit(1);
+      }
+      console.warn('⚠️ [AUTH] SESSION_SECRET non impostata, usando placeholder (NON SICURO IN PRODUZIONE)');
+      return "dev-only-placeholder-not-for-production";
+    })(),
     resave: false,
     saveUninitialized: false,
     store: storage.sessionStore,
@@ -71,7 +80,7 @@ export function setupAuth(app: Express) {
     name: 'session-id',
   };
   
-  console.log(`🔐 [AUTH] Cookie settings: secure=${sessionSettings.cookie?.secure}, sameSite=${sessionSettings.cookie?.sameSite}`);
+  logger.debug(`🔐 [AUTH] Cookie settings: secure=${sessionSettings.cookie?.secure}, sameSite=${sessionSettings.cookie?.sameSite}`);
 
   app.set("trust proxy", 1);
   app.use(session(sessionSettings));
@@ -270,9 +279,9 @@ export function setupAuth(app: Express) {
     const userAgent = req.headers['user-agent']?.substring(0, 100);
     const ip = req.ip || req.connection.remoteAddress;
     
-    console.log(`🔐 [LOGIN] Richiesta login staff: ${username}`);
-    console.log(`🔐 [LOGIN] IP: ${ip}, UserAgent: ${userAgent}`);
-    console.log(`🔐 [LOGIN] Headers: secure=${req.secure}, protocol=${req.protocol}`);
+    logger.debug(`🔐 [LOGIN] Richiesta login staff: ${username}`);
+    logger.debug(`🔐 [LOGIN] IP: ${ip}, UserAgent: ${userAgent}`);
+    logger.debug(`🔐 [LOGIN] Headers: secure=${req.secure}, protocol=${req.protocol}`);
     
     // PULIZIA FORZATA SESSIONE per evitare sovrapposizioni tra utenti staff
     req.logout((logoutErr) => {
@@ -295,9 +304,9 @@ export function setupAuth(app: Express) {
           }
           
           // Log della sessione dopo il login
-          console.log(`✅ [LOGIN] Login completato per: ${user.username} (ID: ${user.id}, tipo: ${user.type})`);
-          console.log(`🔐 [LOGIN] Session ID: ${req.sessionID}`);
-          console.log(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
+          logger.debug(`✅ [LOGIN] Login completato per: ${user.username} (ID: ${user.id}, tipo: ${user.type})`);
+          logger.debug(`🔐 [LOGIN] Session ID: ${req.sessionID}`);
+          logger.debug(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
           
           // Registra accesso nel tracciamento login
           db.insert(userLogins).values({
@@ -311,7 +320,7 @@ export function setupAuth(app: Express) {
             if (saveErr) {
               console.error(`❌ [LOGIN] Errore salvataggio sessione:`, saveErr);
             } else {
-              console.log(`✅ [LOGIN] Sessione salvata con successo per ${user.username}`);
+              logger.debug(`✅ [LOGIN] Sessione salvata con successo per ${user.username}`);
             }
             return res.status(200).json(user);
           });
@@ -674,11 +683,11 @@ export function setupAuth(app: Express) {
 
 // Middleware per verificare che l'utente sia autenticato
 export function isAuthenticated(req: any, res: any, next: any) {
-  console.log(`🔐 MIDDLEWARE isAuthenticated chiamato per ${req.method} ${req.path}`);
-  console.log(`🔐 req.isAuthenticated():`, req.isAuthenticated());
-  console.log(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
-  console.log(`🔐 Session ID:`, req.sessionID || 'No session ID');
-  console.log(`🔐 Cookies:`, req.headers.cookie || 'No cookies');
+  logger.debug(`🔐 MIDDLEWARE isAuthenticated chiamato per ${req.method} ${req.path}`);
+  logger.debug(`🔐 req.isAuthenticated():`, req.isAuthenticated());
+  logger.debug(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
+  logger.debug(`🔐 Session ID:`, req.sessionID || 'No session ID');
+  logger.debug(`🔐 Cookies:`, req.headers.cookie || 'No cookies');
   
   if (req.isAuthenticated()) {
     console.log('✅ Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);

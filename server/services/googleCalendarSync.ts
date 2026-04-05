@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { db } from '../db';
 import { users, appointments, googleCalendarEvents, clients, services, googleCalendarSyncTokens } from '../../shared/schema';
 import { eq, and, gte, lt } from 'drizzle-orm';
@@ -21,7 +22,7 @@ function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
       const merged = { ...tokens, ...newTokens };
       const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
       await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
-      console.log(`🔄 [OAUTH] Token refreshato e salvato per utente ${userId}`);
+      logger.debug(`🔄 [OAUTH] Token refreshato e salvato per utente ${userId}`);
     } catch (err) {
       console.error(`❌ [OAUTH] Errore salvataggio token refreshato per utente ${userId}:`, err);
     }
@@ -106,7 +107,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       let needsFullSync = !useSyncToken;
       
       if (useSyncToken) {
-        console.log(`⚡ [IMPORT] Sync incrementale per "${cal.summary}"`);
+        logger.debug(`⚡ [IMPORT] Sync incrementale per "${cal.summary}"`);
         isIncrementalSync = true;
         
         try {
@@ -160,7 +161,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         } catch (syncError: any) {
           // Token invalido (410) - necessario full sync
           if (syncError?.code === 410 || syncError?.response?.status === 410) {
-            console.log(`🔄 [IMPORT] SyncToken invalido per "${cal.summary}", eseguo full sync...`);
+            logger.debug(`🔄 [IMPORT] SyncToken invalido per "${cal.summary}", eseguo full sync...`);
             needsFullSync = true;
           } else {
             console.error(`❌ [IMPORT] Errore sync calendario ${cal.summary}:`, syncError);
@@ -244,9 +245,9 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     
     // Log tipo di sync eseguita
     if (isIncrementalSync) {
-      console.log(`⚡ [IMPORT] Sync incrementale completata: ${allEvents.length} modifiche da processare`);
+      logger.debug(`⚡ [IMPORT] Sync incrementale completata: ${allEvents.length} modifiche da processare`);
     } else {
-      console.log(`📋 [IMPORT] Full sync completata: ${allEvents.length} eventi da processare`);
+      logger.debug(`📋 [IMPORT] Full sync completata: ${allEvents.length} eventi da processare`);
     }
 
     if (allEvents.length === 0) {
@@ -254,7 +255,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       return result;
     }
 
-    console.log(`📋 [IMPORT] Trovati ${allEvents.length} eventi totali da processare`);
+    logger.debug(`📋 [IMPORT] Trovati ${allEvents.length} eventi totali da processare`);
 
     // ========== OTTIMIZZAZIONE: PRECARICAMENTO DATI IN MEMORIA ==========
     const preloadStart = Date.now();
@@ -351,7 +352,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       hour12: false
     });
     
-    console.log(`⚡ [IMPORT] Precaricamento completato in ${Date.now() - preloadStart}ms`);
+    logger.debug(`⚡ [IMPORT] Precaricamento completato in ${Date.now() - preloadStart}ms`);
     console.log(`   - Tracking: ${trackingByGoogleId.size}, Appuntamenti: ${allUserAppointments.length}, Clienti: ${allUserClients.length}`);
     
     // ========== FINE PRECARICAMENTO ==========

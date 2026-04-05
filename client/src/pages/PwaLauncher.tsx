@@ -30,7 +30,7 @@ export default function PwaLauncher() {
       clientUsername: localStorage.getItem('clientUsername'),
       clientId: localStorage.getItem('clientId'),
       clientAccessToken: localStorage.getItem('clientAccessToken'),
-      clientPassword: localStorage.getItem('clientPassword') ? '(password salvata)' : '(nessuna password salvata)'
+      hasToken: localStorage.getItem('clientAccessToken') ? 'sì' : 'no'
     };
     
     setStorageData(storedData);
@@ -164,7 +164,7 @@ export default function PwaLauncher() {
                     <p>username: {storageData.clientUsername || 'mancante'}</p>
                     <p>token: {storageData.clientAccessToken ? 'presente' : 'mancante'}</p>
                     <p>qrData: {storageData.qrData ? 'presente' : 'mancante'}</p>
-                    <p>password: {storageData.clientPassword}</p>
+                    <p>hasToken: {storageData.hasToken}</p>
                     
                     <Button 
                       variant="outline" 

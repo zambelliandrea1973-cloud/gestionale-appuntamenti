@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { Client } from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import { Server as SocketIOServer } from 'socket.io';

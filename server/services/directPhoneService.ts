@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 /**
  * Servizio per la gestione diretta dei numeri di telefono per l'invio di SMS
  * Questo approccio sostituisce l'accoppiamento tramite QR code
@@ -80,7 +81,7 @@ class DirectPhoneService {
       console.log(`Codice di verifica per ${phoneNumber}: ${verificationCode}`);
       
       // Invio immediato del codice via email usando il sistema configurato
-      console.log(`📧 Tentativo invio email codice di verifica per ${phoneNumber}: ${verificationCode}`);
+      logger.debug(`📧 Tentativo invio email codice di verifica per ${phoneNumber}: ${verificationCode}`);
       
       try {
         const nodemailer = await import('nodemailer');
@@ -124,7 +125,7 @@ class DirectPhoneService {
           `
         });
         
-        console.log(`📧 Email di verifica WhatsApp inviata con successo per ${phoneNumber}`);
+        logger.debug(`📧 Email di verifica WhatsApp inviata con successo per ${phoneNumber}`);
         
       } catch (emailError) {
         console.error('❌ Errore invio email di verifica WhatsApp:', emailError);

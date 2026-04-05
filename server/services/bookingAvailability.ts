@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import { db } from '../db';
 import { appointments, treatmentRooms } from '../../shared/schema';
 import { and, eq, gte, lte, or, lt, gt } from 'drizzle-orm';
@@ -164,13 +165,13 @@ export async function calculateAvailableSlots(
         
         // Limita a 5 slot per non sovraccaricare la UI
         if (candidates.length === 5) {
-          console.log(`✅ [AVAILABILITY] Trovati 5 slot, fermata ricerca`);
+          logger.debug(`✅ [AVAILABILITY] Trovati 5 slot, fermata ricerca`);
           break;
         }
       }
     }
     
-    console.log(`✅ [AVAILABILITY] ${candidates.length} slot disponibili trovati`);
+    logger.debug(`✅ [AVAILABILITY] ${candidates.length} slot disponibili trovati`);
     return candidates;
     
   } catch (error) {

@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 /**
  * AUTO GOOGLE CALENDAR SYNC
  * Helper per sincronizzare automaticamente gli appuntamenti con Google Calendar
@@ -72,7 +73,7 @@ function createCalendarClient(tokens: any, userId?: number) {
         const merged = { ...tokens, ...newTokens };
         const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
         await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
-        console.log(`🔄 [AUTO-SYNC] Token refreshato e salvato per utente ${userId}`);
+        logger.debug(`🔄 [AUTO-SYNC] Token refreshato e salvato per utente ${userId}`);
       } catch (err) {
         console.error(`❌ [AUTO-SYNC] Errore salvataggio token refreshato:`, err);
       }
@@ -113,7 +114,7 @@ export function triggerGoogleSync(action: SyncAction, appointment: AppointmentDa
         }
       }
       
-      console.log(`🔄 [AUTO-SYNC] ${action.toUpperCase()} appuntamento ${appointment.id} per utente ${appointment.userId}`);
+      logger.debug(`🔄 [AUTO-SYNC] ${action.toUpperCase()} appuntamento ${appointment.id} per utente ${appointment.userId}`);
       
       // Verifica se l'utente ha Google Calendar abilitato
       const { enabled, tokens, calendarId } = await getUserGoogleToken(appointment.userId);
@@ -204,7 +205,7 @@ async function createGoogleEvent(calendar: any, calendarId: string, appointment:
         });
       }
       
-      console.log(`✅ [AUTO-SYNC] Evento creato in Google Calendar: ${response.data.id}`);
+      logger.debug(`✅ [AUTO-SYNC] Evento creato in Google Calendar: ${response.data.id}`);
     }
   } catch (error) {
     console.error(`❌ [AUTO-SYNC] Errore creazione evento Google:`, error);
@@ -263,7 +264,7 @@ async function updateGoogleEvent(calendar: any, calendarId: string, appointment:
       .set({ lastSyncAt: new Date(), syncStatus: 'synced' })
       .where(eq(googleCalendarEvents.appointmentId, appointment.id));
 
-    console.log(`✅ [AUTO-SYNC] Evento aggiornato in Google Calendar: ${existing.googleEventId}`);
+    logger.debug(`✅ [AUTO-SYNC] Evento aggiornato in Google Calendar: ${existing.googleEventId}`);
   } catch (error) {
     console.error(`❌ [AUTO-SYNC] Errore aggiornamento evento Google:`, error);
     throw error;
@@ -295,7 +296,7 @@ async function deleteGoogleEvent(calendar: any, calendarId: string, appointment:
     await db.delete(googleCalendarEvents)
       .where(eq(googleCalendarEvents.appointmentId, appointment.id));
 
-    console.log(`✅ [AUTO-SYNC] Evento eliminato da Google Calendar: ${existing.googleEventId}`);
+    logger.debug(`✅ [AUTO-SYNC] Evento eliminato da Google Calendar: ${existing.googleEventId}`);
   } catch (error) {
     console.error(`❌ [AUTO-SYNC] Errore eliminazione evento Google:`, error);
     throw error;
