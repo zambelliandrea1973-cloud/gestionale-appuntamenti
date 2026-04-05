@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
 import { clients, licenses } from '../../shared/schema';
-import { eq, sql, count } from 'drizzle-orm';
+import { eq, sql, count, or, and, not } from 'drizzle-orm';
 import { generateClientCode as generateNewClientCode } from '../utils/clientCodeGenerator';
 import { migrateClientCodes } from '../scripts/migrate-client-codes';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
