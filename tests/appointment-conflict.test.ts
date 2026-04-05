@@ -69,4 +69,22 @@ describe('Appointment Conflict Detection', () => {
     const newAppt = { startTime: '10:00', endTime: '11:00', roomId: 1, staffId: null };
     expect(detectConflict(existing, newAppt)).toBe(true);
   });
+
+  it('detects conflict when same staff in different room (OR logic)', () => {
+    const existing = { startTime: '09:00', endTime: '10:00', roomId: 1, staffId: 5, status: 'scheduled' };
+    const newAppt = { startTime: '09:00', endTime: '10:00', roomId: 2, staffId: 5 };
+    expect(detectConflict(existing, newAppt)).toBe(true);
+  });
+
+  it('detects conflict when same room with different staff (OR logic)', () => {
+    const existing = { startTime: '09:00', endTime: '10:00', roomId: 1, staffId: 5, status: 'scheduled' };
+    const newAppt = { startTime: '09:00', endTime: '10:00', roomId: 1, staffId: 6 };
+    expect(detectConflict(existing, newAppt)).toBe(true);
+  });
+
+  it('allows overlap when both room and staff differ', () => {
+    const existing = { startTime: '09:00', endTime: '10:00', roomId: 1, staffId: 5, status: 'scheduled' };
+    const newAppt = { startTime: '09:00', endTime: '10:00', roomId: 2, staffId: 6 };
+    expect(detectConflict(existing, newAppt)).toBe(false);
+  });
 });

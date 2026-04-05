@@ -203,7 +203,7 @@ router.post("/api/appointments", async (req, res) => {
       
       const newAppointment = await db.transaction(async (tx) => {
         if (appointmentData.date && appointmentData.startTime && appointmentData.endTime) {
-          const conflictConditions = [
+          const timeOverlap = [
             eq(appointments.userId, user.id),
             eq(appointments.date, appointmentData.date),
             ne(appointments.status, 'cancelled'),
@@ -211,16 +211,26 @@ router.post("/api/appointments", async (req, res) => {
             gt(appointments.endTime, appointmentData.startTime)
           ];
           
+          const resourceConditions = [];
           if (appointmentData.roomId) {
-            conflictConditions.push(eq(appointments.roomId, appointmentData.roomId));
+            resourceConditions.push(eq(appointments.roomId, appointmentData.roomId));
           }
           if (appointmentData.staffId) {
-            conflictConditions.push(eq(appointments.staffId, appointmentData.staffId));
+            resourceConditions.push(eq(appointments.staffId, appointmentData.staffId));
+          }
+          
+          let conflictWhere;
+          if (resourceConditions.length > 1) {
+            conflictWhere = and(...timeOverlap, or(...resourceConditions));
+          } else if (resourceConditions.length === 1) {
+            conflictWhere = and(...timeOverlap, resourceConditions[0]);
+          } else {
+            conflictWhere = and(...timeOverlap);
           }
           
           const conflicts = await tx.select({ id: appointments.id })
             .from(appointments)
-            .where(and(...conflictConditions))
+            .where(conflictWhere)
             .limit(1);
           
           if (conflicts.length > 0) {
