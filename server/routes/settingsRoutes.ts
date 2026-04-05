@@ -2,7 +2,7 @@ import { logger } from '../utils/logger';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
-import { users, licenses, userIcons, companyNameSettings, userSettings as userSettingsTable } from '../../shared/schema';
+import { users, licenses, userIcons, companyNameSettings, userSettings as userSettingsTable, userLogins } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { requireAuth } from '../middleware/authMiddleware';
@@ -12,6 +12,8 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const userAccessLocks = new Map<number, number>();
 
 let defaultIconBase64 = '';
 try {
@@ -794,7 +796,7 @@ router.get("/api/client-app-info", async (req, res) => {
       });
     }
 
-    const dbIcon = await app.locals.storage.getUserIcon(targetUserId);
+    const dbIcon = await storage.getUserIcon(targetUserId);
     const storageIcon = storageData.userIcons[targetUserId];
     const hasCustom = !!(dbIcon || storageIcon);
     const userIcon = dbIcon || storageIcon || defaultIconBase64;
@@ -821,7 +823,7 @@ router.get("/api/client-app-info/:ownerId", async (req, res) => {
         return res.status(400).json({ error: "ID professionista non valido" });
       }
 
-      const dbIcon = await app.locals.storage.getUserIcon(ownerId);
+      const dbIcon = await storage.getUserIcon(ownerId);
       const storageIcon = storageData.userIcons[ownerId];
       const hasCustom = !!(dbIcon || storageIcon);
       const userIcon = dbIcon || storageIcon || defaultIconBase64;
@@ -867,7 +869,7 @@ router.post("/api/upload-app-icon", async (req, res) => {
       
       if (iconData !== undefined) {
         // 🚀 SOLUZIONE SLIPLANE: Salva icona nel database PostgreSQL (persiste su container Docker)
-        await app.locals.storage.saveUserIcon(userId, iconData);
+        await storage.saveUserIcon(userId, iconData);
         logger.debug(`✅ Icona salvata nel database PostgreSQL per utente ${userId} (${iconData.length} bytes)`);
         
         // Backward compatibility: salva anche in JSON per sistemi legacy
@@ -895,7 +897,7 @@ router.post("/api/reset-app-icon", async (req, res) => {
     const userId = req.user.id;
     
     // 🚀 SOLUZIONE SLIPLANE: Salva icona default nel database PostgreSQL
-    await app.locals.storage.saveUserIcon(userId, defaultIconBase64);
+    await storage.saveUserIcon(userId, defaultIconBase64);
     logger.debug(`✅ Reset icona a Fleur de Vie nel database PostgreSQL per utente ${userId}`);
     
     // Backward compatibility: salva anche in JSON
@@ -961,7 +963,7 @@ router.post("/api/sync-pwa-icons", async (req, res) => {
     }
 
     const userId = req.user.id;
-    const dbIcon = await app.locals.storage.getUserIcon(userId);
+    const dbIcon = await storage.getUserIcon(userId);
     const userIcon = dbIcon || storageData.userIcons[userId] || defaultIconBase64;
     
     updatePWAIconsFromCompanyLogo(userId, userIcon);

@@ -218,7 +218,7 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
       logger.debug(`🔍 PWA ICON OWNER: Richiesta icona per proprietario ${ownerId}, dimensione ${size}`);
       
       // Recupera l'icona del professionista specifico dal database
-      const dbIcon = await app.locals.storage.getUserIcon(ownerId);
+      const dbIcon = await storage.getUserIcon(ownerId);
       const userIcon = dbIcon || storageData.userIcons[ownerId];
       
       if (userIcon) {
@@ -301,7 +301,7 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
       }
       
       // Recupera l'icona del professionista dal database
-      const dbIcon = ownerUserId ? await app.locals.storage.getUserIcon(ownerUserId) : null;
+      const dbIcon = ownerUserId ? await storage.getUserIcon(ownerUserId) : null;
       const userIcon = dbIcon || (ownerUserId ? storageData.userIcons[ownerUserId] : null);
       
       if (!userIcon) {
@@ -361,7 +361,7 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
       }
       
       // Recupera l'icona del professionista dal database
-      const dbIconOwner = await app.locals.storage.getUserIcon(ownerId);
+      const dbIconOwner = await storage.getUserIcon(ownerId);
       const userIcon = dbIconOwner || storageData.userIcons[ownerId];
       
       if (userIcon && userIcon.startsWith('data:image/')) {
