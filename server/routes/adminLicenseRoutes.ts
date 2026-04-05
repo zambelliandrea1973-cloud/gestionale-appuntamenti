@@ -8,7 +8,7 @@ import { isAdmin } from '../auth';
 import { licenseService, LicenseType } from '../services/licenseService';
 import { db } from '../db';
 import { users, licenses, subscriptions, subscriptionPlans, userLogins } from '../../shared/schema';
-import { eq, desc, sql, gte, and, count, ne, notInArray } from 'drizzle-orm';
+import { eq, desc, sql, gte, and, count, ne, notInArray, inArray } from 'drizzle-orm';
 
 const router = express.Router();
 
