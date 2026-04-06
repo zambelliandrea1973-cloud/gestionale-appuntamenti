@@ -36,3 +36,9 @@ id = "P95mpBq-YkVkz75ANVtU9"
 uri = "file://programma-aggiornato.zip"
 type = "unspecified"
 title = "Programma aggiornato - Solo sorgenti"
+
+[[outputs]]
+id = "z-BhfOn5DGyHcjmDm80dk"
+uri = "file://gestionale-appuntamenti-source.zip"
+type = "unspecified"
+title = "Codice sorgente corretto - Gestionale Appuntamenti"
