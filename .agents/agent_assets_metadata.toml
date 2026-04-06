@@ -30,3 +30,9 @@ id = "ROFvtrPKpk-9ob_fdX0rQ"
 uri = "file://gestionale-appuntamenti-sliplane.zip"
 type = "unspecified"
 title = "Gestionale Appuntamenti - Codice sorgente pulito (ZIP)"
+
+[[outputs]]
+id = "P95mpBq-YkVkz75ANVtU9"
+uri = "file://programma-aggiornato.zip"
+type = "unspecified"
+title = "Programma aggiornato - Solo sorgenti"
