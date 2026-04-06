@@ -86,14 +86,15 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support, bidirectional sync.
 - **Database Synchronization**: Real-time sync between development and production environments.
 
-### File Upload Migration to PostgreSQL (completato 06/04/2026)
-- **Migrazione completata**: Tutti gli upload di file da disco locale (multer diskStorage) a PostgreSQL (base64 in tabella `file_uploads`)
-- **Tabella**: `file_uploads` con colonne: id, user_id, category, filename, mime_type, size, data (base64), metadata (JSON), created_at
-- **Servizio centralizzato**: `server/services/fileStorageService.ts` — saveFile, getFile, deleteFile, getFilesByCategory
+### File Upload Migration to Cloudflare R2 (completato 06/04/2026)
+- **Object storage**: File salvati su Cloudflare R2 (S3-compatible), DB tiene solo metadati + riferimento `r2://key`
+- **Fallback**: Se R2 non configurato, fallback automatico a base64 in PostgreSQL
+- **Tabella**: `file_uploads` con colonne: id, user_id, category, filename, mime_type, size, data (r2://key o base64), metadata (JSON), created_at
+- **Servizio centralizzato**: `server/services/fileStorageService.ts` — saveFile, getFile, deleteFile, getFilesByCategory (R2 + fallback DB)
 - **Route servizio file**: `server/routes/fileRoutes.ts` — GET `/api/files/:id/:filename` con cache immutabile
-- **File aggiornati**: `clientNoteRoutes.ts`, `inventory-routes.ts`, `promotionRoutes.ts`, `manualRoutes.ts` — tutti convertiti a memoryStorage + DB
-- **Retrocompatibilità**: `express.static('/uploads')` rimane in `server/index.ts` per servire file caricati prima della migrazione
-- **Limite file manuale**: ridotto da 1GB a 50MB (ragionevole per storage DB)
+- **File aggiornati**: `clientNoteRoutes.ts`, `inventory-routes.ts`, `promotionRoutes.ts`, `manualRoutes.ts` — tutti convertiti a memoryStorage + R2
+- **Retrocompatibilità**: `express.static('/uploads')` rimane per file pre-migrazione
+- **Env vars R2**: `R2_ENDPOINT`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
 - **Categorie file**: `client-notes`, `products`, `promotions`, `manual`
 
 ### Route Modularization (completato 05/04/2026)
