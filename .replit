@@ -57,6 +57,8 @@ EMERGENCY_RESTART_KEY = "gironico-restart-2025"
 
 [userenv.shared]
 VITE_VAPID_PUBLIC_KEY = "BHxKOz4CSNfVOd63lBcf1kzFHtyIPoXy3FeHLCrTbqK_JTWhamHMS3XZ2kx9_RKtRLs4gjP6waBiBP0W5agntrs"
+R2_ENDPOINT = "https://59728c7f517a3f3119bad45f267b189b.r2.cloudflarestorage.com"
+R2_BUCKET_NAME = "gestionale-files"
 
 [postMerge]
 path = "scripts/post-merge.sh"
