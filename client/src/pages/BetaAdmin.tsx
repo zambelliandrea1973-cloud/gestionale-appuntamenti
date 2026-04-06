@@ -477,7 +477,7 @@ export default function BetaAdmin() {
     // Aggiorna anche il valore nella variabile di stato per mantenerlo sincronizzato
     setAdminPassword(newPassword);
     
-    console.log('Password amministrativa aggiornata e salvata in localStorage');
+    console.log('Password amministrativa aggiornata');
     
     toast({
       title: 'Password aggiornata',
