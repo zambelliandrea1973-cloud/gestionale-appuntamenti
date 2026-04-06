@@ -1,0 +1,288 @@
+Esegui un AUDIT COMPLETO del progetto senza modificare alcun file.
+
+OBIETTIVO
+Verificare se il gestionale è pronto per pubblicazione e uso stabile.
+NON fare modifiche. SOLO ANALISI.
+
+OUTPUT
+Restituisci un report strutturato con:
+- stato: OK / FAIL / WARNING
+- file coinvolti
+- breve spiegazione tecnica
+
+---
+
+# 🔴 P0 — BLOCCANTI
+
+## 1. COMPILAZIONE TYPESCRIPT
+- Esegui typecheck (es. tsc o npm run check)
+- Stato:
+  - OK = nessun errore
+  - FAIL = errori presenti
+- Riporta:
+  - file
+  - riga
+  - tipo errore
+
+---
+
+## 2. SECRETS HARDCODED
+Cerca nel codice:
+- gironico
+- EF2025Admin
+- restart-2025
+- qualsiasi password/token in chiaro
+
+Output:
+- OK = nessun secret hardcoded
+- FAIL = presenti (elenca file + righe)
+
+---
+
+## 3. AUTH ADMIN IN LOCALSTORAGE
+Cerca:
+- betaAdminPassword
+- betaAdminAuthenticated
+- qualsiasi auth admin salvata in localStorage
+
+Output:
+- OK = nessun uso
+- FAIL = presente (elenca file)
+
+---
+
+## 4. DUPLICAZIONE ENCRYPTION
+Verifica:
+- presenza di più moduli encryption
+- uso di:
+  - server/services/encryption.ts
+  - server/utils/encryption.ts
+
+Output:
+- OK = un solo sistema
+- WARNING = più sistemi
+- FAIL = conflitto evidente
+
+---
+
+## 5. TEST AUTOMATICI
+Verifica:
+- presenza test reali (non file dummy)
+- copertura almeno su:
+  - login
+  - appuntamenti
+  - PWA
+
+Output:
+- OK = presenti
+- WARNING = pochi/parziali
+- FAIL = assenti
+
+---
+
+# 🟠 P1 — SICUREZZA E STABILITÀ
+
+## 6. TOKEN IN QUERY STRING
+Cerca:
+- ?token=
+- simple-login
+
+Output:
+- OK = nessun token in URL
+- FAIL = presenti
+
+---
+
+## 7. LOGGING BODY API
+Verifica:
+- override res.json
+- logging JSON response
+
+Output:
+- OK = assente
+- WARNING = limitato
+- FAIL = logging completo
+
+---
+
+## 8. BYPASS AUTH
+Cerca:
+- x-bypass-auth
+
+Output:
+- OK = assente
+- WARNING = presente ma limitato
+- FAIL = usato attivamente
+
+---
+
+## 9. ROUTE SENSIBILI
+Controlla:
+- adminRoutes
+- paymentRoutes
+- licenseRoutes
+
+Verifica:
+- autenticazione server-side reale
+
+Output:
+- OK = protette
+- WARNING = parziale
+- FAIL = accesso debole
+
+---
+
+## 10. SCHEDULER / TIMER
+Cerca:
+- node-cron
+- setInterval
+- setTimeout
+
+Output:
+- OK = controllati
+- WARNING = multipli
+- FAIL = rischio duplicazione
+
+---
+
+## 11. FILE GRANDI
+Segnala file > 1000 righe:
+- routes
+- storage
+- services
+
+Output:
+- elenco file + dimensione
+
+---
+
+# 🟡 P2 — QUALITÀ
+
+## 12. CONSOLE.LOG
+Conta occorrenze console.*
+
+Output:
+- numero totale
+- OK (<200)
+- WARNING (200–1000)
+- FAIL (>1000)
+
+---
+
+## 13. ANY TYPES
+Conta uso "any"
+
+Output:
+- numero totale
+- OK (<100)
+- WARNING (100–500)
+- FAIL (>500)
+
+---
+
+## 14. FILE LEGACY
+Cerca:
+- backup
+- fix
+- old
+- migrate
+- test script
+
+Output:
+- elenco file sospetti
+
+---
+
+# 🟢 P3 — ROBUSTEZZA
+
+## 15. BACKUP / RECOVERY
+Verifica presenza:
+- script backup
+- log cancellazioni
+- soft delete
+
+Output:
+- OK / WARNING / FAIL
+
+---
+
+## 16. JOB ASINCRONI
+Verifica:
+- email
+- notifiche
+- sync
+
+Output:
+- OK = separati
+- WARNING = misti
+- FAIL = bloccanti request
+
+---
+
+# 📱 GOOGLE PLAY CHECK
+
+## 17. SECRET NEL CLIENT
+Verifica frontend:
+- API keys
+- token
+- credenziali
+
+Output:
+- OK = nessuno
+- FAIL = presenti
+
+---
+
+## 18. LOCALSTORAGE SICURO
+Verifica:
+- assenza password
+- solo token
+
+Output:
+- OK / FAIL
+
+---
+
+## 19. AUTH FLOW
+Verifica:
+- login
+- logout
+- auto-login PWA
+
+Output:
+- OK / WARNING / FAIL
+
+---
+
+## 20. PERMESSI
+Verifica:
+- cliente non accede admin
+- staff limitato
+- admin protetto
+
+Output:
+- OK / WARNING / FAIL
+
+---
+
+# OUTPUT FINALE
+
+Restituisci:
+
+1. Tabella riassuntiva:
+   - P0 / P1 / P2 / P3
+   - numero OK / WARNING / FAIL
+
+2. Elenco FAIL (priorità alta)
+
+3. Elenco WARNING
+
+4. Valutazione finale:
+   - NON PRONTO
+   - QUASI PRONTO
+   - PRONTO
+
+IMPORTANTE:
+- NON modificare file
+- NON proporre fix
+- SOLO analisi oggettiva
