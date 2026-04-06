@@ -656,9 +656,10 @@ export function setupAuth(app: Express) {
         return res.status(400).send("Account non valido per il cambio password");
       }
 
-      // Verifica che la password attuale sia corretta (o sia "gironico" per transizione)
+      const devAdminPw = process.env.DEV_ADMIN_PASSWORD;
+      const isProd = process.env.NODE_ENV === 'production';
       const isCurrentPasswordValid = await comparePasswords(currentPassword, dbUser.password) || 
-                                   currentPassword === "gironico";
+                                   (!isProd && devAdminPw && currentPassword === devAdminPw);
       
       if (!isCurrentPasswordValid) {
         return res.status(400).send("Password attuale non corretta");

@@ -398,37 +398,32 @@ export default function BetaAdmin() {
     updateFeedbackStatusMutation.mutate({ id, status });
   };
   
-  // Password amministrativa iniziale (verrà caricata dal localStorage se è stata cambiata)
-  const DEFAULT_ADMIN_PASSWORD = 'gironico';
-  
-  // Carica la password corrente dal localStorage o usa quella predefinita
   const getCurrentPassword = () => {
-    const savedPassword = localStorage.getItem('betaAdminPassword');
-    return savedPassword || DEFAULT_ADMIN_PASSWORD;
+    return sessionStorage.getItem('betaAdminPassword') || '';
   };
   
-  const handleAdminLogin = (e: React.FormEvent) => {
+  const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Tentativo di login amministrativo con password: ***');
+    
+    if (!adminPassword) {
+      toast({ title: 'Password richiesta', variant: 'destructive' });
+      return;
+    }
     
     try {
-      if (adminPassword === getCurrentPassword() || adminPassword === 'gironico' || adminPassword === 'EF2025Admin') {
+      const response = await fetch('/api/beta/invitations', {
+        method: 'GET',
+        headers: {
+          'X-Beta-Admin-Token': adminPassword,
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok || response.status !== 401) {
         setIsAuthenticated(true);
-        
-        // Salva la password inserita in modalità doppia
-        const passwordToSave = adminPassword;
-        sessionStorage.setItem('betaAdminPassword', passwordToSave);
-        localStorage.setItem('betaAdminPassword', passwordToSave);
-        
-        // Salva lo stato di autenticazione sia nella sessione che in localStorage
-        // per mantenerlo durante la navigazione e tra sessioni diverse
+        sessionStorage.setItem('betaAdminPassword', adminPassword);
         sessionStorage.setItem('betaAdminAuthenticated', 'true');
-        localStorage.setItem('betaAdminAuthenticated', 'true');
-        
-        // Imposta un attributo nel documento per consentire al server di determinare lo stato di autenticazione
         document.documentElement.setAttribute('data-beta-admin-auth', 'true');
-        
-        console.log('Login effettuato con successo, stato salvato in tutti gli storage');
         
         toast({
           title: 'Accesso effettuato',
@@ -436,12 +431,10 @@ export default function BetaAdmin() {
           variant: 'default',
         });
         
-        // Aggiorna la pagina per assicurarsi che tutti i token siano stati riconosciuti
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       } else {
-        console.log('Login fallito: password non corretta');
         toast({
           title: 'Accesso negato',
           description: 'La password inserita non è corretta.',
@@ -479,8 +472,7 @@ export default function BetaAdmin() {
       return;
     }
     
-    // Salva la nuova password nel localStorage
-    localStorage.setItem('betaAdminPassword', newPassword);
+    sessionStorage.setItem('betaAdminPassword', newPassword);
     
     // Aggiorna anche il valore nella variabile di stato per mantenerlo sincronizzato
     setAdminPassword(newPassword);
@@ -503,35 +495,15 @@ export default function BetaAdmin() {
   useEffect(() => {
     console.log('Verifica autenticazione BetaAdmin all\'avvio');
     try {
-      // Verifica se c'è già un'autenticazione valida nella sessione o localStorage
       const isAuthenticatedFromSession = sessionStorage.getItem('betaAdminAuthenticated') === 'true';
-      const isAuthenticatedFromLocalStorage = localStorage.getItem('betaAdminAuthenticated') === 'true';
       
-      // Imposta la password al valore memorizzato in localStorage o alla password predefinita
-      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
-      setAdminPassword(savedPassword);
+      const savedPassword = sessionStorage.getItem('betaAdminPassword') || '';
+      if (savedPassword) {
+        setAdminPassword(savedPassword);
+      }
       
-      // Log dettagliato per debug
-      console.log('Stato autenticazione iniziale:', {
-        isAuthenticatedFromSession,
-        isAuthenticatedFromLocalStorage,
-        savedPassword: savedPassword ? '***' : undefined
-      });
-      
-      // Se l'utente è già autenticato (da sessionStorage o localStorage), imposta lo stato
-      if (isAuthenticatedFromSession || isAuthenticatedFromLocalStorage) {
+      if (isAuthenticatedFromSession && savedPassword) {
         setIsAuthenticated(true);
-        console.log('Utente già autenticato, ripristinata password da storage');
-        
-        // Sincronizza lo stato di autenticazione tra storage per assicurare consistenza
-        sessionStorage.setItem('betaAdminAuthenticated', 'true');
-        localStorage.setItem('betaAdminAuthenticated', 'true');
-        
-        // Assicurati che la password sia memorizzata in entrambi gli storage
-        sessionStorage.setItem('betaAdminPassword', savedPassword);
-        localStorage.setItem('betaAdminPassword', savedPassword);
-        
-        // Imposta un attributo nel documento per consentire al server di determinare lo stato di autenticazione
         document.documentElement.setAttribute('data-beta-admin-auth', 'true');
       } else {
         console.log('Nessuna autenticazione trovata, necessario login');
@@ -934,7 +906,7 @@ export default function BetaAdmin() {
                   </form>
                 ) : (
                   <div className="text-center py-4">
-                    <p>La password attuale è sicura. <span className="text-sm text-gray-500">Ultima modifica: {localStorage.getItem('betaAdminPassword') ? 'di recente' : 'mai'}</span></p>
+                    <p>La password attuale è sicura. <span className="text-sm text-gray-500">Ultima modifica: {sessionStorage.getItem('betaAdminPassword') ? 'sessione attiva' : 'non impostata'}</span></p>
                   </div>
                 )}
               </CardContent>

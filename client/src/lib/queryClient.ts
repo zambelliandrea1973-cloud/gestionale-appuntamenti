@@ -43,12 +43,9 @@ function buildDeviceHeaders(options?: { withBetaAdminToken?: boolean }): Record<
   
   // Se richiesto, aggiungi token beta admin
   if (options?.withBetaAdminToken) {
-    const savedPassword = localStorage.getItem('betaAdminPassword') || 
-                         sessionStorage.getItem('betaAdminPassword') || 
-                         '';
+    const savedPassword = sessionStorage.getItem('betaAdminPassword') || '';
     headers["X-Beta-Admin-Token"] = savedPassword;
     headers["Authorization"] = `Bearer ${savedPassword}`;
-    headers["X-Auth-Token"] = savedPassword;
   }
   
   return headers;

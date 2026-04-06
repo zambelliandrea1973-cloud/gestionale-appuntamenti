@@ -227,8 +227,9 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
   try {
     const { code, licenseType, password } = req.body;
     
-    // Verifica la password di amministrazione
-    if (password !== 'gironico') {
+    const devAdminPw = process.env.DEV_ADMIN_PASSWORD;
+    const isProduction = process.env.NODE_ENV === 'production';
+    if (isProduction || !devAdminPw || password !== devAdminPw) {
       return res.status(401).json({
         success: false,
         message: 'Password amministratore non valida'
@@ -289,8 +290,9 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
 // Middleware per verificare la password admin senza autenticazione
 function verifyAdminPassword(req: any, res: any, next: any) {
   const { password } = req.body;
-  
-  if (password !== 'gironico') {
+  const devAdminPw = process.env.DEV_ADMIN_PASSWORD;
+  const isProd = process.env.NODE_ENV === 'production';
+  if (isProd || !devAdminPw || password !== devAdminPw) {
     return res.status(401).json({
       success: false,
       message: 'Password amministratore non valida'

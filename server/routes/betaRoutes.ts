@@ -5,7 +5,8 @@ import { storage } from '../storage';
 
 const router = Router();
 
-const DEFAULT_BETA_ADMIN_PASSWORD = process.env.BETA_ADMIN_PASSWORD || 'gironico';
+const isProduction = process.env.NODE_ENV === 'production';
+const DEFAULT_BETA_ADMIN_PASSWORD = process.env.BETA_ADMIN_PASSWORD || (isProduction ? '' : '');
 
 // Middleware per l'autenticazione personalizzata per l'area beta
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +20,6 @@ const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
       bearerToken = authHeader.substring(7); // Rimuove "Bearer " dall'inizio
     }
     
-    console.log('Token di autenticazione ricevuti:', { adminToken, bearerToken });
     
     // Verifica se uno dei token è presente
     if (!adminToken && !bearerToken) {
@@ -29,11 +29,10 @@ const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
     
     // Verifica se uno dei token corrisponde a una password valida
     // Aggiunge supporto per password memorizzate nel localStorage
+    const secondaryPassword = process.env.BETA_ADMIN_PASSWORD_2 || (isProduction ? '' : '');
     const validToken = 
-      adminToken === DEFAULT_BETA_ADMIN_PASSWORD || 
-      adminToken === 'EF2025Admin' || 
-      bearerToken === DEFAULT_BETA_ADMIN_PASSWORD || 
-      bearerToken === 'EF2025Admin';
+      (DEFAULT_BETA_ADMIN_PASSWORD && (adminToken === DEFAULT_BETA_ADMIN_PASSWORD || bearerToken === DEFAULT_BETA_ADMIN_PASSWORD)) ||
+      (secondaryPassword && (adminToken === secondaryPassword || bearerToken === secondaryPassword));
     
     if (validToken) {
       console.log('Autenticazione admin beta riuscita con token standard');

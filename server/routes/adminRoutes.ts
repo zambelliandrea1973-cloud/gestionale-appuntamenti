@@ -6,32 +6,27 @@ import { generateRestartToken, isValidRestartToken, restartApplication } from '.
 
 export const adminRouter = Router();
 
-// Middleware per verificare se l'utente è autenticato come admin
+const isProduction = process.env.NODE_ENV === 'production';
+const DEV_ADMIN_PASSWORD = process.env.DEV_ADMIN_PASSWORD;
+
 function isAdmin(req: Request, res: Response, next: Function) {
-  // Verifica se l'utente è autenticato e ha ruolo admin
-  // Questa è una versione semplificata, dovresti adattarla al tuo sistema di autenticazione
   if (req.isAuthenticated && req.isAuthenticated()) {
-    // Assumiamo che l'utente autenticato sia admin
     return next();
   }
   
-  // Alternative per ambienti di test o sviluppo
-  // Verifica l'header di autenticazione personalizzato
-  const adminToken = req.headers['x-admin-token'];
-  
-  if (adminToken === 'gironico') {
-    return next();
-  }
-  
-  // Controlla se c'è un token in sessione o cookie
   const sessionAuth = req.session?.adminAuthenticated === true;
   if (sessionAuth) {
     return next();
   }
   
-  // Controlla il body per le richieste POST
-  if (req.method === 'POST' && req.body?.adminPassword === 'gironico') {
-    return next();
+  if (!isProduction && DEV_ADMIN_PASSWORD) {
+    const adminToken = req.headers['x-admin-token'];
+    if (adminToken === DEV_ADMIN_PASSWORD) {
+      return next();
+    }
+    if (req.method === 'POST' && req.body?.adminPassword === DEV_ADMIN_PASSWORD) {
+      return next();
+    }
   }
   
   return res.status(401).json({ success: false, message: 'Non autorizzato' });
@@ -92,15 +87,14 @@ adminRouter.post('/restart', async (req: Request, res: Response) => {
  * Può essere chiamato anche quando l'applicazione è quasi offline
  * Richiede una chiave di sicurezza fissa nel parametro "key"
  * 
- * Questo endpoint può essere chiamato con:
- * curl -X POST http://localhost:5000/api/admin/emergency-restart?key=gironico-restart-2025
+ * Questo endpoint può essere chiamato con una chiave configurata via env var EMERGENCY_RESTART_KEY
  */
 adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
   try {
     const { key } = req.query;
-    const EMERGENCY_RESTART_KEY = 'gironico-restart-2025';
+    const EMERGENCY_RESTART_KEY = process.env.EMERGENCY_RESTART_KEY;
     
-    if (!key || key !== EMERGENCY_RESTART_KEY) {
+    if (!EMERGENCY_RESTART_KEY || !key || key !== EMERGENCY_RESTART_KEY) {
       return res.status(401).json({ 
         success: false, 
         message: 'Chiave di riavvio d\'emergenza non valida' 
