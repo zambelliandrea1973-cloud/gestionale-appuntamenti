@@ -1,0 +1,45 @@
+Refused to apply style from 'https://gestionale-appuntamenti.sliplane.app/forced-style.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Comprendi l'errore
+gestionale-appuntamenti.sliplane.app/:1 Refused to execute script from 'https://gestionale-appuntamenti.sliplane.app/disable-vite-overlay.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.Comprendi l'errore
+VM47 gestionale-appuntamenti.sliplane.app:8 🚨 NUKE MODE: Unregistering ALL service workers...
+VM48 gestionale-appuntamenti.sliplane.app:10 PWA check - standalone mode: false
+VM48 gestionale-appuntamenti.sliplane.app:11 PWA check - iOS fullscreen: undefined
+VM48 gestionale-appuntamenti.sliplane.app:112 🚫 Service Worker registration DISABLED to prevent stale bundle caching
+VM47 gestionale-appuntamenti.sliplane.app:41 ✅ Service worker check complete, no reload needed
+index-DuJ63olo.js:1394 Fuso orario rilevato: Europe/Rome (Ora legale dell’Europa centrale), Offset: UTC+2
+index-DuJ63olo.js:733 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+manifest.json:1 Manifest: property 'scope' ignored. Start url should be within scope of scope URL.Comprendi l'avviso
+index-DuJ63olo.js:1394 Fuso orario diverso da quello salvato, aggiornamento...
+index-DuJ63olo.js:1394 Fuso orario aggiornato con successo
+index-DuJ63olo.js:733 🔍 Risposta user-with-license: 200 true
+index-DuJ63olo.js:733 🔍 Dati utente ricevuti FRESCHI: Object
+index-DuJ63olo.js:796 [MANIFEST INJECTOR] Inizializzazione: Object
+index-DuJ63olo.js:1060 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+index-DuJ63olo.js:1394 Stato autenticazione: Object
+index-DuJ63olo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DuJ63olo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DuJ63olo.js:48 Header x-device-type aggiunto: desktop
+index-DuJ63olo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DuJ63olo.js:40 ReferenceError: link is not defined
+    at vle (index-DuJ63olo.js:796:3323)
+    at index-DuJ63olo.js:796:4781
+    at Ob (index-DuJ63olo.js:40:24283)
+    at zu (index-DuJ63olo.js:40:42409)
+    at qJ (index-DuJ63olo.js:40:41231)
+    at Ec (index-DuJ63olo.js:40:40278)
+    at NT (index-DuJ63olo.js:40:36886)
+    at mc (index-DuJ63olo.js:38:3279)
+    at index-DuJ63olo.js:40:34263
+i1 @ index-DuJ63olo.js:40Comprendi l'errore
+index-DuJ63olo.js:38 Uncaught ReferenceError: link is not defined
+    at vle (index-DuJ63olo.js:796:3323)
+    at index-DuJ63olo.js:796:4781
+    at Ob (index-DuJ63olo.js:40:24283)
+    at zu (index-DuJ63olo.js:40:42409)
+    at qJ (index-DuJ63olo.js:40:41231)
+    at Ec (index-DuJ63olo.js:40:40278)
+    at NT (index-DuJ63olo.js:40:36886)
+    at mc (index-DuJ63olo.js:38:3279)
+    at index-DuJ63olo.js:40:34263Comprendi l'errore
+index-DuJ63olo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DuJ63olo.js:796 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+dashboard:1 Refused to apply style from 'https://gestionale-appuntamenti.sliplane.app/forced-style.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Comprendi l'errore

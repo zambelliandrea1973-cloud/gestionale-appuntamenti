@@ -13,7 +13,7 @@ function updateFavicon(ownerId: string | number) {
   const favicon32 = document.createElement('link');
   favicon32.rel = 'icon';
   favicon32.type = 'image/png';
-  favicon32(link as any).sizes = '32x32';
+  (favicon32 as any).sizes = '32x32';
   favicon32.href = faviconUrl;
   favicon32.id = 'dynamic-favicon-32';
   document.head.appendChild(favicon32);
@@ -21,7 +21,7 @@ function updateFavicon(ownerId: string | number) {
   const favicon96 = document.createElement('link');
   favicon96.rel = 'icon';
   favicon96.type = 'image/png';
-  favicon96(link as any).sizes = '96x96';
+  (favicon96 as any).sizes = '96x96';
   favicon96.href = largeIconUrl;
   favicon96.id = 'dynamic-favicon-96';
   document.head.appendChild(favicon96);
@@ -37,7 +37,7 @@ function updateFavicon(ownerId: string | number) {
 
   const appleIcon = document.createElement('link');
   appleIcon.rel = 'apple-touch-icon';
-  appleIcon(link as any).sizes = '192x192';
+  (appleIcon as any).sizes = '192x192';
   appleIcon.href = `/pwa-icon/192x192?owner=${ownerId}&ts=${Date.now()}`;
   appleIcon.id = 'dynamic-apple-icon';
   document.head.appendChild(appleIcon);

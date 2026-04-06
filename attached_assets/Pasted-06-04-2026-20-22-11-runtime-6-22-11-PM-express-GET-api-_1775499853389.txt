@@ -1,0 +1,162 @@
+06/04/2026, 20:22:11:
+runtime
+6:22:11 PM [express] GET /api/license/has-pro-access 304 in 237ms
+06/04/2026, 20:22:11:
+runtime
+6:22:11 PM [express] GET /api/license/license-info 304 in 261ms
+06/04/2026, 20:22:11:
+runtime
+6:22:11 PM [express] GET /api/license/application-title 304 in 255ms
+06/04/2026, 20:22:11:
+runtime
+6:22:11 PM [express] GET /api/booking-requests 200 in 475ms
+06/04/2026, 20:22:11:
+runtime
+6:22:11 PM [express] POST /api/timezone-settings 200 in 235ms
+06/04/2026, 20:22:12:
+runtime
+6:22:12 PM [express] GET /api/user-with-license 304 in 742ms
+06/04/2026, 20:22:12:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+06/04/2026, 20:22:12:
+runtime
+6:22:12 PM [express] GET /api/client-app-info 200 in 1095ms
+06/04/2026, 20:22:12:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+06/04/2026, 20:22:12:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:22:12:
+runtime
+6:22:12 PM [express] GET /api/tenant-context 200 in 236ms
+06/04/2026, 20:22:12:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:22:12:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:22:12:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+06/04/2026, 20:22:12:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+06/04/2026, 20:22:12:
+runtime
+  showBusinessName: true,
+06/04/2026, 20:22:12:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+06/04/2026, 20:22:12:
+runtime
+  fontSize: 24,
+06/04/2026, 20:22:12:
+runtime
+  fontFamily: 'Times New Roman',
+06/04/2026, 20:22:12:
+runtime
+  fontStyle: 'normal',
+06/04/2026, 20:22:12:
+runtime
+  color: '#000000',
+06/04/2026, 20:22:12:
+runtime
+  enabled: true
+06/04/2026, 20:22:12:
+runtime
+}
+06/04/2026, 20:22:12:
+runtime
+6:22:12 PM [express] GET /api/company-name-settings 200 in 474ms
+06/04/2026, 20:22:12:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:22:12:
+runtime
+6:22:12 PM [express] GET /api/contact-info 200 in 469ms
+06/04/2026, 20:22:12:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 3: SÌ
+06/04/2026, 20:22:12:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:23:18:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:23:18:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:23:18:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499798775-default
+06/04/2026, 20:23:18:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:23:19:
+runtime
+6:23:19 PM [express] GET /api/timezone-settings 200 in 271ms
+06/04/2026, 20:23:19:
+runtime
+6:23:19 PM [express] POST /api/timezone-settings 200 in 235ms
+06/04/2026, 20:23:19:
+runtime
+6:23:19 PM [express] GET /api/user-with-license 200 in 771ms
+06/04/2026, 20:23:20:
+runtime
+6:23:20 PM [express] GET /api/tenant-context 200 in 234ms
+06/04/2026, 20:23:32:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:23:32:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:23:32:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:23:32:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499812457-default
+06/04/2026, 20:23:32:
+runtime
+6:23:32 PM [express] GET /api/timezone-settings 200 in 288ms
+06/04/2026, 20:23:32:
+runtime
+6:23:32 PM [express] POST /api/timezone-settings 200 in 235ms
+06/04/2026, 20:23:33:
+runtime
+6:23:33 PM [express] GET /api/user-with-license 200 in 774ms
+06/04/2026, 20:23:33:
+runtime
+6:23:33 PM [express] GET /api/tenant-context 200 in 240ms
