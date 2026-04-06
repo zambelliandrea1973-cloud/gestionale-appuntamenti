@@ -1,0 +1,1223 @@
+06/04/2026, 20:01:07:
+build
+Enumerating objects: 27714, done.
+06/04/2026, 20:01:07:
+build
+Counting objects: 100% (3648/3648), done.
+06/04/2026, 20:01:07:
+build
+Compressing objects: 100% (514/514), done.
+06/04/2026, 20:01:52:
+build
+Total 27714 (delta 3351), reused 3296 (delta 3134), pack-reused 24066 (from 3)
+06/04/2026, 20:02:45:
+build
+#1 [service_event_37u13pnd777f internal] load build definition from Dockerfile
+06/04/2026, 20:02:45:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 20:02:45:
+build
+#1 DONE 0.0s
+06/04/2026, 20:02:45:
+build
+06/04/2026, 20:02:45:
+build
+#2 [service_event_37u13pnd777f internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 20:02:46:
+build
+#2 DONE 0.7s
+06/04/2026, 20:02:46:
+build
+06/04/2026, 20:02:46:
+build
+#3 [service_event_37u13pnd777f internal] load .dockerignore
+06/04/2026, 20:02:46:
+build
+#3 transferring context: 755B done
+06/04/2026, 20:02:46:
+build
+#3 DONE 0.0s
+06/04/2026, 20:02:46:
+build
+06/04/2026, 20:02:46:
+build
+#4 [service_event_37u13pnd777f 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 20:02:46:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+06/04/2026, 20:02:46:
+build
+#4 DONE 0.0s
+06/04/2026, 20:02:46:
+build
+06/04/2026, 20:02:46:
+build
+#5 [service_event_37u13pnd777f internal] load build context
+06/04/2026, 20:02:51:
+build
+#5 transferring context: 1.36GB 5.0s
+06/04/2026, 20:02:51:
+build
+#5 transferring context: 1.53GB 5.5s done
+06/04/2026, 20:02:51:
+build
+#5 DONE 5.6s
+06/04/2026, 20:02:51:
+build
+06/04/2026, 20:02:51:
+build
+#6 [service_event_37u13pnd777f 2/8] WORKDIR /app
+06/04/2026, 20:02:51:
+build
+#6 CACHED
+06/04/2026, 20:02:51:
+build
+06/04/2026, 20:02:51:
+build
+#7 [service_event_37u13pnd777f 3/8] COPY package.json package-lock.json ./
+06/04/2026, 20:02:51:
+build
+#7 CACHED
+06/04/2026, 20:02:51:
+build
+06/04/2026, 20:02:51:
+build
+#8 [service_event_37u13pnd777f 4/8] RUN npm ci
+06/04/2026, 20:02:51:
+build
+#8 CACHED
+06/04/2026, 20:02:51:
+build
+06/04/2026, 20:02:51:
+build
+#9 [service_event_37u13pnd777f 5/8] RUN echo "Build timestamp: 2026-04-06-01:00"
+06/04/2026, 20:02:51:
+build
+#9 CACHED
+06/04/2026, 20:02:51:
+build
+06/04/2026, 20:02:51:
+build
+#10 [service_event_37u13pnd777f 6/8] COPY . .
+06/04/2026, 20:03:14:
+build
+#10 DONE 23.0s
+06/04/2026, 20:03:14:
+build
+06/04/2026, 20:03:14:
+build
+#11 [service_event_37u13pnd777f 7/8] RUN npx vite build
+06/04/2026, 20:03:16:
+build
+#11 1.463 vite v5.4.14 building for production...
+06/04/2026, 20:03:18:
+build
+#11 4.192 
+06/04/2026, 20:03:19:
+build
+#11 4.200 
+06/04/2026, 20:03:19:
+build
+#11 4.200 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+06/04/2026, 20:03:19:
+build
+#11 4.204 transforming...
+06/04/2026, 20:03:19:
+build
+#11 4.335 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+06/04/2026, 20:03:19:
+build
+#11 4.335   npx update-browserslist-db@latest
+06/04/2026, 20:03:19:
+build
+#11 4.335   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+06/04/2026, 20:03:38:
+build
+#11 23.29 ✓ 3694 modules transformed.
+06/04/2026, 20:03:39:
+build
+#11 24.81 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 20:03:39:
+build
+#11 24.81 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 20:03:39:
+build
+#11 24.81 
+06/04/2026, 20:03:39:
+build
+#11 24.81 [plugin:vite:reporter] [plugin vite:reporter] 
+06/04/2026, 20:03:39:
+build
+#11 24.81 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 20:03:39:
+build
+#11 24.81 
+06/04/2026, 20:03:39:
+build
+#11 24.81 rendering chunks...
+06/04/2026, 20:03:39:
+build
+#11 24.90 computing gzip size...
+06/04/2026, 20:03:39:
+build
+#11 25.03 ../dist/public/index.html                    15.19 kB │ gzip:   4.40 kB
+06/04/2026, 20:03:39:
+build
+#11 25.03 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB
+06/04/2026, 20:03:39:
+build
+#11 25.03 ../dist/public/assets/index-DuJ63olo.js   2,701.69 kB │ gzip: 737.07 kB
+06/04/2026, 20:03:39:
+build
+#11 25.03 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks#11 25.03 
+06/04/2026, 20:03:39:
+build
+#11 25.03 (!) Some chunks are larger than 500 kB after minification. Consider:
+06/04/2026, 20:03:39:
+build
+#11 25.03 - Using dynamic import() to code-split the application
+06/04/2026, 20:03:40:
+build
+06/04/2026, 20:03:40:
+build
+#11 25.03 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+06/04/2026, 20:03:40:
+build
+#11 25.03 ✓ built in 20.92s
+06/04/2026, 20:03:40:
+build
+#11 DONE 25.3s
+06/04/2026, 20:03:40:
+build
+06/04/2026, 20:03:40:
+build
+#12 [service_event_37u13pnd777f 8/8] RUN cp -r dist/public server/public
+06/04/2026, 20:03:40:
+build
+#12 DONE 0.1s
+06/04/2026, 20:03:40:
+build
+06/04/2026, 20:03:40:
+build
+#13 [service_event_37u13pnd777f] exporting to image
+06/04/2026, 20:03:40:
+build
+#13 exporting layers
+06/04/2026, 20:04:18:
+build
+#13 exporting layers 38.6s done
+06/04/2026, 20:04:19:
+build
+#13 exporting manifest sha256:37b307e642eb60028502e5b06cb61904c0c3ce8ade8d73bbe411196267592065 0.0s done
+06/04/2026, 20:04:19:
+build
+#13 exporting config sha256:9136f311c96a07d3c32dd6703a4ad7b1507f40c9a180a29767e49132a77ff284 0.0s done
+06/04/2026, 20:04:19:
+build
+#13 pushing layers
+06/04/2026, 20:04:38:
+build
+#13 pushing layers 20.1s done
+06/04/2026, 20:04:38:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_37u13pnd777f@sha256:37b307e642eb60028502e5b06cb61904c0c3ce8ade8d73bbe411196267592065
+06/04/2026, 20:04:39:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_37u13pnd777f@sha256:37b307e642eb60028502e5b06cb61904c0c3ce8ade8d73bbe411196267592065 0.1s done
+06/04/2026, 20:04:39:
+build
+#13 DONE 58.9s
+06/04/2026, 20:04:40:
+runtime
+Sliplane: Service deployment failed with reason: Error response from daemon: manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_37u13pnd777f not found: manifest unknown: manifest unknown to registry
+06/04/2026, 20:06:38:
+build
+Enumerating objects: 27719, done.
+06/04/2026, 20:06:38:
+build
+Counting objects: 100% (3653/3653), done.
+06/04/2026, 20:06:39:
+build
+Compressing objects: 100% (518/518), done.
+06/04/2026, 20:07:21:
+build
+Total 27719 (delta 3355), reused 3298 (delta 3135), pack-reused 24066 (from 3)
+06/04/2026, 20:08:11:
+build
+#1 [service_event_5vli70zetqj5 internal] load build definition from Dockerfile
+06/04/2026, 20:08:11:
+build
+#1 transferring dockerfile: 945B done
+06/04/2026, 20:08:11:
+build
+#1 DONE 0.0s
+06/04/2026, 20:08:11:
+build
+06/04/2026, 20:08:11:
+build
+#2 [service_event_5vli70zetqj5 internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 20:08:11:
+build
+#2 DONE 0.7s
+06/04/2026, 20:08:11:
+build
+06/04/2026, 20:08:11:
+build
+#3 [service_event_5vli70zetqj5 internal] load .dockerignore
+06/04/2026, 20:08:11:
+build
+#3 transferring context: 755B done
+06/04/2026, 20:08:11:
+build
+#3 DONE 0.0s
+06/04/2026, 20:08:11:
+build
+06/04/2026, 20:08:11:
+build
+#4 [service_event_5vli70zetqj5 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 20:08:11:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+06/04/2026, 20:08:11:
+build
+#4 DONE 0.0s
+06/04/2026, 20:08:11:
+build
+06/04/2026, 20:08:11:
+build
+#5 [service_event_5vli70zetqj5 internal] load build context
+06/04/2026, 20:08:16:
+build
+#5 transferring context: 1.53GB 4.3s done
+06/04/2026, 20:08:16:
+build
+#8 0.103 Build timestamp: 2026-04-06-20:00#5 DONE 4.4s
+06/04/2026, 20:08:16:
+build
+06/04/2026, 20:08:16:
+build
+#6 [service_event_5vli70zetqj5 2/8] WORKDIR /app
+06/04/2026, 20:08:16:
+build
+#6 CACHED
+06/04/2026, 20:08:16:
+build
+06/04/2026, 20:08:16:
+build
+#7 [service_event_5vli70zetqj5 3/8] COPY package.json package-lock.json ./
+06/04/2026, 20:08:16:
+build
+#7 CACHED
+06/04/2026, 20:08:16:
+build
+06/04/2026, 20:08:16:
+build
+#8 [service_event_5vli70zetqj5 4/8] RUN echo "Build timestamp: 2026-04-06-20:00"
+06/04/2026, 20:08:16:
+build
+06/04/2026, 20:08:24:
+build
+#8 DONE 8.6s
+06/04/2026, 20:08:24:
+build
+06/04/2026, 20:08:24:
+build
+#9 [service_event_5vli70zetqj5 5/8] RUN npm ci
+06/04/2026, 20:08:26:
+build
+#9 1.909 npm warn ERESOLVE overriding peer dependency
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn While resolving: vite@8.0.3
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn Found: @types/node@20.16.11
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn node_modules/@types/node
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   dev @types/node@"20.16.11" from the root project
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   15 more (@types/body-parser, @types/connect, @types/cors, ...)
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn Could not resolve dependency:
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn peerOptional @types/node@"^20.19.0 || >=22.12.0" from vite@8.0.3
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn node_modules/vitest/node_modules/vite
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   vite@"^6.0.0 || ^7.0.0 || ^8.0.0" from vitest@4.1.2
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   node_modules/vitest
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   1 more (@vitest/mocker)
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn Conflicting peer dependency: @types/node@25.5.2
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn node_modules/@types/node
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   peerOptional @types/node@"^20.19.0 || >=22.12.0" from vite@8.0.3
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn   node_modules/vitest/node_modules/vite
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn     vite@"^6.0.0 || ^7.0.0 || ^8.0.0" from vitest@4.1.2
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn     node_modules/vitest
+06/04/2026, 20:08:26:
+build
+#9 1.910 npm warn     1 more (@vitest/mocker)
+06/04/2026, 20:08:29:
+build
+#9 4.924 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+06/04/2026, 20:08:30:
+build
+#9 5.770 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+06/04/2026, 20:08:30:
+build
+#9 6.327 npm warn deprecated fstream@1.0.12: This package is no longer supported.
+06/04/2026, 20:08:32:
+build
+#9 7.911 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+06/04/2026, 20:08:32:
+build
+#9 7.948 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+06/04/2026, 20:08:32:
+build
+#9 8.406 npm warn deprecated @paypal/checkout-server-sdk@1.0.3: Package no longer supported. The author suggests using the @paypal/paypal-server-sdk package instead: https://www.npmjs.com/package/@paypal/paypal-server-sdk. Contact Support at https://www.npmjs.com/support for more info.
+06/04/2026, 20:08:33:
+build
+#9 8.576 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+06/04/2026, 20:08:33:
+build
+#9 8.728 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+06/04/2026, 20:08:33:
+build
+#9 8.925 npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+06/04/2026, 20:08:33:
+build
+#9 8.938 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+06/04/2026, 20:08:33:
+build
+#9 9.463 npm warn deprecated puppeteer@18.2.1: < 24.9.0 is no longer supported
+06/04/2026, 20:08:41:
+build
+#9 16.71 
+06/04/2026, 20:08:41:
+build
+#9 16.71 added 1096 packages, and audited 1097 packages in 16s
+06/04/2026, 20:08:41:
+build
+#9 16.71 
+06/04/2026, 20:08:41:
+build
+#9 16.71 122 packages are looking for funding
+06/04/2026, 20:08:41:
+build
+#9 16.71   run `npm fund` for details
+06/04/2026, 20:08:41:
+build
+#9 16.78 
+06/04/2026, 20:08:41:
+build
+#9 16.78 33 vulnerabilities (3 low, 12 moderate, 16 high, 2 critical)
+06/04/2026, 20:08:41:
+build
+#9 16.78 
+06/04/2026, 20:08:41:
+build
+#9 16.78 To address issues that do not require attention, run:
+06/04/2026, 20:08:41:
+build
+#9 16.78   npm audit fix
+06/04/2026, 20:08:41:
+build
+#9 16.78 
+06/04/2026, 20:08:41:
+build
+#9 16.78 To address all issues (including breaking changes), run:
+06/04/2026, 20:08:41:
+build
+#9 16.78   npm audit fix --force
+06/04/2026, 20:08:41:
+build
+#9 16.78 
+06/04/2026, 20:08:41:
+build
+#9 16.78 Run `npm audit` for details.
+06/04/2026, 20:08:41:
+build
+#9 16.78 npm notice
+06/04/2026, 20:08:41:
+build
+#9 16.78 npm notice New major version of npm available! 10.8.2 -> 11.12.1
+06/04/2026, 20:08:41:
+build
+#9 16.78 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+06/04/2026, 20:08:41:
+build
+#9 16.78 npm notice To update run: npm install -g npm@11.12.1
+06/04/2026, 20:08:41:
+build
+#9 16.78 npm notice
+06/04/2026, 20:08:47:
+build
+#9 DONE 22.7s
+06/04/2026, 20:08:47:
+build
+06/04/2026, 20:08:47:
+build
+#10 [service_event_5vli70zetqj5 6/8] COPY . .
+06/04/2026, 20:08:59:
+build
+#10 DONE 11.9s
+06/04/2026, 20:08:59:
+build
+06/04/2026, 20:08:59:
+build
+#11 [service_event_5vli70zetqj5 7/8] RUN npx vite build
+06/04/2026, 20:09:00:
+build
+#11 1.039 vite v5.4.14 building for production...
+06/04/2026, 20:09:00:
+build
+#11 1.129 
+06/04/2026, 20:09:00:
+build
+#11 1.142 
+06/04/2026, 20:09:00:
+build
+#11 1.142 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+06/04/2026, 20:09:00:
+build
+#11 1.147 transforming...
+06/04/2026, 20:09:00:
+build
+#11 1.448 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+06/04/2026, 20:09:00:
+build
+#11 1.448   npx update-browserslist-db@latest
+06/04/2026, 20:09:00:
+build
+#11 1.448   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+06/04/2026, 20:09:13:
+build
+06/04/2026, 20:09:13:
+build
+#11 14.17 ✓ 3694 modules transformed.
+06/04/2026, 20:09:14:
+build
+#11 15.69 
+06/04/2026, 20:09:14:
+build
+#11 15.69 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 20:09:14:
+build
+#11 15.69 [plugin:vite:reporter] [plugin vite:reporter] #11 15.70 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+06/04/2026, 20:09:15:
+build
+#11 15.70 [plugin:vite:reporter] [plugin vite:reporter] #11 15.87 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB
+06/04/2026, 20:09:15:
+build
+#11 15.87 ../dist/public/index.html                    15.19 kB │ gzip:   4.40 kB
+06/04/2026, 20:09:15:
+build
+#11 15.77 computing gzip size...
+06/04/2026, 20:09:15:
+build
+#11 15.70 rendering chunks...
+06/04/2026, 20:09:15:
+build
+#11 15.70 
+06/04/2026, 20:09:15:
+build
+06/04/2026, 20:09:15:
+build
+#11 15.87 ../dist/public/assets/index-DuJ63olo.js   2,701.69 kB │ gzip: 737.07 kB
+06/04/2026, 20:09:15:
+build
+#11 15.87 
+06/04/2026, 20:09:15:
+build
+#11 15.87 (!) Some chunks are larger than 500 kB after minification. Consider:
+06/04/2026, 20:09:15:
+build
+#11 15.87 - Using dynamic import() to code-split the application
+06/04/2026, 20:09:15:
+build
+#11 15.87 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+06/04/2026, 20:09:15:
+build
+#11 15.87 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+06/04/2026, 20:09:15:
+build
+#11 15.87 ✓ built in 14.80s
+06/04/2026, 20:09:15:
+build
+#11 DONE 16.0s
+06/04/2026, 20:09:15:
+build
+06/04/2026, 20:09:15:
+build
+#12 [service_event_5vli70zetqj5 8/8] RUN cp -r dist/public server/public
+06/04/2026, 20:09:15:
+build
+#12 DONE 0.2s
+06/04/2026, 20:09:15:
+build
+06/04/2026, 20:09:15:
+build
+#13 [service_event_5vli70zetqj5] exporting to image
+06/04/2026, 20:09:15:
+build
+#13 exporting layers
+06/04/2026, 20:09:55:
+build
+#13 exporting layers 39.9s done
+06/04/2026, 20:09:55:
+build
+#13 exporting manifest sha256:cd20c267354ea7d03afc9a8d047f8b9c38bbdb9676c7d15cd9f3f1af33f86493 done
+06/04/2026, 20:09:55:
+build
+#13 exporting config sha256:d09e8637f3144693ade44d05bbcf8caa4cb7b631e45504e9be9a1bbeb182c0e9 done
+06/04/2026, 20:09:55:
+build
+#13 pushing layers
+06/04/2026, 20:10:11:
+build
+#13 pushing layers 16.6s done
+06/04/2026, 20:10:11:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_5vli70zetqj5@sha256:cd20c267354ea7d03afc9a8d047f8b9c38bbdb9676c7d15cd9f3f1af33f86493
+06/04/2026, 20:10:11:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_5vli70zetqj5@sha256:cd20c267354ea7d03afc9a8d047f8b9c38bbdb9676c7d15cd9f3f1af33f86493 0.0s done
+06/04/2026, 20:10:11:
+build
+#13 DONE 56.5s
+06/04/2026, 20:10:13:
+build
+WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+06/04/2026, 20:10:13:
+build
+	appear to conform to the distribution registry specification; falling back to
+06/04/2026, 20:10:13:
+build
+	pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+06/04/2026, 20:10:13:
+build
+	release.  Please contact admins of https://registry.nbg1.sliplane.io. ⚠️
+06/04/2026, 20:10:13:
+build
+service_event_5vli70zetqj5: Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+06/04/2026, 20:10:13:
+build
+589002ba0eae: Already exists
+06/04/2026, 20:10:13:
+build
+d7f6aca05b78: Already exists
+06/04/2026, 20:10:13:
+build
+62e0e1181d88: Already exists
+06/04/2026, 20:10:13:
+build
+c7734204880f: Already exists
+06/04/2026, 20:10:13:
+build
+7da1d38966b6: Already exists
+06/04/2026, 20:10:13:
+build
+e78cbc173ce9: Already exists
+06/04/2026, 20:10:13:
+build
+4f4fb700ef54: Pulling fs layer
+06/04/2026, 20:10:13:
+build
+8c47bfc6cc0c: Pulling fs layer
+06/04/2026, 20:10:13:
+build
+c2aa82eca16f: Pulling fs layer
+06/04/2026, 20:10:13:
+build
+5d2a039d00d3: Pulling fs layer
+06/04/2026, 20:10:13:
+build
+8a51542c4067: Pulling fs layer
+06/04/2026, 20:10:13:
+build
+5d2a039d00d3: Waiting
+06/04/2026, 20:10:13:
+build
+8a51542c4067: Waiting
+06/04/2026, 20:10:13:
+build
+4f4fb700ef54: Verifying Checksum
+06/04/2026, 20:10:13:
+build
+4f4fb700ef54: Download complete
+06/04/2026, 20:10:13:
+build
+4f4fb700ef54: Pull complete
+06/04/2026, 20:10:13:
+build
+5d2a039d00d3: Verifying Checksum
+06/04/2026, 20:10:13:
+build
+5d2a039d00d3: Download complete
+06/04/2026, 20:10:13:
+build
+8a51542c4067: Verifying Checksum
+06/04/2026, 20:10:13:
+build
+8a51542c4067: Download complete
+06/04/2026, 20:10:16:
+build
+8c47bfc6cc0c: Verifying Checksum
+06/04/2026, 20:10:16:
+build
+8c47bfc6cc0c: Download complete
+06/04/2026, 20:10:19:
+build
+c2aa82eca16f: Verifying Checksum
+06/04/2026, 20:10:19:
+build
+c2aa82eca16f: Download complete
+06/04/2026, 20:10:34:
+build
+8c47bfc6cc0c: Pull complete
+06/04/2026, 20:10:44:
+build
+c2aa82eca16f: Pull complete
+06/04/2026, 20:10:44:
+build
+5d2a039d00d3: Pull complete
+06/04/2026, 20:10:45:
+build
+8a51542c4067: Pull complete
+06/04/2026, 20:10:45:
+build
+Digest: sha256:cd20c267354ea7d03afc9a8d047f8b9c38bbdb9676c7d15cd9f3f1af33f86493
+06/04/2026, 20:10:45:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_5vli70zetqj5
+06/04/2026, 20:10:49:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+06/04/2026, 20:10:51:
+runtime
+Servizio gestione telefono diretto inizializzato
+06/04/2026, 20:10:51:
+runtime
+Debug OAuth URL: {
+06/04/2026, 20:10:51:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+06/04/2026, 20:10:51:
+runtime
+}
+06/04/2026, 20:10:51:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+06/04/2026, 20:10:51:
+runtime
+Google Credentials: {
+06/04/2026, 20:10:51:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+06/04/2026, 20:10:51:
+runtime
+  secretPresent: 'Present'
+06/04/2026, 20:10:51:
+runtime
+}
+06/04/2026, 20:10:51:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+06/04/2026, 20:10:51:
+runtime
+   📅 Appuntamenti caricati: 50
+06/04/2026, 20:10:51:
+runtime
+   👥 Clienti caricati: 40
+06/04/2026, 20:10:51:
+runtime
+   🔍 Primi 3 appuntamenti: [
+06/04/2026, 20:10:51:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+06/04/2026, 20:10:51:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+06/04/2026, 20:10:51:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+06/04/2026, 20:10:51:
+runtime
+]
+06/04/2026, 20:10:51:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+06/04/2026, 20:10:51:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+06/04/2026, 20:10:53:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+06/04/2026, 20:10:53:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+06/04/2026, 20:10:53:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+06/04/2026, 20:10:53:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+06/04/2026, 20:10:53:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+06/04/2026, 20:10:53:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+06/04/2026, 20:10:53:
+runtime
+Tutti gli scheduler inizializzati
+06/04/2026, 20:10:53:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+06/04/2026, 20:10:53:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+06/04/2026, 20:10:53:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+06/04/2026, 20:10:53:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+06/04/2026, 20:10:53:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+06/04/2026, 20:10:53:
+runtime
+6:10:53 PM [express] serving on port 5000
+06/04/2026, 20:10:53:
+runtime
+Telefono caricato dal database: +393472550110
+06/04/2026, 20:10:53:
+runtime
+✅ PostgreSQL database is available
+06/04/2026, 20:10:58:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+06/04/2026, 20:11:03:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+06/04/2026, 20:11:04:
+runtime
+📊 [MONITOR] Stats: 64 utenti, 4571 clienti, 503 appuntamenti, max 0 clienti/utente
+06/04/2026, 20:11:04:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+06/04/2026, 20:15:00:
+runtime
+⏰ Esecuzione del job di promemoria appuntamenti: 2026-04-06T18:15:00.004Z
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:15:28:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:15:28:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:15:28:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499328560-default
+06/04/2026, 20:15:28:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/timezone-settings 200 in 3ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/license/has-business-access 200 in 1ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/license/license-info 200 in 1ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/user-with-license 401 in 1ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/booking-requests 401 in 2ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/license/application-title 304 in 1ms
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] ============================
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] Cookie header: present
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] req.user: undefined
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] Session ID: NSrRjje9734BK0UDENd_Jrgt9bg3VCOc
+06/04/2026, 20:15:31:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/license/has-pro-access 200 in 1ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] GET /api/client-app-info 200 in 15ms
+06/04/2026, 20:15:31:
+runtime
+6:15:31 PM [express] POST /api/timezone-settings 200 in 1ms
+06/04/2026, 20:15:33:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+06/04/2026, 20:15:33:
+runtime
+Logout completato con successo
+06/04/2026, 20:15:33:
+runtime
+6:15:33 PM [express] POST /api/logout 200 in 4ms
+06/04/2026, 20:15:33:
+runtime
+6:15:33 PM [express] GET /api/user-with-license 401 in 2ms
+06/04/2026, 20:15:34:
+runtime
+6:15:34 PM [express] POST /api/staff/login 200 in 331ms
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:15:36:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:15:36:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499336698-default
+06/04/2026, 20:15:36:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:15:36:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:15:38:
+runtime
+6:15:38 PM [express] GET /api/timezone-settings 200 in 234ms
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] Session ID: dBo2_xu3oAiUvDhvgFzhAfAFH6PY-jaM
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] Cookie header: present
+06/04/2026, 20:15:38:
+runtime
+🔐 [has-pro-access] ============================
+06/04/2026, 20:15:38:
+runtime
+6:15:38 PM [express] GET /api/license/has-pro-access 200 in 240ms
+06/04/2026, 20:15:38:
+runtime
+6:15:38 PM [express] POST /api/timezone-settings 200 in 238ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/user-with-license 304 in 994ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/client-app-info 200 in 1136ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/license/license-info 200 in 1293ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/license/has-business-access 200 in 1314ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/license/application-title 304 in 1325ms
+06/04/2026, 20:15:39:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+06/04/2026, 20:15:39:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:15:39:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/tenant-context 200 in 239ms
+06/04/2026, 20:15:39:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/contact-info 200 in 500ms
+06/04/2026, 20:15:39:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:15:39:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+06/04/2026, 20:15:39:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+06/04/2026, 20:15:39:
+runtime
+  showBusinessName: true,
+06/04/2026, 20:15:39:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+06/04/2026, 20:15:39:
+runtime
+  fontSize: 24,
+06/04/2026, 20:15:39:
+runtime
+  fontFamily: 'Times New Roman',
+06/04/2026, 20:15:39:
+runtime
+  fontStyle: 'normal',
+06/04/2026, 20:15:39:
+runtime
+  color: '#000000',
+06/04/2026, 20:15:39:
+runtime
+  enabled: true
+06/04/2026, 20:15:39:
+runtime
+}
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/company-name-settings 200 in 506ms
+06/04/2026, 20:15:39:
+runtime
+6:15:39 PM [express] GET /api/booking-requests 304 in 1608ms
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:15:40:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:15:40:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499340069-default
+06/04/2026, 20:15:40:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:15:40:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/timezone-settings 200 in 236ms
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/license/has-business-access 304 in 233ms
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/license/application-title 304 in 257ms
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] Session ID: dBo2_xu3oAiUvDhvgFzhAfAFH6PY-jaM
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] Cookie header: present
+06/04/2026, 20:15:40:
+runtime
+🔐 [has-pro-access] ============================
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/license/has-pro-access 304 in 264ms
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/license/license-info 304 in 266ms
+06/04/2026, 20:15:40:
+runtime
+6:15:40 PM [express] GET /api/booking-requests 304 in 511ms
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] POST /api/timezone-settings 200 in 232ms
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] GET /api/user-with-license 304 in 743ms
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] GET /api/client-app-info 200 in 1022ms
+06/04/2026, 20:15:41:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+06/04/2026, 20:15:41:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:15:41:
+runtime
+Recupero impostazioni per utente 3
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] GET /api/tenant-context 200 in 236ms
+06/04/2026, 20:15:41:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:15:41:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+06/04/2026, 20:15:41:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+06/04/2026, 20:15:41:
+runtime
+  showBusinessName: true,
+06/04/2026, 20:15:41:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+06/04/2026, 20:15:41:
+runtime
+  fontSize: 24,
+06/04/2026, 20:15:41:
+runtime
+  fontFamily: 'Times New Roman',
+06/04/2026, 20:15:41:
+runtime
+  fontStyle: 'normal',
+06/04/2026, 20:15:41:
+runtime
+  color: '#000000',
+06/04/2026, 20:15:41:
+runtime
+  enabled: true
+06/04/2026, 20:15:41:
+runtime
+}
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] GET /api/company-name-settings 200 in 471ms
+06/04/2026, 20:15:41:
+runtime
+Impostazioni trovate per utente 3: SI
+06/04/2026, 20:15:41:
+runtime
+6:15:41 PM [express] GET /api/contact-info 200 in 476ms
+06/04/2026, 20:16:28:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 20:16:28:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 20:16:28:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 20:16:28:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775499388907-default
+06/04/2026, 20:16:29:
+runtime
+6:16:29 PM [express] GET /api/timezone-settings 200 in 236ms
+06/04/2026, 20:16:29:
+runtime
+6:16:29 PM [express] POST /api/timezone-settings 200 in 240ms
+06/04/2026, 20:16:30:
+runtime
+6:16:30 PM [express] GET /api/user-with-license 200 in 769ms
+06/04/2026, 20:16:30:
+runtime
+6:16:30 PM [express] GET /api/tenant-context 200 in 232ms
