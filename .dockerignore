@@ -60,3 +60,10 @@ temp
 # Replit specific
 .cache
 replit.nix
+.local
+attached_assets
+uploads
+.canvas
+.upm
+.pythonlibs
+generated-icon.png
