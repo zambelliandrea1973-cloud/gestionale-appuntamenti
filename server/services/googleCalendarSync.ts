@@ -125,7 +125,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               ...event,
               _sourceCalendarId: cal.id,
               _sourceCalendarName: cal.summary || 'Senza nome'
-            }));
+            } as EventWithCalendar));
             allEvents = [...allEvents, ...eventsWithSource];
           }
           
@@ -148,7 +148,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                 ...event,
                 _sourceCalendarId: cal.id,
                 _sourceCalendarName: cal.summary || 'Senza nome'
-              }));
+              } as EventWithCalendar));
               allEvents = [...allEvents, ...eventsWithSource];
             }
             

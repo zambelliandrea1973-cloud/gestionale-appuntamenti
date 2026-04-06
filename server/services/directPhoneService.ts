@@ -91,7 +91,7 @@ class DirectPhoneService {
         const data = await fs.readFile('email_settings.json', 'utf8');
         const emailSettings = JSON.parse(data);
         
-        const transporter = nodemailer.default.createTransporter({
+        const transporter = nodemailer.default.createTransport({
           service: 'gmail',
           auth: {
             user: emailSettings.emailAddress,

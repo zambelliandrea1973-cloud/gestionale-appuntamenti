@@ -83,7 +83,7 @@ export class ContactSettingsService {
       return false;
     }
 
-    const isConfigured = settings.whatsappOptIn && settings.phone && settings.phone.trim() !== '';
+    const isConfigured = !!(settings.whatsappOptIn && settings.phone && settings.phone.trim() !== '');
     logger.debug(`📱 WhatsApp configurato per tenant ${tenantId}: ${isConfigured}`, {
       phone: settings.phone,
       whatsappOptIn: settings.whatsappOptIn

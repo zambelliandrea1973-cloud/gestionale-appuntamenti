@@ -87,6 +87,7 @@ const validateSettings = (settings: any) => {
 // Verifica se personalizzato
 export const isCustomized = async (userId: number): Promise<boolean> => {
   const settings = await loadSettings(userId);
+  if (!settings) return false;
   return Object.keys(defaultSettings).some((key) => {
     return settings[key as keyof typeof defaultSettings] !== defaultSettings[key as keyof typeof defaultSettings];
   });

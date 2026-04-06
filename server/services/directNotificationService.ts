@@ -50,9 +50,8 @@ export const directNotificationService = {
       
       // Altrimenti, recupera il numero di telefono dai contatti in base alla preferenza
       const contactService = await import('./contactService');
-      const contactInfo = contactService.contactService.getContactInfo();
+      const contactInfo = await contactService.contactService.getContactInfo();
       
-      // Determina quale numero utilizzare in base alla preferenza
       if (settings?.preferredContactPhone === 'secondary' && contactInfo.phone2) {
         return contactInfo.phone2;
       } else {

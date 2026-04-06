@@ -739,15 +739,16 @@ export class DatabaseStorage implements IStorage {
       if (!invitation) return undefined;
       
       // Verifica se l'invito può essere ancora utilizzato
-      if (invitation.usedCount >= invitation.maxUses) {
+      if ((invitation.usedCount ?? 0) >= (invitation.maxUses ?? 0)) {
         return undefined;
       }
       
-      // Aggiorna l'invito
-      const isUsed = invitation.usedCount + 1 >= invitation.maxUses;
+      const usedCount = invitation.usedCount ?? 0;
+      const maxUses = invitation.maxUses ?? 0;
+      const isUsed = usedCount + 1 >= maxUses;
       const [updated] = await db.update(betaInvitations)
         .set({
-          usedCount: invitation.usedCount + 1,
+          usedCount: usedCount + 1,
           isUsed: isUsed,
           usedById: userId,
           usedAt: isUsed ? new Date() : invitation.usedAt
@@ -876,7 +877,8 @@ export class DatabaseStorage implements IStorage {
   // ONBOARDING PROGRESS OPERATIONS
   async getOnboardingProgress(userId: number): Promise<OnboardingProgress | undefined> {
     try {
-      return this.onboardingProgressMap.get(userId);
+      const [progress] = await db.select().from(onboardingProgress).where(eq(onboardingProgress.userId, userId));
+      return progress || undefined;
     } catch (error) {
       console.error("Error getting onboarding progress:", error);
       return undefined;
@@ -885,29 +887,8 @@ export class DatabaseStorage implements IStorage {
 
   async createOnboardingProgress(progress: InsertOnboardingProgress): Promise<OnboardingProgress> {
     try {
-      const newProgress: OnboardingProgress = {
-        id: Date.now(), // Simple ID generation for in-memory storage
-        userId: progress.userId,
-        currentStep: progress.currentStep || 0,
-        completedSteps: progress.completedSteps || [],
-        isCompleted: progress.isCompleted || false,
-        businessName: progress.businessName || null,
-        businessType: progress.businessType || null,
-        primaryServices: progress.primaryServices || null,
-        workingHours: progress.workingHours || null,
-        appointmentDuration: progress.appointmentDuration || null,
-        clientManagementNeeds: progress.clientManagementNeeds || null,
-        communicationPreferences: progress.communicationPreferences || null,
-        integrationGoals: progress.integrationGoals || null,
-        aiRecommendations: progress.aiRecommendations || null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        completedAt: progress.completedAt || null
-      };
-
-      this.onboardingProgressMap.set(progress.userId, newProgress);
-      this.saveData();
-      return newProgress;
+      const [created] = await db.insert(onboardingProgress).values(progress).returning();
+      return created;
     } catch (error) {
       console.error("Error creating onboarding progress:", error);
       throw error;
@@ -916,18 +897,11 @@ export class DatabaseStorage implements IStorage {
 
   async updateOnboardingProgress(userId: number, progress: Partial<InsertOnboardingProgress>): Promise<OnboardingProgress | undefined> {
     try {
-      const existing = this.onboardingProgressMap.get(userId);
-      if (!existing) return undefined;
-
-      const updated: OnboardingProgress = {
-        ...existing,
-        ...progress,
-        updatedAt: new Date()
-      };
-
-      this.onboardingProgressMap.set(userId, updated);
-      this.saveData();
-      return updated;
+      const [updated] = await db.update(onboardingProgress)
+        .set({ ...progress, updatedAt: new Date() })
+        .where(eq(onboardingProgress.userId, userId))
+        .returning();
+      return updated || undefined;
     } catch (error) {
       console.error("Error updating onboarding progress:", error);
       return undefined;
@@ -936,11 +910,8 @@ export class DatabaseStorage implements IStorage {
 
   async deleteOnboardingProgress(userId: number): Promise<boolean> {
     try {
-      const deleted = this.onboardingProgressMap.delete(userId);
-      if (deleted) {
-        this.saveData();
-      }
-      return deleted;
+      const result = await db.delete(onboardingProgress).where(eq(onboardingProgress.userId, userId));
+      return (result.rowCount ?? 0) > 0;
     } catch (error) {
       console.error("Error deleting onboarding progress:", error);
       return false;
@@ -949,19 +920,11 @@ export class DatabaseStorage implements IStorage {
 
   async markOnboardingCompleted(userId: number): Promise<OnboardingProgress | undefined> {
     try {
-      const existing = this.onboardingProgressMap.get(userId);
-      if (!existing) return undefined;
-
-      const completed: OnboardingProgress = {
-        ...existing,
-        isCompleted: true,
-        completedAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      this.onboardingProgressMap.set(userId, completed);
-      this.saveData();
-      return completed;
+      const [completed] = await db.update(onboardingProgress)
+        .set({ isCompleted: true, completedAt: new Date(), updatedAt: new Date() })
+        .where(eq(onboardingProgress.userId, userId))
+        .returning();
+      return completed || undefined;
     } catch (error) {
       console.error("Error marking onboarding as completed:", error);
       return undefined;
