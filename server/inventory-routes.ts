@@ -5,29 +5,13 @@ import { insertProductCategorySchema, insertProductSchema, insertStockMovementSc
 import { licenseService } from './services/licenseService';
 import { z } from 'zod';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import { fileStorageService } from './services/fileStorageService';
 
 const router = express.Router();
 
-// Multer configuration for product images
-const productImageStorage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const uploadDir = 'uploads/products';
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
 const uploadProductImage = multer({ 
-  storage: productImageStorage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (validTypes.includes(file.mimetype)) {
@@ -290,41 +274,38 @@ router.post('/products/:id/upload-image', requireProAccess, uploadProductImage.s
       return res.status(400).json({ error: 'Nessuna immagine fornita' });
     }
     
-    // Verify product exists and belongs to user
     const product = await storage.getProduct(id, userId);
     if (!product) {
-      // Delete uploaded file if product not found
-      fs.unlinkSync(file.path);
       return res.status(404).json({ error: 'Prodotto non trovato' });
     }
     
-    // Delete old image if exists
     if (product.imagePath) {
-      const oldImagePath = path.join(process.cwd(), product.imagePath);
-      if (fs.existsSync(oldImagePath)) {
-        fs.unlinkSync(oldImagePath);
+      const oldMatch = product.imagePath.match(/\/api\/files\/(\d+)\//);
+      if (oldMatch) {
+        await fileStorageService.deleteFile(parseInt(oldMatch[1]));
       }
     }
     
-    // Update product with new image path
-    const imagePath = `/uploads/products/${file.filename}`;
-    const updatedProduct = await storage.updateProduct(id, userId, { imagePath });
+    const saved = await fileStorageService.saveFile(
+      userId,
+      'products',
+      { buffer: file.buffer, originalname: file.originalname, mimetype: file.mimetype, size: file.size },
+      { productId: id }
+    );
+    
+    const updatedProduct = await storage.updateProduct(id, userId, { imagePath: saved.url });
     
     res.json({ 
       success: true, 
-      imagePath,
+      imagePath: saved.url,
       product: updatedProduct
     });
   } catch (error) {
     console.error('Error uploading product image:', error);
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
     res.status(500).json({ error: 'Errore durante il caricamento dell\'immagine' });
   }
 });
 
-// Delete product image
 router.delete('/products/:id/delete-image', requireProAccess, async (req, res) => {
   try {
     const userId = req.user!.id;
@@ -339,13 +320,11 @@ router.delete('/products/:id/delete-image', requireProAccess, async (req, res) =
       return res.status(400).json({ error: 'Nessuna immagine da eliminare' });
     }
     
-    // Delete image file
-    const imagePath = path.join(process.cwd(), product.imagePath);
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
+    const fileIdMatch = product.imagePath.match(/\/api\/files\/(\d+)\//);
+    if (fileIdMatch) {
+      await fileStorageService.deleteFile(parseInt(fileIdMatch[1]));
     }
     
-    // Update product to remove image path
     const updatedProduct = await storage.updateProduct(id, userId, { imagePath: null });
     
     res.json({ 

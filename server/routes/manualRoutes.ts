@@ -4,8 +4,7 @@ import { db } from '../db';
 import { manualContent, users } from '../../shared/schema';
 import { eq, and, asc } from 'drizzle-orm';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import { fileStorageService } from '../services/fileStorageService';
 
 const router = Router();
 
@@ -449,26 +448,9 @@ Su Android (Chrome)
   }
 };
 
-// Configurazione upload file per il manuale
-const uploadDir = path.join(process.cwd(), 'uploads', 'manual');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const sanitized = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
-    cb(null, `${uniqueSuffix}-${sanitized}`);
-  }
-});
-
 const upload = multer({ 
-  storage,
-  limits: { fileSize: 1024 * 1024 * 1024 }, // 1GB per video
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB (DB storage, non filesystem)
   fileFilter: (_req, file, cb) => {
     const validTypes = [
       'image/jpeg', 'image/png', 'image/gif', 'image/webp',
@@ -483,14 +465,12 @@ const upload = multer({
   }
 });
 
-// POST: Upload singolo file per step manuale (SOLO ADMIN)
 router.post('/api/manual/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.user?.id) {
       return res.status(401).json({ error: 'Non autenticato' });
     }
 
-    // ⚠️ PERMESSI: Solo admin può caricare file nel manuale
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
         error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
@@ -504,16 +484,19 @@ router.post('/api/manual/upload', upload.single('file'), async (req, res) => {
     }
 
     const fileType = file.mimetype.startsWith('image/') ? 'image' : 'video';
-    const fileUrl = `/uploads/manual/${file.filename}`;
 
-    console.log(`📤 File manuale caricato: ${file.filename}, tipo: ${fileType}, dimensione: ${file.size} bytes`);
+    const saved = await fileStorageService.saveFile(
+      req.user.id,
+      'manual',
+      { buffer: file.buffer, originalname: file.originalname, mimetype: file.mimetype, size: file.size }
+    );
 
     return res.json({
       success: true,
       file: {
-        url: fileUrl,
+        url: saved.url,
         type: fileType,
-        filename: file.filename,
+        filename: file.originalname,
         size: file.size
       }
     });
@@ -847,17 +830,15 @@ router.delete('/api/manual/content/:id', async (req, res) => {
       });
     }
 
-    // Elimina file associati agli step
     try {
       const steps = JSON.parse(content.steps as string);
       for (const step of steps) {
         if (step.mediaFiles && Array.isArray(step.mediaFiles)) {
           for (const media of step.mediaFiles) {
-            if (media.url && media.url.startsWith('/uploads/manual/')) {
-              const filePath = path.join(process.cwd(), media.url);
-              if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
-                console.log(`🗑️ File eliminato: ${media.url}`);
+            if (media.url) {
+              const fileIdMatch = media.url.match(/\/api\/files\/(\d+)\//);
+              if (fileIdMatch) {
+                await fileStorageService.deleteFile(parseInt(fileIdMatch[1]));
               }
             }
           }
@@ -907,21 +888,15 @@ router.delete('/api/manual/file', async (req, res) => {
 
     const { fileUrl } = req.body;
 
-    if (!fileUrl || !fileUrl.startsWith('/uploads/manual/')) {
+    if (!fileUrl) {
       return res.status(400).json({ error: 'URL file non valido' });
     }
 
-    const filePath = path.join(process.cwd(), fileUrl);
-
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      console.log(`🗑️ File eliminato: ${fileUrl}`);
-    } else {
-      console.log(`⚠️ File già inesistente (riferimento orfano): ${fileUrl}`);
+    const fileIdMatch = fileUrl.match(/\/api\/files\/(\d+)\//);
+    if (fileIdMatch) {
+      await fileStorageService.deleteFile(parseInt(fileIdMatch[1]));
     }
-    
-    // Restituisci sempre success, anche se il file non esiste
-    // (permette di pulire riferimenti orfani dal database)
+
     return res.json({
       success: true,
       message: 'File eliminato con successo'

@@ -49,6 +49,7 @@ import clientAreaRoutes from './routes/clientAreaRoutes';
 import emailConfigRoutes from './routes/emailConfigRoutes';
 import pwaRoutes from './routes/pwaRoutes';
 import campaignRoutes from './routes/campaignRoutes';
+import fileRoutes from './routes/fileRoutes';
 import { pushNotificationService } from './services/pushNotificationService';
 
 // Import AI onboarding module
@@ -588,6 +589,7 @@ export function registerSimpleRoutes(app: Express): Server {
   // Registra le route Google Auth
   app.use('/api/google-auth', googleAuthRoutes);
   app.use('/api/push', pushNotificationRoutes);
+  app.use(fileRoutes);
 
   const httpServer = createServer(app);
   return httpServer;

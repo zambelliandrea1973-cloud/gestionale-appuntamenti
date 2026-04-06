@@ -86,6 +86,16 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support, bidirectional sync.
 - **Database Synchronization**: Real-time sync between development and production environments.
 
+### File Upload Migration to PostgreSQL (completato 06/04/2026)
+- **Migrazione completata**: Tutti gli upload di file da disco locale (multer diskStorage) a PostgreSQL (base64 in tabella `file_uploads`)
+- **Tabella**: `file_uploads` con colonne: id, user_id, category, filename, mime_type, size, data (base64), metadata (JSON), created_at
+- **Servizio centralizzato**: `server/services/fileStorageService.ts` — saveFile, getFile, deleteFile, getFilesByCategory
+- **Route servizio file**: `server/routes/fileRoutes.ts` — GET `/api/files/:id/:filename` con cache immutabile
+- **File aggiornati**: `clientNoteRoutes.ts`, `inventory-routes.ts`, `promotionRoutes.ts`, `manualRoutes.ts` — tutti convertiti a memoryStorage + DB
+- **Retrocompatibilità**: `express.static('/uploads')` rimane in `server/index.ts` per servire file caricati prima della migrazione
+- **Limite file manuale**: ridotto da 1GB a 50MB (ragionevole per storage DB)
+- **Categorie file**: `client-notes`, `products`, `promotions`, `manual`
+
 ### Route Modularization (completato 05/04/2026)
 - **simple-routes.ts**: Ridotto da 10,342 a ~593 righe (-94%)
 - **Contenuto residuo**: register, mobile-sync, Google Calendar debug/sync, route mounting, imports
