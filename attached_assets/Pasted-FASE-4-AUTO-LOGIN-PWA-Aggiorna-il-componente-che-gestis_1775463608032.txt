@@ -1,0 +1,183 @@
+FASE 4 — AUTO-LOGIN PWA
+Aggiorna il componente che gestisce il re-login automatico PWA, tipicamente qualcosa come:
+
+client/src/components/PwaSessionManager.tsx
+oppure equivalente già esistente
+
+Logica richiesta:
+
+legge sessione da localStorageClient
+se manca, esce senza errori
+se presente, chiama backend con:
+metodo POST
+endpoint esistente equivalente a /api/client/auto-login oppure crealo se manca
+Authorization: Bearer <clientToken>
+body JSON con almeno:
+username
+clientId
+se il token è valido:
+ripristina sessione
+se non è valido:
+pulisce il localStorage
+porta il client al login o stato non autenticato
+
+IMPORTANTE
+
+Non usare query string del tipo:
+/api/client/simple-login?username=...&clientId=...&token=...
+Il token deve stare solo nell’header Authorization.
+
+FASE 5 — BACKEND LOGIN
+Aggiorna la route backend di login cliente già esistente, oppure creala se manca in modo coerente con la struttura attuale.
+
+Requisiti:
+
+valida username e password come oggi
+se login OK:
+genera o recupera un token cliente persistente
+restituisce:
+id
+username
+token
+continua a impostare eventuale sessione server già usata, se serve compatibilità
+
+FASE 6 — BACKEND AUTO-LOGIN
+Implementa o aggiorna la route backend di auto-login cliente.
+
+Requisiti:
+
+route POST
+legge il token da:
+Authorization: Bearer ...
+legge dal body almeno:
+username
+clientId
+verifica che:
+il client esista
+username e clientId corrispondano
+il token sia valido
+se valido:
+ripristina eventuale sessione server
+restituisce successo e dati minimi client
+se non valido:
+401 pulito
+nessun leak informativo inutile
+
+FASE 7 — TOKEN STORAGE SERVER
+Se nel DB esiste già un campo adatto, riusalo.
+Se non esiste, aggiungi un campo coerente per memorizzare il token cliente o meglio l’hash del token.
+
+PREFERENZA
+Preferisci questa soluzione:
+
+genera token random server-side
+salva nel DB solo pwaTokenHash
+restituisci al client solo il token in chiaro una volta
+quando il client lo rimanda, fai hash e confronta
+
+Se però questa modifica DB è troppo invasiva per rompere meno possibile, puoi in prima battuta:
+
+salvare pwaToken in chiaro
+ma segnala chiaramente che è una soluzione transitoria
+
+FASE 8 — LOGOUT
+Aggiorna il logout cliente:
+
+pulisce clientUsername, clientId, clientToken
+mantiene eventuale chiamata backend già esistente
+non lascia residui nel localStorage
+
+FASE 9 — CLEANUP VECCHIO CODICE
+Rimuovi o sostituisci tutti i riferimenti a:
+
+clientPassword
+staffPassword
+
+Controlla anche:
+
+Welcome page
+launcher PWA
+componenti session manager
+helper login client
+eventuali debug console che mostrano dati sensibili
+
+FASE 10 — VALIDAZIONE FINALE
+Dopo le modifiche:
+
+esegui typecheck/build
+verifica che non ci siano errori TypeScript
+verifica che il login cliente funzioni
+verifica che il re-login PWA funzioni
+verifica che logout pulisca tutto
+verifica che nessuna password sia più nel localStorage
+verifica che nessun token cliente sia passato in query string
+
+OUTPUT CHE VOGLIO DA TE
+Alla fine non limitarti a dire “fatto”.
+Dammi questo report strutturato:
+
+FILE MODIFICATI
+elenco file toccati
+MODIFICHE APPLICATE
+breve spiegazione per file
+COMPATIBILITÀ
+se hai dovuto adattare nomi/route al codice reale
+RISCHI RESIDUI
+es. token salvato in chiaro invece che hashato
+eventuali punti ancora migliorabili
+CHECK ESEGUITI
+build/typecheck
+login
+auto-login
+logout
+assenza password in localStorage
+assenza token in query string
+
+REGOLE FINALI
+
+Non introdurre soluzioni “creative” non richieste.
+Non reinserire password nel localStorage.
+Non lasciare hardcoded secrets.
+Non usare query string per autenticazione.
+Mantieni il cambiamento il più piccolo possibile ma tecnicamente corretto.
+
+Versione breve, più aggressiva, se vuoi incollarla al volo:
+
+```text
+Ripristina il re-login automatico PWA cliente senza salvare password nel localStorage.
+
+Obiettivo:
+- eliminare ogni uso di `clientPassword` e `staffPassword`
+- usare solo `clientUsername`, `clientId`, `clientToken`
+- token solo in `Authorization: Bearer ...`
+- niente token in query string
+- niente password nel localStorage
+
+Da fare:
+1. Cerca tutti i riferimenti a `clientPassword`, `staffPassword`, `simple-login`, `localStorage`.
+2. Aggiorna/crea `client/src/lib/localStorageClient.ts` con:
+   - saveClientSession
+   - getClientSession
+   - clearClientSession
+3. Aggiorna il login cliente per salvare solo username/clientId/token.
+4. Aggiorna il componente PWA auto-login per usare POST + Bearer token.
+5. Aggiorna/crea route backend di auto-login cliente.
+6. Se serve, fai restituire token dalla route login cliente.
+7. Aggiorna logout per pulire `clientUsername`, `clientId`, `clientToken`.
+8. Rimuovi tutti i vecchi riferimenti a password salvate lato browser.
+9. Esegui typecheck/build.
+10. Dammi report finale con:
+   - file modificati
+   - modifiche applicate
+   - eventuali adattamenti
+   - rischi residui
+   - esito check finali
+
+Vincoli:
+- non rompere il programma
+- non introdurre refactoring extra
+- non usare query string per autenticazione
+- non salvare password nel browser
+- cambiamento minimo ma corretto
+
+Se vuoi, posso anche prepararti una terza versione ancora più forte, pensata per evitare che il tuo agente “interpreti” troppo e faccia modifiche laterali.

@@ -119,6 +119,13 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Logging Reduction**: ~400+ verbose `console.log` converted to `logger.debug` across routes, storage, services, auth — silenced in production
 - **Unit Tests**: `vitest` with 21 tests covering appointment conflict detection, password hashing, session serialization, tenant isolation, logger behavior. Run with `npx vitest run --config vitest.config.ts`
 
+### Security Fixes (completato 06/04/2026)
+- **PWA token exposure fixed**: `localStorageClient.ts` no longer sends token in query string — uses POST body to `/api/client/login`
+- **x-bypass-auth removed**: Server no longer allows unauthenticated access via `x-bypass-auth` header on beta routes
+- **Hardcoded credentials removed**: `gironico` beta admin password removed from client-side code; server reads from `BETA_ADMIN_PASSWORD` env var (falls back to default)
+- **Header logging removed**: Beta admin middleware no longer logs all request headers
+- **Dual encryption modules**: `server/services/encryption.ts` (CryptoJS/AES) and `server/utils/encryption.ts` (Node crypto/AES-256-GCM) coexist intentionally — different consumers, do NOT merge
+
 ### Security Hardening (completato 02/04/2026)
 - **Helmet**: header di sicurezza HTTP attivi (X-Frame-Options, HSTS, X-Content-Type-Options, etc.)
 - **Body limit**: ridotto da 1GB a 10MB (sufficiente per icone base64)

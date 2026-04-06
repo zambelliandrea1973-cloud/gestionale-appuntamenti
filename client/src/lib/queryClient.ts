@@ -34,7 +34,6 @@ function buildDeviceHeaders(options?: { withBetaAdminToken?: boolean }): Record<
   // Aggiungi header specifici del browser
   if (isDuckDuckGo) {
     headers["x-browser"] = "duckduckgo";
-    headers["x-bypass-auth"] = "true";
   } else if (isSafari) {
     headers["x-browser"] = "safari";
   }
@@ -46,7 +45,7 @@ function buildDeviceHeaders(options?: { withBetaAdminToken?: boolean }): Record<
   if (options?.withBetaAdminToken) {
     const savedPassword = localStorage.getItem('betaAdminPassword') || 
                          sessionStorage.getItem('betaAdminPassword') || 
-                         'gironico';
+                         '';
     headers["X-Beta-Admin-Token"] = savedPassword;
     headers["Authorization"] = `Bearer ${savedPassword}`;
     headers["X-Auth-Token"] = savedPassword;

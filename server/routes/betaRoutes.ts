@@ -5,27 +5,14 @@ import { storage } from '../storage';
 
 const router = Router();
 
-// Password amministrativa predefinita per l'accesso all'area beta
-const DEFAULT_BETA_ADMIN_PASSWORD = 'gironico';
+const DEFAULT_BETA_ADMIN_PASSWORD = process.env.BETA_ADMIN_PASSWORD || 'gironico';
 
 // Middleware per l'autenticazione personalizzata per l'area beta
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Logga tutti gli header per debug
-    console.log('Headers ricevuti:', JSON.stringify(req.headers));
-    
     // Controlla tutti i possibili header di autenticazione
     const adminToken = req.headers['x-beta-admin-token'] as string | undefined;
     const authHeader = req.headers['authorization'] as string | undefined;
-    const xBypassAuth = req.headers['x-bypass-auth'] as string | undefined;
-    const xBrowser = req.headers['x-browser'] as string | undefined;
-    
-    // Per DuckDuckGo o browser problematici, bypass speciale
-    if (xBypassAuth === 'true' || xBrowser === 'duckduckgo') {
-      console.log('Browser speciale rilevato, utilizzo bypass per autenticazione');
-      return next();
-    }
-    
     // Estrae il token dall'header Authorization se presente
     let bearerToken: string | undefined;
     if (authHeader && authHeader.startsWith('Bearer ')) {

@@ -64,22 +64,15 @@ class LocalStorageClient {
       
       const { username, clientId, token } = credentials;
       
-      // Prima verifichiamo la validità del token
-      const verifyResponse = await apiRequest('POST', '/api/verify-token', { token, clientId });
-      
-      if (!verifyResponse.ok) {
-        console.warn('Token non valido durante il ripristino della sessione');
-        return false;
-      }
-      
-      // Effettuiamo il login usando l'API semplificata
-      const loginUrl = `/api/client/simple-login?username=${encodeURIComponent(username)}&clientId=${clientId}&token=${encodeURIComponent(token)}`;
-      const loginResponse = await fetch(loginUrl, {
-        method: 'GET',
+      const loginResponse = await fetch('/api/client/login', {
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Accept': 'application/json',
           'X-PWA-Client': 'true'
-        }
+        },
+        credentials: 'include',
+        body: JSON.stringify({ token, clientId, username })
       });
       
       if (loginResponse.ok) {

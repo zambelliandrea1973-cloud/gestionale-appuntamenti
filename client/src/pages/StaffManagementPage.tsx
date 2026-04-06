@@ -255,7 +255,6 @@ export default function StaffManagementPage() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-        </div>
       </div>
 
       {/* Barra di ricerca */}

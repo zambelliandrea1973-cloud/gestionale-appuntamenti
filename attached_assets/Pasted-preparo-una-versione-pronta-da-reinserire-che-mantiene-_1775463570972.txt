@@ -1,0 +1,443 @@
+preparo una versione pronta da reinserire che mantiene il login automatico PWA senza salvare la password.
+
+Obiettivo
+
+Sostituire questo schema debole:
+
+clientUsername
+clientPassword
+
+con questo schema migliore:
+
+clientUsername
+clientId
+clientToken
+
+La logica è:
+
+login normale con username/password
+il server restituisce un token persistente dedicato al cliente
+il client salva solo il token
+al riavvio PWA fa auto-login con token
+se token non valido, pulisce storage e torna al login
+1. Utility storage client
+
+File consigliato: client/src/lib/localStorageClient.ts
+
+export type StoredClientSession = {
+  username: string;
+  clientId: number | string;
+  token: string;
+};
+
+const CLIENT_USERNAME_KEY = "clientUsername";
+const CLIENT_ID_KEY = "clientId";
+const CLIENT_TOKEN_KEY = "clientToken";
+
+export function saveClientSession(session: StoredClientSession): void {
+  localStorage.setItem(CLIENT_USERNAME_KEY, String(session.username));
+  localStorage.setItem(CLIENT_ID_KEY, String(session.clientId));
+  localStorage.setItem(CLIENT_TOKEN_KEY, String(session.token));
+}
+
+export function getClientSession(): StoredClientSession | null {
+  const username = localStorage.getItem(CLIENT_USERNAME_KEY);
+  const clientId = localStorage.getItem(CLIENT_ID_KEY);
+  const token = localStorage.getItem(CLIENT_TOKEN_KEY);
+
+  if (!username || !clientId || !token) {
+    return null;
+  }
+
+  return {
+    username,
+    clientId,
+    token,
+  };
+}
+
+export function clearClientSession(): void {
+  localStorage.removeItem(CLIENT_USERNAME_KEY);
+  localStorage.removeItem(CLIENT_ID_KEY);
+  localStorage.removeItem(CLIENT_TOKEN_KEY);
+}
+2. Login client: salva token invece della password
+
+Nel punto in cui oggi fai login cliente, usa questa logica.
+
+Esempio frontend:
+
+import { saveClientSession } from "@/lib/localStorageClient";
+
+type ClientLoginResponse = {
+  success: boolean;
+  client?: {
+    id: number | string;
+    username: string;
+    token: string;
+    name?: string;
+  };
+  message?: string;
+};
+
+export async function loginClient(username: string, password: string) {
+  const res = await fetch("/api/client/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ username, password }),
+  });
+
+  const data: ClientLoginResponse = await res.json();
+
+  if (!res.ok || !data.success || !data.client) {
+    throw new Error(data.message || "Login cliente non riuscito");
+  }
+
+  saveClientSession({
+    username: data.client.username,
+    clientId: data.client.id,
+    token: data.client.token,
+  });
+
+  return data.client;
+}
+Nota importante
+
+Questo richiede che il backend /api/client/login restituisca anche un token, per esempio:
+
+{
+  "success": true,
+  "client": {
+    "id": 123,
+    "username": "mario",
+    "token": "abc123..."
+  }
+}
+3. Auto-login PWA sicuro
+
+File consigliato: client/src/components/PwaSessionManager.tsx
+
+import { useEffect, useState } from "react";
+import { clearClientSession, getClientSession } from "@/lib/localStorageClient";
+
+type AutoLoginResponse = {
+  success: boolean;
+  client?: {
+    id: number | string;
+    username: string;
+    name?: string;
+  };
+  message?: string;
+};
+
+type PwaSessionManagerProps = {
+  onAuthenticated?: (client: AutoLoginResponse["client"]) => void;
+  onUnauthenticated?: () => void;
+};
+
+export default function PwaSessionManager({
+  onAuthenticated,
+  onUnauthenticated,
+}: PwaSessionManagerProps) {
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    const restoreSession = async () => {
+      const session = getClientSession();
+
+      if (!session) {
+        setCheckingSession(false);
+        onUnauthenticated?.();
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/client/auto-login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            username: session.username,
+            clientId: session.clientId,
+          }),
+        });
+
+        const data: AutoLoginResponse = await res.json();
+
+        if (!res.ok || !data.success || !data.client) {
+          clearClientSession();
+          onUnauthenticated?.();
+          return;
+        }
+
+        onAuthenticated?.(data.client);
+      } catch (error) {
+        console.error("Errore auto-login cliente:", error);
+        clearClientSession();
+        onUnauthenticated?.();
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    restoreSession();
+  }, [onAuthenticated, onUnauthenticated]);
+
+  if (checkingSession) {
+    return <div>Verifica accesso in corso...</div>;
+  }
+
+  return null;
+}
+4. WelcomePage o launcher PWA
+
+Nel punto in cui prima controllavi clientPassword, usa invece questo.
+
+import { getClientSession } from "@/lib/localStorageClient";
+
+const existingSession = getClientSession();
+
+if (existingSession) {
+  console.log("Sessione cliente trovata:", {
+    username: existingSession.username,
+    clientId: existingSession.clientId,
+    hasToken: !!existingSession.token,
+  });
+} else {
+  console.log("Nessuna sessione cliente salvata");
+}
+5. Logout corretto
+
+Ovunque fai logout cliente:
+
+import { clearClientSession } from "@/lib/localStorageClient";
+
+export async function logoutClient() {
+  try {
+    await fetch("/api/client/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+  } finally {
+    clearClientSession();
+  }
+}
+6. Backend: route login aggiornata
+
+Serve che il backend restituisca un token persistente o rinnovabile.
+
+Esempio Express:
+
+router.post("/api/client/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Username e password obbligatori",
+      });
+    }
+
+    const client = await storage.getClientByUsername(username);
+
+    if (!client) {
+      return res.status(401).json({
+        success: false,
+        message: "Credenziali non valide",
+      });
+    }
+
+    const passwordOk = await verifyClientPassword(password, client.passwordHash);
+
+    if (!passwordOk) {
+      return res.status(401).json({
+        success: false,
+        message: "Credenziali non valide",
+      });
+    }
+
+    const token = client.pwaToken || (await generateAndSaveClientPwaToken(client.id));
+
+    req.session.clientId = client.id;
+
+    return res.json({
+      success: true,
+      client: {
+        id: client.id,
+        username: client.username,
+        name: client.name,
+        token,
+      },
+    });
+  } catch (error) {
+    console.error("Errore login cliente:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Errore interno del server",
+    });
+  }
+});
+7. Backend: route auto-login con token
+router.post("/api/client/auto-login", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.slice(7).trim()
+      : null;
+
+    const { username, clientId } = req.body;
+
+    if (!bearerToken || !username || !clientId) {
+      return res.status(400).json({
+        success: false,
+        message: "Dati sessione mancanti",
+      });
+    }
+
+    const client = await storage.getClientById(Number(clientId));
+
+    if (!client) {
+      return res.status(401).json({
+        success: false,
+        message: "Cliente non trovato",
+      });
+    }
+
+    if (client.username !== username) {
+      return res.status(401).json({
+        success: false,
+        message: "Sessione non valida",
+      });
+    }
+
+    if (!client.pwaToken || client.pwaToken !== bearerToken) {
+      return res.status(401).json({
+        success: false,
+        message: "Token non valido",
+      });
+    }
+
+    req.session.clientId = client.id;
+
+    return res.json({
+      success: true,
+      client: {
+        id: client.id,
+        username: client.username,
+        name: client.name,
+      },
+    });
+  } catch (error) {
+    console.error("Errore auto-login cliente:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Errore interno del server",
+    });
+  }
+});
+8. Generazione token server-side
+
+Se non hai già un token dedicato, crea una funzione simile.
+
+import crypto from "crypto";
+
+export function generateSecureToken(length = 48): string {
+  return crypto.randomBytes(length).toString("hex");
+}
+
+E salvalo sul cliente, per esempio campo DB:
+
+pwaToken
+oppure meglio pwaTokenHash
+9. Versione migliore: salva hash del token, non token in chiaro
+
+Questa è la versione più solida.
+
+DB
+
+Salvi:
+
+pwaTokenHash
+Client
+
+Conserva il token in chiaro
+
+Server
+
+Quando arriva il token:
+
+fai hash
+confronti con pwaTokenHash
+
+Esempio:
+
+import crypto from "crypto";
+
+export function hashToken(token: string): string {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
+
+Quando generi token:
+
+const rawToken = generateSecureToken();
+const tokenHash = hashToken(rawToken);
+
+// salva tokenHash nel DB
+// restituisci rawToken al client
+
+Quando verifichi:
+
+const incomingHash = hashToken(bearerToken);
+
+if (client.pwaTokenHash !== incomingHash) {
+  return res.status(401).json({ success: false, message: "Token non valido" });
+}
+10. Versione minima da dare al tuo agente
+
+Se vuoi farla reinserire rapidamente, questa è la richiesta giusta:
+
+Frontend
+eliminare ogni uso di clientPassword e staffPassword da localStorage
+usare solo:
+clientUsername
+clientId
+clientToken
+aggiungere route di auto-login via POST /api/client/auto-login
+inviare token nel header Authorization: Bearer ...
+Backend
+POST /api/client/login deve restituire un token cliente
+POST /api/client/auto-login deve validare token + clientId + username
+il token deve essere generato lato server
+meglio se nel DB si salva l’hash del token, non il token in chiaro
+11. Cosa non fare
+
+Non reinserire:
+
+localStorage.setItem("clientPassword", password);
+localStorage.setItem("staffPassword", password);
+
+Non usare:
+
+/api/client/simple-login?token=...
+
+Non passare token in query string.
+
+Conclusione
+
+Questa è una versione pronta, coerente e molto migliore della precedente:
+
+mantiene il re-login PWA
+non salva password
+evita token in URL
+ti prepara a una gestione più stabile
+
+[UNCERTAIN] Non posso garantire compatibilità perfetta al 100% con il tuo backend reale senza vedere le route effettive attuali, ma la struttura è corretta e pronta da adattare con modifiche minime.
+
+Nel prossimo messaggio posso fare una cosa ancora più utile: scriverti il prompt tecnico preciso da dare al tuo agente per applicare queste modifiche file-per-file senza interpretazioni.

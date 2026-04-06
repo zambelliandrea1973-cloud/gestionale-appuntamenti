@@ -1,0 +1,81 @@
+Verdetto netto
+
+[VERIFIED] Il codice non è ancora “corretto” in senso tecnico pieno, perché allo stato attuale non compila con TypeScript.
+[VERIFIED] Alcuni fix che avevi indicato risultano davvero applicati.
+[VERIFIED] Restano però problemi reali di funzionamento, sicurezza applicativa e stabilità futura.
+
+La conclusione corretta è questa:
+
+hai migliorato l’igiene generale, ma il progetto non è ancora in uno stato affidabile per evolvere senza rischio.
+
+Cose che risultano davvero migliorate
+Fix confermati
+
+[VERIFIED | codice sorgente]
+
+helmet è stato aggiunto in server/index.ts
+body limit è stato ridotto a 10mb
+SESSION_SECRET su Sliplane ora va in fail-fast in server/auth.ts
+ENCRYPTION_KEY in server/utils/encryption.ts va in fail-fast su Sliplane/production
+non trovo più i vecchi riferimenti a clientPassword / staffPassword nel localStorage lato PWA
+
+Questi sono miglioramenti reali.
+
+Problemi trovati
+1. Il progetto attualmente non compila
+
+[VERIFIED | check TypeScript]
+
+Ho eseguito npm run check e fallisce con errori sintattici:
+
+client/src/pages/StaffManagementPage.tsx(261,7): error TS1005: ')' expected.
+client/src/pages/StaffManagementPage.tsx(322,5): error TS1128: Declaration or statement expected.
+client/src/pages/StaffManagementPage.tsx(323,3): error TS1109: Expression expected.
+Implicazione
+
+[VERIFIED] Questo da solo basta a dire che il codice non è ancora sano.
+Anche se il runtime attuale sul server può continuare a funzionare, il sorgente che mi hai dato non passa il controllo base.
+
+Priorità
+
+P0
+
+2. Hai ancora una backdoor/admin auth debole e hardcoded
+
+Questo è il problema più grave che ho trovato nel codice aggiornato.
+
+Evidenze
+
+[VERIFIED | codice sorgente]
+
+Riferimenti hardcoded a password/token amministrativi:
+
+client/src/pages/BetaAdmin.tsx
+DEFAULT_ADMIN_PASSWORD = 'gironico'
+accetta anche 'EF2025Admin'
+salva la password amministrativa in localStorage
+client/src/lib/queryClient.ts
+legge betaAdminPassword da local/session storage
+la invia in:
+X-Beta-Admin-Token
+Authorization: Bearer ...
+X-Auth-Token
+server/routes/betaRoutes.ts
+accetta token tipo 'gironico' / 'EF2025Admin'
+server/routes/adminRoutes.ts
+controlli su 'gironico'
+chiave hardcoded gironico-restart-2025
+server/middleware/paymentAdminAuth.ts
+accetta gironico
+server/routes/licenseRoutes.ts
+confronti diretti con gironico
+server/auth.ts
+logica di transizione che accetta ancora gironico
+Giudizio
+
+[VERIFIED] Questo non è un dettaglio estetico. È una autenticazione privilegiata debole, distribuita in più punti, con secret hardcoded lato client e server.
+
+Implicazione
+rischio accesso amministrativo non robusto
+impossibilità di considerare affidabile il modello auth
+futura manutenzione pericolosa perché il bypass è sparso
