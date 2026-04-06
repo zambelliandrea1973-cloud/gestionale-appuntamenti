@@ -1,0 +1,843 @@
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 09:22:56:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 09:22:56:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775460176866-default
+06/04/2026, 09:22:56:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 09:22:56:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 09:23:00:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+06/04/2026, 09:23:00:
+runtime
+Logout completato con successo
+06/04/2026, 09:23:00:
+runtime
+7:23:00 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+06/04/2026, 09:23:01:
+runtime
+7:23:01 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+06/04/2026, 09:23:22:
+runtime
+7:23:22 AM [express] POST /api/staff/login 200 in 2086ms :: {"id":14,"username":"busnari.silvia@libe…
+06/04/2026, 09:23:24:
+runtime
+7:23:24 AM [express] POST /api/staff/login 200 in 536ms :: {"id":14,"username":"busnari.silvia@liber…
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 09:23:25:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 09:23:25:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775460205175-default
+06/04/2026, 09:23:25:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 09:23:25:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 09:23:25:
+runtime
+7:23:25 AM [express] GET /api/timezone-settings 200 in 253ms :: {"timezone":"Europe/Rome","offset":-…
+06/04/2026, 09:23:25:
+runtime
+7:23:25 AM [express] POST /api/timezone-settings 200 in 236ms :: {"success":true,"timezone":"Europe/…
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/license/has-business-access 200 in 1298ms :: true
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/license/license-info 200 in 1323ms :: {"hasLicense":true,"type":"staff…
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/license/application-title 200 in 1310ms :: {"title":"Gestionale Appunt…
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] Session ID: O35dml409-XtDzon-UHLUibxqsGMxRn2
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] req.user: User ID 14, type: staff
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] Cookie header: present
+06/04/2026, 09:23:26:
+runtime
+🔐 [has-pro-access] ============================
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/license/has-pro-access 200 in 1327ms :: true
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/client-app-info 200 in 1373ms :: {"appName":"Gestionale Appuntamenti",…
+06/04/2026, 09:23:26:
+runtime
+7:23:26 AM [express] GET /api/booking-requests 200 in 1715ms :: [{"id":30,"userId":14,"clientId":140…
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+06/04/2026, 09:23:27:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: Referer: 
+06/04/2026, 09:23:27:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1775460207447-default
+06/04/2026, 09:23:27:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+06/04/2026, 09:23:27:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+06/04/2026, 09:23:27:
+runtime
+7:23:27 AM [express] GET /api/license/license-info 304 in 282ms :: {"hasLicense":true,"type":"staff_…
+06/04/2026, 09:23:27:
+runtime
+7:23:27 AM [express] GET /api/timezone-settings 200 in 286ms :: {"timezone":"Europe/Rome","offset":-…
+06/04/2026, 09:23:27:
+runtime
+7:23:27 AM [express] GET /api/license/has-business-access 304 in 281ms :: true
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] Session ID: O35dml409-XtDzon-UHLUibxqsGMxRn2
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] req.user: User ID 14, type: staff
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] Cookie header: present
+06/04/2026, 09:23:27:
+runtime
+🔐 [has-pro-access] ============================
+06/04/2026, 09:23:27:
+runtime
+7:23:27 AM [express] GET /api/license/application-title 304 in 329ms :: {"title":"Gestionale Appunta…
+06/04/2026, 09:23:27:
+runtime
+7:23:27 AM [express] GET /api/license/has-pro-access 304 in 322ms :: true
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/booking-requests 200 in 633ms :: [{"id":30,"userId":14,"clientId":1400…
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] POST /api/timezone-settings 200 in 232ms :: {"success":true,"timezone":"Europe/…
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/user-with-license 200 in 831ms :: {"id":14,"username":"busnari.silvia@…
+06/04/2026, 09:23:28:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 14
+06/04/2026, 09:23:28:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+06/04/2026, 09:23:28:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+06/04/2026, 09:23:28:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '14', ts: '1775460208585' }
+06/04/2026, 09:23:28:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 14
+06/04/2026, 09:23:28:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 14)
+06/04/2026, 09:23:28:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+06/04/2026, 09:23:28:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1775460208413.7397&admin=1","/pwa-icon/192x192?owner=14&v=1775460208413.7397&admin=1","/pwa-icon/512x512?owner=14&v=1775460208413.7397&admin=1"]
+06/04/2026, 09:23:28:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+06/04/2026, 09:23:28:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 14
+06/04/2026, 09:23:28:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+06/04/2026, 09:23:28:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+06/04/2026, 09:23:28:
+runtime
+Recupero impostazioni per utente 14
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/tenant-context 200 in 236ms :: {"userId":14,"userType":"staff","tenant…
+06/04/2026, 09:23:28:
+runtime
+Recupero impostazioni per utente 14
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/client-app-info 200 in 1211ms :: {"appName":"Gestionale Appuntamenti",…
+06/04/2026, 09:23:28:
+runtime
+Impostazioni trovate per utente 14: SI
+06/04/2026, 09:23:28:
+runtime
+Impostazioni trovate per utente 14: SI
+06/04/2026, 09:23:28:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+06/04/2026, 09:23:28:
+runtime
+  businessName: 'Studio Medico',
+06/04/2026, 09:23:28:
+runtime
+  showBusinessName: true,
+06/04/2026, 09:23:28:
+runtime
+  name: 'Silvia Busnari ',
+06/04/2026, 09:23:28:
+runtime
+  fontSize: 42,
+06/04/2026, 09:23:28:
+runtime
+  fontFamily: 'Lucida Sans Unicode',
+06/04/2026, 09:23:28:
+runtime
+  fontStyle: 'italic',
+06/04/2026, 09:23:28:
+runtime
+  color: '#FF0000',
+06/04/2026, 09:23:28:
+runtime
+  enabled: true
+06/04/2026, 09:23:28:
+runtime
+}
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/contact-info 200 in 482ms :: {"email":"busnari.silvia@gmail.com","phon…
+06/04/2026, 09:23:28:
+runtime
+7:23:28 AM [express] GET /api/company-name-settings 200 in 491ms :: {"businessName":"Studio Medico",…
+06/04/2026, 09:23:28:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+06/04/2026, 09:23:29:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+06/04/2026, 09:23:29:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+06/04/2026, 09:23:29:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 14, dimensione: 26572 bytes
+06/04/2026, 09:23:29:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+06/04/2026, 09:23:29:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+06/04/2026, 09:23:29:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+06/04/2026, 09:23:29:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 14, dimensione: 26572 bytes
+06/04/2026, 09:24:16:
+build
+Counting objects: 100% (3373/3373), done.
+06/04/2026, 09:24:16:
+build
+Compressing objects: 100% (366/366), done.
+06/04/2026, 09:24:48:
+build
+Total 27439 (delta 3192), reused 3099 (delta 3007), pack-reused 24066 (from 3)
+06/04/2026, 09:25:34:
+build
+#1 [service_event_kyt0y846hur6 internal] load build definition from Dockerfile
+06/04/2026, 09:25:34:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 09:25:34:
+build
+#1 DONE 0.0s
+06/04/2026, 09:25:34:
+build
+06/04/2026, 09:25:34:
+build
+#2 [service_event_kyt0y846hur6 internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 09:25:34:
+build
+#2 DONE 0.7s
+06/04/2026, 09:25:34:
+build
+06/04/2026, 09:25:34:
+build
+#3 [service_event_kyt0y846hur6 internal] load .dockerignore
+06/04/2026, 09:25:34:
+build
+#3 transferring context: 755B done
+06/04/2026, 09:25:34:
+build
+#3 DONE 0.0s
+06/04/2026, 09:25:34:
+build
+06/04/2026, 09:25:34:
+build
+#4 [service_event_kyt0y846hur6 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 09:25:34:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+06/04/2026, 09:25:34:
+build
+#4 DONE 0.0s
+06/04/2026, 09:25:34:
+build
+06/04/2026, 09:25:34:
+build
+#5 [service_event_kyt0y846hur6 internal] load build context
+06/04/2026, 09:25:39:
+build
+#5 transferring context: 1.65GB 5.0s
+06/04/2026, 09:25:40:
+build
+#5 transferring context: 1.68GB 5.1s done
+06/04/2026, 09:25:40:
+build
+#5 DONE 5.2s
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#6 [service_event_kyt0y846hur6 2/8] WORKDIR /app
+06/04/2026, 09:25:40:
+build
+#6 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#7 [service_event_kyt0y846hur6 3/8] COPY package.json package-lock.json ./
+06/04/2026, 09:25:40:
+build
+#7 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#8 [service_event_kyt0y846hur6 4/8] RUN npm ci
+06/04/2026, 09:25:40:
+build
+#8 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#9 [service_event_kyt0y846hur6 5/8] RUN echo "Build timestamp: 2026-04-06-01:00"
+06/04/2026, 09:25:40:
+build
+#9 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#10 [service_event_kyt0y846hur6 6/8] COPY . .
+06/04/2026, 09:25:40:
+build
+#10 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#11 [service_event_kyt0y846hur6 7/8] RUN npx vite build
+06/04/2026, 09:25:40:
+build
+#11 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#12 [service_event_kyt0y846hur6 8/8] RUN cp -r dist/public server/public
+06/04/2026, 09:25:40:
+build
+#12 CACHED
+06/04/2026, 09:25:40:
+build
+06/04/2026, 09:25:40:
+build
+#13 [service_event_kyt0y846hur6] exporting to image
+06/04/2026, 09:25:40:
+build
+#13 exporting layers done
+06/04/2026, 09:25:40:
+build
+#13 exporting manifest sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb done
+06/04/2026, 09:25:40:
+build
+#13 exporting config sha256:b7e58f48816c6a2a10bf0f4f39e8a08c7315f2b733a471fc6e5fd4e024431906 done
+06/04/2026, 09:25:40:
+build
+#13 pushing layers 0.1s done
+06/04/2026, 09:25:40:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_kyt0y846hur6@sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb
+06/04/2026, 09:25:40:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_kyt0y846hur6@sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb 0.1s done
+06/04/2026, 09:25:40:
+build
+#13 DONE 0.2s
+06/04/2026, 09:25:41:
+build
+service_event_kyt0y846hur6: Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+06/04/2026, 09:25:41:
+build
+Digest: sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb
+06/04/2026, 09:25:41:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_kyt0y846hur6
+06/04/2026, 09:25:45:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+06/04/2026, 09:25:46:
+runtime
+Servizio gestione telefono diretto inizializzato
+06/04/2026, 09:25:46:
+runtime
+Debug OAuth URL: {
+06/04/2026, 09:25:46:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti/api/google-auth/callback'
+06/04/2026, 09:25:46:
+runtime
+}
+06/04/2026, 09:25:46:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti/api/google-auth/callback
+06/04/2026, 09:25:46:
+runtime
+Google Credentials: {
+06/04/2026, 09:25:46:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+06/04/2026, 09:25:46:
+runtime
+  secretPresent: 'Present'
+06/04/2026, 09:25:46:
+runtime
+}
+06/04/2026, 09:25:46:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+06/04/2026, 09:25:46:
+runtime
+   📅 Appuntamenti caricati: 50
+06/04/2026, 09:25:46:
+runtime
+   👥 Clienti caricati: 40
+06/04/2026, 09:25:46:
+runtime
+   🔍 Primi 3 appuntamenti: [
+06/04/2026, 09:25:46:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+06/04/2026, 09:25:46:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+06/04/2026, 09:25:46:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+06/04/2026, 09:25:46:
+runtime
+]
+06/04/2026, 09:25:46:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+06/04/2026, 09:25:46:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+06/04/2026, 09:25:49:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+06/04/2026, 09:25:49:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+06/04/2026, 09:25:49:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+06/04/2026, 09:25:49:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+06/04/2026, 09:25:49:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+06/04/2026, 09:25:49:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+06/04/2026, 09:25:49:
+runtime
+Tutti gli scheduler inizializzati
+06/04/2026, 09:25:49:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+06/04/2026, 09:25:49:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+06/04/2026, 09:25:49:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+06/04/2026, 09:25:49:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+06/04/2026, 09:25:49:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+06/04/2026, 09:25:49:
+runtime
+7:25:49 AM [express] serving on port 5000
+06/04/2026, 09:25:49:
+runtime
+Telefono caricato dal database: +393472550110
+06/04/2026, 09:25:49:
+runtime
+✅ PostgreSQL database is available
+06/04/2026, 09:25:54:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+06/04/2026, 09:25:59:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+06/04/2026, 09:25:59:
+runtime
+📊 [MONITOR] Stats: 58 utenti, 4571 clienti, 502 appuntamenti, max 0 clienti/utente
+06/04/2026, 09:25:59:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+06/04/2026, 09:29:37:
+build
+Enumerating objects: 27439, done.
+06/04/2026, 09:29:37:
+build
+Counting objects: 100% (3373/3373), done.
+06/04/2026, 09:29:37:
+build
+Compressing objects: 100% (366/366), done.
+06/04/2026, 09:30:00:
+runtime
+⏰ Esecuzione del job di promemoria appuntamenti: 2026-04-06T07:30:00.426Z
+06/04/2026, 09:30:19:
+build
+Total 27439 (delta 3192), reused 3099 (delta 3007), pack-reused 24066 (from 3)
+06/04/2026, 09:31:04:
+build
+#1 [service_event_tlo2u19j2dxg internal] load build definition from Dockerfile
+06/04/2026, 09:31:04:
+build
+#1 transferring dockerfile: 938B done
+06/04/2026, 09:31:04:
+build
+#1 DONE 0.0s
+06/04/2026, 09:31:04:
+build
+06/04/2026, 09:31:04:
+build
+#2 [service_event_tlo2u19j2dxg internal] load metadata for docker.io/library/node:20-alpine
+06/04/2026, 09:31:05:
+build
+#2 DONE 0.7s
+06/04/2026, 09:31:05:
+build
+06/04/2026, 09:31:05:
+build
+#3 [service_event_tlo2u19j2dxg internal] load .dockerignore
+06/04/2026, 09:31:05:
+build
+#3 transferring context: 755B done
+06/04/2026, 09:31:05:
+build
+#3 DONE 0.0s
+06/04/2026, 09:31:05:
+build
+06/04/2026, 09:31:05:
+build
+#4 [service_event_tlo2u19j2dxg 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+06/04/2026, 09:31:05:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+06/04/2026, 09:31:05:
+build
+#4 DONE 0.0s
+06/04/2026, 09:31:05:
+build
+06/04/2026, 09:31:05:
+build
+#5 [service_event_tlo2u19j2dxg internal] load build context
+06/04/2026, 09:31:10:
+build
+#5 transferring context: 1.59GB 5.0s
+06/04/2026, 09:31:10:
+build
+#5 transferring context: 1.68GB 5.3s done
+06/04/2026, 09:31:10:
+build
+#5 DONE 5.4s
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#6 [service_event_tlo2u19j2dxg 6/8] COPY . .
+06/04/2026, 09:31:10:
+build
+#6 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#7 [service_event_tlo2u19j2dxg 7/8] RUN npx vite build
+06/04/2026, 09:31:10:
+build
+#7 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#8 [service_event_tlo2u19j2dxg 4/8] RUN npm ci
+06/04/2026, 09:31:10:
+build
+#8 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#9 [service_event_tlo2u19j2dxg 5/8] RUN echo "Build timestamp: 2026-04-06-01:00"
+06/04/2026, 09:31:10:
+build
+#9 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#10 [service_event_tlo2u19j2dxg 2/8] WORKDIR /app
+06/04/2026, 09:31:10:
+build
+#10 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#11 [service_event_tlo2u19j2dxg 3/8] COPY package.json package-lock.json ./
+06/04/2026, 09:31:10:
+build
+#11 CACHED
+06/04/2026, 09:31:10:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tlo2u19j2dxg@sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#12 [service_event_tlo2u19j2dxg 8/8] RUN cp -r dist/public server/public
+06/04/2026, 09:31:10:
+build
+#12 CACHED
+06/04/2026, 09:31:10:
+build
+06/04/2026, 09:31:10:
+build
+#13 [service_event_tlo2u19j2dxg] exporting to image
+06/04/2026, 09:31:10:
+build
+#13 exporting layers done
+06/04/2026, 09:31:10:
+build
+#13 exporting manifest sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb done
+06/04/2026, 09:31:10:
+build
+#13 exporting config sha256:b7e58f48816c6a2a10bf0f4f39e8a08c7315f2b733a471fc6e5fd4e024431906 done
+06/04/2026, 09:31:10:
+build
+#13 pushing layers 0.1s done
+06/04/2026, 09:31:11:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tlo2u19j2dxg@sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb 0.1s done
+06/04/2026, 09:31:11:
+build
+#13 DONE 0.2s
+06/04/2026, 09:31:12:
+build
+service_event_tlo2u19j2dxg: Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+06/04/2026, 09:31:12:
+build
+Digest: sha256:8db6c1a7e8f9a1ea1a63f8305b4caa71aaa9de0b9308cb287a9e9b5215db0afb
+06/04/2026, 09:31:12:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_tlo2u19j2dxg
+06/04/2026, 09:31:15:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+06/04/2026, 09:31:17:
+runtime
+Servizio gestione telefono diretto inizializzato
+06/04/2026, 09:31:17:
+runtime
+Debug OAuth URL: {
+06/04/2026, 09:31:17:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+06/04/2026, 09:31:17:
+runtime
+}
+06/04/2026, 09:31:17:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+06/04/2026, 09:31:17:
+runtime
+Google Credentials: {
+06/04/2026, 09:31:17:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+06/04/2026, 09:31:17:
+runtime
+  secretPresent: 'Present'
+06/04/2026, 09:31:17:
+runtime
+}
+06/04/2026, 09:31:17:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+06/04/2026, 09:31:17:
+runtime
+   📅 Appuntamenti caricati: 50
+06/04/2026, 09:31:17:
+runtime
+   👥 Clienti caricati: 40
+06/04/2026, 09:31:17:
+runtime
+   🔍 Primi 3 appuntamenti: [
+06/04/2026, 09:31:17:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+06/04/2026, 09:31:17:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+06/04/2026, 09:31:17:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+06/04/2026, 09:31:17:
+runtime
+]
+06/04/2026, 09:31:17:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+06/04/2026, 09:31:17:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+06/04/2026, 09:31:21:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+06/04/2026, 09:31:21:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+06/04/2026, 09:31:21:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+06/04/2026, 09:31:21:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+06/04/2026, 09:31:21:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+06/04/2026, 09:31:21:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+06/04/2026, 09:31:21:
+runtime
+Tutti gli scheduler inizializzati
+06/04/2026, 09:31:21:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+06/04/2026, 09:31:21:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+06/04/2026, 09:31:21:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+06/04/2026, 09:31:21:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+06/04/2026, 09:31:21:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+06/04/2026, 09:31:21:
+runtime
+7:31:21 AM [express] serving on port 5000
+06/04/2026, 09:31:21:
+runtime
+Telefono caricato dal database: +393472550110
+06/04/2026, 09:31:21:
+runtime
+✅ PostgreSQL database is available
+06/04/2026, 09:31:26:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+06/04/2026, 09:31:31:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+06/04/2026, 09:31:31:
+runtime
+📊 [MONITOR] Stats: 58 utenti, 4571 clienti, 502 appuntamenti, max 0 clienti/utente
+06/04/2026, 09:31:31:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
