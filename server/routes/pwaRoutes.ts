@@ -2,15 +2,22 @@ import { logger } from '../utils/logger';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
-import { clients as clientsTable, userIcons } from '../../shared/schema';
-import { eq } from 'drizzle-orm';
+import { clients as clientsTable, userIcons, clientAccesses } from '../../shared/schema';
+import { eq, count } from 'drizzle-orm';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { requireAuth } from '../middleware/authMiddleware';
+import { iconConversionService } from '../services/iconConversionService';
 import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
 
 const router = Router();
+
+async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
+  const crypto = await import('crypto');
+  const token = crypto.randomBytes(32).toString('hex');
+  return token;
+}
 
 
   // Endpoint per recuperare l'ultimo accesso valido di un proprietario
@@ -22,7 +29,7 @@ router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
       logger.debug(`📱 PWA RECOVERY: Ricerca ultimo accesso per proprietario ${ownerId}`);
       
       // Trova l'ultimo cliente con accesso valido per questo proprietario
-      const ownerClients = Object.values(storageData.clients).filter(client => 
+      const ownerClients = Object.values(storageData.clients).filter((client: any) => 
         client.originalOwnerId === ownerId
       );
       
@@ -31,11 +38,11 @@ router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
       }
       
       // Trova il cliente con l'accesso più recente
-      let lastAccessClient = null;
+      let lastAccessClient: any = null;
       let lastAccessTime = 0;
       
-      for (const client of ownerClients) {
-        const accessCount = storageData.clientAccessCounts[client.id] || 0;
+      for (const client of ownerClients as any[]) {
+        const accessCount = (storageData as any).clientAccessCounts?.[client.id] || 0;
         if (accessCount > 0) {
           // Per ora usiamo l'ID più alto come proxy per l'accesso più recente
           if (client.id > lastAccessTime) {
@@ -61,7 +68,7 @@ router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
         clientName: `${lastAccessClient.firstName} ${lastAccessClient.lastName}`
       });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel recupero ultimo accesso:', error);
       res.status(500).json({ error: 'Errore interno del server' });
     }
@@ -95,7 +102,7 @@ router.get('/api/public/contact-info', (req, res) => {
       };
       
       res.json(publicContactInfo);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel caricamento informazioni contatto pubbliche:', error);
       res.status(500).json({ error: 'Errore interno del server' });
     }
@@ -125,10 +132,10 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
       
       // BACKWARD COMPATIBILITY: Aggiorna contatori JSON storage se cliente presente
       const storageData = loadStorageData();
-      const clientData = storageData.clients?.find(([id, c]) => c.uniqueCode === clientCode);
+      const clientData = storageData.clients?.find(([id, c]: any) => c.uniqueCode === clientCode);
       if (clientData) {
         const [id, jsonClient] = clientData;
-        const clientIndex = storageData.clients.findIndex(([cId, c]) => cId === id);
+        const clientIndex = storageData.clients.findIndex(([cId, c]: any) => cId === id);
         
         // Incrementa contatori accesso
         storageData.clients[clientIndex][1].accessCount = (jsonClient.accessCount || 0) + 1;
@@ -151,7 +158,7 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
         clientId: client.id,
         token: token
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nella registrazione accesso cliente:', error);
       res.status(500).json({ message: "Errore interno" });
     }
@@ -202,7 +209,7 @@ router.post('/api/client-access/track/:clientId', async (req, res) => {
         message: 'Accesso registrato'
       });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel tracking accesso PWA:', error);
       res.status(500).json({ error: 'Errore interno del server' });
     }
@@ -231,7 +238,7 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
         console.log(`❌ PWA ICON OWNER: Nessuna icona trovata per proprietario ${ownerId}`);
         return res.redirect('/icons/icon-' + size + '.png');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel servire icona proprietario:', error);
       return res.redirect('/icons/icon-' + req.params.size + '.png');
     }
@@ -286,8 +293,8 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
       }
       
       // Se non trovato, usa sessione attiva (admin)
-      if (!ownerUserId && req.session && req.session.passport && req.session.passport.user) {
-        const serializedUser = req.session.passport.user;
+      if (!ownerUserId && req.session && (req.session as any).passport && (req.session as any).passport.user) {
+        const serializedUser = (req.session as any).passport.user;
         if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
           ownerUserId = parseInt(serializedUser.split(':')[1]);
           logger.debug(`🔍 PWA ICON: Usando utente sessione attiva ${ownerUserId}`);
@@ -335,7 +342,7 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         return res.redirect(userIcon);
       }
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel servire icona PWA personalizzata:', error);
       // Fallback all'icona predefinita
       res.redirect('/icons/icon-' + req.params.size + '.png');
@@ -386,7 +393,7 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
       logger.debug(`🔄 PWA ICON: Nessuna icona personalizzata per proprietario ${ownerId}, uso standard`);
       res.redirect('/icons/icon-' + size + '.png');
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel servire icona proprietario:', error);
       res.redirect('/icons/icon-' + req.params.size + '.png');
     }
@@ -401,7 +408,7 @@ router.get('/api/client-access/:clientId', requireAuth, (req, res) => {
       const storageData = loadStorageData();
       
       // Trova il cliente
-      const clientData = storageData.clients?.find(([id, client]) => id === clientId);
+      const clientData = storageData.clients?.find(([id, client]: any) => id === clientId);
       if (!clientData) {
         return res.status(404).json({ message: "Cliente non trovato" });
       }
@@ -434,7 +441,7 @@ router.get('/api/client-access/:clientId', requireAuth, (req, res) => {
       
       res.json(accesses);
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nel recupero dettagli accessi:', error);
       res.status(500).json({ error: 'Errore interno del server' });
     }
@@ -447,7 +454,7 @@ router.post('/api/test-reminder-flags', requireAuth, (req, res) => {
       const storageData = loadStorageData();
       
       // Trova l'appuntamento e aggiorna lo stato
-      const appointmentIndex = storageData.appointments?.findIndex(apt => apt.id === appointmentId);
+      const appointmentIndex = storageData.appointments?.findIndex((apt: any) => apt.id === appointmentId);
       if (appointmentIndex !== -1) {
         storageData.appointments[appointmentIndex].reminderStatus = reminderStatus;
         storageData.appointments[appointmentIndex].reminderType = 'email'; // Assicura che abbia un tipo
@@ -463,7 +470,7 @@ router.post('/api/test-reminder-flags', requireAuth, (req, res) => {
       } else {
         res.status(404).json({ error: 'Appuntamento non trovato' });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nell\'aggiornamento dello stato promemoria:', error);
       res.status(500).json({ error: 'Errore interno del server' });
     }
@@ -479,14 +486,14 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
       tomorrow.setDate(tomorrow.getDate() + 1);
       
       // Filtra appuntamenti per domani
-      const tomorrowAppointments = appointments.filter(apt => {
+      const tomorrowAppointments = appointments.filter((apt: any) => {
         const aptDate = new Date(apt.date);
         return aptDate.toDateString() === tomorrow.toDateString();
       });
       
       // Trova l'appuntamento di Marco Berto specifico
-      const marcoBertoAppointment = tomorrowAppointments.find(apt => {
-        const client = storageData.clients?.find(([id, clientData]) => 
+      const marcoBertoAppointment = tomorrowAppointments.find((apt: any) => {
+        const client = storageData.clients?.find(([id, clientData]: any) => 
           clientData.id === apt.clientId && 
           (clientData.firstName?.toLowerCase().includes('marco') || 
            clientData.lastName?.toLowerCase().includes('berto'))
@@ -511,7 +518,7 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
         nextReminderCheck: 'Ogni ora alle :00',
         systemStatus: 'Operativo'
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore controllo promemoria:', error);
       res.status(500).json({ error: 'Errore sistema promemoria' });
     }
@@ -528,7 +535,7 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
       if (file.mimetype.startsWith('image/')) {
         cb(null, true);
       } else {
-        cb(new Error('Solo file immagine sono accettati'), false);
+        cb(null as any, false);
       }
     }
   });
@@ -556,7 +563,7 @@ router.post('/api/upload-custom-icon', requireAuth, upload.single('icon'), async
         message: 'Icona personalizzata caricata e convertita con successo',
         iconPaths: iconPaths
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ [ICON UPLOAD] Errore:', error);
       res.status(500).json({ 
         error: 'Errore durante la conversione dell\'icona',
@@ -589,7 +596,7 @@ router.post('/api/upload-icon-base64', requireAuth, async (req: any, res: any) =
         message: 'Icona caricata e convertita con successo',
         iconPaths: iconPaths
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ [ICON BASE64] Errore:', error);
       res.status(500).json({ 
         error: 'Errore durante la conversione dell\'icona',
@@ -613,7 +620,7 @@ router.post('/api/restore-default-icon', requireAuth, async (req: any, res: any)
         message: 'Icona predefinita ripristinata con successo',
         iconPaths: iconPaths
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ [ICON RESTORE] Errore:', error);
       res.status(500).json({ 
         error: 'Errore durante il ripristino dell\'icona predefinita',
@@ -634,7 +641,7 @@ router.get('/api/current-icon-info', requireAuth, async (req: any, res: any) => 
         currentIcons: manifest.icons,
         manifestPath: '/manifest.json'
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ [ICON INFO] Errore:', error);
       res.status(500).json({ 
         error: 'Errore durante la lettura delle informazioni icone',

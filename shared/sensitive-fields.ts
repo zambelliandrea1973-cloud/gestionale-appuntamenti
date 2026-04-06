@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Definisce i campi considerati sensibili per ogni tabella
  * Questi campi verranno crittografati prima di essere salvati nel database

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -29,6 +30,7 @@ interface AppointmentCardProps {
 
 export default function AppointmentCard({ appointment, onUpdate, compact = false }: AppointmentCardProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   
@@ -66,35 +68,27 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
   
   // Get color based on service color or apply defaults
   const getBorderColor = () => {
-    if (appointment.service.color) {
-      return appointment.service.color;
+    if (appointment.service?.color) {
+      return appointment.service?.color;
     }
-    return appointment.client.isFrequent ? "rgb(236, 72, 153)" : "rgb(59, 130, 246)";
+    return appointment.client?.isFrequent ? "rgb(236, 72, 153)" : "rgb(59, 130, 246)";
   };
   
-  // Get background color based on service color with opacity
   const getBackgroundColor = () => {
-    if (appointment.service.color) {
-      // Convert color to RGB and add transparency
-      if (appointment.service.color.startsWith('#')) {
-        // Hex color
-        return `${appointment.service.color}20`; // 20 is hex for 12% opacity
-      } else if (appointment.service.color.startsWith('rgb')) {
-        // RGB color - replace with rgba
-        return appointment.service.color.replace('rgb', 'rgba').replace(')', ', 0.12)');
+    if (appointment.service?.color) {
+      if (appointment.service?.color.startsWith('#')) {
+        return `${appointment.service?.color}20`;
+      } else if (appointment.service?.color.startsWith('rgb')) {
+        return appointment.service?.color.replace('rgb', 'rgba').replace(')', ', 0.12)');
       }
     }
     
-    return appointment.client.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
+    return appointment.client?.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
   };
 
-  // Get treatment room color for the small circle indicator
   const getRoomColor = () => {
-    if (!appointment.treatmentRoomId) return null;
-    
-    // This will be populated from parent component with treatmentRooms data
-    // For now, return a default color if room ID exists
-    return appointment.treatmentRoomId ? '#10b981' : null; // Default green
+    if (!(appointment as any).treatmentRoomId) return null;
+    return (appointment as any).treatmentRoomId ? '#10b981' : null;
   };
   
   // Controlla se siamo su mobile
@@ -168,18 +162,18 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
         <div className="flex justify-between items-center">
           <div className="truncate mr-1 flex-grow">
             <div className={`font-medium ${isMobile ? 'text-sm' : 'text-xs'} truncate flex items-center`}>
-              <span className="font-bold">{appointment.client.firstName} {appointment.client.lastName}</span>
+              <span className="font-bold">{appointment.client?.firstName} {appointment.client?.lastName}</span>
               {/* Small room color indicator */}
               {getRoomColor() && (
                 <div 
                   className="w-2 h-2 rounded-full ml-2 flex-shrink-0"
-                  style={{ backgroundColor: getRoomColor() }}
-                  title={`Stanza: ${appointment.treatmentRoomId || 'N/A'}`}
+                  style={{ backgroundColor: getRoomColor() as any }}
+                  title={`Stanza: ${(appointment as any).treatmentRoomId || 'N/A'}`}
                 />
               )}
             </div>
             <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-700 truncate mt-0.5`}>
-              <span className="font-medium">{appointment.service.name}</span>
+              <span className="font-medium">{appointment.service?.name}</span>
             </div>
             <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-600 truncate mt-0.5`}>
               {startTime} - {endTime}
@@ -273,22 +267,22 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
       <div className="flex justify-between items-start">
         <div>
           <div className={`font-medium ${isMobile ? 'text-base' : 'text-sm'} flex items-center gap-2`}>
-            <span>{appointment.client.firstName} {appointment.client.lastName}</span>
+            <span>{appointment.client?.firstName} {appointment.client?.lastName}</span>
             {/* Small room color indicator */}
             {getRoomColor() && (
               <div 
                 className="w-3 h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: getRoomColor() }}
-                title={`Stanza: ${appointment.treatmentRoomId || 'N/A'}`}
+                style={{ backgroundColor: getRoomColor() as any }}
+                title={`Stanza: ${(appointment as any).treatmentRoomId || 'N/A'}`}
               />
             )}
           </div>
           <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-600`}>
-            {appointment.service.name} ({formatTime(new Date(`2000-01-01T${appointment.startTime}`))}) - {appointment.service.duration} min
+            {appointment.service?.name} ({formatTime(new Date(`2000-01-01T${appointment.startTime}`))}) - {appointment.service?.duration} min
           </div>
           <div className="flex items-center text-sm mt-1">
             <Phone className="h-3.5 w-3.5 mr-1 text-gray-500" />
-            <span className="text-gray-600">{appointment.client.phone}</span>
+            <span className="text-gray-600">{appointment.client?.phone}</span>
           </div>
           {renderReminderFlags()}
         </div>
@@ -459,14 +453,14 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
         <div className="mt-3 pt-2 border-t border-gray-200 space-y-2">
           {/* Client info */}
           <div className="space-y-1">
-            {appointment.client.isFrequent && (
+            {appointment.client?.isFrequent && (
               <div className="flex items-center text-sm">
                 <Star className="h-3.5 w-3.5 mr-1 text-pink-500" />
                 <span className="text-gray-600">Cliente frequente</span>
               </div>
             )}
             
-            {!appointment.client.hasConsent && (
+            {!appointment.client?.hasConsent && (
               <div className="flex items-center text-sm">
                 <Info className="h-3.5 w-3.5 mr-1 text-amber-500" />
                 <span className="text-gray-600">Consenso non fornito</span>

@@ -45,7 +45,7 @@ export default function StaffCollaboratorsPage() {
   const upgradeMessage = getUpgradeMessage('staff_rooms');
 
   // Query per recuperare collaboratori
-  const { data: collaborators = [], isLoading, refetch } = useQuery({
+  const { data: collaborators = [], isLoading, refetch } = useQuery<any>({
     queryKey: ['/api/collaborators'],
   });
 

@@ -69,12 +69,12 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
   // TUTTI I HOOKS DEVONO ESSERE CHIAMATI AL TOP LEVEL - NESSUN HOOK CONDIZIONALE
   
   // Fetch client
-  const { data: client, isLoading: isLoadingClient } = useQuery({
+  const { data: client, isLoading: isLoadingClient } = useQuery<any>({
     queryKey: ["/api/clients", clientId]
   });
 
   // Fetch consent if exists
-  const { data: existingConsent, isLoading: isLoadingConsent } = useQuery({
+  const { data: existingConsent, isLoading: isLoadingConsent } = useQuery<any>({
     queryKey: ["/api/consents/client", clientId],
     retry: false
   });

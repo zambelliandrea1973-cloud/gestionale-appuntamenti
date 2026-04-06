@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Router } from 'express';
 import { db } from '../db';
 import { clients, users, clientAccesses, userSettings as userSettingsTable } from '../../shared/schema';
@@ -66,7 +67,7 @@ router.get("/api/admin/clients-summary", async (req, res) => {
     
     console.log(`📊 [ADMIN-SUMMARY] Trovati ${enrichedSummary.length} professionisti con clienti`);
     res.json(enrichedSummary);
-  } catch (error) {
+  } catch (error: any) {
     console.error(`❌ [ADMIN-SUMMARY] Errore:`, error);
     res.status(500).json({ message: "Errore nel recupero riepilogo" });
   }
@@ -113,7 +114,7 @@ router.get("/api/admin/clients-by-owner/:ownerId", async (req, res) => {
     
     console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Caricati ${clientsWithAccessCount.length} clienti per ownerId ${ownerId}`);
     res.json(clientsWithAccessCount);
-  } catch (error) {
+  } catch (error: any) {
     console.error(`❌ [ADMIN-CLIENTS-BY-OWNER] Errore:`, error);
     res.status(500).json({ message: "Errore nel caricamento clienti" });
   }

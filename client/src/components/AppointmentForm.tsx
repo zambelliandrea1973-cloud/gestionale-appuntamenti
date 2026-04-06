@@ -134,27 +134,27 @@ export default function AppointmentForm({
   });
 
   // Fetch clients
-  const { data: clients = [], isLoading: isLoadingClients } = useQuery({
+  const { data: clients = [], isLoading: isLoadingClients } = useQuery<any[]>({
     queryKey: ['/api/clients']
   });
 
   // Fetch services
-  const { data: services = [], isLoading: isLoadingServices } = useQuery({
+  const { data: services = [], isLoading: isLoadingServices } = useQuery<any[]>({
     queryKey: ['/api/services']
   });
 
   // Fetch collaborators - FORCE FRESH DATA
-  const { data: collaborators = [], isLoading: isLoadingCollaborators, refetch: refetchCollaborators } = useQuery({
+  const { data: collaborators = [], isLoading: isLoadingCollaborators, refetch: refetchCollaborators } = useQuery<any[]>({
     queryKey: ['/api/collaborators'],
-    staleTime: 0, // Always consider data stale
-    gcTime: 0, // Don't cache the data
+    staleTime: 0,
+    gcTime: 0,
   });
 
   // Fetch treatment rooms - FORCE FRESH DATA
-  const { data: treatmentRooms = [], isLoading: isLoadingRooms, refetch: refetchRooms } = useQuery({
+  const { data: treatmentRooms = [], isLoading: isLoadingRooms, refetch: refetchRooms } = useQuery<any[]>({
     queryKey: ['/api/treatment-rooms'],
-    staleTime: 0, // Always consider data stale
-    gcTime: 0, // Don't cache the data
+    staleTime: 0,
+    gcTime: 0,
   });
 
   // Form setup - DEVE ESSERE PRIMA di qualsiasi useEffect che lo utilizza
@@ -182,8 +182,8 @@ export default function AppointmentForm({
   }, [collaborators, appointmentId]);
 
   // Fetch appointment if editing
-  const { data: appointment, isLoadingAppointment } = useQuery({
-    queryKey: [`/api/appointments/${appointmentId}`],
+  const { data: appointment, isLoading: isLoadingAppointment } = useQuery<any>({
+    queryKey: ['/api/appointments', appointmentId],
     enabled: !!appointmentId,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
@@ -223,7 +223,7 @@ export default function AppointmentForm({
   const watchedClientId = useWatch({ control: form.control, name: "clientId" });
   
   // Fetch pacchetti attivi del cliente selezionato
-  const { data: clientPackages = [] } = useQuery({
+  const { data: clientPackages = [] } = useQuery<any[]>({
     queryKey: ['/api/packages/purchases', watchedClientId],
     enabled: !!watchedClientId && watchedClientId > 0,
     select: (data: any[]) => {

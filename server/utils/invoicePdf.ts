@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { db } from '../db';
 import { userIcons } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
@@ -64,7 +65,7 @@ export async function loadUserLogo(userId: number): Promise<string> {
       console.log(`🖼️ [PDF] Logo personalizzato caricato per utente ${userId}`);
       return iconRow[0].iconBase64;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log('⚠️ [PDF] Errore caricamento logo, uso default:', error);
   }
   

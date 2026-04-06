@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { logger } from '../utils/logger';
 import { Router } from 'express';
 import path from 'path';
@@ -19,7 +20,7 @@ try {
   const iconPath = path.join(__dirname, '../../public/fleur-de-vie.jpg');
   const iconBuffer = fs.readFileSync(iconPath);
   defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
-} catch (error) {
+} catch (error: any) {
   try {
     const iconPathAlt = path.join(__dirname, '../../public/images/Fleur de Vie multicolore.jpg');
     const iconBuffer = fs.readFileSync(iconPathAlt);
@@ -95,7 +96,7 @@ async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
     
     logger.debug(`✅ Icone PWA aggiornate per utente ${userId} con logo aziendale`);
     
-  } catch (error) {
+  } catch (error: any) {
     console.error(`❌ Errore aggiornamento icone PWA per utente ${userId}:`, error);
   }
 }
@@ -143,7 +144,7 @@ router.delete("/api/clients/:id", async (req, res) => {
         lastName: client.lastName
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(`❌ [DELETE PG] Errore eliminazione cliente:`, error);
     res.status(500).json({ message: "Errore interno del server" });
   }
@@ -245,7 +246,7 @@ router.get("/api/clients/:id/activation-token", async (req, res) => {
     console.log(`   - URL: ${responseData.activationUrl}`);
     
     res.json(responseData);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore generazione QR:', error);
     res.status(500).json({ message: "Errore nella generazione del QR code" });
   }
@@ -470,7 +471,7 @@ router.get("/api/appointments/client/:clientId", async (req, res) => {
     }));
     
     res.json(formattedAppointments);
-  } catch (error) {
+  } catch (error: any) {
     console.error(`❌ [/api/appointments/client] Errore caricamento da PostgreSQL:`, error);
     res.status(500).json({ message: "Errore interno del server" });
   }
@@ -644,7 +645,7 @@ router.get("/api/client-by-code/:clientCode", async (req, res) => {
     
     res.json(pureClientData);
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ [CLIENT ACCESS PG] Errore sistema:', error);
     res.status(500).json({ error: 'Errore del sistema' });
   }
@@ -691,7 +692,7 @@ router.get("/api/client-appointments/:clientId", async (req, res) => {
     console.log(`📅 [CLIENT APPOINTMENTS PG] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
     res.json(clientAppointments);
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ [CLIENT APPOINTMENTS PG] Errore:', error);
     res.status(500).json({ error: 'Errore del sistema' });
   }

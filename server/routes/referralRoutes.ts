@@ -25,7 +25,7 @@ router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
     const referralDetails = await simplifiedReferralService.getReferralDetails(req.user.id);
     
     res.json(referralDetails);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel recupero statistiche referral:', error);
     res.status(500).json({
       success: false,
@@ -53,7 +53,7 @@ router.post('/generate-code', isAuthenticated, async (req: Request, res: Respons
       success: true,
       code
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nella generazione codice referral:', error);
     res.status(500).json({
       success: false,
@@ -81,7 +81,7 @@ router.post('/bank-account', isAuthenticated, async (req: Request, res: Response
       success: true,
       bankAccount
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel salvataggio conto bancario:', error);
     res.status(500).json({
       success: false,
@@ -115,7 +115,7 @@ router.post('/register', async (req: Request, res: Response) => {
         ? 'Referral registrato con successo' 
         : 'Impossibile registrare il referral (codice non valido)'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nella registrazione referral:', error);
     res.status(500).json({
       success: false,
@@ -142,7 +142,7 @@ router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
     // Chiama la funzione esistente passando l'ID dello staff come parametro
     req.params.staffId = req.user.id.toString();
     await getIndividualStaffReferral(req, res);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel recupero statistiche staff:', error);
     res.status(500).json({
       success: false,
@@ -161,7 +161,7 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
   try {
     console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.email}`);
     await getWorkingReferralOverview(req, res);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nella panoramica admin:', error);
     res.status(500).json({
       success: false,
@@ -187,7 +187,7 @@ router.post('/staff/:staffId/pay-commissions', isAuthenticated, async (req: Requ
     }
 
     await payStaffCommissions(req, res);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel pagamento commissioni:', error);
     res.status(500).json({
       success: false,
@@ -209,7 +209,7 @@ router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res:
       success: true,
       pendingPayments
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel recupero pagamenti in sospeso:', error);
     res.status(500).json({
       success: false,
@@ -232,7 +232,7 @@ router.post('/admin/generate-payments', isAuthenticated, async (req: Request, re
       paymentsGenerated: result.length,
       payments: result
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nella generazione dei pagamenti:', error);
     res.status(500).json({
       success: false,
@@ -263,7 +263,7 @@ router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Resp
       success: true,
       payment
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nell\'aggiornamento del pagamento:', error);
     res.status(500).json({
       success: false,
@@ -295,7 +295,7 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
     // SISTEMA PULITO - collegamento diretto al database autentico
     const { getCleanReferralOverview } = await import("../api/cleanReferralSystem");
     return getCleanReferralOverview(req, res);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nel recupero overview admin:', error);
     res.status(500).json({
       success: false,

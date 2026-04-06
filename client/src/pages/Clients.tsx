@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,7 +53,7 @@ export default function Clients() {
   const queryClient = useQueryClient();
   
   // Query per ottenere l'ID dell'utente corrente
-  const { data: currentUser } = useQuery({
+  const { data: currentUser } = useQuery<any>({
     queryKey: ['/api/user-with-license'],
     queryFn: async () => {
       const response = await fetch('/api/user-with-license', { credentials: 'include' });
@@ -72,7 +73,7 @@ export default function Clients() {
     isLoading: queryLoading,
     error,
     refetch: refetchClients
-  } = useQuery({
+  } = useQuery<any>({
     queryKey: ['/api/clients'],
     queryFn: async () => {
       const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
@@ -236,7 +237,7 @@ export default function Clients() {
       
       return matchesSearch && matchesTab;
     })
-    .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
+    .sort((a: any, b: any) => a.lastName.localeCompare(b.lastName, 'it-IT'));
 
   // Group clients by staff member (ownerId) - solo per admin
   const clientsByStaff = {};

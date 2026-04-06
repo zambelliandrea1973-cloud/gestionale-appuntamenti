@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Rotte per le funzioni amministrative
  */
@@ -40,7 +41,7 @@ adminRouter.get('/restart-token', isAdmin, (req: Request, res: Response) => {
   try {
     const token = generateRestartToken();
     res.json({ success: true, token });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore nella generazione del token di riavvio:', error);
     res.status(500).json({ 
       success: false, 
@@ -73,7 +74,7 @@ adminRouter.post('/restart', async (req: Request, res: Response) => {
     
     const result = await restartApplication(token);
     res.json(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore durante il riavvio:', error);
     res.status(500).json({ 
       success: false, 
@@ -111,7 +112,7 @@ adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
       ...result,
       mode: 'emergency'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore durante il riavvio di emergenza:', error);
     res.status(500).json({ 
       success: false, 

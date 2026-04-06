@@ -71,12 +71,12 @@ export default function PaymentForm({
     },
   });
 
-  const { data: invoices = [] } = useQuery({
+  const { data: invoices = [] } = useQuery<any[]>({
     queryKey: ["/api/invoices"],
     enabled: !invoiceId,
   });
 
-  const { data: invoice } = useQuery({
+  const { data: invoice } = useQuery<any>({
     queryKey: ["/api/invoices", invoiceId],
     enabled: !!invoiceId,
   });

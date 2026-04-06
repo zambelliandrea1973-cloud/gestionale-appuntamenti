@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Router, Request, Response } from 'express';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';

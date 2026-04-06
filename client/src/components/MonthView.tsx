@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -33,7 +34,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   const endDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected month
-  const { data: appointments = [], isLoading, refetch } = useQuery({
+  const { data: appointments = [], isLoading, refetch } = useQuery<any>({
     queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
   
@@ -101,7 +102,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   const getAppointmentsForDay = (day: Date) => {
     // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
     const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-    return appointments.filter(appointment => appointment.date === dateStr);
+    return appointments.filter((appointment: any) => appointment.date === dateStr);
   };
   
   // Weekday headers

@@ -9,7 +9,7 @@ export interface UserCurrency {
  * Recupera la valuta configurata per un utente.
  * Se non trovata, ritorna EUR come default.
  */
-export async function getCurrencyForUser(storage: IStorage, userId: number): Promise<UserCurrency> {
+export async function getCurrencyForUser(storage: { getCurrencySettings: (userId: number) => Promise<any> }, userId: number): Promise<UserCurrency> {
   try {
     const settings = await storage.getCurrencySettings(userId);
     

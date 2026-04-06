@@ -25,7 +25,7 @@ export default function StaffManagementPageClean() {
   const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  const { data: staffUsers = [], isLoading, error } = useQuery({
+  const { data: staffUsers = [], isLoading, error } = useQuery<any>({
     queryKey: ['/api/staff/users'],
   });
 

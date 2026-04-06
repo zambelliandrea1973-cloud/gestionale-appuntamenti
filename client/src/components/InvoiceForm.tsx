@@ -98,15 +98,15 @@ export default function InvoiceForm({
     },
   });
 
-  const { data: clients = [] } = useQuery({
+  const { data: clients = [] } = useQuery<any[]>({
     queryKey: ["/api/clients"],
   });
 
-  const { data: services = [] } = useQuery({
+  const { data: services = [] } = useQuery<any[]>({
     queryKey: ["/api/services"],
   });
 
-  const { data: invoice } = useQuery({
+  const { data: invoice } = useQuery<any>({
     queryKey: ["/api/invoices", invoiceId],
     enabled: !!invoiceId,
   });

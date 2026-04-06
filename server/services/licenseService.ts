@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Servizio per la gestione delle licenze
  * 

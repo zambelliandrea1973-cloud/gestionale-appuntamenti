@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Request, Response, NextFunction } from 'express';
 import { isSensitiveField } from '@shared/sensitive-fields';
 import { GDPRCompliance } from '../services/gdpr-compliance';

@@ -9,9 +9,9 @@ export class InventoryJsonStorage {
       const categories = data.productCategories || [];
       
       return categories
-        .map(([id, cat]) => cat)
-        .filter(cat => cat.userId === userId)
-        .sort((a, b) => a.name.localeCompare(b.name));
+        .map(([id, cat]: any) => cat)
+        .filter((cat: any) => cat.userId === userId)
+        .sort((a: any, b: any) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error("Error getting product categories:", error);
       return [];
@@ -23,7 +23,7 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       const categories = data.productCategories || [];
       
-      const found = categories.find(([catId, cat]) => cat.id === id && cat.userId === userId);
+      const found = categories.find(([catId, cat]: any) => cat.id === id && cat.userId === userId);
       return found ? found[1] : undefined;
     } catch (error) {
       console.error("Error getting product category:", error);
@@ -40,8 +40,8 @@ export class InventoryJsonStorage {
       // Inizializza contatore: trova max ID valido o parte da 1
       if (!data.categoryNextId) {
         const validIds = data.productCategories
-          .map(([id]) => id)
-          .filter(id => id < 2147483647); // Ignora ID troppo grandi
+          .map(([id]: any) => id)
+          .filter((id: any) => id < 2147483647); // Ignora ID troppo grandi
         data.categoryNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
@@ -59,7 +59,7 @@ export class InventoryJsonStorage {
       data.productCategories.push([newId, newCategory]);
       saveStorageData(data);
       
-      return newCategory as ProductCategory;
+      return newCategory as unknown as unknown as ProductCategory;
     } catch (error) {
       console.error("Error creating product category:", error);
       throw error;
@@ -72,7 +72,7 @@ export class InventoryJsonStorage {
       
       if (!data.productCategories) return undefined;
       
-      const index = data.productCategories.findIndex(([catId, cat]) => cat.id === id && cat.userId === userId);
+      const index = data.productCategories.findIndex(([catId, cat]: any) => cat.id === id && cat.userId === userId);
       if (index === -1) return undefined;
       
       data.productCategories[index][1] = {
@@ -82,7 +82,7 @@ export class InventoryJsonStorage {
       };
       
       saveStorageData(data);
-      return data.productCategories[index][1] as ProductCategory;
+      return data.productCategories[index][1] as unknown as unknown as ProductCategory;
     } catch (error) {
       console.error("Error updating product category:", error);
       return undefined;
@@ -96,7 +96,7 @@ export class InventoryJsonStorage {
       if (!data.productCategories) return false;
       
       const initialLength = data.productCategories.length;
-      data.productCategories = data.productCategories.filter(([catId, cat]) => !(cat.id === id && cat.userId === userId));
+      data.productCategories = data.productCategories.filter(([catId, cat]: any) => !(cat.id === id && cat.userId === userId));
       
       if (data.productCategories.length < initialLength) {
         saveStorageData(data);
@@ -116,9 +116,9 @@ export class InventoryJsonStorage {
       const productsList = data.products || [];
       
       return productsList
-        .map(([id, prod]) => prod)
-        .filter(prod => prod.userId === userId)
-        .sort((a, b) => a.name.localeCompare(b.name));
+        .map(([id, prod]: any) => prod)
+        .filter((prod: any) => prod.userId === userId)
+        .sort((a: any, b: any) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error("Error getting products:", error);
       return [];
@@ -130,7 +130,7 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       const productsList = data.products || [];
       
-      const found = productsList.find(([prodId, prod]) => prod.id === id && prod.userId === userId);
+      const found = productsList.find(([prodId, prod]: any) => prod.id === id && prod.userId === userId);
       return found ? found[1] : undefined;
     } catch (error) {
       console.error("Error getting product:", error);
@@ -147,8 +147,8 @@ export class InventoryJsonStorage {
       // Inizializza contatore: trova max ID valido o parte da 1
       if (!data.productNextId) {
         const validIds = data.products
-          .map(([id]) => id)
-          .filter(id => id < 2147483647); // Ignora ID troppo grandi
+          .map(([id]: any) => id)
+          .filter((id: any) => id < 2147483647); // Ignora ID troppo grandi
         data.productNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
@@ -169,7 +169,7 @@ export class InventoryJsonStorage {
       data.products.push([newId, newProduct]);
       saveStorageData(data);
       
-      return newProduct as Product;
+      return newProduct as unknown as Product;
     } catch (error) {
       console.error("Error creating product:", error);
       throw error;
@@ -182,7 +182,7 @@ export class InventoryJsonStorage {
       
       if (!data.products) return undefined;
       
-      const index = data.products.findIndex(([prodId, prod]) => prod.id === id && prod.userId === userId);
+      const index = data.products.findIndex(([prodId, prod]: any) => prod.id === id && prod.userId === userId);
       if (index === -1) return undefined;
       
       data.products[index][1] = {
@@ -192,7 +192,7 @@ export class InventoryJsonStorage {
       };
       
       saveStorageData(data);
-      return data.products[index][1] as Product;
+      return data.products[index][1] as unknown as Product;
     } catch (error) {
       console.error("Error updating product:", error);
       return undefined;
@@ -206,7 +206,7 @@ export class InventoryJsonStorage {
       if (!data.products) return false;
       
       const initialLength = data.products.length;
-      data.products = data.products.filter(([prodId, prod]) => !(prod.id === id && prod.userId === userId));
+      data.products = data.products.filter(([prodId, prod]: any) => !(prod.id === id && prod.userId === userId));
       
       if (data.products.length < initialLength) {
         saveStorageData(data);
@@ -225,9 +225,9 @@ export class InventoryJsonStorage {
       const productsList = data.products || [];
       
       return productsList
-        .map(([id, prod]) => prod)
-        .filter(prod => prod.userId === userId && (prod.currentStock || 0) <= (prod.minStock || 0))
-        .sort((a, b) => a.name.localeCompare(b.name));
+        .map(([id, prod]: any) => prod)
+        .filter((prod: any) => prod.userId === userId && (prod.currentStock || 0) <= (prod.minStock || 0))
+        .sort((a: any, b: any) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error("Error getting low stock products:", error);
       return [];
@@ -241,9 +241,9 @@ export class InventoryJsonStorage {
       const movements = data.stockMovements || [];
       
       let filtered = movements
-        .map(([id, mov]) => mov)
-        .filter(mov => mov.userId === userId)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        .map(([id, mov]: any) => mov)
+        .filter((mov: any) => mov.userId === userId)
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       if (limit) {
         filtered = filtered.slice(0, limit);
@@ -266,8 +266,8 @@ export class InventoryJsonStorage {
       // Inizializza contatore: trova max ID valido o parte da 1
       if (!data.movementNextId) {
         const validIds = data.stockMovements
-          .map(([id]) => id)
-          .filter(id => id < 2147483647);
+          .map(([id]: any) => id)
+          .filter((id: any) => id < 2147483647);
         data.movementNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
@@ -284,7 +284,7 @@ export class InventoryJsonStorage {
       data.stockMovements.push([newId, newMovement]);
       
       // Update product stock
-      const productIndex = data.products.findIndex(([id, prod]) => prod.id === movement.productId && prod.userId === movement.userId);
+      const productIndex = data.products.findIndex(([id, prod]: any) => prod.id === movement.productId && prod.userId === movement.userId);
       if (productIndex !== -1) {
         const product = data.products[productIndex][1];
         const currentStock = product.currentStock || 0;
@@ -302,7 +302,7 @@ export class InventoryJsonStorage {
       
       saveStorageData(data);
       
-      return newMovement as StockMovement;
+      return newMovement as unknown as StockMovement;
     } catch (error) {
       console.error("Error creating stock movement:", error);
       throw error;
@@ -315,9 +315,9 @@ export class InventoryJsonStorage {
       const movements = data.stockMovements || [];
       
       return movements
-        .map(([id, mov]) => mov)
-        .filter(mov => mov.productId === productId && mov.userId === userId)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        .map(([id, mov]: any) => mov)
+        .filter((mov: any) => mov.productId === productId && mov.userId === userId)
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     } catch (error) {
       console.error("Error getting product stock history:", error);
       return [];
@@ -331,9 +331,9 @@ export class InventoryJsonStorage {
       const sales = data.productSales || [];
       
       let filtered = sales
-        .map(([id, sale]) => sale)
-        .filter(sale => sale.userId === userId)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        .map(([id, sale]: any) => sale)
+        .filter((sale: any) => sale.userId === userId)
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       if (limit) {
         filtered = filtered.slice(0, limit);
@@ -355,8 +355,8 @@ export class InventoryJsonStorage {
       // Inizializza contatore: trova max ID valido o parte da 1
       if (!data.saleNextId) {
         const validIds = data.productSales
-          .map(([id]) => id)
-          .filter(id => id < 2147483647);
+          .map(([id]: any) => id)
+          .filter((id: any) => id < 2147483647);
         data.saleNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
@@ -385,7 +385,7 @@ export class InventoryJsonStorage {
         notes: sale.notes
       });
       
-      return newSale as ProductSale;
+      return newSale as unknown as unknown as ProductSale;
     } catch (error) {
       console.error("Error creating product sale:", error);
       throw error;
@@ -398,9 +398,9 @@ export class InventoryJsonStorage {
       const sales = data.productSales || [];
       
       return sales
-        .map(([id, sale]) => sale)
-        .filter(sale => sale.productId === productId && sale.userId === userId)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        .map(([id, sale]: any) => sale)
+        .filter((sale: any) => sale.productId === productId && sale.userId === userId)
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     } catch (error) {
       console.error("Error getting product sales history:", error);
       return [];

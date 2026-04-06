@@ -70,8 +70,44 @@ export default function ServiceManager() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [forceRender, forceUpdate] = useReducer(x => x + 1, 0);
+  const [editingService, setEditingService] = useState<number | null>(null);
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState<string>('');
 
-  // Funzione per caricare servizi con sistema multi-tenant robusto
+  const startInlineEdit = (serviceId: number, field: string, value: any) => {
+    setEditingService(serviceId);
+    setEditingField(field);
+    setEditValue(String(value ?? ''));
+  };
+
+  const cancelInlineEdit = () => {
+    setEditingService(null);
+    setEditingField(null);
+    setEditValue('');
+  };
+
+  const saveInlineEdit = async () => {
+    if (editingService === null || editingField === null) return;
+    try {
+      const response = await fetch(`/api/services/${editingService}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [editingField]: editingField === 'duration' || editingField === 'price' ? Number(editValue) : editValue })
+      });
+      if (response.ok) {
+        loadServices();
+      }
+    } catch (e) {
+      console.error('Error saving inline edit:', e);
+    }
+    cancelInlineEdit();
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') saveInlineEdit();
+    if (e.key === 'Escape') cancelInlineEdit();
+  };
+
   const loadServices = useCallback(async () => {
     if (!user?.id) {
       console.log("🔄 FRONTEND ServiceManager: Nessun utente autenticato, skip caricamento servizi");

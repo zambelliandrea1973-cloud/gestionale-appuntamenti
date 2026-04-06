@@ -47,7 +47,7 @@ export default function TreatmentRoomsPage() {
   const upgradeMessage = getUpgradeMessage('staff_rooms');
 
   // Query per recuperare stanze
-  const { data: rooms = [], isLoading, refetch } = useQuery({
+  const { data: rooms = [], isLoading, refetch } = useQuery<any>({
     queryKey: ['/api/treatment-rooms'],
   });
 

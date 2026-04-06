@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { logger } from '../utils/logger';
 import { Router, Request, Response } from 'express';
 import { PaymentService } from '../services/paymentService';

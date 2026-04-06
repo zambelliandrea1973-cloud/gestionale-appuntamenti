@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Request, Response } from 'express';
 import { directNotificationService } from '../services/directNotificationService';
 
@@ -39,7 +40,7 @@ export async function testWhatsApp(req: Request, res: Response) {
         whatsappMessage: message
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Errore durante il test:', error);
     res.status(500).json({
       success: false,

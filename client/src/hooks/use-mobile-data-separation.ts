@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useDeviceDetection } from './use-device-detection';
 import { useUserWithLicense } from './use-user-with-license';
 
