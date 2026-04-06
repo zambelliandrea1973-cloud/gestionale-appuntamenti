@@ -18,3 +18,9 @@ id = "1fWQg6kIi5IyYI6AMxwuT"
 uri = "file://copyright-archive/gestionale-appuntamenti-script-completo-20260402.tar.gz"
 type = "unspecified"
 title = "Script Completo Gestionale Appuntamenti - 02/04/2026 (564 file)"
+
+[[outputs]]
+id = "8RGm4r_QZjcyp1qKMnfNJ"
+uri = "file://gestionale-appuntamenti-sliplane.tar.gz"
+type = "unspecified"
+title = "Gestionale Appuntamenti - Progetto completo per Sliplane"
