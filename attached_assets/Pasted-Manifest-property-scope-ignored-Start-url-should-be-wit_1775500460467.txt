@@ -1,0 +1,155 @@
+Manifest: property 'scope' ignored. Start url should be within scope of scope URL.Comprendi l'avviso
+dashboard:1 Refused to apply style from 'https://gestionale-appuntamenti.sliplane.app/forced-style.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.Comprendi l'errore
+dashboard:1 Refused to execute script from 'https://gestionale-appuntamenti.sliplane.app/disable-vite-overlay.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.Comprendi l'errore
+dashboard:127 🚨 NUKE MODE: Unregistering ALL service workers...
+dashboard:181 PWA check - standalone mode: false
+dashboard:182 PWA check - iOS fullscreen: undefined
+dashboard:283 🚫 Service Worker registration DISABLED to prevent stale bundle caching
+index-DuJ63olo.js:773 Nessuna informazione di contatto disponibile
+index-DuJ63olo.js:1394 Fuso orario rilevato: Europe/Rome (Ora legale dell’Europa centrale), Offset: UTC+2
+index-DuJ63olo.js:796 🏠 HOME AppIcon: Inizio caricamento icona
+index-DuJ63olo.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-DuJ63olo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DuJ63olo.js:48 Header x-device-type aggiunto: desktop
+index-DuJ63olo.js:48 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+index-DuJ63olo.js:796 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+dashboard:160 ✅ Service worker check complete, no reload needed
+index-DuJ63olo.js:796 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-DuJ63olo.js:733 📱 MOBILE SYNC: App tornata visibile, forzando refresh dati...
+index-DuJ63olo.js:733 📱 MOBILE SYNC: Cache invalidata e refetch forzato
+index-DuJ63olo.js:1394 Fuso orario diverso da quello salvato, aggiornamento...
+11Fetch ha finito di caricare: GET "<URL>".
+index-DuJ63olo.js:1394 Fuso orario aggiornato con successo
+index-DuJ63olo.js:1394 Fetch ha finito di caricare: POST "https://gestionale-appuntamenti.sliplane.app/api/timezone-settings".
+(anonime) @ index-DuJ63olo.js:1394
+await in (anonime)
+(anonime) @ index-DuJ63olo.js:1394
+Ob @ index-DuJ63olo.js:40
+zu @ index-DuJ63olo.js:40
+NT @ index-DuJ63olo.js:40
+mc @ index-DuJ63olo.js:38
+qJ @ index-DuJ63olo.js:40
+Ec @ index-DuJ63olo.js:40
+RF @ index-DuJ63olo.js:40
+N @ index-DuJ63olo.js:25
+A @ index-DuJ63olo.js:25
+index-DuJ63olo.js:796 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-DuJ63olo.js:773 Nessuna informazione di contatto disponibile
+index-DuJ63olo.js:796 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/dashboard'}
+index-DuJ63olo.js:796 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+index-DuJ63olo.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-DuJ63olo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DuJ63olo.js:48 Header x-device-type aggiunto: desktop
+index-DuJ63olo.js:48 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+index-DuJ63olo.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-DuJ63olo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DuJ63olo.js:48 Header x-device-type aggiunto: desktop
+index-DuJ63olo.js:48 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+index-DuJ63olo.js:1394 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+index-DuJ63olo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DuJ63olo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DuJ63olo.js:48 Header x-device-type aggiunto: desktop
+index-DuJ63olo.js:48 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+index-DuJ63olo.js:40 ReferenceError: link is not defined
+    at vle (index-DuJ63olo.js:796:3323)
+    at index-DuJ63olo.js:796:4781
+    at Ob (index-DuJ63olo.js:40:24283)
+    at zu (index-DuJ63olo.js:40:42409)
+    at qJ (index-DuJ63olo.js:40:41231)
+    at Ec (index-DuJ63olo.js:40:40278)
+    at NT (index-DuJ63olo.js:40:36886)
+    at mc (index-DuJ63olo.js:38:3279)
+    at index-DuJ63olo.js:40:34263
+i1 @ index-DuJ63olo.js:40
+n.callback @ index-DuJ63olo.js:40
+rT @ index-DuJ63olo.js:38
+bT @ index-DuJ63olo.js:40
+_F @ index-DuJ63olo.js:40
+FJ @ index-DuJ63olo.js:40
+qJ @ index-DuJ63olo.js:40
+Ec @ index-DuJ63olo.js:40
+NT @ index-DuJ63olo.js:40
+mc @ index-DuJ63olo.js:38
+(anonime) @ index-DuJ63olo.js:40
+setTimeout
+i @ index-DuJ63olo.js:48
+o @ index-DuJ63olo.js:48
+batch @ index-DuJ63olo.js:48
+yo @ index-DuJ63olo.js:48
+setData @ index-DuJ63olo.js:48
+onSuccess @ index-DuJ63olo.js:48
+m @ index-DuJ63olo.js:48
+Promise.then
+x @ index-DuJ63olo.js:48
+start @ index-DuJ63olo.js:48
+fetch @ index-DuJ63olo.js:48
+tf @ index-DuJ63olo.js:48
+onSubscribe @ index-DuJ63olo.js:48
+subscribe @ index-DuJ63olo.js:48
+(anonime) @ index-DuJ63olo.js:48
+sF @ index-DuJ63olo.js:38
+Ob @ index-DuJ63olo.js:40
+zu @ index-DuJ63olo.js:40
+NT @ index-DuJ63olo.js:40
+mc @ index-DuJ63olo.js:38
+qJ @ index-DuJ63olo.js:40
+Ec @ index-DuJ63olo.js:40
+RF @ index-DuJ63olo.js:40
+N @ index-DuJ63olo.js:25
+A @ index-DuJ63olo.js:25Comprendi l'errore
+index-DuJ63olo.js:796 Uncaught ReferenceError: link is not defined
+    at vle (index-DuJ63olo.js:796:3323)
+    at index-DuJ63olo.js:796:4781
+    at Ob (index-DuJ63olo.js:40:24283)
+    at zu (index-DuJ63olo.js:40:42409)
+    at qJ (index-DuJ63olo.js:40:41231)
+    at Ec (index-DuJ63olo.js:40:40278)
+    at NT (index-DuJ63olo.js:40:36886)
+    at mc (index-DuJ63olo.js:38:3279)
+    at index-DuJ63olo.js:40:34263
+vle @ index-DuJ63olo.js:796
+(anonime) @ index-DuJ63olo.js:796
+Ob @ index-DuJ63olo.js:40
+zu @ index-DuJ63olo.js:40
+qJ @ index-DuJ63olo.js:40
+Ec @ index-DuJ63olo.js:40
+NT @ index-DuJ63olo.js:40
+mc @ index-DuJ63olo.js:38
+(anonime) @ index-DuJ63olo.js:40
+setTimeout
+i @ index-DuJ63olo.js:48
+o @ index-DuJ63olo.js:48
+batch @ index-DuJ63olo.js:48
+yo @ index-DuJ63olo.js:48
+setData @ index-DuJ63olo.js:48
+onSuccess @ index-DuJ63olo.js:48
+m @ index-DuJ63olo.js:48
+Promise.then
+x @ index-DuJ63olo.js:48
+start @ index-DuJ63olo.js:48
+fetch @ index-DuJ63olo.js:48
+tf @ index-DuJ63olo.js:48
+onSubscribe @ index-DuJ63olo.js:48
+subscribe @ index-DuJ63olo.js:48
+(anonime) @ index-DuJ63olo.js:48
+sF @ index-DuJ63olo.js:38
+Ob @ index-DuJ63olo.js:40
+zu @ index-DuJ63olo.js:40
+NT @ index-DuJ63olo.js:40
+mc @ index-DuJ63olo.js:38
+qJ @ index-DuJ63olo.js:40
+Ec @ index-DuJ63olo.js:40
+RF @ index-DuJ63olo.js:40
+N @ index-DuJ63olo.js:25
+A @ index-DuJ63olo.js:25Comprendi l'errore
+index-DuJ63olo.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-DuJ63olo.js:796 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-DuJ63olo.js:796 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 212927, url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD...'}
+index-DuJ63olo.js:796 ✅ HOME AppIcon: Icona impostata correttamente
+index-DuJ63olo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DuJ63olo.js:796 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+index-DuJ63olo.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-DuJ63olo.js:796 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-DuJ63olo.js:796 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Gestionale Appuntamenti', showBusinessName: true, name: 'zambelli.andrea.1973@gmail.com', fontSize: 24, fontFamily: 'Times New Roman', …}
+index-DuJ63olo.js:48 Risposta da /api/contact-info: 200  ok: true
+index-DuJ63olo.js:773 ✅ Informazioni di contatto caricate da API per utente 3: {email: 'zambelli.andrea.1973@gmail.com', phone: '+393472550110', phone1: '+393472550110', phone2: '', website: '', …}
