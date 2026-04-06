@@ -179,7 +179,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         
         try {
           do {
-            const eventsResponse = await calendar.events.list({
+            const eventsResponse: any = await calendar.events.list({
               calendarId: cal.id,
               timeMin: thirtyDaysAgo.toISOString(),
               timeMax: oneYearAhead.toISOString(),

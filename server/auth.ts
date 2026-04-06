@@ -287,7 +287,7 @@ export function setupAuth(app: Express) {
     req.logout((logoutErr) => {
       if (logoutErr) console.log('⚠️ [LOGIN] Errore durante logout preventivo:', logoutErr);
       
-      passport.authenticate("local-staff", (err, user, info) => {
+      passport.authenticate("local-staff", (err: any, user: any, info: any) => {
         if (err) {
           console.error('❌ [LOGIN] Errore durante autenticazione staff:', err);
           return next(err);
@@ -389,7 +389,7 @@ export function setupAuth(app: Express) {
       try {
         // Importa il servizio token (import dinamico)
         const tokenServiceModule = await import('./services/tokenService');
-        const tokenService = tokenServiceModule.default;
+        const tokenService = tokenServiceModule.tokenService;
         
         // Verifica il token
         const validClientId = await tokenService.verifyActivationToken(token);

@@ -1,0 +1,120 @@
+Con lo zip aggiornato la griglia va rivista così, concentrandoci solo su server critici e client critici.
+
+Criterio
+
+Classifico come critico ciò che può incidere su:
+
+integrità dati
+autenticazione/autorizzazione
+pagamenti/licenze
+sincronizzazione Google
+creazione/modifica appuntamenti
+area cliente/PWA
+notifiche operative
+Griglia compilata — priorità reali
+🔴 SERVER CRITICI — priorità P0
+
+Questi sono i file che oggi meritano attenzione prima degli altri.
+
+Priorità	File	Motivo
+P0	server/storage.ts	È il punto più critico: 5112 righe, tantissimo accesso dati, 73 any. Qui un errore di tipo o di mapping può propagarsi ovunque.
+P0	server/auth.ts	748 righe, 30 any. Gestisce auth/sessioni/cambio password. Qualsiasi incoerenza qui ha impatto sistemico.
+P0	server/routes/paymentRoutes.ts	1521 righe. Pagamenti = area ad alta sensibilità; va tenuta sotto controllo anche se i bug attuali non sono evidenti.
+P0	server/routes/googleAuthRoutes.ts	1832 righe, 25 any. OAuth e Google Calendar sono flussi fragili e soggetti a edge case.
+P0	server/routes/appointmentRoutes.ts	1107 righe, 12 any. È il cuore del prodotto: creazione/modifica/conflitti appuntamenti.
+P0	server/services/googleCalendarSync.ts	1118 righe, 11 any. Sincronizzazione esterna = rischio alto di inconsistenze, duplicati, errori intermittenti.
+P0	server/services/paymentService.ts	1013 righe. Anche se con pochi any, resta critico per effetti economici e stato pagamenti.
+P0	server/routes/clientAccessRoutes.ts	700 righe. Area cliente, token, accessi via link/PWA: impatto diretto su UX e sicurezza.
+Lettura corretta
+
+Questi non sono “i file più brutti”; sono i file dove un errore costa di più.
+
+🟠 SERVER CRITICI SECONDARI — priorità P1
+
+Importanti, ma dopo il blocco P0.
+
+Priorità	File	Motivo
+P1	server/routes/invoiceRoutes.ts	2859 righe, 27 any. Molto grosso; impatta documenti e flussi amministrativi.
+P1	server/routes/settingsRoutes.ts	1224 righe, 22 any. Configurazioni pervasive, rischio di effetti collaterali diffusi.
+P1	server/services/notificationService.ts	706 righe, 12 any. Notifiche WhatsApp/email/promemoria: problemi qui degradano molto l’esperienza reale.
+P1	server/routes/clientRoutes.ts	497 righe, 11 any. Gestione dati cliente: importante ma meno sistemico di auth/storage.
+P1	server/routes/adminLicenseRoutes.ts	598 righe, 11 any. Licenze e admin: alta sensibilità, ma impatto operativo meno frequente.
+P1	server/routes/campaignRoutes.ts	719 righe, 18 any. Non core assoluto, ma può generare errori operativi e carico inutile.
+P1	server/routes/pwaRoutes.ts	648 righe, 8 any. Rilevante per l’area installabile e accessi cliente.
+P1	server/routes/licenseRoutes.ts	352 righe. Più piccolo, ma sensibile perché tocca abilitazioni/licenze.
+🟡 CLIENT CRITICI — priorità P0
+
+Lato client, questi sono i file da considerare davvero critici.
+
+Priorità	File	Motivo
+P0	client/src/components/AppointmentForm.tsx	1513 righe, 40 any. È il file client più critico in assoluto: raccoglie dati, valida, salva appuntamenti.
+P0	client/src/pages/PureClientArea.tsx	1289 righe. Area cliente: accesso, visualizzazione dati, token/sessione, UX diretta.
+P0	client/src/pages/ClientArea.tsx	911 righe, 7 any. Ridondanza/variante dell’area cliente: da auditare insieme a PureClientArea.tsx.
+P0	client/src/pages/GoogleCalendarSetupPage.tsx	1194 righe. Setup sync Google: flusso sensibile e ad alto attrito utente.
+P0	client/src/pages/PaymentAdmin.tsx	1213 righe, 7 any. Interfaccia pagamento/admin: ciò che è sensibile lato server va sorvegliato anche qui.
+P0	client/src/pages/NotificationsPage.tsx	1005 righe, 18 any. Se qui i tipi sono deboli, rischi incoerenze tra configurazione e invio reale.
+P0	client/src/pages/WhatsAppCenterPage.tsx	1541 righe, 10 any. Molto grosso e operativo: probabile fonte di edge case.
+🟢 CLIENT CRITICI SECONDARI — priorità P1
+
+Non al livello del blocco sopra, ma importanti.
+
+Priorità	File	Motivo
+P1	client/src/pages/Inventory.tsx	1607 righe, 6 any. Molto grande; meno critico del core booking ma comunque sensibile.
+P1	client/src/pages/Invoices.tsx	1300 righe. Rilevante per amministrazione e coerenza dati/documenti.
+P1	client/src/pages/SubscribePage.tsx	922 righe, 10 any. Può toccare pagamenti/abbonamenti/attivazione.
+P1	client/src/pages/Calendar.tsx	507 righe, 12 any. Vista centrale del prodotto; importante per correttezza UX.
+P1	client/src/pages/Clients.tsx	572 righe, 9 any. Gestione anagrafica clienti, impatto operativo quotidiano.
+P1	client/src/pages/OnboardingWizard.tsx	557 righe, 7 any. Hai già corretto bug reali qui; merita ancora attenzione.
+P1	client/src/components/InvoiceForm.tsx	621 righe. Rilevante per inserimento dati amministrativi.
+P1	client/src/components/ClientPwaInstaller.tsx	268 righe. Piccolo ma importante per installazione/accesso cliente.
+Priorità operative vere
+P0 assoluto — attacca prima questi
+Server
+server/storage.ts
+server/auth.ts
+server/routes/appointmentRoutes.ts
+server/routes/paymentRoutes.ts
+server/routes/googleAuthRoutes.ts
+server/services/googleCalendarSync.ts
+server/services/paymentService.ts
+server/routes/clientAccessRoutes.ts
+Client
+client/src/components/AppointmentForm.tsx
+client/src/pages/PureClientArea.tsx
+client/src/pages/ClientArea.tsx
+client/src/pages/GoogleCalendarSetupPage.tsx
+client/src/pages/PaymentAdmin.tsx
+client/src/pages/NotificationsPage.tsx
+client/src/pages/WhatsAppCenterPage.tsx
+Cosa significa in pratica
+Server critici
+
+Qui devi ridurre per primi:
+
+any
+mismatch tra tipi DB e runtime
+null/undefined non gestiti
+cast forzati
+contratti incoerenti tra route/service/storage
+Client critici
+
+Qui devi ridurre per primi:
+
+state non tipizzati
+payload API non validati
+props opzionali non gestite
+form con dati parziali o cast impliciti
+gestione token/sessione non esplicita
+Sintesi netta
+
+Con lo zip aggiornato, la griglia corretta non è “tutti i 718 errori uguali”.
+
+È questa:
+
+Server critici veri: circa 8 file
+Client critici veri: circa 7 file
+tutto il resto viene dopo
+
+La priorità tecnica giusta è:
+
+prima stabilizzi il core server e il core appointment/client area, poi insegui il rumore restante.

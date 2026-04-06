@@ -1,6 +1,7 @@
 import { logger } from '../utils/logger';
 import { storage } from '../storage';
 import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
+// @ts-ignore - no type declarations available
 import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 import { db } from '../db';
@@ -104,23 +105,18 @@ const getStripeClient = async () => {
     
     const isLive = stripeSecretKey.startsWith('sk_live_');
     logger.debug(`🔐 Stripe: usando chiave LIVE da Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
-    return new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16'
-    });
+    return new Stripe(stripeSecretKey);
   }
   
   const stripeSecretKey = stripeConfig.config.secretKey;
   
-  // Verifica se la chiave è di test o produzione
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
   
   logger.debug(`🔐 Stripe: usando chiave dal DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
   console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
   
-  return new Stripe(stripeSecretKey, {
-    apiVersion: '2023-10-16'
-  });
+  return new Stripe(stripeSecretKey);
 };
 
 // Configurazione dell'ambiente PayPal (sandbox per test, live per produzione)
@@ -302,7 +298,7 @@ export class PaymentService {
       }
       
       // Trova l'URL di approvazione
-      const approvalLink = response.result.links.find(link => link.rel === 'approve');
+      const approvalLink = response.result.links.find((link: any) => link.rel === 'approve');
       if (!approvalLink) {
         console.error('Links disponibili:', response.result.links);
         return {

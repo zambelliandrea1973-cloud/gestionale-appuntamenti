@@ -455,7 +455,7 @@ router.post('/stripe/webhook', async (req, res) => {
     }
     
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16'
+      apiVersion: '2025-03-31.basil' as any
     });
     
     // Ottieni il webhook secret da variabile d'ambiente
@@ -680,9 +680,9 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
         }
       ];
       
-      paypalTransactions = testPaypalTransactions;
-      wiseTransactions = testWiseTransactions;
-      allTransactions = [...testPaypalTransactions, ...testWiseTransactions, ...testStripeTransactions];
+      paypalTransactions = testPaypalTransactions as any;
+      wiseTransactions = testWiseTransactions as any;
+      allTransactions = [...testPaypalTransactions, ...testWiseTransactions, ...testStripeTransactions] as any;
       
       console.log(`Generati ${allTransactions.length} transazioni fittizie per il dashboard`);
     }
@@ -708,7 +708,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
     };
     
     // Ottieni i piani di abbonamento
-    let plans = await storage.getActiveSubscriptionPlans();
+    let plans: any[] = await storage.getActiveSubscriptionPlans();
     
     // Aggiungi piani di test se non ce ne sono
     if (!plans || plans.length === 0) {
@@ -785,7 +785,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
     const activeLicenses = licenses.filter(license => license.isActive);
     
     // Conteggia licenze per tipo
-    const licensesByType = {};
+    const licensesByType: Record<string, number> = {};
     activeLicenses.forEach(license => {
       if (!licensesByType[license.type]) {
         licensesByType[license.type] = 0;
@@ -818,8 +818,8 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       transactionCount: allTransactions.length,
       totalRevenue,
       plans,
-      recentTransactions: allTransactions
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      recentTransactions: (allTransactions as any[])
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .slice(0, 10)
     });
   } catch (error) {
@@ -841,8 +841,8 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
     console.log('Recupero transazioni pagamenti...');
     let paypalTransactions = await storage.getPaymentTransactionsByMethod('paypal');
     let wiseTransactions = await storage.getPaymentTransactionsByMethod('wise');
-    let baseTransactions = [...paypalTransactions, ...wiseTransactions]
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    let baseTransactions = ([...paypalTransactions, ...wiseTransactions] as any[])
+      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     
     // Arricchisci le transazioni con i dati utente
     let transactions = await Promise.all(baseTransactions.map(async (transaction) => {
@@ -985,7 +985,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
       ];
       
       // Arricchisci i dati di test con informazioni utente
-      transactions = await Promise.all(testTransactionsBase.map(async (transaction) => {
+      transactions = await Promise.all(testTransactionsBase.map(async (transaction: any) => {
         const user = await storage.getUser(transaction.userId);
         
         let phone = null;
@@ -1230,7 +1230,7 @@ router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req,
       ];
       
       // Aggiungi questi abbonamenti fittizi all'array esistente
-      enrichedSubscriptions = [...enrichedSubscriptions, ...testSubscriptions];
+      enrichedSubscriptions = [...enrichedSubscriptions, ...testSubscriptions] as any[];
       console.log(`Aggiunti ${testSubscriptions.length} abbonamenti fittizi per la visualizzazione`);
     }
     
@@ -1363,7 +1363,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
     
     const enrichedLicenses = mappedLicenses.map((license) => {
       let user = null;
-      let clientAccount = null;
+      let clientAccount: any = null;
       let client = null;
       
       if (license.userId) {
@@ -1496,7 +1496,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
           expiresAt: expiresAt,
           userId: null,
           user: {
-            id: null,
+            id: 0,
             username: testAccount.email,
             email: testAccount.email,
             type: testAccount.type,

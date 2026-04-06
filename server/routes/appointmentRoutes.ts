@@ -352,12 +352,13 @@ router.post("/api/appointments", async (req, res) => {
               .where(eq(packagePurchases.id, packagePurchaseId));
             
             // Crea record di riscatto
-            await db.insert(packageRedemptions).values({
+            const redemptionData: Record<string, any> = {
               packagePurchaseId: packagePurchaseId,
               appointmentId: newAppointment.id,
               redeemedAt: new Date(),
               notes: `Appuntamento ${newAppointment.id} del ${req.body.date}`
-            });
+            };
+            await db.insert(packageRedemptions).values(redemptionData);
             
             logger.debug(`✅ [PACKAGE] Sessione riscattata! Pacchetto ${packagePurchaseId}: ${newSessionsRemaining}/${packagePurchase.sessionsTotal} rimanenti (status: ${newStatus})`);
           }
@@ -693,10 +694,10 @@ router.get("/api/booking-requests", async (req, res) => {
     try {
       const requestsWithClients = await db
         .select({
-          ...bookingRequests,
+          ...bookingRequests as any,
           clientFirstName: clients.firstName,
           clientLastName: clients.lastName,
-        })
+        } as any)
         .from(bookingRequests)
         .innerJoin(clients, eq(bookingRequests.clientId, clients.id))
         .where(eq(bookingRequests.userId, user.id))
@@ -834,11 +835,11 @@ router.put("/api/booking-requests/:id/confirm", async (req, res) => {
       
       // Verifica che lo slot selezionato sia ancora disponibile
       const slotStillAvailable = currentSlots.some(
-        slot => slot.start === requestData.selectedSlot.start && slot.end === requestData.selectedSlot.end
+        slot => slot.start === requestData.selectedSlot?.start && slot.end === requestData.selectedSlot?.end
       );
       
       if (!slotStillAvailable) {
-        console.error(`❌ [BOOKING REQUEST] Slot ${requestData.selectedSlot.start}-${requestData.selectedSlot.end} non più disponibile`);
+        console.error(`❌ [BOOKING REQUEST] Slot ${requestData.selectedSlot?.start}-${requestData.selectedSlot?.end} non più disponibile`);
         return res.status(409).json({ error: "Lo slot selezionato non è più disponibile. Scegli un altro orario." });
       }
       

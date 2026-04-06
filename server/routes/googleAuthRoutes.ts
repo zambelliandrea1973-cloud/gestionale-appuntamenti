@@ -1506,7 +1506,7 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     let nextPageToken: string | undefined = undefined;
     
     do {
-      const response = await people.people.connections.list({
+      const response: any = await people.people.connections.list({
         resourceName: 'people/me',
         pageSize: 1000,
         personFields: 'names,emailAddresses,phoneNumbers,addresses',
@@ -1661,7 +1661,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
       let nextPageToken: string | undefined = undefined;
       
       do {
-        const response = await people.people.connections.list({
+        const response: any = await people.people.connections.list({
           resourceName: 'people/me',
           pageSize: 1000,
           personFields: 'names,emailAddresses,phoneNumbers,addresses',

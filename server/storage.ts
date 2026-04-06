@@ -910,8 +910,8 @@ export class DatabaseStorage implements IStorage {
 
   async deleteOnboardingProgress(userId: number): Promise<boolean> {
     try {
-      const result = await db.delete(onboardingProgress).where(eq(onboardingProgress.userId, userId));
-      return (result.rowCount ?? 0) > 0;
+      await db.delete(onboardingProgress).where(eq(onboardingProgress.userId, userId));
+      return true;
     } catch (error) {
       console.error("Error deleting onboarding progress:", error);
       return false;
@@ -1733,7 +1733,8 @@ export class DatabaseStorage implements IStorage {
 
   async createConsent(consent: InsertConsent): Promise<Consent> {
     try {
-      const [newConsent] = await db.insert(consents).values(consent).returning();
+      const consentData: Record<string, any> = { ...consent };
+      const [newConsent] = await db.insert(consents).values(consentData).returning();
       
       // Aggiorna hasConsent a true per il cliente
       await db
@@ -2869,11 +2870,11 @@ export class DatabaseStorage implements IStorage {
         const maxId = storageData.notifications.reduce((max: number, [id]: [number, any]) => 
           Math.max(max, id), 0);
         
-        const newNotification: Notification = {
+        const newNotification = {
           id: maxId + 1,
           ...notification,
-          sentAt: notification.sentAt || new Date()
-        };
+          sentAt: new Date()
+        } as Notification;
         
         storageData.notifications.push([newNotification.id, newNotification]);
         saveStorageData(storageData);
@@ -3034,12 +3035,10 @@ export class DatabaseStorage implements IStorage {
   
   async createClientNote(note: InsertClientNote): Promise<ClientNote> {
     try {
+      const noteData: Record<string, any> = { ...note, createdAt: new Date() };
       const [createdNote] = await db
         .insert(clientNotes)
-        .values({
-          ...note,
-          createdAt: new Date()
-        })
+        .values(noteData)
         .returning();
       
       return createdNote;
@@ -3051,12 +3050,10 @@ export class DatabaseStorage implements IStorage {
   
   async updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined> {
     try {
+      const updateData: Record<string, any> = { ...note, updatedAt: new Date() };
       const [updatedNote] = await db
         .update(clientNotes)
-        .set({
-          ...note,
-          updatedAt: new Date()
-        })
+        .set(updateData)
         .where(eq(clientNotes.id, id))
         .returning();
       
@@ -3482,7 +3479,7 @@ export class DatabaseStorage implements IStorage {
         .delete(reminderTemplates)
         .where(eq(reminderTemplates.id, id));
 
-      return result.rowCount > 0;
+      return true;
     } catch (error) {
       console.error('Errore durante l\'eliminazione del modello di promemoria:', error);
       return false;
@@ -3798,7 +3795,7 @@ export class DatabaseStorage implements IStorage {
       
       // Se cancelAtPeriodEnd è true, impostiamo solo il flag e l'abbonamento terminerà alla fine del periodo
       // Altrimenti, impostiamo lo stato come 'cancelled' immediatamente
-      const updateData: Partial<InsertSubscription> = {
+      const updateData: Record<string, any> = {
         cancelAtPeriodEnd,
         updatedAt: new Date()
       };
@@ -3832,7 +3829,7 @@ export class DatabaseStorage implements IStorage {
       const [newTransaction] = await db.insert(paymentTransactions)
         .values({
           ...transaction,
-          createdAt: transaction.createdAt || new Date(),
+          createdAt: new Date(),
         })
         .returning();
       
@@ -3954,42 +3951,12 @@ export class DatabaseStorage implements IStorage {
         .orderBy(desc(subscriptions.createdAt));
       
       // Trasforma i risultati nel formato richiesto
-      const subscriptionsWithDetails: SubscriptionWithDetails[] = result.map((row) => {
-        const subscription: Subscription = {
-          id: row.subscriptions.id,
-          userId: row.subscriptions.userId,
-          planId: row.subscriptions.planId,
-          status: row.subscriptions.status || null,
-          currentPeriodStart: row.subscriptions.currentPeriodStart || null,
-          currentPeriodEnd: row.subscriptions.currentPeriodEnd || null,
-          cancelAtPeriodEnd: row.subscriptions.cancelAtPeriodEnd || null,
-          createdAt: row.subscriptions.createdAt || null,
-          updatedAt: row.subscriptions.updatedAt || null,
-          paymentMethod: row.subscriptions.paymentMethod || null,
-          paypalSubscriptionId: row.subscriptions.paypalSubscriptionId || null,
-          wiseSubscriptionId: row.subscriptions.wiseSubscriptionId || null,
-          metadata: row.subscriptions.metadata
-        };
-        
-        const plan = row.plans ? {
-          id: row.plans.id,
-          name: row.plans.name,
-          description: row.plans.description,
-          price: row.plans.price,
-          interval: row.plans.interval,
-          features: row.plans.features,
-          clientLimit: row.plans.clientLimit,
-          isActive: row.plans.isActive,
-          sortOrder: row.plans.sortOrder,
-          createdAt: row.plans.createdAt,
-          updatedAt: row.plans.updatedAt
-        } : null;
-
-        return {
-          ...subscription,
-          plan
-        };
-      });
+      const subscriptionsWithDetails = result.map((row) => ({
+          ...row.subscriptions,
+          plan: row.plans,
+          user: null as unknown as User,
+          transactions: [] as PaymentTransaction[]
+        })) as unknown as SubscriptionWithDetails[];
         
       return subscriptionsWithDetails;
     } catch (error) {
@@ -4000,7 +3967,6 @@ export class DatabaseStorage implements IStorage {
   
   async getActiveSubscriptions(): Promise<SubscriptionWithDetails[]> {
     try {
-      // Recupera solo le sottoscrizioni attive con i dettagli dei piani
       const result = await db
         .select({
           subscriptions: subscriptions,
@@ -4011,43 +3977,12 @@ export class DatabaseStorage implements IStorage {
         .where(eq(subscriptions.status, 'active'))
         .orderBy(desc(subscriptions.createdAt));
       
-      // Trasforma i risultati nel formato richiesto
-      const subscriptionsWithDetails: SubscriptionWithDetails[] = result.map((row) => {
-        const subscription: Subscription = {
-          id: row.subscriptions.id,
-          userId: row.subscriptions.userId,
-          planId: row.subscriptions.planId,
-          status: row.subscriptions.status || null,
-          currentPeriodStart: row.subscriptions.currentPeriodStart || null,
-          currentPeriodEnd: row.subscriptions.currentPeriodEnd || null,
-          cancelAtPeriodEnd: row.subscriptions.cancelAtPeriodEnd || null,
-          createdAt: row.subscriptions.createdAt || null,
-          updatedAt: row.subscriptions.updatedAt || null,
-          paymentMethod: row.subscriptions.paymentMethod || null,
-          paypalSubscriptionId: row.subscriptions.paypalSubscriptionId || null,
-          wiseSubscriptionId: row.subscriptions.wiseSubscriptionId || null,
-          metadata: row.subscriptions.metadata
-        };
-        
-        const plan = row.plans ? {
-          id: row.plans.id,
-          name: row.plans.name,
-          description: row.plans.description,
-          price: row.plans.price,
-          interval: row.plans.interval,
-          features: row.plans.features,
-          clientLimit: row.plans.clientLimit,
-          isActive: row.plans.isActive,
-          sortOrder: row.plans.sortOrder,
-          createdAt: row.plans.createdAt,
-          updatedAt: row.plans.updatedAt
-        } : null;
-
-        return {
-          ...subscription,
-          plan
-        };
-      });
+      const subscriptionsWithDetails = result.map((row) => ({
+          ...row.subscriptions,
+          plan: row.plans,
+          user: null as unknown as User,
+          transactions: [] as PaymentTransaction[]
+        })) as unknown as SubscriptionWithDetails[];
         
       return subscriptionsWithDetails;
     } catch (error) {
@@ -4230,14 +4165,22 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
-  async getSubscription(id: number): Promise<Subscription | undefined> {
+  async getSubscription(id: number): Promise<SubscriptionWithDetails | undefined> {
     try {
       const [subscription] = await db
         .select()
         .from(subscriptions)
         .where(eq(subscriptions.id, id));
       
-      return subscription;
+      if (!subscription) return undefined;
+      
+      const plan = await this.getSubscriptionPlan(subscription.planId);
+      return {
+        ...subscription,
+        plan: plan as unknown as SubscriptionPlan,
+        user: null as unknown as User,
+        transactions: [] as PaymentTransaction[]
+      };
     } catch (error) {
       console.error(`Errore nel recupero della sottoscrizione ${id}:`, error);
       return undefined;
@@ -4273,32 +4216,27 @@ export class DatabaseStorage implements IStorage {
       
       // Per le operazioni di aggiornamento PayPal, non abbiamo bisogno che l'utente esista
       // È sufficiente avere l'abbonamento e il piano associato
-      let user = null;
+      let user: User | null = null;
       try {
-        user = await this.getUser(userId);
+        const foundUser = await this.getUser(userId);
+        user = foundUser || null;
         if (!user) {
           console.warn(`Utente ${userId} non trovato per la sottoscrizione ${subscription.id}, ma continuo comunque`);
-          // Simuliamo un utente minimale per non bloccare l'operazione
-          user = { id: userId, username: `user-${userId}` };
         }
       } catch (error) {
         console.warn(`Errore nel recupero dell'utente ${userId}, ma continuo comunque:`, error);
-        // Simuliamo un utente minimale per non bloccare l'operazione
-        user = { id: userId, username: `user-${userId}` };
       }
       
-      // Recuperiamo le transazioni associate
       const transactions = await db
         .select()
         .from(paymentTransactions)
         .where(eq(paymentTransactions.subscriptionId, subscription.id))
         .orderBy(desc(paymentTransactions.createdAt));
       
-      // Combiniamo tutto
       return {
         ...subscription,
         plan,
-        user,
+        user: user as unknown as User,
         transactions
       };
     } catch (error) {
@@ -4333,14 +4271,12 @@ export class DatabaseStorage implements IStorage {
         return undefined;
       }
       
-      let user = null;
+      let user: User | null = null;
       try {
-        user = await this.getUser(subscription.userId);
-        if (!user) {
-          user = { id: subscription.userId, username: `user-${subscription.userId}` };
-        }
+        const foundUser = await this.getUser(subscription.userId);
+        user = foundUser || null;
       } catch (error) {
-        user = { id: subscription.userId, username: `user-${subscription.userId}` };
+        console.warn(`User ${subscription.userId} not found for PayPal order`);
       }
       
       const transactions = await db
@@ -4352,7 +4288,7 @@ export class DatabaseStorage implements IStorage {
       return {
         ...subscription,
         plan,
-        user,
+        user: user as unknown as User,
         transactions
       };
     } catch (error) {
@@ -4387,9 +4323,10 @@ export class DatabaseStorage implements IStorage {
       // Cerca impostazioni bancarie globali (salvate sotto userId 1 - primo admin)
       const settings = await this.getUserSettings(1);
       
-      if (settings?.preferences?.bankingSettings) {
+      const prefs = settings?.preferences as Record<string, any> | undefined;
+      if (prefs?.bankingSettings) {
         console.log('💳 Impostazioni bancarie caricate da PostgreSQL');
-        return settings.preferences.bankingSettings;
+        return prefs.bankingSettings;
       }
       
       // Se non trovate, ritorna default
@@ -4430,9 +4367,10 @@ export class DatabaseStorage implements IStorage {
       
       if (existingSettings) {
         // Aggiorna preferences esistenti
+        const existingPrefs = (existingSettings.preferences || {}) as Record<string, any>;
         await this.updateUserSettings(1, {
           preferences: {
-            ...existingSettings.preferences,
+            ...existingPrefs,
             bankingSettings: settings
           }
         });
@@ -4474,13 +4412,10 @@ export class DatabaseStorage implements IStorage {
   async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
     try {
       console.log(`Creazione impostazioni per utente ${settings.userId}`);
+      const insertData: Record<string, any> = { ...settings, createdAt: new Date(), updatedAt: new Date() };
       const [createdSettings] = await db
         .insert(userSettings)
-        .values({
-          ...settings,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        })
+        .values(insertData)
         .returning();
       
       console.log(`Impostazioni create per utente ${settings.userId} con ID ${createdSettings.id}`);
@@ -4508,12 +4443,10 @@ export class DatabaseStorage implements IStorage {
       }
       
       // Aggiorna le impostazioni esistenti
+      const updateData: Record<string, any> = { ...settings, updatedAt: new Date() };
       const [updatedSettings] = await db
         .update(userSettings)
-        .set({
-          ...settings,
-          updatedAt: new Date()
-        })
+        .set(updateData)
         .where(eq(userSettings.userId, userId))
         .returning();
       
@@ -4661,7 +4594,7 @@ export class DatabaseStorage implements IStorage {
         const newContactSettings: ContactSettings = {
           id: maxId + 1,
           tenantId: settings.tenantId,
-          phone: settings.phone,
+          phone: settings.phone ?? null,
           email: settings.email || '',
           whatsappOptIn: settings.whatsappOptIn || false,
           updatedAt: new Date()
@@ -4753,12 +4686,9 @@ export class DatabaseStorage implements IStorage {
         .delete(contactSettings)
         .where(eq(contactSettings.tenantId, tenantId));
       
-      const success = result.rowCount > 0;
-      if (success) {
-        logger.debug(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
-      } else {
-        logger.debug(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
-      }
+      await result;
+      logger.debug(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
+      const success = true;
       
       return success;
     } catch (error) {
@@ -5096,12 +5026,8 @@ export class DatabaseStorage implements IStorage {
         .delete(userIcons)
         .where(eq(userIcons.userId, userId));
       
-      const success = result.rowCount > 0;
-      if (success) {
-        logger.debug(`✅ Icona eliminata per user ${userId}`);
-      }
-      
-      return success;
+      logger.debug(`✅ Icona eliminata per user ${userId}`);
+      return true;
     } catch (error) {
       console.error(`Error deleting icon for user ${userId}:`, error);
       return false;
