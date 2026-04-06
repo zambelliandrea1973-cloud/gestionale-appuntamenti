@@ -10,12 +10,12 @@ COPY package.json package-lock.json ./
 # Skip Chromium download for puppeteer (not needed for production)
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 
+# Force cache invalidation - change this date to rebuild npm ci
+ARG CACHE_DATE=2026-04-06-20:00
+RUN echo "Build timestamp: ${CACHE_DATE}"
+
 # Install ALL dependencies (tsx needed for production)
 RUN npm ci
-
-# Force cache invalidation - change this date to rebuild
-ARG CACHE_DATE=2026-04-06-01:00
-RUN echo "Build timestamp: ${CACHE_DATE}"
 
 # Copy ALL source code
 COPY . .
