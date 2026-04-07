@@ -24,7 +24,7 @@ export interface LicenseInfo {
 // Hook per la gestione delle licenze
 export function useLicense() {
   const { toast } = useToast();
-  const [appTitle, setAppTitle] = useState<string>('Gestione Appuntamenti');
+  const [appTitle, setAppTitle] = useState<string>('Gestionale Appuntamenti');
   
   // Query per ottenere le informazioni sulla licenza
   const licenseQuery = useQuery({
