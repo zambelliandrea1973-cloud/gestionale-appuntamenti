@@ -123,13 +123,21 @@ export default function WelcomePage() {
             </div>
           </CardFooter>
         </Card>
+
+        <div className="w-full max-w-lg mt-6 text-center text-sm text-muted-foreground">
+          <p>Gestionale Appuntamenti è un sistema completo per la gestione di appuntamenti, clienti e fatture per professionisti. Sincronizza il tuo calendario Google, invia notifiche via email e WhatsApp, e gestisci la tua attività da qualsiasi dispositivo.</p>
+        </div>
       </main>
       
       {/* Footer */}
       <footer className="bg-gray-100 border-t border-gray-300 py-4">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center text-xs text-gray-500">
+          <div className="flex flex-col items-center gap-2 text-xs text-gray-500">
             <p>{t('welcomePage.footerCopyright')}</p>
+            <div className="flex gap-4">
+              <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
+              <a href="/terms" className="text-primary hover:underline">Termini di Servizio</a>
+            </div>
           </div>
         </div>
       </footer>
