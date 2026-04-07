@@ -1,0 +1,672 @@
+07/04/2026, 11:05:45:
+build
+Counting objects: 100% (3187/3187), done.
+07/04/2026, 11:05:45:
+build
+Compressing objects: 100% (235/235), done.
+07/04/2026, 11:06:18:
+build
+Total 27850 (delta 3118), reused 2970 (delta 2952), pack-reused 24663 (from 3)
+07/04/2026, 11:07:14:
+build
+#1 [service_event_2s4qg7lm3dzi internal] load build definition from Dockerfile
+07/04/2026, 11:07:14:
+build
+#1 transferring dockerfile: 945B done
+07/04/2026, 11:07:14:
+build
+#1 DONE 0.0s
+07/04/2026, 11:07:14:
+build
+07/04/2026, 11:07:14:
+build
+#2 [service_event_2s4qg7lm3dzi internal] load metadata for docker.io/library/node:20-alpine
+07/04/2026, 11:07:14:
+build
+#2 DONE 0.7s
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#3 [service_event_2s4qg7lm3dzi internal] load .dockerignore
+07/04/2026, 11:07:15:
+build
+#3 transferring context: 830B done
+07/04/2026, 11:07:15:
+build
+#3 DONE 0.0s
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#4 [service_event_2s4qg7lm3dzi 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+07/04/2026, 11:07:15:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+07/04/2026, 11:07:15:
+build
+#4 DONE 0.0s
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#5 [service_event_2s4qg7lm3dzi internal] load build context
+07/04/2026, 11:07:15:
+build
+#5 transferring context: 77.49MB 0.3s done
+07/04/2026, 11:07:15:
+build
+#5 DONE 0.4s
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#6 [service_event_2s4qg7lm3dzi 3/8] COPY package.json package-lock.json ./
+07/04/2026, 11:07:15:
+build
+#6 CACHED
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#7 [service_event_2s4qg7lm3dzi 4/8] RUN echo "Build timestamp: 2026-04-06-20:30"
+07/04/2026, 11:07:15:
+build
+#7 CACHED
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#8 [service_event_2s4qg7lm3dzi 2/8] WORKDIR /app
+07/04/2026, 11:07:15:
+build
+#8 CACHED
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#9 [service_event_2s4qg7lm3dzi 5/8] RUN npm ci
+07/04/2026, 11:07:15:
+build
+#9 CACHED
+07/04/2026, 11:07:15:
+build
+07/04/2026, 11:07:15:
+build
+#10 [service_event_2s4qg7lm3dzi 6/8] COPY . .
+07/04/2026, 11:07:16:
+build
+#10 DONE 1.2s
+07/04/2026, 11:07:16:
+build
+07/04/2026, 11:07:16:
+build
+#11 [service_event_2s4qg7lm3dzi 7/8] RUN npx vite build
+07/04/2026, 11:07:18:
+build
+#11 1.407 vite v5.4.14 building for production...
+07/04/2026, 11:07:18:
+build
+#11 1.539 transforming...
+07/04/2026, 11:07:18:
+build
+#11 2.103 Browserslist: browsers data (caniuse-lite) is 18 months old. Please run:
+07/04/2026, 11:07:18:
+build
+#11 2.103   npx update-browserslist-db@latest
+07/04/2026, 11:07:18:
+build
+#11 2.103   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+07/04/2026, 11:07:32:
+build
+#11 15.77 ✓ 3694 modules transformed.
+07/04/2026, 11:07:34:
+build
+#11 17.40 [plugin:vite:reporter] [plugin vite:reporter] 
+07/04/2026, 11:07:34:
+build
+#11 17.40 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/WelcomeGuide.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-currency.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-manual-section.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/hooks/useGoogleCalendarSync.ts, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AdminUsersPage.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/BookingRequests.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/ManualAdminPage.tsx, /app/client/src/pages/ManualePage.tsx, /app/client/src/pages/MarketingCampaignsPage.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PackagesPage.tsx, /app/client/src/pages/PasswordChangeePage.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/PureClientArea.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/ResetPasswordPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/UnifiedLogin.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+07/04/2026, 11:07:34:
+build
+#11 17.40 
+07/04/2026, 11:07:34:
+build
+#11 17.41 [plugin:vite:reporter] [plugin vite:reporter] 
+07/04/2026, 11:07:34:
+build
+#11 17.41 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+07/04/2026, 11:07:34:
+build
+#11 17.41 
+07/04/2026, 11:07:34:
+build
+#11 17.41 rendering chunks...
+07/04/2026, 11:07:34:
+build
+#11 17.49 computing gzip size...
+07/04/2026, 11:07:34:
+build
+#11 17.60 ../dist/public/index.html                    15.51 kB │ gzip:   4.53 kB
+07/04/2026, 11:07:34:
+build
+#11 17.60 ../dist/public/assets/index-BkP5nkAL.css    126.65 kB │ gzip:  19.93 kB
+07/04/2026, 11:07:34:
+build
+#11 17.60 ../dist/public/assets/index-OLvlrwNw.js   2,702.31 kB │ gzip: 737.25 kB
+07/04/2026, 11:07:34:
+build
+#11 17.60 
+07/04/2026, 11:07:34:
+build
+#11 17.60 (!) Some chunks are larger than 500 kB after minification. Consider:
+07/04/2026, 11:07:34:
+build
+#11 17.60 - Using dynamic import() to code-split the application
+07/04/2026, 11:07:34:
+build
+#11 17.60 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+07/04/2026, 11:07:34:
+build
+#11 17.60 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+07/04/2026, 11:07:34:
+build
+#11 17.60 ✓ built in 16.16s
+07/04/2026, 11:07:34:
+build
+#11 DONE 17.8s
+07/04/2026, 11:07:34:
+build
+07/04/2026, 11:07:34:
+build
+#12 [service_event_2s4qg7lm3dzi 8/8] RUN cp -r dist/public server/public
+07/04/2026, 11:07:34:
+build
+#12 DONE 0.2s
+07/04/2026, 11:07:34:
+build
+07/04/2026, 11:07:34:
+build
+#13 [service_event_2s4qg7lm3dzi] exporting to image
+07/04/2026, 11:07:34:
+build
+#13 exporting layers
+07/04/2026, 11:07:36:
+build
+#13 exporting layers 2.0s done
+07/04/2026, 11:07:36:
+build
+#13 exporting manifest sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f done
+07/04/2026, 11:07:36:
+build
+#13 exporting config sha256:c96297186a98d9bcbe9b312b2e4d37b780c618f873e2c9cd64eec7caba7b5258 done
+07/04/2026, 11:07:36:
+build
+#13 pushing layers
+07/04/2026, 11:07:37:
+build
+#13 pushing layers 0.7s done
+07/04/2026, 11:07:37:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_2s4qg7lm3dzi@sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f
+07/04/2026, 11:07:37:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_2s4qg7lm3dzi@sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f 0.0s done
+07/04/2026, 11:07:37:
+build
+#13 DONE 2.8s
+07/04/2026, 11:07:38:
+build
+Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+07/04/2026, 11:07:38:
+build
+service_event_2s4qg7lm3dzi: 589002ba0eae: Already exists
+07/04/2026, 11:07:38:
+build
+d7f6aca05b78: Already exists
+07/04/2026, 11:07:38:
+build
+62e0e1181d88: Already exists
+07/04/2026, 11:07:38:
+build
+c7734204880f: Already exists
+07/04/2026, 11:07:38:
+build
+d4c88d6eeae7: Already exists
+07/04/2026, 11:07:38:
+build
+9b9032668200: Already exists
+07/04/2026, 11:07:38:
+build
+4f4fb700ef54: Already exists
+07/04/2026, 11:07:38:
+build
+f1b01ca8cef6: Already exists
+07/04/2026, 11:07:38:
+build
+6937cfbe0a36: Pulling fs layer
+07/04/2026, 11:07:38:
+build
+0dc55469e806: Pulling fs layer
+07/04/2026, 11:07:38:
+build
+4ec86e4df6a1: Pulling fs layer
+07/04/2026, 11:07:38:
+build
+6937cfbe0a36: Verifying Checksum
+07/04/2026, 11:07:38:
+build
+6937cfbe0a36: Download complete
+07/04/2026, 11:07:38:
+build
+4ec86e4df6a1: Verifying Checksum
+07/04/2026, 11:07:38:
+build
+4ec86e4df6a1: Download complete
+07/04/2026, 11:07:38:
+build
+0dc55469e806: Verifying Checksum
+07/04/2026, 11:07:38:
+build
+0dc55469e806: Download complete
+07/04/2026, 11:07:39:
+build
+0dc55469e806: Pull complete
+07/04/2026, 11:07:39:
+build
+4ec86e4df6a1: Pull complete
+07/04/2026, 11:07:39:
+build
+6937cfbe0a36: Pull complete
+07/04/2026, 11:07:39:
+build
+Digest: sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f
+07/04/2026, 11:07:39:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_2s4qg7lm3dzi
+07/04/2026, 11:07:43:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+07/04/2026, 11:07:44:
+runtime
+Servizio gestione telefono diretto inizializzato
+07/04/2026, 11:07:44:
+runtime
+Debug OAuth URL: {
+07/04/2026, 11:07:44:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+07/04/2026, 11:07:44:
+runtime
+}
+07/04/2026, 11:07:44:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+07/04/2026, 11:07:44:
+runtime
+Google Credentials: {
+07/04/2026, 11:07:44:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+07/04/2026, 11:07:44:
+runtime
+  secretPresent: 'Present'
+07/04/2026, 11:07:44:
+runtime
+}
+07/04/2026, 11:07:44:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+07/04/2026, 11:07:44:
+runtime
+   📅 Appuntamenti caricati: 50
+07/04/2026, 11:07:44:
+runtime
+   👥 Clienti caricati: 40
+07/04/2026, 11:07:44:
+runtime
+   🔍 Primi 3 appuntamenti: [
+07/04/2026, 11:07:44:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+07/04/2026, 11:07:44:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+07/04/2026, 11:07:44:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+07/04/2026, 11:07:44:
+runtime
+]
+07/04/2026, 11:07:44:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+07/04/2026, 11:07:44:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+07/04/2026, 11:07:47:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+07/04/2026, 11:07:47:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+07/04/2026, 11:07:47:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+07/04/2026, 11:07:47:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+07/04/2026, 11:07:47:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+07/04/2026, 11:07:47:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+07/04/2026, 11:07:47:
+runtime
+Tutti gli scheduler inizializzati
+07/04/2026, 11:07:47:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+07/04/2026, 11:07:47:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+07/04/2026, 11:07:47:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+07/04/2026, 11:07:47:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+07/04/2026, 11:07:47:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+07/04/2026, 11:07:47:
+runtime
+9:07:47 AM [express] serving on port 5000
+07/04/2026, 11:07:47:
+runtime
+Telefono caricato dal database: +393472550110
+07/04/2026, 11:07:47:
+runtime
+✅ PostgreSQL database is available
+07/04/2026, 11:07:52:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+07/04/2026, 11:07:57:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+07/04/2026, 11:07:57:
+runtime
+📊 [MONITOR] Stats: 58 utenti, 4571 clienti, 505 appuntamenti, max 0 clienti/utente
+07/04/2026, 11:07:57:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
+07/04/2026, 11:08:09:
+build
+Enumerating objects: 27850, done.
+07/04/2026, 11:08:09:
+build
+Counting objects: 100% (3187/3187), done.
+07/04/2026, 11:08:09:
+build
+Compressing objects: 100% (235/235), done.
+07/04/2026, 11:08:42:
+build
+Total 27850 (delta 3118), reused 2970 (delta 2952), pack-reused 24663 (from 3)
+07/04/2026, 11:09:27:
+build
+#2 [service_event_mt2fo5awxn7o internal] load metadata for docker.io/library/node:20-alpine
+07/04/2026, 11:09:27:
+build
+07/04/2026, 11:09:27:
+build
+#1 DONE 0.0s
+07/04/2026, 11:09:27:
+build
+#1 transferring dockerfile: 945B done
+07/04/2026, 11:09:27:
+build
+#1 [service_event_mt2fo5awxn7o internal] load build definition from Dockerfile
+07/04/2026, 11:09:28:
+build
+#2 DONE 0.7s
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#3 DONE 0.0s
+07/04/2026, 11:09:28:
+build
+#3 transferring context: 830B done
+07/04/2026, 11:09:28:
+build
+#3 [service_event_mt2fo5awxn7o internal] load .dockerignore
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#5 [service_event_mt2fo5awxn7o internal] load build context
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#4 DONE 0.0s
+07/04/2026, 11:09:28:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+07/04/2026, 11:09:28:
+build
+#4 [service_event_mt2fo5awxn7o 1/8] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+07/04/2026, 11:09:28:
+build
+#6 CACHED
+07/04/2026, 11:09:28:
+build
+#6 [service_event_mt2fo5awxn7o 7/8] RUN npx vite build
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#5 DONE 0.4s
+07/04/2026, 11:09:28:
+build
+#5 transferring context: 77.49MB 0.4s done
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#9 CACHED
+07/04/2026, 11:09:28:
+build
+#9 [service_event_mt2fo5awxn7o 2/8] WORKDIR /app
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#8 CACHED
+07/04/2026, 11:09:28:
+build
+#8 [service_event_mt2fo5awxn7o 6/8] COPY . .
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#7 CACHED
+07/04/2026, 11:09:28:
+build
+#7 [service_event_mt2fo5awxn7o 5/8] RUN npm ci
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#13 [service_event_mt2fo5awxn7o] exporting to image
+07/04/2026, 11:09:28:
+build
+#11 CACHED
+07/04/2026, 11:09:28:
+build
+#11 [service_event_mt2fo5awxn7o 4/8] RUN echo "Build timestamp: 2026-04-06-20:30"
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#10 CACHED
+07/04/2026, 11:09:28:
+build
+#10 [service_event_mt2fo5awxn7o 3/8] COPY package.json package-lock.json ./
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#12 [service_event_mt2fo5awxn7o 8/8] RUN cp -r dist/public server/public
+07/04/2026, 11:09:28:
+build
+#12 CACHED
+07/04/2026, 11:09:28:
+build
+07/04/2026, 11:09:28:
+build
+#13 exporting layers done
+07/04/2026, 11:09:28:
+build
+#13 exporting manifest sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f done
+07/04/2026, 11:09:28:
+build
+#13 exporting config sha256:c96297186a98d9bcbe9b312b2e4d37b780c618f873e2c9cd64eec7caba7b5258 done
+07/04/2026, 11:09:28:
+build
+#13 pushing layers 0.1s done
+07/04/2026, 11:09:28:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_mt2fo5awxn7o@sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f
+07/04/2026, 11:09:28:
+build
+#13 pushing manifest for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_mt2fo5awxn7o@sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f 0.1s done
+07/04/2026, 11:09:28:
+build
+#13 DONE 0.1s
+07/04/2026, 11:09:29:
+build
+Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+07/04/2026, 11:09:29:
+build
+service_event_mt2fo5awxn7o: Digest: sha256:9cbb20af5b7ae3f5fe346c407cc5b05e05c921933e212660c0091f5f5074b87f
+07/04/2026, 11:09:29:
+build
+Status: Downloaded newer image for registry.nbg1.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_mt2fo5awxn7o
+07/04/2026, 11:09:33:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+07/04/2026, 11:09:34:
+runtime
+Servizio gestione telefono diretto inizializzato
+07/04/2026, 11:09:34:
+runtime
+Debug OAuth URL: {
+07/04/2026, 11:09:34:
+runtime
+}
+07/04/2026, 11:09:34:
+runtime
+  secretPresent: 'Present'
+07/04/2026, 11:09:34:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+07/04/2026, 11:09:34:
+runtime
+Google Credentials: {
+07/04/2026, 11:09:34:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+07/04/2026, 11:09:34:
+runtime
+}
+07/04/2026, 11:09:34:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+07/04/2026, 11:09:34:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+07/04/2026, 11:09:34:
+runtime
+   👥 Clienti caricati: 40
+07/04/2026, 11:09:34:
+runtime
+   📅 Appuntamenti caricati: 50
+07/04/2026, 11:09:34:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+07/04/2026, 11:09:34:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+07/04/2026, 11:09:34:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+07/04/2026, 11:09:34:
+runtime
+   🔍 Primi 3 appuntamenti: [
+07/04/2026, 11:09:34:
+runtime
+]
+07/04/2026, 11:09:34:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+07/04/2026, 11:09:34:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+07/04/2026, 11:09:36:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+07/04/2026, 11:09:36:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+07/04/2026, 11:09:36:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+07/04/2026, 11:09:36:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+07/04/2026, 11:09:36:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+07/04/2026, 11:09:36:
+runtime
+Tutti gli scheduler inizializzati
+07/04/2026, 11:09:36:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+07/04/2026, 11:09:36:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+07/04/2026, 11:09:36:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+07/04/2026, 11:09:36:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+07/04/2026, 11:09:36:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+07/04/2026, 11:09:36:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+07/04/2026, 11:09:36:
+runtime
+9:09:36 AM [express] serving on port 5000
+07/04/2026, 11:09:36:
+runtime
+Telefono caricato dal database: +393472550110
+07/04/2026, 11:09:36:
+runtime
+✅ PostgreSQL database is available
+07/04/2026, 11:09:41:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+07/04/2026, 11:09:46:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+07/04/2026, 11:09:47:
+runtime
+📊 [MONITOR] Stats: 58 utenti, 4571 clienti, 505 appuntamenti, max 0 clienti/utente
+07/04/2026, 11:09:47:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
