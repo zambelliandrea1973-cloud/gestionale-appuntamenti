@@ -56,7 +56,7 @@ export default function UnifiedLogin() {
   const handleClearCache = async () => {
     setIsClearing(true);
     try {
-      const keysToKeep = rememberMe ? ['savedLoginUsername'] : [];
+      const keysToKeep = rememberMe ? ['savedLoginUsername', 'i18nextLng'] : ['i18nextLng'];
       const allKeys = Object.keys(localStorage);
       allKeys.forEach(key => {
         if (!keysToKeep.includes(key)) {
@@ -82,7 +82,7 @@ export default function UnifiedLogin() {
       return response.json();
     },
     onSuccess: async (userData) => {
-      const keysToKeep = ['savedLoginUsername'];
+      const keysToKeep = ['savedLoginUsername', 'i18nextLng'];
       const allKeys = Object.keys(localStorage);
       allKeys.forEach(key => {
         if (!keysToKeep.includes(key)) {

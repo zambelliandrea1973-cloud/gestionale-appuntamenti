@@ -31,7 +31,9 @@ export default function LogoutButton({
       
       // CRITICO: Pulisci TUTTA la cache prima del logout
       queryClient.clear();
+      const savedLang = localStorage.getItem('i18nextLng');
       localStorage.clear();
+      if (savedLang) localStorage.setItem('i18nextLng', savedLang);
       sessionStorage.clear();
       console.log('🧹 Cache completamente pulita al logout');
       
