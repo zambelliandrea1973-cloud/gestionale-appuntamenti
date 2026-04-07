@@ -9,6 +9,7 @@ import { insertClientSchema } from "../../../shared/schema";
 import { Loader2, AlertTriangle } from "lucide-react";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -95,6 +96,7 @@ export default function ClientForm({
   onSuccess,
   onClientCreated
 }: ClientFormProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { user } = useUserWithLicense();
   const [prefix, setPrefix] = useState("+39");
@@ -178,10 +180,10 @@ export default function ClientForm({
       }
       
       toast({
-        title: clientId ? "Cliente aggiornato" : "Cliente creato",
+        title: clientId ? t('clientForm.clientUpdated') : t('clientForm.clientCreated'),
         description: clientId 
-          ? "I dati del cliente sono stati aggiornati con successo" 
-          : "Nuovo cliente creato con successo",
+          ? t('clientForm.clientUpdatedDesc') 
+          : t('clientForm.clientCreatedDesc'),
       });
       
       // Invalidate queries to refresh data - forza refetch immediato
@@ -221,8 +223,8 @@ export default function ClientForm({
     },
     onError: (error) => {
       toast({
-        title: "Errore",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('clientForm.error'),
+        description: error.message,
         variant: "destructive",
       });
     }
@@ -231,8 +233,8 @@ export default function ClientForm({
   const submitClientData = (data: FormData) => {
     if (!user?.id) {
       toast({
-        title: "Errore",
-        description: "Utente non autenticato. Effettua il login.",
+        title: t('clientForm.error'),
+        description: t('clientForm.notAuthenticated'),
         variant: "destructive",
       });
       return;
@@ -259,8 +261,8 @@ export default function ClientForm({
     
     if (!user?.id) {
       toast({
-        title: "Errore",
-        description: "Utente non autenticato. Effettua il login.",
+        title: t('clientForm.error'),
+        description: t('clientForm.notAuthenticated'),
         variant: "destructive",
       });
       return;
@@ -301,7 +303,7 @@ export default function ClientForm({
     <DialogContent className="min-[1200px]:max-w-[600px] max-h-[85vh] min-[1200px]:max-h-[90vh] flex flex-col p-0">
       <DialogHeader className="px-4 pt-4 min-[1200px]:px-6 min-[1200px]:pt-6">
         <DialogTitle className="text-xl min-[1200px]:text-lg">
-          {clientId ? "Modifica Cliente" : "Nuovo Cliente"}
+          {clientId ? t('clientForm.editClient') : t('clientForm.newClient')}
         </DialogTitle>
       </DialogHeader>
       
@@ -312,9 +314,9 @@ export default function ClientForm({
       ) : (
         <Tabs defaultValue="personal" value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 min-h-0">
           <TabsList className="grid w-full grid-cols-3 mx-4 min-[1200px]:mx-6 mb-2 flex-shrink-0" style={{ maxWidth: "calc(100% - 2rem)" }}>
-            <TabsTrigger value="personal" className="text-sm px-2">Dati Personali</TabsTrigger>
-            <TabsTrigger value="medical" className="text-sm px-2">Dati Medici</TabsTrigger>
-            <TabsTrigger value="consent" className="text-sm px-2">Consenso Dati (GDPR)</TabsTrigger>
+            <TabsTrigger value="personal" className="text-sm px-2">{t('clientForm.personalData')}</TabsTrigger>
+            <TabsTrigger value="medical" className="text-sm px-2">{t('clientForm.medicalData')}</TabsTrigger>
+            <TabsTrigger value="consent" className="text-sm px-2">{t('clientForm.gdprConsent')}</TabsTrigger>
           </TabsList>
           
           <Form {...form}>
@@ -330,9 +332,9 @@ export default function ClientForm({
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nome *</FormLabel>
+                        <FormLabel>{t('clientForm.firstName')} *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="Nome" />
+                          <Input {...field} placeholder={t('clientForm.firstName')} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -344,9 +346,9 @@ export default function ClientForm({
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cognome *</FormLabel>
+                        <FormLabel>{t('clientForm.lastName')} *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="Cognome" />
+                          <Input {...field} placeholder={t('clientForm.lastName')} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -404,7 +406,7 @@ export default function ClientForm({
                       
                       return (
                         <FormItem>
-                          <FormLabel>Telefono *</FormLabel>
+                          <FormLabel>{t('clientForm.phone')} *</FormLabel>
                           <div className="flex space-x-1">
                             <Select value={prefix} onValueChange={handlePrefixChange}>
                               <FormControl>
@@ -424,12 +426,12 @@ export default function ClientForm({
                               <Input 
                                 value={displayValue} 
                                 onChange={handlePhoneChange} 
-                                placeholder="Numero di telefono" 
+                                placeholder={t('clientForm.phonePlaceholder')} 
                               />
                             </FormControl>
                           </div>
                           <FormDescription>
-                            Il numero di telefono deve includere il prefisso internazionale
+                            {t('clientForm.phoneDescription')}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -442,9 +444,9 @@ export default function ClientForm({
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t('clientForm.email')}</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="Email" type="email" />
+                          <Input {...field} placeholder={t('clientForm.email')} type="email" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -457,9 +459,9 @@ export default function ClientForm({
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Indirizzo</FormLabel>
+                      <FormLabel>{t('clientForm.address')}</FormLabel>
                       <FormControl>
-                        <Input {...field} value={field.value || ''} placeholder="Indirizzo" />
+                        <Input {...field} value={field.value || ''} placeholder={t('clientForm.address')} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -472,7 +474,7 @@ export default function ClientForm({
                     name="taxCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Codice Fiscale</FormLabel>
+                        <FormLabel>{t('clientForm.taxCode')}</FormLabel>
                         <FormControl>
                           <Input {...field} value={field.value || ''} placeholder="RSSMRA80A01H501Z" />
                         </FormControl>
@@ -486,7 +488,7 @@ export default function ClientForm({
                     name="vatNumber"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Partita IVA</FormLabel>
+                        <FormLabel>{t('clientForm.vatNumber')}</FormLabel>
                         <FormControl>
                           <Input {...field} value={field.value || ''} placeholder="12345678901" />
                         </FormControl>
@@ -502,7 +504,7 @@ export default function ClientForm({
                     name="birthday"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Data di nascita</FormLabel>
+                        <FormLabel>{t('clientForm.birthday')}</FormLabel>
                         <FormControl>
                           <Input {...field} value={field.value || ''} type="date" />
                         </FormControl>
@@ -523,9 +525,9 @@ export default function ClientForm({
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>Cliente frequente</FormLabel>
+                          <FormLabel>{t('clientForm.frequentClient')}</FormLabel>
                           <FormDescription>
-                            Il cliente frequenta regolarmente
+                            {t('clientForm.frequentClientDesc')}
                           </FormDescription>
                         </div>
                       </FormItem>
@@ -538,10 +540,10 @@ export default function ClientForm({
                   name="notes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Note</FormLabel>
+                      <FormLabel>{t('clientForm.notes')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Note sul cliente"
+                          placeholder={t('clientForm.notesPlaceholder')}
                           className="resize-none"
                           {...field}
                           value={field.value || ''}
@@ -560,10 +562,10 @@ export default function ClientForm({
                   name="allergies"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Allergie</FormLabel>
+                      <FormLabel>{t('clientForm.allergies')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Inserisci eventuali allergie"
+                          placeholder={t('clientForm.allergiesPlaceholder')}
                           className="resize-none"
                           {...field}
                           value={field.value || ''}
@@ -579,17 +581,17 @@ export default function ClientForm({
                   name="medicalNotes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Note mediche</FormLabel>
+                      <FormLabel>{t('clientForm.medicalNotes')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Inserisci eventuali note mediche rilevanti"
+                          placeholder={t('clientForm.medicalNotesPlaceholder')}
                           className="resize-none"
                           {...field}
                           value={field.value || ''}
                         />
                       </FormControl>
                       <FormDescription>
-                        Informazioni mediche rilevanti per i trattamenti (condizioni preesistenti, farmaci, ecc.)
+                        {t('clientForm.medicalNotesDesc')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -603,7 +605,7 @@ export default function ClientForm({
                   <ConsentForm clientId={clientId.toString()} />
                 ) : (
                   <div className="bg-muted p-4 rounded-md">
-                    <p className="text-sm">È possibile raccogliere il consenso al trattamento dei dati dopo aver creato il cliente.</p>
+                    <p className="text-sm">{t('clientForm.consentAfterCreate')}</p>
                   </div>
                 )}
               </TabsContent>
@@ -616,7 +618,7 @@ export default function ClientForm({
                   onClick={onClose}
                   disabled={mutation.isPending}
                 >
-                  Annulla
+                  {t('clientForm.cancel')}
                 </Button>
                 {activeTab !== "consent" && (
                   <Button 
@@ -624,7 +626,7 @@ export default function ClientForm({
                     disabled={mutation.isPending || isCheckingDuplicates}
                   >
                     {(mutation.isPending || isCheckingDuplicates) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isCheckingDuplicates ? "Controllo duplicati..." : clientId ? "Aggiorna Dati" : "Salva"}
+                    {isCheckingDuplicates ? t('clientForm.checkingDuplicates') : clientId ? t('clientForm.updateData') : t('clientForm.save')}
                   </Button>
                 )}
               </DialogFooter>
@@ -638,11 +640,11 @@ export default function ClientForm({
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-amber-500" />
-              Cliente potenzialmente duplicato
+              {t('clientForm.duplicateTitle')}
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div>
-                <p className="mb-3">Esistono già clienti con nome o telefono simili:</p>
+                <p className="mb-3">{t('clientForm.duplicateExisting')}</p>
                 <div className="space-y-2 mb-3">
                   {duplicateClients.map((dc, i) => (
                     <div key={i} className="bg-amber-50 border border-amber-200 rounded-md p-3 text-sm text-foreground">
@@ -652,7 +654,7 @@ export default function ClientForm({
                     </div>
                   ))}
                 </div>
-                <p>Vuoi comunque creare un nuovo cliente?</p>
+                <p>{t('clientForm.duplicateConfirm')}</p>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -661,7 +663,7 @@ export default function ClientForm({
               setShowDuplicateAlert(false);
               setPendingData(null);
             }}>
-              Annulla
+              {t('clientForm.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction onClick={() => {
               setShowDuplicateAlert(false);
@@ -670,7 +672,7 @@ export default function ClientForm({
                 setPendingData(null);
               }
             }}>
-              Crea comunque
+              {t('clientForm.createAnyway')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

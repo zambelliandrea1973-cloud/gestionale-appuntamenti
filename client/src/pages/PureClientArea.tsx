@@ -16,9 +16,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
-// PWA Installation Banner Component
 function PWAInstallBanner() {
+  const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
 
@@ -57,12 +58,12 @@ function PWAInstallBanner() {
           <div className="flex items-center gap-3">
             <Download className="h-5 w-5 text-blue-600" />
             <div>
-              <p className="font-medium text-blue-900">Installa App</p>
-              <p className="text-sm text-blue-700">Aggiungi questa app alla schermata principale per un accesso rapido</p>
+              <p className="font-medium text-blue-900">{t('clientArea.installApp')}</p>
+              <p className="text-sm text-blue-700">{t('clientArea.installAppDesc')}</p>
             </div>
           </div>
           <Button onClick={handleInstallClick} size="sm" className="bg-blue-600 hover:bg-blue-700">
-            Installa
+            {t('clientArea.install')}
           </Button>
         </div>
       </CardContent>
@@ -128,8 +129,8 @@ interface Invoice {
   createdAt: string;
 }
 
-// Componente per richiesta appuntamento
 function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: string; clientId: number; ownerId: number }) {
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
@@ -192,8 +193,8 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
     onError: (error: Error) => {
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile creare la richiesta. Riprova."
+        title: t('clientArea.error'),
+        description: error.message || t('clientArea.errorCreateRequest')
       });
     }
   });
@@ -214,23 +215,23 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
       setShowForm(false);
       resetForm();
       toast({
-        title: "Richiesta inviata!",
-        description: "Riceverai una conferma appena approvata."
+        title: t('clientArea.requestSent'),
+        description: t('clientArea.confirmationPending')
       });
     },
     onError: (error: Error) => {
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile selezionare lo slot. Riprova."
+        title: t('clientArea.error'),
+        description: error.message || t('clientArea.errorSelectSlot')
       });
     }
   });
   
   const dayParts = [
-    { label: 'Mattina (09:00-13:00)', value: 'morning', start: '09:00', end: '13:00' },
-    { label: 'Pomeriggio (14:00-18:00)', value: 'afternoon', start: '14:00', end: '18:00' },
-    { label: 'Sera (18:00-21:00)', value: 'evening', start: '18:00', end: '21:00' }
+    { label: t('clientArea.morning'), value: 'morning', start: '09:00', end: '13:00' },
+    { label: t('clientArea.afternoon'), value: 'afternoon', start: '14:00', end: '18:00' },
+    { label: t('clientArea.evening'), value: 'evening', start: '18:00', end: '21:00' }
   ];
   
   const resetForm = () => {
@@ -272,10 +273,10 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Plus className="h-5 w-5 text-blue-600" />
-          Richiedi Appuntamento
+          {t('clientArea.requestAppointment')}
         </CardTitle>
         <CardDescription>
-          Richiedi un nuovo appuntamento selezionando servizio, data e fascia oraria
+          {t('clientArea.requestAppointmentDesc')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -283,18 +284,16 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
           <div className="space-y-4">
             <Button onClick={() => setShowForm(true)} className="w-full" data-testid="button-request-appointment">
               <Plus className="h-4 w-4 mr-2" />
-              Nuova Richiesta
+              {t('clientArea.newRequest')}
             </Button>
             
-            {/* Toggle Notifiche Push */}
             <div className="pt-3 border-t">
-              <p className="text-sm text-gray-500 mb-2">Ricevi una notifica quando il tuo appuntamento viene confermato</p>
+              <p className="text-sm text-gray-500 mb-2">{t('clientArea.pushNotifDesc')}</p>
               <PushNotificationToggle clientId={clientId} ownerId={ownerId} />
             </div>
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Progress indicator */}
             <div className="flex items-center justify-between mb-4">
               {[1, 2, 3, 4, 5].map((s) => (
                 <div key={s} className={`flex-1 h-2 rounded ${step >= s ? 'bg-blue-600' : 'bg-gray-200'} ${s < 5 ? 'mr-2' : ''}`} />
@@ -303,16 +302,16 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
             
             {step === 1 && (
               <div className="space-y-3">
-                <Label>Seleziona Servizio</Label>
+                <Label>{t('clientArea.selectService')}</Label>
                 {services.length === 0 ? (
                   <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center" data-testid="empty-services">
-                    <p className="text-gray-600">Nessun servizio disponibile al momento.</p>
-                    <p className="text-sm text-gray-500 mt-1">Contatta il centro per maggiori informazioni.</p>
+                    <p className="text-gray-600">{t('clientArea.noServicesAvailable')}</p>
+                    <p className="text-sm text-gray-500 mt-1">{t('clientArea.contactCenter')}</p>
                   </div>
                 ) : (
                   <Select value={selectedService?.toString() || ""} onValueChange={(v) => setSelectedService(parseInt(v))}>
                     <SelectTrigger data-testid="select-service">
-                      <SelectValue placeholder="Scegli un servizio..." />
+                      <SelectValue placeholder={t('clientArea.chooseService')} />
                     </SelectTrigger>
                     <SelectContent>
                       {services.map(s => (
@@ -328,13 +327,13 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
             
             {step === 2 && (
               <div className="space-y-3">
-                <Label>Professionista Preferito (opzionale)</Label>
+                <Label>{t('clientArea.preferredStaff')}</Label>
                 <Select value={selectedStaff?.toString() || "none"} onValueChange={(v) => setSelectedStaff(v === "none" ? null : parseInt(v))}>
                   <SelectTrigger data-testid="select-staff">
-                    <SelectValue placeholder="Scegli professionista..." />
+                    <SelectValue placeholder={t('clientArea.chooseStaff')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">Nessuna Preferenza</SelectItem>
+                    <SelectItem value="none">{t('clientArea.noPreference')}</SelectItem>
                     {staffList.map(staff => (
                       <SelectItem key={staff.id} value={staff.id.toString()}>
                         {staff.firstName} {staff.lastName}
@@ -344,14 +343,14 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
                   </SelectContent>
                 </Select>
                 <p className="text-sm text-gray-500 mt-2">
-                  Puoi indicare un professionista specifico oppure lasciare "Nessuna Preferenza"
+                  {t('clientArea.staffHint')}
                 </p>
               </div>
             )}
             
             {step === 3 && (
               <div className="space-y-3">
-                <Label>Seleziona Data</Label>
+                <Label>{t('clientArea.selectDate')}</Label>
                 <input
                   type="date"
                   value={selectedDate}
@@ -365,10 +364,10 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
             
             {step === 4 && (
               <div className="space-y-3">
-                <Label>Seleziona Fascia Oraria</Label>
+                <Label>{t('clientArea.selectTimeSlot')}</Label>
                 <Select value={selectedDayPart} onValueChange={setSelectedDayPart}>
                   <SelectTrigger data-testid="select-timeframe">
-                    <SelectValue placeholder="Scegli fascia..." />
+                    <SelectValue placeholder={t('clientArea.chooseTimeSlot')} />
                   </SelectTrigger>
                   <SelectContent>
                     {dayParts.map(dp => (
@@ -378,11 +377,11 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
                     ))}
                   </SelectContent>
                 </Select>
-                <Label className="mt-4">Note (opzionali)</Label>
+                <Label className="mt-4">{t('clientArea.notesOptional')}</Label>
                 <Textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Eventuali note o preferenze..."
+                  placeholder={t('clientArea.notesPlaceholder')}
                   data-testid="textarea-notes"
                 />
               </div>
@@ -390,12 +389,12 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
             
             {step === 5 && (
               <div className="space-y-3">
-                <Label>Slot Disponibili</Label>
+                <Label>{t('clientArea.availableSlots')}</Label>
                 {proposedSlots.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <AlertCircle className="h-12 w-12 mx-auto mb-2 text-orange-500" />
-                    <p>Nessuno slot disponibile in questa fascia oraria.</p>
-                    <p className="text-sm mt-2">Prova con un'altra data o fascia.</p>
+                    <p>{t('clientArea.noSlotsAvailable')}</p>
+                    <p className="text-sm mt-2">{t('clientArea.tryAnotherSlot')}</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-2">
@@ -420,22 +419,22 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
             <div className="flex gap-2 mt-4">
               {step > 1 && step < 5 && (
                 <Button variant="outline" onClick={() => setStep(step - 1)} data-testid="button-back">
-                  Indietro
+                  {t('clientArea.back')}
                 </Button>
               )}
               {step < 4 && (
                 <Button onClick={() => setStep(step + 1)} disabled={!canContinue()} className="flex-1" data-testid="button-next">
-                  Continua
+                  {t('clientArea.continue')}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               )}
               {step === 4 && (
                 <Button onClick={handleSubmit} disabled={!canContinue() || createRequest.isPending} className="flex-1" data-testid="button-submit">
-                  {createRequest.isPending ? 'Invio...' : 'Invia Richiesta'}
+                  {createRequest.isPending ? t('clientArea.sending') : t('clientArea.sendRequest')}
                 </Button>
               )}
               <Button variant="ghost" onClick={() => { setShowForm(false); resetForm(); }} data-testid="button-cancel">
-                Annulla
+                {t('clientArea.cancel')}
               </Button>
             </div>
           </div>
@@ -444,15 +443,15 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
         {/* Lista Richieste Esistenti */}
         {bookingRequests.length > 0 && (
           <div className="mt-6 pt-6 border-t">
-            <h3 className="font-semibold mb-4 text-gray-700">Le tue richieste</h3>
+            <h3 className="font-semibold mb-4 text-gray-700">{t('clientArea.yourRequests')}</h3>
             <div className="space-y-3">
               {bookingRequests.map((req) => {
                 const service = services.find(s => s.id === req.serviceId);
                 const statusConfig = {
-                  slots_proposed: { bg: 'bg-gray-100', border: 'border-gray-400', text: 'text-gray-700', label: 'Scegli slot', icon: AlertCircle },
-                  client_selected: { bg: 'bg-yellow-100', border: 'border-yellow-400', text: 'text-yellow-700', label: 'In attesa', icon: Clock },
-                  admin_confirmed: { bg: 'bg-green-100', border: 'border-green-400', text: 'text-green-700', label: 'Approvato ✓', icon: CheckCircle },
-                  rejected: { bg: 'bg-red-100', border: 'border-red-400', text: 'text-red-700', label: 'Respinta', icon: XCircle }
+                  slots_proposed: { bg: 'bg-gray-100', border: 'border-gray-400', text: 'text-gray-700', label: t('clientArea.chooseSlot'), icon: AlertCircle },
+                  client_selected: { bg: 'bg-yellow-100', border: 'border-yellow-400', text: 'text-yellow-700', label: t('clientArea.waiting'), icon: Clock },
+                  admin_confirmed: { bg: 'bg-green-100', border: 'border-green-400', text: 'text-green-700', label: t('clientArea.approved'), icon: CheckCircle },
+                  rejected: { bg: 'bg-red-100', border: 'border-red-400', text: 'text-red-700', label: t('clientArea.rejected'), icon: XCircle }
                 };
                 const config = statusConfig[req.status as keyof typeof statusConfig] || statusConfig.slots_proposed;
                 const Icon = config.icon;
@@ -462,14 +461,14 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
                     <CardContent className="pt-4">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-medium">{service?.name || 'Servizio'}</h4>
+                          <h4 className="font-medium">{service?.name || t('clientArea.service')}</h4>
                           <p className="text-sm text-gray-600 mt-1">
-                            {new Date(req.requestedDate).toLocaleDateString('it-IT')} - 
+                            {new Date(req.requestedDate).toLocaleDateString(i18n.language)} - 
                             {req.requestedTimeStart}-{req.requestedTimeEnd}
                           </p>
                           {req.selectedSlot && (
                             <p className="text-sm font-medium text-blue-600 mt-1">
-                              Slot selezionato: {req.selectedSlot.start} - {req.selectedSlot.end}
+                              {t('clientArea.selectedSlot')} {req.selectedSlot.start} - {req.selectedSlot.end}
                             </p>
                           )}
                           {req.clientNotes && (
@@ -494,6 +493,7 @@ function BookingRequestSection({ clientCode, clientId, ownerId }: { clientCode: 
 }
 
 export default function PureClientArea() {
+  const { t, i18n } = useTranslation();
   const params = useParams();
   const [client, setClient] = useState<ClientData | null>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -534,7 +534,7 @@ export default function PureClientArea() {
       try {
         const clientCode = params.clientCode;
         if (!clientCode) {
-          setError("Codice di accesso non valido");
+          setError(t('clientArea.invalidAccessCode'));
           setLoading(false);
           return;
         }
@@ -596,7 +596,7 @@ export default function PureClientArea() {
           console.error('🏠 [PURE CLIENT] Errore API:', clientResponse.status, clientResponse.statusText);
           const errorText = await clientResponse.text();
           console.error('🏠 [PURE CLIENT] Dettagli errore:', errorText);
-          setError(`Accesso non autorizzato (${clientResponse.status})`);
+          setError(`${t('clientArea.unauthorizedAccess')} (${clientResponse.status})`);
           setLoading(false);
           return;
         }
@@ -618,7 +618,7 @@ export default function PureClientArea() {
 
       } catch (error) {
         console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);
-        setError("Errore di connessione");
+        setError(t('clientArea.connectionError'));
       } finally {
         setLoading(false);
       }
@@ -708,7 +708,7 @@ export default function PureClientArea() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('it-IT', {
+    return new Date(dateString).toLocaleDateString(i18n.language, {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -721,7 +721,7 @@ export default function PureClientArea() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Caricamento area personale...</p>
+          <p className="text-gray-600">{t('clientArea.loadingPersonalArea')}</p>
         </div>
       </div>
     );
@@ -732,10 +732,10 @@ export default function PureClientArea() {
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-red-600">Accesso Negato</CardTitle>
+            <CardTitle className="text-red-600">{t('clientArea.accessDenied')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600">{error || "Impossibile accedere all'area personale"}</p>
+            <p className="text-gray-600">{error || t('clientArea.cannotAccessArea')}</p>
           </CardContent>
         </Card>
       </div>
@@ -750,10 +750,10 @@ export default function PureClientArea() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              Benvenuto, {client.firstName} {client.lastName}
+              {t('clientArea.welcome', { name: `${client.firstName} ${client.lastName}` })}
             </CardTitle>
             <CardDescription>
-              La tua area personale per consultare i tuoi appuntamenti
+              {t('clientArea.personalAreaDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -778,17 +778,17 @@ export default function PureClientArea() {
           <CardHeader>
             <CardTitle className="flex items-center gap-3">
               <Calendar className="h-6 w-6 text-green-600" />
-              I Tuoi Appuntamenti
+              {t('clientArea.yourAppointments')}
             </CardTitle>
             <CardDescription>
-              La tua area personale per consultare i tuoi appuntamenti
+              {t('clientArea.personalAreaDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {appointments.length === 0 ? (
               <div className="text-center py-8">
                 <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">Nessun appuntamento programmato</p>
+                <p className="text-gray-500">{t('clientArea.noAppointments')}</p>
               </div>
             ) : (
               <ScrollArea className="h-96">
@@ -843,10 +843,10 @@ export default function PureClientArea() {
                                   : 'bg-yellow-100 text-yellow-800'
                             }`}>
                               {isPast 
-                                ? 'Completato' 
+                                ? t('clientArea.completed') 
                                 : appointment.status === 'scheduled' 
-                                  ? 'Confermato' 
-                                  : 'In attesa'
+                                  ? t('clientArea.confirmed') 
+                                  : t('clientArea.waiting')
                               }
                             </div>
                           </div>
@@ -865,17 +865,17 @@ export default function PureClientArea() {
           <CardHeader>
             <CardTitle className="flex items-center gap-3">
               <FileText className="h-6 w-6 text-purple-600" />
-              Documenti e Fatture
+              {t('clientArea.documentsInvoices')}
             </CardTitle>
             <CardDescription>
-              Accesso a tutte le fatture emesse
+              {t('clientArea.invoicesAccess')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {invoices.length === 0 ? (
               <div className="text-center py-8">
                 <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">Nessuna fattura disponibile</p>
+                <p className="text-gray-500">{t('clientArea.noInvoices')}</p>
               </div>
             ) : (
               <ScrollArea className="h-96">
@@ -901,14 +901,14 @@ export default function PureClientArea() {
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
                               <h3 className="font-semibold text-lg text-gray-900">
-                                Fattura {invoice.invoiceNumber}
+                                {t('clientArea.invoice')} {invoice.invoiceNumber}
                               </h3>
                               <div className="flex items-center gap-2 mt-1 text-gray-600">
                                 <Calendar className="h-4 w-4" />
                                 <span>{formatDate(invoice.date)}</span>
                               </div>
                               <div className="flex items-center gap-2 mt-1 text-gray-600">
-                                <span className="font-medium">Totale:</span>
+                                <span className="font-medium">{t('clientArea.total')}</span>
                                 <span className="text-lg font-bold">
                                   €{invoice.totalAmount.toFixed(2)}
                                 </span>
@@ -928,10 +928,10 @@ export default function PureClientArea() {
                                     : 'bg-orange-100 text-orange-800'
                               }`}>
                                 {invoice.status === 'paid' 
-                                  ? 'Pagata' 
+                                  ? t('clientArea.paid') 
                                   : isOverdue
-                                    ? 'Scaduta'
-                                    : 'Da pagare'
+                                    ? t('clientArea.overdue')
+                                    : t('clientArea.unpaid')
                                 }
                               </div>
                               <Button
@@ -969,7 +969,7 @@ export default function PureClientArea() {
                                 data-testid={`download-invoice-${invoice.id}`}
                               >
                                 <Download className="h-4 w-4" />
-                                Scarica PDF
+                                {t('clientArea.downloadPdf')}
                               </Button>
                             </div>
                           </div>
@@ -996,7 +996,7 @@ export default function PureClientArea() {
             >
               <span className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Istruzioni installazione app
+                {t('clientArea.installInstructions')}
               </span>
               {showInstallInstructions ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </Button>
@@ -1005,33 +1005,33 @@ export default function PureClientArea() {
             <Card className="bg-green-50 border-green-200 mt-2">
               <CardContent className="pt-6">
                 <div className="space-y-3 text-sm text-green-700">
-                  <p><strong>📱 Su Android:</strong></p>
+                  <p><strong>📱 {t('clientArea.onAndroid')}</strong></p>
                   <ol className="list-decimal list-inside space-y-1 ml-4">
-                    <li>Tocca il menu ⋮ in alto a destra</li>
-                    <li>Seleziona "Aggiungi alla schermata Home"</li>
-                    <li>Conferma "Installa" o "Aggiungi"</li>
+                    <li>{t('clientArea.androidStep1')}</li>
+                    <li>{t('clientArea.androidStep2')}</li>
+                    <li>{t('clientArea.androidStep3')}</li>
                   </ol>
                   
-                  <p><strong>🍎 Su iOS:</strong></p>
+                  <p><strong>🍎 {t('clientArea.onIos')}</strong></p>
                   <ol className="list-decimal list-inside space-y-1 ml-4">
-                    <li>Tocca il pulsante Condividi 📤</li>
-                    <li>Scorri e tocca "Aggiungi alla schermata Home"</li>
-                    <li>Tocca "Aggiungi" in alto a destra</li>
+                    <li>{t('clientArea.iosStep1')}</li>
+                    <li>{t('clientArea.iosStep2')}</li>
+                    <li>{t('clientArea.iosStep3')}</li>
                   </ol>
                   
-                  <p><strong>💻 Su Desktop:</strong></p>
+                  <p><strong>💻 {t('clientArea.onDesktop')}</strong></p>
                   <ol className="list-decimal list-inside space-y-1 ml-4">
-                    <li>Cerca l'icona + nella barra degli indirizzi</li>
-                    <li>Clicca "Installa" quando appare</li>
+                    <li>{t('clientArea.desktopStep1')}</li>
+                    <li>{t('clientArea.desktopStep2')}</li>
                   </ol>
                   
                   <div className="mt-4 p-3 bg-green-100 rounded-lg">
-                    <p className="font-medium">✨ Vantaggi dell'installazione:</p>
+                    <p className="font-medium">✨ {t('clientArea.installBenefits')}</p>
                     <ul className="list-disc list-inside space-y-1 mt-2">
-                      <li>Accesso rapido dalla schermata principale</li>
-                      <li>Funziona anche senza connessione</li>
-                      <li>Esperienza app nativa</li>
-                      <li>Notifiche per i tuoi appuntamenti</li>
+                      <li>{t('clientArea.benefit1')}</li>
+                      <li>{t('clientArea.benefit2')}</li>
+                      <li>{t('clientArea.benefit3')}</li>
+                      <li>{t('clientArea.benefit4')}</li>
                     </ul>
                   </div>
                 </div>
@@ -1047,7 +1047,7 @@ export default function PureClientArea() {
             <Card className="bg-gray-50 mb-6">
               <CardHeader className="pb-4">
                 <CardTitle className="text-center text-gray-800">
-                  {contactInfo.businessName || 'Studio Professionale'}
+                  {contactInfo.businessName || t('clientArea.professionalStudio')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -1141,7 +1141,7 @@ export default function PureClientArea() {
                 <div className="text-center space-y-2 text-sm text-gray-600">
                   {contactInfo.email && contactInfo.showEmail !== false && (
                     <p>
-                      <span className="font-medium">Email:</span>{' '}
+                      <span className="font-medium">{t('clientArea.emailLabel')}</span>{' '}
                       <a 
                         href={`mailto:${contactInfo.email}`} 
                         className="text-blue-600 hover:text-blue-800"
@@ -1153,7 +1153,7 @@ export default function PureClientArea() {
                   
                   {contactInfo.phone && contactInfo.showPhone !== false && (
                     <p>
-                      <span className="font-medium">Telefono:</span>{' '}
+                      <span className="font-medium">{t('clientArea.phoneLabel')}</span>{' '}
                       <a 
                         href={`tel:${contactInfo.phone}`} 
                         className="text-blue-600 hover:text-blue-800"
@@ -1165,7 +1165,7 @@ export default function PureClientArea() {
 
                   {contactInfo.phone1 && contactInfo.showPhone1 !== false && (
                     <p>
-                      <span className="font-medium">Cellulare:</span>{' '}
+                      <span className="font-medium">{t('clientArea.mobileLabel')}</span>{' '}
                       <a 
                         href={`tel:${contactInfo.phone1}`} 
                         className="text-blue-600 hover:text-blue-800"
@@ -1177,7 +1177,7 @@ export default function PureClientArea() {
                   
                   {contactInfo.website && contactInfo.showWebsite !== false && (
                     <p>
-                      <span className="font-medium">Sito web:</span>{' '}
+                      <span className="font-medium">{t('clientArea.websiteLabel')}</span>{' '}
                       <a 
                         href={contactInfo.website?.startsWith('http') ? contactInfo.website : `https://${contactInfo.website}`} 
                         target="_blank" 
@@ -1191,7 +1191,7 @@ export default function PureClientArea() {
                   
                   {contactInfo.instagram && contactInfo.showInstagram !== false && (
                     <p>
-                      <span className="font-medium">Instagram:</span>{' '}
+                      <span className="font-medium">{t('clientArea.instagramLabel')}</span>{' '}
                       <a 
                         href={`https://instagram.com/${contactInfo.instagram?.replace('@', '')}`} 
                         target="_blank" 
@@ -1226,14 +1226,14 @@ export default function PureClientArea() {
                   rel="noopener noreferrer"
                   className="hover:text-blue-600 transition-colors underline"
                 >
-                  Termini di Servizio
+                  {t('clientArea.termsOfService')}
                 </a>
                 <span>•</span>
                 <button 
                   onClick={() => setShowDataProtectionModal(true)}
                   className="hover:text-blue-600 transition-colors underline"
                 >
-                  Protezione Dati
+                  {t('clientArea.dataProtection')}
                 </button>
               </div>
               <div className="flex flex-wrap justify-center gap-4 text-xs">
@@ -1242,7 +1242,7 @@ export default function PureClientArea() {
                 <span>Versione 2.4.1</span>
                 <span>•</span>
                 <a href="mailto:zambelli.andrea@libero.it" className="hover:text-blue-600 transition-colors">
-                  Supporto Tecnico
+                  {t('clientArea.technicalSupport')}
                 </a>
               </div>
             </div>
@@ -1254,33 +1254,33 @@ export default function PureClientArea() {
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex justify-between items-center">
-                Protezione Dati
+                {t('clientArea.dataProtectionTitle')}
                 <Button variant="ghost" size="sm" onClick={() => setShowDataProtectionModal(false)}>
                   <X className="h-4 w-4" />
                 </Button>
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 text-sm">
-              <h3 className="font-semibold">1. Sicurezza dei Dati</h3>
-              <p>Implementiamo misure tecniche e organizzative appropriate per proteggere i dati personali contro la distruzione, la perdita, la modifica, la divulgazione non autorizzata.</p>
+              <h3 className="font-semibold">{t('clientArea.dataSecurity')}</h3>
+              <p>{t('clientArea.dataSecurityDesc')}</p>
               
-              <h3 className="font-semibold">2. Crittografia</h3>
-              <p>Tutti i dati sensibili sono protetti mediante crittografia avanzata durante la trasmissione e l'archiviazione.</p>
+              <h3 className="font-semibold">{t('clientArea.encryption')}</h3>
+              <p>{t('clientArea.encryptionDesc')}</p>
               
-              <h3 className="font-semibold">3. Accesso ai Dati</h3>
-              <p>L'accesso ai dati personali è limitato al personale autorizzato che ha necessità di conoscere tali informazioni per le finalità del trattamento.</p>
+              <h3 className="font-semibold">{t('clientArea.dataAccess')}</h3>
+              <p>{t('clientArea.dataAccessDesc')}</p>
               
-              <h3 className="font-semibold">4. Backup e Ripristino</h3>
-              <p>Vengono eseguiti backup regolari dei dati per garantire la continuità del servizio e la protezione contro la perdita di informazioni.</p>
+              <h3 className="font-semibold">{t('clientArea.backupRecovery')}</h3>
+              <p>{t('clientArea.backupRecoveryDesc')}</p>
               
-              <h3 className="font-semibold">5. Monitoraggio</h3>
-              <p>I sistemi vengono costantemente monitorati per rilevare e prevenire accessi non autorizzati o attività sospette.</p>
+              <h3 className="font-semibold">{t('clientArea.monitoring')}</h3>
+              <p>{t('clientArea.monitoringDesc')}</p>
               
-              <h3 className="font-semibold">6. Formazione del Personale</h3>
-              <p>Il personale riceve formazione regolare sulle procedure di sicurezza e protezione dei dati personali.</p>
+              <h3 className="font-semibold">{t('clientArea.staffTraining')}</h3>
+              <p>{t('clientArea.staffTrainingDesc')}</p>
               
-              <h3 className="font-semibold">7. Segnalazione Violazioni</h3>
-              <p>In caso di violazione dei dati personali, procediamo alla notifica tempestiva alle autorità competenti e agli interessati, se richiesto.</p>
+              <h3 className="font-semibold">{t('clientArea.breachReporting')}</h3>
+              <p>{t('clientArea.breachReportingDesc')}</p>
             </div>
           </DialogContent>
         </Dialog>
