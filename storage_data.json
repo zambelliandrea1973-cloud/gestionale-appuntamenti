@@ -25021,6 +25021,15 @@
       "timestamp": "2026-03-29T12:56:53.924Z",
       "read": false,
       "channel": "app"
+    },
+    {
+      "id": 1775555102749,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +39347222222. [Apri WhatsApp](https://wa.me/39347222222?text=Gentile%20pippo%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20pedicure%20del%2009%2F04%2F2026%20alle%20ore%2008%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2026-04-07T09:45:02.749Z",
+      "read": false,
+      "channel": "app"
     }
   ],
   "productCategories": [
