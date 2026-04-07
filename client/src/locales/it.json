@@ -1,11 +1,11 @@
 {
   "app": {
-    "title": "Gestione Appuntamenti",
-    "welcome": "Benvenuto nella Gestione Appuntamenti",
+    "title": "Gestionale Appuntamenti",
+    "welcome": "Benvenuto nel Gestionale Appuntamenti",
     "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
   },
   "welcomePage": {
-    "title": "Benvenuto in Gestione Appuntamenti",
+    "title": "Benvenuto nel Gestionale Appuntamenti",
     "subtitle": "Scegli come vuoi procedere",
     "createAccount": "Crea un nuovo account",
     "createAccountDesc": "Per nuovi utenti che vogliono iniziare a utilizzare il sistema",
