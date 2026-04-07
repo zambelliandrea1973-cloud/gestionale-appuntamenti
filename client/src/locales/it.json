@@ -50,6 +50,34 @@
     "featureNotifications": "Invio notifiche e promemoria",
     "accessRestricted": "Accesso riservato agli utenti staff e amministratori."
   },
+  "welcomeGuide": {
+    "title": "Benvenuto nel tuo gestionale!",
+    "subtitle": "Per iniziare al meglio, completa questi passaggi fondamentali:",
+    "dontShowAgain": "Non mostrare più questo messaggio",
+    "gotIt": "Ho capito, iniziamo!",
+    "steps": {
+      "companyData": {
+        "title": "Dati Aziendali",
+        "description": "Inserisci il nome della tua attività, indirizzo, email e telefono. Questi dati appariranno nelle comunicazioni ai clienti.",
+        "button": "Vai a Dati Aziendali"
+      },
+      "services": {
+        "title": "Servizi / Trattamenti",
+        "description": "Aggiungi i servizi che offri con durata e prezzo. Serviranno per creare appuntamenti e calcolare i costi.",
+        "button": "Vai ai Servizi"
+      },
+      "clients": {
+        "title": "Clienti",
+        "description": "Aggiungi i tuoi clienti con nome, telefono ed email. Potrai anche importarli dai contatti Google o da un file CSV.",
+        "button": "Vai ai Clienti"
+      },
+      "workingHours": {
+        "title": "Orari di Lavoro",
+        "description": "Configura i giorni e gli orari di apertura del tuo studio. I clienti vedranno solo gli slot disponibili.",
+        "button": "Vai agli Orari"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Informazioni Sistema",
     "appVersion": "Gestionale Appuntamenti v2.1.0",

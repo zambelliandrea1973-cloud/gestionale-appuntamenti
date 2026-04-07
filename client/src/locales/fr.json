@@ -50,6 +50,34 @@
     "featureNotifications": "Notifications et rappels",
     "accessRestricted": "Accès réservé au personnel et aux administrateurs."
   },
+  "welcomeGuide": {
+    "title": "Bienvenue dans votre système de gestion !",
+    "subtitle": "Pour bien démarrer, complétez ces étapes essentielles :",
+    "dontShowAgain": "Ne plus afficher ce message",
+    "gotIt": "Compris, commençons !",
+    "steps": {
+      "companyData": {
+        "title": "Données de l'entreprise",
+        "description": "Saisissez le nom de votre activité, adresse, e-mail et téléphone. Ces informations apparaîtront dans les communications avec les clients.",
+        "button": "Aller aux données entreprise"
+      },
+      "services": {
+        "title": "Services / Soins",
+        "description": "Ajoutez les services que vous proposez avec durée et prix. Ils serviront à créer des rendez-vous et calculer les coûts.",
+        "button": "Aller aux services"
+      },
+      "clients": {
+        "title": "Clients",
+        "description": "Ajoutez vos clients avec nom, téléphone et e-mail. Vous pouvez aussi les importer depuis Google Contacts ou un fichier CSV.",
+        "button": "Aller aux clients"
+      },
+      "workingHours": {
+        "title": "Horaires de travail",
+        "description": "Configurez les jours et horaires d'ouverture de votre cabinet. Les clients ne verront que les créneaux disponibles.",
+        "button": "Aller aux horaires"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Informations Système",
     "appVersion": "Gestion des Rendez-vous v2.1.0",

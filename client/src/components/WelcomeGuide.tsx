@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -27,41 +28,41 @@ interface WelcomeGuideProps {
   onClose: () => void;
 }
 
-const STEPS = [
+const STEP_KEYS = [
   {
     icon: Building,
-    title: 'Dati Aziendali',
-    description: 'Inserisci il nome della tua attività, indirizzo, email e telefono. Questi dati appariranno nelle comunicazioni ai clienti.',
+    titleKey: 'welcomeGuide.steps.companyData.title',
+    descKey: 'welcomeGuide.steps.companyData.description',
+    buttonKey: 'welcomeGuide.steps.companyData.button',
     path: '/settings',
     tab: 'appearance',
-    buttonLabel: 'Vai a Dati Aziendali',
     color: 'text-blue-600 bg-blue-100',
   },
   {
     icon: Scissors,
-    title: 'Servizi / Trattamenti',
-    description: 'Aggiungi i servizi che offri con durata e prezzo. Serviranno per creare appuntamenti e calcolare i costi.',
+    titleKey: 'welcomeGuide.steps.services.title',
+    descKey: 'welcomeGuide.steps.services.description',
+    buttonKey: 'welcomeGuide.steps.services.button',
     path: '/settings',
     tab: 'app',
-    buttonLabel: 'Vai ai Servizi',
     color: 'text-purple-600 bg-purple-100',
   },
   {
     icon: Users,
-    title: 'Clienti',
-    description: 'Aggiungi i tuoi clienti con nome, telefono ed email. Potrai anche importarli dai contatti Google o da un file CSV.',
+    titleKey: 'welcomeGuide.steps.clients.title',
+    descKey: 'welcomeGuide.steps.clients.description',
+    buttonKey: 'welcomeGuide.steps.clients.button',
     path: '/clients',
     tab: null,
-    buttonLabel: 'Vai ai Clienti',
     color: 'text-green-600 bg-green-100',
   },
   {
     icon: Clock,
-    title: 'Orari di Lavoro',
-    description: 'Configura i giorni e gli orari di apertura del tuo studio. I clienti vedranno solo gli slot disponibili.',
+    titleKey: 'welcomeGuide.steps.workingHours.title',
+    descKey: 'welcomeGuide.steps.workingHours.description',
+    buttonKey: 'welcomeGuide.steps.workingHours.button',
     path: '/settings',
     tab: 'contacts',
-    buttonLabel: 'Vai agli Orari',
     color: 'text-orange-600 bg-orange-100',
   },
 ];
@@ -70,6 +71,7 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
   const [, setLocation] = useLocation();
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleNavigate = (path: string, tab: string | null) => {
     if (tab) {
@@ -98,15 +100,15 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
             <Sparkles className="h-7 w-7 text-primary" />
           </div>
           <DialogTitle className="text-xl">
-            Benvenuto nel tuo gestionale!
+            {t('welcomeGuide.title')}
           </DialogTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Per iniziare al meglio, completa questi passaggi fondamentali:
+            {t('welcomeGuide.subtitle')}
           </p>
         </DialogHeader>
 
         <div className="space-y-3 py-2">
-          {STEPS.map((step, index) => (
+          {STEP_KEYS.map((step, index) => (
             <Card key={index} className="border hover:shadow-sm transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
@@ -116,10 +118,10 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-bold text-muted-foreground">{index + 1}</span>
-                      <h4 className="font-semibold text-sm">{step.title}</h4>
+                      <h4 className="font-semibold text-sm">{t(step.titleKey)}</h4>
                     </div>
                     <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
-                      {step.description}
+                      {t(step.descKey)}
                     </p>
                     <Button
                       variant="outline"
@@ -127,7 +129,7 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
                       className="h-7 text-xs"
                       onClick={() => handleNavigate(step.path, step.tab)}
                     >
-                      {step.buttonLabel}
+                      {t(step.buttonKey)}
                       <ArrowRight className="ml-1 h-3 w-3" />
                     </Button>
                   </div>
@@ -145,12 +147,12 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
               onCheckedChange={(checked) => setDontShowAgain(checked === true)}
             />
             <label htmlFor="dont-show" className="text-sm text-muted-foreground cursor-pointer">
-              Non mostrare più questo messaggio
+              {t('welcomeGuide.dontShowAgain')}
             </label>
           </div>
           <Button onClick={handleClose} className="w-full">
             <CheckCircle2 className="mr-2 h-4 w-4" />
-            Ho capito, iniziamo!
+            {t('welcomeGuide.gotIt')}
           </Button>
         </DialogFooter>
       </DialogContent>

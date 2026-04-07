@@ -50,6 +50,34 @@
     "featureNotifications": "Notifications and reminders",
     "accessRestricted": "Access reserved for staff and administrators."
   },
+  "welcomeGuide": {
+    "title": "Welcome to your management system!",
+    "subtitle": "To get started, complete these essential steps:",
+    "dontShowAgain": "Don't show this message again",
+    "gotIt": "Got it, let's start!",
+    "steps": {
+      "companyData": {
+        "title": "Company Details",
+        "description": "Enter your business name, address, email and phone. This information will appear in client communications.",
+        "button": "Go to Company Details"
+      },
+      "services": {
+        "title": "Services / Treatments",
+        "description": "Add the services you offer with duration and price. They will be used to create appointments and calculate costs.",
+        "button": "Go to Services"
+      },
+      "clients": {
+        "title": "Clients",
+        "description": "Add your clients with name, phone and email. You can also import them from Google Contacts or a CSV file.",
+        "button": "Go to Clients"
+      },
+      "workingHours": {
+        "title": "Working Hours",
+        "description": "Set up your opening days and hours. Clients will only see available time slots.",
+        "button": "Go to Working Hours"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "System Information",
     "appVersion": "Appointment Management v2.1.0",

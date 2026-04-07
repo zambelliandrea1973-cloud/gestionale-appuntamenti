@@ -50,6 +50,34 @@
     "featureNotifications": "Benachrichtigungen und Erinnerungen",
     "accessRestricted": "Zugang nur für Personal und Administratoren."
   },
+  "welcomeGuide": {
+    "title": "Willkommen in Ihrem Verwaltungssystem!",
+    "subtitle": "Für den besten Start führen Sie diese grundlegenden Schritte aus:",
+    "dontShowAgain": "Diese Nachricht nicht mehr anzeigen",
+    "gotIt": "Verstanden, los geht's!",
+    "steps": {
+      "companyData": {
+        "title": "Unternehmensdaten",
+        "description": "Geben Sie den Namen Ihres Unternehmens, Adresse, E-Mail und Telefon ein. Diese Daten erscheinen in der Kundenkommunikation.",
+        "button": "Zu Unternehmensdaten"
+      },
+      "services": {
+        "title": "Dienstleistungen / Behandlungen",
+        "description": "Fügen Sie Ihre angebotenen Dienstleistungen mit Dauer und Preis hinzu. Sie werden für Termine und Kostenberechnung verwendet.",
+        "button": "Zu Dienstleistungen"
+      },
+      "clients": {
+        "title": "Kunden",
+        "description": "Fügen Sie Ihre Kunden mit Name, Telefon und E-Mail hinzu. Sie können sie auch aus Google Kontakten oder einer CSV-Datei importieren.",
+        "button": "Zu Kunden"
+      },
+      "workingHours": {
+        "title": "Arbeitszeiten",
+        "description": "Konfigurieren Sie die Öffnungstage und -zeiten Ihres Studios. Kunden sehen nur verfügbare Zeitfenster.",
+        "button": "Zu Arbeitszeiten"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Systeminformationen",
     "appVersion": "Terminverwaltung v2.1.0",

@@ -50,6 +50,34 @@
     "featureNotifications": "Varsler og påminnelser",
     "accessRestricted": "Tilgang kun for personell og administratorer."
   },
+  "welcomeGuide": {
+    "title": "Velkommen til styringssystemet ditt!",
+    "subtitle": "For å komme i gang, fullfør disse grunnleggende trinnene:",
+    "dontShowAgain": "Ikke vis denne meldingen igjen",
+    "gotIt": "Forstått, la oss begynne!",
+    "steps": {
+      "companyData": {
+        "title": "Bedriftsdata",
+        "description": "Skriv inn bedriftsnavnet, adresse, e-post og telefon. Disse dataene vises i kundekommunikasjon.",
+        "button": "Gå til bedriftsdata"
+      },
+      "services": {
+        "title": "Tjenester / Behandlinger",
+        "description": "Legg til tjenestene du tilbyr med varighet og pris. De brukes til å opprette avtaler og beregne kostnader.",
+        "button": "Gå til tjenester"
+      },
+      "clients": {
+        "title": "Kunder",
+        "description": "Legg til kundene dine med navn, telefon og e-post. Du kan også importere dem fra Google Kontakter eller en CSV-fil.",
+        "button": "Gå til kunder"
+      },
+      "workingHours": {
+        "title": "Arbeidstider",
+        "description": "Konfigurer åpningsdager og -tider for din praksis. Kundene ser bare tilgjengelige tidsluker.",
+        "button": "Gå til arbeidstider"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Systeminformasjon",
     "appVersion": "Timeavtalehåndtering v2.1.0",

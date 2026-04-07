@@ -50,6 +50,34 @@
     "featureNotifications": "Notificări și memento-uri",
     "accessRestricted": "Acces rezervat personalului și administratorilor."
   },
+  "welcomeGuide": {
+    "title": "Bine ați venit în sistemul dvs. de gestionare!",
+    "subtitle": "Pentru a începe cât mai bine, completați acești pași esențiali:",
+    "dontShowAgain": "Nu mai afișa acest mesaj",
+    "gotIt": "Am înțeles, să începem!",
+    "steps": {
+      "companyData": {
+        "title": "Date companie",
+        "description": "Introduceți numele activității, adresa, email-ul și telefonul. Aceste date vor apărea în comunicările cu clienții.",
+        "button": "Mergi la date companie"
+      },
+      "services": {
+        "title": "Servicii / Tratamente",
+        "description": "Adăugați serviciile oferite cu durată și preț. Vor fi folosite pentru a crea programări și a calcula costurile.",
+        "button": "Mergi la servicii"
+      },
+      "clients": {
+        "title": "Clienți",
+        "description": "Adăugați clienții cu nume, telefon și email. Puteți importa și din Google Contacts sau un fișier CSV.",
+        "button": "Mergi la clienți"
+      },
+      "workingHours": {
+        "title": "Program de lucru",
+        "description": "Configurați zilele și orele de deschidere ale cabinetului. Clienții vor vedea doar sloturile disponibile.",
+        "button": "Mergi la program"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Informații Sistem",
     "appVersion": "Gestionare Programări v2.1.0",

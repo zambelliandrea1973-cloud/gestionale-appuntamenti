@@ -50,6 +50,34 @@
     "featureNotifications": "Notificaties en herinneringen",
     "accessRestricted": "Toegang alleen voor personeel en administrators."
   },
+  "welcomeGuide": {
+    "title": "Welkom in uw beheersysteem!",
+    "subtitle": "Voltooi deze essentiële stappen om te beginnen:",
+    "dontShowAgain": "Dit bericht niet meer tonen",
+    "gotIt": "Begrepen, laten we beginnen!",
+    "steps": {
+      "companyData": {
+        "title": "Bedrijfsgegevens",
+        "description": "Voer de naam van uw bedrijf, adres, e-mail en telefoon in. Deze gegevens verschijnen in klantcommunicatie.",
+        "button": "Naar bedrijfsgegevens"
+      },
+      "services": {
+        "title": "Diensten / Behandelingen",
+        "description": "Voeg uw aangeboden diensten toe met duur en prijs. Ze worden gebruikt voor afspraken en kostenberekening.",
+        "button": "Naar diensten"
+      },
+      "clients": {
+        "title": "Klanten",
+        "description": "Voeg uw klanten toe met naam, telefoon en e-mail. U kunt ze ook importeren uit Google Contacten of een CSV-bestand.",
+        "button": "Naar klanten"
+      },
+      "workingHours": {
+        "title": "Werktijden",
+        "description": "Stel de openingsdagen en -tijden van uw praktijk in. Klanten zien alleen beschikbare tijdsloten.",
+        "button": "Naar werktijden"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Systeeminformatie",
     "appVersion": "Afsprakenbeheer v2.1.0",

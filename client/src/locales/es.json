@@ -50,6 +50,34 @@
     "featureNotifications": "Notificaciones y recordatorios",
     "accessRestricted": "Acceso reservado para personal y administradores."
   },
+  "welcomeGuide": {
+    "title": "¡Bienvenido a tu sistema de gestión!",
+    "subtitle": "Para empezar bien, completa estos pasos fundamentales:",
+    "dontShowAgain": "No mostrar más este mensaje",
+    "gotIt": "¡Entendido, empecemos!",
+    "steps": {
+      "companyData": {
+        "title": "Datos de la empresa",
+        "description": "Introduce el nombre de tu actividad, dirección, email y teléfono. Estos datos aparecerán en las comunicaciones con los clientes.",
+        "button": "Ir a datos de empresa"
+      },
+      "services": {
+        "title": "Servicios / Tratamientos",
+        "description": "Añade los servicios que ofreces con duración y precio. Se usarán para crear citas y calcular costes.",
+        "button": "Ir a servicios"
+      },
+      "clients": {
+        "title": "Clientes",
+        "description": "Añade tus clientes con nombre, teléfono y email. También puedes importarlos desde Google Contacts o un archivo CSV.",
+        "button": "Ir a clientes"
+      },
+      "workingHours": {
+        "title": "Horarios de trabajo",
+        "description": "Configura los días y horarios de apertura de tu consulta. Los clientes solo verán los horarios disponibles.",
+        "button": "Ir a horarios"
+      }
+    }
+  },
   "homeFooter": {
     "systemInfo": "Información del Sistema",
     "appVersion": "Gestión de Citas v2.1.0",
