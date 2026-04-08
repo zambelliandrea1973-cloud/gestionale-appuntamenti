@@ -47,6 +47,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
   const [clientToken, setClientToken] = useState<string | null>(null);
   const [isAccessesDialogOpen, setIsAccessesDialogOpen] = useState(false);
   
+  const { data: contactInfo } = useQuery<any>({
+    queryKey: ['/api/contact-info'],
+  });
+
   // Calcola isOtherAccount direttamente se non passato dal parent
   // Usa useQuery per ottenere l'utente corrente se necessario
   const {data: currentUser} = useQuery<any>({
@@ -463,7 +467,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                   <Copy className="h-3 w-3" />
                   {t('clients.share.copyLink')}
                 </Button>
-                {client.phone && client.phone.trim() !== '' && (
+                {contactInfo?.phone && contactInfo.phone.trim() !== '' && client.phone && client.phone.trim() !== '' && (
                   <Button
                     variant="outline"
                     size="sm"
@@ -478,7 +482,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                     WhatsApp
                   </Button>
                 )}
-                {client.email && client.email.trim() !== '' && (
+                {contactInfo?.email && contactInfo.email.trim() !== '' && client.email && client.email.trim() !== '' && (
                   <Button
                     variant="outline"
                     size="sm"
