@@ -1,0 +1,74 @@
+Hello Google Developer,
+
+Thank you for your patience while we reviewed your submission for project 567401117913(Project ID: wise-hub-458909-a6). We need you to address the following items for us to continue your app’s verification:
+
+The website you provided as your homepage is not registered to you.
+Your demo video does not show the OAuth consent screen workflow.
+Please take the following action(s) to continue with your request
+⤷ Verify your ownership of the following domains:
+
+sliplane.app (Learn how)
+⤷ Reply to this email with the following information:
+
+A link to a demo video showing the OAuth workflow (Learn more)
+Important! Once you have addressed the issues above, reply directly to this email to confirm. You must reply to this email after fixing the highlighted issues to continue with the app verification process.
+
+No longer need access to these scopes?
+
+Please reply to this email to cancel the verification request.
+
+Need to make changes to your verification request?
+
+Please make direct changes on the Cloud Console. Save and submit the changes when finished.
+
+How do I check my submission status?
+
+Please visit the Verification Center in the Cloud Console to check the review progress for each verification requirement
+
+What are the verification requirements?
+
+As a reminder, before your application can be approved you must meet the below requirements:
+
+All Scopes (Non-Sensitive, Sensitive, Restricted)
+
+App Homepage
+Domain Verification
+App Identity & Branding
+Cloud Abuse Project History
+Restricted and Sensitive Only
+
+App Privacy Policy
+Demo Video
+In-app Testing
+Application Use Cases
+Requesting Minimum Scopes
+AI/ML Model Training Privacy Policy Disclosure for Workspace APIs
+Data Portability APIs Scope
+
+Data Portability Apps
+Restricted Only
+
+CASA Security Assessment
+Need other help?
+
+For more information on OAuth Verification, you can read the terms or policies for the APIs or products your app uses, as well as the following resources:
+
+General Information
+
+Verification Help Center
+Verification Quick Reference Guides
+Verification Overviews
+
+Types of Verification
+List of Restricted Scopes
+Workspace API user data and developer policy
+Troubleshooting
+
+About the Unverified App Screen and Sign-in Disabled
+Thank you,
+
+The Third Party Data Safety Team
+
+© 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043
+
+You have received this mandatory service announcement to update you about important changes to Google Cloud Platform or your account.
