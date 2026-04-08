@@ -463,46 +463,37 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                   <Copy className="h-3 w-3" />
                   {t('clients.share.copyLink')}
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 px-2 text-xs gap-1 text-green-600 hover:text-green-700"
-                  onClick={() => {
-                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
-                    const text = t('clients.share.messageText', { name: client.firstName });
-                    window.open(`https://wa.me/${client.phone?.replace(/[^0-9]/g, '') || ''}?text=${encodeURIComponent(text + '\n' + link)}`, '_blank');
-                  }}
-                >
-                  <MessageCircle className="h-3 w-3" />
-                  WhatsApp
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 px-2 text-xs gap-1 text-blue-600 hover:text-blue-700"
-                  onClick={() => {
-                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
-                    const subject = t('clients.share.emailSubject');
-                    const body = t('clients.share.messageText', { name: client.firstName }) + '\n\n' + link;
-                    window.open(`mailto:${client.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
-                  }}
-                >
-                  <Mail className="h-3 w-3" />
-                  Email
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 px-2 text-xs gap-1 text-sky-500 hover:text-sky-600"
-                  onClick={() => {
-                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
-                    const text = t('clients.share.messageText', { name: client.firstName });
-                    window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`, '_blank');
-                  }}
-                >
-                  <Send className="h-3 w-3" />
-                  Telegram
-                </Button>
+                {client.phone && client.phone.trim() !== '' && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-xs gap-1 text-green-600 hover:text-green-700"
+                    onClick={() => {
+                      const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                      const text = t('clients.share.messageText', { name: client.firstName });
+                      window.open(`https://wa.me/${client.phone?.replace(/[^0-9]/g, '') || ''}?text=${encodeURIComponent(text + '\n' + link)}`, '_blank');
+                    }}
+                  >
+                    <MessageCircle className="h-3 w-3" />
+                    WhatsApp
+                  </Button>
+                )}
+                {client.email && client.email.trim() !== '' && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-xs gap-1 text-blue-600 hover:text-blue-700"
+                    onClick={() => {
+                      const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                      const subject = t('clients.share.emailSubject');
+                      const body = t('clients.share.messageText', { name: client.firstName }) + '\n\n' + link;
+                      window.open(`mailto:${client.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+                    }}
+                  >
+                    <Mail className="h-3 w-3" />
+                    Email
+                  </Button>
+                )}
               </div>
             )}
           </div>
