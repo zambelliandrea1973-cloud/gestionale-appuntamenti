@@ -564,7 +564,14 @@
     "searchPlaceholder": "Søk klienter etter navn, telefon eller e-post...",
     "allClients": "Alle klienter",
     "frequentClients": "Faste klienter",
-    "noConsent": "Uten samtykke"
+    "noConsent": "Uten samtykke",
+    "share": {
+      "copyLink": "Kopier lenke",
+      "linkCopied": "Lenke kopiert!",
+      "linkCopiedDesc": "Tilgangslenken er kopiert til utklippstavlen",
+      "emailSubject": "Din tilgang til det reserverte området",
+      "messageText": "Hei {{name}}, her er lenken din for å få tilgang til det reserverte området:"
+    }
   },
   "invoices": {
     "title": "Fakturaadministrasjon",

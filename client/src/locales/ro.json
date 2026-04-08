@@ -564,7 +564,14 @@
     "searchPlaceholder": "Caută clienți după nume, telefon sau email...",
     "allClients": "Toți clienții",
     "frequentClients": "Clienți fideli",
-    "noConsent": "Fără consimțământ"
+    "noConsent": "Fără consimțământ",
+    "share": {
+      "copyLink": "Copiază link",
+      "linkCopied": "Link copiat!",
+      "linkCopiedDesc": "Linkul de acces a fost copiat în clipboard",
+      "emailSubject": "Accesul dvs. la zona rezervată",
+      "messageText": "Bună {{name}}, iată linkul tău pentru a accesa zona rezervată:"
+    }
   },
   "invoices": {
     "title": "Gestionare Facturi",

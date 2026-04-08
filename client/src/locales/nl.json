@@ -564,7 +564,14 @@
     "searchPlaceholder": "Zoek klanten op naam, telefoon of email...",
     "allClients": "Alle klanten",
     "frequentClients": "Vaste klanten",
-    "noConsent": "Zonder toestemming"
+    "noConsent": "Zonder toestemming",
+    "share": {
+      "copyLink": "Link kopiëren",
+      "linkCopied": "Link gekopieerd!",
+      "linkCopiedDesc": "De toegangslink is gekopieerd naar het klembord",
+      "emailSubject": "Uw toegang tot het beveiligde gebied",
+      "messageText": "Hallo {{name}}, hier is uw link om toegang te krijgen tot het beveiligde gebied:"
+    }
   },
   "invoices": {
     "title": "Factuurbeheer",

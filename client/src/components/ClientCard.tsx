@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "../../../shared/schema";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock, Eye, UserCog } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock, Eye, UserCog, Copy, Share2, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -447,6 +447,64 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                 {t('clients.details.showDetails')}
               </Button>
             </div>
+            {clientToken && (
+              <div className="flex items-center gap-1 mt-2 w-full justify-center flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-xs gap-1"
+                  onClick={() => {
+                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                    navigator.clipboard.writeText(link).then(() => {
+                      toast({ title: t('clients.share.linkCopied'), description: t('clients.share.linkCopiedDesc') });
+                    });
+                  }}
+                >
+                  <Copy className="h-3 w-3" />
+                  {t('clients.share.copyLink')}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-xs gap-1 text-green-600 hover:text-green-700"
+                  onClick={() => {
+                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                    const text = t('clients.share.messageText', { name: client.firstName });
+                    window.open(`https://wa.me/${client.phone?.replace(/[^0-9]/g, '') || ''}?text=${encodeURIComponent(text + '\n' + link)}`, '_blank');
+                  }}
+                >
+                  <MessageCircle className="h-3 w-3" />
+                  WhatsApp
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-xs gap-1 text-blue-600 hover:text-blue-700"
+                  onClick={() => {
+                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                    const subject = t('clients.share.emailSubject');
+                    const body = t('clients.share.messageText', { name: client.firstName }) + '\n\n' + link;
+                    window.open(`mailto:${client.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+                  }}
+                >
+                  <Mail className="h-3 w-3" />
+                  Email
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-xs gap-1 text-sky-500 hover:text-sky-600"
+                  onClick={() => {
+                    const link = `${window.location.origin}/auto-login?token=${clientToken}&clientId=${client.id}`;
+                    const text = t('clients.share.messageText', { name: client.firstName });
+                    window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`, '_blank');
+                  }}
+                >
+                  <Send className="h-3 w-3" />
+                  Telegram
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <Button 

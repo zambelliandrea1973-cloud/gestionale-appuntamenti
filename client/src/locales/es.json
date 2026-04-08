@@ -582,7 +582,14 @@
     "searchPlaceholder": "Buscar clientes por nombre, teléfono o email...",
     "allClients": "Todos los clientes",
     "frequentClients": "Clientes frecuentes",
-    "noConsent": "Sin consentimiento"
+    "noConsent": "Sin consentimiento",
+    "share": {
+      "copyLink": "Copiar enlace",
+      "linkCopied": "Enlace copiado!",
+      "linkCopiedDesc": "El enlace de acceso se ha copiado al portapapeles",
+      "emailSubject": "Tu acceso al área reservada",
+      "messageText": "Hola {{name}}, aquí tienes tu enlace para acceder al área reservada:"
+    }
   },
   "invoices": {
     "title": "Gestión de Facturas",

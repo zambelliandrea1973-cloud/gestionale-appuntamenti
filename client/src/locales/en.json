@@ -590,6 +590,13 @@
       "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "share": {
+      "copyLink": "Copy link",
+      "linkCopied": "Link copied!",
+      "linkCopiedDesc": "The access link has been copied to clipboard",
+      "emailSubject": "Your access to the reserved area",
+      "messageText": "Hi {{name}}, here is your link to access the reserved area:"
     }
   },
   "invoices": {

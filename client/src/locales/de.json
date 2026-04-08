@@ -582,7 +582,14 @@
     "searchPlaceholder": "Kunden nach Name, Telefon oder E-Mail suchen...",
     "allClients": "Alle Kunden",
     "frequentClients": "Stammkunden",
-    "noConsent": "Ohne Zustimmung"
+    "noConsent": "Ohne Zustimmung",
+    "share": {
+      "copyLink": "Link kopieren",
+      "linkCopied": "Link kopiert!",
+      "linkCopiedDesc": "Der Zugangslink wurde in die Zwischenablage kopiert",
+      "emailSubject": "Ihr Zugang zum geschützten Bereich",
+      "messageText": "Hallo {{name}}, hier ist Ihr Link zum geschützten Bereich:"
+    }
   },
   "invoices": {
     "title": "Rechnungsverwaltung",

@@ -595,6 +595,13 @@
       "notes": "Note",
       "save": "Salva",
       "cancel": "Annulla"
+    },
+    "share": {
+      "copyLink": "Copia link",
+      "linkCopied": "Link copiato!",
+      "linkCopiedDesc": "Il link di accesso è stato copiato negli appunti",
+      "emailSubject": "Il tuo accesso all'area riservata",
+      "messageText": "Ciao {{name}}, ecco il tuo link per accedere all'area riservata:"
     }
   },
   "invoices": {
