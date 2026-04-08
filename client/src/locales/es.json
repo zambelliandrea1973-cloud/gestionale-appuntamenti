@@ -236,7 +236,9 @@
     "enterName": "Introduce un nombre para el servicio",
     "createError": "Error al crear",
     "deleteError": "Error al eliminar",
-    "updateError": "Error al actualizar"
+    "updateError": "Error al actualizar",
+    "defaultServiceAlert": "Estás usando el servicio genérico \"Consulta\". ¡Crea tu lista de servicios personalizada!",
+    "goToServiceSettings": "Ir al Listado de Servicios"
   },
   "settingsPage": {
     "accessDenied": "Acceso denegado",

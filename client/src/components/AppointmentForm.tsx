@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 // import { insertAppointmentSchema } from "../../../shared/schema"; // Rimosso per evitare limiti integer
-import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users, Package, UserPlus } from "lucide-react";
+import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users, Package, UserPlus, AlertCircle, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -918,6 +918,28 @@ export default function AppointmentForm({
               />
             )}
             
+            {services.length === 1 && services[0]?.name === "Consulenza" && services[0]?.price === 0 && (
+              <Alert className="border-amber-300 bg-amber-50">
+                <AlertCircle className="h-4 w-4 text-amber-600" />
+                <AlertDescription className="text-amber-800">
+                  <p className="font-medium mb-1">{t('services.defaultServiceAlert', 'Stai usando il servizio generico "Consulenza". Crea il tuo listino personalizzato!')}</p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="mt-1 text-xs gap-1 border-amber-400 text-amber-700 hover:bg-amber-100"
+                    onClick={() => {
+                      if (onClose) onClose();
+                      navigate('/settings?section=services');
+                    }}
+                  >
+                    <ArrowRight className="h-3 w-3" />
+                    {t('services.goToServiceSettings', 'Vai al Listino Servizi')}
+                  </Button>
+                </AlertDescription>
+              </Alert>
+            )}
+
             {/* Service selector */}
             <FormField
               control={form.control}

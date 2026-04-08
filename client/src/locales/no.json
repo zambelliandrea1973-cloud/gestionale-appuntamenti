@@ -236,7 +236,9 @@
     "enterName": "Skriv inn et navn for tjenesten",
     "createError": "Feil ved opprettelse",
     "deleteError": "Feil ved sletting",
-    "updateError": "Feil ved oppdatering"
+    "updateError": "Feil ved oppdatering",
+    "defaultServiceAlert": "Du bruker den generiske tjenesten \"Konsultasjon\". Opprett din egen tjenesteliste!",
+    "goToServiceSettings": "Gå til Tjenestelisten"
   },
   "settingsPage": {
     "accessDenied": "Tilgang nektet",

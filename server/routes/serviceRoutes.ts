@@ -22,7 +22,19 @@ router.get("/api/services", async (req, res) => {
   }
   
   try {
-    const userServices = await storage.getServicesForUser(user.id);
+    let userServices = await storage.getServicesForUser(user.id);
+    
+    if (userServices.length === 0) {
+      const defaultService = await storage.createService({
+        userId: user.id,
+        name: "Consulenza",
+        duration: 30,
+        price: 0,
+        color: "#9e9e9e"
+      });
+      console.log(`🆕 [/api/services] Servizio default "Consulenza" creato per nuovo utente ${user.id}`);
+      userServices = [{ ...defaultService, isDefault: true }];
+    }
     
     console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi da PostgreSQL per utente ${user.id}`);
     res.json(userServices);

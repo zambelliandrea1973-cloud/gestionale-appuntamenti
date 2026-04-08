@@ -236,7 +236,9 @@
     "enterName": "Introdu un nume pentru serviciu",
     "createError": "Eroare la creare",
     "deleteError": "Eroare la ștergere",
-    "updateError": "Eroare la actualizare"
+    "updateError": "Eroare la actualizare",
+    "defaultServiceAlert": "Utilizați serviciul generic \"Consultație\". Creați-vă propria listă de servicii!",
+    "goToServiceSettings": "Mergi la Lista de Servicii"
   },
   "settingsPage": {
     "accessDenied": "Acces refuzat",

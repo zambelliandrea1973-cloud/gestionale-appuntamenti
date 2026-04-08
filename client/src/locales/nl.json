@@ -236,7 +236,9 @@
     "enterName": "Voer een naam in voor de dienst",
     "createError": "Fout bij aanmaken",
     "deleteError": "Fout bij verwijderen",
-    "updateError": "Fout bij bijwerken"
+    "updateError": "Fout bij bijwerken",
+    "defaultServiceAlert": "U gebruikt de generieke service \"Consultatie\". Maak uw eigen servicelijst!",
+    "goToServiceSettings": "Ga naar Servicelijst"
   },
   "settingsPage": {
     "accessDenied": "Toegang geweigerd",

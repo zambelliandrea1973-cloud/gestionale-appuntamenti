@@ -236,7 +236,9 @@
     "enterName": "Inserisci un nome per il servizio",
     "createError": "Errore nella creazione",
     "deleteError": "Errore nell'eliminazione",
-    "updateError": "Errore nell'aggiornamento"
+    "updateError": "Errore nell'aggiornamento",
+    "defaultServiceAlert": "Stai usando il servizio generico \"Consulenza\". Crea il tuo listino personalizzato!",
+    "goToServiceSettings": "Vai al Listino Servizi"
   },
   "settingsPage": {
     "accessDenied": "Accesso negato",

@@ -236,7 +236,9 @@
     "enterName": "Geben Sie einen Namen für den Dienst ein",
     "createError": "Fehler beim Erstellen",
     "deleteError": "Fehler beim Löschen",
-    "updateError": "Fehler beim Aktualisieren"
+    "updateError": "Fehler beim Aktualisieren",
+    "defaultServiceAlert": "Sie verwenden den generischen Dienst \"Beratung\". Erstellen Sie Ihre persönliche Dienstliste!",
+    "goToServiceSettings": "Zur Dienstliste"
   },
   "settingsPage": {
     "accessDenied": "Zugriff verweigert",

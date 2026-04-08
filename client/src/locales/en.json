@@ -236,7 +236,9 @@
     "enterName": "Enter a name for the service",
     "createError": "Error creating service",
     "deleteError": "Error deleting service",
-    "updateError": "Error updating service"
+    "updateError": "Error updating service",
+    "defaultServiceAlert": "You are using the generic \"Consultation\" service. Create your custom service list!",
+    "goToServiceSettings": "Go to Service List"
   },
   "settingsPage": {
     "accessDenied": "Access denied",
