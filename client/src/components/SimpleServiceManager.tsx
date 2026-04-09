@@ -297,6 +297,7 @@ export default function SimpleServiceManager() {
               <p className="text-sm">{t('services.noServicesHint', 'Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.')}</p>
             </div>
           ) : (
+            <>
             <div className="mb-4 p-3 border rounded-lg bg-blue-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 {allOnlineEnabled ? (
@@ -376,6 +377,7 @@ export default function SimpleServiceManager() {
                 ))}
               </TableBody>
             </Table>
+            </>
           )}
 
           <div className="mt-4 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
