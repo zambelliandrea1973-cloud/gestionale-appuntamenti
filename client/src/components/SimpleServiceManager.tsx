@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { PlusCircle, Pencil, Trash2, Globe, GlobeOff } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, Globe, CircleOff } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
@@ -303,7 +303,7 @@ export default function SimpleServiceManager() {
                 {allOnlineEnabled ? (
                   <Globe className="h-4 w-4 text-green-600" />
                 ) : (
-                  <GlobeOff className="h-4 w-4 text-red-500" />
+                  <CircleOff className="h-4 w-4 text-red-500" />
                 )}
                 <div>
                   <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
