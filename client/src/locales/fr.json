@@ -238,7 +238,14 @@
     "deleteError": "Erreur lors de la suppression",
     "updateError": "Erreur lors de la mise à jour",
     "defaultServiceAlert": "Vous utilisez le service générique \"Consultation\". Créez votre liste de services personnalisée !",
-    "goToServiceSettings": "Aller à la Liste des Services"
+    "goToServiceSettings": "Aller à la Liste des Services",
+    "onlineBookingTitle": "Réservation en ligne",
+    "onlineBookingDesc": "Activez ou désactivez la réservation en ligne pour chaque service. Les services désactivés n'apparaîtront pas dans l'app client.",
+    "disableAllOnline": "Désactiver tous",
+    "enableAllOnline": "Activer tous",
+    "allOnlineEnabled": "Tous les services sont réservables en ligne",
+    "allOnlineDisabled": "Réservation en ligne désactivée pour tous les services",
+    "online": "En ligne"
   },
   "settingsPage": {
     "accessDenied": "Accès refusé",
@@ -1041,7 +1048,9 @@
     "staffTraining": "6. Formation du personnel",
     "staffTrainingDesc": "Le personnel reçoit une formation régulière sur les procédures de sécurité et de protection des données personnelles.",
     "breachReporting": "7. Signalement des violations",
-    "breachReportingDesc": "En cas de violation de données personnelles, nous procédons à la notification rapide aux autorités compétentes et aux personnes concernées, si requis."
+    "breachReportingDesc": "En cas de violation de données personnelles, nous procédons à la notification rapide aux autorités compétentes et aux personnes concernées, si requis.",
+    "onlineBookingDisabled": "La réservation en ligne est temporairement désactivée par le professionnel.",
+    "contactByPhone": "Pour prendre rendez-vous, veuillez contacter le cabinet par téléphone."
   },
   "contacts": {
     "accessOurContacts": "Accéder à nos contacts"

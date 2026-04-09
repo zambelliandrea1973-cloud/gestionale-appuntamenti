@@ -238,7 +238,14 @@
     "deleteError": "Feil ved sletting",
     "updateError": "Feil ved oppdatering",
     "defaultServiceAlert": "Du bruker den generiske tjenesten \"Konsultasjon\". Opprett din egen tjenesteliste!",
-    "goToServiceSettings": "Gå til Tjenestelisten"
+    "goToServiceSettings": "Gå til Tjenestelisten",
+    "onlineBookingTitle": "Online Bestilling",
+    "onlineBookingDesc": "Aktiver eller deaktiver online bestilling for hver tjeneste. Deaktiverte tjenester vises ikke i klient-appen.",
+    "disableAllOnline": "Deaktiver alle",
+    "enableAllOnline": "Aktiver alle",
+    "allOnlineEnabled": "Alle tjenester er bestillbare online",
+    "allOnlineDisabled": "Online bestilling deaktivert for alle tjenester",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Tilgang nektet",
@@ -1023,7 +1030,9 @@
     "staffTraining": "6. Personalopplæring",
     "staffTrainingDesc": "Personalet mottar regelmessig opplæring i sikkerhets- og personvernprosedyrer.",
     "breachReporting": "7. Rapportering av brudd",
-    "breachReportingDesc": "Ved brudd på personopplysninger foretar vi rettidig varsling til kompetente myndigheter og berørte personer, som påkrevd."
+    "breachReportingDesc": "Ved brudd på personopplysninger foretar vi rettidig varsling til kompetente myndigheter og berørte personer, som påkrevd.",
+    "onlineBookingDisabled": "Online bestilling er midlertidig deaktivert av fagpersonen.",
+    "contactByPhone": "For å bestille en time, vennligst kontakt kontoret per telefon."
   },
   "contacts": {
     "accessOurContacts": "Tilgang til våre kontakter"

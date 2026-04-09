@@ -238,7 +238,14 @@
     "deleteError": "Eroare la ștergere",
     "updateError": "Eroare la actualizare",
     "defaultServiceAlert": "Utilizați serviciul generic \"Consultație\". Creați-vă propria listă de servicii!",
-    "goToServiceSettings": "Mergi la Lista de Servicii"
+    "goToServiceSettings": "Mergi la Lista de Servicii",
+    "onlineBookingTitle": "Rezervare Online",
+    "onlineBookingDesc": "Activați sau dezactivați rezervarea online pentru fiecare serviciu. Serviciile dezactivate nu vor apărea în aplicația clientului.",
+    "disableAllOnline": "Dezactivează toate",
+    "enableAllOnline": "Activează toate",
+    "allOnlineEnabled": "Toate serviciile sunt rezervabile online",
+    "allOnlineDisabled": "Rezervarea online dezactivată pentru toate serviciile",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Acces refuzat",
@@ -1023,7 +1030,9 @@
     "staffTraining": "6. Instruirea personalului",
     "staffTrainingDesc": "Personalul primește instruire regulată privind procedurile de securitate și protecția datelor personale.",
     "breachReporting": "7. Raportarea încălcărilor",
-    "breachReportingDesc": "În cazul unei încălcări a datelor personale, procedăm la notificarea promptă a autorităților competente și a persoanelor vizate, conform cerințelor."
+    "breachReportingDesc": "În cazul unei încălcări a datelor personale, procedăm la notificarea promptă a autorităților competente și a persoanelor vizate, conform cerințelor.",
+    "onlineBookingDisabled": "Rezervarea online este dezactivată temporar de profesionist.",
+    "contactByPhone": "Pentru a programa o consultație, contactați cabinetul telefonic."
   },
   "contacts": {
     "accessOurContacts": "Accesați contactele noastre"

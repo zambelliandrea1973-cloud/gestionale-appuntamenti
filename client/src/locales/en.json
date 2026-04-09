@@ -238,7 +238,14 @@
     "deleteError": "Error deleting service",
     "updateError": "Error updating service",
     "defaultServiceAlert": "You are using the generic \"Consultation\" service. Create your custom service list!",
-    "goToServiceSettings": "Go to Service List"
+    "goToServiceSettings": "Go to Service List",
+    "onlineBookingTitle": "Online Booking",
+    "onlineBookingDesc": "Enable or disable online booking for each service. Disabled services will not appear in the client app.",
+    "disableAllOnline": "Disable all",
+    "enableAllOnline": "Enable all",
+    "allOnlineEnabled": "All services are bookable online",
+    "allOnlineDisabled": "Online booking disabled for all services",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Access denied",
@@ -1049,7 +1056,9 @@
     "staffTraining": "6. Staff Training",
     "staffTrainingDesc": "Staff receives regular training on data security and personal data protection procedures.",
     "breachReporting": "7. Breach Reporting",
-    "breachReportingDesc": "In case of personal data breach, we proceed with timely notification to competent authorities and data subjects, as required."
+    "breachReportingDesc": "In case of personal data breach, we proceed with timely notification to competent authorities and data subjects, as required.",
+    "onlineBookingDisabled": "Online booking is temporarily disabled by the professional.",
+    "contactByPhone": "To book an appointment, please contact the office by phone."
   },
   "contacts": {
     "accessOurContacts": "Access our contacts"

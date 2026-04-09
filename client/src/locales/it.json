@@ -238,7 +238,14 @@
     "deleteError": "Errore nell'eliminazione",
     "updateError": "Errore nell'aggiornamento",
     "defaultServiceAlert": "Stai usando il servizio generico \"Consulenza\". Crea il tuo listino personalizzato!",
-    "goToServiceSettings": "Vai al Listino Servizi"
+    "goToServiceSettings": "Vai al Listino Servizi",
+    "onlineBookingTitle": "Prenotazione Online",
+    "onlineBookingDesc": "Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell'app del cliente.",
+    "disableAllOnline": "Disattiva tutti",
+    "enableAllOnline": "Attiva tutti",
+    "allOnlineEnabled": "Tutti i servizi sono prenotabili online",
+    "allOnlineDisabled": "Prenotazione online disattivata per tutti i servizi",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Accesso negato",
@@ -1054,7 +1061,9 @@
     "staffTraining": "6. Formazione del Personale",
     "staffTrainingDesc": "Il personale riceve formazione regolare sulle procedure di sicurezza e protezione dei dati personali.",
     "breachReporting": "7. Segnalazione Violazioni",
-    "breachReportingDesc": "In caso di violazione dei dati personali, procediamo alla notifica tempestiva alle autorità competenti e agli interessati, se richiesto."
+    "breachReportingDesc": "In caso di violazione dei dati personali, procediamo alla notifica tempestiva alle autorità competenti e agli interessati, se richiesto.",
+    "onlineBookingDisabled": "La prenotazione online è temporaneamente disattivata dal professionista.",
+    "contactByPhone": "Per prenotare un appuntamento, contatta telefonicamente lo studio."
   },
   "contacts": {
     "accessOurContacts": "Accedi ai nostri contatti"

@@ -1031,14 +1031,16 @@ router.get("/api/client-services", async (req, res) => {
       // Carica servizi del professionista (owner)
       const services = await storage.getServicesForUser(ownerId);
       
-      // Ritorna solo campi essenziali (id, name, duration, color, price)
-      const publicServices = services.map(s => ({
-        id: s.id,
-        name: s.name,
-        duration: s.duration,
-        color: s.color || "#3f51b5",
-        price: s.price || 0
-      }));
+      // Filtra solo servizi con prenotazione online attiva e ritorna campi essenziali
+      const publicServices = services
+        .filter(s => s.onlineBooking !== false)
+        .map(s => ({
+          id: s.id,
+          name: s.name,
+          duration: s.duration,
+          color: s.color || "#3f51b5",
+          price: s.price || 0
+        }));
       
       console.log(`✅ [CLIENT SERVICES] Ritornati ${publicServices.length} servizi per ownerId: ${ownerId}`);
       

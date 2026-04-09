@@ -103,6 +103,7 @@ export const services = pgTable("services", {
   duration: integer("duration").notNull(),
   color: text("color").default("#3f51b5"),
   price: integer("price"),
+  onlineBooking: boolean("online_booking").default(true),
 }, (table) => ({
   userIdIdx: index("services_user_id_idx").on(table.userId),
 }));
@@ -1706,7 +1707,6 @@ export const contactInfo = pgTable("contact_info", {
   website: varchar("website", { length: 255 }),
   facebook: varchar("facebook", { length: 255 }),
   instagram: varchar("instagram", { length: 255 }),
-  onlineBookingMode: varchar("online_booking_mode", { length: 20 }).default("all"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

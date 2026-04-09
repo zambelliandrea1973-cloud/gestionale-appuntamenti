@@ -238,7 +238,14 @@
     "deleteError": "Fehler beim Löschen",
     "updateError": "Fehler beim Aktualisieren",
     "defaultServiceAlert": "Sie verwenden den generischen Dienst \"Beratung\". Erstellen Sie Ihre persönliche Dienstliste!",
-    "goToServiceSettings": "Zur Dienstliste"
+    "goToServiceSettings": "Zur Dienstliste",
+    "onlineBookingTitle": "Online-Buchung",
+    "onlineBookingDesc": "Aktivieren oder deaktivieren Sie die Online-Buchung für jeden Dienst. Deaktivierte Dienste erscheinen nicht in der Kunden-App.",
+    "disableAllOnline": "Alle deaktivieren",
+    "enableAllOnline": "Alle aktivieren",
+    "allOnlineEnabled": "Alle Dienste sind online buchbar",
+    "allOnlineDisabled": "Online-Buchung für alle Dienste deaktiviert",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Zugriff verweigert",
@@ -1041,7 +1048,9 @@
     "staffTraining": "6. Personalschulung",
     "staffTrainingDesc": "Das Personal erhält regelmäßige Schulungen zu Sicherheitsverfahren und zum Schutz personenbezogener Daten.",
     "breachReporting": "7. Meldung von Verstößen",
-    "breachReportingDesc": "Im Falle einer Verletzung des Schutzes personenbezogener Daten erfolgt eine unverzügliche Meldung an die zuständigen Behörden und Betroffenen, sofern erforderlich."
+    "breachReportingDesc": "Im Falle einer Verletzung des Schutzes personenbezogener Daten erfolgt eine unverzügliche Meldung an die zuständigen Behörden und Betroffenen, sofern erforderlich.",
+    "onlineBookingDisabled": "Die Online-Buchung ist vorübergehend vom Fachmann deaktiviert.",
+    "contactByPhone": "Um einen Termin zu buchen, kontaktieren Sie bitte die Praxis telefonisch."
   },
   "contacts": {
     "accessOurContacts": "Zugriff auf unsere Kontakte"

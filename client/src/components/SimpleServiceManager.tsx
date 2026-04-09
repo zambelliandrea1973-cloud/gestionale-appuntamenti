@@ -7,7 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, Globe, GlobeOff } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useCurrency } from "@/hooks/use-currency";
@@ -20,6 +22,7 @@ interface Service {
   duration: number;
   price: number;
   userId: number;
+  onlineBooking?: boolean;
 }
 
 export default function SimpleServiceManager() {
@@ -127,6 +130,39 @@ export default function SimpleServiceManager() {
       toast({ title: t('services.deleteError'), variant: "destructive" });
     }
   });
+
+  const toggleOnlineBookingMutation = useMutation({
+    mutationFn: async ({ id, onlineBooking }: { id: number; onlineBooking: boolean }) => {
+      const response = await apiRequest("PUT", `/api/services/${id}`, { onlineBooking });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+    },
+    onError: (error: any) => {
+      console.error('Errore toggle online booking:', error);
+      toast({ title: t('common.error'), variant: "destructive" });
+    }
+  });
+
+  const toggleAllOnlineBookingMutation = useMutation({
+    mutationFn: async (onlineBooking: boolean) => {
+      const promises = services.map((s: Service) =>
+        apiRequest("PUT", `/api/services/${s.id}`, { onlineBooking })
+      );
+      await Promise.all(promises);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      toast({ title: onlineBooking ? t('services.allOnlineEnabled') : t('services.allOnlineDisabled') });
+    },
+    onError: () => {
+      toast({ title: t('common.error'), variant: "destructive" });
+    }
+  });
+
+  const allOnlineEnabled = services.length > 0 && services.every((s: Service) => s.onlineBooking !== false);
+  const onlineBooking = allOnlineEnabled;
 
   // Mutation per aggiornare servizio con React Query
   const updateServiceMutation = useMutation({
@@ -261,6 +297,29 @@ export default function SimpleServiceManager() {
               <p className="text-sm">{t('services.noServicesHint', 'Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.')}</p>
             </div>
           ) : (
+            <div className="mb-4 p-3 border rounded-lg bg-blue-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                {allOnlineEnabled ? (
+                  <Globe className="h-4 w-4 text-green-600" />
+                ) : (
+                  <GlobeOff className="h-4 w-4 text-red-500" />
+                )}
+                <div>
+                  <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
+                  <p className="text-xs text-muted-foreground">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
+                </div>
+              </div>
+              <Button
+                variant={allOnlineEnabled ? "destructive" : "default"}
+                size="sm"
+                className="whitespace-nowrap"
+                onClick={() => toggleAllOnlineBookingMutation.mutate(!allOnlineEnabled)}
+                disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
+              >
+                {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
+              </Button>
+            </div>
+
             <Table>
               <TableHeader>
                 <TableRow>
@@ -268,19 +327,27 @@ export default function SimpleServiceManager() {
                   <TableHead>{t('services.duration')}</TableHead>
                   <TableHead>{t('services.price')}</TableHead>
                   <TableHead>{t('services.color')}</TableHead>
+                  <TableHead className="text-center">{t('services.online', 'Online')}</TableHead>
                   <TableHead className="text-right">{t('services.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {services.map((service) => (
-                  <TableRow key={service.id}>
+                  <TableRow key={service.id} className={service.onlineBooking === false ? 'opacity-60' : ''}>
                     <TableCell className="font-medium">{service.name}</TableCell>
                     <TableCell>{service.duration} min</TableCell>
-                    <TableCell>{symbol}{service.price.toFixed(2)}</TableCell>
+                    <TableCell>{symbol}{service.price?.toFixed(2) || '0.00'}</TableCell>
                     <TableCell>
                       <div 
                         className="w-6 h-6 rounded border"
                         style={{ backgroundColor: service.color || '#3b82f6' }}
+                      />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Switch
+                        checked={service.onlineBooking !== false}
+                        onCheckedChange={(checked) => toggleOnlineBookingMutation.mutate({ id: service.id, onlineBooking: checked })}
+                        disabled={toggleOnlineBookingMutation.isPending}
                       />
                     </TableCell>
                     <TableCell className="text-right">

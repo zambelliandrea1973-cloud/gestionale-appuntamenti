@@ -238,7 +238,14 @@
     "deleteError": "Error al eliminar",
     "updateError": "Error al actualizar",
     "defaultServiceAlert": "Estás usando el servicio genérico \"Consulta\". ¡Crea tu lista de servicios personalizada!",
-    "goToServiceSettings": "Ir al Listado de Servicios"
+    "goToServiceSettings": "Ir al Listado de Servicios",
+    "onlineBookingTitle": "Reserva Online",
+    "onlineBookingDesc": "Activa o desactiva la reserva online para cada servicio. Los servicios desactivados no aparecerán en la app del cliente.",
+    "disableAllOnline": "Desactivar todos",
+    "enableAllOnline": "Activar todos",
+    "allOnlineEnabled": "Todos los servicios son reservables online",
+    "allOnlineDisabled": "Reserva online desactivada para todos los servicios",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Acceso denegado",
@@ -1041,7 +1048,9 @@
     "staffTraining": "6. Formación del personal",
     "staffTrainingDesc": "El personal recibe formación regular sobre procedimientos de seguridad y protección de datos personales.",
     "breachReporting": "7. Notificación de violaciones",
-    "breachReportingDesc": "En caso de violación de datos personales, procedemos a la notificación oportuna a las autoridades competentes y a los interesados, según lo requerido."
+    "breachReportingDesc": "En caso de violación de datos personales, procedemos a la notificación oportuna a las autoridades competentes y a los interesados, según lo requerido.",
+    "onlineBookingDisabled": "La reserva online está temporalmente desactivada por el profesional.",
+    "contactByPhone": "Para reservar una cita, contacte la oficina por teléfono."
   },
   "contacts": {
     "accessOurContacts": "Accede a nuestros contactos"

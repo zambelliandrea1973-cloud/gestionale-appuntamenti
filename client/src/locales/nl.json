@@ -238,7 +238,14 @@
     "deleteError": "Fout bij verwijderen",
     "updateError": "Fout bij bijwerken",
     "defaultServiceAlert": "U gebruikt de generieke service \"Consultatie\". Maak uw eigen servicelijst!",
-    "goToServiceSettings": "Ga naar Servicelijst"
+    "goToServiceSettings": "Ga naar Servicelijst",
+    "onlineBookingTitle": "Online Boeken",
+    "onlineBookingDesc": "Schakel online boeken in of uit per service. Uitgeschakelde services verschijnen niet in de klanten-app.",
+    "disableAllOnline": "Alles uitschakelen",
+    "enableAllOnline": "Alles inschakelen",
+    "allOnlineEnabled": "Alle services zijn online boekbaar",
+    "allOnlineDisabled": "Online boeken uitgeschakeld voor alle services",
+    "online": "Online"
   },
   "settingsPage": {
     "accessDenied": "Toegang geweigerd",
@@ -1023,7 +1030,9 @@
     "staffTraining": "6. Personeelsopleiding",
     "staffTrainingDesc": "Personeel ontvangt regelmatige training over beveiligingsprocedures en bescherming van persoonsgegevens.",
     "breachReporting": "7. Melding van inbreuken",
-    "breachReportingDesc": "In geval van een inbreuk op persoonsgegevens gaan we over tot tijdige melding aan de bevoegde autoriteiten en betrokkenen, zoals vereist."
+    "breachReportingDesc": "In geval van een inbreuk op persoonsgegevens gaan we over tot tijdige melding aan de bevoegde autoriteiten en betrokkenen, zoals vereist.",
+    "onlineBookingDisabled": "Online boeken is tijdelijk uitgeschakeld door de professional.",
+    "contactByPhone": "Om een afspraak te maken, neem telefonisch contact op met de praktijk."
   },
   "contacts": {
     "accessOurContacts": "Toegang tot onze contacten"
