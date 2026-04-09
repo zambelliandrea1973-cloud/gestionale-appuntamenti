@@ -1706,6 +1706,7 @@ export const contactInfo = pgTable("contact_info", {
   website: varchar("website", { length: 255 }),
   facebook: varchar("facebook", { length: 255 }),
   instagram: varchar("instagram", { length: 255 }),
+  onlineBookingMode: varchar("online_booking_mode", { length: 20 }).default("all"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
