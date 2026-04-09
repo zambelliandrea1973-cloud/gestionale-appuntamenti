@@ -1049,8 +1049,8 @@
     "staffTrainingDesc": "Le personnel reçoit une formation régulière sur les procédures de sécurité et de protection des données personnelles.",
     "breachReporting": "7. Signalement des violations",
     "breachReportingDesc": "En cas de violation de données personnelles, nous procédons à la notification rapide aux autorités compétentes et aux personnes concernées, si requis.",
-    "onlineBookingDisabled": "La réservation en ligne est temporairement désactivée par le professionnel.",
-    "contactByPhone": "Pour prendre rendez-vous, veuillez contacter le cabinet par téléphone."
+    "onlineBookingDisabled": "Service de réservation en ligne momentanément désactivé par le professionnel.",
+    "contactByPhone": "Veuillez contacter le cabinet pour convenir d'un rendez-vous."
   },
   "contacts": {
     "accessOurContacts": "Accéder à nos contacts"

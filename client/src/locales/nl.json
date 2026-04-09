@@ -1031,8 +1031,8 @@
     "staffTrainingDesc": "Personeel ontvangt regelmatige training over beveiligingsprocedures en bescherming van persoonsgegevens.",
     "breachReporting": "7. Melding van inbreuken",
     "breachReportingDesc": "In geval van een inbreuk op persoonsgegevens gaan we over tot tijdige melding aan de bevoegde autoriteiten en betrokkenen, zoals vereist.",
-    "onlineBookingDisabled": "Online boeken is tijdelijk uitgeschakeld door de professional.",
-    "contactByPhone": "Om een afspraak te maken, neem telefonisch contact op met de praktijk."
+    "onlineBookingDisabled": "Online reserveringsservice tijdelijk uitgeschakeld door de professional.",
+    "contactByPhone": "Neem contact op met de praktijk om een afspraak te maken."
   },
   "contacts": {
     "accessOurContacts": "Toegang tot onze contacten"

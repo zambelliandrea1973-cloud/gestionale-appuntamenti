@@ -1049,8 +1049,8 @@
     "staffTrainingDesc": "El personal recibe formación regular sobre procedimientos de seguridad y protección de datos personales.",
     "breachReporting": "7. Notificación de violaciones",
     "breachReportingDesc": "En caso de violación de datos personales, procedemos a la notificación oportuna a las autoridades competentes y a los interesados, según lo requerido.",
-    "onlineBookingDisabled": "La reserva online está temporalmente desactivada por el profesional.",
-    "contactByPhone": "Para reservar una cita, contacte la oficina por teléfono."
+    "onlineBookingDisabled": "Servicio de reserva online temporalmente desactivado por el profesional.",
+    "contactByPhone": "Contacte la oficina para concertar una cita."
   },
   "contacts": {
     "accessOurContacts": "Accede a nuestros contactos"

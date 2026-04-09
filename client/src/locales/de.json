@@ -1049,8 +1049,8 @@
     "staffTrainingDesc": "Das Personal erhält regelmäßige Schulungen zu Sicherheitsverfahren und zum Schutz personenbezogener Daten.",
     "breachReporting": "7. Meldung von Verstößen",
     "breachReportingDesc": "Im Falle einer Verletzung des Schutzes personenbezogener Daten erfolgt eine unverzügliche Meldung an die zuständigen Behörden und Betroffenen, sofern erforderlich.",
-    "onlineBookingDisabled": "Die Online-Buchung ist vorübergehend vom Fachmann deaktiviert.",
-    "contactByPhone": "Um einen Termin zu buchen, kontaktieren Sie bitte die Praxis telefonisch."
+    "onlineBookingDisabled": "Online-Buchungsservice vorübergehend vom Fachmann deaktiviert.",
+    "contactByPhone": "Bitte kontaktieren Sie die Praxis, um einen Termin zu vereinbaren."
   },
   "contacts": {
     "accessOurContacts": "Zugriff auf unsere Kontakte"

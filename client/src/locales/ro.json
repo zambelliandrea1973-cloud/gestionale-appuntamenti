@@ -1031,8 +1031,8 @@
     "staffTrainingDesc": "Personalul primește instruire regulată privind procedurile de securitate și protecția datelor personale.",
     "breachReporting": "7. Raportarea încălcărilor",
     "breachReportingDesc": "În cazul unei încălcări a datelor personale, procedăm la notificarea promptă a autorităților competente și a persoanelor vizate, conform cerințelor.",
-    "onlineBookingDisabled": "Rezervarea online este dezactivată temporar de profesionist.",
-    "contactByPhone": "Pentru a programa o consultație, contactați cabinetul telefonic."
+    "onlineBookingDisabled": "Serviciul de rezervare online dezactivat temporar de profesionist.",
+    "contactByPhone": "Contactați cabinetul pentru a stabili o programare."
   },
   "contacts": {
     "accessOurContacts": "Accesați contactele noastre"

@@ -1062,8 +1062,8 @@
     "staffTrainingDesc": "Il personale riceve formazione regolare sulle procedure di sicurezza e protezione dei dati personali.",
     "breachReporting": "7. Segnalazione Violazioni",
     "breachReportingDesc": "In caso di violazione dei dati personali, procediamo alla notifica tempestiva alle autorità competenti e agli interessati, se richiesto.",
-    "onlineBookingDisabled": "La prenotazione online è temporaneamente disattivata dal professionista.",
-    "contactByPhone": "Per prenotare un appuntamento, contatta telefonicamente lo studio."
+    "onlineBookingDisabled": "Servizio di prenotazione online momentaneamente disabilitato dal professionista.",
+    "contactByPhone": "Contattare la struttura per concordare l'appuntamento."
   },
   "contacts": {
     "accessOurContacts": "Accedi ai nostri contatti"

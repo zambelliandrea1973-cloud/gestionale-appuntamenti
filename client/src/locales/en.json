@@ -1057,8 +1057,8 @@
     "staffTrainingDesc": "Staff receives regular training on data security and personal data protection procedures.",
     "breachReporting": "7. Breach Reporting",
     "breachReportingDesc": "In case of personal data breach, we proceed with timely notification to competent authorities and data subjects, as required.",
-    "onlineBookingDisabled": "Online booking is temporarily disabled by the professional.",
-    "contactByPhone": "To book an appointment, please contact the office by phone."
+    "onlineBookingDisabled": "Online booking service temporarily disabled by the professional.",
+    "contactByPhone": "Please contact the office to arrange an appointment."
   },
   "contacts": {
     "accessOurContacts": "Access our contacts"

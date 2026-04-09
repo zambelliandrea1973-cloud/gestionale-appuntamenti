@@ -1031,8 +1031,8 @@
     "staffTrainingDesc": "Personalet mottar regelmessig opplæring i sikkerhets- og personvernprosedyrer.",
     "breachReporting": "7. Rapportering av brudd",
     "breachReportingDesc": "Ved brudd på personopplysninger foretar vi rettidig varsling til kompetente myndigheter og berørte personer, som påkrevd.",
-    "onlineBookingDisabled": "Online bestilling er midlertidig deaktivert av fagpersonen.",
-    "contactByPhone": "For å bestille en time, vennligst kontakt kontoret per telefon."
+    "onlineBookingDisabled": "Online bestillingstjeneste midlertidig deaktivert av fagpersonen.",
+    "contactByPhone": "Kontakt kontoret for å avtale en time."
   },
   "contacts": {
     "accessOurContacts": "Tilgang til våre kontakter"
