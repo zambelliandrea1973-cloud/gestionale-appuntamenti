@@ -298,29 +298,37 @@ export default function SimpleServiceManager() {
             </div>
           ) : (
             <>
-            <div className="mb-4 p-3 border rounded-lg bg-blue-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                {allOnlineEnabled ? (
-                  <Globe className="h-4 w-4 text-green-600" />
-                ) : (
-                  <CircleOff className="h-4 w-4 text-red-500" />
-                )}
-                <div>
-                  <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
-                  <p className="text-xs text-muted-foreground">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <Switch
-                  checked={allOnlineEnabled}
-                  onCheckedChange={(checked) => toggleAllOnlineBookingMutation.mutate(checked)}
-                  disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
-                />
-                <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
-                </span>
-              </div>
-            </div>
+            <Table className="mb-0">
+              <TableBody>
+                <TableRow className="border-0 hover:bg-transparent">
+                  <TableCell colSpan={5} className="py-3 px-4 bg-blue-50/50 border rounded-l-lg border-r-0">
+                    <div className="flex items-center gap-2">
+                      {allOnlineEnabled ? (
+                        <Globe className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <CircleOff className="h-4 w-4 text-red-500" />
+                      )}
+                      <div>
+                        <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
+                        <p className="text-xs text-muted-foreground">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3 px-4 bg-blue-50/50 border rounded-r-lg border-l-0 text-center">
+                    <div className="flex flex-col items-center gap-1">
+                      <Switch
+                        checked={allOnlineEnabled}
+                        onCheckedChange={(checked) => toggleAllOnlineBookingMutation.mutate(checked)}
+                        disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
+                      />
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
+                      </span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
 
             <Table>
               <TableHeader>
