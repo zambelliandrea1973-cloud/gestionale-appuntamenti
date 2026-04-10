@@ -245,7 +245,8 @@
     "enableAllOnline": "Attiva tutti",
     "allOnlineEnabled": "Tutti i servizi sono prenotabili online",
     "allOnlineDisabled": "Prenotazione online disattivata per tutti i servizi",
-    "online": "Online"
+    "online": "Online",
+    "onlineHeader": "Prenotazioni Online"
   },
   "settingsPage": {
     "accessDenied": "Accesso negato",

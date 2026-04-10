@@ -310,15 +310,16 @@ export default function SimpleServiceManager() {
                   <p className="text-xs text-muted-foreground">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
                 </div>
               </div>
-              <Button
-                variant={allOnlineEnabled ? "destructive" : "default"}
-                size="sm"
-                className="whitespace-nowrap"
-                onClick={() => toggleAllOnlineBookingMutation.mutate(!allOnlineEnabled)}
-                disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
-              >
-                {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
-              </Button>
+              <div className="flex flex-col items-center gap-1">
+                <Switch
+                  checked={allOnlineEnabled}
+                  onCheckedChange={(checked) => toggleAllOnlineBookingMutation.mutate(checked)}
+                  disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
+                />
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
+                  {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
+                </span>
+              </div>
             </div>
 
             <Table>
@@ -328,7 +329,7 @@ export default function SimpleServiceManager() {
                   <TableHead>{t('services.duration')}</TableHead>
                   <TableHead>{t('services.price')}</TableHead>
                   <TableHead>{t('services.color')}</TableHead>
-                  <TableHead className="text-center">{t('services.online', 'Online')}</TableHead>
+                  <TableHead className="text-center">{t('services.onlineHeader', 'Prenotazioni Online')}</TableHead>
                   <TableHead className="text-right">{t('services.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
