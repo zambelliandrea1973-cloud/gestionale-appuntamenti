@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { PlusCircle, Pencil, Trash2, Globe, CircleOff } from "lucide-react";
+import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
@@ -298,30 +298,6 @@ export default function SimpleServiceManager() {
             </div>
           ) : (
             <>
-            <div className="mb-4 p-3 border rounded-lg bg-blue-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                {allOnlineEnabled ? (
-                  <Globe className="h-4 w-4 text-green-600" />
-                ) : (
-                  <CircleOff className="h-4 w-4 text-red-500" />
-                )}
-                <div>
-                  <p className="text-sm font-medium">{t('services.onlineBookingTitle', 'Prenotazione Online')}</p>
-                  <p className="text-xs text-muted-foreground">{t('services.onlineBookingDesc', 'Attiva o disattiva la possibilità per i clienti di prenotare online ogni singolo servizio. I servizi disattivati non compariranno nell\'app del cliente.')}</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <Switch
-                  checked={allOnlineEnabled}
-                  onCheckedChange={(checked) => toggleAllOnlineBookingMutation.mutate(checked)}
-                  disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
-                />
-                <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
-                </span>
-              </div>
-            </div>
-
             <Table>
               <TableHeader>
                 <TableRow>
@@ -329,7 +305,19 @@ export default function SimpleServiceManager() {
                   <TableHead>{t('services.duration')}</TableHead>
                   <TableHead>{t('services.price')}</TableHead>
                   <TableHead>{t('services.color')}</TableHead>
-                  <TableHead className="text-center">{t('services.onlineHeader', 'Prenotazioni Online')}</TableHead>
+                  <TableHead className="text-center">
+                    <div className="flex flex-col items-center gap-1">
+                      <span>{t('services.onlineHeader', 'Prenotazioni Online')}</span>
+                      <Switch
+                        checked={allOnlineEnabled}
+                        onCheckedChange={(checked) => toggleAllOnlineBookingMutation.mutate(checked)}
+                        disabled={toggleAllOnlineBookingMutation.isPending || services.length === 0}
+                      />
+                      <span className="text-[10px] font-normal text-muted-foreground whitespace-nowrap">
+                        {allOnlineEnabled ? t('services.disableAllOnline', 'Disattiva tutti') : t('services.enableAllOnline', 'Attiva tutti')}
+                      </span>
+                    </div>
+                  </TableHead>
                   <TableHead className="text-right">{t('services.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
