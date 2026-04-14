@@ -153,6 +153,20 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Token sync Google**: non più cancellato su errore temporaneo, solo disabilitazione sync
 - **File legacy rimossi**: routes-backup, Clients-old, simple-storage, cartella gestionale-appuntamenti (4.2GB backup)
 
+### Google Play Store — Chiavi di Firma
+- **Percorso chiavi sul PC dell'utente**: `OneDrive > ANDREA - Munit SA > Desktop > gestionale app - package`
+- **File importanti**:
+  - `signing.keystore` — chiave di firma per Google Play (NON perdere mai!)
+  - `signing-key-info.txt` — contiene password e alias
+  - `upload_certificate.pem` — certificato PEM caricato su Google Play
+  - `password keystore abb` — file promemoria password
+- **Password keystore**: `tWKRLzoGlxjf`
+- **Alias chiave**: `my-key-alias`
+- **File .aab**: `gestionale appuntamenti.aab` (pacchetto per Google Play)
+- **File .apk**: `gestionale appuntamenti.apk` (per test diretto)
+- **REGOLA FONDAMENTALE**: Per ogni nuova release, usare SEMPRE lo stesso `signing.keystore`. Se PWABuilder ne genera uno nuovo, il caricamento su Google Play fallirà.
+- **Copia di backup su Replit**: `attached_assets/signing_1776157050094.keystore`
+
 ### Deployment Strategy
 - **Development**: Replit (`https://wife-scheduler-zambelliandrea1.replit.app`).
 - **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`).
