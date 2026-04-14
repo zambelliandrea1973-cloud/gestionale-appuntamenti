@@ -10,6 +10,12 @@ import { servePlayStoreManifest } from './manifest-playstore'
 
 export function registerRoutes(app: Express): Server {
 
+  app.get('/download/upload_certificate.pem', (req, res) => {
+    const filePath = path.resolve(process.cwd(), 'upload_certificate.pem');
+    res.download(filePath, 'upload_certificate.pem');
+  });
+
+
   app.get('/favicon.ico', async (req, res) => {
     res.set('Cache-Control', 'private, no-cache, must-revalidate');
     res.set('Vary', 'Cookie');
