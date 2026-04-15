@@ -1,0 +1,46 @@
+Hi zambelliandrea1973-cloud,
+
+We're writing to let you know that between September 2025 and January 2026, webhook secrets for webhooks you are responsible for were inadvertently included in an HTTP header on webhook deliveries. This means that any system receiving webhook payloads during this window could have logged the webhook secret from the request headers. Webhook deliveries are encrypted in transit via TLS, so the header containing the secret was only accessible to the receiving endpoint in a base64-encoded format. We have no evidence to suggest your secrets were intercepted. This issue was fixed on January 26, 2026. Please read on for more information.
+
+User privacy and security are essential for maintaining trust, and we want to remain as transparent as possible about events like these. GitHub itself did not experience a compromise or data breach as a result of this event.
+
+* What happened? *
+
+On January 26, 2026, GitHub identified a bug in a new version of the webhook delivery platform where webhook secrets were included in an `X-Github-Encoded-Secret` HTTP header sent with webhook payloads. This header was not intended to be part of the delivery and made the webhook secret available to the receiving endpoint in a base64-encoded format. Webhook secrets are used to verify that deliveries are genuinely from GitHub, and should only be known to GitHub and the webhook owner.
+
+The bug was limited to only a subset of webhook deliveries that were feature flagged to use this new version of the webhooks platform. The bug was present between September 11, 2025, and December 10, 2025, and briefly on January 5, 2026. The bug was fixed on January 26, 2026.
+
+* What information was involved? *
+
+The webhook secret for each affected webhook was included in HTTP request headers during the window that the bug was present. The webhook payload content itself was delivered normally and was not additionally affected. No other credentials or tokens were affected. Webhook deliveries are encrypted in transit via TLS, so the header containing the secret was only accessible to the receiving endpoint.
+
+If the receiving system logged HTTP request headers, the webhook secret may be present in those logs. The webhook secret is used to compute the `X-Hub-Signature-256` HMAC signature on deliveries — if compromised, an attacker who knows the secret could forge webhook payloads to make them appear to come from GitHub.
+
+* What GitHub is doing *
+
+GitHub deployed a fix on January 26, 2026 to remove the `X-Github-Encoded-Secret` header from webhook deliveries. We then began a thorough investigation to identify all affected webhooks and their responsible owners.
+
+We are notifying all users who own or administer webhooks that were affected during the window that the bug was present so they can rotate their webhook secrets.
+
+* What you can do *
+
+1. Rotate your webhook secrets immediately. While we have no evidence your secrets were intercepted, the affected secrets should still be treated as compromised. At the end of this email is a list of your affected webhooks — generate a new random secret for each one: https://docs.github.com/en/webhooks/using-webhooks/editing-webhooks
+
+2. Review your receiving systems. If the system receiving webhook deliveries logged HTTP request headers, purge those logs to limit further access to the included secrets.
+
+3. Verify webhook signatures. After rotating the secret, confirm your receiving endpoint validates the `X-Hub-Signature-256` header using the new secret: https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries
+
+Note: if the webhook (or resource that owned the webhook such as a repository) has already been deleted, you can disregard that webhook in the list of affected webhooks and do not need to take any action for it.
+
+Please feel free to reach out to GitHub Support with any additional questions or concerns through the following contact form:
+
+https://support.github.com/contact?form%5Bsubject%5D=Re:Reference+GH-9951654-7992-a1&tags=GH-9951654-7992-a1
+
+Thanks,
+GitHub Security
+<Reference # GH-9951654-7992-a1>
+
+Affected webhooks:
+
+Repository webhooks (1):
+  zambelliandrea1973-cloud/gestionale-appuntamenti (hook ID: 575034797)
