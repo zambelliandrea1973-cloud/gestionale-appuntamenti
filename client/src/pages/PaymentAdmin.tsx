@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -74,6 +75,7 @@ export default function PaymentAdmin() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteTargetUser, setDeleteTargetUser] = useState<{ id: number; username: string } | null>(null);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [upgradeStaffTarget, setUpgradeStaffTarget] = useState<{ id: number; username: string } | null>(null);
 
   // Carica i dati automaticamente all'avvio del componente
   useEffect(() => {
@@ -878,9 +880,10 @@ export default function PaymentAdmin() {
                                           {license.type !== 'staff_free' && (
                                             <DropdownMenuItem
                                               onClick={() => {
-                                                if (confirm(`Promuovere "${license.user.username || license.user.email}" a Staff con accesso gratuito per 10 anni?`)) {
-                                                  upgradeToStaffMutation.mutate(license.user.id);
-                                                }
+                                                setUpgradeStaffTarget({
+                                                  id: license.user.id,
+                                                  username: license.user.username || license.user.email || `Utente ${license.user.id}`
+                                                });
                                               }}
                                               data-testid={`button-upgrade-staff-${license.user.id}`}
                                             >
@@ -1244,6 +1247,41 @@ export default function PaymentAdmin() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!upgradeStaffTarget} onOpenChange={(open) => { if (!open) setUpgradeStaffTarget(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-green-600" /> Promuovi a Staff
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Stai per promuovere <strong>{upgradeStaffTarget?.username}</strong> a <strong>Staff</strong> con accesso gratuito completo per <strong>10 anni</strong>.
+              <br /><br />
+              La licenza attuale verrà disattivata e sostituita con una licenza STAFF_FREE. Vuoi procedere?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={upgradeToStaffMutation.isPending}>Annulla</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                if (upgradeStaffTarget) {
+                  upgradeToStaffMutation.mutate(upgradeStaffTarget.id, {
+                    onSettled: () => setUpgradeStaffTarget(null)
+                  });
+                }
+              }}
+              disabled={upgradeToStaffMutation.isPending}
+              className="bg-green-600 hover:bg-green-700"
+              data-testid="button-confirm-upgrade-staff"
+            >
+              {upgradeToStaffMutation.isPending ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Promozione...</>
+              ) : "Promuovi a Staff"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
