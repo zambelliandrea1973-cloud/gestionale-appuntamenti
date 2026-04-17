@@ -447,22 +447,17 @@ class LicenseService {
    */
   async extendTrial(userId: number): Promise<{ success: boolean, message: string, newExpiresAt?: Date }> {
     try {
-      // Trova la licenza trial dell'utente
+      // Trova la licenza più recente dell'utente (qualsiasi tipo)
       const [userLicense] = await db.select()
         .from(licenses)
-        .where(
-          and(
-            eq(licenses.userId, userId),
-            eq(licenses.type, LicenseType.TRIAL)
-          )
-        )
+        .where(eq(licenses.userId, userId))
         .orderBy(licenses.createdAt, 'desc')
         .limit(1);
 
       if (!userLicense) {
         return {
           success: false,
-          message: 'Nessuna licenza trial trovata per questo utente'
+          message: 'Nessuna licenza trovata per questo utente'
         };
       }
 

@@ -848,7 +848,7 @@ export default function PaymentAdmin() {
                                 <div>
                                   <p className="text-xs text-muted-foreground mb-1">Azioni</p>
                                   <div className="flex items-center gap-1">
-                                    {license.type === 'trial' && license.user?.id ? (
+                                    {license.user?.id && (license.user as any).role !== 'admin' ? (
                                       <Button
                                         size="sm"
                                         className="h-8 flex-1"
