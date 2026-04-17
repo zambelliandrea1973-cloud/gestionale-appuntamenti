@@ -399,9 +399,8 @@ router.post('/upgrade-to-staff', async (req, res) => {
       .set({ isActive: false })
       .where(eq(licenses.userId, userId));
 
-    // Crea la nuova licenza STAFF_FREE
-    const crypto = await import('crypto');
-    const code = `STAFF-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
+    // Crea la nuova licenza STAFF_FREE con codice nel formato consistente STAFF-{userId}-{timestamp}
+    const code = `STAFF-${userId}-${Math.floor(Date.now() / 1000)}`;
 
     await db.insert(licenses).values({
       code,
@@ -412,6 +411,11 @@ router.post('/upgrade-to-staff', async (req, res) => {
       activatedAt: new Date(),
       expiresAt
     });
+
+    // Aggiorna anche users.type e users.role a 'staff' (così l'UI riconosce lo Staff correttamente)
+    await db.update(users)
+      .set({ type: 'staff', role: 'staff' })
+      .where(eq(users.id, userId));
 
     res.json({
       success: true,
