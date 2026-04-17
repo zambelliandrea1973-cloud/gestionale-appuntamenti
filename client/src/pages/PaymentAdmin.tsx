@@ -662,7 +662,19 @@ export default function PaymentAdmin() {
                 <CardContent>
                   <div className="space-y-3">
                     {licenses.length > 0 ? (
-                      licenses.map((license) => {
+                      (() => {
+                        // Mostra solo la licenza più recente per ogni utente
+                        // (le licenze arrivano già ordinate per createdAt desc dal backend)
+                        const seenUserIds = new Set<number>();
+                        const uniqueLicenses = licenses.filter((lic) => {
+                          const uid = lic.user?.id;
+                          if (!uid) return true; // licenze senza utente le mostro tutte
+                          if (seenUserIds.has(uid)) return false;
+                          seenUserIds.add(uid);
+                          return true;
+                        });
+                        return uniqueLicenses;
+                      })().map((license) => {
                         const daysLeft = calculateDaysLeft(license.expiresAt);
                         
                         // Determina lo stato della licenza
