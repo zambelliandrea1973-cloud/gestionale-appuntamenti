@@ -368,6 +368,67 @@ router.post('/extend-trial', async (req, res) => {
 });
 
 /**
+ * Promuove un utente a Staff (licenza gratuita di 10 anni)
+ * Solo admin può eseguire questa operazione
+ */
+router.post('/upgrade-to-staff', async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID utente richiesto'
+      });
+    }
+
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Utente non trovato'
+      });
+    }
+
+    // 10 anni a partire da oggi
+    const expiresAt = new Date();
+    expiresAt.setFullYear(expiresAt.getFullYear() + 10);
+
+    // Disattiva tutte le licenze esistenti dell'utente
+    await db.update(licenses)
+      .set({ isActive: false })
+      .where(eq(licenses.userId, userId));
+
+    // Crea la nuova licenza STAFF_FREE
+    const crypto = await import('crypto');
+    const code = `STAFF-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
+
+    await db.insert(licenses).values({
+      code,
+      type: LicenseType.STAFF_FREE,
+      isActive: true,
+      userId: userId,
+      createdAt: new Date(),
+      activatedAt: new Date(),
+      expiresAt
+    });
+
+    res.json({
+      success: true,
+      message: `Utente ${user.username} promosso a Staff (accesso gratuito per 10 anni)`,
+      username: user.username,
+      expiresAt
+    });
+  } catch (error: any) {
+    console.error("Errore nell'upgrade a Staff:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Errore durante l'upgrade a Staff"
+    });
+  }
+});
+
+/**
  * Statistiche accessi utenti - oggi, ultimi 7gg, totali
  * Solo admin può accedere
  */

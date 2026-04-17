@@ -224,6 +224,28 @@ export default function PaymentAdmin() {
     },
   });
 
+  // Mutation per promuovere un utente a Staff (10 anni gratis)
+  const upgradeToStaffMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const response = await apiRequest('POST', '/api/admin-license/upgrade-to-staff', { userId });
+      return await response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: 'Upgrade a Staff completato',
+        description: data.message,
+      });
+      fetchDashboardData();
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Errore',
+        description: error.message || 'Impossibile promuovere a Staff',
+        variant: 'destructive',
+      });
+    },
+  });
+
   // Mutation per aggiornare manualmente la data di scadenza
   const updateDateMutation = useMutation({
     mutationFn: async ({ userId, newDate, field }: { userId: number; newDate: Date; field: 'created' | 'expiry' }) => {
@@ -852,6 +874,20 @@ export default function PaymentAdmin() {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
                                           <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                                          <DropdownMenuSeparator />
+                                          {license.type !== 'staff_free' && (
+                                            <DropdownMenuItem
+                                              onClick={() => {
+                                                if (confirm(`Promuovere "${license.user.username || license.user.email}" a Staff con accesso gratuito per 10 anni?`)) {
+                                                  upgradeToStaffMutation.mutate(license.user.id);
+                                                }
+                                              }}
+                                              data-testid={`button-upgrade-staff-${license.user.id}`}
+                                            >
+                                              <Shield className="h-4 w-4 mr-2" />
+                                              Promuovi a Staff (10 anni gratis)
+                                            </DropdownMenuItem>
+                                          )}
                                           <DropdownMenuSeparator />
                                           <DropdownMenuItem
                                             className="text-destructive focus:text-destructive"
