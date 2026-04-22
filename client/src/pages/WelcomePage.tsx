@@ -16,10 +16,24 @@ import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { LanguageSelector } from "@/components/ui/language-selector";
 
+const QUICK_LANGS = [
+  { code: "en", flag: "🇬🇧", label: "English" },
+  { code: "fr", flag: "🇫🇷", label: "Français" },
+  { code: "es", flag: "🇪🇸", label: "Español" },
+  { code: "de", flag: "🇩🇪", label: "Deutsch" },
+  { code: "it", flag: "🇮🇹", label: "Italiano" },
+];
+
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
   const { user, isLoading } = useUserWithLicense();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const currentLang = i18n.language?.split("-")[0] || "it";
+  const changeLang = (code: string) => {
+    i18n.changeLanguage(code);
+    localStorage.setItem("i18nextLng", code);
+  };
 
   const isPWA =
     window.matchMedia("(display-mode: standalone)").matches ||
@@ -90,9 +104,33 @@ export default function WelcomePage() {
       {/* Header */}
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-semibold">{t("app.title")}</h1>
-            <LanguageSelector />
+          <div className="flex justify-between items-center gap-2">
+            <h1 className="text-xl font-semibold truncate">{t("app.title")}</h1>
+            <div className="flex flex-col items-end gap-1">
+              <div className="flex items-center gap-1">
+                {QUICK_LANGS.map((l) => {
+                  const active = currentLang === l.code;
+                  return (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => changeLang(l.code)}
+                      title={l.label}
+                      aria-label={l.label}
+                      data-testid={`flag-${l.code}`}
+                      className={`text-xl leading-none px-1.5 py-0.5 rounded transition-all ${
+                        active
+                          ? "bg-white/25 ring-2 ring-white scale-110"
+                          : "opacity-70 hover:opacity-100 hover:bg-white/10"
+                      }`}
+                    >
+                      {l.flag}
+                    </button>
+                  );
+                })}
+              </div>
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </header>
