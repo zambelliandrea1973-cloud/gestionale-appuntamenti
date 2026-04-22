@@ -122,7 +122,7 @@ export default function WelcomePage() {
             </p>
           </section>
 
-          {/* CTA primario subito visibile */}
+          {/* CTA primario + login secondario */}
           <section className="mb-10">
             <div className="max-w-md mx-auto space-y-3">
               <Button
@@ -140,6 +140,22 @@ export default function WelcomePage() {
                   "Nessuna carta di credito richiesta · Cancelli quando vuoi"
                 )}
               </p>
+
+              <div className="flex items-center justify-center gap-2 pt-3 text-sm">
+                <span className="text-muted-foreground">
+                  {t("welcomePage.alreadyAccount", "Hai già un account?")}
+                </span>
+                <Button
+                  variant="link"
+                  size="sm"
+                  className="h-auto p-0 text-primary font-semibold"
+                  onClick={() => setLocation("/login")}
+                  data-testid="button-login"
+                >
+                  <LogIn className="mr-1 h-4 w-4" />
+                  {t("welcomePage.login", "Accedi")}
+                </Button>
+              </div>
             </div>
           </section>
 
@@ -179,21 +195,6 @@ export default function WelcomePage() {
             </ul>
           </section>
 
-          {/* Login secondario */}
-          <section className="text-center">
-            <p className="text-sm text-muted-foreground mb-2">
-              {t("welcomePage.alreadyAccount", "Hai già un account?")}
-            </p>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => setLocation("/login")}
-              data-testid="button-login"
-            >
-              <LogIn className="mr-2 h-4 w-4" />
-              {t("welcomePage.login")}
-            </Button>
-          </section>
         </div>
       </main>
 
