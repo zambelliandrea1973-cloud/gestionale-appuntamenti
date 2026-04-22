@@ -9,7 +9,7 @@ import {
   FileText,
   CheckCircle2,
   Star,
-  ArrowRight,
+  UserPlus,
   LogIn,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
@@ -79,9 +79,10 @@ export default function WelcomePage() {
   ];
 
   const benefits = [
-    t("welcomePage.benefit1", "40 giorni gratis, nessuna carta richiesta"),
-    t("welcomePage.benefit2", "Sincronizza con Google Calendar"),
-    t("welcomePage.benefit3", "Funziona da telefono, tablet e PC"),
+    t("welcomePage.benefit1", "Nessuna carta di credito richiesta"),
+    t("welcomePage.benefit2", "Nessuna pubblicità nell'app"),
+    t("welcomePage.benefit3", "Sincronizza con Google Calendar"),
+    t("welcomePage.benefit4", "Funziona da telefono, tablet e PC"),
   ];
 
   return (
@@ -101,6 +102,11 @@ export default function WelcomePage() {
         <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
           {/* Hero */}
           <section className="text-center mb-10">
+            <img
+              src="/fleur-de-vie.jpg"
+              alt="Gestionale Appuntamenti"
+              className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 rounded-2xl shadow-lg object-cover"
+            />
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium mb-4">
               <Star className="h-3.5 w-3.5 fill-current" />
               {t("welcomePage.badge", "Usato da centinaia di professionisti")}
@@ -125,8 +131,8 @@ export default function WelcomePage() {
                 onClick={() => setLocation("/register")}
                 data-testid="button-create-account"
               >
-                {t("welcomePage.ctaPrimary", "Inizia gratis 40 giorni")}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <UserPlus className="mr-2 h-5 w-5" />
+                {t("welcomePage.ctaPrimary", "Inizia gratis · Crea nuovo account")}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
                 {t(
