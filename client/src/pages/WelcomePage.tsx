@@ -1,54 +1,48 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UserPlus, LogIn } from "lucide-react";
+import {
+  Calendar,
+  Users,
+  MessageCircle,
+  FileText,
+  CheckCircle2,
+  Star,
+  ArrowRight,
+  LogIn,
+} from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { LanguageSelector } from "@/components/ui/language-selector";
 
-/**
- * WelcomePage - Pagina iniziale dell'applicazione
- * Mostra opzioni per creare un nuovo account o accedere con uno esistente
- */
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
   const { user, isLoading } = useUserWithLicense();
   const { t } = useTranslation();
 
-  // Controlliamo se siamo in versione PWA per impostare comportamenti specifici
-  const isPWA = 
-    window.matchMedia('(display-mode: standalone)').matches || 
-    (window.navigator as any).standalone || 
-    document.referrer.includes('android-app://');
+  const isPWA =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as any).standalone ||
+    document.referrer.includes("android-app://");
 
-  // Reindirizza utenti autenticati alla dashboard
   useEffect(() => {
-    // Controlla se stiamo arrivando da un flusso cliente (QR scan)
     const urlParams = new URLSearchParams(window.location.search);
-    const hasClientToken = urlParams.get('token') && urlParams.get('clientId');
-    
+    const hasClientToken = urlParams.get("token") && urlParams.get("clientId");
+
     if (!isLoading && user && !hasClientToken) {
-      console.log('✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard');
-      setLocation('/dashboard');
+      setLocation("/dashboard");
       return;
-    }
-    
-    // Se abbiamo un token cliente, lascia che l'utente scelga dove andare
-    if (hasClientToken) {
-      console.log('Token cliente rilevato, rimango su WelcomePage per scelta utente');
     }
   }, [user, isLoading, setLocation]);
 
   useEffect(() => {
     if (isPWA) {
-      const hasStoredToken = !!localStorage.getItem('clientAccessToken');
+      const hasStoredToken = !!localStorage.getItem("clientAccessToken");
       console.log("Welcome page caricata in modalità PWA", { hasStoredToken });
     }
   }, [isPWA]);
 
-  // Mostra loading mentre verifichiamo l'autenticazione
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -57,92 +51,163 @@ export default function WelcomePage() {
     );
   }
 
+  const features = [
+    {
+      icon: Calendar,
+      title: t("welcomePage.feature1Title", "Calendario smart"),
+      desc: t("welcomePage.feature1Desc", "Appuntamenti sempre sotto controllo"),
+      color: "bg-emerald-50 text-emerald-700",
+    },
+    {
+      icon: Users,
+      title: t("welcomePage.feature2Title", "Clienti & schede"),
+      desc: t("welcomePage.feature2Desc", "Storico completo a portata di mano"),
+      color: "bg-blue-50 text-blue-700",
+    },
+    {
+      icon: MessageCircle,
+      title: t("welcomePage.feature3Title", "Promemoria WhatsApp"),
+      desc: t("welcomePage.feature3Desc", "Riduci i no-show fino al 70%"),
+      color: "bg-green-50 text-green-700",
+    },
+    {
+      icon: FileText,
+      title: t("welcomePage.feature4Title", "Fatture & incassi"),
+      desc: t("welcomePage.feature4Desc", "Gestione fiscale integrata"),
+      color: "bg-amber-50 text-amber-700",
+    },
+  ];
+
+  const benefits = [
+    t("welcomePage.benefit1", "40 giorni gratis, nessuna carta richiesta"),
+    t("welcomePage.benefit2", "Sincronizza con Google Calendar"),
+    t("welcomePage.benefit3", "Funziona da telefono, tablet e PC"),
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header specifico per la welcome page */}
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-primary/5 via-background to-background">
+      {/* Header */}
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-medium">{t('app.title')}</h1>
-            <div className="text-white">
-              <LanguageSelector />
-            </div>
+            <h1 className="text-xl font-semibold">{t("app.title")}</h1>
+            <LanguageSelector />
           </div>
         </div>
       </header>
-      
-      {/* Contenuto principale */}
-      <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
-        <Card className="w-full max-w-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">{t('welcomePage.title')}</CardTitle>
-            <CardDescription>
-              {t('welcomePage.subtitle')}
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            <div className="flex flex-col gap-3">
-              <Button 
-                className="h-16 text-lg"
+
+      {/* Main content */}
+      <main className="flex-grow">
+        <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+          {/* Hero */}
+          <section className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium mb-4">
+              <Star className="h-3.5 w-3.5 fill-current" />
+              {t("welcomePage.badge", "Usato da centinaia di professionisti")}
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3 leading-tight">
+              {t("welcomePage.heroTitle", "Il tuo studio, sempre in tasca")}
+            </h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+              {t(
+                "welcomePage.heroSubtitle",
+                "Gestisci appuntamenti, clienti, promemoria e fatture in un'unica app pensata per parrucchieri, estetiste e professionisti del benessere."
+              )}
+            </p>
+          </section>
+
+          {/* CTA primario subito visibile */}
+          <section className="mb-10">
+            <div className="max-w-md mx-auto space-y-3">
+              <Button
+                className="w-full h-14 text-base font-semibold shadow-lg shadow-primary/20"
                 size="lg"
                 onClick={() => setLocation("/register")}
                 data-testid="button-create-account"
               >
-                <UserPlus className="mr-2 h-5 w-5" />
-                {t('welcomePage.createAccount')}
+                {t("welcomePage.ctaPrimary", "Inizia gratis 40 giorni")}
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              
-              <div className="text-center text-sm text-muted-foreground">
-                {t('welcomePage.createAccountDesc')}
-              </div>
+              <p className="text-center text-xs text-muted-foreground">
+                {t(
+                  "welcomePage.ctaHint",
+                  "Nessuna carta di credito richiesta · Cancelli quando vuoi"
+                )}
+              </p>
             </div>
-            
-            <div className="flex flex-col gap-3">
-              <Button 
-                className="h-12 text-base"
-                size="lg" 
-                variant="outline"
-                onClick={() => setLocation("/login")}
-                data-testid="button-login"
-              >
-                <LogIn className="mr-2 h-4 w-4" />
-                {t('welcomePage.login')}
-              </Button>
-              
-              <div className="text-center text-sm text-muted-foreground">
-                {t('welcomePage.loginDesc')}
-              </div>
-            </div>
-          </CardContent>
-          
-          <CardFooter className="flex flex-col space-y-2">
-            <div className="text-center text-xs text-muted-foreground mt-4">
-              <p>{t('welcomePage.version')}</p>
-              <p>{t('welcomePage.copyright')}</p>
-            </div>
-          </CardFooter>
-        </Card>
+          </section>
 
-        <div className="w-full max-w-lg mt-6 text-center text-sm text-muted-foreground">
-          <p>Gestionale Appuntamenti è un sistema completo per la gestione di appuntamenti, clienti e fatture per professionisti. Sincronizza il tuo calendario Google, invia notifiche via email e WhatsApp, e gestisci la tua attività da qualsiasi dispositivo.</p>
+          {/* Feature grid */}
+          <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+            {features.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={i}
+                  className="bg-card border rounded-xl p-4 text-center hover:shadow-md transition-shadow"
+                  data-testid={`feature-card-${i}`}
+                >
+                  <div
+                    className={`inline-flex items-center justify-center w-10 h-10 rounded-lg mb-3 ${f.color}`}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">{f.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-snug">
+                    {f.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </section>
+
+          {/* Benefits */}
+          <section className="bg-card border rounded-xl p-5 md:p-6 mb-10 max-w-xl mx-auto">
+            <ul className="space-y-3">
+              {benefits.map((b, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm md:text-base">
+                  <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Login secondario */}
+          <section className="text-center">
+            <p className="text-sm text-muted-foreground mb-2">
+              {t("welcomePage.alreadyAccount", "Hai già un account?")}
+            </p>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => setLocation("/login")}
+              data-testid="button-login"
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              {t("welcomePage.login")}
+            </Button>
+          </section>
         </div>
       </main>
-      
+
       {/* Footer */}
-      <footer className="bg-gray-100 border-t border-gray-300 py-4">
+      <footer className="bg-gray-50 border-t py-4 mt-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-2 text-xs text-gray-500">
-            <p>{t('welcomePage.footerCopyright')}</p>
+            <p>{t("welcomePage.footerCopyright")}</p>
             <div className="flex gap-4">
-              <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
-              <a href="/terms" className="text-primary hover:underline">Termini di Servizio</a>
+              <a href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </a>
+              <a href="/terms" className="text-primary hover:underline">
+                Termini di Servizio
+              </a>
             </div>
           </div>
         </div>
       </footer>
-      
-      {/* Componente Toaster per mostrare notifiche */}
+
       <Toaster />
     </div>
   );
