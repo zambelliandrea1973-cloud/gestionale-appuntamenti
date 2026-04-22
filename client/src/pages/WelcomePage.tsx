@@ -105,7 +105,7 @@ export default function WelcomePage() {
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-start gap-2">
-            <h1 className="text-base sm:text-lg font-semibold leading-tight">
+            <h1 className="text-lg sm:text-2xl font-bold leading-tight">
               {t("welcomePage.headerTitle", "Benvenuto nel")}
               <br />
               {t("app.title")}
@@ -183,18 +183,17 @@ export default function WelcomePage() {
                 )}
               </p>
 
-              <div className="flex items-center justify-center gap-2 pt-3 text-sm">
-                <span className="text-muted-foreground">
+              <div className="pt-4 space-y-2">
+                <p className="text-center text-sm text-muted-foreground">
                   {t("welcomePage.alreadyAccount", "Hai già un account?")}
-                </span>
+                </p>
                 <Button
-                  variant="link"
-                  size="sm"
-                  className="h-auto p-0 text-primary font-semibold"
+                  variant="outline"
+                  className="w-full h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary/5"
                   onClick={() => setLocation("/login")}
                   data-testid="button-login"
                 >
-                  <LogIn className="mr-1 h-4 w-4" />
+                  <LogIn className="mr-2 h-5 w-5" />
                   {t("welcomePage.login", "Accedi")}
                 </Button>
               </div>
