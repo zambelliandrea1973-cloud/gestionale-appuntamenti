@@ -245,6 +245,7 @@ export default function WelcomePage() {
           <div className="flex flex-col items-center gap-1 text-xs text-gray-500">
             <p className="font-medium text-gray-600">{t("app.version", "Gestionale Appuntamenti v3.5.0")}</p>
             <p>{t("app.copyright", "© 2023-2025 Tutti i diritti riservati")}</p>
+            <p>Zambelli Andrea - Gestionale Appuntamenti</p>
             <div className="flex gap-4 mt-1">
               <a href="/privacy" className="text-primary hover:underline">
                 Privacy Policy
