@@ -104,8 +104,12 @@ export default function WelcomePage() {
       {/* Header */}
       <header className="bg-primary text-white py-3 shadow-md">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center gap-2">
-            <h1 className="text-xl font-semibold truncate">{t("app.title")}</h1>
+          <div className="flex justify-between items-start gap-2">
+            <h1 className="text-base sm:text-lg font-semibold leading-tight">
+              {t("welcomePage.headerTitle", "Benvenuto nel")}
+              <br />
+              {t("app.title")}
+            </h1>
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-1">
                 {QUICK_LANGS.map((l) => {
@@ -239,9 +243,11 @@ export default function WelcomePage() {
       {/* Footer */}
       <footer className="bg-gray-50 border-t py-4 mt-8">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center gap-2 text-xs text-gray-500">
+          <div className="flex flex-col items-center gap-1 text-xs text-gray-500">
+            <p className="font-medium text-gray-600">{t("app.version", "Gestionale Appuntamenti v3.5.0")}</p>
+            <p>{t("app.copyright", "© 2023-2025 Tutti i diritti riservati")}</p>
             <p>{t("welcomePage.footerCopyright")}</p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mt-1">
               <a href="/privacy" className="text-primary hover:underline">
                 Privacy Policy
               </a>
