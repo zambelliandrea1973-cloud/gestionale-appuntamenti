@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from '@/lib/queryClient';
 import { 
@@ -35,6 +36,7 @@ interface PaymentMethod {
 }
 
 export default function PaymentMethodsConfig() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -112,8 +114,8 @@ export default function PaymentMethodsConfig() {
     } catch (error) {
       console.error("Errore nel caricamento dei metodi di pagamento:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile caricare la configurazione dei metodi di pagamento.",
+        title: t('common.error'),
+        description: t('paymentMethodsConfig.toast.loadError'),
         variant: "destructive",
       });
     } finally {
@@ -134,18 +136,18 @@ export default function PaymentMethodsConfig() {
       
       if (response.ok) {
         toast({
-          title: "Configurazione salvata",
-          description: "La configurazione dei metodi di pagamento è stata salvata con successo.",
+          title: t('paymentMethodsConfig.toast.saveSuccessTitle'),
+          description: t('paymentMethodsConfig.toast.saveSuccess'),
           variant: "default",
         });
       } else {
-        throw new Error("Errore durante il salvataggio");
+        throw new Error(t('paymentMethodsConfig.toast.saveError'));
       }
     } catch (error) {
       console.error("Errore nel salvataggio dei metodi di pagamento:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile salvare la configurazione dei metodi di pagamento.",
+        title: t('common.error'),
+        description: t('paymentMethodsConfig.toast.saveError'),
         variant: "destructive",
       });
     } finally {
@@ -193,19 +195,19 @@ export default function PaymentMethodsConfig() {
       
       if (response.ok) {
         toast({
-          title: "Test riuscito",
-          description: `La configurazione per ${id} funziona correttamente.`,
+          title: t('paymentMethodsConfig.toast.testSuccessTitle'),
+          description: t('paymentMethodsConfig.toast.testSuccess', { id }),
           variant: "default",
         });
       } else {
         const data = await response.json();
-        throw new Error(data.message || "Errore durante il test");
+        throw new Error(data.message || t('paymentMethodsConfig.toast.testError'));
       }
     } catch (error: any) {
       console.error(`Errore nel test di ${id}:`, error);
       toast({
-        title: "Test fallito",
-        description: `Errore per ${id}: ${error.message}`,
+        title: t('paymentMethodsConfig.toast.testFailedTitle'),
+        description: t('paymentMethodsConfig.toast.testFailed', { id, message: error.message }),
         variant: "destructive",
       });
     }
@@ -220,7 +222,7 @@ export default function PaymentMethodsConfig() {
       const apiKey = wiseMethod?.config.apiKey;
       
       if (!apiKey) {
-        throw new Error('Inserisci prima l\'API Key Wise');
+        throw new Error(t('paymentMethodsConfig.toast.wiseEnterApiKey'));
       }
       
       const response = await apiRequest(
@@ -237,19 +239,19 @@ export default function PaymentMethodsConfig() {
         await fetchPaymentMethods();
         
         toast({
-          title: "✅ Configurazione Wise completata!",
-          description: `Profile ID: ${data.data.profileId} | Account ID: ${data.data.accountId}`,
+          title: t('paymentMethodsConfig.toast.wiseSuccessTitle'),
+          description: t('paymentMethodsConfig.toast.wiseSuccess', { profileId: data.data.profileId, accountId: data.data.accountId }),
           variant: "default",
         });
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'auto-configurazione");
+        throw new Error(errorData.message || t('paymentMethodsConfig.toast.wiseAutoConfigError'));
       }
     } catch (error: any) {
       console.error("Errore nell'auto-configurazione Wise:", error);
       toast({
-        title: "Errore Auto-Configurazione",
-        description: error.message || "Impossibile recuperare Profile ID e Account ID da Wise",
+        title: t('paymentMethodsConfig.toast.wiseErrorTitle'),
+        description: error.message || t('paymentMethodsConfig.toast.wiseFetchError'),
         variant: "destructive",
       });
     } finally {
@@ -260,9 +262,9 @@ export default function PaymentMethodsConfig() {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Configurazione Metodi di Pagamento</CardTitle>
+        <CardTitle>{t('paymentMethodsConfig.title')}</CardTitle>
         <CardDescription>
-          Configura i diversi metodi di pagamento disponibili per i clienti.
+          {t('paymentMethodsConfig.description')}
         </CardDescription>
       </CardHeader>
       
@@ -270,14 +272,14 @@ export default function PaymentMethodsConfig() {
         {isLoading ? (
           <div className="flex items-center justify-center p-6">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-            <span className="ml-2">Caricamento configurazione...</span>
+            <span className="ml-2">{t('paymentMethodsConfig.loading')}</span>
           </div>
         ) : (
           <Tabs defaultValue="stripe" className="w-full">
             <TabsList className="mb-4">
               <TabsTrigger value="stripe" className="flex items-center gap-1">
                 <CreditCard className="h-4 w-4" />
-                <span>Carta</span>
+                <span>{t('paymentMethodsConfig.tabs.card')}</span>
               </TabsTrigger>
               <TabsTrigger value="paypal" className="flex items-center gap-1">
                 <SiPaypal className="h-4 w-4" />
@@ -289,7 +291,7 @@ export default function PaymentMethodsConfig() {
               </TabsTrigger>
               <TabsTrigger value="bank" className="flex items-center gap-1">
                 <Building2 className="h-4 w-4" />
-                <span>Banca</span>
+                <span>{t('paymentMethodsConfig.tabs.bank')}</span>
               </TabsTrigger>
             </TabsList>
             
@@ -299,11 +301,11 @@ export default function PaymentMethodsConfig() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <SiStripe className="h-6 w-6 text-blue-600" />
-                    <h3 className="text-xl font-semibold">Carta di Credito (Stripe)</h3>
+                    <h3 className="text-xl font-semibold">{t('paymentMethodsConfig.stripe.heading')}</h3>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">
-                      {paymentMethods.find(m => m.id === 'stripe')?.enabled ? 'Abilitato' : 'Disabilitato'}
+                      {paymentMethods.find(m => m.id === 'stripe')?.enabled ? t('paymentMethodsConfig.enabled') : t('paymentMethodsConfig.disabled')}
                     </span>
                     <Switch 
                       checked={paymentMethods.find(m => m.id === 'stripe')?.enabled || false}
@@ -314,7 +316,7 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="stripe-publicKey">Chiave Pubblica (Publishable Key)</Label>
+                    <Label htmlFor="stripe-publicKey">{t('paymentMethodsConfig.stripe.publicKeyLabel')}</Label>
                     <Input 
                       id="stripe-publicKey" 
                       type="text" 
@@ -322,11 +324,11 @@ export default function PaymentMethodsConfig() {
                       onChange={(e) => updatePaymentMethodConfig('stripe', 'publicKey', e.target.value)}
                       placeholder="pk_test_..."
                     />
-                    <p className="text-xs text-muted-foreground">La chiave pubblica di Stripe che inizia con "pk_"</p>
+                    <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.stripe.publicKeyHelp')}</p>
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="stripe-secretKey">Chiave Segreta (Secret Key)</Label>
+                    <Label htmlFor="stripe-secretKey">{t('paymentMethodsConfig.stripe.secretKeyLabel')}</Label>
                     <Input 
                       id="stripe-secretKey" 
                       type="text" 
@@ -335,13 +337,13 @@ export default function PaymentMethodsConfig() {
                       placeholder="sk_test_... o sk_live_..."
                       className="font-mono text-sm"
                     />
-                    <p className="text-xs text-muted-foreground">La chiave segreta di Stripe che inizia con "sk_"</p>
+                    <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.stripe.secretKeyHelp')}</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="stripe-webhookSecret">Webhook Secret</Label>
+                    <Label htmlFor="stripe-webhookSecret">{t('paymentMethodsConfig.stripe.webhookLabel')}</Label>
                     <Input 
                       id="stripe-webhookSecret" 
                       type="text" 
@@ -350,27 +352,27 @@ export default function PaymentMethodsConfig() {
                       placeholder="whsec_..."
                       className="font-mono text-sm"
                     />
-                    <p className="text-xs text-muted-foreground">La chiave segreta del webhook di Stripe (opzionale)</p>
+                    <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.stripe.webhookHelp')}</p>
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="stripe-statementDescriptor">Descrizione in Estratto Conto</Label>
+                    <Label htmlFor="stripe-statementDescriptor">{t('paymentMethodsConfig.stripe.descriptorLabel')}</Label>
                     <Input 
                       id="stripe-statementDescriptor" 
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'stripe')?.config.statementDescriptor || 'Ethera Scheduler'}
                       onChange={(e) => updatePaymentMethodConfig('stripe', 'statementDescriptor', e.target.value)}
-                      placeholder="Es. Ethera Scheduler"
+                      placeholder={t('paymentMethodsConfig.stripe.descriptorPlaceholder')}
                       maxLength={22}
                     />
-                    <p className="text-xs text-muted-foreground">Descrizione che appare sull'estratto conto (max 22 caratteri)</p>
+                    <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.stripe.descriptorHelp')}</p>
                   </div>
                 </div>
                 
                 <div className="flex justify-end space-x-2 mt-4">
                   <Button variant="outline" onClick={() => testPaymentMethod('stripe')} disabled={!paymentMethods.find(m => m.id === 'stripe')?.enabled}>
                     <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Test Configurazione
+                    {t('paymentMethodsConfig.testConfig')}
                   </Button>
                 </div>
                 
@@ -378,7 +380,7 @@ export default function PaymentMethodsConfig() {
                   <div className="flex items-start">
                     <AlertTriangle className="h-5 w-5 mr-2 text-amber-600 mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-amber-800">Come ottenere le chiavi Stripe</h4>
+                      <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.stripe.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
                         <li>1. Accedi al tuo account su <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="underline">dashboard.stripe.com</a></li>
                         <li>2. Vai in Developers {`>`} API keys</li>
@@ -401,7 +403,7 @@ export default function PaymentMethodsConfig() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">
-                      {paymentMethods.find(m => m.id === 'paypal')?.enabled ? 'Abilitato' : 'Disabilitato'}
+                      {paymentMethods.find(m => m.id === 'paypal')?.enabled ? t('paymentMethodsConfig.enabled') : t('paymentMethodsConfig.disabled')}
                     </span>
                     <Switch 
                       checked={paymentMethods.find(m => m.id === 'paypal')?.enabled || false}
@@ -412,7 +414,7 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="paypal-clientId">Client ID</Label>
+                    <Label htmlFor="paypal-clientId">{t('paymentMethodsConfig.paypal.clientIdLabel')}</Label>
                     <Input 
                       id="paypal-clientId" 
                       type="text" 
@@ -423,7 +425,7 @@ export default function PaymentMethodsConfig() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="paypal-clientSecret">Client Secret</Label>
+                    <Label htmlFor="paypal-clientSecret">{t('paymentMethodsConfig.paypal.clientSecretLabel')}</Label>
                     <Input 
                       id="paypal-clientSecret" 
                       type="text" 
@@ -437,7 +439,7 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
-                    <Label htmlFor="paypal-mode">Modalità</Label>
+                    <Label htmlFor="paypal-mode">{t('paymentMethodsConfig.paypal.modeLabel')}</Label>
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
@@ -448,7 +450,7 @@ export default function PaymentMethodsConfig() {
                         checked={paymentMethods.find(m => m.id === 'paypal')?.config.mode === 'sandbox'}
                         onChange={() => updatePaymentMethodConfig('paypal', 'mode', 'sandbox')}
                       />
-                      <Label htmlFor="paypal-mode-sandbox">Sandbox (Test)</Label>
+                      <Label htmlFor="paypal-mode-sandbox">{t('paymentMethodsConfig.paypal.sandbox')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input 
@@ -458,16 +460,16 @@ export default function PaymentMethodsConfig() {
                         checked={paymentMethods.find(m => m.id === 'paypal')?.config.mode === 'live'}
                         onChange={() => updatePaymentMethodConfig('paypal', 'mode', 'live')}
                       />
-                      <Label htmlFor="paypal-mode-live">Live (Produzione)</Label>
+                      <Label htmlFor="paypal-mode-live">{t('paymentMethodsConfig.paypal.live')}</Label>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">Seleziona 'Sandbox' per i test o 'Live' per le transazioni reali</p>
+                  <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.paypal.modeHelp')}</p>
                 </div>
                 
                 <div className="flex justify-end space-x-2 mt-4">
                   <Button variant="outline" onClick={() => testPaymentMethod('paypal')} disabled={!paymentMethods.find(m => m.id === 'paypal')?.enabled}>
                     <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Test Configurazione
+                    {t('paymentMethodsConfig.testConfig')}
                   </Button>
                 </div>
                 
@@ -475,7 +477,7 @@ export default function PaymentMethodsConfig() {
                   <div className="flex items-start">
                     <AlertTriangle className="h-5 w-5 mr-2 text-amber-600 mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-amber-800">Come ottenere le credenziali PayPal</h4>
+                      <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.paypal.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
                         <li>1. Accedi al tuo account su <a href="https://developer.paypal.com" target="_blank" rel="noopener noreferrer" className="underline">developer.paypal.com</a></li>
                         <li>2. Vai su Dashboard {`>`} My Apps & Credentials</li>
@@ -499,7 +501,7 @@ export default function PaymentMethodsConfig() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">
-                      {paymentMethods.find(m => m.id === 'wise')?.enabled ? 'Abilitato' : 'Disabilitato'}
+                      {paymentMethods.find(m => m.id === 'wise')?.enabled ? t('paymentMethodsConfig.enabled') : t('paymentMethodsConfig.disabled')}
                     </span>
                     <Switch 
                       checked={paymentMethods.find(m => m.id === 'wise')?.enabled || false}
@@ -546,15 +548,15 @@ export default function PaymentMethodsConfig() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="wise-recipientEmail">Email Notifiche</Label>
+                    <Label htmlFor="wise-recipientEmail">{t('paymentMethodsConfig.wise.emailLabel')}</Label>
                     <Input 
                       id="wise-recipientEmail" 
                       type="email" 
                       value={paymentMethods.find(m => m.id === 'wise')?.config.recipientEmail || ''}
                       onChange={(e) => updatePaymentMethodConfig('wise', 'recipientEmail', e.target.value)}
-                      placeholder="Es. esempio@tuodominio.com"
+                      placeholder={t('paymentMethodsConfig.wise.emailPlaceholder')}
                     />
-                    <p className="text-xs text-muted-foreground">Email dove ricevere notifiche di pagamento</p>
+                    <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.wise.emailHelp')}</p>
                   </div>
                 </div>
                 
@@ -568,12 +570,12 @@ export default function PaymentMethodsConfig() {
                     {isAutoConfiguring ? (
                       <>
                         <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                        Configurazione...
+                        {t('paymentMethodsConfig.wise.configuring')}
                       </>
                     ) : (
                       <>
                         <Sparkles className="h-4 w-4 mr-2" />
-                        Auto-Configura
+                        {t('paymentMethodsConfig.wise.autoConfigure')}
                       </>
                     )}
                   </Button>
@@ -584,7 +586,7 @@ export default function PaymentMethodsConfig() {
                     data-testid="button-wise-test"
                   >
                     <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Test Configurazione
+                    {t('paymentMethodsConfig.testConfig')}
                   </Button>
                 </div>
                 
@@ -592,7 +594,7 @@ export default function PaymentMethodsConfig() {
                   <div className="flex items-start">
                     <Sparkles className="h-5 w-5 mr-2 text-green-600 mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-green-800">✨ Configurazione Automatica</h4>
+                      <h4 className="font-semibold text-green-800">{t('paymentMethodsConfig.wise.autoConfigTitle')}</h4>
                       <p className="mt-2 text-sm text-green-700">
                         <strong>NUOVA FUNZIONE:</strong> Inserisci solo l'API Key di Wise e clicca "Auto-Configura"!
                       </p>
@@ -607,7 +609,7 @@ export default function PaymentMethodsConfig() {
                   <div className="flex items-start">
                     <AlertTriangle className="h-5 w-5 mr-2 text-amber-600 mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-amber-800">Come ottenere l'API Key Wise</h4>
+                      <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.wise.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
                         <li>1. Accedi al tuo account su <a href="https://wise.com" target="_blank" rel="noopener noreferrer" className="underline">wise.com</a></li>
                         <li>2. Clicca sul tuo profilo (in alto a destra) {`>`} Impostazioni</li>
@@ -628,11 +630,11 @@ export default function PaymentMethodsConfig() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Building2 className="h-6 w-6 text-slate-700" />
-                    <h3 className="text-xl font-semibold">Bonifico Bancario</h3>
+                    <h3 className="text-xl font-semibold">{t('paymentMethodsConfig.bank.heading')}</h3>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">
-                      {paymentMethods.find(m => m.id === 'bank')?.enabled ? 'Abilitato' : 'Disabilitato'}
+                      {paymentMethods.find(m => m.id === 'bank')?.enabled ? t('paymentMethodsConfig.enabled') : t('paymentMethodsConfig.disabled')}
                     </span>
                     <Switch 
                       checked={paymentMethods.find(m => m.id === 'bank')?.enabled || false}
@@ -643,24 +645,24 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="bank-accountName">Intestatario Conto</Label>
+                    <Label htmlFor="bank-accountName">{t('paymentMethodsConfig.bank.accountNameLabel')}</Label>
                     <Input 
                       id="bank-accountName" 
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'bank')?.config.accountName || ''}
                       onChange={(e) => updatePaymentMethodConfig('bank', 'accountName', e.target.value)}
-                      placeholder="Es. Ethera Srl"
+                      placeholder={t('paymentMethodsConfig.bank.accountNamePlaceholder')}
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="bank-bankName">Nome Banca</Label>
+                    <Label htmlFor="bank-bankName">{t('paymentMethodsConfig.bank.bankNameLabel')}</Label>
                     <Input 
                       id="bank-bankName" 
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'bank')?.config.bankName || ''}
                       onChange={(e) => updatePaymentMethodConfig('bank', 'bankName', e.target.value)}
-                      placeholder="Es. Intesa San Paolo"
+                      placeholder={t('paymentMethodsConfig.bank.bankNamePlaceholder')}
                     />
                   </div>
                 </div>
@@ -690,15 +692,15 @@ export default function PaymentMethodsConfig() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="bank-instructions">Istruzioni per il Pagamento</Label>
+                  <Label htmlFor="bank-instructions">{t('paymentMethodsConfig.bank.instructionsLabel')}</Label>
                   <Textarea 
                     id="bank-instructions" 
                     value={paymentMethods.find(m => m.id === 'bank')?.config.instructions || ''}
                     onChange={(e) => updatePaymentMethodConfig('bank', 'instructions', e.target.value)}
-                    placeholder="Inserisci qui le istruzioni per il bonifico (es. causale da inserire)"
+                    placeholder={t('paymentMethodsConfig.bank.instructionsPlaceholder')}
                     rows={4}
                   />
-                  <p className="text-xs text-muted-foreground">Queste istruzioni saranno mostrate ai clienti che scelgono il bonifico bancario</p>
+                  <p className="text-xs text-muted-foreground">{t('paymentMethodsConfig.bank.instructionsHelp')}</p>
                 </div>
               </div>
             </TabsContent>
@@ -707,19 +709,17 @@ export default function PaymentMethodsConfig() {
       </CardContent>
       
       <CardFooter className="flex justify-end space-x-2">
-        <Button variant="outline" onClick={fetchPaymentMethods} disabled={isLoading || isSaving}>
-          Annulla
-        </Button>
+        <Button variant="outline" onClick={fetchPaymentMethods} disabled={isLoading || isSaving}>{t('common.cancel')}</Button>
         <Button onClick={savePaymentMethods} disabled={isLoading || isSaving}>
           {isSaving ? (
             <>
               <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-              Salvataggio...
+              {t('paymentMethodsConfig.saving')}
             </>
           ) : (
             <>
               <Save className="h-4 w-4 mr-2" />
-              Salva Configurazione
+              {t('paymentMethodsConfig.saveButton')}
             </>
           )}
         </Button>

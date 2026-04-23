@@ -54,7 +54,7 @@ export default function MarketingCampaignsPage() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: '👋 Ciao! Sono il tuo assistente AI per creare campagne marketing.\n\nDescrivimi che tipo di campagna vuoi creare (es: "Sconto 20% per San Valentino" o "Promozione nuovi clienti") e ti aiuterò a scrivere un messaggio efficace!',
+      content: t('marketingCampaigns.welcomeMessage'),
       timestamp: new Date()
     }
   ]);
@@ -77,21 +77,21 @@ export default function MarketingCampaignsPage() {
     mutationFn: async (campaignId: number) => {
       const response = await apiRequest('DELETE', `/api/campaigns/${campaignId}`);
       if (!response.ok) {
-        throw new Error('Impossibile eliminare la campagna');
+        throw new Error(t('marketingCampaigns.toast.deleteError'));
       }
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/campaigns'] });
       toast({
-        title: 'Campagna eliminata',
-        description: 'La campagna è stata eliminata con successo',
+        title: t('marketingCampaigns.toast.deletedTitle'),
+        description: t('marketingCampaigns.toast.deletedDesc'),
       });
     },
     onError: () => {
       toast({
-        title: 'Errore',
-        description: 'Impossibile eliminare la campagna. Riprova.',
+        title: t('common.error'),
+        description: t('marketingCampaigns.toast.deleteError'),
         variant: 'destructive',
       });
     }
@@ -236,7 +236,7 @@ export default function MarketingCampaignsPage() {
         if (data.campaign) {
           console.log('💾 Salvataggio campagna:', data.campaign);
           setGeneratedCampaign({
-            title: data.campaign.title || 'Nuova Campagna',
+            title: data.campaign.title || t('marketingCampaigns.newCampaign'),
             message: data.campaign.message
           });
         } else {
@@ -246,16 +246,16 @@ export default function MarketingCampaignsPage() {
         const errorText = await response.text();
         console.error('❌ Errore API:', response.status, errorText);
         toast({
-          title: 'Errore',
-          description: `Errore dal server (${response.status}): ${errorText.substring(0, 100)}`,
+          title: t('common.error'),
+          description: t('marketingCampaigns.toast.serverError', { status: response.status, error: errorText.substring(0, 100) }),
           variant: 'destructive'
         });
       }
     } catch (error: any) {
       console.error('❌ Eccezione catturata:', error);
       toast({
-        title: 'Errore',
-        description: `Impossibile generare la campagna: ${error?.message || 'Riprova.'}`,
+        title: t('common.error'),
+        description: t('marketingCampaigns.toast.generateError', { message: error?.message || t('marketingCampaigns.tryAgain') }),
         variant: 'destructive'
       });
     } finally {
@@ -271,8 +271,8 @@ export default function MarketingCampaignsPage() {
     // Verifica limite di 10 file totali
     if (uploadedFiles.length + files.length > 10) {
       toast({
-        title: 'Troppi file',
-        description: `Puoi caricare massimo 10 file. Attualmente hai ${uploadedFiles.length} file. Rimuovine alcuni prima di aggiungerne altri.`,
+        title: t('marketingCampaigns.toast.tooManyFilesTitle'),
+        description: t('marketingCampaigns.toast.tooManyFilesDesc', { count: uploadedFiles.length }),
         variant: 'destructive'
       });
       return;
@@ -287,8 +287,8 @@ export default function MarketingCampaignsPage() {
       // Verifica tipo
       if (!validTypes.includes(file.type)) {
         toast({
-          title: 'Tipo file non valido',
-          description: `${file.name}: Carica solo immagini (JPG, PNG, GIF, WEBP) o video (MP4, WEBM)`,
+          title: t('marketingCampaigns.toast.invalidFileType'),
+          description: t('marketingCampaigns.toast.invalidFileDesc', { name: file.name }),
           variant: 'destructive'
         });
         continue;
@@ -297,8 +297,8 @@ export default function MarketingCampaignsPage() {
       // Verifica dimensione (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         toast({
-          title: 'File troppo grande',
-          description: `${file.name}: Dimensione massima 10MB`,
+          title: t('marketingCampaigns.toast.fileTooLarge'),
+          description: t('marketingCampaigns.toast.fileTooLargeDesc', { name: file.name }),
           variant: 'destructive'
         });
         continue;
@@ -325,8 +325,8 @@ export default function MarketingCampaignsPage() {
     setUploadedFiles(prev => [...prev, ...validFiles]);
 
     toast({
-      title: 'File caricati!',
-      description: `${validFiles.length} file ${validFiles.length === 1 ? 'pronto' : 'pronti'} per l'invio`,
+      title: t('marketingCampaigns.toast.filesUploaded'),
+      description: t('marketingCampaigns.toast.filesUploadedDesc', { count: validFiles.length }),
     });
   };
 
@@ -349,14 +349,14 @@ export default function MarketingCampaignsPage() {
     if (editableMessage) {
       navigator.clipboard.writeText(editableMessage);
       toast({
-        title: 'Copiato!',
-        description: 'Messaggio copiato negli appunti',
+        title: t('marketingCampaigns.toast.copiedTitle'),
+        description: t('marketingCampaigns.toast.copiedDesc'),
       });
     }
   };
 
   const handleClearDraft = () => {
-    if (window.confirm('Vuoi eliminare questa bozza senza inviarla?')) {
+    if (window.confirm(t('marketingCampaigns.confirmDeleteDraft'))) {
       setGeneratedCampaign(null);
       setEditableTitle('');
       setEditableMessage('');
@@ -367,14 +367,14 @@ export default function MarketingCampaignsPage() {
       }
       
       toast({
-        title: 'Bozza eliminata',
-        description: 'La campagna è stata cancellata',
+        title: t('marketingCampaigns.toast.draftDeletedTitle'),
+        description: t('marketingCampaigns.toast.draftDeletedDesc'),
       });
     }
   };
 
   const handleDeleteCampaign = (campaignId: number, campaignTitle: string) => {
-    if (window.confirm(`Vuoi davvero eliminare la campagna "${campaignTitle}"?`)) {
+    if (window.confirm(t('marketingCampaigns.confirmDeleteCampaign', { title: campaignTitle }))) {
       deleteCampaignMutation.mutate(campaignId);
     }
   };
@@ -392,13 +392,13 @@ export default function MarketingCampaignsPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     toast({
-      title: 'Campagna caricata',
-      description: 'Puoi modificare il messaggio e inviarlo di nuovo',
+      title: t('marketingCampaigns.toast.loadedTitle'),
+      description: t('marketingCampaigns.toast.loadedDesc'),
     });
   };
 
   const handleResendCampaign = async (campaign: Campaign) => {
-    if (!window.confirm(`Vuoi reinviare la campagna "${campaign.title}" a tutti i clienti?`)) {
+    if (!window.confirm(t('marketingCampaigns.confirmResend', { title: campaign.title }))) {
       return;
     }
     
@@ -445,7 +445,7 @@ export default function MarketingCampaignsPage() {
           promotionLink = `${baseUrl}/promozioni/${promoData.code}`;
         } else {
           // ❌ ERRORE CRITICO: Se il salvataggio fallisce, BLOCCA l'invio
-          throw new Error('Impossibile salvare la promozione. Il messaggio con allegato NON può essere inviato senza link.');
+          throw new Error(t('marketingCampaigns.toast.promoSaveError'));
         }
       }
 
@@ -480,8 +480,8 @@ export default function MarketingCampaignsPage() {
         queryClient.invalidateQueries({ queryKey: ['/api/campaigns'] });
 
         toast({
-          title: '✅ Campagna inviata!',
-          description: `Messaggio inviato a ${data.sent} clienti via ${channel === 'both' ? 'WhatsApp ed Email' : channel === 'whatsapp' ? 'WhatsApp' : 'Email'}`,
+          title: t('marketingCampaigns.toast.sentTitle'),
+          description: t('marketingCampaigns.toast.sentDesc', { count: data.sent, channel: channel === 'both' ? t('marketingCampaigns.bothChannels') : channel === 'whatsapp' ? 'WhatsApp' : 'Email' }),
         });
 
         // Se il canale include WhatsApp, apri il popup sequenziale
@@ -525,10 +525,10 @@ export default function MarketingCampaignsPage() {
       // Mostra messaggio specifico se disponibile, altrimenti generico
       const errorMessage = error instanceof Error 
         ? error.message 
-        : 'Impossibile inviare la campagna. Riprova.';
+        : t('marketingCampaigns.toast.sendErrorDesc');
       
       toast({
-        title: '❌ Errore invio campagna',
+        title: t('marketingCampaigns.toast.sendErrorTitle'),
         description: errorMessage,
         variant: 'destructive'
       });
@@ -543,9 +543,9 @@ export default function MarketingCampaignsPage() {
       <div className="flex items-center gap-3">
         <Sparkles className="h-8 w-8 text-primary" />
         <div>
-          <h1 className="text-3xl font-bold">Campagne Marketing AI</h1>
+          <h1 className="text-3xl font-bold">{t('marketingCampaigns.pageTitle')}</h1>
           <p className="text-muted-foreground">
-            Crea campagne personalizzate con l'intelligenza artificiale
+            {t('marketingCampaigns.subtitle')}
           </p>
         </div>
       </div>
@@ -561,7 +561,7 @@ export default function MarketingCampaignsPage() {
                 Assistente AI
               </CardTitle>
               <CardDescription>
-                Descrivi la tua campagna e l'AI creerà il messaggio perfetto
+                {t('marketingCampaigns.aiHint')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -594,7 +594,7 @@ export default function MarketingCampaignsPage() {
                     <div className="flex justify-start">
                       <div className="bg-muted rounded-lg p-3 flex items-center gap-2">
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        <span className="text-sm">Sto generando...</span>
+                        <span className="text-sm">{t('marketingCampaigns.generating')}</span>
                       </div>
                     </div>
                   )}
@@ -605,7 +605,7 @@ export default function MarketingCampaignsPage() {
               {/* Input */}
               <div className="flex gap-2">
                 <Textarea
-                  placeholder="Es: Crea una promozione sconto 15% per i nuovi clienti..."
+                  placeholder={t('marketingCampaigns.inputPlaceholder')}
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -639,30 +639,30 @@ export default function MarketingCampaignsPage() {
                   Campagna Pronta - Modifica se Necessario
                 </CardTitle>
                 <CardDescription>
-                  Puoi modificare il titolo e il messaggio prima di inviare
+                  {t('marketingCampaigns.editHint')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Titolo Modificabile */}
                 <div className="space-y-2">
-                  <Label htmlFor="editable-title">Titolo</Label>
+                  <Label htmlFor="editable-title">{t('marketingCampaigns.titleLabel')}</Label>
                   <Input
                     id="editable-title"
                     value={editableTitle}
                     onChange={(e) => setEditableTitle(e.target.value)}
-                    placeholder="Titolo della campagna"
+                    placeholder={t('marketingCampaigns.titlePlaceholder')}
                     data-testid="input-campaign-title"
                   />
                 </div>
 
                 {/* Messaggio Modificabile */}
                 <div className="space-y-2">
-                  <Label htmlFor="editable-message">Messaggio</Label>
+                  <Label htmlFor="editable-message">{t('marketingCampaigns.messageLabel')}</Label>
                   <Textarea
                     id="editable-message"
                     value={editableMessage}
                     onChange={(e) => setEditableMessage(e.target.value)}
-                    placeholder="Messaggio della campagna"
+                    placeholder={t('marketingCampaigns.messagePlaceholder')}
                     className="min-h-[200px]"
                     data-testid="textarea-campaign-message"
                   />
@@ -735,7 +735,7 @@ export default function MarketingCampaignsPage() {
                     </div>
                   )}
                   <p className="text-xs text-muted-foreground">
-                    Formati supportati: JPG, PNG, GIF, WEBP, MP4, WEBM (max 10MB per file, max 10 file)
+                    {t('marketingCampaigns.supportedFormats')}
                   </p>
                 </div>
 
@@ -829,7 +829,7 @@ export default function MarketingCampaignsPage() {
           {/* Storico Campagne */}
           <Card>
             <CardHeader>
-              <CardTitle>Storico Campagne</CardTitle>
+              <CardTitle>{t('marketingCampaigns.history')}</CardTitle>
               <CardDescription>
                 Ultime campagne inviate
               </CardDescription>
@@ -951,14 +951,14 @@ export default function MarketingCampaignsPage() {
                 </p>
                 {isSequenceRunning && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    WhatsApp si è aperto in una nuova finestra
+                    {t('marketingCampaigns.whatsappOpened')}
                   </p>
                 )}
               </div>
               
               {isSequenceRunning ? (
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm text-center text-muted-foreground">Dopo aver inviato il messaggio:</p>
+                  <p className="text-sm text-center text-muted-foreground">{t('marketingCampaigns.afterSent')}</p>
                   <Button
                     onClick={goToNextSequentialLink}
                     size="lg"
@@ -996,9 +996,7 @@ export default function MarketingCampaignsPage() {
                       size="sm"
                       className="flex-1"
                       data-testid="button-cancel-sequence"
-                    >
-                      Annulla
-                    </Button>
+                    >{t('common.cancel')}</Button>
                   </div>
                 </div>
               ) : (

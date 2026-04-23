@@ -6,17 +6,19 @@ import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 import { InfoIcon, SendIcon, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 
 const WhatsAppConfigHelper: React.FC = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [configStatus, setConfigStatus] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isTesting, setIsTesting] = useState(false);
   const [testData, setTestData] = useState({
     phoneNumber: '',
-    message: 'Questo è un messaggio di test WhatsApp. Configurazione completata con successo!'
+    message: t('whatsappConfigHelper.testMessageDefault')
   });
   const [testResult, setTestResult] = useState<any>(null);
 
@@ -34,8 +36,8 @@ const WhatsAppConfigHelper: React.FC = () => {
       console.error('Errore nel recupero dello stato di configurazione:', error);
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: "Impossibile recuperare lo stato della configurazione messaggistica"
+        title: t('common.error'),
+        description: t('whatsappConfigHelper.errors.fetchStatus')
       });
     } finally {
       setIsLoading(false);
@@ -46,8 +48,8 @@ const WhatsAppConfigHelper: React.FC = () => {
     if (!testData.phoneNumber) {
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: "Inserisci un numero di telefono valido"
+        title: t('common.error'),
+        description: t('whatsappConfigHelper.errors.invalidPhone')
       });
       return;
     }
@@ -66,14 +68,14 @@ const WhatsAppConfigHelper: React.FC = () => {
       
       if (response.ok) {
         toast({
-          title: "Link WhatsApp generato",
-          description: "Clicca sul link per inviare il messaggio",
+          title: t('whatsappConfigHelper.linkGeneratedTitle'),
+          description: t('whatsappConfigHelper.linkGeneratedDesc'),
           variant: "default"
         });
       } else {
         toast({
-          title: "Errore nella generazione",
-          description: result.message || "Si è verificato un errore durante la generazione del link WhatsApp",
+          title: t('whatsappConfigHelper.errors.generationTitle'),
+          description: result.message || t('whatsappConfigHelper.errors.generationDesc'),
           variant: "destructive"
         });
       }
@@ -81,12 +83,12 @@ const WhatsAppConfigHelper: React.FC = () => {
       console.error('Errore durante il test:', error);
       setTestResult({
         success: false,
-        message: "Errore di connessione durante il test"
+        message: t('whatsappConfigHelper.errors.connectionTest')
       });
       toast({
         variant: "destructive",
-        title: "Errore di connessione",
-        description: "Impossibile completare il test WhatsApp"
+        title: t('whatsappConfigHelper.errors.connectionTitle'),
+        description: t('whatsappConfigHelper.errors.testFailed')
       });
     } finally {
       setIsTesting(false);
@@ -97,8 +99,8 @@ const WhatsAppConfigHelper: React.FC = () => {
     return (
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Configurazione WhatsApp</CardTitle>
-          <CardDescription>Verifica dello stato...</CardDescription>
+          <CardTitle>{t('whatsappConfigHelper.title')}</CardTitle>
+          <CardDescription>{t('whatsappConfigHelper.statusChecking')}</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center p-6">
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
@@ -113,28 +115,28 @@ const WhatsAppConfigHelper: React.FC = () => {
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Messaggistica WhatsApp
+          {t('whatsappConfigHelper.messagingTitle')}
           {isConfigured ? (
             <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-              Configurato
+              {t('whatsappConfigHelper.configured')}
             </Badge>
           ) : (
             <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
-              Configurazione necessaria
+              {t('whatsappConfigHelper.configRequired')}
             </Badge>
           )}
         </CardTitle>
         <CardDescription>
-          Invia messaggi WhatsApp direttamente dal tuo numero
+          {t('whatsappConfigHelper.cardDescription')}
         </CardDescription>
       </CardHeader>
       
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <div className="font-medium">Stato configurazione:</div>
+          <div className="font-medium">{t('whatsappConfigHelper.statusLabel')}</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
-              <span>Email configurata:</span>
+              <span>{t('whatsappConfigHelper.emailConfigured')}</span>
               {configStatus?.config?.emailConfigured ? (
                 <CheckCircle className="h-5 w-5 text-green-500" />
               ) : (
@@ -142,7 +144,7 @@ const WhatsAppConfigHelper: React.FC = () => {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <span>Numero di telefono:</span>
+              <span>{t('whatsappConfigHelper.phoneNumberLabel')}</span>
               {configStatus?.config?.whatsappConfigured ? (
                 <div className="flex gap-1 items-center">
                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -162,18 +164,18 @@ const WhatsAppConfigHelper: React.FC = () => {
             <div className="flex gap-2 items-start">
               <InfoIcon className="h-5 w-5 text-amber-600 mt-0.5" />
               <div>
-                <h4 className="font-medium text-amber-800">Configurazione necessaria</h4>
-                <p className="text-sm text-amber-700 mt-1">Per utilizzare WhatsApp, devi inserire il tuo numero di telefono nelle informazioni di contatto.</p>
+                <h4 className="font-medium text-amber-800">{t('whatsappConfigHelper.configRequired')}</h4>
+                <p className="text-sm text-amber-700 mt-1">{t('whatsappConfigHelper.configRequiredDesc')}</p>
               </div>
             </div>
             
             <div className="mt-3 text-sm text-amber-700 space-y-2">
-              <p className="font-medium">Passaggi per la configurazione:</p>
+              <p className="font-medium">{t('whatsappConfigHelper.stepsTitle')}</p>
               <ol className="list-decimal pl-5 space-y-1">
-                <li>Vai alla pagina "Informazioni di contatto" dal menu</li>
-                <li>Inserisci il tuo numero di telefono nel formato internazionale (es. +39...)</li>
-                <li>Salva le modifiche</li>
-                <li>Torna a questa pagina e aggiorna lo stato</li>
+                <li>{t('whatsappConfigHelper.step1')}</li>
+                <li>{t('whatsappConfigHelper.step2')}</li>
+                <li>{t('whatsappConfigHelper.step3')}</li>
+                <li>{t('whatsappConfigHelper.step4')}</li>
               </ol>
             </div>
           </div>
@@ -183,22 +185,22 @@ const WhatsAppConfigHelper: React.FC = () => {
           <div className="flex gap-2 items-start">
             <InfoIcon className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-green-800">Metodo diretto WhatsApp</h4>
+              <h4 className="font-medium text-green-800">{t('whatsappConfigHelper.directMethodTitle')}</h4>
               <p className="text-sm text-green-700 mt-1">
-                Questa funzionalità utilizza il tuo numero WhatsApp personale per inviare messaggi direttamente senza costi aggiuntivi.
+                {t('whatsappConfigHelper.directMethodDesc1')}
               </p>
               <p className="text-sm text-green-700 mt-2">
-                I messaggi vengono inviati tramite link diretti WhatsApp che aprono automaticamente l'app con il messaggio precompilato.
+                {t('whatsappConfigHelper.directMethodDesc2')}
               </p>
             </div>
           </div>
         </div>
         
         <div>
-          <h3 className="font-medium mb-2">Testa l'invio di messaggi WhatsApp</h3>
+          <h3 className="font-medium mb-2">{t('whatsappConfigHelper.testSendTitle')}</h3>
           <div className="space-y-3">
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Numero di telefono (con prefisso internazionale)</Label>
+              <Label htmlFor="phoneNumber">{t('whatsappConfigHelper.phoneInternationalLabel')}</Label>
               <Input
                 id="phoneNumber"
                 placeholder="+39xxxxxxxxxx"
@@ -206,15 +208,15 @@ const WhatsAppConfigHelper: React.FC = () => {
                 onChange={(e) => setTestData({...testData, phoneNumber: e.target.value})}
               />
               <p className="text-xs text-muted-foreground">
-                Inserisci il numero in formato internazionale (es. +39XXXXXXXXXX)
+                {t('whatsappConfigHelper.phoneInternationalHint')}
               </p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="message">Messaggio di test</Label>
+              <Label htmlFor="message">{t('whatsappConfigHelper.testMessageLabel')}</Label>
               <Input
                 id="message"
-                placeholder="Messaggio di test"
+                placeholder={t('whatsappConfigHelper.testMessagePlaceholder')}
                 value={testData.message}
                 onChange={(e) => setTestData({...testData, message: e.target.value})}
               />
@@ -225,7 +227,7 @@ const WhatsAppConfigHelper: React.FC = () => {
         {testResult && (
           <div className={`p-4 rounded-md border ${testResult.success ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
             <h4 className={`font-medium ${testResult.success ? 'text-green-800' : 'text-red-800'}`}>
-              {testResult.success ? "Link WhatsApp generato con successo" : "Errore durante la generazione"}
+              {testResult.success ? t('whatsappConfigHelper.linkGeneratedSuccess') : t('whatsappConfigHelper.generationError')}
             </h4>
             <p className={`text-sm mt-1 ${testResult.success ? 'text-green-700' : 'text-red-700'}`}>
               {testResult.message}
@@ -240,17 +242,17 @@ const WhatsAppConfigHelper: React.FC = () => {
                   className="inline-flex items-center gap-1 bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   <ExternalLink className="h-4 w-4" />
-                  Apri WhatsApp e invia il messaggio
+                  {t('whatsappConfigHelper.openWhatsappAndSend')}
                 </a>
                 <p className="text-xs text-green-600 mt-2">
-                  Il link aprirà WhatsApp con il messaggio precompilato. Basta premere invio per inviarlo.
+                  {t('whatsappConfigHelper.openWhatsappHint')}
                 </p>
               </div>
             )}
             
             {testResult.instructions && (
               <div className="mt-2 text-sm text-green-700">
-                <p className="font-medium">Istruzioni:</p>
+                <p className="font-medium">{t('whatsappConfigHelper.instructionsLabel')}</p>
                 <p className="mt-1">
                   {testResult.instructions}
                 </p>
@@ -266,7 +268,7 @@ const WhatsAppConfigHelper: React.FC = () => {
           onClick={fetchConfigStatus}
           disabled={isLoading || isTesting}
         >
-          Aggiorna stato
+          {t('whatsappConfigHelper.refreshStatus')}
         </Button>
         <Button 
           onClick={handleTestSend} 
@@ -275,12 +277,12 @@ const WhatsAppConfigHelper: React.FC = () => {
           {isTesting ? (
             <>
               <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-2"></div>
-              Generazione in corso...
+              {t('whatsappConfigHelper.generating')}
             </>
           ) : (
             <>
               <SendIcon className="h-4 w-4 mr-2" />
-              Genera link WhatsApp
+              {t('whatsappConfigHelper.generateLink')}
             </>
           )}
         </Button>

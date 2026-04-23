@@ -155,7 +155,7 @@ export default function EmailSettings() {
         console.error('Errore nel parsing della risposta JSON', e);
         toast({
           title: t("common.error"),
-          description: "Risposta del server non valida.",
+          description: t("emailSettings.toast.invalidServerResponse"),
           variant: "destructive",
         });
         return;
@@ -178,7 +178,7 @@ export default function EmailSettings() {
       console.error('Errore nel recupero della password:', error);
       toast({
         title: t("common.error"),
-        description: "Si è verificato un errore durante il recupero della password.",
+        description: t("emailSettings.toast.passwordFetchError"),
         variant: "destructive",
       });
     } finally {
@@ -287,8 +287,8 @@ export default function EmailSettings() {
       
       if (response.ok) {
         toast({
-          title: "Impostazioni salvate",
-          description: "Le impostazioni di email sono state aggiornate con successo",
+          title: t("emailSettings.toast.savedTitle"),
+          description: t("emailSettings.toast.savedDesc"),
         });
         
         // Aggiornare lo stato delle impostazioni con la nuova configurazione
@@ -355,7 +355,7 @@ export default function EmailSettings() {
       console.error('Errore nel salvataggio delle impostazioni:', error);
       toast({
         title: t("common.error"),
-        description: error instanceof Error ? error.message : "Si è verificato un errore durante il salvataggio",
+        description: error instanceof Error ? error.message : t("emailSettings.toast.saveError"),
         variant: "destructive",
       });
     } finally {
@@ -378,8 +378,8 @@ export default function EmailSettings() {
     // Verifica che le impostazioni email siano state configurate
     if (!form.getValues("emailEnabled")) {
       toast({
-        title: "Configurazione incompleta",
-        description: "Devi prima attivare l'invio email usando l'interruttore in alto",
+        title: t("emailSettings.toast.incompleteTitle"),
+        description: t("emailSettings.toast.activateFirst"),
         variant: "destructive",
       });
       return;
@@ -387,8 +387,8 @@ export default function EmailSettings() {
     
     if (!form.getValues("emailAddress") || !form.getValues("emailPassword")) {
       toast({
-        title: "Configurazione incompleta",
-        description: "Devi inserire sia l'indirizzo email che la password/chiave app",
+        title: t("emailSettings.toast.incompleteTitle"),
+        description: t("emailSettings.toast.enterEmailAndPwd"),
         variant: "destructive",
       });
       return;
@@ -409,8 +409,8 @@ export default function EmailSettings() {
       
       if (response.ok) {
         toast({
-          title: "Email inviata",
-          description: "L'email di test è stata inviata con successo",
+          title: t("emailSettings.toast.emailSentTitle"),
+          description: t("emailSettings.toast.emailSentDesc"),
         });
         
         // L'invio di email è riuscito, aggiorniamo lo stato delle impostazioni per essere sicuri
@@ -450,7 +450,7 @@ export default function EmailSettings() {
       console.error('Errore nell\'invio dell\'email di test:', error);
       toast({
         title: t("common.error"),
-        description: error instanceof Error ? error.message : "Si è verificato un errore durante l'invio dell'email",
+        description: error instanceof Error ? error.message : t("emailSettings.toast.sendError"),
         variant: "destructive",
       });
     } finally {
@@ -505,16 +505,16 @@ export default function EmailSettings() {
       <AlertDialog open={showTemplateWarning} onOpenChange={setShowTemplateWarning}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Attenzione!</AlertDialogTitle>
+            <AlertDialogTitle>{t("emailSettings.warning.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              <p className="mb-2">Hai modificato o eliminato dei campi precompilati tra parentesi graffe (es. {'{{nome}}'}, {'{{data}}'}).</p>
-              <p className="mb-2">Questi campi sono essenziali per il funzionamento corretto dei promemoria automatici ai clienti.</p>
-              <p className="font-medium">Se confermi questa modifica, potresti causare un malfunzionamento nell'invio dei promemoria.</p>
+              <p className="mb-2">{t("emailSettings.warning.line1")}</p>
+              <p className="mb-2">{t("emailSettings.warning.line2")}</p>
+              <p className="font-medium">{t("emailSettings.warning.line3")}</p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleWarningCancel}>Annulla modifica</AlertDialogCancel>
-            <AlertDialogAction onClick={handleWarningConfirm}>Conferma modifica</AlertDialogAction>
+            <AlertDialogCancel onClick={handleWarningCancel}>{t("emailSettings.warning.cancelEdit")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleWarningConfirm}>{t("emailSettings.warning.confirmEdit")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -522,7 +522,7 @@ export default function EmailSettings() {
       <div>
         <div className="flex items-center mb-4">
           <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
-          <h3 className="text-lg font-medium">{t('settings.emailSettings', 'Configurazione Email')}</h3>
+          <h3 className="text-lg font-medium">{t('emailSettings.title')}</h3>
         </div>
         
         <Form {...form}>
@@ -535,16 +535,16 @@ export default function EmailSettings() {
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <FormLabel className="text-base">
-                        {t('settings.enableEmail', 'Abilita invio email')}
+                        {t('emailSettings.enableEmail')}
                       </FormLabel>
                       {form.formState.isDirty && (
                         <span className="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-medium">
-                          Modifiche non salvate! Clicca "Salva impostazioni" dopo aver modificato.
+                          {t("emailSettings.unsavedChanges")}
                         </span>
                       )}
                     </div>
                     <FormDescription>
-                      {t('settings.emailDesc', 'Abilita l\'invio di email di notifica ai clienti')}
+                      {t('emailSettings.enableEmailDesc')}
                     </FormDescription>
                   </div>
                   <div className="flex flex-col items-end gap-1">
@@ -555,7 +555,7 @@ export default function EmailSettings() {
                       />
                     </FormControl>
                     <span className={`text-xs font-medium ${emailCalendarSettings.emailEnabled ? 'text-green-600' : 'text-red-600'}`}>
-                      {emailCalendarSettings.emailEnabled ? 'Attualmente abilitato' : 'Attualmente disabilitato'}
+                      {emailCalendarSettings.emailEnabled ? t('emailSettings.currentlyEnabled') : t('emailSettings.currentlyDisabled')}
                     </span>
                   </div>
                 </FormItem>
@@ -570,13 +570,13 @@ export default function EmailSettings() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('settings.emailAddress', 'Indirizzo Email')}
+                        {t('emailSettings.emailAddressLabel')}
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="esempio@gmail.com" />
+                        <Input {...field} placeholder={t('emailSettings.emailPlaceholder')} />
                       </FormControl>
                       <FormDescription className="text-xs mt-1">
-                        <p>Inserisci il tuo indirizzo email Gmail. Il sistema si collegherà automaticamente ai server di Google.</p>
+                        <p>{t("emailSettings.gmailHint")}</p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -589,7 +589,7 @@ export default function EmailSettings() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('settings.emailPassword', 'Password o Chiave App')}
+                        {t('emailSettings.passwordLabel')}
                       </FormLabel>
                       <div className="flex gap-2 items-center">
                         <FormControl className="flex-1">
@@ -636,17 +636,17 @@ export default function EmailSettings() {
                           {isLoadingPassword ? (
                             <span className="flex items-center gap-1">
                               <RefreshCw className="h-4 w-4 animate-spin" />
-                              Carico...
+                              {t("emailSettings.loading")}
                             </span>
                           ) : showPassword ? (
                             <span className="flex items-center gap-1">
                               <Eye className="h-4 w-4" />
-                              Nascondi
+                              {t("emailSettings.hide")}
                             </span>
                           ) : (
                             <span className="flex items-center gap-1">
                               <EyeOff className="h-4 w-4" />
-                              Mostra
+                              {t("emailSettings.show")}
                             </span>
                           )}
                         </Button>
@@ -655,12 +655,12 @@ export default function EmailSettings() {
                         {hasPasswordSaved && form.getValues("emailPassword") === "••••••••••" && (
                           <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded-md">
                             <p className="text-green-600 font-medium flex items-center gap-1">
-                              <CheckCircle2 className="h-4 w-4 text-green-500" /> Password salvata in modo sicuro sul server
+                              <CheckCircle2 className="h-4 w-4 text-green-500" /> {t("emailSettings.passwordSecure")}
                             </p>
-                            <p className="text-green-700 text-xs mt-1">La password è già memorizzata e pronta per l'invio di email. Non è necessario reinserirla ad ogni riavvio.</p>
+                            <p className="text-green-700 text-xs mt-1">{t("emailSettings.passwordSavedDesc")}</p>
                           </div>
                         )}
-                        <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
+                        <p>{t('emailSettings.passwordNote')}</p>
                         <p className="mt-2 font-medium text-amber-700">1. Prima attiva la "Verifica in due passaggi" da <a href="https://myaccount.google.com/signinoptions/two-step-verification" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/signinoptions/two-step-verification</a></p>
                         <p className="mt-1 font-medium">2. Poi genera una "Password per le app" da <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/apppasswords</a></p>
                         <p className="mt-1 font-medium text-green-700">3. Copia e incolla la password generata nel campo "Password / Chiave App" qui sopra</p>
@@ -680,14 +680,14 @@ export default function EmailSettings() {
                     {isSubmitting && (
                       <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                     )}
-                    {t('common.save', 'Salva impostazioni')}
+                    {t('emailSettings.saveSettings')}
                   </Button>
                 </div>
 
                 <div className="border-t pt-5 mt-6">
                   <div className="flex items-center mb-5">
                     <MessagesSquare className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <h4 className="text-base font-medium">Template Email</h4>
+                    <h4 className="text-base font-medium">{t("emailSettings.emailTemplate")}</h4>
                     <Button 
                       type="button" 
                       variant="ghost" 
@@ -695,13 +695,13 @@ export default function EmailSettings() {
                       onClick={resetEmailTemplate}
                       className="ml-auto text-xs"
                     >
-                      Ripristina predefinito
+                      {t("emailSettings.resetDefault")}
                     </Button>
                   </div>
                   
                   <div className="bg-muted/20 p-3 rounded mb-4 text-xs border border-muted">
-                    <p className="font-medium">Promemoria automatici ai clienti:</p>
-                    <p className="mt-1">Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Puoi personalizzare il messaggio inserendo testi personalizzati, ma le variabili come <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code> sono dati che verranno sostituiti in automatico con le informazioni reali del cliente e dell'appuntamento, quindi consigliamo di non modificarli.</p>
+                    <p className="font-medium">{t("emailSettings.autoRemindersTitle")}</p>
+                    <p className="mt-1" dangerouslySetInnerHTML={{__html: t("emailSettings.autoRemindersDesc")}} />
                   </div>
                   
 
@@ -712,11 +712,11 @@ export default function EmailSettings() {
                     render={({ field }) => (
                       <FormItem className="mb-5">
                         <FormLabel className="text-base font-medium">
-                          Oggetto Email
+                          {t("emailSettings.subjectLabel")}
                         </FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="Promemoria appuntamento"
+                            placeholder={t("emailSettings.subjectPlaceholder")}
                             value={field.value}
                             onChange={(e) => {
                               const newValue = e.target.value;
@@ -744,11 +744,11 @@ export default function EmailSettings() {
                     render={({ field }) => (
                       <FormItem className="mt-4">
                         <FormLabel className="text-base font-medium">
-                          Testo Email
+                          {t("emailSettings.bodyLabel")}
                         </FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="Testo del messaggio" 
+                            placeholder={t("emailSettings.bodyPlaceholder")} 
                             className="min-h-[200px]"
                             value={field.value}
                             onChange={(e) => {
@@ -772,13 +772,13 @@ export default function EmailSettings() {
                   />
                   
                   <div className="mt-6 pt-5 border-t">
-                    <FormLabel className="text-base font-medium mb-3 block">Test invio email</FormLabel>
+                    <FormLabel className="text-base font-medium mb-3 block">{t("emailSettings.testTitle")}</FormLabel>
                     <div className="bg-muted/20 p-3 rounded mb-3 text-xs border border-muted">
-                      <p>Per eseguire un test, assicurati di aver prima <strong>salvato</strong> le credenziali email.</p>
+                      <p dangerouslySetInnerHTML={{__html: t("emailSettings.testHint")}} />
                     </div>
                     <div className="flex gap-2">
                       <Input 
-                        placeholder="Inserisci email per test" 
+                        placeholder={t("emailSettings.testEmailPlaceholder")} 
                         value={testEmailAddress}
                         onChange={(e) => setTestEmailAddress(e.target.value)}
                         className="max-w-sm"
@@ -795,7 +795,7 @@ export default function EmailSettings() {
                         ) : (
                           <Mail className="mr-2 h-4 w-4" />
                         )}
-                        Invia test
+                        {t("emailSettings.sendTest")}
                       </Button>
                     </div>
                   </div>
