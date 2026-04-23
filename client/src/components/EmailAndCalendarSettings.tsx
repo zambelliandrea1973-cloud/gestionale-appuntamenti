@@ -40,19 +40,16 @@ const emailSettingsSchema = z.object({
 
 type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>;
 
-// Template predefinito per l'email, simile a quello WhatsApp
-const DEFAULT_EMAIL_TEMPLATE = "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale";
-
-// Oggetto predefinito per l'email
-const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
-
 export default function EmailAndCalendarSettings() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
-  
+
+  const DEFAULT_EMAIL_TEMPLATE = t('settings.defaultEmailTemplate');
+  const DEFAULT_EMAIL_SUBJECT = t('settings.defaultEmailSubject');
+
   const form = useForm<EmailSettingsFormValues>({
     resolver: zodResolver(emailSettingsSchema),
     defaultValues: {
@@ -183,7 +180,7 @@ export default function EmailAndCalendarSettings() {
       <div>
         <div className="flex items-center mb-4">
           <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
-          <h3 className="text-lg font-medium">{t('settings.emailSettings', 'Configurazione Email')}</h3>
+          <h3 className="text-lg font-medium">{t('settings.emailSettings')}</h3>
         </div>
         
         <Form {...form}>
@@ -195,10 +192,10 @@ export default function EmailAndCalendarSettings() {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">
-                      {t('settings.enableEmail', 'Abilita invio email')}
+                      {t('settings.enableEmail')}
                     </FormLabel>
                     <FormDescription>
-                      {t('settings.emailDesc', 'Abilita l\'invio di email di notifica ai clienti')}
+                      {t('settings.emailDesc')}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -219,10 +216,10 @@ export default function EmailAndCalendarSettings() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('settings.emailAddress', 'Indirizzo Email')}
+                        {t('settings.emailAddress')}
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="esempio@tuodominio.com" />
+                        <Input {...field} placeholder={t('settings.emailExamplePlaceholder')} />
                       </FormControl>
                       <FormMessage>
                         {form.formState.errors.emailAddress?.message
@@ -239,7 +236,7 @@ export default function EmailAndCalendarSettings() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('settings.emailPassword', 'Password o Chiave App')}
+                        {t('settings.emailPassword')}
                       </FormLabel>
                       <FormControl>
                         <Input 
@@ -398,7 +395,7 @@ export default function EmailAndCalendarSettings() {
                 {isSubmitting && (
                   <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                 )}
-                {t('common.save', 'Salva impostazioni')}
+                {t('common.save')}
               </Button>
             </div>
           </form>

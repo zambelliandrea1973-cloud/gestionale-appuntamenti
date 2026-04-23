@@ -759,7 +759,11 @@
     "appIcon": "App-Symbol",
     "integrations": "Integrationen",
     "appearanceTitle": "Markenidentität",
-    "appearanceDesc": "Passen Sie den Namen und das Symbol der Anwendung an, um die Identität Ihres Unternehmens widerzuspiegeln. Diese Einstellungen gelten sowohl für die Haupt-App als auch für die Kunden-App."
+    "appearanceDesc": "Passen Sie den Namen und das Symbol der Anwendung an, um die Identität Ihres Unternehmens widerzuspiegeln. Diese Einstellungen gelten sowohl für die Haupt-App als auch für die Kunden-App.",
+    "defaultEmailTemplate": "Sehr geehrte/r {{nome}} {{cognome}},\n\ndies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}} Uhr.\n\nFür Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nProfessionelles Studio",
+    "defaultEmailSubject": "Terminerinnerung vom {{data}}",
+    "emailExamplePlaceholder": "beispiel@ihredomain.com",
+    "gmailExamplePlaceholder": "ihre.adresse@gmail.com"
   },
   "common": {
     "backToHome": "Zurück zur Startseite",

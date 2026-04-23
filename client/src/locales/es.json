@@ -759,7 +759,11 @@
     "appIcon": "Icono de la App",
     "integrations": "Integraciones",
     "appearanceTitle": "Identidad Corporativa",
-    "appearanceDesc": "Personalice el nombre y el icono de la aplicación para reflejar la identidad de su empresa. Estas configuraciones se aplicarán tanto a la aplicación principal como a la del cliente."
+    "appearanceDesc": "Personalice el nombre y el icono de la aplicación para reflejar la identidad de su empresa. Estas configuraciones se aplicarán tanto a la aplicación principal como a la del cliente.",
+    "defaultEmailTemplate": "Estimado/a {{nome}} {{cognome}},\n\nEste es un recordatorio de su cita de {{servizio}} programada para el {{data}} a las {{ora}}.\n\nPara cualquier cambio o cancelación, por favor contáctenos.\n\nAtentamente,\nEstudio Profesional",
+    "defaultEmailSubject": "Recordatorio de cita del {{data}}",
+    "emailExamplePlaceholder": "ejemplo@tudominio.com",
+    "gmailExamplePlaceholder": "tu.direccion@gmail.com"
   },
   "common": {
     "backToHome": "Volver al Inicio",

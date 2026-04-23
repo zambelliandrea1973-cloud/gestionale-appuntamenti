@@ -741,7 +741,11 @@
     "appIcon": "App Ikon",
     "integrations": "Integrasjoner",
     "appearanceTitle": "Bedriftsidentitet",
-    "appearanceDesc": "Tilpass applikasjonens navn og ikon for å gjenspeile bedriftens identitet. Disse innstillingene vil gjelde for både hovedappen og kundeappen."
+    "appearanceDesc": "Tilpass applikasjonens navn og ikon for å gjenspeile bedriftens identitet. Disse innstillingene vil gjelde for både hovedappen og kundeappen.",
+    "defaultEmailTemplate": "Kjære {{nome}} {{cognome}},\n\nDette er en påminnelse om din avtale for {{servizio}} planlagt {{data}} kl. {{ora}}.\n\nFor endringer eller avbestillinger, vennligst kontakt oss.\n\nMed vennlig hilsen,\nProfesjonelt Studio",
+    "defaultEmailSubject": "Avtalepåminnelse for {{data}}",
+    "emailExamplePlaceholder": "eksempel@dittdomene.com",
+    "gmailExamplePlaceholder": "din.adresse@gmail.com"
   },
   "common": {
     "backToHome": "Tilbake til Hjem",

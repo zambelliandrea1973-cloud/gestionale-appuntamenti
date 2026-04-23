@@ -767,7 +767,11 @@
     "googleCalendar": "Google calendar",
     "integrations": "Integrations",
     "appearanceTitle": "Brand Identity",
-    "appearanceDesc": "Customize the name and icon of the application to reflect your company's identity. These settings will apply to both the main app and the client app."
+    "appearanceDesc": "Customize the name and icon of the application to reflect your company's identity. These settings will apply to both the main app and the client app.",
+    "defaultEmailTemplate": "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio",
+    "defaultEmailSubject": "Appointment reminder for {{data}}",
+    "emailExamplePlaceholder": "example@yourdomain.com",
+    "gmailExamplePlaceholder": "your.address@gmail.com"
   },
   "common": {
     "backToHome": "Back to Home",

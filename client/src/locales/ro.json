@@ -741,7 +741,11 @@
     "appIcon": "Pictogramă Aplicație",
     "integrations": "Integrări",
     "appearanceTitle": "Identitate Corporativă",
-    "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți."
+    "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți.",
+    "defaultEmailTemplate": "Stimate/Stimată {{nome}} {{cognome}},\n\nAceasta este o reamintire pentru programarea dvs. de {{servizio}} programată pentru {{data}} la ora {{ora}}.\n\nPentru orice modificări sau anulări, vă rugăm să ne contactați.\n\nCu stimă,\nStudio Profesional",
+    "defaultEmailSubject": "Reamintire programare din {{data}}",
+    "emailExamplePlaceholder": "exemplu@domeniultau.com",
+    "gmailExamplePlaceholder": "adresa.ta@gmail.com"
   },
   "common": {
     "backToHome": "Înapoi la Acasă",

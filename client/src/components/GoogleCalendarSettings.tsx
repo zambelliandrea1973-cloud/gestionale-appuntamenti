@@ -240,7 +240,7 @@ export default function GoogleCalendarSettingsComponent() {
                 <Input
                   value={calendarEmail}
                   onChange={(e) => setCalendarEmail(e.target.value)}
-                  placeholder="tuo.indirizzo@gmail.com"
+                  placeholder={t('settings.gmailExamplePlaceholder')}
                   className="mb-1"
                 />
                 <p className="text-xs text-muted-foreground">

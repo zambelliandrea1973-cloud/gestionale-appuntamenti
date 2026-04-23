@@ -98,7 +98,7 @@ export default function GoogleTroubleshootingPage() {
       console.error("Errore nel test email:", error);
       setEmailTestResult({
         success: false,
-        message: `Errore di connessione: ${error?.message || 'Errore sconosciuto'}`
+        message: t('googleCalendar.troubleshooting.connError', { error: error?.message || t('googleCalendar.troubleshooting.unknownError') })
       });
     } finally {
       setIsLoading(false);

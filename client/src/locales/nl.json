@@ -741,7 +741,11 @@
     "appIcon": "App Icoon",
     "integrations": "Integraties",
     "appearanceTitle": "Merkidentiteit",
-    "appearanceDesc": "Pas de naam en het icoon van de applicatie aan om de identiteit van uw bedrijf weer te geven. Deze instellingen worden toegepast op zowel de hoofdapp als de klantapp."
+    "appearanceDesc": "Pas de naam en het icoon van de applicatie aan om de identiteit van uw bedrijf weer te geven. Deze instellingen worden toegepast op zowel de hoofdapp als de klantapp.",
+    "defaultEmailTemplate": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering aan uw afspraak voor {{servizio}} op {{data}} om {{ora}}.\n\nVoor wijzigingen of annuleringen kunt u contact met ons opnemen.\n\nMet vriendelijke groet,\nProfessionele Studio",
+    "defaultEmailSubject": "Afspraakherinnering van {{data}}",
+    "emailExamplePlaceholder": "voorbeeld@uwdomein.com",
+    "gmailExamplePlaceholder": "uw.adres@gmail.com"
   },
   "common": {
     "backToHome": "Terug naar Home",

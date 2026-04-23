@@ -772,7 +772,11 @@
     "googleCalendar": "Google calendario",
     "integrations": "Integrazioni",
     "appearanceTitle": "Identità Aziendale",
-    "appearanceDesc": "Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "appearanceDesc": "Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente.",
+    "defaultEmailTemplate": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale",
+    "defaultEmailSubject": "Promemoria appuntamento del {{data}}",
+    "emailExamplePlaceholder": "esempio@tuodominio.com",
+    "gmailExamplePlaceholder": "tuo.indirizzo@gmail.com"
   },
   "common": {
     "backToHome": "Torna alla Home",
