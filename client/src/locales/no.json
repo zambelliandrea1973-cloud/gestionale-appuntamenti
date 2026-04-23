@@ -779,7 +779,8 @@
     "update": "Oppdater",
     "create": "Opprett",
     "confirmDelete": "Er du sikker på at du vil slette?",
-    "copy": "Kopier"
+    "copy": "Kopier",
+    "errorWithMessage": "Det oppstod en feil: {{message}}"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",
@@ -2793,7 +2794,78 @@
     "save": "Lagre avtale",
     "saved": "Avtale lagret",
     "selectClient": "Velg klient",
-    "selectService": "Velg tjeneste"
+    "selectService": "Velg tjeneste",
+    "newTitle": "Ny avtale",
+    "fields": {
+      "client": "Klient",
+      "clientPlaceholder": "Søk klient...",
+      "service": "Tjeneste",
+      "servicePlaceholder": "Søk tjeneste...",
+      "staff": "Fagperson",
+      "staffPlaceholder": "Velg fagperson...",
+      "noStaff": "Ingen fagperson",
+      "room": "Rom/Kabin (valgfritt)",
+      "roomPlaceholder": "Velg rom...",
+      "noRoom": "Ingen rom",
+      "notes": "Notater",
+      "notesPlaceholder": "Legg til notater om avtalen"
+    },
+    "loadingClient": "Laster klientdata...",
+    "otherAccount": "Annen konto",
+    "creatingClient": "Oppretter...",
+    "createNewClient": "+ Opprett \"<0>{{name}}</0>\" som ny klient",
+    "warnings": {
+      "otherAccount": "<0>Advarsel:</0> Du oppretter en avtale for en klient fra en annen konto ({{firstName}} {{lastName}}). Sørg for at du har nødvendige tillatelser."
+    },
+    "notifications": {
+      "title": "Velg varslingskanaler"
+    },
+    "slotDetails": {
+      "title": "Detaljer for valgt tid:",
+      "dateLabel": "Dato: {{date}}",
+      "timeLabel": "Tid: {{time}}"
+    },
+    "actions": {
+      "update": "Oppdater",
+      "savingButton": "Lagrer..."
+    },
+    "packageBadge": "Pakke ({{count}} tilgjengelige)",
+    "toast": {
+      "created": {
+        "title": "Avtale opprettet",
+        "desc": "Ny avtale opprettet"
+      },
+      "updated": {
+        "title": "Avtale oppdatert",
+        "desc": "Avtalen ble oppdatert"
+      },
+      "clientCreated": {
+        "title": "Klient opprettet",
+        "desc": "{{firstName}} {{lastName}} opprettet. Du kan fylle ut resten senere."
+      },
+      "validationTitle": "Valideringsfeil",
+      "validationDesc": "Felter med feil: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Velg en klient for avtalen",
+      "requiredService": "Velg en tjeneste for avtalen",
+      "consentWarning": "Klienten har ikke gitt samtykke til databehandling. Avtalen opprettes likevel.",
+      "confirmOtherAccount": "ADVARSEL: Du er i ferd med å opprette en avtale for {{firstName}} {{lastName}}, som tilhører en annen konto.\n\nEr du sikker på at du vil fortsette?",
+      "savingTitle": "Feil under lagring",
+      "createClient": "Kunne ikke opprette klient"
+    },
+    "conflict": {
+      "title": "⚠️ Tidskonflikt oppdaget",
+      "intro": "Du har opprettet en avtale som overlapper med en eller flere eksisterende avtaler:",
+      "staffHeading": "🧑 Konflikt med fagperson:",
+      "staffLine": "<0>{{name}}</0> har allerede en avtale kl. {{time}}",
+      "staffWith": " med {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Romkonflikt:",
+      "roomLine": "<0>{{name}}</0> er allerede opptatt kl. {{time}}",
+      "roomBy": " av {{firstName}} {{lastName}}",
+      "askProceed": "Vil du opprette avtalen likevel?",
+      "proceed": "Ja, fortsett likevel"
+    }
   },
   "clientNotes": {
     "title": "Klientnotater",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "E-post"
     }
+  },
+  "staffCollaborators": {
+    "title": "Behandling av medarbeidere",
+    "subtitle": "Administrer studioets medarbeidere og deres spesialiseringer",
+    "addCollaborator": "Legg til medarbeider",
+    "editCollaborator": "Rediger medarbeider",
+    "loading": "Laster medarbeidere...",
+    "notAvailable": "Personalledelse ikke tilgjengelig",
+    "notAvailableDesc": "Administrasjon av medarbeidere og rom er bare tilgjengelig i <0>Business</0>-planen.",
+    "upgradeBusiness": "Oppgrader til Business",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "activeCheckbox": "Aktiv",
+    "empty": "Ingen medarbeidere",
+    "emptyDesc": "Begynn ved å legge til den første medarbeideren",
+    "firstName": "Fornavn",
+    "lastName": "Etternavn",
+    "firstNameLabel": "Fornavn *",
+    "lastNameLabel": "Etternavn *",
+    "specialization": "Spesialisering",
+    "specializationPlaceholder": "f.eks. Fysioterapeut, Jordmor, Massør...",
+    "emailPlaceholder": "epost@eksempel.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "f.eks. +39 123 456 7890",
+    "confirmDeleteTitle": "Bekreft sletting",
+    "confirmDeleteDesc": "Er du sikker på at du vil slette medarbeideren {{name}}? Denne handlingen kan ikke angres.",
+    "toast": {
+      "created": "Medarbeider opprettet",
+      "updated": "Medarbeider oppdatert",
+      "deleted": "Medarbeider slettet"
+    },
+    "errors": {
+      "create": "Kunne ikke opprette medarbeider",
+      "update": "Kunne ikke oppdatere medarbeider",
+      "delete": "Kunne ikke slette medarbeider",
+      "requiredNames": "For- og etternavn er påkrevd"
+    },
+    "saving": "Lagrer..."
+  },
+  "treatmentRooms": {
+    "title": "Behandling av rom/kabiner",
+    "subtitle": "Konfigurer behandlingsrom og kabiner i studioet ditt",
+    "addRoom": "Legg til rom",
+    "editRoom": "Rediger rom",
+    "loading": "Laster rom...",
+    "notAvailable": "Romadministrasjon ikke tilgjengelig",
+    "notAvailableDesc": "Administrasjon av rom og kabiner er bare tilgjengelig i <0>Business</0>-planen.",
+    "upgradeBusiness": "Oppgrader til Business",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "activeCheckbox": "Aktivt rom",
+    "empty": "Ingen rom konfigurert",
+    "emptyDesc": "Legg til de første behandlingsrommene eller kabinene",
+    "nameLabel": "Romnavn *",
+    "namePlaceholder": "f.eks. Kabin 1, Hovedstudio, Massasjerom...",
+    "descriptionLabel": "Beskrivelse",
+    "descriptionPlaceholder": "Valgfri beskrivelse av rommet...",
+    "colorLabel": "Kalenderfarge",
+    "calendarColorRow": "Kalenderfarge",
+    "confirmDeleteTitle": "Bekreft sletting",
+    "confirmDeleteDesc": "Er du sikker på at du vil slette rommet \"{{name}}\"? Denne handlingen kan ikke angres.",
+    "toast": {
+      "created": "Rom opprettet",
+      "updated": "Rom oppdatert",
+      "deleted": "Rom slettet"
+    },
+    "errors": {
+      "create": "Kunne ikke opprette rom",
+      "update": "Kunne ikke oppdatere rom",
+      "delete": "Kunne ikke slette rom",
+      "requiredName": "Romnavn er påkrevd"
+    },
+    "saving": "Lagrer..."
+  },
+  "serviceManager": {
+    "heading": "Behandlings- og tjenesteadministrasjon",
+    "addService": "Legg til tjeneste",
+    "newService": "Ny tjeneste",
+    "editService": "Rediger tjeneste",
+    "fields": {
+      "name": "Navn",
+      "namePlaceholder": "F.eks. Bicom-terapi",
+      "duration": "Varighet (min)",
+      "price": "Pris (€)",
+      "color": "Farge",
+      "description": "Beskrivelse",
+      "descriptionPlaceholder": "Valgfri beskrivelse"
+    },
+    "tableHeaders": {
+      "name": "Navn",
+      "duration": "Varighet",
+      "price": "Pris",
+      "color": "Farge",
+      "actions": "Handlinger"
+    },
+    "intro": "Administrer behandlinger og tjenester, inkludert varighet og pris. Disse dataene brukes i rapporter og fakturaer.",
+    "quickEditHint": "Hurtigredigering: klikk på et felt (navn, varighet, pris, farge) for å redigere direkte",
+    "editTooltips": {
+      "name": "Klikk for å redigere navnet",
+      "duration": "Klikk for å redigere varigheten",
+      "price": "Klikk for å redigere prisen",
+      "color": "Klikk for å redigere fargen"
+    },
+    "actionTitles": {
+      "editFull": "Rediger fullstendig",
+      "delete": "Slett tjeneste"
+    },
+    "empty": {
+      "title": "Ingen tjenester tilgjengelig. Legg til din første tjeneste!",
+      "subtitle": "Konfigurer tjenestene du tilbyr for å begynne å motta bestillinger."
+    },
+    "footnote": "Merk: Slettede tjenester vil ikke lenger være tilgjengelige for nye avtaler, men allerede planlagte beholder de opprinnelige dataene.",
+    "toast": {
+      "created": {
+        "title": "Tjeneste opprettet",
+        "desc": "Tjenesten ble opprettet"
+      },
+      "updated": {
+        "title": "Tjeneste oppdatert",
+        "desc": "Tjenesten ble oppdatert"
+      },
+      "deleted": {
+        "title": "Tjeneste slettet",
+        "desc": "Tjenesten ble slettet"
+      }
+    },
+    "errors": {
+      "requiredName": "Tjenestenavn er påkrevd",
+      "create": "Feil ved opprettelse av tjenesten",
+      "update": "Feil ved oppdatering av tjenesten",
+      "delete": "Feil ved sletting av tjenesten",
+      "loadingTitle": "Feil",
+      "loadingDesc": "Feil ved lasting av tjenester: {{message}}"
+    },
+    "confirmDelete": "Er du sikker på at du vil slette denne tjenesten?",
+    "savingButton": "Lagrer..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Rediger notat",
+      "createTitle": "Opprett nytt notat"
+    },
+    "fields": {
+      "titleLabel": "Tittel",
+      "titlePlaceholder": "Notattittel",
+      "contentLabel": "Innhold",
+      "contentPlaceholder": "Notatinnhold"
+    },
+    "titles": {
+      "editLabel": "Rediger tittel",
+      "resetLabel": "Tilbakestill til original tittel",
+      "duplicateLast": "Dupliser siste notat",
+      "noNoteToDuplicate": "Ingen notat å duplisere",
+      "addPhoto": "Legg til bilde",
+      "createNote": "Opprett nytt notat",
+      "noNoteToDelete": "Ingen notat å slette"
+    },
+    "empty": "Ingen notater tilgjengelig. Klikk \"Legg til\" for å opprette ett.",
+    "imageAlt": "Bilde {{idx}}",
+    "confirm": {
+      "deleteNote": "Er du sikker på at du vil slette dette notatet?",
+      "deletePhoto": "Slette dette bildet?"
+    },
+    "toast": {
+      "created": {
+        "title": "Notat opprettet",
+        "desc": "Notatet ble lagret"
+      },
+      "updated": {
+        "title": "Notat oppdatert",
+        "desc": "Notatet ble oppdatert"
+      },
+      "deleted": {
+        "title": "Notat slettet",
+        "desc": "Notatet ble slettet"
+      },
+      "duplicated": {
+        "title": "Notat duplisert",
+        "desc": "Notatet ble duplisert"
+      },
+      "duplicateSuffix": " (kopi)",
+      "imageUploaded": {
+        "title": "Bilde lastet opp",
+        "desc": "Bildet ble lagt til"
+      },
+      "imageDeleted": {
+        "title": "Bilde slettet",
+        "desc": "Bildet ble fjernet"
+      },
+      "titleUpdated": {
+        "title": "Tittel oppdatert",
+        "desc": "Seksjonstittelen ble oppdatert"
+      },
+      "titleReset": {
+        "title": "Tittel tilbakestilt",
+        "desc": "Seksjonstittelen ble tilbakestilt til opprinnelig verdi"
+      },
+      "missingFields": {
+        "title": "Manglende data",
+        "desc": "Skriv inn tittel og innhold for notatet"
+      }
+    },
+    "errors": {
+      "create": "Kunne ikke opprette notatet: {{message}}",
+      "update": "Kunne ikke oppdatere notatet: {{message}}",
+      "delete": "Kunne ikke slette notatet: {{message}}",
+      "duplicate": "Kunne ikke duplisere notatet: {{message}}",
+      "uploadImage": "Kunne ikke laste opp bildet: {{message}}",
+      "deleteImage": "Kunne ikke slette bildet: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Vis og administrer dine medarbeidere",
+    "addStaff": "Legg til ansatt",
+    "createNew": "Opprett ny ansatt",
+    "createDescription": "Ansatte får automatisk full gratis PRO-tilgang uten utløpsdato",
+    "fields": {
+      "usernameRequired": "Brukernavn *",
+      "emailLabel": "E-post",
+      "passwordRequired": "Passord *",
+      "role": "Rolle",
+      "roleStaff": "Ansatt - Medarbeider med PRO-tilgang",
+      "roleAdmin": "Admin - Full tilgang",
+      "roleUser": "Customer PRO - Abonnert profesjonell"
+    },
+    "proAccessNote": "✅ <0>Automatisk PRO-tilgang:</0> Alle ansatte har full tilgang til PRO-funksjoner uten betaling eller utløp",
+    "creating": "Oppretter...",
+    "createButton": "Opprett ansatt",
+    "membersCount": "{{count}} ansatte",
+    "searchPlaceholder": "Søk etter brukernavn eller e-post...",
+    "toast": {
+      "created": {
+        "title": "Ansatt opprettet",
+        "desc": "Den nye ansatte har full gratis PRO-tilgang"
+      },
+      "updated": {
+        "title": "Ansatt oppdatert",
+        "desc": "Informasjonen ble oppdatert"
+      },
+      "deleted": {
+        "title": "Ansatt slettet",
+        "desc": "Den ansatte er fjernet permanent"
+      },
+      "bankingSaved": {
+        "title": "Bankopplysninger lagret",
+        "desc": "Bankopplysningene til den ansatte ble oppdatert"
+      }
+    },
+    "errors": {
+      "create": "Kunne ikke opprette ansatt",
+      "edit": "Kunne ikke endre ansatt",
+      "delete": "Kunne ikke slette ansatt",
+      "banking": "Kunne ikke lagre bankopplysninger"
+    },
+    "requiredFields": "Obligatoriske felt",
+    "requiredField": "Obligatorisk felt",
+    "requiredUsernamePassword": "Brukernavn og passord er påkrevd",
+    "requiredIban": "IBAN er påkrevd",
+    "requiredUsername": "Brukernavn er påkrevd",
+    "loading": "Laster ansatte...",
+    "loadError": "Feil ved lasting av ansatte",
+    "featureName": "Personalledelse",
+    "featureDesc": "Bare administratorer kan administrere personalet og se henvisningskoder",
+    "registered": "Registrert: {{date}}",
+    "proAccessBadge": "✓ PRO-tilgang",
+    "bankingButton": "Bankopplysninger",
+    "noResults": "Ingen resultater funnet.",
+    "noStaff": "Ingen ansatte funnet.",
+    "editTitle": "Rediger ansatt: {{username}}",
+    "editDescription": "Oppdater opplysningene til den ansatte. La passordfeltet stå tomt for å beholde det.",
+    "newPasswordLabel": "Nytt passord",
+    "passwordEmptyHint": "La stå tomt for å beholde",
+    "passwordEmptyDesc": "La stå tomt hvis du ikke vil endre passordet",
+    "roleHint": "Staff/Admin: gratis ansatte. Customer PRO: betalende abonnent",
+    "editProAccessNote": "✅ <0>PRO-tilgang:</0> Denne ansatte beholder full gratis PRO-tilgang",
+    "saveChanges": "Lagre endringer",
+    "saving": "Lagrer...",
+    "deleteTitle": "⚠️ Bekreft sletting av ansatt",
+    "deleteHeader": "Du er i ferd med å slette ansatt-kontoen permanent:",
+    "usernameLabel": "Brukernavn:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ ADVARSEL:",
+    "warning1": "Denne handlingen er <0>uopprettelig</0>",
+    "warning2": "Kontoen vil bli slettet <0>permanent</0>",
+    "warning3": "Alle tilknyttede data går tapt",
+    "warning4": "Brukeren vil ikke lenger ha tilgang til systemet",
+    "deleteConfirmText": "Er du helt sikker på at du vil fortsette?",
+    "deleting": "Sletter...",
+    "deleteConfirmButton": "Ja, slett permanent",
+    "bankingTitle": "Bankopplysninger: {{username}}",
+    "bankingDescription": "Skriv inn bankopplysningene hvor den ansatte mottar henvisningsprovisjoner",
+    "bankingNote": "<0>Merk:</0> Den oppgitte IBAN-en brukes til automatisk å kreditere 25 %-provisjonene når sponsede klienter aktiverer abonnementer.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Format: IT + 2 kontrollsiffer + bankkode",
+    "bankNameLabel": "Banknavn",
+    "bankNamePlaceholder": "f.eks. Intesa Sanpaolo",
+    "accountHolderLabel": "Kontoinnehaver",
+    "accountHolderPlaceholder": "Fullt navn på kontoinnehaver",
+    "bicLabel": "BIC/SWIFT (valgfritt)",
+    "bicPlaceholder": "f.eks. BCITITMM",
+    "saveBankingButton": "Lagre bankopplysninger",
+    "actions": "Handlinger",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Ansatt"
   }
 }

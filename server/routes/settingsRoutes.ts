@@ -3,7 +3,7 @@ import { logger } from '../utils/logger';
 import { Router } from 'express';
 import { db } from '../db';
 import { storage } from '../storage';
-import { users, licenses, userIcons, companyNameSettings, userSettings as userSettingsTable, userLogins } from '../../shared/schema';
+import { users, licenses, userIcons, companyNameSettings, userSettings as userSettingsTable, userLogins, contactSettings as contactSettingsTable } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { requireAuth } from '../middleware/authMiddleware';
@@ -35,34 +35,56 @@ const router = Router();
 
 router.get("/api/contact-info", requireAuth, async (req, res) => {
     const user = req.user!;
-    const defaultInfo = {
-      email: "info@studiomedico.it",
-      phone: "+39 123 456 7890"
-    };
-    
+
     try {
-      // 🔄 USA POSTGRESQL: Carica da userSettings
+      // Sorgente primaria: userSettings (PostgreSQL)
       const settings = await storage.getUserSettings(user.id);
-      
-      if (!settings) {
-        return res.json(defaultInfo);
+
+      // Fallback 1: tabella contact_settings (popolata da onboarding/profilo)
+      let contactRow: any = undefined;
+      try {
+        const [row] = await db
+          .select()
+          .from(contactSettingsTable)
+          .where(eq(contactSettingsTable.tenantId, user.id));
+        contactRow = row;
+      } catch {
+        contactRow = undefined;
       }
-      
-      // Converti formato PostgreSQL → JSON per compatibilità frontend
+
+      // Fallback 2: legacy key/value storage (app_settings)
+      let legacy: any = undefined;
+      try {
+        legacy = await storage.getContactInfo(user.id);
+      } catch {
+        legacy = undefined;
+      }
+
+      const phoneValue = settings?.contactPhone || contactRow?.phone || legacy?.phone1 || '';
+      const emailValue = settings?.contactEmail || contactRow?.email || legacy?.email || '';
+
       const userContactInfo = {
-        email: settings.contactEmail || defaultInfo.email,
-        phone: settings.contactPhone || defaultInfo.phone,
-        phone1: settings.contactPhone || '',
-        phone2: settings.contactPhone2 || '',
-        website: settings.website || '',
-        instagram: settings.instagramHandle || '',
-        facebook: settings.facebookPage || ''
+        email: emailValue,
+        phone: phoneValue,
+        phone1: phoneValue,
+        phone2: settings?.contactPhone2 || legacy?.phone2 || '',
+        website: settings?.website || legacy?.website || '',
+        instagram: settings?.instagramHandle || legacy?.instagram || '',
+        facebook: settings?.facebookPage || ''
       };
-      
+
       res.json(userContactInfo);
     } catch (error: any) {
       console.error('Errore caricamento contact-info:', error);
-      res.json(defaultInfo);
+      res.json({
+        email: '',
+        phone: '',
+        phone1: '',
+        phone2: '',
+        website: '',
+        instagram: '',
+        facebook: ''
+      });
     }
   });
 
@@ -71,24 +93,44 @@ router.get("/api/contact-info/:ownerId", async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       console.log(`Caricamento informazioni di contatto per professionista ${ownerId} (richiesta client)`);
-      
+
       if (!ownerId || isNaN(ownerId)) {
         return res.status(400).json({ error: "ID professionista non valido" });
       }
-      
-      // 🔄 USA POSTGRESQL: Carica da userSettings
+
       const settings = await storage.getUserSettings(ownerId);
-      
+
+      let contactRow: any = undefined;
+      try {
+        const [row] = await db
+          .select()
+          .from(contactSettingsTable)
+          .where(eq(contactSettingsTable.tenantId, ownerId));
+        contactRow = row;
+      } catch {
+        contactRow = undefined;
+      }
+
+      let legacy: any = undefined;
+      try {
+        legacy = await storage.getContactInfo(ownerId);
+      } catch {
+        legacy = undefined;
+      }
+
+      const phoneValue = settings?.contactPhone || contactRow?.phone || legacy?.phone1 || '';
+      const emailValue = settings?.contactEmail || contactRow?.email || legacy?.email || '';
+
       const contactInfo = {
-        email: settings?.contactEmail || '',
-        phone: settings?.contactPhone || '',
-        phone1: settings?.contactPhone || '',
-        phone2: settings?.contactPhone2 || '',
-        website: settings?.website || '',
-        instagram: settings?.instagramHandle || '',
+        email: emailValue,
+        phone: phoneValue,
+        phone1: phoneValue,
+        phone2: settings?.contactPhone2 || legacy?.phone2 || '',
+        website: settings?.website || legacy?.website || '',
+        instagram: settings?.instagramHandle || legacy?.instagram || '',
         facebook: settings?.facebookPage || ''
       };
-      
+
       res.json(contactInfo);
     } catch (error: any) {
       console.error('Errore nel caricamento informazioni di contatto:', error);
@@ -104,19 +146,60 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
         return res.status(400).json({ error: 'ID proprietario non valido' });
       }
       
-      // 🔄 USA POSTGRESQL: Carica da userSettings
+      // 🔄 USA POSTGRESQL: Carica da userSettings (sorgente primaria)
       const settings = await storage.getUserSettings(ownerId);
-      
+
+      // 🔄 FALLBACK 1: tabella contact_settings (popolata in onboarding/profilo)
+      let contactRow: any = undefined;
+      try {
+        const [row] = await db
+          .select()
+          .from(contactSettingsTable)
+          .where(eq(contactSettingsTable.tenantId, ownerId));
+        contactRow = row;
+      } catch (e) {
+        contactRow = undefined;
+      }
+
+      // 🔄 FALLBACK 2: legacy key/value storage per dati storici non migrati
+      let legacy: any = undefined;
+      try {
+        legacy = await storage.getContactInfo(ownerId);
+      } catch {
+        legacy = undefined;
+      }
+
+      // 🔄 FALLBACK 3: username come ultimo ripiego per businessName
+      let userBusinessName = '';
+      try {
+        const [u] = await db
+          .select({ username: users.username })
+          .from(users)
+          .where(eq(users.id, ownerId));
+        userBusinessName = u?.username || '';
+      } catch {
+        userBusinessName = '';
+      }
+
+      const phoneValue = settings?.contactPhone || contactRow?.phone || legacy?.phone1 || '';
+      const emailValue = settings?.contactEmail || contactRow?.email || legacy?.email || '';
+
       const contactInfo = {
-        email: settings?.contactEmail || '',
-        phone: settings?.contactPhone || '',
-        phone1: settings?.contactPhone || '',
-        phone2: settings?.contactPhone2 || '',
-        website: settings?.website || '',
-        instagram: settings?.instagramHandle || '',
+        businessName:
+          settings?.businessName ||
+          contactRow?.businessName ||
+          legacy?.businessName ||
+          userBusinessName ||
+          '',
+        email: emailValue,
+        phone: phoneValue,
+        phone1: phoneValue,
+        phone2: settings?.contactPhone2 || legacy?.phone2 || '',
+        website: settings?.website || legacy?.website || '',
+        instagram: settings?.instagramHandle || legacy?.instagram || '',
         facebook: settings?.facebookPage || ''
       };
-      
+
       logger.debug(`🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista ${ownerId}:`, contactInfo);
       res.json(contactInfo);
     } catch (error: any) {

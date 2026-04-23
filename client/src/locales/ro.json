@@ -779,7 +779,8 @@
     "update": "Actualizează",
     "create": "Creează",
     "confirmDelete": "Sigur doriți să ștergeți?",
-    "copy": "Copiați"
+    "copy": "Copiați",
+    "errorWithMessage": "A apărut o eroare: {{message}}"
   },
   "notifications": {
     "success": "Operațiune finalizată cu succes",
@@ -2783,7 +2784,7 @@
   },
   "appointmentForm": {
     "title": "Programare nouă",
-    "editTitle": "Editează programarea",
+    "editTitle": "Editați programarea",
     "client": "Client",
     "service": "Serviciu",
     "date": "Data",
@@ -2793,7 +2794,78 @@
     "save": "Salvează programarea",
     "saved": "Programare salvată",
     "selectClient": "Selectează clientul",
-    "selectService": "Selectează serviciul"
+    "selectService": "Selectează serviciul",
+    "newTitle": "Programare nouă",
+    "fields": {
+      "client": "Client",
+      "clientPlaceholder": "Căutați client...",
+      "service": "Serviciu",
+      "servicePlaceholder": "Căutați serviciu...",
+      "staff": "Profesionist",
+      "staffPlaceholder": "Selectați un profesionist...",
+      "noStaff": "Niciun profesionist",
+      "room": "Cameră/Cabină (opțional)",
+      "roomPlaceholder": "Selectați camera...",
+      "noRoom": "Nicio cameră",
+      "notes": "Note",
+      "notesPlaceholder": "Adăugați note despre programare"
+    },
+    "loadingClient": "Se încarcă datele clientului...",
+    "otherAccount": "Alt cont",
+    "creatingClient": "Se creează...",
+    "createNewClient": "+ Creați „<0>{{name}}</0>\" ca client nou",
+    "warnings": {
+      "otherAccount": "<0>Atenție:</0> Creați o programare pentru un client al unui alt cont ({{firstName}} {{lastName}}). Verificați permisiunile necesare."
+    },
+    "notifications": {
+      "title": "Selectați canalele de notificare"
+    },
+    "slotDetails": {
+      "title": "Detalii interval selectat:",
+      "dateLabel": "Data: {{date}}",
+      "timeLabel": "Ora: {{time}}"
+    },
+    "actions": {
+      "update": "Actualizați",
+      "savingButton": "Se salvează..."
+    },
+    "packageBadge": "Pachet ({{count}} disponibile)",
+    "toast": {
+      "created": {
+        "title": "Programare creată",
+        "desc": "Programare nouă creată cu succes"
+      },
+      "updated": {
+        "title": "Programare actualizată",
+        "desc": "Programarea a fost actualizată cu succes"
+      },
+      "clientCreated": {
+        "title": "Client creat",
+        "desc": "{{firstName}} {{lastName}} creat. Puteți completa datele ulterior."
+      },
+      "validationTitle": "Eroare de validare",
+      "validationDesc": "Câmpuri cu erori: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Selectați un client pentru programare",
+      "requiredService": "Selectați un serviciu pentru programare",
+      "consentWarning": "Clientul nu și-a dat consimțământul pentru prelucrarea datelor. Programarea va fi creată oricum.",
+      "confirmOtherAccount": "ATENȚIE: Sunteți pe cale să creați o programare pentru {{firstName}} {{lastName}}, care aparține altui cont.\n\nSigur doriți să continuați?",
+      "savingTitle": "Eroare la salvare",
+      "createClient": "Imposibil de creat clientul"
+    },
+    "conflict": {
+      "title": "⚠️ Conflict de program detectat",
+      "intro": "Ați creat o programare care se suprapune cu una sau mai multe programări existente:",
+      "staffHeading": "🧑 Conflict de profesionist:",
+      "staffLine": "<0>{{name}}</0> are deja o programare la {{time}}",
+      "staffWith": " cu {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Conflict de cameră:",
+      "roomLine": "<0>{{name}}</0> este deja ocupată la {{time}}",
+      "roomBy": " de {{firstName}} {{lastName}}",
+      "askProceed": "Doriți să continuați totuși cu crearea programării?",
+      "proceed": "Da, continuați"
+    }
   },
   "clientNotes": {
     "title": "Note client",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "Email"
     }
+  },
+  "staffCollaborators": {
+    "title": "Gestionarea colaboratorilor",
+    "subtitle": "Gestionați colaboratorii studioului și specializările lor",
+    "addCollaborator": "Adăugați colaborator",
+    "editCollaborator": "Editați colaborator",
+    "loading": "Se încarcă colaboratorii...",
+    "notAvailable": "Gestionarea personalului indisponibilă",
+    "notAvailableDesc": "Gestionarea colaboratorilor și camerelor este disponibilă doar în planul <0>Business</0>.",
+    "upgradeBusiness": "Treceți la Business",
+    "active": "Activ",
+    "inactive": "Inactiv",
+    "activeCheckbox": "Activ",
+    "empty": "Niciun colaborator",
+    "emptyDesc": "Începeți prin a adăuga primul colaborator al studioului",
+    "firstName": "Prenume",
+    "lastName": "Nume",
+    "firstNameLabel": "Prenume *",
+    "lastNameLabel": "Nume *",
+    "specialization": "Specializare",
+    "specializationPlaceholder": "ex. Fizioterapeut, Moașă, Maseur...",
+    "emailPlaceholder": "email@exemplu.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "ex. +39 123 456 7890",
+    "confirmDeleteTitle": "Confirmați ștergerea",
+    "confirmDeleteDesc": "Sigur doriți să ștergeți colaboratorul {{name}}? Această acțiune nu poate fi anulată.",
+    "toast": {
+      "created": "Colaborator creat cu succes",
+      "updated": "Colaborator actualizat cu succes",
+      "deleted": "Colaborator șters cu succes"
+    },
+    "errors": {
+      "create": "Imposibil de creat colaboratorul",
+      "update": "Imposibil de actualizat colaboratorul",
+      "delete": "Imposibil de șters colaboratorul",
+      "requiredNames": "Prenumele și numele sunt obligatorii"
+    },
+    "saving": "Se salvează..."
+  },
+  "treatmentRooms": {
+    "title": "Gestionarea camerelor/cabinelor",
+    "subtitle": "Configurați camerele și cabinele de tratament ale studioului",
+    "addRoom": "Adăugați cameră",
+    "editRoom": "Editați camera",
+    "loading": "Se încarcă camerele...",
+    "notAvailable": "Gestionarea camerelor indisponibilă",
+    "notAvailableDesc": "Gestionarea camerelor și cabinelor este disponibilă doar în planul <0>Business</0>.",
+    "upgradeBusiness": "Treceți la Business",
+    "active": "Activă",
+    "inactive": "Inactivă",
+    "activeCheckbox": "Cameră activă",
+    "empty": "Nicio cameră configurată",
+    "emptyDesc": "Adăugați primele camere sau cabine de tratament",
+    "nameLabel": "Numele camerei *",
+    "namePlaceholder": "ex. Cabina 1, Studio Principal, Sala de Masaj...",
+    "descriptionLabel": "Descriere",
+    "descriptionPlaceholder": "Descriere opțională a camerei...",
+    "colorLabel": "Culoare calendar",
+    "calendarColorRow": "Culoare calendar",
+    "confirmDeleteTitle": "Confirmați ștergerea",
+    "confirmDeleteDesc": "Sigur doriți să ștergeți camera „{{name}}\"? Această acțiune nu poate fi anulată.",
+    "toast": {
+      "created": "Cameră creată cu succes",
+      "updated": "Cameră actualizată cu succes",
+      "deleted": "Cameră ștearsă cu succes"
+    },
+    "errors": {
+      "create": "Imposibil de creat camera",
+      "update": "Imposibil de actualizat camera",
+      "delete": "Imposibil de șters camera",
+      "requiredName": "Numele camerei este obligatoriu"
+    },
+    "saving": "Se salvează..."
+  },
+  "serviceManager": {
+    "heading": "Gestionarea tratamentelor și serviciilor",
+    "addService": "Adăugați serviciu",
+    "newService": "Serviciu nou",
+    "editService": "Editați serviciul",
+    "fields": {
+      "name": "Nume",
+      "namePlaceholder": "Ex. Terapie Bicom",
+      "duration": "Durată (min)",
+      "price": "Preț (€)",
+      "color": "Culoare",
+      "description": "Descriere",
+      "descriptionPlaceholder": "Descriere opțională"
+    },
+    "tableHeaders": {
+      "name": "Nume",
+      "duration": "Durată",
+      "price": "Preț",
+      "color": "Culoare",
+      "actions": "Acțiuni"
+    },
+    "intro": "Gestionați tratamentele și serviciile oferite, inclusiv durata și prețul. Aceste date vor fi utilizate în rapoarte și facturi.",
+    "quickEditHint": "Editare rapidă: faceți clic pe orice câmp (nume, durată, preț, culoare) pentru a-l edita direct",
+    "editTooltips": {
+      "name": "Faceți clic pentru a edita numele",
+      "duration": "Faceți clic pentru a edita durata",
+      "price": "Faceți clic pentru a edita prețul",
+      "color": "Faceți clic pentru a edita culoarea"
+    },
+    "actionTitles": {
+      "editFull": "Editare completă",
+      "delete": "Ștergeți serviciul"
+    },
+    "empty": {
+      "title": "Niciun serviciu disponibil. Adăugați primul dvs. serviciu!",
+      "subtitle": "Configurați serviciile pe care le oferiți pentru a începe să primiți rezervări."
+    },
+    "footnote": "Notă: Serviciile șterse nu vor mai fi disponibile pentru programări noi, dar cele deja planificate vor păstra datele originale.",
+    "toast": {
+      "created": {
+        "title": "Serviciu creat",
+        "desc": "Serviciul a fost creat cu succes"
+      },
+      "updated": {
+        "title": "Serviciu actualizat",
+        "desc": "Serviciul a fost actualizat cu succes"
+      },
+      "deleted": {
+        "title": "Serviciu șters",
+        "desc": "Serviciul a fost șters cu succes"
+      }
+    },
+    "errors": {
+      "requiredName": "Numele serviciului este obligatoriu",
+      "create": "Eroare la crearea serviciului",
+      "update": "Eroare la actualizarea serviciului",
+      "delete": "Eroare la ștergerea serviciului",
+      "loadingTitle": "Eroare",
+      "loadingDesc": "Eroare la încărcarea serviciilor: {{message}}"
+    },
+    "confirmDelete": "Sigur doriți să ștergeți acest serviciu?",
+    "savingButton": "Se salvează..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Editați nota",
+      "createTitle": "Creați notă nouă"
+    },
+    "fields": {
+      "titleLabel": "Titlu",
+      "titlePlaceholder": "Titlul notei",
+      "contentLabel": "Conținut",
+      "contentPlaceholder": "Conținutul notei"
+    },
+    "titles": {
+      "editLabel": "Editați titlul",
+      "resetLabel": "Resetați la titlul original",
+      "duplicateLast": "Duplicați ultima notă",
+      "noNoteToDuplicate": "Nicio notă de duplicat",
+      "addPhoto": "Adăugați foto",
+      "createNote": "Creați notă nouă",
+      "noNoteToDelete": "Nicio notă de șters"
+    },
+    "empty": "Nu există note. Faceți clic pe „Adăugați\" pentru a crea una.",
+    "imageAlt": "Foto {{idx}}",
+    "confirm": {
+      "deleteNote": "Sigur doriți să ștergeți această notă?",
+      "deletePhoto": "Ștergeți această fotografie?"
+    },
+    "toast": {
+      "created": {
+        "title": "Notă creată",
+        "desc": "Nota a fost salvată cu succes"
+      },
+      "updated": {
+        "title": "Notă actualizată",
+        "desc": "Nota a fost actualizată cu succes"
+      },
+      "deleted": {
+        "title": "Notă ștearsă",
+        "desc": "Nota a fost ștearsă cu succes"
+      },
+      "duplicated": {
+        "title": "Notă duplicată",
+        "desc": "Nota a fost duplicată cu succes"
+      },
+      "duplicateSuffix": " (copie)",
+      "imageUploaded": {
+        "title": "Fotografie încărcată",
+        "desc": "Fotografia a fost adăugată cu succes"
+      },
+      "imageDeleted": {
+        "title": "Fotografie ștearsă",
+        "desc": "Fotografia a fost eliminată cu succes"
+      },
+      "titleUpdated": {
+        "title": "Titlu actualizat",
+        "desc": "Titlul secțiunii a fost actualizat cu succes"
+      },
+      "titleReset": {
+        "title": "Titlu resetat",
+        "desc": "Titlul secțiunii a fost resetat la valoarea originală"
+      },
+      "missingFields": {
+        "title": "Date lipsă",
+        "desc": "Introduceți titlul și conținutul notei"
+      }
+    },
+    "errors": {
+      "create": "Imposibil de creat nota: {{message}}",
+      "update": "Imposibil de actualizat nota: {{message}}",
+      "delete": "Imposibil de șters nota: {{message}}",
+      "duplicate": "Imposibil de duplicat nota: {{message}}",
+      "uploadImage": "Imposibil de încărcat fotografia: {{message}}",
+      "deleteImage": "Imposibil de șters fotografia: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Vizualizați și gestionați membrii personalului",
+    "addStaff": "Adăugați personal",
+    "createNew": "Creați un membru nou de personal",
+    "createDescription": "Membrii personalului primesc automat acces PRO complet gratuit fără expirare",
+    "fields": {
+      "usernameRequired": "Nume utilizator *",
+      "emailLabel": "Email",
+      "passwordRequired": "Parolă *",
+      "role": "Rol",
+      "roleStaff": "Personal - Angajat cu acces PRO",
+      "roleAdmin": "Admin - Acces complet",
+      "roleUser": "Customer PRO - Profesionist abonat"
+    },
+    "proAccessNote": "✅ <0>Acces PRO automat:</0> Tot personalul are acces complet la funcțiile PRO fără plată sau expirare",
+    "creating": "Se creează...",
+    "createButton": "Creați personal",
+    "membersCount": "{{count}} membri ai personalului",
+    "searchPlaceholder": "Căutați după nume utilizator sau email...",
+    "toast": {
+      "created": {
+        "title": "Personal creat cu succes",
+        "desc": "Noul membru are acces PRO complet gratuit"
+      },
+      "updated": {
+        "title": "Personal actualizat",
+        "desc": "Informațiile au fost modificate cu succes"
+      },
+      "deleted": {
+        "title": "Personal șters",
+        "desc": "Membrul a fost eliminat definitiv"
+      },
+      "bankingSaved": {
+        "title": "Date bancare salvate",
+        "desc": "Datele bancare au fost actualizate cu succes"
+      }
+    },
+    "errors": {
+      "create": "Imposibil de creat membrul personalului",
+      "edit": "Imposibil de modificat membrul personalului",
+      "delete": "Imposibil de șters membrul personalului",
+      "banking": "Imposibil de salvat datele bancare"
+    },
+    "requiredFields": "Câmpuri obligatorii",
+    "requiredField": "Câmp obligatoriu",
+    "requiredUsernamePassword": "Numele de utilizator și parola sunt obligatorii",
+    "requiredIban": "IBAN-ul este obligatoriu",
+    "requiredUsername": "Numele de utilizator este obligatoriu",
+    "loading": "Se încarcă personalul...",
+    "loadError": "Eroare la încărcarea personalului",
+    "featureName": "Gestionarea personalului",
+    "featureDesc": "Doar administratorii pot gestiona personalul și vedea codurile de recomandare",
+    "registered": "Înregistrat: {{date}}",
+    "proAccessBadge": "✓ Acces PRO",
+    "bankingButton": "Date bancare",
+    "noResults": "Niciun rezultat găsit.",
+    "noStaff": "Nu s-au găsit membri ai personalului.",
+    "editTitle": "Editați personal: {{username}}",
+    "editDescription": "Modificați datele membrului personalului. Lăsați parola goală pentru a o păstra.",
+    "newPasswordLabel": "Parolă nouă",
+    "passwordEmptyHint": "Lăsați gol pentru a nu modifica",
+    "passwordEmptyDesc": "Lăsați gol dacă nu doriți să modificați parola",
+    "roleHint": "Staff/Admin: angajați gratuiți. Customer PRO: profesionist abonat",
+    "editProAccessNote": "✅ <0>Acces PRO:</0> Acest personal păstrează accesul complet PRO gratuit",
+    "saveChanges": "Salvați modificările",
+    "saving": "Se salvează...",
+    "deleteTitle": "⚠️ Confirmați ștergerea personalului",
+    "deleteHeader": "Sunteți pe cale să ștergeți definitiv contul personalului:",
+    "usernameLabel": "Nume utilizator:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ ATENȚIE:",
+    "warning1": "Această acțiune este <0>ireversibilă</0>",
+    "warning2": "Contul va fi șters <0>definitiv</0>",
+    "warning3": "Toate datele asociate vor fi pierdute",
+    "warning4": "Utilizatorul nu va mai putea accesa sistemul",
+    "deleteConfirmText": "Sigur doriți cu adevărat să continuați?",
+    "deleting": "Se șterge...",
+    "deleteConfirmButton": "Da, șterge definitiv",
+    "bankingTitle": "Date bancare: {{username}}",
+    "bankingDescription": "Introduceți datele bancare unde personalul va primi comisioanele de recomandare",
+    "bankingNote": "<0>Notă:</0> IBAN-ul furnizat va fi utilizat pentru a credita automat comisioanele de 25% când clienții sponsorizați activează abonamente.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Format: IT + 2 cifre de control + cod bancar",
+    "bankNameLabel": "Numele băncii",
+    "bankNamePlaceholder": "ex. Intesa Sanpaolo",
+    "accountHolderLabel": "Titularul contului",
+    "accountHolderPlaceholder": "Numele complet al titularului contului",
+    "bicLabel": "BIC/SWIFT (opțional)",
+    "bicPlaceholder": "ex. BCITITMM",
+    "saveBankingButton": "Salvați datele bancare",
+    "actions": "Acțiuni",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Personal"
   }
 }

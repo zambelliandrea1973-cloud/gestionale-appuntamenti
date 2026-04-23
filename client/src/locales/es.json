@@ -797,7 +797,8 @@
     "update": "Actualizar",
     "create": "Crear",
     "confirmDelete": "¿Estás seguro de que deseas eliminar?",
-    "copy": "Copiar"
+    "copy": "Copiar",
+    "errorWithMessage": "Ocurrió un error: {{message}}"
   },
   "notifications": {
     "success": "Operación completada con éxito",
@@ -2793,7 +2794,78 @@
     "save": "Guardar cita",
     "saved": "Cita guardada",
     "selectClient": "Seleccionar cliente",
-    "selectService": "Seleccionar servicio"
+    "selectService": "Seleccionar servicio",
+    "newTitle": "Nueva cita",
+    "fields": {
+      "client": "Cliente",
+      "clientPlaceholder": "Buscar cliente...",
+      "service": "Servicio",
+      "servicePlaceholder": "Buscar servicio...",
+      "staff": "Profesional",
+      "staffPlaceholder": "Selecciona profesional...",
+      "noStaff": "Sin profesional",
+      "room": "Sala/Cabina (opcional)",
+      "roomPlaceholder": "Selecciona sala...",
+      "noRoom": "Sin sala",
+      "notes": "Notas",
+      "notesPlaceholder": "Añade notas sobre la cita"
+    },
+    "loadingClient": "Cargando datos del cliente...",
+    "otherAccount": "Otra cuenta",
+    "creatingClient": "Creando...",
+    "createNewClient": "+ Crear \"<0>{{name}}</0>\" como nuevo cliente",
+    "warnings": {
+      "otherAccount": "<0>Atención:</0> Estás creando una cita para un cliente de otra cuenta ({{firstName}} {{lastName}}). Verifica que tengas los permisos necesarios."
+    },
+    "notifications": {
+      "title": "Selecciona canales de notificación"
+    },
+    "slotDetails": {
+      "title": "Detalles del horario seleccionado:",
+      "dateLabel": "Fecha: {{date}}",
+      "timeLabel": "Hora: {{time}}"
+    },
+    "actions": {
+      "update": "Actualizar",
+      "savingButton": "Guardando..."
+    },
+    "packageBadge": "Paquete ({{count}} disponibles)",
+    "toast": {
+      "created": {
+        "title": "Cita creada",
+        "desc": "Nueva cita creada correctamente"
+      },
+      "updated": {
+        "title": "Cita actualizada",
+        "desc": "La cita se ha actualizado correctamente"
+      },
+      "clientCreated": {
+        "title": "Cliente creado",
+        "desc": "{{firstName}} {{lastName}} creado. Podrás completar los datos más tarde."
+      },
+      "validationTitle": "Error de validación",
+      "validationDesc": "Campos con errores: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Selecciona un cliente para la cita",
+      "requiredService": "Selecciona un servicio para la cita",
+      "consentWarning": "El cliente no ha dado su consentimiento para el tratamiento de datos. La cita se creará igualmente.",
+      "confirmOtherAccount": "ATENCIÓN: Vas a crear una cita para {{firstName}} {{lastName}}, que pertenece a otra cuenta.\n\n¿Seguro que quieres continuar?",
+      "savingTitle": "Error al guardar",
+      "createClient": "No se pudo crear el cliente"
+    },
+    "conflict": {
+      "title": "⚠️ Conflicto de horario detectado",
+      "intro": "Has creado una cita que se solapa con una o más citas existentes:",
+      "staffHeading": "🧑 Conflicto de profesional:",
+      "staffLine": "<0>{{name}}</0> ya tiene una cita a las {{time}}",
+      "staffWith": " con {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Conflicto de sala:",
+      "roomLine": "<0>{{name}}</0> ya está ocupada a las {{time}}",
+      "roomBy": " por {{firstName}} {{lastName}}",
+      "askProceed": "¿Quieres continuar con la creación de la cita de todos modos?",
+      "proceed": "Sí, continuar igualmente"
+    }
   },
   "clientNotes": {
     "title": "Notas del cliente",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "Email"
     }
+  },
+  "staffCollaborators": {
+    "title": "Gestión de colaboradores",
+    "subtitle": "Gestiona los colaboradores del estudio y sus especializaciones",
+    "addCollaborator": "Añadir colaborador",
+    "editCollaborator": "Editar colaborador",
+    "loading": "Cargando colaboradores...",
+    "notAvailable": "Gestión de personal no disponible",
+    "notAvailableDesc": "La gestión de colaboradores y salas está disponible solo en el plan <0>Business</0>.",
+    "upgradeBusiness": "Cambiar a Business",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "activeCheckbox": "Activo",
+    "empty": "Sin colaboradores",
+    "emptyDesc": "Comienza añadiendo el primer colaborador del estudio",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "firstNameLabel": "Nombre *",
+    "lastNameLabel": "Apellido *",
+    "specialization": "Especialización",
+    "specializationPlaceholder": "ej. Fisioterapeuta, Partera, Masajista...",
+    "emailPlaceholder": "correo@ejemplo.com",
+    "phone": "Teléfono",
+    "phonePlaceholder": "ej. +39 123 456 7890",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteDesc": "¿Estás seguro de eliminar al colaborador {{name}}? Esta acción no se puede deshacer.",
+    "toast": {
+      "created": "Colaborador creado correctamente",
+      "updated": "Colaborador actualizado correctamente",
+      "deleted": "Colaborador eliminado correctamente"
+    },
+    "errors": {
+      "create": "No se pudo crear el colaborador",
+      "update": "No se pudo actualizar el colaborador",
+      "delete": "No se pudo eliminar el colaborador",
+      "requiredNames": "El nombre y el apellido son obligatorios"
+    },
+    "saving": "Guardando..."
+  },
+  "treatmentRooms": {
+    "title": "Gestión de salas/cabinas",
+    "subtitle": "Configura las salas y cabinas de tratamiento de tu estudio",
+    "addRoom": "Añadir sala",
+    "editRoom": "Editar sala",
+    "loading": "Cargando salas...",
+    "notAvailable": "Gestión de salas no disponible",
+    "notAvailableDesc": "La gestión de salas y cabinas está disponible solo en el plan <0>Business</0>.",
+    "upgradeBusiness": "Cambiar a Business",
+    "active": "Activa",
+    "inactive": "Inactiva",
+    "activeCheckbox": "Sala activa",
+    "empty": "No hay salas configuradas",
+    "emptyDesc": "Añade las primeras salas o cabinas de tratamiento",
+    "nameLabel": "Nombre de la sala *",
+    "namePlaceholder": "ej. Cabina 1, Estudio Principal, Sala de Masajes...",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Descripción opcional de la sala...",
+    "colorLabel": "Color de calendario",
+    "calendarColorRow": "Color de calendario",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteDesc": "¿Estás seguro de eliminar la sala \"{{name}}\"? Esta acción no se puede deshacer.",
+    "toast": {
+      "created": "Sala creada correctamente",
+      "updated": "Sala actualizada correctamente",
+      "deleted": "Sala eliminada correctamente"
+    },
+    "errors": {
+      "create": "No se pudo crear la sala",
+      "update": "No se pudo actualizar la sala",
+      "delete": "No se pudo eliminar la sala",
+      "requiredName": "El nombre de la sala es obligatorio"
+    },
+    "saving": "Guardando..."
+  },
+  "serviceManager": {
+    "heading": "Gestión de tratamientos y servicios",
+    "addService": "Añadir servicio",
+    "newService": "Nuevo servicio",
+    "editService": "Editar servicio",
+    "fields": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej. Terapia Bicom",
+      "duration": "Duración (min)",
+      "price": "Precio (€)",
+      "color": "Color",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Descripción opcional"
+    },
+    "tableHeaders": {
+      "name": "Nombre",
+      "duration": "Duración",
+      "price": "Precio",
+      "color": "Color",
+      "actions": "Acciones"
+    },
+    "intro": "Gestiona los tratamientos y servicios ofrecidos, incluidos duración y precio. Estos datos se usarán en informes y facturas.",
+    "quickEditHint": "Edición rápida: haz clic en cualquier campo (nombre, duración, precio, color) para editarlo directamente",
+    "editTooltips": {
+      "name": "Haz clic para editar el nombre",
+      "duration": "Haz clic para editar la duración",
+      "price": "Haz clic para editar el precio",
+      "color": "Haz clic para editar el color"
+    },
+    "actionTitles": {
+      "editFull": "Editar completo",
+      "delete": "Eliminar servicio"
+    },
+    "empty": {
+      "title": "No hay servicios disponibles. ¡Añade tu primer servicio!",
+      "subtitle": "Configura los servicios que ofreces para empezar a recibir reservas."
+    },
+    "footnote": "Nota: Los servicios eliminados ya no estarán disponibles para nuevas citas, pero los ya programados conservarán los datos originales.",
+    "toast": {
+      "created": {
+        "title": "Servicio creado",
+        "desc": "El servicio se ha creado correctamente"
+      },
+      "updated": {
+        "title": "Servicio actualizado",
+        "desc": "El servicio se ha actualizado correctamente"
+      },
+      "deleted": {
+        "title": "Servicio eliminado",
+        "desc": "El servicio se ha eliminado correctamente"
+      }
+    },
+    "errors": {
+      "requiredName": "El nombre del servicio es obligatorio",
+      "create": "Error al crear el servicio",
+      "update": "Error al actualizar el servicio",
+      "delete": "Error al eliminar el servicio",
+      "loadingTitle": "Error",
+      "loadingDesc": "Error al cargar los servicios: {{message}}"
+    },
+    "confirmDelete": "¿Estás seguro de eliminar este servicio?",
+    "savingButton": "Guardando..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Editar nota",
+      "createTitle": "Crear nueva nota"
+    },
+    "fields": {
+      "titleLabel": "Título",
+      "titlePlaceholder": "Título de la nota",
+      "contentLabel": "Contenido",
+      "contentPlaceholder": "Contenido de la nota"
+    },
+    "titles": {
+      "editLabel": "Editar título",
+      "resetLabel": "Restaurar título original",
+      "duplicateLast": "Duplicar última nota",
+      "noNoteToDuplicate": "Ninguna nota para duplicar",
+      "addPhoto": "Añadir foto",
+      "createNote": "Crear nueva nota",
+      "noNoteToDelete": "Ninguna nota para eliminar"
+    },
+    "empty": "No hay notas. Haz clic en \"Añadir\" para crear una.",
+    "imageAlt": "Foto {{idx}}",
+    "confirm": {
+      "deleteNote": "¿Estás seguro de eliminar esta nota?",
+      "deletePhoto": "¿Eliminar esta foto?"
+    },
+    "toast": {
+      "created": {
+        "title": "Nota creada",
+        "desc": "La nota se ha guardado correctamente"
+      },
+      "updated": {
+        "title": "Nota actualizada",
+        "desc": "La nota se ha actualizado correctamente"
+      },
+      "deleted": {
+        "title": "Nota eliminada",
+        "desc": "La nota se ha eliminado correctamente"
+      },
+      "duplicated": {
+        "title": "Nota duplicada",
+        "desc": "La nota se ha duplicado correctamente"
+      },
+      "duplicateSuffix": " (copia)",
+      "imageUploaded": {
+        "title": "Foto subida",
+        "desc": "La foto se ha añadido correctamente"
+      },
+      "imageDeleted": {
+        "title": "Foto eliminada",
+        "desc": "La foto se ha eliminado correctamente"
+      },
+      "titleUpdated": {
+        "title": "Título actualizado",
+        "desc": "El título de la sección se ha modificado correctamente"
+      },
+      "titleReset": {
+        "title": "Título restablecido",
+        "desc": "El título de la sección se ha restaurado al valor original"
+      },
+      "missingFields": {
+        "title": "Datos faltantes",
+        "desc": "Introduce el título y el contenido de la nota"
+      }
+    },
+    "errors": {
+      "create": "No se pudo crear la nota: {{message}}",
+      "update": "No se pudo actualizar la nota: {{message}}",
+      "delete": "No se pudo eliminar la nota: {{message}}",
+      "duplicate": "No se pudo duplicar la nota: {{message}}",
+      "uploadImage": "No se pudo subir la foto: {{message}}",
+      "deleteImage": "No se pudo eliminar la foto: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Visualiza y gestiona a los miembros de tu personal",
+    "addStaff": "Añadir personal",
+    "createNew": "Crear nuevo miembro del personal",
+    "createDescription": "Los miembros del personal obtienen acceso PRO completo y gratuito sin caducidad",
+    "fields": {
+      "usernameRequired": "Usuario *",
+      "emailLabel": "Email",
+      "passwordRequired": "Contraseña *",
+      "role": "Rol",
+      "roleStaff": "Personal - Empleado con acceso PRO",
+      "roleAdmin": "Admin - Acceso completo",
+      "roleUser": "Customer PRO - Profesional suscrito"
+    },
+    "proAccessNote": "✅ <0>Acceso PRO automático:</0> Todo el personal tiene acceso completo a las funciones PRO sin pago ni caducidad",
+    "creating": "Creando...",
+    "createButton": "Crear personal",
+    "membersCount": "{{count}} miembros del personal",
+    "searchPlaceholder": "Buscar por usuario o email...",
+    "toast": {
+      "created": {
+        "title": "Personal creado correctamente",
+        "desc": "El nuevo miembro tiene acceso PRO completo gratuito"
+      },
+      "updated": {
+        "title": "Personal actualizado",
+        "desc": "La información se ha modificado correctamente"
+      },
+      "deleted": {
+        "title": "Personal eliminado",
+        "desc": "El miembro ha sido eliminado permanentemente"
+      },
+      "bankingSaved": {
+        "title": "Datos bancarios guardados",
+        "desc": "Los datos bancarios del personal se han actualizado correctamente"
+      }
+    },
+    "errors": {
+      "create": "No se pudo crear el personal",
+      "edit": "No se pudo modificar el personal",
+      "delete": "No se pudo eliminar el personal",
+      "banking": "No se pudieron guardar los datos bancarios"
+    },
+    "requiredFields": "Campos obligatorios",
+    "requiredField": "Campo obligatorio",
+    "requiredUsernamePassword": "Usuario y contraseña son obligatorios",
+    "requiredIban": "El IBAN es obligatorio",
+    "requiredUsername": "El nombre de usuario es obligatorio",
+    "loading": "Cargando personal...",
+    "loadError": "Error al cargar el personal",
+    "featureName": "Gestión del personal",
+    "featureDesc": "Solo los administradores pueden gestionar el personal y ver los códigos de referido",
+    "registered": "Registrado: {{date}}",
+    "proAccessBadge": "✓ Acceso PRO",
+    "bankingButton": "Datos bancarios",
+    "noResults": "No se han encontrado resultados.",
+    "noStaff": "No hay personal.",
+    "editTitle": "Editar personal: {{username}}",
+    "editDescription": "Modifica los datos del personal. Deja la contraseña vacía para mantenerla.",
+    "newPasswordLabel": "Nueva contraseña",
+    "passwordEmptyHint": "Deja vacío para no cambiar",
+    "passwordEmptyDesc": "Deja vacío si no quieres cambiar la contraseña",
+    "roleHint": "Staff/Admin: empleados gratuitos. Customer PRO: profesional con suscripción",
+    "editProAccessNote": "✅ <0>Acceso PRO:</0> Este personal conserva el acceso PRO completo gratuito",
+    "saveChanges": "Guardar cambios",
+    "saving": "Guardando...",
+    "deleteTitle": "⚠️ Confirmar eliminación del personal",
+    "deleteHeader": "Vas a eliminar permanentemente la cuenta del personal:",
+    "usernameLabel": "Usuario:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ ATENCIÓN:",
+    "warning1": "Esta acción es <0>irreversible</0>",
+    "warning2": "La cuenta se eliminará <0>permanentemente</0>",
+    "warning3": "Se perderán todos los datos asociados",
+    "warning4": "El usuario ya no podrá acceder al sistema",
+    "deleteConfirmText": "¿Estás absolutamente seguro de continuar?",
+    "deleting": "Eliminando...",
+    "deleteConfirmButton": "Sí, eliminar permanentemente",
+    "bankingTitle": "Datos bancarios: {{username}}",
+    "bankingDescription": "Introduce los datos bancarios donde el personal recibirá las comisiones por referidos",
+    "bankingNote": "<0>Nota:</0> El IBAN se usará para acreditar automáticamente las comisiones del 25% cuando los clientes patrocinados activen suscripciones.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Formato: IT + 2 dígitos de control + código bancario",
+    "bankNameLabel": "Nombre del banco",
+    "bankNamePlaceholder": "ej. Intesa Sanpaolo",
+    "accountHolderLabel": "Titular de la cuenta",
+    "accountHolderPlaceholder": "Nombre completo del titular",
+    "bicLabel": "BIC/SWIFT (opcional)",
+    "bicPlaceholder": "ej. BCITITMM",
+    "saveBankingButton": "Guardar datos bancarios",
+    "actions": "Acciones",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Personal"
   }
 }

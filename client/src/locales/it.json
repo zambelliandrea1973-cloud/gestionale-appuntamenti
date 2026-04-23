@@ -810,7 +810,8 @@
     "update": "Aggiorna",
     "create": "Crea",
     "confirmDelete": "Sei sicuro di voler eliminare?",
-    "copy": "Copia"
+    "copy": "Copia",
+    "errorWithMessage": "Si è verificato un errore: {{message}}"
   },
   "notifications": {
     "success": "Operazione completata con successo",
@@ -2793,7 +2794,78 @@
     "save": "Salva appuntamento",
     "saved": "Appuntamento salvato",
     "selectClient": "Seleziona cliente",
-    "selectService": "Seleziona servizio"
+    "selectService": "Seleziona servizio",
+    "newTitle": "Nuovo Appuntamento",
+    "fields": {
+      "client": "Cliente",
+      "clientPlaceholder": "Cerca cliente...",
+      "service": "Servizio",
+      "servicePlaceholder": "Cerca servizio...",
+      "staff": "Professionista",
+      "staffPlaceholder": "Seleziona professionista...",
+      "noStaff": "Nessun professionista",
+      "room": "Stanza/Cabina (opzionale)",
+      "roomPlaceholder": "Seleziona stanza...",
+      "noRoom": "Nessuna stanza",
+      "notes": "Note",
+      "notesPlaceholder": "Inserisci eventuali note sull'appuntamento"
+    },
+    "loadingClient": "Caricamento dati cliente...",
+    "otherAccount": "Altro account",
+    "creatingClient": "Creazione in corso...",
+    "createNewClient": "+ Crea \"<0>{{name}}</0>\" come nuovo cliente",
+    "warnings": {
+      "otherAccount": "<0>Attenzione:</0> Stai creando un appuntamento per un cliente di un altro account ({{firstName}} {{lastName}}). Verifica di avere i permessi necessari prima di procedere."
+    },
+    "notifications": {
+      "title": "Seleziona Canali di Notifica"
+    },
+    "slotDetails": {
+      "title": "Dettagli slot selezionato:",
+      "dateLabel": "Data: {{date}}",
+      "timeLabel": "Ora: {{time}}"
+    },
+    "actions": {
+      "update": "Aggiorna",
+      "savingButton": "Salvataggio..."
+    },
+    "packageBadge": "Pacchetto ({{count}} disponibili)",
+    "toast": {
+      "created": {
+        "title": "Appuntamento creato",
+        "desc": "Nuovo appuntamento creato con successo"
+      },
+      "updated": {
+        "title": "Appuntamento aggiornato",
+        "desc": "L'appuntamento è stato aggiornato con successo"
+      },
+      "clientCreated": {
+        "title": "Cliente creato",
+        "desc": "{{firstName}} {{lastName}} creato. Potrai completare i dati in seguito."
+      },
+      "validationTitle": "Errore di validazione",
+      "validationDesc": "Campi con errori: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Seleziona un cliente per l'appuntamento",
+      "requiredService": "Seleziona un servizio per l'appuntamento",
+      "consentWarning": "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
+      "confirmOtherAccount": "ATTENZIONE: Stai per creare un appuntamento per {{firstName}} {{lastName}}, che appartiene a un altro account.\n\nSei sicuro di voler procedere?",
+      "savingTitle": "Errore durante il salvataggio",
+      "createClient": "Impossibile creare il cliente"
+    },
+    "conflict": {
+      "title": "⚠️ Conflitto di Orario Rilevato",
+      "intro": "Hai creato un appuntamento che si sovrappone con uno o più appuntamenti esistenti:",
+      "staffHeading": "🧑 Conflitto Professionista:",
+      "staffLine": "<0>{{name}}</0> ha già un appuntamento alle {{time}}",
+      "staffWith": " con {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Conflitto Stanza:",
+      "roomLine": "<0>{{name}}</0> è già occupata alle {{time}}",
+      "roomBy": " da {{firstName}} {{lastName}}",
+      "askProceed": "Vuoi procedere comunque con la creazione dell'appuntamento?",
+      "proceed": "Sì, Procedi Comunque"
+    }
   },
   "clientNotes": {
     "title": "Note Cliente",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "Email"
     }
+  },
+  "staffCollaborators": {
+    "title": "Gestione Collaboratori",
+    "subtitle": "Gestisci i collaboratori dello studio e le loro specializzazioni",
+    "addCollaborator": "Aggiungi Collaboratore",
+    "editCollaborator": "Modifica Collaboratore",
+    "loading": "Caricamento collaboratori...",
+    "notAvailable": "Gestione Staff Non Disponibile",
+    "notAvailableDesc": "La gestione di collaboratori e stanze è disponibile solo nel piano <0>Business</0>.",
+    "upgradeBusiness": "Passa a Business",
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "activeCheckbox": "Attivo",
+    "empty": "Nessun collaboratore",
+    "emptyDesc": "Inizia aggiungendo il primo collaboratore dello studio",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "firstNameLabel": "Nome *",
+    "lastNameLabel": "Cognome *",
+    "specialization": "Specializzazione",
+    "specializationPlaceholder": "es. Fisioterapista, Ostetrica, Massaggiatore...",
+    "emailPlaceholder": "email@esempio.com",
+    "phone": "Telefono",
+    "phonePlaceholder": "es. +39 123 456 7890",
+    "confirmDeleteTitle": "Conferma Eliminazione",
+    "confirmDeleteDesc": "Sei sicuro di voler eliminare il collaboratore {{name}}? Questa azione non può essere annullata.",
+    "toast": {
+      "created": "Collaboratore creato con successo",
+      "updated": "Collaboratore aggiornato con successo",
+      "deleted": "Collaboratore eliminato con successo"
+    },
+    "errors": {
+      "create": "Impossibile creare il collaboratore",
+      "update": "Impossibile aggiornare il collaboratore",
+      "delete": "Impossibile eliminare il collaboratore",
+      "requiredNames": "Nome e cognome sono obbligatori"
+    },
+    "saving": "Salvando..."
+  },
+  "treatmentRooms": {
+    "title": "Gestione Stanze/Cabine",
+    "subtitle": "Configura le stanze e cabine di trattamento del tuo studio",
+    "addRoom": "Aggiungi Stanza",
+    "editRoom": "Modifica Stanza",
+    "loading": "Caricamento stanze...",
+    "notAvailable": "Gestione Stanze Non Disponibile",
+    "notAvailableDesc": "La gestione di stanze e cabine è disponibile solo nel piano <0>Business</0>.",
+    "upgradeBusiness": "Passa a Business",
+    "active": "Attiva",
+    "inactive": "Inattiva",
+    "activeCheckbox": "Stanza attiva",
+    "empty": "Nessuna stanza configurata",
+    "emptyDesc": "Aggiungi le prime stanze o cabine di trattamento",
+    "nameLabel": "Nome Stanza *",
+    "namePlaceholder": "es. Cabina 1, Studio Principale, Sala Massaggi...",
+    "descriptionLabel": "Descrizione",
+    "descriptionPlaceholder": "Descrizione opzionale della stanza...",
+    "colorLabel": "Colore Calendario",
+    "calendarColorRow": "Colore calendario",
+    "confirmDeleteTitle": "Conferma Eliminazione",
+    "confirmDeleteDesc": "Sei sicuro di voler eliminare la stanza \"{{name}}\"? Questa azione non può essere annullata.",
+    "toast": {
+      "created": "Stanza creata con successo",
+      "updated": "Stanza aggiornata con successo",
+      "deleted": "Stanza eliminata con successo"
+    },
+    "errors": {
+      "create": "Impossibile creare la stanza",
+      "update": "Impossibile aggiornare la stanza",
+      "delete": "Impossibile eliminare la stanza",
+      "requiredName": "Il nome della stanza è obbligatorio"
+    },
+    "saving": "Salvando..."
+  },
+  "serviceManager": {
+    "heading": "Gestione Trattamenti e Servizi",
+    "addService": "Aggiungi Servizio",
+    "newService": "Nuovo Servizio",
+    "editService": "Modifica Servizio",
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Es. Terapia Bicom",
+      "duration": "Durata (min)",
+      "price": "Prezzo (€)",
+      "color": "Colore",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Descrizione opzionale"
+    },
+    "tableHeaders": {
+      "name": "Nome",
+      "duration": "Durata",
+      "price": "Prezzo",
+      "color": "Colore",
+      "actions": "Azioni"
+    },
+    "intro": "Gestisci i trattamenti e i servizi offerti, inclusi durata e prezzo. Questi dati saranno utilizzati nei report e nelle fatture.",
+    "quickEditHint": "Modifica rapida: clicca su qualsiasi campo (nome, durata, prezzo, colore) per modificarlo direttamente",
+    "editTooltips": {
+      "name": "Clicca per modificare il nome",
+      "duration": "Clicca per modificare la durata",
+      "price": "Clicca per modificare il prezzo",
+      "color": "Clicca per modificare il colore"
+    },
+    "actionTitles": {
+      "editFull": "Modifica completo",
+      "delete": "Elimina servizio"
+    },
+    "empty": {
+      "title": "Nessun servizio disponibile. Aggiungi il tuo primo servizio!",
+      "subtitle": "Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni."
+    },
+    "footnote": "Nota: I servizi eliminati non saranno più disponibili per nuovi appuntamenti, ma quelli già programmati manterranno i dati originali.",
+    "toast": {
+      "created": {
+        "title": "Servizio creato",
+        "desc": "Il servizio è stato creato con successo"
+      },
+      "updated": {
+        "title": "Servizio aggiornato",
+        "desc": "Il servizio è stato aggiornato con successo"
+      },
+      "deleted": {
+        "title": "Servizio eliminato",
+        "desc": "Il servizio è stato eliminato con successo"
+      }
+    },
+    "errors": {
+      "requiredName": "Il nome del servizio è obbligatorio",
+      "create": "Errore durante la creazione del servizio",
+      "update": "Errore durante l'aggiornamento del servizio",
+      "delete": "Errore durante l'eliminazione del servizio",
+      "loadingTitle": "Errore",
+      "loadingDesc": "Errore durante il caricamento dei servizi: {{message}}"
+    },
+    "confirmDelete": "Sei sicuro di voler eliminare questo servizio?",
+    "savingButton": "Salvataggio..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Modifica nota",
+      "createTitle": "Crea nuova nota"
+    },
+    "fields": {
+      "titleLabel": "Titolo",
+      "titlePlaceholder": "Titolo della nota",
+      "contentLabel": "Contenuto",
+      "contentPlaceholder": "Contenuto della nota"
+    },
+    "titles": {
+      "editLabel": "Modifica titolo",
+      "resetLabel": "Ripristina titolo originale",
+      "duplicateLast": "Duplica ultima nota",
+      "noNoteToDuplicate": "Nessuna nota da duplicare",
+      "addPhoto": "Aggiungi foto",
+      "createNote": "Crea nuova nota",
+      "noNoteToDelete": "Nessuna nota da eliminare"
+    },
+    "empty": "Nessuna nota disponibile. Clicca su \"Aggiungi\" per crearne una.",
+    "imageAlt": "Foto {{idx}}",
+    "confirm": {
+      "deleteNote": "Sei sicuro di voler eliminare questa nota?",
+      "deletePhoto": "Eliminare questa foto?"
+    },
+    "toast": {
+      "created": {
+        "title": "Nota creata",
+        "desc": "La nota è stata salvata con successo"
+      },
+      "updated": {
+        "title": "Nota aggiornata",
+        "desc": "La nota è stata aggiornata con successo"
+      },
+      "deleted": {
+        "title": "Nota eliminata",
+        "desc": "La nota è stata eliminata con successo"
+      },
+      "duplicated": {
+        "title": "Nota duplicata",
+        "desc": "La nota è stata duplicata con successo"
+      },
+      "duplicateSuffix": " (copia)",
+      "imageUploaded": {
+        "title": "Foto caricata",
+        "desc": "La foto è stata aggiunta con successo"
+      },
+      "imageDeleted": {
+        "title": "Foto eliminata",
+        "desc": "La foto è stata rimossa con successo"
+      },
+      "titleUpdated": {
+        "title": "Titolo aggiornato",
+        "desc": "Il titolo della sezione è stato modificato con successo"
+      },
+      "titleReset": {
+        "title": "Titolo ripristinato",
+        "desc": "Il titolo della sezione è stato ripristinato al valore originale"
+      },
+      "missingFields": {
+        "title": "Dati mancanti",
+        "desc": "Inserisci titolo e contenuto per la nota"
+      }
+    },
+    "errors": {
+      "create": "Impossibile creare la nota: {{message}}",
+      "update": "Impossibile aggiornare la nota: {{message}}",
+      "delete": "Impossibile eliminare la nota: {{message}}",
+      "duplicate": "Impossibile duplicare la nota: {{message}}",
+      "uploadImage": "Impossibile caricare la foto: {{message}}",
+      "deleteImage": "Impossibile eliminare la foto: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Visualizza e gestisci i tuoi membri dello staff",
+    "addStaff": "Aggiungi Staff",
+    "createNew": "Crea Nuovo Membro Staff",
+    "createDescription": "Gli utenti staff hanno automaticamente accesso PRO completo e gratuito senza scadenza",
+    "fields": {
+      "usernameRequired": "Username *",
+      "emailLabel": "Email",
+      "passwordRequired": "Password *",
+      "role": "Ruolo",
+      "roleStaff": "Staff - Dipendente con accesso PRO",
+      "roleAdmin": "Admin - Accesso completo",
+      "roleUser": "Customer PRO - Professionista abbonato"
+    },
+    "proAccessNote": "✅ <0>Accesso PRO automatico:</0> Tutti gli staff hanno accesso completo a tutte le funzionalità PRO senza pagamento e senza scadenza",
+    "creating": "Creazione...",
+    "createButton": "Crea Staff",
+    "membersCount": "{{count}} membri staff",
+    "searchPlaceholder": "Cerca per nome utente o email...",
+    "toast": {
+      "created": {
+        "title": "Staff creato con successo",
+        "desc": "Il nuovo membro dello staff ha accesso PRO completo gratuito"
+      },
+      "updated": {
+        "title": "Staff aggiornato",
+        "desc": "Le informazioni sono state modificate con successo"
+      },
+      "deleted": {
+        "title": "Staff eliminato",
+        "desc": "Il membro dello staff è stato rimosso definitivamente"
+      },
+      "bankingSaved": {
+        "title": "Dati bancari salvati",
+        "desc": "I dati bancari dello staff sono stati aggiornati con successo"
+      }
+    },
+    "errors": {
+      "create": "Impossibile creare lo staff",
+      "edit": "Impossibile modificare lo staff",
+      "delete": "Impossibile eliminare lo staff",
+      "banking": "Impossibile salvare i dati bancari"
+    },
+    "requiredFields": "Campi obbligatori",
+    "requiredField": "Campo obbligatorio",
+    "requiredUsernamePassword": "Username e password sono obbligatori",
+    "requiredIban": "L'IBAN è obbligatorio",
+    "requiredUsername": "Lo username è obbligatorio",
+    "loading": "Caricamento staff...",
+    "loadError": "Errore nel caricamento staff",
+    "featureName": "Gestione Staff",
+    "featureDesc": "Solo gli amministratori possono gestire il personale e visualizzare i codici referral",
+    "registered": "Registrato: {{date}}",
+    "proAccessBadge": "✓ Accesso PRO",
+    "bankingButton": "Dati Bancari",
+    "noResults": "Nessun risultato trovato.",
+    "noStaff": "Nessun utente staff trovato.",
+    "editTitle": "Modifica Staff: {{username}}",
+    "editDescription": "Modifica le informazioni del membro dello staff. Lascia la password vuota per mantenerla invariata.",
+    "newPasswordLabel": "Nuova Password",
+    "passwordEmptyHint": "Lascia vuoto per non cambiare",
+    "passwordEmptyDesc": "Lascia vuoto se non vuoi modificare la password",
+    "roleHint": "Staff/Admin: dipendenti gratuiti. Customer PRO: professionista che paga abbonamento",
+    "editProAccessNote": "✅ <0>Accesso PRO:</0> Questo staff mantiene l'accesso completo PRO gratuito",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "deleteTitle": "⚠️ Conferma eliminazione staff",
+    "deleteHeader": "Stai per eliminare definitivamente l'account staff:",
+    "usernameLabel": "Username:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ ATTENZIONE:",
+    "warning1": "Questa azione è <0>irreversibile</0>",
+    "warning2": "L'account verrà eliminato <0>permanentemente</0>",
+    "warning3": "Tutti i dati associati saranno persi",
+    "warning4": "L'utente non potrà più accedere al sistema",
+    "deleteConfirmText": "Sei assolutamente sicuro di voler procedere?",
+    "deleting": "Eliminazione...",
+    "deleteConfirmButton": "Sì, elimina definitivamente",
+    "bankingTitle": "Dati Bancari: {{username}}",
+    "bankingDescription": "Inserisci i dati bancari dove lo staff riceverà le commissioni referral",
+    "bankingNote": "<0>Nota:</0> L'IBAN inserito verrà utilizzato per accreditare automaticamente le commissioni del 25% quando i clienti sponsorizzati attivano abbonamenti.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Formato: IT + 2 cifre controllo + codice bancario",
+    "bankNameLabel": "Nome Banca",
+    "bankNamePlaceholder": "es. Intesa Sanpaolo",
+    "accountHolderLabel": "Intestatario Conto",
+    "accountHolderPlaceholder": "Nome completo intestatario",
+    "bicLabel": "BIC/SWIFT (opzionale)",
+    "bicPlaceholder": "es. BCITITMM",
+    "saveBankingButton": "Salva Dati Bancari",
+    "actions": "Azioni",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Staff"
   }
 }

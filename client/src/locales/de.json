@@ -797,7 +797,8 @@
     "update": "Aktualisieren",
     "create": "Erstellen",
     "confirmDelete": "Möchten Sie wirklich löschen?",
-    "copy": "Kopieren"
+    "copy": "Kopieren",
+    "errorWithMessage": "Ein Fehler ist aufgetreten: {{message}}"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",
@@ -2793,7 +2794,78 @@
     "save": "Termin speichern",
     "saved": "Termin gespeichert",
     "selectClient": "Kunden auswählen",
-    "selectService": "Dienst auswählen"
+    "selectService": "Dienst auswählen",
+    "newTitle": "Neuer Termin",
+    "fields": {
+      "client": "Kunde",
+      "clientPlaceholder": "Kunde suchen...",
+      "service": "Service",
+      "servicePlaceholder": "Service suchen...",
+      "staff": "Fachkraft",
+      "staffPlaceholder": "Fachkraft wählen...",
+      "noStaff": "Keine Fachkraft",
+      "room": "Raum/Kabine (optional)",
+      "roomPlaceholder": "Raum wählen...",
+      "noRoom": "Kein Raum",
+      "notes": "Notizen",
+      "notesPlaceholder": "Füge Notizen zum Termin hinzu"
+    },
+    "loadingClient": "Kundendaten werden geladen...",
+    "otherAccount": "Anderes Konto",
+    "creatingClient": "Wird erstellt...",
+    "createNewClient": "+ „<0>{{name}}</0>\" als neuen Kunden anlegen",
+    "warnings": {
+      "otherAccount": "<0>Achtung:</0> Du erstellst einen Termin für einen Kunden aus einem anderen Konto ({{firstName}} {{lastName}}). Stelle sicher, dass du die nötigen Berechtigungen hast."
+    },
+    "notifications": {
+      "title": "Benachrichtigungskanäle auswählen"
+    },
+    "slotDetails": {
+      "title": "Details des ausgewählten Slots:",
+      "dateLabel": "Datum: {{date}}",
+      "timeLabel": "Uhrzeit: {{time}}"
+    },
+    "actions": {
+      "update": "Aktualisieren",
+      "savingButton": "Speichern..."
+    },
+    "packageBadge": "Paket ({{count}} verfügbar)",
+    "toast": {
+      "created": {
+        "title": "Termin erstellt",
+        "desc": "Neuer Termin erfolgreich erstellt"
+      },
+      "updated": {
+        "title": "Termin aktualisiert",
+        "desc": "Der Termin wurde erfolgreich aktualisiert"
+      },
+      "clientCreated": {
+        "title": "Kunde erstellt",
+        "desc": "{{firstName}} {{lastName}} erstellt. Du kannst die Daten später vervollständigen."
+      },
+      "validationTitle": "Validierungsfehler",
+      "validationDesc": "Felder mit Fehlern: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Wähle einen Kunden für den Termin",
+      "requiredService": "Wähle einen Service für den Termin",
+      "consentWarning": "Der Kunde hat keine Einwilligung zur Datenverarbeitung erteilt. Der Termin wird trotzdem erstellt.",
+      "confirmOtherAccount": "ACHTUNG: Du möchtest einen Termin für {{firstName}} {{lastName}} erstellen, der zu einem anderen Konto gehört.\n\nMöchtest du wirklich fortfahren?",
+      "savingTitle": "Fehler beim Speichern",
+      "createClient": "Kunde konnte nicht erstellt werden"
+    },
+    "conflict": {
+      "title": "⚠️ Terminkonflikt erkannt",
+      "intro": "Du hast einen Termin erstellt, der mit einem oder mehreren bestehenden Terminen kollidiert:",
+      "staffHeading": "🧑 Konflikt mit Fachkraft:",
+      "staffLine": "<0>{{name}}</0> hat bereits einen Termin um {{time}}",
+      "staffWith": " mit {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Raum-Konflikt:",
+      "roomLine": "<0>{{name}}</0> ist bereits um {{time}} belegt",
+      "roomBy": " von {{firstName}} {{lastName}}",
+      "askProceed": "Möchten Sie den Termin trotzdem erstellen?",
+      "proceed": "Ja, trotzdem fortfahren"
+    }
   },
   "clientNotes": {
     "title": "Kundennotizen",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "E-Mail"
     }
+  },
+  "staffCollaborators": {
+    "title": "Mitarbeiterverwaltung",
+    "subtitle": "Verwalte die Mitarbeiter des Studios und ihre Fachgebiete",
+    "addCollaborator": "Mitarbeiter hinzufügen",
+    "editCollaborator": "Mitarbeiter bearbeiten",
+    "loading": "Mitarbeiter werden geladen...",
+    "notAvailable": "Mitarbeiterverwaltung nicht verfügbar",
+    "notAvailableDesc": "Mitarbeiter- und Raumverwaltung ist nur im Plan <0>Business</0> verfügbar.",
+    "upgradeBusiness": "Auf Business upgraden",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "activeCheckbox": "Aktiv",
+    "empty": "Keine Mitarbeiter",
+    "emptyDesc": "Beginne mit dem ersten Studio-Mitarbeiter",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "firstNameLabel": "Vorname *",
+    "lastNameLabel": "Nachname *",
+    "specialization": "Fachgebiet",
+    "specializationPlaceholder": "z.B. Physiotherapeut, Hebamme, Masseur...",
+    "emailPlaceholder": "email@beispiel.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "z.B. +39 123 456 7890",
+    "confirmDeleteTitle": "Löschen bestätigen",
+    "confirmDeleteDesc": "Möchten Sie den Mitarbeiter {{name}} wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "toast": {
+      "created": "Mitarbeiter erfolgreich erstellt",
+      "updated": "Mitarbeiter erfolgreich aktualisiert",
+      "deleted": "Mitarbeiter erfolgreich gelöscht"
+    },
+    "errors": {
+      "create": "Mitarbeiter konnte nicht erstellt werden",
+      "update": "Mitarbeiter konnte nicht aktualisiert werden",
+      "delete": "Mitarbeiter konnte nicht gelöscht werden",
+      "requiredNames": "Vor- und Nachname sind erforderlich"
+    },
+    "saving": "Speichern..."
+  },
+  "treatmentRooms": {
+    "title": "Raum-/Kabinenverwaltung",
+    "subtitle": "Konfiguriere die Behandlungsräume und Kabinen deines Studios",
+    "addRoom": "Raum hinzufügen",
+    "editRoom": "Raum bearbeiten",
+    "loading": "Räume werden geladen...",
+    "notAvailable": "Raumverwaltung nicht verfügbar",
+    "notAvailableDesc": "Raum- und Kabinenverwaltung ist nur im Plan <0>Business</0> verfügbar.",
+    "upgradeBusiness": "Auf Business upgraden",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "activeCheckbox": "Aktiver Raum",
+    "empty": "Keine Räume konfiguriert",
+    "emptyDesc": "Füge die ersten Behandlungsräume oder Kabinen hinzu",
+    "nameLabel": "Raumname *",
+    "namePlaceholder": "z.B. Kabine 1, Hauptstudio, Massageraum...",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Optionale Raumbeschreibung...",
+    "colorLabel": "Kalenderfarbe",
+    "calendarColorRow": "Kalenderfarbe",
+    "confirmDeleteTitle": "Löschen bestätigen",
+    "confirmDeleteDesc": "Möchten Sie den Raum „{{name}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "toast": {
+      "created": "Raum erfolgreich erstellt",
+      "updated": "Raum erfolgreich aktualisiert",
+      "deleted": "Raum erfolgreich gelöscht"
+    },
+    "errors": {
+      "create": "Raum konnte nicht erstellt werden",
+      "update": "Raum konnte nicht aktualisiert werden",
+      "delete": "Raum konnte nicht gelöscht werden",
+      "requiredName": "Der Raumname ist erforderlich"
+    },
+    "saving": "Speichern..."
+  },
+  "serviceManager": {
+    "heading": "Behandlungs- und Serviceverwaltung",
+    "addService": "Service hinzufügen",
+    "newService": "Neuer Service",
+    "editService": "Service bearbeiten",
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Z.B. Bicom-Therapie",
+      "duration": "Dauer (Min.)",
+      "price": "Preis (€)",
+      "color": "Farbe",
+      "description": "Beschreibung",
+      "descriptionPlaceholder": "Optionale Beschreibung"
+    },
+    "tableHeaders": {
+      "name": "Name",
+      "duration": "Dauer",
+      "price": "Preis",
+      "color": "Farbe",
+      "actions": "Aktionen"
+    },
+    "intro": "Verwalte die angebotenen Behandlungen und Dienste, einschließlich Dauer und Preis. Diese Daten werden in Berichten und Rechnungen verwendet.",
+    "quickEditHint": "Schnellbearbeitung: Klicke auf ein beliebiges Feld (Name, Dauer, Preis, Farbe), um es direkt zu bearbeiten",
+    "editTooltips": {
+      "name": "Klicke, um den Namen zu bearbeiten",
+      "duration": "Klicke, um die Dauer zu bearbeiten",
+      "price": "Klicke, um den Preis zu bearbeiten",
+      "color": "Klicke, um die Farbe zu bearbeiten"
+    },
+    "actionTitles": {
+      "editFull": "Komplett bearbeiten",
+      "delete": "Service löschen"
+    },
+    "empty": {
+      "title": "Keine Services verfügbar. Füge deinen ersten Service hinzu!",
+      "subtitle": "Konfiguriere die Services, die du anbietest, um Buchungen zu empfangen."
+    },
+    "footnote": "Hinweis: Gelöschte Services sind für neue Termine nicht mehr verfügbar, bereits geplante behalten jedoch ihre Daten.",
+    "toast": {
+      "created": {
+        "title": "Service erstellt",
+        "desc": "Der Service wurde erfolgreich erstellt"
+      },
+      "updated": {
+        "title": "Service aktualisiert",
+        "desc": "Der Service wurde erfolgreich aktualisiert"
+      },
+      "deleted": {
+        "title": "Service gelöscht",
+        "desc": "Der Service wurde erfolgreich gelöscht"
+      }
+    },
+    "errors": {
+      "requiredName": "Der Servicename ist erforderlich",
+      "create": "Fehler beim Erstellen des Services",
+      "update": "Fehler beim Aktualisieren des Services",
+      "delete": "Fehler beim Löschen des Services",
+      "loadingTitle": "Fehler",
+      "loadingDesc": "Fehler beim Laden der Services: {{message}}"
+    },
+    "confirmDelete": "Möchten Sie diesen Service wirklich löschen?",
+    "savingButton": "Speichern..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Notiz bearbeiten",
+      "createTitle": "Neue Notiz erstellen"
+    },
+    "fields": {
+      "titleLabel": "Titel",
+      "titlePlaceholder": "Notiztitel",
+      "contentLabel": "Inhalt",
+      "contentPlaceholder": "Notizinhalt"
+    },
+    "titles": {
+      "editLabel": "Titel bearbeiten",
+      "resetLabel": "Ursprünglichen Titel wiederherstellen",
+      "duplicateLast": "Letzte Notiz duplizieren",
+      "noNoteToDuplicate": "Keine Notiz zum Duplizieren",
+      "addPhoto": "Foto hinzufügen",
+      "createNote": "Neue Notiz erstellen",
+      "noNoteToDelete": "Keine Notiz zum Löschen"
+    },
+    "empty": "Keine Notizen verfügbar. Klicke auf „Hinzufügen\", um eine zu erstellen.",
+    "imageAlt": "Foto {{idx}}",
+    "confirm": {
+      "deleteNote": "Möchten Sie diese Notiz wirklich löschen?",
+      "deletePhoto": "Dieses Foto löschen?"
+    },
+    "toast": {
+      "created": {
+        "title": "Notiz erstellt",
+        "desc": "Die Notiz wurde erfolgreich gespeichert"
+      },
+      "updated": {
+        "title": "Notiz aktualisiert",
+        "desc": "Die Notiz wurde erfolgreich aktualisiert"
+      },
+      "deleted": {
+        "title": "Notiz gelöscht",
+        "desc": "Die Notiz wurde erfolgreich gelöscht"
+      },
+      "duplicated": {
+        "title": "Notiz dupliziert",
+        "desc": "Die Notiz wurde erfolgreich dupliziert"
+      },
+      "duplicateSuffix": " (Kopie)",
+      "imageUploaded": {
+        "title": "Foto hochgeladen",
+        "desc": "Das Foto wurde erfolgreich hinzugefügt"
+      },
+      "imageDeleted": {
+        "title": "Foto gelöscht",
+        "desc": "Das Foto wurde erfolgreich entfernt"
+      },
+      "titleUpdated": {
+        "title": "Titel aktualisiert",
+        "desc": "Der Abschnittstitel wurde erfolgreich aktualisiert"
+      },
+      "titleReset": {
+        "title": "Titel zurückgesetzt",
+        "desc": "Der Abschnittstitel wurde auf den Originalwert zurückgesetzt"
+      },
+      "missingFields": {
+        "title": "Fehlende Daten",
+        "desc": "Gib Titel und Inhalt der Notiz ein"
+      }
+    },
+    "errors": {
+      "create": "Notiz konnte nicht erstellt werden: {{message}}",
+      "update": "Notiz konnte nicht aktualisiert werden: {{message}}",
+      "delete": "Notiz konnte nicht gelöscht werden: {{message}}",
+      "duplicate": "Notiz konnte nicht dupliziert werden: {{message}}",
+      "uploadImage": "Foto konnte nicht hochgeladen werden: {{message}}",
+      "deleteImage": "Foto konnte nicht gelöscht werden: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Mitarbeiter anzeigen und verwalten",
+    "addStaff": "Mitarbeiter hinzufügen",
+    "createNew": "Neues Mitarbeiter anlegen",
+    "createDescription": "Mitarbeiter erhalten automatisch vollen kostenlosen PRO-Zugang ohne Ablaufdatum",
+    "fields": {
+      "usernameRequired": "Benutzername *",
+      "emailLabel": "E-Mail",
+      "passwordRequired": "Passwort *",
+      "role": "Rolle",
+      "roleStaff": "Mitarbeiter - Angestellter mit PRO-Zugang",
+      "roleAdmin": "Admin - Vollzugriff",
+      "roleUser": "Customer PRO - Abonnierter Profi"
+    },
+    "proAccessNote": "✅ <0>Automatischer PRO-Zugang:</0> Alle Mitarbeiter haben vollen Zugriff auf PRO-Funktionen ohne Zahlung oder Ablauf",
+    "creating": "Erstellen...",
+    "createButton": "Mitarbeiter anlegen",
+    "membersCount": "{{count}} Mitarbeiter",
+    "searchPlaceholder": "Nach Benutzername oder E-Mail suchen...",
+    "toast": {
+      "created": {
+        "title": "Mitarbeiter erfolgreich erstellt",
+        "desc": "Das neue Mitarbeiter hat vollen kostenlosen PRO-Zugang"
+      },
+      "updated": {
+        "title": "Mitarbeiter aktualisiert",
+        "desc": "Die Informationen wurden erfolgreich aktualisiert"
+      },
+      "deleted": {
+        "title": "Mitarbeiter gelöscht",
+        "desc": "Das Mitarbeiter wurde dauerhaft entfernt"
+      },
+      "bankingSaved": {
+        "title": "Bankdaten gespeichert",
+        "desc": "Die Bankdaten des Mitarbeiters wurden erfolgreich aktualisiert"
+      }
+    },
+    "errors": {
+      "create": "Mitarbeiter konnte nicht erstellt werden",
+      "edit": "Mitarbeiter konnte nicht bearbeitet werden",
+      "delete": "Mitarbeiter konnte nicht gelöscht werden",
+      "banking": "Bankdaten konnten nicht gespeichert werden"
+    },
+    "requiredFields": "Pflichtfelder",
+    "requiredField": "Pflichtfeld",
+    "requiredUsernamePassword": "Benutzername und Passwort sind erforderlich",
+    "requiredIban": "IBAN ist erforderlich",
+    "requiredUsername": "Der Benutzername ist erforderlich",
+    "loading": "Mitarbeiter werden geladen...",
+    "loadError": "Fehler beim Laden der Mitarbeiter",
+    "featureName": "Mitarbeiterverwaltung",
+    "featureDesc": "Nur Administratoren können das Personal verwalten und Empfehlungscodes anzeigen",
+    "registered": "Registriert: {{date}}",
+    "proAccessBadge": "✓ PRO-Zugang",
+    "bankingButton": "Bankdaten",
+    "noResults": "Keine Ergebnisse gefunden.",
+    "noStaff": "Keine Mitarbeiter gefunden.",
+    "editTitle": "Mitarbeiter bearbeiten: {{username}}",
+    "editDescription": "Bearbeite die Mitarbeiterdaten. Lasse das Passwort leer, um es nicht zu ändern.",
+    "newPasswordLabel": "Neues Passwort",
+    "passwordEmptyHint": "Lasse leer, um nicht zu ändern",
+    "passwordEmptyDesc": "Lasse leer, wenn du das Passwort nicht ändern möchtest",
+    "roleHint": "Staff/Admin: kostenlose Mitarbeiter. Customer PRO: zahlender Profi",
+    "editProAccessNote": "✅ <0>PRO-Zugang:</0> Dieser Mitarbeiter behält den vollen kostenlosen PRO-Zugang",
+    "saveChanges": "Änderungen speichern",
+    "saving": "Speichern...",
+    "deleteTitle": "⚠️ Mitarbeiter-Löschung bestätigen",
+    "deleteHeader": "Du bist dabei, das Mitarbeiterkonto dauerhaft zu löschen:",
+    "usernameLabel": "Benutzername:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ ACHTUNG:",
+    "warning1": "Diese Aktion ist <0>unwiderruflich</0>",
+    "warning2": "Das Konto wird <0>endgültig</0> gelöscht",
+    "warning3": "Alle zugehörigen Daten gehen verloren",
+    "warning4": "Der Benutzer kann nicht mehr auf das System zugreifen",
+    "deleteConfirmText": "Bist du absolut sicher, dass du fortfahren möchtest?",
+    "deleting": "Wird gelöscht...",
+    "deleteConfirmButton": "Ja, dauerhaft löschen",
+    "bankingTitle": "Bankdaten: {{username}}",
+    "bankingDescription": "Gib die Bankdaten ein, auf denen der Mitarbeiter die Referral-Provisionen erhält",
+    "bankingNote": "<0>Hinweis:</0> Die angegebene IBAN wird verwendet, um automatisch die 25 %-Provisionen gutzuschreiben, wenn gesponserte Kunden Abonnements aktivieren.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Format: IT + 2 Prüfziffern + Bankcode",
+    "bankNameLabel": "Bankname",
+    "bankNamePlaceholder": "z.B. Intesa Sanpaolo",
+    "accountHolderLabel": "Kontoinhaber",
+    "accountHolderPlaceholder": "Vollständiger Name des Kontoinhabers",
+    "bicLabel": "BIC/SWIFT (optional)",
+    "bicPlaceholder": "z.B. BCITITMM",
+    "saveBankingButton": "Bankdaten speichern",
+    "actions": "Aktionen",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Mitarbeiter"
   }
 }

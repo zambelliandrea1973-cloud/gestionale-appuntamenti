@@ -779,7 +779,8 @@
     "update": "Bijwerken",
     "create": "Aanmaken",
     "confirmDelete": "Weet u zeker dat u wilt verwijderen?",
-    "copy": "Kopiëren"
+    "copy": "Kopiëren",
+    "errorWithMessage": "Er is een fout opgetreden: {{message}}"
   },
   "notifications": {
     "success": "Bewerking succesvol voltooid",
@@ -2793,7 +2794,78 @@
     "save": "Afspraak opslaan",
     "saved": "Afspraak opgeslagen",
     "selectClient": "Klant selecteren",
-    "selectService": "Dienst selecteren"
+    "selectService": "Dienst selecteren",
+    "newTitle": "Nieuwe afspraak",
+    "fields": {
+      "client": "Klant",
+      "clientPlaceholder": "Klant zoeken...",
+      "service": "Dienst",
+      "servicePlaceholder": "Dienst zoeken...",
+      "staff": "Professional",
+      "staffPlaceholder": "Selecteer een professional...",
+      "noStaff": "Geen professional",
+      "room": "Ruimte/Cabine (optioneel)",
+      "roomPlaceholder": "Selecteer een ruimte...",
+      "noRoom": "Geen ruimte",
+      "notes": "Notities",
+      "notesPlaceholder": "Voeg eventuele notities over de afspraak toe"
+    },
+    "loadingClient": "Klantgegevens laden...",
+    "otherAccount": "Andere account",
+    "creatingClient": "Bezig met aanmaken...",
+    "createNewClient": "+ \"<0>{{name}}</0>\" als nieuwe klant aanmaken",
+    "warnings": {
+      "otherAccount": "<0>Let op:</0> Je maakt een afspraak voor een klant van een andere account ({{firstName}} {{lastName}}). Controleer of je de juiste rechten hebt."
+    },
+    "notifications": {
+      "title": "Selecteer meldingskanalen"
+    },
+    "slotDetails": {
+      "title": "Details van het gekozen tijdvak:",
+      "dateLabel": "Datum: {{date}}",
+      "timeLabel": "Tijd: {{time}}"
+    },
+    "actions": {
+      "update": "Bijwerken",
+      "savingButton": "Opslaan..."
+    },
+    "packageBadge": "Pakket ({{count}} beschikbaar)",
+    "toast": {
+      "created": {
+        "title": "Afspraak aangemaakt",
+        "desc": "Nieuwe afspraak succesvol aangemaakt"
+      },
+      "updated": {
+        "title": "Afspraak bijgewerkt",
+        "desc": "De afspraak is succesvol bijgewerkt"
+      },
+      "clientCreated": {
+        "title": "Klant aangemaakt",
+        "desc": "{{firstName}} {{lastName}} aangemaakt. Je kunt de gegevens later aanvullen."
+      },
+      "validationTitle": "Validatiefout",
+      "validationDesc": "Velden met fouten: {{fields}}"
+    },
+    "errors": {
+      "requiredClient": "Selecteer een klant voor de afspraak",
+      "requiredService": "Selecteer een dienst voor de afspraak",
+      "consentWarning": "De klant heeft geen toestemming gegeven voor gegevensverwerking. De afspraak wordt toch aangemaakt.",
+      "confirmOtherAccount": "LET OP: Je staat op het punt een afspraak aan te maken voor {{firstName}} {{lastName}}, die bij een andere account hoort.\n\nWeet je zeker dat je wilt doorgaan?",
+      "savingTitle": "Fout bij het opslaan",
+      "createClient": "Kon klant niet aanmaken"
+    },
+    "conflict": {
+      "title": "⚠️ Tijdsconflict gedetecteerd",
+      "intro": "Je hebt een afspraak gemaakt die overlapt met een of meer bestaande afspraken:",
+      "staffHeading": "🧑 Conflict met professional:",
+      "staffLine": "<0>{{name}}</0> heeft al een afspraak om {{time}}",
+      "staffWith": " met {{firstName}} {{lastName}}",
+      "roomHeading": "🏠 Ruimteconflict:",
+      "roomLine": "<0>{{name}}</0> is al bezet om {{time}}",
+      "roomBy": " door {{firstName}} {{lastName}}",
+      "askProceed": "Wil je toch doorgaan met het maken van de afspraak?",
+      "proceed": "Ja, toch doorgaan"
+    }
   },
   "clientNotes": {
     "title": "Klantnotities",
@@ -3031,5 +3103,310 @@
       "whatsapp": "WhatsApp",
       "email": "E-mail"
     }
+  },
+  "staffCollaborators": {
+    "title": "Beheer van medewerkers",
+    "subtitle": "Beheer studio-medewerkers en hun specialisaties",
+    "addCollaborator": "Medewerker toevoegen",
+    "editCollaborator": "Medewerker bewerken",
+    "loading": "Medewerkers laden...",
+    "notAvailable": "Personeelsbeheer niet beschikbaar",
+    "notAvailableDesc": "Beheer van medewerkers en ruimtes is alleen beschikbaar in het <0>Business</0>-plan.",
+    "upgradeBusiness": "Upgrade naar Business",
+    "active": "Actief",
+    "inactive": "Inactief",
+    "activeCheckbox": "Actief",
+    "empty": "Geen medewerkers",
+    "emptyDesc": "Begin door de eerste studiomedewerker toe te voegen",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "firstNameLabel": "Voornaam *",
+    "lastNameLabel": "Achternaam *",
+    "specialization": "Specialisatie",
+    "specializationPlaceholder": "bijv. Fysiotherapeut, Verloskundige, Masseur...",
+    "emailPlaceholder": "email@voorbeeld.com",
+    "phone": "Telefoon",
+    "phonePlaceholder": "bijv. +39 123 456 7890",
+    "confirmDeleteTitle": "Verwijdering bevestigen",
+    "confirmDeleteDesc": "Weet je zeker dat je medewerker {{name}} wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "toast": {
+      "created": "Medewerker succesvol aangemaakt",
+      "updated": "Medewerker succesvol bijgewerkt",
+      "deleted": "Medewerker succesvol verwijderd"
+    },
+    "errors": {
+      "create": "Kon medewerker niet aanmaken",
+      "update": "Kon medewerker niet bijwerken",
+      "delete": "Kon medewerker niet verwijderen",
+      "requiredNames": "Voor- en achternaam zijn verplicht"
+    },
+    "saving": "Opslaan..."
+  },
+  "treatmentRooms": {
+    "title": "Beheer van ruimtes/cabines",
+    "subtitle": "Configureer de behandelkamers en cabines van je studio",
+    "addRoom": "Ruimte toevoegen",
+    "editRoom": "Ruimte bewerken",
+    "loading": "Ruimtes laden...",
+    "notAvailable": "Beheer van ruimtes niet beschikbaar",
+    "notAvailableDesc": "Beheer van ruimtes en cabines is alleen beschikbaar in het <0>Business</0>-plan.",
+    "upgradeBusiness": "Upgrade naar Business",
+    "active": "Actief",
+    "inactive": "Inactief",
+    "activeCheckbox": "Actieve ruimte",
+    "empty": "Geen ruimtes geconfigureerd",
+    "emptyDesc": "Voeg de eerste behandelkamers of cabines toe",
+    "nameLabel": "Naam ruimte *",
+    "namePlaceholder": "bijv. Cabine 1, Hoofdstudio, Massageruimte...",
+    "descriptionLabel": "Beschrijving",
+    "descriptionPlaceholder": "Optionele beschrijving van de ruimte...",
+    "colorLabel": "Kalenderkleur",
+    "calendarColorRow": "Kalenderkleur",
+    "confirmDeleteTitle": "Verwijdering bevestigen",
+    "confirmDeleteDesc": "Weet je zeker dat je de ruimte \"{{name}}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "toast": {
+      "created": "Ruimte succesvol aangemaakt",
+      "updated": "Ruimte succesvol bijgewerkt",
+      "deleted": "Ruimte succesvol verwijderd"
+    },
+    "errors": {
+      "create": "Kon ruimte niet aanmaken",
+      "update": "Kon ruimte niet bijwerken",
+      "delete": "Kon ruimte niet verwijderen",
+      "requiredName": "De naam van de ruimte is verplicht"
+    },
+    "saving": "Opslaan..."
+  },
+  "serviceManager": {
+    "heading": "Beheer van behandelingen en diensten",
+    "addService": "Dienst toevoegen",
+    "newService": "Nieuwe dienst",
+    "editService": "Dienst bewerken",
+    "fields": {
+      "name": "Naam",
+      "namePlaceholder": "Bijv. Bicom-therapie",
+      "duration": "Duur (min)",
+      "price": "Prijs (€)",
+      "color": "Kleur",
+      "description": "Beschrijving",
+      "descriptionPlaceholder": "Optionele beschrijving"
+    },
+    "tableHeaders": {
+      "name": "Naam",
+      "duration": "Duur",
+      "price": "Prijs",
+      "color": "Kleur",
+      "actions": "Acties"
+    },
+    "intro": "Beheer de aangeboden behandelingen en diensten, inclusief duur en prijs. Deze gegevens worden gebruikt in rapporten en facturen.",
+    "quickEditHint": "Snel bewerken: klik op een veld (naam, duur, prijs, kleur) om direct te bewerken",
+    "editTooltips": {
+      "name": "Klik om de naam te bewerken",
+      "duration": "Klik om de duur te bewerken",
+      "price": "Klik om de prijs te bewerken",
+      "color": "Klik om de kleur te bewerken"
+    },
+    "actionTitles": {
+      "editFull": "Volledig bewerken",
+      "delete": "Dienst verwijderen"
+    },
+    "empty": {
+      "title": "Geen diensten beschikbaar. Voeg je eerste dienst toe!",
+      "subtitle": "Configureer de diensten die je aanbiedt om reserveringen te ontvangen."
+    },
+    "footnote": "Opmerking: Verwijderde diensten zijn niet meer beschikbaar voor nieuwe afspraken, maar reeds geplande behouden de oorspronkelijke gegevens.",
+    "toast": {
+      "created": {
+        "title": "Dienst aangemaakt",
+        "desc": "De dienst is succesvol aangemaakt"
+      },
+      "updated": {
+        "title": "Dienst bijgewerkt",
+        "desc": "De dienst is succesvol bijgewerkt"
+      },
+      "deleted": {
+        "title": "Dienst verwijderd",
+        "desc": "De dienst is succesvol verwijderd"
+      }
+    },
+    "errors": {
+      "requiredName": "De naam van de dienst is verplicht",
+      "create": "Fout bij het aanmaken van de dienst",
+      "update": "Fout bij het bijwerken van de dienst",
+      "delete": "Fout bij het verwijderen van de dienst",
+      "loadingTitle": "Fout",
+      "loadingDesc": "Fout bij het laden van diensten: {{message}}"
+    },
+    "confirmDelete": "Weet je zeker dat je deze dienst wilt verwijderen?",
+    "savingButton": "Opslaan..."
+  },
+  "clientLegacyNotes": {
+    "dialog": {
+      "editTitle": "Notitie bewerken",
+      "createTitle": "Nieuwe notitie maken"
+    },
+    "fields": {
+      "titleLabel": "Titel",
+      "titlePlaceholder": "Notitietitel",
+      "contentLabel": "Inhoud",
+      "contentPlaceholder": "Notitie-inhoud"
+    },
+    "titles": {
+      "editLabel": "Titel bewerken",
+      "resetLabel": "Originele titel herstellen",
+      "duplicateLast": "Laatste notitie dupliceren",
+      "noNoteToDuplicate": "Geen notitie om te dupliceren",
+      "addPhoto": "Foto toevoegen",
+      "createNote": "Nieuwe notitie maken",
+      "noNoteToDelete": "Geen notitie om te verwijderen"
+    },
+    "empty": "Geen notities beschikbaar. Klik op \"Toevoegen\" om er een te maken.",
+    "imageAlt": "Foto {{idx}}",
+    "confirm": {
+      "deleteNote": "Weet je zeker dat je deze notitie wilt verwijderen?",
+      "deletePhoto": "Deze foto verwijderen?"
+    },
+    "toast": {
+      "created": {
+        "title": "Notitie aangemaakt",
+        "desc": "De notitie is succesvol opgeslagen"
+      },
+      "updated": {
+        "title": "Notitie bijgewerkt",
+        "desc": "De notitie is succesvol bijgewerkt"
+      },
+      "deleted": {
+        "title": "Notitie verwijderd",
+        "desc": "De notitie is succesvol verwijderd"
+      },
+      "duplicated": {
+        "title": "Notitie gedupliceerd",
+        "desc": "De notitie is succesvol gedupliceerd"
+      },
+      "duplicateSuffix": " (kopie)",
+      "imageUploaded": {
+        "title": "Foto geüpload",
+        "desc": "De foto is succesvol toegevoegd"
+      },
+      "imageDeleted": {
+        "title": "Foto verwijderd",
+        "desc": "De foto is succesvol verwijderd"
+      },
+      "titleUpdated": {
+        "title": "Titel bijgewerkt",
+        "desc": "De sectietitel is succesvol bijgewerkt"
+      },
+      "titleReset": {
+        "title": "Titel hersteld",
+        "desc": "De sectietitel is hersteld naar de originele waarde"
+      },
+      "missingFields": {
+        "title": "Ontbrekende gegevens",
+        "desc": "Voer titel en inhoud van de notitie in"
+      }
+    },
+    "errors": {
+      "create": "Kon notitie niet aanmaken: {{message}}",
+      "update": "Kon notitie niet bijwerken: {{message}}",
+      "delete": "Kon notitie niet verwijderen: {{message}}",
+      "duplicate": "Kon notitie niet dupliceren: {{message}}",
+      "uploadImage": "Kon foto niet uploaden: {{message}}",
+      "deleteImage": "Kon foto niet verwijderen: {{message}}"
+    }
+  },
+  "staffManagement": {
+    "subtitle": "Bekijk en beheer je personeel",
+    "addStaff": "Personeel toevoegen",
+    "createNew": "Nieuw personeelslid aanmaken",
+    "createDescription": "Personeelsleden krijgen automatisch volledige gratis PRO-toegang zonder vervaldatum",
+    "fields": {
+      "usernameRequired": "Gebruikersnaam *",
+      "emailLabel": "E-mail",
+      "passwordRequired": "Wachtwoord *",
+      "role": "Rol",
+      "roleStaff": "Personeel - Medewerker met PRO-toegang",
+      "roleAdmin": "Admin - Volledige toegang",
+      "roleUser": "Customer PRO - Geabonneerd professional"
+    },
+    "proAccessNote": "✅ <0>Automatische PRO-toegang:</0> Al het personeel heeft volledige toegang tot PRO-functies zonder betaling of vervaldatum",
+    "creating": "Aanmaken...",
+    "createButton": "Personeel aanmaken",
+    "membersCount": "{{count}} personeelsleden",
+    "searchPlaceholder": "Zoek op gebruikersnaam of e-mail...",
+    "toast": {
+      "created": {
+        "title": "Personeelslid succesvol aangemaakt",
+        "desc": "Het nieuwe personeelslid heeft volledige gratis PRO-toegang"
+      },
+      "updated": {
+        "title": "Personeel bijgewerkt",
+        "desc": "De informatie is succesvol bijgewerkt"
+      },
+      "deleted": {
+        "title": "Personeel verwijderd",
+        "desc": "Het personeelslid is permanent verwijderd"
+      },
+      "bankingSaved": {
+        "title": "Bankgegevens opgeslagen",
+        "desc": "De bankgegevens van het personeelslid zijn succesvol bijgewerkt"
+      }
+    },
+    "errors": {
+      "create": "Kon personeelslid niet aanmaken",
+      "edit": "Kon personeelslid niet bijwerken",
+      "delete": "Kon personeelslid niet verwijderen",
+      "banking": "Kon bankgegevens niet opslaan"
+    },
+    "requiredFields": "Verplichte velden",
+    "requiredField": "Verplicht veld",
+    "requiredUsernamePassword": "Gebruikersnaam en wachtwoord zijn verplicht",
+    "requiredIban": "IBAN is verplicht",
+    "requiredUsername": "Gebruikersnaam is verplicht",
+    "loading": "Personeel laden...",
+    "loadError": "Fout bij het laden van personeel",
+    "featureName": "Personeelsbeheer",
+    "featureDesc": "Alleen beheerders kunnen personeel beheren en referralcodes bekijken",
+    "registered": "Geregistreerd: {{date}}",
+    "proAccessBadge": "✓ PRO-toegang",
+    "bankingButton": "Bankgegevens",
+    "noResults": "Geen resultaten gevonden.",
+    "noStaff": "Geen personeel gevonden.",
+    "editTitle": "Personeel bewerken: {{username}}",
+    "editDescription": "Werk de gegevens van het personeelslid bij. Laat het wachtwoord leeg om het niet te wijzigen.",
+    "newPasswordLabel": "Nieuw wachtwoord",
+    "passwordEmptyHint": "Laat leeg om niet te wijzigen",
+    "passwordEmptyDesc": "Laat leeg als je het wachtwoord niet wilt wijzigen",
+    "roleHint": "Staff/Admin: gratis medewerkers. Customer PRO: betalende professional",
+    "editProAccessNote": "✅ <0>PRO-toegang:</0> Dit personeelslid behoudt volledige gratis PRO-toegang",
+    "saveChanges": "Wijzigingen opslaan",
+    "saving": "Opslaan...",
+    "deleteTitle": "⚠️ Verwijdering personeel bevestigen",
+    "deleteHeader": "Je staat op het punt het personeelsaccount permanent te verwijderen:",
+    "usernameLabel": "Gebruikersnaam:",
+    "idLabel": "ID:",
+    "warningTitle": "⚠️ LET OP:",
+    "warning1": "Deze actie is <0>onomkeerbaar</0>",
+    "warning2": "De account wordt <0>permanent</0> verwijderd",
+    "warning3": "Alle bijbehorende gegevens gaan verloren",
+    "warning4": "De gebruiker heeft geen toegang meer tot het systeem",
+    "deleteConfirmText": "Weet je het absoluut zeker dat je wilt doorgaan?",
+    "deleting": "Verwijderen...",
+    "deleteConfirmButton": "Ja, permanent verwijderen",
+    "bankingTitle": "Bankgegevens: {{username}}",
+    "bankingDescription": "Voer de bankgegevens in waar het personeel de referral-commissies ontvangt",
+    "bankingNote": "<0>Opmerking:</0> Het opgegeven IBAN wordt gebruikt om automatisch de 25%-commissies te crediteren wanneer gesponsorde klanten abonnementen activeren.",
+    "ibanRequired": "IBAN *",
+    "ibanFormatHint": "Formaat: IT + 2 controlecijfers + bankcode",
+    "bankNameLabel": "Banknaam",
+    "bankNamePlaceholder": "bijv. Intesa Sanpaolo",
+    "accountHolderLabel": "Rekeninghouder",
+    "accountHolderPlaceholder": "Volledige naam rekeninghouder",
+    "bicLabel": "BIC/SWIFT (optioneel)",
+    "bicPlaceholder": "bijv. BCITITMM",
+    "saveBankingButton": "Bankgegevens opslaan",
+    "actions": "Acties",
+    "adminBadge": "Admin",
+    "customerProBadge": "Customer PRO",
+    "staffBadge": "Personeel"
   }
 }
