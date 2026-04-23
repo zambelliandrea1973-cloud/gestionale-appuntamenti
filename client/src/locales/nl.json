@@ -940,7 +940,8 @@
       "emailRequiredTitle": "E-mail vereist",
       "emailRequiredDesc": "Voer je e-mail in om instellingen te detecteren",
       "smtpDetectFail": "SMTP-instellingen konden niet worden gedetecteerd",
-      "smtpDetectProblem": "Probleem bij detecteren van instellingen"
+      "smtpDetectProblem": "Probleem bij detecteren van instellingen",
+      "whatsappLinkGenerated": "WhatsApp-link succesvol gegenereerd. Er wordt een nieuw venster geopend om het bericht te verzenden."
     },
     "emailPlaceholder": "Voer je e-mail in",
     "passwordPlaceholder": "Voer je e-mailwachtwoord in",
@@ -954,7 +955,8 @@
       "autoFilled": "Wordt automatisch ingevuld",
       "serverLabel": "SMTP-server",
       "portLabel": "SMTP-poort",
-      "usernameLabel": "SMTP-gebruikersnaam"
+      "usernameLabel": "SMTP-gebruikersnaam",
+      "usernameHint": "Vaak je volledige e-mailadres"
     },
     "signaturePlaceholder": "Met vriendelijke groet,",
     "testEmailPlaceholder": "Voer e-mail in voor test",
@@ -977,7 +979,19 @@
     "whatsappTestTitle": "WhatsApp-meldingstest",
     "defaultReminderTime": "Standaardtijd voor herinneringen",
     "remindersManagement": "Beheer van herinneringen",
-    "smtpStep1": "Voer je e-mail in"
+    "smtpStep1": "Voer je e-mail in",
+    "emailDescription": "Stuur afspraakherinneringen per e-mail naar klanten.",
+    "gmailAppPasswordRequired": "Voor Gmail is een \"app-wachtwoord\" nodig.",
+    "clickToCreate": "Klik hier om er een aan te maken",
+    "smtpStep2": "Klik op \"Instellingen detecteren\" om de servers automatisch te configureren",
+    "smtpStep3": "Voer je wachtwoord in en sla op",
+    "appNotificationsDescription": "Toon herinneringen en meldingen in de app.",
+    "whatsappDescription": "Genereert directe WhatsApp-links om herinneringen te sturen.",
+    "smsDescription": "Genereert sms-herinneringen om handmatig te verzenden.",
+    "whatsappSetupDescription": "Stel je WhatsApp-nummer in om berichten naar klanten te sturen.",
+    "whatsappPhoneHint": "Voer het WhatsApp-telefoonnummer in dat je gebruikt om klanten te notificeren. Vergeet de landcode niet (bijv. +31).",
+    "whatsappTestHint": "Voer een nummer met landcode in om het verzenden via WhatsApp te testen. WhatsApp Web wordt geopend met een testbericht.",
+    "reminderHoursHint": "Hoeveel uur vóór de afspraak de herinneringen worden verstuurd (standaard: 24 uur)"
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2724,7 +2738,11 @@
     "testTitle": "E-mailverzendtest",
     "testHint": "Zorg dat je eerst de e-mailgegevens hebt <strong>opgeslagen</strong>.",
     "testEmailPlaceholder": "Voer e-mail in voor test",
-    "emailPlaceholder": "voorbeeld@gmail.com"
+    "emailPlaceholder": "voorbeeld@gmail.com",
+    "zod": {
+      "invalidEmail": "Voer een geldig e-mailadres in",
+      "passwordRequired": "Wachtwoord is vereist als e-mail is ingeschakeld"
+    }
   },
   "userSettings": {
     "title": "Gebruikersinstellingen",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API-sleutel",
       "profileIdLabel": "Profiel-ID",
       "accountIdLabel": "Account-ID",
-      "newFeature": "NIEUWE FUNCTIE:"
+      "newFeature": "NIEUWE FUNCTIE:",
+      "autoConfigInstructions": "Voer alleen de Wise API-sleutel in en klik op \"Automatisch configureren\"!",
+      "autoConfigInstructions2": "Het systeem haalt automatisch het Profile ID en Account ID op zonder dat je ze handmatig hoeft op te zoeken."
     },
     "bank": {
       "heading": "Bankoverschrijving",

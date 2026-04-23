@@ -940,7 +940,8 @@
       "emailRequiredTitle": "E-post påkrevd",
       "emailRequiredDesc": "Skriv inn e-postadressen for å oppdage innstillinger",
       "smtpDetectFail": "Kunne ikke oppdage SMTP-innstillinger",
-      "smtpDetectProblem": "Problem ved oppdagelse av innstillinger"
+      "smtpDetectProblem": "Problem ved oppdagelse av innstillinger",
+      "whatsappLinkGenerated": "WhatsApp-lenke generert. Et nytt vindu åpnes for å sende meldingen."
     },
     "emailPlaceholder": "Skriv inn e-postadressen",
     "passwordPlaceholder": "Skriv inn e-postpassordet",
@@ -954,7 +955,8 @@
       "autoFilled": "Vil bli fylt ut automatisk",
       "serverLabel": "SMTP-server",
       "portLabel": "SMTP-port",
-      "usernameLabel": "SMTP-brukernavn"
+      "usernameLabel": "SMTP-brukernavn",
+      "usernameHint": "Vanligvis hele e-postadressen"
     },
     "signaturePlaceholder": "Med vennlig hilsen,",
     "testEmailPlaceholder": "Skriv inn e-post for test",
@@ -977,7 +979,19 @@
     "whatsappTestTitle": "Test for WhatsApp-varsel",
     "defaultReminderTime": "Standardtid for påminnelser",
     "remindersManagement": "Påminnelsesadministrasjon",
-    "smtpStep1": "Skriv inn e-postadressen"
+    "smtpStep1": "Skriv inn e-postadressen",
+    "emailDescription": "Send påminnelser om avtaler via e-post til kunder.",
+    "gmailAppPasswordRequired": "For Gmail kreves et «app-passord».",
+    "clickToCreate": "Klikk her for å opprette",
+    "smtpStep2": "Klikk «Oppdag innstillinger» for å konfigurere serverne automatisk",
+    "smtpStep3": "Skriv inn passordet og lagre",
+    "appNotificationsDescription": "Vis påminnelser og varsler i appen.",
+    "whatsappDescription": "Genererer direkte WhatsApp-lenker for å sende påminnelser.",
+    "smsDescription": "Genererer SMS-påminnelser for manuell sending.",
+    "whatsappSetupDescription": "Konfigurer WhatsApp-nummeret ditt for å sende meldinger til kunder.",
+    "whatsappPhoneHint": "Skriv inn WhatsApp-telefonnummeret som brukes til å varsle kunder. Husk landskoden (f.eks. +47).",
+    "whatsappTestHint": "Skriv inn et nummer med landskode for å teste WhatsApp-sending. WhatsApp Web åpnes med en testmelding.",
+    "reminderHoursHint": "Hvor mange timer før avtalen påminnelser skal sendes (standard: 24 timer)"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2724,7 +2738,11 @@
     "testTitle": "Test for sending e-post",
     "testHint": "For å kjøre en test, sørg for at du har <strong>lagret</strong> e-postlegitimasjonen først.",
     "testEmailPlaceholder": "Skriv inn e-post for test",
-    "emailPlaceholder": "eksempel@gmail.com"
+    "emailPlaceholder": "eksempel@gmail.com",
+    "zod": {
+      "invalidEmail": "Skriv inn en gyldig e-postadresse",
+      "passwordRequired": "Passord kreves når e-post er aktivert"
+    }
   },
   "userSettings": {
     "title": "Brukerinnstillinger",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API-nøkkel",
       "profileIdLabel": "Profil-ID",
       "accountIdLabel": "Konto-ID",
-      "newFeature": "NY FUNKSJON:"
+      "newFeature": "NY FUNKSJON:",
+      "autoConfigInstructions": "Skriv bare inn Wise API-nøkkelen og klikk «Auto-konfigurer»!",
+      "autoConfigInstructions2": "Systemet henter Profile ID og Account ID automatisk uten at du må lete manuelt."
     },
     "bank": {
       "heading": "Bankoverføring",

@@ -958,7 +958,8 @@
       "emailRequiredTitle": "E-Mail erforderlich",
       "emailRequiredDesc": "Gib deine E-Mail ein, um die Einstellungen zu erkennen",
       "smtpDetectFail": "SMTP-Einstellungen konnten nicht erkannt werden",
-      "smtpDetectProblem": "Problem beim Erkennen der Einstellungen"
+      "smtpDetectProblem": "Problem beim Erkennen der Einstellungen",
+      "whatsappLinkGenerated": "WhatsApp-Link erfolgreich erstellt. Ein neues Fenster wird geöffnet, um die Nachricht zu senden."
     },
     "emailPlaceholder": "Gib deine E-Mail ein",
     "passwordPlaceholder": "Gib dein E-Mail-Passwort ein",
@@ -972,7 +973,8 @@
       "autoFilled": "Wird automatisch ausgefüllt",
       "serverLabel": "SMTP-Server",
       "portLabel": "SMTP-Port",
-      "usernameLabel": "SMTP-Benutzername"
+      "usernameLabel": "SMTP-Benutzername",
+      "usernameHint": "Meistens deine vollständige E-Mail-Adresse"
     },
     "signaturePlaceholder": "Mit freundlichen Grüßen,",
     "testEmailPlaceholder": "E-Mail für den Test eingeben",
@@ -995,7 +997,19 @@
     "whatsappTestTitle": "WhatsApp-Benachrichtigungstest",
     "defaultReminderTime": "Standardzeit für Erinnerungen",
     "remindersManagement": "Erinnerungsverwaltung",
-    "smtpStep1": "Gib deine E-Mail ein"
+    "smtpStep1": "Gib deine E-Mail ein",
+    "emailDescription": "Sende Terminerinnerungen per E-Mail an Kunden.",
+    "gmailAppPasswordRequired": "Für Gmail ist ein „App-Passwort“ erforderlich.",
+    "clickToCreate": "Hier klicken, um es zu erstellen",
+    "smtpStep2": "Klicken Sie auf „Einstellungen erkennen“, um die Server automatisch zu konfigurieren",
+    "smtpStep3": "Geben Sie Ihr Passwort ein und speichern Sie",
+    "appNotificationsDescription": "Erinnerungen und Benachrichtigungen in der App anzeigen.",
+    "whatsappDescription": "Erzeugt direkte WhatsApp-Links zum Senden von Erinnerungen.",
+    "smsDescription": "Erzeugt SMS-Erinnerungen, die manuell gesendet werden.",
+    "whatsappSetupDescription": "Konfigurieren Sie Ihre WhatsApp-Nummer, um Nachrichten an Kunden zu senden.",
+    "whatsappPhoneHint": "Geben Sie die WhatsApp-Telefonnummer für Kundenbenachrichtigungen ein. Vergessen Sie die internationale Vorwahl nicht (z. B. +49).",
+    "whatsappTestHint": "Geben Sie eine Nummer mit internationaler Vorwahl ein, um das WhatsApp-Senden zu testen. WhatsApp Web wird mit einer Testnachricht geöffnet.",
+    "reminderHoursHint": "Wie viele Stunden vor dem Termin die Erinnerungen gesendet werden (Standard: 24 Stunden)"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2724,7 +2738,11 @@
     "testTitle": "E-Mail-Sendetest",
     "testHint": "Stelle sicher, dass du zuerst die E-Mail-Anmeldedaten <strong>gespeichert</strong> hast.",
     "testEmailPlaceholder": "E-Mail für den Test eingeben",
-    "emailPlaceholder": "beispiel@gmail.com"
+    "emailPlaceholder": "beispiel@gmail.com",
+    "zod": {
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein",
+      "passwordRequired": "Passwort ist erforderlich, wenn E-Mail aktiviert ist"
+    }
   },
   "userSettings": {
     "title": "Benutzereinstellungen",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API-Schlüssel",
       "profileIdLabel": "Profil-ID",
       "accountIdLabel": "Konto-ID",
-      "newFeature": "NEUE FUNKTION:"
+      "newFeature": "NEUE FUNKTION:",
+      "autoConfigInstructions": "Geben Sie nur den Wise API-Schlüssel ein und klicken Sie auf „Auto-Konfigurieren“!",
+      "autoConfigInstructions2": "Das System ruft Profile ID und Account ID automatisch ab, ohne dass Sie sie manuell suchen müssen."
     },
     "bank": {
       "heading": "Banküberweisung",

@@ -38,12 +38,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
+import i18nInstance from "@/lib/i18n";
 
 // Definizione dello schema per il form
 const emailSettingsSchema = z.object({
   emailEnabled: z.boolean().default(false),
-  emailAddress: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
-  emailPassword: z.string().min(1, "La password è obbligatoria se l'email è abilitata").optional().or(z.literal("")),
+  emailAddress: z.string().email(i18nInstance.t('emailSettings.zod.invalidEmail')).optional().or(z.literal("")),
+  emailPassword: z.string().min(1, i18nInstance.t('emailSettings.zod.passwordRequired')).optional().or(z.literal("")),
   emailTemplate: z.string().optional(),
   emailSubject: z.string().optional(),
 });

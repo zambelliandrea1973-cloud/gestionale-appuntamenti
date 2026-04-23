@@ -253,7 +253,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           
           toast({
             title: t("common.success"),
-            description: "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio.",
+            description: t('notificationSettings.toast.whatsappLinkGenerated'),
           });
         } else {
           toast({
@@ -355,7 +355,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">{t("notificationSettings.email.enable")}</FormLabel>
                         <FormDescription>
-                          Invia promemoria per appuntamenti tramite email ai clienti.
+                          {t('notificationSettings.emailDescription')}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -408,14 +408,14 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                             <FormDescription className="text-xs mt-1">
                               {form.watch("senderEmail")?.toLowerCase().includes("@gmail.com") ? (
                                 <>
-                                  Per Gmail è necessaria una "password per app". 
+                                  {t('notificationSettings.gmailAppPasswordRequired')} 
                                   <a 
                                     href="https://myaccount.google.com/apppasswords" 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     className="text-primary hover:underline font-medium ml-1"
                                   >
-                                    Clicca qui per crearla
+                                    {t('notificationSettings.clickToCreate')}
                                   </a>
                                 </>
                               ) : (
@@ -495,8 +495,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                         
                         <p className="text-sm text-muted-foreground mt-4 border-t pt-3">
                           <strong>1.</strong> {t('notificationSettings.smtpStep1')}<br />
-                          <strong>2.</strong> Clicca "Rileva impostazioni" per configurare automaticamente i server<br />
-                          <strong>3.</strong> Inserisci la tua password e salva
+                          <strong>2.</strong> {t('notificationSettings.smtpStep2')}<br />
+                          <strong>3.</strong> {t('notificationSettings.smtpStep3')}
                         </p>
                       </div>
 
@@ -557,7 +557,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                   <Input placeholder={t('notificationSettings.smtp.autoFilled')} {...field} />
                                 </FormControl>
                                 <FormDescription>
-                                  Spesso è il tuo indirizzo email completo
+                                  {t('notificationSettings.smtp.usernameHint')}
                                 </FormDescription>
                               </FormItem>
                             )}
@@ -623,7 +623,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">{t("notificationSettings.center.enable")}</FormLabel>
                         <FormDescription>
-                          Mostra i promemoria e le notifiche nell'app.
+                          {t('notificationSettings.appNotificationsDescription')}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -644,7 +644,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">{t("notificationSettings.whatsapp.enable")}</FormLabel>
                         <FormDescription>
-                          Genera link diretti a WhatsApp per inviare promemoria.
+                          {t('notificationSettings.whatsappDescription')}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -665,7 +665,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">{t("notificationSettings.sms.enable")}</FormLabel>
                         <FormDescription>
-                          Genera promemoria per SMS da inviare manualmente.
+                          {t('notificationSettings.smsDescription')}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -690,7 +690,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">{t('notificationSettings.enterWhatsapp')}</FormLabel>
                             <FormDescription>
-                              Configura il tuo numero WhatsApp per inviare comunicazioni ai clienti.
+                              {t('notificationSettings.whatsappSetupDescription')}
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -712,7 +712,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                             <FormItem>
                               <FormLabel>{t('notificationSettings.whatsappNumberLabel')}</FormLabel>
                               <FormDescription>
-                                Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).
+                                {t('notificationSettings.whatsappPhoneHint')}
                               </FormDescription>
                               <FormControl>
                                 <Input 
@@ -745,7 +745,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                               </Button>
                             </div>
                             <p className="text-xs text-muted-foreground">
-                              Inserisci un numero con prefisso internazionale per testare l'invio WhatsApp. Verrà aperto WhatsApp Web con un messaggio di test.
+                              {t('notificationSettings.whatsappTestHint')}
                             </p>
                           </div>
                         </div>
@@ -772,7 +772,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                           />
                         </FormControl>
                         <FormDescription>
-                          Quante ore prima dell'appuntamento inviare i promemoria (predefinito: 24 ore)
+                          {t('notificationSettings.reminderHoursHint')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

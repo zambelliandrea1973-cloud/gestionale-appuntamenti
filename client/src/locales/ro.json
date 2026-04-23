@@ -940,7 +940,8 @@
       "emailRequiredTitle": "Email necesar",
       "emailRequiredDesc": "Introduceți emailul pentru a detecta setările",
       "smtpDetectFail": "Imposibil de detectat setările SMTP",
-      "smtpDetectProblem": "Problemă la detectarea setărilor"
+      "smtpDetectProblem": "Problemă la detectarea setărilor",
+      "whatsappLinkGenerated": "Link WhatsApp generat cu succes. Se va deschide o fereastră nouă pentru a trimite mesajul."
     },
     "emailPlaceholder": "Introduceți emailul",
     "passwordPlaceholder": "Introduceți parola emailului",
@@ -954,7 +955,8 @@
       "autoFilled": "Va fi completat automat",
       "serverLabel": "Server SMTP",
       "portLabel": "Port SMTP",
-      "usernameLabel": "Utilizator SMTP"
+      "usernameLabel": "Utilizator SMTP",
+      "usernameHint": "De obicei adresa de email completă"
     },
     "signaturePlaceholder": "Cu stimă,",
     "testEmailPlaceholder": "Introduceți emailul pentru test",
@@ -977,7 +979,19 @@
     "whatsappTestTitle": "Test notificare WhatsApp",
     "defaultReminderTime": "Ora implicită pentru memento-uri",
     "remindersManagement": "Gestionare memento-uri",
-    "smtpStep1": "Introduceți emailul"
+    "smtpStep1": "Introduceți emailul",
+    "emailDescription": "Trimite memento-uri de programări clienților prin email.",
+    "gmailAppPasswordRequired": "Pentru Gmail este necesară o „parolă de aplicație”.",
+    "clickToCreate": "Faceți clic aici pentru a o crea",
+    "smtpStep2": "Faceți clic pe „Detectează setările” pentru a configura automat serverele",
+    "smtpStep3": "Introduceți parola și salvați",
+    "appNotificationsDescription": "Afișează memento-urile și notificările în aplicație.",
+    "whatsappDescription": "Generează linkuri directe WhatsApp pentru a trimite memento-uri.",
+    "smsDescription": "Generează memento-uri SMS pentru trimitere manuală.",
+    "whatsappSetupDescription": "Configurați-vă numărul WhatsApp pentru a trimite mesaje clienților.",
+    "whatsappPhoneHint": "Introduceți numărul WhatsApp folosit pentru notificările clienților. Includeți prefixul internațional (ex. +40).",
+    "whatsappTestHint": "Introduceți un număr cu prefix internațional pentru a testa trimiterea WhatsApp. WhatsApp Web se va deschide cu un mesaj de test.",
+    "reminderHoursHint": "Cu câte ore înainte de programare să fie trimise memento-urile (implicit: 24 de ore)"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2724,7 +2738,11 @@
     "testTitle": "Test trimitere email",
     "testHint": "Pentru a efectua un test, asigurați-vă că ați <strong>salvat</strong> mai întâi credențialele.",
     "testEmailPlaceholder": "Introduceți emailul pentru test",
-    "emailPlaceholder": "exemplu@gmail.com"
+    "emailPlaceholder": "exemplu@gmail.com",
+    "zod": {
+      "invalidEmail": "Introduceți un email valid",
+      "passwordRequired": "Parola este obligatorie dacă emailul este activat"
+    }
   },
   "userSettings": {
     "title": "Setări utilizator",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "Cheie API",
       "profileIdLabel": "ID profil",
       "accountIdLabel": "ID cont",
-      "newFeature": "FUNCȚIE NOUĂ:"
+      "newFeature": "FUNCȚIE NOUĂ:",
+      "autoConfigInstructions": "Introduceți doar cheia API Wise și faceți clic pe „Auto-Configurare”!",
+      "autoConfigInstructions2": "Sistemul va prelua automat Profile ID și Account ID fără să le căutați manual."
     },
     "bank": {
       "heading": "Transfer bancar",

@@ -971,7 +971,8 @@
       "emailRequiredTitle": "Email richiesta",
       "emailRequiredDesc": "Inserisci il tuo indirizzo email per rilevare le impostazioni",
       "smtpDetectFail": "Impossibile rilevare le impostazioni SMTP",
-      "smtpDetectProblem": "Si è verificato un problema durante il rilevamento delle impostazioni"
+      "smtpDetectProblem": "Si è verificato un problema durante il rilevamento delle impostazioni",
+      "whatsappLinkGenerated": "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio."
     },
     "emailPlaceholder": "Inserisci il tuo indirizzo email",
     "passwordPlaceholder": "Inserisci la tua password email",
@@ -985,7 +986,8 @@
       "autoFilled": "Verrà compilato automaticamente",
       "serverLabel": "Server SMTP",
       "portLabel": "Porta SMTP",
-      "usernameLabel": "Username SMTP"
+      "usernameLabel": "Username SMTP",
+      "usernameHint": "Spesso è il tuo indirizzo email completo"
     },
     "signaturePlaceholder": "Con i migliori saluti,",
     "testEmailPlaceholder": "Inserisci email per test",
@@ -1008,7 +1010,19 @@
     "whatsappTestTitle": "Test notifica WhatsApp",
     "defaultReminderTime": "Orario predefinito per i promemoria",
     "remindersManagement": "Gestione promemoria",
-    "smtpStep1": "Inserisci il tuo indirizzo email"
+    "smtpStep1": "Inserisci il tuo indirizzo email",
+    "emailDescription": "Invia promemoria per appuntamenti tramite email ai clienti.",
+    "gmailAppPasswordRequired": "Per Gmail è necessaria una \"password per app\".",
+    "clickToCreate": "Clicca qui per crearla",
+    "smtpStep2": "Clicca \"Rileva impostazioni\" per configurare automaticamente i server",
+    "smtpStep3": "Inserisci la tua password e salva",
+    "appNotificationsDescription": "Mostra i promemoria e le notifiche nell'app.",
+    "whatsappDescription": "Genera link diretti a WhatsApp per inviare promemoria.",
+    "smsDescription": "Genera promemoria per SMS da inviare manualmente.",
+    "whatsappSetupDescription": "Configura il tuo numero WhatsApp per inviare comunicazioni ai clienti.",
+    "whatsappPhoneHint": "Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).",
+    "whatsappTestHint": "Inserisci un numero con prefisso internazionale per testare l'invio WhatsApp. Verrà aperto WhatsApp Web con un messaggio di test.",
+    "reminderHoursHint": "Quante ore prima dell'appuntamento inviare i promemoria (predefinito: 24 ore)"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2724,7 +2738,11 @@
     "testTitle": "Test invio email",
     "testHint": "Per eseguire un test, assicurati di aver prima <strong>salvato</strong> le credenziali email.",
     "testEmailPlaceholder": "Inserisci email per test",
-    "emailPlaceholder": "esempio@gmail.com"
+    "emailPlaceholder": "esempio@gmail.com",
+    "zod": {
+      "invalidEmail": "Inserisci un indirizzo email valido",
+      "passwordRequired": "La password è obbligatoria se l'email è abilitata"
+    }
   },
   "userSettings": {
     "title": "Impostazioni utente",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API Key",
       "profileIdLabel": "Profile ID",
       "accountIdLabel": "Account ID",
-      "newFeature": "NUOVA FUNZIONE:"
+      "newFeature": "NUOVA FUNZIONE:",
+      "autoConfigInstructions": "Inserisci solo l'API Key di Wise e clicca \"Auto-Configura\"!",
+      "autoConfigInstructions2": "Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente."
     },
     "bank": {
       "heading": "Bonifico Bancario",

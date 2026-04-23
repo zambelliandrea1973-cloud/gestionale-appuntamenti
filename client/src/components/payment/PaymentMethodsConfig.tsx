@@ -596,10 +596,10 @@ export default function PaymentMethodsConfig() {
                     <div>
                       <h4 className="font-semibold text-green-800">{t('paymentMethodsConfig.wise.autoConfigTitle')}</h4>
                       <p className="mt-2 text-sm text-green-700">
-                        <strong>{t('paymentMethodsConfig.wise.newFeature')}</strong> Inserisci solo l'API Key di Wise e clicca "Auto-Configura"!
+                        <strong>{t('paymentMethodsConfig.wise.newFeature')}</strong> {t('paymentMethodsConfig.wise.autoConfigInstructions')}
                       </p>
                       <p className="mt-1 text-sm text-green-700">
-                        Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente.
+                        {t('paymentMethodsConfig.wise.autoConfigInstructions2')}
                       </p>
                     </div>
                   </div>

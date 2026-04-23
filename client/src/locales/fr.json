@@ -958,7 +958,8 @@
       "emailRequiredTitle": "Email requis",
       "emailRequiredDesc": "Saisissez votre email pour détecter les paramètres",
       "smtpDetectFail": "Impossible de détecter les paramètres SMTP",
-      "smtpDetectProblem": "Problème lors de la détection des paramètres"
+      "smtpDetectProblem": "Problème lors de la détection des paramètres",
+      "whatsappLinkGenerated": "Lien WhatsApp généré avec succès. Une nouvelle fenêtre s’ouvrira pour envoyer le message."
     },
     "emailPlaceholder": "Saisissez votre email",
     "passwordPlaceholder": "Saisissez votre mot de passe email",
@@ -972,7 +973,8 @@
       "autoFilled": "Sera rempli automatiquement",
       "serverLabel": "Serveur SMTP",
       "portLabel": "Port SMTP",
-      "usernameLabel": "Nom d'utilisateur SMTP"
+      "usernameLabel": "Nom d'utilisateur SMTP",
+      "usernameHint": "Souvent votre adresse e-mail complète"
     },
     "signaturePlaceholder": "Cordialement,",
     "testEmailPlaceholder": "Saisissez l'email pour le test",
@@ -995,7 +997,19 @@
     "whatsappTestTitle": "Test de notification WhatsApp",
     "defaultReminderTime": "Heure par défaut des rappels",
     "remindersManagement": "Gestion des rappels",
-    "smtpStep1": "Saisissez votre email"
+    "smtpStep1": "Saisissez votre email",
+    "emailDescription": "Envoyez des rappels de rendez-vous aux clients par email.",
+    "gmailAppPasswordRequired": "Pour Gmail, un \"mot de passe d’application\" est requis.",
+    "clickToCreate": "Cliquez ici pour la créer",
+    "smtpStep2": "Cliquez sur « Détecter les paramètres » pour configurer automatiquement les serveurs",
+    "smtpStep3": "Saisissez votre mot de passe et enregistrez",
+    "appNotificationsDescription": "Affiche les rappels et notifications dans l’application.",
+    "whatsappDescription": "Génère des liens directs WhatsApp pour envoyer des rappels.",
+    "smsDescription": "Génère des rappels SMS à envoyer manuellement.",
+    "whatsappSetupDescription": "Configurez votre numéro WhatsApp pour envoyer des messages aux clients.",
+    "whatsappPhoneHint": "Saisissez le numéro WhatsApp à utiliser pour envoyer des notifications aux clients. Pensez à inclure l’indicatif international (ex. +33).",
+    "whatsappTestHint": "Saisissez un numéro avec indicatif international pour tester l’envoi WhatsApp. WhatsApp Web s’ouvrira avec un message de test.",
+    "reminderHoursHint": "Combien d’heures avant le rendez-vous envoyer les rappels (par défaut : 24 heures)"
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2724,7 +2738,11 @@
     "testTitle": "Test d'envoi d'email",
     "testHint": "Pour effectuer un test, assurez-vous d'avoir d'abord <strong>enregistré</strong> les identifiants email.",
     "testEmailPlaceholder": "Saisissez l'email pour le test",
-    "emailPlaceholder": "exemple@gmail.com"
+    "emailPlaceholder": "exemple@gmail.com",
+    "zod": {
+      "invalidEmail": "Saisissez une adresse email valide",
+      "passwordRequired": "Le mot de passe est obligatoire si l’email est activé"
+    }
   },
   "userSettings": {
     "title": "Paramètres utilisateur",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "Clé API",
       "profileIdLabel": "ID de profil",
       "accountIdLabel": "ID de compte",
-      "newFeature": "NOUVELLE FONCTION :"
+      "newFeature": "NOUVELLE FONCTION :",
+      "autoConfigInstructions": "Saisissez uniquement la clé API Wise et cliquez sur « Auto-Configurer » !",
+      "autoConfigInstructions2": "Le système récupérera automatiquement le Profile ID et l’Account ID sans que vous ayez à les chercher."
     },
     "bank": {
       "heading": "Virement bancaire",

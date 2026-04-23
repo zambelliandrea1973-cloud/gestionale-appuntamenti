@@ -958,7 +958,8 @@
       "emailRequiredTitle": "Email requerido",
       "emailRequiredDesc": "Introduce tu email para detectar la configuración",
       "smtpDetectFail": "No se pudo detectar la configuración SMTP",
-      "smtpDetectProblem": "Problema al detectar la configuración"
+      "smtpDetectProblem": "Problema al detectar la configuración",
+      "whatsappLinkGenerated": "Enlace de WhatsApp generado correctamente. Se abrirá una ventana para enviar el mensaje."
     },
     "emailPlaceholder": "Introduce tu email",
     "passwordPlaceholder": "Introduce tu contraseña de email",
@@ -972,7 +973,8 @@
       "autoFilled": "Se rellenará automáticamente",
       "serverLabel": "Servidor SMTP",
       "portLabel": "Puerto SMTP",
-      "usernameLabel": "Usuario SMTP"
+      "usernameLabel": "Usuario SMTP",
+      "usernameHint": "Normalmente es tu dirección de email completa"
     },
     "signaturePlaceholder": "Saludos cordiales,",
     "testEmailPlaceholder": "Introduce email para prueba",
@@ -995,7 +997,19 @@
     "whatsappTestTitle": "Prueba de notificación WhatsApp",
     "defaultReminderTime": "Hora predeterminada para recordatorios",
     "remindersManagement": "Gestión de recordatorios",
-    "smtpStep1": "Introduce tu email"
+    "smtpStep1": "Introduce tu email",
+    "emailDescription": "Envía recordatorios de citas a los clientes por email.",
+    "gmailAppPasswordRequired": "Para Gmail se necesita una \"contraseña de aplicación\".",
+    "clickToCreate": "Haz clic aquí para crearla",
+    "smtpStep2": "Haz clic en \"Detectar configuración\" para configurar los servidores automáticamente",
+    "smtpStep3": "Introduce tu contraseña y guarda",
+    "appNotificationsDescription": "Muestra recordatorios y notificaciones en la app.",
+    "whatsappDescription": "Genera enlaces directos a WhatsApp para enviar recordatorios.",
+    "smsDescription": "Genera recordatorios SMS para enviar manualmente.",
+    "whatsappSetupDescription": "Configura tu número de WhatsApp para enviar comunicaciones a los clientes.",
+    "whatsappPhoneHint": "Introduce el número de teléfono WhatsApp para enviar notificaciones a los clientes. Asegúrate de incluir el prefijo internacional (p. ej. +34).",
+    "whatsappTestHint": "Introduce un número con prefijo internacional para probar el envío por WhatsApp. Se abrirá WhatsApp Web con un mensaje de prueba.",
+    "reminderHoursHint": "Cuántas horas antes de la cita enviar los recordatorios (por defecto: 24 horas)"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2724,7 +2738,11 @@
     "testTitle": "Prueba de envío de email",
     "testHint": "Para realizar una prueba, asegúrate de haber <strong>guardado</strong> primero las credenciales de email.",
     "testEmailPlaceholder": "Introduce email para prueba",
-    "emailPlaceholder": "ejemplo@gmail.com"
+    "emailPlaceholder": "ejemplo@gmail.com",
+    "zod": {
+      "invalidEmail": "Introduce un email válido",
+      "passwordRequired": "La contraseña es obligatoria si el email está habilitado"
+    }
   },
   "userSettings": {
     "title": "Configuración de usuario",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API Key",
       "profileIdLabel": "ID de Perfil",
       "accountIdLabel": "ID de Cuenta",
-      "newFeature": "NUEVA FUNCIÓN:"
+      "newFeature": "NUEVA FUNCIÓN:",
+      "autoConfigInstructions": "¡Introduce solo la API Key de Wise y haz clic en \"Auto-Configurar\"!",
+      "autoConfigInstructions2": "El sistema recuperará automáticamente el Profile ID y el Account ID sin que tengas que buscarlos manualmente."
     },
     "bank": {
       "heading": "Transferencia Bancaria",

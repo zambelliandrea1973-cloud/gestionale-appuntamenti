@@ -958,7 +958,8 @@
       "emailRequiredTitle": "Требуется email",
       "emailRequiredDesc": "Введите email для определения настроек",
       "smtpDetectFail": "Не удалось определить настройки SMTP",
-      "smtpDetectProblem": "Проблема при определении настроек"
+      "smtpDetectProblem": "Проблема при определении настроек",
+      "whatsappLinkGenerated": "Ссылка WhatsApp успешно создана. Откроется новое окно для отправки сообщения."
     },
     "emailPlaceholder": "Введите email",
     "passwordPlaceholder": "Введите пароль от email",
@@ -972,7 +973,8 @@
       "autoFilled": "Будет заполнено автоматически",
       "serverLabel": "SMTP-сервер",
       "portLabel": "Порт SMTP",
-      "usernameLabel": "Имя пользователя SMTP"
+      "usernameLabel": "Имя пользователя SMTP",
+      "usernameHint": "Обычно ваш полный адрес email"
     },
     "signaturePlaceholder": "С наилучшими пожеланиями,",
     "testEmailPlaceholder": "Введите email для теста",
@@ -995,7 +997,19 @@
     "whatsappTestTitle": "Тест уведомления WhatsApp",
     "defaultReminderTime": "Время напоминаний по умолчанию",
     "remindersManagement": "Управление напоминаниями",
-    "smtpStep1": "Введите email"
+    "smtpStep1": "Введите email",
+    "emailDescription": "Отправляйте напоминания о записях клиентам по email.",
+    "gmailAppPasswordRequired": "Для Gmail требуется «пароль приложения».",
+    "clickToCreate": "Нажмите здесь, чтобы создать",
+    "smtpStep2": "Нажмите «Определить настройки», чтобы автоматически настроить серверы",
+    "smtpStep3": "Введите пароль и сохраните",
+    "appNotificationsDescription": "Показывать напоминания и уведомления в приложении.",
+    "whatsappDescription": "Создаёт прямые ссылки WhatsApp для отправки напоминаний.",
+    "smsDescription": "Создаёт SMS-напоминания для ручной отправки.",
+    "whatsappSetupDescription": "Настройте номер WhatsApp для отправки сообщений клиентам.",
+    "whatsappPhoneHint": "Введите номер WhatsApp для отправки уведомлений клиентам. Не забудьте международный код (например, +7).",
+    "whatsappTestHint": "Введите номер с международным кодом для проверки отправки в WhatsApp. Откроется WhatsApp Web с тестовым сообщением.",
+    "reminderHoursHint": "За сколько часов до записи отправлять напоминания (по умолчанию: 24 часа)"
   },
   "googleCalendar": {
     "title": "Google Календарь",
@@ -2724,7 +2738,11 @@
     "testTitle": "Тест отправки email",
     "testHint": "Чтобы выполнить тест, сначала <strong>сохраните</strong> учётные данные email.",
     "testEmailPlaceholder": "Введите email для теста",
-    "emailPlaceholder": "пример@gmail.com"
+    "emailPlaceholder": "пример@gmail.com",
+    "zod": {
+      "invalidEmail": "Введите корректный email",
+      "passwordRequired": "Пароль обязателен, если включён email"
+    }
   },
   "userSettings": {
     "title": "Настройки пользователя",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API-ключ",
       "profileIdLabel": "ID профиля",
       "accountIdLabel": "ID счёта",
-      "newFeature": "НОВАЯ ФУНКЦИЯ:"
+      "newFeature": "НОВАЯ ФУНКЦИЯ:",
+      "autoConfigInstructions": "Введите только API-ключ Wise и нажмите «Авто-настройка»!",
+      "autoConfigInstructions2": "Система автоматически получит Profile ID и Account ID — искать вручную не нужно."
     },
     "bank": {
       "heading": "Банковский перевод",

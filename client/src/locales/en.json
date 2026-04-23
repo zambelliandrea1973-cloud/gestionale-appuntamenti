@@ -966,7 +966,8 @@
       "emailRequiredTitle": "Email required",
       "emailRequiredDesc": "Enter your email address to detect settings",
       "smtpDetectFail": "Could not detect SMTP settings",
-      "smtpDetectProblem": "A problem occurred detecting settings"
+      "smtpDetectProblem": "A problem occurred detecting settings",
+      "whatsappLinkGenerated": "WhatsApp link generated successfully. A new window will open to send the message."
     },
     "emailPlaceholder": "Enter your email address",
     "passwordPlaceholder": "Enter your email password",
@@ -980,7 +981,8 @@
       "autoFilled": "Will be filled automatically",
       "serverLabel": "SMTP Server",
       "portLabel": "SMTP Port",
-      "usernameLabel": "SMTP Username"
+      "usernameLabel": "SMTP Username",
+      "usernameHint": "Usually your full email address"
     },
     "signaturePlaceholder": "Best regards,",
     "testEmailPlaceholder": "Enter email for test",
@@ -1003,7 +1005,19 @@
     "whatsappTestTitle": "WhatsApp notification test",
     "defaultReminderTime": "Default time for reminders",
     "remindersManagement": "Reminders management",
-    "smtpStep1": "Enter your email address"
+    "smtpStep1": "Enter your email address",
+    "emailDescription": "Send appointment reminders to clients via email.",
+    "gmailAppPasswordRequired": "Gmail requires an \"app password\".",
+    "clickToCreate": "Click here to create it",
+    "smtpStep2": "Click \"Detect settings\" to automatically configure the servers",
+    "smtpStep3": "Enter your password and save",
+    "appNotificationsDescription": "Show reminders and notifications in the app.",
+    "whatsappDescription": "Generate direct WhatsApp links to send reminders.",
+    "smsDescription": "Generate SMS reminders to send manually.",
+    "whatsappSetupDescription": "Set up your WhatsApp number to send messages to clients.",
+    "whatsappPhoneHint": "Enter the WhatsApp phone number to use for sending notifications to clients. Make sure to include the international prefix (e.g. +1).",
+    "whatsappTestHint": "Enter a number with international prefix to test WhatsApp sending. WhatsApp Web will open with a test message.",
+    "reminderHoursHint": "How many hours before the appointment to send reminders (default: 24 hours)"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2724,7 +2738,11 @@
     "testTitle": "Email send test",
     "testHint": "To run a test, make sure you have <strong>saved</strong> the email credentials first.",
     "testEmailPlaceholder": "Enter email for test",
-    "emailPlaceholder": "example@gmail.com"
+    "emailPlaceholder": "example@gmail.com",
+    "zod": {
+      "invalidEmail": "Enter a valid email address",
+      "passwordRequired": "Password is required if email is enabled"
+    }
   },
   "userSettings": {
     "title": "User settings",
@@ -2858,7 +2876,9 @@
       "apiKeyLabel": "API Key",
       "profileIdLabel": "Profile ID",
       "accountIdLabel": "Account ID",
-      "newFeature": "NEW FEATURE:"
+      "newFeature": "NEW FEATURE:",
+      "autoConfigInstructions": "Just enter the Wise API Key and click \"Auto-Configure\"!",
+      "autoConfigInstructions2": "The system will automatically retrieve Profile ID and Account ID without you needing to look them up manually."
     },
     "bank": {
       "heading": "Bank Transfer",
