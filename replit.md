@@ -77,7 +77,13 @@ npx tsx scripts/i18n-add-lang.ts hi en       # Hindi basato su Inglese
   8. BetaPage.tsx (34)
   9. EmailSettings.tsx (33)
   10. AdminLicenseManagementPage.tsx (32)
-- Sync 9 lingue: ✅ allineate (1448 chiavi ciascuna)
+- Sync 9 lingue: ✅ allineate (1527 chiavi ciascuna, aggiornato 23 apr 2026)
+
+**Progresso refactor (Opzione B — escluse pagine admin):**
+- ✅ AutoLogin.tsx — refactored, 17 chiavi `autoLogin.*` tradotte in tutte le 9 lingue
+- ✅ OnboardingWizard.tsx — refactored (Step 1-4 + main wizard), 62 chiavi `onboardingWizard.*` tradotte in tutte le 9 lingue
+- 🔜 Prossimi target ad alta visibilità: NotificationSettingsForm, GoogleCalendarSettings, GoogleCalendarSetupPage, StaffManagementPageFixed, EmailSettings, UserSettings, InvoiceForm, AppointmentForm, ClientStackedNotes, ServiceManagerSimple, ManualePage, ReferralPage, PrivacyPolicy, Terms
+- 🚫 Esclusi (restano in italiano, solo Andrea li usa): BetaAdmin, PaymentAdmin, BetaPage, AdminLicenseManagementPage, ManualAdminPage, GoogleTroubleshootingPage
 
 ### TODO: Pricing geolocalizzato per paese (PPP - Purchasing Power Parity)
 - **Stato**: Idea utente del 23 apr 2026 — DA VALUTARE dopo aver stabilizzato registrazioni Italia

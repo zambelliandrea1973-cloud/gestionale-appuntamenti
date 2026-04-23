@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,60 +49,64 @@ interface StepProps {
   recommendations?: string[];
 }
 
-const STEPS = [
-  { title: 'Benvenuto', description: 'Iniziamo a configurare la tua attività' },
-  { title: 'Informazioni Business', description: 'Parlaci della tua attività' },
-  { title: 'Analisi AI', description: 'Lascia che l\'AI analizzi le tue esigenze' },
-  { title: 'Servizi', description: 'Configura i tuoi servizi principali' },
-  { title: 'Orari di Lavoro', description: 'Imposta i tuoi orari' },
-  { title: 'Gestione Clienti', description: 'Come vuoi gestire i tuoi clienti' },
-  { title: 'Comunicazione', description: 'Preferenze di comunicazione' },
-  { title: 'Integrazioni', description: 'Servizi esterni da integrare' },
-  { title: 'Completamento', description: 'Configurazione completata!' }
+const STEP_KEYS = [
+  { titleKey: 'welcome', descKey: 'welcomeDesc' },
+  { titleKey: 'businessInfo', descKey: 'businessInfoDesc' },
+  { titleKey: 'aiAnalysis', descKey: 'aiAnalysisDesc' },
+  { titleKey: 'services', descKey: 'servicesDesc' },
+  { titleKey: 'workingHours', descKey: 'workingHoursDesc' },
+  { titleKey: 'clientManagement', descKey: 'clientManagementDesc' },
+  { titleKey: 'communication', descKey: 'communicationDesc' },
+  { titleKey: 'integrations', descKey: 'integrationsDesc' },
+  { titleKey: 'completion', descKey: 'completionDesc' }
 ];
 
 // Step 1: Welcome
-const WelcomeStep = ({ onNext, isFirst, isLast }: StepProps) => (
+const WelcomeStep = ({ onNext, isFirst, isLast }: StepProps) => {
+  const { t } = useTranslation();
+  return (
   <Card className="max-w-2xl mx-auto">
     <CardHeader className="text-center">
       <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
         <Brain className="h-8 w-8 text-primary" />
       </div>
-      <CardTitle className="text-2xl">Benvenuto nell'Onboarding Intelligente</CardTitle>
+      <CardTitle className="text-2xl">{t('onboardingWizard.welcome.title')}</CardTitle>
       <CardDescription className="text-lg">
-        La nostra AI ti guiderà nella configurazione personalizzata della tua attività professionale
+        {t('onboardingWizard.welcome.description')}
       </CardDescription>
     </CardHeader>
     <CardContent className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="text-center p-4 rounded-lg bg-muted/50">
           <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
-          <h3 className="font-semibold">Configurazione Rapida</h3>
-          <p className="text-sm text-muted-foreground">Setup in pochi minuti</p>
+          <h3 className="font-semibold">{t('onboardingWizard.welcome.quickSetup')}</h3>
+          <p className="text-sm text-muted-foreground">{t('onboardingWizard.welcome.quickSetupDesc')}</p>
         </div>
         <div className="text-center p-4 rounded-lg bg-muted/50">
           <Brain className="h-8 w-8 text-blue-500 mx-auto mb-2" />
-          <h3 className="font-semibold">Analisi AI</h3>
-          <p className="text-sm text-muted-foreground">Raccomandazioni personalizzate</p>
+          <h3 className="font-semibold">{t('onboardingWizard.welcome.aiAnalysis')}</h3>
+          <p className="text-sm text-muted-foreground">{t('onboardingWizard.welcome.aiAnalysisDesc')}</p>
         </div>
         <div className="text-center p-4 rounded-lg bg-muted/50">
           <Lightbulb className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-          <h3 className="font-semibold">Best Practices</h3>
-          <p className="text-sm text-muted-foreground">Consigli da esperti</p>
+          <h3 className="font-semibold">{t('onboardingWizard.welcome.bestPractices')}</h3>
+          <p className="text-sm text-muted-foreground">{t('onboardingWizard.welcome.bestPracticesDesc')}</p>
         </div>
       </div>
       <div className="flex justify-center">
         <Button onClick={() => onNext({})} size="lg" className="px-8">
-          Inizia Configurazione
+          {t('onboardingWizard.welcome.startButton')}
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </CardContent>
   </Card>
-);
+  );
+};
 
 // Step 2: Business Info
 const BusinessInfoStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps) => {
+  const { t } = useTranslation();
   const [businessName, setBusinessName] = useState(data.businessName || '');
   const [businessType, setBusinessType] = useState(data.businessType || '');
   const [description, setDescription] = useState(data.description || '');
@@ -114,39 +119,39 @@ const BusinessInfoStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepPro
   return (
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Informazioni sulla tua Attività</CardTitle>
+        <CardTitle>{t('onboardingWizard.businessInfo.title')}</CardTitle>
         <CardDescription>
-          Aiutaci a comprendere meglio la tua attività professionale
+          {t('onboardingWizard.businessInfo.description')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="businessName">Nome dell'Attività *</Label>
+          <Label htmlFor="businessName">{t('onboardingWizard.businessInfo.businessName')}</Label>
           <Input
             id="businessName"
             value={businessName}
             onChange={(e) => setBusinessName(e.target.value)}
-            placeholder="Es. Gestionale Appuntamenti Rossi"
+            placeholder={t('onboardingWizard.businessInfo.businessNamePlaceholder')}
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="businessType">Tipo di Attività *</Label>
+          <Label htmlFor="businessType">{t('onboardingWizard.businessInfo.businessType')}</Label>
           <Input
             id="businessType"
             value={businessType}
             onChange={(e) => setBusinessType(e.target.value)}
-            placeholder="Es. Medico, Fisioterapista, Consulente, Parrucchiere..."
+            placeholder={t('onboardingWizard.businessInfo.businessTypePlaceholder')}
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="description">Descrizione (opzionale)</Label>
+          <Label htmlFor="description">{t('onboardingWizard.businessInfo.descriptionLabel')}</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Descrivi brevemente i tuoi servizi e la tua specializzazione..."
+            placeholder={t('onboardingWizard.businessInfo.descriptionPlaceholder')}
             rows={3}
           />
         </div>
@@ -154,13 +159,13 @@ const BusinessInfoStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepPro
         <div className="flex justify-between">
           <Button variant="outline" onClick={onPrevious}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Indietro
+            {t('onboardingWizard.previous')}
           </Button>
           <Button 
             onClick={handleNext}
             disabled={!businessName || !businessType}
           >
-            Continua
+            {t('onboardingWizard.continue')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -171,6 +176,7 @@ const BusinessInfoStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepPro
 
 // Step 3: AI Analysis
 const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps) => {
+  const { t } = useTranslation();
   const [analysis, setAnalysis] = useState<BusinessAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { toast } = useToast();
@@ -186,8 +192,8 @@ const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps
     },
     onError: (error: any) => {
       toast({
-        title: "Errore nell'analisi",
-        description: error.message || "Si è verificato un errore durante l'analisi AI",
+        title: t('onboardingWizard.aiAnalysisStep.errorTitle'),
+        description: error.message || t('onboardingWizard.aiAnalysisStep.errorDesc'),
         variant: "destructive"
       });
       setIsAnalyzing(false);
@@ -212,33 +218,33 @@ const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Brain className="h-5 w-5 text-primary" />
-          Analisi AI in Corso
+          {t('onboardingWizard.aiAnalysisStep.title')}
         </CardTitle>
         <CardDescription>
-          La nostra AI sta analizzando le tue esigenze per fornirti raccomandazioni personalizzate
+          {t('onboardingWizard.aiAnalysisStep.description')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {isAnalyzing ? (
           <div className="text-center py-8">
             <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
-            <h3 className="text-lg font-semibold mb-2">Analisi in corso...</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('onboardingWizard.aiAnalysisStep.analyzing')}</h3>
             <p className="text-muted-foreground">
-              Stiamo elaborando le informazioni della tua attività "{data.businessName}"
+              {t('onboardingWizard.aiAnalysisStep.processingFor', { name: data.businessName })}
             </p>
           </div>
         ) : analysis ? (
           <div className="space-y-4">
             <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <h3 className="font-semibold text-green-800 mb-2">✨ Analisi Completata</h3>
+              <h3 className="font-semibold text-green-800 mb-2">{t('onboardingWizard.aiAnalysisStep.completed')}</h3>
               <p className="text-green-700">
-                Abbiamo identificato il tuo business come: <strong>{analysis.suggestedBusinessType}</strong>
+                {t('onboardingWizard.aiAnalysisStep.identifiedBusiness')} <strong>{analysis.suggestedBusinessType}</strong>
               </p>
             </div>
             
             <div className="space-y-3">
               <div>
-                <h4 className="font-semibold mb-2">Servizi Raccomandati:</h4>
+                <h4 className="font-semibold mb-2">{t('onboardingWizard.aiAnalysisStep.recommendedServices')}</h4>
                 <div className="flex flex-wrap gap-2">
                   {analysis.recommendedServices.map((service, index) => (
                     <Badge key={index} variant="secondary">{service}</Badge>
@@ -247,7 +253,7 @@ const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps
               </div>
               
               <div>
-                <h4 className="font-semibold mb-2">Consigli Personalizzati:</h4>
+                <h4 className="font-semibold mb-2">{t('onboardingWizard.aiAnalysisStep.personalizedTips')}</h4>
                 <ul className="space-y-1">
                   {analysis.personalizedTips.map((tip, index) => (
                     <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
@@ -261,20 +267,20 @@ const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-muted-foreground">Caricamento analisi...</p>
+            <p className="text-muted-foreground">{t('onboardingWizard.aiAnalysisStep.loading')}</p>
           </div>
         )}
         
         <div className="flex justify-between">
           <Button variant="outline" onClick={onPrevious}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Indietro
+            {t('onboardingWizard.previous')}
           </Button>
           <Button 
             onClick={handleNext}
             disabled={!analysis}
           >
-            Continua
+            {t('onboardingWizard.continue')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -285,6 +291,7 @@ const AIAnalysisStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepProps
 
 // Step 4: Services Configuration
 const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendations }: StepProps) => {
+  const { t } = useTranslation();
   const [selectedServices, setSelectedServices] = useState<string[]>(data.primaryServices || []);
   const [customService, setCustomService] = useState('');
 
@@ -312,15 +319,15 @@ const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendatio
   return (
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Configura i tuoi Servizi</CardTitle>
+        <CardTitle>{t('onboardingWizard.servicesStep.title')}</CardTitle>
         <CardDescription>
-          Seleziona i servizi che offri ai tuoi clienti
+          {t('onboardingWizard.servicesStep.description')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {recommendedServices.length > 0 && (
           <div>
-            <h4 className="font-semibold mb-3">Servizi Raccomandati dall'AI:</h4>
+            <h4 className="font-semibold mb-3">{t('onboardingWizard.servicesStep.aiRecommended')}</h4>
             <div className="grid grid-cols-2 gap-2">
               {recommendedServices.map((service) => (
                 <Button
@@ -339,23 +346,23 @@ const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendatio
         )}
         
         <div>
-          <h4 className="font-semibold mb-3">Aggiungi Servizio Personalizzato:</h4>
+          <h4 className="font-semibold mb-3">{t('onboardingWizard.servicesStep.addCustom')}</h4>
           <div className="flex gap-2">
             <Input
               value={customService}
               onChange={(e) => setCustomService(e.target.value)}
-              placeholder="Nome del servizio..."
+              placeholder={t('onboardingWizard.servicesStep.customPlaceholder')}
               onKeyPress={(e) => e.key === 'Enter' && addCustomService()}
             />
             <Button onClick={addCustomService} variant="outline">
-              Aggiungi
+              {t('onboardingWizard.servicesStep.addButton')}
             </Button>
           </div>
         </div>
         
         {selectedServices.length > 0 && (
           <div>
-            <h4 className="font-semibold mb-3">Servizi Selezionati:</h4>
+            <h4 className="font-semibold mb-3">{t('onboardingWizard.servicesStep.selected')}</h4>
             <div className="flex flex-wrap gap-2">
               {selectedServices.map((service) => (
                 <Badge 
@@ -374,13 +381,13 @@ const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendatio
         <div className="flex justify-between">
           <Button variant="outline" onClick={onPrevious}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Indietro
+            {t('onboardingWizard.previous')}
           </Button>
           <Button 
             onClick={handleNext}
             disabled={selectedServices.length === 0}
           >
-            Continua
+            {t('onboardingWizard.continue')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -391,6 +398,7 @@ const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendatio
 
 // Main Onboarding Wizard Component
 export default function OnboardingWizard() {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
   const [stepData, setStepData] = useState<any>({});
   const { toast } = useToast();
@@ -425,7 +433,7 @@ export default function OnboardingWizard() {
     },
     onSuccess: (result) => {
       toast({
-        title: "Onboarding Completato!",
+        title: t('onboardingWizard.completedToastTitle'),
         description: result.welcomeMessage,
       });
       queryClient.invalidateQueries({ queryKey: ['/api/onboarding/progress'] });
@@ -454,7 +462,7 @@ export default function OnboardingWizard() {
     
     setStepData(newStepData);
     
-    if (currentStep < STEPS.length - 1) {
+    if (currentStep < STEP_KEYS.length - 1) {
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
       
@@ -490,14 +498,14 @@ export default function OnboardingWizard() {
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <CardTitle>Onboarding Completato!</CardTitle>
+            <CardTitle>{t('onboardingWizard.completedTitle')}</CardTitle>
             <CardDescription>
-              La tua attività è stata configurata con successo.
+              {t('onboardingWizard.completedDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={() => window.location.href = '/'} size="lg">
-              Vai alla Dashboard
+              {t('onboardingWizard.goToDashboard')}
             </Button>
           </CardContent>
         </Card>
@@ -505,7 +513,7 @@ export default function OnboardingWizard() {
     );
   }
 
-  const progressPercentage = ((currentStep + 1) / STEPS.length) * 100;
+  const progressPercentage = ((currentStep + 1) / STEP_KEYS.length) * 100;
 
   const renderStep = () => {
     const stepProps: StepProps = {
@@ -513,7 +521,7 @@ export default function OnboardingWizard() {
       onPrevious: handlePrevious,
       data: stepData,
       isFirst: currentStep === 0,
-      isLast: currentStep === STEPS.length - 1
+      isLast: currentStep === STEP_KEYS.length - 1
     };
 
     switch (currentStep) {
@@ -535,9 +543,13 @@ export default function OnboardingWizard() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Configurazione Intelligente</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('onboardingWizard.headerTitle')}</h1>
           <p className="text-muted-foreground">
-            Step {currentStep + 1} di {STEPS.length}: {STEPS[currentStep]?.title}
+            {t('onboardingWizard.stepLabel', {
+              current: currentStep + 1,
+              total: STEP_KEYS.length,
+              title: t(`onboardingWizard.steps.${STEP_KEYS[currentStep]?.titleKey}`)
+            })}
           </p>
         </div>
 
@@ -545,7 +557,7 @@ export default function OnboardingWizard() {
         <div className="max-w-2xl mx-auto mb-8">
           <Progress value={progressPercentage} className="mb-2" />
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Progresso</span>
+            <span>{t('onboardingWizard.progressLabel')}</span>
             <span>{Math.round(progressPercentage)}%</span>
           </div>
         </div>

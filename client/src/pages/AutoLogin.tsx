@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
@@ -13,14 +14,18 @@ import { Button } from "@/components/ui/button";
  * quando avvia l'app in modalità PWA, utilizzando le credenziali memorizzate
  */
 export default function AutoLogin() {
+  const { t } = useTranslation();
   const [_, setLocation] = useLocation();
   const { toast } = useToast();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [message, setMessage] = useState<string>("Tentativo di accesso automatico...");
+  const [message, setMessage] = useState<string>("");
   const [clientName, setClientName] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
+    // Set initial loading message after t is available
+    setMessage(t("autoLogin.loadingTitle"));
+
     const attemptAutoLogin = async () => {
       try {
         console.log("Tentativo di auto-login dalla pagina AutoLogin");
@@ -47,7 +52,7 @@ export default function AutoLogin() {
           token: ${token ? 'sì' : 'no'}, 
           clientId: ${clientId ? 'sì' : 'no'}`);
         
-        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR (completamente automatico)
+        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR
         if (token && clientId) {
           try {
             console.log("Tentativo di verifica token QR automatico:", { token: token.substring(0, 10) + '...', clientId });
@@ -58,9 +63,10 @@ export default function AutoLogin() {
             
             if (tokenResponse.ok) {
               const result = await tokenResponse.json();
+              const userName = result.client?.firstName || t("autoLogin.defaultUser");
               setStatus("success");
-              setMessage("Accesso effettuato automaticamente");
-              setClientName(result.client?.firstName || 'Utente');
+              setMessage(t("autoLogin.successMessage"));
+              setClientName(userName);
               
               // Salva le informazioni del cliente per accessi futuri
               localStorage.setItem('clientId', clientId);
@@ -70,8 +76,8 @@ export default function AutoLogin() {
               }
               
               toast({
-                title: "Accesso automatico tramite QR",
-                description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
+                title: t("autoLogin.qrToastTitle"),
+                description: t("autoLogin.qrToastDesc", { name: userName }),
               });
               
               // Redirezione immediata alla client area
@@ -81,42 +87,41 @@ export default function AutoLogin() {
               
               return;
             } else {
-              // Se il token QR fallisce, mostra errore specifico
               setStatus("error");
-              setMessage("QR Code non valido");
-              setError("Il codice QR potrebbe essere scaduto o non valido. Richiedi un nuovo codice.");
+              setMessage(t("autoLogin.qrInvalidTitle"));
+              setError(t("autoLogin.qrInvalidDesc"));
               return;
             }
           } catch (error) {
             console.error("Errore durante verifica token QR:", error);
             setStatus("error");
-            setMessage("Errore di connessione");
-            setError("Impossibile verificare il codice QR. Controlla la connessione internet.");
+            setMessage(t("autoLogin.connectionErrorTitle"));
+            setError(t("autoLogin.connectionErrorDesc"));
             return;
           }
         }
         
         // Se non abbiamo token QR, significa che non possiamo effettuare login automatico
         setStatus("error");
-        setMessage("Accesso automatico non disponibile");
-        setError("Nessun codice QR valido trovato. Scansiona un QR code per accedere automaticamente.");
+        setMessage(t("autoLogin.unavailableTitle"));
+        setError(t("autoLogin.unavailableDesc"));
       } catch (error) {
         console.error("Errore durante auto-login:", error);
         setStatus("error");
-        setMessage("Errore imprevisto");
-        setError("Si è verificato un errore imprevisto durante il tentativo di accesso automatico.");
+        setMessage(t("autoLogin.unexpectedErrorTitle"));
+        setError(t("autoLogin.unexpectedErrorDesc"));
       }
     };
     
     attemptAutoLogin();
-  }, [setLocation, toast]);
+  }, [setLocation, toast, t]);
 
   return (
     <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">
-            {status === "loading" ? "Accesso automatico in corso..." : message}
+            {status === "loading" ? t("autoLogin.loadingTitle") : message}
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center gap-4 py-6">
@@ -124,7 +129,7 @@ export default function AutoLogin() {
             <>
               <Loader2 className="h-16 w-16 animate-spin text-primary" />
               <p className="text-center text-muted-foreground">
-                Stiamo verificando le tue credenziali, attendere prego.
+                {t("autoLogin.verifyingCredentials")}
               </p>
             </>
           )}
@@ -133,10 +138,10 @@ export default function AutoLogin() {
             <>
               <CheckCircle className="h-16 w-16 text-green-500" />
               <p className="text-center text-xl font-medium">
-                Benvenuto, {clientName}!
+                {t("autoLogin.welcomeUser", { name: clientName })}
               </p>
               <p className="text-center text-muted-foreground">
-                Sarai reindirizzato all'area clienti in un istante...
+                {t("autoLogin.redirectingClient")}
               </p>
             </>
           )}
@@ -151,7 +156,7 @@ export default function AutoLogin() {
                 className="mt-4 w-full" 
                 onClick={() => setLocation("/client-login")}
               >
-                Vai al login manuale
+                {t("autoLogin.manualLoginButton")}
               </Button>
             </>
           )}
