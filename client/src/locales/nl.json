@@ -991,7 +991,10 @@
     "whatsappSetupDescription": "Stel je WhatsApp-nummer in om berichten naar klanten te sturen.",
     "whatsappPhoneHint": "Voer het WhatsApp-telefoonnummer in dat je gebruikt om klanten te notificeren. Vergeet de landcode niet (bijv. +31).",
     "whatsappTestHint": "Voer een nummer met landcode in om het verzenden via WhatsApp te testen. WhatsApp Web wordt geopend met een testbericht.",
-    "reminderHoursHint": "Hoeveel uur vóór de afspraak de herinneringen worden verstuurd (standaard: 24 uur)"
+    "reminderHoursHint": "Hoeveel uur vóór de afspraak de herinneringen worden verstuurd (standaard: 24 uur)",
+    "pageDescription": "Configureer hoe je meldingen en herinneringen naar je klanten stuurt.",
+    "whatsappLongDescription": "Met WhatsApp-meldingen stuur je herinneringen en berichten direct via WhatsApp Web, zonder extra kosten.",
+    "remindersAutoProcessed": "Herinneringen worden elk uur automatisch verwerkt, maar je kunt de verwerking handmatig forceren."
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Voer een geldig e-mailadres in",
       "passwordRequired": "Wachtwoord is vereist als e-mail is ingeschakeld"
+    },
+    "help": {
+      "eauth": "Controleer of het \"app-wachtwoord\" klopt en of Gmail de toegang niet heeft geblokkeerd.",
+      "timeout": "Controleer of de SMTP-server bereikbaar is (smtp.gmail.com) en poort 587 open staat.",
+      "invalidLogin": "Ongeldige gebruikersnaam of wachtwoord."
+    },
+    "gmail": {
+      "step1": "1. Schakel eerst \"Verificatie in 2 stappen\" in op",
+      "step2": "2. Genereer vervolgens een \"app-wachtwoord\" op",
+      "step3": "3. Kopieer en plak het gegenereerde wachtwoord in het veld \"Wachtwoord / App-sleutel\" hierboven"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "Bijv. Ethera Scheduler",
       "descriptorHelp": "Beschrijving op rekeningafschrift (max 22 tekens)",
       "howToGet": "Hoe Stripe-sleutels te verkrijgen",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Log in op je account op",
+      "step2": "2. Ga naar Developers > API keys",
+      "step3": "3. Kopieer de \"Publishable key\" en de \"Secret key\"",
+      "step4": "4. Voor de webhook ga je naar Developers > Webhooks en maak een endpoint aan met URL"
     },
     "paypal": {
       "modeLabel": "Modus",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Selecteer \"Sandbox\" voor tests of \"Live\" voor echte transacties",
       "howToGet": "Hoe PayPal-inloggegevens te verkrijgen",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Log in op je account op",
+      "step2": "2. Ga naar Dashboard > My Apps & Credentials",
+      "step3": "3. Maak een nieuwe REST API-app of selecteer een bestaande",
+      "step4": "4. Kopieer de \"Client ID\" en \"Secret\" credentials",
+      "step5": "5. Gebruik de juiste credentials voor Sandbox (test) of Live (productie)"
     },
     "wise": {
       "emailLabel": "Notificatie-e-mail",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "Account-ID",
       "newFeature": "NIEUWE FUNCTIE:",
       "autoConfigInstructions": "Voer alleen de Wise API-sleutel in en klik op \"Automatisch configureren\"!",
-      "autoConfigInstructions2": "Het systeem haalt automatisch het Profile ID en Account ID op zonder dat je ze handmatig hoeft op te zoeken."
+      "autoConfigInstructions2": "Het systeem haalt automatisch het Profile ID en Account ID op zonder dat je ze handmatig hoeft op te zoeken.",
+      "step1": "1. Log in op je account op",
+      "step2": "2. Klik op je profiel (rechtsboven) > Instellingen",
+      "step3": "3. Scroll naar \"API tokens\" en klik op \"Add new token\"",
+      "step4": "4. Geef het een naam (bijv. \"Beheer\") en klik op \"Create token\"",
+      "step5": "5. Kopieer het token (het verschijnt slechts één keer!) en plak het in het \"API Key\"-veld hierboven",
+      "step6": "6. Klik op \"Automatisch configureren\" — Profile ID en Account ID worden automatisch ingevuld!"
     },
     "bank": {
       "heading": "Bankoverschrijving",

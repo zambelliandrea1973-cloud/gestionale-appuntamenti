@@ -1017,7 +1017,10 @@
     "whatsappSetupDescription": "Set up your WhatsApp number to send messages to clients.",
     "whatsappPhoneHint": "Enter the WhatsApp phone number to use for sending notifications to clients. Make sure to include the international prefix (e.g. +1).",
     "whatsappTestHint": "Enter a number with international prefix to test WhatsApp sending. WhatsApp Web will open with a test message.",
-    "reminderHoursHint": "How many hours before the appointment to send reminders (default: 24 hours)"
+    "reminderHoursHint": "How many hours before the appointment to send reminders (default: 24 hours)",
+    "pageDescription": "Configure how you want to send notifications and reminders to your clients.",
+    "whatsappLongDescription": "WhatsApp notifications let you send reminders and messages to clients directly through WhatsApp Web, at no extra cost.",
+    "remindersAutoProcessed": "Reminders are automatically processed every hour, but you can force processing manually."
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Enter a valid email address",
       "passwordRequired": "Password is required if email is enabled"
+    },
+    "help": {
+      "eauth": "Check that the \"App Password\" is correct and that Gmail has not blocked access.",
+      "timeout": "Check that the SMTP server is reachable (smtp.gmail.com) and that port 587 is open.",
+      "invalidLogin": "Invalid username or password."
+    },
+    "gmail": {
+      "step1": "1. First enable \"2-Step Verification\" at",
+      "step2": "2. Then generate an \"App Password\" at",
+      "step3": "3. Copy and paste the generated password into the \"Password / App Key\" field above"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "E.g. Ethera Scheduler",
       "descriptorHelp": "Description shown on the statement (max 22 characters)",
       "howToGet": "How to get Stripe keys",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Sign in to your account at",
+      "step2": "2. Go to Developers > API keys",
+      "step3": "3. Copy the \"Publishable key\" and \"Secret key\"",
+      "step4": "4. For the webhook, go to Developers > Webhooks and create an endpoint with URL"
     },
     "paypal": {
       "modeLabel": "Mode",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Select \"Sandbox\" for tests or \"Live\" for real transactions",
       "howToGet": "How to get PayPal credentials",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Sign in to your account at",
+      "step2": "2. Go to Dashboard > My Apps & Credentials",
+      "step3": "3. Create a new REST API app or select an existing one",
+      "step4": "4. Copy the \"Client ID\" and \"Secret\" credentials",
+      "step5": "5. Make sure to use the right credentials for Sandbox (test) or Live (production)"
     },
     "wise": {
       "emailLabel": "Notification Email",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "Account ID",
       "newFeature": "NEW FEATURE:",
       "autoConfigInstructions": "Just enter the Wise API Key and click \"Auto-Configure\"!",
-      "autoConfigInstructions2": "The system will automatically retrieve Profile ID and Account ID without you needing to look them up manually."
+      "autoConfigInstructions2": "The system will automatically retrieve Profile ID and Account ID without you needing to look them up manually.",
+      "step1": "1. Sign in to your account at",
+      "step2": "2. Click your profile (top right) > Settings",
+      "step3": "3. Scroll to \"API tokens\" and click \"Add new token\"",
+      "step4": "4. Give it a name (e.g. \"Manager\") and click \"Create token\"",
+      "step5": "5. Copy the token (it appears only once!) and paste it into the \"API Key\" field above",
+      "step6": "6. Click \"Auto-Configure\" — Profile ID and Account ID will be filled in automatically!"
     },
     "bank": {
       "heading": "Bank Transfer",

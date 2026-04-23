@@ -991,7 +991,10 @@
     "whatsappSetupDescription": "Konfigurer WhatsApp-nummeret ditt for å sende meldinger til kunder.",
     "whatsappPhoneHint": "Skriv inn WhatsApp-telefonnummeret som brukes til å varsle kunder. Husk landskoden (f.eks. +47).",
     "whatsappTestHint": "Skriv inn et nummer med landskode for å teste WhatsApp-sending. WhatsApp Web åpnes med en testmelding.",
-    "reminderHoursHint": "Hvor mange timer før avtalen påminnelser skal sendes (standard: 24 timer)"
+    "reminderHoursHint": "Hvor mange timer før avtalen påminnelser skal sendes (standard: 24 timer)",
+    "pageDescription": "Konfigurer hvordan du sender varsler og påminnelser til kundene.",
+    "whatsappLongDescription": "WhatsApp-varsler lar deg sende påminnelser og meldinger til kunder direkte via WhatsApp Web, uten ekstra kostnad.",
+    "remindersAutoProcessed": "Påminnelser behandles automatisk hver time, men du kan også tvinge behandlingen manuelt."
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Skriv inn en gyldig e-postadresse",
       "passwordRequired": "Passord kreves når e-post er aktivert"
+    },
+    "help": {
+      "eauth": "Kontroller at «app-passordet» er riktig og at Gmail ikke har blokkert tilgang.",
+      "timeout": "Sjekk at SMTP-serveren (smtp.gmail.com) er tilgjengelig og at port 587 er åpen.",
+      "invalidLogin": "Ugyldig brukernavn eller passord."
+    },
+    "gmail": {
+      "step1": "1. Aktiver først «totrinnsbekreftelse» fra",
+      "step2": "2. Generer deretter et «app-passord» fra",
+      "step3": "3. Kopier og lim inn det genererte passordet i feltet «Passord / App-nøkkel» ovenfor"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "F.eks. Ethera Scheduler",
       "descriptorHelp": "Beskrivelse på kontoutskriften (maks 22 tegn)",
       "howToGet": "Slik får du Stripe-nøkler",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Logg inn på kontoen din på",
+      "step2": "2. Gå til Developers > API keys",
+      "step3": "3. Kopier «Publishable key» og «Secret key»",
+      "step4": "4. For webhook, gå til Developers > Webhooks og opprett et endepunkt med URL"
     },
     "paypal": {
       "modeLabel": "Modus",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Velg \"Sandbox\" for tester eller \"Live\" for ekte transaksjoner",
       "howToGet": "Slik får du PayPal-legitimasjon",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Logg inn på kontoen din på",
+      "step2": "2. Gå til Dashboard > My Apps & Credentials",
+      "step3": "3. Opprett en ny REST API-app eller velg en eksisterende",
+      "step4": "4. Kopier «Client ID» og «Secret»",
+      "step5": "5. Bruk riktige legitimasjoner for Sandbox (test) eller Live (produksjon)"
     },
     "wise": {
       "emailLabel": "Varslings-e-post",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "Konto-ID",
       "newFeature": "NY FUNKSJON:",
       "autoConfigInstructions": "Skriv bare inn Wise API-nøkkelen og klikk «Auto-konfigurer»!",
-      "autoConfigInstructions2": "Systemet henter Profile ID og Account ID automatisk uten at du må lete manuelt."
+      "autoConfigInstructions2": "Systemet henter Profile ID og Account ID automatisk uten at du må lete manuelt.",
+      "step1": "1. Logg inn på kontoen din på",
+      "step2": "2. Klikk på profilen din (øverst til høyre) > Innstillinger",
+      "step3": "3. Bla til «API tokens» og klikk «Add new token»",
+      "step4": "4. Gi det et navn (f.eks. «Manager») og klikk «Create token»",
+      "step5": "5. Kopier tokenet (vises bare én gang!) og lim det inn i «API Key»-feltet ovenfor",
+      "step6": "6. Klikk «Auto-konfigurer» — Profile ID og Account ID fylles inn automatisk!"
     },
     "bank": {
       "heading": "Bankoverføring",

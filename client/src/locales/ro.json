@@ -991,7 +991,10 @@
     "whatsappSetupDescription": "Configurați-vă numărul WhatsApp pentru a trimite mesaje clienților.",
     "whatsappPhoneHint": "Introduceți numărul WhatsApp folosit pentru notificările clienților. Includeți prefixul internațional (ex. +40).",
     "whatsappTestHint": "Introduceți un număr cu prefix internațional pentru a testa trimiterea WhatsApp. WhatsApp Web se va deschide cu un mesaj de test.",
-    "reminderHoursHint": "Cu câte ore înainte de programare să fie trimise memento-urile (implicit: 24 de ore)"
+    "reminderHoursHint": "Cu câte ore înainte de programare să fie trimise memento-urile (implicit: 24 de ore)",
+    "pageDescription": "Configurați cum doriți să trimiteți notificări și memento-uri clienților.",
+    "whatsappLongDescription": "Notificările WhatsApp vă permit să trimiteți memento-uri și mesaje clienților direct prin WhatsApp Web, fără costuri suplimentare.",
+    "remindersAutoProcessed": "Memento-urile sunt procesate automat la fiecare oră, dar puteți forța procesarea manual."
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Introduceți un email valid",
       "passwordRequired": "Parola este obligatorie dacă emailul este activat"
+    },
+    "help": {
+      "eauth": "Verificați că „Parola de aplicație” este corectă și că Gmail nu a blocat accesul.",
+      "timeout": "Verificați că serverul SMTP este accesibil (smtp.gmail.com) și că portul 587 este deschis.",
+      "invalidLogin": "Nume de utilizator sau parolă invalide."
+    },
+    "gmail": {
+      "step1": "1. Activați mai întâi „Verificarea în 2 pași” de la",
+      "step2": "2. Apoi generați o „Parolă de aplicație” de la",
+      "step3": "3. Copiați și lipiți parola generată în câmpul „Parolă / Cheie aplicație” de mai sus"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "Ex. Ethera Scheduler",
       "descriptorHelp": "Descrierea afișată pe extrasul de cont (max 22 caractere)",
       "howToGet": "Cum se obțin cheile Stripe",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Conectați-vă la contul dvs. la",
+      "step2": "2. Mergeți la Developers > API keys",
+      "step3": "3. Copiați „Publishable key” și „Secret key”",
+      "step4": "4. Pentru webhook, mergeți la Developers > Webhooks și creați un endpoint cu URL"
     },
     "paypal": {
       "modeLabel": "Mod",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Selectați \"Sandbox\" pentru teste sau \"Live\" pentru tranzacții reale",
       "howToGet": "Cum se obțin acreditările PayPal",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Conectați-vă la contul dvs. la",
+      "step2": "2. Mergeți la Dashboard > My Apps & Credentials",
+      "step3": "3. Creați o aplicație REST API nouă sau selectați una existentă",
+      "step4": "4. Copiați acreditările „Client ID” și „Secret”",
+      "step5": "5. Asigurați-vă că folosiți acreditările corecte pentru Sandbox (test) sau Live (producție)"
     },
     "wise": {
       "emailLabel": "Email de notificare",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "ID cont",
       "newFeature": "FUNCȚIE NOUĂ:",
       "autoConfigInstructions": "Introduceți doar cheia API Wise și faceți clic pe „Auto-Configurare”!",
-      "autoConfigInstructions2": "Sistemul va prelua automat Profile ID și Account ID fără să le căutați manual."
+      "autoConfigInstructions2": "Sistemul va prelua automat Profile ID și Account ID fără să le căutați manual.",
+      "step1": "1. Conectați-vă la contul dvs. la",
+      "step2": "2. Faceți clic pe profilul dvs. (sus dreapta) > Setări",
+      "step3": "3. Derulați la „API tokens” și faceți clic pe „Add new token”",
+      "step4": "4. Dați un nume (ex. „Manager”) și faceți clic pe „Create token”",
+      "step5": "5. Copiați tokenul (apare doar o dată!) și lipiți-l în câmpul „API Key” de mai sus",
+      "step6": "6. Faceți clic pe „Auto-Configurare” — Profile ID și Account ID se vor completa automat!"
     },
     "bank": {
       "heading": "Transfer bancar",

@@ -1009,7 +1009,10 @@
     "whatsappSetupDescription": "Konfigurieren Sie Ihre WhatsApp-Nummer, um Nachrichten an Kunden zu senden.",
     "whatsappPhoneHint": "Geben Sie die WhatsApp-Telefonnummer für Kundenbenachrichtigungen ein. Vergessen Sie die internationale Vorwahl nicht (z. B. +49).",
     "whatsappTestHint": "Geben Sie eine Nummer mit internationaler Vorwahl ein, um das WhatsApp-Senden zu testen. WhatsApp Web wird mit einer Testnachricht geöffnet.",
-    "reminderHoursHint": "Wie viele Stunden vor dem Termin die Erinnerungen gesendet werden (Standard: 24 Stunden)"
+    "reminderHoursHint": "Wie viele Stunden vor dem Termin die Erinnerungen gesendet werden (Standard: 24 Stunden)",
+    "pageDescription": "Konfigurieren Sie, wie Benachrichtigungen und Erinnerungen an Kunden gesendet werden.",
+    "whatsappLongDescription": "Mit WhatsApp-Benachrichtigungen senden Sie Erinnerungen und Nachrichten direkt über WhatsApp Web – ohne Zusatzkosten.",
+    "remindersAutoProcessed": "Erinnerungen werden stündlich automatisch verarbeitet, Sie können die Verarbeitung jedoch manuell auslösen."
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein",
       "passwordRequired": "Passwort ist erforderlich, wenn E-Mail aktiviert ist"
+    },
+    "help": {
+      "eauth": "Prüfen Sie, ob das „App-Passwort“ korrekt ist und Gmail den Zugriff nicht blockiert hat.",
+      "timeout": "Prüfen Sie, ob der SMTP-Server (smtp.gmail.com) erreichbar und Port 587 offen ist.",
+      "invalidLogin": "Ungültiger Benutzername oder Passwort."
+    },
+    "gmail": {
+      "step1": "1. Aktivieren Sie zuerst die „Bestätigung in zwei Schritten“ unter",
+      "step2": "2. Erstellen Sie dann ein „App-Passwort“ unter",
+      "step3": "3. Kopieren Sie das erzeugte Passwort in das Feld „Passwort / App-Schlüssel“ oben"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "Z.B. Ethera Scheduler",
       "descriptorHelp": "Beschreibung auf dem Kontoauszug (max. 22 Zeichen)",
       "howToGet": "Wie man Stripe-Schlüssel erhält",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Melden Sie sich bei Ihrem Konto an unter",
+      "step2": "2. Gehen Sie zu Developers > API keys",
+      "step3": "3. Kopieren Sie den „Publishable key“ und den „Secret key“",
+      "step4": "4. Für den Webhook gehen Sie zu Developers > Webhooks und erstellen einen Endpunkt mit URL"
     },
     "paypal": {
       "modeLabel": "Modus",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Wähle \"Sandbox\" für Tests oder \"Live\" für echte Transaktionen",
       "howToGet": "Wie man PayPal-Anmeldedaten erhält",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Melden Sie sich bei Ihrem Konto an unter",
+      "step2": "2. Gehen Sie zu Dashboard > My Apps & Credentials",
+      "step3": "3. Erstellen Sie eine neue REST-API-App oder wählen Sie eine vorhandene aus",
+      "step4": "4. Kopieren Sie die Anmeldedaten „Client ID“ und „Secret“",
+      "step5": "5. Achten Sie darauf, die richtigen Anmeldedaten für Sandbox (Test) oder Live (Produktion) zu verwenden"
     },
     "wise": {
       "emailLabel": "Benachrichtigungs-E-Mail",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "Konto-ID",
       "newFeature": "NEUE FUNKTION:",
       "autoConfigInstructions": "Geben Sie nur den Wise API-Schlüssel ein und klicken Sie auf „Auto-Konfigurieren“!",
-      "autoConfigInstructions2": "Das System ruft Profile ID und Account ID automatisch ab, ohne dass Sie sie manuell suchen müssen."
+      "autoConfigInstructions2": "Das System ruft Profile ID und Account ID automatisch ab, ohne dass Sie sie manuell suchen müssen.",
+      "step1": "1. Melden Sie sich bei Ihrem Konto an unter",
+      "step2": "2. Klicken Sie auf Ihr Profil (oben rechts) > Einstellungen",
+      "step3": "3. Scrollen Sie zu „API tokens“ und klicken Sie auf „Add new token“",
+      "step4": "4. Vergeben Sie einen Namen (z. B. „Manager“) und klicken Sie auf „Create token“",
+      "step5": "5. Kopieren Sie das Token (es erscheint nur einmal!) und fügen Sie es oben im Feld „API Key“ ein",
+      "step6": "6. Klicken Sie auf „Auto-Konfigurieren“ — Profile ID und Account ID werden automatisch eingetragen!"
     },
     "bank": {
       "heading": "Banküberweisung",

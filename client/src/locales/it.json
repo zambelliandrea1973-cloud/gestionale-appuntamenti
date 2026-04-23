@@ -1022,7 +1022,10 @@
     "whatsappSetupDescription": "Configura il tuo numero WhatsApp per inviare comunicazioni ai clienti.",
     "whatsappPhoneHint": "Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).",
     "whatsappTestHint": "Inserisci un numero con prefisso internazionale per testare l'invio WhatsApp. Verrà aperto WhatsApp Web con un messaggio di test.",
-    "reminderHoursHint": "Quante ore prima dell'appuntamento inviare i promemoria (predefinito: 24 ore)"
+    "reminderHoursHint": "Quante ore prima dell'appuntamento inviare i promemoria (predefinito: 24 ore)",
+    "pageDescription": "Configura come vuoi inviare notifiche e promemoria ai tuoi clienti.",
+    "whatsappLongDescription": "Le notifiche via WhatsApp ti permettono di inviare promemoria e comunicazioni ai tuoi clienti direttamente attraverso WhatsApp Web, senza costi aggiuntivi.",
+    "remindersAutoProcessed": "I promemoria vengono elaborati automaticamente ogni ora, ma puoi forzare l'elaborazione manualmente."
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Inserisci un indirizzo email valido",
       "passwordRequired": "La password è obbligatoria se l'email è abilitata"
+    },
+    "help": {
+      "eauth": "Verifica che la \"Password per le app\" sia corretta e che Gmail non abbia bloccato l'accesso.",
+      "timeout": "Verifica che il server SMTP sia raggiungibile (smtp.gmail.com) e che la porta 587 sia aperta.",
+      "invalidLogin": "Nome utente o password non validi."
+    },
+    "gmail": {
+      "step1": "1. Prima attiva la \"Verifica in due passaggi\" da",
+      "step2": "2. Poi genera una \"Password per le app\" da",
+      "step3": "3. Copia e incolla la password generata nel campo \"Password / Chiave App\" qui sopra"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "Es. Ethera Scheduler",
       "descriptorHelp": "Descrizione che appare sull'estratto conto (max 22 caratteri)",
       "howToGet": "Come ottenere le chiavi Stripe",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Accedi al tuo account su",
+      "step2": "2. Vai in Developers > API keys",
+      "step3": "3. Copia la \"Publishable key\" e la \"Secret key\"",
+      "step4": "4. Per il webhook, vai in Developers > Webhooks, crea un endpoint con URL"
     },
     "paypal": {
       "modeLabel": "Modalità",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Seleziona \"Sandbox\" per i test o \"Live\" per le transazioni reali",
       "howToGet": "Come ottenere le credenziali PayPal",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Accedi al tuo account su",
+      "step2": "2. Vai su Dashboard > My Apps & Credentials",
+      "step3": "3. Crea una nuova app REST API oppure seleziona una esistente",
+      "step4": "4. Copia le credenziali \"Client ID\" e \"Secret\"",
+      "step5": "5. Assicurati di usare le credenziali giuste per Sandbox (test) o Live (produzione)"
     },
     "wise": {
       "emailLabel": "Email Notifiche",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "Account ID",
       "newFeature": "NUOVA FUNZIONE:",
       "autoConfigInstructions": "Inserisci solo l'API Key di Wise e clicca \"Auto-Configura\"!",
-      "autoConfigInstructions2": "Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente."
+      "autoConfigInstructions2": "Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente.",
+      "step1": "1. Accedi al tuo account su",
+      "step2": "2. Clicca sul tuo profilo (in alto a destra) > Impostazioni",
+      "step3": "3. Scorri fino a \"API tokens\" e clicca \"Add new token\"",
+      "step4": "4. Dai un nome (es. \"Gestionale\") e clicca \"Create token\"",
+      "step5": "5. Copia il token (appare solo una volta!) e incollalo nel campo \"API Key\" sopra",
+      "step6": "6. Clicca \"Auto-Configura\" - Profile ID e Account ID verranno inseriti automaticamente!"
     },
     "bank": {
       "heading": "Bonifico Bancario",

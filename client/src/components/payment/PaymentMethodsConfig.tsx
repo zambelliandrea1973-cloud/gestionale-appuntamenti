@@ -382,10 +382,10 @@ export default function PaymentMethodsConfig() {
                     <div>
                       <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.stripe.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
-                        <li>1. Accedi al tuo account su <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="underline">dashboard.stripe.com</a></li>
-                        <li>2. Vai in Developers {`>`} API keys</li>
-                        <li>3. Copia la "Publishable key" e la "Secret key"</li>
-                        <li>4. Per il webhook, vai in Developers {`>`} Webhooks, crea un endpoint con URL {window.location.origin}/api/payments/stripe/webhook</li>
+                        <li>{t('paymentMethodsConfig.stripe.step1')} <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="underline">dashboard.stripe.com</a></li>
+                        <li>{t('paymentMethodsConfig.stripe.step2')}</li>
+                        <li>{t('paymentMethodsConfig.stripe.step3')}</li>
+                        <li>{t('paymentMethodsConfig.stripe.step4')} {window.location.origin}/api/payments/stripe/webhook</li>
                       </ol>
                     </div>
                   </div>
@@ -479,11 +479,11 @@ export default function PaymentMethodsConfig() {
                     <div>
                       <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.paypal.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
-                        <li>1. Accedi al tuo account su <a href="https://developer.paypal.com" target="_blank" rel="noopener noreferrer" className="underline">developer.paypal.com</a></li>
-                        <li>2. Vai su Dashboard {`>`} My Apps & Credentials</li>
-                        <li>3. Crea una nuova app REST API oppure seleziona una esistente</li>
-                        <li>4. Copia le credenziali "Client ID" e "Secret"</li>
-                        <li>5. Assicurati di usare le credenziali giuste per Sandbox (test) o Live (produzione)</li>
+                        <li>{t('paymentMethodsConfig.paypal.step1')} <a href="https://developer.paypal.com" target="_blank" rel="noopener noreferrer" className="underline">developer.paypal.com</a></li>
+                        <li>{t('paymentMethodsConfig.paypal.step2')}</li>
+                        <li>{t('paymentMethodsConfig.paypal.step3')}</li>
+                        <li>{t('paymentMethodsConfig.paypal.step4')}</li>
+                        <li>{t('paymentMethodsConfig.paypal.step5')}</li>
                       </ol>
                     </div>
                   </div>
@@ -611,12 +611,12 @@ export default function PaymentMethodsConfig() {
                     <div>
                       <h4 className="font-semibold text-amber-800">{t('paymentMethodsConfig.wise.howToGet')}</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
-                        <li>1. Accedi al tuo account su <a href="https://wise.com" target="_blank" rel="noopener noreferrer" className="underline">wise.com</a></li>
-                        <li>2. Clicca sul tuo profilo (in alto a destra) {`>`} Impostazioni</li>
-                        <li>3. Scorri fino a "API tokens" e clicca "Add new token"</li>
-                        <li>4. Dai un nome (es. "Gestionale") e clicca "Create token"</li>
-                        <li>5. Copia il token (appare solo una volta!) e incollalo nel campo "API Key" sopra</li>
-                        <li>6. Clicca "Auto-Configura" - Profile ID e Account ID verranno inseriti automaticamente!</li>
+                        <li>{t('paymentMethodsConfig.wise.step1')} <a href="https://wise.com" target="_blank" rel="noopener noreferrer" className="underline">wise.com</a></li>
+                        <li>{t('paymentMethodsConfig.wise.step2')}</li>
+                        <li>{t('paymentMethodsConfig.wise.step3')}</li>
+                        <li>{t('paymentMethodsConfig.wise.step4')}</li>
+                        <li>{t('paymentMethodsConfig.wise.step5')}</li>
+                        <li>{t('paymentMethodsConfig.wise.step6')}</li>
                       </ol>
                     </div>
                   </div>

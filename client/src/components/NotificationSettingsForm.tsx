@@ -333,7 +333,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
       <CardHeader>
         <CardTitle>{t("notificationSettings.title")}</CardTitle>
         <CardDescription>
-          Configura come vuoi inviare notifiche e promemoria ai tuoi clienti.
+          {t('notificationSettings.pageDescription')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -609,9 +609,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                 <div className="bg-muted p-4 rounded-lg mb-4">
                   <h3 className="text-base font-medium mb-2">{t('notificationSettings.whatsappNotificationsTitle')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Le notifiche via WhatsApp ti permettono di inviare promemoria e comunicazioni 
-                    ai tuoi clienti direttamente attraverso WhatsApp Web, senza 
-                    costi aggiuntivi.
+                    {t('notificationSettings.whatsappLongDescription')}
                   </p>
                 </div>
 
@@ -793,7 +791,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    I promemoria vengono elaborati automaticamente ogni ora, ma puoi forzare l'elaborazione manualmente.
+                    {t('notificationSettings.remindersAutoProcessed')}
                   </p>
                 </div>
               </TabsContent>

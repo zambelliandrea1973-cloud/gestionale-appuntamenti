@@ -438,11 +438,11 @@ export default function EmailSettings() {
         // Aggiungiamo informazioni di aiuto basate sull'errore
         let helpText = '';
         if (errorMessage.includes('EAUTH')) {
-          helpText = '. Verifica che la "Password per le app" sia corretta e che Gmail non abbia bloccato l\'accesso.';
+          helpText = '. ' + i18nInstance.t('emailSettings.help.eauth');
         } else if (errorMessage.includes('ETIMEDOUT') || errorMessage.includes('ECONNECTION')) {
-          helpText = '. Verifica che il server SMTP sia raggiungibile (smtp.gmail.com) e che la porta 587 sia aperta.';
+          helpText = '. ' + i18nInstance.t('emailSettings.help.timeout');
         } else if (errorMessage.includes('Invalid login')) {
-          helpText = '. Nome utente o password non validi.';
+          helpText = '. ' + i18nInstance.t('emailSettings.help.invalidLogin');
         }
         
         throw new Error(errorMessage + helpText);
@@ -662,9 +662,9 @@ export default function EmailSettings() {
                           </div>
                         )}
                         <p>{t('emailSettings.passwordNote')}</p>
-                        <p className="mt-2 font-medium text-amber-700">1. Prima attiva la "Verifica in due passaggi" da <a href="https://myaccount.google.com/signinoptions/two-step-verification" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/signinoptions/two-step-verification</a></p>
-                        <p className="mt-1 font-medium">2. Poi genera una "Password per le app" da <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/apppasswords</a></p>
-                        <p className="mt-1 font-medium text-green-700">3. Copia e incolla la password generata nel campo "Password / Chiave App" qui sopra</p>
+                        <p className="mt-2 font-medium text-amber-700">{t('emailSettings.gmail.step1')} <a href="https://myaccount.google.com/signinoptions/two-step-verification" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/signinoptions/two-step-verification</a></p>
+                        <p className="mt-1 font-medium">{t('emailSettings.gmail.step2')} <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://myaccount.google.com/apppasswords</a></p>
+                        <p className="mt-1 font-medium text-green-700">{t('emailSettings.gmail.step3')}</p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

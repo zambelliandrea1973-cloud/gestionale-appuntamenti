@@ -1009,7 +1009,10 @@
     "whatsappSetupDescription": "Настройте номер WhatsApp для отправки сообщений клиентам.",
     "whatsappPhoneHint": "Введите номер WhatsApp для отправки уведомлений клиентам. Не забудьте международный код (например, +7).",
     "whatsappTestHint": "Введите номер с международным кодом для проверки отправки в WhatsApp. Откроется WhatsApp Web с тестовым сообщением.",
-    "reminderHoursHint": "За сколько часов до записи отправлять напоминания (по умолчанию: 24 часа)"
+    "reminderHoursHint": "За сколько часов до записи отправлять напоминания (по умолчанию: 24 часа)",
+    "pageDescription": "Настройте отправку уведомлений и напоминаний клиентам.",
+    "whatsappLongDescription": "Уведомления WhatsApp позволяют отправлять напоминания и сообщения клиентам прямо через WhatsApp Web — без дополнительных расходов.",
+    "remindersAutoProcessed": "Напоминания обрабатываются автоматически раз в час, но вы можете запустить обработку вручную."
   },
   "googleCalendar": {
     "title": "Google Календарь",
@@ -2742,6 +2745,16 @@
     "zod": {
       "invalidEmail": "Введите корректный email",
       "passwordRequired": "Пароль обязателен, если включён email"
+    },
+    "help": {
+      "eauth": "Проверьте, что «пароль приложения» верный и Gmail не заблокировал доступ.",
+      "timeout": "Проверьте доступность SMTP-сервера (smtp.gmail.com) и что порт 587 открыт.",
+      "invalidLogin": "Неверное имя пользователя или пароль."
+    },
+    "gmail": {
+      "step1": "1. Сначала включите «двухэтапную аутентификацию» на",
+      "step2": "2. Затем создайте «пароль приложения» на",
+      "step3": "3. Скопируйте и вставьте сгенерированный пароль в поле «Пароль / App-ключ» выше"
     }
   },
   "userSettings": {
@@ -2854,7 +2867,11 @@
       "descriptorPlaceholder": "Например Ethera Scheduler",
       "descriptorHelp": "Описание в выписке (макс. 22 символа)",
       "howToGet": "Как получить ключи Stripe",
-      "webhookLabel": "Webhook Secret"
+      "webhookLabel": "Webhook Secret",
+      "step1": "1. Войдите в учётную запись на",
+      "step2": "2. Перейдите в Developers > API keys",
+      "step3": "3. Скопируйте «Publishable key» и «Secret key»",
+      "step4": "4. Для webhook перейдите в Developers > Webhooks и создайте endpoint с URL"
     },
     "paypal": {
       "modeLabel": "Режим",
@@ -2863,7 +2880,12 @@
       "modeHelp": "Выберите \"Sandbox\" для тестов или \"Live\" для реальных транзакций",
       "howToGet": "Как получить учётные данные PayPal",
       "clientIdLabel": "Client ID",
-      "clientSecretLabel": "Client Secret"
+      "clientSecretLabel": "Client Secret",
+      "step1": "1. Войдите в учётную запись на",
+      "step2": "2. Перейдите в Dashboard > My Apps & Credentials",
+      "step3": "3. Создайте новое REST API-приложение или выберите существующее",
+      "step4": "4. Скопируйте учётные данные «Client ID» и «Secret»",
+      "step5": "5. Используйте правильные данные для Sandbox (тест) или Live (продакшн)"
     },
     "wise": {
       "emailLabel": "Email уведомлений",
@@ -2878,7 +2900,13 @@
       "accountIdLabel": "ID счёта",
       "newFeature": "НОВАЯ ФУНКЦИЯ:",
       "autoConfigInstructions": "Введите только API-ключ Wise и нажмите «Авто-настройка»!",
-      "autoConfigInstructions2": "Система автоматически получит Profile ID и Account ID — искать вручную не нужно."
+      "autoConfigInstructions2": "Система автоматически получит Profile ID и Account ID — искать вручную не нужно.",
+      "step1": "1. Войдите в учётную запись на",
+      "step2": "2. Нажмите на профиль (вверху справа) > Настройки",
+      "step3": "3. Прокрутите до «API tokens» и нажмите «Add new token»",
+      "step4": "4. Дайте имя (например, «Manager») и нажмите «Create token»",
+      "step5": "5. Скопируйте токен (показывается только один раз!) и вставьте в поле «API Key» выше",
+      "step6": "6. Нажмите «Авто-настройка» — Profile ID и Account ID заполнятся автоматически!"
     },
     "bank": {
       "heading": "Банковский перевод",
