@@ -387,33 +387,33 @@ export function PwaInstallButton() {
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center">
             <Smartphone className="mr-2 h-5 w-5" />
-            {isInstalled ? t("pwaInstall.installed") : t("pwaInstall.cardTitle", "Installa App sul Dispositivo")}
+            {isInstalled ? t("pwaInstall.installed") : t("pwaInstall.cardTitle")}
           </CardTitle>
           <CardDescription>
             {isInstalled 
-              ? t("pwaInstall.cardAlreadyDesc", "Hai già installato l'app sul tuo dispositivo")
-              : t("pwaInstall.cardDesc", "Installa l'app per un accesso più rapido e funzionalità offline")}
+              ? t("pwaInstall.cardAlreadyDesc")
+              : t("pwaInstall.cardDesc")}
           </CardDescription>
         </CardHeader>
         
         {!isInstalled && (
           <CardContent>
             <p className="text-sm mb-2">
-              {t("pwaInstall.intro", "L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.")}
+              {t("pwaInstall.intro")}
             </p>
             
             <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
               <p className="text-sm font-medium text-blue-700 mb-1">
-                {t("pwaInstall.browserNote", "Nota specifica per il tuo browser:")}
+                {t("pwaInstall.browserNote")}
               </p>
               {getBrowserSpecificNote()}
             </div>
             
             <ul className="text-sm list-disc pl-5 space-y-1">
-              <li>{t("pwaInstall.feature1", "Accesso con un solo tocco")}</li>
-              <li>{t("pwaInstall.feature2", "Funziona anche offline")}</li>
-              <li>{t("pwaInstall.feature3", "Nessuna app da scaricare dagli store")}</li>
-              <li>{t("pwaInstall.feature4", "Occupazione minima della memoria")}</li>
+              <li>{t("pwaInstall.feature1")}</li>
+              <li>{t("pwaInstall.feature2")}</li>
+              <li>{t("pwaInstall.feature3")}</li>
+              <li>{t("pwaInstall.feature4")}</li>
             </ul>
           </CardContent>
         )}
@@ -422,7 +422,7 @@ export function PwaInstallButton() {
           {isInstalled ? (
             <div className="w-full flex items-center justify-center text-green-600">
               <Check className="h-5 w-5 mr-2" />
-              <span>{t("pwaInstall.installedOnDevice", "App installata sul dispositivo")}</span>
+              <span>{t("pwaInstall.installedOnDevice")}</span>
             </div>
           ) : (
             <Button 

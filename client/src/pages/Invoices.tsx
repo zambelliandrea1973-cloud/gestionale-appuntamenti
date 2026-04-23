@@ -196,10 +196,10 @@ export default function Invoices() {
 
   const form = useForm({
     resolver: zodResolver(z.object({
-      clientId: z.number().min(1, "Cliente richiesto"),
-      totalAmount: z.number().min(0, "Importo deve essere positivo"),
-      date: z.string().min(1, "Data richiesta"),
-      dueDate: z.string().min(1, "Data scadenza richiesta"),
+      clientId: z.number().min(1, t('invoices.form.clientRequired')),
+      totalAmount: z.number().min(0, t('invoices.form.amountPositive')),
+      date: z.string().min(1, t('invoices.form.dateRequired')),
+      dueDate: z.string().min(1, t('invoices.form.dueDateRequired')),
       description: z.string().optional(),
       status: z.enum(["sent", "paid"]).default("sent"),
     })),
@@ -224,8 +224,8 @@ export default function Invoices() {
 
   const emailForm = useForm({
     resolver: zodResolver(z.object({
-      recipientEmail: z.string().email("Email non valida"),
-      subject: z.string().min(1, "Oggetto richiesto"),
+      recipientEmail: z.string().email(t('invoices.validation.invalidEmail')),
+      subject: z.string().min(1, t('invoices.validation.subjectRequired')),
       message: z.string().optional(),
     })),
     defaultValues: {
@@ -413,13 +413,13 @@ export default function Invoices() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       toast({ 
-        title: "Migrazione completata", 
+        title: t('invoices.migrationComplete'), 
         description: data.message 
       });
     },
     onError: (error) => {
       toast({ 
-        title: "Errore nella migrazione", 
+        title: t('invoices.migrationError'), 
         description: error.message,
         variant: "destructive" 
       });
@@ -436,7 +436,7 @@ export default function Invoices() {
       });
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Errore invio fattura");
+        throw new Error(error.message || t('invoices.sendError'));
       }
       return response.json();
     },
@@ -484,15 +484,15 @@ export default function Invoices() {
       } else {
         // Fallback a valori di default
         emailForm.setValue("recipientEmail", "");
-        emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
-        emailForm.setValue("message", `Gentile ${invoice.client?.firstName} ${invoice.client?.lastName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+        emailForm.setValue("subject", t('invoices.subjectTemplate', { number: invoice.invoiceNumber }));
+        emailForm.setValue("message", t('invoices.emailBodyTemplate', { firstName: invoice.client?.firstName, lastName: invoice.client?.lastName || t('invoices.clientFallback'), invoiceNumber: invoice.invoiceNumber }));
       }
     } catch (error) {
       console.log('Errore caricamento suggerimenti email:', error);
       // Fallback a valori di default
       emailForm.setValue("recipientEmail", "");
-      emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
-      emailForm.setValue("message", `Gentile ${invoice.client?.firstName} ${invoice.client?.lastName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+      emailForm.setValue("subject", t('invoices.subjectTemplate', { number: invoice.invoiceNumber }));
+      emailForm.setValue("message", t('invoices.emailBodyTemplate', { firstName: invoice.client?.firstName, lastName: invoice.client?.lastName || t('invoices.clientFallback'), invoiceNumber: invoice.invoiceNumber }));
     }
     
     setIsEmailDialogOpen(true);
@@ -504,8 +504,8 @@ export default function Invoices() {
 
   const handleDeleteInvoice = (invoice: Invoice) => {
     const confirmed = window.confirm(
-      `Sei sicuro di voler eliminare la fattura ${invoice.invoiceNumber}?\n\n` +
-      `Questa azione è irreversibile!`
+      t('invoices.deleteConfirm', { number: invoice.invoiceNumber }) + `\n\n` +
+      t('invoices.irreversibleAction')
     );
     
     if (confirmed) {
@@ -674,7 +674,7 @@ export default function Invoices() {
                       onClick={() => handlePreviewInvoice(invoice)}
                       disabled={previewMutation.isPending}
                       className="h-9 w-9 p-0 border-blue-300 hover:bg-blue-50 text-blue-600 flex-shrink-0"
-                      title="Anteprima fattura"
+                      title={t('invoices.invoicePreview')}
                       data-testid={`button-preview-invoice-${invoice.id}`}
                     >
                       <Eye className="h-4 w-4" />
@@ -687,7 +687,7 @@ export default function Invoices() {
                       onClick={() => handlePrintInvoice(invoice)}
                       disabled={printMutation.isPending}
                       className="h-9 w-9 p-0 border-gray-300 hover:bg-gray-50 flex-shrink-0"
-                      title="Stampa fattura"
+                      title={t('invoices.invoicePrint')}
                       data-testid={`button-print-invoice-${invoice.id}`}
                     >
                       <Printer className="h-4 w-4" />
@@ -704,7 +704,7 @@ export default function Invoices() {
                             ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600'
                             : 'border-blue-300 text-blue-600 hover:bg-blue-50 bg-white'
                       }`}
-                      title={`PWA${invoice.publishedToPwa ? ` (Inviata - re-invia)` : ''}`}
+                      title={`PWA${invoice.publishedToPwa ? ` ${t('invoices.sentResend')}` : ''}`}
                       data-testid={`button-toggle-pwa-${invoice.id}`}
                     >
                       <Smartphone className="h-4 w-4" />
@@ -721,7 +721,7 @@ export default function Invoices() {
                             ? 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600'
                             : 'border-orange-300 text-orange-600 hover:bg-orange-50 bg-white'
                       }`}
-                      title={`Email${invoice.sentViaEmail ? ` (Inviata - re-invia)` : ''}`}
+                      title={`Email${invoice.sentViaEmail ? ` ${t('invoices.sentResend')}` : ''}`}
                       data-testid={`button-toggle-email-${invoice.id}`}
                     >
                       <Mail className="h-4 w-4" />
@@ -738,7 +738,7 @@ export default function Invoices() {
                             ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
                             : 'border-green-300 text-green-600 hover:bg-green-50 bg-white'
                       }`}
-                      title={`WhatsApp${invoice.sentViaWhatsapp ? ` (Inviata - re-invia)` : ''}`}
+                      title={`WhatsApp${invoice.sentViaWhatsapp ? ` ${t('invoices.sentResend')}` : ''}`}
                       data-testid={`button-toggle-whatsapp-${invoice.id}`}
                     >
                       <MessageCircle className="h-4 w-4" />
@@ -752,21 +752,21 @@ export default function Invoices() {
                         const channels = sendPreferences[invoice.id] || { pwa: true, email: false, whatsapp: false };
                         if (!channels.pwa && !channels.email && !channels.whatsapp) {
                           toast({
-                            title: "⚠️ Nessun canale selezionato",
-                            description: "Seleziona almeno un canale di invio",
+                            title: `⚠️ ${t('invoices.channels.noChannelSelectedTitle')}`,
+                            description: t('invoices.channels.noChannelSelected'),
                             variant: "destructive"
                           });
                           return;
                         }
                         const resends: Array<{ channel: string; date: string }> = [];
                         if (channels.pwa && invoice.publishedToPwa) {
-                          resends.push({ channel: "PWA - Area Clienti", date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
+                          resends.push({ channel: t('invoices.channelPwa'), date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (channels.email && invoice.sentViaEmail) {
-                          resends.push({ channel: "Email", date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
+                          resends.push({ channel: "Email", date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (channels.whatsapp && invoice.sentViaWhatsapp) {
-                          resends.push({ channel: "WhatsApp", date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
+                          resends.push({ channel: "WhatsApp", date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (resends.length > 0) {
                           setPendingInvoiceId(invoice.id);
@@ -783,11 +783,11 @@ export default function Invoices() {
                           ? 'bg-gray-400 hover:bg-gray-500 text-white'
                           : 'bg-green-600 hover:bg-green-700 text-white'
                       }`}
-                      title="Invia ai canali selezionati"
+                      title={t('invoices.sendToChannels')}
                       data-testid={`button-send-invoice-${invoice.id}`}
                     >
                       <Send className="h-3 w-3 mr-1" />
-                      <span className="hidden sm:inline">INVIO</span>
+                      <span className="hidden sm:inline">{t('invoices.sendShort')}</span>
                     </Button>
                   </div>
 
@@ -800,32 +800,32 @@ export default function Invoices() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handlePreviewInvoice(invoice)}>
                         <Eye className="h-4 w-4 mr-2" />
-                        {previewMutation.isPending ? "Anteprima..." : "Anteprima Fattura"}
+                        {previewMutation.isPending ? t('invoices.previewing') : t('invoices.previewInvoice')}
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => handlePrintInvoice(invoice)}
                         disabled={printMutation.isPending}
                       >
                         <Printer className="h-4 w-4 mr-2" />
-                        {printMutation.isPending ? "Stampa..." : "Stampa PDF"}
+                        {printMutation.isPending ? t('invoices.printing') : t('invoices.printPdf')}
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => handleEmailInvoice(invoice)}
                         disabled={sendEmailMutation.isPending}
                       >
                         <Mail className="h-4 w-4 mr-2" />
-                        {sendEmailMutation.isPending ? "Invio..." : "Invia via Email"}
+                        {sendEmailMutation.isPending ? t('invoices.sending') : t('invoices.sendViaEmail')}
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => {
-                          const currentStatus = invoice.status === "paid" ? "Pagata" : "Non pagata";
+                          const currentStatus = invoice.status === "paid" ? t('invoices.statusPaid') : t('invoices.statusUnpaid');
                           const newStatus = invoice.status === "paid" ? "sent" : "paid";
-                          const newStatusLabel = invoice.status === "paid" ? "Non pagata" : "Pagata";
+                          const newStatusLabel = invoice.status === "paid" ? t('invoices.statusUnpaid') : t('invoices.statusPaid');
                           
                           const confirmed = window.confirm(
-                            `Fattura ${invoice.invoiceNumber}\n\n` +
-                            `Stato attuale: ${currentStatus}\n` +
-                            `Cambiare in: ${newStatusLabel}?`
+                            t('invoices.subjectTemplate', { number: invoice.invoiceNumber }) + `\n\n` +
+                            t('invoices.currentStatusLine', { status: currentStatus }) + `\n` +
+                            t('invoices.changeToLine', { status: newStatusLabel })
                           );
                           
                           if (confirmed) {
@@ -837,7 +837,7 @@ export default function Invoices() {
                         }}
                       >
                         <Edit3 className="h-4 w-4 mr-2" />
-                        Cambia Stato
+                        {t('invoices.changeStatus')}
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => handleDeleteInvoice(invoice)}
@@ -845,7 +845,7 @@ export default function Invoices() {
                         className="text-red-600 focus:text-red-600"
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
-                        {deleteMutation.isPending ? "Eliminazione..." : "Elimina Fattura"}
+                        {deleteMutation.isPending ? t('invoices.deleting') : t('invoices.deleteInvoice')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -860,9 +860,9 @@ export default function Invoices() {
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="min-[1200px]:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Nuova Fattura</DialogTitle>
+            <DialogTitle>{t('invoices.newInvoice')}</DialogTitle>
             <DialogDescription>
-              Crea una nuova fattura per un cliente
+              {t('invoices.newInvoiceDesc')}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -870,10 +870,10 @@ export default function Invoices() {
               <div className="bg-muted/50 p-3 rounded-md text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">
-                    📋 Numero fattura automatico:
+                    📋 {t('invoices.autoInvoiceNumber')}
                   </span>
                   <span className="font-mono font-semibold text-primary">
-                    {nextInvoiceNumber?.nextInvoiceNumber || "Caricamento..."}
+                    {nextInvoiceNumber?.nextInvoiceNumber || t('common.loading')}
                   </span>
                 </div>
               </div>
@@ -882,14 +882,14 @@ export default function Invoices() {
                 name="clientId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cliente</FormLabel>
+                    <FormLabel>{t('invoices.client')}</FormLabel>
                     <Select 
                       onValueChange={(value) => field.onChange(parseInt(value))} 
                       value={field.value ? field.value.toString() : undefined}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Seleziona un cliente" />
+                          <SelectValue placeholder={t('invoices.form.selectClient')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -908,7 +908,7 @@ export default function Invoices() {
                     <FormMessage />
                     {suggestions?.clients.length === 0 && (
                       <div className="text-xs text-muted-foreground mt-1">
-                        Nessun cliente trovato. Aggiungi prima alcuni clienti.
+                        {t('invoices.noClientsFound')}
                       </div>
                     )}
                   </FormItem>
@@ -919,13 +919,13 @@ export default function Invoices() {
                 name="totalAmount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Importo Totale ({symbol})</FormLabel>
+                    <FormLabel>{t('invoices.totalAmount')} ({symbol})</FormLabel>
                     <FormControl>
                       <div className="space-y-2">
                         <Input 
                           type="number" 
                           step="0.01" 
-                          placeholder="Inserisci importo manualmente" 
+                          placeholder={t('invoices.form.amountManualPh')} 
                           value={field.value || ""}
                           onChange={(e) => {
                             const value = e.target.value;
@@ -960,7 +960,7 @@ export default function Invoices() {
                   name="date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Data Fattura</FormLabel>
+                      <FormLabel>{t('invoices.invoiceDate')}</FormLabel>
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
@@ -973,7 +973,7 @@ export default function Invoices() {
                   name="dueDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Data Scadenza</FormLabel>
+                      <FormLabel>{t('invoices.dueDate')}</FormLabel>
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
@@ -987,11 +987,11 @@ export default function Invoices() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descrizione (opzionale)</FormLabel>
+                    <FormLabel>{t('invoices.descriptionOptional')}</FormLabel>
                     <FormControl>
                       <div className="space-y-2">
                         <Textarea 
-                          placeholder="Descrizione dei servizi..." 
+                          placeholder={t('invoices.descriptionPlaceholder')} 
                           {...field} 
                           list="description-suggestions"
                         />

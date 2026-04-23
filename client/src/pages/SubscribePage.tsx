@@ -98,8 +98,8 @@ export default function SubscribePage() {
       sessionStorage.setItem('redirectAfterLogin', currentUrl);
       
       toast({
-        title: 'Accesso richiesto',
-        description: 'Devi effettuare l\'accesso per sottoscrivere un abbonamento',
+        title: t('subscribe.loginRequiredTitle'),
+        description: t('subscribe.loginRequired'),
         variant: 'destructive',
       });
       setLocation('/');
@@ -110,8 +110,8 @@ export default function SubscribePage() {
   const handleActivateCode = async () => {
     if (!activationCode.trim()) {
       toast({
-        title: 'Codice mancante',
-        description: 'Inserisci un codice di attivazione valido',
+        title: t('subscribe.missingCode'),
+        description: t('subscribe.invalidActivation'),
         variant: 'destructive',
       });
       return;
@@ -126,13 +126,13 @@ export default function SubscribePage() {
       setActivationCode('');
       
       toast({
-        title: 'Licenza attivata',
-        description: 'La tua licenza è stata attivata con successo.',
+        title: t('subscribe.licenseActivated'),
+        description: t('subscribe.licenseActivatedDesc'),
       });
     } catch (error: any) {
       toast({
-        title: 'Errore',
-        description: error.message || 'Si è verificato un errore durante l\'attivazione della licenza',
+        title: t('common.error'),
+        description: error.message || t('subscribe.genericError'),
         variant: 'destructive',
       });
     } finally {
@@ -143,7 +143,7 @@ export default function SubscribePage() {
   // Mutation per avviare un abbonamento con PayPal
   const startPaypalSubscription = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', '/api/payments/paypal/subscribe', { planId });
+      const res = await apiRequest('POST', { planId });
       return await res.json();
     },
     onSuccess: (data) => {
@@ -154,8 +154,8 @@ export default function SubscribePage() {
         
         // Mostra un toast prima del redirect
         toast({
-          title: 'Reindirizzamento a PayPal...',
-          description: 'Verrai reindirizzato alla pagina di pagamento PayPal',
+          title: t('subscribe.redirectingPaypalTitle'),
+          description: t('subscribe.redirectingPaypal'),
         });
         
         // Attendi 500ms prima del redirect per far vedere il toast
@@ -165,17 +165,17 @@ export default function SubscribePage() {
       } else {
         console.error('❌ PAYPAL: URL mancante nella risposta:', data);
         toast({
-          title: 'Errore PayPal',
-          description: data.message || 'Non è stato possibile avviare il processo di pagamento PayPal',
+          title: t('subscribe.paypalError'),
+          description: data.message || t('subscribe.paypalStartFailed'),
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
-      console.error('❌ PAYPAL: Errore mutation:', error);
+      console.error('❌ PAYPAL: mutation error:', error);
       toast({
-        title: 'Errore PayPal',
-        description: error.message || 'Si è verificato un errore durante l\'avvio dell\'abbonamento con PayPal',
+        title: t('subscribe.paypalError'),
+        description: error.message || t('subscribe.genericError'),
         variant: 'destructive',
       });
     }
@@ -184,7 +184,7 @@ export default function SubscribePage() {
   // Mutation per avviare un abbonamento con carta di credito (Stripe)
   const startStripeSubscription = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('POST', '/api/payments/stripe/create-checkout-session', { planId });
+      const res = await apiRequest('POST', { planId });
       return await res.json();
     },
     onSuccess: (data) => {
@@ -196,8 +196,8 @@ export default function SubscribePage() {
         
         // Mostra un toast prima del redirect
         toast({
-          title: 'Reindirizzamento a Stripe...',
-          description: 'Verrai reindirizzato alla pagina di pagamento sicura',
+          title: t('subscribe.redirectingStripeTitle'),
+          description: t('subscribe.redirectingSecure'),
         });
         
         // DEBUG: Verifica che l'URL sia valido
@@ -214,17 +214,17 @@ export default function SubscribePage() {
       } else {
         console.error('❌ STRIPE: URL mancante nella risposta:', data);
         toast({
-          title: 'Errore Stripe',
-          description: data.message || 'Non è stato possibile avviare il processo di pagamento con carta',
+          title: t('subscribe.stripeError'),
+          description: data.message || t('subscribe.stripeStartFailed'),
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
-      console.error('❌ STRIPE: Errore mutation:', error);
+      console.error('❌ STRIPE: mutation error:', error);
       toast({
-        title: 'Errore Stripe',
-        description: error.message || 'Si è verificato un errore durante l\'avvio dell\'abbonamento con Stripe',
+        title: t('subscribe.stripeError'),
+        description: error.message || t('subscribe.genericError'),
         variant: 'destructive',
       });
     }
@@ -246,7 +246,7 @@ export default function SubscribePage() {
   // Mutation per ottenere le informazioni sul bonifico bancario
   const getBankTransferInfo = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('GET', '/api/payments/available-methods');
+      const res = await apiRequest('GET');
       const methods = await res.json();
       // Trova il metodo banco
       const bankMethod = methods.find((m: any) => m.id === 'bank');
@@ -261,8 +261,8 @@ export default function SubscribePage() {
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Non è stato possibile ottenere le informazioni per il bonifico bancario',
+        title: t('common.error'),
+        description: t('subscribe.bankInfoFailed'),
         variant: 'destructive',
       });
       console.error(error);
@@ -273,8 +273,8 @@ export default function SubscribePage() {
     // Verifica che l'utente sia autenticato prima di procedere
     if (!isAuthenticated || !user) {
       toast({
-        title: 'Accesso richiesto',
-        description: 'Devi effettuare l\'accesso per sottoscrivere un abbonamento',
+        title: t('subscribe.loginRequiredTitle'),
+        description: t('subscribe.loginRequired'),
         variant: 'destructive',
       });
       // Salva l'URL corrente per il redirect post-login
@@ -302,7 +302,7 @@ export default function SubscribePage() {
   const { data: serverPlans, isLoading: isLoadingPlans } = useQuery({
     queryKey: ['/api/payments/plans'],
     queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/plans');
+      const res = await apiRequest('GET');
       return await res.json();
     },
     staleTime: 5 * 60 * 1000,
@@ -313,7 +313,7 @@ export default function SubscribePage() {
   const { data: subscriptionInfo, isLoading: isLoadingSubscription } = useQuery({
     queryKey: ['/api/payments/subscription'],
     queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/subscription');
+      const res = await apiRequest('GET');
       return await res.json();
     },
     staleTime: 5 * 60 * 1000,
@@ -325,10 +325,10 @@ export default function SubscribePage() {
     {
       id: 'trial',
       type: LicenseType.TRIAL,
-      name: t('plans.trial.name', 'Prova'),
-      description: t('plans.trial.description', 'Prova gratis per 40 giorni'),
+      name: t('plans.trial.name'),
+      description: t('plans.trial.description'),
       price: 0,
-      priceLabel: t('plans.trial.price', 'Gratis'),
+      priceLabel: t('plans.trial.price'),
       buttonVariant: 'outline',
       features: [
         { name: t('planFeatures.calendar'), included: true },
@@ -346,10 +346,10 @@ export default function SubscribePage() {
     {
       id: '1',
       type: LicenseType.BASE,
-      name: t('plans.base.name', 'Base Mensile'),
-      description: t('plans.base.description', 'Piano base: fatturazione mensile'),
+      name: t('plans.base.name'),
+      description: t('plans.base.description'),
       price: 5.99,
-      priceLabel: '€ 5,99 / mese',
+      priceLabel: t('plans.base.priceLabel'),
       buttonVariant: 'outline',
       features: [
         { name: t('planFeatures.calendar'), included: true },
@@ -367,10 +367,10 @@ export default function SubscribePage() {
     {
       id: '2',
       type: LicenseType.PRO,
-      name: t('plans.pro.name', 'Pro Mensile'),
-      description: t('plans.pro.description', 'Piano professionale: fatturazione mensile'),
+      name: t('plans.pro.name'),
+      description: t('plans.pro.description'),
       price: 9.99,
-      priceLabel: '€ 9,99 / mese',
+      priceLabel: t('plans.pro.priceLabel'),
       popular: true,
       buttonVariant: 'default',
       features: [
@@ -391,10 +391,10 @@ export default function SubscribePage() {
     {
       id: '3',
       type: LicenseType.BUSINESS,
-      name: t('plans.business.name', 'Business Mensile'),
-      description: t('plans.business.description', 'Piano business: fatturazione mensile'),
+      name: t('plans.business.name'),
+      description: t('plans.business.description'),
       price: 19.99,
-      priceLabel: '€ 19,99 / mese',
+      priceLabel: t('plans.business.priceLabel'),
       buttonVariant: 'outline',
       features: [
         { name: t('planFeatures.calendar'), included: true },
@@ -437,7 +437,7 @@ export default function SubscribePage() {
             }
           }
         } catch (error) {
-          console.error('Errore nel parsing delle features del piano:', error);
+          console.error('Plan features parsing error:', error);
         }
         
         const planType = plan.name.toLowerCase().includes('pro') 
@@ -470,7 +470,7 @@ export default function SubscribePage() {
           name: plan.name,
           description: plan.description || '',
           price: plan.price / 100, // Converti da centesimi a euro
-          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? 'anno' : 'mese'}`,
+          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/${plan.interval === 'year' ? t('plans.intervalYear') : t('plans.intervalMonth')}`,
           popular: plan.name.toLowerCase().includes('pro'),
           buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
           features: normalizedFeatures,
@@ -482,23 +482,23 @@ export default function SubscribePage() {
   const keyFeatures = [
     {
       icon: <CalendarRange className="h-10 w-10 text-primary" />,
-      title: t('subscribe.features.scheduling.title', 'Gestione Appuntamenti'),
-      description: t('subscribe.features.scheduling.description', 'Organizza facilmente il tuo calendario e gli appuntamenti con i clienti.'),
+      title: t('subscribe.features.scheduling.title'),
+      description: t('subscribe.features.scheduling.description'),
     },
     {
       icon: <Users className="h-10 w-10 text-primary" />,
-      title: t('subscribe.features.clients.title', 'Gestione Clienti'),
-      description: t('subscribe.features.clients.description', 'Mantieni tutti i dati dei tuoi clienti in un unico posto sicuro.'),
+      title: t('subscribe.features.clients.title'),
+      description: t('subscribe.features.clients.description'),
     },
     {
       icon: <BellRing className="h-10 w-10 text-primary" />,
-      title: t('subscribe.features.notifications.title', 'Notifiche Automatiche'),
-      description: t('subscribe.features.notifications.description', 'Invia promemoria automatici ai clienti per ridurre le cancellazioni.'),
+      title: t('subscribe.features.notifications.title'),
+      description: t('subscribe.features.notifications.description'),
     },
     {
       icon: <FileSpreadsheet className="h-10 w-10 text-primary" />,
-      title: t('subscribe.features.reports.title', 'Report Dettagliati'),
-      description: t('subscribe.features.reports.description', 'Analizza la tua attività con report e statistiche complete.'),
+      title: t('subscribe.features.reports.title'),
+      description: t('subscribe.features.reports.description'),
     },
   ];
   
@@ -507,10 +507,10 @@ export default function SubscribePage() {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold tracking-tight mb-6">
-          {t('subscribe.title', 'Scegli il piano perfetto per la tua attività')}
+          {t('subscribe.title')}
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
-          {t('subscribe.subtitle', 'Tutti i piani includono un periodo di prova gratuito di 40 giorni. Nessuna carta di credito richiesta per iniziare.')}
+          {t('subscribe.subtitle')}
         </p>
         
         {/* Trial Expired Warning - nascosto se c'è già un abbonamento attivo */}
@@ -539,23 +539,23 @@ export default function SubscribePage() {
             <div className="flex items-center">
               <Check className="h-5 w-5 text-green-500 mr-2" />
               <h3 className="font-medium text-green-800">
-                {t('subscribe.activeSubscription', 'Abbonamento attivo')}
+                {t('subscribe.activeSubscription')}
               </h3>
             </div>
             <AlertDescription className="text-green-700 mt-2">
               {subscriptionInfo.plan ? (
                 <>
                   <p className="mb-1">
-                    {t('subscribe.currentPlan', 'Piano attuale')}: <strong>{subscriptionInfo.plan.name}</strong>
+                    {t('subscribe.currentPlan')}: <strong>{subscriptionInfo.plan.name}</strong>
                   </p>
                   {subscriptionInfo.expiresAt && (
                     <p>
-                      {t('subscribe.expiresAt', 'Scadenza')}: <strong>{new Date(subscriptionInfo.expiresAt).toLocaleDateString()}</strong>
+                      {t('subscribe.expiresAt')}: <strong>{new Date(subscriptionInfo.expiresAt).toLocaleDateString()}</strong>
                     </p>
                   )}
                 </>
               ) : (
-                <p>{t('subscribe.trialActive', 'Il tuo periodo di prova è attivo fino al')}: <strong>{new Date(licenseInfo?.expiresAt || '').toLocaleDateString()}</strong></p>
+                <p>{t('subscribe.trialActive')}: <strong>{new Date(licenseInfo?.expiresAt || '').toLocaleDateString()}</strong></p>
               )}
             </AlertDescription>
           </Alert>
@@ -576,13 +576,13 @@ export default function SubscribePage() {
       <div>
         <h2 className="text-3xl font-bold text-center mb-10 flex items-center justify-center">
           <Crown className="mr-2 h-8 w-8 text-amber-500" />
-          {t('subscribe.pricingTitle', 'Piani e Prezzi')}
+          {t('subscribe.pricingTitle')}
         </h2>
         
         {isLoadingPlans || isLoadingSubscription ? (
           <div className="flex justify-center items-center p-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="ml-2">{t('common.loading', 'Caricamento...')}</span>
+            <span className="ml-2">{t('common.loading')}</span>
           </div>
         ) : (
           <>
@@ -603,7 +603,7 @@ export default function SubscribePage() {
                   className="flex items-center"
                 >
                   <CreditCard className="h-4 w-4 mr-2" />
-                  {t('subscribe.paymentMethods.card', 'Carta di Credito')}
+                  {t('subscribe.paymentMethods.card')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="paypal" 
@@ -620,14 +620,14 @@ export default function SubscribePage() {
                   className="flex items-center"
                 >
                   <Wallet className="h-4 w-4 mr-2" />
-                  {t('subscribe.paymentMethods.bank', 'Bonifico Bancario')}
+                  {t('subscribe.paymentMethods.bank')}
                 </TabsTrigger>
               </TabsList>
               
               <div className="text-center mt-4 text-sm text-muted-foreground">
                 <p className="flex items-center justify-center">
                   <AlertCircle className="h-4 w-4 mr-1 text-amber-500" />
-                  {t('subscribe.paymentSecurity', 'Pagamenti sicuri e protetti')}
+                  {t('subscribe.paymentSecurity')}
                 </p>
               </div>
             </Tabs>
@@ -644,7 +644,7 @@ export default function SubscribePage() {
                     {plan.popular && (
                       <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                         <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
-                          {t('subscribe.popular', 'Più popolare')}
+                          {t('subscribe.popular')}
                         </span>
                       </div>
                     )}
@@ -652,7 +652,7 @@ export default function SubscribePage() {
                     {isCurrentPlan && (
                       <div className="absolute top-0 left-0 transform -translate-x-2 -translate-y-2">
                         <span className="bg-green-500 text-white text-xs py-1 px-3 rounded-full font-medium">
-                          {t('subscribe.currentPlan', 'Piano attuale')}
+                          {t('subscribe.currentPlan')}
                         </span>
                       </div>
                     )}
@@ -713,12 +713,12 @@ export default function SubscribePage() {
                         {isCurrentPlan ? (
                           <div className="flex items-center justify-center">
                             <Check className="h-5 w-5 mr-2" />
-                            {t('subscribe.active', 'Attivo')}
+                            {t('subscribe.active')}
                           </div>
                         ) : (
                           <div className="flex items-center justify-center">
                             {plan.type === LicenseType.TRIAL || plan.id === 'trial' 
-                              ? t('subscribe.startTrial', 'Già Attivo')
+                              ? t('subscribe.startTrial')
                               : (
                                 <>
                                   {startStripeSubscription.isPending || startPaypalSubscription.isPending ? (
@@ -726,7 +726,7 @@ export default function SubscribePage() {
                                   ) : (
                                     <ArrowRight className="h-4 w-4 mr-2" />
                                   )}
-                                  {t('subscribe.subscribe', 'Abbonati')}
+                                  {t('subscribe.subscribe')}
                                 </>
                               )
                             }
@@ -743,19 +743,19 @@ export default function SubscribePage() {
         
         {/* FAQ and additional info */}
         <div className="mt-20 max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-6">{t('subscribe.faq.title', 'Domande Frequenti')}</h2>
+          <h2 className="text-2xl font-bold mb-6">{t('subscribe.faq.title')}</h2>
           <div className="text-left space-y-6">
             <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q1', 'Posso annullare il mio abbonamento?')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a1', 'Sì, puoi annullare il tuo abbonamento in qualsiasi momento. L\'accesso alle funzionalità premium rimarrà attivo fino alla fine del periodo pagato.')}</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q1')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a1')}</p>
             </div>
             <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q2', 'Come funziona il periodo di prova?')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a2', 'Il periodo di prova di 40 giorni include tutte le funzionalità di base. Non è richiesta una carta di credito per iniziare.')}</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q2')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a2')}</p>
             </div>
             <div>
-              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q3', 'Posso cambiare piano in seguito?')}</h3>
-              <p className="text-muted-foreground">{t('subscribe.faq.a3', 'Sì, puoi passare a un piano superiore in qualsiasi momento. La differenza di prezzo verrà calcolata proporzionalmente.')}</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q3')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a3')}</p>
             </div>
           </div>
         </div>
@@ -765,15 +765,15 @@ export default function SubscribePage() {
       <Dialog open={showActivationDialog} onOpenChange={setShowActivationDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('subscribe.activateCode', 'Attiva il tuo codice')}</DialogTitle>
+            <DialogTitle>{t('subscribe.activateCode')}</DialogTitle>
             <DialogDescription>
-              {t('subscribe.activateCodeDescription', 'Inserisci il codice di attivazione che hai ricevuto dopo il pagamento.')}
+              {t('subscribe.activateCodeDescription')}
             </DialogDescription>
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="activationCode">{t('subscribe.code', 'Codice di attivazione')}</Label>
+              <Label htmlFor="activationCode">{t('subscribe.code')}</Label>
               <Input
                 id="activationCode"
                 value={activationCode}
@@ -812,14 +812,14 @@ export default function SubscribePage() {
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                {t('subscribe.acceptTerms', 'Accetto i Termini di Servizio e la Privacy Policy')}
+                {t('subscribe.acceptTerms')}
               </label>
             </div>
           </div>
           
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowActivationDialog(false)}>
-              {t('common.cancel', 'Annulla')}
+              {t('common.cancel')}
             </Button>
             <Button 
               onClick={handleActivateCode} 
@@ -828,10 +828,10 @@ export default function SubscribePage() {
               {isProcessing ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('common.processing', 'Elaborazione...')}
+                  {t('common.processing')}
                 </>
               ) : (
-                t('common.activate', 'Attiva')
+                t('common.activate')
               )}
             </Button>
           </DialogFooter>
@@ -842,9 +842,9 @@ export default function SubscribePage() {
       <Dialog open={showBankTransferInfo} onOpenChange={setShowBankTransferInfo}>
         <DialogContent className="min-[1200px]:max-w-[550px]">
           <DialogHeader>
-            <DialogTitle>{t('subscribe.bankTransfer.title', 'Pagamento con Bonifico Bancario')}</DialogTitle>
+            <DialogTitle>{t('subscribe.bankTransfer.title')}</DialogTitle>
             <DialogDescription>
-              {t('subscribe.bankTransfer.description', 'Segui le istruzioni per completare il pagamento tramite bonifico bancario.')}
+              {t('subscribe.bankTransfer.description')}
             </DialogDescription>
           </DialogHeader>
           
@@ -853,39 +853,39 @@ export default function SubscribePage() {
               <div className="border rounded-md p-4 bg-muted/30">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.plan', 'Piano')}</span>
+                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.plan')}</span>
                     <span className="text-sm">{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name}</span>
                   </div>
                   
                   <div className="flex justify-between">
-                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.amount', 'Importo')}</span>
+                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.amount')}</span>
                     <span className="text-sm">{symbol}{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.price}</span>
                   </div>
                   
                   <Separator className="my-2" />
                   
                   <div className="space-y-1">
-                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.recipient', 'Intestatario')}</h4>
-                    <p className="text-sm">{bankTransferInfo.bankInfo.recipient || 'Non specificato'}</p>
+                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.recipient')}</h4>
+                    <p className="text-sm">{bankTransferInfo.bankInfo.recipient || t('common.notSpecified')}</p>
                   </div>
                   
                   <div className="space-y-1">
                     <h4 className="text-sm font-medium">IBAN</h4>
-                    <p className="text-sm font-mono">{bankTransferInfo.bankInfo.iban || 'Non specificato'}</p>
+                    <p className="text-sm font-mono">{bankTransferInfo.bankInfo.iban || t('common.notSpecified')}</p>
                   </div>
                   
                   <div className="space-y-1">
-                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.reason', 'Causale')}</h4>
-                    <p className="text-sm font-mono">{t('subscribe.bankTransfer.reasonTemplate', 'Abbonamento {{plan}}', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name })}</p>
+                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.reason')}</h4>
+                    <p className="text-sm font-mono">{t('subscribe.bankTransfer.reasonTemplate', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name })}</p>
                   </div>
                 </div>
               </div>
               
               <Alert>
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>{t('subscribe.bankTransfer.noteTitle', 'Nota importante')}</AlertTitle>
+                <AlertTitle>{t('subscribe.bankTransfer.noteTitle')}</AlertTitle>
                 <AlertDescription>
-                  {t('subscribe.bankTransfer.noteDesc', 'Dopo aver effettuato il bonifico, contatta il supporto per comunicare l\'avvenuto pagamento fornendo la ricevuta del bonifico. Ti invieremo un codice di attivazione per attivare il tuo abbonamento.')}
+                  {t('subscribe.bankTransfer.noteDesc')}
                 </AlertDescription>
               </Alert>
             </div>
@@ -893,26 +893,26 @@ export default function SubscribePage() {
           
           <DialogFooter>
             <Button variant="secondary" onClick={() => setShowBankTransferInfo(false)}>
-              {t('common.close', 'Chiudi')}
+              {t('common.close')}
             </Button>
             <Button variant="default" onClick={() => {
               // Copia negli appunti le informazioni del bonifico
               const info = `
-IBAN: ${bankTransferInfo?.bankInfo.iban || 'Non specificato'}
-Intestatario: ${bankTransferInfo?.bankInfo.recipient || 'Non specificato'}
-Importo: ${symbol}${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.price}
-Causale: Abbonamento ${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.name}
+IBAN: ${bankTransferInfo?.bankInfo.iban || t('subscribe.notSpecified')}
+${t('subscribe.recipientLabel')}: ${bankTransferInfo?.bankInfo.recipient || t('subscribe.notSpecified')}
+${t('subscribe.bankTransfer.amount')}: ${symbol}${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.price}
+${t('subscribe.reasonLabel')}: ${t('subscribe.bankTransfer.reasonTemplate', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.name })}
               `.trim();
               
               navigator.clipboard.writeText(info).then(() => {
                 toast({
-                  title: t('common.copied', 'Copiato'),
-                  description: t('subscribe.bankTransfer.copiedDetails', 'Dettagli del bonifico copiati negli appunti'),
+                  title: t('common.copied'),
+                  description: t('subscribe.bankTransfer.copiedDetails'),
                 });
               });
             }}>
               <Copy className="mr-2 h-4 w-4" />
-              {t('common.copy', 'Copia dettagli')}
+              {t('common.copy')}
             </Button>
           </DialogFooter>
         </DialogContent>

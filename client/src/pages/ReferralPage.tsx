@@ -86,8 +86,8 @@ export default function ReferralPage() {
       // Non reindirizzare, mostriamo un messaggio informativo
       if (!permission) {
         toast({
-          title: "Funzionalità limitata",
-          description: "Il programma di referral è disponibile solo per utenti con abbonamento Business e per lo staff autorizzato.",
+          title: t('referral.limitedFeature'),
+          description: t('referral.businessOnly'),
           variant: "destructive"
         });
       }
@@ -120,15 +120,15 @@ export default function ReferralPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/referral/stats'] });
       toast({
-        title: "Codice generato",
-        description: "Il tuo codice di referral è stato generato con successo.",
+        title: t('referral.codeGenTitle'),
+        description: t('referral.codeGenerated'),
       });
     },
     onError: (error: any) => {
       toast({
         variant: "destructive",
         title: t("common.error"),
-        description: `Impossibile generare il codice: ${error.message}`,
+        description: t('referral.codeGenerateError', { msg: error.message }),
       });
     }
   });
@@ -143,15 +143,15 @@ export default function ReferralPage() {
       queryClient.invalidateQueries({ queryKey: ['/api/referral/staff'] });
       setOpenBankDialog(false);
       toast({
-        title: "Configurazione salvata",
-        description: "Le tue preferenze di pagamento sono state salvate con successo.",
+        title: t('referral.configSaved'),
+        description: t('referral.payoutPrefsSaved'),
       });
     },
     onError: (error: any) => {
       toast({
         variant: "destructive",
         title: t("common.error"),
-        description: `Impossibile salvare i dati bancari: ${error.message}`,
+        description: t('referral.bankSaveError', { msg: error.message }),
       });
     }
   });
@@ -161,8 +161,8 @@ export default function ReferralPage() {
     if (referralData?.userData?.referralCode) {
       navigator.clipboard.writeText(referralData.userData.referralCode);
       toast({
-        title: "Codice copiato!",
-        description: "Il tuo codice referral è stato copiato negli appunti.",
+        title: t('referral.codeCopiedTitle'),
+        description: t('referral.codeCopied'),
       });
     }
   };
@@ -170,11 +170,11 @@ export default function ReferralPage() {
   // Gestisce la condivisione del codice referral
   const shareReferralCode = () => {
     if (referralData?.userData?.referralCode) {
-      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.referralCode}`;
+      const text = t('referral.shareMessage', { code: referralData.userData.referralCode });
       
       if (navigator.share) {
         navigator.share({
-          title: 'Codice Referral Wife Scheduler',
+          title: t('referral.shareTitle'),
           text: text,
           url: window.location.origin
         }).catch((error) => {
@@ -183,8 +183,8 @@ export default function ReferralPage() {
       } else {
         navigator.clipboard.writeText(text);
         toast({
-          title: "Testo copiato!",
-          description: "Il messaggio di invito è stato copiato negli appunti.",
+          title: t('referral.textCopiedTitle'),
+          description: t('referral.messageCopied'),
         });
       }
     }
@@ -239,21 +239,20 @@ export default function ReferralPage() {
         
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Accesso limitato</CardTitle>
+            <CardTitle>{t('referral.limitedAccess')}</CardTitle>
             <CardDescription>
-              Questa funzionalità è riservata agli utenti con piano Business e membri dello staff.
+              {t('referral.businessOnlyDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
               <AlertCircle className="mx-auto h-12 w-12 mb-4 text-amber-500" />
-              <h3 className="font-semibold text-lg mb-2">Aggiorna il tuo piano per accedere</h3>
+              <h3 className="font-semibold text-lg mb-2">{t('referral.upgradeToAccess')}</h3>
               <p className="mb-6 text-muted-foreground">
-                Il programma di referral ti permette di guadagnare invitando nuovi professionisti ad utilizzare la piattaforma.
-                Questa funzionalità è disponibile esclusivamente per gli utenti con piano Business.
+                {t('referral.introWhyBusiness')}
               </p>
               <Button onClick={() => navigate('/subscription')}>
-                Scopri il piano Business
+                {t('referral.discoverBusiness')}
               </Button>
             </div>
           </CardContent>
@@ -281,7 +280,7 @@ export default function ReferralPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">
-        {isStaff ? 'Il Mio Programma Referral' : 'Gestione Programma Referral'}
+        {isStaff ? t('referral.titleStaff') : t('referral.titleManage')}
       </h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
@@ -289,12 +288,12 @@ export default function ReferralPage() {
         <Card className="lg:col-span-8">
           <CardHeader>
             <CardTitle>
-              {isStaff ? 'Il tuo codice referral personale' : 'Codice referral'}
+              {isStaff ? t('referral.yourReferralCode') : t('referral.codeShort')}
             </CardTitle>
             <CardDescription>
               {isStaff 
-                ? 'Condividi questo codice per invitare nuovi professionisti. Riceverai il 25% del prezzo dell\'abbonamento per ogni cliente referenziato.'
-                : 'Gestione dei codici referral e commissioni per tutti gli staff.'
+                ? t('referral.shareThisCode')
+                : t('referral.allStaffCodesDesc')
               }
             </CardDescription>
           </CardHeader>
@@ -309,7 +308,7 @@ export default function ReferralPage() {
                     variant="outline"
                     size="icon"
                     onClick={copyToClipboard}
-                    title="Copia negli appunti"
+                    title={t('referral.copyToClipboard')}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -317,7 +316,7 @@ export default function ReferralPage() {
                     variant="outline"
                     size="icon"
                     onClick={shareReferralCode}
-                    title="Condividi"
+                    title={t('common.share')}
                   >
                     <Share2 className="h-4 w-4" />
                   </Button>
@@ -326,14 +325,14 @@ export default function ReferralPage() {
             ) : (
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="bg-primary/10 text-primary text-xl font-mono p-4 rounded-md flex-grow text-center">
-                  {userWithLicense?.id || 'Caricamento...'}
+                  {userWithLicense?.id || t('common.loading')}
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={copyToClipboard}
-                    title="Copia negli appunti"
+                    title={t('referral.copyToClipboard')}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -341,7 +340,7 @@ export default function ReferralPage() {
                     variant="outline"
                     size="icon"
                     onClick={shareReferralCode}
-                    title="Condividi"
+                    title={t('common.share')}
                   >
                     <Share2 className="h-4 w-4" />
                   </Button>
@@ -355,41 +354,41 @@ export default function ReferralPage() {
         <Card className="lg:col-span-4">
           <CardHeader>
             <CardTitle>
-              {isStaff ? 'Le mie commissioni' : 'Statistiche generali'}
+              {isStaff ? t('referral.myCommissions') : t('referral.generalStats')}
             </CardTitle>
             <CardDescription>
               {isStaff 
-                ? 'Riepilogo dei tuoi guadagni personali'
-                : 'Panoramica commissioni di tutti gli staff'
+                ? t('referral.earningsSummary')
+                : t('referral.allStaffOverview')
               }
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Commissioni attive:</span>
+                <span className="text-muted-foreground">{t('referral.activeCommissions')}</span>
                 <span className="font-medium">{stats.totalActiveCommissions}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Mese corrente:</span>
+                <span className="text-muted-foreground">{t('referral.currentMonth')}</span>
                 <span className="font-medium">{formatAmount(stats.currentMonthAmount)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Mese precedente:</span>
+                <span className="text-muted-foreground">{t('referral.previousMonth')}</span>
                 <span className="font-medium">{formatAmount(stats.lastMonthAmount)}</span>
               </div>
               
               <div className="pt-3 border-t">
                 <div className="flex justify-between items-start mb-2">
-                  <span className="text-muted-foreground">PayPal:</span>
+                  <span className="text-muted-foreground">{t('referral.paypalLabel')}</span>
                   <span className="font-medium text-sm text-right break-all">
-                    {referralData?.userData?.paypalEmail || 'Non configurato'}
+                    {referralData?.userData?.paypalEmail || t('referral.notConfigured')}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Auto-payout:</span>
+                  <span className="text-muted-foreground">{t('referral.autoPayoutLabel')}</span>
                   <span className={`font-medium text-sm ${referralData?.userData?.autoPayoutEnabled ? 'text-green-600' : 'text-muted-foreground'}`}>
-                    {referralData?.userData?.autoPayoutEnabled ? '✓ Attivo' : '✗ Disattivo'}
+                    {referralData?.userData?.autoPayoutEnabled ? t('referral.activeBadge') : t('referral.inactiveBadge')}
                   </span>
                 </div>
               </div>
@@ -404,7 +403,7 @@ export default function ReferralPage() {
                   onClick={() => setOpenBankDialog(true)}
                 >
                   <Building className="mr-2 h-4 w-4" />
-                  Aggiungi dati bancari
+                  {t('referral.addBankDetails')}
                 </Button>
               )}
               {stats.hasBankAccount && (
@@ -414,7 +413,7 @@ export default function ReferralPage() {
                   onClick={() => setOpenBankDialog(true)}
                 >
                   <Building className="mr-2 h-4 w-4" />
-                  Modifica dati bancari
+                  {t('referral.editBankDetails')}
                 </Button>
               )}
             </div>
@@ -425,18 +424,18 @@ export default function ReferralPage() {
       {/* Sezione informazioni */}
       <Alert className="mb-8">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Come funziona il programma</AlertTitle>
+        <AlertTitle>{t('referral.howItWorks')}</AlertTitle>
         <AlertDescription>
-          <p className="mb-3">Invita nuovi professionisti a utilizzare Wife Scheduler e guadagna commissioni ricorrenti. Ecco come funziona:</p>
+          <p className="mb-3">{t('referral.introWifeScheduler')}</p>
           <ol className="list-decimal pl-5 space-y-2">
-            <li><strong>Condividi il tuo codice referral</strong> con altri professionisti</li>
-            <li><strong>Registrazione e abbonamento:</strong> Quando un nuovo utente si registra usando il tuo codice e attiva un abbonamento a pagamento, viene collegato al tuo account</li>
-            <li><strong>Commissione del 25%:</strong> Riceverai il 25% del prezzo dell'abbonamento per ogni cliente referenziato con abbonamento attivo</li>
-            <li><strong>Payout dopo 30 giorni:</strong> Le commissioni vengono elaborate automaticamente 30 giorni dopo la loro creazione</li>
-            <li><strong>Metodi di pagamento:</strong>
+            <li><strong>{t('referral.shareCode')}</strong> {t('referral.shareCodeWithProfessionals')}</li>
+            <li><strong>{t('referral.registrationLabel')}</strong> {t('referral.registrationDesc')}</li>
+            <li><strong>{t('referral.commission25')}</strong> {t('referral.commission25Desc')}</li>
+            <li><strong>{t('referral.payout30')}</strong> {t('referral.payout30Desc')}</li>
+            <li><strong>{t('referral.paymentMethods')}</strong>
               <ul className="list-disc pl-5 mt-1 space-y-1">
-                <li><strong>PayPal (Consigliato):</strong> Payout automatici se attivi l'opzione nella configurazione</li>
-                <li><strong>Bonifico bancario:</strong> Elaborazione manuale da parte dell'amministratore</li>
+                <li><strong>{t('referral.paypalLabel')}</strong> {t('referral.paypalMethod')}</li>
+                <li><strong>{t('referral.bankTransferLabel')}</strong> {t('referral.bankMethod')}</li>
               </ul>
             </li>
           </ol>
@@ -446,15 +445,15 @@ export default function ReferralPage() {
       {/* Utenti sponsorizzati con abbonamento attivo */}
       <div className="mb-8">
         <div className="mb-4">
-          <h2 className="text-2xl font-bold">✅ Utenti con abbonamento attivo</h2>
-          <p className="text-muted-foreground">Questi utenti generano commissioni (una tantum per annuali, mensili per i piani mensili)</p>
+          <h2 className="text-2xl font-bold">{t('referral.activeUsersTitle')}</h2>
+          <p className="text-muted-foreground">{t('referral.activeUsersDesc')}</p>
         </div>
         {referralData?.referredUsers && referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).map((user: any) => {
               const isYearly = user.planInterval === 'year';
-              const commissionLabel = isYearly ? 'Commissione totale' : 'Commissione mensile';
-              const paymentNote = isYearly ? '(una tantum)' : '(ricorrente)';
+              const commissionLabel = isYearly ? t('referral.totalCommission') : t('referral.monthlyCommission');
+              const paymentNote = isYearly ? t('referral.oneTimeNote') : t('referral.recurringNote');
               
               return (
                 <Card key={user.id} className="relative overflow-hidden border-green-200 dark:border-green-800">
@@ -470,7 +469,7 @@ export default function ReferralPage() {
                         </CardDescription>
                       </div>
                       <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                        Attivo
+                        {t('referral.badgeActive')}
                       </span>
                     </div>
                   </CardHeader>
@@ -486,11 +485,11 @@ export default function ReferralPage() {
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Euro className="h-4 w-4 mr-2" />
-                      <span>Piano: {user.planPrice}{symbol}/{isYearly ? 'anno' : 'mese'}</span>
+                      <span>{t('referral.planLabel')} {user.planPrice}{symbol}/{isYearly ? t('plans.intervalYear') : t('plans.intervalMonth')}</span>
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Calendar className="h-4 w-4 mr-2" />
-                      <span>Iscritto: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
+                      <span>{t('referral.subscribedLabel')} {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -501,8 +500,8 @@ export default function ReferralPage() {
           <Card className="border-dashed">
             <CardContent className="text-center py-12">
               <Clipboard className="mx-auto h-16 w-16 mb-4 text-muted-foreground/20" />
-              <h3 className="text-lg font-semibold mb-2">Nessun abbonamento attivo</h3>
-              <p className="text-muted-foreground">Gli utenti devono attivare un abbonamento a pagamento per generare commissioni</p>
+              <h3 className="text-lg font-semibold mb-2">{t('referral.noActiveSubTitle')}</h3>
+              <p className="text-muted-foreground">{t('referral.noActiveSubDesc')}</p>
             </CardContent>
           </Card>
         )}
@@ -511,8 +510,8 @@ export default function ReferralPage() {
       {/* Utenti sponsorizzati in prova */}
       <div className="mb-8">
         <div className="mb-4">
-          <h2 className="text-2xl font-bold">⏳ Utenti in prova (Trial)</h2>
-          <p className="text-muted-foreground">Questi utenti si sono registrati con il tuo codice ma non hanno ancora attivato un abbonamento</p>
+          <h2 className="text-2xl font-bold">{t('referral.trialUsersTitle')}</h2>
+          <p className="text-muted-foreground">{t('referral.trialUsersDesc')}</p>
         </div>
         {referralData?.referredUsers && referralData.referredUsers.filter((u: any) => !u.hasActiveSubscription).length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -530,23 +529,23 @@ export default function ReferralPage() {
                       </CardDescription>
                     </div>
                     <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
-                      Trial
+                      {t('referral.badgeTrial')}
                     </span>
                   </div>
                 </CardHeader>
                 <CardContent className="relative space-y-3">
                   <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg">
-                    <span className="text-sm text-muted-foreground">Commissione</span>
+                    <span className="text-sm text-muted-foreground">{t('referral.commissionLabel')}</span>
                     <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
                       0.00 {symbol}
                     </span>
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4 mr-2" />
-                    <span>Registrato: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
+                    <span>{t('referral.registeredLabel')} {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
                   </div>
                   <div className="text-xs text-orange-600 dark:text-orange-400 italic">
-                    💡 Inizierai a guadagnare quando attiverà un abbonamento
+                    💡 {t('referral.willEarnHint')}
                   </div>
                 </CardContent>
               </Card>
@@ -555,7 +554,7 @@ export default function ReferralPage() {
         ) : (
           <Card className="border-dashed">
             <CardContent className="text-center py-12">
-              <p className="text-muted-foreground">Tutti i tuoi utenti sponsorizzati hanno attivato un abbonamento! 🎉</p>
+              <p className="text-muted-foreground">{t('referral.allActivated')}</p>
             </CardContent>
           </Card>
         )}
