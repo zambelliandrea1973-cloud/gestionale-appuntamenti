@@ -41,8 +41,8 @@ export default function GoogleTroubleshootingPage() {
         setGoogleStatus({
           authorized: data.authorized,
           message: data.authorized 
-            ? "Account autorizzato" 
-            : "Account non autorizzato"
+            ? t('googleCalendar.troubleshooting.statusAccountAuthorized')
+            : t('googleCalendar.troubleshooting.statusAccountNotAuthorized')
         });
       }
     } catch (error) {
@@ -66,7 +66,7 @@ export default function GoogleTroubleshootingPage() {
       console.error("Errore nel test di configurazione:", error);
       setTestResult({
         success: false,
-        message: `Errore di connessione: ${error?.message || 'Errore sconosciuto'}`
+        message: t('googleCalendar.troubleshooting.connError', { error: error?.message || t('googleCalendar.troubleshooting.unknownError') })
       });
     } finally {
       setIsLoading(false);
@@ -83,15 +83,15 @@ export default function GoogleTroubleshootingPage() {
         setEmailTestResult({
           success: true,
           emailEnabled: data.emailEnabled,
-          emailAddress: data.emailAddress || "Non configurato",
+          emailAddress: data.emailAddress || t('googleCalendar.troubleshooting.notConfigured'),
           calendarEnabled: data.calendarEnabled,
-          calendarId: data.calendarId || "Non configurato",
+          calendarId: data.calendarId || t('googleCalendar.troubleshooting.notConfigured'),
           googleAuthStatus: data.googleAuthStatus
         });
       } else {
         setEmailTestResult({
           success: false,
-          message: "Errore nel recupero delle impostazioni email"
+          message: t('googleCalendar.troubleshooting.emailFetchError')
         });
       }
     } catch (error: any) {
@@ -118,8 +118,8 @@ export default function GoogleTroubleshootingPage() {
               window.removeEventListener('message', messageListener);
               checkGoogleAuth();
               toast({
-                title: "Autorizzazione completata",
-                description: "L'account Google è stato autorizzato con successo",
+                title: t('googleCalendar.troubleshooting.toastAuthDone'),
+                description: t('googleCalendar.troubleshooting.toastAuthDoneDesc'),
               });
             }
           };
@@ -150,16 +150,16 @@ export default function GoogleTroubleshootingPage() {
         }
       } else {
         toast({
-          title: "Errore",
-          description: "Non è stato possibile avviare l'autorizzazione Google",
+          title: t('common.error'),
+          description: t('googleCalendar.troubleshooting.toastCannotStart'),
           variant: "destructive",
         });
       }
     } catch (error: any) {
       console.error('Errore nell\'autorizzazione Google:', error);
       toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante l'autorizzazione Google",
+        title: t('common.error'),
+        description: t('googleCalendar.troubleshooting.toastAuthErrorDesc'),
         variant: "destructive",
       });
     }
@@ -169,13 +169,13 @@ export default function GoogleTroubleshootingPage() {
     <div className="container py-8 px-4 max-w-4xl mx-auto">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-2">
-          <Link href="/settings" className="text-sm text-muted-foreground hover:underline">Impostazioni</Link>
+          <Link href="/settings" className="text-sm text-muted-foreground hover:underline">{t('googleCalendar.troubleshooting.breadcrumbSettings')}</Link>
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium">Risoluzione problemi Google</span>
+          <span className="text-sm font-medium">{t('googleCalendar.troubleshooting.breadcrumbCurrent')}</span>
         </div>
-        <h1 className="text-3xl font-bold mb-2">Risolvere problemi di integrazione Google</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('googleCalendar.troubleshooting.title')}</h1>
         <p className="text-muted-foreground max-w-3xl">
-          Questa pagina ti aiuta a diagnosticare e risolvere problemi con l'integrazione Google Calendar e le email.
+          {t('googleCalendar.troubleshooting.subtitle')}
         </p>
       </div>
       
@@ -183,15 +183,15 @@ export default function GoogleTroubleshootingPage() {
         <TabsList className="grid grid-cols-3 w-full mb-8">
           <TabsTrigger value="diagnosi">
             <AlertCircle className="h-4 w-4 mr-2" />
-            Diagnosi
+            {t('googleCalendar.troubleshooting.tabDiagnosis')}
           </TabsTrigger>
           <TabsTrigger value="soluzioni">
             <CheckCircle className="h-4 w-4 mr-2" />
-            Soluzioni
+            {t('googleCalendar.troubleshooting.tabSolutions')}
           </TabsTrigger>
           <TabsTrigger value="configurazione">
             <HelpCircle className="h-4 w-4 mr-2" />
-            Guida configurazione
+            {t('googleCalendar.troubleshooting.tabConfig')}
           </TabsTrigger>
         </TabsList>
         
@@ -201,10 +201,10 @@ export default function GoogleTroubleshootingPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertCircle className="h-5 w-5 mr-2 text-amber-500" />
-                  Stato attuale Google Calendar
+                  {t('googleCalendar.troubleshooting.currentStatus')}
                 </CardTitle>
                 <CardDescription>
-                  Verifica lo stato attuale della tua autorizzazione Google e delle configurazioni email
+                  {t('googleCalendar.troubleshooting.statusDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -212,13 +212,13 @@ export default function GoogleTroubleshootingPage() {
                   <div className="p-4 rounded-lg border">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-lg font-medium mb-1">Stato autorizzazione Google</h3>
+                        <h3 className="text-lg font-medium mb-1">{t('googleCalendar.troubleshooting.googleAuthStatus')}</h3>
                         <p className="text-muted-foreground text-sm">
-                          L'autorizzazione è necessaria per l'accesso a Google Calendar e l'invio di email
+                          {t('googleCalendar.troubleshooting.authNeeded')}
                         </p>
                       </div>
                       <div className={`px-3 py-1 rounded-full text-sm font-medium ${googleStatus.authorized ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>
-                        {googleStatus.authorized ? 'Autorizzato' : 'Non autorizzato'}
+                        {googleStatus.authorized ? t('googleCalendar.troubleshooting.authorized') : t('googleCalendar.troubleshooting.notAuthorized')}
                       </div>
                     </div>
                     
@@ -230,7 +230,7 @@ export default function GoogleTroubleshootingPage() {
                           disabled={isLoading}
                         >
                           {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
-                          Verifica configurazione Google
+                          {t('googleCalendar.troubleshooting.verifyGoogle')}
                         </Button>
                         
                         <Button
@@ -239,7 +239,7 @@ export default function GoogleTroubleshootingPage() {
                           disabled={isLoading}
                         >
                           {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
-                          Verifica impostazioni email
+                          {t('googleCalendar.troubleshooting.verifyEmail')}
                         </Button>
                       </div>
                     </div>
@@ -247,35 +247,35 @@ export default function GoogleTroubleshootingPage() {
                   
                   {testResult && (
                     <div className={`p-4 rounded-lg border ${testResult.success ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
-                      <h3 className="text-lg font-medium mb-2">Risultato test Google</h3>
+                      <h3 className="text-lg font-medium mb-2">{t('googleCalendar.troubleshooting.googleResultTitle')}</h3>
                       
                       <div className="space-y-3">
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">Client ID:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.clientId')}</div>
                           <div className={testResult.clientIdPresente ? 'text-green-600' : 'text-red-600'}>
-                            {testResult.clientIdPresente ? 'Presente' : 'Mancante'}
+                            {testResult.clientIdPresente ? t('googleCalendar.troubleshooting.present') : t('googleCalendar.troubleshooting.missing')}
                           </div>
                         </div>
                         
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">Client Secret:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.clientSecret')}</div>
                           <div className={testResult.clientSecretPresente ? 'text-green-600' : 'text-red-600'}>
-                            {testResult.clientSecretPresente ? 'Presente' : 'Mancante'}
+                            {testResult.clientSecretPresente ? t('googleCalendar.troubleshooting.present') : t('googleCalendar.troubleshooting.missing')}
                           </div>
                         </div>
                         
                         <div className="flex items-start">
-                          <div className="w-64 font-medium mt-1">URI di reindirizzamento:</div>
+                          <div className="w-64 font-medium mt-1">{t('googleCalendar.troubleshooting.redirectUri')}</div>
                           <div>
                             <span className="text-muted-foreground break-all">{testResult.redirectUri}</span>
                             <p className="text-sm text-amber-600 mt-1">
-                              Questo URL deve corrispondere esattamente a quello configurato nella Console Google Cloud
+                              {t('googleCalendar.troubleshooting.redirectUriHint')}
                             </p>
                           </div>
                         </div>
                         
                         <div className="flex items-start">
-                          <div className="w-64 font-medium mt-1">Scopes:</div>
+                          <div className="w-64 font-medium mt-1">{t('googleCalendar.troubleshooting.scopes')}</div>
                           <div>
                             {testResult.scopeValidi && testResult.scopeValidi.map((scope: string, index: number) => (
                               <div key={index} className="text-sm text-muted-foreground">{scope}</div>
@@ -288,40 +288,40 @@ export default function GoogleTroubleshootingPage() {
                   
                   {emailTestResult && (
                     <div className="p-4 rounded-lg border bg-blue-50 border-blue-200">
-                      <h3 className="text-lg font-medium mb-2">Impostazioni Email e Calendario</h3>
+                      <h3 className="text-lg font-medium mb-2">{t('googleCalendar.troubleshooting.emailResultTitle')}</h3>
                       
                       <div className="space-y-3">
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">Email abilitata:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.emailEnabled')}</div>
                           <div>
                             {emailTestResult.emailEnabled ? (
-                              <span className="text-green-600">Sì</span>
+                              <span className="text-green-600">{t('googleCalendar.troubleshooting.yes')}</span>
                             ) : (
-                              <span className="text-amber-600">No</span>
+                              <span className="text-amber-600">{t('googleCalendar.troubleshooting.no')}</span>
                             )}
                           </div>
                         </div>
                         
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">Indirizzo email:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.emailAddress')}</div>
                           <div>
                             {emailTestResult.emailAddress}
                           </div>
                         </div>
                         
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">Calendario abilitato:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.calendarEnabled')}</div>
                           <div>
                             {emailTestResult.calendarEnabled ? (
-                              <span className="text-green-600">Sì</span>
+                              <span className="text-green-600">{t('googleCalendar.troubleshooting.yes')}</span>
                             ) : (
-                              <span className="text-amber-600">No</span>
+                              <span className="text-amber-600">{t('googleCalendar.troubleshooting.no')}</span>
                             )}
                           </div>
                         </div>
                         
                         <div className="flex items-center">
-                          <div className="w-64 font-medium">ID Calendario:</div>
+                          <div className="w-64 font-medium">{t('googleCalendar.troubleshooting.calendarId')}</div>
                           <div>
                             {emailTestResult.calendarId}
                           </div>
@@ -336,12 +336,12 @@ export default function GoogleTroubleshootingPage() {
             <Alert variant={googleStatus.authorized ? "default" : "destructive"}>
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>
-                {googleStatus.authorized ? "Autorizzazione completata" : "Autorizzazione mancante"}
+                {googleStatus.authorized ? t('googleCalendar.troubleshooting.alertAuthOk') : t('googleCalendar.troubleshooting.alertAuthMissing')}
               </AlertTitle>
               <AlertDescription>
                 {googleStatus.authorized 
-                  ? "Il tuo account Google è stato autorizzato correttamente" 
-                  : "L'account Google non è autorizzato. Questo è necessario per l'utilizzo di Google Calendar e l'invio di email automatiche."}
+                  ? t('googleCalendar.troubleshooting.alertAuthOkDesc')
+                  : t('googleCalendar.troubleshooting.alertAuthMissingDesc')}
               </AlertDescription>
             </Alert>
           </div>
@@ -353,10 +353,10 @@ export default function GoogleTroubleshootingPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
-                  Correzione problemi comuni
+                  {t('googleCalendar.troubleshooting.commonProblems')}
                 </CardTitle>
                 <CardDescription>
-                  Soluzioni per risolvere i problemi più comuni con l'integrazione Google
+                  {t('googleCalendar.troubleshooting.commonProblemsDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -364,55 +364,51 @@ export default function GoogleTroubleshootingPage() {
                   <div className="p-4 rounded-lg border bg-amber-50 border-amber-200">
                     <h3 className="text-lg font-medium mb-3 flex items-center">
                       <AlertTriangle className="h-5 w-5 mr-2 text-amber-600" />
-                      Errore 400: redirect_uri_mismatch
+                      {t('googleCalendar.troubleshooting.error400')}
                     </h3>
                     
                     <p className="mb-3">
-                      Questo errore si verifica quando l'URI di reindirizzamento configurato nella Console Google Cloud non corrisponde esattamente all'URI utilizzato dall'applicazione.
+                      {t('googleCalendar.troubleshooting.error400Desc')}
                     </p>
                     
                     <div className="bg-white p-3 rounded border mb-4">
-                      <div className="text-sm font-medium mb-1">URI di reindirizzamento dell'app:</div>
+                      <div className="text-sm font-medium mb-1">{t('googleCalendar.troubleshooting.appRedirectUri')}</div>
                       <div className="text-sm text-muted-foreground break-all">
                         https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback
                       </div>
                     </div>
                     
-                    <p className="font-medium">Per risolvere questo problema:</p>
+                    <p className="font-medium">{t('googleCalendar.troubleshooting.toFixThis')}</p>
                     <ol className="list-decimal pl-5 space-y-2 mt-2 mb-4">
-                      <li>Accedi alla <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Console Google Cloud</a></li>
-                      <li>Seleziona il tuo progetto</li>
-                      <li>Vai a "Credenziali" e trova l'ID client OAuth 2.0 utilizzato dall'applicazione</li>
-                      <li>Modifica l'URI di reindirizzamento per corrispondere esattamente all'URI dell'app mostrato sopra</li>
-                      <li>Aggiungi anche l'origine JavaScript: <span className="font-mono">https://wife-scheduler-zambelliandrea1.replit.app</span></li>
-                      <li>Salva le modifiche</li>
+                      {(t('googleCalendar.troubleshooting.fixSteps', { returnObjects: true }) as string[]).map((step, idx) => (
+                        <li key={idx} dangerouslySetInnerHTML={{ __html: step }} />
+                      ))}
                     </ol>
                     
                     <div className="flex justify-end">
                       <Button onClick={restartGoogleAuth}>
-                        Riprova autorizzazione
+                        {t('googleCalendar.troubleshooting.retryAuth')}
                       </Button>
                     </div>
                   </div>
                   
                   <div className="p-4 rounded-lg border">
-                    <h3 className="text-lg font-medium mb-3">Invio email non funzionante</h3>
+                    <h3 className="text-lg font-medium mb-3">{t('googleCalendar.troubleshooting.emailNotWorking')}</h3>
                     
                     <p className="mb-3">
-                      Se l'invio di email non funziona correttamente, verifica queste impostazioni:
+                      {t('googleCalendar.troubleshooting.emailNotWorkingDesc')}
                     </p>
                     
                     <ul className="list-disc pl-5 space-y-2 mb-4">
-                      <li>Assicurati che l'email sia abilitata nelle impostazioni</li>
-                      <li>Controlla che l'indirizzo email e la password siano corretti</li>
-                      <li>Per gli account Google, è necessario utilizzare una "password per app" specifica. <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Crea una password per app</a></li>
-                      <li>Verifica che l'account Google sia stato autorizzato correttamente</li>
+                      {(t('googleCalendar.troubleshooting.emailChecks', { returnObjects: true }) as string[]).map((item, idx) => (
+                        <li key={idx} dangerouslySetInnerHTML={{ __html: item }} />
+                      ))}
                     </ul>
                     
                     <div className="flex justify-end">
                       <Link href="/email-settings">
                         <Button variant="outline">
-                          Vai alle impostazioni email
+                          {t('googleCalendar.troubleshooting.goToEmailSettings')}
                         </Button>
                       </Link>
                     </div>
@@ -421,16 +417,16 @@ export default function GoogleTroubleshootingPage() {
                   <div className="p-4 rounded-lg border bg-green-50 border-green-200">
                     <h3 className="text-lg font-medium mb-3 flex items-center">
                       <RefreshCw className="h-5 w-5 mr-2 text-green-600" />
-                      Riavvia l'autorizzazione
+                      {t('googleCalendar.troubleshooting.restartAuthorization')}
                     </h3>
                     
                     <p className="mb-4">
-                      In alcuni casi è necessario riavviare completamente il processo di autorizzazione con Google. Questo può risolvere problemi con token scaduti o revocati.
+                      {t('googleCalendar.troubleshooting.restartAuthDesc')}
                     </p>
                     
                     <div className="flex justify-end">
                       <Button onClick={restartGoogleAuth} variant="default">
-                        Riavvia autorizzazione Google
+                        {t('googleCalendar.troubleshooting.restartAuthBtn')}
                       </Button>
                     </div>
                   </div>
@@ -446,87 +442,39 @@ export default function GoogleTroubleshootingPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <HelpCircle className="h-5 w-5 mr-2 text-blue-500" />
-                  Guida alla configurazione Google
+                  {t('googleCalendar.troubleshooting.configGuide')}
                 </CardTitle>
                 <CardDescription>
-                  Come configurare correttamente Google Cloud per l'autorizzazione OAuth
+                  {t('googleCalendar.troubleshooting.configGuideDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div className="p-4 rounded-lg border">
-                    <h3 className="text-lg font-medium mb-3">Procedura di configurazione</h3>
+                    <h3 className="text-lg font-medium mb-3">{t('googleCalendar.troubleshooting.configProcedure')}</h3>
                     
                     <ol className="space-y-4 mb-4">
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">1</div>
-                        <div>
-                          <p className="font-medium">Accedi alla Console Google Cloud</p>
-                          <p className="text-sm text-muted-foreground mt-1">Vai a <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">console.cloud.google.com</a> e accedi con il tuo account Google</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">2</div>
-                        <div>
-                          <p className="font-medium">Crea un progetto o seleziona un progetto esistente</p>
-                          <p className="text-sm text-muted-foreground mt-1">Dal menu in alto, seleziona o crea un nuovo progetto</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">3</div>
-                        <div>
-                          <p className="font-medium">Abilita le API necessarie</p>
-                          <p className="text-sm text-muted-foreground mt-1">Vai a "API e servizi" {'>'} "Libreria" e abilita Google Calendar API e Gmail API</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">4</div>
-                        <div>
-                          <p className="font-medium">Configura la schermata di consenso OAuth</p>
-                          <p className="text-sm text-muted-foreground mt-1">Vai a "API e servizi" {'>'} "Schermata consenso OAuth" e configura le informazioni sull'app</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">5</div>
-                        <div>
-                          <p className="font-medium">Crea credenziali OAuth</p>
-                          <p className="text-sm text-muted-foreground mt-1">Vai a "API e servizi" {'>'} "Credenziali" e crea un ID client OAuth 2.0 per applicazione Web</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-amber-50 border-amber-200 border rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-medium">6</div>
-                        <div>
-                          <p className="font-medium">Configura le origini JavaScript e gli URI di reindirizzamento</p>
-                          <div className="text-sm mt-1">
-                            <p className="font-medium mb-1">Origini JavaScript autorizzate:</p>
-                            <p className="font-mono text-muted-foreground mb-2">https://wife-scheduler-zambelliandrea1.replit.app</p>
-                            
-                            <p className="font-medium mb-1">URI di reindirizzamento autorizzati:</p>
-                            <p className="font-mono text-muted-foreground">https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback</p>
-                          </div>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">7</div>
-                        <div>
-                          <p className="font-medium">Ottieni il Client ID e il Client Secret</p>
-                          <p className="text-sm text-muted-foreground mt-1">Dopo aver creato le credenziali, annota il Client ID e il Client Secret</p>
-                        </div>
-                      </li>
-                      
-                      <li className="p-3 bg-muted rounded flex gap-3">
-                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-medium">8</div>
-                        <div>
-                          <p className="font-medium">Inserisci le credenziali nell'applicazione</p>
-                          <p className="text-sm text-muted-foreground mt-1">Configura il Client ID e Client Secret nel tuo progetto attraverso l'amministratore dell'app</p>
-                        </div>
-                      </li>
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => {
+                        const isHighlight = n === 6;
+                        return (
+                          <li key={n} className={`p-3 ${isHighlight ? 'bg-amber-50 border-amber-200 border' : 'bg-muted'} rounded flex gap-3`}>
+                            <div className={`flex-shrink-0 h-6 w-6 rounded-full ${isHighlight ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'} flex items-center justify-center font-medium`}>{n}</div>
+                            <div>
+                              <p className="font-medium">{t(`googleCalendar.troubleshooting.configStep${n}Title`)}</p>
+                              {n === 6 ? (
+                                <div className="text-sm mt-1">
+                                  <p className="font-medium mb-1">{t('googleCalendar.troubleshooting.jsOrigins')}</p>
+                                  <p className="font-mono text-muted-foreground mb-2">https://wife-scheduler-zambelliandrea1.replit.app</p>
+                                  <p className="font-medium mb-1">{t('googleCalendar.troubleshooting.redirectUris')}</p>
+                                  <p className="font-mono text-muted-foreground">https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback</p>
+                                </div>
+                              ) : (
+                                <p className="text-sm text-muted-foreground mt-1" dangerouslySetInnerHTML={{ __html: t(`googleCalendar.troubleshooting.configStep${n}Desc`) }} />
+                              )}
+                            </div>
+                          </li>
+                        );
+                      })}
                     </ol>
                     
                     <div className="flex justify-between mt-6">
@@ -536,12 +484,12 @@ export default function GoogleTroubleshootingPage() {
                         rel="noopener noreferrer" 
                         className="inline-flex items-center text-blue-600 hover:underline"
                       >
-                        Vai alla console Google Cloud
+                        {t('googleCalendar.troubleshooting.gotoCloudConsole')}
                         <ExternalLink className="h-3 w-3 ml-1" />
                       </a>
                       
                       <Button onClick={restartGoogleAuth}>
-                        Riavvia autorizzazione
+                        {t('googleCalendar.troubleshooting.restartAuth')}
                       </Button>
                     </div>
                   </div>

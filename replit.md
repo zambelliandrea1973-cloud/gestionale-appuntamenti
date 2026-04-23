@@ -10,6 +10,29 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - Work independently and efficiently
 - Keep dev and production environments synchronized
 
+## i18n - Workflow multilingua
+
+L'app supporta 9 lingue (it/en/es/fr/de/nl/no/ro/ru). I file locale sono in `client/src/locales/<lang>.json`. La lingua canonica è **italiano** (`it.json`): tutte le altre devono mantenere le stesse chiavi e le stesse interpolazioni `{{var}}`.
+
+### Comandi
+- `npm run i18n:audit` — scansiona `client/src` e produce `.local/i18n-audit-report.md` con tutte le stringhe italiane hardcoded ancora da rifattorizzare in `t('key')`.
+- `npm run i18n:sync` — verifica che tutte le lingue abbiano le stesse chiavi di `it.json`, nessun marker `[TODO:LANG]` residuo, interpolazioni coerenti. Exit code != 0 se qualcosa è disallineato. Usa CI-friendly: `npm run i18n:check` è alias.
+- `npm run i18n:sync -- --fix` — aggiunge automaticamente in ogni lingua le chiavi mancanti, copiando il valore da `it.json` con prefisso `[TODO:LANG]`.
+- `npm run i18n:add-lang <code> <baseLang>` — crea un nuovo file lingua copiando da una base, con tutti i valori marcati `[TODO:CODE]`. Esempio: `npm run i18n:add-lang pt-BR es` per Portoghese basato su Spagnolo.
+
+### Aggiungere una nuova lingua (3 passi)
+1. `npm run i18n:add-lang pt-BR es`
+2. Apri `client/src/lib/i18n.ts`, aggiungi import + entry in `resources` e `supportedLngs`, poi aggiungi la voce nel `LanguageSelector`.
+3. Traduci sostituendo i marker `[TODO:PT-BR]`, infine `npm run i18n:sync` per verificare.
+
+### Aggiungere/modificare una stringa
+1. Aggiungi la chiave canonica in `client/src/locales/it.json`.
+2. `npm run i18n:sync -- --fix` — propaga la chiave a tutte le lingue con marker `[TODO:LANG]`.
+3. Sostituisci i marker con la traduzione corretta in ogni lingua, poi `npm run i18n:sync` deve uscire 0.
+
+### Pagine intenzionalmente solo in italiano
+Tutte le pagine sotto `pages/admin/`, `BetaAdmin`, `PaymentAdmin`, `AdminLicenseManagementPage`, `ManualAdminPage`, `StaffManagementPageFixed`. Sono usate solo dall'owner italofono e l'audit non le considera prioritarie.
+
 ## ⚠️ NOTE IMPORTANTI - DIFFERENZE TRA AMBIENTI
 
 ### ENCRYPTION_KEY

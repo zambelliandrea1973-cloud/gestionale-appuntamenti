@@ -29,11 +29,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
 
-// Definizione dello schema per il form
+// Definizione dello schema per il form (i messaggi vengono tradotti via t() nei FormMessage)
 const emailSettingsSchema = z.object({
   emailEnabled: z.boolean().default(false),
-  emailAddress: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
-  emailPassword: z.string().min(1, "La password è obbligatoria se l'email è abilitata").optional().or(z.literal("")),
+  emailAddress: z.string().email("emailSettings.invalidEmail").optional().or(z.literal("")),
+  emailPassword: z.string().min(1, "emailSettings.passwordRequired").optional().or(z.literal("")),
   emailTemplate: z.string().optional(),
   emailSubject: z.string().optional(),
 });
@@ -110,18 +110,18 @@ export default function EmailAndCalendarSettings() {
       
       if (response.ok) {
         toast({
-          title: "Impostazioni salvate",
-          description: "Le impostazioni di email sono state aggiornate con successo",
+          title: t('emailSettings.toastSaved'),
+          description: t('emailSettings.toastSavedDesc'),
         });
       } else {
         const error = await response.json();
-        throw new Error(error.message || 'Si è verificato un errore durante il salvataggio');
+        throw new Error(error.message || t('emailSettings.toastSaveError'));
       }
     } catch (error) {
       console.error('Errore nel salvataggio delle impostazioni:', error);
       toast({
-        title: "Errore",
-        description: error instanceof Error ? error.message : "Si è verificato un errore durante il salvataggio",
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('emailSettings.toastSaveError'),
         variant: "destructive",
       });
     } finally {
@@ -133,8 +133,8 @@ export default function EmailAndCalendarSettings() {
   const sendTestEmail = async () => {
     if (!testEmailAddress) {
       toast({
-        title: "Errore",
-        description: "Inserisci un indirizzo email per il test",
+        title: t('common.error'),
+        description: t('emailSettings.toastTestEmailMissing'),
         variant: "destructive",
       });
       return;
@@ -154,17 +154,17 @@ export default function EmailAndCalendarSettings() {
       
       if (response.ok) {
         toast({
-          title: "Email inviata",
-          description: "L'email di test è stata inviata con successo",
+          title: t('emailSettings.toastTestSent'),
+          description: t('emailSettings.toastTestSentDesc'),
         });
       } else {
-        throw new Error(data.error || 'Si è verificato un errore durante l\'invio dell\'email');
+        throw new Error(data.error || t('emailSettings.toastTestSendError'));
       }
     } catch (error) {
       console.error('Errore nell\'invio dell\'email di test:', error);
       toast({
-        title: "Errore",
-        description: error instanceof Error ? error.message : "Si è verificato un errore durante l'invio dell'email",
+        title: t('common.error'),
+        description: error instanceof Error ? error.message : t('emailSettings.toastTestSendError'),
         variant: "destructive",
       });
     } finally {
@@ -224,7 +224,11 @@ export default function EmailAndCalendarSettings() {
                       <FormControl>
                         <Input {...field} placeholder="esempio@tuodominio.com" />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage>
+                        {form.formState.errors.emailAddress?.message
+                          ? t(form.formState.errors.emailAddress.message as string)
+                          : null}
+                      </FormMessage>
                     </FormItem>
                   )}
                 />
@@ -247,14 +251,14 @@ export default function EmailAndCalendarSettings() {
                       <div className="space-y-2 mt-2">
                         <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-md p-3">
                           <p className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                            📧 Per Gmail: NON usare la password normale dell'account
+                            {t('emailSettings.gmailWarning')}
                           </p>
                           <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
-                            Devi generare una <strong>Password per le app</strong>. Segui questi passaggi:
+                            {t('emailSettings.gmailSteps')}
                           </p>
                           <ol className="text-sm text-blue-800 dark:text-blue-200 space-y-2 list-decimal list-inside">
                             <li>
-                              <strong>Attiva la verifica in due passaggi:</strong>
+                              <strong>{t('emailSettings.step1')}</strong>
                               <br />
                               <a 
                                 href="https://myaccount.google.com/signinoptions/two-step-verification" 
@@ -262,11 +266,11 @@ export default function EmailAndCalendarSettings() {
                                 rel="noopener noreferrer"
                                 className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-6"
                               >
-                                👉 Clicca qui per attivare la verifica in due passaggi
+                                {t('emailSettings.step1Link')}
                               </a>
                             </li>
                             <li>
-                              <strong>Genera una Password per le app:</strong>
+                              <strong>{t('emailSettings.step2')}</strong>
                               <br />
                               <a 
                                 href="https://myaccount.google.com/apppasswords" 
@@ -278,18 +282,22 @@ export default function EmailAndCalendarSettings() {
                               </a>
                             </li>
                             <li>
-                              <strong>Copia la password generata</strong> (16 caratteri) e incollala qui sopra
+                              {t('emailSettings.step3')}
                             </li>
                           </ol>
                           <p className="text-xs text-blue-700 dark:text-blue-300 mt-3 italic">
-                            ⚠️ Se non hai la verifica in due passaggi attiva, il secondo link non funzionerà. Completa prima il passo 1.
+                            {t('emailSettings.warning2fa')}
                           </p>
                         </div>
                         <p className="text-xs text-muted-foreground mt-2">
-                          Per altri provider (Libero, Outlook, Aruba, ecc.) usa la password normale del tuo account email.
+                          {t('emailSettings.otherProviders')}
                         </p>
                       </div>
-                      <FormMessage />
+                      <FormMessage>
+                        {form.formState.errors.emailPassword?.message
+                          ? t(form.formState.errors.emailPassword.message as string)
+                          : null}
+                      </FormMessage>
                     </FormItem>
                   )}
                 />
@@ -297,7 +305,7 @@ export default function EmailAndCalendarSettings() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex items-center mb-4">
                     <MessagesSquare className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <h4 className="text-base font-medium">Template Email</h4>
+                    <h4 className="text-base font-medium">{t('emailSettings.template')}</h4>
                     <Button 
                       type="button" 
                       variant="ghost" 
@@ -305,7 +313,7 @@ export default function EmailAndCalendarSettings() {
                       onClick={resetEmailTemplate}
                       className="ml-auto text-xs"
                     >
-                      Ripristina predefinito
+                      {t('emailSettings.restoreDefault')}
                     </Button>
                   </div>
                   
@@ -315,16 +323,16 @@ export default function EmailAndCalendarSettings() {
                     render={({ field }) => (
                       <FormItem className="mb-4">
                         <FormLabel>
-                          Oggetto Email
+                          {t('emailSettings.subject')}
                         </FormLabel>
                         <FormControl>
                           <Input 
                             {...field} 
-                            placeholder="Promemoria appuntamento" 
+                            placeholder={t('emailSettings.subjectPlaceholder')} 
                           />
                         </FormControl>
                         <FormDescription className="text-xs">
-                          Puoi usare: {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
+                          {t('emailSettings.subjectVars', { vars: '{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}' })}
                         </FormDescription>
                       </FormItem>
                     )}
@@ -336,28 +344,27 @@ export default function EmailAndCalendarSettings() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Testo Email
+                          {t('emailSettings.bodyLabel')}
                         </FormLabel>
                         <FormControl>
                           <Textarea 
                             {...field} 
-                            placeholder="Testo del messaggio" 
+                            placeholder={t('emailSettings.bodyPlaceholder')} 
                             className="min-h-[200px]"
                           />
                         </FormControl>
                         <FormDescription className="text-xs mt-2">
-                          Inserisci il testo del messaggio. Puoi usare le seguenti variabili:
-                          {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
+                          {t('emailSettings.bodyVarsHint', { vars: '{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}' })}
                         </FormDescription>
                       </FormItem>
                     )}
                   />
                   
                   <div className="mt-4 pt-4 border-t">
-                    <FormLabel className="mb-2 block">Test invio email</FormLabel>
+                    <FormLabel className="mb-2 block">{t('emailSettings.testSend')}</FormLabel>
                     <div className="flex gap-2">
                       <Input 
-                        placeholder="Inserisci email per test" 
+                        placeholder={t('emailSettings.testPlaceholder')} 
                         value={testEmailAddress}
                         onChange={(e) => setTestEmailAddress(e.target.value)}
                         className="max-w-sm"
@@ -374,7 +381,7 @@ export default function EmailAndCalendarSettings() {
                         ) : (
                           <Mail className="mr-2 h-4 w-4" />
                         )}
-                        Invia test
+                        {t('emailSettings.sendTest')}
                       </Button>
                     </div>
                   </div>
