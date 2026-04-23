@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Tous les services sont réservables en ligne",
     "allOnlineDisabled": "Réservation en ligne désactivée pour tous les services",
     "online": "En ligne",
-    "onlineHeader": "[TODO:FR] Prenotazioni Online"
+    "onlineHeader": "Réservations en Ligne"
   },
   "settingsPage": {
     "accessDenied": "Accès refusé",

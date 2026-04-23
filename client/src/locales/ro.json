@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Toate serviciile sunt rezervabile online",
     "allOnlineDisabled": "Rezervarea online dezactivată pentru toate serviciile",
     "online": "Online",
-    "onlineHeader": "[TODO:RO] Prenotazioni Online"
+    "onlineHeader": "Rezervări Online"
   },
   "settingsPage": {
     "accessDenied": "Acces refuzat",

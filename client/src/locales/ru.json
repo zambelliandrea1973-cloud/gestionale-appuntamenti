@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Все услуги доступны для онлайн-бронирования",
     "allOnlineDisabled": "Онлайн-бронирование отключено для всех услуг",
     "online": "Онлайн",
-    "onlineHeader": "[TODO:RU] Prenotazioni Online"
+    "onlineHeader": "Онлайн-бронирования"
   },
   "settingsPage": {
     "accessDenied": "Доступ запрещён",

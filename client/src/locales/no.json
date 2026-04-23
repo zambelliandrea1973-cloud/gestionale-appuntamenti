@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Alle tjenester er bestillbare online",
     "allOnlineDisabled": "Online bestilling deaktivert for alle tjenester",
     "online": "Online",
-    "onlineHeader": "[TODO:NO] Prenotazioni Online"
+    "onlineHeader": "Online Bestillinger"
   },
   "settingsPage": {
     "accessDenied": "Tilgang nektet",

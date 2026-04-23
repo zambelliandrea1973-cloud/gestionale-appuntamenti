@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Alle services zijn online boekbaar",
     "allOnlineDisabled": "Online boeken uitgeschakeld voor alle services",
     "online": "Online",
-    "onlineHeader": "[TODO:NL] Prenotazioni Online"
+    "onlineHeader": "Online Boekingen"
   },
   "settingsPage": {
     "accessDenied": "Toegang geweigerd",

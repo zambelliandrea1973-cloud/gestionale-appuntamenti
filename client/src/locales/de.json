@@ -264,7 +264,7 @@
     "allOnlineEnabled": "Alle Dienste sind online buchbar",
     "allOnlineDisabled": "Online-Buchung für alle Dienste deaktiviert",
     "online": "Online",
-    "onlineHeader": "[TODO:DE] Prenotazioni Online"
+    "onlineHeader": "Online-Buchungen"
   },
   "settingsPage": {
     "accessDenied": "Zugriff verweigert",
