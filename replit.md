@@ -54,16 +54,29 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
   - 🇪🇺 Europa Est (RO/PL/HU/BG) — stipendio medio €700-1.200
     - PRO: €7-9/mese
     - ANNUALE: €59-79/anno
-  - 🇨🇳 Cina — stipendio medio €1.300
+  - 🇰🇷 Corea del Sud — stipendio medio €2.500-3.000 (mercato tech-savvy)
+    - PRO: €12-14/mese (allineato Europa Ovest, ma servizio in Coreano dedicato premium)
+    - ANNUALE: €119/anno
+    - NOTA: mercato beauty/wellness enorme (K-beauty), competitor locali Naver/Kakao
+    - SFIDA: serve localizzazione UI Hangul + supporto KakaoPay/Naver Pay
+  - 🇨🇳 Cina — stipendio medio €1.300-1.500 (Tier 1 cities anche €2.500+)
     - PRO: €8/mese
     - ANNUALE: €69/anno
+    - SFIDA: Google Play non disponibile in Cina, serve distribuzione su Tencent MyApp/Huawei AppGallery
+    - PAGAMENTI: WeChat Pay + Alipay obbligatori (Stripe limitato)
+  - 🇧🇷 Brasile — stipendio medio €400-600 (R$ 3.000)
+    - PRO: €4-5/mese (R$ 25-30)
+    - ANNUALE: €39/anno (R$ 220)
+    - NOTA: enorme mercato saloni/estetiste/barbieri (cultura beauty fortissima)
+    - PAGAMENTI: Pix obbligatorio (90% transazioni online), boleto bancario opzionale
+    - LINGUA: Portoghese brasiliano (NON Portoghese europeo, traduzioni diverse)
   - 🇷🇺🇹🇷 CIS/Turchia — stipendio medio €500-800
     - PRO: €5/mese
     - ANNUALE: €39/anno
   - 🇮🇳 India — stipendio medio €280-460 (4-5x meno di Cina)
     - PRO: €3/mese
     - ANNUALE: €29/anno
-  - 🇵🇭🇮🇩🇲🇽🇧🇷 Altri emergenti — stipendio medio €400-700
+  - 🇵🇭🇮🇩🇲🇽 Altri emergenti — stipendio medio €400-700
     - PRO: €4/mese
     - ANNUALE: €35/anno
   - 🇪🇹🇨🇩🇳🇬 Africa — stipendio medio €100-300
