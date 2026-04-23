@@ -39,6 +39,54 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Rischio**: Modifica delicata, da fare solo dopo fase test completata
 - **Workaround attuale**: Il nome sotto l'icona è diverso per ogni professionista
 
+### TODO: Pricing geolocalizzato per paese (PPP - Purchasing Power Parity)
+- **Stato**: Idea utente del 23 apr 2026 — DA VALUTARE dopo aver stabilizzato registrazioni Italia
+- **Problema osservato**: 85% install da India/Etiopia/Congo con CPI €0,01 ma 0% conversione abbonamento perché €20/mese = troppo per quei mercati
+- **Soluzione**: rilevare paese da IP (NON da lingua selezionata, altrimenti frode garantita) e applicare pricing differenziato
+- **Fasce proposte**:
+  - Europa Ovest (IT/DE/FR/CH): €20/mese (full price)
+  - Europa Sud (ES/PT/GR): €15/mese
+  - Europa Est (RO/PL/HU/BG): €10/mese
+  - CIS/Turchia (RU/UA/TR): €7/mese
+  - Mercati emergenti (IN/PH/ID/MX/BR): €4-5/mese
+  - Africa (ET/CD/NG): €2-3/mese
+- **Implementazione tecnica**:
+  - Servizio geolocation IP: MaxMind GeoLite2 (gratis) o ipapi.co
+  - Mappa paese → tier prezzo nel backend
+  - Creare multipli `Price` objects su Stripe (Adaptive Pricing)
+  - Mostrare prezzo localizzato in checkout
+  - Bloccare cambio paese dopo iscrizione (anti-frode)
+  - Verifica metodo pagamento (carta italiana → forza prezzo italiano)
+- **Tempo stimato**: 2-3 giorni di sviluppo
+- **Rischio frode VPN**: 5-10% leakage accettabile come costo del business
+- **QUANDO IMPLEMENTARE**: dopo aver visto stabilizzazione registrazioni Italia con form semplificato
+
+### TODO: Versione Hindi (हिन्दी) per mercato indiano
+- **Stato**: Idea utente del 23 apr 2026 — DA VALUTARE solo se India mostra install ricorrenti dopo pricing PPP
+- **Contesto**: India = 600M parlanti Hindi, ma professionisti business parlano già inglese (lingua business in India)
+- **Complessità tecnica**: BASSA (sistema multilingua già pronto con file JSON)
+  - Creare `client/src/locales/hi.json` con ~1500-3000 stringhe
+  - Traduzione automatica iniziale via Claude/GPT in batch (1-2h)
+  - Revisione madrelingua su Fiverr (€100-200, 2-3 giorni)
+  - Font Devanagari già supportato in Inter/Roboto
+  - **Totale: 1 giornata + €150 revisione**
+- **Complessità commerciale**: ALTA
+  - Servirebbe fatturazione GST India (18%)
+  - Stripe India richiede entità legale indiana per pagamenti UPI/Rupay
+  - Workaround iniziale: solo carte internazionali a prezzo USD
+  - Supporto clienti fuso +4.5h
+- **Lingue da considerare oltre Hindi**: Tamil, Telugu, Bengali (regionali, milioni di parlanti)
+- **PRECONDIZIONE**: prima implementare pricing PPP, poi valutare se India genera abbastanza utenti paganti per giustificare investimento commerciale
+- **QUANDO IMPLEMENTARE**: solo dopo 1-2 mesi di dati con pricing PPP attivo
+
+### Dati osservati il 23 apr 2026 (riferimento per future decisioni)
+- Google Ads UAC: 927 clic in 7 giorni, CTR 20.93%, 4,43K impression
+- Saldo €4,15, prossimo pagamento 1 mag o a soglia €50
+- Optimization score Google Ads: 78%
+- Play Console KPI: 112 install totali, 99 dispositivi attivi, +500% crescita pubblico
+- Distribuzione geografica: maggioranza schiacciante India + altri mercati emergenti
+- Targeting attuale Google Ads: "Tutti i paesi e i territori" (da rivedere con strategia PPP)
+
 ### TODO: Multi-Calendar Sync per Staff (feature premium futura)
 - **Stato**: Richiesta dall'utente il 23 apr 2026 — DA RIPROPORRE quando iniziano le registrazioni nuove
 - **Idea**: Permettere a ogni professionista di uno studio (es. 10 staff) di collegare il PROPRIO Google Calendar
