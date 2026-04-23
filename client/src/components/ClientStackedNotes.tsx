@@ -35,7 +35,7 @@ type ClientStackedNotesProps = {
 };
 
 export default function ClientStackedNotes({ clientId, category, label }: ClientStackedNotesProps) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -92,7 +92,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
+        title: t('common.error'), 
         description: `Impossibile creare la nota: ${error.message}`,
         variant: 'destructive'
       });
@@ -117,7 +117,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
+        title: t('common.error'), 
         description: `Impossibile aggiornare la nota: ${error.message}`,
         variant: 'destructive'
       });
@@ -139,7 +139,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
+        title: t('common.error'), 
         description: `Impossibile eliminare la nota: ${error.message}`,
         variant: 'destructive'
       });
@@ -168,7 +168,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
+        title: t('common.error'), 
         description: `Impossibile duplicare la nota: ${error.message}`,
         variant: 'destructive'
       });

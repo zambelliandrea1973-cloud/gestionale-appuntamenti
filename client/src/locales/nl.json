@@ -752,7 +752,24 @@
     "edit": "Bewerken",
     "save": "Opslaan",
     "send": "Verzenden",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "error": "Fout",
+    "success": "Succes",
+    "warning": "Waarschuwing",
+    "saving": "Opslaan...",
+    "back": "Terug",
+    "backToHomeBilingual": "Terug naar Home",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "test": "Test",
+    "actions": "Acties",
+    "search": "Zoeken",
+    "required": "Vereist",
+    "notes": "Notities",
+    "add": "Toevoegen",
+    "update": "Bijwerken",
+    "create": "Aanmaken",
+    "confirmDelete": "Weet u zeker dat u wilt verwijderen?"
   },
   "notifications": {
     "success": "Bewerking succesvol voltooid",
@@ -871,6 +888,32 @@
       "settingsSaved": "Meldingsinstellingen succesvol opgeslagen",
       "testEmailSent": "Test-e-mail succesvol verzonden",
       "remindersProcessed": "Herinneringen succesvol verwerkt"
+    },
+    "tabs": {
+      "email": "E-mail",
+      "whatsapp": "WhatsApp",
+      "general": "Algemene instellingen"
+    },
+    "email": {
+      "enable": "E-mailmeldingen inschakelen",
+      "placeholderEmail": "Voer uw e-mailadres in",
+      "placeholderPassword": "Voer uw e-mailwachtwoord in"
+    },
+    "whatsapp": {
+      "enable": "WhatsApp-meldingen inschakelen"
+    },
+    "sms": {
+      "enable": "SMS-meldingen inschakelen"
+    },
+    "center": {
+      "enable": "Meldingscentrum inschakelen"
+    },
+    "toast": {
+      "loadFail": "Kan meldingsinstellingen niet laden",
+      "saveSuccess": "Meldingsinstellingen succesvol opgeslagen",
+      "saveFail": "Kan instellingen niet opslaan",
+      "testEmailSent": "Test-e-mail succesvol verzonden",
+      "enterTestEmail": "Voer een e-mailadres in voor de test"
     }
   },
   "googleCalendar": {
@@ -879,8 +922,8 @@
     "emailLabel": "Gmail-account",
     "emailPlaceholder": "jouw.adres@gmail.com",
     "emailDescription": "Het Google-account dat u wilt gebruiken voor de agenda",
-    "connected": "Account verbonden",
-    "notConnected": "Account nog niet verbonden",
+    "connected": "Verbonden",
+    "notConnected": "Niet verbonden",
     "clientIdLabel": "Client ID",
     "clientIdPlaceholder": "Uw Google Client ID",
     "clientIdDescription": "Haal deze waarde op uit de Google Cloud-console",
@@ -929,7 +972,11 @@
       "proOnlyMessage": "Deze functie is alleen beschikbaar met het PRO-abonnement.",
       "upgradeToPro": "Upgraden naar PRO",
       "backToDashboard": "Terug naar Dashboard"
-    }
+    },
+    "connect": "Google Agenda koppelen",
+    "disconnect": "Google Agenda ontkoppelen",
+    "sync": "Synchroniseren",
+    "syncing": "Synchroniseren..."
   },
   "errors": {
     "genericError": "Er is een fout opgetreden: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Doorverwijzingssysteem",
+    "title": "Verwijzingsprogramma",
     "subtitle": "Verdien commissies door nieuwe klanten uit te nodigen",
     "adminOnly": "Alleen beheerders kunnen doorverwijzingen beheren, door personeel gesponsorde abonnementen coördineren en verifiëren om betalingen te verwerken",
-    "yourCode": "Uw Doorverwijzingscode",
+    "yourCode": "Jouw code",
     "copyCode": "Code kopiëren",
     "shareCode": "Delen",
     "copyToClipboard": "Kopieer naar klembord",
@@ -1212,7 +1259,11 @@
       "step2": "Wanneer zij zich registreren met uw code, worden zij uw doorverwijzingen",
       "step3": "U verdient 25% op elk abonnement dat zij activeren",
       "step4": "Commissies worden op uw IBAN gestort"
-    }
+    },
+    "shareLink": "Link delen",
+    "invitations": "Uitnodigingen",
+    "rewards": "Beloningen",
+    "copied": "Code gekopieerd!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Toevoegen",
       "selected": "Geselecteerde Diensten:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Dienstenbeheer",
+    "description": "Beheer de aangeboden behandelingen en diensten, inclusief duur en prijs. Deze gegevens worden gebruikt in rapporten en facturen.",
+    "availableServices": "Beschikbare diensten",
+    "newService": "Nieuwe dienst",
+    "editService": "Dienst bewerken",
+    "fields": {
+      "name": "Dienstnaam *",
+      "namePlaceholder": "Bv. Algemene consultatie",
+      "duration": "Duur (minuten) *",
+      "price": "Prijs (€) *",
+      "color": "Kleur",
+      "description": "Beschrijving",
+      "descriptionPlaceholder": "Optionele dienstomschrijving"
+    },
+    "actions": {
+      "cancel": "Annuleren",
+      "create": "Aanmaken",
+      "update": "Bijwerken"
+    },
+    "table": {
+      "name": "Naam",
+      "duration": "Duur",
+      "price": "Prijs",
+      "color": "Kleur",
+      "actions": "Acties"
+    },
+    "empty": {
+      "title": "Geen diensten geconfigureerd.",
+      "hint": "Voeg je eerste dienst toe om te beginnen."
+    },
+    "confirm": {
+      "delete": "Weet je zeker dat je deze dienst wilt verwijderen?"
+    },
+    "toast": {
+      "successTitle": "Gelukt",
+      "created": "Dienst succesvol aangemaakt",
+      "updated": "Dienst succesvol bijgewerkt",
+      "deleted": "Dienst succesvol verwijderd",
+      "errorTitle": "Fout"
+    },
+    "validation": {
+      "nameRequired": "De dienstnaam is verplicht",
+      "durationPositive": "De duur moet groter zijn dan 0",
+      "priceNonNegative": "De prijs mag niet negatief zijn"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Klant is verplicht",
+      "invoiceNumberRequired": "Factuurnummer is verplicht",
+      "statusRequired": "Status is verplicht",
+      "descriptionRequired": "Omschrijving is verplicht",
+      "quantityRequired": "Aantal is verplicht",
+      "unitPriceRequired": "Eenheidsprijs is verplicht",
+      "itemsRequired": "Voeg minstens één item toe aan de factuur"
+    },
+    "toast": {
+      "errorTitle": "Fout",
+      "generateNumberFailed": "Kan factuurnummer niet genereren",
+      "created": "Factuur aangemaakt",
+      "createdDesc": "De factuur is succesvol aangemaakt",
+      "createFailed": "Kan de factuur niet aanmaken",
+      "updated": "Factuur bijgewerkt",
+      "updatedDesc": "De factuur is succesvol bijgewerkt",
+      "updateFailed": "Kan de factuur niet bijwerken",
+      "saveFailed": "Er is een fout opgetreden bij het opslaan van de factuur"
+    },
+    "fields": {
+      "client": "Klant",
+      "selectClient": "Selecteer klant",
+      "invoiceNumber": "Factuurnummer",
+      "generate": "Genereren",
+      "invoiceDate": "Factuurdatum",
+      "dueDate": "Vervaldatum",
+      "selectDate": "Selecteer een datum",
+      "status": "Status",
+      "selectStatus": "Selecteer status",
+      "tax": "BTW (%)",
+      "notes": "Notities",
+      "notesPlaceholder": "Aanvullende notities voor de factuur"
+    },
+    "status": {
+      "unpaid": "Onbetaald",
+      "paid": "Betaald",
+      "overdue": "Vervallen",
+      "cancelled": "Geannuleerd"
+    },
+    "items": {
+      "title": "Factuuritems",
+      "description": "Voeg de items toe om in de factuur op te nemen",
+      "descriptionField": "Omschrijving",
+      "quantity": "Aantal",
+      "unitPrice": "Prijs (€)",
+      "serviceOptional": "Dienst (optioneel)",
+      "selectService": "Selecteer dienst",
+      "noService": "Geen dienst",
+      "remove": "Item verwijderen",
+      "add": "Item toevoegen"
+    },
+    "actions": {
+      "cancel": "Annuleren",
+      "saving": "Opslaan...",
+      "update": "Bijwerken",
+      "create": "Factuur aanmaken"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacybeleid"
+    },
+    "terms": {
+      "title": "Servicevoorwaarden en gebruiksvoorwaarden",
+      "effectiveDate": "Datum van inwerkingtreding",
+      "lastModified": "Laatst gewijzigd"
+    },
+    "lastUpdated": "Laatst bijgewerkt"
+  },
+  "emailSettings": {
+    "title": "E-mailinstellingen",
+    "smtpServer": "SMTP-server",
+    "smtpPort": "SMTP-poort",
+    "testConnection": "Verbinding testen",
+    "saveSuccess": "E-mailinstellingen opgeslagen"
+  },
+  "userSettings": {
+    "title": "Gebruikersinstellingen",
+    "profile": "Profiel",
+    "account": "Account",
+    "preferences": "Voorkeuren"
+  },
+  "staff": {
+    "title": "Personeelsbeheer",
+    "addMember": "Lid toevoegen",
+    "role": "Rol",
+    "permissions": "Machtigingen",
+    "active": "Actief",
+    "inactive": "Inactief"
+  },
+  "appointmentForm": {
+    "title": "Nieuwe afspraak",
+    "editTitle": "Afspraak bewerken",
+    "client": "Klant",
+    "service": "Dienst",
+    "date": "Datum",
+    "time": "Tijd",
+    "duration": "Duur",
+    "notes": "Notities",
+    "save": "Afspraak opslaan",
+    "saved": "Afspraak opgeslagen",
+    "selectClient": "Klant selecteren",
+    "selectService": "Dienst selecteren"
+  },
+  "clientNotes": {
+    "title": "Klantnotities",
+    "addNote": "Notitie toevoegen",
+    "placeholder": "Schrijf hier je notitie...",
+    "empty": "Geen notities beschikbaar",
+    "saved": "Notitie opgeslagen",
+    "deleted": "Notitie verwijderd"
+  },
+  "manuale": {
+    "title": "Gebruikershandleiding",
+    "search": "Zoeken in handleiding...",
+    "tableOfContents": "Inhoudsopgave"
   }
 }

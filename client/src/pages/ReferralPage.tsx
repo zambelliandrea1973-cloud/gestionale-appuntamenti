@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useCurrency } from '@/hooks/use-currency';
 import { useLocation } from 'wouter';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
+import { useTranslation } from 'react-i18next';
 
 interface Commission {
   id: number;
@@ -63,6 +64,7 @@ interface ReferralResponse {
 }
 
 export default function ReferralPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { symbol } = useCurrency();
   const [, navigate] = useLocation();
@@ -125,7 +127,7 @@ export default function ReferralPage() {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Errore",
+        title: t("common.error"),
         description: `Impossibile generare il codice: ${error.message}`,
       });
     }
@@ -148,7 +150,7 @@ export default function ReferralPage() {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Errore",
+        title: t("common.error"),
         description: `Impossibile salvare i dati bancari: ${error.message}`,
       });
     }
@@ -233,7 +235,7 @@ export default function ReferralPage() {
   if (hasPermission === false) {
     return (
       <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-6">Programma di Referral</h1>
+        <h1 className="text-3xl font-bold mb-6">{t("referral.title")}</h1>
         
         <Card className="mb-8">
           <CardHeader>

@@ -36,6 +36,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import AuthorizedRoute from "@/components/AuthorizedRoute";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 
 interface StaffUser {
@@ -52,6 +53,7 @@ interface StaffUser {
 }
 
 export default function StaffManagementPageFixed() {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -108,7 +110,7 @@ export default function StaffManagementPageFixed() {
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error.message || "Impossibile creare lo staff",
         variant: "destructive",
       });
@@ -133,7 +135,7 @@ export default function StaffManagementPageFixed() {
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error.message || "Impossibile modificare lo staff",
         variant: "destructive",
       });
@@ -157,7 +159,7 @@ export default function StaffManagementPageFixed() {
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error.message || "Impossibile eliminare lo staff",
         variant: "destructive",
       });
@@ -182,7 +184,7 @@ export default function StaffManagementPageFixed() {
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error.message || "Impossibile salvare i dati bancari",
         variant: "destructive",
       });
@@ -313,7 +315,7 @@ export default function StaffManagementPageFixed() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Gestione Staff</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t("staff.title")}</h1>
             <p className="text-muted-foreground mt-1">
               Visualizza e gestisci i tuoi membri dello staff
             </p>

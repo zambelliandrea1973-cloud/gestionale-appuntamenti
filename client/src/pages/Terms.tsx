@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 
 export default function Terms() {
   const [, navigate] = useLocation();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -17,14 +19,14 @@ export default function Terms() {
             className="mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Torna alla Home
+            {t('common.backToHomeBilingual')}
           </Button>
           <h1 className="text-4xl font-bold text-primary border-b-2 border-primary pb-3">
-            Termini di Servizio e Condizioni d'Uso
+            {t('legal.terms.title')}
           </h1>
           <div className="mt-4 p-4 bg-blue-50 border-l-4 border-primary rounded-r-lg">
-            <p><strong>Data di entrata in vigore:</strong> 20 Giugno 2025</p>
-            <p><strong>Ultima modifica:</strong> 20 Giugno 2025</p>
+            <p><strong>{t('legal.terms.effectiveDate')}:</strong> 20 Giugno 2025</p>
+            <p><strong>{t('legal.terms.lastModified')}:</strong> 20 Giugno 2025</p>
           </div>
         </div>
 
@@ -255,7 +257,7 @@ export default function Terms() {
           <div className="text-center pt-6">
             <Button onClick={() => navigate("/")} size="lg">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Torna alla Home
+              {t('common.backToHomeBilingual')}
             </Button>
           </div>
         </div>

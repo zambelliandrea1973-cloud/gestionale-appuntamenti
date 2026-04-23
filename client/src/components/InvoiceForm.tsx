@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -47,22 +48,22 @@ interface InvoiceFormProps {
 }
 
 const formSchema = z.object({
-  clientId: z.string().min(1, { message: "Il cliente è obbligatorio" }),
-  invoiceNumber: z.string().min(1, { message: "Il numero fattura è obbligatorio" }),
+  clientId: z.string().min(1, { message: "invoiceForm.validation.clientRequired" }),
+  invoiceNumber: z.string().min(1, { message: "invoiceForm.validation.invoiceNumberRequired" }),
   date: z.date(),
   dueDate: z.date(),
-  status: z.string().min(1, { message: "Lo stato è obbligatorio" }),
+  status: z.string().min(1, { message: "invoiceForm.validation.statusRequired" }),
   tax: z.string().optional(),
   notes: z.string().optional(),
   items: z.array(
     z.object({
-      description: z.string().min(1, { message: "La descrizione è obbligatoria" }),
-      quantity: z.string().min(1, { message: "La quantità è obbligatoria" }),
-      unitPrice: z.string().min(1, { message: "Il prezzo unitario è obbligatorio" }),
+      description: z.string().min(1, { message: "invoiceForm.validation.descriptionRequired" }),
+      quantity: z.string().min(1, { message: "invoiceForm.validation.quantityRequired" }),
+      unitPrice: z.string().min(1, { message: "invoiceForm.validation.unitPriceRequired" }),
       serviceId: z.string().optional(),
       appointmentId: z.string().optional(),
     })
-  ).min(1, { message: "Aggiungi almeno un elemento alla fattura" }),
+  ).min(1, { message: "invoiceForm.validation.itemsRequired" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -72,6 +73,7 @@ export default function InvoiceForm({
   onClose,
   onSuccess,
 }: InvoiceFormProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isLoadingInvoiceNumber, setIsLoadingInvoiceNumber] = useState(false);
@@ -119,8 +121,8 @@ export default function InvoiceForm({
       form.setValue("invoiceNumber", data.invoiceNumber);
     } catch (error) {
       toast({
-        title: "Errore",
-        description: "Impossibile generare il numero fattura",
+        title: t("invoiceForm.toast.errorTitle"),
+        description: t("invoiceForm.toast.generateNumberFailed"),
         variant: "destructive",
       });
     } finally {
@@ -163,15 +165,15 @@ export default function InvoiceForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       toast({
-        title: "Fattura creata",
-        description: "La fattura è stata creata con successo",
+        title: t("invoiceForm.toast.created"),
+        description: t("invoiceForm.toast.createdDesc"),
       });
       onSuccess();
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Non è stato possibile creare la fattura",
+        title: t("invoiceForm.toast.errorTitle"),
+        description: t("invoiceForm.toast.createFailed"),
         variant: "destructive",
       });
     },
@@ -184,15 +186,15 @@ export default function InvoiceForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       toast({
-        title: "Fattura aggiornata",
-        description: "La fattura è stata aggiornata con successo",
+        title: t("invoiceForm.toast.updated"),
+        description: t("invoiceForm.toast.updatedDesc"),
       });
       onSuccess();
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Non è stato possibile aggiornare la fattura",
+        title: t("invoiceForm.toast.errorTitle"),
+        description: t("invoiceForm.toast.updateFailed"),
         variant: "destructive",
       });
     },
@@ -254,8 +256,8 @@ export default function InvoiceForm({
       }
     } catch (error) {
       toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante il salvataggio della fattura",
+        title: t("invoiceForm.toast.errorTitle"),
+        description: t("invoiceForm.toast.saveFailed"),
         variant: "destructive",
       });
     }
@@ -294,7 +296,7 @@ export default function InvoiceForm({
             name="clientId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cliente</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.client")}</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
@@ -302,7 +304,7 @@ export default function InvoiceForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleziona cliente" />
+                      <SelectValue placeholder={t("invoiceForm.fields.selectClient")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -323,7 +325,7 @@ export default function InvoiceForm({
             name="invoiceNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Numero fattura</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.invoiceNumber")}</FormLabel>
                 <div className="flex gap-2">
                   <FormControl>
                     <Input {...field} />
@@ -334,7 +336,7 @@ export default function InvoiceForm({
                     onClick={generateInvoiceNumber}
                     disabled={isLoadingInvoiceNumber}
                   >
-                    {isLoadingInvoiceNumber ? "..." : "Genera"}
+                    {isLoadingInvoiceNumber ? "..." : t("invoiceForm.fields.generate")}
                   </Button>
                 </div>
                 <FormMessage />
@@ -349,7 +351,7 @@ export default function InvoiceForm({
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Data fattura</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.invoiceDate")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -360,7 +362,7 @@ export default function InvoiceForm({
                         {field.value ? (
                           format(field.value, "dd/MM/yyyy")
                         ) : (
-                          <span>Seleziona una data</span>
+                          <span>{t("invoiceForm.fields.selectDate")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -386,7 +388,7 @@ export default function InvoiceForm({
             name="dueDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Data scadenza</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.dueDate")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -397,7 +399,7 @@ export default function InvoiceForm({
                         {field.value ? (
                           format(field.value, "dd/MM/yyyy")
                         ) : (
-                          <span>Seleziona una data</span>
+                          <span>{t("invoiceForm.fields.selectDate")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -425,7 +427,7 @@ export default function InvoiceForm({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stato</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.status")}</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
@@ -433,14 +435,14 @@ export default function InvoiceForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleziona stato" />
+                      <SelectValue placeholder={t("invoiceForm.fields.selectStatus")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="unpaid">Non pagata</SelectItem>
-                    <SelectItem value="paid">Pagata</SelectItem>
-                    <SelectItem value="overdue">Scaduta</SelectItem>
-                    <SelectItem value="cancelled">Annullata</SelectItem>
+                    <SelectItem value="unpaid">{t("invoiceForm.status.unpaid")}</SelectItem>
+                    <SelectItem value="paid">{t("invoiceForm.status.paid")}</SelectItem>
+                    <SelectItem value="overdue">{t("invoiceForm.status.overdue")}</SelectItem>
+                    <SelectItem value="cancelled">{t("invoiceForm.status.cancelled")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -453,7 +455,7 @@ export default function InvoiceForm({
             name="tax"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>IVA (%)</FormLabel>
+                <FormLabel>{t("invoiceForm.fields.tax")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -474,11 +476,11 @@ export default function InvoiceForm({
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Note</FormLabel>
+              <FormLabel>{t("invoiceForm.fields.notes")}</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="Note aggiuntive per la fattura"
+                  placeholder={t("invoiceForm.fields.notesPlaceholder")}
                 />
               </FormControl>
               <FormMessage />
@@ -488,9 +490,9 @@ export default function InvoiceForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Elementi fattura</CardTitle>
+            <CardTitle>{t("invoiceForm.items.title")}</CardTitle>
             <CardDescription>
-              Aggiungi gli elementi da includere nella fattura
+              {t("invoiceForm.items.description")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -504,7 +506,7 @@ export default function InvoiceForm({
                   name={`items.${index}.description`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Descrizione</FormLabel>
+                      <FormLabel>{t("invoiceForm.items.descriptionField")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -518,7 +520,7 @@ export default function InvoiceForm({
                   name={`items.${index}.quantity`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Quantità</FormLabel>
+                      <FormLabel>{t("invoiceForm.items.quantity")}</FormLabel>
                       <FormControl>
                         <Input {...field} type="number" min="1" />
                       </FormControl>
@@ -532,7 +534,7 @@ export default function InvoiceForm({
                   name={`items.${index}.unitPrice`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Prezzo (€)</FormLabel>
+                      <FormLabel>{t("invoiceForm.items.unitPrice")}</FormLabel>
                       <FormControl>
                         <Input {...field} type="number" min="0" step="0.01" />
                       </FormControl>
@@ -546,7 +548,7 @@ export default function InvoiceForm({
                   name={`items.${index}.serviceId`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Servizio (opzionale)</FormLabel>
+                      <FormLabel>{t("invoiceForm.items.serviceOptional")}</FormLabel>
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
@@ -554,11 +556,11 @@ export default function InvoiceForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Seleziona servizio" />
+                            <SelectValue placeholder={t("invoiceForm.items.selectService")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="null">Nessun servizio</SelectItem>
+                          <SelectItem value="null">{t("invoiceForm.items.noService")}</SelectItem>
                           {services.map((service: any) => (
                             <SelectItem
                               key={service.id}
@@ -582,7 +584,7 @@ export default function InvoiceForm({
                   onClick={() => removeItem(index)}
                 >
                   <Trash className="h-4 w-4 mr-2" />
-                  Rimuovi elemento
+                  {t("invoiceForm.items.remove")}
                 </Button>
               </div>
             ))}
@@ -595,23 +597,23 @@ export default function InvoiceForm({
               className="mt-2"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Aggiungi elemento
+              {t("invoiceForm.items.add")}
             </Button>
           </CardContent>
 
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={onClose}>
-              Annulla
+              {t("invoiceForm.actions.cancel")}
             </Button>
             <Button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
             >
               {createMutation.isPending || updateMutation.isPending
-                ? "Salvataggio..."
+                ? t("invoiceForm.actions.saving")
                 : invoiceId
-                ? "Aggiorna"
-                : "Crea fattura"}
+                ? t("invoiceForm.actions.update")
+                : t("invoiceForm.actions.create")}
             </Button>
           </CardFooter>
         </Card>

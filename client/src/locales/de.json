@@ -770,7 +770,24 @@
     "edit": "Bearbeiten",
     "save": "Speichern",
     "send": "Senden",
-    "close": "Schließen"
+    "close": "Schließen",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "warning": "Achtung",
+    "saving": "Speichern...",
+    "back": "Zurück",
+    "backToHomeBilingual": "Zurück zur Startseite",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "test": "Test",
+    "actions": "Aktionen",
+    "search": "Suchen",
+    "required": "Erforderlich",
+    "notes": "Notizen",
+    "add": "Hinzufügen",
+    "update": "Aktualisieren",
+    "create": "Erstellen",
+    "confirmDelete": "Möchten Sie wirklich löschen?"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",
@@ -889,6 +906,32 @@
       "settingsSaved": "Benachrichtigungseinstellungen erfolgreich gespeichert",
       "testEmailSent": "Test-E-Mail erfolgreich gesendet",
       "remindersProcessed": "Erinnerungen erfolgreich verarbeitet"
+    },
+    "tabs": {
+      "email": "E-Mail",
+      "whatsapp": "WhatsApp",
+      "general": "Allgemeine Einstellungen"
+    },
+    "email": {
+      "enable": "E-Mail-Benachrichtigungen aktivieren",
+      "placeholderEmail": "Geben Sie Ihre E-Mail-Adresse ein",
+      "placeholderPassword": "Geben Sie Ihr E-Mail-Passwort ein"
+    },
+    "whatsapp": {
+      "enable": "WhatsApp-Benachrichtigungen aktivieren"
+    },
+    "sms": {
+      "enable": "SMS-Benachrichtigungen aktivieren"
+    },
+    "center": {
+      "enable": "Benachrichtigungscenter aktivieren"
+    },
+    "toast": {
+      "loadFail": "Benachrichtigungseinstellungen können nicht geladen werden",
+      "saveSuccess": "Benachrichtigungseinstellungen erfolgreich gespeichert",
+      "saveFail": "Einstellungen können nicht gespeichert werden",
+      "testEmailSent": "Test-E-Mail erfolgreich gesendet",
+      "enterTestEmail": "E-Mail-Adresse für den Test eingeben"
     }
   },
   "googleCalendar": {
@@ -897,8 +940,8 @@
     "emailLabel": "Gmail-Konto",
     "emailPlaceholder": "ihre.adresse@gmail.com",
     "emailDescription": "Das Google-Konto, das Sie für den Kalender verwenden möchten",
-    "connected": "Konto verbunden",
-    "notConnected": "Konto noch nicht verbunden",
+    "connected": "Verbunden",
+    "notConnected": "Nicht verbunden",
     "clientIdLabel": "Client-ID",
     "clientIdPlaceholder": "Ihre Google-Client-ID",
     "clientIdDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
@@ -947,7 +990,11 @@
       "proOnlyMessage": "Diese Funktion ist nur mit dem PRO-Plan verfügbar.",
       "upgradeToPro": "Auf PRO upgraden",
       "backToDashboard": "Zurück zum Dashboard"
-    }
+    },
+    "connect": "Google Kalender verbinden",
+    "disconnect": "Google Kalender trennen",
+    "sync": "Synchronisieren",
+    "syncing": "Synchronisierung..."
   },
   "errors": {
     "genericError": "Ein Fehler ist aufgetreten: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Empfehlungssystem",
+    "title": "Empfehlungsprogramm",
     "subtitle": "Provisionen verdienen durch neue Kundenempfehlungen",
     "adminOnly": "Nur Administratoren können Empfehlungen verwalten, vom Personal gesponserte Abonnements koordinieren und überprüfen, um Zahlungen zu veranlassen",
-    "yourCode": "Ihr Empfehlungscode",
+    "yourCode": "Ihr Code",
     "copyCode": "Code kopieren",
     "shareCode": "Teilen",
     "copyToClipboard": "In Zwischenablage kopieren",
@@ -1212,7 +1259,11 @@
       "step2": "Wenn sie sich mit Ihrem Code registrieren, werden sie Ihre Empfehlungen",
       "step3": "Sie verdienen 25% auf jedes Abonnement das sie aktivieren",
       "step4": "Provisionen werden auf Ihre IBAN gezahlt"
-    }
+    },
+    "shareLink": "Link teilen",
+    "invitations": "Einladungen",
+    "rewards": "Belohnungen",
+    "copied": "Code kopiert!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Hinzufügen",
       "selected": "Ausgewählte Dienstleistungen:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Dienstleistungsverwaltung",
+    "description": "Verwalten Sie die angebotenen Behandlungen und Dienstleistungen, einschließlich Dauer und Preis. Diese Daten werden in Berichten und Rechnungen verwendet.",
+    "availableServices": "Verfügbare Dienstleistungen",
+    "newService": "Neue Dienstleistung",
+    "editService": "Dienstleistung bearbeiten",
+    "fields": {
+      "name": "Dienstleistungsname *",
+      "namePlaceholder": "Z.B. Allgemeine Beratung",
+      "duration": "Dauer (Minuten) *",
+      "price": "Preis (€) *",
+      "color": "Farbe",
+      "description": "Beschreibung",
+      "descriptionPlaceholder": "Optionale Beschreibung der Dienstleistung"
+    },
+    "actions": {
+      "cancel": "Abbrechen",
+      "create": "Erstellen",
+      "update": "Aktualisieren"
+    },
+    "table": {
+      "name": "Name",
+      "duration": "Dauer",
+      "price": "Preis",
+      "color": "Farbe",
+      "actions": "Aktionen"
+    },
+    "empty": {
+      "title": "Keine Dienstleistungen konfiguriert.",
+      "hint": "Fügen Sie Ihre erste Dienstleistung hinzu, um zu beginnen."
+    },
+    "confirm": {
+      "delete": "Sind Sie sicher, dass Sie diese Dienstleistung löschen möchten?"
+    },
+    "toast": {
+      "successTitle": "Erfolg",
+      "created": "Dienstleistung erfolgreich erstellt",
+      "updated": "Dienstleistung erfolgreich aktualisiert",
+      "deleted": "Dienstleistung erfolgreich gelöscht",
+      "errorTitle": "Fehler"
+    },
+    "validation": {
+      "nameRequired": "Der Dienstleistungsname ist erforderlich",
+      "durationPositive": "Die Dauer muss größer als 0 sein",
+      "priceNonNegative": "Der Preis darf nicht negativ sein"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Kunde ist erforderlich",
+      "invoiceNumberRequired": "Rechnungsnummer ist erforderlich",
+      "statusRequired": "Status ist erforderlich",
+      "descriptionRequired": "Beschreibung ist erforderlich",
+      "quantityRequired": "Menge ist erforderlich",
+      "unitPriceRequired": "Stückpreis ist erforderlich",
+      "itemsRequired": "Fügen Sie mindestens einen Posten zur Rechnung hinzu"
+    },
+    "toast": {
+      "errorTitle": "Fehler",
+      "generateNumberFailed": "Rechnungsnummer konnte nicht generiert werden",
+      "created": "Rechnung erstellt",
+      "createdDesc": "Die Rechnung wurde erfolgreich erstellt",
+      "createFailed": "Die Rechnung konnte nicht erstellt werden",
+      "updated": "Rechnung aktualisiert",
+      "updatedDesc": "Die Rechnung wurde erfolgreich aktualisiert",
+      "updateFailed": "Die Rechnung konnte nicht aktualisiert werden",
+      "saveFailed": "Beim Speichern der Rechnung ist ein Fehler aufgetreten"
+    },
+    "fields": {
+      "client": "Kunde",
+      "selectClient": "Kunde auswählen",
+      "invoiceNumber": "Rechnungsnummer",
+      "generate": "Generieren",
+      "invoiceDate": "Rechnungsdatum",
+      "dueDate": "Fälligkeitsdatum",
+      "selectDate": "Datum auswählen",
+      "status": "Status",
+      "selectStatus": "Status auswählen",
+      "tax": "MwSt. (%)",
+      "notes": "Notizen",
+      "notesPlaceholder": "Zusätzliche Notizen für die Rechnung"
+    },
+    "status": {
+      "unpaid": "Unbezahlt",
+      "paid": "Bezahlt",
+      "overdue": "Überfällig",
+      "cancelled": "Storniert"
+    },
+    "items": {
+      "title": "Rechnungspositionen",
+      "description": "Fügen Sie die in der Rechnung enthaltenen Posten hinzu",
+      "descriptionField": "Beschreibung",
+      "quantity": "Menge",
+      "unitPrice": "Preis (€)",
+      "serviceOptional": "Dienstleistung (optional)",
+      "selectService": "Dienstleistung auswählen",
+      "noService": "Keine Dienstleistung",
+      "remove": "Posten entfernen",
+      "add": "Posten hinzufügen"
+    },
+    "actions": {
+      "cancel": "Abbrechen",
+      "saving": "Speichern...",
+      "update": "Aktualisieren",
+      "create": "Rechnung erstellen"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Datenschutzerklärung"
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen und Servicebedingungen",
+      "effectiveDate": "Datum des Inkrafttretens",
+      "lastModified": "Zuletzt geändert"
+    },
+    "lastUpdated": "Zuletzt aktualisiert"
+  },
+  "emailSettings": {
+    "title": "E-Mail-Einstellungen",
+    "smtpServer": "SMTP-Server",
+    "smtpPort": "SMTP-Port",
+    "testConnection": "Verbindung testen",
+    "saveSuccess": "E-Mail-Einstellungen gespeichert"
+  },
+  "userSettings": {
+    "title": "Benutzereinstellungen",
+    "profile": "Profil",
+    "account": "Konto",
+    "preferences": "Einstellungen"
+  },
+  "staff": {
+    "title": "Personalverwaltung",
+    "addMember": "Mitglied hinzufügen",
+    "role": "Rolle",
+    "permissions": "Berechtigungen",
+    "active": "Aktiv",
+    "inactive": "Inaktiv"
+  },
+  "appointmentForm": {
+    "title": "Neuer Termin",
+    "editTitle": "Termin bearbeiten",
+    "client": "Kunde",
+    "service": "Dienstleistung",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "duration": "Dauer",
+    "notes": "Notizen",
+    "save": "Termin speichern",
+    "saved": "Termin gespeichert",
+    "selectClient": "Kunden auswählen",
+    "selectService": "Dienst auswählen"
+  },
+  "clientNotes": {
+    "title": "Kundennotizen",
+    "addNote": "Notiz hinzufügen",
+    "placeholder": "Schreiben Sie hier Ihre Notiz...",
+    "empty": "Keine Notizen verfügbar",
+    "saved": "Notiz gespeichert",
+    "deleted": "Notiz gelöscht"
+  },
+  "manuale": {
+    "title": "Benutzerhandbuch",
+    "search": "Im Handbuch suchen...",
+    "tableOfContents": "Inhaltsverzeichnis"
   }
 }

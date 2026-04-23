@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,10 +33,11 @@ interface ServiceFormData {
 }
 
 export default function ServiceManagerSimple() {
+  const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>({
@@ -46,26 +48,11 @@ export default function ServiceManagerSimple() {
     description: "",
   });
 
-  console.log("🔧 SIMPLE: ServiceManager per utente", user?.id);
-  console.log("🔧 USER STATE:", { user, hasId: !!user?.id });
-
-  // Fetch services
-  const { data: services = [], isLoading, error } = useQuery<Service[]>({
+  const { data: services = [] } = useQuery<Service[]>({
     queryKey: ["/api/services"],
     enabled: !!user?.id,
   });
 
-  console.log("🔧 REACT QUERY: Servizi caricati e persistiti:", services);
-  console.log("🔧 TABELLA: Rendering tabella con", services.length, "servizi");
-  console.log("🔧 LOADING STATE:", { 
-    isLoading, 
-    hasUser: !!user?.id, 
-    userEnabled: !!user?.id,
-    servicesLength: services.length,
-    error: error?.message
-  });
-
-  // Create service mutation
   const createServiceMutation = useMutation({
     mutationFn: async (data: ServiceFormData) => {
       const response = await apiRequest("POST", "/api/services", {
@@ -82,20 +69,19 @@ export default function ServiceManagerSimple() {
       setIsDialogOpen(false);
       resetForm();
       toast({
-        title: "Successo",
-        description: "Servizio creato con successo",
+        title: t("serviceManagerSimple.toast.successTitle"),
+        description: t("serviceManagerSimple.toast.created"),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t("serviceManagerSimple.toast.errorTitle"),
         description: error.message,
         variant: "destructive",
       });
     },
   });
 
-  // Update service mutation
   const updateServiceMutation = useMutation({
     mutationFn: async (data: ServiceFormData) => {
       const response = await apiRequest("PUT", `/api/services/${data.id}`, {
@@ -112,20 +98,19 @@ export default function ServiceManagerSimple() {
       setIsDialogOpen(false);
       resetForm();
       toast({
-        title: "Successo",
-        description: "Servizio aggiornato con successo",
+        title: t("serviceManagerSimple.toast.successTitle"),
+        description: t("serviceManagerSimple.toast.updated"),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t("serviceManagerSimple.toast.errorTitle"),
         description: error.message,
         variant: "destructive",
       });
     },
   });
 
-  // Delete service mutation
   const deleteServiceMutation = useMutation({
     mutationFn: async (id: number) => {
       await apiRequest("DELETE", `/api/services/${id}`);
@@ -133,13 +118,13 @@ export default function ServiceManagerSimple() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/services"] });
       toast({
-        title: "Successo",
-        description: "Servizio eliminato con successo",
+        title: t("serviceManagerSimple.toast.successTitle"),
+        description: t("serviceManagerSimple.toast.deleted"),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t("serviceManagerSimple.toast.errorTitle"),
         description: error.message,
         variant: "destructive",
       });
@@ -160,9 +145,7 @@ export default function ServiceManagerSimple() {
   };
 
   const handleDeleteService = (id: number) => {
-    console.log("🗑️ FRONTEND: Tentativo eliminazione servizio con ID:", id);
-    console.log("🗑️ FRONTEND: Tipo ID:", typeof id);
-    if (window.confirm("Sei sicuro di voler eliminare questo servizio?")) {
+    if (window.confirm(t("serviceManagerSimple.confirm.delete"))) {
       deleteServiceMutation.mutate(id);
     }
   };
@@ -178,26 +161,13 @@ export default function ServiceManagerSimple() {
     setIsEditing(false);
   };
 
-  const editService = (service: Service) => {
-    setFormData({
-      id: service.id,
-      name: service.name,
-      duration: service.duration,
-      price: service.price,
-      color: service.color || "#3b82f6",
-      description: service.description || "",
-    });
-    setIsEditing(true);
-    setIsDialogOpen(true);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name.trim()) {
       toast({
-        title: "Errore",
-        description: "Il nome del servizio è obbligatorio",
+        title: t("serviceManagerSimple.toast.errorTitle"),
+        description: t("serviceManagerSimple.validation.nameRequired"),
         variant: "destructive",
       });
       return;
@@ -205,8 +175,8 @@ export default function ServiceManagerSimple() {
 
     if (Number(formData.duration) <= 0) {
       toast({
-        title: "Errore", 
-        description: "La durata deve essere maggiore di 0",
+        title: t("serviceManagerSimple.toast.errorTitle"),
+        description: t("serviceManagerSimple.validation.durationPositive"),
         variant: "destructive",
       });
       return;
@@ -214,8 +184,8 @@ export default function ServiceManagerSimple() {
 
     if (Number(formData.price) < 0) {
       toast({
-        title: "Errore",
-        description: "Il prezzo non può essere negativo",
+        title: t("serviceManagerSimple.toast.errorTitle"),
+        description: t("serviceManagerSimple.validation.priceNonNegative"),
         variant: "destructive",
       });
       return;
@@ -244,56 +214,48 @@ export default function ServiceManagerSimple() {
     }).format(price);
   };
 
-  // Rimuovo la condizione di loading per forzare il rendering
-  // if (isLoading && services.length === 0) {
-  //   console.log("🔧 LOADING: Componente in stato di caricamento");
-  //   return <div>Caricamento servizi...</div>;
-  // }
-
-  console.log("🔧 RENDER: ServiceManagerSimple sta renderizzando la tabella");
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Gestione Servizi</h2>
+          <h2 className="text-2xl font-bold tracking-tight">{t("serviceManagerSimple.title")}</h2>
           <p className="text-sm text-muted-foreground">
-            Gestisci i trattamenti e i servizi offerti, inclusi durata e prezzo. Questi dati saranno utilizzati nei report e nelle fatture.
+            {t("serviceManagerSimple.description")}
           </p>
         </div>
       </div>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Servizi Disponibili</CardTitle>
+          <CardTitle className="text-sm font-medium">{t("serviceManagerSimple.availableServices")}</CardTitle>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={resetForm}>
                 <Plus className="mr-2 h-4 w-4" />
-                Nuovo Servizio
+                {t("serviceManagerSimple.newService")}
               </Button>
             </DialogTrigger>
             <DialogContent className="min-[1200px]:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
-                  {isEditing ? "Modifica Servizio" : "Nuovo Servizio"}
+                  {isEditing ? t("serviceManagerSimple.editService") : t("serviceManagerSimple.newService")}
                 </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome Servizio *</Label>
+                  <Label htmlFor="name">{t("serviceManagerSimple.fields.name")}</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Es. Consulenza Generale"
+                    placeholder={t("serviceManagerSimple.fields.namePlaceholder")}
                     required
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="duration">Durata (minuti) *</Label>
+                    <Label htmlFor="duration">{t("serviceManagerSimple.fields.duration")}</Label>
                     <Input
                       id="duration"
                       type="number"
@@ -306,7 +268,7 @@ export default function ServiceManagerSimple() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="price">Prezzo (€) *</Label>
+                    <Label htmlFor="price">{t("serviceManagerSimple.fields.price")}</Label>
                     <Input
                       id="price"
                       type="number"
@@ -320,7 +282,7 @@ export default function ServiceManagerSimple() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="color">Colore</Label>
+                  <Label htmlFor="color">{t("serviceManagerSimple.fields.color")}</Label>
                   <Input
                     id="color"
                     type="color"
@@ -330,24 +292,24 @@ export default function ServiceManagerSimple() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Descrizione</Label>
+                  <Label htmlFor="description">{t("serviceManagerSimple.fields.description")}</Label>
                   <Input
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Descrizione opzionale del servizio"
+                    placeholder={t("serviceManagerSimple.fields.descriptionPlaceholder")}
                   />
                 </div>
 
                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                    Annulla
+                    {t("serviceManagerSimple.actions.cancel")}
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={createServiceMutation.isPending || updateServiceMutation.isPending}
                   >
-                    {isEditing ? "Aggiorna" : "Crea"}
+                    {isEditing ? t("serviceManagerSimple.actions.update") : t("serviceManagerSimple.actions.create")}
                   </Button>
                 </div>
               </form>
@@ -358,11 +320,11 @@ export default function ServiceManagerSimple() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Durata</TableHead>
-                <TableHead>Prezzo</TableHead>
-                <TableHead>Colore</TableHead>
-                <TableHead className="text-right">Azioni</TableHead>
+                <TableHead>{t("serviceManagerSimple.table.name")}</TableHead>
+                <TableHead>{t("serviceManagerSimple.table.duration")}</TableHead>
+                <TableHead>{t("serviceManagerSimple.table.price")}</TableHead>
+                <TableHead>{t("serviceManagerSimple.table.color")}</TableHead>
+                <TableHead className="text-right">{t("serviceManagerSimple.table.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -383,14 +345,23 @@ export default function ServiceManagerSimple() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDeleteService(service.id)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditService(service)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteService(service.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -399,8 +370,8 @@ export default function ServiceManagerSimple() {
 
           {services.length === 0 && (
             <div className="p-8 text-center text-muted-foreground">
-              <p>Nessun servizio configurato.</p>
-              <p className="text-sm">Aggiungi il primo servizio per iniziare.</p>
+              <p>{t("serviceManagerSimple.empty.title")}</p>
+              <p className="text-sm">{t("serviceManagerSimple.empty.hint")}</p>
             </div>
           )}
         </CardContent>

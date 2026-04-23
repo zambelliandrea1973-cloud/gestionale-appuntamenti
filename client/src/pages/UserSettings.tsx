@@ -143,7 +143,7 @@ export default function UserSettings() {
     } catch (error: any) {
       console.error('Errore salvataggio completo:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare le impostazioni. Riprova.",
         variant: "destructive",
       });
@@ -186,7 +186,7 @@ export default function UserSettings() {
     } catch (error: any) {
       console.error('Errore salvataggio nome aziendale:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare il nome aziendale. Riprova.",
         variant: "destructive",
       });
@@ -224,7 +224,7 @@ export default function UserSettings() {
     } catch (error: any) {
       console.error('Errore salvataggio colore:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare il colore. Riprova.",
         variant: "destructive",
       });
@@ -262,7 +262,7 @@ export default function UserSettings() {
     } catch (error: any) {
       console.error('Errore salvataggio tema:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare il tema. Riprova.",
         variant: "destructive",
       });
@@ -293,7 +293,7 @@ export default function UserSettings() {
     } catch (error: any) {
       console.error('Errore salvataggio contatti:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare i contatti. Riprova.",
         variant: "destructive",
       });
@@ -328,7 +328,7 @@ export default function UserSettings() {
     <div className="container mx-auto py-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Impostazioni Personalizzate</h1>
+          <h1 className="text-3xl font-bold">{t("userSettings.title")}</h1>
           <p className="text-muted-foreground">
             Personalizza la tua esperienza e configura il branding del tuo account
           </p>

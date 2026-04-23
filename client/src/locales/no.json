@@ -752,7 +752,24 @@
     "edit": "Rediger",
     "save": "Lagre",
     "send": "Send",
-    "close": "Lukk"
+    "close": "Lukk",
+    "error": "Feil",
+    "success": "Vellykket",
+    "warning": "Advarsel",
+    "saving": "Lagrer...",
+    "back": "Tilbake",
+    "backToHomeBilingual": "Tilbake til hjem",
+    "email": "E-post",
+    "password": "Passord",
+    "test": "Test",
+    "actions": "Handlinger",
+    "search": "Søk",
+    "required": "Påkrevd",
+    "notes": "Notater",
+    "add": "Legg til",
+    "update": "Oppdater",
+    "create": "Opprett",
+    "confirmDelete": "Er du sikker på at du vil slette?"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",
@@ -871,6 +888,32 @@
       "settingsSaved": "Varslingsinnstillinger lagret vellykket",
       "testEmailSent": "Test-e-post sendt vellykket",
       "remindersProcessed": "Påminnelser behandlet vellykket"
+    },
+    "tabs": {
+      "email": "E-post",
+      "whatsapp": "WhatsApp",
+      "general": "Generelle innstillinger"
+    },
+    "email": {
+      "enable": "Aktiver e-postvarsler",
+      "placeholderEmail": "Skriv inn e-postadressen din",
+      "placeholderPassword": "Skriv inn e-postpassordet ditt"
+    },
+    "whatsapp": {
+      "enable": "Aktiver WhatsApp-varsler"
+    },
+    "sms": {
+      "enable": "Aktiver SMS-varsler"
+    },
+    "center": {
+      "enable": "Aktiver varslingssenter"
+    },
+    "toast": {
+      "loadFail": "Kan ikke laste varslingsinnstillinger",
+      "saveSuccess": "Varslingsinnstillinger lagret",
+      "saveFail": "Kan ikke lagre innstillinger",
+      "testEmailSent": "Test-e-post sendt",
+      "enterTestEmail": "Skriv inn en e-postadresse for testen"
     }
   },
   "googleCalendar": {
@@ -879,8 +922,8 @@
     "emailLabel": "Gmail-konto",
     "emailPlaceholder": "din.epost@gmail.com",
     "emailDescription": "Google-kontoen du vil bruke for kalenderen",
-    "connected": "Konto tilkoblet",
-    "notConnected": "Konto ikke tilkoblet ennå",
+    "connected": "Tilkoblet",
+    "notConnected": "Ikke tilkoblet",
     "clientIdLabel": "Klient-ID",
     "clientIdPlaceholder": "Din Google Klient-ID",
     "clientIdDescription": "Få denne verdien fra Google Cloud-konsollen",
@@ -929,7 +972,11 @@
       "proOnlyMessage": "Denne funksjonen er kun tilgjengelig med PRO-abonnementet.",
       "upgradeToPro": "Oppgrader til PRO",
       "backToDashboard": "Tilbake til Dashboard"
-    }
+    },
+    "connect": "Koble til Google Kalender",
+    "disconnect": "Koble fra Google Kalender",
+    "sync": "Synkroniser",
+    "syncing": "Synkroniserer..."
   },
   "errors": {
     "genericError": "Det oppstod en feil: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Henvisningssystem",
+    "title": "Henvisningsprogram",
     "subtitle": "Tjen provisjoner ved å invitere nye kunder",
     "adminOnly": "Bare administratorer kan administrere henvisninger, koordinere og verifisere personalsponsede abonnementer for å behandle betalinger",
-    "yourCode": "Din Henvisningskode",
+    "yourCode": "Koden din",
     "copyCode": "Kopier kode",
     "shareCode": "Del",
     "copyToClipboard": "Kopier til utklippstavle",
@@ -1212,7 +1259,11 @@
       "step2": "Når de registrerer seg med din kode, blir de dine henvisninger",
       "step3": "Du tjener 25% på hvert abonnement de aktiverer",
       "step4": "Provisjoner betales til din IBAN"
-    }
+    },
+    "shareLink": "Del lenke",
+    "invitations": "Invitasjoner",
+    "rewards": "Belønninger",
+    "copied": "Kode kopiert!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Legg til",
       "selected": "Valgte Tjenester:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Tjenestebehandling",
+    "description": "Administrer behandlingene og tjenestene som tilbys, inkludert varighet og pris. Disse dataene brukes i rapporter og fakturaer.",
+    "availableServices": "Tilgjengelige tjenester",
+    "newService": "Ny tjeneste",
+    "editService": "Rediger tjeneste",
+    "fields": {
+      "name": "Tjenestenavn *",
+      "namePlaceholder": "F.eks. Generell konsultasjon",
+      "duration": "Varighet (minutter) *",
+      "price": "Pris (€) *",
+      "color": "Farge",
+      "description": "Beskrivelse",
+      "descriptionPlaceholder": "Valgfri tjenestebeskrivelse"
+    },
+    "actions": {
+      "cancel": "Avbryt",
+      "create": "Opprett",
+      "update": "Oppdater"
+    },
+    "table": {
+      "name": "Navn",
+      "duration": "Varighet",
+      "price": "Pris",
+      "color": "Farge",
+      "actions": "Handlinger"
+    },
+    "empty": {
+      "title": "Ingen tjenester konfigurert.",
+      "hint": "Legg til din første tjeneste for å komme i gang."
+    },
+    "confirm": {
+      "delete": "Er du sikker på at du vil slette denne tjenesten?"
+    },
+    "toast": {
+      "successTitle": "Vellykket",
+      "created": "Tjenesten ble opprettet",
+      "updated": "Tjenesten ble oppdatert",
+      "deleted": "Tjenesten ble slettet",
+      "errorTitle": "Feil"
+    },
+    "validation": {
+      "nameRequired": "Tjenestenavn er påkrevd",
+      "durationPositive": "Varigheten må være større enn 0",
+      "priceNonNegative": "Prisen kan ikke være negativ"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Klient er påkrevd",
+      "invoiceNumberRequired": "Fakturanummer er påkrevd",
+      "statusRequired": "Status er påkrevd",
+      "descriptionRequired": "Beskrivelse er påkrevd",
+      "quantityRequired": "Antall er påkrevd",
+      "unitPriceRequired": "Enhetspris er påkrevd",
+      "itemsRequired": "Legg til minst ett element i fakturaen"
+    },
+    "toast": {
+      "errorTitle": "Feil",
+      "generateNumberFailed": "Kunne ikke generere fakturanummer",
+      "created": "Faktura opprettet",
+      "createdDesc": "Fakturaen ble opprettet",
+      "createFailed": "Kunne ikke opprette fakturaen",
+      "updated": "Faktura oppdatert",
+      "updatedDesc": "Fakturaen ble oppdatert",
+      "updateFailed": "Kunne ikke oppdatere fakturaen",
+      "saveFailed": "Det oppstod en feil under lagring av fakturaen"
+    },
+    "fields": {
+      "client": "Klient",
+      "selectClient": "Velg klient",
+      "invoiceNumber": "Fakturanummer",
+      "generate": "Generer",
+      "invoiceDate": "Fakturadato",
+      "dueDate": "Forfallsdato",
+      "selectDate": "Velg en dato",
+      "status": "Status",
+      "selectStatus": "Velg status",
+      "tax": "MVA (%)",
+      "notes": "Notater",
+      "notesPlaceholder": "Tilleggsnotater for fakturaen"
+    },
+    "status": {
+      "unpaid": "Ubetalt",
+      "paid": "Betalt",
+      "overdue": "Forfalt",
+      "cancelled": "Kansellert"
+    },
+    "items": {
+      "title": "Fakturaelementer",
+      "description": "Legg til elementene som skal inkluderes i fakturaen",
+      "descriptionField": "Beskrivelse",
+      "quantity": "Antall",
+      "unitPrice": "Pris (€)",
+      "serviceOptional": "Tjeneste (valgfri)",
+      "selectService": "Velg tjeneste",
+      "noService": "Ingen tjeneste",
+      "remove": "Fjern element",
+      "add": "Legg til element"
+    },
+    "actions": {
+      "cancel": "Avbryt",
+      "saving": "Lagrer...",
+      "update": "Oppdater",
+      "create": "Opprett faktura"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Personvernerklæring"
+    },
+    "terms": {
+      "title": "Tjenestevilkår og bruksvilkår",
+      "effectiveDate": "Ikrafttredelsesdato",
+      "lastModified": "Sist endret"
+    },
+    "lastUpdated": "Sist oppdatert"
+  },
+  "emailSettings": {
+    "title": "E-postinnstillinger",
+    "smtpServer": "SMTP-server",
+    "smtpPort": "SMTP-port",
+    "testConnection": "Test tilkobling",
+    "saveSuccess": "E-postinnstillinger lagret"
+  },
+  "userSettings": {
+    "title": "Brukerinnstillinger",
+    "profile": "Profil",
+    "account": "Konto",
+    "preferences": "Innstillinger"
+  },
+  "staff": {
+    "title": "Personalstyring",
+    "addMember": "Legg til medlem",
+    "role": "Rolle",
+    "permissions": "Tillatelser",
+    "active": "Aktiv",
+    "inactive": "Inaktiv"
+  },
+  "appointmentForm": {
+    "title": "Ny avtale",
+    "editTitle": "Rediger avtale",
+    "client": "Klient",
+    "service": "Tjeneste",
+    "date": "Dato",
+    "time": "Tid",
+    "duration": "Varighet",
+    "notes": "Notater",
+    "save": "Lagre avtale",
+    "saved": "Avtale lagret",
+    "selectClient": "Velg klient",
+    "selectService": "Velg tjeneste"
+  },
+  "clientNotes": {
+    "title": "Klientnotater",
+    "addNote": "Legg til notat",
+    "placeholder": "Skriv notatet ditt her...",
+    "empty": "Ingen notater tilgjengelig",
+    "saved": "Notat lagret",
+    "deleted": "Notat slettet"
+  },
+  "manuale": {
+    "title": "Brukerhåndbok",
+    "search": "Søk i håndboken...",
+    "tableOfContents": "Innholdsfortegnelse"
   }
 }

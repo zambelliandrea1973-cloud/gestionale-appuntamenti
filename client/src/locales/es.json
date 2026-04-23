@@ -770,7 +770,24 @@
     "edit": "Editar",
     "save": "Guardar",
     "send": "Enviar",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "error": "Error",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "saving": "Guardando...",
+    "back": "Atrás",
+    "backToHomeBilingual": "Volver al inicio",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "test": "Prueba",
+    "actions": "Acciones",
+    "search": "Buscar",
+    "required": "Obligatorio",
+    "notes": "Notas",
+    "add": "Añadir",
+    "update": "Actualizar",
+    "create": "Crear",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar?"
   },
   "notifications": {
     "success": "Operación completada con éxito",
@@ -889,6 +906,32 @@
       "settingsSaved": "Configuración de notificaciones guardada con éxito",
       "testEmailSent": "Correo electrónico de prueba enviado con éxito",
       "remindersProcessed": "Recordatorios procesados con éxito"
+    },
+    "tabs": {
+      "email": "Correo",
+      "whatsapp": "WhatsApp",
+      "general": "Configuración general"
+    },
+    "email": {
+      "enable": "Habilitar notificaciones por correo",
+      "placeholderEmail": "Ingrese su dirección de correo",
+      "placeholderPassword": "Ingrese su contraseña de correo"
+    },
+    "whatsapp": {
+      "enable": "Habilitar notificaciones de WhatsApp"
+    },
+    "sms": {
+      "enable": "Habilitar notificaciones SMS"
+    },
+    "center": {
+      "enable": "Habilitar centro de notificaciones"
+    },
+    "toast": {
+      "loadFail": "No se pueden cargar las configuraciones de notificaciones",
+      "saveSuccess": "Configuración de notificaciones guardada con éxito",
+      "saveFail": "No se pueden guardar las configuraciones",
+      "testEmailSent": "Correo de prueba enviado con éxito",
+      "enterTestEmail": "Ingrese una dirección de correo para la prueba"
     }
   },
   "googleCalendar": {
@@ -897,8 +940,8 @@
     "emailLabel": "Cuenta de Gmail",
     "emailPlaceholder": "tu.direccion@gmail.com",
     "emailDescription": "La cuenta de Google que deseas utilizar para el calendario",
-    "connected": "Cuenta conectada",
-    "notConnected": "Cuenta aún no conectada",
+    "connected": "Conectado",
+    "notConnected": "No conectado",
     "clientIdLabel": "ID de cliente",
     "clientIdPlaceholder": "Tu ID de cliente de Google",
     "clientIdDescription": "Obtén este valor desde la consola de Google Cloud",
@@ -947,7 +990,11 @@
       "proOnlyMessage": "Esta función solo está disponible con el plan PRO.",
       "upgradeToPro": "Actualizar a PRO",
       "backToDashboard": "Volver al Dashboard"
-    }
+    },
+    "connect": "Conectar Google Calendar",
+    "disconnect": "Desconectar Google Calendar",
+    "sync": "Sincronizar",
+    "syncing": "Sincronizando..."
   },
   "errors": {
     "genericError": "Se ha producido un error: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Sistema de Referidos",
+    "title": "Programa de referidos",
     "subtitle": "Gane comisiones invitando nuevos clientes",
     "adminOnly": "Solo los administradores pueden gestionar referidos, coordinar y verificar suscripciones patrocinadas por el personal para proceder con los pagos",
-    "yourCode": "Su Código de Referido",
+    "yourCode": "Tu código",
     "copyCode": "Copiar código",
     "shareCode": "Compartir",
     "copyToClipboard": "Copiar al portapapeles",
@@ -1212,7 +1259,11 @@
       "step2": "Cuando se registren usando su código, se convierten en sus referidos",
       "step3": "Gana el 25% en cada suscripción que activen",
       "step4": "Las comisiones se pagan a su IBAN"
-    }
+    },
+    "shareLink": "Compartir enlace",
+    "invitations": "Invitaciones",
+    "rewards": "Recompensas",
+    "copied": "¡Código copiado!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Añadir",
       "selected": "Servicios Seleccionados:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Gestión de servicios",
+    "description": "Gestiona los tratamientos y servicios ofrecidos, incluida la duración y el precio. Estos datos se utilizarán en informes y facturas.",
+    "availableServices": "Servicios disponibles",
+    "newService": "Nuevo servicio",
+    "editService": "Editar servicio",
+    "fields": {
+      "name": "Nombre del servicio *",
+      "namePlaceholder": "Ej. Consulta general",
+      "duration": "Duración (minutos) *",
+      "price": "Precio (€) *",
+      "color": "Color",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Descripción opcional del servicio"
+    },
+    "actions": {
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar"
+    },
+    "table": {
+      "name": "Nombre",
+      "duration": "Duración",
+      "price": "Precio",
+      "color": "Color",
+      "actions": "Acciones"
+    },
+    "empty": {
+      "title": "No hay servicios configurados.",
+      "hint": "Agrega tu primer servicio para empezar."
+    },
+    "confirm": {
+      "delete": "¿Estás seguro de que quieres eliminar este servicio?"
+    },
+    "toast": {
+      "successTitle": "Éxito",
+      "created": "Servicio creado con éxito",
+      "updated": "Servicio actualizado con éxito",
+      "deleted": "Servicio eliminado con éxito",
+      "errorTitle": "Error"
+    },
+    "validation": {
+      "nameRequired": "El nombre del servicio es obligatorio",
+      "durationPositive": "La duración debe ser mayor que 0",
+      "priceNonNegative": "El precio no puede ser negativo"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "El cliente es obligatorio",
+      "invoiceNumberRequired": "El número de factura es obligatorio",
+      "statusRequired": "El estado es obligatorio",
+      "descriptionRequired": "La descripción es obligatoria",
+      "quantityRequired": "La cantidad es obligatoria",
+      "unitPriceRequired": "El precio unitario es obligatorio",
+      "itemsRequired": "Agrega al menos un elemento a la factura"
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "generateNumberFailed": "No se pudo generar el número de factura",
+      "created": "Factura creada",
+      "createdDesc": "La factura se creó con éxito",
+      "createFailed": "No se pudo crear la factura",
+      "updated": "Factura actualizada",
+      "updatedDesc": "La factura se actualizó con éxito",
+      "updateFailed": "No se pudo actualizar la factura",
+      "saveFailed": "Se produjo un error al guardar la factura"
+    },
+    "fields": {
+      "client": "Cliente",
+      "selectClient": "Selecciona cliente",
+      "invoiceNumber": "Número de factura",
+      "generate": "Generar",
+      "invoiceDate": "Fecha de factura",
+      "dueDate": "Fecha de vencimiento",
+      "selectDate": "Selecciona una fecha",
+      "status": "Estado",
+      "selectStatus": "Selecciona estado",
+      "tax": "IVA (%)",
+      "notes": "Notas",
+      "notesPlaceholder": "Notas adicionales para la factura"
+    },
+    "status": {
+      "unpaid": "No pagada",
+      "paid": "Pagada",
+      "overdue": "Vencida",
+      "cancelled": "Cancelada"
+    },
+    "items": {
+      "title": "Elementos de la factura",
+      "description": "Agrega los elementos para incluir en la factura",
+      "descriptionField": "Descripción",
+      "quantity": "Cantidad",
+      "unitPrice": "Precio (€)",
+      "serviceOptional": "Servicio (opcional)",
+      "selectService": "Selecciona servicio",
+      "noService": "Sin servicio",
+      "remove": "Eliminar elemento",
+      "add": "Agregar elemento"
+    },
+    "actions": {
+      "cancel": "Cancelar",
+      "saving": "Guardando...",
+      "update": "Actualizar",
+      "create": "Crear factura"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Política de Privacidad"
+    },
+    "terms": {
+      "title": "Términos de Servicio y Condiciones de Uso",
+      "effectiveDate": "Fecha de entrada en vigor",
+      "lastModified": "Última modificación"
+    },
+    "lastUpdated": "Última actualización"
+  },
+  "emailSettings": {
+    "title": "Configuración de correo",
+    "smtpServer": "Servidor SMTP",
+    "smtpPort": "Puerto SMTP",
+    "testConnection": "Probar conexión",
+    "saveSuccess": "Configuración de correo guardada"
+  },
+  "userSettings": {
+    "title": "Configuración de usuario",
+    "profile": "Perfil",
+    "account": "Cuenta",
+    "preferences": "Preferencias"
+  },
+  "staff": {
+    "title": "Gestión de personal",
+    "addMember": "Añadir miembro",
+    "role": "Rol",
+    "permissions": "Permisos",
+    "active": "Activo",
+    "inactive": "Inactivo"
+  },
+  "appointmentForm": {
+    "title": "Nueva cita",
+    "editTitle": "Editar cita",
+    "client": "Cliente",
+    "service": "Servicio",
+    "date": "Fecha",
+    "time": "Hora",
+    "duration": "Duración",
+    "notes": "Notas",
+    "save": "Guardar cita",
+    "saved": "Cita guardada",
+    "selectClient": "Seleccionar cliente",
+    "selectService": "Seleccionar servicio"
+  },
+  "clientNotes": {
+    "title": "Notas del cliente",
+    "addNote": "Añadir nota",
+    "placeholder": "Escribe tu nota aquí...",
+    "empty": "Sin notas disponibles",
+    "saved": "Nota guardada",
+    "deleted": "Nota eliminada"
+  },
+  "manuale": {
+    "title": "Manual del usuario",
+    "search": "Buscar en el manual...",
+    "tableOfContents": "Índice"
   }
 }

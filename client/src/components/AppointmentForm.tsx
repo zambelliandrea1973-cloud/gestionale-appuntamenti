@@ -408,7 +408,7 @@ export default function AppointmentForm({
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: `Si è verificato un errore: ${error.message}`,
         variant: "destructive",
       });
@@ -643,7 +643,7 @@ export default function AppointmentForm({
       if (!data.clientId || data.clientId === 0) {
         console.error("Cliente non selezionato!");
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Seleziona un cliente per l'appuntamento",
           variant: "destructive"
         });
@@ -653,7 +653,7 @@ export default function AppointmentForm({
       if (!data.serviceId || data.serviceId === 0) {
         console.error("Servizio non selezionato!");
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Seleziona un servizio per l'appuntamento",
           variant: "destructive"
         });
@@ -665,7 +665,7 @@ export default function AppointmentForm({
       if (selectedClient && !selectedClient.hasConsent) {
         // Show a warning but allow to proceed
         toast({
-          title: "Attenzione",
+          title: t("common.warning"),
           description: "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
           variant: "destructive",
           duration: 5000,
@@ -697,7 +697,7 @@ export default function AppointmentForm({
     } catch (error: any) {
       console.error("ERRORE CRITICO durante la preparazione dei dati:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: `Si è verificato un errore: ${error.message}`,
         variant: "destructive"
       });
@@ -744,7 +744,7 @@ export default function AppointmentForm({
       });
     } catch (error: any) {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error.message || 'Impossibile creare il cliente',
         variant: "destructive",
       });

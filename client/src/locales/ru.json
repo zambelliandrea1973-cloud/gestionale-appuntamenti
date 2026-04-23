@@ -770,7 +770,24 @@
     "edit": "Редактировать",
     "save": "Сохранить",
     "send": "Отправить",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "error": "Ошибка",
+    "success": "Успех",
+    "warning": "Внимание",
+    "saving": "Сохранение...",
+    "back": "Назад",
+    "backToHomeBilingual": "На главную",
+    "email": "Эл. почта",
+    "password": "Пароль",
+    "test": "Тест",
+    "actions": "Действия",
+    "search": "Поиск",
+    "required": "Обязательно",
+    "notes": "Заметки",
+    "add": "Добавить",
+    "update": "Обновить",
+    "create": "Создать",
+    "confirmDelete": "Вы уверены, что хотите удалить?"
   },
   "notifications": {
     "success": "Операция успешно завершена",
@@ -889,6 +906,32 @@
       "settingsSaved": "Настройки уведомлений успешно сохранены",
       "testEmailSent": "Тестовое письмо успешно отправлено",
       "remindersProcessed": "Напоминания успешно обработаны"
+    },
+    "tabs": {
+      "email": "Эл. почта",
+      "whatsapp": "WhatsApp",
+      "general": "Общие настройки"
+    },
+    "email": {
+      "enable": "Включить уведомления по электронной почте",
+      "placeholderEmail": "Введите ваш email",
+      "placeholderPassword": "Введите пароль почты"
+    },
+    "whatsapp": {
+      "enable": "Включить уведомления WhatsApp"
+    },
+    "sms": {
+      "enable": "Включить SMS-уведомления"
+    },
+    "center": {
+      "enable": "Включить центр уведомлений"
+    },
+    "toast": {
+      "loadFail": "Не удалось загрузить настройки уведомлений",
+      "saveSuccess": "Настройки уведомлений сохранены",
+      "saveFail": "Не удалось сохранить настройки",
+      "testEmailSent": "Тестовое письмо отправлено",
+      "enterTestEmail": "Введите email для теста"
     }
   },
   "googleCalendar": {
@@ -897,8 +940,8 @@
     "emailLabel": "Аккаунт Gmail",
     "emailPlaceholder": "ваш.адрес@gmail.com",
     "emailDescription": "Аккаунт Google, который вы хотите использовать для календаря",
-    "connected": "Аккаунт подключен",
-    "notConnected": "Аккаунт еще не подключен",
+    "connected": "Подключено",
+    "notConnected": "Не подключено",
     "clientIdLabel": "Client ID",
     "clientIdPlaceholder": "Ваш Client ID Google",
     "clientIdDescription": "Получите это значение из консоли Google Cloud",
@@ -947,7 +990,11 @@
       "proOnlyMessage": "Эта функция доступна только с планом PRO.",
       "upgradeToPro": "Перейти на PRO",
       "backToDashboard": "Вернуться к Dashboard"
-    }
+    },
+    "connect": "Подключить Google Календарь",
+    "disconnect": "Отключить Google Календарь",
+    "sync": "Синхронизировать",
+    "syncing": "Синхронизация..."
   },
   "errors": {
     "genericError": "Произошла ошибка: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Реферальная Система",
+    "title": "Реферальная программа",
     "subtitle": "Зарабатывайте комиссии приглашая новых клиентов",
     "adminOnly": "Только администраторы могут управлять рефералами, координировать и проверять подписки спонсированные персоналом для осуществления платежей",
-    "yourCode": "Ваш Реферальный Код",
+    "yourCode": "Ваш код",
     "copyCode": "Копировать код",
     "shareCode": "Поделиться",
     "copyToClipboard": "Копировать в буфер обмена",
@@ -1212,7 +1259,11 @@
       "step2": "Когда они регистрируются используя ваш код, они становятся вашими рефералами",
       "step3": "Вы зарабатываете 25% с каждой подписки которую они активируют",
       "step4": "Комиссии выплачиваются на ваш IBAN"
-    }
+    },
+    "shareLink": "Поделиться ссылкой",
+    "invitations": "Приглашения",
+    "rewards": "Награды",
+    "copied": "Код скопирован!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Добавить",
       "selected": "Выбранные Услуги:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Управление услугами",
+    "description": "Управляйте предлагаемыми процедурами и услугами, включая продолжительность и стоимость. Эти данные используются в отчётах и счетах.",
+    "availableServices": "Доступные услуги",
+    "newService": "Новая услуга",
+    "editService": "Редактировать услугу",
+    "fields": {
+      "name": "Название услуги *",
+      "namePlaceholder": "Напр. Общая консультация",
+      "duration": "Продолжительность (минуты) *",
+      "price": "Цена (€) *",
+      "color": "Цвет",
+      "description": "Описание",
+      "descriptionPlaceholder": "Необязательное описание услуги"
+    },
+    "actions": {
+      "cancel": "Отмена",
+      "create": "Создать",
+      "update": "Обновить"
+    },
+    "table": {
+      "name": "Название",
+      "duration": "Продолжительность",
+      "price": "Цена",
+      "color": "Цвет",
+      "actions": "Действия"
+    },
+    "empty": {
+      "title": "Услуги не настроены.",
+      "hint": "Добавьте первую услугу, чтобы начать."
+    },
+    "confirm": {
+      "delete": "Вы уверены, что хотите удалить эту услугу?"
+    },
+    "toast": {
+      "successTitle": "Успех",
+      "created": "Услуга успешно создана",
+      "updated": "Услуга успешно обновлена",
+      "deleted": "Услуга успешно удалена",
+      "errorTitle": "Ошибка"
+    },
+    "validation": {
+      "nameRequired": "Название услуги обязательно",
+      "durationPositive": "Продолжительность должна быть больше 0",
+      "priceNonNegative": "Цена не может быть отрицательной"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Клиент обязателен",
+      "invoiceNumberRequired": "Номер счёта обязателен",
+      "statusRequired": "Статус обязателен",
+      "descriptionRequired": "Описание обязательно",
+      "quantityRequired": "Количество обязательно",
+      "unitPriceRequired": "Цена за единицу обязательна",
+      "itemsRequired": "Добавьте хотя бы одну позицию в счёт"
+    },
+    "toast": {
+      "errorTitle": "Ошибка",
+      "generateNumberFailed": "Не удалось сгенерировать номер счёта",
+      "created": "Счёт создан",
+      "createdDesc": "Счёт успешно создан",
+      "createFailed": "Не удалось создать счёт",
+      "updated": "Счёт обновлён",
+      "updatedDesc": "Счёт успешно обновлён",
+      "updateFailed": "Не удалось обновить счёт",
+      "saveFailed": "Произошла ошибка при сохранении счёта"
+    },
+    "fields": {
+      "client": "Клиент",
+      "selectClient": "Выберите клиента",
+      "invoiceNumber": "Номер счёта",
+      "generate": "Сгенерировать",
+      "invoiceDate": "Дата счёта",
+      "dueDate": "Срок оплаты",
+      "selectDate": "Выберите дату",
+      "status": "Статус",
+      "selectStatus": "Выберите статус",
+      "tax": "НДС (%)",
+      "notes": "Заметки",
+      "notesPlaceholder": "Дополнительные заметки к счёту"
+    },
+    "status": {
+      "unpaid": "Не оплачено",
+      "paid": "Оплачено",
+      "overdue": "Просрочено",
+      "cancelled": "Отменено"
+    },
+    "items": {
+      "title": "Позиции счёта",
+      "description": "Добавьте позиции, которые нужно включить в счёт",
+      "descriptionField": "Описание",
+      "quantity": "Количество",
+      "unitPrice": "Цена (€)",
+      "serviceOptional": "Услуга (необязательно)",
+      "selectService": "Выберите услугу",
+      "noService": "Без услуги",
+      "remove": "Удалить позицию",
+      "add": "Добавить позицию"
+    },
+    "actions": {
+      "cancel": "Отмена",
+      "saving": "Сохранение...",
+      "update": "Обновить",
+      "create": "Создать счёт"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Политика конфиденциальности"
+    },
+    "terms": {
+      "title": "Условия обслуживания и использования",
+      "effectiveDate": "Дата вступления в силу",
+      "lastModified": "Последнее изменение"
+    },
+    "lastUpdated": "Последнее обновление"
+  },
+  "emailSettings": {
+    "title": "Настройки эл. почты",
+    "smtpServer": "SMTP-сервер",
+    "smtpPort": "Порт SMTP",
+    "testConnection": "Проверить соединение",
+    "saveSuccess": "Настройки эл. почты сохранены"
+  },
+  "userSettings": {
+    "title": "Настройки пользователя",
+    "profile": "Профиль",
+    "account": "Аккаунт",
+    "preferences": "Настройки"
+  },
+  "staff": {
+    "title": "Управление персоналом",
+    "addMember": "Добавить участника",
+    "role": "Роль",
+    "permissions": "Разрешения",
+    "active": "Активный",
+    "inactive": "Неактивный"
+  },
+  "appointmentForm": {
+    "title": "Новая запись",
+    "editTitle": "Изменить запись",
+    "client": "Клиент",
+    "service": "Услуга",
+    "date": "Дата",
+    "time": "Время",
+    "duration": "Длительность",
+    "notes": "Заметки",
+    "save": "Сохранить запись",
+    "saved": "Запись сохранена",
+    "selectClient": "Выберите клиента",
+    "selectService": "Выберите услугу"
+  },
+  "clientNotes": {
+    "title": "Заметки клиента",
+    "addNote": "Добавить заметку",
+    "placeholder": "Напишите заметку здесь...",
+    "empty": "Заметок нет",
+    "saved": "Заметка сохранена",
+    "deleted": "Заметка удалена"
+  },
+  "manuale": {
+    "title": "Руководство пользователя",
+    "search": "Поиск в руководстве...",
+    "tableOfContents": "Содержание"
   }
 }

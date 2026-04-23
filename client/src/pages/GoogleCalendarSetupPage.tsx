@@ -196,14 +196,14 @@ export default function GoogleCalendarSetupPage() {
         }
       } else {
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Impossibile avviare la riconnessione",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Errore di connessione",
         variant: "destructive",
       });
@@ -267,7 +267,7 @@ export default function GoogleCalendarSetupPage() {
       const errorMessage = error instanceof Error ? error.message : 'Errore di connessione';
       setLastSyncResult({ success: false, message: errorMessage });
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -306,7 +306,7 @@ export default function GoogleCalendarSetupPage() {
           });
         } else {
           toast({
-            title: "Errore",
+            title: t("common.error"),
             description: data.error || "Errore nel caricamento dei contatti",
             variant: "destructive",
           });
@@ -314,7 +314,7 @@ export default function GoogleCalendarSetupPage() {
       }
     } catch (error) {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Errore di connessione",
         variant: "destructive",
       });
@@ -389,7 +389,7 @@ export default function GoogleCalendarSetupPage() {
         }
         setImportResult({ success: false, message: data.error || "Errore nell'importazione" });
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: data.error || "Errore nell'importazione dei contatti",
           variant: "destructive",
         });
@@ -397,7 +397,7 @@ export default function GoogleCalendarSetupPage() {
     } catch (error) {
       setImportResult({ success: false, message: "Errore di connessione" });
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Errore di connessione",
         variant: "destructive",
       });
@@ -525,7 +525,7 @@ export default function GoogleCalendarSetupPage() {
       } else {
         setCsvImportResult({ success: false, message: data.error || "Errore nell'importazione" });
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: data.error || "Errore nell'importazione",
           variant: "destructive",
         });
@@ -533,7 +533,7 @@ export default function GoogleCalendarSetupPage() {
     } catch (error) {
       setCsvImportResult({ success: false, message: "Errore di connessione" });
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Errore di connessione",
         variant: "destructive",
       });

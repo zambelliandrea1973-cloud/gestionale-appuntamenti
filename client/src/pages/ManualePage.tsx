@@ -611,7 +611,7 @@ export default function ManualePage() {
     } catch (error) {
       console.error('Errore generazione PDF:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile generare il PDF. Riprova.",
         variant: "destructive",
       });

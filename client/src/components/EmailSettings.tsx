@@ -154,7 +154,7 @@ export default function EmailSettings() {
       } catch (e) {
         console.error('Errore nel parsing della risposta JSON', e);
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Risposta del server non valida.",
           variant: "destructive",
         });
@@ -169,7 +169,7 @@ export default function EmailSettings() {
       } else {
         // Se manca il flag success o la password, mostriamo un messaggio di errore adeguato
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: data.error || "Impossibile recuperare la password salvata.",
           variant: "destructive",
         });
@@ -177,7 +177,7 @@ export default function EmailSettings() {
     } catch (error) {
       console.error('Errore nel recupero della password:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un errore durante il recupero della password.",
         variant: "destructive",
       });
@@ -354,7 +354,7 @@ export default function EmailSettings() {
     } catch (error) {
       console.error('Errore nel salvataggio delle impostazioni:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error instanceof Error ? error.message : "Si è verificato un errore durante il salvataggio",
         variant: "destructive",
       });
@@ -368,8 +368,8 @@ export default function EmailSettings() {
     // Verifica che l'email di test sia stata inserita
     if (!testEmailAddress) {
       toast({
-        title: "Errore",
-        description: "Inserisci un indirizzo email per il test",
+        title: t("common.error"),
+        description: t("notificationSettings.toast.enterTestEmail"),
         variant: "destructive",
       });
       return;
@@ -449,7 +449,7 @@ export default function EmailSettings() {
     } catch (error) {
       console.error('Errore nell\'invio dell\'email di test:', error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: error instanceof Error ? error.message : "Si è verificato un errore durante l'invio dell'email",
         variant: "destructive",
       });

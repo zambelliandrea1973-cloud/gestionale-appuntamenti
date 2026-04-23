@@ -778,7 +778,24 @@
     "edit": "Edit",
     "save": "Save",
     "send": "Send",
-    "close": "Close"
+    "close": "Close",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "saving": "Saving...",
+    "back": "Back",
+    "backToHomeBilingual": "Back to Home",
+    "email": "Email",
+    "password": "Password",
+    "test": "Test",
+    "actions": "Actions",
+    "search": "Search",
+    "required": "Required",
+    "notes": "Notes",
+    "add": "Add",
+    "update": "Update",
+    "create": "Create",
+    "confirmDelete": "Are you sure you want to delete?"
   },
   "notifications": {
     "success": "Operation completed successfully",
@@ -876,7 +893,7 @@
     "whatsappLink": "Open WhatsApp"
   },
   "notificationSettings": {
-    "title": "Notification Settings",
+    "title": "Notification settings",
     "enableEmailNotifications": "Enable email notifications",
     "emailSetup": {
       "title": "Quick Email Setup",
@@ -897,6 +914,32 @@
       "settingsSaved": "Notification settings saved successfully",
       "testEmailSent": "Test email sent successfully",
       "remindersProcessed": "Reminders processed successfully"
+    },
+    "tabs": {
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "general": "General settings"
+    },
+    "email": {
+      "enable": "Enable email notifications",
+      "placeholderEmail": "Enter your email address",
+      "placeholderPassword": "Enter your email password"
+    },
+    "whatsapp": {
+      "enable": "Enable WhatsApp notifications"
+    },
+    "sms": {
+      "enable": "Enable SMS notifications"
+    },
+    "center": {
+      "enable": "Enable notification center"
+    },
+    "toast": {
+      "loadFail": "Unable to load notification settings",
+      "saveSuccess": "Notification settings saved successfully",
+      "saveFail": "Unable to save settings",
+      "testEmailSent": "Test email sent successfully",
+      "enterTestEmail": "Enter an email address for the test"
     }
   },
   "googleCalendar": {
@@ -905,8 +948,8 @@
     "emailLabel": "Gmail Account",
     "emailPlaceholder": "your.address@gmail.com",
     "emailDescription": "The Google account you want to use for calendar",
-    "connected": "Account connected",
-    "notConnected": "Account not yet connected",
+    "connected": "Connected",
+    "notConnected": "Not connected",
     "clientIdLabel": "Client ID",
     "clientIdPlaceholder": "Your Google Client ID",
     "clientIdDescription": "Get this value from the Google Cloud console",
@@ -955,7 +998,11 @@
       "proOnlyMessage": "This feature is only available with the PRO plan.",
       "upgradeToPro": "Upgrade to PRO",
       "backToDashboard": "Back to Dashboard"
-    }
+    },
+    "connect": "Connect Google Calendar",
+    "disconnect": "Disconnect Google Calendar",
+    "sync": "Sync",
+    "syncing": "Syncing..."
   },
   "errors": {
     "genericError": "An error occurred: {{error}}",
@@ -1174,10 +1221,10 @@
     }
   },
   "referral": {
-    "title": "Referral System",
+    "title": "Referral Program",
     "subtitle": "Earn commissions by inviting new customers",
     "adminOnly": "Only administrators can manage referrals, coordinate and verify staff-sponsored subscriptions to proceed with payments",
-    "yourCode": "Your Referral Code",
+    "yourCode": "Your code",
     "copyCode": "Copy code",
     "shareCode": "Share",
     "copyToClipboard": "Copy to clipboard",
@@ -1212,7 +1259,11 @@
       "step2": "When they register using your code, they become your referrals",
       "step3": "You earn 25% on every subscription they activate",
       "step4": "Commissions are paid to your IBAN"
-    }
+    },
+    "shareLink": "Share link",
+    "invitations": "Invitations",
+    "rewards": "Rewards",
+    "copied": "Code copied!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Add",
       "selected": "Selected Services:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Service Management",
+    "description": "Manage the treatments and services offered, including duration and price. This data will be used in reports and invoices.",
+    "availableServices": "Available Services",
+    "newService": "New Service",
+    "editService": "Edit Service",
+    "fields": {
+      "name": "Service Name *",
+      "namePlaceholder": "E.g. General Consultation",
+      "duration": "Duration (minutes) *",
+      "price": "Price (€) *",
+      "color": "Color",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional service description"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update"
+    },
+    "table": {
+      "name": "Name",
+      "duration": "Duration",
+      "price": "Price",
+      "color": "Color",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No services configured.",
+      "hint": "Add your first service to get started."
+    },
+    "confirm": {
+      "delete": "Are you sure you want to delete this service?"
+    },
+    "toast": {
+      "successTitle": "Success",
+      "created": "Service created successfully",
+      "updated": "Service updated successfully",
+      "deleted": "Service deleted successfully",
+      "errorTitle": "Error"
+    },
+    "validation": {
+      "nameRequired": "Service name is required",
+      "durationPositive": "Duration must be greater than 0",
+      "priceNonNegative": "Price cannot be negative"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Client is required",
+      "invoiceNumberRequired": "Invoice number is required",
+      "statusRequired": "Status is required",
+      "descriptionRequired": "Description is required",
+      "quantityRequired": "Quantity is required",
+      "unitPriceRequired": "Unit price is required",
+      "itemsRequired": "Add at least one item to the invoice"
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "generateNumberFailed": "Unable to generate invoice number",
+      "created": "Invoice created",
+      "createdDesc": "The invoice was created successfully",
+      "createFailed": "Could not create the invoice",
+      "updated": "Invoice updated",
+      "updatedDesc": "The invoice was updated successfully",
+      "updateFailed": "Could not update the invoice",
+      "saveFailed": "An error occurred while saving the invoice"
+    },
+    "fields": {
+      "client": "Client",
+      "selectClient": "Select client",
+      "invoiceNumber": "Invoice number",
+      "generate": "Generate",
+      "invoiceDate": "Invoice date",
+      "dueDate": "Due date",
+      "selectDate": "Select a date",
+      "status": "Status",
+      "selectStatus": "Select status",
+      "tax": "VAT (%)",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional notes for the invoice"
+    },
+    "status": {
+      "unpaid": "Unpaid",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled"
+    },
+    "items": {
+      "title": "Invoice items",
+      "description": "Add the items to include in the invoice",
+      "descriptionField": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Price (€)",
+      "serviceOptional": "Service (optional)",
+      "selectService": "Select service",
+      "noService": "No service",
+      "remove": "Remove item",
+      "add": "Add item"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "update": "Update",
+      "create": "Create invoice"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "terms": {
+      "title": "Terms of Service and Conditions of Use",
+      "effectiveDate": "Effective date",
+      "lastModified": "Last modified"
+    },
+    "lastUpdated": "Last updated"
+  },
+  "emailSettings": {
+    "title": "Email Settings",
+    "smtpServer": "SMTP Server",
+    "smtpPort": "SMTP Port",
+    "testConnection": "Test connection",
+    "saveSuccess": "Email settings saved"
+  },
+  "userSettings": {
+    "title": "User settings",
+    "profile": "Profile",
+    "account": "Account",
+    "preferences": "Preferences"
+  },
+  "staff": {
+    "title": "Staff Management",
+    "addMember": "Add member",
+    "role": "Role",
+    "permissions": "Permissions",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "appointmentForm": {
+    "title": "New Appointment",
+    "editTitle": "Edit Appointment",
+    "client": "Client",
+    "service": "Service",
+    "date": "Date",
+    "time": "Time",
+    "duration": "Duration",
+    "notes": "Notes",
+    "save": "Save appointment",
+    "saved": "Appointment saved",
+    "selectClient": "Select client",
+    "selectService": "Select service"
+  },
+  "clientNotes": {
+    "title": "Client Notes",
+    "addNote": "Add note",
+    "placeholder": "Write your note here...",
+    "empty": "No notes available",
+    "saved": "Note saved",
+    "deleted": "Note deleted"
+  },
+  "manuale": {
+    "title": "User Manual",
+    "search": "Search the manual...",
+    "tableOfContents": "Table of contents"
   }
 }

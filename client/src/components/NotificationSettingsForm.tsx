@@ -31,12 +31,14 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { NotificationSettings } from "../../../shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { useTranslation } from "react-i18next";
 
 interface NotificationSettingsFormProps {
   onSettingsSaved?: () => void;
 }
 
 export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettingsFormProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [settings, setSettings] = useState<NotificationSettings | null>(null);
@@ -107,15 +109,15 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           }
         } else {
           toast({
-            title: "Errore",
-            description: "Impossibile caricare le impostazioni di notifica",
+            title: t("common.error"),
+            description: t("notificationSettings.toast.loadFail"),
             variant: "destructive",
           });
         }
       } catch (error) {
         console.error("Errore durante il caricamento delle impostazioni:", error);
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Si è verificato un problema durante il caricamento delle impostazioni",
           variant: "destructive",
         });
@@ -137,8 +139,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         const result = await response.json();
         if (result.success) {
           toast({
-            title: "Successo",
-            description: "Impostazioni di notifica salvate con successo",
+            title: t("common.success"),
+            description: t("notificationSettings.toast.saveSuccess"),
           });
           
           // Aggiorna i dati locali
@@ -150,14 +152,14 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           }
         } else {
           toast({
-            title: "Errore",
+            title: t("common.error"),
             description: result.message || "Impossibile salvare le impostazioni",
             variant: "destructive",
           });
         }
       } else {
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Si è verificato un errore durante il salvataggio",
           variant: "destructive",
         });
@@ -165,7 +167,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
     } catch (error) {
       console.error("Errore durante il salvataggio delle impostazioni:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un problema durante il salvataggio",
         variant: "destructive",
       });
@@ -178,8 +180,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
   const sendTestEmail = async () => {
     if (!testEmailAddress) {
       toast({
-        title: "Errore",
-        description: "Inserisci un indirizzo email per il test",
+        title: t("common.error"),
+        description: t("notificationSettings.toast.enterTestEmail"),
         variant: "destructive",
       });
       return;
@@ -195,19 +197,19 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         const result = await response.json();
         if (result.success) {
           toast({
-            title: "Successo",
-            description: "Email di test inviata con successo",
+            title: t("common.success"),
+            description: t("notificationSettings.toast.testEmailSent"),
           });
         } else {
           toast({
-            title: "Errore",
+            title: t("common.error"),
             description: result.message || "Impossibile inviare l'email di test",
             variant: "destructive",
           });
         }
       } else {
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Si è verificato un errore durante l'invio dell'email di test",
           variant: "destructive",
         });
@@ -215,7 +217,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
     } catch (error) {
       console.error("Errore durante l'invio dell'email di test:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un problema durante l'invio dell'email di test",
         variant: "destructive",
       });
@@ -228,7 +230,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
   const sendTestWhatsApp = async () => {
     if (!testWhatsAppNumber) {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Inserisci un numero WhatsApp per il test",
         variant: "destructive",
       });
@@ -250,19 +252,19 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           }
           
           toast({
-            title: "Successo",
+            title: t("common.success"),
             description: "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio.",
           });
         } else {
           toast({
-            title: "Errore",
+            title: t("common.error"),
             description: result.message || "Impossibile generare il link WhatsApp",
             variant: "destructive",
           });
         }
       } else {
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Si è verificato un errore durante la generazione del link WhatsApp",
           variant: "destructive",
         });
@@ -270,7 +272,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
     } catch (error) {
       console.error("Errore durante il test WhatsApp:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un problema durante il test WhatsApp",
         variant: "destructive",
       });
@@ -289,19 +291,19 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         const result = await response.json();
         if (result.success) {
           toast({
-            title: "Successo",
+            title: t("common.success"),
             description: result.message || "Promemoria elaborati con successo",
           });
         } else {
           toast({
-            title: "Errore",
+            title: t("common.error"),
             description: result.message || "Impossibile elaborare i promemoria",
             variant: "destructive",
           });
         }
       } else {
         toast({
-          title: "Errore",
+          title: t("common.error"),
           description: "Si è verificato un errore durante l'elaborazione dei promemoria",
           variant: "destructive",
         });
@@ -309,7 +311,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
     } catch (error) {
       console.error("Errore durante l'elaborazione dei promemoria:", error);
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un problema durante l'elaborazione dei promemoria",
         variant: "destructive",
       });
@@ -329,7 +331,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Impostazioni di notifica</CardTitle>
+        <CardTitle>{t("notificationSettings.title")}</CardTitle>
         <CardDescription>
           Configura come vuoi inviare notifiche e promemoria ai tuoi clienti.
         </CardDescription>
@@ -339,9 +341,9 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 mb-4">
-                <TabsTrigger value="email">Email</TabsTrigger>
-                <TabsTrigger value="direct">WhatsApp</TabsTrigger>
-                <TabsTrigger value="general">Impostazioni generali</TabsTrigger>
+                <TabsTrigger value="email">{t("notificationSettings.tabs.email")}</TabsTrigger>
+                <TabsTrigger value="direct">{t("notificationSettings.tabs.whatsapp")}</TabsTrigger>
+                <TabsTrigger value="general">{t("notificationSettings.tabs.general")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="email" className="space-y-4">
@@ -351,7 +353,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Abilita notifiche email</FormLabel>
+                        <FormLabel className="text-base">{t("notificationSettings.email.enable")}</FormLabel>
                         <FormDescription>
                           Invia promemoria per appuntamenti tramite email ai clienti.
                         </FormDescription>
@@ -469,7 +471,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                 } else {
                                   const error = await response.json();
                                   toast({
-                                    title: "Errore",
+                                    title: t("common.error"),
                                     description: error.message || "Impossibile rilevare le impostazioni SMTP",
                                     variant: "destructive"
                                   });
@@ -477,7 +479,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                               } catch (error) {
                                 console.error("Errore durante il rilevamento SMTP:", error);
                                 toast({
-                                  title: "Errore",
+                                  title: t("common.error"),
                                   description: "Si è verificato un problema durante il rilevamento delle impostazioni",
                                   variant: "destructive"
                                 });
@@ -619,7 +621,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Abilita centro notifiche</FormLabel>
+                        <FormLabel className="text-base">{t("notificationSettings.center.enable")}</FormLabel>
                         <FormDescription>
                           Mostra i promemoria e le notifiche nell'app.
                         </FormDescription>
@@ -640,7 +642,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Abilita notifiche WhatsApp</FormLabel>
+                        <FormLabel className="text-base">{t("notificationSettings.whatsapp.enable")}</FormLabel>
                         <FormDescription>
                           Genera link diretti a WhatsApp per inviare promemoria.
                         </FormDescription>
@@ -661,7 +663,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Abilita notifiche SMS</FormLabel>
+                        <FormLabel className="text-base">{t("notificationSettings.sms.enable")}</FormLabel>
                         <FormDescription>
                           Genera promemoria per SMS da inviare manualmente.
                         </FormDescription>

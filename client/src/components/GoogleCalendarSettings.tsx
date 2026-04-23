@@ -85,7 +85,7 @@ export default function GoogleCalendarSettingsComponent() {
     },
     onError: () => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Impossibile salvare le impostazioni. Riprova più tardi.",
         variant: "destructive",
       });
@@ -120,7 +120,7 @@ export default function GoogleCalendarSettingsComponent() {
     },
     onError: () => {
       toast({
-        title: "Errore",
+        title: t("common.error"),
         description: "Si è verificato un errore durante l'autorizzazione con Google",
         variant: "destructive",
       });
@@ -393,7 +393,7 @@ export default function GoogleCalendarSettingsComponent() {
                         } catch (error) {
                           console.error('Errore nel recupero URL auth:', error);
                           toast({
-                            title: "Errore",
+                            title: t("common.error"),
                             description: "Impossibile generare l'URL di autorizzazione",
                             variant: "destructive"
                           });

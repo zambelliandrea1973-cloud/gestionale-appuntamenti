@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import {
@@ -145,7 +146,14 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message) : children
+  const { t } = useTranslation()
+  const rawMessage = error ? String(error?.message ?? "") : ""
+  // If the message looks like an i18n key (e.g. "namespace.subkey"), translate it.
+  // Falls back to the raw string when no translation exists.
+  const translatedMessage = rawMessage && /^[a-zA-Z][\w]*(\.[a-zA-Z][\w]*)+$/.test(rawMessage)
+    ? t(rawMessage, { defaultValue: rawMessage })
+    : rawMessage
+  const body = error ? translatedMessage : children
 
   if (!body) {
     return null

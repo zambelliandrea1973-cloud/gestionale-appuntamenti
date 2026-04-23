@@ -752,7 +752,24 @@
     "edit": "Editează",
     "save": "Salvează",
     "send": "Trimite",
-    "close": "Închide"
+    "close": "Închide",
+    "error": "Eroare",
+    "success": "Succes",
+    "warning": "Atenție",
+    "saving": "Salvare...",
+    "back": "Înapoi",
+    "backToHomeBilingual": "Înapoi la pagina principală",
+    "email": "E-mail",
+    "password": "Parolă",
+    "test": "Test",
+    "actions": "Acțiuni",
+    "search": "Caută",
+    "required": "Obligatoriu",
+    "notes": "Note",
+    "add": "Adaugă",
+    "update": "Actualizează",
+    "create": "Creează",
+    "confirmDelete": "Sigur doriți să ștergeți?"
   },
   "notifications": {
     "success": "Operațiune finalizată cu succes",
@@ -871,6 +888,32 @@
       "settingsSaved": "Setările notificărilor au fost salvate cu succes",
       "testEmailSent": "E-mail de test trimis cu succes",
       "remindersProcessed": "Memento-urile au fost procesate cu succes"
+    },
+    "tabs": {
+      "email": "E-mail",
+      "whatsapp": "WhatsApp",
+      "general": "Setări generale"
+    },
+    "email": {
+      "enable": "Activează notificările prin e-mail",
+      "placeholderEmail": "Introduceți adresa de e-mail",
+      "placeholderPassword": "Introduceți parola de e-mail"
+    },
+    "whatsapp": {
+      "enable": "Activează notificările WhatsApp"
+    },
+    "sms": {
+      "enable": "Activează notificările SMS"
+    },
+    "center": {
+      "enable": "Activează centrul de notificări"
+    },
+    "toast": {
+      "loadFail": "Nu se pot încărca setările de notificare",
+      "saveSuccess": "Setările de notificare au fost salvate",
+      "saveFail": "Nu se pot salva setările",
+      "testEmailSent": "E-mailul de test a fost trimis",
+      "enterTestEmail": "Introduceți o adresă de e-mail pentru test"
     }
   },
   "googleCalendar": {
@@ -879,8 +922,8 @@
     "emailLabel": "Cont Gmail",
     "emailPlaceholder": "adresa.ta@gmail.com",
     "emailDescription": "Contul Google pe care doriți să-l utilizați pentru calendar",
-    "connected": "Cont conectat",
-    "notConnected": "Cont încă neconectat",
+    "connected": "Conectat",
+    "notConnected": "Neconectat",
     "clientIdLabel": "ID Client",
     "clientIdPlaceholder": "ID-ul tău Google Client",
     "clientIdDescription": "Obțineți această valoare din consola Google Cloud",
@@ -929,7 +972,11 @@
       "proOnlyMessage": "Această funcție este disponibilă doar cu planul PRO.",
       "upgradeToPro": "Treci la PRO",
       "backToDashboard": "Înapoi la Dashboard"
-    }
+    },
+    "connect": "Conectează Google Calendar",
+    "disconnect": "Deconectează Google Calendar",
+    "sync": "Sincronizează",
+    "syncing": "Se sincronizează..."
   },
   "errors": {
     "genericError": "A apărut o eroare: {{error}}",
@@ -1174,11 +1221,11 @@
     }
   },
   "referral": {
-    "title": "Sistem Recomandări",
+    "title": "Program de recomandare",
     "subtitle": "Câștigați comisioane invitând clienți noi",
     "adminOnly": "Doar administratorii pot gestiona recomandările, coordona și verifica abonamentele sponsorizate de personal pentru a procesa plățile",
-    "yourCode": "Codul Dvs. de Recomandare",
-    "copyCode": "Copiați codul",
+    "yourCode": "Codul tău",
+    "copyCode": "Copiază codul",
     "shareCode": "Partajare",
     "copyToClipboard": "Copiere în clipboard",
     "share": "Partajare",
@@ -1212,7 +1259,11 @@
       "step2": "Când se înregistrează folosind codul dvs., devin recomandările dvs.",
       "step3": "Câștigați 25% din fiecare abonament pe care îl activează",
       "step4": "Comisioanele sunt plătite pe IBAN-ul dvs."
-    }
+    },
+    "shareLink": "Distribuie linkul",
+    "invitations": "Invitații",
+    "rewards": "Recompense",
+    "copied": "Cod copiat!"
   },
   "manual": {
     "pwa": {
@@ -1987,5 +2038,171 @@
       "addButton": "Adaugă",
       "selected": "Servicii Selectate:"
     }
+  },
+  "serviceManagerSimple": {
+    "title": "Gestionare servicii",
+    "description": "Gestionează tratamentele și serviciile oferite, inclusiv durata și prețul. Aceste date vor fi folosite în rapoarte și facturi.",
+    "availableServices": "Servicii disponibile",
+    "newService": "Serviciu nou",
+    "editService": "Editează serviciu",
+    "fields": {
+      "name": "Nume serviciu *",
+      "namePlaceholder": "Ex. Consultație generală",
+      "duration": "Durată (minute) *",
+      "price": "Preț (€) *",
+      "color": "Culoare",
+      "description": "Descriere",
+      "descriptionPlaceholder": "Descriere opțională a serviciului"
+    },
+    "actions": {
+      "cancel": "Anulează",
+      "create": "Creează",
+      "update": "Actualizează"
+    },
+    "table": {
+      "name": "Nume",
+      "duration": "Durată",
+      "price": "Preț",
+      "color": "Culoare",
+      "actions": "Acțiuni"
+    },
+    "empty": {
+      "title": "Niciun serviciu configurat.",
+      "hint": "Adaugă primul serviciu pentru a începe."
+    },
+    "confirm": {
+      "delete": "Sigur dorești să ștergi acest serviciu?"
+    },
+    "toast": {
+      "successTitle": "Succes",
+      "created": "Serviciu creat cu succes",
+      "updated": "Serviciu actualizat cu succes",
+      "deleted": "Serviciu șters cu succes",
+      "errorTitle": "Eroare"
+    },
+    "validation": {
+      "nameRequired": "Numele serviciului este obligatoriu",
+      "durationPositive": "Durata trebuie să fie mai mare ca 0",
+      "priceNonNegative": "Prețul nu poate fi negativ"
+    }
+  },
+  "invoiceForm": {
+    "validation": {
+      "clientRequired": "Clientul este obligatoriu",
+      "invoiceNumberRequired": "Numărul facturii este obligatoriu",
+      "statusRequired": "Statusul este obligatoriu",
+      "descriptionRequired": "Descrierea este obligatorie",
+      "quantityRequired": "Cantitatea este obligatorie",
+      "unitPriceRequired": "Prețul unitar este obligatoriu",
+      "itemsRequired": "Adaugă cel puțin un element la factură"
+    },
+    "toast": {
+      "errorTitle": "Eroare",
+      "generateNumberFailed": "Nu s-a putut genera numărul facturii",
+      "created": "Factură creată",
+      "createdDesc": "Factura a fost creată cu succes",
+      "createFailed": "Nu s-a putut crea factura",
+      "updated": "Factură actualizată",
+      "updatedDesc": "Factura a fost actualizată cu succes",
+      "updateFailed": "Nu s-a putut actualiza factura",
+      "saveFailed": "A apărut o eroare la salvarea facturii"
+    },
+    "fields": {
+      "client": "Client",
+      "selectClient": "Selectează client",
+      "invoiceNumber": "Număr factură",
+      "generate": "Generează",
+      "invoiceDate": "Data facturii",
+      "dueDate": "Data scadenței",
+      "selectDate": "Selectează o dată",
+      "status": "Status",
+      "selectStatus": "Selectează status",
+      "tax": "TVA (%)",
+      "notes": "Note",
+      "notesPlaceholder": "Note suplimentare pentru factură"
+    },
+    "status": {
+      "unpaid": "Neplătită",
+      "paid": "Plătită",
+      "overdue": "Restantă",
+      "cancelled": "Anulată"
+    },
+    "items": {
+      "title": "Elemente factură",
+      "description": "Adaugă elementele de inclus în factură",
+      "descriptionField": "Descriere",
+      "quantity": "Cantitate",
+      "unitPrice": "Preț (€)",
+      "serviceOptional": "Serviciu (opțional)",
+      "selectService": "Selectează serviciu",
+      "noService": "Niciun serviciu",
+      "remove": "Elimină element",
+      "add": "Adaugă element"
+    },
+    "actions": {
+      "cancel": "Anulează",
+      "saving": "Se salvează...",
+      "update": "Actualizează",
+      "create": "Creează factură"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Politica de confidențialitate"
+    },
+    "terms": {
+      "title": "Termeni de serviciu și condiții de utilizare",
+      "effectiveDate": "Data intrării în vigoare",
+      "lastModified": "Ultima modificare"
+    },
+    "lastUpdated": "Ultima actualizare"
+  },
+  "emailSettings": {
+    "title": "Setări e-mail",
+    "smtpServer": "Server SMTP",
+    "smtpPort": "Port SMTP",
+    "testConnection": "Testează conexiunea",
+    "saveSuccess": "Setările de e-mail au fost salvate"
+  },
+  "userSettings": {
+    "title": "Setări utilizator",
+    "profile": "Profil",
+    "account": "Cont",
+    "preferences": "Preferințe"
+  },
+  "staff": {
+    "title": "Gestionare personal",
+    "addMember": "Adaugă membru",
+    "role": "Rol",
+    "permissions": "Permisiuni",
+    "active": "Activ",
+    "inactive": "Inactiv"
+  },
+  "appointmentForm": {
+    "title": "Programare nouă",
+    "editTitle": "Editează programarea",
+    "client": "Client",
+    "service": "Serviciu",
+    "date": "Data",
+    "time": "Ora",
+    "duration": "Durată",
+    "notes": "Note",
+    "save": "Salvează programarea",
+    "saved": "Programare salvată",
+    "selectClient": "Selectează clientul",
+    "selectService": "Selectează serviciul"
+  },
+  "clientNotes": {
+    "title": "Note client",
+    "addNote": "Adaugă notă",
+    "placeholder": "Scrie nota aici...",
+    "empty": "Nicio notă disponibilă",
+    "saved": "Notă salvată",
+    "deleted": "Notă ștearsă"
+  },
+  "manuale": {
+    "title": "Manual utilizator",
+    "search": "Caută în manual...",
+    "tableOfContents": "Cuprins"
   }
 }

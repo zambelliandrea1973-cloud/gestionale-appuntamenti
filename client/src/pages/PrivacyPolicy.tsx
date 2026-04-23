@@ -1,22 +1,24 @@
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function PrivacyPolicy() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="container max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <Link to="/">
           <Button variant="outline" size="sm" className="mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Torna alla Home / Back to Home
+            {t('common.backToHomeBilingual')}
           </Button>
         </Link>
 
         <article className="prose dark:prose-invert max-w-none">
 
-          <h1>Informativa sulla Privacy / Privacy Policy</h1>
-          <p className="text-sm text-muted-foreground">Ultimo aggiornamento / Last updated: 1 Aprile 2026</p>
+          <h1>{t('legal.privacy.title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('legal.lastUpdated')}: 1 Aprile 2026</p>
 
           <hr />
 
