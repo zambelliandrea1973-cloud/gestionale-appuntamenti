@@ -2294,7 +2294,8 @@
     "syncDescription": "Verwalten Sie die Synchronisierung Ihrer Termine mit Google Kalender",
     "clickToConfigure": "Klicken Sie, um die Synchronisierung mit Google Kalender zu konfigurieren und zu verwalten",
     "googleCalendarIntegration": "Google Kalender-Integration",
-    "googleCalendarLocked": "Die Google Kalender-Integration ist in der PRO-Version verfügbar. Aktualisieren Sie Ihren Plan, um auf diese Funktion zuzugreifen."
+    "googleCalendarLocked": "Die Google Kalender-Integration ist in der PRO-Version verfügbar. Aktualisieren Sie Ihren Plan, um auf diese Funktion zuzugreifen.",
+    "googleConnected": "Erfolgreich verbunden"
   },
   "proFeature": {
     "title": "PRO-Funktion",

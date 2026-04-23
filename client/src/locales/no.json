@@ -2294,7 +2294,8 @@
     "syncDescription": "Administrer synkroniseringen av avtalene dine med Google Kalender",
     "clickToConfigure": "Klikk for å konfigurere og administrere synkronisering med Google Kalender",
     "googleCalendarIntegration": "Google Kalender-integrasjon",
-    "googleCalendarLocked": "Google Kalender-integrasjon er tilgjengelig i PRO-versjonen. Oppgrader planen din for å få tilgang til denne funksjonen."
+    "googleCalendarLocked": "Google Kalender-integrasjon er tilgjengelig i PRO-versjonen. Oppgrader planen din for å få tilgang til denne funksjonen.",
+    "googleConnected": "Tilkoblet"
   },
   "proFeature": {
     "title": "PRO-funksjon",

@@ -2294,7 +2294,8 @@
     "syncDescription": "Manage the synchronization of your appointments with Google Calendar",
     "clickToConfigure": "Click to configure and manage synchronization with Google Calendar",
     "googleCalendarIntegration": "Google Calendar Integration",
-    "googleCalendarLocked": "Google Calendar integration is available in the PRO version. Upgrade your plan to access this feature."
+    "googleCalendarLocked": "Google Calendar integration is available in the PRO version. Upgrade your plan to access this feature.",
+    "googleConnected": "Successfully connected"
   },
   "proFeature": {
     "title": "PRO Feature",

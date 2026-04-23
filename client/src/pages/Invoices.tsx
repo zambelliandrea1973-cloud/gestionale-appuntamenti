@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
-import { getDateLocale } from '@/lib/utils/date';
+import { getDateLocale, getBrowserLocale } from '@/lib/utils/date';
 import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3, Trash2, RefreshCw, Eye, MessageCircle, Smartphone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -488,7 +488,7 @@ export default function Invoices() {
         emailForm.setValue("message", t('invoices.emailBodyTemplate', { firstName: invoice.client?.firstName, lastName: invoice.client?.lastName || t('invoices.clientFallback'), invoiceNumber: invoice.invoiceNumber }));
       }
     } catch (error) {
-      console.log('Errore caricamento suggerimenti email:', error);
+      console.log('Error loading email suggestions:', error);
       // Fallback a valori di default
       emailForm.setValue("recipientEmail", "");
       emailForm.setValue("subject", t('invoices.subjectTemplate', { number: invoice.invoiceNumber }));
@@ -760,13 +760,13 @@ export default function Invoices() {
                         }
                         const resends: Array<{ channel: string; date: string }> = [];
                         if (channels.pwa && invoice.publishedToPwa) {
-                          resends.push({ channel: t('invoices.channelPwa'), date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
+                          resends.push({ channel: t('invoices.channelPwa'), date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString(getBrowserLocale(i18n.language), { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (channels.email && invoice.sentViaEmail) {
-                          resends.push({ channel: "Email", date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
+                          resends.push({ channel: "Email", date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString(getBrowserLocale(i18n.language), { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (channels.whatsapp && invoice.sentViaWhatsapp) {
-                          resends.push({ channel: "WhatsApp", date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
+                          resends.push({ channel: "WhatsApp", date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString(getBrowserLocale(i18n.language), { day: '2-digit', month: '2-digit', year: 'numeric' }) : t('invoices.unknownDate')});
                         }
                         if (resends.length > 0) {
                           setPendingInvoiceId(invoice.id);

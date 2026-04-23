@@ -58,16 +58,16 @@ export default function BankingSettingsPage() {
     onSuccess: () => {
       console.log('🏦 [MUTATION] Salvataggio completato con successo!');
       toast({
-        title: t("common.saved", "Impostazioni salvate"),
-        description: t("bankingSettings.savedDesc", "Le impostazioni bancarie sono state aggiornate con successo"),
+        title: t("common.saved"),
+        description: t("bankingSettings.savedDesc"),
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/banking-settings'] });
     },
     onError: (error) => {
       console.error('🏦 [MUTATION] Errore salvataggio:', error);
       toast({
-        title: t("common.error", "Errore"),
-        description: t("bankingSettings.errorSave", "Impossibile salvare le impostazioni bancarie"),
+        title: t("common.error"),
+        description: t("bankingSettings.errorSave"),
         variant: "destructive",
       });
     },
@@ -75,19 +75,19 @@ export default function BankingSettingsPage() {
 
   const testPaymentMutation = useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/admin/test-payment");
+      const response = await apiRequest("POST");
       return response.json();
     },
     onSuccess: (data) => {
       toast({
-        title: t("bankingSettings.testOk", "Test completato"),
-        description: data.message || t("bankingSettings.testOkDesc", "Il sistema di pagamento è configurato correttamente"),
+        title: t("bankingSettings.testOk"),
+        description: data.message || t("bankingSettings.testOkDesc"),
       });
     },
     onError: () => {
       toast({
-        title: t("bankingSettings.testFail", "Test fallito"),
-        description: t("bankingSettings.testFailDesc", "Verifica la configurazione dei dati bancari"),
+        title: t("bankingSettings.testFail"),
+        description: t("bankingSettings.testFailDesc"),
         variant: "destructive",
       });
     },

@@ -123,13 +123,13 @@ export default function ProFeaturesPage() {
                 {isLoadingGoogleStatus ? (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    {t('common.loading', 'Caricamento...')}
+                    {t('common.loading')}
                   </div>
                 ) : isGoogleConnected ? (
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-green-600" />
                     <span className="text-sm text-green-700 font-medium">
-                      {t('pro.googleConnected', 'Connesso con successo')}
+                      {t('pro.googleConnected')}
                     </span>
                     {googleAuthStatus?.email && (
                       <span className="text-sm text-muted-foreground">

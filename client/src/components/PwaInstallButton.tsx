@@ -330,7 +330,7 @@ export function PwaInstallButton() {
       setInstallPrompt(null);
       window.__installPromptEvent = undefined;
     } catch (error) {
-      console.error("Errore durante l'installazione dell'app:", error);
+      console.error("Error during app installation:", error);
       toast({
         title: t("pwaInstall.errorTitle"),
         description: t("pwaInstall.installError"),

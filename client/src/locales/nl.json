@@ -2294,7 +2294,8 @@
     "syncDescription": "Beheer de synchronisatie van uw afspraken met Google Agenda",
     "clickToConfigure": "Klik om de synchronisatie met Google Agenda te configureren en te beheren",
     "googleCalendarIntegration": "Google Agenda-integratie",
-    "googleCalendarLocked": "Google Agenda-integratie is beschikbaar in de PRO-versie. Upgrade uw plan om toegang te krijgen tot deze functie."
+    "googleCalendarLocked": "Google Agenda-integratie is beschikbaar in de PRO-versie. Upgrade uw plan om toegang te krijgen tot deze functie.",
+    "googleConnected": "Succesvol verbonden"
   },
   "proFeature": {
     "title": "PRO-functie",

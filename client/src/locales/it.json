@@ -2294,7 +2294,8 @@
     "syncDescription": "Gestisci la sincronizzazione dei tuoi appuntamenti e importa contatti da Google",
     "clickToConfigure": "Clicca per configurare calendario e importare contatti da Google",
     "googleCalendarIntegration": "Integrazione Google Calendar",
-    "googleCalendarLocked": "L'integrazione con Google Calendar è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
+    "googleCalendarLocked": "L'integrazione con Google Calendar è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità.",
+    "googleConnected": "Connesso con successo"
   },
   "proFeature": {
     "title": "Funzionalità PRO",

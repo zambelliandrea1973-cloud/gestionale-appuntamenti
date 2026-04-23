@@ -2294,7 +2294,8 @@
     "syncDescription": "Gestiona la sincronización de tus citas con Google Calendar",
     "clickToConfigure": "Haz clic para configurar y gestionar la sincronización con Google Calendar",
     "googleCalendarIntegration": "Integración con Google Calendar",
-    "googleCalendarLocked": "La integración con Google Calendar está disponible en la versión PRO. Actualiza tu plan para acceder a esta funcionalidad."
+    "googleCalendarLocked": "La integración con Google Calendar está disponible en la versión PRO. Actualiza tu plan para acceder a esta funcionalidad.",
+    "googleConnected": "Conectado correctamente"
   },
   "proFeature": {
     "title": "Funcionalidad PRO",
