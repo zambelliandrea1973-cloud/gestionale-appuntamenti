@@ -265,13 +265,28 @@ export function registerSimpleRoutes(app: Express): Server {
   
   // Route di registrazione nuovi utenti
   app.post("/api/register", async (req, res) => {
-    console.log('📝 [REGISTER] Richiesta di registrazione ricevuta:', req.body.username);
+    console.log('📝 [REGISTER] Richiesta di registrazione ricevuta:', req.body.email);
     try {
-      const { name, email, username, password, referralCode } = req.body;
+      let { name, email, username, password, referralCode } = req.body;
       
-      // Verifica che tutti i campi necessari siano presenti
-      if (!name || !email || !username || !password) {
-        return res.status(400).json({ message: "Tutti i campi sono obbligatori" });
+      // Verifica minima: solo email e password sono richiesti
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email e password sono obbligatori" });
+      }
+      
+      // Genera automaticamente username e nome se non forniti (UX semplificata)
+      const emailPrefix = String(email).split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '');
+      if (!username || username.trim() === '') {
+        // Username unico basato sul prefisso email + timestamp se necessario
+        let candidate = emailPrefix.toLowerCase();
+        let suffix = 0;
+        while (await storage.getUserByUsername(suffix === 0 ? candidate : `${candidate}${suffix}`)) {
+          suffix = suffix === 0 ? Math.floor(Math.random() * 9000 + 1000) : suffix + 1;
+        }
+        username = suffix === 0 ? candidate : `${candidate}${suffix}`;
+      }
+      if (!name || name.trim() === '') {
+        name = emailPrefix;
       }
       
       // Verifica codice referral se fornito
@@ -285,7 +300,7 @@ export function registerSimpleRoutes(app: Express): Server {
         }
       }
       
-      // Verifica se l'username è già in uso
+      // Verifica se l'username è già in uso (safety check)
       const existingUserByUsername = await storage.getUserByUsername(username);
       if (existingUserByUsername) {
         return res.status(400).json({ message: "Username già in uso" });
@@ -348,11 +363,23 @@ export function registerSimpleRoutes(app: Express): Server {
           console.error(`📧 [WELCOME] ERRORE invio email di benvenuto a ${email}:`, err);
         });
       
-      // Restituisci il nuovo utente (senza la password)
+      // Auto-login: l'utente è subito dentro senza dover fare login manuale
       const { password: _, ...userWithoutPassword } = newUser;
-      res.status(201).json({
-        ...userWithoutPassword,
-        message: "Registrazione completata con successo"
+      req.login(newUser, (loginErr) => {
+        if (loginErr) {
+          console.error(`⚠️ [REGISTER] Auto-login fallito per ${username}:`, loginErr);
+          return res.status(201).json({
+            ...userWithoutPassword,
+            message: "Registrazione completata, effettua il login",
+            autoLogin: false
+          });
+        }
+        console.log(`✅ [REGISTER] Auto-login OK per ${username}`);
+        res.status(201).json({
+          ...userWithoutPassword,
+          message: "Registrazione completata con successo",
+          autoLogin: true
+        });
       });
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
