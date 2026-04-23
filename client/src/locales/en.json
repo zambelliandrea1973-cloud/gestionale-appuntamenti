@@ -994,7 +994,16 @@
     "saveSettings": "Save settings",
     "quickEmailSetup": "Quick Email Setup",
     "signatureLabel": "Email signature",
-    "whatsappNumberLabel": "WhatsApp number for notifications"
+    "whatsappNumberLabel": "WhatsApp number for notifications",
+    "enterEmail": "Enter your email address",
+    "testEmailSettings": "Test email settings",
+    "whatsappNotificationsTitle": "WhatsApp notifications",
+    "phoneForNotifications": "Phone number for notifications",
+    "enterWhatsapp": "Enter WhatsApp number",
+    "whatsappTestTitle": "WhatsApp notification test",
+    "defaultReminderTime": "Default time for reminders",
+    "remindersManagement": "Reminders management",
+    "smtpStep1": "Enter your email address"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "You must enter both email address and password/app key",
       "emailSentTitle": "Email sent",
       "emailSentDesc": "The test email was sent successfully",
-      "sendError": "An error occurred sending the email"
+      "sendError": "An error occurred sending the email",
+      "passwordRetrieveFail": "Could not retrieve the saved password."
     },
     "warning": {
       "title": "Warning!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Auto-Configure",
       "autoConfigTitle": "✨ Automatic Configuration",
       "howToGet": "How to get the Wise API Key",
-      "emailPlaceholder": "E.g. example@yourdomain.com"
+      "emailPlaceholder": "E.g. example@yourdomain.com",
+      "apiKeyLabel": "API Key",
+      "profileIdLabel": "Profile ID",
+      "accountIdLabel": "Account ID",
+      "newFeature": "NEW FEATURE:"
     },
     "bank": {
       "heading": "Bank Transfer",
@@ -2921,6 +2935,9 @@
     "generating": "Generating...",
     "titleLabel": "Title",
     "messageLabel": "Message",
-    "history": "Campaign History"
+    "history": "Campaign History",
+    "aiAssistant": "AI Assistant",
+    "campaignReady": "Campaign Ready - Edit if Needed",
+    "totalClients": "Total clients"
   }
 }

@@ -377,7 +377,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                         <div className="space-y-4">
                           {/* Campo Email */}
                           <div>
-                            <FormLabel className="text-sm font-medium">Email</FormLabel>
+                            <FormLabel className="text-sm font-medium">{t('common.email')}</FormLabel>
                             <Input 
                               placeholder={t('notificationSettings.emailPlaceholder')} 
                               value={form.watch("senderEmail") || ""}
@@ -398,7 +398,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                           
                           {/* Campo Password */}
                           <div>
-                            <FormLabel className="text-sm font-medium">Password</FormLabel>
+                            <FormLabel className="text-sm font-medium">{t('common.password')}</FormLabel>
                             <Input 
                               type="password" 
                               placeholder={t('notificationSettings.passwordPlaceholder')} 
@@ -494,7 +494,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                         </div>
                         
                         <p className="text-sm text-muted-foreground mt-4 border-t pt-3">
-                          <strong>1.</strong> Inserisci il tuo indirizzo email<br />
+                          <strong>1.</strong> {t('notificationSettings.smtpStep1')}<br />
                           <strong>2.</strong> Clicca "Rileva impostazioni" per configurare automaticamente i server<br />
                           <strong>3.</strong> Inserisci la tua password e salva
                         </p>
@@ -584,7 +584,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     </div>
 
                     <div className="bg-muted p-4 rounded-lg">
-                      <h3 className="text-sm font-medium mb-2">Testa le impostazioni email</h3>
+                      <h3 className="text-sm font-medium mb-2">{t('notificationSettings.testEmailSettings')}</h3>
                       <div className="flex gap-2">
                         <Input 
                           placeholder={t('notificationSettings.testEmailPlaceholder')} 
@@ -607,7 +607,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
 
               <TabsContent value="direct" className="space-y-4">
                 <div className="bg-muted p-4 rounded-lg mb-4">
-                  <h3 className="text-base font-medium mb-2">Notifiche WhatsApp</h3>
+                  <h3 className="text-base font-medium mb-2">{t('notificationSettings.whatsappNotificationsTitle')}</h3>
                   <p className="text-sm text-muted-foreground">
                     Le notifiche via WhatsApp ti permettono di inviare promemoria e comunicazioni 
                     ai tuoi clienti direttamente attraverso WhatsApp Web, senza 
@@ -680,7 +680,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
 
                 {(form.watch("whatsappEnabled") || form.watch("smsEnabled")) && (
                   <div className="space-y-4 bg-accent/20 p-4 rounded-lg border border-primary/20">
-                    <h4 className="text-base font-medium">Numero di telefono per notifiche</h4>
+                    <h4 className="text-base font-medium">{t('notificationSettings.phoneForNotifications')}</h4>
                     
                     <FormField
                       control={form.control}
@@ -688,7 +688,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                           <div className="space-y-0.5">
-                            <FormLabel className="text-base">Inserisci numero WhatsApp</FormLabel>
+                            <FormLabel className="text-base">{t('notificationSettings.enterWhatsapp')}</FormLabel>
                             <FormDescription>
                               Configura il tuo numero WhatsApp per inviare comunicazioni ai clienti.
                             </FormDescription>
@@ -726,7 +726,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                         />
                         
                         <div className="mt-4 bg-muted p-4 rounded-lg">
-                          <h4 className="text-sm font-medium mb-2">Test notifica WhatsApp</h4>
+                          <h4 className="text-sm font-medium mb-2">{t('notificationSettings.whatsappTestTitle')}</h4>
                           <div className="grid gap-4">
                             <div className="flex flex-col sm:flex-row gap-2">
                               <Input
@@ -762,7 +762,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     name="defaultReminderTime"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Orario predefinito per i promemoria</FormLabel>
+                        <FormLabel>{t('notificationSettings.defaultReminderTime')}</FormLabel>
                         <FormControl>
                           <Input 
                             type="number" 
@@ -781,7 +781,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                 </div>
 
                 <div className="bg-muted p-4 rounded-lg">
-                  <h3 className="text-sm font-medium mb-2">Gestione promemoria</h3>
+                  <h3 className="text-sm font-medium mb-2">{t('notificationSettings.remindersManagement')}</h3>
                   <div className="flex gap-2">
                     <Button
                       type="button"

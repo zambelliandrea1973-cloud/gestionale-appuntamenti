@@ -986,7 +986,16 @@
     "saveSettings": "Сохранить настройки",
     "quickEmailSetup": "Быстрая настройка email",
     "signatureLabel": "Подпись email",
-    "whatsappNumberLabel": "Номер WhatsApp для уведомлений"
+    "whatsappNumberLabel": "Номер WhatsApp для уведомлений",
+    "enterEmail": "Введите email",
+    "testEmailSettings": "Проверить настройки email",
+    "whatsappNotificationsTitle": "Уведомления WhatsApp",
+    "phoneForNotifications": "Номер телефона для уведомлений",
+    "enterWhatsapp": "Введите номер WhatsApp",
+    "whatsappTestTitle": "Тест уведомления WhatsApp",
+    "defaultReminderTime": "Время напоминаний по умолчанию",
+    "remindersManagement": "Управление напоминаниями",
+    "smtpStep1": "Введите email"
   },
   "googleCalendar": {
     "title": "Google Календарь",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Введите и email, и пароль/ключ приложения",
       "emailSentTitle": "Email отправлен",
       "emailSentDesc": "Тестовое письмо успешно отправлено",
-      "sendError": "Ошибка при отправке email"
+      "sendError": "Ошибка при отправке email",
+      "passwordRetrieveFail": "Не удалось получить сохранённый пароль."
     },
     "warning": {
       "title": "Внимание!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Авто-настройка",
       "autoConfigTitle": "✨ Автоматическая настройка",
       "howToGet": "Как получить API-ключ Wise",
-      "emailPlaceholder": "Например пример@вашдомен.com"
+      "emailPlaceholder": "Например пример@вашдомен.com",
+      "apiKeyLabel": "API-ключ",
+      "profileIdLabel": "ID профиля",
+      "accountIdLabel": "ID счёта",
+      "newFeature": "НОВАЯ ФУНКЦИЯ:"
     },
     "bank": {
       "heading": "Банковский перевод",
@@ -2921,6 +2935,9 @@
     "generating": "Создаю...",
     "titleLabel": "Заголовок",
     "messageLabel": "Сообщение",
-    "history": "История кампаний"
+    "history": "История кампаний",
+    "aiAssistant": "ИИ-ассистент",
+    "campaignReady": "Кампания готова — отредактируйте при необходимости",
+    "totalClients": "Всего клиентов"
   }
 }

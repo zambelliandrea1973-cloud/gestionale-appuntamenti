@@ -986,7 +986,16 @@
     "saveSettings": "Einstellungen speichern",
     "quickEmailSetup": "Schnelle E-Mail-Einrichtung",
     "signatureLabel": "E-Mail-Signatur",
-    "whatsappNumberLabel": "WhatsApp-Nummer für Benachrichtigungen"
+    "whatsappNumberLabel": "WhatsApp-Nummer für Benachrichtigungen",
+    "enterEmail": "Gib deine E-Mail ein",
+    "testEmailSettings": "E-Mail-Einstellungen testen",
+    "whatsappNotificationsTitle": "WhatsApp-Benachrichtigungen",
+    "phoneForNotifications": "Telefonnummer für Benachrichtigungen",
+    "enterWhatsapp": "WhatsApp-Nummer eingeben",
+    "whatsappTestTitle": "WhatsApp-Benachrichtigungstest",
+    "defaultReminderTime": "Standardzeit für Erinnerungen",
+    "remindersManagement": "Erinnerungsverwaltung",
+    "smtpStep1": "Gib deine E-Mail ein"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Du musst sowohl E-Mail als auch Passwort/App-Schlüssel eingeben",
       "emailSentTitle": "E-Mail gesendet",
       "emailSentDesc": "Test-E-Mail wurde erfolgreich gesendet",
-      "sendError": "Fehler beim Senden der E-Mail"
+      "sendError": "Fehler beim Senden der E-Mail",
+      "passwordRetrieveFail": "Gespeichertes Passwort konnte nicht abgerufen werden."
     },
     "warning": {
       "title": "Achtung!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Auto-Konfigurieren",
       "autoConfigTitle": "✨ Automatische Konfiguration",
       "howToGet": "Wie man den Wise API-Schlüssel erhält",
-      "emailPlaceholder": "Z.B. beispiel@deinedomain.com"
+      "emailPlaceholder": "Z.B. beispiel@deinedomain.com",
+      "apiKeyLabel": "API-Schlüssel",
+      "profileIdLabel": "Profil-ID",
+      "accountIdLabel": "Konto-ID",
+      "newFeature": "NEUE FUNKTION:"
     },
     "bank": {
       "heading": "Banküberweisung",
@@ -2921,6 +2935,9 @@
     "generating": "Wird generiert...",
     "titleLabel": "Titel",
     "messageLabel": "Nachricht",
-    "history": "Kampagnenverlauf"
+    "history": "Kampagnenverlauf",
+    "aiAssistant": "KI-Assistent",
+    "campaignReady": "Kampagne bereit - Bei Bedarf bearbeiten",
+    "totalClients": "Kunden insgesamt"
   }
 }

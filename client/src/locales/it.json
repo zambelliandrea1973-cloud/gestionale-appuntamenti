@@ -999,7 +999,16 @@
     "saveSettings": "Salva impostazioni",
     "quickEmailSetup": "Configurazione Rapida Email",
     "signatureLabel": "Firma email",
-    "whatsappNumberLabel": "Numero WhatsApp per notifiche"
+    "whatsappNumberLabel": "Numero WhatsApp per notifiche",
+    "enterEmail": "Inserisci il tuo indirizzo email",
+    "testEmailSettings": "Testa le impostazioni email",
+    "whatsappNotificationsTitle": "Notifiche WhatsApp",
+    "phoneForNotifications": "Numero di telefono per notifiche",
+    "enterWhatsapp": "Inserisci numero WhatsApp",
+    "whatsappTestTitle": "Test notifica WhatsApp",
+    "defaultReminderTime": "Orario predefinito per i promemoria",
+    "remindersManagement": "Gestione promemoria",
+    "smtpStep1": "Inserisci il tuo indirizzo email"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Devi inserire sia l'indirizzo email che la password/chiave app",
       "emailSentTitle": "Email inviata",
       "emailSentDesc": "L'email di test è stata inviata con successo",
-      "sendError": "Si è verificato un errore durante l'invio dell'email"
+      "sendError": "Si è verificato un errore durante l'invio dell'email",
+      "passwordRetrieveFail": "Impossibile recuperare la password salvata."
     },
     "warning": {
       "title": "Attenzione!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Auto-Configura",
       "autoConfigTitle": "✨ Configurazione Automatica",
       "howToGet": "Come ottenere l'API Key Wise",
-      "emailPlaceholder": "Es. esempio@tuodominio.com"
+      "emailPlaceholder": "Es. esempio@tuodominio.com",
+      "apiKeyLabel": "API Key",
+      "profileIdLabel": "Profile ID",
+      "accountIdLabel": "Account ID",
+      "newFeature": "NUOVA FUNZIONE:"
     },
     "bank": {
       "heading": "Bonifico Bancario",
@@ -2921,6 +2935,9 @@
     "generating": "Sto generando...",
     "titleLabel": "Titolo",
     "messageLabel": "Messaggio",
-    "history": "Storico Campagne"
+    "history": "Storico Campagne",
+    "aiAssistant": "Assistente AI",
+    "campaignReady": "Campagna Pronta - Modifica se Necessario",
+    "totalClients": "Clienti totali"
   }
 }

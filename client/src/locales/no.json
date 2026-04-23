@@ -968,7 +968,16 @@
     "saveSettings": "Lagre innstillinger",
     "quickEmailSetup": "Rask e-postoppsett",
     "signatureLabel": "E-postsignatur",
-    "whatsappNumberLabel": "WhatsApp-nummer for varsler"
+    "whatsappNumberLabel": "WhatsApp-nummer for varsler",
+    "enterEmail": "Skriv inn e-postadressen",
+    "testEmailSettings": "Test e-postinnstillinger",
+    "whatsappNotificationsTitle": "WhatsApp-varsler",
+    "phoneForNotifications": "Telefonnummer for varsler",
+    "enterWhatsapp": "Skriv inn WhatsApp-nummer",
+    "whatsappTestTitle": "Test for WhatsApp-varsel",
+    "defaultReminderTime": "Standardtid for påminnelser",
+    "remindersManagement": "Påminnelsesadministrasjon",
+    "smtpStep1": "Skriv inn e-postadressen"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Skriv inn både e-postadresse og passord/app-nøkkel",
       "emailSentTitle": "E-post sendt",
       "emailSentDesc": "Test-e-posten ble sendt",
-      "sendError": "Feil ved sending av e-post"
+      "sendError": "Feil ved sending av e-post",
+      "passwordRetrieveFail": "Kunne ikke hente lagret passord."
     },
     "warning": {
       "title": "Advarsel!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Auto-konfigurer",
       "autoConfigTitle": "✨ Automatisk konfigurasjon",
       "howToGet": "Slik får du Wise API-nøkkel",
-      "emailPlaceholder": "F.eks. eksempel@dittdomene.no"
+      "emailPlaceholder": "F.eks. eksempel@dittdomene.no",
+      "apiKeyLabel": "API-nøkkel",
+      "profileIdLabel": "Profil-ID",
+      "accountIdLabel": "Konto-ID",
+      "newFeature": "NY FUNKSJON:"
     },
     "bank": {
       "heading": "Bankoverføring",
@@ -2921,6 +2935,9 @@
     "generating": "Genererer...",
     "titleLabel": "Tittel",
     "messageLabel": "Melding",
-    "history": "Kampanjehistorikk"
+    "history": "Kampanjehistorikk",
+    "aiAssistant": "AI-assistent",
+    "campaignReady": "Kampanje klar - Rediger om nødvendig",
+    "totalClients": "Totalt antall kunder"
   }
 }

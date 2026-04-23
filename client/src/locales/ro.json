@@ -968,7 +968,16 @@
     "saveSettings": "Salvează setările",
     "quickEmailSetup": "Configurare rapidă email",
     "signatureLabel": "Semnătură email",
-    "whatsappNumberLabel": "Număr WhatsApp pentru notificări"
+    "whatsappNumberLabel": "Număr WhatsApp pentru notificări",
+    "enterEmail": "Introduceți emailul",
+    "testEmailSettings": "Testează setările de email",
+    "whatsappNotificationsTitle": "Notificări WhatsApp",
+    "phoneForNotifications": "Număr de telefon pentru notificări",
+    "enterWhatsapp": "Introduceți numărul WhatsApp",
+    "whatsappTestTitle": "Test notificare WhatsApp",
+    "defaultReminderTime": "Ora implicită pentru memento-uri",
+    "remindersManagement": "Gestionare memento-uri",
+    "smtpStep1": "Introduceți emailul"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Trebuie să introduceți emailul și parola/cheia de aplicație",
       "emailSentTitle": "Email trimis",
       "emailSentDesc": "Emailul de test a fost trimis cu succes",
-      "sendError": "Eroare la trimiterea emailului"
+      "sendError": "Eroare la trimiterea emailului",
+      "passwordRetrieveFail": "Imposibil de recuperat parola salvată."
     },
     "warning": {
       "title": "Atenție!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Auto-configurează",
       "autoConfigTitle": "✨ Configurare automată",
       "howToGet": "Cum se obține cheia API Wise",
-      "emailPlaceholder": "Ex. exemplu@domeniultau.com"
+      "emailPlaceholder": "Ex. exemplu@domeniultau.com",
+      "apiKeyLabel": "Cheie API",
+      "profileIdLabel": "ID profil",
+      "accountIdLabel": "ID cont",
+      "newFeature": "FUNCȚIE NOUĂ:"
     },
     "bank": {
       "heading": "Transfer bancar",
@@ -2921,6 +2935,9 @@
     "generating": "Se generează...",
     "titleLabel": "Titlu",
     "messageLabel": "Mesaj",
-    "history": "Istoric campanii"
+    "history": "Istoric campanii",
+    "aiAssistant": "Asistent AI",
+    "campaignReady": "Campanie gata - Editați dacă este necesar",
+    "totalClients": "Clienți totali"
   }
 }

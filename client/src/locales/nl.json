@@ -968,7 +968,16 @@
     "saveSettings": "Instellingen opslaan",
     "quickEmailSetup": "Snelle e-mailconfiguratie",
     "signatureLabel": "E-mailhandtekening",
-    "whatsappNumberLabel": "WhatsApp-nummer voor meldingen"
+    "whatsappNumberLabel": "WhatsApp-nummer voor meldingen",
+    "enterEmail": "Voer je e-mail in",
+    "testEmailSettings": "E-mailinstellingen testen",
+    "whatsappNotificationsTitle": "WhatsApp-meldingen",
+    "phoneForNotifications": "Telefoonnummer voor meldingen",
+    "enterWhatsapp": "WhatsApp-nummer invoeren",
+    "whatsappTestTitle": "WhatsApp-meldingstest",
+    "defaultReminderTime": "Standaardtijd voor herinneringen",
+    "remindersManagement": "Beheer van herinneringen",
+    "smtpStep1": "Voer je e-mail in"
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2687,7 +2696,8 @@
       "enterEmailAndPwd": "Voer zowel e-mail als wachtwoord/app-sleutel in",
       "emailSentTitle": "E-mail verzonden",
       "emailSentDesc": "Test-e-mail succesvol verzonden",
-      "sendError": "Fout bij verzenden e-mail"
+      "sendError": "Fout bij verzenden e-mail",
+      "passwordRetrieveFail": "Kan opgeslagen wachtwoord niet ophalen."
     },
     "warning": {
       "title": "Let op!",
@@ -2844,7 +2854,11 @@
       "autoConfigure": "Automatisch configureren",
       "autoConfigTitle": "✨ Automatische configuratie",
       "howToGet": "Hoe de Wise API Key te verkrijgen",
-      "emailPlaceholder": "Bijv. voorbeeld@jouwdomein.com"
+      "emailPlaceholder": "Bijv. voorbeeld@jouwdomein.com",
+      "apiKeyLabel": "API-sleutel",
+      "profileIdLabel": "Profiel-ID",
+      "accountIdLabel": "Account-ID",
+      "newFeature": "NIEUWE FUNCTIE:"
     },
     "bank": {
       "heading": "Bankoverschrijving",
@@ -2921,6 +2935,9 @@
     "generating": "Bezig met genereren...",
     "titleLabel": "Titel",
     "messageLabel": "Bericht",
-    "history": "Campagne-geschiedenis"
+    "history": "Campagne-geschiedenis",
+    "aiAssistant": "AI-assistent",
+    "campaignReady": "Campagne klaar - Bewerk indien nodig",
+    "totalClients": "Totaal klanten"
   }
 }

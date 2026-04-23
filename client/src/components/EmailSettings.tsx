@@ -170,7 +170,7 @@ export default function EmailSettings() {
         // Se manca il flag success o la password, mostriamo un messaggio di errore adeguato
         toast({
           title: t("common.error"),
-          description: data.error || "Impossibile recuperare la password salvata.",
+          description: data.error || t('emailSettings.toast.passwordRetrieveFail'),
           variant: "destructive",
         });
       }
@@ -349,7 +349,7 @@ export default function EmailSettings() {
         }
       } else {
         const error = await response.json();
-        throw new Error(error.message || 'Si è verificato un errore durante il salvataggio');
+        throw new Error(error.message || t('emailSettings.toast.saveError'));
       }
     } catch (error) {
       console.error('Errore nel salvataggio delle impostazioni:', error);
@@ -432,7 +432,7 @@ export default function EmailSettings() {
         }
       } else {
         // Mostriamo un messaggio di errore più dettagliato dal server
-        const errorMessage = data.error || 'Si è verificato un errore durante l\'invio dell\'email';
+        const errorMessage = data.error || t('emailSettings.toast.sendError');
         
         // Aggiungiamo informazioni di aiuto basate sull'errore
         let helpText = '';

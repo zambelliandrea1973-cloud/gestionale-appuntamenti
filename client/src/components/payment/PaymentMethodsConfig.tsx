@@ -512,7 +512,7 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="wise-apiKey">API Key</Label>
+                    <Label htmlFor="wise-apiKey">{t('paymentMethodsConfig.wise.apiKeyLabel')}</Label>
                     <Input 
                       id="wise-apiKey" 
                       type="text" 
@@ -524,7 +524,7 @@ export default function PaymentMethodsConfig() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="wise-profileId">Profile ID</Label>
+                    <Label htmlFor="wise-profileId">{t('paymentMethodsConfig.wise.profileIdLabel')}</Label>
                     <Input 
                       id="wise-profileId" 
                       type="text" 
@@ -537,7 +537,7 @@ export default function PaymentMethodsConfig() {
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="wise-accountId">Account ID</Label>
+                    <Label htmlFor="wise-accountId">{t('paymentMethodsConfig.wise.accountIdLabel')}</Label>
                     <Input 
                       id="wise-accountId" 
                       type="text" 
@@ -596,7 +596,7 @@ export default function PaymentMethodsConfig() {
                     <div>
                       <h4 className="font-semibold text-green-800">{t('paymentMethodsConfig.wise.autoConfigTitle')}</h4>
                       <p className="mt-2 text-sm text-green-700">
-                        <strong>NUOVA FUNZIONE:</strong> Inserisci solo l'API Key di Wise e clicca "Auto-Configura"!
+                        <strong>{t('paymentMethodsConfig.wise.newFeature')}</strong> Inserisci solo l'API Key di Wise e clicca "Auto-Configura"!
                       </p>
                       <p className="mt-1 text-sm text-green-700">
                         Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente.

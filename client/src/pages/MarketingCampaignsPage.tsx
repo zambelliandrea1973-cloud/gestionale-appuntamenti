@@ -558,7 +558,7 @@ export default function MarketingCampaignsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Wand2 className="h-5 w-5" />
-                Assistente AI
+                {t('marketingCampaigns.aiAssistant')}
               </CardTitle>
               <CardDescription>
                 {t('marketingCampaigns.aiHint')}
@@ -636,7 +636,7 @@ export default function MarketingCampaignsPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  Campagna Pronta - Modifica se Necessario
+                  {t('marketingCampaigns.campaignReady')}
                 </CardTitle>
                 <CardDescription>
                   {t('marketingCampaigns.editHint')}
@@ -821,7 +821,7 @@ export default function MarketingCampaignsPage() {
             <CardContent>
               <div className="text-center">
                 <p className="text-4xl font-bold text-primary">{totalClients}</p>
-                <p className="text-sm text-muted-foreground">Clienti totali</p>
+                <p className="text-sm text-muted-foreground">{t('marketingCampaigns.totalClients')}</p>
               </div>
             </CardContent>
           </Card>
