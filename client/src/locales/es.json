@@ -263,7 +263,8 @@
     "enableAllOnline": "Activar todos",
     "allOnlineEnabled": "Todos los servicios son reservables online",
     "allOnlineDisabled": "Reserva online desactivada para todos los servicios",
-    "online": "Online"
+    "online": "Online",
+    "onlineHeader": "[TODO:ES] Prenotazioni Online"
   },
   "settingsPage": {
     "accessDenied": "Acceso denegado",
@@ -295,11 +296,7 @@
     "advancedConfig": "Configuración avanzada (método QR)",
     "whatsappNotifications": "Notificaciones de WhatsApp",
     "whatsappInfo": "Información sobre notificaciones de WhatsApp:",
-    "whatsappInfoList": [
-      "Los mensajes de WhatsApp son gratuitos y más confiables que los SMS",
-      "Verifique que los números de teléfono sean correctos con prefijo internacional (ej. +34612345678)",
-      "Todos los mensajes generan un enlace de WhatsApp que se abre automáticamente"
-    ],
+    "whatsappInfoList": "Los mensajes de WhatsApp son gratuitos y más confiables que los SMS,Verifique que los números de teléfono sean correctos con prefijo internacional (ej. +34612345678),Todos los mensajes generan un enlace de WhatsApp que se abre automáticamente",
     "error": "Error",
     "messageTemplates": "Plantillas de Mensajes",
     "messageTemplatesDesc": "Personalice las plantillas de mensajes de recordatorio",
@@ -797,12 +794,7 @@
     },
     "howItWorks": {
       "title": "Cómo funcionan las notificaciones de WhatsApp",
-      "steps": [
-        "Selecciona las citas para las que quieres enviar un recordatorio",
-        "Haz clic en \"Generar notificaciones de WhatsApp\" para crear enlaces",
-        "Se generarán enlaces que abren WhatsApp con textos preestablecidos",
-        "Puedes personalizar el texto estándar antes de enviar"
-      ]
+      "steps": "Selecciona las citas para las que quieres enviar un recordatorio,Haz clic en \"Generar notificaciones de WhatsApp\" para crear enlaces,Se generarán enlaces que abren WhatsApp con textos preestablecidos,Puedes personalizar el texto estándar antes de enviar"
     },
     "customMessage": {
       "title": "Mensaje personalizado (opcional)",
@@ -1216,187 +1208,10 @@
   "manual": {
     "pwa": {
       "title": "Solicitudes de Cita PWA Cliente",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Cómo funciona para el cliente",
-          "badge": {
-            "text": "Cómo funciona para el cliente",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Acceso PWA",
-                  "text": "El cliente abre su app PWA personal (instalada mediante código QR)"
-                },
-                {
-                  "title": "Menú Citas",
-                  "text": "Hace clic en \"Solicitar Cita\" desde el menú principal"
-                },
-                {
-                  "title": "Selección de Servicio",
-                  "text": "Elige el tratamiento deseado de la lista"
-                },
-                {
-                  "title": "Preferencia de Colaborador",
-                  "text": "OPCIONAL",
-                  "items": [
-                    "Puede elegir un colaborador preferido del menú desplegable",
-                    "O dejar \"Sin preferencia\" para asignación automática"
-                  ]
-                },
-                {
-                  "title": "Fecha y Hora",
-                  "text": "Selecciona la fecha y la franja horaria deseada"
-                },
-                {
-                  "title": "Envío de Solicitud",
-                  "text": "Hace clic en \"Enviar Solicitud\" - la solicitud llega a su sección \"Solicitudes de Reserva\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Gestión de solicitudes (Admin)",
-          "badge": {
-            "text": "Gestión de solicitudes (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Ruta: Menú principal → Solicitudes de Reserva"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Recibe la notificación",
-                  "text": "Visualiza la solicitud con todos los detalles (cliente, servicio, fecha, hora, preferencia de colaborador)"
-                },
-                {
-                  "title": "Confirmación Automática",
-                  "items": [
-                    "Hace clic en \"Aprobar\" para confirmación rápida",
-                    "El sistema asigna automáticamente el colaborador preferido (si está disponible) o uno libre",
-                    "Asigna automáticamente la primera sala libre"
-                  ]
-                },
-                {
-                  "title": "Confirmación Manual",
-                  "items": [
-                    "Se abre un cuadro de diálogo con opciones de selección",
-                    "Puede elegir manualmente colaborador y sala",
-                    "Útil para optimizar la organización o gestionar preferencias especiales"
-                  ]
-                },
-                {
-                  "title": "Notificación al Cliente",
-                  "text": "El cliente recibe confirmación de la cita con detalles completos (colaborador y sala asignados)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Otras Funcionalidades PWA Cliente",
-          "badge": {
-            "text": "Otras Funcionalidades PWA Cliente",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Visualizar Citas",
-                  "items": [
-                    "Lista completa de todas las citas (pasadas y futuras)",
-                    "Detalles: fecha, hora, servicio, colaborador asignado, sala",
-                    "Estado de la cita (confirmada, completada, cancelada)",
-                    "Actualización en tiempo real"
-                  ]
-                },
-                {
-                  "title": "📄 Documentos y Facturas",
-                  "items": [
-                    "Acceso a todas las facturas emitidas",
-                    "Descarga de PDF directamente desde la app",
-                    "Historial completo de pagos"
-                  ]
-                },
-                {
-                  "title": "📞 Contactos Directos",
-                  "items": [
-                    "📧 Email: Toque para abrir cliente de email con dirección precompletada",
-                    "📱 Teléfono: Toque para llamar directamente al consultorio",
-                    "🌐 Sitio Web: Enlace directo a su sitio web",
-                    "📷 Instagram: Apertura del perfil de Instagram",
-                    "👍 Facebook: Enlace a la página de Facebook"
-                  ]
-                },
-                {
-                  "title": "🔔 Notificaciones Push",
-                  "items": [
-                    "Recordatorios automáticos de citas",
-                    "Confirmaciones de reservas",
-                    "Actualizaciones importantes del consultorio"
-                  ]
-                },
-                {
-                  "title": "📱 Funciona Sin Conexión",
-                  "items": [
-                    "Acceso a los datos incluso sin conexión",
-                    "Sincronización automática cuando vuelve a estar en línea"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      "sections": "[object Object],[object Object],[object Object]",
       "benefits": {
         "title": "✨ Ventajas de la App PWA para los Clientes",
-        "items": [
-          {
-            "title": "Sin Descarga desde Tiendas",
-            "text": "Instalación instantánea mediante código QR, sin pasar por App Store o Google Play"
-          },
-          {
-            "title": "Siempre Actualizada",
-            "text": "Actualizaciones automáticas sin necesidad de instalar nuevas versiones"
-          },
-          {
-            "title": "Personalizada",
-            "text": "Cada cliente ve solo sus datos (citas, facturas, documentos)"
-          },
-          {
-            "title": "Icono Personalizado",
-            "text": "La app muestra el logo de su consultorio en la pantalla de inicio del teléfono"
-          },
-          {
-            "title": "Acceso Rápido",
-            "text": "Un toque en el icono y el cliente está dentro de su área reservada"
-          },
-          {
-            "title": "Multiplataforma",
-            "text": "Funciona en iPhone, Android, tablet y ordenador"
-          },
-          {
-            "title": "Segura",
-            "text": "Autenticación mediante token único, sin contraseña que recordar"
-          },
-          {
-            "title": "Contacto Directo",
-            "text": "Email, teléfono y redes sociales al alcance de un toque"
-          }
-        ]
+        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
       },
       "tips": {
         "proTip": "Muestre a los clientes cómo instalar la app durante la primera visita. Verán inmediatamente el valor añadido y se sentirán más involucrados en la relación con su consultorio.",

@@ -263,7 +263,8 @@
     "enableAllOnline": "Activer tous",
     "allOnlineEnabled": "Tous les services sont réservables en ligne",
     "allOnlineDisabled": "Réservation en ligne désactivée pour tous les services",
-    "online": "En ligne"
+    "online": "En ligne",
+    "onlineHeader": "[TODO:FR] Prenotazioni Online"
   },
   "settingsPage": {
     "accessDenied": "Accès refusé",
@@ -295,11 +296,7 @@
     "advancedConfig": "Configuration avancée (méthode QR)",
     "whatsappNotifications": "Notifications WhatsApp",
     "whatsappInfo": "Informations sur les notifications WhatsApp :",
-    "whatsappInfoList": [
-      "Les messages WhatsApp sont gratuits et plus fiables que les SMS",
-      "Vérifiez que les numéros de téléphone sont corrects avec le préfixe international (ex. +33612345678)",
-      "Tous les messages génèrent un lien WhatsApp qui s'ouvre automatiquement"
-    ],
+    "whatsappInfoList": "Les messages WhatsApp sont gratuits et plus fiables que les SMS,Vérifiez que les numéros de téléphone sont corrects avec le préfixe international (ex. +33612345678),Tous les messages génèrent un lien WhatsApp qui s'ouvre automatiquement",
     "error": "Erreur",
     "messageTemplates": "Modèles de Messages",
     "messageTemplatesDesc": "Personnalisez les modèles de messages de rappel",
@@ -797,12 +794,7 @@
     },
     "howItWorks": {
       "title": "Comment fonctionnent les notifications WhatsApp",
-      "steps": [
-        "Sélectionnez les rendez-vous pour lesquels vous souhaitez envoyer un rappel",
-        "Cliquez sur \"Générer des notifications WhatsApp\" pour créer des liens",
-        "Des liens seront générés qui ouvrent WhatsApp avec des textes préremplis",
-        "Vous pouvez personnaliser le texte standard avant l'envoi"
-      ]
+      "steps": "Sélectionnez les rendez-vous pour lesquels vous souhaitez envoyer un rappel,Cliquez sur \"Générer des notifications WhatsApp\" pour créer des liens,Des liens seront générés qui ouvrent WhatsApp avec des textes préremplis,Vous pouvez personnaliser le texte standard avant l'envoi"
     },
     "customMessage": {
       "title": "Message personnalisé (facultatif)",
@@ -1216,187 +1208,10 @@
   "manual": {
     "pwa": {
       "title": "Demandes de Rendez-vous PWA Client",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Comment ça fonctionne pour le client",
-          "badge": {
-            "text": "Comment ça fonctionne pour le client",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Accès PWA",
-                  "text": "Le client ouvre son app PWA personnelle (installée via QR code)"
-                },
-                {
-                  "title": "Menu Rendez-vous",
-                  "text": "Cliquer sur \"Demander un Rendez-vous\" depuis le menu principal"
-                },
-                {
-                  "title": "Sélection du Service",
-                  "text": "Choisir le traitement souhaité dans la liste"
-                },
-                {
-                  "title": "Préférence Collaborateur",
-                  "text": "OPTIONNEL",
-                  "items": [
-                    "Peut choisir un collaborateur préféré dans le menu déroulant",
-                    "Ou laisser \"Aucune préférence\" pour une attribution automatique"
-                  ]
-                },
-                {
-                  "title": "Date et Heure",
-                  "text": "Sélectionner la date et la plage horaire souhaitée"
-                },
-                {
-                  "title": "Envoi de la Demande",
-                  "text": "Cliquer sur \"Envoyer la Demande\" - la demande arrive dans votre section \"Demandes de Réservation\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Gestion des demandes (Admin)",
-          "badge": {
-            "text": "Gestion des demandes (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Chemin : Menu principal → Demandes de Réservation"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Recevoir la notification",
-                  "text": "Vous visualisez la demande avec tous les détails (client, service, date, heure, préférence collaborateur)"
-                },
-                {
-                  "title": "Confirmation Automatique",
-                  "items": [
-                    "Cliquer sur \"Approuver\" pour une confirmation rapide",
-                    "Le système attribue automatiquement le collaborateur préféré (si disponible) ou un collaborateur libre",
-                    "Attribue automatiquement la première salle disponible"
-                  ]
-                },
-                {
-                  "title": "Confirmation Manuelle",
-                  "items": [
-                    "Un dialogue s'ouvre avec des options de sélection",
-                    "Vous pouvez choisir manuellement le collaborateur et la salle",
-                    "Utile pour optimiser l'organisation ou gérer des préférences spéciales"
-                  ]
-                },
-                {
-                  "title": "Notification Client",
-                  "text": "Le client reçoit une confirmation du rendez-vous avec les détails complets (collaborateur et salle attribués)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Autres Fonctionnalités PWA Client",
-          "badge": {
-            "text": "Autres Fonctionnalités PWA Client",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Visualiser les Rendez-vous",
-                  "items": [
-                    "Liste complète de tous les rendez-vous (passés et futurs)",
-                    "Détails : date, heure, service, collaborateur attribué, salle",
-                    "Statut du rendez-vous (confirmé, terminé, annulé)",
-                    "Mise à jour en temps réel"
-                  ]
-                },
-                {
-                  "title": "📄 Documents et Factures",
-                  "items": [
-                    "Accès à toutes les factures émises",
-                    "Téléchargement PDF directement depuis l'app",
-                    "Historique complet des paiements"
-                  ]
-                },
-                {
-                  "title": "📞 Contacts Directs",
-                  "items": [
-                    "📧 Email : Tap pour ouvrir le client email avec l'adresse pré-remplie",
-                    "📱 Téléphone : Tap pour appeler directement le cabinet",
-                    "🌐 Site Web : Lien direct vers votre site",
-                    "📷 Instagram : Ouverture du profil Instagram",
-                    "👍 Facebook : Lien vers la page Facebook"
-                  ]
-                },
-                {
-                  "title": "🔔 Notifications Push",
-                  "items": [
-                    "Rappels automatiques des rendez-vous",
-                    "Confirmations de réservations",
-                    "Mises à jour importantes du cabinet"
-                  ]
-                },
-                {
-                  "title": "📱 Fonctionne Hors Ligne",
-                  "items": [
-                    "Accès aux données même sans connexion",
-                    "Synchronisation automatique au retour en ligne"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      "sections": "[object Object],[object Object],[object Object]",
       "benefits": {
         "title": "✨ Avantages de l'App PWA pour les Clients",
-        "items": [
-          {
-            "title": "Aucun Téléchargement depuis un Store",
-            "text": "Installation instantanée via QR code, sans passer par l'App Store ou Google Play"
-          },
-          {
-            "title": "Toujours à Jour",
-            "text": "Mises à jour automatiques sans besoin d'installer de nouvelles versions"
-          },
-          {
-            "title": "Personnalisée",
-            "text": "Chaque client voit uniquement ses données (rendez-vous, factures, documents)"
-          },
-          {
-            "title": "Icône Personnalisée",
-            "text": "L'app affiche le logo de votre cabinet sur l'écran d'accueil du téléphone"
-          },
-          {
-            "title": "Accès Rapide",
-            "text": "Un tap sur l'icône et le client accède à son espace personnel"
-          },
-          {
-            "title": "Multi-Plateforme",
-            "text": "Fonctionne sur iPhone, Android, tablette et desktop"
-          },
-          {
-            "title": "Sécurisée",
-            "text": "Authentification par token unique, aucun mot de passe à mémoriser"
-          },
-          {
-            "title": "Contact Direct",
-            "text": "Email, téléphone et réseaux sociaux à portée de tap"
-          }
-        ]
+        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
       },
       "tips": {
         "proTip": "Montrez aux clients comment installer l'app lors de la première visite. Ils verront immédiatement la valeur ajoutée et se sentiront plus impliqués dans leur relation avec votre cabinet !",

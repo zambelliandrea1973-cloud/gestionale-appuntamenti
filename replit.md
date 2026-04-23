@@ -39,6 +39,46 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Rischio**: Modifica delicata, da fare solo dopo fase test completata
 - **Workaround attuale**: Il nome sotto l'icona è diverso per ogni professionista
 
+### Sistema i18n — Tooling automatico (creato 23 apr 2026)
+
+**Strumenti disponibili in `scripts/`:**
+
+```bash
+# 1. Audit: trova tutte le stringhe italiane hardcoded nel codice
+npx tsx scripts/i18n-audit.ts
+# → genera .local/i18n-audit-report.md con classifica per file
+
+# 2. Sync: verifica che tutte le 9 lingue abbiano le stesse chiavi di it.json (base)
+npx tsx scripts/i18n-sync.ts          # solo report
+npx tsx scripts/i18n-sync.ts --fix    # auto-aggiunge chiavi mancanti con marker [TODO:LANG]
+
+# 3. Aggiungi nuova lingua (scaffold da una lingua simile esistente)
+npx tsx scripts/i18n-add-lang.ts pt-BR es    # Portoghese basato su Spagnolo
+npx tsx scripts/i18n-add-lang.ts hi en       # Hindi basato su Inglese
+# Dopo: aggiornare client/src/lib/i18n.ts (import + supportedLngs) e LanguageSelector
+```
+
+**Workflow consigliato quando si aggiunge/modifica una funzionalità:**
+1. Aggiungi/modifica le chiavi solo in `it.json` (lingua base canonica)
+2. Esegui `npx tsx scripts/i18n-sync.ts --fix` → tutte le altre 8 lingue ricevono la nuova chiave con marker `[TODO:LANG]`
+3. Cerca i marker `[TODO:` nei file locale e traduci (manualmente o tramite AI batch)
+4. Esegui `npx tsx scripts/i18n-sync.ts` per confermare allineamento
+
+**Stato audit iniziale (23 apr 2026):**
+- Stringhe italiane hardcoded trovate: **1697** in **114 file**
+- Top 10 file critici (vedere `.local/i18n-audit-report.md`):
+  1. NotificationSettingsForm.tsx (89)
+  2. GoogleCalendarSettings.tsx (72)
+  3. BetaAdmin.tsx (58)
+  4. GoogleCalendarSetupPage.tsx (46)
+  5. GoogleTroubleshootingPage.tsx (42)
+  6. StaffManagementPageFixed.tsx (39)
+  7. PaymentAdmin.tsx (36)
+  8. BetaPage.tsx (34)
+  9. EmailSettings.tsx (33)
+  10. AdminLicenseManagementPage.tsx (32)
+- Sync 9 lingue: ✅ allineate (1448 chiavi ciascuna)
+
 ### TODO: Pricing geolocalizzato per paese (PPP - Purchasing Power Parity)
 - **Stato**: Idea utente del 23 apr 2026 — DA VALUTARE dopo aver stabilizzato registrazioni Italia
 - **Problema osservato**: 85% install da India/Etiopia/Congo con CPI €0,01 ma 0% conversione abbonamento perché €20/mese = troppo per quei mercati

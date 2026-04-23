@@ -263,7 +263,8 @@
     "enableAllOnline": "Enable all",
     "allOnlineEnabled": "All services are bookable online",
     "allOnlineDisabled": "Online booking disabled for all services",
-    "online": "Online"
+    "online": "Online",
+    "onlineHeader": "[TODO:EN] Prenotazioni Online"
   },
   "settingsPage": {
     "accessDenied": "Access denied",
@@ -295,11 +296,7 @@
     "advancedConfig": "Advanced configuration (QR method)",
     "whatsappNotifications": "WhatsApp Notifications",
     "whatsappInfo": "Information about WhatsApp notifications:",
-    "whatsappInfoList": [
-      "WhatsApp messages are free and more reliable than SMS",
-      "Verify phone numbers are correct with international prefix (e.g., +1234567890)",
-      "All messages generate a WhatsApp link that opens automatically"
-    ],
+    "whatsappInfoList": "WhatsApp messages are free and more reliable than SMS,Verify phone numbers are correct with international prefix (e.g., +1234567890),All messages generate a WhatsApp link that opens automatically",
     "error": "Error",
     "messageTemplates": "Message Templates",
     "messageTemplatesDesc": "Customize reminder message templates",
@@ -805,12 +802,7 @@
     },
     "howItWorks": {
       "title": "How WhatsApp notifications work",
-      "steps": [
-        "Select appointments for which you want to send a reminder",
-        "Click on \"Generate WhatsApp notifications\" to create links",
-        "Links will be generated that open WhatsApp with pre-filled texts",
-        "You can customize the standard text before sending"
-      ]
+      "steps": "Select appointments for which you want to send a reminder,Click on \"Generate WhatsApp notifications\" to create links,Links will be generated that open WhatsApp with pre-filled texts,You can customize the standard text before sending"
     },
     "customMessage": {
       "title": "Custom message (optional)",
@@ -1216,187 +1208,10 @@
   "manual": {
     "pwa": {
       "title": "Client PWA Appointment Requests",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "How it works for the client",
-          "badge": {
-            "text": "How it works for the client",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "PWA Access",
-                  "text": "The client opens their personal PWA app (installed via QR code)"
-                },
-                {
-                  "title": "Appointments Menu",
-                  "text": "Clicks on \"Request Appointment\" from the main menu"
-                },
-                {
-                  "title": "Service Selection",
-                  "text": "Chooses the desired treatment from the list"
-                },
-                {
-                  "title": "Staff Preference",
-                  "text": "OPTIONAL",
-                  "items": [
-                    "Can choose a preferred staff member from the dropdown menu",
-                    "Or leave \"No preference\" for automatic assignment"
-                  ]
-                },
-                {
-                  "title": "Date and Time",
-                  "text": "Selects the date and desired time slot"
-                },
-                {
-                  "title": "Submit Request",
-                  "text": "Clicks \"Submit Request\" - the request arrives in your \"Booking Requests\" section"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Request Management (Admin)",
-          "badge": {
-            "text": "Request Management (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Path: Main menu → Booking Requests"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Receive notification",
-                  "text": "View the request with all details (client, service, date, time, staff preference)"
-                },
-                {
-                  "title": "Automatic Confirmation",
-                  "items": [
-                    "Click \"Approve\" for quick confirmation",
-                    "The system automatically assigns the preferred staff member (if available) or an available one",
-                    "Automatically assigns the first available room"
-                  ]
-                },
-                {
-                  "title": "Manual Confirmation",
-                  "items": [
-                    "A dialog opens with selection options",
-                    "You can manually choose staff member and room",
-                    "Useful for optimizing organization or handling special preferences"
-                  ]
-                },
-                {
-                  "title": "Client Notification",
-                  "text": "The client receives appointment confirmation with complete details (assigned staff member and room)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Other Client PWA Features",
-          "badge": {
-            "text": "Other Client PWA Features",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 View Appointments",
-                  "items": [
-                    "Complete list of all appointments (past and future)",
-                    "Details: date, time, service, assigned staff member, room",
-                    "Appointment status (confirmed, completed, cancelled)",
-                    "Real-time updates"
-                  ]
-                },
-                {
-                  "title": "📄 Documents and Invoices",
-                  "items": [
-                    "Access to all issued invoices",
-                    "PDF download directly from the app",
-                    "Complete payment history"
-                  ]
-                },
-                {
-                  "title": "📞 Direct Contacts",
-                  "items": [
-                    "📧 Email: Tap to open email client with pre-filled address",
-                    "📱 Phone: Tap to call the practice directly",
-                    "🌐 Website: Direct link to your website",
-                    "📷 Instagram: Open Instagram profile",
-                    "👍 Facebook: Link to Facebook page"
-                  ]
-                },
-                {
-                  "title": "🔔 Push Notifications",
-                  "items": [
-                    "Automatic appointment reminders",
-                    "Booking confirmations",
-                    "Important updates from the practice"
-                  ]
-                },
-                {
-                  "title": "📱 Works Offline",
-                  "items": [
-                    "Access to data even without connection",
-                    "Automatic synchronization when back online"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      "sections": "[object Object],[object Object],[object Object]",
       "benefits": {
         "title": "✨ Client PWA App Benefits",
-        "items": [
-          {
-            "title": "No Store Download",
-            "text": "Instant installation via QR code, without going through App Store or Google Play"
-          },
-          {
-            "title": "Always Updated",
-            "text": "Automatic updates without needing to install new versions"
-          },
-          {
-            "title": "Personalized",
-            "text": "Each client sees only their data (appointments, invoices, documents)"
-          },
-          {
-            "title": "Custom Icon",
-            "text": "The app displays your practice logo on the phone's home screen"
-          },
-          {
-            "title": "Quick Access",
-            "text": "One tap on the icon and the client is in their personal area"
-          },
-          {
-            "title": "Multi-Platform",
-            "text": "Works on iPhone, Android, tablet and desktop"
-          },
-          {
-            "title": "Secure",
-            "text": "Authentication via unique token, no password to remember"
-          },
-          {
-            "title": "Direct Contact",
-            "text": "Email, phone and social networks at your fingertips"
-          }
-        ]
+        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
       },
       "tips": {
         "proTip": "Show clients how to install the app during their first visit. They will immediately see the added value and feel more engaged in their relationship with your practice!",
