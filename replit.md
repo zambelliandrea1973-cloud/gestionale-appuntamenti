@@ -48,9 +48,15 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 npx tsx scripts/i18n-audit.ts
 # → genera .local/i18n-audit-report.md con classifica per file
 
-# 2. Sync: verifica che tutte le 9 lingue abbiano le stesse chiavi di it.json (base)
-npx tsx scripts/i18n-sync.ts          # solo report
+# 2. Sync: controllo completo regressioni multilingua (un solo comando)
+#    Verifica in tutte le 9 lingue:
+#      (a) Allineamento chiavi rispetto a it.json (base canonica)
+#      (b) Assenza di marker [TODO:LANG] residui
+#      (c) Coerenza delle interpolazioni {{var}} con quelle di it.json
+#    Esce con codice 1 se uno qualsiasi dei controlli fallisce.
+npx tsx scripts/i18n-sync.ts          # solo report (CI / pre-merge check)
 npx tsx scripts/i18n-sync.ts --fix    # auto-aggiunge chiavi mancanti con marker [TODO:LANG]
+                                       # (i TODO e le interpolazioni divergenti vanno risolti a mano)
 
 # 3. Aggiungi nuova lingua (scaffold da una lingua simile esistente)
 npx tsx scripts/i18n-add-lang.ts pt-BR es    # Portoghese basato su Spagnolo
