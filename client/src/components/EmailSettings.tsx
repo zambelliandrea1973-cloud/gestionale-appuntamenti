@@ -63,10 +63,12 @@ interface EmailCalendarSettings {
 }
 
 // Template predefinito per l'email, simile a quello WhatsApp
-const DEFAULT_EMAIL_TEMPLATE = "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale";
+const getDefaultEmailTemplate = () => i18nInstance.t('emailSettings.defaults.template');
+const DEFAULT_EMAIL_TEMPLATE = getDefaultEmailTemplate();
 
 // Oggetto predefinito per l'email
-const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
+const getDefaultEmailSubject = () => i18nInstance.t('emailSettings.defaults.subject');
+const DEFAULT_EMAIL_SUBJECT = getDefaultEmailSubject();
 
 export default function EmailSettings() {
   const { t } = useTranslation();

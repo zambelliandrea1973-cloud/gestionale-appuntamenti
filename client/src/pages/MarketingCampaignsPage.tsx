@@ -28,6 +28,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import i18n from '@/lib/i18n';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
@@ -517,7 +518,7 @@ export default function MarketingCampaignsPage() {
       } else {
         // Gestisci errore specifico per campagna già inviata
         if (data.alreadySent) {
-          throw new Error(data.message || 'Questa campagna è già stata inviata');
+          throw new Error(data.message || t('marketingCampaigns.errors.alreadySent'));
         }
         throw new Error(data.message || t('marketingCampaigns.errors.sendCampaign'));
       }
@@ -582,7 +583,7 @@ export default function MarketingCampaignsPage() {
                       >
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                         <p className="text-xs mt-1 opacity-70">
-                          {msg.timestamp.toLocaleTimeString('it-IT', { 
+                          {msg.timestamp.toLocaleTimeString(i18n.language, { 
                             hour: '2-digit', 
                             minute: '2-digit' 
                           })}
@@ -698,7 +699,7 @@ export default function MarketingCampaignsPage() {
                         data-testid="button-remove-all-files"
                       >
                         <X className="h-4 w-4 mr-1" />
-                        Rimuovi tutti
+                        {t('marketingCampaigns.removeAll')}
                       </Button>
                     )}
                   </div>
@@ -850,7 +851,7 @@ export default function MarketingCampaignsPage() {
                         <div className="flex items-start justify-between gap-2">
                           <h4 className="font-semibold text-sm flex-1">{campaign.title}</h4>
                           <Badge variant="outline" className="text-xs shrink-0">
-                            {campaign.sentTo || 0} clienti
+                            {t('marketingCampaigns.clientsCount', { count: campaign.sentTo || 0 })}
                           </Badge>
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
@@ -903,7 +904,7 @@ export default function MarketingCampaignsPage() {
                             </Badge>
                           )}
                           <span className="ml-auto">
-                            {new Date(campaign.createdAt).toLocaleDateString('it-IT', {
+                            {new Date(campaign.createdAt).toLocaleDateString(i18n.language, {
                               day: '2-digit',
                               month: 'short',
                               hour: '2-digit',

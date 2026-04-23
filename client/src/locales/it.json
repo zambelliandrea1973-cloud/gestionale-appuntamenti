@@ -2761,6 +2761,10 @@
       "step1": "1. Prima attiva la \"Verifica in due passaggi\" da",
       "step2": "2. Poi genera una \"Password per le app\" da",
       "step3": "3. Copia e incolla la password generata nel campo \"Password / Chiave App\" qui sopra"
+    },
+    "defaults": {
+      "subject": "Promemoria appuntamento del {{data}}",
+      "template": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campagna Pronta - Modifica se Necessario",
     "totalClients": "Clienti totali",
     "errors": {
-      "sendCampaign": "Errore durante l'invio della campagna"
+      "sendCampaign": "Errore durante l'invio della campagna",
+      "alreadySent": "Questa campagna è già stata inviata"
     },
     "addMedia": "Aggiungi Immagini o Video (opzionale)",
     "filesUploaded": "{{count}} file caricati",
@@ -3013,6 +3018,7 @@
     "skip": "Salta",
     "sendSequence": "🚀 Invia in Sequenza",
     "or": "oppure",
-    "openOne": "Apri uno"
+    "openOne": "Apri uno",
+    "clientsCount": "{{count}} clienti"
   }
 }

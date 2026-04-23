@@ -2761,6 +2761,10 @@
       "step1": "1. Activez d’abord la « validation en 2 étapes » depuis",
       "step2": "2. Puis générez un « mot de passe d’application » depuis",
       "step3": "3. Copiez et collez le mot de passe généré dans le champ « Mot de passe / clé d’app » ci-dessus"
+    },
+    "defaults": {
+      "subject": "Rappel de rendez-vous du {{data}}",
+      "template": "Cher/Chère {{nome}} {{cognome}},\n\nCeci est un rappel de votre rendez-vous de {{servizio}} prévu le {{data}} à {{ora}}.\n\nPour toute modification ou annulation, veuillez nous contacter.\n\nCordialement,\nLe Studio"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campagne prête - Modifiez si nécessaire",
     "totalClients": "Clients au total",
     "errors": {
-      "sendCampaign": "Erreur lors de l’envoi de la campagne"
+      "sendCampaign": "Erreur lors de l’envoi de la campagne",
+      "alreadySent": "Cette campagne a déjà été envoyée"
     },
     "addMedia": "Ajouter des images ou une vidéo (facultatif)",
     "filesUploaded": "{{count}} fichiers téléversés",
@@ -3013,6 +3018,7 @@
     "skip": "Passer",
     "sendSequence": "🚀 Envoyer en séquence",
     "or": "ou",
-    "openOne": "En ouvrir un"
+    "openOne": "En ouvrir un",
+    "clientsCount": "{{count}} clients"
   }
 }

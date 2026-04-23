@@ -2761,6 +2761,10 @@
       "step1": "1. Aktiver først «totrinnsbekreftelse» fra",
       "step2": "2. Generer deretter et «app-passord» fra",
       "step3": "3. Kopier og lim inn det genererte passordet i feltet «Passord / App-nøkkel» ovenfor"
+    },
+    "defaults": {
+      "subject": "Påminnelse om avtale {{data}}",
+      "template": "Kjære {{nome}} {{cognome}},\n\nDette er en påminnelse om din {{servizio}}-avtale {{data}} kl. {{ora}}.\n\nKontakt oss ved endringer eller avbestilling.\n\nMed vennlig hilsen,\nStudioet"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Kampanje klar - Rediger om nødvendig",
     "totalClients": "Totalt antall kunder",
     "errors": {
-      "sendCampaign": "Feil ved sending av kampanjen"
+      "sendCampaign": "Feil ved sending av kampanjen",
+      "alreadySent": "Denne kampanjen er allerede sendt"
     },
     "addMedia": "Legg til bilder eller video (valgfritt)",
     "filesUploaded": "{{count}} filer lastet opp",
@@ -3013,6 +3018,7 @@
     "skip": "Hopp over",
     "sendSequence": "🚀 Send i sekvens",
     "or": "eller",
-    "openOne": "Åpne én"
+    "openOne": "Åpne én",
+    "clientsCount": "{{count}} kunder"
   }
 }

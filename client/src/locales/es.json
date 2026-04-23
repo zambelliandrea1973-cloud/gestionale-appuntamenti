@@ -2761,6 +2761,10 @@
       "step1": "1. Activa primero la \"Verificación en 2 pasos\" desde",
       "step2": "2. Después genera una \"Contraseña de aplicación\" desde",
       "step3": "3. Copia y pega la contraseña generada en el campo \"Contraseña / Clave de App\" de arriba"
+    },
+    "defaults": {
+      "subject": "Recordatorio de cita del {{data}}",
+      "template": "Estimado/a {{nome}} {{cognome}}:\n\nEste es un recordatorio de su cita de {{servizio}} prevista para el día {{data}} a las {{ora}}.\n\nPara cualquier cambio o cancelación, póngase en contacto con nosotros.\n\nUn cordial saludo,\nEstudio Profesional"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campaña lista - Edita si es necesario",
     "totalClients": "Clientes totales",
     "errors": {
-      "sendCampaign": "Error al enviar la campaña"
+      "sendCampaign": "Error al enviar la campaña",
+      "alreadySent": "Esta campaña ya ha sido enviada"
     },
     "addMedia": "Añadir imágenes o vídeo (opcional)",
     "filesUploaded": "{{count}} archivos cargados",
@@ -3013,6 +3018,7 @@
     "skip": "Omitir",
     "sendSequence": "🚀 Enviar en secuencia",
     "or": "o",
-    "openOne": "Abrir uno"
+    "openOne": "Abrir uno",
+    "clientsCount": "{{count}} clientes"
   }
 }

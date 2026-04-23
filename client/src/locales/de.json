@@ -2761,6 +2761,10 @@
       "step1": "1. Aktivieren Sie zuerst die „Bestätigung in zwei Schritten“ unter",
       "step2": "2. Erstellen Sie dann ein „App-Passwort“ unter",
       "step3": "3. Kopieren Sie das erzeugte Passwort in das Feld „Passwort / App-Schlüssel“ oben"
+    },
+    "defaults": {
+      "subject": "Terminerinnerung vom {{data}}",
+      "template": "Sehr geehrte/r {{nome}} {{cognome}},\n\nDies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}}.\n\nBei Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nIhr Studio"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Kampagne bereit - Bei Bedarf bearbeiten",
     "totalClients": "Kunden insgesamt",
     "errors": {
-      "sendCampaign": "Fehler beim Senden der Kampagne"
+      "sendCampaign": "Fehler beim Senden der Kampagne",
+      "alreadySent": "Diese Kampagne wurde bereits gesendet"
     },
     "addMedia": "Bilder oder Video hinzufügen (optional)",
     "filesUploaded": "{{count}} Dateien hochgeladen",
@@ -3013,6 +3018,7 @@
     "skip": "Überspringen",
     "sendSequence": "🚀 In Sequenz senden",
     "or": "oder",
-    "openOne": "Einen öffnen"
+    "openOne": "Einen öffnen",
+    "clientsCount": "{{count}} Kunden"
   }
 }

@@ -2761,6 +2761,10 @@
       "step1": "1. First enable \"2-Step Verification\" at",
       "step2": "2. Then generate an \"App Password\" at",
       "step3": "3. Copy and paste the generated password into the \"Password / App Key\" field above"
+    },
+    "defaults": {
+      "subject": "Appointment reminder for {{data}}",
+      "template": "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled on {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nThe Studio"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campaign Ready - Edit if Needed",
     "totalClients": "Total clients",
     "errors": {
-      "sendCampaign": "Error while sending the campaign"
+      "sendCampaign": "Error while sending the campaign",
+      "alreadySent": "This campaign has already been sent"
     },
     "addMedia": "Add Images or Video (optional)",
     "filesUploaded": "{{count}} files uploaded",
@@ -3013,6 +3018,7 @@
     "skip": "Skip",
     "sendSequence": "🚀 Send in Sequence",
     "or": "or",
-    "openOne": "Open one"
+    "openOne": "Open one",
+    "clientsCount": "{{count}} clients"
   }
 }

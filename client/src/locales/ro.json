@@ -2761,6 +2761,10 @@
       "step1": "1. Activați mai întâi „Verificarea în 2 pași” de la",
       "step2": "2. Apoi generați o „Parolă de aplicație” de la",
       "step3": "3. Copiați și lipiți parola generată în câmpul „Parolă / Cheie aplicație” de mai sus"
+    },
+    "defaults": {
+      "subject": "Memento programare din {{data}}",
+      "template": "Stimate/Stimată {{nome}} {{cognome}},\n\nAceasta este o notificare pentru programarea dvs. de {{servizio}} din {{data}}, ora {{ora}}.\n\nPentru orice modificare sau anulare, vă rugăm să ne contactați.\n\nCu stimă,\nStudioul"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campanie gata - Editați dacă este necesar",
     "totalClients": "Clienți totali",
     "errors": {
-      "sendCampaign": "Eroare la trimiterea campaniei"
+      "sendCampaign": "Eroare la trimiterea campaniei",
+      "alreadySent": "Această campanie a fost deja trimisă"
     },
     "addMedia": "Adăugați imagini sau video (opțional)",
     "filesUploaded": "{{count}} fișiere încărcate",
@@ -3013,6 +3018,7 @@
     "skip": "Omiteți",
     "sendSequence": "🚀 Trimite în secvență",
     "or": "sau",
-    "openOne": "Deschideți unul"
+    "openOne": "Deschideți unul",
+    "clientsCount": "{{count}} clienți"
   }
 }

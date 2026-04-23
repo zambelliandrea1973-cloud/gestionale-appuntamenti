@@ -2761,6 +2761,10 @@
       "step1": "1. Schakel eerst \"Verificatie in 2 stappen\" in op",
       "step2": "2. Genereer vervolgens een \"app-wachtwoord\" op",
       "step3": "3. Kopieer en plak het gegenereerde wachtwoord in het veld \"Wachtwoord / App-sleutel\" hierboven"
+    },
+    "defaults": {
+      "subject": "Afspraakherinnering van {{data}}",
+      "template": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering voor je {{servizio}}-afspraak op {{data}} om {{ora}}.\n\nNeem contact met ons op voor wijzigingen of annuleringen.\n\nMet vriendelijke groet,\nDe Studio"
     }
   },
   "userSettings": {
@@ -2994,7 +2998,8 @@
     "campaignReady": "Campagne klaar - Bewerk indien nodig",
     "totalClients": "Totaal klanten",
     "errors": {
-      "sendCampaign": "Fout bij het verzenden van de campagne"
+      "sendCampaign": "Fout bij het verzenden van de campagne",
+      "alreadySent": "Deze campagne is al verzonden"
     },
     "addMedia": "Afbeeldingen of video toevoegen (optioneel)",
     "filesUploaded": "{{count}} bestanden geüpload",
@@ -3013,6 +3018,7 @@
     "skip": "Overslaan",
     "sendSequence": "🚀 Sequentieel verzenden",
     "or": "of",
-    "openOne": "Eén openen"
+    "openOne": "Eén openen",
+    "clientsCount": "{{count}} klanten"
   }
 }
