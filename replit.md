@@ -70,6 +70,22 @@ npx tsx scripts/i18n-add-lang.ts hi en       # Hindi basato su Inglese
 3. Cerca i marker `[TODO:` nei file locale e traduci (manualmente o tramite AI batch)
 4. Esegui `npx tsx scripts/i18n-sync.ts` per confermare allineamento
 
+**Controllo automatico pre-rilascio (NON aggirabile):**
+- `scripts/post-merge.sh` esegue `npx tsx scripts/i18n-sync.ts` come secondo step,
+  subito dopo `npm install` e prima di `npm run db:push`.
+- Lo script gira automaticamente dopo ogni merge upstream gestito dalla piattaforma
+  Replit (cioè prima che il rilascio/deploy possa partire).
+- Se anche un solo controllo fallisce (chiavi mancanti/extra, marker `[TODO:LANG]`
+  residui, interpolazioni `{{var}}` divergenti rispetto a `it.json`), `set -e`
+  interrompe il post-merge con un messaggio esplicito che indica come sbloccarlo
+  (`npx tsx scripts/i18n-sync.ts --fix` in locale + traduzione dei marker).
+- Conseguenza: nessuna funzione può finire in produzione tradotta solo in italiano,
+  perché il rilascio resta bloccato finché tutte le 9 lingue non sono allineate.
+- **Perimetro**: la garanzia "non aggirabile" vale per il flusso di merge/deploy
+  gestito dalla piattaforma Replit (post-merge hook). Eventuali pipeline di
+  rilascio alternative esterne (CI custom, deploy manuale fuori da Replit)
+  devono replicare lo stesso comando per garantire la copertura totale.
+
 **Stato audit iniziale (23 apr 2026):**
 - Stringhe italiane hardcoded trovate: **1697** in **114 file**
 - Top 10 file critici (vedere `.local/i18n-audit-report.md`):
