@@ -43,13 +43,36 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Stato**: Idea utente del 23 apr 2026 — DA VALUTARE dopo aver stabilizzato registrazioni Italia
 - **Problema osservato**: 85% install da India/Etiopia/Congo con CPI €0,01 ma 0% conversione abbonamento perché €20/mese = troppo per quei mercati
 - **Soluzione**: rilevare paese da IP (NON da lingua selezionata, altrimenti frode garantita) e applicare pricing differenziato
-- **Fasce proposte**:
-  - Europa Ovest (IT/DE/FR/CH): €20/mese (full price)
-  - Europa Sud (ES/PT/GR): €15/mese
-  - Europa Est (RO/PL/HU/BG): €10/mese
-  - CIS/Turchia (RU/UA/TR): €7/mese
-  - Mercati emergenti (IN/PH/ID/MX/BR): €4-5/mese
-  - Africa (ET/CD/NG): €2-3/mese
+- **REGOLA CHIAVE SaaS**: prezzo sostenibile = 0,5% – 2% dello stipendio mensile target
+  - Sotto 0,5% → lasci soldi sul tavolo
+  - Sopra 2% → perdi conversioni
+- **Fasce raffinate (ricerca utente 23 apr 2026 con stipendi medi reali)**:
+  - 🇪🇺 Europa Ovest (IT/DE/FR/CH/ES) — stipendio medio €1.900-2.800
+    - FREE: limitato (acquisizione)
+    - PRO: €12-15/mese (sweet spot, 0,5-0,8% stipendio)
+    - ANNUALE: €99-149/anno (sconto 30-40%)
+  - 🇪🇺 Europa Est (RO/PL/HU/BG) — stipendio medio €700-1.200
+    - PRO: €7-9/mese
+    - ANNUALE: €59-79/anno
+  - 🇨🇳 Cina — stipendio medio €1.300
+    - PRO: €8/mese
+    - ANNUALE: €69/anno
+  - 🇷🇺🇹🇷 CIS/Turchia — stipendio medio €500-800
+    - PRO: €5/mese
+    - ANNUALE: €39/anno
+  - 🇮🇳 India — stipendio medio €280-460 (4-5x meno di Cina)
+    - PRO: €3/mese
+    - ANNUALE: €29/anno
+  - 🇵🇭🇮🇩🇲🇽🇧🇷 Altri emergenti — stipendio medio €400-700
+    - PRO: €4/mese
+    - ANNUALE: €35/anno
+  - 🇪🇹🇨🇩🇳🇬 Africa — stipendio medio €100-300
+    - PRO: €2/mese
+    - ANNUALE: €19/anno
+- **Concorrenti benchmark**: Booksy €20-30/mese, Fresha (free + commissioni), Treatwell (fee elevate)
+- **Strategia obiettivo fase attuale**: NON massimizzare prezzo, ma trovare il prezzo massimo che NON blocca crescita
+  - Parti basso → raccogli 100-200 utenti → alzi gradualmente
+  - Freemium con limitazioni (clienti/appuntamenti) per acquisizione
 - **Implementazione tecnica**:
   - Servizio geolocation IP: MaxMind GeoLite2 (gratis) o ipapi.co
   - Mappa paese → tier prezzo nel backend
