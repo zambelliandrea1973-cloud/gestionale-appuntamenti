@@ -2895,7 +2895,9 @@
       "step2": "2. Ga naar Dashboard > My Apps & Credentials",
       "step3": "3. Maak een nieuwe REST API-app of selecteer een bestaande",
       "step4": "4. Kopieer de \"Client ID\" en \"Secret\" credentials",
-      "step5": "5. Gebruik de juiste credentials voor Sandbox (test) of Live (productie)"
+      "step5": "5. Gebruik de juiste credentials voor Sandbox (test) of Live (productie)",
+      "clientIdPlaceholder": "Bijv. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Bijv. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Notificatie-e-mail",
@@ -2916,7 +2918,10 @@
       "step3": "3. Scroll naar \"API tokens\" en klik op \"Add new token\"",
       "step4": "4. Geef het een naam (bijv. \"Beheer\") en klik op \"Create token\"",
       "step5": "5. Kopieer het token (het verschijnt slechts één keer!) en plak het in het \"API Key\"-veld hierboven",
-      "step6": "6. Klik op \"Automatisch configureren\" — Profile ID en Account ID worden automatisch ingevuld!"
+      "step6": "6. Klik op \"Automatisch configureren\" — Profile ID en Account ID worden automatisch ingevuld!",
+      "apiKeyPlaceholder": "Bijv. dad06e...",
+      "profileIdPlaceholder": "Bijv. 12345...",
+      "accountIdPlaceholder": "Bijv. 6789..."
     },
     "bank": {
       "heading": "Bankoverschrijving",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Voer hier de overschrijvingsinstructies in (bijv. omschrijving)",
       "instructionsHelp": "Deze instructies worden getoond aan klanten die voor bankoverschrijving kiezen",
       "accountNamePlaceholder": "Bijv. Ethera BV",
-      "bankNamePlaceholder": "Bijv. Intesa San Paolo"
+      "bankNamePlaceholder": "Bijv. Intesa San Paolo",
+      "ibanPlaceholder": "Bijv. IT60X0542811101000000123456",
+      "bicPlaceholder": "Bijv. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Kon de configuratie van betaalmethoden niet laden",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Sequentieel verzenden",
     "or": "of",
     "openOne": "Eén openen",
-    "clientsCount": "{{count}} klanten"
+    "clientsCount": "{{count}} klanten",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "E-mail"
+    }
   }
 }

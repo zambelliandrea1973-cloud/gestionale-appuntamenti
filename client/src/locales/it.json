@@ -2895,7 +2895,9 @@
       "step2": "2. Vai su Dashboard > My Apps & Credentials",
       "step3": "3. Crea una nuova app REST API oppure seleziona una esistente",
       "step4": "4. Copia le credenziali \"Client ID\" e \"Secret\"",
-      "step5": "5. Assicurati di usare le credenziali giuste per Sandbox (test) o Live (produzione)"
+      "step5": "5. Assicurati di usare le credenziali giuste per Sandbox (test) o Live (produzione)",
+      "clientIdPlaceholder": "Es. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Es. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Email Notifiche",
@@ -2916,7 +2918,10 @@
       "step3": "3. Scorri fino a \"API tokens\" e clicca \"Add new token\"",
       "step4": "4. Dai un nome (es. \"Gestionale\") e clicca \"Create token\"",
       "step5": "5. Copia il token (appare solo una volta!) e incollalo nel campo \"API Key\" sopra",
-      "step6": "6. Clicca \"Auto-Configura\" - Profile ID e Account ID verranno inseriti automaticamente!"
+      "step6": "6. Clicca \"Auto-Configura\" - Profile ID e Account ID verranno inseriti automaticamente!",
+      "apiKeyPlaceholder": "Es. dad06e...",
+      "profileIdPlaceholder": "Es. 12345...",
+      "accountIdPlaceholder": "Es. 6789..."
     },
     "bank": {
       "heading": "Bonifico Bancario",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Inserisci qui le istruzioni per il bonifico (es. causale da inserire)",
       "instructionsHelp": "Queste istruzioni saranno mostrate ai clienti che scelgono il bonifico bancario",
       "accountNamePlaceholder": "Es. Ethera Srl",
-      "bankNamePlaceholder": "Es. Intesa San Paolo"
+      "bankNamePlaceholder": "Es. Intesa San Paolo",
+      "ibanPlaceholder": "Es. IT60X0542811101000000123456",
+      "bicPlaceholder": "Es. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Impossibile caricare la configurazione dei metodi di pagamento",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Invia in Sequenza",
     "or": "oppure",
     "openOne": "Apri uno",
-    "clientsCount": "{{count}} clienti"
+    "clientsCount": "{{count}} clienti",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    }
   }
 }

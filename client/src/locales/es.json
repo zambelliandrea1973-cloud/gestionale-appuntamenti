@@ -2895,7 +2895,9 @@
       "step2": "2. Ve a Dashboard > My Apps & Credentials",
       "step3": "3. Crea una nueva app REST API o selecciona una existente",
       "step4": "4. Copia las credenciales \"Client ID\" y \"Secret\"",
-      "step5": "5. Asegúrate de usar las credenciales correctas para Sandbox (test) o Live (producción)"
+      "step5": "5. Asegúrate de usar las credenciales correctas para Sandbox (test) o Live (producción)",
+      "clientIdPlaceholder": "Ej. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Ej. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Email de Notificaciones",
@@ -2916,7 +2918,10 @@
       "step3": "3. Desplázate hasta \"API tokens\" y haz clic en \"Add new token\"",
       "step4": "4. Asigna un nombre (p. ej. \"Gestor\") y haz clic en \"Create token\"",
       "step5": "5. Copia el token (¡aparece solo una vez!) y pégalo en el campo \"API Key\" de arriba",
-      "step6": "6. Haz clic en \"Auto-Configurar\": ¡el Profile ID y el Account ID se rellenarán automáticamente!"
+      "step6": "6. Haz clic en \"Auto-Configurar\": ¡el Profile ID y el Account ID se rellenarán automáticamente!",
+      "apiKeyPlaceholder": "Ej. dad06e...",
+      "profileIdPlaceholder": "Ej. 12345...",
+      "accountIdPlaceholder": "Ej. 6789..."
     },
     "bank": {
       "heading": "Transferencia Bancaria",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Introduce aquí las instrucciones para la transferencia (ej. concepto)",
       "instructionsHelp": "Estas instrucciones se mostrarán a los clientes que elijan transferencia bancaria",
       "accountNamePlaceholder": "Ej. Ethera Srl",
-      "bankNamePlaceholder": "Ej. Intesa San Paolo"
+      "bankNamePlaceholder": "Ej. Intesa San Paolo",
+      "ibanPlaceholder": "Ej. IT60X0542811101000000123456",
+      "bicPlaceholder": "Ej. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "No se pudo cargar la configuración de los métodos de pago",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Enviar en secuencia",
     "or": "o",
     "openOne": "Abrir uno",
-    "clientsCount": "{{count}} clientes"
+    "clientsCount": "{{count}} clientes",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    }
   }
 }

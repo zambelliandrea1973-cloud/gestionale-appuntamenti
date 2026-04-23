@@ -2895,7 +2895,9 @@
       "step2": "2. Gehen Sie zu Dashboard > My Apps & Credentials",
       "step3": "3. Erstellen Sie eine neue REST-API-App oder wählen Sie eine vorhandene aus",
       "step4": "4. Kopieren Sie die Anmeldedaten „Client ID“ und „Secret“",
-      "step5": "5. Achten Sie darauf, die richtigen Anmeldedaten für Sandbox (Test) oder Live (Produktion) zu verwenden"
+      "step5": "5. Achten Sie darauf, die richtigen Anmeldedaten für Sandbox (Test) oder Live (Produktion) zu verwenden",
+      "clientIdPlaceholder": "Z. B. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Z. B. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Benachrichtigungs-E-Mail",
@@ -2916,7 +2918,10 @@
       "step3": "3. Scrollen Sie zu „API tokens“ und klicken Sie auf „Add new token“",
       "step4": "4. Vergeben Sie einen Namen (z. B. „Manager“) und klicken Sie auf „Create token“",
       "step5": "5. Kopieren Sie das Token (es erscheint nur einmal!) und fügen Sie es oben im Feld „API Key“ ein",
-      "step6": "6. Klicken Sie auf „Auto-Konfigurieren“ — Profile ID und Account ID werden automatisch eingetragen!"
+      "step6": "6. Klicken Sie auf „Auto-Konfigurieren“ — Profile ID und Account ID werden automatisch eingetragen!",
+      "apiKeyPlaceholder": "Z. B. dad06e...",
+      "profileIdPlaceholder": "Z. B. 12345...",
+      "accountIdPlaceholder": "Z. B. 6789..."
     },
     "bank": {
       "heading": "Banküberweisung",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Gib hier die Überweisungsanweisungen ein (z.B. Verwendungszweck)",
       "instructionsHelp": "Diese Hinweise werden Kunden angezeigt, die Banküberweisung wählen",
       "accountNamePlaceholder": "Z.B. Ethera GmbH",
-      "bankNamePlaceholder": "Z.B. Intesa San Paolo"
+      "bankNamePlaceholder": "Z.B. Intesa San Paolo",
+      "ibanPlaceholder": "Z. B. IT60X0542811101000000123456",
+      "bicPlaceholder": "Z. B. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Konfiguration der Zahlungsmethoden konnte nicht geladen werden",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 In Sequenz senden",
     "or": "oder",
     "openOne": "Einen öffnen",
-    "clientsCount": "{{count}} Kunden"
+    "clientsCount": "{{count}} Kunden",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail"
+    }
   }
 }

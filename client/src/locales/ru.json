@@ -2895,7 +2895,9 @@
       "step2": "2. Перейдите в Dashboard > My Apps & Credentials",
       "step3": "3. Создайте новое REST API-приложение или выберите существующее",
       "step4": "4. Скопируйте учётные данные «Client ID» и «Secret»",
-      "step5": "5. Используйте правильные данные для Sandbox (тест) или Live (продакшн)"
+      "step5": "5. Используйте правильные данные для Sandbox (тест) или Live (продакшн)",
+      "clientIdPlaceholder": "Например, ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Например, EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Email уведомлений",
@@ -2916,7 +2918,10 @@
       "step3": "3. Прокрутите до «API tokens» и нажмите «Add new token»",
       "step4": "4. Дайте имя (например, «Manager») и нажмите «Create token»",
       "step5": "5. Скопируйте токен (показывается только один раз!) и вставьте в поле «API Key» выше",
-      "step6": "6. Нажмите «Авто-настройка» — Profile ID и Account ID заполнятся автоматически!"
+      "step6": "6. Нажмите «Авто-настройка» — Profile ID и Account ID заполнятся автоматически!",
+      "apiKeyPlaceholder": "Например, dad06e...",
+      "profileIdPlaceholder": "Например, 12345...",
+      "accountIdPlaceholder": "Например, 6789..."
     },
     "bank": {
       "heading": "Банковский перевод",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Введите здесь инструкции по переводу (например, назначение)",
       "instructionsHelp": "Эти инструкции будут показаны клиентам, выбравшим банковский перевод",
       "accountNamePlaceholder": "Например ООО «Ethera»",
-      "bankNamePlaceholder": "Например Intesa San Paolo"
+      "bankNamePlaceholder": "Например Intesa San Paolo",
+      "ibanPlaceholder": "Например, IT60X0542811101000000123456",
+      "bicPlaceholder": "Например, UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Не удалось загрузить настройку способов оплаты",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Отправить последовательно",
     "or": "или",
     "openOne": "Открыть один",
-    "clientsCount": "Клиентов: {{count}}"
+    "clientsCount": "Клиентов: {{count}}",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    }
   }
 }

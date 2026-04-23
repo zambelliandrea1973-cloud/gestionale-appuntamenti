@@ -775,7 +775,7 @@ export default function MarketingCampaignsPage() {
                       ) : (
                         <MessageSquare className="h-4 w-4 mr-2" />
                       )}
-                      WhatsApp
+                      {t('marketingCampaigns.channel.whatsapp')}
                     </Button>
                     <Button
                       onClick={() => handleSendCampaign('email')}
@@ -788,7 +788,7 @@ export default function MarketingCampaignsPage() {
                       ) : (
                         <Mail className="h-4 w-4 mr-2" />
                       )}
-                      Email
+                      {t('marketingCampaigns.channel.email')}
                     </Button>
                     <Button
                       onClick={() => handleSendCampaign('both')}

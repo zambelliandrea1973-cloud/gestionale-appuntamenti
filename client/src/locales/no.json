@@ -2895,7 +2895,9 @@
       "step2": "2. Gå til Dashboard > My Apps & Credentials",
       "step3": "3. Opprett en ny REST API-app eller velg en eksisterende",
       "step4": "4. Kopier «Client ID» og «Secret»",
-      "step5": "5. Bruk riktige legitimasjoner for Sandbox (test) eller Live (produksjon)"
+      "step5": "5. Bruk riktige legitimasjoner for Sandbox (test) eller Live (produksjon)",
+      "clientIdPlaceholder": "F.eks. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "F.eks. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Varslings-e-post",
@@ -2916,7 +2918,10 @@
       "step3": "3. Bla til «API tokens» og klikk «Add new token»",
       "step4": "4. Gi det et navn (f.eks. «Manager») og klikk «Create token»",
       "step5": "5. Kopier tokenet (vises bare én gang!) og lim det inn i «API Key»-feltet ovenfor",
-      "step6": "6. Klikk «Auto-konfigurer» — Profile ID og Account ID fylles inn automatisk!"
+      "step6": "6. Klikk «Auto-konfigurer» — Profile ID og Account ID fylles inn automatisk!",
+      "apiKeyPlaceholder": "F.eks. dad06e...",
+      "profileIdPlaceholder": "F.eks. 12345...",
+      "accountIdPlaceholder": "F.eks. 6789..."
     },
     "bank": {
       "heading": "Bankoverføring",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Skriv inn overføringsinstruksjonene her (f.eks. melding)",
       "instructionsHelp": "Disse instruksjonene vises til kunder som velger bankoverføring",
       "accountNamePlaceholder": "F.eks. Ethera AS",
-      "bankNamePlaceholder": "F.eks. Intesa San Paolo"
+      "bankNamePlaceholder": "F.eks. Intesa San Paolo",
+      "ibanPlaceholder": "F.eks. IT60X0542811101000000123456",
+      "bicPlaceholder": "F.eks. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Kunne ikke laste konfigurasjon for betalingsmetoder",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Send i sekvens",
     "or": "eller",
     "openOne": "Åpne én",
-    "clientsCount": "{{count}} kunder"
+    "clientsCount": "{{count}} kunder",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "E-post"
+    }
   }
 }

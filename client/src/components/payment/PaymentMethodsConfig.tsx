@@ -420,7 +420,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'paypal')?.config.clientId || ''}
                       onChange={(e) => updatePaymentMethodConfig('paypal', 'clientId', e.target.value)}
-                      placeholder="Es. ATc4RJ4qN6D..."
+                      placeholder={t('paymentMethodsConfig.paypal.clientIdPlaceholder')}
                     />
                   </div>
                   
@@ -431,7 +431,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'paypal')?.config.clientSecret || ''}
                       onChange={(e) => updatePaymentMethodConfig('paypal', 'clientSecret', e.target.value)}
-                      placeholder="Es. EGwT4QVt7D..."
+                      placeholder={t('paymentMethodsConfig.paypal.clientSecretPlaceholder')}
                       className="font-mono text-sm"
                     />
                   </div>
@@ -518,7 +518,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'wise')?.config.apiKey || ''}
                       onChange={(e) => updatePaymentMethodConfig('wise', 'apiKey', e.target.value)}
-                      placeholder="Es. dad06e..."
+                      placeholder={t('paymentMethodsConfig.wise.apiKeyPlaceholder')}
                       className="font-mono text-sm"
                     />
                   </div>
@@ -530,7 +530,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'wise')?.config.profileId || ''}
                       onChange={(e) => updatePaymentMethodConfig('wise', 'profileId', e.target.value)}
-                      placeholder="Es. 12345..."
+                      placeholder={t('paymentMethodsConfig.wise.profileIdPlaceholder')}
                     />
                   </div>
                 </div>
@@ -543,7 +543,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'wise')?.config.accountId || ''}
                       onChange={(e) => updatePaymentMethodConfig('wise', 'accountId', e.target.value)}
-                      placeholder="Es. 6789..."
+                      placeholder={t('paymentMethodsConfig.wise.accountIdPlaceholder')}
                     />
                   </div>
                   
@@ -675,7 +675,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'bank')?.config.iban || ''}
                       onChange={(e) => updatePaymentMethodConfig('bank', 'iban', e.target.value)}
-                      placeholder="Es. IT60X0542811101000000123456"
+                      placeholder={t('paymentMethodsConfig.bank.ibanPlaceholder')}
                     />
                   </div>
                   
@@ -686,7 +686,7 @@ export default function PaymentMethodsConfig() {
                       type="text" 
                       value={paymentMethods.find(m => m.id === 'bank')?.config.swift || ''}
                       onChange={(e) => updatePaymentMethodConfig('bank', 'swift', e.target.value)}
-                      placeholder="Es. UNCRITMMXXX"
+                      placeholder={t('paymentMethodsConfig.bank.bicPlaceholder')}
                     />
                   </div>
                 </div>

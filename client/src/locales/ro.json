@@ -2895,7 +2895,9 @@
       "step2": "2. Mergeți la Dashboard > My Apps & Credentials",
       "step3": "3. Creați o aplicație REST API nouă sau selectați una existentă",
       "step4": "4. Copiați acreditările „Client ID” și „Secret”",
-      "step5": "5. Asigurați-vă că folosiți acreditările corecte pentru Sandbox (test) sau Live (producție)"
+      "step5": "5. Asigurați-vă că folosiți acreditările corecte pentru Sandbox (test) sau Live (producție)",
+      "clientIdPlaceholder": "Ex. ATc4RJ4qN6D...",
+      "clientSecretPlaceholder": "Ex. EGwT4QVt7D..."
     },
     "wise": {
       "emailLabel": "Email de notificare",
@@ -2916,7 +2918,10 @@
       "step3": "3. Derulați la „API tokens” și faceți clic pe „Add new token”",
       "step4": "4. Dați un nume (ex. „Manager”) și faceți clic pe „Create token”",
       "step5": "5. Copiați tokenul (apare doar o dată!) și lipiți-l în câmpul „API Key” de mai sus",
-      "step6": "6. Faceți clic pe „Auto-Configurare” — Profile ID și Account ID se vor completa automat!"
+      "step6": "6. Faceți clic pe „Auto-Configurare” — Profile ID și Account ID se vor completa automat!",
+      "apiKeyPlaceholder": "Ex. dad06e...",
+      "profileIdPlaceholder": "Ex. 12345...",
+      "accountIdPlaceholder": "Ex. 6789..."
     },
     "bank": {
       "heading": "Transfer bancar",
@@ -2926,7 +2931,9 @@
       "instructionsPlaceholder": "Introduceți aici instrucțiunile pentru transfer (ex. referință)",
       "instructionsHelp": "Aceste instrucțiuni vor fi afișate clienților care aleg transferul bancar",
       "accountNamePlaceholder": "Ex. Ethera SRL",
-      "bankNamePlaceholder": "Ex. Intesa San Paolo"
+      "bankNamePlaceholder": "Ex. Intesa San Paolo",
+      "ibanPlaceholder": "Ex. IT60X0542811101000000123456",
+      "bicPlaceholder": "Ex. UNCRITMMXXX"
     },
     "toast": {
       "loadError": "Imposibil de încărcat configurația metodelor de plată",
@@ -3019,6 +3026,10 @@
     "sendSequence": "🚀 Trimite în secvență",
     "or": "sau",
     "openOne": "Deschideți unul",
-    "clientsCount": "{{count}} clienți"
+    "clientsCount": "{{count}} clienți",
+    "channel": {
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    }
   }
 }
