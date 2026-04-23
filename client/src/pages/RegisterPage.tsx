@@ -49,6 +49,7 @@ function suggestEmailFix(email: string): string | null {
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -82,6 +83,7 @@ export default function RegisterPage() {
       const response = await apiRequest("POST", "/api/register", {
         email: email.trim().toLowerCase(),
         password,
+        referralCode: referralCode.trim() || undefined,
       });
 
       if (!response.ok) {
@@ -170,6 +172,27 @@ export default function RegisterPage() {
                   data-testid="input-password"
                 />
               </div>
+
+              {email.length > 3 && password.length >= 6 && (
+                <div className="space-y-2 pt-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <Label htmlFor="referralCode" className="text-sm">
+                    Codice sponsor <span className="text-muted-foreground font-normal">(opzionale)</span>
+                  </Label>
+                  <Input
+                    id="referralCode"
+                    name="referralCode"
+                    value={referralCode}
+                    onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+                    placeholder="Es. ABC123"
+                    className="h-11 uppercase tracking-wider"
+                    data-testid="input-referral-code"
+                  />
+                  <p className="text-xs text-muted-foreground leading-snug">
+                    Hai ricevuto un codice da un consulente? Inseriscilo qui.
+                    Se non ne hai uno, puoi proseguire normalmente.
+                  </p>
+                </div>
+              )}
 
               <div className="flex items-start space-x-2 pt-2">
                 <Checkbox
