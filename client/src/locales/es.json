@@ -763,7 +763,12 @@
     "defaultEmailTemplate": "Estimado/a {{nome}} {{cognome}},\n\nEste es un recordatorio de su cita de {{servizio}} programada para el {{data}} a las {{ora}}.\n\nPara cualquier cambio o cancelación, por favor contáctenos.\n\nAtentamente,\nEstudio Profesional",
     "defaultEmailSubject": "Recordatorio de cita del {{data}}",
     "emailExamplePlaceholder": "ejemplo@tudominio.com",
-    "gmailExamplePlaceholder": "tu.direccion@gmail.com"
+    "gmailExamplePlaceholder": "tu.direccion@gmail.com",
+    "emailSettings": "Configuración de Email",
+    "enableEmail": "Activar envío de emails",
+    "emailDesc": "Activa el envío de emails de notificación a los clientes",
+    "emailAddress": "Dirección de Email",
+    "emailPassword": "Contraseña o Clave de App"
   },
   "common": {
     "backToHome": "Volver al Inicio",

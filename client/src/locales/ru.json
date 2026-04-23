@@ -763,7 +763,12 @@
     "defaultEmailTemplate": "Уважаемый(ая) {{nome}} {{cognome}},\n\nЭто напоминание о вашей записи на {{servizio}}, назначенной на {{data}} в {{ora}}.\n\nДля любых изменений или отмен, пожалуйста, свяжитесь с нами.\n\nС уважением,\nПрофессиональная студия",
     "defaultEmailSubject": "Напоминание о записи на {{data}}",
     "emailExamplePlaceholder": "primer@vashdomen.com",
-    "gmailExamplePlaceholder": "vash.adres@gmail.com"
+    "gmailExamplePlaceholder": "vash.adres@gmail.com",
+    "emailSettings": "Настройка Email",
+    "enableEmail": "Включить отправку email",
+    "emailDesc": "Включить отправку email-уведомлений клиентам",
+    "emailAddress": "Email-адрес",
+    "emailPassword": "Пароль или Ключ приложения"
   },
   "common": {
     "backToHome": "Вернуться на Главную",

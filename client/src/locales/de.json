@@ -763,7 +763,12 @@
     "defaultEmailTemplate": "Sehr geehrte/r {{nome}} {{cognome}},\n\ndies ist eine Erinnerung an Ihren Termin für {{servizio}} am {{data}} um {{ora}} Uhr.\n\nFür Änderungen oder Stornierungen kontaktieren Sie uns bitte.\n\nMit freundlichen Grüßen,\nProfessionelles Studio",
     "defaultEmailSubject": "Terminerinnerung vom {{data}}",
     "emailExamplePlaceholder": "beispiel@ihredomain.com",
-    "gmailExamplePlaceholder": "ihre.adresse@gmail.com"
+    "gmailExamplePlaceholder": "ihre.adresse@gmail.com",
+    "emailSettings": "E-Mail-Konfiguration",
+    "enableEmail": "E-Mail-Versand aktivieren",
+    "emailDesc": "Aktivieren Sie den Versand von Benachrichtigungs-E-Mails an Kunden",
+    "emailAddress": "E-Mail-Adresse",
+    "emailPassword": "Passwort oder App-Schlüssel"
   },
   "common": {
     "backToHome": "Zurück zur Startseite",

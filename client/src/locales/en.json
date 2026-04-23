@@ -771,7 +771,12 @@
     "defaultEmailTemplate": "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio",
     "defaultEmailSubject": "Appointment reminder for {{data}}",
     "emailExamplePlaceholder": "example@yourdomain.com",
-    "gmailExamplePlaceholder": "your.address@gmail.com"
+    "gmailExamplePlaceholder": "your.address@gmail.com",
+    "emailSettings": "Email Configuration",
+    "enableEmail": "Enable email sending",
+    "emailDesc": "Enable sending notification emails to clients",
+    "emailAddress": "Email Address",
+    "emailPassword": "Password or App Key"
   },
   "common": {
     "backToHome": "Back to Home",

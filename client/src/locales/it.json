@@ -776,7 +776,12 @@
     "defaultEmailTemplate": "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale",
     "defaultEmailSubject": "Promemoria appuntamento del {{data}}",
     "emailExamplePlaceholder": "esempio@tuodominio.com",
-    "gmailExamplePlaceholder": "tuo.indirizzo@gmail.com"
+    "gmailExamplePlaceholder": "tuo.indirizzo@gmail.com",
+    "emailSettings": "Configurazione Email",
+    "enableEmail": "Abilita invio email",
+    "emailDesc": "Abilita l'invio di email di notifica ai clienti",
+    "emailAddress": "Indirizzo Email",
+    "emailPassword": "Password o Chiave App"
   },
   "common": {
     "backToHome": "Torna alla Home",

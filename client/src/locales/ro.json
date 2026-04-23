@@ -745,7 +745,12 @@
     "defaultEmailTemplate": "Stimate/Stimată {{nome}} {{cognome}},\n\nAceasta este o reamintire pentru programarea dvs. de {{servizio}} programată pentru {{data}} la ora {{ora}}.\n\nPentru orice modificări sau anulări, vă rugăm să ne contactați.\n\nCu stimă,\nStudio Profesional",
     "defaultEmailSubject": "Reamintire programare din {{data}}",
     "emailExamplePlaceholder": "exemplu@domeniultau.com",
-    "gmailExamplePlaceholder": "adresa.ta@gmail.com"
+    "gmailExamplePlaceholder": "adresa.ta@gmail.com",
+    "emailSettings": "Configurare Email",
+    "enableEmail": "Activează trimiterea de email-uri",
+    "emailDesc": "Activează trimiterea de email-uri de notificare către clienți",
+    "emailAddress": "Adresă Email",
+    "emailPassword": "Parolă sau Cheie App"
   },
   "common": {
     "backToHome": "Înapoi la Acasă",

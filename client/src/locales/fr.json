@@ -763,7 +763,12 @@
     "defaultEmailTemplate": "Cher/Chère {{nome}} {{cognome}},\n\nCeci est un rappel pour votre rendez-vous de {{servizio}} prévu le {{data}} à {{ora}}.\n\nPour toute modification ou annulation, veuillez nous contacter.\n\nCordialement,\nCabinet Professionnel",
     "defaultEmailSubject": "Rappel de rendez-vous du {{data}}",
     "emailExamplePlaceholder": "exemple@votredomaine.com",
-    "gmailExamplePlaceholder": "votre.adresse@gmail.com"
+    "gmailExamplePlaceholder": "votre.adresse@gmail.com",
+    "emailSettings": "Configuration Email",
+    "enableEmail": "Activer l'envoi d'emails",
+    "emailDesc": "Activez l'envoi d'emails de notification aux clients",
+    "emailAddress": "Adresse Email",
+    "emailPassword": "Mot de passe ou Clé d'App"
   },
   "common": {
     "backToHome": "Retour à l'accueil",

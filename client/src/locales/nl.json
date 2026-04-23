@@ -745,7 +745,12 @@
     "defaultEmailTemplate": "Beste {{nome}} {{cognome}},\n\nDit is een herinnering aan uw afspraak voor {{servizio}} op {{data}} om {{ora}}.\n\nVoor wijzigingen of annuleringen kunt u contact met ons opnemen.\n\nMet vriendelijke groet,\nProfessionele Studio",
     "defaultEmailSubject": "Afspraakherinnering van {{data}}",
     "emailExamplePlaceholder": "voorbeeld@uwdomein.com",
-    "gmailExamplePlaceholder": "uw.adres@gmail.com"
+    "gmailExamplePlaceholder": "uw.adres@gmail.com",
+    "emailSettings": "E-mailconfiguratie",
+    "enableEmail": "E-mailverzending inschakelen",
+    "emailDesc": "Schakel het verzenden van e-mailmeldingen naar klanten in",
+    "emailAddress": "E-mailadres",
+    "emailPassword": "Wachtwoord of App-sleutel"
   },
   "common": {
     "backToHome": "Terug naar Home",
