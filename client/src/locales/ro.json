@@ -3539,7 +3539,10 @@
     "testOk": "Test finalizat",
     "testOkDesc": "Sistemul de plată este configurat corect",
     "testFail": "Test eșuat",
-    "testFailDesc": "Verifică configurarea datelor bancare"
+    "testFailDesc": "Verifică configurarea datelor bancare",
+    "bankNamePh": "ex. Banca Transilvania",
+    "bicPh": "ex. BTRLRO22",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "Aplicație deja instalată",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Instrucțiuni de instalare",
     "instructionsDesc": "Urmează acești pași pentru a instala aplicația pe dispozitivul tău",
     "additionalInfo": "Informații suplimentare:",
-    "understood": "Am înțeles"
+    "understood": "Am înțeles",
+    "cardTitle": "Instalează aplicația pe dispozitiv",
+    "cardAlreadyDesc": "Ai instalat deja aplicația pe dispozitiv",
+    "cardDesc": "Instalează aplicația pentru acces mai rapid și funcții offline",
+    "intro": "Pictograma aplicației va fi adăugată pe ecranul principal al dispozitivului, permițându-ți accesul direct la zona de client fără a folosi browserul.",
+    "browserNote": "Notă specifică browserului tău:",
+    "feature1": "Acces cu o singură atingere",
+    "feature2": "Funcționează și offline",
+    "feature3": "Nicio aplicație de descărcat din magazine",
+    "feature4": "Utilizare minimă a memoriei",
+    "installedOnDevice": "Aplicație instalată pe dispozitiv"
   }
 }

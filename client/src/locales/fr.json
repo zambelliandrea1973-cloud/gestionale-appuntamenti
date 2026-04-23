@@ -3539,7 +3539,10 @@
     "testOk": "Test terminé",
     "testOkDesc": "Le système de paiement est correctement configuré",
     "testFail": "Test échoué",
-    "testFailDesc": "Vérifiez la configuration des coordonnées bancaires"
+    "testFailDesc": "Vérifiez la configuration des coordonnées bancaires",
+    "bankNamePh": "ex. BNP Paribas",
+    "bicPh": "ex. BNPAFRPP",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "Application déjà installée",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Instructions d'installation",
     "instructionsDesc": "Suivez ces étapes pour installer l'application sur votre appareil",
     "additionalInfo": "Informations supplémentaires :",
-    "understood": "Compris"
+    "understood": "Compris",
+    "cardTitle": "Installer l'app sur l'appareil",
+    "cardAlreadyDesc": "Vous avez déjà installé l'application sur votre appareil",
+    "cardDesc": "Installez l'application pour un accès plus rapide et des fonctions hors ligne",
+    "intro": "L'icône de l'application sera ajoutée à l'écran d'accueil de votre appareil, vous permettant d'accéder directement à l'espace client sans utiliser le navigateur.",
+    "browserNote": "Note spécifique à votre navigateur :",
+    "feature1": "Accès en un seul tap",
+    "feature2": "Fonctionne aussi hors ligne",
+    "feature3": "Aucune application à télécharger depuis les stores",
+    "feature4": "Empreinte mémoire minimale",
+    "installedOnDevice": "Application installée sur l'appareil"
   }
 }

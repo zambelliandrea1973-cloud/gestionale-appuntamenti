@@ -3539,7 +3539,10 @@
     "testOk": "Test abgeschlossen",
     "testOkDesc": "Das Zahlungssystem ist korrekt konfiguriert",
     "testFail": "Test fehlgeschlagen",
-    "testFailDesc": "Überprüfen Sie die Bankdatenkonfiguration"
+    "testFailDesc": "Überprüfen Sie die Bankdatenkonfiguration",
+    "bankNamePh": "z. B. Deutsche Bank",
+    "bicPh": "z. B. DEUTDEFF",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App bereits installiert",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Installationsanleitung",
     "instructionsDesc": "Befolgen Sie diese Schritte, um die App auf Ihrem Gerät zu installieren",
     "additionalInfo": "Zusätzliche Informationen:",
-    "understood": "Verstanden"
+    "understood": "Verstanden",
+    "cardTitle": "App auf dem Gerät installieren",
+    "cardAlreadyDesc": "Sie haben die App bereits auf Ihrem Gerät installiert",
+    "cardDesc": "Installieren Sie die App für schnelleren Zugriff und Offline-Funktionen",
+    "intro": "Das App-Symbol wird zum Startbildschirm Ihres Geräts hinzugefügt, sodass Sie direkt auf den Kundenbereich zugreifen können, ohne den Browser zu verwenden.",
+    "browserNote": "Hinweis speziell für Ihren Browser:",
+    "feature1": "Zugriff mit einem Tipp",
+    "feature2": "Funktioniert auch offline",
+    "feature3": "Keine App aus den Stores herunterladen",
+    "feature4": "Minimaler Speicherbedarf",
+    "installedOnDevice": "App auf dem Gerät installiert"
   }
 }

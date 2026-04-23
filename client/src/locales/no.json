@@ -3539,7 +3539,10 @@
     "testOk": "Test fullført",
     "testOkDesc": "Betalingssystemet er riktig konfigurert",
     "testFail": "Test mislyktes",
-    "testFailDesc": "Sjekk konfigurasjonen for bankopplysninger"
+    "testFailDesc": "Sjekk konfigurasjonen for bankopplysninger",
+    "bankNamePh": "f.eks. DNB",
+    "bicPh": "f.eks. DNBANOKK",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App allerede installert",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Installasjonsinstruksjoner",
     "instructionsDesc": "Følg disse trinnene for å installere appen på enheten",
     "additionalInfo": "Tilleggsinformasjon:",
-    "understood": "Forstått"
+    "understood": "Forstått",
+    "cardTitle": "Installer app på enheten",
+    "cardAlreadyDesc": "Du har allerede installert appen på enheten",
+    "cardDesc": "Installer appen for raskere tilgang og offline-funksjoner",
+    "intro": "App-ikonet legges til på enhetens startskjerm, slik at du får direkte tilgang til kundeområdet uten å bruke nettleseren.",
+    "browserNote": "Merknad spesifikk for nettleseren din:",
+    "feature1": "Tilgang med ett trykk",
+    "feature2": "Fungerer også offline",
+    "feature3": "Ingen app å laste ned fra butikker",
+    "feature4": "Minimalt minnebruk",
+    "installedOnDevice": "App installert på enheten"
   }
 }

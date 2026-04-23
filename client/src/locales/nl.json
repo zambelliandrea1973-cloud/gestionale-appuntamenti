@@ -3539,7 +3539,10 @@
     "testOk": "Test voltooid",
     "testOkDesc": "Het betalingssysteem is correct geconfigureerd",
     "testFail": "Test mislukt",
-    "testFailDesc": "Controleer de bankgegevensconfiguratie"
+    "testFailDesc": "Controleer de bankgegevensconfiguratie",
+    "bankNamePh": "bijv. ING",
+    "bicPh": "bijv. INGBNL2A",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App al geïnstalleerd",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Installatie-instructies",
     "instructionsDesc": "Volg deze stappen om de app op uw apparaat te installeren",
     "additionalInfo": "Aanvullende informatie:",
-    "understood": "Begrepen"
+    "understood": "Begrepen",
+    "cardTitle": "App op apparaat installeren",
+    "cardAlreadyDesc": "U heeft de app al op uw apparaat geïnstalleerd",
+    "cardDesc": "Installeer de app voor snellere toegang en offline-functies",
+    "intro": "Het app-pictogram wordt toegevoegd aan het startscherm van uw apparaat, zodat u direct toegang heeft tot het klantgedeelte zonder de browser te gebruiken.",
+    "browserNote": "Opmerking specifiek voor uw browser:",
+    "feature1": "Toegang met één tik",
+    "feature2": "Werkt ook offline",
+    "feature3": "Geen app om uit stores te downloaden",
+    "feature4": "Minimaal geheugengebruik",
+    "installedOnDevice": "App geïnstalleerd op apparaat"
   }
 }

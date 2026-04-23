@@ -3539,7 +3539,10 @@
     "testOk": "Test completed",
     "testOkDesc": "The payment system is configured correctly",
     "testFail": "Test failed",
-    "testFailDesc": "Check the banking details configuration"
+    "testFailDesc": "Check the banking details configuration",
+    "bankNamePh": "e.g. Bank of America",
+    "bicPh": "e.g. BOFAUS3N",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App already installed",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Installation Instructions",
     "instructionsDesc": "Follow these steps to install the app on your device",
     "additionalInfo": "Additional information:",
-    "understood": "Got it"
+    "understood": "Got it",
+    "cardTitle": "Install App on Device",
+    "cardAlreadyDesc": "You have already installed the app on your device",
+    "cardDesc": "Install the app for faster access and offline features",
+    "intro": "The app icon will be added to your device's home screen, letting you access the client area directly without using the browser.",
+    "browserNote": "Note specific to your browser:",
+    "feature1": "Access with a single tap",
+    "feature2": "Works offline too",
+    "feature3": "No app to download from stores",
+    "feature4": "Minimal memory footprint",
+    "installedOnDevice": "App installed on the device"
   }
 }

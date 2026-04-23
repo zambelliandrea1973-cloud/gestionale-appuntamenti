@@ -169,7 +169,7 @@ export default function BankingSettingsPage() {
                   id="bankName"
                   value={settings.bankName}
                   onChange={(e) => updateField('bankName', e.target.value)}
-                  placeholder="es. Intesa Sanpaolo"
+                  placeholder={t("bankingSettings.bankNamePh")}
                   autoComplete="off"
                 />
               </div>
@@ -192,7 +192,7 @@ export default function BankingSettingsPage() {
                   type="text"
                   value={settings.iban}
                   onChange={(e) => updateField('iban', e.target.value)}
-                  placeholder="IT60 X054 2811 1010 0000 0123 456"
+                  placeholder={t("bankingSettings.ibanPh")}
                   autoComplete="off"
                 />
               </div>
@@ -203,7 +203,7 @@ export default function BankingSettingsPage() {
                   id="bic"
                   value={settings.bic}
                   onChange={(e) => updateField('bic', e.target.value)}
-                  placeholder="es. BCITITMM"
+                  placeholder={t("bankingSettings.bicPh")}
                   autoComplete="off"
                 />
               </div>

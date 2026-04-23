@@ -3539,7 +3539,10 @@
     "testOk": "Test completato",
     "testOkDesc": "Il sistema di pagamento è configurato correttamente",
     "testFail": "Test fallito",
-    "testFailDesc": "Verifica la configurazione dei dati bancari"
+    "testFailDesc": "Verifica la configurazione dei dati bancari",
+    "bankNamePh": "es. Intesa Sanpaolo",
+    "bicPh": "es. BCITITMM",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App già installata",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Istruzioni di installazione",
     "instructionsDesc": "Segui questi passaggi per installare l'app sul tuo dispositivo",
     "additionalInfo": "Informazioni aggiuntive:",
-    "understood": "Ho capito"
+    "understood": "Ho capito",
+    "cardTitle": "Installa App sul Dispositivo",
+    "cardAlreadyDesc": "Hai già installato l'app sul tuo dispositivo",
+    "cardDesc": "Installa l'app per un accesso più rapido e funzionalità offline",
+    "intro": "L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.",
+    "browserNote": "Nota specifica per il tuo browser:",
+    "feature1": "Accesso con un solo tocco",
+    "feature2": "Funziona anche offline",
+    "feature3": "Nessuna app da scaricare dagli store",
+    "feature4": "Occupazione minima della memoria",
+    "installedOnDevice": "App installata sul dispositivo"
   }
 }

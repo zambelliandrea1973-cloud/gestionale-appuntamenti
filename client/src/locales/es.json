@@ -3539,7 +3539,10 @@
     "testOk": "Prueba completada",
     "testOkDesc": "El sistema de pago está configurado correctamente",
     "testFail": "Prueba fallida",
-    "testFailDesc": "Verifica la configuración de los datos bancarios"
+    "testFailDesc": "Verifica la configuración de los datos bancarios",
+    "bankNamePh": "p. ej. Banco Santander",
+    "bicPh": "p. ej. BSCHESMM",
+    "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
     "alreadyInstalled": "App ya instalada",
@@ -3562,6 +3565,16 @@
     "instructionsTitle": "Instrucciones de instalación",
     "instructionsDesc": "Sigue estos pasos para instalar la app en tu dispositivo",
     "additionalInfo": "Información adicional:",
-    "understood": "Entendido"
+    "understood": "Entendido",
+    "cardTitle": "Instalar App en el Dispositivo",
+    "cardAlreadyDesc": "Ya has instalado la app en tu dispositivo",
+    "cardDesc": "Instala la app para un acceso más rápido y funciones sin conexión",
+    "intro": "El icono de la app se añadirá a la pantalla principal de tu dispositivo, permitiéndote acceder al área de cliente directamente sin usar el navegador.",
+    "browserNote": "Nota específica para tu navegador:",
+    "feature1": "Acceso con un solo toque",
+    "feature2": "También funciona sin conexión",
+    "feature3": "No hay app que descargar de las tiendas",
+    "feature4": "Mínimo uso de memoria",
+    "installedOnDevice": "App instalada en el dispositivo"
   }
 }
