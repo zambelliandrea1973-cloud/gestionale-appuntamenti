@@ -690,7 +690,7 @@
     "totalInvoices": "Totalt fakturaer",
     "chronologicalKept": "✓ Kronologisk rekkefølge bevart",
     "doCleanup": "Rydd nummerering",
-    "previewTitle": "👁️ Faktura forhåndsvisning",
+    "previewTitle": "👁️ Forhåndsvisning av faktura",
     "previewDesc": "Forhåndsvisning av hvordan faktura {{number}} vil se ut før sending eller utskrift",
     "generatingPreview": "Genererer forhåndsvisning...",
     "noPreviewAvailable": "Ingen forhåndsvisning tilgjengelig",
@@ -699,11 +699,22 @@
     "printInvoice": "Skriv ut faktura",
     "sendByEmailBtn": "Send via e-post",
     "deleteConfirmText": "Er du sikker på at du vil slette faktura {{number}}?\n\nDenne handlingen er irreversibel!",
-    "resendTitle": "⚠️ Bekreft sending på nytt",
+    "resendTitle": "⚠️ Bekreft ny sending av faktura",
     "alreadySentVia": "Denne fakturaen er allerede sendt via følgende kanaler:",
     "sentOnDate": "Sendt {{date}}",
     "resendQuestion": "Vil du virkelig sende fakturaen på nytt til de valgte kanalene?",
-    "confirmResend": "Bekreft send på nytt"
+    "confirmResend": "Bekreft send på nytt",
+    "recipientPlaceholder": "kunde@eksempel.no",
+    "currentFormatValue": "Blandet (06/2025/001, 09/2025/002 osv.)",
+    "afterFormatValue": "Juridisk NNN/ÅÅÅÅ (001/2025, 002/2025 osv.)",
+    "previewDescription": "Forhåndsvisning av hvordan faktura {{number}} ser ut før sending eller utskrift",
+    "previewGenerating": "Genererer forhåndsvisning...",
+    "previewEmpty": "Ingen forhåndsvisning tilgjengelig",
+    "previewClose": "Lukk forhåndsvisning",
+    "sendViaEmail": "Send via e-post",
+    "resendIntro": "Denne fakturaen er allerede sendt gjennom følgende kanaler:",
+    "resendSentOn": "Sendt {{date}}",
+    "resendConfirm": "Bekreft ny sending"
   },
   "reports": {
     "title": "Rapporter og Statistikk",
@@ -1806,7 +1817,25 @@
     "shareLink": "Del lenke",
     "invitations": "Invitasjoner",
     "rewards": "Belønninger",
-    "copied": "Kode kopiert!"
+    "copied": "Kode kopiert!",
+    "payout": {
+      "dialogTitle": "Utbetalingsmetoder for provisjon",
+      "dialogDesc": "Konfigurer hvordan du vil motta provisjonsutbetalinger for henvisninger.",
+      "paypalSection": "PayPal (Anbefalt)",
+      "paypalEmail": "PayPal-e-post",
+      "paypalEmailPh": "din-epost@paypal.com",
+      "paypalEmailHint": "Skriv inn e-posten til PayPal-kontoen din for automatiske utbetalinger.",
+      "autoPayout": "Automatisk utbetaling",
+      "autoPayoutHint": "Provisjoner sendes automatisk etter 30 dager via PayPal",
+      "bankSection": "Bankoverføring (Alternativ)",
+      "bankIntro": "Hvis du foretrekker det, kan du motta utbetalinger via bankoverføring (manuell behandling).",
+      "bankName": "Banknavn",
+      "accountHolder": "Kontoinnehaver",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (valgfri)",
+      "saving": "Lagrer...",
+      "save": "Lagre"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "Fungerer også offline",
     "feature3": "Ingen app å laste ned fra butikker",
     "feature4": "Minimalt minnebruk",
-    "installedOnDevice": "App installert på enheten"
+    "installedOnDevice": "App installert på enheten",
+    "steps": {
+      "iosSafari": {
+        "title": "Installasjon på iOS med Safari",
+        "step1": "Trykk på 'Del'-ikonet (firkanten med pil opp)",
+        "step2": "Bla nedover og velg 'Legg til på Hjem-skjerm'",
+        "step3": "Bekreft ved å trykke 'Legg til' øverst til høyre"
+      },
+      "iosOther": {
+        "title": "Installasjon på iOS",
+        "step1": "Kopier nettadressen til denne siden",
+        "step2": "Åpne Safari",
+        "step3": "Lim inn URL-en i adressefeltet og besøk siden",
+        "step4": "Trykk på 'Del'-ikonet og velg 'Legg til på Hjem-skjerm'"
+      },
+      "androidChrome": {
+        "title": "Installasjon på Android med Chrome",
+        "step1": "Trykk på de tre prikkene øverst til høyre",
+        "step2": "Velg 'Legg til på Hjem-skjerm'",
+        "step3": "Bekreft ved å trykke 'Legg til'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Installasjon på Android med DuckDuckGo",
+        "step1": "Trykk på de tre prikkene øverst til høyre",
+        "step2": "Velg 'Del'",
+        "step3": "Velg 'Chrome' fra app-listen",
+        "step4": "Chrome åpner siden og viser et PWA-installasjonsbanner",
+        "step5": "Trykk 'Installer' i Chrome-banneret for å fullføre installasjonen",
+        "alt1": "DuckDuckGo støtter ikke PWA-installasjon direkte",
+        "alt2": "Den mest pålitelige metoden er å dele siden med Chrome",
+        "alt3": "Chrome støtter PWA-installasjon nativt"
+      },
+      "manual": {
+        "title": "Manuell installasjon",
+        "step1": "Besøk denne siden med Google Chrome",
+        "step2": "Trykk på knappen 'Installer app på enheten'",
+        "step3": "Følg instruksjonene på skjermen"
+      },
+      "chrome": {
+        "title": "Installasjon med Google Chrome",
+        "step1": "Trykk på de tre prikkene øverst til høyre",
+        "step2": "Velg 'Legg til på Hjem-skjerm' eller 'Installer app'",
+        "step3": "Bekreft ved å trykke 'Legg til' eller 'Installer'"
+      },
+      "safari": {
+        "title": "Installasjon med Safari",
+        "step1": "Trykk på 'Del'-ikonet (firkanten med pil opp)",
+        "step2": "Bla nedover og velg 'Legg til på Hjem-skjerm'",
+        "step3": "Bekreft ved å trykke 'Legg til' øverst til høyre"
+      },
+      "duckduckgo": {
+        "title": "Installasjon med DuckDuckGo",
+        "step1": "Trykk på de tre prikkene øverst til høyre",
+        "step2": "Velg 'Del'",
+        "step3": "Velg 'Chrome' fra app-listen",
+        "step4": "Chrome åpner siden og viser et PWA-installasjonsbanner",
+        "step5": "Trykk 'Installer' i Chrome-banneret for å fullføre installasjonen",
+        "alt1": "DuckDuckGo støtter ikke PWA-installasjon direkte",
+        "alt2": "Den mest pålitelige metoden er å dele siden med Chrome",
+        "alt3": "Chrome støtter PWA-installasjon nativt"
+      },
+      "samsung": {
+        "title": "Installasjon med Samsung Internet",
+        "step1": "Trykk på de tre prikkene nederst til høyre",
+        "step2": "Velg 'Legg side til' og deretter 'Hjem-skjerm'",
+        "step3": "Bekreft ved å trykke 'Legg til'"
+      },
+      "firefox": {
+        "title": "Installasjon med Firefox",
+        "step1": "Trykk på de tre prikkene øverst til høyre",
+        "step2": "Velg 'Installer' eller 'Legg til på Hjem-skjerm'",
+        "step3": "Hvis dette alternativet ikke er tilgjengelig, besøk siden med Chrome"
+      },
+      "other": {
+        "title": "Installasjon med en annen nettleser",
+        "step1": "For best opplevelse, besøk denne siden med Google Chrome",
+        "step2": "I Chrome trykker du på de tre prikkene øverst til høyre",
+        "step3": "Velg 'Installer app' eller 'Legg til på Hjem-skjerm'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Bruk Chrome for enkel installasjon — trykk \"Installer app\" og følg instruksjonene.",
+      "androidDuckDuckGo": "Du bruker DuckDuckGo. Etter å ha trykket \"Installer app\" guider vi deg med nettleser-spesifikke instruksjoner.",
+      "iosSafari": "Med Safari på iOS, følg instruksjonene etter å ha trykket \"Installer app\" for å legge den til på Hjem-skjerm.",
+      "iosOther": "For å installere appen på iOS anbefaler vi Safari. Vi gir detaljerte instruksjoner etter at du trykker \"Installer app\".",
+      "default": "Installasjon fungerer best med Google Chrome. Følg de detaljerte instruksjonene etter å ha trykket \"Installer app\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Prøveperioden din er over",
+    "trialExpiredBody": "Den 40 dagers gratis prøveperioden er utløpt. Abonner på en av planene nedenfor for å fortsette å bruke appen og få tilgang til alle funksjoner.",
+    "trialExpiredSafe": "💾 Ingen bekymring: alle dataene dine (kunder, avtaler, innstillinger) er trygge og gjenopprettes så snart du abonnerer på en plan.",
+    "for40Days": "I 40 dager",
+    "annualSub": "Årlig abonnement"
   }
 }

@@ -519,15 +519,15 @@ export default function SubscribePage() {
             <div className="flex items-center">
               <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
               <h3 className="font-semibold text-red-900 text-lg">
-                Il tuo periodo di prova è terminato
+                {t('subscribe.trialExpiredTitle')}
               </h3>
             </div>
             <AlertDescription className="text-red-800 mt-3">
               <p className="mb-3">
-                Il tuo periodo di prova gratuito di 40 giorni è scaduto. Per continuare ad utilizzare il gestionale e accedere a tutte le funzionalità, sottoscrivi uno dei nostri piani qui sotto.
+                {t('subscribe.trialExpiredBody')}
               </p>
               <p className="font-medium">
-                💾 Non preoccuparti: tutti i tuoi dati (clienti, appuntamenti, impostazioni) sono al sicuro e verranno ripristinati non appena sottoscrivi un piano.
+                {t('subscribe.trialExpiredSafe')}
               </p>
             </AlertDescription>
           </Alert>
@@ -676,10 +676,10 @@ export default function SubscribePage() {
                       <div className="mt-2 mb-4">
                         <span className="text-3xl font-bold">{plan.priceLabel}</span>
                         {plan.type === LicenseType.TRIAL && (
-                          <span className="block text-sm text-muted-foreground">Per 40 giorni</span>
+                          <span className="block text-sm text-muted-foreground">{t('subscribe.for40Days')}</span>
                         )}
                         {plan.type !== LicenseType.TRIAL && (
-                          <span className="block text-sm text-muted-foreground">Abbonamento annuale</span>
+                          <span className="block text-sm text-muted-foreground">{t('subscribe.annualSub')}</span>
                         )}
                       </div>
                       <ul className="space-y-2 mb-6">

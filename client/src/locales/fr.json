@@ -721,7 +721,18 @@
     "alreadySentVia": "Cette facture a déjà été envoyée via les canaux suivants :",
     "sentOnDate": "Envoyée le {{date}}",
     "resendQuestion": "Voulez-vous vraiment renvoyer la facture aux canaux sélectionnés ?",
-    "confirmResend": "Confirmer le renvoi"
+    "confirmResend": "Confirmer le renvoi",
+    "recipientPlaceholder": "client@exemple.com",
+    "currentFormatValue": "Mixte (06/2025/001, 09/2025/002, etc.)",
+    "afterFormatValue": "Légal NNN/AAAA (001/2025, 002/2025, etc.)",
+    "previewDescription": "Aperçu de l'apparence de la facture {{number}} avant envoi ou impression",
+    "previewGenerating": "Génération de l'aperçu...",
+    "previewEmpty": "Aucun aperçu disponible",
+    "previewClose": "Fermer l'aperçu",
+    "sendViaEmail": "Envoyer par e-mail",
+    "resendIntro": "Cette facture a déjà été envoyée via les canaux suivants :",
+    "resendSentOn": "Envoyée le {{date}}",
+    "resendConfirm": "Confirmer le renvoi"
   },
   "reports": {
     "title": "Rapports et Statistiques",
@@ -1806,7 +1817,25 @@
     "shareLink": "Partager le lien",
     "invitations": "Invitations",
     "rewards": "Récompenses",
-    "copied": "Code copié !"
+    "copied": "Code copié !",
+    "payout": {
+      "dialogTitle": "Méthodes de paiement des commissions",
+      "dialogDesc": "Configurez comment vous souhaitez recevoir vos paiements de commissions de parrainage.",
+      "paypalSection": "PayPal (Recommandé)",
+      "paypalEmail": "E-mail PayPal",
+      "paypalEmailPh": "votre-email@paypal.com",
+      "paypalEmailHint": "Saisissez l'e-mail de votre compte PayPal pour recevoir les paiements automatiques.",
+      "autoPayout": "Paiement automatique",
+      "autoPayoutHint": "Les commissions sont envoyées automatiquement après 30 jours via PayPal",
+      "bankSection": "Virement bancaire (Alternative)",
+      "bankIntro": "Si vous préférez, vous pouvez recevoir les paiements par virement bancaire (traitement manuel).",
+      "bankName": "Nom de la banque",
+      "accountHolder": "Titulaire du compte",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (optionnel)",
+      "saving": "Enregistrement...",
+      "save": "Enregistrer"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "Fonctionne aussi hors ligne",
     "feature3": "Aucune application à télécharger depuis les stores",
     "feature4": "Empreinte mémoire minimale",
-    "installedOnDevice": "Application installée sur l'appareil"
+    "installedOnDevice": "Application installée sur l'appareil",
+    "steps": {
+      "iosSafari": {
+        "title": "Installation sur iOS avec Safari",
+        "step1": "Appuyez sur l'icône 'Partager' (le carré avec une flèche vers le haut)",
+        "step2": "Faites défiler vers le bas et sélectionnez 'Sur l'écran d'accueil'",
+        "step3": "Confirmez en appuyant sur 'Ajouter' en haut à droite"
+      },
+      "iosOther": {
+        "title": "Installation sur iOS",
+        "step1": "Copiez l'URL de cette page",
+        "step2": "Ouvrez Safari",
+        "step3": "Collez l'URL dans la barre d'adresse et visitez la page",
+        "step4": "Appuyez sur l'icône 'Partager' et sélectionnez 'Sur l'écran d'accueil'"
+      },
+      "androidChrome": {
+        "title": "Installation sur Android avec Chrome",
+        "step1": "Appuyez sur les trois points en haut à droite",
+        "step2": "Sélectionnez 'Ajouter à l'écran d'accueil'",
+        "step3": "Confirmez en appuyant sur 'Ajouter'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Installation sur Android avec DuckDuckGo",
+        "step1": "Appuyez sur les trois points en haut à droite",
+        "step2": "Sélectionnez 'Partager'",
+        "step3": "Choisissez 'Chrome' dans la liste des applications",
+        "step4": "Chrome ouvrira le site et affichera une bannière d'installation PWA",
+        "step5": "Appuyez sur 'Installer' dans la bannière Chrome pour terminer l'installation",
+        "alt1": "DuckDuckGo ne prend pas directement en charge l'installation PWA",
+        "alt2": "La méthode la plus fiable est de partager le site avec Chrome",
+        "alt3": "Chrome prend en charge nativement l'installation PWA"
+      },
+      "manual": {
+        "title": "Installation manuelle",
+        "step1": "Visitez cette page avec Google Chrome",
+        "step2": "Appuyez sur le bouton 'Installer l'app sur l'appareil'",
+        "step3": "Suivez les instructions affichées"
+      },
+      "chrome": {
+        "title": "Installation avec Google Chrome",
+        "step1": "Appuyez sur les trois points en haut à droite",
+        "step2": "Sélectionnez 'Ajouter à l'écran d'accueil' ou 'Installer l'application'",
+        "step3": "Confirmez en appuyant sur 'Ajouter' ou 'Installer'"
+      },
+      "safari": {
+        "title": "Installation avec Safari",
+        "step1": "Appuyez sur l'icône 'Partager' (le carré avec une flèche vers le haut)",
+        "step2": "Faites défiler vers le bas et sélectionnez 'Sur l'écran d'accueil'",
+        "step3": "Confirmez en appuyant sur 'Ajouter' en haut à droite"
+      },
+      "duckduckgo": {
+        "title": "Installation avec DuckDuckGo",
+        "step1": "Appuyez sur les trois points en haut à droite",
+        "step2": "Sélectionnez 'Partager'",
+        "step3": "Choisissez 'Chrome' dans la liste des applications",
+        "step4": "Chrome ouvrira le site et affichera une bannière d'installation PWA",
+        "step5": "Appuyez sur 'Installer' dans la bannière Chrome pour terminer l'installation",
+        "alt1": "DuckDuckGo ne prend pas directement en charge l'installation PWA",
+        "alt2": "La méthode la plus fiable est de partager le site avec Chrome",
+        "alt3": "Chrome prend en charge nativement l'installation PWA"
+      },
+      "samsung": {
+        "title": "Installation avec Samsung Internet",
+        "step1": "Appuyez sur les trois points en bas à droite",
+        "step2": "Sélectionnez 'Ajouter la page à' puis 'Écran d'accueil'",
+        "step3": "Confirmez en appuyant sur 'Ajouter'"
+      },
+      "firefox": {
+        "title": "Installation avec Firefox",
+        "step1": "Appuyez sur les trois points en haut à droite",
+        "step2": "Sélectionnez 'Installer' ou 'Ajouter à l'écran d'accueil'",
+        "step3": "Si cette option n'est pas disponible, visitez le site avec Chrome"
+      },
+      "other": {
+        "title": "Installation avec un autre navigateur",
+        "step1": "Pour une expérience optimale, visitez cette page avec Google Chrome",
+        "step2": "Dans Chrome, appuyez sur les trois points en haut à droite",
+        "step3": "Sélectionnez 'Installer l'application' ou 'Ajouter à l'écran d'accueil'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Utilisez Chrome pour installer l'app facilement : appuyez simplement sur \"Installer l'app\" et suivez les instructions.",
+      "androidDuckDuckGo": "Vous utilisez DuckDuckGo. Après avoir appuyé sur \"Installer l'app\", nous vous guiderons avec des instructions spécifiques à votre navigateur.",
+      "iosSafari": "Avec Safari sur iOS, suivez les instructions après avoir appuyé sur \"Installer l'app\" pour l'ajouter à votre écran d'accueil.",
+      "iosOther": "Pour installer l'app sur iOS, nous vous recommandons d'utiliser Safari. Nous fournirons des instructions détaillées après l'appui sur \"Installer l'app\".",
+      "default": "L'installation fonctionne mieux avec Google Chrome. Suivez les instructions détaillées après avoir appuyé sur \"Installer l'app\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Votre période d'essai est terminée",
+    "trialExpiredBody": "Votre essai gratuit de 40 jours a expiré. Pour continuer à utiliser l'application et accéder à toutes les fonctionnalités, abonnez-vous à l'un des plans ci-dessous.",
+    "trialExpiredSafe": "💾 Pas d'inquiétude : toutes vos données (clients, rendez-vous, paramètres) sont en sécurité et seront restaurées dès votre abonnement à un plan.",
+    "for40Days": "Pour 40 jours",
+    "annualSub": "Abonnement annuel"
   }
 }

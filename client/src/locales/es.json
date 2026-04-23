@@ -708,20 +708,31 @@
     "totalInvoices": "Total de facturas",
     "chronologicalKept": "✓ Orden cronológico mantenido",
     "doCleanup": "Limpiar Numeración",
-    "previewTitle": "👁️ Vista previa de la factura",
+    "previewTitle": "👁️ Vista previa de factura",
     "previewDesc": "Vista previa de cómo aparecerá la factura {{number}} antes de enviarla o imprimirla",
     "generatingPreview": "Generando vista previa...",
     "noPreviewAvailable": "Sin vista previa disponible",
     "closePreview": "Cerrar Vista Previa",
     "printing": "Imprimiendo...",
-    "printInvoice": "Imprimir Factura",
+    "printInvoice": "Imprimir factura",
     "sendByEmailBtn": "Enviar por Email",
     "deleteConfirmText": "¿Estás seguro de eliminar la factura {{number}}?\n\n¡Esta acción es irreversible!",
     "resendTitle": "⚠️ Confirmar reenvío de factura",
     "alreadySentVia": "Esta factura ya ha sido enviada por los siguientes canales:",
     "sentOnDate": "Enviada el {{date}}",
     "resendQuestion": "¿Realmente quieres reenviar la factura a los canales seleccionados?",
-    "confirmResend": "Confirmar Reenvío"
+    "confirmResend": "Confirmar Reenvío",
+    "recipientPlaceholder": "cliente@ejemplo.com",
+    "currentFormatValue": "Mixto (06/2025/001, 09/2025/002, etc.)",
+    "afterFormatValue": "Legal NNN/AAAA (001/2025, 002/2025, etc.)",
+    "previewDescription": "Vista previa de cómo aparecerá la factura {{number}} antes de enviarla o imprimirla",
+    "previewGenerating": "Generando vista previa...",
+    "previewEmpty": "No hay vista previa disponible",
+    "previewClose": "Cerrar vista previa",
+    "sendViaEmail": "Enviar por correo",
+    "resendIntro": "Esta factura ya se ha enviado por los siguientes canales:",
+    "resendSentOn": "Enviada el {{date}}",
+    "resendConfirm": "Confirmar reenvío"
   },
   "reports": {
     "title": "Informes y Estadísticas",
@@ -1806,7 +1817,25 @@
     "shareLink": "Compartir enlace",
     "invitations": "Invitaciones",
     "rewards": "Recompensas",
-    "copied": "¡Código copiado!"
+    "copied": "¡Código copiado!",
+    "payout": {
+      "dialogTitle": "Métodos de pago de comisiones",
+      "dialogDesc": "Configura cómo quieres recibir los pagos de tus comisiones de referidos.",
+      "paypalSection": "PayPal (Recomendado)",
+      "paypalEmail": "Correo electrónico de PayPal",
+      "paypalEmailPh": "tu-correo@paypal.com",
+      "paypalEmailHint": "Introduce el correo de tu cuenta PayPal para recibir pagos automáticos.",
+      "autoPayout": "Pago automático",
+      "autoPayoutHint": "Las comisiones se envían automáticamente después de 30 días vía PayPal",
+      "bankSection": "Transferencia bancaria (Alternativa)",
+      "bankIntro": "Si lo prefieres, puedes recibir los pagos por transferencia bancaria (procesamiento manual).",
+      "bankName": "Nombre del banco",
+      "accountHolder": "Titular de la cuenta",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (opcional)",
+      "saving": "Guardando...",
+      "save": "Guardar"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "También funciona sin conexión",
     "feature3": "No hay app que descargar de las tiendas",
     "feature4": "Mínimo uso de memoria",
-    "installedOnDevice": "App instalada en el dispositivo"
+    "installedOnDevice": "App instalada en el dispositivo",
+    "steps": {
+      "iosSafari": {
+        "title": "Instalación en iOS con Safari",
+        "step1": "Pulsa el icono 'Compartir' (el cuadrado con la flecha hacia arriba)",
+        "step2": "Desplázate hacia abajo y selecciona 'Añadir a pantalla de inicio'",
+        "step3": "Confirma pulsando 'Añadir' en la esquina superior derecha"
+      },
+      "iosOther": {
+        "title": "Instalación en iOS",
+        "step1": "Copia la URL de esta página",
+        "step2": "Abre Safari",
+        "step3": "Pega la URL en la barra de direcciones y visita la página",
+        "step4": "Pulsa el icono 'Compartir' y selecciona 'Añadir a pantalla de inicio'"
+      },
+      "androidChrome": {
+        "title": "Instalación en Android con Chrome",
+        "step1": "Pulsa los tres puntos arriba a la derecha",
+        "step2": "Selecciona 'Añadir a pantalla de inicio'",
+        "step3": "Confirma pulsando 'Añadir'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Instalación en Android con DuckDuckGo",
+        "step1": "Pulsa los tres puntos arriba a la derecha",
+        "step2": "Selecciona 'Compartir'",
+        "step3": "Elige 'Chrome' de la lista de apps",
+        "step4": "Chrome abrirá el sitio y mostrará un banner de instalación PWA",
+        "step5": "Pulsa 'Instalar' en el banner de Chrome para completar la instalación",
+        "alt1": "DuckDuckGo no admite directamente la instalación PWA",
+        "alt2": "El método más fiable es compartir el sitio con Chrome",
+        "alt3": "Chrome admite la instalación PWA de forma nativa"
+      },
+      "manual": {
+        "title": "Instalación manual",
+        "step1": "Visita esta página usando Google Chrome",
+        "step2": "Pulsa el botón 'Instalar app en el dispositivo'",
+        "step3": "Sigue las instrucciones en pantalla"
+      },
+      "chrome": {
+        "title": "Instalación con Google Chrome",
+        "step1": "Pulsa los tres puntos arriba a la derecha",
+        "step2": "Selecciona 'Añadir a pantalla de inicio' o 'Instalar app'",
+        "step3": "Confirma pulsando 'Añadir' o 'Instalar'"
+      },
+      "safari": {
+        "title": "Instalación con Safari",
+        "step1": "Pulsa el icono 'Compartir' (el cuadrado con la flecha hacia arriba)",
+        "step2": "Desplázate hacia abajo y selecciona 'Añadir a pantalla de inicio'",
+        "step3": "Confirma pulsando 'Añadir' en la esquina superior derecha"
+      },
+      "duckduckgo": {
+        "title": "Instalación con DuckDuckGo",
+        "step1": "Pulsa los tres puntos arriba a la derecha",
+        "step2": "Selecciona 'Compartir'",
+        "step3": "Elige 'Chrome' de la lista de apps",
+        "step4": "Chrome abrirá el sitio y mostrará un banner de instalación PWA",
+        "step5": "Pulsa 'Instalar' en el banner de Chrome para completar la instalación",
+        "alt1": "DuckDuckGo no admite directamente la instalación PWA",
+        "alt2": "El método más fiable es compartir el sitio con Chrome",
+        "alt3": "Chrome admite la instalación PWA de forma nativa"
+      },
+      "samsung": {
+        "title": "Instalación con Samsung Internet",
+        "step1": "Pulsa los tres puntos abajo a la derecha",
+        "step2": "Selecciona 'Añadir página a' y luego 'Pantalla de inicio'",
+        "step3": "Confirma pulsando 'Añadir'"
+      },
+      "firefox": {
+        "title": "Instalación con Firefox",
+        "step1": "Pulsa los tres puntos arriba a la derecha",
+        "step2": "Selecciona 'Instalar' o 'Añadir a pantalla de inicio'",
+        "step3": "Si esta opción no está disponible, visita el sitio con Chrome"
+      },
+      "other": {
+        "title": "Instalación con otro navegador",
+        "step1": "Para la mejor experiencia, visita esta página con Google Chrome",
+        "step2": "En Chrome, pulsa los tres puntos arriba a la derecha",
+        "step3": "Selecciona 'Instalar app' o 'Añadir a pantalla de inicio'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Usa Chrome para instalar la app fácilmente: solo pulsa \"Instalar App\" y sigue las instrucciones.",
+      "androidDuckDuckGo": "Estás usando DuckDuckGo. Tras pulsar \"Instalar App\", te guiaremos con instrucciones específicas para tu navegador.",
+      "iosSafari": "Con Safari en iOS, sigue las instrucciones tras pulsar \"Instalar App\" para añadirla a la pantalla de inicio.",
+      "iosOther": "Para instalar la app en iOS, te recomendamos usar Safari. Te daremos instrucciones detalladas tras pulsar \"Instalar App\".",
+      "default": "La instalación funciona mejor con Google Chrome. Sigue las instrucciones detalladas tras pulsar \"Instalar App\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Tu período de prueba ha terminado",
+    "trialExpiredBody": "Tu prueba gratuita de 40 días ha caducado. Para seguir usando la aplicación y acceder a todas las funciones, suscríbete a uno de los planes a continuación.",
+    "trialExpiredSafe": "💾 No te preocupes: todos tus datos (clientes, citas, configuraciones) están a salvo y se restaurarán en cuanto te suscribas a un plan.",
+    "for40Days": "Por 40 días",
+    "annualSub": "Suscripción anual"
   }
 }

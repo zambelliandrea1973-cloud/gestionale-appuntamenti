@@ -690,7 +690,7 @@
     "totalInvoices": "Totaal facturen",
     "chronologicalKept": "✓ Chronologische volgorde behouden",
     "doCleanup": "Nummering opschonen",
-    "previewTitle": "👁️ Factuurvoorbeeld",
+    "previewTitle": "👁️ Factuur-voorbeeld",
     "previewDesc": "Voorbeeld van hoe factuur {{number}} eruit ziet voor verzending of afdruk",
     "generatingPreview": "Voorbeeld genereren...",
     "noPreviewAvailable": "Geen voorbeeld beschikbaar",
@@ -699,11 +699,22 @@
     "printInvoice": "Factuur afdrukken",
     "sendByEmailBtn": "Per e-mail verzenden",
     "deleteConfirmText": "Weet u zeker dat u factuur {{number}} wilt verwijderen?\n\nDeze actie kan niet ongedaan worden gemaakt!",
-    "resendTitle": "⚠️ Bevestig opnieuw versturen",
+    "resendTitle": "⚠️ Bevestig opnieuw verzenden",
     "alreadySentVia": "Deze factuur is al verzonden via de volgende kanalen:",
     "sentOnDate": "Verzonden op {{date}}",
-    "resendQuestion": "Wilt u de factuur echt opnieuw versturen naar de geselecteerde kanalen?",
-    "confirmResend": "Bevestig opnieuw versturen"
+    "resendQuestion": "Wil je de factuur echt opnieuw verzenden naar de geselecteerde kanalen?",
+    "confirmResend": "Bevestig opnieuw versturen",
+    "recipientPlaceholder": "klant@voorbeeld.nl",
+    "currentFormatValue": "Gemengd (06/2025/001, 09/2025/002, enz.)",
+    "afterFormatValue": "Wettelijk NNN/JJJJ (001/2025, 002/2025, enz.)",
+    "previewDescription": "Voorbeeld van hoe factuur {{number}} eruitziet vóór verzending of afdruk",
+    "previewGenerating": "Voorbeeld wordt gegenereerd...",
+    "previewEmpty": "Geen voorbeeld beschikbaar",
+    "previewClose": "Voorbeeld sluiten",
+    "sendViaEmail": "Verzenden via e-mail",
+    "resendIntro": "Deze factuur is al verzonden via de volgende kanalen:",
+    "resendSentOn": "Verzonden op {{date}}",
+    "resendConfirm": "Bevestig opnieuw verzenden"
   },
   "reports": {
     "title": "Rapporten en Statistieken",
@@ -1806,7 +1817,25 @@
     "shareLink": "Link delen",
     "invitations": "Uitnodigingen",
     "rewards": "Beloningen",
-    "copied": "Code gekopieerd!"
+    "copied": "Code gekopieerd!",
+    "payout": {
+      "dialogTitle": "Uitbetalingsmethoden voor commissies",
+      "dialogDesc": "Stel in hoe je je verwijscommissies wilt ontvangen.",
+      "paypalSection": "PayPal (Aanbevolen)",
+      "paypalEmail": "PayPal-e-mail",
+      "paypalEmailPh": "jouw-email@paypal.com",
+      "paypalEmailHint": "Voer het e-mailadres van je PayPal-account in voor automatische uitbetalingen.",
+      "autoPayout": "Automatische uitbetaling",
+      "autoPayoutHint": "Commissies worden na 30 dagen automatisch via PayPal verzonden",
+      "bankSection": "Bankoverschrijving (Alternatief)",
+      "bankIntro": "Als je dat wilt, kun je uitbetalingen via bankoverschrijving ontvangen (handmatige verwerking).",
+      "bankName": "Banknaam",
+      "accountHolder": "Rekeninghouder",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (optioneel)",
+      "saving": "Bezig met opslaan...",
+      "save": "Opslaan"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "Werkt ook offline",
     "feature3": "Geen app om uit stores te downloaden",
     "feature4": "Minimaal geheugengebruik",
-    "installedOnDevice": "App geïnstalleerd op apparaat"
+    "installedOnDevice": "App geïnstalleerd op apparaat",
+    "steps": {
+      "iosSafari": {
+        "title": "Installeren op iOS met Safari",
+        "step1": "Tik op het 'Delen'-pictogram (het vierkantje met pijl omhoog)",
+        "step2": "Scroll naar beneden en kies 'Zet op beginscherm'",
+        "step3": "Bevestig door rechtsboven op 'Voeg toe' te tikken"
+      },
+      "iosOther": {
+        "title": "Installeren op iOS",
+        "step1": "Kopieer de URL van deze pagina",
+        "step2": "Open Safari",
+        "step3": "Plak de URL in de adresbalk en bezoek de pagina",
+        "step4": "Tik op 'Delen' en kies 'Zet op beginscherm'"
+      },
+      "androidChrome": {
+        "title": "Installeren op Android met Chrome",
+        "step1": "Tik op de drie puntjes rechtsboven",
+        "step2": "Kies 'Zet op startscherm'",
+        "step3": "Bevestig met 'Voeg toe'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Installeren op Android met DuckDuckGo",
+        "step1": "Tik op de drie puntjes rechtsboven",
+        "step2": "Kies 'Delen'",
+        "step3": "Kies 'Chrome' uit de app-lijst",
+        "step4": "Chrome opent de site en toont een PWA-installatiebanner",
+        "step5": "Tik op 'Installeren' in de Chrome-banner om de installatie te voltooien",
+        "alt1": "DuckDuckGo ondersteunt PWA-installatie niet rechtstreeks",
+        "alt2": "De meest betrouwbare manier is de site delen met Chrome",
+        "alt3": "Chrome ondersteunt PWA-installatie native"
+      },
+      "manual": {
+        "title": "Handmatige installatie",
+        "step1": "Bezoek deze pagina met Google Chrome",
+        "step2": "Tik op de knop 'App op apparaat installeren'",
+        "step3": "Volg de instructies op het scherm"
+      },
+      "chrome": {
+        "title": "Installeren met Google Chrome",
+        "step1": "Tik op de drie puntjes rechtsboven",
+        "step2": "Kies 'Zet op startscherm' of 'App installeren'",
+        "step3": "Bevestig met 'Voeg toe' of 'Installeren'"
+      },
+      "safari": {
+        "title": "Installeren met Safari",
+        "step1": "Tik op het 'Delen'-pictogram (het vierkantje met pijl omhoog)",
+        "step2": "Scroll naar beneden en kies 'Zet op beginscherm'",
+        "step3": "Bevestig door rechtsboven op 'Voeg toe' te tikken"
+      },
+      "duckduckgo": {
+        "title": "Installeren met DuckDuckGo",
+        "step1": "Tik op de drie puntjes rechtsboven",
+        "step2": "Kies 'Delen'",
+        "step3": "Kies 'Chrome' uit de app-lijst",
+        "step4": "Chrome opent de site en toont een PWA-installatiebanner",
+        "step5": "Tik op 'Installeren' in de Chrome-banner om de installatie te voltooien",
+        "alt1": "DuckDuckGo ondersteunt PWA-installatie niet rechtstreeks",
+        "alt2": "De meest betrouwbare manier is de site delen met Chrome",
+        "alt3": "Chrome ondersteunt PWA-installatie native"
+      },
+      "samsung": {
+        "title": "Installeren met Samsung Internet",
+        "step1": "Tik op de drie puntjes rechtsonder",
+        "step2": "Kies 'Pagina toevoegen aan' en dan 'Startscherm'",
+        "step3": "Bevestig met 'Voeg toe'"
+      },
+      "firefox": {
+        "title": "Installeren met Firefox",
+        "step1": "Tik op de drie puntjes rechtsboven",
+        "step2": "Kies 'Installeren' of 'Zet op startscherm'",
+        "step3": "Als deze optie niet beschikbaar is, bezoek de site met Chrome"
+      },
+      "other": {
+        "title": "Installeren met een andere browser",
+        "step1": "Voor de beste ervaring bezoek je deze pagina met Google Chrome",
+        "step2": "Tik in Chrome op de drie puntjes rechtsboven",
+        "step3": "Kies 'App installeren' of 'Zet op startscherm'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Gebruik Chrome om de app eenvoudig te installeren — tik op \"App installeren\" en volg de instructies.",
+      "androidDuckDuckGo": "Je gebruikt DuckDuckGo. Na het tikken op \"App installeren\" begeleiden we je met browser-specifieke instructies.",
+      "iosSafari": "Volg met Safari op iOS de instructies na het tikken op \"App installeren\" om de app op je beginscherm te zetten.",
+      "iosOther": "Voor installatie op iOS raden we Safari aan. We geven gedetailleerde instructies na het tikken op \"App installeren\".",
+      "default": "Installatie werkt het best met Google Chrome. Volg de gedetailleerde instructies na het tikken op \"App installeren\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Je proefperiode is afgelopen",
+    "trialExpiredBody": "Je gratis proefperiode van 40 dagen is verlopen. Abonneer je op een van onderstaande plannen om de app te blijven gebruiken en alle functies te benutten.",
+    "trialExpiredSafe": "💾 Geen zorgen: al je gegevens (klanten, afspraken, instellingen) zijn veilig en worden hersteld zodra je een plan afneemt.",
+    "for40Days": "Voor 40 dagen",
+    "annualSub": "Jaarabonnement"
   }
 }

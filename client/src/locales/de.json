@@ -708,20 +708,31 @@
     "totalInvoices": "Rechnungen gesamt",
     "chronologicalKept": "✓ Chronologische Reihenfolge beibehalten",
     "doCleanup": "Nummerierung bereinigen",
-    "previewTitle": "👁️ Rechnungsvorschau",
+    "previewTitle": "👁️ Rechnungs-Vorschau",
     "previewDesc": "Vorschau, wie die Rechnung {{number}} vor dem Versand oder Druck aussehen wird",
     "generatingPreview": "Vorschau wird erstellt...",
     "noPreviewAvailable": "Keine Vorschau verfügbar",
     "closePreview": "Vorschau schließen",
-    "printing": "Wird gedruckt...",
+    "printing": "Drucken...",
     "printInvoice": "Rechnung drucken",
     "sendByEmailBtn": "Per E-Mail senden",
     "deleteConfirmText": "Möchten Sie die Rechnung {{number}} wirklich löschen?\n\nDiese Aktion ist nicht rückgängig zu machen!",
     "resendTitle": "⚠️ Erneutes Senden bestätigen",
     "alreadySentVia": "Diese Rechnung wurde bereits über folgende Kanäle gesendet:",
     "sentOnDate": "Gesendet am {{date}}",
-    "resendQuestion": "Möchten Sie die Rechnung wirklich erneut über die ausgewählten Kanäle senden?",
-    "confirmResend": "Erneutes Senden bestätigen"
+    "resendQuestion": "Möchten Sie die Rechnung wirklich an die ausgewählten Kanäle erneut senden?",
+    "confirmResend": "Erneutes Senden bestätigen",
+    "recipientPlaceholder": "kunde@beispiel.de",
+    "currentFormatValue": "Gemischt (06/2025/001, 09/2025/002, usw.)",
+    "afterFormatValue": "Rechtskonform NNN/JJJJ (001/2025, 002/2025, usw.)",
+    "previewDescription": "Vorschau, wie Rechnung {{number}} vor dem Versand oder Druck aussieht",
+    "previewGenerating": "Vorschau wird erstellt...",
+    "previewEmpty": "Keine Vorschau verfügbar",
+    "previewClose": "Vorschau schließen",
+    "sendViaEmail": "Per E-Mail senden",
+    "resendIntro": "Diese Rechnung wurde bereits über die folgenden Kanäle gesendet:",
+    "resendSentOn": "Gesendet am {{date}}",
+    "resendConfirm": "Erneutes Senden bestätigen"
   },
   "reports": {
     "title": "Berichte und Statistiken",
@@ -1806,7 +1817,25 @@
     "shareLink": "Link teilen",
     "invitations": "Einladungen",
     "rewards": "Belohnungen",
-    "copied": "Code kopiert!"
+    "copied": "Code kopiert!",
+    "payout": {
+      "dialogTitle": "Provisions-Auszahlungsmethoden",
+      "dialogDesc": "Konfigurieren Sie, wie Sie Ihre Empfehlungsprovisionen erhalten möchten.",
+      "paypalSection": "PayPal (Empfohlen)",
+      "paypalEmail": "PayPal-E-Mail",
+      "paypalEmailPh": "ihre-email@paypal.com",
+      "paypalEmailHint": "Geben Sie die E-Mail Ihres PayPal-Kontos für automatische Auszahlungen ein.",
+      "autoPayout": "Automatische Auszahlung",
+      "autoPayoutHint": "Provisionen werden nach 30 Tagen automatisch über PayPal versendet",
+      "bankSection": "Banküberweisung (Alternative)",
+      "bankIntro": "Wenn Sie möchten, können Sie Auszahlungen per Banküberweisung erhalten (manuelle Bearbeitung).",
+      "bankName": "Bankname",
+      "accountHolder": "Kontoinhaber",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (optional)",
+      "saving": "Speichern...",
+      "save": "Speichern"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "Funktioniert auch offline",
     "feature3": "Keine App aus den Stores herunterladen",
     "feature4": "Minimaler Speicherbedarf",
-    "installedOnDevice": "App auf dem Gerät installiert"
+    "installedOnDevice": "App auf dem Gerät installiert",
+    "steps": {
+      "iosSafari": {
+        "title": "Installation auf iOS mit Safari",
+        "step1": "Tippen Sie auf das Symbol 'Teilen' (das Quadrat mit dem Pfeil nach oben)",
+        "step2": "Scrollen Sie nach unten und wählen Sie 'Zum Home-Bildschirm hinzufügen'",
+        "step3": "Bestätigen Sie mit 'Hinzufügen' oben rechts"
+      },
+      "iosOther": {
+        "title": "Installation auf iOS",
+        "step1": "Kopieren Sie die URL dieser Seite",
+        "step2": "Öffnen Sie Safari",
+        "step3": "Fügen Sie die URL in die Adressleiste ein und besuchen Sie die Seite",
+        "step4": "Tippen Sie auf 'Teilen' und wählen Sie 'Zum Home-Bildschirm hinzufügen'"
+      },
+      "androidChrome": {
+        "title": "Installation auf Android mit Chrome",
+        "step1": "Tippen Sie auf die drei Punkte oben rechts",
+        "step2": "Wählen Sie 'Zum Startbildschirm hinzufügen'",
+        "step3": "Bestätigen Sie mit 'Hinzufügen'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Installation auf Android mit DuckDuckGo",
+        "step1": "Tippen Sie auf die drei Punkte oben rechts",
+        "step2": "Wählen Sie 'Teilen'",
+        "step3": "Wählen Sie 'Chrome' aus der App-Liste",
+        "step4": "Chrome öffnet die Seite und zeigt ein PWA-Installationsbanner",
+        "step5": "Tippen Sie im Chrome-Banner auf 'Installieren', um die Installation abzuschließen",
+        "alt1": "DuckDuckGo unterstützt PWA-Installation nicht direkt",
+        "alt2": "Die zuverlässigste Methode ist, die Seite an Chrome weiterzugeben",
+        "alt3": "Chrome unterstützt PWA-Installation nativ"
+      },
+      "manual": {
+        "title": "Manuelle Installation",
+        "step1": "Besuchen Sie diese Seite mit Google Chrome",
+        "step2": "Tippen Sie auf 'App auf dem Gerät installieren'",
+        "step3": "Folgen Sie den angezeigten Anweisungen"
+      },
+      "chrome": {
+        "title": "Installation mit Google Chrome",
+        "step1": "Tippen Sie auf die drei Punkte oben rechts",
+        "step2": "Wählen Sie 'Zum Startbildschirm hinzufügen' oder 'App installieren'",
+        "step3": "Bestätigen Sie mit 'Hinzufügen' oder 'Installieren'"
+      },
+      "safari": {
+        "title": "Installation mit Safari",
+        "step1": "Tippen Sie auf das Symbol 'Teilen' (das Quadrat mit dem Pfeil nach oben)",
+        "step2": "Scrollen Sie nach unten und wählen Sie 'Zum Home-Bildschirm hinzufügen'",
+        "step3": "Bestätigen Sie mit 'Hinzufügen' oben rechts"
+      },
+      "duckduckgo": {
+        "title": "Installation mit DuckDuckGo",
+        "step1": "Tippen Sie auf die drei Punkte oben rechts",
+        "step2": "Wählen Sie 'Teilen'",
+        "step3": "Wählen Sie 'Chrome' aus der App-Liste",
+        "step4": "Chrome öffnet die Seite und zeigt ein PWA-Installationsbanner",
+        "step5": "Tippen Sie im Chrome-Banner auf 'Installieren', um die Installation abzuschließen",
+        "alt1": "DuckDuckGo unterstützt PWA-Installation nicht direkt",
+        "alt2": "Die zuverlässigste Methode ist, die Seite an Chrome weiterzugeben",
+        "alt3": "Chrome unterstützt PWA-Installation nativ"
+      },
+      "samsung": {
+        "title": "Installation mit Samsung Internet",
+        "step1": "Tippen Sie auf die drei Punkte unten rechts",
+        "step2": "Wählen Sie 'Seite hinzufügen zu' und dann 'Startbildschirm'",
+        "step3": "Bestätigen Sie mit 'Hinzufügen'"
+      },
+      "firefox": {
+        "title": "Installation mit Firefox",
+        "step1": "Tippen Sie auf die drei Punkte oben rechts",
+        "step2": "Wählen Sie 'Installieren' oder 'Zum Startbildschirm hinzufügen'",
+        "step3": "Falls diese Option nicht verfügbar ist, besuchen Sie die Seite mit Chrome"
+      },
+      "other": {
+        "title": "Installation mit anderem Browser",
+        "step1": "Für die beste Erfahrung besuchen Sie diese Seite mit Google Chrome",
+        "step2": "Tippen Sie in Chrome auf die drei Punkte oben rechts",
+        "step3": "Wählen Sie 'App installieren' oder 'Zum Startbildschirm hinzufügen'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Verwenden Sie Chrome, um die App einfach zu installieren — tippen Sie einfach auf \"App installieren\" und folgen Sie den Anweisungen.",
+      "androidDuckDuckGo": "Sie verwenden DuckDuckGo. Nach Tippen auf \"App installieren\" führen wir Sie mit browser-spezifischen Anweisungen.",
+      "iosSafari": "Folgen Sie mit Safari unter iOS den Anweisungen nach Tippen auf \"App installieren\", um die App zum Startbildschirm hinzuzufügen.",
+      "iosOther": "Zur Installation der App unter iOS empfehlen wir Safari. Nach Tippen auf \"App installieren\" geben wir Ihnen detaillierte Anweisungen.",
+      "default": "Die Installation funktioniert am besten mit Google Chrome. Folgen Sie den detaillierten Anweisungen nach Tippen auf \"App installieren\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Ihre Testphase ist beendet",
+    "trialExpiredBody": "Ihre 40-tägige kostenlose Testphase ist abgelaufen. Um die App weiterhin zu nutzen und auf alle Funktionen zuzugreifen, abonnieren Sie einen unten aufgeführten Plan.",
+    "trialExpiredSafe": "💾 Keine Sorge: Alle Ihre Daten (Kunden, Termine, Einstellungen) sind sicher und werden wiederhergestellt, sobald Sie einen Plan abonnieren.",
+    "for40Days": "Für 40 Tage",
+    "annualSub": "Jahresabonnement"
   }
 }

@@ -1027,16 +1027,16 @@ export default function Invoices() {
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Stato Pagamento</FormLabel>
+                    <FormLabel>{t('invoices.paymentStatus')}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Seleziona stato" />
+                          <SelectValue placeholder={t('invoices.selectStatus')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="sent">Non pagata</SelectItem>
-                        <SelectItem value="paid">Pagata</SelectItem>
+                        <SelectItem value="sent">{t('invoices.unpaid')}</SelectItem>
+                        <SelectItem value="paid">{t('invoices.paid')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -1045,10 +1045,10 @@ export default function Invoices() {
               />
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsFormOpen(false)}>
-                  Annulla
+                  {t('invoices.cancel')}
                 </Button>
                 <Button type="submit" disabled={createMutation.isPending}>
-                  {createMutation.isPending ? "Creazione..." : "Crea Fattura"}
+                  {createMutation.isPending ? t('invoices.creating') : t('invoices.createInvoice')}
                 </Button>
               </DialogFooter>
             </form>
@@ -1060,9 +1060,9 @@ export default function Invoices() {
       <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
         <DialogContent className="min-[1200px]:max-w-md">
           <DialogHeader>
-            <DialogTitle>Invia Fattura via Email</DialogTitle>
+            <DialogTitle>{t('invoices.sendByEmail')}</DialogTitle>
             <DialogDescription>
-              Invia la fattura {selectedInvoice?.invoiceNumber} al cliente
+              {t('invoices.sendInvoiceTo', { number: selectedInvoice?.invoiceNumber })}
             </DialogDescription>
           </DialogHeader>
           <Form {...emailForm}>
@@ -1072,9 +1072,9 @@ export default function Invoices() {
                 name="recipientEmail"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Destinatario</FormLabel>
+                    <FormLabel>{t('invoices.recipientEmail')}</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="cliente@esempio.it" {...field} />
+                      <Input type="email" placeholder={t('invoices.recipientPlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1085,9 +1085,9 @@ export default function Invoices() {
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Oggetto</FormLabel>
+                    <FormLabel>{t('invoices.subject')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Oggetto dell'email" {...field} />
+                      <Input placeholder={t('invoices.subjectPlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1098,10 +1098,10 @@ export default function Invoices() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Messaggio (opzionale)</FormLabel>
+                    <FormLabel>{t('invoices.messageOptional')}</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="Messaggio personalizzato..." 
+                        placeholder={t('invoices.customMessagePlaceholder')} 
                         rows={4}
                         {...field} 
                       />
@@ -1112,10 +1112,10 @@ export default function Invoices() {
               />
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsEmailDialogOpen(false)}>
-                  Annulla
+                  {t('invoices.cancel')}
                 </Button>
                 <Button type="submit" disabled={sendEmailMutation.isPending}>
-                  {sendEmailMutation.isPending ? "Invio..." : "Invia Email"}
+                  {sendEmailMutation.isPending ? t('invoices.sending') : t('invoices.sendEmailBtn')}
                 </Button>
               </DialogFooter>
             </form>
@@ -1127,22 +1127,22 @@ export default function Invoices() {
       <Dialog open={isCleanupDialogOpen} onOpenChange={setIsCleanupDialogOpen}>
         <DialogContent className="min-[1200px]:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-orange-600">🧹 Pulizia Numerazione Fatture</DialogTitle>
+            <DialogTitle className="text-orange-600">{t('invoices.cleanupTitle')}</DialogTitle>
             <DialogDescription>
-              Questa operazione rinumererà tutte le tue fatture in ordine cronologico usando il formato legale <strong>NNN/YYYY</strong>.
+              {t('invoices.cleanupDescription')}
               <br />
               <span className="text-orange-600 font-medium mt-2 block">
-                Le fatture verranno rinumerate automaticamente!
+                {t('invoices.cleanupWarning')}
               </span>
             </DialogDescription>
           </DialogHeader>
           
           <div className="bg-orange-50 p-4 rounded-md border border-orange-200">
             <div className="text-sm">
-              <p><strong>Formato corrente:</strong> Misto (06/2025/001, 09/2025/002, ecc.)</p>
-              <p><strong>Formato dopo pulizia:</strong> Legale NNN/YYYY (001/2025, 002/2025, ecc.)</p>
-              <p><strong>Totale fatture:</strong> {invoices.length}</p>
-              <p className="text-green-600 mt-2"><strong>✓ Ordine cronologico mantenuto</strong></p>
+              <p><strong>{t('invoices.currentFormat')}:</strong> {t('invoices.currentFormatValue')}</p>
+              <p><strong>{t('invoices.afterFormat')}:</strong> {t('invoices.afterFormatValue')}</p>
+              <p><strong>{t('invoices.totalInvoices')}:</strong> {invoices.length}</p>
+              <p className="text-green-600 mt-2"><strong>{t('invoices.chronologicalKept')}</strong></p>
             </div>
           </div>
           
@@ -1153,7 +1153,7 @@ export default function Invoices() {
               disabled={cleanupMutation.isPending}
               className="flex-1"
             >
-              Annulla
+              {t('invoices.cancel')}
             </Button>
             <Button 
               variant="default"
@@ -1162,7 +1162,7 @@ export default function Invoices() {
               className="flex-1 bg-orange-600 hover:bg-orange-700"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
-              {cleanupMutation.isPending ? "Pulizia..." : "Pulisci Numerazione"}
+              {cleanupMutation.isPending ? t('invoices.cleaning') : t('invoices.doCleanup')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1172,9 +1172,9 @@ export default function Invoices() {
       <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
         <DialogContent className="min-[1200px]:max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-blue-600">👁️ Anteprima Fattura</DialogTitle>
+            <DialogTitle className="text-blue-600">{t('invoices.previewTitle')}</DialogTitle>
             <DialogDescription>
-              Anteprima di come apparirà la fattura <strong>{selectedInvoice?.invoiceNumber}</strong> prima dell'invio o stampa
+              {t('invoices.previewDescription', { number: selectedInvoice?.invoiceNumber })}
             </DialogDescription>
           </DialogHeader>
           
@@ -1182,7 +1182,7 @@ export default function Invoices() {
             {previewMutation.isPending ? (
               <div className="flex items-center justify-center h-64">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                <span className="ml-3 text-muted-foreground">Generazione anteprima...</span>
+                <span className="ml-3 text-muted-foreground">{t('invoices.previewGenerating')}</span>
               </div>
             ) : previewHtml ? (
               <div 
@@ -1198,7 +1198,7 @@ export default function Invoices() {
             ) : (
               <div className="text-center text-muted-foreground py-8">
                 <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Nessuna anteprima disponibile</p>
+                <p>{t('invoices.previewEmpty')}</p>
               </div>
             )}
           </div>
@@ -1209,7 +1209,7 @@ export default function Invoices() {
               onClick={() => setIsPreviewDialogOpen(false)}
               className="flex-1"
             >
-              Chiudi Anteprima
+              {t('invoices.previewClose')}
             </Button>
             {selectedInvoice && (
               <>
@@ -1223,7 +1223,7 @@ export default function Invoices() {
                   className="flex-1"
                 >
                   <Printer className="h-4 w-4 mr-2" />
-                  {printMutation.isPending ? "Stampa..." : "Stampa Fattura"}
+                  {printMutation.isPending ? t('invoices.printing') : t('invoices.printInvoice')}
                 </Button>
                 <Button 
                   onClick={() => {
@@ -1234,7 +1234,7 @@ export default function Invoices() {
                   className="flex-1"
                 >
                   <Mail className="h-4 w-4 mr-2" />
-                  {sendEmailMutation.isPending ? "Invio..." : "Invia via Email"}
+                  {sendEmailMutation.isPending ? t('invoices.sending') : t('invoices.sendViaEmail')}
                 </Button>
               </>
             )}
@@ -1246,20 +1246,20 @@ export default function Invoices() {
       <AlertDialog open={isResendConfirmOpen} onOpenChange={setIsResendConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>⚠️ Conferma Re-invio Fattura</AlertDialogTitle>
+            <AlertDialogTitle>{t('invoices.resendTitle')}</AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-3">
-                <p>Questa fattura è già stata inviata tramite i seguenti canali:</p>
+                <p>{t('invoices.resendIntro')}</p>
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 space-y-2">
                   {channelsNeedingConfirm.map((item, idx) => (
                     <div key={idx} className="flex items-center justify-between text-sm">
                       <span className="font-medium text-yellow-900">{item.channel}</span>
-                      <span className="text-yellow-700">Inviata il {item.date}</span>
+                      <span className="text-yellow-700">{t('invoices.resendSentOn', { date: item.date })}</span>
                     </div>
                   ))}
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Vuoi davvero re-inviare la fattura ai canali selezionati?
+                  {t('invoices.resendQuestion')}
                 </p>
               </div>
             </AlertDialogDescription>
@@ -1273,7 +1273,7 @@ export default function Invoices() {
                 setChannelsNeedingConfirm([]);
               }}
             >
-              Annulla
+              {t('invoices.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
@@ -1290,7 +1290,7 @@ export default function Invoices() {
               }}
               className="bg-green-600 hover:bg-green-700"
             >
-              Conferma Re-invio
+              {t('invoices.resendConfirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

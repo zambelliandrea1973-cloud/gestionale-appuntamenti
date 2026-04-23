@@ -695,15 +695,26 @@
     "generatingPreview": "Se generează previzualizarea...",
     "noPreviewAvailable": "Nicio previzualizare disponibilă",
     "closePreview": "Închide previzualizarea",
-    "printing": "Se tipărește...",
-    "printInvoice": "Tipărește factura",
+    "printing": "Se imprimă...",
+    "printInvoice": "Imprimă factura",
     "sendByEmailBtn": "Trimite prin email",
     "deleteConfirmText": "Sigur vrei să ștergi factura {{number}}?\n\nAceastă acțiune este ireversibilă!",
     "resendTitle": "⚠️ Confirmă retrimiterea facturii",
     "alreadySentVia": "Această factură a fost deja trimisă prin următoarele canale:",
     "sentOnDate": "Trimisă pe {{date}}",
-    "resendQuestion": "Sigur vrei să retrimiți factura prin canalele selectate?",
-    "confirmResend": "Confirmă retrimiterea"
+    "resendQuestion": "Vrei într-adevăr să retrimiți factura către canalele selectate?",
+    "confirmResend": "Confirmă retrimiterea",
+    "recipientPlaceholder": "client@exemplu.ro",
+    "currentFormatValue": "Mixt (06/2025/001, 09/2025/002, etc.)",
+    "afterFormatValue": "Legal NNN/AAAA (001/2025, 002/2025, etc.)",
+    "previewDescription": "Previzualizare a modului în care va apărea factura {{number}} înainte de trimitere sau imprimare",
+    "previewGenerating": "Se generează previzualizarea...",
+    "previewEmpty": "Nicio previzualizare disponibilă",
+    "previewClose": "Închide previzualizarea",
+    "sendViaEmail": "Trimite prin email",
+    "resendIntro": "Această factură a fost deja trimisă prin următoarele canale:",
+    "resendSentOn": "Trimisă pe {{date}}",
+    "resendConfirm": "Confirmă retrimiterea"
   },
   "reports": {
     "title": "Rapoarte și Statistici",
@@ -1806,7 +1817,25 @@
     "shareLink": "Distribuie linkul",
     "invitations": "Invitații",
     "rewards": "Recompense",
-    "copied": "Cod copiat!"
+    "copied": "Cod copiat!",
+    "payout": {
+      "dialogTitle": "Metode de plată comisioane",
+      "dialogDesc": "Configurează modul în care vrei să primești comisioanele de recomandare.",
+      "paypalSection": "PayPal (Recomandat)",
+      "paypalEmail": "E-mail PayPal",
+      "paypalEmailPh": "emailul-tau@paypal.com",
+      "paypalEmailHint": "Introdu emailul contului tău PayPal pentru a primi plăți automate.",
+      "autoPayout": "Plată automată",
+      "autoPayoutHint": "Comisioanele se trimit automat după 30 de zile prin PayPal",
+      "bankSection": "Transfer bancar (Alternativă)",
+      "bankIntro": "Dacă preferi, poți primi plățile prin transfer bancar (procesare manuală).",
+      "bankName": "Numele băncii",
+      "accountHolder": "Titular cont",
+      "iban": "IBAN",
+      "swift": "SWIFT/BIC (opțional)",
+      "saving": "Se salvează...",
+      "save": "Salvează"
+    }
   },
   "manual": {
     "pwa": {
@@ -3575,6 +3604,99 @@
     "feature2": "Funcționează și offline",
     "feature3": "Nicio aplicație de descărcat din magazine",
     "feature4": "Utilizare minimă a memoriei",
-    "installedOnDevice": "Aplicație instalată pe dispozitiv"
+    "installedOnDevice": "Aplicație instalată pe dispozitiv",
+    "steps": {
+      "iosSafari": {
+        "title": "Instalare pe iOS cu Safari",
+        "step1": "Apasă pictograma 'Partajare' (pătratul cu săgeata în sus)",
+        "step2": "Derulează în jos și selectează 'Adaugă la ecranul principal'",
+        "step3": "Confirmă apăsând 'Adaugă' în colțul din dreapta sus"
+      },
+      "iosOther": {
+        "title": "Instalare pe iOS",
+        "step1": "Copiază URL-ul acestei pagini",
+        "step2": "Deschide Safari",
+        "step3": "Lipește URL-ul în bara de adrese și vizitează pagina",
+        "step4": "Apasă pictograma 'Partajare' și selectează 'Adaugă la ecranul principal'"
+      },
+      "androidChrome": {
+        "title": "Instalare pe Android cu Chrome",
+        "step1": "Apasă cele trei puncte din dreapta sus",
+        "step2": "Selectează 'Adaugă la ecranul principal'",
+        "step3": "Confirmă apăsând 'Adaugă'"
+      },
+      "androidDuckDuckGo": {
+        "title": "Instalare pe Android cu DuckDuckGo",
+        "step1": "Apasă cele trei puncte din dreapta sus",
+        "step2": "Selectează 'Partajare'",
+        "step3": "Alege 'Chrome' din lista de aplicații",
+        "step4": "Chrome va deschide site-ul și va afișa un banner de instalare PWA",
+        "step5": "Apasă 'Instalează' în bannerul Chrome pentru a finaliza instalarea",
+        "alt1": "DuckDuckGo nu suportă direct instalarea PWA",
+        "alt2": "Cea mai fiabilă metodă este să partajezi site-ul cu Chrome",
+        "alt3": "Chrome suportă nativ instalarea PWA"
+      },
+      "manual": {
+        "title": "Instalare manuală",
+        "step1": "Vizitează această pagină folosind Google Chrome",
+        "step2": "Apasă butonul 'Instalează aplicația pe dispozitiv'",
+        "step3": "Urmează instrucțiunile afișate"
+      },
+      "chrome": {
+        "title": "Instalare cu Google Chrome",
+        "step1": "Apasă cele trei puncte din dreapta sus",
+        "step2": "Selectează 'Adaugă la ecranul principal' sau 'Instalează aplicația'",
+        "step3": "Confirmă apăsând 'Adaugă' sau 'Instalează'"
+      },
+      "safari": {
+        "title": "Instalare cu Safari",
+        "step1": "Apasă pictograma 'Partajare' (pătratul cu săgeata în sus)",
+        "step2": "Derulează în jos și selectează 'Adaugă la ecranul principal'",
+        "step3": "Confirmă apăsând 'Adaugă' în colțul din dreapta sus"
+      },
+      "duckduckgo": {
+        "title": "Instalare cu DuckDuckGo",
+        "step1": "Apasă cele trei puncte din dreapta sus",
+        "step2": "Selectează 'Partajare'",
+        "step3": "Alege 'Chrome' din lista de aplicații",
+        "step4": "Chrome va deschide site-ul și va afișa un banner de instalare PWA",
+        "step5": "Apasă 'Instalează' în bannerul Chrome pentru a finaliza instalarea",
+        "alt1": "DuckDuckGo nu suportă direct instalarea PWA",
+        "alt2": "Cea mai fiabilă metodă este să partajezi site-ul cu Chrome",
+        "alt3": "Chrome suportă nativ instalarea PWA"
+      },
+      "samsung": {
+        "title": "Instalare cu Samsung Internet",
+        "step1": "Apasă cele trei puncte din dreapta jos",
+        "step2": "Selectează 'Adaugă pagina la' și apoi 'Ecran principal'",
+        "step3": "Confirmă apăsând 'Adaugă'"
+      },
+      "firefox": {
+        "title": "Instalare cu Firefox",
+        "step1": "Apasă cele trei puncte din dreapta sus",
+        "step2": "Selectează 'Instalează' sau 'Adaugă la ecranul principal'",
+        "step3": "Dacă această opțiune nu este disponibilă, vizitează site-ul cu Chrome"
+      },
+      "other": {
+        "title": "Instalare cu alt browser",
+        "step1": "Pentru cea mai bună experiență, vizitează această pagină cu Google Chrome",
+        "step2": "În Chrome, apasă cele trei puncte din dreapta sus",
+        "step3": "Selectează 'Instalează aplicația' sau 'Adaugă la ecranul principal'"
+      }
+    },
+    "notes": {
+      "androidChrome": "Folosește Chrome pentru a instala aplicația ușor — apasă \"Instalează aplicația\" și urmează instrucțiunile.",
+      "androidDuckDuckGo": "Folosești DuckDuckGo. După ce apeși \"Instalează aplicația\", te vom ghida cu instrucțiuni specifice browserului tău.",
+      "iosSafari": "Cu Safari pe iOS, urmează instrucțiunile după ce apeși \"Instalează aplicația\" pentru a o adăuga pe ecranul principal.",
+      "iosOther": "Pentru a instala aplicația pe iOS, recomandăm Safari. Îți vom oferi instrucțiuni detaliate după ce apeși \"Instalează aplicația\".",
+      "default": "Instalarea funcționează cel mai bine cu Google Chrome. Urmează instrucțiunile detaliate după ce apeși \"Instalează aplicația\"."
+    }
+  },
+  "subscribe": {
+    "trialExpiredTitle": "Perioada de probă s-a încheiat",
+    "trialExpiredBody": "Perioada de probă gratuită de 40 de zile a expirat. Pentru a continua să folosești aplicația și a accesa toate funcțiile, abonează-te la unul dintre planurile de mai jos.",
+    "trialExpiredSafe": "💾 Nu-ți face griji: toate datele tale (clienți, programări, setări) sunt în siguranță și vor fi restaurate imediat ce te abonezi la un plan.",
+    "for40Days": "Pentru 40 de zile",
+    "annualSub": "Abonament anual"
   }
 }

@@ -565,33 +565,33 @@ export default function ReferralPage() {
       <Dialog open={openBankDialog} onOpenChange={setOpenBankDialog}>
         <DialogContent className="min-[1200px]:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Metodi di pagamento commissioni</DialogTitle>
+            <DialogTitle>{t('referral.payout.dialogTitle')}</DialogTitle>
             <DialogDescription>
-              Configura come vuoi ricevere i pagamenti delle tue commissioni referral.
+              {t('referral.payout.dialogDesc')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleBankFormSubmit} className="space-y-4">
             <div className="border-b pb-4">
-              <h4 className="font-semibold mb-3">PayPal (Consigliato)</h4>
+              <h4 className="font-semibold mb-3">{t('referral.payout.paypalSection')}</h4>
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <Label htmlFor="paypalEmail">Email PayPal</Label>
+                  <Label htmlFor="paypalEmail">{t('referral.payout.paypalEmail')}</Label>
                   <Input
                     id="paypalEmail"
                     type="email"
-                    placeholder="tuo-email@paypal.com"
+                    placeholder={t('referral.payout.paypalEmailPh')}
                     value={bankAccountForm.paypalEmail}
                     onChange={(e) => setBankAccountForm({ ...bankAccountForm, paypalEmail: e.target.value })}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Inserisci l'email del tuo account PayPal per ricevere i pagamenti automatici.
+                    {t('referral.payout.paypalEmailHint')}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="autoPayoutEnabled">Payout automatico</Label>
+                    <Label htmlFor="autoPayoutEnabled">{t('referral.payout.autoPayout')}</Label>
                     <p className="text-xs text-muted-foreground">
-                      Le commissioni vengono inviate automaticamente dopo 30 giorni via PayPal
+                      {t('referral.payout.autoPayoutHint')}
                     </p>
                   </div>
                   <Switch
@@ -605,13 +605,13 @@ export default function ReferralPage() {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-3">Bonifico bancario (Alternativo)</h4>
+              <h4 className="font-semibold mb-3">{t('referral.payout.bankSection')}</h4>
               <p className="text-xs text-muted-foreground mb-3">
-                Se preferisci, puoi ricevere i pagamenti tramite bonifico bancario (elaborazione manuale).
+                {t('referral.payout.bankIntro')}
               </p>
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <Label htmlFor="bankName">Nome banca</Label>
+                  <Label htmlFor="bankName">{t('referral.payout.bankName')}</Label>
                   <Input
                     id="bankName"
                     value={bankAccountForm.bankName}
@@ -619,7 +619,7 @@ export default function ReferralPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="accountHolder">Intestatario conto</Label>
+                  <Label htmlFor="accountHolder">{t('referral.payout.accountHolder')}</Label>
                   <Input
                     id="accountHolder"
                     value={bankAccountForm.accountHolder}
@@ -627,7 +627,7 @@ export default function ReferralPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="iban">IBAN</Label>
+                  <Label htmlFor="iban">{t('referral.payout.iban')}</Label>
                   <Input
                     id="iban"
                     value={bankAccountForm.iban}
@@ -635,7 +635,7 @@ export default function ReferralPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="swift">SWIFT/BIC (opzionale)</Label>
+                  <Label htmlFor="swift">{t('referral.payout.swift')}</Label>
                   <Input
                     id="swift"
                     value={bankAccountForm.swift}
@@ -649,7 +649,7 @@ export default function ReferralPage() {
                 type="submit" 
                 disabled={saveBankAccountMutation.isPending}
               >
-                {saveBankAccountMutation.isPending ? "Salvataggio..." : "Salva"}
+                {saveBankAccountMutation.isPending ? t('referral.payout.saving') : t('referral.payout.save')}
               </Button>
             </DialogFooter>
           </form>

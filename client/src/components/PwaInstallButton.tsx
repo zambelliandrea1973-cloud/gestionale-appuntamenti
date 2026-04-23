@@ -129,60 +129,60 @@ export function PwaInstallButton() {
     
     if (isIOS && isSafari) {
       setDialogInstructions({
-        title: "Installazione su iOS con Safari",
+        title: t("pwaInstall.steps.iosSafari.title"),
         browser: "safari",
         steps: [
-          "Premi l'icona 'Condividi' (il quadrato con la freccia in alto)",
-          "Scorri verso il basso e seleziona 'Aggiungi alla schermata Home'",
-          "Conferma premendo 'Aggiungi' nell'angolo in alto a destra"
+          t("pwaInstall.steps.iosSafari.step1"),
+          t("pwaInstall.steps.iosSafari.step2"),
+          t("pwaInstall.steps.iosSafari.step3")
         ]
       });
     } else if (isIOS) {
       setDialogInstructions({
-        title: "Installazione su iOS",
+        title: t("pwaInstall.steps.iosOther.title"),
         browser: "non-safari",
         steps: [
-          "Copia l'URL di questa pagina",
-          "Apri Safari",
-          "Incolla l'URL nella barra degli indirizzi e visita la pagina",
-          "Premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'"
+          t("pwaInstall.steps.iosOther.step1"),
+          t("pwaInstall.steps.iosOther.step2"),
+          t("pwaInstall.steps.iosOther.step3"),
+          t("pwaInstall.steps.iosOther.step4")
         ]
       });
     } else if (isAndroid && isChrome) {
       setDialogInstructions({
-        title: "Installazione su Android con Chrome",
+        title: t("pwaInstall.steps.androidChrome.title"),
         browser: "chrome",
         steps: [
-          "Premi i tre puntini in alto a destra",
-          "Seleziona 'Aggiungi a schermata Home'",
-          "Conferma premendo 'Aggiungi'"
+          t("pwaInstall.steps.androidChrome.step1"),
+          t("pwaInstall.steps.androidChrome.step2"),
+          t("pwaInstall.steps.androidChrome.step3")
         ]
       });
     } else if (isAndroid && isDuckDuckGo) {
       setDialogInstructions({
-        title: "Installazione su Android con DuckDuckGo",
+        title: t("pwaInstall.steps.androidDuckDuckGo.title"),
         browser: "duckduckgo",
         steps: [
-          "Premi i tre puntini in alto a destra",
-          "Seleziona 'Condividi'",
-          "Scegli 'Chrome' dall'elenco delle app",
-          "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
-          "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+          t("pwaInstall.steps.androidDuckDuckGo.step1"),
+          t("pwaInstall.steps.androidDuckDuckGo.step2"),
+          t("pwaInstall.steps.androidDuckDuckGo.step3"),
+          t("pwaInstall.steps.androidDuckDuckGo.step4"),
+          t("pwaInstall.steps.androidDuckDuckGo.step5")
         ],
         alternativeInstructions: [
-          "DuckDuckGo non supporta direttamente l'installazione PWA",
-          "Il metodo più affidabile è condividere il sito con Chrome",
-          "In Chrome l'installazione PWA è supportata nativamente"
+          t("pwaInstall.steps.androidDuckDuckGo.alt1"),
+          t("pwaInstall.steps.androidDuckDuckGo.alt2"),
+          t("pwaInstall.steps.androidDuckDuckGo.alt3")
         ]
       });
     } else {
       setDialogInstructions({
-        title: "Installazione manuale",
+        title: t("pwaInstall.steps.manual.title"),
         browser: "altro",
         steps: [
-          "Visita questa pagina utilizzando Google Chrome",
-          "Premi il pulsante 'Installa app sul dispositivo'",
-          "Segui le istruzioni visualizzate"
+          t("pwaInstall.steps.manual.step1"),
+          t("pwaInstall.steps.manual.step2"),
+          t("pwaInstall.steps.manual.step3")
         ]
       });
     }
@@ -201,74 +201,74 @@ export function PwaInstallButton() {
     switch(browserType) {
       case 'chrome':
         setDialogInstructions({
-          title: "Installazione con Google Chrome",
+          title: t("pwaInstall.steps.chrome.title"),
           browser: "chrome",
           steps: [
-            "Premi i tre puntini in alto a destra",
-            "Seleziona 'Aggiungi a schermata Home' o 'Installa app'",
-            "Conferma premendo 'Aggiungi' o 'Installa'"
+            t("pwaInstall.steps.chrome.step1"),
+            t("pwaInstall.steps.chrome.step2"),
+            t("pwaInstall.steps.chrome.step3")
           ]
         });
         break;
       case 'safari':
         setDialogInstructions({
-          title: "Installazione con Safari",
+          title: t("pwaInstall.steps.safari.title"),
           browser: "safari",
           steps: [
-            "Premi l'icona 'Condividi' (il quadrato con la freccia in alto)",
-            "Scorri verso il basso e seleziona 'Aggiungi alla schermata Home'",
-            "Conferma premendo 'Aggiungi' nell'angolo in alto a destra"
+            t("pwaInstall.steps.safari.step1"),
+            t("pwaInstall.steps.safari.step2"),
+            t("pwaInstall.steps.safari.step3")
           ]
         });
         break;
       case 'duckduckgo':
         setDialogInstructions({
-          title: "Installazione con DuckDuckGo",
+          title: t("pwaInstall.steps.duckduckgo.title"),
           browser: "duckduckgo",
           steps: [
-            "Premi i tre puntini in alto a destra",
-            "Seleziona 'Condividi'",
-            "Scegli 'Chrome' dall'elenco delle app",
-            "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
-            "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+            t("pwaInstall.steps.duckduckgo.step1"),
+            t("pwaInstall.steps.duckduckgo.step2"),
+            t("pwaInstall.steps.duckduckgo.step3"),
+            t("pwaInstall.steps.duckduckgo.step4"),
+            t("pwaInstall.steps.duckduckgo.step5")
           ],
           alternativeInstructions: [
-            "DuckDuckGo non supporta direttamente l'installazione PWA",
-            "Il metodo più affidabile è condividere il sito con Chrome",
-            "In Chrome l'installazione PWA è supportata nativamente"
+            t("pwaInstall.steps.duckduckgo.alt1"),
+            t("pwaInstall.steps.duckduckgo.alt2"),
+            t("pwaInstall.steps.duckduckgo.alt3")
           ]
         });
         break;
       case 'samsung':
         setDialogInstructions({
-          title: "Installazione con Samsung Internet",
+          title: t("pwaInstall.steps.samsung.title"),
           browser: "altro",
           steps: [
-            "Premi i tre puntini in basso a destra",
-            "Seleziona 'Aggiungi pagina a' e poi 'Schermata Home'",
-            "Conferma premendo 'Aggiungi'"
+            t("pwaInstall.steps.samsung.step1"),
+            t("pwaInstall.steps.samsung.step2"),
+            t("pwaInstall.steps.samsung.step3")
           ]
         });
         break;
       case 'firefox':
         setDialogInstructions({
-          title: "Installazione con Firefox",
+          title: t("pwaInstall.steps.firefox.title"),
           browser: "altro",
           steps: [
-            "Premi i tre puntini in alto a destra",
-            "Seleziona 'Installa' o 'Aggiungi a schermata principale'",
-            "Se questa opzione non è disponibile, visita il sito con Chrome"
+            t("pwaInstall.steps.firefox.step1"),
+            t("pwaInstall.steps.firefox.step2"),
+            t("pwaInstall.steps.firefox.step3")
           ]
         });
         break;
       default:
         setDialogInstructions({
-          title: "Installazione con altro browser",
+          title: t("pwaInstall.steps.other.title"),
           browser: "altro",
           steps: [
-            "Per la migliore esperienza, visita questa pagina con Google Chrome",
-            "In Chrome, premi sui tre puntini in alto a destra",
-            "Seleziona 'Installa app' o 'Aggiungi a schermata Home'"
+            t("pwaInstall.steps.other.step1"),
+            t("pwaInstall.steps.other.step2"),
+            t("pwaInstall.steps.other.step3")
           ]
         });
         break;
@@ -283,19 +283,19 @@ export function PwaInstallButton() {
     if (/DuckDuckGo/.test(navigator.userAgent)) {
       console.log("DuckDuckGo rilevato, mostrando istruzioni specifiche");
       setDialogInstructions({
-        title: "Installazione su Android con DuckDuckGo",
+        title: t("pwaInstall.steps.androidDuckDuckGo.title"),
         browser: "duckduckgo",
         steps: [
-          "Premi i tre puntini in alto a destra",
-          "Seleziona 'Condividi'",
-          "Scegli 'Chrome' dall'elenco delle app",
-          "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
-          "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+          t("pwaInstall.steps.androidDuckDuckGo.step1"),
+          t("pwaInstall.steps.androidDuckDuckGo.step2"),
+          t("pwaInstall.steps.androidDuckDuckGo.step3"),
+          t("pwaInstall.steps.androidDuckDuckGo.step4"),
+          t("pwaInstall.steps.androidDuckDuckGo.step5")
         ],
         alternativeInstructions: [
-          "DuckDuckGo non supporta direttamente l'installazione PWA",
-          "Il metodo più affidabile è condividere il sito con Chrome",
-          "In Chrome l'installazione PWA è supportata nativamente"
+          t("pwaInstall.steps.androidDuckDuckGo.alt1"),
+          t("pwaInstall.steps.androidDuckDuckGo.alt2"),
+          t("pwaInstall.steps.androidDuckDuckGo.alt3")
         ]
       });
       setOpenDialog(true);
@@ -372,37 +372,13 @@ export function PwaInstallButton() {
 
   // Testo informativo specifico per browser
   const getBrowserSpecificNote = () => {
-    if (isAndroid && isChrome) {
-      return (
-        <p className="text-sm text-blue-700">
-          Utilizza Chrome per installare l'app facilmente, ti basterà premere "Installa App" e seguire le istruzioni.
-        </p>
-      );
-    } else if (isAndroid && isDuckDuckGo) {
-      return (
-        <p className="text-sm text-blue-700">
-          Stai usando DuckDuckGo. Dopo aver premuto "Installa App", ti guideremo con istruzioni specifiche per il tuo browser.
-        </p>
-      );
-    } else if (isIOS && isSafari) {
-      return (
-        <p className="text-sm text-blue-700">
-          Con Safari su iOS, segui le istruzioni dopo aver premuto "Installa App" per aggiungerla alla schermata Home.
-        </p>
-      );
-    } else if (isIOS) {
-      return (
-        <p className="text-sm text-blue-700">
-          Per installare l'app su iOS, ti consigliamo di utilizzare Safari. Ti forniremo istruzioni dettagliate dopo aver premuto "Installa App".
-        </p>
-      );
-    } else {
-      return (
-        <p className="text-sm text-blue-700">
-          L'installazione funziona meglio con Google Chrome. Segui le istruzioni dettagliate dopo aver premuto "Installa App".
-        </p>
-      );
-    }
+    let noteKey: string;
+    if (isAndroid && isChrome) noteKey = "pwaInstall.notes.androidChrome";
+    else if (isAndroid && isDuckDuckGo) noteKey = "pwaInstall.notes.androidDuckDuckGo";
+    else if (isIOS && isSafari) noteKey = "pwaInstall.notes.iosSafari";
+    else if (isIOS) noteKey = "pwaInstall.notes.iosOther";
+    else noteKey = "pwaInstall.notes.default";
+    return <p className="text-sm text-blue-700">{t(noteKey)}</p>;
   };
 
   return (
