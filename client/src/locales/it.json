@@ -809,7 +809,8 @@
     "add": "Aggiungi",
     "update": "Aggiorna",
     "create": "Crea",
-    "confirmDelete": "Sei sicuro di voler eliminare?"
+    "confirmDelete": "Sei sicuro di voler eliminare?",
+    "copy": "Copia"
   },
   "notifications": {
     "success": "Operazione completata con successo",
@@ -972,7 +973,8 @@
       "emailRequiredDesc": "Inserisci il tuo indirizzo email per rilevare le impostazioni",
       "smtpDetectFail": "Impossibile rilevare le impostazioni SMTP",
       "smtpDetectProblem": "Si è verificato un problema durante il rilevamento delle impostazioni",
-      "whatsappLinkGenerated": "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio."
+      "whatsappLinkGenerated": "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio.",
+      "settingsDetectedTitle": "✅ Impostazioni rilevate"
     },
     "emailPlaceholder": "Inserisci il tuo indirizzo email",
     "passwordPlaceholder": "Inserisci la tua password email",
@@ -987,7 +989,10 @@
       "serverLabel": "Server SMTP",
       "portLabel": "Porta SMTP",
       "usernameLabel": "Username SMTP",
-      "usernameHint": "Spesso è il tuo indirizzo email completo"
+      "usernameHint": "Spesso è il tuo indirizzo email completo",
+      "technicalSettings": "Impostazioni tecniche (compilate automaticamente)",
+      "serverExample": "Es: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Di solito 587 o 465"
     },
     "signaturePlaceholder": "Con i migliori saluti,",
     "testEmailPlaceholder": "Inserisci email per test",
@@ -1025,7 +1030,8 @@
     "reminderHoursHint": "Quante ore prima dell'appuntamento inviare i promemoria (predefinito: 24 ore)",
     "pageDescription": "Configura come vuoi inviare notifiche e promemoria ai tuoi clienti.",
     "whatsappLongDescription": "Le notifiche via WhatsApp ti permettono di inviare promemoria e comunicazioni ai tuoi clienti direttamente attraverso WhatsApp Web, senza costi aggiuntivi.",
-    "remindersAutoProcessed": "I promemoria vengono elaborati automaticamente ogni ora, ma puoi forzare l'elaborazione manualmente."
+    "remindersAutoProcessed": "I promemoria vengono elaborati automaticamente ogni ora, ma puoi forzare l'elaborazione manualmente.",
+    "defaultSignature": "Con i migliori saluti,"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2986,6 +2992,27 @@
     "history": "Storico Campagne",
     "aiAssistant": "Assistente AI",
     "campaignReady": "Campagna Pronta - Modifica se Necessario",
-    "totalClients": "Clienti totali"
+    "totalClients": "Clienti totali",
+    "errors": {
+      "sendCampaign": "Errore durante l'invio della campagna"
+    },
+    "addMedia": "Aggiungi Immagini o Video (opzionale)",
+    "filesUploaded": "{{count}} file caricati",
+    "uploadFiles": "Carica File",
+    "removeAll": "Rimuovi tutti",
+    "both": "Entrambi",
+    "recipients": "Destinatari",
+    "lastSent": "Ultime campagne inviate",
+    "noneYet": "Nessuna campagna ancora inviata",
+    "resend": "Riinvia",
+    "sequenceSending": "Invio in sequenza",
+    "whatsappLink": "Link WhatsApp",
+    "contactOfTotal": "Contatto {{current}} di {{total}}",
+    "nextContact": "Vai al prossimo contatto",
+    "endSending": "Termina invio",
+    "skip": "Salta",
+    "sendSequence": "🚀 Invia in Sequenza",
+    "or": "oppure",
+    "openOne": "Apri uno"
   }
 }

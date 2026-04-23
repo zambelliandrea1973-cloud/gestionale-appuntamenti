@@ -796,7 +796,8 @@
     "add": "Hinzufügen",
     "update": "Aktualisieren",
     "create": "Erstellen",
-    "confirmDelete": "Möchten Sie wirklich löschen?"
+    "confirmDelete": "Möchten Sie wirklich löschen?",
+    "copy": "Kopieren"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",
@@ -959,7 +960,8 @@
       "emailRequiredDesc": "Gib deine E-Mail ein, um die Einstellungen zu erkennen",
       "smtpDetectFail": "SMTP-Einstellungen konnten nicht erkannt werden",
       "smtpDetectProblem": "Problem beim Erkennen der Einstellungen",
-      "whatsappLinkGenerated": "WhatsApp-Link erfolgreich erstellt. Ein neues Fenster wird geöffnet, um die Nachricht zu senden."
+      "whatsappLinkGenerated": "WhatsApp-Link erfolgreich erstellt. Ein neues Fenster wird geöffnet, um die Nachricht zu senden.",
+      "settingsDetectedTitle": "✅ Einstellungen erkannt"
     },
     "emailPlaceholder": "Gib deine E-Mail ein",
     "passwordPlaceholder": "Gib dein E-Mail-Passwort ein",
@@ -974,7 +976,10 @@
       "serverLabel": "SMTP-Server",
       "portLabel": "SMTP-Port",
       "usernameLabel": "SMTP-Benutzername",
-      "usernameHint": "Meistens deine vollständige E-Mail-Adresse"
+      "usernameHint": "Meistens deine vollständige E-Mail-Adresse",
+      "technicalSettings": "Technische Einstellungen (automatisch ausgefüllt)",
+      "serverExample": "Z. B.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Üblicherweise 587 oder 465"
     },
     "signaturePlaceholder": "Mit freundlichen Grüßen,",
     "testEmailPlaceholder": "E-Mail für den Test eingeben",
@@ -1012,7 +1017,8 @@
     "reminderHoursHint": "Wie viele Stunden vor dem Termin die Erinnerungen gesendet werden (Standard: 24 Stunden)",
     "pageDescription": "Konfigurieren Sie, wie Benachrichtigungen und Erinnerungen an Kunden gesendet werden.",
     "whatsappLongDescription": "Mit WhatsApp-Benachrichtigungen senden Sie Erinnerungen und Nachrichten direkt über WhatsApp Web – ohne Zusatzkosten.",
-    "remindersAutoProcessed": "Erinnerungen werden stündlich automatisch verarbeitet, Sie können die Verarbeitung jedoch manuell auslösen."
+    "remindersAutoProcessed": "Erinnerungen werden stündlich automatisch verarbeitet, Sie können die Verarbeitung jedoch manuell auslösen.",
+    "defaultSignature": "Mit freundlichen Grüßen,"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2986,6 +2992,27 @@
     "history": "Kampagnenverlauf",
     "aiAssistant": "KI-Assistent",
     "campaignReady": "Kampagne bereit - Bei Bedarf bearbeiten",
-    "totalClients": "Kunden insgesamt"
+    "totalClients": "Kunden insgesamt",
+    "errors": {
+      "sendCampaign": "Fehler beim Senden der Kampagne"
+    },
+    "addMedia": "Bilder oder Video hinzufügen (optional)",
+    "filesUploaded": "{{count}} Dateien hochgeladen",
+    "uploadFiles": "Dateien hochladen",
+    "removeAll": "Alle entfernen",
+    "both": "Beide",
+    "recipients": "Empfänger",
+    "lastSent": "Zuletzt gesendete Kampagnen",
+    "noneYet": "Bisher keine Kampagnen gesendet",
+    "resend": "Erneut senden",
+    "sequenceSending": "Sequenzielles Senden",
+    "whatsappLink": "WhatsApp-Link",
+    "contactOfTotal": "Kontakt {{current}} von {{total}}",
+    "nextContact": "Zum nächsten Kontakt",
+    "endSending": "Senden beenden",
+    "skip": "Überspringen",
+    "sendSequence": "🚀 In Sequenz senden",
+    "or": "oder",
+    "openOne": "Einen öffnen"
   }
 }

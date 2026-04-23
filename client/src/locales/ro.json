@@ -757,8 +757,8 @@
     "loading": "Se încarcă...",
     "cancel": "Anulează",
     "confirm": "Confirmă",
-    "delete": "Șterge",
-    "edit": "Editează",
+    "delete": "Ștergeți",
+    "edit": "Editați",
     "save": "Salvează",
     "send": "Trimite",
     "close": "Închide",
@@ -778,7 +778,8 @@
     "add": "Adaugă",
     "update": "Actualizează",
     "create": "Creează",
-    "confirmDelete": "Sigur doriți să ștergeți?"
+    "confirmDelete": "Sigur doriți să ștergeți?",
+    "copy": "Copiați"
   },
   "notifications": {
     "success": "Operațiune finalizată cu succes",
@@ -941,7 +942,8 @@
       "emailRequiredDesc": "Introduceți emailul pentru a detecta setările",
       "smtpDetectFail": "Imposibil de detectat setările SMTP",
       "smtpDetectProblem": "Problemă la detectarea setărilor",
-      "whatsappLinkGenerated": "Link WhatsApp generat cu succes. Se va deschide o fereastră nouă pentru a trimite mesajul."
+      "whatsappLinkGenerated": "Link WhatsApp generat cu succes. Se va deschide o fereastră nouă pentru a trimite mesajul.",
+      "settingsDetectedTitle": "✅ Setări detectate"
     },
     "emailPlaceholder": "Introduceți emailul",
     "passwordPlaceholder": "Introduceți parola emailului",
@@ -956,7 +958,10 @@
       "serverLabel": "Server SMTP",
       "portLabel": "Port SMTP",
       "usernameLabel": "Utilizator SMTP",
-      "usernameHint": "De obicei adresa de email completă"
+      "usernameHint": "De obicei adresa de email completă",
+      "technicalSettings": "Setări tehnice (completate automat)",
+      "serverExample": "Ex.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "De obicei 587 sau 465"
     },
     "signaturePlaceholder": "Cu stimă,",
     "testEmailPlaceholder": "Introduceți emailul pentru test",
@@ -994,7 +999,8 @@
     "reminderHoursHint": "Cu câte ore înainte de programare să fie trimise memento-urile (implicit: 24 de ore)",
     "pageDescription": "Configurați cum doriți să trimiteți notificări și memento-uri clienților.",
     "whatsappLongDescription": "Notificările WhatsApp vă permit să trimiteți memento-uri și mesaje clienților direct prin WhatsApp Web, fără costuri suplimentare.",
-    "remindersAutoProcessed": "Memento-urile sunt procesate automat la fiecare oră, dar puteți forța procesarea manual."
+    "remindersAutoProcessed": "Memento-urile sunt procesate automat la fiecare oră, dar puteți forța procesarea manual.",
+    "defaultSignature": "Cu stimă,"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2986,6 +2992,27 @@
     "history": "Istoric campanii",
     "aiAssistant": "Asistent AI",
     "campaignReady": "Campanie gata - Editați dacă este necesar",
-    "totalClients": "Clienți totali"
+    "totalClients": "Clienți totali",
+    "errors": {
+      "sendCampaign": "Eroare la trimiterea campaniei"
+    },
+    "addMedia": "Adăugați imagini sau video (opțional)",
+    "filesUploaded": "{{count}} fișiere încărcate",
+    "uploadFiles": "Încărcați fișiere",
+    "removeAll": "Eliminați toate",
+    "both": "Ambele",
+    "recipients": "Destinatari",
+    "lastSent": "Ultimele campanii trimise",
+    "noneYet": "Nu au fost trimise încă campanii",
+    "resend": "Retrimite",
+    "sequenceSending": "Trimitere în secvență",
+    "whatsappLink": "Link WhatsApp",
+    "contactOfTotal": "Contact {{current}} din {{total}}",
+    "nextContact": "Mergeți la contactul următor",
+    "endSending": "Finalizați trimiterea",
+    "skip": "Omiteți",
+    "sendSequence": "🚀 Trimite în secvență",
+    "or": "sau",
+    "openOne": "Deschideți unul"
   }
 }

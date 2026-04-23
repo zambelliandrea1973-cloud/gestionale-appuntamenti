@@ -336,7 +336,7 @@ export default function MarketingCampaignsPage() {
       setUploadedFiles(prev => prev.filter((_, i) => i !== index));
       setFilePreviews(prev => prev.filter((_, i) => i !== index));
     } else {
-      // Rimuovi tutti i file
+      // {t('marketingCampaigns.removeAll')} i file
       setUploadedFiles([]);
       setFilePreviews([]);
       if (fileInputRef.current) {
@@ -519,7 +519,7 @@ export default function MarketingCampaignsPage() {
         if (data.alreadySent) {
           throw new Error(data.message || 'Questa campagna è già stata inviata');
         }
-        throw new Error(data.message || 'Errore durante l\'invio della campagna');
+        throw new Error(data.message || t('marketingCampaigns.errors.sendCampaign'));
       }
     } catch (error) {
       // Mostra messaggio specifico se disponibile, altrimenti generico
@@ -670,7 +670,7 @@ export default function MarketingCampaignsPage() {
 
                 {/* Upload Allegato */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">Aggiungi Immagini o Video (opzionale)</Label>
+                  <Label className="text-sm font-medium">{t('marketingCampaigns.addMedia')}</Label>
                   <div className="flex items-center gap-2">
                     <Input
                       ref={fileInputRef}
@@ -688,7 +688,7 @@ export default function MarketingCampaignsPage() {
                       data-testid="button-upload-file"
                     >
                       <Upload className="h-4 w-4 mr-2" />
-                      {uploadedFiles.length > 0 ? `${uploadedFiles.length} file caricati` : 'Carica File'}
+                      {uploadedFiles.length > 0 ? t('marketingCampaigns.filesUploaded', { count: uploadedFiles.length }) : t('marketingCampaigns.uploadFiles')}
                     </Button>
                     {uploadedFiles.length > 0 && (
                       <Button
@@ -748,7 +748,7 @@ export default function MarketingCampaignsPage() {
                       data-testid="button-copy-message"
                     >
                       <Copy className="h-4 w-4 mr-2" />
-                      Copia
+                      {t('common.copy')}
                     </Button>
                     <Button
                       variant="outline"
@@ -758,7 +758,7 @@ export default function MarketingCampaignsPage() {
                       data-testid="button-delete-draft"
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
-                      Elimina
+                      {t('common.delete')}
                     </Button>
                   </div>
 
@@ -799,7 +799,7 @@ export default function MarketingCampaignsPage() {
                       ) : (
                         <Send className="h-4 w-4 mr-2" />
                       )}
-                      Entrambi
+                      {t('marketingCampaigns.both')}
                     </Button>
                   </div>
                 </div>
@@ -815,7 +815,7 @@ export default function MarketingCampaignsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                Destinatari
+                {t('marketingCampaigns.recipients')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -831,14 +831,14 @@ export default function MarketingCampaignsPage() {
             <CardHeader>
               <CardTitle>{t('marketingCampaigns.history')}</CardTitle>
               <CardDescription>
-                Ultime campagne inviate
+                {t('marketingCampaigns.lastSent')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[400px]">
                 {campaigns.length === 0 ? (
                   <p className="text-sm text-muted-foreground text-center py-8">
-                    Nessuna campagna ancora inviata
+                    {t('marketingCampaigns.noneYet')}
                   </p>
                 ) : (
                   <div className="space-y-3">
@@ -867,7 +867,7 @@ export default function MarketingCampaignsPage() {
                             data-testid={`button-edit-campaign-${campaign.id}`}
                           >
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('common.edit')}
                           </Button>
                           <Button
                             variant="outline"
@@ -878,7 +878,7 @@ export default function MarketingCampaignsPage() {
                             data-testid={`button-resend-campaign-${campaign.id}`}
                           >
                             <RefreshCw className="h-3 w-3 mr-1" />
-                            Riinvia
+                            {t('marketingCampaigns.resend')}
                           </Button>
                           <Button
                             variant="ghost"
@@ -928,9 +928,9 @@ export default function MarketingCampaignsPage() {
             <div className="p-4 bg-primary text-white flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-bold">
-                  {isSequenceRunning ? 'Invio in sequenza' : 'Link WhatsApp'}
+                  {isSequenceRunning ? t('marketingCampaigns.sequenceSending') : t('marketingCampaigns.whatsappLink')}
                 </h3>
-                <p className="text-sm">Contatto {currentLinkIndex + 1} di {generatedLinks.length}</p>
+                <p className="text-sm">{t('marketingCampaigns.contactOfTotal', { current: currentLinkIndex + 1, total: generatedLinks.length })}</p>
               </div>
               <Badge variant="secondary">
                 {Math.round((currentLinkIndex + 1) / generatedLinks.length * 100)}%
@@ -966,8 +966,8 @@ export default function MarketingCampaignsPage() {
                   >
                     <Send className="h-4 w-4 mr-2" />
                     {currentLinkIndex < generatedLinks.length - 1 
-                      ? 'Vai al prossimo contatto' 
-                      : 'Termina invio'}
+                      ? t('marketingCampaigns.nextContact') 
+                      : t('marketingCampaigns.endSending')}
                   </Button>
                   <div className="flex gap-2">
                     <Button
@@ -979,7 +979,7 @@ export default function MarketingCampaignsPage() {
                       data-testid="button-previous-contact"
                     >
                       <ArrowLeft className="h-4 w-4 mr-1" />
-                      Indietro
+                      {t('common.back')}
                     </Button>
                     <Button
                       onClick={goToNextLink}
@@ -988,7 +988,7 @@ export default function MarketingCampaignsPage() {
                       className="flex-1"
                       data-testid="button-skip-contact"
                     >
-                      Salta
+                      {t('marketingCampaigns.skip')}
                     </Button>
                     <Button
                       onClick={closeGeneratedLinks}
@@ -1007,10 +1007,10 @@ export default function MarketingCampaignsPage() {
                     className="w-full bg-green-600 hover:bg-green-700"
                   >
                     <Send className="h-5 w-5 mr-2" />
-                    🚀 Invia in Sequenza
+                    {t('marketingCampaigns.sendSequence')}
                   </Button>
                   
-                  <div className="text-xs text-center text-muted-foreground">oppure</div>
+                  <div className="text-xs text-center text-muted-foreground">{t('marketingCampaigns.or')}</div>
                   
                   <div className="flex gap-2">
                     <Button
@@ -1019,7 +1019,7 @@ export default function MarketingCampaignsPage() {
                       size="sm"
                       className="flex-1"
                     >
-                      Apri uno
+                      {t('marketingCampaigns.openOne')}
                     </Button>
                     
                     <Button
@@ -1028,7 +1028,7 @@ export default function MarketingCampaignsPage() {
                       size="sm"
                       className="flex-1"
                     >
-                      Salta
+                      {t('marketingCampaigns.skip')}
                     </Button>
                     
                     <Button

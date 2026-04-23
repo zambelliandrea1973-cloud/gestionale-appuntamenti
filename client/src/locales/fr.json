@@ -796,7 +796,8 @@
     "add": "Ajouter",
     "update": "Mettre à jour",
     "create": "Créer",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ?"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ?",
+    "copy": "Copier"
   },
   "notifications": {
     "success": "Opération réussie",
@@ -959,7 +960,8 @@
       "emailRequiredDesc": "Saisissez votre email pour détecter les paramètres",
       "smtpDetectFail": "Impossible de détecter les paramètres SMTP",
       "smtpDetectProblem": "Problème lors de la détection des paramètres",
-      "whatsappLinkGenerated": "Lien WhatsApp généré avec succès. Une nouvelle fenêtre s’ouvrira pour envoyer le message."
+      "whatsappLinkGenerated": "Lien WhatsApp généré avec succès. Une nouvelle fenêtre s’ouvrira pour envoyer le message.",
+      "settingsDetectedTitle": "✅ Paramètres détectés"
     },
     "emailPlaceholder": "Saisissez votre email",
     "passwordPlaceholder": "Saisissez votre mot de passe email",
@@ -974,7 +976,10 @@
       "serverLabel": "Serveur SMTP",
       "portLabel": "Port SMTP",
       "usernameLabel": "Nom d'utilisateur SMTP",
-      "usernameHint": "Souvent votre adresse e-mail complète"
+      "usernameHint": "Souvent votre adresse e-mail complète",
+      "technicalSettings": "Paramètres techniques (remplis automatiquement)",
+      "serverExample": "Ex. : smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Habituellement 587 ou 465"
     },
     "signaturePlaceholder": "Cordialement,",
     "testEmailPlaceholder": "Saisissez l'email pour le test",
@@ -1012,7 +1017,8 @@
     "reminderHoursHint": "Combien d’heures avant le rendez-vous envoyer les rappels (par défaut : 24 heures)",
     "pageDescription": "Configurez comment envoyer notifications et rappels à vos clients.",
     "whatsappLongDescription": "Les notifications WhatsApp permettent d’envoyer rappels et messages aux clients directement via WhatsApp Web, sans frais supplémentaires.",
-    "remindersAutoProcessed": "Les rappels sont traités automatiquement toutes les heures, mais vous pouvez forcer le traitement manuellement."
+    "remindersAutoProcessed": "Les rappels sont traités automatiquement toutes les heures, mais vous pouvez forcer le traitement manuellement.",
+    "defaultSignature": "Cordialement,"
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2986,6 +2992,27 @@
     "history": "Historique des campagnes",
     "aiAssistant": "Assistant IA",
     "campaignReady": "Campagne prête - Modifiez si nécessaire",
-    "totalClients": "Clients au total"
+    "totalClients": "Clients au total",
+    "errors": {
+      "sendCampaign": "Erreur lors de l’envoi de la campagne"
+    },
+    "addMedia": "Ajouter des images ou une vidéo (facultatif)",
+    "filesUploaded": "{{count}} fichiers téléversés",
+    "uploadFiles": "Téléverser des fichiers",
+    "removeAll": "Tout supprimer",
+    "both": "Les deux",
+    "recipients": "Destinataires",
+    "lastSent": "Dernières campagnes envoyées",
+    "noneYet": "Aucune campagne envoyée pour le moment",
+    "resend": "Renvoyer",
+    "sequenceSending": "Envoi en séquence",
+    "whatsappLink": "Lien WhatsApp",
+    "contactOfTotal": "Contact {{current}} sur {{total}}",
+    "nextContact": "Aller au contact suivant",
+    "endSending": "Terminer l’envoi",
+    "skip": "Passer",
+    "sendSequence": "🚀 Envoyer en séquence",
+    "or": "ou",
+    "openOne": "En ouvrir un"
   }
 }

@@ -778,7 +778,8 @@
     "add": "Toevoegen",
     "update": "Bijwerken",
     "create": "Aanmaken",
-    "confirmDelete": "Weet u zeker dat u wilt verwijderen?"
+    "confirmDelete": "Weet u zeker dat u wilt verwijderen?",
+    "copy": "Kopiëren"
   },
   "notifications": {
     "success": "Bewerking succesvol voltooid",
@@ -941,7 +942,8 @@
       "emailRequiredDesc": "Voer je e-mail in om instellingen te detecteren",
       "smtpDetectFail": "SMTP-instellingen konden niet worden gedetecteerd",
       "smtpDetectProblem": "Probleem bij detecteren van instellingen",
-      "whatsappLinkGenerated": "WhatsApp-link succesvol gegenereerd. Er wordt een nieuw venster geopend om het bericht te verzenden."
+      "whatsappLinkGenerated": "WhatsApp-link succesvol gegenereerd. Er wordt een nieuw venster geopend om het bericht te verzenden.",
+      "settingsDetectedTitle": "✅ Instellingen gedetecteerd"
     },
     "emailPlaceholder": "Voer je e-mail in",
     "passwordPlaceholder": "Voer je e-mailwachtwoord in",
@@ -956,7 +958,10 @@
       "serverLabel": "SMTP-server",
       "portLabel": "SMTP-poort",
       "usernameLabel": "SMTP-gebruikersnaam",
-      "usernameHint": "Vaak je volledige e-mailadres"
+      "usernameHint": "Vaak je volledige e-mailadres",
+      "technicalSettings": "Technische instellingen (automatisch ingevuld)",
+      "serverExample": "Bijv.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Meestal 587 of 465"
     },
     "signaturePlaceholder": "Met vriendelijke groet,",
     "testEmailPlaceholder": "Voer e-mail in voor test",
@@ -994,7 +999,8 @@
     "reminderHoursHint": "Hoeveel uur vóór de afspraak de herinneringen worden verstuurd (standaard: 24 uur)",
     "pageDescription": "Configureer hoe je meldingen en herinneringen naar je klanten stuurt.",
     "whatsappLongDescription": "Met WhatsApp-meldingen stuur je herinneringen en berichten direct via WhatsApp Web, zonder extra kosten.",
-    "remindersAutoProcessed": "Herinneringen worden elk uur automatisch verwerkt, maar je kunt de verwerking handmatig forceren."
+    "remindersAutoProcessed": "Herinneringen worden elk uur automatisch verwerkt, maar je kunt de verwerking handmatig forceren.",
+    "defaultSignature": "Met vriendelijke groet,"
   },
   "googleCalendar": {
     "title": "Google Agenda",
@@ -2986,6 +2992,27 @@
     "history": "Campagne-geschiedenis",
     "aiAssistant": "AI-assistent",
     "campaignReady": "Campagne klaar - Bewerk indien nodig",
-    "totalClients": "Totaal klanten"
+    "totalClients": "Totaal klanten",
+    "errors": {
+      "sendCampaign": "Fout bij het verzenden van de campagne"
+    },
+    "addMedia": "Afbeeldingen of video toevoegen (optioneel)",
+    "filesUploaded": "{{count}} bestanden geüpload",
+    "uploadFiles": "Bestanden uploaden",
+    "removeAll": "Alles verwijderen",
+    "both": "Beide",
+    "recipients": "Ontvangers",
+    "lastSent": "Recent verzonden campagnes",
+    "noneYet": "Nog geen campagnes verzonden",
+    "resend": "Opnieuw verzenden",
+    "sequenceSending": "Sequentieel verzenden",
+    "whatsappLink": "WhatsApp-link",
+    "contactOfTotal": "Contact {{current}} van {{total}}",
+    "nextContact": "Naar volgend contact",
+    "endSending": "Verzenden beëindigen",
+    "skip": "Overslaan",
+    "sendSequence": "🚀 Sequentieel verzenden",
+    "or": "of",
+    "openOne": "Eén openen"
   }
 }

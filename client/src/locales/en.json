@@ -804,7 +804,8 @@
     "add": "Add",
     "update": "Update",
     "create": "Create",
-    "confirmDelete": "Are you sure you want to delete?"
+    "confirmDelete": "Are you sure you want to delete?",
+    "copy": "Copy"
   },
   "notifications": {
     "success": "Operation completed successfully",
@@ -967,7 +968,8 @@
       "emailRequiredDesc": "Enter your email address to detect settings",
       "smtpDetectFail": "Could not detect SMTP settings",
       "smtpDetectProblem": "A problem occurred detecting settings",
-      "whatsappLinkGenerated": "WhatsApp link generated successfully. A new window will open to send the message."
+      "whatsappLinkGenerated": "WhatsApp link generated successfully. A new window will open to send the message.",
+      "settingsDetectedTitle": "✅ Settings detected"
     },
     "emailPlaceholder": "Enter your email address",
     "passwordPlaceholder": "Enter your email password",
@@ -982,7 +984,10 @@
       "serverLabel": "SMTP Server",
       "portLabel": "SMTP Port",
       "usernameLabel": "SMTP Username",
-      "usernameHint": "Usually your full email address"
+      "usernameHint": "Usually your full email address",
+      "technicalSettings": "Technical settings (filled in automatically)",
+      "serverExample": "E.g.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Usually 587 or 465"
     },
     "signaturePlaceholder": "Best regards,",
     "testEmailPlaceholder": "Enter email for test",
@@ -1020,7 +1025,8 @@
     "reminderHoursHint": "How many hours before the appointment to send reminders (default: 24 hours)",
     "pageDescription": "Configure how you want to send notifications and reminders to your clients.",
     "whatsappLongDescription": "WhatsApp notifications let you send reminders and messages to clients directly through WhatsApp Web, at no extra cost.",
-    "remindersAutoProcessed": "Reminders are automatically processed every hour, but you can force processing manually."
+    "remindersAutoProcessed": "Reminders are automatically processed every hour, but you can force processing manually.",
+    "defaultSignature": "Best regards,"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2986,6 +2992,27 @@
     "history": "Campaign History",
     "aiAssistant": "AI Assistant",
     "campaignReady": "Campaign Ready - Edit if Needed",
-    "totalClients": "Total clients"
+    "totalClients": "Total clients",
+    "errors": {
+      "sendCampaign": "Error while sending the campaign"
+    },
+    "addMedia": "Add Images or Video (optional)",
+    "filesUploaded": "{{count}} files uploaded",
+    "uploadFiles": "Upload Files",
+    "removeAll": "Remove all",
+    "both": "Both",
+    "recipients": "Recipients",
+    "lastSent": "Recently sent campaigns",
+    "noneYet": "No campaigns sent yet",
+    "resend": "Resend",
+    "sequenceSending": "Sequence sending",
+    "whatsappLink": "WhatsApp link",
+    "contactOfTotal": "Contact {{current}} of {{total}}",
+    "nextContact": "Go to next contact",
+    "endSending": "End sending",
+    "skip": "Skip",
+    "sendSequence": "🚀 Send in Sequence",
+    "or": "or",
+    "openOne": "Open one"
   }
 }

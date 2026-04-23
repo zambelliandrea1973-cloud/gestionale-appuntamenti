@@ -778,7 +778,8 @@
     "add": "Legg til",
     "update": "Oppdater",
     "create": "Opprett",
-    "confirmDelete": "Er du sikker på at du vil slette?"
+    "confirmDelete": "Er du sikker på at du vil slette?",
+    "copy": "Kopier"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",
@@ -941,7 +942,8 @@
       "emailRequiredDesc": "Skriv inn e-postadressen for å oppdage innstillinger",
       "smtpDetectFail": "Kunne ikke oppdage SMTP-innstillinger",
       "smtpDetectProblem": "Problem ved oppdagelse av innstillinger",
-      "whatsappLinkGenerated": "WhatsApp-lenke generert. Et nytt vindu åpnes for å sende meldingen."
+      "whatsappLinkGenerated": "WhatsApp-lenke generert. Et nytt vindu åpnes for å sende meldingen.",
+      "settingsDetectedTitle": "✅ Innstillinger funnet"
     },
     "emailPlaceholder": "Skriv inn e-postadressen",
     "passwordPlaceholder": "Skriv inn e-postpassordet",
@@ -956,7 +958,10 @@
       "serverLabel": "SMTP-server",
       "portLabel": "SMTP-port",
       "usernameLabel": "SMTP-brukernavn",
-      "usernameHint": "Vanligvis hele e-postadressen"
+      "usernameHint": "Vanligvis hele e-postadressen",
+      "technicalSettings": "Tekniske innstillinger (fylles ut automatisk)",
+      "serverExample": "F.eks.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Vanligvis 587 eller 465"
     },
     "signaturePlaceholder": "Med vennlig hilsen,",
     "testEmailPlaceholder": "Skriv inn e-post for test",
@@ -994,7 +999,8 @@
     "reminderHoursHint": "Hvor mange timer før avtalen påminnelser skal sendes (standard: 24 timer)",
     "pageDescription": "Konfigurer hvordan du sender varsler og påminnelser til kundene.",
     "whatsappLongDescription": "WhatsApp-varsler lar deg sende påminnelser og meldinger til kunder direkte via WhatsApp Web, uten ekstra kostnad.",
-    "remindersAutoProcessed": "Påminnelser behandles automatisk hver time, men du kan også tvinge behandlingen manuelt."
+    "remindersAutoProcessed": "Påminnelser behandles automatisk hver time, men du kan også tvinge behandlingen manuelt.",
+    "defaultSignature": "Med vennlig hilsen,"
   },
   "googleCalendar": {
     "title": "Google Kalender",
@@ -2986,6 +2992,27 @@
     "history": "Kampanjehistorikk",
     "aiAssistant": "AI-assistent",
     "campaignReady": "Kampanje klar - Rediger om nødvendig",
-    "totalClients": "Totalt antall kunder"
+    "totalClients": "Totalt antall kunder",
+    "errors": {
+      "sendCampaign": "Feil ved sending av kampanjen"
+    },
+    "addMedia": "Legg til bilder eller video (valgfritt)",
+    "filesUploaded": "{{count}} filer lastet opp",
+    "uploadFiles": "Last opp filer",
+    "removeAll": "Fjern alle",
+    "both": "Begge",
+    "recipients": "Mottakere",
+    "lastSent": "Sist sendte kampanjer",
+    "noneYet": "Ingen kampanjer sendt enda",
+    "resend": "Send på nytt",
+    "sequenceSending": "Sekvensiell sending",
+    "whatsappLink": "WhatsApp-lenke",
+    "contactOfTotal": "Kontakt {{current}} av {{total}}",
+    "nextContact": "Gå til neste kontakt",
+    "endSending": "Avslutt sending",
+    "skip": "Hopp over",
+    "sendSequence": "🚀 Send i sekvens",
+    "or": "eller",
+    "openOne": "Åpne én"
   }
 }

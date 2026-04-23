@@ -776,7 +776,7 @@
     "cancel": "Отмена",
     "confirm": "Подтвердить",
     "delete": "Удалить",
-    "edit": "Редактировать",
+    "edit": "Изменить",
     "save": "Сохранить",
     "send": "Отправить",
     "close": "Закрыть",
@@ -796,7 +796,8 @@
     "add": "Добавить",
     "update": "Обновить",
     "create": "Создать",
-    "confirmDelete": "Вы уверены, что хотите удалить?"
+    "confirmDelete": "Вы уверены, что хотите удалить?",
+    "copy": "Копировать"
   },
   "notifications": {
     "success": "Операция успешно завершена",
@@ -959,7 +960,8 @@
       "emailRequiredDesc": "Введите email для определения настроек",
       "smtpDetectFail": "Не удалось определить настройки SMTP",
       "smtpDetectProblem": "Проблема при определении настроек",
-      "whatsappLinkGenerated": "Ссылка WhatsApp успешно создана. Откроется новое окно для отправки сообщения."
+      "whatsappLinkGenerated": "Ссылка WhatsApp успешно создана. Откроется новое окно для отправки сообщения.",
+      "settingsDetectedTitle": "✅ Настройки определены"
     },
     "emailPlaceholder": "Введите email",
     "passwordPlaceholder": "Введите пароль от email",
@@ -974,7 +976,10 @@
       "serverLabel": "SMTP-сервер",
       "portLabel": "Порт SMTP",
       "usernameLabel": "Имя пользователя SMTP",
-      "usernameHint": "Обычно ваш полный адрес email"
+      "usernameHint": "Обычно ваш полный адрес email",
+      "technicalSettings": "Технические настройки (заполняются автоматически)",
+      "serverExample": "Например: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Обычно 587 или 465"
     },
     "signaturePlaceholder": "С наилучшими пожеланиями,",
     "testEmailPlaceholder": "Введите email для теста",
@@ -1012,7 +1017,8 @@
     "reminderHoursHint": "За сколько часов до записи отправлять напоминания (по умолчанию: 24 часа)",
     "pageDescription": "Настройте отправку уведомлений и напоминаний клиентам.",
     "whatsappLongDescription": "Уведомления WhatsApp позволяют отправлять напоминания и сообщения клиентам прямо через WhatsApp Web — без дополнительных расходов.",
-    "remindersAutoProcessed": "Напоминания обрабатываются автоматически раз в час, но вы можете запустить обработку вручную."
+    "remindersAutoProcessed": "Напоминания обрабатываются автоматически раз в час, но вы можете запустить обработку вручную.",
+    "defaultSignature": "С уважением,"
   },
   "googleCalendar": {
     "title": "Google Календарь",
@@ -2986,6 +2992,27 @@
     "history": "История кампаний",
     "aiAssistant": "ИИ-ассистент",
     "campaignReady": "Кампания готова — отредактируйте при необходимости",
-    "totalClients": "Всего клиентов"
+    "totalClients": "Всего клиентов",
+    "errors": {
+      "sendCampaign": "Ошибка при отправке кампании"
+    },
+    "addMedia": "Добавить изображения или видео (необязательно)",
+    "filesUploaded": "Загружено файлов: {{count}}",
+    "uploadFiles": "Загрузить файлы",
+    "removeAll": "Удалить все",
+    "both": "Оба",
+    "recipients": "Получатели",
+    "lastSent": "Последние отправленные кампании",
+    "noneYet": "Кампании ещё не отправлялись",
+    "resend": "Отправить снова",
+    "sequenceSending": "Последовательная отправка",
+    "whatsappLink": "Ссылка WhatsApp",
+    "contactOfTotal": "Контакт {{current}} из {{total}}",
+    "nextContact": "К следующему контакту",
+    "endSending": "Завершить отправку",
+    "skip": "Пропустить",
+    "sendSequence": "🚀 Отправить последовательно",
+    "or": "или",
+    "openOne": "Открыть один"
   }
 }

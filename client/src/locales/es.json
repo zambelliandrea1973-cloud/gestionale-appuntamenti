@@ -796,7 +796,8 @@
     "add": "Añadir",
     "update": "Actualizar",
     "create": "Crear",
-    "confirmDelete": "¿Estás seguro de que deseas eliminar?"
+    "confirmDelete": "¿Estás seguro de que deseas eliminar?",
+    "copy": "Copiar"
   },
   "notifications": {
     "success": "Operación completada con éxito",
@@ -959,7 +960,8 @@
       "emailRequiredDesc": "Introduce tu email para detectar la configuración",
       "smtpDetectFail": "No se pudo detectar la configuración SMTP",
       "smtpDetectProblem": "Problema al detectar la configuración",
-      "whatsappLinkGenerated": "Enlace de WhatsApp generado correctamente. Se abrirá una ventana para enviar el mensaje."
+      "whatsappLinkGenerated": "Enlace de WhatsApp generado correctamente. Se abrirá una ventana para enviar el mensaje.",
+      "settingsDetectedTitle": "✅ Configuración detectada"
     },
     "emailPlaceholder": "Introduce tu email",
     "passwordPlaceholder": "Introduce tu contraseña de email",
@@ -974,7 +976,10 @@
       "serverLabel": "Servidor SMTP",
       "portLabel": "Puerto SMTP",
       "usernameLabel": "Usuario SMTP",
-      "usernameHint": "Normalmente es tu dirección de email completa"
+      "usernameHint": "Normalmente es tu dirección de email completa",
+      "technicalSettings": "Configuración técnica (rellenada automáticamente)",
+      "serverExample": "Ej.: smtp.gmail.com, smtp.outlook.com",
+      "portExample": "Normalmente 587 o 465"
     },
     "signaturePlaceholder": "Saludos cordiales,",
     "testEmailPlaceholder": "Introduce email para prueba",
@@ -1012,7 +1017,8 @@
     "reminderHoursHint": "Cuántas horas antes de la cita enviar los recordatorios (por defecto: 24 horas)",
     "pageDescription": "Configura cómo quieres enviar notificaciones y recordatorios a tus clientes.",
     "whatsappLongDescription": "Las notificaciones por WhatsApp te permiten enviar recordatorios y mensajes a tus clientes directamente desde WhatsApp Web, sin coste adicional.",
-    "remindersAutoProcessed": "Los recordatorios se procesan automáticamente cada hora, pero puedes forzar el procesamiento manualmente."
+    "remindersAutoProcessed": "Los recordatorios se procesan automáticamente cada hora, pero puedes forzar el procesamiento manualmente.",
+    "defaultSignature": "Saludos cordiales,"
   },
   "googleCalendar": {
     "title": "Google Calendar",
@@ -2986,6 +2992,27 @@
     "history": "Historial de campañas",
     "aiAssistant": "Asistente IA",
     "campaignReady": "Campaña lista - Edita si es necesario",
-    "totalClients": "Clientes totales"
+    "totalClients": "Clientes totales",
+    "errors": {
+      "sendCampaign": "Error al enviar la campaña"
+    },
+    "addMedia": "Añadir imágenes o vídeo (opcional)",
+    "filesUploaded": "{{count}} archivos cargados",
+    "uploadFiles": "Cargar archivos",
+    "removeAll": "Eliminar todos",
+    "both": "Ambos",
+    "recipients": "Destinatarios",
+    "lastSent": "Últimas campañas enviadas",
+    "noneYet": "Aún no se han enviado campañas",
+    "resend": "Reenviar",
+    "sequenceSending": "Envío secuencial",
+    "whatsappLink": "Enlace de WhatsApp",
+    "contactOfTotal": "Contacto {{current}} de {{total}}",
+    "nextContact": "Ir al siguiente contacto",
+    "endSending": "Terminar envío",
+    "skip": "Omitir",
+    "sendSequence": "🚀 Enviar en secuencia",
+    "or": "o",
+    "openOne": "Abrir uno"
   }
 }

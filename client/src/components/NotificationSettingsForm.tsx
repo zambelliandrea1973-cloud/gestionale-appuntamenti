@@ -389,8 +389,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                 form.setValue("smtpUsername", email);
                                 
                                 // Se è un nuovo inserimento, genera anche una firma email predefinita
-                                if (!form.watch("emailSignature") || form.watch("emailSignature") === "Con i migliori saluti," || form.watch("emailSignature") === "") {
-                                  form.setValue("emailSignature", "Con i migliori saluti,");
+                                if (!form.watch("emailSignature") || form.watch("emailSignature") === t('notificationSettings.defaultSignature') || form.watch("emailSignature") === "") {
+                                  form.setValue("emailSignature", t('notificationSettings.defaultSignature'));
                                 }
                               }}
                             />
@@ -460,11 +460,11 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                     
                                     // Genera firma se non impostata
                                     if (!form.watch("emailSignature")) {
-                                      form.setValue("emailSignature", "Con i migliori saluti,");
+                                      form.setValue("emailSignature", t('notificationSettings.defaultSignature'));
                                     }
                                     
                                     toast({
-                                      title: "✅ Impostazioni rilevate",
+                                      title: t('notificationSettings.toast.settingsDetectedTitle'),
                                       description: config.instructions || t('notificationSettings.smtp.enterPassword')
                                     });
                                   }
@@ -500,7 +500,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                         </p>
                       </div>
 
-                      <h4 className="text-sm font-medium mb-2">Impostazioni tecniche (compilate automaticamente)</h4>
+                      <h4 className="text-sm font-medium mb-2">{t('notificationSettings.smtp.technicalSettings')}</h4>
 
                       <div className="grid grid-cols-2 gap-6 mt-4">
                         <div>
@@ -514,7 +514,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                   <Input placeholder={t('notificationSettings.smtp.autoDetected')} {...field} />
                                 </FormControl>
                                 <FormDescription>
-                                  Es: smtp.gmail.com, smtp.outlook.com
+                                  {t('notificationSettings.smtp.serverExample')}
                                 </FormDescription>
                               </FormItem>
                             )}
@@ -537,7 +537,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                   />
                                 </FormControl>
                                 <FormDescription>
-                                  Di solito 587 o 465
+                                  {t('notificationSettings.smtp.portExample')}
                                 </FormDescription>
                               </FormItem>
                             )}
