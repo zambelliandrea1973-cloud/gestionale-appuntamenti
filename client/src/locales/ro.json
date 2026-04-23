@@ -3313,7 +3313,8 @@
       "delete": "Imposibil de șters colaboratorul",
       "requiredNames": "Prenumele și numele sunt obligatorii"
     },
-    "saving": "Se salvează..."
+    "saving": "Se salvează...",
+    "emailLabel": "Email"
   },
   "treatmentRooms": {
     "title": "Gestionarea camerelor/cabinelor",

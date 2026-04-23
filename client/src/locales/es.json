@@ -3313,7 +3313,8 @@
       "delete": "No se pudo eliminar el colaborador",
       "requiredNames": "El nombre y el apellido son obligatorios"
     },
-    "saving": "Guardando..."
+    "saving": "Guardando...",
+    "emailLabel": "Correo electrónico"
   },
   "treatmentRooms": {
     "title": "Gestión de salas/cabinas",

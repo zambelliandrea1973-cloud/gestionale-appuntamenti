@@ -3313,7 +3313,8 @@
       "delete": "Impossible de supprimer le collaborateur",
       "requiredNames": "Le prénom et le nom sont obligatoires"
     },
-    "saving": "Enregistrement..."
+    "saving": "Enregistrement...",
+    "emailLabel": "Email"
   },
   "treatmentRooms": {
     "title": "Gestion des salles/cabines",

@@ -3313,7 +3313,8 @@
       "delete": "Kunne ikke slette medarbeider",
       "requiredNames": "For- og etternavn er påkrevd"
     },
-    "saving": "Lagrer..."
+    "saving": "Lagrer...",
+    "emailLabel": "E-post"
   },
   "treatmentRooms": {
     "title": "Behandling av rom/kabiner",

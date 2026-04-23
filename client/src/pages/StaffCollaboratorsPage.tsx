@@ -332,7 +332,7 @@ export default function StaffCollaboratorsPage() {
             </div>
 
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('staffCollaborators.emailLabel')}</Label>
               <Input
                 id="email"
                 type="email"

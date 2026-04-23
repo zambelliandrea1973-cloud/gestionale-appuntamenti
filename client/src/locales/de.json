@@ -3313,7 +3313,8 @@
       "delete": "Mitarbeiter konnte nicht gelöscht werden",
       "requiredNames": "Vor- und Nachname sind erforderlich"
     },
-    "saving": "Speichern..."
+    "saving": "Speichern...",
+    "emailLabel": "E-Mail"
   },
   "treatmentRooms": {
     "title": "Raum-/Kabinenverwaltung",

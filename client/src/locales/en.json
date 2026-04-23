@@ -3313,7 +3313,8 @@
       "delete": "Could not delete the collaborator",
       "requiredNames": "First name and last name are required"
     },
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "emailLabel": "Email"
   },
   "treatmentRooms": {
     "title": "Room/Cabin Management",

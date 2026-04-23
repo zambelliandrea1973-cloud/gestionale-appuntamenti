@@ -3313,7 +3313,8 @@
       "delete": "Kon medewerker niet verwijderen",
       "requiredNames": "Voor- en achternaam zijn verplicht"
     },
-    "saving": "Opslaan..."
+    "saving": "Opslaan...",
+    "emailLabel": "E-mail"
   },
   "treatmentRooms": {
     "title": "Beheer van ruimtes/cabines",
