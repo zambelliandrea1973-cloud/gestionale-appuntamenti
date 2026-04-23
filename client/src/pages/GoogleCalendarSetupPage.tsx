@@ -29,7 +29,7 @@ import {
 import { useLicense } from '@/hooks/use-license';
 
 export default function GoogleCalendarSetupPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const { hasProAccess, isLoading } = useLicense();
   const queryClient = useQueryClient();
@@ -197,14 +197,14 @@ export default function GoogleCalendarSetupPage() {
       } else {
         toast({
           title: t("common.error"),
-          description: "Impossibile avviare la riconnessione",
+          description: t('googleCalendar.setup.connError'),
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: t("common.error"),
-        description: "Errore di connessione",
+        description: t('googleCalendar.setup.connErrorGeneric'),
         variant: "destructive",
       });
     }
@@ -240,31 +240,30 @@ export default function GoogleCalendarSetupPage() {
       
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Sessione scaduta. Effettua nuovamente il login.');
+        throw new Error(t('googleCalendar.setup.sessionExpired'));
       }
       
       const data = await response.json();
       
       if (response.ok && data.success) {
-        setLastSyncResult({ success: true, message: data.message || 'Sincronizzazione completata!' });
-        // Aggiorna lo stato permanente della sincronizzazione
+        setLastSyncResult({ success: true, message: data.message || t('googleCalendar.setup.syncCompleteFallback') });
         setLastSyncAt(new Date().toISOString());
         setTotalSyncedEvents(prev => prev + (data.details?.exported || 0));
         toast({
-          title: "✅ Sincronizzazione completata",
-          description: `Importati: ${data.details?.imported || 0}, Esportati: ${data.details?.exported || 0}`,
+          title: t('googleCalendar.setup.syncToastTitle'),
+          description: t('googleCalendar.setup.syncToastDesc', { imported: data.details?.imported || 0, exported: data.details?.exported || 0 }),
         });
       } else {
-        const errorMsg = data.error || data.message || 'Errore durante la sincronizzazione';
+        const errorMsg = data.error || data.message || t('googleCalendar.setup.syncErrorFallback');
         setLastSyncResult({ success: false, message: errorMsg });
         toast({
-          title: "Errore sincronizzazione",
+          title: t('googleCalendar.setup.syncErrorTitle'),
           description: errorMsg,
           variant: "destructive",
         });
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Errore di connessione';
+      const errorMessage = error instanceof Error ? error.message : t('googleCalendar.setup.connErrorGeneric');
       setLastSyncResult({ success: false, message: errorMessage });
       toast({
         title: t("common.error"),
@@ -293,21 +292,21 @@ export default function GoogleCalendarSetupPage() {
         setContactsLoaded(true);
         setNeedsContactsReauth(false);
         toast({
-          title: "Contatti caricati",
-          description: `Trovati ${data.total || 0} contatti nella tua rubrica Google`,
+          title: t('googleCalendar.setup.contactsLoaded'),
+          description: t('googleCalendar.setup.contactsFound', { count: data.total || 0 }),
         });
       } else {
         if (data.needsReauth) {
           setNeedsContactsReauth(true);
           toast({
-            title: "Riconnetti Google",
-            description: "È necessario riconnettere il tuo account Google per accedere ai contatti.",
+            title: t('googleCalendar.setup.reconnectGoogle'),
+            description: t('googleCalendar.setup.reconnectGoogleDesc'),
             variant: "destructive",
           });
         } else {
           toast({
             title: t("common.error"),
-            description: data.error || "Errore nel caricamento dei contatti",
+            description: data.error || t('googleCalendar.setup.contactsLoadError'),
             variant: "destructive",
           });
         }
@@ -315,7 +314,7 @@ export default function GoogleCalendarSetupPage() {
     } catch (error) {
       toast({
         title: t("common.error"),
-        description: "Errore di connessione",
+        description: t('googleCalendar.setup.connErrorGeneric'),
         variant: "destructive",
       });
     } finally {
@@ -366,10 +365,10 @@ export default function GoogleCalendarSetupPage() {
       if (response.ok && data.success) {
         setImportResult({ 
           success: true, 
-          message: data.message || `Importati ${data.imported} contatti` 
+          message: data.message || t('googleCalendar.setup.csvImported', { count: data.imported })
         });
         toast({
-          title: "✅ Importazione completata",
+          title: t('googleCalendar.setup.importedToast'),
           description: data.message,
         });
         // Invalida la cache dei clienti per mostrare i nuovi clienti importati
@@ -387,18 +386,18 @@ export default function GoogleCalendarSetupPage() {
         if (data.needsReauth) {
           setNeedsContactsReauth(true);
         }
-        setImportResult({ success: false, message: data.error || "Errore nell'importazione" });
+        setImportResult({ success: false, message: data.error || t('googleCalendar.setup.importError') });
         toast({
           title: t("common.error"),
-          description: data.error || "Errore nell'importazione dei contatti",
+          description: data.error || t('googleCalendar.setup.importErrorContacts'),
           variant: "destructive",
         });
       }
     } catch (error) {
-      setImportResult({ success: false, message: "Errore di connessione" });
+      setImportResult({ success: false, message: t('googleCalendar.setup.connErrorGeneric') });
       toast({
         title: t("common.error"),
-        description: "Errore di connessione",
+        description: t('googleCalendar.setup.connErrorGeneric'),
         variant: "destructive",
       });
     } finally {
@@ -419,8 +418,8 @@ export default function GoogleCalendarSetupPage() {
         
         if (lines.length < 2) {
           toast({
-            title: "File vuoto",
-            description: "Il file CSV non contiene dati",
+            title: t('googleCalendar.setup.csvFileEmpty'),
+            description: t('googleCalendar.setup.csvFileEmptyDesc'),
             variant: "destructive",
           });
           return;
@@ -434,8 +433,8 @@ export default function GoogleCalendarSetupPage() {
 
         if (nameIdx === -1 && emailIdx === -1 && phoneIdx === -1) {
           toast({
-            title: "Formato non valido",
-            description: "Il file deve contenere colonne: nome, email o telefono",
+            title: t('googleCalendar.setup.csvInvalidFormat'),
+            description: t('googleCalendar.setup.csvInvalidFormatDesc'),
             variant: "destructive",
           });
           return;
@@ -462,13 +461,13 @@ export default function GoogleCalendarSetupPage() {
         setCsvImportResult(null);
         
         toast({
-          title: "File caricato",
-          description: `Trovati ${parsedContacts.length} contatti nel file`,
+          title: t('googleCalendar.setup.csvLoaded'),
+          description: t('googleCalendar.setup.csvLoadedDesc', { count: parsedContacts.length }),
         });
       } catch (error) {
         toast({
-          title: "Errore lettura file",
-          description: "Impossibile leggere il file CSV",
+          title: t('googleCalendar.setup.csvReadError'),
+          description: t('googleCalendar.setup.csvReadErrorDesc'),
           variant: "destructive",
         });
       }
@@ -479,8 +478,8 @@ export default function GoogleCalendarSetupPage() {
   const handleImportCsvContacts = async () => {
     if (selectedCsvContacts.size === 0) {
       toast({
-        title: "Nessun contatto selezionato",
-        description: "Seleziona almeno un contatto da importare",
+        title: t('googleCalendar.setup.csvNoSelection'),
+        description: t('googleCalendar.setup.csvNoSelectionDesc'),
         variant: "destructive",
       });
       return;
@@ -497,7 +496,7 @@ export default function GoogleCalendarSetupPage() {
           lastName: c.name.split(' ').slice(1).join(' ') || '',
           email: c.email,
           phone: c.phone,
-          notes: 'Importato da file CSV'
+          notes: t('googleCalendar.setup.csvImportNotes')
         }));
 
       const response = await fetch('/api/clients/import-csv', {
@@ -512,29 +511,31 @@ export default function GoogleCalendarSetupPage() {
       if (response.ok && data.success) {
         setCsvImportResult({ 
           success: true, 
-          message: `Importati ${data.imported} contatti` + (data.skipped > 0 ? `, ${data.skipped} già esistenti` : '')
+          message: data.skipped > 0
+            ? t('googleCalendar.setup.csvImportedSkipped', { count: data.imported, skipped: data.skipped })
+            : t('googleCalendar.setup.csvImported', { count: data.imported })
         });
         toast({
-          title: "Importazione completata",
-          description: `Importati ${data.imported} contatti`,
+          title: t('googleCalendar.setup.csvImportSuccess'),
+          description: t('googleCalendar.setup.csvImported', { count: data.imported }),
         });
         // Pulisci la lista
         setCsvContacts([]);
         setSelectedCsvContacts(new Set());
         queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       } else {
-        setCsvImportResult({ success: false, message: data.error || "Errore nell'importazione" });
+        setCsvImportResult({ success: false, message: data.error || t('googleCalendar.setup.importError') });
         toast({
           title: t("common.error"),
-          description: data.error || "Errore nell'importazione",
+          description: data.error || t('googleCalendar.setup.importError'),
           variant: "destructive",
         });
       }
     } catch (error) {
-      setCsvImportResult({ success: false, message: "Errore di connessione" });
+      setCsvImportResult({ success: false, message: t('googleCalendar.setup.connErrorGeneric') });
       toast({
         title: t("common.error"),
-        description: "Errore di connessione",
+        description: t('googleCalendar.setup.connErrorGeneric'),
         variant: "destructive",
       });
     } finally {
@@ -749,12 +750,12 @@ export default function GoogleCalendarSetupPage() {
                     {isSyncing ? (
                       <>
                         <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                        Sincronizzazione in corso...
+                        {t('googleCalendar.setup.syncingButton')}
                       </>
                     ) : (
                       <>
                         <RefreshCw className="h-4 w-4 mr-2" />
-                        Sincronizza ora
+                        {t('googleCalendar.setup.syncNowButton')}
                       </>
                     )}
                   </Button>
@@ -777,19 +778,21 @@ export default function GoogleCalendarSetupPage() {
                         <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                         <div>
                           <p className="font-medium text-purple-900 dark:text-purple-100">
-                            Stato sincronizzazione
+                            {t('googleCalendar.setup.syncStatusTitle')}
                           </p>
                           <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">
-                            Ultima sincronizzazione: {new Date(lastSyncAt).toLocaleString('it-IT', { 
-                              day: '2-digit', 
-                              month: '2-digit', 
-                              year: 'numeric',
-                              hour: '2-digit', 
-                              minute: '2-digit' 
+                            {t('googleCalendar.setup.lastSyncDate', {
+                              date: new Date(lastSyncAt).toLocaleString(i18n.language, {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })
                             })}
                           </p>
                           <p className="text-sm text-purple-700 dark:text-purple-300">
-                            Eventi sincronizzati: {totalSyncedEvents}
+                            {t('googleCalendar.setup.syncedEventsN', { count: totalSyncedEvents })}
                           </p>
                         </div>
                       </div>
@@ -823,10 +826,10 @@ export default function GoogleCalendarSetupPage() {
               <div>
                 <CardTitle className="flex items-center text-xl gap-2">
                   <Users className="h-5 w-5 text-blue-600" />
-                  Sincronizzazione Contatti Google
+                  {t('googleCalendar.setup.contactsCardTitle')}
                 </CardTitle>
                 <CardDescription className="mt-2">
-                  Importa i contatti dalla tua rubrica Google come clienti
+                  {t('googleCalendar.setup.contactsCardDesc')}
                 </CardDescription>
               </div>
               <div className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold">
@@ -843,11 +846,10 @@ export default function GoogleCalendarSetupPage() {
                   <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium text-yellow-900 dark:text-yellow-100">
-                      🧪 Funzione in fase di test
+                      {t('googleCalendar.setup.testFeatureLong')}
                     </p>
                     <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                      L'importazione contatti Google è attualmente disponibile solo per gli utenti tester autorizzati. 
-                      Se non sei tra i tester, potresti vedere un errore "Accesso bloccato" da Google.
+                      {t('googleCalendar.setup.testFeatureLongDesc')}
                     </p>
                   </div>
                 </div>
@@ -860,17 +862,17 @@ export default function GoogleCalendarSetupPage() {
                     <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="font-medium text-amber-900 dark:text-amber-100">
-                        Riconnessione necessaria
+                        {t('googleCalendar.setup.reconnectNeeded')}
                       </p>
                       <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                        Per accedere ai contatti è necessario riconnettere il tuo account Google con i nuovi permessi.
+                        {t('googleCalendar.setup.reconnectDesc')}
                       </p>
                       <Button 
                         onClick={handleReconnectGoogle} 
                         className="mt-3 bg-amber-600 hover:bg-amber-700"
                         size="sm"
                       >
-                        Riconnetti Google
+                        {t('googleCalendar.setup.reconnectButton')}
                       </Button>
                     </div>
                   </div>
@@ -888,12 +890,12 @@ export default function GoogleCalendarSetupPage() {
                   {isLoadingContacts ? (
                     <>
                       <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                      Caricamento contatti...
+                      {t('googleCalendar.setup.loadingContacts')}
                     </>
                   ) : (
                     <>
                       <Download className="h-4 w-4 mr-2" />
-                      Carica contatti da Google
+                      {t('googleCalendar.setup.loadContacts')}
                     </>
                   )}
                 </Button>
@@ -902,10 +904,10 @@ export default function GoogleCalendarSetupPage() {
                   {/* Info contatti trovati */}
                   <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                     <p className="font-medium text-blue-900 dark:text-blue-100">
-                      Trovati {contacts.length} contatti
+                      {t('googleCalendar.setup.contactsCountFound', { count: contacts.length })}
                     </p>
                     <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                      Seleziona i contatti da importare o usa "Importa tutti"
+                      {t('googleCalendar.setup.contactsHint')}
                     </p>
                   </div>
 
@@ -918,7 +920,7 @@ export default function GoogleCalendarSetupPage() {
                       disabled={needsContactsReauth}
                     >
                       <CheckSquare className="h-4 w-4 mr-2" />
-                      {selectedContacts.size === contacts.length ? 'Deseleziona tutti' : 'Seleziona tutti'}
+                      {selectedContacts.size === contacts.length ? t('googleCalendar.setup.deselectAll') : t('googleCalendar.setup.selectAll')}
                     </Button>
                     <Button
                       onClick={() => importContacts(true)}
@@ -931,7 +933,7 @@ export default function GoogleCalendarSetupPage() {
                       ) : (
                         <Download className="h-4 w-4 mr-2" />
                       )}
-                      Importa tutti ({contacts.length})
+                      {t('googleCalendar.setup.importAll', { count: contacts.length })}
                     </Button>
                     {selectedContacts.size > 0 && (
                       <Button
@@ -940,7 +942,7 @@ export default function GoogleCalendarSetupPage() {
                         variant="secondary"
                         size="sm"
                       >
-                        Importa selezionati ({selectedContacts.size})
+                        {t('googleCalendar.setup.importSelected', { count: selectedContacts.size })}
                       </Button>
                     )}
                   </div>
@@ -960,7 +962,7 @@ export default function GoogleCalendarSetupPage() {
                               onCheckedChange={(checked) => handleContactSelection(contact.resourceName, !!checked)}
                             />
                             <div className="flex-1 min-w-0">
-                              <p className="font-medium text-sm truncate">{contact.name || 'Senza nome'}</p>
+                              <p className="font-medium text-sm truncate">{contact.name || t('googleCalendar.setup.noName')}</p>
                               <div className="flex gap-2 text-xs text-muted-foreground">
                                 {contact.email && <span>{contact.email}</span>}
                                 {contact.phone && <span>{contact.phone}</span>}
@@ -981,7 +983,7 @@ export default function GoogleCalendarSetupPage() {
                     className="w-full"
                   >
                     <RefreshCw className={`h-4 w-4 mr-2 ${isLoadingContacts ? 'animate-spin' : ''}`} />
-                    Ricarica contatti
+                    {t('googleCalendar.setup.reloadContacts')}
                   </Button>
                 </>
               )}
@@ -999,8 +1001,8 @@ export default function GoogleCalendarSetupPage() {
 
               {/* Note */}
               <div className="text-xs text-muted-foreground">
-                <p>• I contatti già esistenti (stesso email o telefono) verranno saltati</p>
-                <p>• I contatti importati avranno la nota "Importato da Google Contacts"</p>
+                <p>{t('googleCalendar.setup.contactsNote1')}</p>
+                <p>{t('googleCalendar.setup.contactsNote2')}</p>
               </div>
             </div>
           </CardContent>
@@ -1014,10 +1016,10 @@ export default function GoogleCalendarSetupPage() {
             <div>
               <CardTitle className="flex items-center text-xl gap-2">
                 <FileSpreadsheet className="h-5 w-5 text-green-600" />
-                Importa da File (CSV/vCard)
+                {t('googleCalendar.setup.csvTitle')}
               </CardTitle>
               <CardDescription className="mt-2">
-                Per chi non usa Gmail: importa i contatti dal telefono o da altri servizi
+                {t('googleCalendar.setup.csvDesc')}
               </CardDescription>
             </div>
           </div>
@@ -1033,7 +1035,7 @@ export default function GoogleCalendarSetupPage() {
               >
                 <div className="flex items-center gap-2">
                   <Info className="h-4 w-4 text-blue-500" />
-                  <span className="font-medium">Come esportare i contatti dal telefono</span>
+                  <span className="font-medium">{t('googleCalendar.setup.csvHowToExport')}</span>
                 </div>
                 {showCsvInstructions ? (
                   <ChevronUp className="h-4 w-4" />
@@ -1045,40 +1047,38 @@ export default function GoogleCalendarSetupPage() {
               {showCsvInstructions && (
                 <div className="p-4 bg-white dark:bg-gray-950 text-sm space-y-4">
                   <div>
-                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">📱 iPhone (iCloud)</h4>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">{t('googleCalendar.setup.csvIphone')}</h4>
                     <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                      <li>Vai su <strong>icloud.com/contacts</strong> dal computer</li>
-                      <li>Seleziona i contatti da esportare (o "Seleziona tutto")</li>
-                      <li>Clicca l'icona ingranaggio → <strong>Esporta vCard</strong></li>
-                      <li>Converti il file .vcf in CSV con un convertitore online</li>
+                      {(t('googleCalendar.setup.csvIphoneSteps', { returnObjects: true }) as string[]).map((step, i) => (
+                        <li key={i} dangerouslySetInnerHTML={{ __html: step }} />
+                      ))}
                     </ol>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">📱 Android (senza Gmail)</h4>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">{t('googleCalendar.setup.csvAndroid')}</h4>
                     <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                      <li>Apri l'app <strong>Contatti</strong> sul telefono</li>
-                      <li>Menu → <strong>Impostazioni</strong> → <strong>Esporta</strong></li>
-                      <li>Scegli <strong>Esporta in file .vcf</strong></li>
-                      <li>Invia il file al computer e convertilo in CSV</li>
+                      {(t('googleCalendar.setup.csvAndroidSteps', { returnObjects: true }) as string[]).map((step, i) => (
+                        <li key={i} dangerouslySetInnerHTML={{ __html: step }} />
+                      ))}
                     </ol>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">💻 Outlook / Microsoft</h4>
+                    <h4 className="font-semibold text-green-700 dark:text-green-400 mb-2">{t('googleCalendar.setup.csvOutlook')}</h4>
                     <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                      <li>Apri <strong>Outlook.com</strong> → Persone</li>
-                      <li>Clicca <strong>Gestisci</strong> → <strong>Esporta contatti</strong></li>
-                      <li>Scegli formato <strong>CSV</strong></li>
+                      {(t('googleCalendar.setup.csvOutlookSteps', { returnObjects: true }) as string[]).map((step, i) => (
+                        <li key={i} dangerouslySetInnerHTML={{ __html: step }} />
+                      ))}
                     </ol>
                   </div>
                   
                   <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                    <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">📋 Formato file richiesto</p>
-                    <p className="text-blue-700 dark:text-blue-300 text-xs">
-                      Il file CSV deve avere le colonne: <strong>Nome</strong>, <strong>Email</strong>, <strong>Telefono</strong><br/>
-                      Esempio: <code>Nome,Email,Telefono</code> oppure <code>Name,Email,Phone</code>
-                    </p>
+                    <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">{t('googleCalendar.setup.csvFormatTitle')}</p>
+                    <p
+                      className="text-blue-700 dark:text-blue-300 text-xs"
+                      dangerouslySetInnerHTML={{ __html: t('googleCalendar.setup.csvFormatDesc') }}
+                    />
                   </div>
                 </div>
               )}
@@ -1092,7 +1092,7 @@ export default function GoogleCalendarSetupPage() {
               >
                 <div className="flex items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-950 transition-colors">
                   <Upload className="h-5 w-5 text-green-600" />
-                  <span>Clicca per caricare un file CSV</span>
+                  <span>{t('googleCalendar.setup.csvUpload')}</span>
                 </div>
                 <Input
                   id="csv-upload"
@@ -1109,19 +1109,19 @@ export default function GoogleCalendarSetupPage() {
               <>
                 <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800">
                   <p className="font-medium text-green-900 dark:text-green-100">
-                    Trovati {csvContacts.length} contatti
+                    {t('googleCalendar.setup.contactsCountFound', { count: csvContacts.length })}
                   </p>
                   <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                    {selectedCsvContacts.size} selezionati per l'importazione
+                    {t('googleCalendar.setup.csvSelectedN', { count: selectedCsvContacts.size })}
                   </p>
                 </div>
 
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" onClick={selectAllCsv}>
-                    Seleziona tutti
+                    {t('googleCalendar.setup.selectAll')}
                   </Button>
                   <Button variant="outline" size="sm" onClick={deselectAllCsv}>
-                    Deseleziona tutti
+                    {t('googleCalendar.setup.deselectAll')}
                   </Button>
                   <Button 
                     className="ml-auto bg-green-600 hover:bg-green-700"
@@ -1132,12 +1132,12 @@ export default function GoogleCalendarSetupPage() {
                     {isImportingCsv ? (
                       <>
                         <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                        Importazione...
+                        {t('googleCalendar.setup.csvImporting')}
                       </>
                     ) : (
                       <>
                         <Download className="h-4 w-4 mr-2" />
-                        Importa {selectedCsvContacts.size} contatti
+                        {t('googleCalendar.setup.csvImportButton', { count: selectedCsvContacts.size })}
                       </>
                     )}
                   </Button>
@@ -1157,7 +1157,7 @@ export default function GoogleCalendarSetupPage() {
                           onCheckedChange={() => toggleCsvContact(index)}
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm truncate">{contact.name || 'Senza nome'}</p>
+                          <p className="font-medium text-sm truncate">{contact.name || t('googleCalendar.setup.noName')}</p>
                           <div className="flex gap-2 text-xs text-muted-foreground">
                             {contact.email && <span>{contact.email}</span>}
                             {contact.phone && <span>{contact.phone}</span>}
@@ -1183,8 +1183,8 @@ export default function GoogleCalendarSetupPage() {
 
             {/* Note */}
             <div className="text-xs text-muted-foreground">
-              <p>• Formati supportati: CSV (separatore virgola o punto e virgola)</p>
-              <p>• I contatti già esistenti verranno saltati automaticamente</p>
+              <p>{t('googleCalendar.setup.csvNote1')}</p>
+              <p>{t('googleCalendar.setup.csvNote2')}</p>
             </div>
           </div>
         </CardContent>
