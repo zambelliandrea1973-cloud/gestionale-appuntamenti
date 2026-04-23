@@ -296,7 +296,11 @@
     "advancedConfig": "Erweiterte Konfiguration (QR-Methode)",
     "whatsappNotifications": "WhatsApp-Benachrichtigungen",
     "whatsappInfo": "Informationen zu WhatsApp-Benachrichtigungen:",
-    "whatsappInfoList": "WhatsApp-Nachrichten sind kostenlos und zuverlässiger als SMS,Stellen Sie sicher, dass Telefonnummern mit internationaler Vorwahl korrekt sind (z.B. +49171234567),Alle Nachrichten generieren einen WhatsApp-Link, der automatisch geöffnet wird",
+    "whatsappInfoList": [
+      "WhatsApp-Nachrichten sind kostenlos und zuverlässiger als SMS",
+      "Stellen Sie sicher, dass Telefonnummern mit internationaler Vorwahl korrekt sind (z.B. +49171234567)",
+      "Alle Nachrichten generieren einen WhatsApp-Link, der automatisch geöffnet wird"
+    ],
     "error": "Fehler",
     "messageTemplates": "Nachrichtenvorlagen",
     "messageTemplatesDesc": "Erinnerungsnachrichtenvorlagen anpassen",
@@ -794,7 +798,12 @@
     },
     "howItWorks": {
       "title": "Wie WhatsApp-Benachrichtigungen funktionieren",
-      "steps": "Wählen Sie Termine aus, für die Sie eine Erinnerung senden möchten,Klicken Sie auf \"WhatsApp-Benachrichtigungen generieren\", um Links zu erstellen,Es werden Links generiert, die WhatsApp mit vorausgefüllten Texten öffnen,Sie können den Standardtext vor dem Versenden anpassen"
+      "steps": [
+        "Wählen Sie Termine aus, für die Sie eine Erinnerung senden möchten",
+        "Klicken Sie auf \"WhatsApp-Benachrichtigungen generieren\", um Links zu erstellen",
+        "Es werden Links generiert, die WhatsApp mit vorausgefüllten Texten öffnen",
+        "Sie können den Standardtext vor dem Versenden anpassen"
+      ]
     },
     "customMessage": {
       "title": "Benutzerdefinierte Nachricht (optional)",
@@ -1208,10 +1217,187 @@
   "manual": {
     "pwa": {
       "title": "Terminanfragen Kunden-PWA-App",
-      "sections": "[object Object],[object Object],[object Object]",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "So funktioniert es für den Kunden",
+          "badge": {
+            "text": "So funktioniert es für den Kunden",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "PWA-Zugang",
+                  "text": "Der Kunde öffnet seine persönliche PWA-App (installiert über QR-Code)"
+                },
+                {
+                  "title": "Termin-Menü",
+                  "text": "Klickt auf \"Termin anfragen\" im Hauptmenü"
+                },
+                {
+                  "title": "Behandlungsauswahl",
+                  "text": "Wählt die gewünschte Behandlung aus der Liste aus"
+                },
+                {
+                  "title": "Mitarbeiter-Präferenz",
+                  "text": "OPTIONAL",
+                  "items": [
+                    "Kann einen bevorzugten Mitarbeiter aus dem Dropdown-Menü auswählen",
+                    "Oder \"Keine Präferenz\" für automatische Zuweisung belassen"
+                  ]
+                },
+                {
+                  "title": "Datum und Uhrzeit",
+                  "text": "Wählt das gewünschte Datum und das Zeitfenster aus"
+                },
+                {
+                  "title": "Anfrage senden",
+                  "text": "Klickt auf \"Anfrage senden\" - die Anfrage erscheint in Ihrer Sektion \"Buchungsanfragen\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Anfragenverwaltung (Admin)",
+          "badge": {
+            "text": "Anfragenverwaltung (Admin)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Pfad: Hauptmenü → Buchungsanfragen"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Benachrichtigung erhalten",
+                  "text": "Sie sehen die Anfrage mit allen Details (Kunde, Behandlung, Datum, Uhrzeit, Mitarbeiter-Präferenz)"
+                },
+                {
+                  "title": "Automatische Bestätigung",
+                  "items": [
+                    "Klicken Sie auf \"Genehmigen\" für schnelle Bestätigung",
+                    "Das System weist automatisch den bevorzugten Mitarbeiter zu (falls verfügbar) oder einen freien Mitarbeiter",
+                    "Weist automatisch den ersten freien Raum zu"
+                  ]
+                },
+                {
+                  "title": "Manuelle Bestätigung",
+                  "items": [
+                    "Es öffnet sich ein Dialog mit Auswahloptionen",
+                    "Sie können Mitarbeiter und Raum manuell auswählen",
+                    "Nützlich zur Organisation oder für spezielle Präferenzen"
+                  ]
+                },
+                {
+                  "title": "Kundenbenachrichtigung",
+                  "text": "Der Kunde erhält eine Bestätigung des Termins mit vollständigen Details (zugewiesener Mitarbeiter und Raum)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Weitere Funktionen der Kunden-PWA-App",
+          "badge": {
+            "text": "Weitere Funktionen der Kunden-PWA-App",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Termine anzeigen",
+                  "items": [
+                    "Vollständige Liste aller Termine (vergangene und zukünftige)",
+                    "Details: Datum, Uhrzeit, Behandlung, zugewiesener Mitarbeiter, Raum",
+                    "Terminstatus (bestätigt, abgeschlossen, storniert)",
+                    "Echtzeit-Aktualisierung"
+                  ]
+                },
+                {
+                  "title": "📄 Dokumente und Rechnungen",
+                  "items": [
+                    "Zugriff auf alle ausgestellten Rechnungen",
+                    "PDF-Download direkt aus der App",
+                    "Vollständiger Zahlungsverlauf"
+                  ]
+                },
+                {
+                  "title": "📞 Direktkontakte",
+                  "items": [
+                    "📧 E-Mail: Tippen zum Öffnen des E-Mail-Clients mit vorausgefüllter Adresse",
+                    "📱 Telefon: Tippen zum direkten Anruf der Praxis",
+                    "🌐 Website: Direkter Link zu Ihrer Website",
+                    "📷 Instagram: Öffnen des Instagram-Profils",
+                    "👍 Facebook: Link zur Facebook-Seite"
+                  ]
+                },
+                {
+                  "title": "🔔 Push-Benachrichtigungen",
+                  "items": [
+                    "Automatische Terminerinnerungen",
+                    "Buchungsbestätigungen",
+                    "Wichtige Updates von der Praxis"
+                  ]
+                },
+                {
+                  "title": "📱 Funktioniert Offline",
+                  "items": [
+                    "Zugriff auf Daten auch ohne Internetverbindung",
+                    "Automatische Synchronisierung wenn wieder online"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "benefits": {
         "title": "✨ Vorteile der PWA-App für Kunden",
-        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        "items": [
+          {
+            "title": "Kein Download aus dem Store",
+            "text": "Sofortige Installation über QR-Code, ohne App Store oder Google Play"
+          },
+          {
+            "title": "Immer aktuell",
+            "text": "Automatische Updates ohne Installation neuer Versionen"
+          },
+          {
+            "title": "Personalisiert",
+            "text": "Jeder Kunde sieht nur seine eigenen Daten (Termine, Rechnungen, Dokumente)"
+          },
+          {
+            "title": "Individuelles Symbol",
+            "text": "Die App zeigt Ihr Praxis-Logo auf dem Smartphone-Bildschirm"
+          },
+          {
+            "title": "Schnellzugriff",
+            "text": "Ein Tippen auf das Symbol und der Kunde ist in seinem persönlichen Bereich"
+          },
+          {
+            "title": "Plattformübergreifend",
+            "text": "Funktioniert auf iPhone, Android, Tablet und Desktop"
+          },
+          {
+            "title": "Sicher",
+            "text": "Authentifizierung über eindeutigen Token, kein Passwort erforderlich"
+          },
+          {
+            "title": "Direkter Kontakt",
+            "text": "E-Mail, Telefon und soziale Netzwerke mit einem Tippen erreichbar"
+          }
+        ]
       },
       "tips": {
         "proTip": "Zeigen Sie Ihren Kunden beim ersten Besuch, wie sie die App installieren. Sie werden sofort den Mehrwert erkennen und sich stärker mit Ihrer Praxis verbunden fühlen!",

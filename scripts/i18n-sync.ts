@@ -16,33 +16,61 @@ const BASE_LANG = 'it';
 
 type Json = Record<string, any>;
 
-function flatten(obj: Json, prefix = ''): Record<string, string> {
-  const out: Record<string, string> = {};
+/**
+ * Flatten OGGETTI (non Array) per ottenere le chiavi foglia.
+ * Arrays e valori primitivi sono trattati come "foglie" (path unico).
+ * Restituisce mappa: path → valore originale (preservando tipo).
+ */
+function flatten(obj: Json, prefix = ''): Record<string, any> {
+  const out: Record<string, any> = {};
   for (const [k, v] of Object.entries(obj)) {
     const key = prefix ? `${prefix}.${k}` : k;
+    // Solo oggetti plain (non array, non null) vengono espansi
     if (v && typeof v === 'object' && !Array.isArray(v)) {
       Object.assign(out, flatten(v, key));
     } else {
-      out[key] = String(v);
+      // Stringhe, numeri, booleani, array, null → foglie
+      out[key] = v;
     }
   }
   return out;
 }
 
-function unflatten(flat: Record<string, string>): Json {
-  const out: Json = {};
-  for (const [key, val] of Object.entries(flat)) {
-    const parts = key.split('.');
-    let cur = out;
-    for (let i = 0; i < parts.length - 1; i++) {
-      if (typeof cur[parts[i]] !== 'object' || cur[parts[i]] === null) {
-        cur[parts[i]] = {};
-      }
-      cur = cur[parts[i]];
+/**
+ * Imposta un valore in un path nested, creando oggetti intermedi se necessario.
+ * Preserva il tipo del valore (array, oggetto, primitivo).
+ */
+function setAt(obj: Json, pathStr: string, val: any): void {
+  const parts = pathStr.split('.');
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (cur[parts[i]] == null || typeof cur[parts[i]] !== 'object' || Array.isArray(cur[parts[i]])) {
+      cur[parts[i]] = {};
     }
-    cur[parts[parts.length - 1]] = val;
+    cur = cur[parts[i]];
   }
-  return out;
+  cur[parts[parts.length - 1]] = val;
+}
+
+/**
+ * Crea il valore "[TODO]" preservando il tipo originale:
+ * - Stringa → "[TODO:LANG] testo originale"
+ * - Array di stringhe → array di "[TODO:LANG] elem"
+ * - Array di oggetti / oggetti → struttura clonata (non modificata; va tradotta a mano)
+ */
+function makeTodo(val: any, lang: string): any {
+  if (typeof val === 'string') {
+    return `[TODO:${lang.toUpperCase()}] ${val}`;
+  }
+  if (Array.isArray(val)) {
+    return val.map(item => makeTodo(item, lang));
+  }
+  if (val && typeof val === 'object') {
+    const copy: Json = {};
+    for (const [k, v] of Object.entries(val)) copy[k] = makeTodo(v, lang);
+    return copy;
+  }
+  return val; // numeri, booleani, null restano invariati
 }
 
 async function main() {
@@ -85,11 +113,11 @@ async function main() {
     }
 
     if (fix && missing.length > 0) {
+      // Modifica direttamente data preservando arrays/oggetti esistenti.
       for (const k of missing) {
-        flat[k] = `[TODO:${lang.toUpperCase()}] ${baseFlat[k]}`;
+        setAt(data, k, makeTodo(baseFlat[k], lang));
       }
-      const merged = unflatten(flat);
-      await fs.writeFile(fullPath, JSON.stringify(merged, null, 2) + '\n');
+      await fs.writeFile(fullPath, JSON.stringify(data, null, 2) + '\n');
       console.log(`    ✎ aggiunte ${missing.length} chiavi con marker [TODO:${lang.toUpperCase()}]`);
     }
   }

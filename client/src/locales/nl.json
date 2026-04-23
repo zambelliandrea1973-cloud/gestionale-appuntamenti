@@ -296,7 +296,11 @@
     "advancedConfig": "Geavanceerde configuratie (QR-methode)",
     "whatsappNotifications": "WhatsApp Meldingen",
     "whatsappInfo": "Informatie over WhatsApp meldingen:",
-    "whatsappInfoList": "WhatsApp berichten zijn gratis en betrouwbaarder dan SMS,Controleer of telefoonnummers correct zijn met internationale prefix (bijv. +31612345678),Alle berichten genereren een WhatsApp link die automatisch opent",
+    "whatsappInfoList": [
+      "WhatsApp berichten zijn gratis en betrouwbaarder dan SMS",
+      "Controleer of telefoonnummers correct zijn met internationale prefix (bijv. +31612345678)",
+      "Alle berichten genereren een WhatsApp link die automatisch opent"
+    ],
     "error": "Fout",
     "messageTemplates": "Berichtsjablonen",
     "messageTemplatesDesc": "Pas herinneringsberichtsjablonen aan",
@@ -776,7 +780,12 @@
     },
     "howItWorks": {
       "title": "Hoe WhatsApp-meldingen werken",
-      "steps": "Selecteer afspraken waarvoor u een herinnering wilt sturen,Klik op \"WhatsApp-meldingen genereren\" om links te maken,Er worden links gegenereerd die WhatsApp openen met vooraf ingevulde teksten,U kunt de standaardtekst voor het verzenden aanpassen"
+      "steps": [
+        "Selecteer afspraken waarvoor u een herinnering wilt sturen",
+        "Klik op \"WhatsApp-meldingen genereren\" om links te maken",
+        "Er worden links gegenereerd die WhatsApp openen met vooraf ingevulde teksten",
+        "U kunt de standaardtekst voor het verzenden aanpassen"
+      ]
     },
     "customMessage": {
       "title": "Aangepast bericht (optioneel)",
@@ -1208,10 +1217,187 @@
   "manual": {
     "pwa": {
       "title": "PWA Klant Afspraakverzoeken",
-      "sections": "[object Object],[object Object],[object Object]",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Hoe het werkt voor de klant",
+          "badge": {
+            "text": "Hoe het werkt voor de klant",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "PWA Toegang",
+                  "text": "De klant opent zijn persoonlijke PWA-app (geïnstalleerd via QR-code)"
+                },
+                {
+                  "title": "Afsprakenmenu",
+                  "text": "Klikt op \"Afspraak Aanvragen\" in het hoofdmenu"
+                },
+                {
+                  "title": "Dienst Selecteren",
+                  "text": "Kiest de gewenste behandeling uit de lijst"
+                },
+                {
+                  "title": "Medewerker Voorkeur",
+                  "text": "OPTIONEEL",
+                  "items": [
+                    "Kan een voorkeursmedewerker kiezen uit het vervolgkeuzemenu",
+                    "Of \"Geen voorkeur\" laten voor automatische toewijzing"
+                  ]
+                },
+                {
+                  "title": "Datum en Tijd",
+                  "text": "Selecteert de gewenste datum en tijdsperiode"
+                },
+                {
+                  "title": "Verzoek Verzenden",
+                  "text": "Klikt op \"Verzoek Verzenden\" - het verzoek komt aan in uw sectie \"Boekingsverzoeken\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Verzoekenbeheer (Beheerder)",
+          "badge": {
+            "text": "Verzoekenbeheer (Beheerder)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Pad: Hoofdmenu → Boekingsverzoeken"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Ontvang de melding",
+                  "text": "U bekijkt het verzoek met alle details (klant, dienst, datum, tijd, medewerkervoorkeur)"
+                },
+                {
+                  "title": "Automatische Bevestiging",
+                  "items": [
+                    "Klik op \"Goedkeuren\" voor snelle bevestiging",
+                    "Het systeem wijst automatisch de voorkeursmedewerker toe (indien beschikbaar) of een beschikbare medewerker",
+                    "Wijst automatisch de eerste beschikbare kamer toe"
+                  ]
+                },
+                {
+                  "title": "Handmatige Bevestiging",
+                  "items": [
+                    "Er opent een dialoogvenster met selectieopties",
+                    "U kunt handmatig de medewerker en kamer kiezen",
+                    "Nuttig voor het optimaliseren van de organisatie of het beheren van speciale voorkeuren"
+                  ]
+                },
+                {
+                  "title": "Klantmelding",
+                  "text": "De klant ontvangt bevestiging van de afspraak met volledige details (toegewezen medewerker en kamer)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Andere PWA Klant Functionaliteiten",
+          "badge": {
+            "text": "Andere PWA Klant Functionaliteiten",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Afspraken Bekijken",
+                  "items": [
+                    "Volledige lijst van alle afspraken (verleden en toekomst)",
+                    "Details: datum, tijd, dienst, toegewezen medewerker, kamer",
+                    "Afspraakstatus (bevestigd, voltooid, geannuleerd)",
+                    "Realtime updates"
+                  ]
+                },
+                {
+                  "title": "📄 Documenten en Facturen",
+                  "items": [
+                    "Toegang tot alle uitgegeven facturen",
+                    "PDF-downloads direct vanuit de app",
+                    "Volledige betalingsgeschiedenis"
+                  ]
+                },
+                {
+                  "title": "📞 Directe Contacten",
+                  "items": [
+                    "📧 E-mail: Tik om e-mailclient te openen met vooraf ingevuld adres",
+                    "📱 Telefoon: Tik om rechtstreeks de praktijk te bellen",
+                    "🌐 Website: Directe link naar uw website",
+                    "📷 Instagram: Instagram-profiel openen",
+                    "👍 Facebook: Link naar Facebook-pagina"
+                  ]
+                },
+                {
+                  "title": "🔔 Push-meldingen",
+                  "items": [
+                    "Automatische afspraakherinneringen",
+                    "Boekingsbevestigingen",
+                    "Belangrijke updates van de praktijk"
+                  ]
+                },
+                {
+                  "title": "📱 Werkt Offline",
+                  "items": [
+                    "Toegang tot gegevens ook zonder internetverbinding",
+                    "Automatische synchronisatie wanneer weer online"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "benefits": {
         "title": "✨ Voordelen van de PWA-app voor Klanten",
-        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        "items": [
+          {
+            "title": "Geen Download uit Store",
+            "text": "Directe installatie via QR-code, zonder via App Store of Google Play te gaan"
+          },
+          {
+            "title": "Altijd Bijgewerkt",
+            "text": "Automatische updates zonder nieuwe versies te hoeven installeren"
+          },
+          {
+            "title": "Gepersonaliseerd",
+            "text": "Elke klant ziet alleen zijn eigen gegevens (afspraken, facturen, documenten)"
+          },
+          {
+            "title": "Aangepast Icoon",
+            "text": "De app toont het logo van uw praktijk op het startscherm van de telefoon"
+          },
+          {
+            "title": "Snelle Toegang",
+            "text": "Eén tik op het icoon en de klant is in zijn beveiligde omgeving"
+          },
+          {
+            "title": "Multi-Platform",
+            "text": "Werkt op iPhone, Android, tablet en desktop"
+          },
+          {
+            "title": "Veilig",
+            "text": "Authenticatie via unieke token, geen wachtwoord om te onthouden"
+          },
+          {
+            "title": "Direct Contact",
+            "text": "E-mail, telefoon en sociale media op één tik afstand"
+          }
+        ]
       },
       "tips": {
         "proTip": "Toon klanten hoe ze de app installeren tijdens het eerste bezoek. Ze zullen onmiddellijk de toegevoegde waarde zien en zich meer betrokken voelen bij de relatie met uw praktijk!",

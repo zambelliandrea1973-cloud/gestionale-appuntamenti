@@ -296,7 +296,11 @@
     "advancedConfig": "Configurare avansată (metoda QR)",
     "whatsappNotifications": "Notificări WhatsApp",
     "whatsappInfo": "Informații despre notificările WhatsApp:",
-    "whatsappInfoList": "Mesajele WhatsApp sunt gratuite și mai fiabile decât SMS-urile,Verificați că numerele de telefon sunt corecte cu prefix internațional (ex. +40712345678),Toate mesajele generează un link WhatsApp care se deschide automat",
+    "whatsappInfoList": [
+      "Mesajele WhatsApp sunt gratuite și mai fiabile decât SMS-urile",
+      "Verificați că numerele de telefon sunt corecte cu prefix internațional (ex. +40712345678)",
+      "Toate mesajele generează un link WhatsApp care se deschide automat"
+    ],
     "error": "Eroare",
     "messageTemplates": "Șabloane Mesaje",
     "messageTemplatesDesc": "Personalizați șabloanele de mesaje memento",
@@ -776,7 +780,12 @@
     },
     "howItWorks": {
       "title": "Cum funcționează notificările WhatsApp",
-      "steps": "Selectați programările pentru care doriți să trimiteți un memento,Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri,Se vor genera link-uri care deschid WhatsApp cu texte precompletate,Puteți personaliza textul standard înainte de trimitere"
+      "steps": [
+        "Selectați programările pentru care doriți să trimiteți un memento",
+        "Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri",
+        "Se vor genera link-uri care deschid WhatsApp cu texte precompletate",
+        "Puteți personaliza textul standard înainte de trimitere"
+      ]
     },
     "customMessage": {
       "title": "Mesaj personalizat (opțional)",
@@ -1208,10 +1217,187 @@
   "manual": {
     "pwa": {
       "title": "Solicitări Programări PWA Client",
-      "sections": "[object Object],[object Object],[object Object]",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Cum funcționează pentru client",
+          "badge": {
+            "text": "Cum funcționează pentru client",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Acces PWA",
+                  "text": "Clientul deschide aplicația PWA personalizată (instalată prin cod QR)"
+                },
+                {
+                  "title": "Meniu Programări",
+                  "text": "Apasă pe \"Solicită Programare\" din meniul principal"
+                },
+                {
+                  "title": "Selectare Serviciu",
+                  "text": "Alege tratamentul dorit din listă"
+                },
+                {
+                  "title": "Preferință Colaborator",
+                  "text": "OPȚIONAL",
+                  "items": [
+                    "Poate alege un colaborator preferat din meniul drop-down",
+                    "Sau poate lăsa \"Nicio preferință\" pentru alocare automată"
+                  ]
+                },
+                {
+                  "title": "Dată și Oră",
+                  "text": "Selectează data și intervalul orar dorit"
+                },
+                {
+                  "title": "Trimitere Solicitare",
+                  "text": "Apasă \"Trimite Solicitare\" - solicitarea ajunge în secțiunea dumneavoastră \"Solicitări Rezervare\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Gestionare solicitări (Admin)",
+          "badge": {
+            "text": "Gestionare solicitări (Admin)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Percurs: Meniu principal → Solicitări Rezervare"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Primiți notificarea",
+                  "text": "Vizualizați solicitarea cu toate detaliile (client, serviciu, dată, oră, preferință colaborator)"
+                },
+                {
+                  "title": "Confirmare Automată",
+                  "items": [
+                    "Apăsați \"Aprobare\" pentru confirmare rapidă",
+                    "Sistemul alocă automat colaboratorul preferat (dacă este disponibil) sau unul liber",
+                    "Alocă automat prima cameră liberă"
+                  ]
+                },
+                {
+                  "title": "Confirmare Manuală",
+                  "items": [
+                    "Se deschide un dialog cu opțiuni de selectare",
+                    "Puteți alege manual colaboratorul și camera",
+                    "Util pentru optimizarea organizării sau gestionarea preferințelor speciale"
+                  ]
+                },
+                {
+                  "title": "Notificare Client",
+                  "text": "Clientul primește confirmarea programării cu detalii complete (colaborator și cameră alocate)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Alte Funcționalități PWA Client",
+          "badge": {
+            "text": "Alte Funcționalități PWA Client",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Vizualizare Programări",
+                  "items": [
+                    "Lista completă a tuturor programărilor (trecute și viitoare)",
+                    "Detalii: dată, oră, serviciu, colaborator alocat, cameră",
+                    "Stare programare (confirmată, finalizată, anulată)",
+                    "Actualizare în timp real"
+                  ]
+                },
+                {
+                  "title": "📄 Documente și Facturi",
+                  "items": [
+                    "Acces la toate facturile emise",
+                    "Descărcare PDF direct din aplicație",
+                    "Istoric complet al plăților"
+                  ]
+                },
+                {
+                  "title": "📞 Contacte Directe",
+                  "items": [
+                    "📧 Email: Apăsați pentru a deschide clientul de email cu adresa precompletată",
+                    "📱 Telefon: Apăsați pentru a apela direct cabinetul",
+                    "🌐 Site Web: Legătură directă către site-ul dumneavoastră",
+                    "📷 Instagram: Deschidere profil Instagram",
+                    "👍 Facebook: Legătură către pagina Facebook"
+                  ]
+                },
+                {
+                  "title": "🔔 Notificări Push",
+                  "items": [
+                    "Mementouri automate pentru programări",
+                    "Confirmări rezervări",
+                    "Actualizări importante de la cabinet"
+                  ]
+                },
+                {
+                  "title": "📱 Funcționează Offline",
+                  "items": [
+                    "Acces la date chiar și fără conexiune",
+                    "Sincronizare automată când revine online"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "benefits": {
         "title": "✨ Avantajele Aplicației PWA pentru Clienți",
-        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        "items": [
+          {
+            "title": "Fără Descărcare din Store",
+            "text": "Instalare instantanee prin cod QR, fără a trece prin App Store sau Google Play"
+          },
+          {
+            "title": "Întotdeauna Actualizată",
+            "text": "Actualizări automate fără necesitatea instalării de noi versiuni"
+          },
+          {
+            "title": "Personalizată",
+            "text": "Fiecare client vede doar datele sale (programări, facturi, documente)"
+          },
+          {
+            "title": "Pictogramă Personalizată",
+            "text": "Aplicația afișează logo-ul cabinetului dumneavoastră pe ecranul telefonului"
+          },
+          {
+            "title": "Acces Rapid",
+            "text": "O apăsare pe pictogramă și clientul intră în zona sa rezervată"
+          },
+          {
+            "title": "Multi-Platformă",
+            "text": "Funcționează pe iPhone, Android, tabletă și desktop"
+          },
+          {
+            "title": "Sigură",
+            "text": "Autentificare prin token unic, fără parolă de reținut"
+          },
+          {
+            "title": "Contact Direct",
+            "text": "Email, telefon și rețele sociale la o apăsare distanță"
+          }
+        ]
       },
       "tips": {
         "proTip": "Arătați clienților cum să instaleze aplicația în timpul primei vizite. Vor vedea imediat valoarea adăugată și se vor simți mai implicați în relația cu cabinetul dumneavoastră!",

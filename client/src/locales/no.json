@@ -296,7 +296,11 @@
     "advancedConfig": "Avansert konfigurasjon (QR-metode)",
     "whatsappNotifications": "WhatsApp Varsler",
     "whatsappInfo": "Informasjon om WhatsApp varsler:",
-    "whatsappInfoList": "WhatsApp meldinger er gratis og mer pålitelige enn SMS,Sjekk at telefonnumre er korrekte med internasjonal prefiks (f.eks. +4712345678),Alle meldinger genererer en WhatsApp lenke som åpnes automatisk",
+    "whatsappInfoList": [
+      "WhatsApp meldinger er gratis og mer pålitelige enn SMS",
+      "Sjekk at telefonnumre er korrekte med internasjonal prefiks (f.eks. +4712345678)",
+      "Alle meldinger genererer en WhatsApp lenke som åpnes automatisk"
+    ],
     "error": "Feil",
     "messageTemplates": "Meldingsmaler",
     "messageTemplatesDesc": "Tilpass påminnelsesmeldingsmaler",
@@ -776,7 +780,12 @@
     },
     "howItWorks": {
       "title": "Hvordan WhatsApp-varsler fungerer",
-      "steps": "Velg avtaler du vil sende påminnelse for,Klikk på \"Generer WhatsApp-varsler\" for å lage lenker,Lenker som åpner WhatsApp med forhåndsutfylte tekster vil bli generert,Du kan tilpasse standardteksten før sending"
+      "steps": [
+        "Velg avtaler du vil sende påminnelse for",
+        "Klikk på \"Generer WhatsApp-varsler\" for å lage lenker",
+        "Lenker som åpner WhatsApp med forhåndsutfylte tekster vil bli generert",
+        "Du kan tilpasse standardteksten før sending"
+      ]
     },
     "customMessage": {
       "title": "Tilpasset melding (valgfritt)",
@@ -1208,10 +1217,187 @@
   "manual": {
     "pwa": {
       "title": "PWA Timeavtaleforespørsler for Kunder",
-      "sections": "[object Object],[object Object],[object Object]",
+      "sections": [
+        {
+          "key": "client-flow",
+          "title": "Hvordan det fungerer for kunden",
+          "badge": {
+            "text": "Hvordan det fungerer for kunden",
+            "color": "purple"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "PWA Tilgang",
+                  "text": "Kunden åpner sin personlige PWA-app (installert via QR-kode)"
+                },
+                {
+                  "title": "Timeavtalemeny",
+                  "text": "Klikker på \"Be om Timeavtale\" fra hovedmenyen"
+                },
+                {
+                  "title": "Tjenestevalg",
+                  "text": "Velger ønsket behandling fra listen"
+                },
+                {
+                  "title": "Medarbeiderpreferanse",
+                  "text": "VALGFRITT",
+                  "items": [
+                    "Kan velge en foretrukket medarbeider fra nedtrekkslisten",
+                    "Eller la stå som \"Ingen preferanse\" for automatisk tildeling"
+                  ]
+                },
+                {
+                  "title": "Dato og Tid",
+                  "text": "Velger ønsket dato og tidsvindu"
+                },
+                {
+                  "title": "Send Forespørsel",
+                  "text": "Klikker \"Send Forespørsel\" - forespørselen kommer til din \"Bestillingsforespørsler\" seksjon"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "admin-management",
+          "title": "Forespørselshåndtering (Admin)",
+          "badge": {
+            "text": "Forespørselshåndtering (Admin)",
+            "color": "blue"
+          },
+          "blocks": [
+            {
+              "type": "text",
+              "content": "Sti: Hovedmeny → Bestillingsforespørsler"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "title": "Motta varslingen",
+                  "text": "Se forespørselen med alle detaljer (kunde, tjeneste, dato, tid, medarbeiderpreferanse)"
+                },
+                {
+                  "title": "Automatisk Bekreftelse",
+                  "items": [
+                    "Klikk \"Godkjenn\" for rask bekreftelse",
+                    "Systemet tildeler automatisk den foretrukne medarbeideren (hvis tilgjengelig) eller en ledig",
+                    "Tildeler automatisk det første ledige rommet"
+                  ]
+                },
+                {
+                  "title": "Manuell Bekreftelse",
+                  "items": [
+                    "En dialogboks åpnes med valgalternativer",
+                    "Du kan velge medarbeider og rom manuelt",
+                    "Nyttig for å optimalisere organisering eller håndtere spesielle preferanser"
+                  ]
+                },
+                {
+                  "title": "Kundevarsling",
+                  "text": "Kunden mottar bekreftelse av timeavtalen med fullstendige detaljer (tildelt medarbeider og rom)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "other-features",
+          "title": "Andre PWA Kundefunksjoner",
+          "badge": {
+            "text": "Andre PWA Kundefunksjoner",
+            "color": "teal"
+          },
+          "blocks": [
+            {
+              "type": "nestedList",
+              "items": [
+                {
+                  "title": "📅 Se Timeavtaler",
+                  "items": [
+                    "Komplett liste over alle timeavtaler (tidligere og fremtidige)",
+                    "Detaljer: dato, tid, tjeneste, tildelt medarbeider, rom",
+                    "Timeavtalestatus (bekreftet, fullført, kansellert)",
+                    "Oppdatering i sanntid"
+                  ]
+                },
+                {
+                  "title": "📄 Dokumenter og Fakturaer",
+                  "items": [
+                    "Tilgang til alle utstedte fakturaer",
+                    "Last ned PDF direkte fra appen",
+                    "Komplett betalingshistorikk"
+                  ]
+                },
+                {
+                  "title": "📞 Direkte Kontakter",
+                  "items": [
+                    "📧 E-post: Trykk for å åpne e-postklient med forhåndsutfylt adresse",
+                    "📱 Telefon: Trykk for å ringe klinikken direkte",
+                    "🌐 Nettside: Direkte lenke til nettstedet ditt",
+                    "📷 Instagram: Åpne Instagram-profil",
+                    "👍 Facebook: Lenke til Facebook-side"
+                  ]
+                },
+                {
+                  "title": "🔔 Push-varsler",
+                  "items": [
+                    "Automatiske timeavtalepåminnelser",
+                    "Bestillingsbekreftelser",
+                    "Viktige oppdateringer fra klinikken"
+                  ]
+                },
+                {
+                  "title": "📱 Fungerer Offline",
+                  "items": [
+                    "Tilgang til data selv uten tilkobling",
+                    "Automatisk synkronisering når tilkoblingen gjenopprettes"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "benefits": {
         "title": "✨ Fordeler med PWA-appen for Kunder",
-        "items": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        "items": [
+          {
+            "title": "Ingen Nedlasting fra Butikk",
+            "text": "Øyeblikkelig installasjon via QR-kode, uten å gå via App Store eller Google Play"
+          },
+          {
+            "title": "Alltid Oppdatert",
+            "text": "Automatiske oppdateringer uten behov for å installere nye versjoner"
+          },
+          {
+            "title": "Personlig Tilpasset",
+            "text": "Hver kunde ser kun sine egne data (timeavtaler, fakturaer, dokumenter)"
+          },
+          {
+            "title": "Tilpasset Ikon",
+            "text": "Appen viser klinikkens logo på telefonens hjemmeskjerm"
+          },
+          {
+            "title": "Rask Tilgang",
+            "text": "Ett trykk på ikonet og kunden er inne i sitt reserverte område"
+          },
+          {
+            "title": "Multiplattform",
+            "text": "Fungerer på iPhone, Android, nettbrett og desktop"
+          },
+          {
+            "title": "Sikker",
+            "text": "Autentisering via unikt token, ingen passord å huske"
+          },
+          {
+            "title": "Direkte Kontakt",
+            "text": "E-post, telefon og sosiale nettverk bare ett trykk unna"
+          }
+        ]
       },
       "tips": {
         "proTip": "Vis kundene hvordan de installerer appen under første besøk. De vil umiddelbart se merverdien og føle seg mer engasjert i forholdet til klinikken din!",
