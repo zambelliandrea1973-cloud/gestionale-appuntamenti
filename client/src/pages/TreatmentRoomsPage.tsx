@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { Trans, useTranslation } from "react-i18next";
 import { queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,11 +25,12 @@ interface TreatmentRoom {
 }
 
 const PRESET_COLORS = [
-  "#3f51b5", "#f44336", "#ff9800", "#4caf50", "#9c27b0", 
+  "#3f51b5", "#f44336", "#ff9800", "#4caf50", "#9c27b0",
   "#00bcd4", "#795548", "#607d8b", "#e91e63", "#ffc107"
 ];
 
 export default function TreatmentRoomsPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { hasCapability, getUpgradeMessage } = useCapabilities();
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
@@ -42,16 +44,15 @@ export default function TreatmentRoomsPage() {
     isActive: true
   });
 
-  // Verifica accesso a Treatment Rooms (solo BUSINESS)
   const canAccessRooms = hasCapability('staff_rooms');
   const upgradeMessage = getUpgradeMessage('staff_rooms');
 
-  // Query per recuperare stanze
-  const { data: rooms = [], isLoading, refetch } = useQuery<any>({
+  const { data: rooms = [], isLoading } = useQuery<any>({
     queryKey: ['/api/treatment-rooms'],
   });
 
-  // Mutation per creare stanza
+  const errorTitle = t('common.error');
+
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       const response = await fetch('/api/treatment-rooms', {
@@ -59,21 +60,20 @@ export default function TreatmentRoomsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('Errore creazione stanza');
+      if (!response.ok) throw new Error('Create room failed');
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/treatment-rooms'] });
-      toast({ title: "Stanza creata con successo" });
+      toast({ title: t('treatmentRooms.toast.created') });
       resetForm();
       setShowAddDialog(false);
     },
     onError: () => {
-      toast({ title: "Errore", description: "Impossibile creare la stanza", variant: "destructive" });
+      toast({ title: errorTitle, description: t('treatmentRooms.errors.create'), variant: "destructive" });
     }
   });
 
-  // Mutation per aggiornare stanza
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: any }) => {
       const response = await fetch(`/api/treatment-rooms/${id}`, {
@@ -81,36 +81,35 @@ export default function TreatmentRoomsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('Errore aggiornamento stanza');
+      if (!response.ok) throw new Error('Update room failed');
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/treatment-rooms'] });
-      toast({ title: "Stanza aggiornata con successo" });
+      toast({ title: t('treatmentRooms.toast.updated') });
       resetForm();
       setEditingRoom(null);
     },
     onError: () => {
-      toast({ title: "Errore", description: "Impossibile aggiornare la stanza", variant: "destructive" });
+      toast({ title: errorTitle, description: t('treatmentRooms.errors.update'), variant: "destructive" });
     }
   });
 
-  // Mutation per eliminare stanza
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
       const response = await fetch(`/api/treatment-rooms/${id}`, {
         method: 'DELETE',
       });
-      if (!response.ok) throw new Error('Errore eliminazione stanza');
+      if (!response.ok) throw new Error('Delete room failed');
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/treatment-rooms'] });
-      toast({ title: "Stanza eliminata con successo" });
+      toast({ title: t('treatmentRooms.toast.deleted') });
       setDeletingRoom(null);
     },
     onError: () => {
-      toast({ title: "Errore", description: "Impossibile eliminare la stanza", variant: "destructive" });
+      toast({ title: errorTitle, description: t('treatmentRooms.errors.delete'), variant: "destructive" });
     }
   });
 
@@ -135,7 +134,7 @@ export default function TreatmentRoomsPage() {
 
   const handleSubmit = () => {
     if (!formData.name) {
-      toast({ title: "Errore", description: "Il nome della stanza è obbligatorio", variant: "destructive" });
+      toast({ title: errorTitle, description: t('treatmentRooms.errors.requiredName'), variant: "destructive" });
       return;
     }
 
@@ -149,12 +148,11 @@ export default function TreatmentRoomsPage() {
   if (isLoading) {
     return (
       <div className="container mx-auto py-6">
-        <div className="text-center">Caricamento stanze...</div>
+        <div className="text-center">{t('treatmentRooms.loading')}</div>
       </div>
     );
   }
 
-  // Se non ha accesso alle Stanze, mostra UI bloccata
   if (!canAccessRooms) {
     return (
       <>
@@ -162,21 +160,24 @@ export default function TreatmentRoomsPage() {
           <Card className="border-2 border-yellow-200 bg-yellow-50/50">
             <CardContent className="text-center py-12">
               <Lock className="h-16 w-16 mx-auto text-yellow-600 mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Gestione Stanze Non Disponibile</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('treatmentRooms.notAvailable')}</h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                La gestione di stanze e cabine è disponibile solo nel piano <span className="font-bold text-yellow-700">Business</span>.
+                <Trans
+                  i18nKey="treatmentRooms.notAvailableDesc"
+                  components={[<span key="0" className="font-bold text-yellow-700" />]}
+                />
               </p>
-              <Button 
+              <Button
                 onClick={() => setShowUpgradePrompt(true)}
                 className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
                 data-testid="button-upgrade-rooms"
               >
-                Passa a Business
+                {t('treatmentRooms.upgradeBusiness')}
               </Button>
             </CardContent>
           </Card>
         </div>
-        
+
         <UpgradePrompt
           open={showUpgradePrompt}
           onOpenChange={setShowUpgradePrompt}
@@ -190,15 +191,12 @@ export default function TreatmentRoomsPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gestione Stanze/Cabine</h1>
-          <p className="text-muted-foreground mt-1">
-            Configura le stanze e cabine di trattamento del tuo studio
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('treatmentRooms.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('treatmentRooms.subtitle')}</p>
         </div>
-        <Button 
+        <Button
           onClick={() => {
             resetForm();
             setShowAddDialog(true);
@@ -207,54 +205,45 @@ export default function TreatmentRoomsPage() {
           data-testid="button-add-room"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Aggiungi Stanza
+          {t('treatmentRooms.addRoom')}
         </Button>
       </div>
 
-      {/* Lista stanze */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {rooms.map((room: TreatmentRoom) => (
           <Card key={room.id} className="relative">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div 
-                    className="w-6 h-6 rounded-full border-2 border-gray-200" 
+                  <div
+                    className="w-6 h-6 rounded-full border-2 border-gray-200"
                     style={{ backgroundColor: room.color }}
                   />
-                  <CardTitle className="text-lg">
-                    {room.name}
-                  </CardTitle>
+                  <CardTitle className="text-lg">{room.name}</CardTitle>
                 </div>
                 <Badge variant={room.isActive ? "default" : "secondary"}>
-                  {room.isActive ? "Attiva" : "Inattiva"}
+                  {room.isActive ? t('treatmentRooms.active') : t('treatmentRooms.inactive')}
                 </Badge>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {room.description && (
-                  <p className="text-sm text-muted-foreground">
-                    {room.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{room.description}</p>
                 )}
-                
+
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Palette className="h-4 w-4" />
-                  <span>Colore calendario</span>
-                  <div 
-                    className="w-4 h-4 rounded border" 
+                  <span>{t('treatmentRooms.calendarColorRow')}</span>
+                  <div
+                    className="w-4 h-4 rounded border"
                     style={{ backgroundColor: room.color }}
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-end gap-2 mt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleEdit(room)}
-                >
+                <Button variant="outline" size="sm" onClick={() => handleEdit(room)} aria-label={t('common.edit')}>
                   <Edit className="h-4 w-4" />
                 </Button>
                 <Button
@@ -262,6 +251,7 @@ export default function TreatmentRoomsPage() {
                   size="sm"
                   onClick={() => setDeletingRoom(room)}
                   className="text-red-600 hover:text-red-700"
+                  aria-label={t('common.delete')}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -275,22 +265,21 @@ export default function TreatmentRoomsPage() {
         <Card>
           <CardContent className="text-center py-8">
             <Home className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Nessuna stanza configurata</h3>
-            <p className="text-gray-500 mb-4">Aggiungi le prime stanze o cabine di trattamento</p>
-            <Button 
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('treatmentRooms.empty')}</h3>
+            <p className="text-gray-500 mb-4">{t('treatmentRooms.emptyDesc')}</p>
+            <Button
               onClick={() => {
                 resetForm();
                 setShowAddDialog(true);
               }}
             >
               <Plus className="h-4 w-4 mr-2" />
-              Aggiungi Stanza
+              {t('treatmentRooms.addRoom')}
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* Dialog Aggiungi/Modifica */}
       <Dialog open={showAddDialog || !!editingRoom} onOpenChange={(open) => {
         if (!open) {
           setShowAddDialog(false);
@@ -301,33 +290,33 @@ export default function TreatmentRoomsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingRoom ? "Modifica Stanza" : "Aggiungi Stanza"}
+              {editingRoom ? t('treatmentRooms.editRoom') : t('treatmentRooms.addRoom')}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name">Nome Stanza *</Label>
+              <Label htmlFor="name">{t('treatmentRooms.nameLabel')}</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                placeholder="es. Cabina 1, Studio Principale, Sala Massaggi..."
+                placeholder={t('treatmentRooms.namePlaceholder')}
               />
             </div>
-            
+
             <div>
-              <Label htmlFor="description">Descrizione</Label>
+              <Label htmlFor="description">{t('treatmentRooms.descriptionLabel')}</Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                placeholder="Descrizione opzionale della stanza..."
+                placeholder={t('treatmentRooms.descriptionPlaceholder')}
                 rows={3}
               />
             </div>
-            
+
             <div>
-              <Label htmlFor="color">Colore Calendario</Label>
+              <Label htmlFor="color">{t('treatmentRooms.colorLabel')}</Label>
               <div className="flex flex-wrap gap-2 mt-2">
                 {PRESET_COLORS.map((color) => (
                   <button
@@ -338,6 +327,7 @@ export default function TreatmentRoomsPage() {
                     }`}
                     style={{ backgroundColor: color }}
                     onClick={() => setFormData(prev => ({ ...prev, color }))}
+                    aria-label={t('treatmentRooms.selectColor', { color })}
                   />
                 ))}
               </div>
@@ -357,45 +347,45 @@ export default function TreatmentRoomsPage() {
                 onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
                 className="rounded"
               />
-              <Label htmlFor="isActive">Stanza attiva</Label>
+              <Label htmlFor="isActive">{t('treatmentRooms.activeCheckbox')}</Label>
             </div>
-            
+
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => {
                 setShowAddDialog(false);
                 setEditingRoom(null);
                 resetForm();
               }}>
-                Annulla
+                {t('common.cancel')}
               </Button>
-              <Button 
+              <Button
                 onClick={handleSubmit}
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
-                {createMutation.isPending || updateMutation.isPending ? "Salvando..." : "Salva"}
+                {createMutation.isPending || updateMutation.isPending
+                  ? t('treatmentRooms.saving')
+                  : t('common.save')}
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* Dialog Conferma Eliminazione */}
       <AlertDialog open={!!deletingRoom} onOpenChange={() => setDeletingRoom(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Conferma Eliminazione</AlertDialogTitle>
+            <AlertDialogTitle>{t('treatmentRooms.confirmDeleteTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Sei sicuro di voler eliminare la stanza "{deletingRoom?.name}"?
-              Questa azione non può essere annullata.
+              {t('treatmentRooms.confirmDeleteDesc', { name: deletingRoom?.name ?? '' })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annulla</AlertDialogCancel>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deletingRoom && deleteMutation.mutate(deletingRoom.id)}
               className="bg-red-600 hover:bg-red-700"
             >
-              Elimina
+              {t('common.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

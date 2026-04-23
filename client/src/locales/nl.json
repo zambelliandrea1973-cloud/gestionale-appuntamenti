@@ -3348,7 +3348,8 @@
       "delete": "Kon ruimte niet verwijderen",
       "requiredName": "De naam van de ruimte is verplicht"
     },
-    "saving": "Opslaan..."
+    "saving": "Opslaan...",
+    "selectColor": "Kleur {{color}} selecteren"
   },
   "serviceManager": {
     "heading": "Beheer van behandelingen en diensten",
@@ -3604,7 +3605,9 @@
     "errMinLength": "Nieuw wachtwoord moet minstens 6 tekens lang zijn",
     "successTitle": "Wachtwoord bijgewerkt",
     "successDesc": "Uw wachtwoord is succesvol gewijzigd",
-    "errChange": "Fout bij wijzigen van wachtwoord"
+    "errChange": "Fout bij wijzigen van wachtwoord",
+    "showPassword": "Wachtwoord tonen",
+    "hidePassword": "Wachtwoord verbergen"
   },
   "paymentForm": {
     "invoice": "Factuur",

@@ -3348,7 +3348,8 @@
       "delete": "Impossibile eliminare la stanza",
       "requiredName": "Il nome della stanza è obbligatorio"
     },
-    "saving": "Salvando..."
+    "saving": "Salvando...",
+    "selectColor": "Seleziona colore {{color}}"
   },
   "serviceManager": {
     "heading": "Gestione Trattamenti e Servizi",
@@ -3604,7 +3605,9 @@
     "errMinLength": "La nuova password deve essere di almeno 6 caratteri",
     "successTitle": "Password aggiornata",
     "successDesc": "La tua password è stata cambiata con successo",
-    "errChange": "Errore durante il cambio password"
+    "errChange": "Errore durante il cambio password",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password"
   },
   "paymentForm": {
     "invoice": "Fattura",

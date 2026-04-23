@@ -3348,7 +3348,8 @@
       "delete": "Imposibil de șters camera",
       "requiredName": "Numele camerei este obligatoriu"
     },
-    "saving": "Se salvează..."
+    "saving": "Se salvează...",
+    "selectColor": "Selectează culoarea {{color}}"
   },
   "serviceManager": {
     "heading": "Gestionarea tratamentelor și serviciilor",
@@ -3604,7 +3605,9 @@
     "errMinLength": "Noua parolă trebuie să aibă cel puțin 6 caractere",
     "successTitle": "Parolă actualizată",
     "successDesc": "Parola a fost schimbată cu succes",
-    "errChange": "Eroare la schimbarea parolei"
+    "errChange": "Eroare la schimbarea parolei",
+    "showPassword": "Afișează parola",
+    "hidePassword": "Ascunde parola"
   },
   "paymentForm": {
     "invoice": "Factură",

@@ -3348,7 +3348,8 @@
       "delete": "Could not delete the room",
       "requiredName": "The room name is required"
     },
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "selectColor": "Select color {{color}}"
   },
   "serviceManager": {
     "heading": "Treatment and Service Management",
@@ -3604,7 +3605,9 @@
     "errMinLength": "New password must be at least 6 characters",
     "successTitle": "Password updated",
     "successDesc": "Your password has been changed successfully",
-    "errChange": "Error changing password"
+    "errChange": "Error changing password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "paymentForm": {
     "invoice": "Invoice",

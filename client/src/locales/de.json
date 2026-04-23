@@ -3348,7 +3348,8 @@
       "delete": "Raum konnte nicht gelöscht werden",
       "requiredName": "Der Raumname ist erforderlich"
     },
-    "saving": "Speichern..."
+    "saving": "Speichern...",
+    "selectColor": "Farbe {{color}} auswählen"
   },
   "serviceManager": {
     "heading": "Behandlungs- und Serviceverwaltung",
@@ -3604,7 +3605,9 @@
     "errMinLength": "Neues Passwort muss mindestens 6 Zeichen lang sein",
     "successTitle": "Passwort aktualisiert",
     "successDesc": "Ihr Passwort wurde erfolgreich geändert",
-    "errChange": "Fehler beim Ändern des Passworts"
+    "errChange": "Fehler beim Ändern des Passworts",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen"
   },
   "paymentForm": {
     "invoice": "Rechnung",

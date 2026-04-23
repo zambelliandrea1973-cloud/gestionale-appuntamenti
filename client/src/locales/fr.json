@@ -3348,7 +3348,8 @@
       "delete": "Impossible de supprimer la salle",
       "requiredName": "Le nom de la salle est obligatoire"
     },
-    "saving": "Enregistrement..."
+    "saving": "Enregistrement...",
+    "selectColor": "Sélectionner la couleur {{color}}"
   },
   "serviceManager": {
     "heading": "Gestion des traitements et services",
@@ -3604,7 +3605,9 @@
     "errMinLength": "Le nouveau mot de passe doit comporter au moins 6 caractères",
     "successTitle": "Mot de passe mis à jour",
     "successDesc": "Votre mot de passe a été modifié avec succès",
-    "errChange": "Erreur lors du changement de mot de passe"
+    "errChange": "Erreur lors du changement de mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "paymentForm": {
     "invoice": "Facture",

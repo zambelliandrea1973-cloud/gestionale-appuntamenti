@@ -3348,7 +3348,8 @@
       "delete": "No se pudo eliminar la sala",
       "requiredName": "El nombre de la sala es obligatorio"
     },
-    "saving": "Guardando..."
+    "saving": "Guardando...",
+    "selectColor": "Seleccionar color {{color}}"
   },
   "serviceManager": {
     "heading": "Gestión de tratamientos y servicios",
@@ -3604,7 +3605,9 @@
     "errMinLength": "La nueva contraseña debe tener al menos 6 caracteres",
     "successTitle": "Contraseña actualizada",
     "successDesc": "Tu contraseña se ha cambiado con éxito",
-    "errChange": "Error al cambiar la contraseña"
+    "errChange": "Error al cambiar la contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña"
   },
   "paymentForm": {
     "invoice": "Factura",

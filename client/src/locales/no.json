@@ -3348,7 +3348,8 @@
       "delete": "Kunne ikke slette rom",
       "requiredName": "Romnavn er påkrevd"
     },
-    "saving": "Lagrer..."
+    "saving": "Lagrer...",
+    "selectColor": "Velg farge {{color}}"
   },
   "serviceManager": {
     "heading": "Behandlings- og tjenesteadministrasjon",
@@ -3604,7 +3605,9 @@
     "errMinLength": "Nytt passord må være minst 6 tegn",
     "successTitle": "Passord oppdatert",
     "successDesc": "Passordet ditt er endret",
-    "errChange": "Feil ved endring av passord"
+    "errChange": "Feil ved endring av passord",
+    "showPassword": "Vis passord",
+    "hidePassword": "Skjul passord"
   },
   "paymentForm": {
     "invoice": "Faktura",
