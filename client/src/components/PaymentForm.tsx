@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,10 +42,10 @@ interface PaymentFormProps {
 }
 
 const formSchema = z.object({
-  invoiceId: z.string().min(1, { message: "La fattura è obbligatoria" }),
-  amount: z.string().min(1, { message: "L'importo è obbligatorio" }),
+  invoiceId: z.string().min(1, { message: "paymentForm.errInvoiceRequired" }),
+  amount: z.string().min(1, { message: "paymentForm.errAmountRequired" }),
   paymentDate: z.date(),
-  paymentMethod: z.string().min(1, { message: "Il metodo di pagamento è obbligatorio" }),
+  paymentMethod: z.string().min(1, { message: "paymentForm.errMethodRequired" }),
   reference: z.string().optional(),
   notes: z.string().optional(),
 });
@@ -56,6 +57,7 @@ export default function PaymentForm({
   onClose,
   onSuccess,
 }: PaymentFormProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -83,7 +85,6 @@ export default function PaymentForm({
 
   useEffect(() => {
     if (invoice) {
-      // Calcola il saldo e imposta l'importo predefinito
       const totalPaid = invoice.payments.reduce((sum: number, payment: any) => sum + payment.amount, 0);
       const balance = invoice.totalAmount - totalPaid;
       
@@ -100,15 +101,15 @@ export default function PaymentForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       toast({
-        title: "Pagamento registrato",
-        description: "Il pagamento è stato registrato con successo",
+        title: t("paymentForm.successTitle"),
+        description: t("paymentForm.successDesc"),
       });
       onSuccess();
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Non è stato possibile registrare il pagamento",
+        title: t("paymentForm.errorTitle"),
+        description: t("paymentForm.errorRecord"),
         variant: "destructive",
       });
     },
@@ -128,8 +129,8 @@ export default function PaymentForm({
       await createMutation.mutateAsync(paymentData);
     } catch (error) {
       toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante il salvataggio del pagamento",
+        title: t("paymentForm.errorTitle"),
+        description: t("paymentForm.errorSaving"),
         variant: "destructive",
       });
     }
@@ -141,9 +142,9 @@ export default function PaymentForm({
         <FormField
           control={form.control}
           name="invoiceId"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Fattura</FormLabel>
+              <FormLabel>{t("paymentForm.invoice")}</FormLabel>
               <Select
                 value={field.value}
                 onValueChange={field.onChange}
@@ -151,7 +152,7 @@ export default function PaymentForm({
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleziona fattura" />
+                    <SelectValue placeholder={t("paymentForm.selectInvoice")} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -162,7 +163,7 @@ export default function PaymentForm({
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
+              {fieldState.error?.message && <FormMessage>{t(fieldState.error.message)}</FormMessage>}
             </FormItem>
           )}
         />
@@ -171,13 +172,13 @@ export default function PaymentForm({
           <FormField
             control={form.control}
             name="amount"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Importo (€)</FormLabel>
+                <FormLabel>{t("paymentForm.amount")}</FormLabel>
                 <FormControl>
                   <Input {...field} type="number" min="0" step="0.01" />
                 </FormControl>
-                <FormMessage />
+                {fieldState.error?.message && <FormMessage>{t(fieldState.error.message)}</FormMessage>}
               </FormItem>
             )}
           />
@@ -185,9 +186,9 @@ export default function PaymentForm({
           <FormField
             control={form.control}
             name="paymentMethod"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Metodo di pagamento</FormLabel>
+                <FormLabel>{t("paymentForm.method")}</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
@@ -195,16 +196,16 @@ export default function PaymentForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleziona metodo" />
+                      <SelectValue placeholder={t("paymentForm.selectMethod")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="cash">Contanti</SelectItem>
-                    <SelectItem value="card">Carta</SelectItem>
-                    <SelectItem value="bank_transfer">Bonifico</SelectItem>
+                    <SelectItem value="cash">{t("paymentForm.cash")}</SelectItem>
+                    <SelectItem value="card">{t("paymentForm.card")}</SelectItem>
+                    <SelectItem value="bank_transfer">{t("paymentForm.bankTransfer")}</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
+                {fieldState.error?.message && <FormMessage>{t(fieldState.error.message)}</FormMessage>}
               </FormItem>
             )}
           />
@@ -216,7 +217,7 @@ export default function PaymentForm({
             name="paymentDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Data pagamento</FormLabel>
+                <FormLabel>{t("paymentForm.paymentDate")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -227,7 +228,7 @@ export default function PaymentForm({
                         {field.value ? (
                           format(field.value, "dd/MM/yyyy")
                         ) : (
-                          <span>Seleziona una data</span>
+                          <span>{t("paymentForm.selectDate")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -253,12 +254,12 @@ export default function PaymentForm({
             name="reference"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Riferimento</FormLabel>
+                <FormLabel>{t("paymentForm.reference")}</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Numero transazione, assegno, ecc." />
+                  <Input {...field} placeholder={t("paymentForm.referencePh")} />
                 </FormControl>
                 <FormDescription>
-                  Opzionale - Utile per bonifici o pagamenti con carta
+                  {t("paymentForm.referenceDesc")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -271,11 +272,11 @@ export default function PaymentForm({
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Note</FormLabel>
+              <FormLabel>{t("paymentForm.notes")}</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="Note aggiuntive per il pagamento"
+                  placeholder={t("paymentForm.notesPh")}
                 />
               </FormControl>
               <FormMessage />
@@ -287,20 +288,19 @@ export default function PaymentForm({
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-muted-foreground mb-2">
-                Registrando un pagamento, lo stato della fattura verrà
-                automaticamente aggiornato se il saldo è completamente pagato.
+                {t("paymentForm.infoText")}
               </p>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={onClose}>
-              Annulla
+              {t("paymentForm.cancel")}
             </Button>
             <Button
               type="submit"
               disabled={createMutation.isPending}
             >
-              {createMutation.isPending ? "Salvataggio..." : "Registra pagamento"}
+              {createMutation.isPending ? t("paymentForm.saving") : t("paymentForm.registerPayment")}
             </Button>
           </CardFooter>
         </Card>

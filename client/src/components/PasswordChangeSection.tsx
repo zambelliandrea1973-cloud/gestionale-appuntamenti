@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Eye, EyeOff, Lock, Shield } from "lucide-react";
 
 export default function PasswordChangeSection() {
+  const { t } = useTranslation();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,8 +25,8 @@ export default function PasswordChangeSection() {
     
     if (newPassword !== confirmPassword) {
       toast({
-        title: "Errore",
-        description: "Le nuove password non coincidono",
+        title: t("passwordChange.errorTitle"),
+        description: t("passwordChange.errMismatch"),
         variant: "destructive",
       });
       return;
@@ -32,8 +34,8 @@ export default function PasswordChangeSection() {
 
     if (newPassword.length < 6) {
       toast({
-        title: "Errore", 
-        description: "La nuova password deve essere di almeno 6 caratteri",
+        title: t("passwordChange.errorTitle"),
+        description: t("passwordChange.errMinLength"),
         variant: "destructive",
       });
       return;
@@ -49,8 +51,8 @@ export default function PasswordChangeSection() {
       
       if (response.ok) {
         toast({
-          title: "Password aggiornata",
-          description: "La tua password è stata cambiata con successo",
+          title: t("passwordChange.successTitle"),
+          description: t("passwordChange.successDesc"),
         });
         setCurrentPassword("");
         setNewPassword("");
@@ -58,15 +60,15 @@ export default function PasswordChangeSection() {
       } else {
         const error = await response.text();
         toast({
-          title: "Errore",
+          title: t("passwordChange.errorTitle"),
           description: error,
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Errore",
-        description: "Errore durante il cambio password",
+        title: t("passwordChange.errorTitle"),
+        description: t("passwordChange.errChange"),
         variant: "destructive",
       });
     } finally {
@@ -79,10 +81,10 @@ export default function PasswordChangeSection() {
       <CardHeader>
         <div className="flex items-center gap-2">
           <Shield className="h-5 w-5 text-blue-600" />
-          <CardTitle className="text-lg">Cambia Password</CardTitle>
+          <CardTitle className="text-lg">{t("passwordChange.title")}</CardTitle>
         </div>
         <p className="text-sm text-muted-foreground">
-          Aggiorna la tua password per mantenere sicuro il tuo account
+          {t("passwordChange.subtitle")}
         </p>
       </CardHeader>
       
@@ -90,20 +92,20 @@ export default function PasswordChangeSection() {
         <Alert className="mb-4">
           <Lock className="h-4 w-4" />
           <AlertDescription>
-            Per sicurezza, inserisci la password attuale prima di impostare quella nuova.
+            {t("passwordChange.alertText")}
           </AlertDescription>
         </Alert>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="currentPassword">Password Attuale</Label>
+            <Label htmlFor="currentPassword">{t("passwordChange.currentPassword")}</Label>
             <div className="relative">
               <Input
                 id="currentPassword"
                 type={showCurrentPassword ? "text" : "password"}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Inserisci la password attuale"
+                placeholder={t("passwordChange.currentPasswordPh")}
                 required
                 className="pr-10"
               />
@@ -122,14 +124,14 @@ export default function PasswordChangeSection() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="newPassword">Nuova Password</Label>
+            <Label htmlFor="newPassword">{t("passwordChange.newPassword")}</Label>
             <div className="relative">
               <Input
                 id="newPassword"
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Inserisci la nuova password"
+                placeholder={t("passwordChange.newPasswordPh")}
                 required
                 minLength={6}
                 className="pr-10"
@@ -149,14 +151,14 @@ export default function PasswordChangeSection() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Conferma Nuova Password</Label>
+            <Label htmlFor="confirmPassword">{t("passwordChange.confirmPassword")}</Label>
             <div className="relative">
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Conferma la nuova password"
+                placeholder={t("passwordChange.confirmPasswordPh")}
                 required
                 minLength={6}
                 className="pr-10"
@@ -180,17 +182,17 @@ export default function PasswordChangeSection() {
             className="w-full" 
             disabled={isLoading}
           >
-            {isLoading ? "Aggiornamento..." : "Aggiorna Password"}
+            {isLoading ? t("passwordChange.updating") : t("passwordChange.updateBtn")}
           </Button>
         </form>
 
         <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-          <h4 className="font-medium mb-2 text-sm">Consigli per una password sicura:</h4>
+          <h4 className="font-medium mb-2 text-sm">{t("passwordChange.tipsTitle")}</h4>
           <ul className="text-xs text-gray-600 space-y-1">
-            <li>• Usa almeno 8 caratteri</li>
-            <li>• Combina lettere maiuscole e minuscole</li>
-            <li>• Includi numeri e caratteri speciali</li>
-            <li>• Evita informazioni personali facilmente indovinabili</li>
+            <li>• {t("passwordChange.tip1")}</li>
+            <li>• {t("passwordChange.tip2")}</li>
+            <li>• {t("passwordChange.tip3")}</li>
+            <li>• {t("passwordChange.tip4")}</li>
           </ul>
         </div>
       </CardContent>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, Smartphone, Check, ExternalLink, Chrome, Share, Globe } from 'lucide-react';
@@ -27,6 +28,7 @@ declare global {
 }
 
 export function PwaInstallButton() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState<boolean>(false);
@@ -77,8 +79,8 @@ export function PwaInstallButton() {
       window.__pwaIsInstalled = true;
       
       toast({
-        title: "App installata",
-        description: "L'applicazione è stata installata con successo sul tuo dispositivo.",
+        title: t("pwaInstall.installed"),
+        description: t("pwaInstall.installedDesc"),
         variant: "default",
       });
     };
@@ -318,8 +320,8 @@ export function PwaInstallButton() {
         window.__pwaIsInstalled = true;
         
         toast({
-          title: "Installazione in corso",
-          description: "L'applicazione sta per essere installata sul tuo dispositivo.",
+          title: t("pwaInstall.installing"),
+          description: t("pwaInstall.installingDesc"),
           variant: "default",
         });
       } 
@@ -330,8 +332,8 @@ export function PwaInstallButton() {
     } catch (error) {
       console.error("Errore durante l'installazione dell'app:", error);
       toast({
-        title: "Errore di installazione",
-        description: "Si è verificato un errore durante l'installazione dell'app.",
+        title: t("pwaInstall.errorTitle"),
+        description: t("pwaInstall.installError"),
         variant: "destructive",
       });
     }
@@ -409,34 +411,33 @@ export function PwaInstallButton() {
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center">
             <Smartphone className="mr-2 h-5 w-5" />
-            {isInstalled ? "App Installata" : "Installa App sul Dispositivo"}
+            {isInstalled ? t("pwaInstall.installed") : t("pwaInstall.cardTitle", "Installa App sul Dispositivo")}
           </CardTitle>
           <CardDescription>
             {isInstalled 
-              ? "Hai già installato l'app sul tuo dispositivo" 
-              : "Installa l'app per un accesso più rapido e funzionalità offline"}
+              ? t("pwaInstall.cardAlreadyDesc", "Hai già installato l'app sul tuo dispositivo")
+              : t("pwaInstall.cardDesc", "Installa l'app per un accesso più rapido e funzionalità offline")}
           </CardDescription>
         </CardHeader>
         
         {!isInstalled && (
           <CardContent>
             <p className="text-sm mb-2">
-              L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, 
-              permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.
+              {t("pwaInstall.intro", "L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.")}
             </p>
             
             <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
               <p className="text-sm font-medium text-blue-700 mb-1">
-                Nota specifica per il tuo browser:
+                {t("pwaInstall.browserNote", "Nota specifica per il tuo browser:")}
               </p>
               {getBrowserSpecificNote()}
             </div>
             
             <ul className="text-sm list-disc pl-5 space-y-1">
-              <li>Accesso con un solo tocco</li>
-              <li>Funziona anche offline</li>
-              <li>Nessuna app da scaricare dagli store</li>
-              <li>Occupazione minima della memoria</li>
+              <li>{t("pwaInstall.feature1", "Accesso con un solo tocco")}</li>
+              <li>{t("pwaInstall.feature2", "Funziona anche offline")}</li>
+              <li>{t("pwaInstall.feature3", "Nessuna app da scaricare dagli store")}</li>
+              <li>{t("pwaInstall.feature4", "Occupazione minima della memoria")}</li>
             </ul>
           </CardContent>
         )}
@@ -445,7 +446,7 @@ export function PwaInstallButton() {
           {isInstalled ? (
             <div className="w-full flex items-center justify-center text-green-600">
               <Check className="h-5 w-5 mr-2" />
-              <span>App installata sul dispositivo</span>
+              <span>{t("pwaInstall.installedOnDevice", "App installata sul dispositivo")}</span>
             </div>
           ) : (
             <Button 
@@ -454,7 +455,7 @@ export function PwaInstallButton() {
               variant="default"
             >
               <Download className="mr-2 h-4 w-4" />
-              Installa App sul Dispositivo
+              {t("pwaInstall.installButton")}
             </Button>
           )}
         </CardFooter>
@@ -466,10 +467,10 @@ export function PwaInstallButton() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Smartphone className="h-5 w-5 text-primary" />
-              Seleziona il tuo browser
+              {t("pwaInstall.selectBrowser")}
             </DialogTitle>
             <DialogDescription>
-              Seleziona il browser che stai utilizzando per ricevere istruzioni personalizzate
+              {t("pwaInstall.selectBrowserDesc")}
             </DialogDescription>
           </DialogHeader>
           
@@ -525,7 +526,7 @@ export function PwaInstallButton() {
               onClick={() => handleBrowserSelection('other')}
             >
               <Smartphone className="h-8 w-8 text-gray-500" />
-              <span>Altro</span>
+              <span>{t("pwaInstall.browserOther")}</span>
             </Button>
           </div>
           
@@ -536,7 +537,7 @@ export function PwaInstallButton() {
               onClick={() => setShowBrowserSelector(false)}
               className="w-full sm:w-auto"
             >
-              Annulla
+              {t("pwaInstall.cancel")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -548,10 +549,10 @@ export function PwaInstallButton() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {dialogInstructions && renderBrowserIcon(dialogInstructions.browser)}
-              {dialogInstructions?.title || "Istruzioni di installazione"}
+              {dialogInstructions?.title || t("pwaInstall.instructionsTitle")}
             </DialogTitle>
             <DialogDescription>
-              Segui questi passaggi per installare l'app sul tuo dispositivo
+              {t("pwaInstall.instructionsDesc")}
             </DialogDescription>
           </DialogHeader>
           
@@ -573,7 +574,7 @@ export function PwaInstallButton() {
               {/* Mostriamo istruzioni alternative per browser speciali come DuckDuckGo */}
               {dialogInstructions.alternativeInstructions && dialogInstructions.alternativeInstructions.length > 0 && (
                 <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
-                  <p className="font-medium text-amber-800 mb-2">Informazioni aggiuntive:</p>
+                  <p className="font-medium text-amber-800 mb-2">{t("pwaInstall.additionalInfo")}</p>
                   <ul className="text-sm text-amber-700 space-y-1 list-disc pl-5">
                     {dialogInstructions.alternativeInstructions.map((info, index) => (
                       <li key={index}>{info}</li>
@@ -591,7 +592,7 @@ export function PwaInstallButton() {
               onClick={() => setOpenDialog(false)}
               className="w-full sm:w-auto"
             >
-              Ho capito
+              {t("pwaInstall.understood")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -14,6 +14,7 @@ import { CreditCard, Banknote, Settings, Shield, AlertCircle, CheckCircle, Euro 
 import { useToast } from "@/hooks/use-toast";
 import { useCurrency } from "@/hooks/use-currency";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useTranslation } from "react-i18next";
 
 interface BankingSettings {
   bankName: string;
@@ -31,6 +32,7 @@ interface BankingSettings {
 export default function BankingSettingsPage() {
   console.log('✅ ✅ ✅ NUOVO CODICE BANKING CARICATO! V3.0 - BUG FIXED ✅ ✅ ✅');
   
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { symbol } = useCurrency();
   const [settings, setSettings] = useState<BankingSettings | null>(null);
@@ -56,16 +58,16 @@ export default function BankingSettingsPage() {
     onSuccess: () => {
       console.log('🏦 [MUTATION] Salvataggio completato con successo!');
       toast({
-        title: "Impostazioni salvate",
-        description: "Le impostazioni bancarie sono state aggiornate con successo",
+        title: t("common.saved", "Impostazioni salvate"),
+        description: t("bankingSettings.savedDesc", "Le impostazioni bancarie sono state aggiornate con successo"),
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/banking-settings'] });
     },
     onError: (error) => {
       console.error('🏦 [MUTATION] Errore salvataggio:', error);
       toast({
-        title: "Errore",
-        description: "Impossibile salvare le impostazioni bancarie",
+        title: t("common.error", "Errore"),
+        description: t("bankingSettings.errorSave", "Impossibile salvare le impostazioni bancarie"),
         variant: "destructive",
       });
     },
@@ -78,14 +80,14 @@ export default function BankingSettingsPage() {
     },
     onSuccess: (data) => {
       toast({
-        title: "Test completato",
-        description: data.message || "Il sistema di pagamento è configurato correttamente",
+        title: t("bankingSettings.testOk", "Test completato"),
+        description: data.message || t("bankingSettings.testOkDesc", "Il sistema di pagamento è configurato correttamente"),
       });
     },
     onError: () => {
       toast({
-        title: "Test fallito",
-        description: "Verifica la configurazione dei dati bancari",
+        title: t("bankingSettings.testFail", "Test fallito"),
+        description: t("bankingSettings.testFailDesc", "Verifica la configurazione dei dati bancari"),
         variant: "destructive",
       });
     },
@@ -112,7 +114,7 @@ export default function BankingSettingsPage() {
   if (isLoading || !settings) {
     return (
       <div className="container mx-auto py-6">
-        <div className="text-center">Caricamento impostazioni bancarie...</div>
+        <div className="text-center">{t("bankingSettings.loading")}</div>
       </div>
     );
   }
@@ -122,9 +124,9 @@ export default function BankingSettingsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Configurazione Pagamenti</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t("bankingSettings.title")}</h1>
           <p className="text-muted-foreground mt-1">
-            Gestisci i dati bancari per i pagamenti automatici delle commissioni referral
+            {t("bankingSettings.subtitle")}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -137,7 +139,7 @@ export default function BankingSettingsPage() {
             ) : (
               <AlertCircle className="h-3 w-3" />
             )}
-            {settings.isConfigured ? "Configurato" : "Non configurato"}
+            {settings.isConfigured ? t("bankingSettings.configured") : t("bankingSettings.notConfigured")}
           </Badge>
         </div>
       </div>
@@ -146,8 +148,7 @@ export default function BankingSettingsPage() {
       <Alert>
         <Shield className="h-4 w-4" />
         <AlertDescription>
-          Questi dati vengono utilizzati per elaborare automaticamente i pagamenti delle commissioni referral allo staff. 
-          Tutti i dati sono crittografati e conservati in sicurezza.
+          {t("bankingSettings.alertSecurity")}
         </AlertDescription>
       </Alert>
 
@@ -157,13 +158,13 @@ export default function BankingSettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5" />
-              Dati Bancari
+              {t("bankingSettings.bankDataTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={(e) => { e.preventDefault(); handleSaveSettings(); }} className="space-y-4">
               <div className="grid gap-2">
-                <Label htmlFor="bankName">Nome Banca</Label>
+                <Label htmlFor="bankName">{t("bankingSettings.bankName")}</Label>
                 <Input
                   id="bankName"
                   value={settings.bankName}
@@ -174,18 +175,18 @@ export default function BankingSettingsPage() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="accountHolder">Intestatario Conto</Label>
+                <Label htmlFor="accountHolder">{t("bankingSettings.accountHolder")}</Label>
                 <Input
                   id="accountHolder"
                   value={settings.accountHolder}
                   onChange={(e) => updateField('accountHolder', e.target.value)}
-                  placeholder="Nome e Cognome / Ragione Sociale"
+                  placeholder={t("bankingSettings.accountHolderPh")}
                   autoComplete="off"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="iban">IBAN</Label>
+                <Label htmlFor="iban">{t("bankingSettings.iban")}</Label>
                 <Input
                   id="iban"
                   type="text"
@@ -197,7 +198,7 @@ export default function BankingSettingsPage() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="bic">BIC/SWIFT</Label>
+                <Label htmlFor="bic">{t("bankingSettings.bicSwift")}</Label>
                 <Input
                   id="bic"
                   value={settings.bic}
@@ -208,12 +209,12 @@ export default function BankingSettingsPage() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="address">Indirizzo</Label>
+                <Label htmlFor="address">{t("bankingSettings.address")}</Label>
                 <Textarea
                   id="address"
                   value={settings.address}
                   onChange={(e) => updateField('address', e.target.value)}
-                  placeholder="Indirizzo completo per fatturazione"
+                  placeholder={t("bankingSettings.addressPh")}
                   rows={3}
                 />
               </div>
@@ -223,7 +224,7 @@ export default function BankingSettingsPage() {
                 className="w-full"
                 disabled={updateBankingMutation.isPending}
               >
-                {updateBankingMutation.isPending ? "Salvando..." : "Salva Dati Bancari"}
+                {updateBankingMutation.isPending ? t("bankingSettings.saving") : t("bankingSettings.saveBankData")}
               </Button>
             </form>
           </CardContent>
@@ -234,16 +235,16 @@ export default function BankingSettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Settings className="h-5 w-5" />
-              Pagamenti Automatici
+              {t("bankingSettings.autoPaymentsTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Pagamenti Automatici</Label>
+                  <Label>{t("bankingSettings.autoPayLabel")}</Label>
                   <p className="text-sm text-muted-foreground">
-                    Abilita i pagamenti automatici delle commissioni
+                    {t("bankingSettings.autoPayDesc")}
                   </p>
                 </div>
                 <Switch 
@@ -255,7 +256,7 @@ export default function BankingSettingsPage() {
               <Separator />
 
               <div className="grid gap-2">
-                <Label htmlFor="paymentDelay">Ritardo Pagamento (giorni)</Label>
+                <Label htmlFor="paymentDelay">{t("bankingSettings.paymentDelay")}</Label>
                 <Input
                   id="paymentDelay"
                   type="number"
@@ -266,12 +267,12 @@ export default function BankingSettingsPage() {
                   placeholder="30"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Giorni di attesa prima di processare il pagamento
+                  {t("bankingSettings.paymentDelayDesc")}
                 </p>
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="minimumAmount">Importo Minimo ({symbol})</Label>
+                <Label htmlFor="minimumAmount">{t("bankingSettings.minimumAmount", { symbol })}</Label>
                 <Input
                   id="minimumAmount"
                   type="number"
@@ -282,17 +283,17 @@ export default function BankingSettingsPage() {
                   placeholder="1.00"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Importo minimo per processare un pagamento
+                  {t("bankingSettings.minimumAmountDesc")}
                 </p>
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="description">Descrizione Pagamento</Label>
+                <Label htmlFor="description">{t("bankingSettings.description")}</Label>
                 <Input
                   id="description"
                   value={settings.description}
                   onChange={(e) => updateField('description', e.target.value)}
-                  placeholder="Descrizione che apparirà nei bonifici"
+                  placeholder={t("bankingSettings.descriptionPh")}
                 />
               </div>
 
@@ -303,7 +304,7 @@ export default function BankingSettingsPage() {
                 className="w-full"
                 disabled={updateBankingMutation.isPending}
               >
-                {updateBankingMutation.isPending ? "Salvando..." : "Salva Configurazione"}
+                {updateBankingMutation.isPending ? t("bankingSettings.saving") : t("bankingSettings.saveConfig")}
               </Button>
             </div>
           </CardContent>
@@ -317,12 +318,12 @@ export default function BankingSettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Banknote className="h-5 w-5" />
-              Test Sistema
+              {t("bankingSettings.testTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Verifica che la configurazione sia corretta eseguendo un test del sistema di pagamento.
+              {t("bankingSettings.testDesc")}
             </p>
             
             <Button 
@@ -330,7 +331,7 @@ export default function BankingSettingsPage() {
               disabled={testPaymentMutation.isPending || !settings.isConfigured}
               className="w-full"
             >
-              {testPaymentMutation.isPending ? "Test in corso..." : "Testa Configurazione"}
+              {testPaymentMutation.isPending ? t("bankingSettings.testRunning") : t("bankingSettings.testButton")}
             </Button>
           </CardContent>
         </Card>
@@ -340,26 +341,25 @@ export default function BankingSettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Euro className="h-5 w-5" />
-              Riepilogo Commissioni
+              {t("bankingSettings.summaryTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div className="space-y-1">
                 <div className="text-2xl font-bold text-green-600">{symbol}1.00</div>
-                <div className="text-sm text-muted-foreground">Per abbonamento</div>
+                <div className="text-sm text-muted-foreground">{t("bankingSettings.perSubscription")}</div>
               </div>
               <div className="space-y-1">
                 <div className="text-2xl font-bold text-blue-600">30</div>
-                <div className="text-sm text-muted-foreground">Giorni di attesa</div>
+                <div className="text-sm text-muted-foreground">{t("bankingSettings.waitingDays")}</div>
               </div>
             </div>
             
             <Separator />
             
             <div className="text-sm text-muted-foreground">
-              Le commissioni vengono pagate automaticamente 30 giorni dopo ogni abbonamento sponsorizzato, 
-              a partire dal terzo abbonamento per ogni membro dello staff.
+              {t("bankingSettings.footerText")}
             </div>
           </CardContent>
         </Card>
