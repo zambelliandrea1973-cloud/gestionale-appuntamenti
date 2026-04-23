@@ -39,6 +39,16 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - **Rischio**: Modifica delicata, da fare solo dopo fase test completata
 - **Workaround attuale**: Il nome sotto l'icona è diverso per ogni professionista
 
+### TODO: Multi-Calendar Sync per Staff (feature premium futura)
+- **Stato**: Richiesta dall'utente il 23 apr 2026 — DA RIPROPORRE quando iniziano le registrazioni nuove
+- **Idea**: Permettere a ogni professionista di uno studio (es. 10 staff) di collegare il PROPRIO Google Calendar
+- **Oggi**: 1 account utente → 1 sincronizzazione Google Calendar (solo titolare)
+- **Domani**: ogni staff sincronizza il suo Gmail, gli appuntamenti vanno al calendario del professionista assegnato
+- **Vista calendario**: filtri colorati per staff, toggle on/off, vista "resource view" (colonne affiancate per professionista)
+- **Posizionamento commerciale**: feature premium / piano "Studio Pro" superiore a quello attuale
+- **Considerazioni**: gestione conflitti slot, monitoraggio quota OAuth Google con molti account collegati
+- **QUANDO RIPROPORRE**: appena vediamo nuove registrazioni stabili dopo le modifiche di onboarding del 23 apr 2026
+
 ### TODO: Drag & Drop appuntamenti nel calendario (dopo pubblicazione)
 - **Funzionalità**: Trascinare gli appuntamenti con il dito per spostarli su altri orari/giorni
 - **Rischio**: Alto — il calendario è il componente più critico (appuntamenti, notifiche, Google Sync, multi-stanza)
