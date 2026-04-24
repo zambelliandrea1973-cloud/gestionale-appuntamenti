@@ -1,0 +1,176 @@
+🎯 OBIETTIVO DEL DEMO
+👉 Primo appuntamento creato senza pensare
+
+🧱 STRUTTURA DEMO (DA IMPLEMENTARE)
+1) DATI PRECARICATI
+Clienti (minimo 2)
+
+
+Mario Rossi
+
+
+Giulia Bianchi
+
+
+👉 [INFERRED] nomi reali italiani → maggiore familiarità
+
+Servizi (max 3)
+
+
+Taglio capelli – 30 min – 25€
+
+
+Colore – 60 min – 50€
+
+
+Consulenza – 30 min – 0€
+
+
+👉 pochi, chiari, immediati
+
+Agenda (fondamentale)
+👉 NON deve essere vuota
+Precarica:
+
+
+09:00 → Mario Rossi (Taglio)
+
+
+11:00 → Giulia Bianchi (Colore)
+
+
+👉 [VERIFIED UX principle] empty state = drop
+
+⚡ 2) PRIMA ESPERIENZA (FLOW PERFETTO)
+Appena entra:
+❌ niente popup bloccante
+❌ niente checklist
+
+SOPRA IL CALENDARIO:
+🔥 Banner (visibile subito)
+
+“Prova subito: crea un appuntamento in 5 secondi”
+
+👉 bottone:
+“+ Crea appuntamento”
+
+⚡ 3) CREAZIONE APPUNTAMENTO (ULTRA SEMPLIFICATA)
+Quando clicca uno slot:
+POPUP OTTIMIZZATO:
+Precompilato:
+
+
+Cliente → Mario Rossi
+
+
+Servizio → Taglio capelli
+
+
+Durata → già impostata
+
+
+Notifica → WhatsApp ON
+
+
+
+Utente deve solo:
+👉 cliccare:
+“Conferma appuntamento”
+
+🎯 RISULTATO
+👉 vede lo slot riempirsi
+
+💥 QUESTO È IL “WOW MOMENT”
+👉 “ok, funziona davvero”
+
+⚠️ DOPO IL WOW (IMPORTANTE)
+Subito dopo:
+piccolo messaggio (non invasivo):
+
+“Ora personalizza i tuoi clienti e servizi”
+
+👉 bottoni:
+
+
+Aggiungi cliente reale
+
+
+Modifica servizi
+
+
+
+🚫 COSA NON DEVI PIÙ FARE
+❌ obbligare:
+
+
+dati azienda
+
+
+servizi
+
+
+clienti
+
+
+orari
+
+
+SUBITO
+
+🧠 4) ONBOARDING CORRETTO (NUOVA VERSIONE)
+Trasforma il tuo popup in:
+👉 checklist laterale o in alto
+esempio:
+
+
+✔ crea primo appuntamento
+
+
+☐ aggiungi cliente
+
+
+☐ configura servizi
+
+
+☐ imposta orari
+
+
+👉 progressiva, non bloccante
+
+🔥 5) MICRO COPY (IMPORTANTISSIMA)
+Cambia testi:
+❌ ora:
+“Crea account”
+✔ nuovo:
+👉 “Prova subito (senza configurazione)”
+
+❌ ora:
+“Vai ai clienti”
+✔ nuovo:
+👉 “Aggiungi cliente reale”
+
+📊 IMPATTO ATTESO
+[INFERRED ma realistico]
+
+
+utenti attivi ↑ 2x – 4x
+
+
+abbandono ↓ drastico
+
+
+conversione trial ↑
+
+
+
+💣 SINTESI
+👉 NON stai cambiando il prodotto
+👉 stai cambiando l’ordine mentale
+
+🚀 SE VUOI IL LIVELLO SUCCESSIVO
+Posso dirti:
+👉 dove inserire il trigger per farli pagare (timing perfetto)
+👉 come usare WhatsApp per aumentare retention
+👉 pricing + upsell automatico
+Scrivi: “ottimizza monetizzazione”
+e passiamo allo step che ti fa guadagnare davvero.
