@@ -39,7 +39,6 @@ import { apiRequest } from "@/lib/queryClient";
 import { Link } from "wouter";
 import { useManualSection } from "@/hooks/use-manual-section";
 import { ManualSection } from "@/components/ManualSection";
-import { MANUAL_SECTIONS } from "@shared/manualSections";
 
 interface ManualMedia {
   type: 'image' | 'video';
@@ -59,42 +58,35 @@ interface EditableSection {
   steps: ManualStep[];
 }
 
-// Registry centralizzato con tutto il contenuto hardcoded
-const manualSections: Record<string, EditableSection> = {
-  'section-1-1': {
-    title: 'Primo Accesso al Sistema',
+// Helper per costruire snapshot della sezione dai contenuti i18n
+const buildSectionSnapshot = (
+  sectionKey: string,
+  t: (key: string) => string
+): EditableSection | null => {
+  if (sectionKey !== 'section-1-1') return null;
+  return {
+    title: t('manual.page.fallback.s11.title'),
     steps: [
       {
         stepNumber: 1,
-        title: 'Video Tutorial',
-        content: 'Video Tutorial: Come accedere per la prima volta',
+        title: t('manual.page.fallback.s11.step1Title'),
+        content: t('manual.page.fallback.s11.step1Content'),
         mediaFiles: []
       },
       {
         stepNumber: 2,
-        title: 'Procedura di Accesso',
-        content: `1. Apri il browser e vai all'indirizzo fornito dal tuo amministratore
-2. Inserisci le credenziali di accesso (username e password)
-3. Al primo accesso, ti verrà mostrato questo manuale automaticamente
-4. Puoi accedere nuovamente al manuale in qualsiasi momento dal menu Impostazioni`,
+        title: t('manual.page.fallback.s11.step2Title'),
+        content: t('manual.page.fallback.s11.step2Content'),
         mediaFiles: []
       },
       {
         stepNumber: 3,
-        title: 'Suggerimento',
-        content: '💡 Suggerimento: Aggiungi il sito ai preferiti del browser per un accesso rapido!',
+        title: t('manual.page.fallback.s11.step3Title'),
+        content: t('manual.page.fallback.s11.step3Content'),
         mediaFiles: []
       }
     ]
-  }
-};
-
-// Helper per ottenere snapshot della sezione con deep clone
-const getSectionSnapshot = (sectionKey: string): EditableSection | null => {
-  const original = manualSections[sectionKey];
-  if (!original) return null;
-  // Deep clone per evitare mutazioni accidentali
-  return JSON.parse(JSON.stringify(original));
+  };
 };
 
 // Helper per renderizzare blocchi PWA da i18n
@@ -199,19 +191,21 @@ export default function ManualePage() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Upload fallito: ${errorText || response.statusText}`);
+        throw new Error(`${t('manual.page.toasts.uploadFailedPrefix')}: ${errorText || response.statusText}`);
       }
       return response.json();
     },
     onSuccess: (data) => {
       toast({
-        title: "✅ File caricato",
-        description: `File ${data.file.type === 'image' ? 'immagine' : 'video'} caricato con successo`,
+        title: t('manual.page.toasts.uploadSuccessTitle'),
+        description: data.file.type === 'image'
+          ? t('manual.page.toasts.uploadSuccessImage')
+          : t('manual.page.toasts.uploadSuccessVideo'),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "❌ Errore upload",
+        title: t('manual.page.toasts.uploadErrorTitle'),
         description: error.message,
         variant: "destructive"
       });
@@ -225,13 +219,13 @@ export default function ManualePage() {
       const response = await apiRequest('POST', '/api/manual/content', data);
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Errore durante il salvataggio');
+        throw new Error(error.error || t('manual.page.toasts.saveErrorDefault'));
       }
       return response.json();
     },
     onError: (error: Error) => {
       toast({
-        title: "❌ Errore",
+        title: t('manual.page.toasts.saveErrorTitle'),
         description: error.message,
         variant: "destructive"
       });
@@ -242,7 +236,7 @@ export default function ManualePage() {
   const startEditingSection = async (sectionKey: string) => {
     try {
       // Prova a caricare il contenuto salvato dal database
-      const response = await fetch(`/api/manual/content/${sectionKey}/it`);
+      const response = await fetch(`/api/manual/content/${sectionKey}/${i18n.language}`);
       
       let sectionData: EditableSection | null = null;
       
@@ -254,21 +248,21 @@ export default function ManualePage() {
           steps: saved.steps
         };
         toast({
-          title: "📖 Contenuto caricato",
-          description: "Modifiche precedenti caricate dal database",
+          title: t('manual.page.toasts.loadedTitle'),
+          description: t('manual.page.toasts.loadedDesc'),
         });
       } else if (response.status === 404) {
         // 404 = Nessun contenuto salvato, usa default hardcoded (sicuro)
-        sectionData = getSectionSnapshot(sectionKey);
+        sectionData = buildSectionSnapshot(sectionKey, t);
         toast({
-          title: "📝 Contenuto di default",
-          description: "Modifica il contenuto predefinito",
+          title: t('manual.page.toasts.defaultTitle'),
+          description: t('manual.page.toasts.defaultDesc'),
         });
       } else {
         // Altro errore (500, 403, etc) = ABORT edit, non usare default!
         toast({
-          title: "❌ Errore caricamento",
-          description: `Impossibile caricare il contenuto (${response.status}). Riprova più tardi.`,
+          title: t('manual.page.toasts.loadErrorTitle'),
+          description: t('manual.page.toasts.loadErrorDesc', { status: response.status }),
           variant: "destructive"
         });
         return; // ABORT - non entrare in edit mode!
@@ -284,8 +278,8 @@ export default function ManualePage() {
     } catch (error) {
       // Errore di rete = ABORT edit, non usare default!
       toast({
-        title: "❌ Errore di connessione",
-        description: "Impossibile caricare il contenuto. Verifica la connessione e riprova.",
+        title: t('manual.page.toasts.connErrorTitle'),
+        description: t('manual.page.toasts.connErrorDesc'),
         variant: "destructive"
       });
       // NON entrare in edit mode, NON usare default hardcoded!
@@ -337,8 +331,8 @@ export default function ManualePage() {
     
     if (sectionsToSave.length === 0) {
       toast({
-        title: "⚠️ Nessuna modifica",
-        description: "Non ci sono modifiche da salvare",
+        title: t('manual.page.toasts.noChangesTitle'),
+        description: t('manual.page.toasts.noChangesDesc'),
         variant: "destructive"
       });
       return;
@@ -349,8 +343,8 @@ export default function ManualePage() {
       const section = editableContent[sectionKey];
       if (!section || !section.title) {
         toast({
-          title: "⚠️ Titolo obbligatorio",
-          description: `Inserisci il titolo della sezione "${sectionKey}"`,
+          title: t('manual.page.toasts.missingTitleTitle'),
+          description: t('manual.page.toasts.missingTitleDesc', { section: sectionKey }),
           variant: "destructive"
         });
         return;
@@ -361,7 +355,7 @@ export default function ManualePage() {
     try {
       const savePromises = sectionsToSave.map(async (sectionKey) => {
         const editedSection = editableContent[sectionKey];
-        const originalSnapshot = getSectionSnapshot(sectionKey);
+        const originalSnapshot = buildSectionSnapshot(sectionKey, t);
         
         // Merge: preserva step originali non modificati
         const mergedSteps = originalSnapshot 
@@ -370,7 +364,7 @@ export default function ManualePage() {
         
         return saveContentMutation.mutateAsync({
           section: sectionKey,
-          locale: 'it',
+          locale: i18n.language,
           title: editedSection.title,
           steps: mergedSteps
         });
@@ -380,8 +374,10 @@ export default function ManualePage() {
       
       // Singolo toast success DOPO batch save
       toast({
-        title: "✅ Salvato",
-        description: `${sectionsToSave.length} ${sectionsToSave.length === 1 ? 'sezione salvata' : 'sezioni salvate'} con successo`,
+        title: t('manual.page.toasts.savedTitle'),
+        description: sectionsToSave.length === 1
+          ? t('manual.page.toasts.savedDescOne', { count: sectionsToSave.length })
+          : t('manual.page.toasts.savedDescMany', { count: sectionsToSave.length }),
       });
       
       // Reset state
@@ -431,191 +427,9 @@ export default function ManualePage() {
 
   const handleDownloadPDF = async () => {
     toast({
-      title: "Funzionalità in sviluppo",
-      description: "L'export PDF sarà disponibile a breve. Per ora consulta il manuale online.",
+      title: t('manual.page.toasts.pdfPendingTitle'),
+      description: t('manual.page.toasts.pdfPendingDesc'),
     });
-    return;
-    
-    // PDF export verrà implementato in un secondo momento
-    // quando risolviamo le dipendenze di pdfmake
-    /* try {
-      const docDefinition: any = {
-        content: [
-          { text: 'Manuale d\'Uso - Gestionale Appuntamenti', style: 'header', margin: [0, 0, 0, 20] },
-          { text: 'Guida completa all\'utilizzo del gestionale per la tua pratica medica', style: 'subheader', margin: [0, 0, 0, 30] },
-          
-          { text: 'PRIMI PASSI', style: 'sectionHeader', pageBreak: 'before' },
-          
-          { text: '1.1 Primo Accesso al Sistema', style: 'subsectionHeader' },
-          { text: 'Procedura di accesso:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: [
-            'Apri il browser e vai all\'indirizzo fornito dal tuo amministratore',
-            'Inserisci le credenziali di accesso (username e password)',
-            'Al primo accesso, ti verrà mostrato un tour guidato automaticamente',
-            'Puoi accedere nuovamente al manuale in qualsiasi momento dal menu'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '1.2 Configurare i Dati Aziendali', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Impostazioni', margin: [0, 5, 0, 5] },
-          { text: 'Tab Generali:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: ['Nome Azienda', 'Servizi Offerti', 'Valuta di riferimento'], margin: [0, 0, 0, 10] },
-          { text: 'Tab Contatti:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: ['Email', 'Telefono', 'Indirizzo', 'Sito Web', 'Social Media'], margin: [0, 0, 0, 10] },
-          { text: 'Tab Aspetto:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: ['Logo/Icona', 'Colori brand', 'Tema chiaro o scuro'], margin: [0, 0, 0, 15] },
-          
-          { text: '1.3 Configurare i Dati Bancari', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Banking Settings', margin: [0, 5, 0, 5] },
-          { ul: ['Nome Banca', 'IBAN', 'BIC/SWIFT', 'Intestatario conto'], margin: [0, 0, 0, 15] },
-          
-          { text: 'OPERAZIONI QUOTIDIANE', style: 'sectionHeader', pageBreak: 'before' },
-          
-          { text: '2.1 Gestione Clienti', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Clienti', margin: [0, 5, 0, 5] },
-          { text: 'Aggiungere un nuovo cliente:', bold: true, margin: [0, 10, 0, 5] },
-          { ol: [
-            'Clicca su "+ Nuovo Cliente"',
-            'Compila dati anagrafici (nome, email, telefono, codice fiscale)',
-            'Salva il cliente',
-            'Il sistema genera un QR code univoco per l\'accesso cliente'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '2.2 Calendario e Appuntamenti', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Calendario', margin: [0, 5, 0, 5] },
-          { text: 'Creare un appuntamento:', bold: true, margin: [0, 10, 0, 5] },
-          { ol: [
-            'Clicca su uno slot orario vuoto',
-            'Seleziona il cliente',
-            'Scegli il servizio',
-            'Seleziona la stanza (opzionale)',
-            'Conferma l\'appuntamento'
-          ], margin: [0, 0, 0, 10] },
-          { text: 'Il cliente riceverà automaticamente una conferma via email.', italics: true, margin: [0, 0, 0, 15] },
-          
-          { text: '2.3 Gestione Fatture', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Fatture', margin: [0, 5, 0, 5] },
-          { text: 'Creare una fattura:', bold: true, margin: [0, 10, 0, 5] },
-          { ol: [
-            'Clicca su "+ Nuova Fattura"',
-            'Seleziona il cliente',
-            'Aggiungi servizi con quantità e prezzi',
-            'Il sistema calcola automaticamente totale e IVA',
-            'Invia via Email, WhatsApp o stampa'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: 'FUNZIONI AVANZATE', style: 'sectionHeader', pageBreak: 'before' },
-          
-          { text: '3.1 Gestione Inventario', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Inventario', margin: [0, 5, 0, 5] },
-          { ul: [
-            'Aggiungi prodotti con nome, categoria, prezzo e foto',
-            'Gestisci categorie con colori identificativi',
-            'Monitora scorte e ricevi alert automatici',
-            'Traccia movimenti di carico e scarico'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '3.2 Report e Statistiche', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Report', margin: [0, 5, 0, 5] },
-          { text: 'Report disponibili:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: [
-            'Report Finanziario (fatturato, incassi, crediti)',
-            'Report Appuntamenti (statistiche prenotazioni)',
-            'Report Clienti (nuovi, attivi, inattivi)',
-            'Report Servizi (servizi più richiesti)',
-            'Report Inventario (valore magazzino)'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '3.3 Campagne Marketing con AI', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Marketing Campaigns', margin: [0, 5, 0, 5] },
-          { ul: [
-            'Crea campagne promozionali con AI Assistant',
-            'Invia via Email e/o WhatsApp',
-            'Genera link promozionali pubblici con media incorporati',
-            'Monitora aperture, click e conversioni',
-            'Traccia ROI delle campagne'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '3.4 Sistema Referral e Commissioni', style: 'subsectionHeader' },
-          { text: 'Percorso: Menu principale → Referral', margin: [0, 5, 0, 5] },
-          { ul: [
-            '25% di commissione su ogni abbonamento venduto',
-            'Pagamento una tantum per piani annuali',
-            'Pagamento ricorrente mensile per piani mensili',
-            'Condividi il tuo link personale unico',
-            'Monitora click, conversioni e commissioni maturate'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: 'AREA CLIENTE PWA', style: 'sectionHeader', pageBreak: 'before' },
-          
-          { text: '4.1 Accesso Cliente', style: 'subsectionHeader' },
-          { text: 'I clienti accedono tramite:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: [
-            'QR Code personale (scansione con smartphone)',
-            'Link diretto inviato via email/WhatsApp'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '4.2 Funzionalità Area Cliente', style: 'subsectionHeader' },
-          { text: 'Cosa possono fare i clienti:', bold: true, margin: [0, 10, 0, 5] },
-          { ul: [
-            'Visualizzare appuntamenti passati e futuri',
-            'Scaricare fatture in PDF',
-            'Consultare documenti medici',
-            'Vedere dati personali e contatti della pratica'
-          ], margin: [0, 0, 0, 15] },
-          
-          { text: '4.3 Installare PWA su Smartphone', style: 'subsectionHeader' },
-          { text: 'iPhone (Safari):', bold: true, margin: [0, 10, 0, 5] },
-          { ol: [
-            'Apri l\'area cliente',
-            'Tocca "Condividi" (quadrato con freccia)',
-            'Seleziona "Aggiungi a Home"',
-            'L\'icona apparirà sulla home screen'
-          ], margin: [0, 0, 0, 10] },
-          { text: 'Android (Chrome):', bold: true, margin: [0, 10, 0, 5] },
-          { ol: [
-            'Apri l\'area cliente',
-            'Tocca menu (tre puntini)',
-            'Seleziona "Aggiungi a schermata Home"',
-            'L\'app sarà disponibile come le altre app'
-          ], margin: [0, 0, 0, 20] },
-          
-          { text: 'SUPPORTO', style: 'sectionHeader', margin: [0, 30, 0, 10] },
-          { text: 'Per assistenza:', margin: [0, 0, 0, 5] },
-          { ul: [
-            'Consulta questo manuale completo dal menu Impostazioni',
-            'Guarda i video tutorial incorporati in ogni sezione',
-            'Contatta il supporto tecnico via email'
-          ], margin: [0, 0, 0, 10] },
-          
-          { text: `Documento generato il ${new Date().toLocaleDateString('it-IT')}`, 
-            style: 'footer', 
-            margin: [0, 30, 0, 0] 
-          }
-        ],
-        styles: {
-          header: { fontSize: 24, bold: true, color: '#2563eb' },
-          subheader: { fontSize: 14, italics: true, color: '#64748b' },
-          sectionHeader: { fontSize: 18, bold: true, color: '#1e40af', margin: [0, 20, 0, 10] },
-          subsectionHeader: { fontSize: 14, bold: true, margin: [0, 15, 0, 5] },
-          footer: { fontSize: 10, italics: true, color: '#94a3b8', alignment: 'center' }
-        },
-        defaultStyle: { fontSize: 11, lineHeight: 1.3 }
-      };
-      
-      // pdfMake.createPdf(docDefinition).download('Manuale_Gestionale_Appuntamenti.pdf');
-      
-      toast({
-        title: "PDF pronto",
-        description: "Il manuale è stato scaricato con successo!",
-      });
-    } catch (error) {
-      console.error('Errore generazione PDF:', error);
-      toast({
-        title: t("common.error"),
-        description: "Impossibile generare il PDF. Riprova.",
-        variant: "destructive",
-      });
-    } */
   };
 
   return (
@@ -635,31 +449,29 @@ export default function ManualePage() {
             <div>
               <h1 className="text-3xl font-bold tracking-tight flex items-center">
                 <BookOpen className="mr-3 h-8 w-8" />
-                Manuale d'Uso
+                {t('manual.page.header.title')}
               </h1>
               <p className="text-muted-foreground mt-1">
-                Guida completa all'utilizzo del gestionale per la tua pratica medica
+                {t('manual.page.header.subtitle')}
               </p>
             </div>
           </div>
           <div className="flex gap-2">
             <Button onClick={handleDownloadPDF} variant="outline" data-testid="button-download-pdf">
               <Download className="mr-2 h-4 w-4" />
-              Scarica PDF
+              {t('manual.page.buttons.downloadPdf')}
             </Button>
             {isAdmin && (
               <Button onClick={() => setLocation('/manuale-admin')} variant="default" data-testid="button-edit-manual">
                 <Edit className="mr-2 h-4 w-4" />
-                Modifica Manuale
+                {t('manual.page.buttons.editManual')}
               </Button>
             )}
           </div>
         </div>
         {editMode && (
           <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm">
-              <strong>✏️ Modalità Modifica:</strong> Stai modificando il contenuto del manuale. Le modifiche verranno salvate quando clicchi su "Salva".
-            </p>
+            <p className="text-sm">{t('manual.page.editMode.banner')}</p>
           </div>
         )}
       </header>
@@ -668,19 +480,19 @@ export default function ManualePage() {
         <TabsList className="grid grid-cols-2 lg:grid-cols-4 mb-6 h-auto">
           <TabsTrigger value="getting-started" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Primi Passi</span>
+            <span className="hidden sm:inline">{t('manual.page.tabs.gettingStarted')}</span>
           </TabsTrigger>
           <TabsTrigger value="daily-operations" className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
-            <span className="hidden sm:inline">Operazioni Quotidiane</span>
+            <span className="hidden sm:inline">{t('manual.page.tabs.dailyOps')}</span>
           </TabsTrigger>
           <TabsTrigger value="advanced" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">Funzioni Avanzate</span>
+            <span className="hidden sm:inline">{t('manual.page.tabs.advanced')}</span>
           </TabsTrigger>
           <TabsTrigger value="client-area" className="flex items-center gap-2">
             <Smartphone className="h-4 w-4" />
-            <span className="hidden sm:inline">Area Cliente</span>
+            <span className="hidden sm:inline">{t('manual.page.tabs.clientArea')}</span>
           </TabsTrigger>
         </TabsList>
 
@@ -690,10 +502,10 @@ export default function ManualePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-6 w-6" />
-                Configurazione Iniziale
+                {t('manual.page.cards.gettingStarted.title')}
               </CardTitle>
               <CardDescription>
-                Imposta i dati aziendali e configura il sistema per la tua pratica medica
+                {t('manual.page.cards.gettingStarted.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -714,14 +526,14 @@ export default function ManualePage() {
                       data-testid="button-edit-first-access"
                     >
                       <Edit className="h-4 w-4 mr-2" />
-                      Modifica
+                      {t('manual.page.buttons.editSection')}
                     </Button>
                   )}
                   
                   <AccordionItem value="first-access">
                     <AccordionTrigger className="text-lg font-semibold">
                       <div className="flex items-center justify-between w-full pr-4">
-                        <span>1.1 Primo Accesso al Sistema</span>
+                        <span>{t('manual.page.sections.s11')}</span>
                         {user?.type === 'admin' && (
                           <Button
                             asChild
@@ -730,9 +542,9 @@ export default function ManualePage() {
                             onClick={(e) => e.stopPropagation()}
                             data-testid="button-edit-section-1-1"
                           >
-                            <Link href="/manuale-admin?section=section-1-1&locale=it">
+                            <Link href={`/manuale-admin?section=section-1-1&locale=${i18n.language}`}>
                               <Edit className="h-3 w-3 mr-1" />
-                              Modifica
+                              {t('manual.page.buttons.editSection')}
                             </Link>
                           </Button>
                         )}
@@ -743,32 +555,32 @@ export default function ManualePage() {
                         <>
                           <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border-2 border-blue-500 dark:border-blue-400 mb-4">
                             <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-                              ✏️ Stai modificando questa sezione. Clicca "Fatto" quando hai finito.
+                              {t('manual.page.editMode.editingSection')}
                             </p>
                           </div>
 
                           <div className="space-y-4 border-2 border-dashed border-blue-300 dark:border-blue-700 p-4 rounded-lg mb-4">
-                            <Label className="text-base font-semibold">Titolo Sezione *</Label>
+                            <Label className="text-base font-semibold">{t('manual.page.editDialog.sectionTitleLabel')}</Label>
                             <Input
-                              value={editableContent['section-1-1']?.title || 'Primo Accesso al Sistema'}
+                              value={editableContent['section-1-1']?.title || t('manual.page.sections.s11').replace(/^[\d.]+\s*/, '')}
                               onChange={(e) => updateSectionContent('section-1-1', 'title', e.target.value)}
-                              placeholder="Inserisci il titolo della sezione"
+                              placeholder={t('manual.page.editDialog.sectionTitlePlaceholder')}
                               className="text-base"
                               data-testid="input-section-title"
                             />
                           </div>
 
                           <div className="space-y-4 border-2 border-dashed border-blue-300 dark:border-blue-700 p-4 rounded-lg">
-                            <Label className="text-base font-semibold">Video Tutorial</Label>
+                            <Label className="text-base font-semibold">{t('manual.page.editDialog.videoTutorialLabel')}</Label>
                             <Textarea
-                              value={editableContent['section-1-1']?.steps[0]?.content || 'Video Tutorial: Come accedere per la prima volta'}
+                              value={editableContent['section-1-1']?.steps[0]?.content || ''}
                               onChange={(e) => updateStepContent('section-1-1', 0, 'content', e.target.value)}
-                              placeholder="Descrizione o link del video tutorial"
+                              placeholder={t('manual.page.editDialog.videoTutorialPlaceholder')}
                               className="min-h-[80px]"
                             />
                             
                             <div className="space-y-2">
-                              <Label>Upload Video/Immagine</Label>
+                              <Label>{t('manual.page.editDialog.uploadLabel')}</Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   type="file"
@@ -786,7 +598,7 @@ export default function ManualePage() {
                                   disabled={uploadingFile}
                                 >
                                   <Upload className="h-4 w-4 mr-2" />
-                                  {uploadingFile ? 'Caricamento...' : 'Carica'}
+                                  {uploadingFile ? t('manual.page.buttons.uploading') : t('manual.page.buttons.upload')}
                                 </Button>
                               </div>
                               
@@ -807,24 +619,21 @@ export default function ManualePage() {
                           </div>
                           
                           <div className="space-y-4 border-2 border-dashed border-blue-300 dark:border-blue-700 p-4 rounded-lg">
-                            <Label className="text-base font-semibold">Procedura di Accesso</Label>
+                            <Label className="text-base font-semibold">{t('manual.page.editDialog.procedureLabel')}</Label>
                             <Textarea
-                              value={editableContent['section-1-1']?.steps[1]?.content || `1. Apri il browser e vai all'indirizzo fornito dal tuo amministratore
-2. Inserisci le credenziali di accesso (username e password)
-3. Al primo accesso, ti verrà mostrato questo manuale automaticamente
-4. Puoi accedere nuovamente al manuale in qualsiasi momento dal menu Impostazioni`}
+                              value={editableContent['section-1-1']?.steps[1]?.content || ''}
                               onChange={(e) => updateStepContent('section-1-1', 1, 'content', e.target.value)}
-                              placeholder="Inserisci i passi della procedura (uno per riga)"
+                              placeholder={t('manual.page.editDialog.procedurePlaceholder')}
                               className="min-h-[150px]"
                             />
                           </div>
 
                           <div className="space-y-4 border-2 border-dashed border-amber-300 dark:border-amber-700 p-4 rounded-lg">
-                            <Label className="text-base font-semibold">Suggerimento</Label>
+                            <Label className="text-base font-semibold">{t('manual.page.editDialog.tipLabel')}</Label>
                             <Textarea
-                              value={editableContent['section-1-1']?.steps[2]?.content || '💡 Suggerimento: Aggiungi il sito ai preferiti del browser per un accesso rapido!'}
+                              value={editableContent['section-1-1']?.steps[2]?.content || ''}
                               onChange={(e) => updateStepContent('section-1-1', 2, 'content', e.target.value)}
-                              placeholder="Inserisci un suggerimento utile"
+                              placeholder={t('manual.page.editDialog.tipPlaceholder')}
                               className="min-h-[60px]"
                             />
                           </div>
@@ -836,13 +645,13 @@ export default function ManualePage() {
                               data-testid="button-close-section-edit"
                             >
                               <X className="h-4 w-4 mr-2" />
-                              Chiudi
+                              {t('manual.page.buttons.close')}
                             </Button>
                           </div>
                           
                           <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg border border-blue-200 dark:border-blue-800 mt-4">
                             <p className="text-sm text-blue-900 dark:text-blue-100">
-                              ℹ️ Le modifiche verranno salvate quando clicchi <strong>"Salva"</strong> in alto a destra
+                              {t('manual.page.editMode.saveHint')}
                             </p>
                           </div>
                         </>
@@ -860,7 +669,7 @@ export default function ManualePage() {
                 <AccordionItem value="company-data">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>1.2 Configurare i Dati Aziendali</span>
+                      <span>{t('manual.page.sections.s12')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -869,9 +678,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-1-2"
                         >
-                          <Link href="/manuale-admin?section=section-1-2&locale=it">
+                          <Link href={`/manuale-admin?section=section-1-2&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -889,7 +698,7 @@ export default function ManualePage() {
                 <AccordionItem value="banking-data">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>1.3 Configurare i Dati Bancari</span>
+                      <span>{t('manual.page.sections.s13')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -898,9 +707,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-1-3"
                         >
-                          <Link href="/manuale-admin?section=section-1-3&locale=it">
+                          <Link href={`/manuale-admin?section=section-1-3&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -918,7 +727,7 @@ export default function ManualePage() {
                 <AccordionItem value="staff-rooms">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>1.4 Gestire Staff e Stanze di Trattamento</span>
+                      <span>{t('manual.page.sections.s14')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -927,9 +736,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-1-4"
                         >
-                          <Link href="/manuale-admin?section=section-1-4&locale=it">
+                          <Link href={`/manuale-admin?section=section-1-4&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -947,7 +756,7 @@ export default function ManualePage() {
                 <AccordionItem value="email-setup">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>1.5 Configurare le Email Automatiche</span>
+                      <span>{t('manual.page.sections.s15')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -956,9 +765,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-1-5"
                         >
-                          <Link href="/manuale-admin?section=section-1-5&locale=it">
+                          <Link href={`/manuale-admin?section=section-1-5&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -983,10 +792,10 @@ export default function ManualePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-6 w-6" />
-                Gestione Quotidiana
+                {t('manual.page.cards.dailyOps.title')}
               </CardTitle>
               <CardDescription>
-                Le operazioni giornaliere per gestire clienti, appuntamenti e fatture
+                {t('manual.page.cards.dailyOps.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -998,7 +807,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <Users className="h-5 w-5" />
-                        2.1 Gestione Clienti
+                        {t('manual.page.sections.s21')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1008,9 +817,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-2-1"
                         >
-                          <Link href="/manuale-admin?section=section-2-1&locale=it">
+                          <Link href={`/manuale-admin?section=section-2-1&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1030,7 +839,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-5 w-5" />
-                        2.2 Calendario e Appuntamenti
+                        {t('manual.page.sections.s22')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1040,9 +849,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-2-2"
                         >
-                          <Link href="/manuale-admin?section=section-2-2&locale=it">
+                          <Link href={`/manuale-admin?section=section-2-2&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1062,7 +871,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <Smartphone className="h-5 w-5" />
-                        2.3 {t('manual.pwa.title', 'Richieste Appuntamento PWA Cliente')}
+                        2.3 {t('manual.pwa.title')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1072,9 +881,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-2-3"
                         >
-                          <Link href="/manuale-admin?section=section-2-3&locale=it">
+                          <Link href={`/manuale-admin?section=section-2-3&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1094,7 +903,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <FileText className="h-5 w-5" />
-                        2.4 Gestione Fatture
+                        {t('manual.page.sections.s24')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1104,9 +913,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-2-4"
                         >
-                          <Link href="/manuale-admin?section=section-2-4&locale=it">
+                          <Link href={`/manuale-admin?section=section-2-4&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1131,10 +940,10 @@ export default function ManualePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-6 w-6" />
-                Funzioni Avanzate
+                {t('manual.page.cards.advanced.title')}
               </CardTitle>
               <CardDescription>
-                Strumenti avanzati per marketing, inventario, report e referral
+                {t('manual.page.cards.advanced.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -1146,7 +955,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <Package className="h-5 w-5" />
-                        3.1 Gestione Inventario e Magazzino
+                        {t('manual.page.sections.s31')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1156,9 +965,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-3-1"
                         >
-                          <Link href="/manuale-admin?section=section-3-1&locale=it">
+                          <Link href={`/manuale-admin?section=section-3-1&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1178,7 +987,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <TrendingUp className="h-5 w-5" />
-                        3.2 Report e Statistiche
+                        {t('manual.page.sections.s32')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1188,9 +997,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-3-2"
                         >
-                          <Link href="/manuale-admin?section=section-3-2&locale=it">
+                          <Link href={`/manuale-admin?section=section-3-2&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1210,7 +1019,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        3.3 Campagne Marketing con AI
+                        {t('manual.page.sections.s33')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1220,9 +1029,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-3-3"
                         >
-                          <Link href="/manuale-admin?section=section-3-3&locale=it">
+                          <Link href={`/manuale-admin?section=section-3-3&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1242,7 +1051,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        3.4 Centro WhatsApp
+                        {t('manual.page.sections.s34')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1252,9 +1061,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-3-4"
                         >
-                          <Link href="/manuale-admin?section=section-3-4&locale=it">
+                          <Link href={`/manuale-admin?section=section-3-4&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1274,7 +1083,7 @@ export default function ManualePage() {
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex items-center gap-2">
                         <Gift className="h-5 w-5" />
-                        3.5 Sistema Referral e Commissioni
+                        {t('manual.page.sections.s35')}
                       </div>
                       {user?.type === 'admin' && (
                         <Button
@@ -1284,9 +1093,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-3-5"
                         >
-                          <Link href="/manuale-admin?section=section-3-5&locale=it">
+                          <Link href={`/manuale-admin?section=section-3-5&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1311,10 +1120,10 @@ export default function ManualePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Smartphone className="h-6 w-6" />
-                Area Cliente PWA
+                {t('manual.page.cards.clientArea.title')}
               </CardTitle>
               <CardDescription>
-                Come i tuoi clienti accedono alla loro area riservata tramite smartphone
+                {t('manual.page.cards.clientArea.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -1324,7 +1133,7 @@ export default function ManualePage() {
                 <AccordionItem value="client-access">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>4.1 Come i Clienti Accedono alla Loro Area</span>
+                      <span>{t('manual.page.sections.s41')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -1333,9 +1142,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-4-1"
                         >
-                          <Link href="/manuale-admin?section=section-4-1&locale=it">
+                          <Link href={`/manuale-admin?section=section-4-1&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1353,7 +1162,7 @@ export default function ManualePage() {
                 <AccordionItem value="client-features">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>4.2 Cosa Possono Fare i Clienti nell'Area Riservata</span>
+                      <span>{t('manual.page.sections.s42')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -1362,9 +1171,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-4-2"
                         >
-                          <Link href="/manuale-admin?section=section-4-2&locale=it">
+                          <Link href={`/manuale-admin?section=section-4-2&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1382,7 +1191,7 @@ export default function ManualePage() {
                 <AccordionItem value="install-pwa">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>4.3 Come Installare l'App sul Telefono (PWA)</span>
+                      <span>{t('manual.page.sections.s43')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -1391,9 +1200,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-4-3"
                         >
-                          <Link href="/manuale-admin?section=section-4-3&locale=it">
+                          <Link href={`/manuale-admin?section=section-4-3&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1411,7 +1220,7 @@ export default function ManualePage() {
                 <AccordionItem value="customize-client-area">
                   <AccordionTrigger className="text-lg font-semibold">
                     <div className="flex items-center justify-between w-full pr-4">
-                      <span>4.4 Personalizzare l'Aspetto dell'Area Cliente</span>
+                      <span>{t('manual.page.sections.s44')}</span>
                       {user?.type === 'admin' && (
                         <Button
                           asChild
@@ -1420,9 +1229,9 @@ export default function ManualePage() {
                           onClick={(e) => e.stopPropagation()}
                           data-testid="button-edit-section-4-4"
                         >
-                          <Link href="/manuale-admin?section=section-4-4&locale=it">
+                          <Link href={`/manuale-admin?section=section-4-4&locale=${i18n.language}`}>
                             <Edit className="h-3 w-3 mr-1" />
-                            Modifica
+                            {t('manual.page.buttons.editSection')}
                           </Link>
                         </Button>
                       )}
@@ -1449,14 +1258,14 @@ export default function ManualePage() {
           <div className="flex items-start gap-4">
             <BookOpen className="h-8 w-8 text-primary mt-1" />
             <div>
-              <h3 className="font-semibold text-lg mb-2">Hai bisogno di aiuto?</h3>
+              <h3 className="font-semibold text-lg mb-2">{t('manual.page.footer.title')}</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                Questo manuale è sempre disponibile dal menu Impostazioni. Per assistenza personalizzata:
+                {t('manual.page.footer.description')}
               </p>
               <ul className="list-disc list-inside text-sm space-y-1 ml-2">
-                <li>Contatta il supporto tecnico via email</li>
-                <li>Consulta i video tutorial incorporati in ogni sezione</li>
-                <li>Scarica il PDF del manuale per consultazione offline</li>
+                {((t('manual.page.footer.items', { returnObjects: true }) as string[]) ?? []).map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>

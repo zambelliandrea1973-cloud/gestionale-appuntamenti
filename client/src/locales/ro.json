@@ -2132,6 +2132,125 @@
         "proTip": "Arătați clienților cum să instaleze aplicația în timpul primei vizite. Vor vedea imediat valoarea adăugată și se vor simți mai implicați în relația cu cabinetul dumneavoastră!",
         "retention": "Aplicația PWA personalizată creează o legătură mai strânsă cu clienții, crescând loialitatea și reducând absențele neconfirmate datorită mementourilor automate și experienței premium pentru utilizatori."
       }
+    },
+    "page": {
+      "header": {
+        "title": "Manual de Utilizare",
+        "subtitle": "Ghid complet pentru utilizarea sistemului de gestionare al afacerii dvs."
+      },
+      "buttons": {
+        "downloadPdf": "Descarcă PDF",
+        "editManual": "Modifică Manualul",
+        "editSection": "Modifică",
+        "close": "Închide",
+        "upload": "Încarcă",
+        "uploading": "Se încarcă..."
+      },
+      "editMode": {
+        "banner": "✏️ Mod Editare: editați conținutul manualului. Modificările vor fi salvate când dați clic pe \"Salvează\".",
+        "editingSection": "✏️ Editați această secțiune. Dați clic pe \"Închide\" când ați terminat.",
+        "saveHint": "ℹ️ Modificările vor fi salvate când dați clic pe \"Salvează\" în partea dreaptă sus"
+      },
+      "tabs": {
+        "gettingStarted": "Primii Pași",
+        "dailyOps": "Operațiuni Zilnice",
+        "advanced": "Funcții Avansate",
+        "clientArea": "Zonă Client"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Configurare Inițială",
+          "description": "Setați datele companiei și configurați sistemul pentru afacerea dvs."
+        },
+        "dailyOps": {
+          "title": "Gestionare Zilnică",
+          "description": "Operațiunile zilnice pentru a gestiona clienți, programări și facturi"
+        },
+        "advanced": {
+          "title": "Funcții Avansate",
+          "description": "Instrumente avansate pentru marketing, inventar, rapoarte și recomandări"
+        },
+        "clientArea": {
+          "title": "Zonă PWA Client",
+          "description": "Cum accesează clienții dvs. zona rezervată prin smartphone"
+        }
+      },
+      "sections": {
+        "s11": "1.1 Primul Acces în Sistem",
+        "s12": "1.2 Configurați Datele Companiei",
+        "s13": "1.3 Configurați Datele Bancare",
+        "s14": "1.4 Gestionați Personalul și Sălile de Tratament",
+        "s15": "1.5 Configurați Email-urile Automate",
+        "s21": "2.1 Gestionarea Clienților",
+        "s22": "2.2 Calendar și Programări",
+        "s24": "2.4 Gestionarea Facturilor",
+        "s31": "3.1 Gestionarea Inventarului și Depozitului",
+        "s32": "3.2 Rapoarte și Statistici",
+        "s33": "3.3 Campanii de Marketing cu IA",
+        "s34": "3.4 Centrul WhatsApp",
+        "s35": "3.5 Sistemul de Recomandări și Comisioane",
+        "s41": "4.1 Cum Accesează Clienții Zona Lor",
+        "s42": "4.2 Ce Pot Face Clienții în Zona Rezervată",
+        "s43": "4.3 Cum să Instalați Aplicația pe Telefon (PWA)",
+        "s44": "4.4 Personalizați Aspectul Zonei Client"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Titlul Secțiunii *",
+        "sectionTitlePlaceholder": "Introduceți titlul secțiunii",
+        "videoTutorialLabel": "Tutorial Video",
+        "videoTutorialPlaceholder": "Descriere sau link al tutorialului video",
+        "uploadLabel": "Încărcați Video/Imagine",
+        "procedureLabel": "Procedura de Acces",
+        "procedurePlaceholder": "Introduceți pașii procedurii (unul pe linie)",
+        "tipLabel": "Sugestie",
+        "tipPlaceholder": "Introduceți o sugestie utilă"
+      },
+      "footer": {
+        "title": "Aveți nevoie de ajutor?",
+        "description": "Acest manual este întotdeauna disponibil din meniul Setări. Pentru asistență personalizată:",
+        "items": [
+          "Contactați suportul tehnic prin email",
+          "Consultați tutorialele video integrate în fiecare secțiune",
+          "Descărcați PDF-ul manualului pentru consultare offline"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ Fișier încărcat",
+        "uploadSuccessImage": "Fișier imagine încărcat cu succes",
+        "uploadSuccessVideo": "Fișier video încărcat cu succes",
+        "uploadErrorTitle": "❌ Eroare la încărcare",
+        "savedTitle": "✅ Salvat",
+        "savedDescOne": "{{count}} secțiune salvată cu succes",
+        "savedDescMany": "{{count}} secțiuni salvate cu succes",
+        "noChangesTitle": "⚠️ Nicio modificare",
+        "noChangesDesc": "Nu există modificări de salvat",
+        "missingTitleTitle": "⚠️ Titlu obligatoriu",
+        "missingTitleDesc": "Introduceți titlul secțiunii \"{{section}}\"",
+        "loadedTitle": "📖 Conținut încărcat",
+        "loadedDesc": "Modificări anterioare încărcate din baza de date",
+        "defaultTitle": "📝 Conținut implicit",
+        "defaultDesc": "Editați conținutul implicit",
+        "loadErrorTitle": "❌ Eroare de încărcare",
+        "loadErrorDesc": "Conținutul nu poate fi încărcat ({{status}}). Încercați din nou mai târziu.",
+        "connErrorTitle": "❌ Eroare de conexiune",
+        "connErrorDesc": "Conținutul nu poate fi încărcat. Verificați conexiunea și încercați din nou.",
+        "saveErrorTitle": "❌ Eroare",
+        "pdfPendingTitle": "Funcție în dezvoltare",
+        "pdfPendingDesc": "Exportul PDF va fi disponibil în curând. Pentru moment, consultați manualul online.",
+        "saveErrorDefault": "Eroare la salvare",
+        "uploadFailedPrefix": "Încărcare eșuată"
+      },
+      "fallback": {
+        "s11": {
+          "title": "Primul Acces în Sistem",
+          "step1Title": "Tutorial Video",
+          "step1Content": "Tutorial Video: Cum să te conectezi pentru prima dată",
+          "step2Title": "Procedura de Conectare",
+          "step2Content": "1. Deschide browserul și mergi la adresa furnizată de administratorul tău\n2. Introdu datele de acces (nume utilizator și parolă)\n3. La prima accesare, acest manual îți va fi afișat automat\n4. Poți accesa manualul oricând din meniul Setări",
+          "step3Title": "Sugestie",
+          "step3Content": "💡 Sugestie: Adaugă site-ul la favorite în browser pentru acces rapid!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Politica de confidențialitate"
+      "title": "Politica de confidențialitate",
+      "lastUpdatedDate": "1 aprilie 2026",
+      "sections": [
+        {
+          "heading": "1. Introducere",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti (\"noi\", \"al/a nostru/noastră\" sau \"nouă\") operează aplicația web și mobilă Gestionale Appuntamenti (\"Serviciul\"), disponibilă ca Progressive Web App (PWA) și prin Google Play Store și Samsung Galaxy Store. Această pagină vă informează despre politicile noastre privind colectarea, utilizarea și divulgarea datelor cu caracter personal atunci când utilizați Serviciul nostru și despre alegerile pe care le aveți cu privire la aceste date."
+            }
+          ]
+        },
+        {
+          "heading": "2. Colectarea și Utilizarea Datelor",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Tipuri de Date Colectate"
+            },
+            {
+              "type": "p",
+              "text": "Colectăm diferite tipuri de informații în diverse scopuri pentru a vă oferi un serviciu mai bun:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Date Personale",
+                  "text": "nume, adresă de email, număr de telefon, adresă"
+                },
+                {
+                  "strong": "Date de Utilizare",
+                  "text": "informații despre browser, adrese IP, pagini vizitate"
+                },
+                {
+                  "strong": "Date de Calendar",
+                  "text": "programări, disponibilitate, preferințe profesionale"
+                },
+                {
+                  "strong": "Date de Plată",
+                  "text": "informații de facturare procesate în siguranță prin Stripe și PayPal"
+                },
+                {
+                  "strong": "Date Google Calendar",
+                  "text": "tokenuri de autentificare OAuth pentru sincronizare"
+                },
+                {
+                  "strong": "Date de Contacte",
+                  "text": "contacte importate din Google Contacts sau fișiere CSV, cu consimțământul explicit al utilizatorului"
+                },
+                {
+                  "strong": "Date de Notificări Push",
+                  "text": "tokenuri de abonare push pentru trimiterea memento-urilor de programări"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Utilizarea Datelor"
+            },
+            {
+              "type": "p",
+              "text": "Folosim datele colectate pentru a:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Furniza și menține Serviciul",
+                "Vă notifica modificările aduse Serviciului nostru",
+                "Trimite memento-uri pentru programări prin notificări push, email și WhatsApp",
+                "Permite participarea la funcții interactive",
+                "Oferi asistență clienților",
+                "Colecta analize pentru a îmbunătăți Serviciul",
+                "Monitoriza utilizarea Serviciului",
+                "Genera facturi și gestiona plățile",
+                "Genera coduri QR personalizate pentru acces rapid al clienților",
+                "Detecta, preveni și aborda fraudele și problemele de securitate"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Notificări Push",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul utilizează notificări push pentru a trimite memento-uri pentru programări. Pentru a activa această funcție, browserul sau dispozitivul dvs. va solicita consimțământul dvs. explicit. Colectăm un token de abonare push utilizat exclusiv pentru trimiterea notificărilor. Puteți dezactiva notificările push în orice moment din setările browserului sau dispozitivului dvs."
+            }
+          ]
+        },
+        {
+          "heading": "4. Comunicări WhatsApp",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul permite profesioniștilor să trimită memento-uri și comunicări clienților prin WhatsApp. Mesajele sunt trimise utilizând numărul de telefon furnizat de client. Nu partajăm numerele de telefon cu terțe părți. Trimiterea mesajelor se face prin link-uri directe către WhatsApp și nu prin API-uri ale terților."
+            }
+          ]
+        },
+        {
+          "heading": "5. Date Google Calendar",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Atunci când autorizați sincronizarea cu Google Calendar, colectăm și stocăm:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Tokenuri de acces OAuth pentru a accesa calendarul dvs.",
+                "Programările pe care alegeți să le sincronizați",
+                "Informații despre evenimentele din calendar (titlu, oră, participanți)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Aceste date sunt utilizate exclusiv pentru sincronizarea programărilor cu Google Calendar. Puteți revoca accesul în orice moment din setările contului Google."
+            }
+          ]
+        },
+        {
+          "heading": "6. Importul Contactelor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul permite importul de contacte din Google Contacts (prin autorizație OAuth) sau din fișiere CSV. Importul are loc doar la cererea explicită a utilizatorului. Contactele importate sunt salvate în baza de date a Serviciului și sunt vizibile doar profesionistului care le-a importat. Nu partajăm datele contactelor importate cu terțe părți."
+            }
+          ]
+        },
+        {
+          "heading": "7. Cod QR",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul generează coduri QR personalizate pentru a permite clienților un acces rapid la zona lor personală. Codurile QR conțin un identificator unic al clientului și nu includ date personale sensibile."
+            }
+          ]
+        },
+        {
+          "heading": "8. Securitatea Datelor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Securitatea datelor dvs. este importantă pentru noi. Adoptăm următoarele măsuri de protecție:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Criptarea datelor sensibile (parole, tokenuri)",
+                "Izolare multi-tenant: datele fiecărui profesionist sunt separate și inaccesibile altor utilizatori",
+                "Conexiuni HTTPS pentru toate comunicările",
+                "Plăți procesate în siguranță prin Stripe și PayPal (nu stocăm date de carduri de credit)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Nicio metodă de transmisie pe Internet sau de stocare electronică nu este 100% sigură. Nu putem garanta o securitate absolută."
+            }
+          ]
+        },
+        {
+          "heading": "9. Cookie-uri",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Folosim cookie-uri de sesiune pentru a vă identifica și a vă reține preferințele. Nu folosim cookie-uri de urmărire publicitară. Serviciul este complet lipsit de publicitate. Puteți dezactiva cookie-urile prin setările browserului dvs."
+            }
+          ]
+        },
+        {
+          "heading": "10. Servicii ale Terților",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul utilizează următoarele servicii ale terților:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "pentru autentificare și sincronizare cu Google Calendar și Contacts"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "pentru procesarea plăților cu cardul"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "pentru procesarea plăților alternative"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "pentru trimiterea email-urilor de notificare și confirmare"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Fiecare serviciu al terților are propria politică de confidențialitate. Vă invităm să consultați politicile lor respective."
+            }
+          ]
+        },
+        {
+          "heading": "11. Drepturile Utilizatorului",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "În conformitate cu GDPR, aveți dreptul să:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Accesați datele dvs. personale",
+                "Corectați datele inexacte",
+                "Solicitați ștergerea datelor dvs.",
+                "Vă opuneți prelucrării datelor dvs.",
+                "Limitați prelucrarea",
+                "Solicitați portabilitatea datelor",
+                "Retrageți consimțământul în orice moment"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Păstrarea Datelor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Păstrăm datele dvs. personale atât timp cât este necesar pentru a vă furniza Serviciul. Atunci când ștergeți contul dvs., datele dvs. sunt eliminate definitiv din sistemul nostru. Profesionistul poate șterge datele clienților săi în orice moment din zona de gestionare."
+            }
+          ]
+        },
+        {
+          "heading": "13. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Dacă aveți întrebări despre această Politică de Confidențialitate, ne puteți contacta la adresa de email de suport indicată în contul dvs."
+            }
+          ]
+        },
+        {
+          "heading": "14. Modificări",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Putem actualiza Politica noastră de Confidențialitate din când în când. Vă vom notifica orice modificare prin publicarea noii Politici de Confidențialitate pe această pagină."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Termeni de serviciu și condiții de utilizare",
       "effectiveDate": "Data intrării în vigoare",
-      "lastModified": "Ultima modificare"
+      "lastModified": "Ultima modificare",
+      "effectiveDateValue": "20 iunie 2025",
+      "lastModifiedValue": "20 iunie 2025",
+      "sections": [
+        {
+          "heading": "1. Acceptarea Termenilor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Utilizarea Gestionale Appuntamenti (\"Serviciul\") implică acceptarea integrală a acestor Termeni de Serviciu. Dacă nu acceptați acești termeni, nu puteți utiliza Serviciul."
+            }
+          ]
+        },
+        {
+          "heading": "2. Descrierea Serviciului",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti este un sistem software pentru gestionarea:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Rezervărilor și programărilor",
+                "Datelor clienților",
+                "Facturării și documentelor fiscale",
+                "Comunicărilor automate",
+                "Rapoartelor și statisticilor"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Serviciul este conceput pentru a fi utilizat în diverse sectoare profesionale incluzând, dar fără a se limita la: servicii medicale, estetice, de consultanță și alte servicii profesionale."
+            }
+          ]
+        },
+        {
+          "heading": "4. Responsabilitățile Utilizatorului",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Utilizatorul se angajează să:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Utilizeze Serviciul în conformitate cu legile aplicabile",
+                "Păstreze confidențiale credențialele de acces",
+                "Introducă date precise și actualizate",
+                "Respecte confidențialitatea propriilor clienți",
+                "Efectueze backup-uri regulate ale datelor sale"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Confidențialitate și Protecția Datelor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Prelucrarea datelor cu caracter personal se realizează în conformitate cu Regulamentul General privind Protecția Datelor (GDPR). Utilizatorul păstrează proprietatea datelor sale și a celor ale clienților săi."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Important",
+              "text": "Utilizatorul este responsabil pentru respectarea reglementărilor privind confidențialitatea față de propriii săi clienți și pentru obținerea consimțământului necesar pentru prelucrarea datelor lor."
+            }
+          ]
+        },
+        {
+          "heading": "6. Limitări și Excluderi",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Serviciul este furnizat \"așa cum este\". Zambelli Development nu garantează:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Disponibilitatea continuă a serviciului",
+                "Lipsa erorilor sau întreruperilor",
+                "Compatibilitatea cu toate dispozitivele"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Facturare și Plăți",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Abonamentele sunt facturate lunar sau anual",
+                "Plățile sunt datorate în avans",
+                "Rambursările sunt acordate doar în cazuri excepționale",
+                "Prețurile pot fi modificate cu un preaviz de 30 de zile"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Reziliere și Suspendare",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Contractul poate fi reziliat:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "De către utilizator în orice moment cu un preaviz de 30 de zile",
+                "De către Zambelli Development în caz de încălcare a termenilor",
+                "Pentru neplata după 15 zile de la scadență"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Modificări ale Termenilor",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development își rezervă dreptul de a modifica acești termeni în orice moment. Modificările substanțiale vor fi comunicate cu cel puțin 30 de zile de preaviz."
+            }
+          ]
+        },
+        {
+          "heading": "10. Lege Aplicabilă",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Acești termeni sunt guvernați de legea italiană. Pentru orice litigiu, este competentă Curtea din Milano."
+            }
+          ]
+        },
+        {
+          "heading": "11. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Pentru chestiuni legate de acești termeni, contactați:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Email",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Dezvoltator",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Planuri de Abonament",
+      "plansLabels": {
+        "monthly": "Lunar",
+        "annual": "Anual",
+        "savings": "economisiți",
+        "clientLimit": "Limită clienți",
+        "unlimited": "Nelimitat",
+        "featuresIncluded": "Funcții incluse",
+        "featuresIncludedExtra": "Funcții incluse (în plus față de Planul de Bază)",
+        "featuresIncludedAll": "Funcții incluse (toate funcțiile)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Planul de Bază",
+          "monthlyPrice": "5,99 €/lună",
+          "annualPrice": "59,00 €/an",
+          "savingsAmount": "11 €",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Calendar de programări",
+            "Gestionarea clienților",
+            "Aplicație QR/PWA pentru clienți",
+            "Cereri de programare ale clienților",
+            "Notificări clienți",
+            "Emiterea facturilor"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Planul Professional",
+          "monthlyPrice": "9,99 €/lună",
+          "annualPrice": "99,00 €/an",
+          "savingsAmount": "20 €",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Calendar de programări",
+            "Gestionarea clienților",
+            "Aplicație QR/PWA pentru clienți",
+            "Cereri de programare ale clienților",
+            "Notificări clienți",
+            "Emiterea facturilor",
+            "Sincronizare Google Calendar",
+            "Rapoarte și statistici",
+            "Pachete promoționale"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Planul Business",
+          "monthlyPrice": "19,99 €/lună",
+          "annualPrice": "199,00 €/an",
+          "savingsAmount": "39 €",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Calendar de programări",
+            "Gestionarea clienților",
+            "Aplicație QR/PWA pentru clienți",
+            "Cereri de programare ale clienților",
+            "Notificări clienți",
+            "Emiterea facturilor",
+            "Sincronizare Google Calendar",
+            "Rapoarte și statistici",
+            "Pachete promoționale",
+            "Gestionarea mai multor angajați",
+            "Inventar de produse",
+            "Campanii de Marketing cu IA"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - Toate drepturile rezervate"
+      }
     },
     "lastUpdated": "Ultima actualizare"
   },

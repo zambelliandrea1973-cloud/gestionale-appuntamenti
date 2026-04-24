@@ -2132,6 +2132,125 @@
         "proTip": "Vis kundene hvordan de installerer appen under første besøk. De vil umiddelbart se merverdien og føle seg mer engasjert i forholdet til klinikken din!",
         "retention": "Den personlig tilpassede PWA-appen skaper en sterkere binding med kundene, øker lojaliteten og reduserer uteblivelser takket være automatiske påminnelser og premium brukeropplevelse."
       }
+    },
+    "page": {
+      "header": {
+        "title": "Brukerhåndbok",
+        "subtitle": "Komplett veiledning for bruk av administrasjonssystemet for virksomheten din"
+      },
+      "buttons": {
+        "downloadPdf": "Last ned PDF",
+        "editManual": "Rediger håndbok",
+        "editSection": "Rediger",
+        "close": "Lukk",
+        "upload": "Last opp",
+        "uploading": "Laster opp..."
+      },
+      "editMode": {
+        "banner": "✏️ Redigeringsmodus: du redigerer innholdet i håndboken. Endringer lagres når du klikker på \"Lagre\".",
+        "editingSection": "✏️ Du redigerer denne seksjonen. Klikk \"Lukk\" når du er ferdig.",
+        "saveHint": "ℹ️ Endringer lagres når du klikker \"Lagre\" øverst til høyre"
+      },
+      "tabs": {
+        "gettingStarted": "Komme i gang",
+        "dailyOps": "Daglige operasjoner",
+        "advanced": "Avanserte funksjoner",
+        "clientArea": "Kundeområde"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Førstegangsoppsett",
+          "description": "Sett opp bedriftsdata og konfigurer systemet for virksomheten din"
+        },
+        "dailyOps": {
+          "title": "Daglig administrasjon",
+          "description": "De daglige operasjonene for å administrere kunder, avtaler og fakturaer"
+        },
+        "advanced": {
+          "title": "Avanserte funksjoner",
+          "description": "Avanserte verktøy for markedsføring, lager, rapporter og henvisninger"
+        },
+        "clientArea": {
+          "title": "Kundens PWA-område",
+          "description": "Hvordan kundene dine får tilgang til sitt reserverte område via smarttelefonen"
+        }
+      },
+      "sections": {
+        "s11": "1.1 Førstegangstilgang til Systemet",
+        "s12": "1.2 Konfigurer Bedriftsdata",
+        "s13": "1.3 Konfigurer Bankdata",
+        "s14": "1.4 Administrer Personale og Behandlingsrom",
+        "s15": "1.5 Konfigurer Automatiske E-poster",
+        "s21": "2.1 Kundeadministrasjon",
+        "s22": "2.2 Kalender og Avtaler",
+        "s24": "2.4 Fakturaadministrasjon",
+        "s31": "3.1 Lager- og Varehusadministrasjon",
+        "s32": "3.2 Rapporter og Statistikk",
+        "s33": "3.3 Markedsføringskampanjer med AI",
+        "s34": "3.4 WhatsApp-senter",
+        "s35": "3.5 Henvisnings- og Provisjonssystem",
+        "s41": "4.1 Hvordan Kunder Får Tilgang til Sitt Område",
+        "s42": "4.2 Hva Kunder Kan Gjøre i det Reserverte Området",
+        "s43": "4.3 Hvordan Installere Appen på Telefonen (PWA)",
+        "s44": "4.4 Tilpass Utseendet på Kundeområdet"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Seksjonstittel *",
+        "sectionTitlePlaceholder": "Skriv inn tittelen på seksjonen",
+        "videoTutorialLabel": "Videoopplæring",
+        "videoTutorialPlaceholder": "Beskrivelse eller lenke til videoopplæringen",
+        "uploadLabel": "Last opp Video/Bilde",
+        "procedureLabel": "Tilgangsprosedyre",
+        "procedurePlaceholder": "Skriv inn prosedyretrinnene (ett per linje)",
+        "tipLabel": "Tips",
+        "tipPlaceholder": "Skriv inn et nyttig tips"
+      },
+      "footer": {
+        "title": "Trenger du hjelp?",
+        "description": "Denne håndboken er alltid tilgjengelig fra Innstillinger-menyen. For personlig hjelp:",
+        "items": [
+          "Kontakt teknisk støtte via e-post",
+          "Se videoopplæringene som er innebygd i hver seksjon",
+          "Last ned PDF-en av håndboken for konsultasjon offline"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ Fil lastet opp",
+        "uploadSuccessImage": "Bildefil lastet opp",
+        "uploadSuccessVideo": "Videofil lastet opp",
+        "uploadErrorTitle": "❌ Opplastingsfeil",
+        "savedTitle": "✅ Lagret",
+        "savedDescOne": "{{count}} seksjon lagret",
+        "savedDescMany": "{{count}} seksjoner lagret",
+        "noChangesTitle": "⚠️ Ingen endringer",
+        "noChangesDesc": "Det er ingen endringer å lagre",
+        "missingTitleTitle": "⚠️ Tittel påkrevd",
+        "missingTitleDesc": "Skriv inn tittelen på seksjonen \"{{section}}\"",
+        "loadedTitle": "📖 Innhold lastet",
+        "loadedDesc": "Tidligere endringer lastet fra databasen",
+        "defaultTitle": "📝 Standardinnhold",
+        "defaultDesc": "Rediger standardinnholdet",
+        "loadErrorTitle": "❌ Lastefeil",
+        "loadErrorDesc": "Kan ikke laste innhold ({{status}}). Prøv igjen senere.",
+        "connErrorTitle": "❌ Tilkoblingsfeil",
+        "connErrorDesc": "Kan ikke laste innhold. Sjekk tilkoblingen og prøv igjen.",
+        "saveErrorTitle": "❌ Feil",
+        "pdfPendingTitle": "Funksjon under utvikling",
+        "pdfPendingDesc": "PDF-eksport vil snart være tilgjengelig. For nå, se håndboken på nett.",
+        "saveErrorDefault": "Feil under lagring",
+        "uploadFailedPrefix": "Opplasting mislyktes"
+      },
+      "fallback": {
+        "s11": {
+          "title": "Første Systemtilgang",
+          "step1Title": "Videoopplæring",
+          "step1Content": "Videoopplæring: Hvordan logge inn for første gang",
+          "step2Title": "Innloggingsprosedyre",
+          "step2Content": "1. Åpne nettleseren og gå til adressen oppgitt av administratoren din\n2. Skriv inn påloggingsinformasjonen din (brukernavn og passord)\n3. Ved første tilgang vises denne håndboken automatisk\n4. Du kan åpne håndboken igjen når som helst fra Innstillinger-menyen",
+          "step3Title": "Tips",
+          "step3Content": "💡 Tips: Bokmerk nettstedet i nettleseren din for rask tilgang!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Personvernerklæring"
+      "title": "Personvernerklæring",
+      "lastUpdatedDate": "1. april 2026",
+      "sections": [
+        {
+          "heading": "1. Innledning",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti (\"vi\", \"vår\" eller \"oss\") driver web- og mobilapplikasjonen Gestionale Appuntamenti (\"Tjenesten\"), tilgjengelig som Progressive Web App (PWA) og via Google Play Store og Samsung Galaxy Store. Denne siden informerer deg om våre retningslinjer for innsamling, bruk og utlevering av personopplysninger når du bruker Tjenesten vår, samt valgene du har angående disse opplysningene."
+            }
+          ]
+        },
+        {
+          "heading": "2. Innsamling og Bruk av Data",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Typer Data Som Samles Inn"
+            },
+            {
+              "type": "p",
+              "text": "Vi samler inn forskjellige typer informasjon for ulike formål for å gi deg en bedre tjeneste:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Personopplysninger",
+                  "text": "navn, e-postadresse, telefonnummer, adresse"
+                },
+                {
+                  "strong": "Bruksdata",
+                  "text": "nettleserinformasjon, IP-adresser, besøkte sider"
+                },
+                {
+                  "strong": "Kalenderdata",
+                  "text": "avtaler, tilgjengelighet, profesjonelle preferanser"
+                },
+                {
+                  "strong": "Betalingsdata",
+                  "text": "fakturainformasjon behandlet sikkert via Stripe og PayPal"
+                },
+                {
+                  "strong": "Google Kalender-data",
+                  "text": "OAuth-autentiseringstokens for synkronisering"
+                },
+                {
+                  "strong": "Kontaktdata",
+                  "text": "kontakter importert fra Google Contacts eller CSV-filer, med brukerens uttrykkelige samtykke"
+                },
+                {
+                  "strong": "Push-varseldata",
+                  "text": "push-abonnementstokens for å sende avtalepåminnelser"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Bruk av Data"
+            },
+            {
+              "type": "p",
+              "text": "Vi bruker innsamlede data til å:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Levere og vedlikeholde Tjenesten",
+                "Varsle deg om endringer i Tjenesten vår",
+                "Sende avtalepåminnelser via push-varsler, e-post og WhatsApp",
+                "Tillate deltakelse i interaktive funksjoner",
+                "Tilby kundestøtte",
+                "Samle analyser for å forbedre Tjenesten",
+                "Overvåke bruken av Tjenesten",
+                "Generere fakturaer og administrere betalinger",
+                "Generere personlige QR-koder for rask kundetilgang",
+                "Oppdage, forhindre og håndtere svindel og sikkerhetsproblemer"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Push-varsler",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten bruker push-varsler for å sende avtalepåminnelser. For å aktivere denne funksjonen vil nettleseren eller enheten din be om ditt uttrykkelige samtykke. Vi samler inn et push-abonnementstoken som utelukkende brukes til å sende varsler. Du kan deaktivere push-varsler når som helst fra innstillingene i nettleseren eller enheten din."
+            }
+          ]
+        },
+        {
+          "heading": "4. WhatsApp-kommunikasjon",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten lar fagfolk sende påminnelser og meldinger til kunder via WhatsApp. Meldinger sendes med telefonnummeret oppgitt av kunden. Vi deler ikke telefonnumre med tredjeparter. Meldinger sendes via direkte WhatsApp-lenker og ikke via tredjeparts-API-er."
+            }
+          ]
+        },
+        {
+          "heading": "5. Google Kalender-data",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Når du autoriserer synkronisering med Google Kalender, samler og lagrer vi:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "OAuth-tilgangstokens for å få tilgang til kalenderen din",
+                "Avtalene du velger å synkronisere",
+                "Informasjon om kalenderhendelser (tittel, klokkeslett, deltakere)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Disse dataene brukes utelukkende til å synkronisere avtaler med din Google Kalender. Du kan tilbakekalle tilgang når som helst fra innstillingene for Google-kontoen din."
+            }
+          ]
+        },
+        {
+          "heading": "6. Kontaktimport",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten lar deg importere kontakter fra Google Contacts (via OAuth-autorisasjon) eller fra CSV-filer. Import skjer kun på uttrykkelig forespørsel fra brukeren. Importerte kontakter lagres i Tjenestens database og er bare synlige for fagpersonen som importerte dem. Vi deler ikke importerte kontaktdata med tredjeparter."
+            }
+          ]
+        },
+        {
+          "heading": "7. QR-kode",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten genererer personlige QR-koder for å gi kunder rask tilgang til sitt personlige område. QR-kodene inneholder en unik kundeidentifikator og inkluderer ikke sensitive personopplysninger."
+            }
+          ]
+        },
+        {
+          "heading": "8. Datasikkerhet",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Sikkerheten til dataene dine er viktig for oss. Vi tar i bruk følgende beskyttelsestiltak:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Kryptering av sensitive data (passord, tokens)",
+                "Multi-tenant-isolasjon: dataene til hver fagperson er separate og utilgjengelige for andre brukere",
+                "HTTPS-tilkoblinger for all kommunikasjon",
+                "Betalinger behandles sikkert via Stripe og PayPal (vi lagrer ikke kredittkortdata)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Ingen overføringsmetode over Internett eller elektronisk lagringsmetode er 100 % sikker. Vi kan ikke garantere absolutt sikkerhet."
+            }
+          ]
+        },
+        {
+          "heading": "9. Informasjonskapsler",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Vi bruker øktinformasjonskapsler for å identifisere deg og huske dine preferanser. Vi bruker ikke informasjonskapsler for reklame-sporing. Tjenesten er helt reklamefri. Du kan deaktivere informasjonskapsler via nettleserinnstillingene dine."
+            }
+          ]
+        },
+        {
+          "heading": "10. Tredjepartstjenester",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten bruker følgende tredjepartstjenester:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "for autentisering og synkronisering med Google Kalender og Kontakter"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "for behandling av kortbetalinger"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "for behandling av alternative betalinger"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "for sending av varsel- og bekreftelses-e-poster"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Hver tredjepartstjeneste har sin egen personvernerklæring. Vi oppfordrer deg til å se gjennom de respektive retningslinjene."
+            }
+          ]
+        },
+        {
+          "heading": "11. Brukerrettigheter",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "I samsvar med GDPR har du rett til å:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Få tilgang til personopplysningene dine",
+                "Korrigere unøyaktige data",
+                "Be om sletting av dataene dine",
+                "Motsette deg behandlingen av dataene dine",
+                "Begrense behandlingen",
+                "Be om dataportabilitet",
+                "Trekke tilbake samtykke når som helst"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Datalagring",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Vi oppbevarer personopplysningene dine så lenge som nødvendig for å levere Tjenesten. Når du sletter kontoen din, fjernes dataene dine permanent fra systemet vårt. Fagpersonen kan slette dataene til sine kunder når som helst fra administrasjonsområdet."
+            }
+          ]
+        },
+        {
+          "heading": "13. Kontakt",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Hvis du har spørsmål om denne personvernerklæringen, kan du kontakte oss på e-postadressen for support i kontoen din."
+            }
+          ]
+        },
+        {
+          "heading": "14. Endringer",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Vi kan oppdatere personvernerklæringen vår fra tid til annen. Vi vil varsle deg om endringer ved å publisere den nye personvernerklæringen på denne siden."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Tjenestevilkår og bruksvilkår",
       "effectiveDate": "Ikrafttredelsesdato",
-      "lastModified": "Sist endret"
+      "lastModified": "Sist endret",
+      "effectiveDateValue": "20. juni 2025",
+      "lastModifiedValue": "20. juni 2025",
+      "sections": [
+        {
+          "heading": "1. Aksept av Vilkårene",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Bruk av Gestionale Appuntamenti (\"Tjenesten\") innebærer full aksept av disse Bruksvilkårene. Hvis du ikke godtar disse vilkårene, kan du ikke bruke Tjenesten."
+            }
+          ]
+        },
+        {
+          "heading": "2. Beskrivelse av Tjenesten",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti er et programvaresystem for administrasjon av:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Bookinger og avtaler",
+                "Kundedata",
+                "Fakturering og skattedokumenter",
+                "Automatisk kommunikasjon",
+                "Rapporter og statistikk"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Tjenesten er utformet for bruk i ulike profesjonelle sektorer inkludert, men ikke begrenset til: medisinske, estetiske, rådgivnings- og andre profesjonelle tjenester."
+            }
+          ]
+        },
+        {
+          "heading": "4. Brukerens Ansvar",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Brukeren forplikter seg til å:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Bruke Tjenesten i samsvar med gjeldende lover",
+                "Holde sin tilgangsinformasjon konfidensiell",
+                "Legge inn nøyaktige og oppdaterte data",
+                "Respektere personvernet til sine egne kunder",
+                "Utføre regelmessige sikkerhetskopier av sine data"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Personvern og Databeskyttelse",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Behandling av personopplysninger skjer i samsvar med Personvernforordningen (GDPR). Brukeren beholder eierskap til sine egne data og data om sine kunder."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Viktig",
+              "text": "Brukeren er ansvarlig for å overholde personvernforskriftene overfor sine egne kunder og for å innhente det nødvendige samtykket for behandling av deres data."
+            }
+          ]
+        },
+        {
+          "heading": "6. Begrensninger og Unntak",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Tjenesten leveres \"som den er\". Zambelli Development garanterer ikke:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Kontinuerlig tilgjengelighet av tjenesten",
+                "Fravær av feil eller avbrudd",
+                "Kompatibilitet med alle enheter"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Fakturering og Betalinger",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Abonnementer faktureres månedlig eller årlig",
+                "Betalinger forfaller på forhånd",
+                "Refusjoner gis kun i unntakstilfeller",
+                "Priser kan endres med 30 dagers varsel"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Oppsigelse og Suspensjon",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Kontrakten kan sies opp:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Av brukeren når som helst med 30 dagers varsel",
+                "Av Zambelli Development ved brudd på vilkårene",
+                "For manglende betaling etter 15 dager fra forfall"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Endringer i Vilkårene",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development forbeholder seg retten til å endre disse vilkårene når som helst. Vesentlige endringer vil bli kommunisert med minst 30 dagers varsel."
+            }
+          ]
+        },
+        {
+          "heading": "10. Gjeldende Lov",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Disse vilkårene reguleres av italiensk lov. Domstolen i Milano har jurisdiksjon over enhver tvist."
+            }
+          ]
+        },
+        {
+          "heading": "11. Kontakt",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "For spørsmål knyttet til disse vilkårene, kontakt:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "E-post",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Utvikler",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Abonnementstyper",
+      "plansLabels": {
+        "monthly": "Månedlig",
+        "annual": "Årlig",
+        "savings": "spar",
+        "clientLimit": "Kundegrense",
+        "unlimited": "Ubegrenset",
+        "featuresIncluded": "Inkluderte funksjoner",
+        "featuresIncludedExtra": "Inkluderte funksjoner (i tillegg til Basisplanen)",
+        "featuresIncludedAll": "Inkluderte funksjoner (alle funksjoner)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Basisplan",
+          "monthlyPrice": "5,99 €/måned",
+          "annualPrice": "59,00 €/år",
+          "savingsAmount": "11 €",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Avtalekalender",
+            "Kundeadministrasjon",
+            "QR/PWA-app for kunder",
+            "Kundens avtaleforespørsler",
+            "Kundevarsler",
+            "Fakturaopprettelse"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Professional-plan",
+          "monthlyPrice": "9,99 €/måned",
+          "annualPrice": "99,00 €/år",
+          "savingsAmount": "20 €",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Avtalekalender",
+            "Kundeadministrasjon",
+            "QR/PWA-app for kunder",
+            "Kundens avtaleforespørsler",
+            "Kundevarsler",
+            "Fakturaopprettelse",
+            "Google Kalender-synkronisering",
+            "Rapporter og statistikk",
+            "Kampanjepakker"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Business-plan",
+          "monthlyPrice": "19,99 €/måned",
+          "annualPrice": "199,00 €/år",
+          "savingsAmount": "39 €",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Avtalekalender",
+            "Kundeadministrasjon",
+            "QR/PWA-app for kunder",
+            "Kundens avtaleforespørsler",
+            "Kundevarsler",
+            "Fakturaopprettelse",
+            "Google Kalender-synkronisering",
+            "Rapporter og statistikk",
+            "Kampanjepakker",
+            "Administrasjon av flere ansatte",
+            "Produktlager",
+            "AI-markedsføringskampanjer"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - Alle rettigheter forbeholdt"
+      }
     },
     "lastUpdated": "Sist oppdatert"
   },

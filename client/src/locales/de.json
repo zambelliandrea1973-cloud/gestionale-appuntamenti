@@ -2132,6 +2132,125 @@
         "proTip": "Zeigen Sie Ihren Kunden beim ersten Besuch, wie sie die App installieren. Sie werden sofort den Mehrwert erkennen und sich stärker mit Ihrer Praxis verbunden fühlen!",
         "retention": "Die personalisierte PWA-App schafft eine stärkere Bindung zu den Kunden, erhöht die Kundentreue und reduziert No-Shows dank automatischer Erinnerungen und Premium-Benutzererfahrung."
       }
+    },
+    "page": {
+      "header": {
+        "title": "Benutzerhandbuch",
+        "subtitle": "Vollständige Anleitung zur Nutzung des Verwaltungssystems für Ihr Unternehmen"
+      },
+      "buttons": {
+        "downloadPdf": "PDF herunterladen",
+        "editManual": "Handbuch bearbeiten",
+        "editSection": "Bearbeiten",
+        "close": "Schließen",
+        "upload": "Hochladen",
+        "uploading": "Wird hochgeladen..."
+      },
+      "editMode": {
+        "banner": "✏️ Bearbeitungsmodus: Sie bearbeiten den Inhalt des Handbuchs. Änderungen werden gespeichert, wenn Sie auf „Speichern\" klicken.",
+        "editingSection": "✏️ Sie bearbeiten diesen Abschnitt. Klicken Sie auf „Schließen\", wenn Sie fertig sind.",
+        "saveHint": "ℹ️ Änderungen werden gespeichert, wenn Sie oben rechts auf „Speichern\" klicken"
+      },
+      "tabs": {
+        "gettingStarted": "Erste Schritte",
+        "dailyOps": "Tägliche Abläufe",
+        "advanced": "Erweiterte Funktionen",
+        "clientArea": "Kundenbereich"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Erstkonfiguration",
+          "description": "Stellen Sie die Unternehmensdaten ein und konfigurieren Sie das System für Ihr Unternehmen"
+        },
+        "dailyOps": {
+          "title": "Tägliche Verwaltung",
+          "description": "Die täglichen Vorgänge zur Verwaltung von Kunden, Terminen und Rechnungen"
+        },
+        "advanced": {
+          "title": "Erweiterte Funktionen",
+          "description": "Erweiterte Werkzeuge für Marketing, Inventar, Berichte und Empfehlungen"
+        },
+        "clientArea": {
+          "title": "Kunden-PWA-Bereich",
+          "description": "Wie Ihre Kunden über das Smartphone auf ihren reservierten Bereich zugreifen"
+        }
+      },
+      "sections": {
+        "s11": "1.1 Erster Zugriff auf das System",
+        "s12": "1.2 Unternehmensdaten konfigurieren",
+        "s13": "1.3 Bankdaten konfigurieren",
+        "s14": "1.4 Personal und Behandlungsräume verwalten",
+        "s15": "1.5 Automatische E-Mails konfigurieren",
+        "s21": "2.1 Kundenverwaltung",
+        "s22": "2.2 Kalender und Termine",
+        "s24": "2.4 Rechnungsverwaltung",
+        "s31": "3.1 Inventar- und Lagerverwaltung",
+        "s32": "3.2 Berichte und Statistiken",
+        "s33": "3.3 Marketingkampagnen mit KI",
+        "s34": "3.4 WhatsApp-Center",
+        "s35": "3.5 Empfehlungs- und Provisionssystem",
+        "s41": "4.1 Wie Kunden auf ihren Bereich zugreifen",
+        "s42": "4.2 Was Kunden im reservierten Bereich tun können",
+        "s43": "4.3 Wie man die App auf dem Telefon installiert (PWA)",
+        "s44": "4.4 Aussehen des Kundenbereichs anpassen"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Abschnittstitel *",
+        "sectionTitlePlaceholder": "Geben Sie den Titel des Abschnitts ein",
+        "videoTutorialLabel": "Video-Tutorial",
+        "videoTutorialPlaceholder": "Beschreibung oder Link zum Video-Tutorial",
+        "uploadLabel": "Video/Bild hochladen",
+        "procedureLabel": "Zugangsverfahren",
+        "procedurePlaceholder": "Geben Sie die Verfahrensschritte ein (einer pro Zeile)",
+        "tipLabel": "Tipp",
+        "tipPlaceholder": "Geben Sie einen nützlichen Tipp ein"
+      },
+      "footer": {
+        "title": "Brauchen Sie Hilfe?",
+        "description": "Dieses Handbuch ist immer über das Einstellungsmenü verfügbar. Für persönliche Unterstützung:",
+        "items": [
+          "Kontaktieren Sie den technischen Support per E-Mail",
+          "Schauen Sie sich die in jedem Abschnitt eingebetteten Video-Tutorials an",
+          "Laden Sie das PDF des Handbuchs für die Offline-Konsultation herunter"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ Datei hochgeladen",
+        "uploadSuccessImage": "Bilddatei erfolgreich hochgeladen",
+        "uploadSuccessVideo": "Videodatei erfolgreich hochgeladen",
+        "uploadErrorTitle": "❌ Upload-Fehler",
+        "savedTitle": "✅ Gespeichert",
+        "savedDescOne": "{{count}} Abschnitt erfolgreich gespeichert",
+        "savedDescMany": "{{count}} Abschnitte erfolgreich gespeichert",
+        "noChangesTitle": "⚠️ Keine Änderungen",
+        "noChangesDesc": "Es gibt keine Änderungen zum Speichern",
+        "missingTitleTitle": "⚠️ Titel erforderlich",
+        "missingTitleDesc": "Geben Sie den Titel des Abschnitts „{{section}}\" ein",
+        "loadedTitle": "📖 Inhalt geladen",
+        "loadedDesc": "Vorherige Änderungen aus der Datenbank geladen",
+        "defaultTitle": "📝 Standardinhalt",
+        "defaultDesc": "Bearbeiten Sie den Standardinhalt",
+        "loadErrorTitle": "❌ Ladefehler",
+        "loadErrorDesc": "Inhalt konnte nicht geladen werden ({{status}}). Bitte versuchen Sie es später erneut.",
+        "connErrorTitle": "❌ Verbindungsfehler",
+        "connErrorDesc": "Inhalt konnte nicht geladen werden. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "saveErrorTitle": "❌ Fehler",
+        "pdfPendingTitle": "Funktion in Entwicklung",
+        "pdfPendingDesc": "Der PDF-Export wird in Kürze verfügbar sein. Bitte konsultieren Sie das Handbuch vorerst online.",
+        "saveErrorDefault": "Fehler beim Speichern",
+        "uploadFailedPrefix": "Upload fehlgeschlagen"
+      },
+      "fallback": {
+        "s11": {
+          "title": "Erster Systemzugriff",
+          "step1Title": "Video-Tutorial",
+          "step1Content": "Video-Tutorial: So melden Sie sich zum ersten Mal an",
+          "step2Title": "Anmeldevorgang",
+          "step2Content": "1. Öffnen Sie Ihren Browser und gehen Sie zur von Ihrem Administrator bereitgestellten Adresse\n2. Geben Sie Ihre Zugangsdaten ein (Benutzername und Passwort)\n3. Beim ersten Zugriff wird dieses Handbuch automatisch angezeigt\n4. Sie können das Handbuch jederzeit über das Menü Einstellungen erneut aufrufen",
+          "step3Title": "Tipp",
+          "step3Content": "💡 Tipp: Fügen Sie die Website zu den Lesezeichen Ihres Browsers hinzu, um schnell darauf zugreifen zu können!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Datenschutzerklärung"
+      "title": "Datenschutzerklärung",
+      "lastUpdatedDate": "1. April 2026",
+      "sections": [
+        {
+          "heading": "1. Einleitung",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti („wir\", „unser\" oder „uns\") betreibt die Web- und Mobilanwendung Gestionale Appuntamenti („Dienst\"), verfügbar als Progressive Web App (PWA) sowie über den Google Play Store und Samsung Galaxy Store. Diese Seite informiert Sie über unsere Richtlinien zur Erhebung, Verwendung und Offenlegung personenbezogener Daten bei der Nutzung unseres Dienstes sowie über die Wahlmöglichkeiten, die Sie bezüglich dieser Daten haben."
+            }
+          ]
+        },
+        {
+          "heading": "2. Datenerhebung und -verwendung",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Arten der erhobenen Daten"
+            },
+            {
+              "type": "p",
+              "text": "Wir erheben verschiedene Arten von Informationen für unterschiedliche Zwecke, um Ihnen einen besseren Dienst zu bieten:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Personenbezogene Daten",
+                  "text": "Name, E-Mail-Adresse, Telefonnummer, Anschrift"
+                },
+                {
+                  "strong": "Nutzungsdaten",
+                  "text": "Browser-Informationen, IP-Adressen, besuchte Seiten"
+                },
+                {
+                  "strong": "Kalenderdaten",
+                  "text": "Termine, Verfügbarkeiten, berufliche Präferenzen"
+                },
+                {
+                  "strong": "Zahlungsdaten",
+                  "text": "Rechnungsinformationen, sicher verarbeitet über Stripe und PayPal"
+                },
+                {
+                  "strong": "Google-Kalender-Daten",
+                  "text": "OAuth-Authentifizierungstokens für die Synchronisation"
+                },
+                {
+                  "strong": "Kontaktdaten",
+                  "text": "Kontakte, importiert aus Google Kontakte oder CSV-Dateien, mit ausdrücklicher Zustimmung des Nutzers"
+                },
+                {
+                  "strong": "Push-Benachrichtigungsdaten",
+                  "text": "Push-Abonnement-Tokens zum Versenden von Terminerinnerungen"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Verwendung der Daten"
+            },
+            {
+              "type": "p",
+              "text": "Wir verwenden die erhobenen Daten, um:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Den Dienst bereitzustellen und aufrechtzuerhalten",
+                "Sie über Änderungen unseres Dienstes zu benachrichtigen",
+                "Terminerinnerungen per Push, E-Mail und WhatsApp zu senden",
+                "Die Teilnahme an interaktiven Funktionen zu ermöglichen",
+                "Kundenbetreuung anzubieten",
+                "Analysen zu sammeln, um den Dienst zu verbessern",
+                "Die Nutzung des Dienstes zu überwachen",
+                "Rechnungen zu erstellen und Zahlungen zu verwalten",
+                "Personalisierte QR-Codes für den schnellen Kundenzugang zu generieren",
+                "Betrug und Sicherheitsprobleme zu erkennen, zu verhindern und zu bekämpfen"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Push-Benachrichtigungen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst nutzt Push-Benachrichtigungen, um Terminerinnerungen zu senden. Um diese Funktion zu aktivieren, fragt Ihr Browser oder Gerät Ihre ausdrückliche Zustimmung ab. Wir erfassen ein Push-Abonnement-Token, das ausschließlich zum Senden von Benachrichtigungen verwendet wird. Sie können Push-Benachrichtigungen jederzeit in den Einstellungen Ihres Browsers oder Geräts deaktivieren."
+            }
+          ]
+        },
+        {
+          "heading": "4. WhatsApp-Kommunikation",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst ermöglicht es Fachleuten, Kunden Erinnerungen und Mitteilungen über WhatsApp zu senden. Die Nachrichten werden über die vom Kunden angegebene Telefonnummer versendet. Wir geben Telefonnummern nicht an Dritte weiter. Der Versand erfolgt über direkte WhatsApp-Links und nicht über APIs Dritter."
+            }
+          ]
+        },
+        {
+          "heading": "5. Google-Kalender-Daten",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wenn Sie die Synchronisation mit Google Kalender autorisieren, erfassen und speichern wir:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "OAuth-Zugriffstokens für den Zugriff auf Ihren Kalender",
+                "Die Termine, die Sie zur Synchronisation auswählen",
+                "Informationen zu Kalenderereignissen (Titel, Uhrzeit, Teilnehmer)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Diese Daten werden ausschließlich verwendet, um Termine mit Ihrem Google Kalender zu synchronisieren. Sie können den Zugriff jederzeit in den Einstellungen Ihres Google-Kontos widerrufen."
+            }
+          ]
+        },
+        {
+          "heading": "6. Kontaktimport",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst ermöglicht den Import von Kontakten aus Google Kontakten (über OAuth-Autorisierung) oder aus CSV-Dateien. Der Import erfolgt nur auf ausdrückliche Anfrage des Nutzers. Importierte Kontakte werden in der Datenbank des Dienstes gespeichert und sind nur für den Fachmann sichtbar, der sie importiert hat. Wir geben importierte Kontaktdaten nicht an Dritte weiter."
+            }
+          ]
+        },
+        {
+          "heading": "7. QR-Code",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst generiert personalisierte QR-Codes, um Kunden einen schnellen Zugriff auf ihren persönlichen Bereich zu ermöglichen. Die QR-Codes enthalten eine eindeutige Kundenkennung und keine sensiblen personenbezogenen Daten."
+            }
+          ]
+        },
+        {
+          "heading": "8. Datensicherheit",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Die Sicherheit Ihrer Daten ist uns wichtig. Wir setzen folgende Schutzmaßnahmen ein:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Verschlüsselung sensibler Daten (Passwörter, Tokens)",
+                "Multi-Tenant-Isolation: Die Daten jedes Fachmanns sind getrennt und für andere Nutzer nicht zugänglich",
+                "HTTPS-Verbindungen für die gesamte Kommunikation",
+                "Zahlungen sicher über Stripe und PayPal verarbeitet (wir speichern keine Kreditkartendaten)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Keine Übertragungsmethode über das Internet und keine elektronische Speichermethode ist zu 100 % sicher. Wir können keine absolute Sicherheit garantieren."
+            }
+          ]
+        },
+        {
+          "heading": "9. Cookies",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wir verwenden Sitzungs-Cookies, um Sie zu identifizieren und Ihre Präferenzen zu speichern. Wir verwenden keine Werbe-Tracking-Cookies. Der Dienst ist vollständig werbefrei. Sie können Cookies in den Einstellungen Ihres Browsers deaktivieren."
+            }
+          ]
+        },
+        {
+          "heading": "10. Dienste Dritter",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst nutzt folgende Dienste Dritter:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "für Authentifizierung und Synchronisation mit Google Kalender und Kontakten"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "für die Verarbeitung von Kartenzahlungen"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "für die Verarbeitung alternativer Zahlungen"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "für den Versand von Benachrichtigungs- und Bestätigungs-E-Mails"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Jeder Drittdienst hat seine eigene Datenschutzerklärung. Wir empfehlen Ihnen, die jeweiligen Richtlinien zu konsultieren."
+            }
+          ]
+        },
+        {
+          "heading": "11. Rechte des Nutzers",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gemäß der DSGVO haben Sie das Recht:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Auf Ihre personenbezogenen Daten zuzugreifen",
+                "Ungenaue Daten zu korrigieren",
+                "Die Löschung Ihrer Daten zu beantragen",
+                "Der Verarbeitung Ihrer Daten zu widersprechen",
+                "Die Verarbeitung einzuschränken",
+                "Die Datenübertragbarkeit zu beantragen",
+                "Die Einwilligung jederzeit zu widerrufen"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Datenaufbewahrung",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wir bewahren Ihre personenbezogenen Daten so lange auf, wie es zur Bereitstellung des Dienstes erforderlich ist. Wenn Sie Ihr Konto löschen, werden Ihre Daten dauerhaft aus unserem System entfernt. Der Fachmann kann die Daten seiner Kunden jederzeit aus dem Verwaltungsbereich löschen."
+            }
+          ]
+        },
+        {
+          "heading": "13. Kontakt",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben, können Sie uns unter der in Ihrem Konto angegebenen Support-E-Mail-Adresse kontaktieren."
+            }
+          ]
+        },
+        {
+          "heading": "14. Änderungen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wir können unsere Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wir werden Sie über Änderungen informieren, indem wir die neue Datenschutzerklärung auf dieser Seite veröffentlichen."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Nutzungsbedingungen und Servicebedingungen",
       "effectiveDate": "Datum des Inkrafttretens",
-      "lastModified": "Zuletzt geändert"
+      "lastModified": "Zuletzt geändert",
+      "effectiveDateValue": "20. Juni 2025",
+      "lastModifiedValue": "20. Juni 2025",
+      "sections": [
+        {
+          "heading": "1. Annahme der Bedingungen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Die Nutzung von Gestionale Appuntamenti („der Dienst\") setzt die vollständige Annahme dieser Nutzungsbedingungen voraus. Wenn Sie diese Bedingungen nicht akzeptieren, können Sie den Dienst nicht nutzen."
+            }
+          ]
+        },
+        {
+          "heading": "2. Beschreibung des Dienstes",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti ist ein Softwaresystem zur Verwaltung von:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Buchungen und Terminen",
+                "Kundendaten",
+                "Rechnungsstellung und Steuerdokumenten",
+                "Automatischen Mitteilungen",
+                "Berichten und Statistiken"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Der Dienst ist für die Nutzung in verschiedenen Berufsfeldern konzipiert, einschließlich, aber nicht beschränkt auf: medizinische, ästhetische, beratende und andere professionelle Dienstleistungen."
+            }
+          ]
+        },
+        {
+          "heading": "4. Verantwortlichkeiten des Nutzers",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Nutzer verpflichtet sich:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Den Dienst in Übereinstimmung mit den geltenden Gesetzen zu nutzen",
+                "Seine Zugangsdaten vertraulich zu behandeln",
+                "Genaue und aktuelle Daten einzugeben",
+                "Die Privatsphäre seiner eigenen Kunden zu respektieren",
+                "Regelmäßige Backups seiner Daten durchzuführen"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Datenschutz und Datensicherheit",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Die Verarbeitung personenbezogener Daten erfolgt in Übereinstimmung mit der Datenschutz-Grundverordnung (DSGVO). Der Nutzer behält das Eigentum an seinen Daten und denen seiner Kunden."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Wichtig",
+              "text": "Der Nutzer ist verantwortlich für die Einhaltung der Datenschutzbestimmungen gegenüber seinen eigenen Kunden und für die Einholung der erforderlichen Zustimmung zur Verarbeitung ihrer Daten."
+            }
+          ]
+        },
+        {
+          "heading": "6. Einschränkungen und Ausschlüsse",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Dienst wird „wie besehen\" bereitgestellt. Zambelli Development garantiert nicht:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Kontinuierliche Verfügbarkeit des Dienstes",
+                "Fehlerfreiheit oder ununterbrochenen Betrieb",
+                "Kompatibilität mit allen Geräten"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Abrechnung und Zahlungen",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Abonnements werden monatlich oder jährlich abgerechnet",
+                "Zahlungen sind im Voraus fällig",
+                "Erstattungen werden nur in Ausnahmefällen gewährt",
+                "Preise können mit einer Frist von 30 Tagen geändert werden"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Kündigung und Aussetzung",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Der Vertrag kann gekündigt werden:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Vom Nutzer jederzeit mit einer Frist von 30 Tagen",
+                "Von Zambelli Development bei Verstoß gegen die Bedingungen",
+                "Bei Nichtzahlung nach 15 Tagen ab Fälligkeit"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Änderungen der Bedingungen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Wesentliche Änderungen werden mit einer Vorankündigung von mindestens 30 Tagen mitgeteilt."
+            }
+          ]
+        },
+        {
+          "heading": "10. Anwendbares Recht",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Diese Bedingungen unterliegen italienischem Recht. Für Streitigkeiten ist der Gerichtsstand Mailand zuständig."
+            }
+          ]
+        },
+        {
+          "heading": "11. Kontakt",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Für Fragen zu diesen Bedingungen wenden Sie sich an:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "E-Mail",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Entwickler",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Abonnement-Pläne",
+      "plansLabels": {
+        "monthly": "Monatlich",
+        "annual": "Jährlich",
+        "savings": "sparen Sie",
+        "clientLimit": "Kundenlimit",
+        "unlimited": "Unbegrenzt",
+        "featuresIncluded": "Enthaltene Funktionen",
+        "featuresIncludedExtra": "Enthaltene Funktionen (zusätzlich zum Basisplan)",
+        "featuresIncludedAll": "Enthaltene Funktionen (alle Funktionen)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Basisplan",
+          "monthlyPrice": "5,99 €/Monat",
+          "annualPrice": "59,00 €/Jahr",
+          "savingsAmount": "11 €",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Terminkalender",
+            "Kundenverwaltung",
+            "QR/PWA-App für Kunden",
+            "Kunden-Terminanfragen",
+            "Kundenbenachrichtigungen",
+            "Rechnungsstellung"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Professional-Plan",
+          "monthlyPrice": "9,99 €/Monat",
+          "annualPrice": "99,00 €/Jahr",
+          "savingsAmount": "20 €",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Terminkalender",
+            "Kundenverwaltung",
+            "QR/PWA-App für Kunden",
+            "Kunden-Terminanfragen",
+            "Kundenbenachrichtigungen",
+            "Rechnungsstellung",
+            "Google Kalender-Synchronisation",
+            "Berichte und Statistiken",
+            "Aktionspakete"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Business-Plan",
+          "monthlyPrice": "19,99 €/Monat",
+          "annualPrice": "199,00 €/Jahr",
+          "savingsAmount": "39 €",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Terminkalender",
+            "Kundenverwaltung",
+            "QR/PWA-App für Kunden",
+            "Kunden-Terminanfragen",
+            "Kundenbenachrichtigungen",
+            "Rechnungsstellung",
+            "Google Kalender-Synchronisation",
+            "Berichte und Statistiken",
+            "Aktionspakete",
+            "Verwaltung mehrerer Mitarbeiter",
+            "Produktinventar",
+            "KI-Marketingkampagnen"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - Alle Rechte vorbehalten"
+      }
     },
     "lastUpdated": "Zuletzt aktualisiert"
   },

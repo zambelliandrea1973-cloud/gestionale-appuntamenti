@@ -2132,6 +2132,125 @@
         "proTip": "Show clients how to install the app during their first visit. They will immediately see the added value and feel more engaged in their relationship with your practice!",
         "retention": "The personalized PWA app creates a stronger bond with clients, increasing retention and reducing no-shows thanks to automatic reminders and the premium user experience."
       }
+    },
+    "page": {
+      "header": {
+        "title": "User Manual",
+        "subtitle": "Complete guide to using the management system for your business"
+      },
+      "buttons": {
+        "downloadPdf": "Download PDF",
+        "editManual": "Edit Manual",
+        "editSection": "Edit",
+        "close": "Close",
+        "upload": "Upload",
+        "uploading": "Uploading..."
+      },
+      "editMode": {
+        "banner": "✏️ Edit Mode: you are editing the manual content. Changes will be saved when you click \"Save\".",
+        "editingSection": "✏️ You are editing this section. Click \"Close\" when finished.",
+        "saveHint": "ℹ️ Changes will be saved when you click \"Save\" in the top right"
+      },
+      "tabs": {
+        "gettingStarted": "Getting Started",
+        "dailyOps": "Daily Operations",
+        "advanced": "Advanced Features",
+        "clientArea": "Client Area"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Initial Setup",
+          "description": "Set company data and configure the system for your business"
+        },
+        "dailyOps": {
+          "title": "Daily Management",
+          "description": "The day-to-day operations to manage clients, appointments and invoices"
+        },
+        "advanced": {
+          "title": "Advanced Features",
+          "description": "Advanced tools for marketing, inventory, reports and referrals"
+        },
+        "clientArea": {
+          "title": "Client PWA Area",
+          "description": "How your clients access their reserved area via smartphone"
+        }
+      },
+      "sections": {
+        "s11": "1.1 First Access to the System",
+        "s12": "1.2 Configure Company Data",
+        "s13": "1.3 Configure Banking Data",
+        "s14": "1.4 Manage Staff and Treatment Rooms",
+        "s15": "1.5 Configure Automatic Emails",
+        "s21": "2.1 Client Management",
+        "s22": "2.2 Calendar and Appointments",
+        "s24": "2.4 Invoice Management",
+        "s31": "3.1 Inventory and Warehouse Management",
+        "s32": "3.2 Reports and Statistics",
+        "s33": "3.3 AI Marketing Campaigns",
+        "s34": "3.4 WhatsApp Center",
+        "s35": "3.5 Referral and Commission System",
+        "s41": "4.1 How Clients Access Their Area",
+        "s42": "4.2 What Clients Can Do in the Reserved Area",
+        "s43": "4.3 How to Install the App on a Phone (PWA)",
+        "s44": "4.4 Customize the Look of the Client Area"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Section Title *",
+        "sectionTitlePlaceholder": "Enter the section title",
+        "videoTutorialLabel": "Video Tutorial",
+        "videoTutorialPlaceholder": "Description or link to the video tutorial",
+        "uploadLabel": "Upload Video/Image",
+        "procedureLabel": "Access Procedure",
+        "procedurePlaceholder": "Enter the procedure steps (one per line)",
+        "tipLabel": "Tip",
+        "tipPlaceholder": "Enter a useful tip"
+      },
+      "footer": {
+        "title": "Need help?",
+        "description": "This manual is always available from the Settings menu. For personalized assistance:",
+        "items": [
+          "Contact technical support via email",
+          "Watch the video tutorials embedded in each section",
+          "Download the PDF of the manual for offline consultation"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ File uploaded",
+        "uploadSuccessImage": "Image file uploaded successfully",
+        "uploadSuccessVideo": "Video file uploaded successfully",
+        "uploadErrorTitle": "❌ Upload error",
+        "savedTitle": "✅ Saved",
+        "savedDescOne": "{{count}} section saved successfully",
+        "savedDescMany": "{{count}} sections saved successfully",
+        "noChangesTitle": "⚠️ No changes",
+        "noChangesDesc": "There are no changes to save",
+        "missingTitleTitle": "⚠️ Title required",
+        "missingTitleDesc": "Enter the title of section \"{{section}}\"",
+        "loadedTitle": "📖 Content loaded",
+        "loadedDesc": "Previous changes loaded from the database",
+        "defaultTitle": "📝 Default content",
+        "defaultDesc": "Edit the default content",
+        "loadErrorTitle": "❌ Load error",
+        "loadErrorDesc": "Unable to load content ({{status}}). Please try again later.",
+        "connErrorTitle": "❌ Connection error",
+        "connErrorDesc": "Unable to load content. Check your connection and try again.",
+        "saveErrorTitle": "❌ Error",
+        "pdfPendingTitle": "Feature in development",
+        "pdfPendingDesc": "PDF export will be available soon. For now, please consult the manual online.",
+        "saveErrorDefault": "Error while saving",
+        "uploadFailedPrefix": "Upload failed"
+      },
+      "fallback": {
+        "s11": {
+          "title": "First System Access",
+          "step1Title": "Video Tutorial",
+          "step1Content": "Video Tutorial: How to log in for the first time",
+          "step2Title": "Login Procedure",
+          "step2Content": "1. Open your browser and go to the address provided by your administrator\n2. Enter your access credentials (username and password)\n3. On first access, this manual will be shown to you automatically\n4. You can access the manual again at any time from the Settings menu",
+          "step3Title": "Tip",
+          "step3Content": "💡 Tip: Bookmark the site in your browser for quick access!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Privacy Policy"
+      "title": "Privacy Policy",
+      "lastUpdatedDate": "April 1, 2026",
+      "sections": [
+        {
+          "heading": "1. Introduction",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti (\"we\", \"our\" or \"us\") operates the Gestionale Appuntamenti web and mobile application (\"Service\"), available as a Progressive Web App (PWA) and through the Google Play Store and Samsung Galaxy Store. This page informs you of our policies regarding the collection, use and disclosure of personal data when you use our Service and the choices you have regarding such data."
+            }
+          ]
+        },
+        {
+          "heading": "2. Data Collection and Use",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Types of Data Collected"
+            },
+            {
+              "type": "p",
+              "text": "We collect different types of information for various purposes to provide you with a better service:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Personal Data",
+                  "text": "name, email address, phone number, address"
+                },
+                {
+                  "strong": "Usage Data",
+                  "text": "browser information, IP addresses, pages visited"
+                },
+                {
+                  "strong": "Calendar Data",
+                  "text": "appointments, availability, professional preferences"
+                },
+                {
+                  "strong": "Payment Data",
+                  "text": "billing information processed securely through Stripe and PayPal"
+                },
+                {
+                  "strong": "Google Calendar Data",
+                  "text": "OAuth authentication tokens for synchronization"
+                },
+                {
+                  "strong": "Contact Data",
+                  "text": "contacts imported from Google Contacts or CSV files, with the user's explicit consent"
+                },
+                {
+                  "strong": "Push Notification Data",
+                  "text": "push subscription tokens for sending appointment reminders"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Use of Data"
+            },
+            {
+              "type": "p",
+              "text": "We use the collected data to:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Provide and maintain the Service",
+                "Notify you about changes to our Service",
+                "Send appointment reminders via push notifications, email and WhatsApp",
+                "Allow you to participate in interactive features",
+                "Provide customer support",
+                "Gather analytics to improve the Service",
+                "Monitor the usage of the Service",
+                "Generate invoices and manage payments",
+                "Generate personalized QR Codes for quick client access",
+                "Detect, prevent and address fraud and security issues"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Push Notifications",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service uses push notifications to send appointment reminders. To enable this feature, your browser or device will request your explicit consent. We collect a push subscription token that is used exclusively for sending notifications. You can disable push notifications at any time from your browser or device settings."
+            }
+          ]
+        },
+        {
+          "heading": "4. WhatsApp Communications",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service allows professionals to send reminders and communications to clients via WhatsApp. Messages are sent using the phone number provided by the client. We do not share phone numbers with third parties. Messages are sent through direct WhatsApp links and not through third-party APIs."
+            }
+          ]
+        },
+        {
+          "heading": "5. Google Calendar Data",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "When you authorize synchronization with Google Calendar, we collect and store:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "OAuth access tokens to access your calendar",
+                "The appointments you choose to synchronize",
+                "Calendar event information (title, time, participants)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "This data is used exclusively to synchronize appointments with your Google Calendar. You can revoke access at any time from your Google account settings."
+            }
+          ]
+        },
+        {
+          "heading": "6. Contact Import",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service allows you to import contacts from Google Contacts (via OAuth authorization) or from CSV files. Import only occurs upon explicit user request. Imported contacts are stored in the Service database and are visible only to the professional who imported them. We do not share imported contact data with third parties."
+            }
+          ]
+        },
+        {
+          "heading": "7. QR Code",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service generates personalized QR Codes to allow clients quick access to their personal area. QR Codes contain a unique client identifier and do not include sensitive personal data."
+            }
+          ]
+        },
+        {
+          "heading": "8. Data Security",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The security of your data is important to us. We adopt the following protection measures:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Encryption of sensitive data (passwords, tokens)",
+                "Multi-tenant isolation: each professional's data is separate and inaccessible to other users",
+                "HTTPS connections for all communications",
+                "Payments processed securely through Stripe and PayPal (we do not store credit card data)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "No method of transmission over the Internet or method of electronic storage is 100% secure. We cannot guarantee absolute security."
+            }
+          ]
+        },
+        {
+          "heading": "9. Cookies",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We use session cookies to identify you and remember your preferences. We do not use advertising tracking cookies. The Service is completely ad-free. You can disable cookies through your browser settings."
+            }
+          ]
+        },
+        {
+          "heading": "10. Third-Party Services",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service uses the following third-party services:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "for authentication and synchronization with Google Calendar and Contacts"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "for credit card payment processing"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "for alternative payment processing"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "for sending notification and confirmation emails"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Each third-party service has its own privacy policy. We encourage you to review their respective policies."
+            }
+          ]
+        },
+        {
+          "heading": "11. User Rights",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "In accordance with the GDPR, you have the right to:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Access your personal data",
+                "Correct inaccurate data",
+                "Request the deletion of your data",
+                "Object to the processing of your data",
+                "Restrict processing",
+                "Request data portability",
+                "Withdraw consent at any time"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Data Retention",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We retain your personal data for as long as necessary to provide you with the Service. When you delete your account, your data is permanently removed from our system. The professional can delete their clients' data at any time from the management area."
+            }
+          ]
+        },
+        {
+          "heading": "13. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "If you have questions about this Privacy Policy, you can contact us at the support email address provided in your account."
+            }
+          ]
+        },
+        {
+          "heading": "14. Changes",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Terms of Service and Conditions of Use",
       "effectiveDate": "Effective date",
-      "lastModified": "Last modified"
+      "lastModified": "Last modified",
+      "effectiveDateValue": "June 20, 2025",
+      "lastModifiedValue": "June 20, 2025",
+      "sections": [
+        {
+          "heading": "1. Acceptance of Terms",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Use of Gestionale Appuntamenti (\"the Service\") implies full acceptance of these Terms of Service. If you do not accept these terms, you may not use the Service."
+            }
+          ]
+        },
+        {
+          "heading": "2. Service Description",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti is a software system for managing:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Bookings and appointments",
+                "Client records",
+                "Invoicing and tax documents",
+                "Automatic communications",
+                "Reports and statistics"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "The Service is designed to be used in various professional sectors including, but not limited to: medical, beauty, consulting and other professional services."
+            }
+          ]
+        },
+        {
+          "heading": "4. User Responsibilities",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The user agrees to:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Use the Service in compliance with applicable laws",
+                "Keep their access credentials confidential",
+                "Enter accurate and up-to-date data",
+                "Respect the privacy of their own clients",
+                "Perform regular backups of their data"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Privacy and Data Protection",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Personal data is processed in compliance with the General Data Protection Regulation (GDPR). The user retains ownership of their data and that of their clients."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Important",
+              "text": "The user is responsible for compliance with privacy regulations toward their own clients and for collecting the consent necessary to process their data."
+            }
+          ]
+        },
+        {
+          "heading": "6. Limitations and Exclusions",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The Service is provided \"as is\". Zambelli Development does not guarantee:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Continuous availability of the service",
+                "Absence of errors or interruptions",
+                "Compatibility with all devices"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Billing and Payments",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Subscriptions are billed monthly or annually",
+                "Payments are due in advance",
+                "Refunds are granted only in exceptional cases",
+                "Prices may be modified with 30 days' notice"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Termination and Suspension",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The contract may be terminated:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "By the user at any time with 30 days' notice",
+                "By Zambelli Development in case of breach of terms",
+                "For non-payment after 15 days from due date"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Changes to Terms",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development reserves the right to modify these terms at any time. Substantial changes will be communicated with at least 30 days' notice."
+            }
+          ]
+        },
+        {
+          "heading": "10. Applicable Law",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "These terms are governed by Italian law. The Court of Milan has jurisdiction over any dispute."
+            }
+          ]
+        },
+        {
+          "heading": "11. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "For matters related to these terms, please contact:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Email",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Developer",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Subscription Plans",
+      "plansLabels": {
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "savings": "save",
+        "clientLimit": "Client limit",
+        "unlimited": "Unlimited",
+        "featuresIncluded": "Included features",
+        "featuresIncludedExtra": "Included features (in addition to Base Plan)",
+        "featuresIncludedAll": "Included features (all features)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Base Plan",
+          "monthlyPrice": "€5.99/month",
+          "annualPrice": "€59.00/year",
+          "savingsAmount": "€11",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Appointment calendar",
+            "Client management",
+            "QR/PWA app for clients",
+            "Client appointment requests",
+            "Client notifications",
+            "Invoice issuing"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Professional Plan",
+          "monthlyPrice": "€9.99/month",
+          "annualPrice": "€99.00/year",
+          "savingsAmount": "€20",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Appointment calendar",
+            "Client management",
+            "QR/PWA app for clients",
+            "Client appointment requests",
+            "Client notifications",
+            "Invoice issuing",
+            "Google Calendar sync",
+            "Reports and statistics",
+            "Promotional packages"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Business Plan",
+          "monthlyPrice": "€19.99/month",
+          "annualPrice": "€199.00/year",
+          "savingsAmount": "€39",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Appointment calendar",
+            "Client management",
+            "QR/PWA app for clients",
+            "Client appointment requests",
+            "Client notifications",
+            "Invoice issuing",
+            "Google Calendar sync",
+            "Reports and statistics",
+            "Promotional packages",
+            "Multiple staff management",
+            "Product inventory",
+            "AI Marketing Campaigns"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - All rights reserved"
+      }
     },
     "lastUpdated": "Last updated"
   },

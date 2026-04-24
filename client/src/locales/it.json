@@ -2132,6 +2132,125 @@
         "proTip": "Mostra ai clienti come installare l'app durante la prima visita. Vedranno subito il valore aggiunto e si sentiranno più coinvolti nel rapporto con il tuo studio!",
         "retention": "L'app PWA personalizzata crea un legame più forte con i clienti, aumentando la retention e riducendo i no-show grazie ai promemoria automatici e all'esperienza utente premium."
       }
+    },
+    "page": {
+      "header": {
+        "title": "Manuale d'Uso",
+        "subtitle": "Guida completa all'utilizzo del gestionale per la tua attività"
+      },
+      "buttons": {
+        "downloadPdf": "Scarica PDF",
+        "editManual": "Modifica Manuale",
+        "editSection": "Modifica",
+        "close": "Chiudi",
+        "upload": "Carica",
+        "uploading": "Caricamento..."
+      },
+      "editMode": {
+        "banner": "✏️ Modalità Modifica: stai modificando il contenuto del manuale. Le modifiche verranno salvate quando clicchi su \"Salva\".",
+        "editingSection": "✏️ Stai modificando questa sezione. Clicca \"Chiudi\" quando hai finito.",
+        "saveHint": "ℹ️ Le modifiche verranno salvate quando clicchi \"Salva\" in alto a destra"
+      },
+      "tabs": {
+        "gettingStarted": "Primi Passi",
+        "dailyOps": "Operazioni Quotidiane",
+        "advanced": "Funzioni Avanzate",
+        "clientArea": "Area Cliente"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Configurazione Iniziale",
+          "description": "Imposta i dati aziendali e configura il sistema per la tua attività"
+        },
+        "dailyOps": {
+          "title": "Gestione Quotidiana",
+          "description": "Le operazioni giornaliere per gestire clienti, appuntamenti e fatture"
+        },
+        "advanced": {
+          "title": "Funzioni Avanzate",
+          "description": "Strumenti avanzati per marketing, inventario, report e referral"
+        },
+        "clientArea": {
+          "title": "Area Cliente PWA",
+          "description": "Come i tuoi clienti accedono alla loro area riservata tramite smartphone"
+        }
+      },
+      "sections": {
+        "s11": "1.1 Primo Accesso al Sistema",
+        "s12": "1.2 Configurare i Dati Aziendali",
+        "s13": "1.3 Configurare i Dati Bancari",
+        "s14": "1.4 Gestire Staff e Stanze di Trattamento",
+        "s15": "1.5 Configurare le Email Automatiche",
+        "s21": "2.1 Gestione Clienti",
+        "s22": "2.2 Calendario e Appuntamenti",
+        "s24": "2.4 Gestione Fatture",
+        "s31": "3.1 Gestione Inventario e Magazzino",
+        "s32": "3.2 Report e Statistiche",
+        "s33": "3.3 Campagne Marketing con AI",
+        "s34": "3.4 Centro WhatsApp",
+        "s35": "3.5 Sistema Referral e Commissioni",
+        "s41": "4.1 Come i Clienti Accedono alla Loro Area",
+        "s42": "4.2 Cosa Possono Fare i Clienti nell'Area Riservata",
+        "s43": "4.3 Come Installare l'App sul Telefono (PWA)",
+        "s44": "4.4 Personalizzare l'Aspetto dell'Area Cliente"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Titolo Sezione *",
+        "sectionTitlePlaceholder": "Inserisci il titolo della sezione",
+        "videoTutorialLabel": "Video Tutorial",
+        "videoTutorialPlaceholder": "Descrizione o link del video tutorial",
+        "uploadLabel": "Upload Video/Immagine",
+        "procedureLabel": "Procedura di Accesso",
+        "procedurePlaceholder": "Inserisci i passi della procedura (uno per riga)",
+        "tipLabel": "Suggerimento",
+        "tipPlaceholder": "Inserisci un suggerimento utile"
+      },
+      "footer": {
+        "title": "Hai bisogno di aiuto?",
+        "description": "Questo manuale è sempre disponibile dal menu Impostazioni. Per assistenza personalizzata:",
+        "items": [
+          "Contatta il supporto tecnico via email",
+          "Consulta i video tutorial incorporati in ogni sezione",
+          "Scarica il PDF del manuale per consultazione offline"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ File caricato",
+        "uploadSuccessImage": "File immagine caricato con successo",
+        "uploadSuccessVideo": "File video caricato con successo",
+        "uploadErrorTitle": "❌ Errore upload",
+        "savedTitle": "✅ Salvato",
+        "savedDescOne": "{{count}} sezione salvata con successo",
+        "savedDescMany": "{{count}} sezioni salvate con successo",
+        "noChangesTitle": "⚠️ Nessuna modifica",
+        "noChangesDesc": "Non ci sono modifiche da salvare",
+        "missingTitleTitle": "⚠️ Titolo obbligatorio",
+        "missingTitleDesc": "Inserisci il titolo della sezione \"{{section}}\"",
+        "loadedTitle": "📖 Contenuto caricato",
+        "loadedDesc": "Modifiche precedenti caricate dal database",
+        "defaultTitle": "📝 Contenuto di default",
+        "defaultDesc": "Modifica il contenuto predefinito",
+        "loadErrorTitle": "❌ Errore caricamento",
+        "loadErrorDesc": "Impossibile caricare il contenuto ({{status}}). Riprova più tardi.",
+        "connErrorTitle": "❌ Errore di connessione",
+        "connErrorDesc": "Impossibile caricare il contenuto. Verifica la connessione e riprova.",
+        "saveErrorTitle": "❌ Errore",
+        "pdfPendingTitle": "Funzionalità in sviluppo",
+        "pdfPendingDesc": "L'export PDF sarà disponibile a breve. Per ora consulta il manuale online.",
+        "saveErrorDefault": "Errore durante il salvataggio",
+        "uploadFailedPrefix": "Upload fallito"
+      },
+      "fallback": {
+        "s11": {
+          "title": "Primo Accesso al Sistema",
+          "step1Title": "Video Tutorial",
+          "step1Content": "Video Tutorial: Come accedere per la prima volta",
+          "step2Title": "Procedura di Accesso",
+          "step2Content": "1. Apri il browser e vai all'indirizzo fornito dal tuo amministratore\n2. Inserisci le credenziali di accesso (username e password)\n3. Al primo accesso, ti verrà mostrato questo manuale automaticamente\n4. Puoi accedere nuovamente al manuale in qualsiasi momento dal menu Impostazioni",
+          "step3Title": "Suggerimento",
+          "step3Content": "💡 Suggerimento: Aggiungi il sito ai preferiti del browser per un accesso rapido!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Informativa sulla Privacy"
+      "title": "Informativa sulla Privacy",
+      "lastUpdatedDate": "1 Aprile 2026",
+      "sections": [
+        {
+          "heading": "1. Introduzione",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti (\"noi\", \"nostro/a\" o \"nostri\") gestisce l'applicazione web e mobile Gestionale Appuntamenti (\"Servizio\"), disponibile come Progressive Web App (PWA) e tramite Google Play Store e Samsung Galaxy Store. Questa pagina ti informa delle nostre politiche riguardanti la raccolta, l'uso e la divulgazione dei dati personali quando usi il nostro Servizio e delle scelte che hai riguardo a tali dati."
+            }
+          ]
+        },
+        {
+          "heading": "2. Raccolta e Utilizzo dei Dati",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Tipi di Dati Raccolti"
+            },
+            {
+              "type": "p",
+              "text": "Raccogliamo diversi tipi di informazioni per vari scopi al fine di fornirti un migliore servizio:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Dati Personali",
+                  "text": "nome, indirizzo email, numero di telefono, indirizzo"
+                },
+                {
+                  "strong": "Dati di Utilizzo",
+                  "text": "informazioni sul browser, indirizzi IP, pagine visitate"
+                },
+                {
+                  "strong": "Dati di Calendario",
+                  "text": "appuntamenti, disponibilità, preferenze professionali"
+                },
+                {
+                  "strong": "Dati di Pagamento",
+                  "text": "informazioni di fatturazione elaborate in modo sicuro tramite Stripe e PayPal"
+                },
+                {
+                  "strong": "Dati di Google Calendar",
+                  "text": "token di autenticazione OAuth per la sincronizzazione"
+                },
+                {
+                  "strong": "Dati dei Contatti",
+                  "text": "contatti importati da Google Contacts o file CSV, previo consenso esplicito dell'utente"
+                },
+                {
+                  "strong": "Dati di Notifica Push",
+                  "text": "token di sottoscrizione push per l'invio di promemoria appuntamenti"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Utilizzo dei Dati"
+            },
+            {
+              "type": "p",
+              "text": "Utilizziamo i dati raccolti per:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Fornire e mantenere il Servizio",
+                "Notificarti i cambiamenti al nostro Servizio",
+                "Inviare promemoria appuntamenti tramite notifiche push, email e WhatsApp",
+                "Consentire la partecipazione alle funzioni interattive",
+                "Fornire assistenza clienti",
+                "Raccogliere analitiche per migliorare il Servizio",
+                "Monitorare l'utilizzo del Servizio",
+                "Generare fatture e gestire pagamenti",
+                "Generare QR Code personalizzati per l'accesso rapido dei clienti",
+                "Rilevare, prevenire e affrontare frodi e problemi di sicurezza"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Notifiche Push",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio utilizza le notifiche push per inviare promemoria sugli appuntamenti. Per attivare questa funzionalità, il tuo browser o dispositivo richiederà il tuo consenso esplicito. Raccogliamo un token di sottoscrizione push che viene utilizzato esclusivamente per l'invio delle notifiche. Puoi disattivare le notifiche push in qualsiasi momento dalle impostazioni del tuo browser o dispositivo."
+            }
+          ]
+        },
+        {
+          "heading": "4. Comunicazioni WhatsApp",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio consente ai professionisti di inviare promemoria e comunicazioni ai clienti tramite WhatsApp. I messaggi vengono inviati utilizzando il numero di telefono fornito dal cliente. Non condividiamo i numeri di telefono con terze parti. L'invio dei messaggi avviene tramite link diretti a WhatsApp e non attraverso API di terze parti."
+            }
+          ]
+        },
+        {
+          "heading": "5. Dati di Google Calendar",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Quando autorizzi la sincronizzazione con Google Calendar, raccogliamo e immagazziniamo:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Token di accesso OAuth per accedere al tuo calendario",
+                "Gli appuntamenti che scegli di sincronizzare",
+                "Le informazioni sugli eventi del calendario (titolo, orario, partecipanti)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Questi dati vengono utilizzati esclusivamente per sincronizzare gli appuntamenti con il tuo Google Calendar. Puoi revocare l'accesso in qualsiasi momento dalle impostazioni del tuo account Google."
+            }
+          ]
+        },
+        {
+          "heading": "6. Importazione Contatti",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio consente di importare contatti da Google Contacts (tramite autorizzazione OAuth) o da file CSV. L'importazione avviene solo su richiesta esplicita dell'utente. I contatti importati vengono salvati nel database del Servizio e sono visibili solo al professionista che li ha importati. Non condividiamo i dati dei contatti importati con terze parti."
+            }
+          ]
+        },
+        {
+          "heading": "7. QR Code",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio genera QR Code personalizzati per consentire ai clienti un accesso rapido alla propria area personale. I QR Code contengono un identificativo univoco del cliente e non includono dati personali sensibili."
+            }
+          ]
+        },
+        {
+          "heading": "8. Sicurezza dei Dati",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "La sicurezza dei tuoi dati è importante per noi. Adottiamo le seguenti misure di protezione:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Crittografia dei dati sensibili (password, token)",
+                "Isolamento multi-tenant: i dati di ogni professionista sono separati e inaccessibili ad altri utenti",
+                "Connessioni HTTPS per tutte le comunicazioni",
+                "Pagamenti elaborati in modo sicuro tramite Stripe e PayPal (non memorizziamo dati di carte di credito)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Nessun metodo di trasmissione su Internet o metodo di archiviazione elettronica è sicuro al 100%. Non possiamo garantire una sicurezza assoluta."
+            }
+          ]
+        },
+        {
+          "heading": "9. Cookie",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Utilizziamo cookie di sessione per identificarti e ricordare le tue preferenze. Non utilizziamo cookie di tracciamento pubblicitario. Il Servizio è completamente privo di pubblicità. Puoi disabilitare i cookie tramite le impostazioni del tuo browser."
+            }
+          ]
+        },
+        {
+          "heading": "10. Servizi di Terze Parti",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio utilizza i seguenti servizi di terze parti:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "per l'autenticazione e la sincronizzazione con Google Calendar e Contatti"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "per l'elaborazione dei pagamenti con carta"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "per l'elaborazione dei pagamenti alternativi"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "per l'invio di email di notifica e conferma"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Ogni servizio di terze parti ha la propria informativa sulla privacy. Ti invitiamo a consultare le rispettive policy."
+            }
+          ]
+        },
+        {
+          "heading": "11. Diritti dell'Utente",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "In conformità con il GDPR, hai il diritto di:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Accedere ai tuoi dati personali",
+                "Correggere dati imprecisi",
+                "Richiedere l'eliminazione dei tuoi dati",
+                "Opporti al trattamento dei tuoi dati",
+                "Limitare il trattamento",
+                "Richiedere la portabilità dei dati",
+                "Revocare il consenso in qualsiasi momento"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Conservazione dei Dati",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Conserviamo i tuoi dati personali per il tempo necessario a fornirti il Servizio. Quando elimini il tuo account, i tuoi dati vengono rimossi in modo permanente dal nostro sistema. Il professionista può eliminare i dati dei propri clienti in qualsiasi momento dall'area di gestione."
+            }
+          ]
+        },
+        {
+          "heading": "13. Contatti",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Se hai domande su questa Informativa sulla Privacy, puoi contattarci all'indirizzo email di supporto presente nel tuo account."
+            }
+          ]
+        },
+        {
+          "heading": "14. Modifiche",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Potremmo aggiornare la nostra Informativa sulla Privacy di tanto in tanto. Ti notificheremo eventuali modifiche pubblicando la nuova Informativa sulla Privacy in questa pagina."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Termini di Servizio e Condizioni d'Uso",
       "effectiveDate": "Data di entrata in vigore",
-      "lastModified": "Ultima modifica"
+      "lastModified": "Ultima modifica",
+      "effectiveDateValue": "20 Giugno 2025",
+      "lastModifiedValue": "20 Giugno 2025",
+      "sections": [
+        {
+          "heading": "1. Accettazione dei Termini",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "L'utilizzo del Gestionale Appuntamenti (\"il Servizio\") implica l'accettazione integrale dei presenti Termini di Servizio. Se non si accettano questi termini, non è possibile utilizzare il Servizio."
+            }
+          ]
+        },
+        {
+          "heading": "2. Descrizione del Servizio",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Gestionale Appuntamenti è un sistema software per la gestione di:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Prenotazioni e appuntamenti",
+                "Anagrafica clienti",
+                "Fatturazione e documenti fiscali",
+                "Comunicazioni automatiche",
+                "Report e statistiche"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Il Servizio è progettato per essere utilizzato in diversi settori professionali inclusi, ma non limitati a: servizi medici, estetici, consulenza e altri servizi professionali."
+            }
+          ]
+        },
+        {
+          "heading": "4. Responsabilità dell'Utente",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "L'utente si impegna a:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Utilizzare il Servizio in conformità alle leggi applicabili",
+                "Mantenere riservate le proprie credenziali di accesso",
+                "Inserire dati accurati e aggiornati",
+                "Rispettare la privacy dei propri clienti",
+                "Effettuare backup regolari dei propri dati"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Privacy e Protezione Dati",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il trattamento dei dati personali avviene in conformità al Regolamento Generale sulla Protezione dei Dati (GDPR). L'utente mantiene la titolarità dei propri dati e di quelli dei propri clienti."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Importante",
+              "text": "L'utente è responsabile del rispetto delle normative sulla privacy nei confronti dei propri clienti e della raccolta del consenso necessario per il trattamento dei loro dati."
+            }
+          ]
+        },
+        {
+          "heading": "6. Limitazioni e Esclusioni",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il Servizio è fornito \"così com'è\". Zambelli Development non garantisce:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Disponibilità continua del servizio",
+                "Assenza di errori o interruzioni",
+                "Compatibilità con tutti i dispositivi"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Fatturazione e Pagamenti",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Gli abbonamenti sono fatturati mensilmente o annualmente",
+                "I pagamenti sono dovuti in anticipo",
+                "I rimborsi sono concessi solo in casi eccezionali",
+                "I prezzi possono essere modificati con preavviso di 30 giorni"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Risoluzione e Sospensione",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Il contratto può essere risolto:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Dall'utente in qualsiasi momento con preavviso di 30 giorni",
+                "Da Zambelli Development in caso di violazione dei termini",
+                "Per mancato pagamento dopo 15 giorni dalla scadenza"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Modifiche ai Termini",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development si riserva il diritto di modificare questi termini in qualsiasi momento. Le modifiche sostanziali saranno comunicate con almeno 30 giorni di preavviso."
+            }
+          ]
+        },
+        {
+          "heading": "10. Legge Applicabile",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "I presenti termini sono regolati dalla legge italiana. Per qualsiasi controversia è competente il Foro di Milano."
+            }
+          ]
+        },
+        {
+          "heading": "11. Contatti",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Per questioni relative ai presenti termini, contattare:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Email",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Sviluppatore",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Tipologie di Abbonamento",
+      "plansLabels": {
+        "monthly": "Mensile",
+        "annual": "Annuale",
+        "savings": "risparmi",
+        "clientLimit": "Limite clienti",
+        "unlimited": "Illimitato",
+        "featuresIncluded": "Funzionalità incluse",
+        "featuresIncludedExtra": "Funzionalità incluse (oltre Piano Base)",
+        "featuresIncludedAll": "Funzionalità incluse (tutte le funzionalità)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Piano Base",
+          "monthlyPrice": "€5,99/mese",
+          "annualPrice": "€59,00/anno",
+          "savingsAmount": "11€",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Calendario appuntamenti",
+            "Gestione clienti",
+            "App QR/PWA per clienti",
+            "Richiesta appuntamenti cliente",
+            "Notifiche clienti",
+            "Emissione fatture"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Piano Professional",
+          "monthlyPrice": "€9,99/mese",
+          "annualPrice": "€99,00/anno",
+          "savingsAmount": "20€",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Calendario appuntamenti",
+            "Gestione clienti",
+            "App QR/PWA per clienti",
+            "Richiesta appuntamenti cliente",
+            "Notifiche clienti",
+            "Emissione fatture",
+            "Sincronizzazione Google Calendar",
+            "Report e statistiche",
+            "Pacchetti promozionali"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Piano Business",
+          "monthlyPrice": "€19,99/mese",
+          "annualPrice": "€199,00/anno",
+          "savingsAmount": "39€",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Calendario appuntamenti",
+            "Gestione clienti",
+            "App QR/PWA per clienti",
+            "Richiesta appuntamenti cliente",
+            "Notifiche clienti",
+            "Emissione fatture",
+            "Sincronizzazione Google Calendar",
+            "Report e statistiche",
+            "Pacchetti promozionali",
+            "Gestione più dipendenti",
+            "Magazzino prodotti",
+            "Campagne Marketing AI"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - Tutti i diritti riservati"
+      }
     },
     "lastUpdated": "Ultimo aggiornamento"
   },

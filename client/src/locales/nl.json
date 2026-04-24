@@ -2132,6 +2132,125 @@
         "proTip": "Toon klanten hoe ze de app installeren tijdens het eerste bezoek. Ze zullen onmiddellijk de toegevoegde waarde zien en zich meer betrokken voelen bij de relatie met uw praktijk!",
         "retention": "De gepersonaliseerde PWA-app creëert een sterkere band met klanten, verhoogt de retentie en vermindert no-shows dankzij automatische herinneringen en de premium gebruikerservaring."
       }
+    },
+    "page": {
+      "header": {
+        "title": "Gebruikershandleiding",
+        "subtitle": "Volledige gids voor het gebruik van het beheersysteem van uw bedrijf"
+      },
+      "buttons": {
+        "downloadPdf": "PDF downloaden",
+        "editManual": "Handleiding bewerken",
+        "editSection": "Bewerken",
+        "close": "Sluiten",
+        "upload": "Uploaden",
+        "uploading": "Bezig met uploaden..."
+      },
+      "editMode": {
+        "banner": "✏️ Bewerkmodus: u bewerkt de inhoud van de handleiding. Wijzigingen worden opgeslagen wanneer u op \"Opslaan\" klikt.",
+        "editingSection": "✏️ U bewerkt deze sectie. Klik op \"Sluiten\" wanneer u klaar bent.",
+        "saveHint": "ℹ️ Wijzigingen worden opgeslagen wanneer u op \"Opslaan\" rechtsboven klikt"
+      },
+      "tabs": {
+        "gettingStarted": "Eerste Stappen",
+        "dailyOps": "Dagelijkse Bewerkingen",
+        "advanced": "Geavanceerde Functies",
+        "clientArea": "Klantgebied"
+      },
+      "cards": {
+        "gettingStarted": {
+          "title": "Eerste Configuratie",
+          "description": "Stel de bedrijfsgegevens in en configureer het systeem voor uw bedrijf"
+        },
+        "dailyOps": {
+          "title": "Dagelijks Beheer",
+          "description": "De dagelijkse handelingen voor het beheer van klanten, afspraken en facturen"
+        },
+        "advanced": {
+          "title": "Geavanceerde Functies",
+          "description": "Geavanceerde tools voor marketing, voorraad, rapporten en verwijzingen"
+        },
+        "clientArea": {
+          "title": "Klant PWA-gebied",
+          "description": "Hoe uw klanten hun gereserveerde gebied via smartphone bezoeken"
+        }
+      },
+      "sections": {
+        "s11": "1.1 Eerste Toegang tot het Systeem",
+        "s12": "1.2 Bedrijfsgegevens Configureren",
+        "s13": "1.3 Bankgegevens Configureren",
+        "s14": "1.4 Personeel en Behandelkamers Beheren",
+        "s15": "1.5 Automatische E-mails Configureren",
+        "s21": "2.1 Klantbeheer",
+        "s22": "2.2 Agenda en Afspraken",
+        "s24": "2.4 Factuurbeheer",
+        "s31": "3.1 Voorraad- en Magazijnbeheer",
+        "s32": "3.2 Rapporten en Statistieken",
+        "s33": "3.3 Marketingcampagnes met AI",
+        "s34": "3.4 WhatsApp-centrum",
+        "s35": "3.5 Verwijzings- en Commissiesysteem",
+        "s41": "4.1 Hoe Klanten Hun Gebied Bezoeken",
+        "s42": "4.2 Wat Klanten Kunnen Doen in het Gereserveerde Gebied",
+        "s43": "4.3 Hoe de App op de Telefoon Installeren (PWA)",
+        "s44": "4.4 Het Uiterlijk van het Klantgebied Aanpassen"
+      },
+      "editDialog": {
+        "sectionTitleLabel": "Sectietitel *",
+        "sectionTitlePlaceholder": "Voer de titel van de sectie in",
+        "videoTutorialLabel": "Video-tutorial",
+        "videoTutorialPlaceholder": "Beschrijving of link naar de video-tutorial",
+        "uploadLabel": "Video/Afbeelding uploaden",
+        "procedureLabel": "Toegangsprocedure",
+        "procedurePlaceholder": "Voer de procedurestappen in (één per regel)",
+        "tipLabel": "Tip",
+        "tipPlaceholder": "Voer een nuttige tip in"
+      },
+      "footer": {
+        "title": "Hulp nodig?",
+        "description": "Deze handleiding is altijd beschikbaar via het menu Instellingen. Voor persoonlijke ondersteuning:",
+        "items": [
+          "Neem contact op met de technische ondersteuning via e-mail",
+          "Bekijk de video-tutorials die in elke sectie zijn ingebed",
+          "Download de PDF van de handleiding voor offline raadpleging"
+        ]
+      },
+      "toasts": {
+        "uploadSuccessTitle": "✅ Bestand geüpload",
+        "uploadSuccessImage": "Afbeeldingsbestand succesvol geüpload",
+        "uploadSuccessVideo": "Videobestand succesvol geüpload",
+        "uploadErrorTitle": "❌ Uploadfout",
+        "savedTitle": "✅ Opgeslagen",
+        "savedDescOne": "{{count}} sectie succesvol opgeslagen",
+        "savedDescMany": "{{count}} secties succesvol opgeslagen",
+        "noChangesTitle": "⚠️ Geen wijzigingen",
+        "noChangesDesc": "Er zijn geen wijzigingen om op te slaan",
+        "missingTitleTitle": "⚠️ Titel verplicht",
+        "missingTitleDesc": "Voer de titel van sectie \"{{section}}\" in",
+        "loadedTitle": "📖 Inhoud geladen",
+        "loadedDesc": "Eerdere wijzigingen geladen uit de database",
+        "defaultTitle": "📝 Standaardinhoud",
+        "defaultDesc": "Bewerk de standaardinhoud",
+        "loadErrorTitle": "❌ Laadfout",
+        "loadErrorDesc": "Kan inhoud niet laden ({{status}}). Probeer het later opnieuw.",
+        "connErrorTitle": "❌ Verbindingsfout",
+        "connErrorDesc": "Kan inhoud niet laden. Controleer uw verbinding en probeer het opnieuw.",
+        "saveErrorTitle": "❌ Fout",
+        "pdfPendingTitle": "Functie in ontwikkeling",
+        "pdfPendingDesc": "PDF-export is binnenkort beschikbaar. Raadpleeg voorlopig de handleiding online.",
+        "saveErrorDefault": "Fout bij het opslaan",
+        "uploadFailedPrefix": "Upload mislukt"
+      },
+      "fallback": {
+        "s11": {
+          "title": "Eerste Systeemtoegang",
+          "step1Title": "Video-tutorial",
+          "step1Content": "Video-tutorial: Hoe u zich voor de eerste keer aanmeldt",
+          "step2Title": "Aanmeldprocedure",
+          "step2Content": "1. Open uw browser en ga naar het door uw beheerder verstrekte adres\n2. Voer uw inloggegevens in (gebruikersnaam en wachtwoord)\n3. Bij de eerste toegang wordt deze handleiding automatisch weergegeven\n4. U kunt de handleiding op elk moment opnieuw openen via het menu Instellingen",
+          "step3Title": "Tip",
+          "step3Content": "💡 Tip: Voeg de site toe aan uw browserfavorieten voor snelle toegang!"
+        }
+      }
     }
   },
   "planFeatures": {
@@ -2827,12 +2946,498 @@
   },
   "legal": {
     "privacy": {
-      "title": "Privacybeleid"
+      "title": "Privacybeleid",
+      "lastUpdatedDate": "1 april 2026",
+      "sections": [
+        {
+          "heading": "1. Inleiding",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti (\"wij\", \"ons\" of \"onze\") beheert de web- en mobiele applicatie Gestionale Appuntamenti (\"Service\"), beschikbaar als Progressive Web App (PWA) en via Google Play Store en Samsung Galaxy Store. Deze pagina informeert u over ons beleid betreffende het verzamelen, het gebruik en de openbaarmaking van persoonsgegevens wanneer u onze Service gebruikt en over de keuzes die u heeft met betrekking tot deze gegevens."
+            }
+          ]
+        },
+        {
+          "heading": "2. Verzameling en Gebruik van Gegevens",
+          "blocks": [
+            {
+              "type": "h3",
+              "text": "2.1 Soorten Verzamelde Gegevens"
+            },
+            {
+              "type": "p",
+              "text": "We verzamelen verschillende soorten informatie voor diverse doeleinden om u een betere service te bieden:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Persoonsgegevens",
+                  "text": "naam, e-mailadres, telefoonnummer, adres"
+                },
+                {
+                  "strong": "Gebruiksgegevens",
+                  "text": "browserinformatie, IP-adressen, bezochte pagina's"
+                },
+                {
+                  "strong": "Agendagegevens",
+                  "text": "afspraken, beschikbaarheid, professionele voorkeuren"
+                },
+                {
+                  "strong": "Betalingsgegevens",
+                  "text": "factuurgegevens veilig verwerkt via Stripe en PayPal"
+                },
+                {
+                  "strong": "Google Agenda-gegevens",
+                  "text": "OAuth-authenticatietokens voor synchronisatie"
+                },
+                {
+                  "strong": "Contactgegevens",
+                  "text": "contacten geïmporteerd uit Google Contacts of CSV-bestanden, met expliciete toestemming van de gebruiker"
+                },
+                {
+                  "strong": "Pushmeldingsgegevens",
+                  "text": "push-abonnementstokens voor het verzenden van afspraakherinneringen"
+                }
+              ]
+            },
+            {
+              "type": "h3",
+              "text": "2.2 Gebruik van Gegevens"
+            },
+            {
+              "type": "p",
+              "text": "We gebruiken de verzamelde gegevens om:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "De Service te leveren en te onderhouden",
+                "U op de hoogte te stellen van wijzigingen in onze Service",
+                "Afspraakherinneringen te versturen via pushmeldingen, e-mail en WhatsApp",
+                "Deelname aan interactieve functies mogelijk te maken",
+                "Klantenondersteuning te bieden",
+                "Analyses te verzamelen om de Service te verbeteren",
+                "Het gebruik van de Service te monitoren",
+                "Facturen te genereren en betalingen te beheren",
+                "Gepersonaliseerde QR-codes te genereren voor snelle klanttoegang",
+                "Fraude en beveiligingsproblemen te detecteren, voorkomen en aanpakken"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. Pushmeldingen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service gebruikt pushmeldingen om afspraakherinneringen te versturen. Om deze functie te activeren, vraagt uw browser of apparaat uw expliciete toestemming. We verzamelen een push-abonnementstoken dat uitsluitend wordt gebruikt voor het verzenden van meldingen. U kunt pushmeldingen op elk moment uitschakelen via de instellingen van uw browser of apparaat."
+            }
+          ]
+        },
+        {
+          "heading": "4. WhatsApp-communicatie",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service stelt professionals in staat herinneringen en mededelingen aan klanten te sturen via WhatsApp. Berichten worden verzonden via het door de klant opgegeven telefoonnummer. We delen telefoonnummers niet met derden. Berichten worden verzonden via directe WhatsApp-koppelingen en niet via API's van derden."
+            }
+          ]
+        },
+        {
+          "heading": "5. Google Agenda-gegevens",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Wanneer u synchronisatie met Google Agenda autoriseert, verzamelen en bewaren we:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "OAuth-toegangstokens om uw agenda te benaderen",
+                "De afspraken die u kiest om te synchroniseren",
+                "Informatie over agenda-evenementen (titel, tijdstip, deelnemers)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Deze gegevens worden uitsluitend gebruikt om afspraken te synchroniseren met uw Google Agenda. U kunt de toegang op elk moment intrekken via de instellingen van uw Google-account."
+            }
+          ]
+        },
+        {
+          "heading": "6. Contacten Importeren",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service maakt het mogelijk contacten te importeren uit Google Contacts (via OAuth-autorisatie) of uit CSV-bestanden. Import vindt alleen plaats op uitdrukkelijk verzoek van de gebruiker. Geïmporteerde contacten worden opgeslagen in de database van de Service en zijn alleen zichtbaar voor de professional die ze heeft geïmporteerd. We delen geïmporteerde contactgegevens niet met derden."
+            }
+          ]
+        },
+        {
+          "heading": "7. QR-code",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service genereert gepersonaliseerde QR-codes om klanten snelle toegang te geven tot hun persoonlijke gebied. QR-codes bevatten een unieke klantidentificatie en bevatten geen gevoelige persoonsgegevens."
+            }
+          ]
+        },
+        {
+          "heading": "8. Gegevensbeveiliging",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De beveiliging van uw gegevens is belangrijk voor ons. We treffen de volgende beschermingsmaatregelen:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Versleuteling van gevoelige gegevens (wachtwoorden, tokens)",
+                "Multi-tenant isolatie: de gegevens van elke professional zijn gescheiden en niet toegankelijk voor andere gebruikers",
+                "HTTPS-verbindingen voor alle communicatie",
+                "Betalingen veilig verwerkt via Stripe en PayPal (we slaan geen creditcardgegevens op)"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Geen enkele methode van overdracht via internet of elektronische opslag is 100% veilig. We kunnen geen absolute veiligheid garanderen."
+            }
+          ]
+        },
+        {
+          "heading": "9. Cookies",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We gebruiken sessie-cookies om u te identificeren en uw voorkeuren te onthouden. We gebruiken geen advertentie-trackingcookies. De Service is volledig vrij van advertenties. U kunt cookies uitschakelen via de instellingen van uw browser."
+            }
+          ]
+        },
+        {
+          "heading": "10. Diensten van Derden",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service gebruikt de volgende diensten van derden:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "Google OAuth 2.0",
+                  "text": "voor authenticatie en synchronisatie met Google Agenda en Contacten"
+                },
+                {
+                  "strong": "Stripe",
+                  "text": "voor de verwerking van kaartbetalingen"
+                },
+                {
+                  "strong": "PayPal",
+                  "text": "voor de verwerking van alternatieve betalingen"
+                },
+                {
+                  "strong": "SMTP/Gmail/SendGrid",
+                  "text": "voor het verzenden van meldings- en bevestigings-e-mails"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Elke dienst van derden heeft zijn eigen privacybeleid. We nodigen u uit hun respectieve beleid te raadplegen."
+            }
+          ]
+        },
+        {
+          "heading": "11. Gebruikersrechten",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Conform de AVG heeft u het recht om:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Toegang te krijgen tot uw persoonsgegevens",
+                "Onjuiste gegevens te corrigeren",
+                "Verwijdering van uw gegevens te vragen",
+                "Bezwaar te maken tegen de verwerking van uw gegevens",
+                "De verwerking te beperken",
+                "Gegevensoverdraagbaarheid te vragen",
+                "Toestemming op elk moment in te trekken"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "12. Bewaring van Gegevens",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We bewaren uw persoonsgegevens zo lang als nodig is om u de Service te bieden. Wanneer u uw account verwijdert, worden uw gegevens permanent uit ons systeem verwijderd. De professional kan de gegevens van zijn klanten op elk moment verwijderen vanuit het beheergebied."
+            }
+          ]
+        },
+        {
+          "heading": "13. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Als u vragen heeft over dit Privacybeleid, kunt u contact met ons opnemen via het ondersteuningsmailadres dat in uw account staat."
+            }
+          ]
+        },
+        {
+          "heading": "14. Wijzigingen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "We kunnen ons Privacybeleid van tijd tot tijd bijwerken. We zullen u op de hoogte stellen van wijzigingen door het nieuwe Privacybeleid op deze pagina te plaatsen."
+            }
+          ]
+        }
+      ]
     },
     "terms": {
       "title": "Servicevoorwaarden en gebruiksvoorwaarden",
       "effectiveDate": "Datum van inwerkingtreding",
-      "lastModified": "Laatst gewijzigd"
+      "lastModified": "Laatst gewijzigd",
+      "effectiveDateValue": "20 juni 2025",
+      "lastModifiedValue": "20 juni 2025",
+      "sections": [
+        {
+          "heading": "1. Acceptatie van de Voorwaarden",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Het gebruik van Gestionale Appuntamenti (\"de Service\") impliceert volledige acceptatie van deze Servicevoorwaarden. Als u deze voorwaarden niet accepteert, kunt u de Service niet gebruiken."
+            }
+          ]
+        },
+        {
+          "heading": "2. Beschrijving van de Service",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Gestionale Appuntamenti is een softwaresysteem voor het beheer van:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Boekingen en afspraken",
+                "Klantgegevens",
+                "Facturatie en fiscale documenten",
+                "Automatische communicatie",
+                "Rapporten en statistieken"
+              ]
+            },
+            {
+              "type": "p",
+              "text": "De Service is ontworpen om gebruikt te worden in verschillende professionele sectoren waaronder, maar niet beperkt tot: medische, esthetische, advies- en andere professionele diensten."
+            }
+          ]
+        },
+        {
+          "heading": "4. Verantwoordelijkheden van de Gebruiker",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De gebruiker verbindt zich ertoe:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "De Service te gebruiken in overeenstemming met de toepasselijke wetgeving",
+                "Zijn toegangsgegevens vertrouwelijk te houden",
+                "Nauwkeurige en bijgewerkte gegevens in te voeren",
+                "De privacy van zijn eigen klanten te respecteren",
+                "Regelmatig back-ups van zijn gegevens te maken"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "5. Privacy en Gegevensbescherming",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De verwerking van persoonsgegevens vindt plaats in overeenstemming met de Algemene Verordening Gegevensbescherming (AVG). De gebruiker behoudt het eigendom van zijn gegevens en die van zijn klanten."
+            },
+            {
+              "type": "callout",
+              "variant": "warning",
+              "heading": "Belangrijk",
+              "text": "De gebruiker is verantwoordelijk voor de naleving van de privacyregels jegens zijn eigen klanten en voor het verkrijgen van de toestemming die nodig is voor de verwerking van hun gegevens."
+            }
+          ]
+        },
+        {
+          "heading": "6. Beperkingen en Uitsluitingen",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "De Service wordt geleverd \"zoals deze is\". Zambelli Development garandeert niet:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Continue beschikbaarheid van de service",
+                "Afwezigheid van fouten of onderbrekingen",
+                "Compatibiliteit met alle apparaten"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "7. Facturatie en Betalingen",
+          "blocks": [
+            {
+              "type": "ul",
+              "items": [
+                "Abonnementen worden maandelijks of jaarlijks gefactureerd",
+                "Betalingen zijn vooraf verschuldigd",
+                "Terugbetalingen worden alleen in uitzonderlijke gevallen toegestaan",
+                "Prijzen kunnen worden gewijzigd met een opzegtermijn van 30 dagen"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "8. Beëindiging en Opschorting",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Het contract kan worden beëindigd:"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "Door de gebruiker op elk moment met een opzegtermijn van 30 dagen",
+                "Door Zambelli Development bij schending van de voorwaarden",
+                "Wegens niet-betaling na 15 dagen vanaf de vervaldatum"
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "9. Wijzigingen in de Voorwaarden",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Zambelli Development behoudt zich het recht voor deze voorwaarden op elk moment te wijzigen. Substantiële wijzigingen worden ten minste 30 dagen van tevoren gecommuniceerd."
+            }
+          ]
+        },
+        {
+          "heading": "10. Toepasselijk Recht",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Deze voorwaarden worden beheerst door het Italiaanse recht. Voor elk geschil is de rechtbank van Milaan bevoegd."
+            }
+          ]
+        },
+        {
+          "heading": "11. Contact",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Voor vragen met betrekking tot deze voorwaarden, neem contact op met:"
+            },
+            {
+              "type": "ulStrong",
+              "items": [
+                {
+                  "strong": "E-mail",
+                  "text": "zambelli.andrea.1973@gmail.com"
+                },
+                {
+                  "strong": "Ontwikkelaar",
+                  "text": "Zambelli Development"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plansHeading": "3. Abonnementsplannen",
+      "plansLabels": {
+        "monthly": "Maandelijks",
+        "annual": "Jaarlijks",
+        "savings": "bespaar",
+        "clientLimit": "Klantlimiet",
+        "unlimited": "Onbeperkt",
+        "featuresIncluded": "Inbegrepen functies",
+        "featuresIncludedExtra": "Inbegrepen functies (bovenop het Basisplan)",
+        "featuresIncludedAll": "Inbegrepen functies (alle functies)"
+      },
+      "plans": [
+        {
+          "id": "base",
+          "name": "3.1 Basisplan",
+          "monthlyPrice": "€5,99/maand",
+          "annualPrice": "€59,00/jaar",
+          "savingsAmount": "€11",
+          "clientLimit": "100",
+          "featuresHeader": "featuresIncluded",
+          "features": [
+            "Afsprakenagenda",
+            "Klantbeheer",
+            "QR/PWA-app voor klanten",
+            "Klantafspraakverzoeken",
+            "Klantmeldingen",
+            "Facturen uitgeven"
+          ]
+        },
+        {
+          "id": "professional",
+          "name": "3.2 Professional-plan",
+          "monthlyPrice": "€9,99/maand",
+          "annualPrice": "€99,00/jaar",
+          "savingsAmount": "€20",
+          "clientLimit": "500",
+          "featuresHeader": "featuresIncludedExtra",
+          "features": [
+            "Afsprakenagenda",
+            "Klantbeheer",
+            "QR/PWA-app voor klanten",
+            "Klantafspraakverzoeken",
+            "Klantmeldingen",
+            "Facturen uitgeven",
+            "Google Agenda-synchronisatie",
+            "Rapporten en statistieken",
+            "Promotionele pakketten"
+          ]
+        },
+        {
+          "id": "business",
+          "name": "3.3 Business-plan",
+          "monthlyPrice": "€19,99/maand",
+          "annualPrice": "€199,00/jaar",
+          "savingsAmount": "€39",
+          "clientLimit": "unlimited",
+          "featuresHeader": "featuresIncludedAll",
+          "features": [
+            "Afsprakenagenda",
+            "Klantbeheer",
+            "QR/PWA-app voor klanten",
+            "Klantafspraakverzoeken",
+            "Klantmeldingen",
+            "Facturen uitgeven",
+            "Google Agenda-synchronisatie",
+            "Rapporten en statistieken",
+            "Promotionele pakketten",
+            "Beheer van meerdere medewerkers",
+            "Productinventaris",
+            "AI-marketingcampagnes"
+          ]
+        }
+      ],
+      "footer": {
+        "version": "Gestionale Appuntamenti v2.1.0",
+        "copyright": "© 2025 Zambelli Development - Alle rechten voorbehouden"
+      }
     },
     "lastUpdated": "Laatst bijgewerkt"
   },
