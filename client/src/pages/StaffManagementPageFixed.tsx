@@ -36,7 +36,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import AuthorizedRoute from "@/components/AuthorizedRoute";
 import { useToast } from "@/hooks/use-toast";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 
 interface StaffUser {
@@ -102,8 +102,8 @@ export default function StaffManagementPageFixed() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
       toast({
-        title: "Staff creato con successo",
-        description: "Il nuovo membro dello staff ha accesso PRO completo gratuito",
+        title: t('staffManagement.toast.created.title'),
+        description: t('staffManagement.toast.created.desc'),
       });
       setIsCreateDialogOpen(false);
       setNewStaff({ username: "", password: "", email: "", role: "staff" });
@@ -111,7 +111,7 @@ export default function StaffManagementPageFixed() {
     onError: (error: any) => {
       toast({
         title: t("common.error"),
-        description: error.message || "Impossibile creare lo staff",
+        description: error.message || t('staffManagement.errors.create'),
         variant: "destructive",
       });
     }
@@ -126,8 +126,8 @@ export default function StaffManagementPageFixed() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
       toast({
-        title: "Staff aggiornato",
-        description: "Le informazioni sono state modificate con successo",
+        title: t('staffManagement.toast.updated.title'),
+        description: t('staffManagement.toast.updated.desc'),
       });
       setIsEditDialogOpen(false);
       setSelectedStaff(null);
@@ -136,7 +136,7 @@ export default function StaffManagementPageFixed() {
     onError: (error: any) => {
       toast({
         title: t("common.error"),
-        description: error.message || "Impossibile modificare lo staff",
+        description: error.message || t('staffManagement.errors.edit'),
         variant: "destructive",
       });
     }
@@ -151,8 +151,8 @@ export default function StaffManagementPageFixed() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
       toast({
-        title: "Staff eliminato",
-        description: "Il membro dello staff è stato rimosso definitivamente",
+        title: t('staffManagement.toast.deleted.title'),
+        description: t('staffManagement.toast.deleted.desc'),
       });
       setIsDeleteDialogOpen(false);
       setSelectedStaff(null);
@@ -160,7 +160,7 @@ export default function StaffManagementPageFixed() {
     onError: (error: any) => {
       toast({
         title: t("common.error"),
-        description: error.message || "Impossibile eliminare lo staff",
+        description: error.message || t('staffManagement.errors.delete'),
         variant: "destructive",
       });
     }
@@ -175,8 +175,8 @@ export default function StaffManagementPageFixed() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
       toast({
-        title: "Dati bancari salvati",
-        description: "I dati bancari dello staff sono stati aggiornati con successo",
+        title: t('staffManagement.toast.bankingSaved.title'),
+        description: t('staffManagement.toast.bankingSaved.desc'),
       });
       setIsBankingDialogOpen(false);
       setSelectedStaff(null);
@@ -185,7 +185,7 @@ export default function StaffManagementPageFixed() {
     onError: (error: any) => {
       toast({
         title: t("common.error"),
-        description: error.message || "Impossibile salvare i dati bancari",
+        description: error.message || t('staffManagement.errors.banking'),
         variant: "destructive",
       });
     }
@@ -200,8 +200,8 @@ export default function StaffManagementPageFixed() {
   const handleCreateStaff = () => {
     if (!newStaff.username || !newStaff.password) {
       toast({
-        title: "Campi obbligatori",
-        description: "Username e password sono obbligatori",
+        title: t('staffManagement.requiredFields'),
+        description: t('staffManagement.requiredUsernamePassword'),
         variant: "destructive",
       });
       return;
@@ -250,8 +250,8 @@ export default function StaffManagementPageFixed() {
     
     if (!bankingData.iban) {
       toast({
-        title: "Campo obbligatorio",
-        description: "L'IBAN è obbligatorio",
+        title: t('staffManagement.requiredField'),
+        description: t('staffManagement.requiredIban'),
         variant: "destructive",
       });
       return;
@@ -268,8 +268,8 @@ export default function StaffManagementPageFixed() {
     
     if (!editStaff.username) {
       toast({
-        title: "Campo obbligatorio",
-        description: "Lo username è obbligatorio",
+        title: t('staffManagement.requiredField'),
+        description: t('staffManagement.requiredUsername'),
         variant: "destructive",
       });
       return;
@@ -290,7 +290,7 @@ export default function StaffManagementPageFixed() {
   if (isLoading) {
     return (
       <div className="container mx-auto py-6">
-        <div className="text-center">Caricamento staff...</div>
+        <div className="text-center">{t('staffManagement.loading')}</div>
       </div>
     );
   }
@@ -299,7 +299,7 @@ export default function StaffManagementPageFixed() {
     return (
       <div className="container mx-auto py-6">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          Errore nel caricamento staff
+          {t('staffManagement.loadError')}
         </div>
       </div>
     );
@@ -308,8 +308,8 @@ export default function StaffManagementPageFixed() {
   return (
     <AuthorizedRoute 
       requiredRole="admin" 
-      featureName="Gestione Staff"
-      description="Solo gli amministratori possono gestire il personale e visualizzare i codici referral"
+      featureName={t('staffManagement.featureName')}
+      description={t('staffManagement.featureDesc')}
     >
       <div className="container mx-auto py-6 space-y-6">
         {/* Header */}
@@ -317,7 +317,7 @@ export default function StaffManagementPageFixed() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{t("staff.title")}</h1>
             <p className="text-muted-foreground mt-1">
-              Visualizza e gestisci i tuoi membri dello staff
+              {t('staffManagement.subtitle')}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -326,40 +326,40 @@ export default function StaffManagementPageFixed() {
               <DialogTrigger asChild>
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Aggiungi Staff
+                  {t('staffManagement.addStaff')}
                 </Button>
               </DialogTrigger>
               <DialogContent className="min-[1200px]:max-w-[500px]">
                 <DialogHeader>
-                  <DialogTitle>Crea Nuovo Membro Staff</DialogTitle>
+                  <DialogTitle>{t('staffManagement.createNew')}</DialogTitle>
                   <DialogDescription>
-                    Gli utenti staff hanno automaticamente accesso PRO completo e gratuito senza scadenza
+                    {t('staffManagement.createDescription')}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="username">Username *</Label>
+                    <Label htmlFor="username">{t('staffManagement.fields.usernameRequired')}</Label>
                     <Input
                       id="username"
                       data-testid="input-staff-username"
-                      placeholder="username.staff"
+                      placeholder={t('staffManagement.usernameInputPlaceholder')}
                       value={newStaff.username}
                       onChange={(e) => setNewStaff({ ...newStaff, username: e.target.value })}
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t('staffManagement.fields.emailLabel')}</Label>
                     <Input
                       id="email"
                       data-testid="input-staff-email"
                       type="email"
-                      placeholder="staff@example.com"
+                      placeholder={t('staffManagement.emailInputPlaceholder')}
                       value={newStaff.email}
                       onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="password">Password *</Label>
+                    <Label htmlFor="password">{t('staffManagement.fields.passwordRequired')}</Label>
                     <Input
                       id="password"
                       data-testid="input-staff-password"
@@ -370,7 +370,7 @@ export default function StaffManagementPageFixed() {
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="role">Ruolo</Label>
+                    <Label htmlFor="role">{t('staffManagement.fields.role')}</Label>
                     <select
                       id="role"
                       data-testid="select-staff-role"
@@ -378,14 +378,17 @@ export default function StaffManagementPageFixed() {
                       value={newStaff.role}
                       onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
                     >
-                      <option value="staff">Staff - Dipendente con accesso PRO</option>
-                      <option value="admin">Admin - Accesso completo</option>
-                      <option value="user">Customer PRO - Professionista abbonato</option>
+                      <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
+                      <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
+                      <option value="user">{t('staffManagement.fields.roleUser')}</option>
                     </select>
                   </div>
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-2">
                     <p className="text-sm text-blue-800">
-                      ✅ <strong>Accesso PRO automatico:</strong> Tutti gli staff hanno accesso completo a tutte le funzionalità PRO senza pagamento e senza scadenza
+                      <Trans
+                        i18nKey="staffManagement.proAccessNote"
+                        components={[<strong />]}
+                      />
                     </p>
                   </div>
                 </div>
@@ -396,14 +399,14 @@ export default function StaffManagementPageFixed() {
                     disabled={createStaffMutation.isPending}
                     data-testid="button-cancel-create-staff"
                   >
-                    Annulla
+                    {t('staffManagement.cancelButton')}
                   </Button>
                   <Button
                     onClick={handleCreateStaff}
                     disabled={createStaffMutation.isPending}
                     data-testid="button-confirm-create-staff"
                   >
-                    {createStaffMutation.isPending ? "Creazione..." : "Crea Staff"}
+                    {createStaffMutation.isPending ? t('staffManagement.creating') : t('staffManagement.createButton')}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -412,7 +415,7 @@ export default function StaffManagementPageFixed() {
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5 text-blue-600" />
               <span className="text-sm font-medium">
-                {Array.isArray(staffUsers) ? staffUsers.length : 0} membri staff
+                {t('staffManagement.membersCount', { count: Array.isArray(staffUsers) ? staffUsers.length : 0 })}
               </span>
             </div>
           </div>
@@ -424,7 +427,7 @@ export default function StaffManagementPageFixed() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               data-testid="input-search-staff"
-              placeholder="Cerca per nome utente o email..."
+              placeholder={t('staffManagement.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -445,7 +448,7 @@ export default function StaffManagementPageFixed() {
                       user.role === 'user' ? 'bg-green-100 text-green-700' :
                       'bg-blue-100 text-blue-700'
                     }>
-                      {user.role === 'admin' ? 'Admin' : user.role === 'user' ? 'Customer PRO' : 'Staff'}
+                      {user.role === 'admin' ? t('staffManagement.adminBadge') : user.role === 'user' ? t('staffManagement.customerProBadge') : t('staffManagement.staffBadge')}
                     </Badge>
                     
                     {/* Menu dropdown azioni */}
@@ -461,14 +464,14 @@ export default function StaffManagementPageFixed() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t('staffManagement.actions')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           onClick={() => handleOpenEditDialog(user)}
                           data-testid={`menu-edit-staff-${user.id}`}
                         >
                           <Edit className="h-4 w-4 mr-2" />
-                          Modifica
+                          {t('common.edit')}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleOpenDeleteDialog(user)}
@@ -476,7 +479,7 @@ export default function StaffManagementPageFixed() {
                           data-testid={`menu-delete-staff-${user.id}`}
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
-                          Elimina
+                          {t('common.delete')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -494,7 +497,7 @@ export default function StaffManagementPageFixed() {
                 {user.createdAt && (
                   <div className="flex items-center text-sm text-muted-foreground">
                     <CreditCard className="h-4 w-4 mr-2" />
-                    Registrato: {new Date(user.createdAt).toLocaleDateString('it-IT')}
+                    {t('staffManagement.registered', { date: new Date(user.createdAt).toLocaleDateString('it-IT') })}
                   </div>
                 )}
                 
@@ -503,7 +506,7 @@ export default function StaffManagementPageFixed() {
                     ID: {user.id}
                   </span>
                   <Badge className="bg-green-100 text-green-700 border-green-200">
-                    ✓ Accesso PRO
+                    {t('staffManagement.proAccessBadge')}
                   </Badge>
                 </div>
                 
@@ -517,7 +520,7 @@ export default function StaffManagementPageFixed() {
                     data-testid={`button-banking-staff-${user.id}`}
                   >
                     <CreditCard className="h-4 w-4 mr-2" />
-                    Dati Bancari
+                    {t('staffManagement.bankingButton')}
                   </Button>
                 </div>
               </CardContent>
@@ -529,7 +532,7 @@ export default function StaffManagementPageFixed() {
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">
-              {searchQuery ? 'Nessun risultato trovato.' : 'Nessun utente staff trovato.'}
+              {searchQuery ? t('staffManagement.noResults') : t('staffManagement.noStaff')}
             </p>
           </div>
         )}
@@ -539,49 +542,49 @@ export default function StaffManagementPageFixed() {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Modifica Staff: {selectedStaff?.username}</DialogTitle>
+            <DialogTitle>{t('staffManagement.editTitle', { username: selectedStaff?.username })}</DialogTitle>
             <DialogDescription>
-              Modifica le informazioni del membro dello staff. Lascia la password vuota per mantenerla invariata.
+              {t('staffManagement.editDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="edit-username">Username *</Label>
+              <Label htmlFor="edit-username">{t('staffManagement.fields.usernameRequired')}</Label>
               <Input
                 id="edit-username"
                 data-testid="input-edit-staff-username"
-                placeholder="username.staff"
+                placeholder={t('staffManagement.usernameInputPlaceholder')}
                 value={editStaff.username}
                 onChange={(e) => setEditStaff({ ...editStaff, username: e.target.value })}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="edit-email">Email</Label>
+              <Label htmlFor="edit-email">{t('staffManagement.fields.emailLabel')}</Label>
               <Input
                 id="edit-email"
                 data-testid="input-edit-staff-email"
                 type="email"
-                placeholder="staff@example.com"
+                placeholder={t('staffManagement.emailInputPlaceholder')}
                 value={editStaff.email}
                 onChange={(e) => setEditStaff({ ...editStaff, email: e.target.value })}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="edit-password">Nuova Password</Label>
+              <Label htmlFor="edit-password">{t('staffManagement.newPasswordLabel')}</Label>
               <Input
                 id="edit-password"
                 data-testid="input-edit-staff-password"
                 type="password"
-                placeholder="Lascia vuoto per non cambiare"
+                placeholder={t('staffManagement.passwordEmptyHint')}
                 value={editStaff.password}
                 onChange={(e) => setEditStaff({ ...editStaff, password: e.target.value })}
               />
               <p className="text-xs text-muted-foreground">
-                Lascia vuoto se non vuoi modificare la password
+                {t('staffManagement.passwordEmptyDesc')}
               </p>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="edit-role">Ruolo</Label>
+              <Label htmlFor="edit-role">{t('staffManagement.fields.role')}</Label>
               <select
                 id="edit-role"
                 data-testid="select-edit-staff-role"
@@ -589,17 +592,17 @@ export default function StaffManagementPageFixed() {
                 value={editStaff.role}
                 onChange={(e) => setEditStaff({ ...editStaff, role: e.target.value })}
               >
-                <option value="staff">Staff - Dipendente con accesso PRO</option>
-                <option value="admin">Admin - Accesso completo</option>
-                <option value="user">Customer PRO - Professionista abbonato</option>
+                <option value="staff">{t('staffManagement.fields.roleStaff')}</option>
+                <option value="admin">{t('staffManagement.fields.roleAdmin')}</option>
+                <option value="user">{t('staffManagement.fields.roleUser')}</option>
               </select>
               <p className="text-xs text-muted-foreground">
-                Staff/Admin: dipendenti gratuiti. Customer PRO: professionista che paga abbonamento
+                {t('staffManagement.roleHint')}
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-2">
               <p className="text-sm text-green-800">
-                ✅ <strong>Accesso PRO:</strong> Questo staff mantiene l'accesso completo PRO gratuito
+                <Trans i18nKey="staffManagement.editProAccessNote" components={[<strong />]} />
               </p>
             </div>
           </div>
@@ -610,14 +613,14 @@ export default function StaffManagementPageFixed() {
               disabled={editStaffMutation.isPending}
               data-testid="button-cancel-edit-staff"
             >
-              Annulla
+              {t('staffManagement.cancelButton')}
             </Button>
             <Button
               onClick={handleEditStaff}
               disabled={editStaffMutation.isPending}
               data-testid="button-confirm-edit-staff"
             >
-              {editStaffMutation.isPending ? "Salvataggio..." : "Salva Modifiche"}
+              {editStaffMutation.isPending ? t('staffManagement.saving') : t('staffManagement.saveChanges')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -627,28 +630,28 @@ export default function StaffManagementPageFixed() {
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>⚠️ Conferma eliminazione staff</AlertDialogTitle>
+            <AlertDialogTitle>{t('staffManagement.deleteTitle')}</AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-3">
                 <div className="font-semibold text-red-600">
-                  Stai per eliminare definitivamente l'account staff:
+                  {t('staffManagement.deleteHeader')}
                 </div>
                 <div className="bg-gray-100 p-3 rounded">
-                  <div><strong>Username:</strong> {selectedStaff?.username}</div>
-                  {selectedStaff?.email && <div><strong>Email:</strong> {selectedStaff?.email}</div>}
-                  <div><strong>ID:</strong> {selectedStaff?.id}</div>
+                  <div><strong>{t('staffManagement.usernameLabel')}</strong> {selectedStaff?.username}</div>
+                  {selectedStaff?.email && <div><strong>{t('staffManagement.fields.emailLabel')}:</strong> {selectedStaff?.email}</div>}
+                  <div><strong>{t('staffManagement.idLabel')}</strong> {selectedStaff?.id}</div>
                 </div>
                 <div className="bg-red-50 border border-red-200 rounded p-3 space-y-2">
-                  <div className="text-red-800 font-semibold">⚠️ ATTENZIONE:</div>
+                  <div className="text-red-800 font-semibold">{t('staffManagement.warningTitle')}</div>
                   <ul className="list-disc list-inside text-sm text-red-700 space-y-1">
-                    <li>Questa azione è <strong>irreversibile</strong></li>
-                    <li>L'account verrà eliminato <strong>permanentemente</strong></li>
-                    <li>Tutti i dati associati saranno persi</li>
-                    <li>L'utente non potrà più accedere al sistema</li>
+                    <li><Trans i18nKey="staffManagement.warning1" components={[<strong />]} /></li>
+                    <li><Trans i18nKey="staffManagement.warning2" components={[<strong />]} /></li>
+                    <li>{t('staffManagement.warning3')}</li>
+                    <li>{t('staffManagement.warning4')}</li>
                   </ul>
                 </div>
                 <div className="text-sm font-medium">
-                  Sei assolutamente sicuro di voler procedere?
+                  {t('staffManagement.deleteConfirmText')}
                 </div>
               </div>
             </AlertDialogDescription>
@@ -658,7 +661,7 @@ export default function StaffManagementPageFixed() {
               disabled={deleteStaffMutation.isPending}
               data-testid="button-cancel-delete-staff"
             >
-              Annulla
+              {t('staffManagement.cancelButton')}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteStaff}
@@ -666,7 +669,7 @@ export default function StaffManagementPageFixed() {
               className="bg-red-600 hover:bg-red-700"
               data-testid="button-confirm-delete-staff"
             >
-              {deleteStaffMutation.isPending ? "Eliminazione..." : "Sì, elimina definitivamente"}
+              {deleteStaffMutation.isPending ? t('staffManagement.deleting') : t('staffManagement.deleteConfirmButton')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -678,40 +681,39 @@ export default function StaffManagementPageFixed() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5 text-green-600" />
-              Dati Bancari: {selectedStaff?.username}
+              {t('staffManagement.bankingTitle', { username: selectedStaff?.username })}
             </DialogTitle>
             <DialogDescription>
-              Inserisci i dati bancari dove lo staff riceverà le commissioni referral
+              {t('staffManagement.bankingDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <p className="text-sm text-blue-800">
-                <strong>Nota:</strong> L'IBAN inserito verrà utilizzato per accreditare automaticamente 
-                le commissioni del 25% quando i clienti sponsorizzati attivano abbonamenti.
+                <Trans i18nKey="staffManagement.bankingNote" components={[<strong />]} />
               </p>
             </div>
             
             <div className="grid gap-2">
-              <Label htmlFor="staff-iban">IBAN *</Label>
+              <Label htmlFor="staff-iban">{t('staffManagement.ibanRequired')}</Label>
               <Input
                 id="staff-iban"
-                placeholder="IT60 X054 2811 1010 0000 0123 456"
+                placeholder={t('staffManagement.ibanPlaceholder')}
                 className="font-mono"
                 data-testid="input-staff-iban"
                 value={bankingData.iban}
                 onChange={(e) => setBankingData({ ...bankingData, iban: e.target.value })}
               />
               <p className="text-xs text-muted-foreground">
-                Formato: IT + 2 cifre controllo + codice bancario
+                {t('staffManagement.ibanFormatHint')}
               </p>
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="staff-bank-name">Nome Banca</Label>
+              <Label htmlFor="staff-bank-name">{t('staffManagement.bankNameLabel')}</Label>
               <Input
                 id="staff-bank-name"
-                placeholder="es. Intesa Sanpaolo"
+                placeholder={t('staffManagement.bankNamePlaceholder')}
                 data-testid="input-staff-bank-name"
                 value={bankingData.bankName}
                 onChange={(e) => setBankingData({ ...bankingData, bankName: e.target.value })}
@@ -719,10 +721,10 @@ export default function StaffManagementPageFixed() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="staff-account-holder">Intestatario Conto</Label>
+              <Label htmlFor="staff-account-holder">{t('staffManagement.accountHolderLabel')}</Label>
               <Input
                 id="staff-account-holder"
-                placeholder="Nome completo intestatario"
+                placeholder={t('staffManagement.accountHolderPlaceholder')}
                 data-testid="input-staff-account-holder"
                 value={bankingData.accountHolder}
                 onChange={(e) => setBankingData({ ...bankingData, accountHolder: e.target.value })}
@@ -730,10 +732,10 @@ export default function StaffManagementPageFixed() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="staff-bic">BIC/SWIFT (opzionale)</Label>
+              <Label htmlFor="staff-bic">{t('staffManagement.bicLabel')}</Label>
               <Input
                 id="staff-bic"
-                placeholder="es. BCITITMM"
+                placeholder={t('staffManagement.bicPlaceholder')}
                 data-testid="input-staff-bic"
                 value={bankingData.bic}
                 onChange={(e) => setBankingData({ ...bankingData, bic: e.target.value })}
@@ -747,7 +749,7 @@ export default function StaffManagementPageFixed() {
               disabled={saveBankingMutation.isPending}
               data-testid="button-cancel-banking"
             >
-              Annulla
+              {t('staffManagement.cancelButton')}
             </Button>
             <Button
               onClick={handleSaveBanking}
@@ -756,7 +758,7 @@ export default function StaffManagementPageFixed() {
               data-testid="button-save-banking"
             >
               <CreditCard className="mr-2 h-4 w-4" />
-              {saveBankingMutation.isPending ? "Salvataggio..." : "Salva Dati Bancari"}
+              {saveBankingMutation.isPending ? t('staffManagement.saving') : t('staffManagement.saveBankingButton')}
             </Button>
           </DialogFooter>
         </DialogContent>

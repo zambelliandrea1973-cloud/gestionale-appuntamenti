@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,11 +12,11 @@ interface DirectLinkAccessProps {
 }
 
 export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  
-  // Costruisci il link diretto con il token se disponibile
+
   const getDirectLink = () => {
     const baseUrl = window.location.origin;
     if (token) {
@@ -23,54 +24,49 @@ export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
     }
     return `${baseUrl}/client-area`;
   };
-  
+
   const directLink = getDirectLink();
-  
-  // Funzione per copiare il link negli appunti
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(directLink);
       setCopied(true);
-      
+
       toast({
-        title: "Link copiato",
-        description: "Il link diretto è stato copiato negli appunti",
+        title: t('directLinkAccess.copiedToastTitle'),
+        description: t('directLinkAccess.copiedToastDescription'),
         variant: "default",
       });
-      
-      // Resetta l'icona di copia dopo 2 secondi
+
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Errore nella copia del link:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile copiare il link",
+        title: t('common.error'),
+        description: t('directLinkAccess.copyErrorDescription'),
         variant: "destructive",
       });
     }
   };
-  
-  // Funzione per aprire il link diretto in una nuova finestra
+
   const openDirectLink = () => {
     window.open(directLink, '_blank');
   };
 
-  // Toggle per mostrare/nascondere i dettagli del link
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
 
   return (
     <Card className="mb-6 border-green-200 bg-green-50/50 overflow-hidden">
-      {/* Header clickabile (tirolo) per espandere/minimizzare */}
-      <CardHeader 
+      <CardHeader
         className="pb-2 cursor-pointer hover:bg-green-100/50 transition-colors"
         onClick={toggleExpand}
       >
         <div className="flex justify-between items-center w-full">
           <CardTitle className="text-lg flex items-center">
             <LinkIcon className="mr-2 h-5 w-5" />
-            Link Diretto all'Area Cliente
+            {t('directLinkAccess.title')}
           </CardTitle>
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
             {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -78,37 +74,36 @@ export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
         </div>
         {!expanded && (
           <CardDescription className="text-xs">
-            Clicca per gestire il link di accesso rapido
+            {t('directLinkAccess.collapseHint')}
           </CardDescription>
         )}
       </CardHeader>
-      
-      {/* Corpo espandibile */}
+
       {expanded && (
         <>
           <CardContent>
             <CardDescription className="mb-3">
-              Utilizza questo link per accedere direttamente alla tua area personale
+              {t('directLinkAccess.bodyDescription')}
             </CardDescription>
             <div className="flex items-center space-x-2 mb-2">
-              <Input 
-                value={directLink} 
-                readOnly 
+              <Input
+                value={directLink}
+                readOnly
                 className="font-mono text-sm"
               />
               <Button
                 variant="outline"
                 size="icon"
                 onClick={copyToClipboard}
-                title="Copia link"
+                title={t('directLinkAccess.copyTitle')}
               >
                 {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-              {token 
-                ? "Questo link contiene un token di accesso che ti permette di entrare direttamente nell'area cliente senza effettuare il login. Non condividerlo con persone non autorizzate." 
-                : "Usa questo link per accedere rapidamente all'area cliente."}
+              {token
+                ? t('directLinkAccess.tokenNote')
+                : t('directLinkAccess.noTokenNote')}
             </p>
           </CardContent>
           <CardFooter>
@@ -119,7 +114,7 @@ export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
                 onClick={openDirectLink}
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
-                Apri Area Cliente
+                {t('directLinkAccess.openClientArea')}
               </Button>
               <Button
                 variant="outline"
@@ -127,7 +122,7 @@ export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
                 onClick={copyToClipboard}
               >
                 {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                Copia link
+                {t('directLinkAccess.copyLinkButton')}
               </Button>
             </div>
           </CardFooter>

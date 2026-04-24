@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,8 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2, UserPlus, Search, Edit, Trash2, CreditCard, History, Eye, EyeOff } from "lucide-react";
+import { Loader2, UserPlus, Search, Edit, CreditCard, History } from "lucide-react";
 import { AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,27 +22,22 @@ interface StaffUser {
 }
 
 export default function StaffManagementPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
-  // Stati per i dialog
+
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
-  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
-  
-  // Stati per i form
+  const [, setIsEditDialogOpen] = useState(false);
+  const [, setIsPaymentHistoryDialogOpen] = useState(false);
+  const [, setIsBankingDialogOpen] = useState(false);
+
   const [formError, setFormError] = useState("");
   const [isCreating, setIsCreating] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  
-  // Ricerca
+
   const [searchQuery, setSearchQuery] = useState("");
-  
-  // Utente selezionato
-  const [selectedUser, setSelectedUser] = useState<StaffUser | null>(null);
-  
-  // Form data
+
+  const [, setSelectedUser] = useState<StaffUser | null>(null);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -50,7 +45,6 @@ export default function StaffManagementPage() {
     role: "staff"
   });
 
-  // Query per ottenere gli utenti staff
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
     queryFn: async () => {
@@ -60,21 +54,20 @@ export default function StaffManagementPage() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
-        const errorText = await response.text();
+        await response.text();
         throw new Error(`Failed to fetch staff users: ${response.status}`);
       }
-      
+
       const data = await response.json();
       return data;
     },
   });
 
-  // Funzione per aggiungere un nuovo utente
   const handleAddUser = async () => {
     if (!formData.username || !formData.email || !formData.password) {
-      setFormError("Tutti i campi sono obbligatori");
+      setFormError(t('staffManagementBasic.requiredFields'));
       return;
     }
 
@@ -95,29 +88,23 @@ export default function StaffManagementPage() {
         setFormData({ username: "", email: "", password: "", role: "staff" });
         setIsAddDialogOpen(false);
         toast({
-          title: "Successo",
-          description: "Utente staff creato con successo",
+          title: t('staffManagementBasic.success'),
+          description: t('staffManagementBasic.successDescription'),
         });
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante la creazione dell'utente");
+        throw new Error(errorData.message || t('staffManagementBasic.createError'));
       }
     } catch (err: any) {
-      setFormError(err.message || "Si è verificato un errore durante la creazione dell'utente");
+      setFormError(err.message || t('staffManagementBasic.genericCreateError'));
       toast({
         variant: "destructive",
-        title: "Errore",
-        description: err.message || "Impossibile creare l'utente staff",
+        title: t('common.error'),
+        description: err.message || t('staffManagementBasic.createUnable'),
       });
     } finally {
       setIsCreating(false);
     }
-  };
-
-  // Funzioni di gestione
-  const handleDeleteClick = (user: StaffUser) => {
-    setSelectedUser(user);
-    // Qui andrà la logica per eliminare l'utente
   };
 
   const handleEditClick = (user: StaffUser) => {
@@ -135,8 +122,7 @@ export default function StaffManagementPage() {
     setIsPaymentHistoryDialogOpen(true);
   };
 
-  // Filtra gli utenti in base alla ricerca
-  const filteredUsers = staffUsers.filter((user: StaffUser) => 
+  const filteredUsers = staffUsers.filter((user: StaffUser) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
   );
@@ -154,9 +140,9 @@ export default function StaffManagementPage() {
       <div className="container mx-auto py-6">
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Errore</AlertTitle>
+          <AlertTitle>{t('common.error')}</AlertTitle>
           <AlertDescription>
-            Impossibile caricare gli utenti staff. Riprova più tardi.
+            {t('staffManagementBasic.loadError')}
           </AlertDescription>
         </Alert>
       </div>
@@ -167,74 +153,74 @@ export default function StaffManagementPage() {
     <div className="container mx-auto py-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Gestione Staff</h1>
-          <p className="text-muted-foreground">Gestisci gli utenti staff del tuo sistema</p>
+          <h1 className="text-3xl font-bold">{t('staffManagementBasic.title')}</h1>
+          <p className="text-muted-foreground">{t('staffManagementBasic.subtitle')}</p>
         </div>
-        
+
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
                 <UserPlus className="h-4 w-4" />
-                <span>Aggiungi Staff</span>
+                <span>{t('staffManagementBasic.addStaff')}</span>
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Aggiungi nuovo utente staff</DialogTitle>
+                <DialogTitle>{t('staffManagementBasic.addDialogTitle')}</DialogTitle>
                 <DialogDescription>
-                  Crea un nuovo account staff che potrà accedere al sistema.
+                  {t('staffManagementBasic.addDialogDescription')}
                 </DialogDescription>
               </DialogHeader>
-              
+
               <div className="space-y-4 py-4">
                 {formError && (
                   <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Errore</AlertTitle>
+                    <AlertTitle>{t('common.error')}</AlertTitle>
                     <AlertDescription>{formError}</AlertDescription>
                   </Alert>
                 )}
-                
+
                 <div className="space-y-2">
-                  <Label htmlFor="username">Username *</Label>
+                  <Label htmlFor="username">{t('staffManagementBasic.usernameLabel')}</Label>
                   <Input
                     id="username"
                     value={formData.username}
                     onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                    placeholder="Inserisci username"
+                    placeholder={t('staffManagementBasic.usernamePlaceholder')}
                   />
                 </div>
-                
+
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">{t('staffManagementBasic.emailLabel')}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="Inserisci email"
+                    placeholder={t('staffManagementBasic.emailPlaceholder')}
                   />
                 </div>
-                
+
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password *</Label>
+                  <Label htmlFor="password">{t('staffManagementBasic.passwordLabel')}</Label>
                   <Input
                     id="password"
                     type="password"
                     value={formData.password}
                     onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                    placeholder="Inserisci password"
+                    placeholder={t('staffManagementBasic.passwordPlaceholder')}
                   />
                 </div>
               </div>
-              
+
               <DialogFooter>
                 <Button
                   variant="outline"
                   onClick={() => setIsAddDialogOpen(false)}
                   disabled={isCreating}
                 >
-                  Annulla
+                  {t('staffManagementBasic.cancel')}
                 </Button>
                 <Button
                   onClick={handleAddUser}
@@ -243,12 +229,12 @@ export default function StaffManagementPage() {
                   {isCreating ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creazione...
+                      {t('staffManagementBasic.creating')}
                     </>
                   ) : (
                     <>
                       <UserPlus className="mr-2 h-4 w-4" />
-                      Crea Utente
+                      {t('staffManagementBasic.createUser')}
                     </>
                   )}
                 </Button>
@@ -257,18 +243,16 @@ export default function StaffManagementPage() {
           </Dialog>
       </div>
 
-      {/* Barra di ricerca */}
       <div className="flex items-center space-x-2">
         <Search className="h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Cerca staff per username o email..."
+          placeholder={t('staffManagementBasic.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="max-w-sm"
         />
       </div>
 
-      {/* Lista utenti staff */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredUsers.map((user: StaffUser) => (
           <Card key={user.id}>
@@ -289,7 +273,7 @@ export default function StaffManagementPage() {
                   onClick={() => handleEditClick(user)}
                 >
                   <Edit className="h-4 w-4 mr-1" />
-                  Modifica
+                  {t('staffManagementBasic.editButton')}
                 </Button>
                 <Button
                   variant="outline"
@@ -297,7 +281,7 @@ export default function StaffManagementPage() {
                   onClick={() => handleBankingClick(user)}
                 >
                   <CreditCard className="h-4 w-4 mr-1" />
-                  Dati Bancari
+                  {t('staffManagementBasic.bankingButton')}
                 </Button>
                 <Button
                   variant="outline"
@@ -305,7 +289,7 @@ export default function StaffManagementPage() {
                   onClick={() => handlePaymentHistoryClick(user)}
                 >
                   <History className="h-4 w-4 mr-1" />
-                  Storico
+                  {t('staffManagementBasic.historyButton')}
                 </Button>
               </div>
             </CardContent>
@@ -315,7 +299,7 @@ export default function StaffManagementPage() {
 
       {filteredUsers.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">Nessun utente staff trovato.</p>
+          <p className="text-muted-foreground">{t('staffManagementBasic.noStaffFound')}</p>
         </div>
       )}
     </div>

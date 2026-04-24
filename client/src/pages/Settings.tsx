@@ -74,8 +74,8 @@ export default function Settings() {
       setLocation("/beta-admin");
     } else {
       toast({
-        title: "Accesso negato",
-        description: "Solo gli amministratori possono accedere a questa area.",
+        title: t('settingsPage.accessDenied'),
+        description: t('settingsPage.adminOnlyAccess'),
         variant: "destructive",
       });
     }
@@ -115,7 +115,7 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="staff" className="flex items-center whitespace-nowrap">
             <Users className="mr-2 h-4 w-4" />
-            <span>Staff & Stanze</span>
+            <span>{t('settingsPage.staffAndRooms')}</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
@@ -127,12 +127,12 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="security" className="flex items-center whitespace-nowrap">
             <KeyRound className="mr-2 h-4 w-4" />
-            <span>Sicurezza</span>
+            <span>{t('settingsPage.security')}</span>
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger value="admin" className="flex items-center whitespace-nowrap">
               <Shield className="mr-2 h-4 w-4" />
-              <span>Admin</span>
+              <span>{t('settingsPage.admin')}</span>
             </TabsTrigger>
           )}
         </TabsList>
@@ -157,10 +157,10 @@ export default function Settings() {
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
                   <CreditCard className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">Abbonamento</h3>
+                  <h3 className="text-lg font-medium">{t('settingsPage.subscriptionHeading')}</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Visualizza i piani disponibili, gestisci il tuo abbonamento o passa a un piano superiore.
+                  {t('settingsPage.subscriptionDescription')}
                 </p>
                 <Button
                   variant="default"
@@ -168,7 +168,7 @@ export default function Settings() {
                   onClick={() => setLocation('/subscribe')}
                 >
                   <CreditCard className="mr-2 h-4 w-4" />
-                  Gestisci Abbonamento
+                  {t('settingsPage.manageSubscription')}
                 </Button>
               </div>
               
@@ -177,11 +177,11 @@ export default function Settings() {
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
                   <Shield className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">Area Amministrativa</h3>
+                  <h3 className="text-lg font-medium">{t('settingsPage.administrativeArea')}</h3>
                 </div>
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Accedi all'area di amministrazione beta per gestire gli inviti e monitorare i feedback degli utenti beta.
+                    {t('settingsPage.adminAreaDescription')}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button 
@@ -190,7 +190,7 @@ export default function Settings() {
                       onClick={handleDirectAdminAccess}
                     >
                       <Lock className="mr-2 h-4 w-4" />
-                      Accedi alla Dashboard Beta Admin
+                      {t('settingsPage.accessBetaAdminDashboard')}
                     </Button>
                     
                     <RestartAppButton 
@@ -208,18 +208,18 @@ export default function Settings() {
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
                   <RefreshCw className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">Gestione Sistema</h3>
+                  <h3 className="text-lg font-medium">{t('settingsPage.systemManagement')}</h3>
                 </div>
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Da qui puoi gestire il sistema, riavviare l'applicazione o verificare lo stato di salute.
+                    {t('settingsPage.systemManagementDescription')}
                   </p>
                   <div className="bg-muted/50 p-4 rounded-lg border border-dashed space-y-3">
                     <div className="flex flex-wrap gap-3 items-center">
-                      <span className="text-sm font-medium">Stato server:</span>
+                      <span className="text-sm font-medium">{t('settingsPage.serverStatus')}</span>
                       <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center">
                         <span className="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
-                        Online
+                        {t('settingsPage.online')}
                       </span>
                     </div>
                     
@@ -262,23 +262,22 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Users className="mr-2 h-5 w-5" />
-                  Gestione Collaboratori
+                  {t('settingsPage.collaboratorsManagement')}
                 </CardTitle>
                 <CardDescription>
-                  Gestisci i collaboratori dello studio e le loro specializzazioni
+                  {t('settingsPage.collaboratorsManagementDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Aggiungi e gestisci i collaboratori che lavorano nel tuo studio. 
-                  Potrai assegnarli agli appuntamenti e personalizzare le comunicazioni.
+                  {t('settingsPage.collaboratorsDescription')}
                 </p>
                 <Button 
                   onClick={() => setLocation('/collaborators')}
                   className="w-full"
                 >
                   <Users className="mr-2 h-4 w-4" />
-                  Gestisci Collaboratori
+                  {t('settingsPage.manageCollaborators')}
                 </Button>
               </CardContent>
             </Card>
@@ -287,16 +286,15 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Building className="mr-2 h-5 w-5" />
-                  Gestione Stanze/Cabine
+                  {t('settingsPage.roomsManagement')}
                 </CardTitle>
                 <CardDescription>
-                  Configura le stanze e cabine di trattamento del tuo studio
+                  {t('settingsPage.roomsManagementDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Organizza le stanze del tuo studio con colori personalizzati per il calendario.
-                  Assegna le stanze agli appuntamenti per una migliore organizzazione.
+                  {t('settingsPage.roomsDescription')}
                 </p>
                 <Button 
                   onClick={() => setLocation('/treatment-rooms')}
@@ -304,7 +302,7 @@ export default function Settings() {
                   variant="outline"
                 >
                   <Building className="mr-2 h-4 w-4" />
-                  Gestisci Stanze
+                  {t('settingsPage.manageRooms')}
                 </Button>
               </CardContent>
             </Card>
@@ -347,8 +345,8 @@ export default function Settings() {
             <CardContent className="space-y-6">
               <AppIconUploader onSuccess={() => {
                 toast({
-                  title: "Icona Aggiornata",
-                  description: "L'icona PWA è stata personalizzata con successo. I clienti vedranno il tuo logo quando installeranno l'app.",
+                  title: t('settingsPage.iconUpdated'),
+                  description: t('settingsPage.iconUpdatedDescription'),
                 });
               }} />
               
@@ -364,27 +362,27 @@ export default function Settings() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <KeyRound className="mr-2 h-5 w-5" />
-                Sicurezza Account
+                {t('settingsPage.accountSecurityTitle')}
               </CardTitle>
               <CardDescription>
-                Gestisci la sicurezza del tuo account e le impostazioni di accesso
+                {t('settingsPage.accountSecurityDescription')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <div className="flex items-center mb-3">
                   <Lock className="mr-2 h-5 w-5 text-blue-600" />
-                  <h3 className="font-semibold text-blue-900">Cambia Password</h3>
+                  <h3 className="font-semibold text-blue-900">{t('settingsPage.changePasswordHeading')}</h3>
                 </div>
                 <p className="text-sm text-blue-800 mb-4">
-                  Aggiorna la tua password per mantenere sicuro il tuo account. Ti verrà chiesto di inserire la password attuale per confermare l'identità.
+                  {t('settingsPage.changePasswordDescription')}
                 </p>
                 <Button 
                   onClick={() => setLocation("/password-change")}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
                   <KeyRound className="mr-2 h-4 w-4" />
-                  Vai al Cambio Password
+                  {t('settingsPage.goToPasswordChange')}
                 </Button>
               </div>
             </CardContent>
@@ -397,10 +395,10 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="mr-2 h-5 w-5" />
-                  Gestione Piani Abbonamento
+                  {t('settingsPage.subscriptionPlansHeading')}
                 </CardTitle>
                 <CardDescription>
-                  Modifica prezzi e autorizzazioni dei pacchetti abbonamento (Trial, Base, Pro, Business)
+                  {t('settingsPage.subscriptionPlansDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>

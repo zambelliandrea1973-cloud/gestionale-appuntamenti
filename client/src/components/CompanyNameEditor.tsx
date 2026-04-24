@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Check, AlertCircle, Type, Bold, Italic, Underline } from 'lucide-react';
+import { Check, AlertCircle, Type } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { apiRequest } from '@/lib/queryClient';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -27,6 +28,7 @@ interface CompanyNameSettings {
 }
 
 export default function CompanyNameEditor() {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState<CompanyNameSettings>({
     name: '',
     fontSize: 24,
@@ -35,13 +37,12 @@ export default function CompanyNameEditor() {
     color: '#000000',
     enabled: true
   });
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Carica le impostazioni del nome aziendale all'avvio
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -49,9 +50,8 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
       const response = await apiRequest('GET', '/api/company-name-settings');
-      
+
       if (response.ok) {
         const data = await response.json();
         console.log('🏢 Impostazioni nome aziendale caricate:', data);
@@ -61,7 +61,6 @@ export default function CompanyNameEditor() {
       }
     } catch (error) {
       console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
-      // In caso di errore, mantieni le impostazioni predefinite
     } finally {
       setIsLoading(false);
     }
@@ -70,32 +69,31 @@ export default function CompanyNameEditor() {
   const saveSettings = async () => {
     setSaveSuccess(false);
     setSaveError(null);
-    
+
     try {
       console.log('🏢 Salvataggio impostazioni nome aziendale:', settings);
-      
-      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+
       const response = await apiRequest('POST', '/api/company-name-settings', settings);
 
       if (!response.ok) {
-        throw new Error('Errore durante il salvataggio delle impostazioni');
+        throw new Error(t('companyNameEditor.saveErrorGeneric'));
       }
-      
+
       const result = await response.json();
       console.log('🏢 Impostazioni nome aziendale salvate:', result);
-      
+
       setSaveSuccess(true);
       toast({
-        title: "Impostazioni salvate",
-        description: "Le impostazioni del nome aziendale sono state salvate con successo.",
+        title: t('companyNameEditor.saveSuccessTitle'),
+        description: t('companyNameEditor.saveSuccessDescription'),
         variant: "default",
       });
     } catch (error: any) {
       console.error('Errore nel salvataggio impostazioni nome aziendale:', error);
-      setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
+      setSaveError(error.message || t('companyNameEditor.saveErrorGeneric'));
       toast({
-        title: "Errore",
-        description: error.message || 'Si è verificato un errore durante il salvataggio',
+        title: t('companyNameEditor.saveErrorTitle'),
+        description: error.message || t('companyNameEditor.saveErrorGeneric'),
         variant: "destructive",
       });
     }
@@ -118,7 +116,6 @@ export default function CompanyNameEditor() {
     setSettings(prev => ({ ...prev, enabled: !prev.enabled }));
   };
 
-  // Stile dinamico per l'anteprima basato sulle impostazioni correnti
   const previewStyle = {
     fontSize: `${settings.fontSize}px`,
     fontFamily: settings.fontFamily,
@@ -150,19 +147,19 @@ export default function CompanyNameEditor() {
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Type className="h-5 w-5" />
-            Nome Aziendale
+            {t('companyNameEditor.title')}
           </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="flex items-center gap-2"
             onClick={handleToggleEnabled}
           >
-            {settings.enabled ? 'Disattiva' : 'Attiva'}
+            {settings.enabled ? t('companyNameEditor.deactivate') : t('companyNameEditor.activate')}
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
-          Personalizza il nome aziendale che verrà mostrato nell'app cliente. Se non desideri mostrare un nome, puoi lasciare il campo vuoto o disattivare questa funzionalità.
+          {t('companyNameEditor.description')}
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -170,9 +167,9 @@ export default function CompanyNameEditor() {
       {saveSuccess && (
         <Alert className="mb-4">
           <Check className="h-4 w-4" />
-          <AlertTitle>Salvato</AlertTitle>
+          <AlertTitle>{t('companyNameEditor.savedTitle')}</AlertTitle>
           <AlertDescription>
-            Il nome aziendale è stato aggiornato con successo. Le modifiche saranno visibili nell'app cliente.
+            {t('companyNameEditor.savedDescription')}
           </AlertDescription>
         </Alert>
       )}
@@ -180,7 +177,7 @@ export default function CompanyNameEditor() {
       {saveError && (
         <Alert variant="destructive" className="mb-4">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Errore</AlertTitle>
+          <AlertTitle>{t('companyNameEditor.saveErrorTitle')}</AlertTitle>
           <AlertDescription>
             {saveError}
           </AlertDescription>
@@ -189,33 +186,30 @@ export default function CompanyNameEditor() {
 
       <div className={settings.enabled ? "" : "opacity-60"}>
           <div className="space-y-6">
-            {/* Anteprima */}
             <div>
-              <Label className="mb-2 block text-sm font-medium">Anteprima</Label>
+              <Label className="mb-2 block text-sm font-medium">{t('companyNameEditor.previewLabel')}</Label>
               <div style={previewStyle}>
-                {settings.name ? settings.name : 
-                  <span className="text-gray-400 italic">Inserisci il nome aziendale</span>
+                {settings.name ? settings.name :
+                  <span className="text-gray-400 italic">{t('companyNameEditor.previewPlaceholder')}</span>
                 }
               </div>
             </div>
-            
-            {/* Nome aziendale */}
+
             <div className="space-y-2">
-              <Label htmlFor="company-name" className="text-sm font-medium">Nome aziendale</Label>
+              <Label htmlFor="company-name" className="text-sm font-medium">{t('companyNameEditor.nameLabel')}</Label>
               <Input
                 id="company-name"
                 name="name"
-                placeholder="Inserisci il nome aziendale"
+                placeholder={t('companyNameEditor.namePlaceholder')}
                 value={settings.name}
                 onChange={handleInputChange}
                 disabled={!settings.enabled}
               />
             </div>
 
-            {/* Dimensione font */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label className="text-sm font-medium">Dimensione testo</Label>
+                <Label className="text-sm font-medium">{t('companyNameEditor.fontSizeLabel')}</Label>
                 <span className="text-xs text-muted-foreground">{settings.fontSize}px</span>
               </div>
               <Slider
@@ -228,16 +222,15 @@ export default function CompanyNameEditor() {
               />
             </div>
 
-            {/* Tipo di font */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Tipo di carattere</Label>
-              <Select 
-                value={settings.fontFamily} 
+              <Label className="text-sm font-medium">{t('companyNameEditor.fontFamilyLabel')}</Label>
+              <Select
+                value={settings.fontFamily}
                 onValueChange={(value) => handleSelectChange('fontFamily', value)}
                 disabled={!settings.enabled}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleziona carattere" />
+                  <SelectValue placeholder={t('companyNameEditor.fontFamilyPlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Arial">Arial</SelectItem>
@@ -258,37 +251,35 @@ export default function CompanyNameEditor() {
               </Select>
             </div>
 
-            {/* Stile font */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Stile testo</Label>
-              <Select 
-                value={settings.fontStyle} 
+              <Label className="text-sm font-medium">{t('companyNameEditor.fontStyleLabel')}</Label>
+              <Select
+                value={settings.fontStyle}
                 onValueChange={(value) => handleSelectChange('fontStyle', value)}
                 disabled={!settings.enabled}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleziona stile" />
+                  <SelectValue placeholder={t('companyNameEditor.fontStylePlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="normal">Normale</SelectItem>
-                  <SelectItem value="italic">Corsivo</SelectItem>
+                  <SelectItem value="normal">{t('companyNameEditor.fontStyleNormal')}</SelectItem>
+                  <SelectItem value="italic">{t('companyNameEditor.fontStyleItalic')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-              
-            {/* Colore */}
+
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Colore</Label>
+              <Label className="text-sm font-medium">{t('companyNameEditor.colorLabel')}</Label>
               <div className="flex gap-2">
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full justify-start"
                       disabled={!settings.enabled}
                     >
-                      <div 
-                        className="w-4 h-4 rounded-full mr-2" 
+                      <div
+                        className="w-4 h-4 rounded-full mr-2"
                         style={{ backgroundColor: settings.color }}
                       />
                       <span>{settings.color}</span>
@@ -311,7 +302,7 @@ export default function CompanyNameEditor() {
                       ))}
                     </div>
                     <div className="mt-4">
-                      <Label htmlFor="custom-color">Colore personalizzato</Label>
+                      <Label htmlFor="custom-color">{t('companyNameEditor.customColorLabel')}</Label>
                       <Input
                         id="custom-color"
                         name="color"
@@ -329,14 +320,14 @@ export default function CompanyNameEditor() {
             <div className="pt-4">
               <Button onClick={saveSettings} className="w-full flex items-center justify-center gap-2" disabled={!settings.enabled}>
                 <Check className="h-4 w-4" />
-                Salva Nome Aziendale
+                {t('companyNameEditor.saveButton')}
               </Button>
             </div>
           </div>
       </div>
 
       <div className="text-xs text-muted-foreground mt-2">
-        Nota: Il nome aziendale apparirà nell'app cliente insieme all'icona che hai impostato.
+        {t('companyNameEditor.footerNote')}
       </div>
       </CardContent>
     </Card>
