@@ -41,22 +41,17 @@ export default function UserSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Carica le impostazioni dell'utente con database separati
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
-        console.log('🎯 CARICAMENTO IMPOSTAZIONI: Usando /api/client-app-info che funziona con database separati');
-        // USA L'ENDPOINT CHE FUNZIONA GIÀ PER I DATABASE SEPARATI
         const response = await fetch(`/api/client-app-info?t=${Date.now()}`, {
           method: 'GET',
           credentials: 'include'
         });
-        
+
         if (response.ok) {
           const data = await response.json();
-          console.log('✅ IMPOSTAZIONI SEPARATE CARICATE:', data);
-          
-          // Mappa i dati nel formato che si aspetta il componente
+
           const mappedSettings: UserSettings = {
             userId: user?.id || 0,
             businessName: data.businessName || '',
@@ -68,13 +63,13 @@ export default function UserSettings() {
             contactPhone: data.contactPhone || '',
             website: data.website || ''
           };
-          
+
           setSettings(mappedSettings);
         } else {
-          console.error('Errore nel caricamento delle impostazioni separate');
+          console.error('Failed to load separate settings');
         }
       } catch (error) {
-        console.error('Errore nel caricamento delle impostazioni:', error);
+        console.error('Failed to load settings:', error);
       } finally {
         setLoading(false);
       }
@@ -85,66 +80,54 @@ export default function UserSettings() {
     }
   }, [user]);
 
-  // FUNZIONE UNIFICATA - SALVA TUTTE LE IMPOSTAZIONI
   const saveAllSettings = async () => {
     if (!settings || !user) return;
-    
+
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO COMPLETO: Inizio salvataggio di tutte le impostazioni');
-      
-      // 1. SALVA NOME AZIENDALE (COD_001)
       if (settings.businessName) {
-        const nameResponse = await fetch('/api/company-name', {
+        await fetch('/api/company-name', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({ businessName: settings.businessName }),
         });
-        console.log('📝 Nome aziendale:', nameResponse.ok ? '✅ SALVATO' : '❌ ERRORE');
       }
 
-      // 2. SALVA COLORI (COD_002 e COD_003)
-      const colorResponse = await fetch('/api/color-settings-v2', {
+      await fetch('/api/color-settings-v2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           primaryColor: settings.primaryColor,
-          secondaryColor: settings.secondaryColor 
+          secondaryColor: settings.secondaryColor
         }),
       });
-      console.log('🎨 Colori:', colorResponse.ok ? '✅ SALVATI' : '❌ ERRORE');
 
-      // 3. SALVA TEMA E ASPETTO (COD_005 e COD_006)
-      const themeResponse = await fetch('/api/theme-settings-v2', {
+      await fetch('/api/theme-settings-v2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           theme: settings.theme,
-          appearance: settings.appearance 
+          appearance: settings.appearance
         }),
       });
-      console.log('🎭 Tema:', themeResponse.ok ? '✅ SALVATO' : '❌ ERRORE');
-
-      // 4. SALVA ICONA (se presente) - RIMOSSO PER ORA
-      console.log('🖼️ Icona: ⏭️ SALTATO (nessun file selezionato)');
 
       toast({
-        title: "Impostazioni salvate",
-        description: "Tutte le impostazioni sono state salvate con successo!",
+        title: t('userSettings.toast.savedTitle'),
+        description: t('userSettings.toast.savedDesc'),
       });
-      
+
       setTimeout(() => {
         window.location.reload();
       }, 1000);
 
     } catch (error: any) {
-      console.error('Errore salvataggio completo:', error);
+      console.error('Failed to save full settings:', error);
       toast({
         title: t("common.error"),
-        description: "Impossibile salvare le impostazioni. Riprova.",
+        description: t('userSettings.toast.saveErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -152,15 +135,11 @@ export default function UserSettings() {
     }
   };
 
-  // Salva NOME AZIENDALE usando endpoint specifico
   const saveBusinessName = async () => {
     if (!settings || !user) return;
-    
+
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO NOME AZIENDALE: Usando endpoint specifico', settings.businessName);
-      
-      // USA ENDPOINT SPECIFICO ESISTENTE
       const response = await fetch('/api/company-name/business-name', {
         method: 'POST',
         headers: {
@@ -171,23 +150,22 @@ export default function UserSettings() {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log('✅ NOME AZIENDALE SALVATO CON DATABASE SEPARATI:', result);
-        
+        await response.json();
+
         toast({
-          title: "Nome aziendale salvato",
-          description: "Il nome aziendale è stato salvato con successo!",
+          title: t('userSettings.toast.businessNameSavedTitle'),
+          description: t('userSettings.toast.businessNameSavedDesc'),
         });
       } else {
         const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+        console.error('Server error response:', errorText);
+        throw new Error(`Save failed: ${response.status}`);
       }
     } catch (error: any) {
-      console.error('Errore salvataggio nome aziendale:', error);
+      console.error('Failed to save business name:', error);
       toast({
         title: t("common.error"),
-        description: "Impossibile salvare il nome aziendale. Riprova.",
+        description: t('userSettings.toast.businessNameErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -195,14 +173,11 @@ export default function UserSettings() {
     }
   };
 
-  // Salva COLORE (COD_002) - IDENTICO AL NOME AZIENDALE
   const saveColor = async () => {
     if (!settings || !user) return;
-    
+
     setSaving(true);
     try {
-      console.log('✅ COLORE SALVATO SEPARATAMENTE:', `"${settings.primaryColor}" per utente ${user.id}`);
-      
       const response = await fetch('/api/color/primary-color', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -211,21 +186,20 @@ export default function UserSettings() {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log('✅ Risposta server colore:', result);
-        
+        await response.json();
+
         toast({
-          title: "Colore salvato",
-          description: "Il colore è stato salvato con successo!",
+          title: t('userSettings.toast.colorSavedTitle'),
+          description: t('userSettings.toast.colorSavedDesc'),
         });
       } else {
-        throw new Error(`Errore ${response.status}`);
+        throw new Error(`HTTP ${response.status}`);
       }
     } catch (error: any) {
-      console.error('Errore salvataggio colore:', error);
+      console.error('Failed to save color:', error);
       toast({
         title: t("common.error"),
-        description: "Impossibile salvare il colore. Riprova.",
+        description: t('userSettings.toast.colorErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -233,14 +207,11 @@ export default function UserSettings() {
     }
   };
 
-  // Salva TEMA (COD_005) - IDENTICO AL NOME AZIENDALE
   const saveTheme = async () => {
     if (!settings || !user) return;
-    
+
     setSaving(true);
     try {
-      console.log('✅ TEMA SALVATO SEPARATAMENTE:', `"${settings.theme}" per utente ${user.id}`);
-      
       const response = await fetch('/api/theme/theme', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -249,21 +220,20 @@ export default function UserSettings() {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log('✅ Risposta server tema:', result);
-        
+        await response.json();
+
         toast({
-          title: "Tema salvato",
-          description: "Il tema è stato salvato con successo!",
+          title: t('userSettings.toast.themeSavedTitle'),
+          description: t('userSettings.toast.themeSavedDesc'),
         });
       } else {
-        throw new Error(`Errore ${response.status}`);
+        throw new Error(`HTTP ${response.status}`);
       }
     } catch (error: any) {
-      console.error('Errore salvataggio tema:', error);
+      console.error('Failed to save theme:', error);
       toast({
         title: t("common.error"),
-        description: "Impossibile salvare il tema. Riprova.",
+        description: t('userSettings.toast.themeErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -271,30 +241,20 @@ export default function UserSettings() {
     }
   };
 
-  // Salva i contatti (email, telefono, sito web)
   const saveContacts = async () => {
     if (!settings) return;
-    
+
     setSaving(true);
     try {
-      console.log('💾 Salvando contatti:', {
-        email: settings.contactEmail,
-        phone: settings.contactPhone,
-        website: settings.website
-      });
-      
-      // Per ora è solo una funzione placeholder - i contatti sono già gestiti dal caricamento
-      console.log('✅ CONTATTI: Già sincronizzati tramite sistema unified');
-      
       toast({
-        title: "Contatti salvati",
-        description: "Le informazioni di contatto sono state salvate!",
+        title: t('userSettings.toast.contactsSavedTitle'),
+        description: t('userSettings.toast.contactsSavedDesc'),
       });
     } catch (error: any) {
-      console.error('Errore salvataggio contatti:', error);
+      console.error('Failed to save contacts:', error);
       toast({
         title: t("common.error"),
-        description: "Impossibile salvare i contatti. Riprova.",
+        description: t('userSettings.toast.contactsErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -302,7 +262,6 @@ export default function UserSettings() {
     }
   };
 
-  // Aggiorna un campo delle impostazioni
   const updateSetting = (field: keyof UserSettings, value: string) => {
     if (!settings) return;
     setSettings({
@@ -317,7 +276,7 @@ export default function UserSettings() {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <Settings className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
-            <p>Caricamento impostazioni...</p>
+            <p>{t('userSettings.loading')}</p>
           </div>
         </div>
       </div>
@@ -330,12 +289,12 @@ export default function UserSettings() {
         <div>
           <h1 className="text-3xl font-bold">{t("userSettings.title")}</h1>
           <p className="text-muted-foreground">
-            Personalizza la tua esperienza e configura il branding del tuo account
+            {t('userSettings.subtitle')}
           </p>
         </div>
         <Badge variant="outline" className="text-sm">
-          {user?.type === 'admin' ? 'Amministratore' : 
-           user?.type === 'staff' ? 'Staff' : 'Cliente Premium'}
+          {user?.type === 'admin' ? t('userSettings.roles.admin') :
+           user?.type === 'staff' ? t('userSettings.roles.staff') : t('userSettings.roles.customer')}
         </Badge>
       </div>
 
@@ -343,54 +302,54 @@ export default function UserSettings() {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="branding">
             <Palette className="h-4 w-4 mr-2" />
-            Branding
+            {t('userSettings.tabs.branding')}
           </TabsTrigger>
           <TabsTrigger value="contact">
             <Mail className="h-4 w-4 mr-2" />
-            Contatti
+            {t('userSettings.tabs.contact')}
           </TabsTrigger>
           <TabsTrigger value="appearance">
             <Settings className="h-4 w-4 mr-2" />
-            Aspetto
+            {t('userSettings.tabs.appearance')}
           </TabsTrigger>
           <TabsTrigger value="business">
             <Building className="h-4 w-4 mr-2" />
-            Attività
+            {t('userSettings.tabs.business')}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="branding" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Identità del Brand</CardTitle>
+              <CardTitle>{t('userSettings.branding.cardTitle')}</CardTitle>
               <CardDescription>
-                Personalizza il nome e l'aspetto della tua attività
+                {t('userSettings.branding.cardDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="businessName">Nome dell'Attività</Label>
+                <Label htmlFor="businessName">{t('userSettings.branding.businessNameLabel')}</Label>
                 <Input
                   id="businessName"
                   value={settings?.businessName || ""}
                   onChange={(e) => updateSetting('businessName', e.target.value)}
-                  placeholder="Inserisci il nome della tua attività"
+                  placeholder={t('userSettings.branding.businessNamePlaceholder')}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="logoUrl">URL Logo</Label>
+                <Label htmlFor="logoUrl">{t('userSettings.branding.logoUrlLabel')}</Label>
                 <Input
                   id="logoUrl"
                   value={settings?.logoUrl || ""}
                   onChange={(e) => updateSetting('logoUrl', e.target.value)}
-                  placeholder="https://example.com/logo.png"
+                  placeholder={t('userSettings.branding.logoUrlPlaceholder')}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="primaryColor">Colore Primario</Label>
+                  <Label htmlFor="primaryColor">{t('userSettings.branding.primaryColorLabel')}</Label>
                   <div className="flex gap-2">
                     <Input
                       id="primaryColor"
@@ -408,7 +367,7 @@ export default function UserSettings() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="secondaryColor">Colore Secondario</Label>
+                  <Label htmlFor="secondaryColor">{t('userSettings.branding.secondaryColorLabel')}</Label>
                   <div className="flex gap-2">
                     <Input
                       id="secondaryColor"
@@ -426,58 +385,42 @@ export default function UserSettings() {
                 </div>
               </div>
 
-              {/* DUE PULSANTI AFFIANCATI */}
               <div className="flex gap-4 justify-center mt-6">
-                <Button 
+                <Button
                   onClick={async () => {
                     try {
-                      alert("🎯 PULSANTE VERDE CLICCATO!");
-                      console.log("🚀 INIZIO SALVATAGGIO COMPLETO");
-                      
-                      // SALVA TUTTO INSIEME con database separati
-                      console.log("📝 1. Salvando nome aziendale...");
-                      await saveBusinessName(); // Nome aziendale (COD_001)
-                      console.log("✅ 1. Nome aziendale salvato!");
-                      
-                      console.log("🎨 2. Salvando colore...");
-                      await saveColor(); // Colore primario (COD_002)
-                      console.log("✅ 2. Colore salvato!");
-                      
-                      console.log("🎭 3. Salvando tema...");
-                      await saveTheme(); // Tema (COD_005)
-                      console.log("✅ 3. Tema salvato!");
-                      
-                      console.log("🎉 TUTTI I SALVATAGGI COMPLETATI!");
+                      await saveBusinessName();
+                      await saveColor();
+                      await saveTheme();
                     } catch (error) {
-                      console.error("❌ ERRORE DURANTE IL SALVATAGGIO:", error);
+                      console.error("Failed to save:", error);
                     }
-                  }} 
+                  }}
                   disabled={saving}
                   className="bg-green-600 hover:bg-green-700 text-white"
                   size="lg"
                 >
-                  {saving ? "Salvando..." : "🔥 PULSANTE VERDE"}
+                  {saving
+                    ? t('userSettings.branding.savingLabel')
+                    : t('userSettings.branding.greenButton')}
                 </Button>
 
-                <Button 
+                <Button
                   onClick={async () => {
                     try {
-                      alert("💾 PULSANTE BLU CLICCATO!");
-                      console.log("💾 CREAZIONE NUOVI DATI PERSONALIZZATI");
-                      
                       const newCode = `COD_${Math.floor(Math.random() * 900) + 100}`;
-                      console.log(`✅ Nuovo codice generato: ${newCode}`);
-                      console.log("✅ NUOVI DATI CREATI!");
-                      
+                      console.log(`Code generated: ${newCode}`);
                     } catch (error) {
-                      console.error("❌ ERRORE:", error);
+                      console.error("Error:", error);
                     }
-                  }} 
+                  }}
                   disabled={saving}
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                   size="lg"
                 >
-                  {saving ? "Creando..." : "💾 PULSANTE BLU"}
+                  {saving
+                    ? t('userSettings.branding.creatingLabel')
+                    : t('userSettings.branding.blueButton')}
                 </Button>
               </div>
 
@@ -488,26 +431,26 @@ export default function UserSettings() {
         <TabsContent value="contact" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Informazioni di Contatto</CardTitle>
+              <CardTitle>{t('userSettings.contact.cardTitle')}</CardTitle>
               <CardDescription>
-                Configura le tue informazioni di contatto personalizzate
+                {t('userSettings.contact.cardDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="contactEmail">Email di Contatto</Label>
+                  <Label htmlFor="contactEmail">{t('userSettings.contact.emailLabel')}</Label>
                   <Input
                     id="contactEmail"
                     type="email"
                     value={settings?.contactEmail || ""}
                     onChange={(e) => updateSetting('contactEmail', e.target.value)}
-                    placeholder="info@tuaattivita.it"
+                    placeholder={t('userSettings.contact.emailPlaceholder')}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="contactPhone">Telefono Principale</Label>
+                  <Label htmlFor="contactPhone">{t('userSettings.contact.phone1Label')}</Label>
                   <Input
                     id="contactPhone"
                     value={settings?.contactPhone || ""}
@@ -519,7 +462,7 @@ export default function UserSettings() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="contactPhone2">Telefono Secondario</Label>
+                  <Label htmlFor="contactPhone2">{t('userSettings.contact.phone2Label')}</Label>
                   <Input
                     id="contactPhone2"
                     value={settings?.contactPhone2 || ""}
@@ -529,23 +472,23 @@ export default function UserSettings() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="website">Sito Web</Label>
+                  <Label htmlFor="website">{t('userSettings.contact.websiteLabel')}</Label>
                   <Input
                     id="website"
                     value={settings?.website || ""}
                     onChange={(e) => updateSetting('website', e.target.value)}
-                    placeholder="https://www.tuaattivita.it"
+                    placeholder={t('userSettings.contact.websitePlaceholder')}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address">Indirizzo</Label>
+                <Label htmlFor="address">{t('userSettings.contact.addressLabel')}</Label>
                 <Input
                   id="address"
                   value={settings?.address || ""}
                   onChange={(e) => updateSetting('address', e.target.value)}
-                  placeholder="Via Roma 123, 00100 Roma"
+                  placeholder={t('userSettings.contact.addressPlaceholder')}
                 />
               </div>
             </CardContent>
@@ -555,85 +498,82 @@ export default function UserSettings() {
         <TabsContent value="appearance" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Aspetto dell'Interfaccia</CardTitle>
+              <CardTitle>{t('userSettings.appearance.cardTitle')}</CardTitle>
               <CardDescription>
-                Scegli il tema e l'aspetto dell'applicazione
+                {t('userSettings.appearance.cardDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="theme">Tema</Label>
+                  <Label htmlFor="theme">{t('userSettings.appearance.themeLabel')}</Label>
                   <Select
                     value={settings?.theme || "professional"}
                     onValueChange={(value) => updateSetting('theme', value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleziona tema" />
+                      <SelectValue placeholder={t('userSettings.appearance.themePlaceholder')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="professional">Professionale</SelectItem>
-                      <SelectItem value="vibrant">Vibrante</SelectItem>
-                      <SelectItem value="tint">Tinta</SelectItem>
+                      <SelectItem value="professional">{t('userSettings.appearance.themeProfessional')}</SelectItem>
+                      <SelectItem value="vibrant">{t('userSettings.appearance.themeVibrant')}</SelectItem>
+                      <SelectItem value="tint">{t('userSettings.appearance.themeTint')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="appearance">Modalità</Label>
+                  <Label htmlFor="appearance">{t('userSettings.appearance.modeLabel')}</Label>
                   <Select
                     value={settings?.appearance || "light"}
                     onValueChange={(value) => updateSetting('appearance', value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleziona modalità" />
+                      <SelectValue placeholder={t('userSettings.appearance.modePlaceholder')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light">Chiaro</SelectItem>
-                      <SelectItem value="dark">Scuro</SelectItem>
-                      <SelectItem value="system">Sistema</SelectItem>
+                      <SelectItem value="light">{t('userSettings.appearance.modeLight')}</SelectItem>
+                      <SelectItem value="dark">{t('userSettings.appearance.modeDark')}</SelectItem>
+                      <SelectItem value="system">{t('userSettings.appearance.modeSystem')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-              
-              {/* DUE PULSANTI NELLA SEZIONE ASPETTO */}
+
               <div className="flex gap-4 justify-center mt-6 pt-4 border-t">
-                <Button 
+                <Button
                   onClick={async () => {
                     try {
-                      alert("🎯 PULSANTE VERDE CLICCATO!");
-                      console.log("🚀 SALVATAGGIO TEMA E ASPETTO");
                       await saveTheme();
-                      console.log("✅ TEMA SALVATO!");
-                      await loadSettings();
                     } catch (error) {
-                      console.error("❌ ERRORE:", error);
+                      console.error("Error:", error);
                     }
-                  }} 
+                  }}
                   disabled={saving}
                   className="bg-green-600 hover:bg-green-700 text-white"
                   size="lg"
                 >
-                  {saving ? "Salvando..." : "🔥 PULSANTE VERDE"}
+                  {saving
+                    ? t('userSettings.branding.savingLabel')
+                    : t('userSettings.branding.greenButton')}
                 </Button>
 
-                <Button 
+                <Button
                   onClick={async () => {
                     try {
-                      alert("💾 PULSANTE BLU CLICCATO!");
-                      console.log("💾 CREAZIONE NUOVI DATI");
                       const newCode = `COD_${Math.floor(Math.random() * 900) + 100}`;
-                      console.log(`✅ Codice: ${newCode}`);
+                      console.log(`Code: ${newCode}`);
                     } catch (error) {
-                      console.error("❌ ERRORE:", error);
+                      console.error("Error:", error);
                     }
-                  }} 
+                  }}
                   disabled={saving}
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                   size="lg"
                 >
-                  {saving ? "Creando..." : "💾 PULSANTE BLU"}
+                  {saving
+                    ? t('userSettings.branding.creatingLabel')
+                    : t('userSettings.branding.blueButton')}
                 </Button>
               </div>
 
@@ -644,40 +584,40 @@ export default function UserSettings() {
         <TabsContent value="business" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Social Media</CardTitle>
+              <CardTitle>{t('userSettings.business.cardTitle')}</CardTitle>
               <CardDescription>
-                Collega i tuoi profili social per una maggiore visibilità
+                {t('userSettings.business.cardDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="instagramHandle">Instagram</Label>
+                  <Label htmlFor="instagramHandle">{t('userSettings.business.instagramLabel')}</Label>
                   <Input
                     id="instagramHandle"
                     value={settings?.instagramHandle || ""}
                     onChange={(e) => updateSetting('instagramHandle', e.target.value)}
-                    placeholder="@tuaattivita"
+                    placeholder="@example"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="facebookPage">Facebook</Label>
+                  <Label htmlFor="facebookPage">{t('userSettings.business.facebookLabel')}</Label>
                   <Input
                     id="facebookPage"
                     value={settings?.facebookPage || ""}
                     onChange={(e) => updateSetting('facebookPage', e.target.value)}
-                    placeholder="https://facebook.com/tuaattivita"
+                    placeholder="https://facebook.com/example"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="linkedinProfile">LinkedIn</Label>
+                  <Label htmlFor="linkedinProfile">{t('userSettings.business.linkedinLabel')}</Label>
                   <Input
                     id="linkedinProfile"
                     value={settings?.linkedinProfile || ""}
                     onChange={(e) => updateSetting('linkedinProfile', e.target.value)}
-                    placeholder="https://linkedin.com/company/tuaattivita"
+                    placeholder="https://linkedin.com/company/example"
                   />
                 </div>
               </div>

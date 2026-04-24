@@ -246,7 +246,7 @@ export default function SubscribePage() {
   // Mutation per ottenere le informazioni sul bonifico bancario
   const getBankTransferInfo = useMutation({
     mutationFn: async (planId: string) => {
-      const res = await apiRequest('GET');
+      const res = await apiRequest('GET', '/api/payments/methods');
       const methods = await res.json();
       // Trova il metodo banco
       const bankMethod = methods.find((m: any) => m.id === 'bank');
@@ -302,7 +302,7 @@ export default function SubscribePage() {
   const { data: serverPlans, isLoading: isLoadingPlans } = useQuery({
     queryKey: ['/api/payments/plans'],
     queryFn: async () => {
-      const res = await apiRequest('GET');
+      const res = await apiRequest('GET', '/api/payments/plans');
       return await res.json();
     },
     staleTime: 5 * 60 * 1000,
@@ -313,7 +313,7 @@ export default function SubscribePage() {
   const { data: subscriptionInfo, isLoading: isLoadingSubscription } = useQuery({
     queryKey: ['/api/payments/subscription'],
     queryFn: async () => {
-      const res = await apiRequest('GET');
+      const res = await apiRequest('GET', '/api/payments/subscription');
       return await res.json();
     },
     staleTime: 5 * 60 * 1000,

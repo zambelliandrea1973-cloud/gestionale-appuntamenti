@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, Check, AlertCircle, Image as ImageIcon, Undo2, Save } from 'lucide-react';
@@ -22,6 +23,7 @@ interface DefaultIconInfo {
 }
 
 export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
+  const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
   const [isUsingDefault, setIsUsingDefault] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -44,15 +46,15 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     try {
       const response = await apiRequest('GET', '/api/client-app-info');
       if (!response.ok) {
-        throw new Error('Errore nel recupero delle informazioni sull\'icona');
+        throw new Error(t('appIconUploader.errorTitle'));
       }
 
       const data = await response.json();
       const iconUrl = data.icon;
       const isDefaultFleurDeVie = iconUrl.startsWith("data:image/jpeg;base64,") && iconUrl.length > 50000;
-      
-      setIconInfo({ 
-        exists: true, 
+
+      setIconInfo({
+        exists: true,
         isCustom: !isDefaultFleurDeVie,
         iconPath: iconUrl
       });
@@ -60,7 +62,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       await fetchDefaultIconInfo();
       setCurrentIconUrl(iconUrl);
     } catch (error) {
-      console.error('Errore durante il caricamento dell\'icona:', error);
+      console.error('Failed to load icon:', error);
       setCurrentIconUrl(null);
     } finally {
       setIsLoadingInfo(false);
@@ -71,7 +73,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     try {
       const response = await apiRequest('GET', '/api/default-app-icon');
       if (!response.ok) {
-        throw new Error(`Errore HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -80,7 +82,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         name: data.name || "Fleur de Vie multicolore"
       });
     } catch (error) {
-      console.error('Errore durante il caricamento dell\'icona predefinita:', error);
+      console.error('Failed to load default icon:', error);
       setDefaultIconInfo(null);
     }
   };
@@ -95,19 +97,19 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Errore durante l\'impostazione dell\'icona predefinita');
+        throw new Error(data.message || t('appIconUploader.errorTitle'));
       }
 
       setUploadSuccess(true);
       setPendingFile(null);
       setPendingPreviewUrl(null);
-      
+
       window.location.reload();
-      
+
       toast({
-        title: "Icona predefinita impostata",
-        description: "L'icona predefinita è stata ripristinata con successo.",
-        variant: "default",
+        title: t('appIconUploader.toast.successResetTitle'),
+        description: t('appIconUploader.toast.successResetDesc'),
+        variant: 'default',
       });
 
       if (onSuccess) {
@@ -115,12 +117,12 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       }
 
     } catch (error: any) {
-      console.error('Errore durante l\'impostazione dell\'icona predefinita:', error);
-      setUploadError(error.message || 'Si è verificato un errore.');
+      console.error('Failed to set default icon:', error);
+      setUploadError(error.message || t('appIconUploader.errorTitle'));
       toast({
-        title: "Errore",
-        description: error.message || 'Si è verificato un errore.',
-        variant: "destructive",
+        title: t('appIconUploader.errorTitle'),
+        description: error.message || t('appIconUploader.errorTitle'),
+        variant: 'destructive',
       });
     } finally {
       setIsUsingDefault(false);
@@ -135,12 +137,12 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
   const handleFileSelect = (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
-      setUploadError('L\'immagine selezionata è troppo grande. La dimensione massima è 2MB.');
+      setUploadError(t('appIconUploader.toast.fileTooLarge'));
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      setUploadError('Per favore seleziona un file immagine valido.');
+      setUploadError(t('appIconUploader.toast.invalidFileType'));
       return;
     }
 
@@ -172,7 +174,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           const data = await response.json();
 
           if (!response.ok) {
-            throw new Error(data.message || 'Errore durante il caricamento dell\'icona');
+            throw new Error(data.message || t('appIconUploader.errorTitle'));
           }
 
           setUploadSuccess(true);
@@ -184,33 +186,33 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           try {
             await apiRequest('POST', '/api/sync-pwa-icons');
           } catch (syncError) {
-            console.warn('Errore sincronizzazione PWA:', syncError);
+            console.warn('PWA icon sync failed:', syncError);
           }
 
           toast({
-            title: "Icona salvata",
-            description: "L'icona dell'app è stata aggiornata e sincronizzata per i clienti.",
-            variant: "default",
+            title: t('appIconUploader.toast.successUploadTitle'),
+            description: t('appIconUploader.toast.successUploadDesc'),
+            variant: 'default',
           });
 
           if (onSuccess) {
             onSuccess();
           }
         } catch (error: any) {
-          setUploadError(error.message || 'Si è verificato un errore durante il salvataggio.');
+          setUploadError(error.message || t('appIconUploader.errorTitle'));
           toast({
-            title: "Errore",
-            description: error.message || 'Si è verificato un errore.',
-            variant: "destructive",
+            title: t('appIconUploader.errorTitle'),
+            description: error.message || t('appIconUploader.errorTitle'),
+            variant: 'destructive',
           });
         } finally {
           setIsUploading(false);
         }
       };
-      
+
       reader.readAsDataURL(pendingFile);
     } catch (error: any) {
-      setUploadError(error.message || 'Si è verificato un errore.');
+      setUploadError(error.message || t('appIconUploader.errorTitle'));
       setIsUploading(false);
     }
   };
@@ -244,10 +246,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ImageIcon className="h-5 w-5" />
-          Icona dell'App Cliente
+          {t('appIconUploader.title')}
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Carica un'icona personalizzata che verrà usata sia per l'app principale che per l'app cliente. Questa icona sarà visualizzata sulla schermata home di tutti i dispositivi (sia i tuoi che quelli dei clienti).
+          {t('appIconUploader.desc')}
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -255,9 +257,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       {uploadSuccess && (
         <Alert>
           <Check className="h-4 w-4" />
-          <AlertTitle>Salvato</AlertTitle>
+          <AlertTitle>{t('appIconUploader.savedTitle')}</AlertTitle>
           <AlertDescription>
-            L'icona dell'app è stata aggiornata con successo.
+            {t('appIconUploader.savedDesc')}
           </AlertDescription>
         </Alert>
       )}
@@ -265,7 +267,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       {uploadError && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Errore</AlertTitle>
+          <AlertTitle>{t('appIconUploader.errorTitle')}</AlertTitle>
           <AlertDescription>
             {uploadError}
           </AlertDescription>
@@ -282,10 +284,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           >
             <Upload className="h-10 w-10 mb-2 mx-auto text-muted-foreground" />
             <p className="text-sm font-medium mb-1">
-              Trascina qui l'immagine o fai clic per selezionarla
+              {t('appIconUploader.dropZoneText')}
             </p>
             <p className="text-xs text-muted-foreground">
-              SVG, PNG o JPG (max. 2MB)
+              {t('appIconUploader.dropZoneFormats')}
             </p>
             <input
               type="file"
@@ -301,7 +303,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
               className="mt-4"
               disabled={isUploading}
             >
-              Seleziona file
+              {t('appIconUploader.selectFileButton')}
             </Button>
           </div>
         </div>
@@ -310,7 +312,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           <Card className="overflow-hidden">
             <CardContent className="p-0">
               <div className="p-4 bg-muted/20">
-                <h4 className="text-sm font-medium mb-2">Anteprima</h4>
+                <h4 className="text-sm font-medium mb-2">{t('appIconUploader.previewLabel')}</h4>
                 {isLoadingInfo ? (
                   <div className="flex items-center justify-center p-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -319,41 +321,41 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-center p-4 bg-background rounded-lg border">
                       {displayUrl ? (
-                        <img 
-                          src={displayUrl} 
-                          alt="Anteprima icona" 
+                        <img
+                          src={displayUrl}
+                          alt={t('appIconUploader.previewAlt')}
                           className="max-w-full max-h-24 object-contain"
                         />
                       ) : (
                         <div className="flex flex-col items-center text-muted-foreground">
                           <ImageIcon className="h-16 w-16 mb-2" />
-                          <span className="text-xs">Nessuna icona</span>
+                          <span className="text-xs">{t('appIconUploader.noIcon')}</span>
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-col space-y-2">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-muted-foreground">Dispositivo cliente:</span>
+                        <span className="text-muted-foreground">{t('appIconUploader.clientDevice')}</span>
                         <div className="flex items-center">
                           <span className="flex items-center justify-center w-8 h-8 bg-background rounded-md border mr-1 shadow-sm">
                             {displayUrl ? (
-                              <img 
-                                src={displayUrl} 
-                                alt="Icona piccola"
-                                className="max-w-full max-h-6 object-contain" 
+                              <img
+                                src={displayUrl}
+                                alt={t('appIconUploader.smallIconAlt')}
+                                className="max-w-full max-h-6 object-contain"
                               />
                             ) : (
                               <ImageIcon className="h-4 w-4 text-muted-foreground" />
                             )}
                           </span>
-                          <span>App Cliente</span>
+                          <span>{t('appIconUploader.clientApp')}</span>
                         </div>
                       </div>
-                      
+
                       {displayUrl && (
                         <p className="text-xs text-muted-foreground mt-2">
-                          L'icona verrà visualizzata sulla home screen dei dispositivi quando i clienti installeranno l'app.
+                          {t('appIconUploader.previewHint')}
                         </p>
                       )}
                     </div>
@@ -368,9 +370,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       <div className="p-4 bg-muted/20 rounded-lg">
         <div className="flex items-center gap-3">
           {defaultIconInfo ? (
-            <img 
-              src={defaultIconInfo.url} 
-              alt="Icona predefinita" 
+            <img
+              src={defaultIconInfo.url}
+              alt={t('appIconUploader.defaultIconAlt')}
               className="w-12 h-12 rounded-md object-cover border"
             />
           ) : (
@@ -380,10 +382,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           )}
           <div className="flex-1">
             <h4 className="text-sm font-medium">
-              Icona predefinita: {defaultIconInfo?.name || "Fleur de Vie multicolore"}
+              {t('appIconUploader.defaultIconLabel', { name: defaultIconInfo?.name || 'Fleur de Vie multicolore' })}
             </h4>
             <p className="text-xs text-muted-foreground">
-              Puoi ripristinare questa icona predefinita in qualsiasi momento.
+              {t('appIconUploader.defaultIconHint')}
             </p>
           </div>
           <Button
@@ -394,7 +396,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
             disabled={isUsingDefault}
           >
             <Undo2 className="h-3 w-3" />
-            {isUsingDefault ? 'Ripristino...' : 'Ripristina l\'icona predefinita'}
+            {isUsingDefault
+              ? t('appIconUploader.restoringButton')
+              : t('appIconUploader.restoreButton')}
           </Button>
         </div>
       </div>
@@ -404,9 +408,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         onClick={() => {
           if (!pendingFile) {
             toast({
-              title: "Nessun file selezionato",
-              description: "Seleziona prima un'immagine da caricare.",
-              variant: "destructive",
+              title: t('appIconUploader.toast.noFileTitle'),
+              description: t('appIconUploader.toast.noFileDesc'),
+              variant: 'destructive',
             });
             return;
           }
@@ -415,7 +419,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         disabled={isUploading}
       >
         <Save className="h-4 w-4" />
-        {isUploading ? 'Salvataggio in corso...' : 'Salva icona'}
+        {isUploading
+          ? t('appIconUploader.savingButton')
+          : t('appIconUploader.saveButton')}
       </Button>
       </CardContent>
     </Card>

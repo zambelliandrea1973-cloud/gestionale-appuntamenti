@@ -5,15 +5,16 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Clock, Save, Loader2, Coffee, CalendarOff, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const DAYS = [
-  { key: 'monday', label: 'Lunedì', short: 'Lun' },
-  { key: 'tuesday', label: 'Martedì', short: 'Mar' },
-  { key: 'wednesday', label: 'Mercoledì', short: 'Mer' },
-  { key: 'thursday', label: 'Giovedì', short: 'Gio' },
-  { key: 'friday', label: 'Venerdì', short: 'Ven' },
-  { key: 'saturday', label: 'Sabato', short: 'Sab' },
-  { key: 'sunday', label: 'Domenica', short: 'Dom' },
+  { key: 'monday' },
+  { key: 'tuesday' },
+  { key: 'wednesday' },
+  { key: 'thursday' },
+  { key: 'friday' },
+  { key: 'saturday' },
+  { key: 'sunday' },
 ];
 
 const COUNTRIES: Array<{ code: string; label: string }> = [
@@ -282,6 +283,7 @@ function formatDuration(startTime: string, endTime: string): string | null {
 
 export default function WorkingHoursEditor() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [expandedDay, setExpandedDay] = useState<string | null>(null);
@@ -323,7 +325,7 @@ export default function WorkingHoursEditor() {
           setHolidaysCountry(result.holidaysCountry || detectedCountry);
         }
       } catch (error) {
-        console.error('Errore caricamento orari:', error);
+        console.error('Failed to load working hours:', error);
       } finally {
         setLoading(false);
       }
@@ -371,12 +373,12 @@ export default function WorkingHoursEditor() {
         }),
       });
       if (response.ok) {
-        toast({ title: "Salvato", description: "Orari di lavoro aggiornati con successo" });
+        toast({ title: t('workingHoursEditor.toast.savedTitle'), description: t('workingHoursEditor.toast.savedDesc') });
       } else {
-        throw new Error('Errore nel salvataggio');
+        throw new Error(t('workingHoursEditor.toast.saveErrorDesc'));
       }
     } catch (error) {
-      toast({ title: "Errore", description: "Impossibile salvare gli orari", variant: "destructive" });
+      toast({ title: t('common.error'), description: t('workingHoursEditor.toast.saveErrorDesc'), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -397,15 +399,15 @@ export default function WorkingHoursEditor() {
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center text-lg">
           <Clock className="mr-2 h-5 w-5 text-primary" />
-          Orari di Lavoro
+          {t('workingHoursEditor.title')}
         </CardTitle>
         <CardDescription className="flex items-start gap-1.5 mt-1">
           <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-muted-foreground" />
-          <span>Configura gli orari per ogni giorno della settimana. Ogni giorno può avere orari e pausa pranzo indipendenti.</span>
+          <span>{t('workingHoursEditor.description')}</span>
         </CardDescription>
         <div className="mt-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-md px-3 py-2">
           <p className="text-xs text-blue-700 dark:text-blue-300">
-            <strong>Nota:</strong> Questi orari si applicano alle prenotazioni online dei clienti. Dal tuo calendario puoi comunque creare appuntamenti in qualsiasi giorno e orario, anche se disattivato.
+            <strong>{t('workingHoursEditor.noteLabel')}</strong> {t('workingHoursEditor.noteText')}
           </p>
         </div>
       </CardHeader>
@@ -429,18 +431,18 @@ export default function WorkingHoursEditor() {
                     onClick={(e) => e.stopPropagation()}
                   />
                   <span className={`font-medium text-sm ${ds.enabled ? '' : 'text-muted-foreground line-through'}`}>
-                    {day.label}
+                    {t(`workingHoursEditor.days.${day.key}`)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   {ds.enabled && (
                     <span className="text-xs text-muted-foreground hidden sm:inline">
                       {ds.start} - {ds.end}
-                      {ds.lunchEnabled && lunchDuration && ` (pausa ${ds.lunchStart}-${ds.lunchEnd})`}
+                      {ds.lunchEnabled && lunchDuration && ` (${t('workingHoursEditor.lunchSummary', { start: ds.lunchStart, end: ds.lunchEnd })})`}
                     </span>
                   )}
                   {!ds.enabled && (
-                    <span className="text-xs text-muted-foreground">Chiuso</span>
+                    <span className="text-xs text-muted-foreground">{t('workingHoursEditor.closed')}</span>
                   )}
                   {ds.enabled && (
                     isExpanded
@@ -454,7 +456,7 @@ export default function WorkingHoursEditor() {
                 <div className="px-3 pb-3 pt-1 border-t space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs text-muted-foreground">Ora inizio</Label>
+                      <Label className="text-xs text-muted-foreground">{t('workingHoursEditor.startTime')}</Label>
                       <input
                         type="time"
                         value={ds.start}
@@ -463,7 +465,7 @@ export default function WorkingHoursEditor() {
                       />
                     </div>
                     <div>
-                      <Label className="text-xs text-muted-foreground">Ora fine</Label>
+                      <Label className="text-xs text-muted-foreground">{t('workingHoursEditor.endTime')}</Label>
                       <input
                         type="time"
                         value={ds.end}
@@ -473,14 +475,14 @@ export default function WorkingHoursEditor() {
                     </div>
                   </div>
                   {duration && (
-                    <p className="text-xs text-muted-foreground">Durata giornata: <span className="font-medium">{duration}</span></p>
+                    <p className="text-xs text-muted-foreground">{t('workingHoursEditor.dayDuration')} <span className="font-medium">{duration}</span></p>
                   )}
 
                   <div className="border-t pt-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Coffee className="h-3.5 w-3.5 text-muted-foreground" />
-                        <Label className="text-xs font-medium">Pausa pranzo</Label>
+                        <Label className="text-xs font-medium">{t('workingHoursEditor.lunchBreak')}</Label>
                       </div>
                       <Switch
                         checked={ds.lunchEnabled}
@@ -491,7 +493,7 @@ export default function WorkingHoursEditor() {
                       <div className="mt-2 space-y-1">
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-xs text-muted-foreground">Inizio pausa</Label>
+                            <Label className="text-xs text-muted-foreground">{t('workingHoursEditor.lunchStart')}</Label>
                             <input
                               type="time"
                               value={ds.lunchStart}
@@ -500,7 +502,7 @@ export default function WorkingHoursEditor() {
                             />
                           </div>
                           <div>
-                            <Label className="text-xs text-muted-foreground">Fine pausa</Label>
+                            <Label className="text-xs text-muted-foreground">{t('workingHoursEditor.lunchEnd')}</Label>
                             <input
                               type="time"
                               value={ds.lunchEnd}
@@ -510,9 +512,9 @@ export default function WorkingHoursEditor() {
                           </div>
                         </div>
                         {lunchDuration ? (
-                          <p className="text-xs text-muted-foreground">Durata pausa: <span className="font-medium">{lunchDuration}</span></p>
+                          <p className="text-xs text-muted-foreground">{t('workingHoursEditor.lunchDuration')} <span className="font-medium">{lunchDuration}</span></p>
                         ) : (
-                          <p className="text-xs text-destructive">L'orario di fine deve essere dopo l'inizio</p>
+                          <p className="text-xs text-destructive">{t('workingHoursEditor.endAfterStartError')}</p>
                         )}
                       </div>
                     )}
@@ -527,7 +529,7 @@ export default function WorkingHoursEditor() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <CalendarOff className="h-4 w-4 text-muted-foreground" />
-              <Label className="text-sm font-medium">Festività nazionali</Label>
+              <Label className="text-sm font-medium">{t('workingHoursEditor.nationalHolidays')}</Label>
             </div>
             <Switch
               checked={holidaysEnabled}
@@ -537,7 +539,7 @@ export default function WorkingHoursEditor() {
           {holidaysEnabled && (
             <>
               <div className="mb-3">
-                <Label className="text-xs text-muted-foreground">Paese</Label>
+                <Label className="text-xs text-muted-foreground">{t('workingHoursEditor.country')}</Label>
                 <select
                   value={holidaysCountry}
                   onChange={e => setHolidaysCountry(e.target.value)}
@@ -551,7 +553,7 @@ export default function WorkingHoursEditor() {
               {currentHolidays.length > 0 && (
                 <div className="bg-muted/50 rounded-md p-3">
                   <p className="text-xs font-medium mb-2 text-muted-foreground">
-                    Festività {currentYear} + gennaio {currentYear + 1} — aggiornate automaticamente:
+                    {t('workingHoursEditor.holidaysHeading', { current: currentYear, next: currentYear + 1 })}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
                     {currentHolidays.map((h, i) => (
@@ -568,7 +570,7 @@ export default function WorkingHoursEditor() {
 
         <Button onClick={handleSave} disabled={saving} className="w-full">
           {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-          Salva Orari di Lavoro
+          {t('workingHoursEditor.saveButton')}
         </Button>
       </CardContent>
     </Card>

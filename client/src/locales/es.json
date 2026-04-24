@@ -499,7 +499,10 @@
     "incrementBy15Min": "Incrementar 15 min",
     "decrementBy15Min": "Decrementar 15 min",
     "selected": "Seleccionado",
-    "select": "Seleccionar"
+    "select": "Seleccionar",
+    "noServicesAvailable": "Ningún servicio disponible",
+    "goToSettingsToCreateService": "Ve a Configuración para crear un servicio",
+    "noServicesFound": "Ningún servicio encontrado"
   },
   "clients": {
     "title": "Clientes",
@@ -3612,7 +3615,84 @@
     "title": "Configuración de usuario",
     "profile": "Perfil",
     "account": "Cuenta",
-    "preferences": "Preferencias"
+    "preferences": "Preferencias",
+    "subtitle": "Personaliza tu experiencia y configura la marca de tu cuenta",
+    "loading": "Cargando ajustes...",
+    "roles": {
+      "admin": "Administrador",
+      "staff": "Personal",
+      "customer": "Cliente Premium"
+    },
+    "tabs": {
+      "branding": "Branding",
+      "contact": "Contactos",
+      "appearance": "Apariencia",
+      "business": "Negocio"
+    },
+    "branding": {
+      "cardTitle": "Identidad de marca",
+      "cardDesc": "Personaliza el nombre y la apariencia de tu negocio",
+      "businessNameLabel": "Nombre del negocio",
+      "businessNamePlaceholder": "Introduce el nombre de tu negocio",
+      "logoUrlLabel": "URL del logo",
+      "primaryColorLabel": "Color principal",
+      "secondaryColorLabel": "Color secundario",
+      "greenButton": "🔥 BOTÓN VERDE",
+      "blueButton": "💾 BOTÓN AZUL",
+      "savingLabel": "Guardando...",
+      "creatingLabel": "Creando...",
+      "logoUrlPlaceholder": "https://example.com/logo.png"
+    },
+    "contact": {
+      "cardTitle": "Información de contacto",
+      "cardDesc": "Configura tu información de contacto personalizada",
+      "emailLabel": "Correo de contacto",
+      "phone1Label": "Teléfono principal",
+      "phone2Label": "Teléfono secundario",
+      "websiteLabel": "Sitio web",
+      "addressLabel": "Dirección",
+      "addressPlaceholder": "Calle Principal 123, Ciudad",
+      "emailPlaceholder": "info@example.com",
+      "websitePlaceholder": "https://www.example.com"
+    },
+    "appearance": {
+      "cardTitle": "Apariencia de la interfaz",
+      "cardDesc": "Elige el tema y la apariencia de la aplicación",
+      "themeLabel": "Tema",
+      "themePlaceholder": "Seleccionar tema",
+      "themeProfessional": "Profesional",
+      "themeVibrant": "Vibrante",
+      "themeTint": "Tinte",
+      "modeLabel": "Modo",
+      "modePlaceholder": "Seleccionar modo",
+      "modeLight": "Claro",
+      "modeDark": "Oscuro",
+      "modeSystem": "Sistema"
+    },
+    "business": {
+      "cardTitle": "Redes sociales",
+      "cardDesc": "Conecta tus perfiles sociales para mayor visibilidad",
+      "instagramLabel": "Instagram",
+      "facebookLabel": "Facebook",
+      "linkedinLabel": "LinkedIn"
+    },
+    "toast": {
+      "savedTitle": "Ajustes guardados",
+      "savedDesc": "¡Todos los ajustes se han guardado correctamente!",
+      "saveErrorDesc": "No se pueden guardar los ajustes. Inténtalo de nuevo.",
+      "businessNameSavedTitle": "Nombre de empresa guardado",
+      "businessNameSavedDesc": "¡El nombre de la empresa se ha guardado correctamente!",
+      "businessNameErrorDesc": "No se puede guardar el nombre de la empresa. Inténtalo de nuevo.",
+      "colorSavedTitle": "Color guardado",
+      "colorSavedDesc": "¡El color se ha guardado correctamente!",
+      "colorErrorDesc": "No se puede guardar el color. Inténtalo de nuevo.",
+      "themeSavedTitle": "Tema guardado",
+      "themeSavedDesc": "¡El tema se ha guardado correctamente!",
+      "themeErrorDesc": "No se puede guardar el tema. Inténtalo de nuevo.",
+      "contactsSavedTitle": "Contactos guardados",
+      "contactsSavedDesc": "¡La información de contacto se ha guardado!",
+      "contactsErrorDesc": "No se pueden guardar los contactos. Inténtalo de nuevo."
+    }
   },
   "staff": {
     "title": "Gestión de personal",
@@ -3653,7 +3733,10 @@
     "loadingClient": "Cargando datos del cliente...",
     "otherAccount": "Otra cuenta",
     "creatingClient": "Creando...",
-    "createNewClient": "+ Crear \"<0>{{name}}</0>\" como nuevo cliente",
+    "createNewClient": {
+      "before": "+ Crear \"",
+      "after": "\" como nuevo cliente"
+    },
     "warnings": {
       "otherAccount": "<0>Atención:</0> Estás creando una cita para un cliente de otra cuenta ({{firstName}} {{lastName}}). Verifica que tengas los permisos necesarios."
     },
@@ -3684,7 +3767,8 @@
         "desc": "{{firstName}} {{lastName}} creado. Podrás completar los datos más tarde."
       },
       "validationTitle": "Error de validación",
-      "validationDesc": "Campos con errores: {{fields}}"
+      "validationDesc": "Campos con errores: {{fields}}",
+      "clientCreateErrorDesc": "Error al crear el cliente"
     },
     "errors": {
       "requiredClient": "Selecciona un cliente para la cita",
@@ -3695,16 +3779,20 @@
       "createClient": "No se pudo crear el cliente"
     },
     "conflict": {
-      "title": "⚠️ Conflicto de horario detectado",
-      "intro": "Has creado una cita que se solapa con una o más citas existentes:",
-      "staffHeading": "🧑 Conflicto de profesional:",
+      "title": "Conflicto de disponibilidad",
+      "intro": "Se detectaron conflictos para la cita seleccionada:",
+      "staffHeading": "Conflictos con el personal:",
       "staffLine": "<0>{{name}}</0> ya tiene una cita a las {{time}}",
       "staffWith": " con {{firstName}} {{lastName}}",
-      "roomHeading": "🏠 Conflicto de sala:",
+      "roomHeading": "Conflictos de salas:",
       "roomLine": "<0>{{name}}</0> ya está ocupada a las {{time}}",
       "roomBy": " por {{firstName}} {{lastName}}",
-      "askProceed": "¿Quieres continuar con la creación de la cita de todos modos?",
-      "proceed": "Sí, continuar igualmente"
+      "askProceed": "¿Deseas continuar de todos modos?",
+      "proceed": "Continuar de todos modos",
+      "staffLineSuffix": "ya tiene una cita a las",
+      "withClient": "con",
+      "roomLineSuffix": "ya está ocupada a las",
+      "byClient": "por"
     }
   },
   "clientNotes": {
@@ -4724,5 +4812,406 @@
     },
     "signaturePrefix": "Consentimiento digital aceptado el",
     "defaultConsentText": "Aviso de Privacidad y Consentimiento al Tratamiento de Datos Personales\n\n  De conformidad con el Reglamento (UE) 2016/679 (RGPD), le informamos de que sus datos personales serán tratados con las siguientes finalidades:\n\n  1. Gestión del expediente sanitario y administrativo\n  2. Cumplimiento de obligaciones legales y normativas\n  3. Comunicaciones relativas a los servicios prestados\n\n  Sus datos serán tratados en formato papel e informático, con una lógica estrictamente relacionada con las finalidades indicadas anteriormente y, en cualquier caso, de manera que se garantice la seguridad y confidencialidad de los datos mismos.\n\n  La aportación de los datos es obligatoria para la prestación de los servicios solicitados. Su no aportación impide prestar los servicios.\n\n  Sus datos no serán comunicados a terceros, salvo en los casos previstos por la ley.\n\n  Usted tiene derecho a obtener la confirmación de la existencia o no de sus datos personales, conocer su contenido y origen, verificar su exactitud o solicitar su integración o actualización, o su rectificación. Asimismo, tiene derecho a solicitar la cancelación, la transformación en forma anónima o el bloqueo de los datos tratados en infracción de la ley, así como a oponerse en cualquier caso, por motivos legítimos, a su tratamiento."
+  },
+  "installationGuide": {
+    "heading": "Cómo instalar la aplicación en tu dispositivo",
+    "chrome": {
+      "title": "Instrucciones para Google Chrome:",
+      "s1Lead": "Haz clic en los tres puntos",
+      "s1Suffix": "arriba a la derecha",
+      "s2Lead": "Selecciona \"Instalar aplicación...\"",
+      "s2Suffix": "del menú",
+      "s3Lead": "Confirma",
+      "s3Suffix": "haciendo clic en \"Instalar\" en la ventana emergente"
+    },
+    "safari": {
+      "title": "Instrucciones para Safari (iOS):",
+      "s1Lead": "Toca el botón Compartir",
+      "s1Suffix": "abajo (iPhone) o arriba (iPad)",
+      "s2Lead": "Desplázate y toca \"Añadir a inicio\"",
+      "s3Lead": "Toca \"Añadir\"",
+      "s3Suffix": "en la esquina superior derecha"
+    },
+    "edge": {
+      "title": "Instrucciones para Microsoft Edge:",
+      "s1Lead": "Haz clic en los tres puntos",
+      "s1Suffix": "arriba a la derecha",
+      "s2Lead": "Selecciona \"Aplicaciones\"",
+      "s2Suffix": "\"Instalar este sitio como aplicación\"",
+      "s3Lead": "Confirma",
+      "s3Suffix": "haciendo clic en \"Instalar\" en la ventana emergente"
+    },
+    "firefox": {
+      "title": "Instrucciones para Firefox:",
+      "s1Lead": "Haz clic en el menú",
+      "s1Suffix": "arriba a la derecha",
+      "s2Lead": "Selecciona \"+ Añadir a la pantalla de inicio\"",
+      "s3Lead": "Confirma",
+      "s3Suffix": "la instalación"
+    },
+    "duckduckgo": {
+      "title": "Instrucciones para DuckDuckGo:",
+      "s1Lead": "Toca los tres puntos",
+      "s1Suffix": "arriba a la derecha",
+      "s2Lead": "Selecciona \"Compartir\"",
+      "s2Suffix": "del menú",
+      "s3Lead": "Elige \"Chrome\"",
+      "s3Suffix": "de la lista de aplicaciones",
+      "s4Lead": "En Chrome",
+      "s4Suffix": "verás aparecer un banner o un botón de instalación",
+      "s5Lead": "Toca \"Instalar\"",
+      "s5Suffix": "para completar la instalación",
+      "warningTitle": "Por qué usar Chrome para la instalación:",
+      "warningBody": "DuckDuckGo no admite directamente la instalación de PWA. Por este motivo, debes utilizar Chrome, que ofrece compatibilidad total con la instalación de aplicaciones web en tu dispositivo."
+    },
+    "footer": "Nota: si las instrucciones no funcionan, prueba con Chrome en Android o Safari en iOS, que tienen mejor soporte para PWA."
+  },
+  "capabilities": {
+    "calendar": {
+      "title": "Calendario",
+      "description": "Gestiona citas, horarios y disponibilidad del personal en un calendario centralizado."
+    },
+    "email_notifications": {
+      "title": "Notificaciones por correo",
+      "description": "Envía confirmaciones y recordatorios automáticos por correo a tus clientes."
+    },
+    "whatsapp_notifications": {
+      "title": "Notificaciones WhatsApp",
+      "description": "Envía mensajes de WhatsApp a los clientes para confirmaciones, recordatorios y comunicaciones."
+    },
+    "invoices": {
+      "title": "Facturación",
+      "description": "Crea, gestiona y envía facturas profesionales a tus clientes."
+    },
+    "reports": {
+      "title": "Informes y estadísticas",
+      "description": "Analiza el rendimiento de tu negocio con informes detallados y estadísticas."
+    },
+    "google_calendar": {
+      "title": "Sincronización con Google Calendar",
+      "description": "Sincroniza automáticamente tus citas con Google Calendar."
+    },
+    "client_pwa_qr": {
+      "title": "App de cliente personalizada (QR)",
+      "description": "Ofrece a los clientes una app web instalable con tu marca mediante código QR."
+    },
+    "staff_rooms": {
+      "title": "Personal y salas",
+      "description": "Gestiona varios operadores y salas simultáneamente con planificación avanzada."
+    },
+    "warehouse": {
+      "title": "Gestión de almacén",
+      "description": "Lleva el seguimiento de productos, existencias y consumos por cada servicio ofrecido."
+    },
+    "unlimited_clients": {
+      "title": "Clientes ilimitados",
+      "description": "Añade y gestiona un número ilimitado de clientes sin restricciones."
+    },
+    "appointment_requests": {
+      "title": "Solicitudes de cita",
+      "description": "Permite a los clientes solicitar citas en línea y gestiónalas fácilmente."
+    },
+    "promotional_packages": {
+      "title": "Paquetes promocionales",
+      "description": "Crea ofertas y paquetes promocionales para fidelizar a tus clientes."
+    },
+    "marketing_ai": {
+      "title": "Marketing con IA",
+      "description": "Utiliza la inteligencia artificial para generar campañas de marketing personalizadas."
+    }
+  },
+  "appNameEditor": {
+    "title": "Nombre de la app cliente",
+    "intro": "Personaliza el nombre que se mostrará en los dispositivos de los clientes al instalar la app.",
+    "successTitle": "Guardado completado",
+    "successDesc": "La información de la aplicación se ha actualizado correctamente. Los clientes verán el nuevo nombre al instalar la app.",
+    "errorTitle": "Error",
+    "appNameLabel": "Nombre completo de la app",
+    "appNamePlaceholder": "App Cliente",
+    "appNameHint": "Este nombre aparecerá en las notificaciones y los detalles de la app",
+    "appShortNameLabel": "Nombre corto de la app",
+    "appShortNamePlaceholder": "App Cliente",
+    "appShortNameHint": "Este nombre aparecerá bajo el icono en la pantalla de inicio",
+    "info": "Los cambios solo afectarán a las nuevas instalaciones de la app",
+    "savingButton": "Guardando...",
+    "saveButton": "Guardar cambios",
+    "toast": {
+      "errorTitle": "Error",
+      "fetchErrorDesc": "No se puede cargar la información de la app",
+      "noChangesTitle": "Sin cambios",
+      "noChangesDesc": "No se han realizado cambios en el nombre de la app",
+      "savedTitle": "Guardado completado",
+      "savedDesc": "La información de la aplicación se ha actualizado correctamente",
+      "saveErrorTitle": "Error al guardar",
+      "saveErrorDesc": "Se produjo un error al guardar la información"
+    },
+    "defaultAppName": "App Cliente"
+  },
+  "appIconUploader": {
+    "title": "Icono de la app cliente",
+    "desc": "Sube un icono personalizado que se usará tanto en la app principal como en la app cliente. Este icono aparecerá en la pantalla de inicio de todos los dispositivos.",
+    "savedTitle": "Guardado",
+    "savedDesc": "El icono de la aplicación se ha actualizado correctamente.",
+    "errorTitle": "Error",
+    "dropZoneText": "Arrastra tu imagen aquí o haz clic para seleccionarla",
+    "dropZoneFormats": "SVG, PNG o JPG (máx. 2 MB)",
+    "selectFileButton": "Seleccionar archivo",
+    "previewLabel": "Vista previa",
+    "previewAlt": "Vista previa del icono",
+    "smallIconAlt": "Icono pequeño",
+    "defaultIconAlt": "Icono predeterminado",
+    "noIcon": "Sin icono",
+    "clientDevice": "Dispositivo cliente:",
+    "clientApp": "App Cliente",
+    "previewHint": "El icono se mostrará en la pantalla de inicio de los dispositivos cuando los clientes instalen la app.",
+    "defaultIconLabel": "Icono predeterminado: {{name}}",
+    "defaultIconHint": "Puedes restaurar este icono predeterminado en cualquier momento.",
+    "restoringButton": "Restaurando...",
+    "restoreButton": "Restaurar icono predeterminado",
+    "savingButton": "Guardando...",
+    "saveButton": "Guardar icono",
+    "toast": {
+      "successResetTitle": "Icono predeterminado establecido",
+      "successResetDesc": "El icono predeterminado se ha restaurado correctamente.",
+      "successUploadTitle": "Icono guardado",
+      "successUploadDesc": "El icono de la aplicación se ha actualizado y sincronizado para los clientes.",
+      "noFileTitle": "No se ha seleccionado archivo",
+      "noFileDesc": "Selecciona primero una imagen para subir.",
+      "fileTooLarge": "La imagen seleccionada es demasiado grande. El tamaño máximo es 2 MB.",
+      "invalidFileType": "Selecciona un archivo de imagen válido."
+    }
+  },
+  "iconUpload": {
+    "title": "Personalizar icono PWA",
+    "desc": "Sube una imagen personalizada que se convertirá automáticamente en iconos PWA para dispositivos móviles. Formatos compatibles: JPG, PNG, GIF, WebP.",
+    "currentLabel": "Icono actual",
+    "currentName": "Icono PWA actual",
+    "currentDesc": "Este es el icono que aparece cuando los usuarios instalan la app",
+    "currentAlt": "Icono PWA actual",
+    "uploadLabel": "Subir nuevo icono",
+    "previewLabel": "Vista previa",
+    "previewAlt": "Vista previa del nuevo icono",
+    "newIconLabel": "Nuevo icono",
+    "newIconDesc": "Se convertirá automáticamente a formatos PNG 96x96, 192x192 y 512x512",
+    "removeButton": "Eliminar",
+    "uploadButton": "Actualizar icono PWA",
+    "uploadingButton": "Cargando...",
+    "restoreButton": "Restaurar predeterminado",
+    "info": {
+      "heading": "ℹ️ Información importante",
+      "b1": "• La imagen se redimensionará automáticamente a 96x96, 192x192 y 512x512 píxeles",
+      "b2": "• Usa imágenes cuadradas para mejores resultados",
+      "b3": "• Los cambios serán visibles en la próxima actualización/reinstalación de la app",
+      "b4": "• Formatos compatibles: JPG, PNG, GIF, WebP (máx. 10 MB)"
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "invalidTypeDesc": "Selecciona solo archivos de imagen (JPG, PNG, GIF, etc.)",
+      "fileTooLargeDesc": "El archivo es demasiado grande. Tamaño máximo: 10 MB",
+      "noFileDesc": "Selecciona primero una imagen",
+      "successTitle": "Éxito",
+      "uploadOkDesc": "¡Icono PWA actualizado! Los cambios serán visibles en la próxima actualización de la app.",
+      "restoreOkDesc": "¡Icono predeterminado restaurado! Los cambios serán visibles en la próxima actualización de la app.",
+      "uploadErrorDesc": "Error al subir el icono",
+      "restoreErrorDesc": "Error al restaurar el icono predeterminado"
+    }
+  },
+  "simplePhoneSetup": {
+    "ui": {
+      "lastUpdate": "Última actualización:",
+      "registering": "Registrando...",
+      "registerThisNumber": "Registrar este número",
+      "verifying": "Verificando...",
+      "verifyCode": "Verificar código"
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "invalidPhoneDesc": "Introduce un número de teléfono válido",
+      "numberRegisteredTitle": "Número registrado",
+      "numberRegisteredDesc": "Te hemos enviado un SMS con un código de verificación",
+      "invalidCodeDesc": "Introduce el código de verificación recibido por SMS",
+      "numberVerifiedTitle": "Número verificado",
+      "numberVerifiedDesc": "¡Tu número se ha verificado correctamente!",
+      "numberRemovedTitle": "Número eliminado",
+      "numberRemovedDesc": "El número de teléfono se ha eliminado correctamente",
+      "removeFailedDesc": "No se puede eliminar el número. Inténtalo de nuevo.",
+      "registerFailedDesc": "No se puede registrar el número. Inténtalo de nuevo.",
+      "verifyFailedDesc": "No se puede verificar el código. Inténtalo de nuevo.",
+      "whatsappLinkTitle": "Enlace de WhatsApp generado",
+      "whatsappLinkDesc": "Hemos abierto WhatsApp con un mensaje de prueba",
+      "whatsappFailedDesc": "No se puede generar el enlace de WhatsApp. Inténtalo de nuevo."
+    },
+    "status": {
+      "disconnected": "Ningún teléfono configurado",
+      "pending": "Esperando verificación",
+      "connected": "Teléfono configurado y listo",
+      "unknown": "Estado desconocido"
+    },
+    "header": {
+      "title": "Configuración del teléfono para notificaciones",
+      "subtitle": "Introduce tu número de teléfono para enviar mensajes y notificaciones a los clientes"
+    },
+    "card": {
+      "title": "Tu teléfono para notificaciones",
+      "descDisconnected": "Configura un número de teléfono para enviar notificaciones a los clientes",
+      "descConnected": "Estado actual de tu número para notificaciones"
+    },
+    "setup": {
+      "heading": "Configura tu número de teléfono",
+      "intro": "Introduce tu número de teléfono con el prefijo internacional (ej. +39)",
+      "phoneLabel": "Número de teléfono",
+      "phoneHint": "Ejemplo: +393471234567 (sin espacios)"
+    },
+    "verify": {
+      "heading": "Verifica tu número",
+      "intro": "Enviamos un código de verificación al número",
+      "codeLabel": "Código de verificación"
+    },
+    "connected": {
+      "heading": "Número de teléfono configurado",
+      "intro": "Tu número está configurado y listo para enviar notificaciones a los clientes",
+      "testButton": "Enviar WhatsApp de prueba",
+      "removeButton": "Eliminar este número"
+    },
+    "guide": {
+      "title": "Guía rápida",
+      "subtitle": "Información útil para configurar tu número",
+      "stepsHeading": "Cómo funciona en 3 pasos:",
+      "step1Title": "Introduce tu número",
+      "step1Body": "Introduce tu número de teléfono con el prefijo internacional",
+      "step2Title": "Verifica el número",
+      "step2Body": "Recibirás un código de verificación para confirmar tu número",
+      "step3Title": "Empieza a enviar notificaciones",
+      "step3Body": "Vuelve a la página Notificaciones y empieza a enviar recordatorios a tus clientes"
+    },
+    "tips": {
+      "title": "WhatsApp recomendado:",
+      "b1": "Este número se usará principalmente para enviar notificaciones por WhatsApp",
+      "b2": "Los mensajes WhatsApp son gratuitos y más fiables que los SMS",
+      "b3": "Asegúrate de que el número tenga WhatsApp instalado y activo",
+      "b4": "Introduce el prefijo internacional correcto (ej. +39 para Italia)"
+    },
+    "next": {
+      "title": "¿Qué hacer ahora?",
+      "intro": "Tu número está configurado y listo. Ahora puedes:",
+      "b1": "Volver a la página Notificaciones y enviar mensajes a los clientes",
+      "b2": "Enviar un mensaje WhatsApp de prueba para verificar el funcionamiento"
+    }
+  },
+  "phoneDeviceSetup": {
+    "ui": {
+      "lastUpdate": "Última actualización:",
+      "simulating": "Simulando...",
+      "testModeButton": "Modo Prueba: Simular escaneo QR"
+    },
+    "qr": {
+      "step1": "Toca el icono ⋮ (tres puntos) arriba a la derecha",
+      "step2": "Selecciona \"Dispositivos vinculados\"",
+      "step3": "Toca \"Vincular un dispositivo\"",
+      "step4": "Apunta la cámara hacia este código QR"
+    },
+    "toast": {
+      "errorTitle": "Error",
+      "qrGeneratingTitle": "Generando código QR",
+      "qrGeneratingDesc": "Espera a que aparezca el código QR y escanéalo con tu teléfono",
+      "pairingFailedDesc": "No se puede iniciar el proceso de emparejamiento. Inténtalo en unos momentos.",
+      "disconnectedTitle": "Dispositivo desconectado",
+      "disconnectedDesc": "El dispositivo se ha desconectado correctamente",
+      "disconnectFailedDesc": "No se puede desconectar el dispositivo. Inténtalo en unos momentos.",
+      "simulationOkTitle": "Prueba de conexión exitosa",
+      "simulationOkDesc": "La simulación de escaneo de QR se completó correctamente",
+      "simulationErrorTitle": "Error de simulación",
+      "simulationErrorDesc": "No se puede simular el escaneo del código QR"
+    },
+    "status": {
+      "disconnected": "Ningún teléfono conectado",
+      "connecting": "Conectando...",
+      "connected": "Teléfono conectado",
+      "waitingScan": "Esperando escaneo...",
+      "ready": "Teléfono configurado y listo",
+      "error": "Error de conexión",
+      "unknown": "Estado desconocido"
+    },
+    "header": {
+      "title": "Configuración del teléfono para notificaciones",
+      "subtitle": "Este procedimiento te permitirá conectar un teléfono para enviar mensajes a tus clientes"
+    },
+    "card": {
+      "title": "Tu teléfono para notificaciones",
+      "descDisconnected": "Conecta un teléfono para empezar a enviar notificaciones a los clientes",
+      "descConnected": "Estado actual de la conexión con tu teléfono"
+    },
+    "setup": {
+      "heading": "Conecta tu teléfono",
+      "intro": "Haz clic en el botón de abajo y sigue las instrucciones sencillas para conectar tu teléfono",
+      "startButton": "Iniciar configuración",
+      "preparing": "Preparando..."
+    },
+    "connected": {
+      "heading": "Teléfono conectado correctamente",
+      "intro": "Tu teléfono está listo para enviar notificaciones a los clientes",
+      "disconnectButton": "Desconectar este teléfono"
+    },
+    "scan": {
+      "heading": "Escanea el código QR",
+      "intro": "Abre WhatsApp en tu teléfono:"
+    },
+    "guide": {
+      "title": "Guía rápida",
+      "subtitle": "Información útil para configurar tu dispositivo",
+      "stepsHeading": "Cómo funciona en 3 pasos:",
+      "step1Body": "Haz clic en \"Iniciar configuración\" y escanea el código QR con tu teléfono",
+      "step2Title": "Mantén WhatsApp activo",
+      "step2Body": "Asegúrate de que el teléfono permanezca conectado a internet y WhatsApp activo",
+      "step3Title": "Empieza a enviar notificaciones",
+      "step3Body": "Vuelve a la página \"Notificaciones\" y empieza a enviar recordatorios automáticos a tus clientes"
+    },
+    "tips": {
+      "title": "Notas importantes:",
+      "b1": "Usa tu teléfono de empresa o un teléfono dedicado a las notificaciones de clientes",
+      "b2": "Asegúrate de que el teléfono siempre esté cargado y conectado a internet",
+      "b3": "No cierres la aplicación WhatsApp en el teléfono",
+      "b4": "Para problemas con el envío de SMS o mensajes WhatsApp, reinicia el procedimiento"
+    },
+    "next": {
+      "title": "¿Qué hacer ahora?",
+      "intro": "Tu teléfono está configurado y listo. Ahora puedes:",
+      "b1": "Volver a la página Notificaciones y enviar mensajes a los clientes",
+      "b2": "Verificar que los mensajes lleguen correctamente"
+    }
+  },
+  "workingHoursEditor": {
+    "title": "Horario laboral",
+    "description": "Configura los horarios de apertura de tu negocio para cada día de la semana.",
+    "noteLabel": "Nota:",
+    "noteText": "estos horarios se aplicarán al calendario para resaltar los huecos disponibles y bloquear las reservas fuera de horario.",
+    "closed": "Cerrado",
+    "startTime": "Apertura",
+    "endTime": "Cierre",
+    "dayDuration": "Duración del día:",
+    "lunchSummary": "pausa {{start}}-{{end}}",
+    "lunchBreak": "Pausa para comer",
+    "lunchStart": "Inicio de la pausa",
+    "lunchEnd": "Fin de la pausa",
+    "lunchDuration": "Duración de la pausa:",
+    "endAfterStartError": "La hora de fin debe ser posterior a la de inicio.",
+    "nationalHolidays": "Festivos nacionales",
+    "country": "País",
+    "holidaysHeading": "Festivos {{current}}-{{next}}",
+    "saveButton": "Guardar horarios",
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "toast": {
+      "savedTitle": "Horarios guardados",
+      "savedDesc": "Los horarios de trabajo se han guardado correctamente.",
+      "saveErrorDesc": "No se pueden guardar los horarios. Inténtalo de nuevo."
+    }
   }
 }

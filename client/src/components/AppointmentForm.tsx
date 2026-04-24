@@ -340,7 +340,7 @@ export default function AppointmentForm({
         console.log("Risposta server ricevuta:", responseData);
         return responseData;
       } catch (error) {
-        console.error("Errore durante la richiesta API:", error);
+        console.error("API request failed:", error);
         throw error;
       }
     },
@@ -406,10 +406,10 @@ export default function AppointmentForm({
     },
     
     onError: (error) => {
-      console.error("Errore durante il salvataggio dell'appuntamento:", error);
+      console.error("Failed to save appointment:", error);
       toast({
         title: t("common.error"),
-        description: `Si è verificato un errore: ${error.message}`,
+        description: t('common.errorWithMessage', { message: error.message }),
         variant: "destructive",
       });
     }
@@ -510,10 +510,10 @@ export default function AppointmentForm({
         onClose();
       }
     } catch (error: any) {
-      console.error("ERRORE DURANTE SALVATAGGIO:", error);
+      console.error("Save error:", error);
       toast({
-        title: "Errore durante il salvataggio",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('appointmentForm.errors.savingTitle'),
+        description: t('common.errorWithMessage', { message: error.message }),
         variant: "destructive"
       });
       throw error;
@@ -530,7 +530,7 @@ export default function AppointmentForm({
     try {
       await saveAppointment(pendingAppointmentData);
     } catch (error) {
-      console.error("Errore durante salvataggio dopo conferma conflitti");
+      console.error("Failed to save after conflict confirmation");
     }
     
     setPendingAppointmentData(null);
@@ -544,7 +544,7 @@ export default function AppointmentForm({
       const dateStr = formatDateForApi(appointmentData.date);
       const response = await fetch(`/api/appointments/date/${dateStr}`);
       if (!response.ok) {
-        console.error("Errore nel caricamento appuntamenti per controllo conflitti");
+        console.error("Failed to load appointments for conflict check");
         return { staffConflicts: [], roomConflicts: [] };
       }
       
@@ -601,7 +601,7 @@ export default function AppointmentForm({
       
       return { staffConflicts, roomConflicts };
     } catch (error) {
-      console.error("Errore nel controllo conflitti:", error);
+      console.error("Failed to check conflicts:", error);
       return { staffConflicts: [], roomConflicts: [] };
     }
   };
@@ -644,7 +644,7 @@ export default function AppointmentForm({
         console.error("Cliente non selezionato!");
         toast({
           title: t("common.error"),
-          description: "Seleziona un cliente per l'appuntamento",
+          description: t('appointmentForm.errors.requiredClient'),
           variant: "destructive"
         });
         return;
@@ -654,7 +654,7 @@ export default function AppointmentForm({
         console.error("Servizio non selezionato!");
         toast({
           title: t("common.error"),
-          description: "Seleziona un servizio per l'appuntamento",
+          description: t('appointmentForm.errors.requiredService'),
           variant: "destructive"
         });
         return;
@@ -666,7 +666,7 @@ export default function AppointmentForm({
         // Show a warning but allow to proceed
         toast({
           title: t("common.warning"),
-          description: "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
+          description: t('appointmentForm.errors.consentWarning'),
           variant: "destructive",
           duration: 5000,
         });
@@ -695,10 +695,10 @@ export default function AppointmentForm({
       await saveAppointment(data);
       
     } catch (error: any) {
-      console.error("ERRORE CRITICO durante la preparazione dei dati:", error);
+      console.error("Critical error preparing data:", error);
       toast({
         title: t("common.error"),
-        description: `Si è verificato un errore: ${error.message}`,
+        description: t('common.errorWithMessage', { message: error.message }),
         variant: "destructive"
       });
     }
@@ -729,7 +729,7 @@ export default function AppointmentForm({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Errore nella creazione del cliente');
+        throw new Error(data.message || t('appointmentForm.toast.clientCreateErrorDesc'));
       }
 
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
@@ -739,8 +739,8 @@ export default function AppointmentForm({
       setIsClientDropdownOpen(false);
 
       toast({
-        title: "Cliente creato",
-        description: `${data.firstName} ${data.lastName} creato. Potrai completare i dati in seguito.`,
+        title: t('appointmentForm.toast.clientCreated.title'),
+        description: t('appointmentForm.toast.clientCreated.desc', { firstName: data.firstName, lastName: data.lastName }),
       });
     } catch (error: any) {
       toast({
@@ -782,8 +782,8 @@ export default function AppointmentForm({
             console.error("❌ [APPOINTMENT FORM] Errori validazione:", JSON.stringify(errors, null, 2));
             const errorFields = Object.keys(errors);
             toast({
-              title: "Errore di validazione",
-              description: `Campi con errori: ${errorFields.join(', ')}`,
+              title: t('appointmentForm.toast.validationTitle'),
+              description: t('appointmentForm.toast.validationDesc', { fields: errorFields.join(', ') }),
               variant: "destructive"
             });
           })} className="space-y-4">
@@ -805,11 +805,11 @@ export default function AppointmentForm({
                 name="clientId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cliente</FormLabel>
+                    <FormLabel>{t('appointmentForm.client')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input 
-                          placeholder="Cerca cliente..." 
+                          placeholder={t('appointmentForm.fields.clientPlaceholder')} 
                           value={clientSearchTerm}
                           onChange={(e) => setClientSearchTerm(e.target.value)}
                           onFocus={() => setIsClientDropdownOpen(true)}
@@ -861,7 +861,7 @@ export default function AppointmentForm({
                                         {isOtherAccount && (
                                           <span className="flex items-center text-xs text-orange-600">
                                             <Users className="h-3 w-3 mr-1" />
-                                            Altro account
+                                            {t('appointmentForm.otherAccount')}
                                           </span>
                                         )}
                                       </div>
@@ -876,10 +876,10 @@ export default function AppointmentForm({
                                       {isCreatingQuickClient ? (
                                         <span className="flex items-center gap-2">
                                           <Loader2 className="h-3 w-3 animate-spin" />
-                                          Creazione in corso...
+                                          {t('appointmentForm.creatingClient')}
                                         </span>
                                       ) : (
-                                        <span>+ Crea "<strong>{clientSearchTerm.trim()}</strong>" come nuovo cliente</span>
+                                        <span>{t('appointmentForm.createNewClient.before')}<strong>{clientSearchTerm.trim()}</strong>{t('appointmentForm.createNewClient.after')}</span>
                                       )}
                                     </div>
                                   )}
@@ -903,12 +903,12 @@ export default function AppointmentForm({
                   const selectedClient = clients.find((c: any) => c.id === field.value);
                   return (
                     <FormItem>
-                      <FormLabel>Cliente</FormLabel>
+                      <FormLabel>{t('appointmentForm.client')}</FormLabel>
                       <div className="p-2 bg-muted rounded-md">
                         {selectedClient ? (
                           <div className="font-medium">{selectedClient.firstName} {selectedClient.lastName}</div>
                         ) : (
-                          <div className="text-muted-foreground">Caricamento dati cliente...</div>
+                          <div className="text-muted-foreground">{t('appointmentForm.loadingClient')}</div>
                         )}
                       </div>
                       <FormMessage />
@@ -922,7 +922,7 @@ export default function AppointmentForm({
               <Alert className="border-amber-300 bg-amber-50">
                 <AlertCircle className="h-4 w-4 text-amber-600" />
                 <AlertDescription className="text-amber-800">
-                  <p className="font-medium mb-1">{t('services.defaultServiceAlert', 'Stai usando il servizio generico "Consulenza". Crea il tuo listino personalizzato!')}</p>
+                  <p className="font-medium mb-1">{t('services.defaultServiceAlert')}</p>
                   <Button
                     type="button"
                     variant="outline"
@@ -934,7 +934,7 @@ export default function AppointmentForm({
                     }}
                   >
                     <ArrowRight className="h-3 w-3" />
-                    {t('services.goToServiceSettings', 'Vai al Listino Servizi')}
+                    {t('services.goToServiceSettings')}
                   </Button>
                 </AlertDescription>
               </Alert>
@@ -1005,7 +1005,7 @@ export default function AppointmentForm({
                             {services.length === 0 ? (
                               <div className="p-3 text-center">
                                 <p className="text-sm text-muted-foreground mb-2">
-                                  {t('calendar.noServicesAvailable', 'Nessun servizio disponibile')}
+                                  {t('calendar.noServicesAvailable')}
                                 </p>
                                 <button 
                                   type="button"
@@ -1017,12 +1017,12 @@ export default function AppointmentForm({
                                     navigate('/settings?section=services');
                                   }}
                                 >
-                                  {t('calendar.goToSettingsToCreateService', 'Vai alle Impostazioni per creare un servizio')}
+                                  {t('calendar.goToSettingsToCreateService')}
                                 </button>
                               </div>
                             ) : filteredServices.length === 0 ? (
                               <div className="p-3 text-center text-sm text-muted-foreground">
-                                {t('calendar.noServicesFound', 'Nessun servizio trovato')}
+                                {t('calendar.noServicesFound')}
                               </div>
                             ) : null}
                             {filteredServices.map((service: any) => {
@@ -1141,14 +1141,14 @@ export default function AppointmentForm({
                             // Verifica immediata del form state
                             setTimeout(() => {
                               const currentValue = form.getValues('staffId');
-                              console.log('🎯 [STAFFID DEBUG] Valore nel form dopo onChange:', currentValue);
+                              console.log('[STAFFID DEBUG] form value after onChange:', currentValue);
                             }, 100);
                           }}
                           onOpenChange={(open) => {
-                            console.log('🔍 DROPDOWN COLLABORATORI:', open ? 'APERTO' : 'CHIUSO');
+                            console.log('[DROPDOWN STAFF]:', open ? 'OPEN' : 'CLOSED');
                             if (open) {
-                              console.log('📊 COLLABORATORI DISPONIBILI NEL DROPDOWN:', collaborators?.length || 0);
-                              console.log('📋 LISTA COLLABORATORI:', collaborators);
+                              console.log('[STAFF AVAILABLE IN DROPDOWN]:', collaborators?.length || 0);
+                              console.log('[STAFF LIST]:', collaborators);
                             }
                           }}
                         >
@@ -1161,7 +1161,7 @@ export default function AppointmentForm({
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((collaborator: any) => collaborator.isActive)
                               .map((collaborator: any) => {
-                                console.log('🔨 RENDERING COLLABORATORE:', collaborator);
+                                console.log('[RENDERING STAFF]:', collaborator);
                                 return (
                                   <SelectItem key={collaborator.id} value={collaborator.id.toString()}>
                                     {collaborator.firstName} {collaborator.lastName}
@@ -1192,24 +1192,24 @@ export default function AppointmentForm({
                         <Select
                           value={field.value?.toString() || "none"}
                           onValueChange={(value) => {
-                            console.log('🏠 STANZA SELEZIONATA:', value);
-                            console.log('🏠 [ROOMID DEBUG] Value ricevuto:', value, typeof value);
+                            console.log('[ROOM SELECTED]:', value);
+                            console.log('[ROOMID DEBUG] received value:', value, typeof value);
                             const roomIdValue = value !== "none" ? parseInt(value) : undefined;
-                            console.log('🏠 [ROOMID DEBUG] Valore convertito:', roomIdValue, typeof roomIdValue);
+                            console.log('[ROOMID DEBUG] converted value:', roomIdValue, typeof roomIdValue);
                             field.onChange(roomIdValue);
-                            console.log('🏠 [ROOMID DEBUG] field.onChange chiamato con:', roomIdValue);
+                            console.log('[ROOMID DEBUG] field.onChange called with:', roomIdValue);
                             
                             // Verifica immediata del form state
                             setTimeout(() => {
                               const currentValue = form.getValues('roomId');
-                              console.log('🏠 [ROOMID DEBUG] Valore nel form dopo onChange:', currentValue);
+                              console.log('[ROOMID DEBUG] form value after onChange:', currentValue);
                             }, 100);
                           }}
                           onOpenChange={(open) => {
-                            console.log('🔍 DROPDOWN STANZE:', open ? 'APERTO' : 'CHIUSO');
+                            console.log('[DROPDOWN ROOMS]:', open ? 'OPEN' : 'CLOSED');
                             if (open) {
-                              console.log('📊 STANZE DISPONIBILI NEL DROPDOWN:', treatmentRooms?.length || 0);
-                              console.log('📋 LISTA STANZE:', treatmentRooms);
+                              console.log('[ROOMS AVAILABLE IN DROPDOWN]:', treatmentRooms?.length || 0);
+                              console.log('[ROOMS LIST]:', treatmentRooms);
                             }
                           }}
                         >
@@ -1419,10 +1419,10 @@ export default function AppointmentForm({
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Note</FormLabel>
+                  <FormLabel>{t('common.notes')}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Inserisci eventuali note sull'appuntamento"
+                      placeholder={t('appointmentForm.fields.notesPlaceholder')}
                       className="resize-none"
                       {...field}
                       value={field.value || ''}
@@ -1440,7 +1440,7 @@ export default function AppointmentForm({
                 onClick={onClose}
                 disabled={mutation.isPending}
               >
-                Annulla
+                {t('common.cancel')}
               </Button>
               <Button 
                 type="submit"
@@ -1449,10 +1449,10 @@ export default function AppointmentForm({
                 {mutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Salvataggio...
+                    {t('appointmentForm.actions.savingButton')}
                   </>
                 ) : (
-                  appointmentId ? "Aggiorna" : "Salva"
+                  appointmentId ? t('appointmentForm.actions.update') : t('appointmentForm.save')
                 )}
               </Button>
             </div>
@@ -1464,24 +1464,24 @@ export default function AppointmentForm({
       <AlertDialog open={conflictDialogOpen} onOpenChange={setConflictDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-orange-600">⚠️ Conflitto di Orario Rilevato</AlertDialogTitle>
+            <AlertDialogTitle className="text-orange-600">{t('appointmentForm.conflict.title')}</AlertDialogTitle>
             <AlertDialogDescription>
               <div className="space-y-4 mt-4">
                 <p className="text-gray-700">
-                  Hai creato un appuntamento che si sovrappone con uno o più appuntamenti esistenti:
+                  {t('appointmentForm.conflict.intro')}
                 </p>
                 
                 {conflictDetails?.staffConflicts && conflictDetails.staffConflicts.length > 0 && (
                   <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
                     <h4 className="font-semibold text-orange-900 mb-2">
-                      🧑 Conflitto Professionista:
+                      {t('appointmentForm.conflict.staffHeading')}
                     </h4>
                     <ul className="space-y-1 text-sm text-orange-800">
                       {conflictDetails.staffConflicts.map((conflict, index) => (
                         <li key={index}>
-                          <strong>{conflict.staffName}</strong> ha già un appuntamento alle {conflict.time}
+                          <strong>{conflict.staffName}</strong> {t('appointmentForm.conflict.staffLineSuffix')} {conflict.time}
                           {conflict.appointment.client && (
-                            <span className="text-orange-600"> con {conflict.appointment.client.firstName} {conflict.appointment.client.lastName}</span>
+                            <span className="text-orange-600"> {t('appointmentForm.conflict.withClient')} {conflict.appointment.client.firstName} {conflict.appointment.client.lastName}</span>
                           )}
                         </li>
                       ))}
@@ -1492,14 +1492,14 @@ export default function AppointmentForm({
                 {conflictDetails?.roomConflicts && conflictDetails.roomConflicts.length > 0 && (
                   <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
                     <h4 className="font-semibold text-orange-900 mb-2">
-                      🏠 Conflitto Stanza:
+                      {t('appointmentForm.conflict.roomHeading')}
                     </h4>
                     <ul className="space-y-1 text-sm text-orange-800">
                       {conflictDetails.roomConflicts.map((conflict, index) => (
                         <li key={index}>
-                          <strong>{conflict.roomName}</strong> è già occupata alle {conflict.time}
+                          <strong>{conflict.roomName}</strong> {t('appointmentForm.conflict.roomLineSuffix')} {conflict.time}
                           {conflict.appointment.client && (
-                            <span className="text-orange-600"> da {conflict.appointment.client.firstName} {conflict.appointment.client.lastName}</span>
+                            <span className="text-orange-600"> {t('appointmentForm.conflict.byClient')} {conflict.appointment.client.firstName} {conflict.appointment.client.lastName}</span>
                           )}
                         </li>
                       ))}
@@ -1508,7 +1508,7 @@ export default function AppointmentForm({
                 )}
                 
                 <p className="text-gray-700 font-medium mt-4">
-                  Vuoi procedere comunque con la creazione dell'appuntamento?
+                  {t('appointmentForm.conflict.askProceed')}
                 </p>
               </div>
             </AlertDialogDescription>
@@ -1519,13 +1519,13 @@ export default function AppointmentForm({
               setPendingAppointmentData(null);
               setConflictDetails(null);
             }}>
-              Annulla
+              {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConflictConfirm}
               className="bg-orange-600 hover:bg-orange-700"
             >
-              Sì, Procedi Comunque
+              {t('appointmentForm.conflict.proceed')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

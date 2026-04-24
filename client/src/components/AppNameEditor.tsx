@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,9 +19,10 @@ interface AppInfo {
 }
 
 export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
+  const { t } = useTranslation();
   const [appInfo, setAppInfo] = useState<AppInfo>({
-    appName: 'App Cliente',
-    appShortName: 'App Cliente'
+    appName: t('appNameEditor.defaultAppName'),
+    appShortName: t('appNameEditor.defaultAppName')
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -32,12 +34,10 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
   });
   const { toast } = useToast();
 
-  // Carica le informazioni dell'app al mount
   useEffect(() => {
     fetchAppInfo();
   }, []);
 
-  // Aggiorna i valori del form quando cambiano le informazioni dell'app
   useEffect(() => {
     setFormValues({
       appName: appInfo.appName,
@@ -48,23 +48,22 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
   const fetchAppInfo = async () => {
     setIsLoading(true);
     try {
-      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
       const response = await apiRequest('GET', '/api/client-app-info');
       if (!response.ok) {
-        throw new Error('Errore nel recupero delle informazioni dell\'app');
+        throw new Error(t('appNameEditor.toast.fetchErrorDesc'));
       }
 
       const data = await response.json();
       setAppInfo({
-        appName: data.appName || 'App Cliente',
-        appShortName: data.appShortName || 'App Cliente'
+        appName: data.appName || t('appNameEditor.defaultAppName'),
+        appShortName: data.appShortName || t('appNameEditor.defaultAppName')
       });
     } catch (error) {
-      console.error('Errore nel recupero delle informazioni dell\'app:', error);
+      console.error('Failed to fetch app info:', error);
       toast({
-        title: "Errore",
-        description: "Impossibile caricare le informazioni dell'app",
-        variant: "destructive",
+        title: t('appNameEditor.toast.errorTitle'),
+        description: t('appNameEditor.toast.fetchErrorDesc'),
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -81,14 +80,13 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Verifica che ci siano modifiche
-    if (formValues.appName === appInfo.appName && 
+
+    if (formValues.appName === appInfo.appName &&
         formValues.appShortName === appInfo.appShortName) {
       toast({
-        title: "Nessuna modifica",
-        description: "Non sono state apportate modifiche al nome dell'app",
-        variant: "default",
+        title: t('appNameEditor.toast.noChangesTitle'),
+        description: t('appNameEditor.toast.noChangesDesc'),
+        variant: 'default',
       });
       return;
     }
@@ -98,24 +96,21 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
     setSaveError(null);
 
     try {
-      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
       const response = await apiRequest('POST', '/api/update-app-info', formValues);
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Errore durante il salvataggio delle informazioni');
+        throw new Error(data.message || t('appNameEditor.toast.saveErrorDesc'));
       }
 
       setSaveSuccess(true);
-      
-      // Aggiorna le informazioni locali
       setAppInfo(formValues);
-      
+
       toast({
-        title: "Salvataggio completato",
-        description: "Le informazioni dell'app sono state aggiornate con successo",
-        variant: "default",
+        title: t('appNameEditor.toast.savedTitle'),
+        description: t('appNameEditor.toast.savedDesc'),
+        variant: 'default',
       });
 
       if (onSuccess) {
@@ -123,12 +118,12 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
       }
 
     } catch (error: any) {
-      console.error('Errore durante il salvataggio delle informazioni:', error);
-      setSaveError(error.message || 'Si è verificato un errore durante il salvataggio delle informazioni');
+      console.error('Failed to save app info:', error);
+      setSaveError(error.message || t('appNameEditor.toast.saveErrorDesc'));
       toast({
-        title: "Errore di salvataggio",
-        description: error.message || 'Si è verificato un errore durante il salvataggio delle informazioni',
-        variant: "destructive",
+        title: t('appNameEditor.toast.saveErrorTitle'),
+        description: error.message || t('appNameEditor.toast.saveErrorDesc'),
+        variant: 'destructive',
       });
     } finally {
       setIsSaving(false);
@@ -137,17 +132,17 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Nome dell'App Cliente</h3>
+      <h3 className="text-lg font-medium">{t('appNameEditor.title')}</h3>
       <p className="text-sm text-muted-foreground mb-4">
-        Personalizza il nome che verrà visualizzato sui dispositivi dei clienti quando installeranno l'app.
+        {t('appNameEditor.intro')}
       </p>
 
       {saveSuccess && (
         <Alert className="mb-4">
           <Check className="h-4 w-4" />
-          <AlertTitle>Salvataggio completato</AlertTitle>
+          <AlertTitle>{t('appNameEditor.successTitle')}</AlertTitle>
           <AlertDescription>
-            Le informazioni dell'app sono state aggiornate con successo. I clienti vedranno il nuovo nome quando installeranno l'app.
+            {t('appNameEditor.successDesc')}
           </AlertDescription>
         </Alert>
       )}
@@ -155,7 +150,7 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
       {saveError && (
         <Alert variant="destructive" className="mb-4">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Errore</AlertTitle>
+          <AlertTitle>{t('appNameEditor.errorTitle')}</AlertTitle>
           <AlertDescription>
             {saveError}
           </AlertDescription>
@@ -171,59 +166,59 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="appName">Nome completo dell'app</Label>
-                <Input 
+                <Label htmlFor="appName">{t('appNameEditor.appNameLabel')}</Label>
+                <Input
                   id="appName"
                   name="appName"
                   value={formValues.appName}
                   onChange={handleInputChange}
-                  placeholder="App Cliente"
+                  placeholder={t('appNameEditor.appNamePlaceholder')}
                   maxLength={30}
                   required
                 />
                 <p className="text-xs text-muted-foreground">
-                  Questo nome verrà visualizzato nelle notifiche e nei dettagli dell'app
+                  {t('appNameEditor.appNameHint')}
                 </p>
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="appShortName">Nome breve dell'app</Label>
-                <Input 
+                <Label htmlFor="appShortName">{t('appNameEditor.appShortNameLabel')}</Label>
+                <Input
                   id="appShortName"
                   name="appShortName"
                   value={formValues.appShortName}
                   onChange={handleInputChange}
-                  placeholder="App Cliente"
+                  placeholder={t('appNameEditor.appShortNamePlaceholder')}
                   maxLength={12}
                   required
                 />
                 <p className="text-xs text-muted-foreground">
-                  Questo nome verrà visualizzato sotto l'icona nella schermata home
+                  {t('appNameEditor.appShortNameHint')}
                 </p>
               </div>
-              
+
               <div className="pt-2 flex items-center">
                 <Info className="h-4 w-4 text-muted-foreground mr-2" />
                 <p className="text-xs text-muted-foreground">
-                  Le modifiche avranno effetto solo per le nuove installazioni dell'app
+                  {t('appNameEditor.info')}
                 </p>
               </div>
-              
+
               <div className="pt-4">
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full"
                   disabled={isSaving}
                 >
                   {isSaving ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Salvataggio in corso...
+                      {t('appNameEditor.savingButton')}
                     </>
                   ) : (
                     <>
                       <Save className="h-4 w-4 mr-2" />
-                      Salva modifiche
+                      {t('appNameEditor.saveButton')}
                     </>
                   )}
                 </Button>

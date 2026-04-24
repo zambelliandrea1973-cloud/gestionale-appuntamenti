@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,6 +14,7 @@ interface IconUploadProps {
 }
 
 export default function IconUpload({ onIconUpdated }: IconUploadProps) {
+  const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
   const [currentIcon, setCurrentIcon] = useState<string | null>(null);
   const [previewIcon, setPreviewIcon] = useState<string | null>(null);
@@ -29,7 +31,6 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
       if (response.ok) {
         const data = await response.json();
         if (data.currentIcons && data.currentIcons.length > 0) {
-          // Usa l'icona 192x192 come preview
           const iconPath = data.currentIcons.find((icon: any) => icon.sizes === '192x192')?.src;
           if (iconPath) {
             setCurrentIcon(iconPath);
@@ -37,7 +38,7 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
         }
       }
     } catch (error: any) {
-      console.error('Errore caricamento icona corrente:', error);
+      console.error('Failed to load current icon:', error);
     }
   };
 
@@ -45,27 +46,24 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validazione tipo file
     if (!file.type.startsWith('image/')) {
       toast({
-        title: "Errore",
-        description: "Seleziona solo file immagine (JPG, PNG, GIF, etc.)",
-        variant: "destructive",
+        title: t('iconUpload.toast.errorTitle'),
+        description: t('iconUpload.toast.invalidTypeDesc'),
+        variant: 'destructive',
       });
       return;
     }
 
-    // Validazione dimensione (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       toast({
-        title: "Errore",
-        description: "Il file è troppo grande. Dimensione massima: 10MB",
-        variant: "destructive",
+        title: t('iconUpload.toast.errorTitle'),
+        description: t('iconUpload.toast.fileTooLargeDesc'),
+        variant: 'destructive',
       });
       return;
     }
 
-    // Crea preview
     const reader = new FileReader();
     reader.onload = (e) => {
       setPreviewIcon(e.target?.result as string);
@@ -77,9 +75,9 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
     const file = fileInputRef.current?.files?.[0];
     if (!file) {
       toast({
-        title: "Errore",
-        description: "Seleziona prima un'immagine",
-        variant: "destructive",
+        title: t('iconUpload.toast.errorTitle'),
+        description: t('iconUpload.toast.noFileDesc'),
+        variant: 'destructive',
       });
       return;
     }
@@ -98,31 +96,28 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
       if (response.ok) {
         const data = await response.json();
         toast({
-          title: "Successo",
-          description: "Icona PWA aggiornata! Le modifiche saranno visibili al prossimo aggiornamento dell'app.",
+          title: t('iconUpload.toast.successTitle'),
+          description: t('iconUpload.toast.uploadOkDesc'),
         });
 
-        // Aggiorna l'icona corrente
         await loadCurrentIcon();
         setPreviewIcon(null);
-        
-        // Reset input file
+
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
 
-        // Notifica parent component
         onIconUpdated?.();
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Errore durante l\'upload');
+        throw new Error(errorData.error || t('iconUpload.toast.uploadErrorDesc'));
       }
     } catch (error: any) {
-      console.error('Errore upload icona:', error);
+      console.error('Failed to upload icon:', error);
       toast({
-        title: "Errore",
-        description: error.message || "Errore durante il caricamento dell'icona",
-        variant: "destructive",
+        title: t('iconUpload.toast.errorTitle'),
+        description: error.message || t('iconUpload.toast.uploadErrorDesc'),
+        variant: 'destructive',
       });
     } finally {
       setIsUploading(false);
@@ -136,30 +131,27 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
       const response = await apiRequest('POST', '/api/restore-default-icon');
       if (response.ok) {
         toast({
-          title: "Successo",
-          description: "Icona predefinita ripristinata! Le modifiche saranno visibili al prossimo aggiornamento dell'app.",
+          title: t('iconUpload.toast.successTitle'),
+          description: t('iconUpload.toast.restoreOkDesc'),
         });
 
-        // Aggiorna l'icona corrente
         await loadCurrentIcon();
         setPreviewIcon(null);
-        
-        // Reset input file
+
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
 
-        // Notifica parent component
         onIconUpdated?.();
       } else {
-        throw new Error('Errore durante il ripristino');
+        throw new Error(t('iconUpload.toast.restoreErrorDesc'));
       }
     } catch (error: any) {
-      console.error('Errore ripristino icona:', error);
+      console.error('Failed to restore default icon:', error);
       toast({
-        title: "Errore",
-        description: "Errore durante il ripristino dell'icona predefinita",
-        variant: "destructive",
+        title: t('iconUpload.toast.errorTitle'),
+        description: t('iconUpload.toast.restoreErrorDesc'),
+        variant: 'destructive',
       });
     } finally {
       setIsUploading(false);
@@ -178,22 +170,20 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          Personalizza Icona PWA
+          {t('iconUpload.title')}
         </CardTitle>
         <CardDescription>
-          Carica un'immagine personalizzata che sarà automaticamente convertita in icone PWA
-          per dispositivi mobili. Formati supportati: JPG, PNG, GIF, WebP.
+          {t('iconUpload.desc')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Icona Corrente */}
         <div className="space-y-2">
-          <Label>Icona Attuale</Label>
+          <Label>{t('iconUpload.currentLabel')}</Label>
           <div className="flex items-center gap-4 p-4 border rounded-lg bg-muted/50">
             {currentIcon ? (
-              <img 
-                src={currentIcon} 
-                alt="Icona PWA corrente" 
+              <img
+                src={currentIcon}
+                alt={t('iconUpload.currentAlt')}
                 className="w-16 h-16 rounded-lg object-cover border"
               />
             ) : (
@@ -202,18 +192,17 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
               </div>
             )}
             <div>
-              <p className="font-medium">Icona PWA Corrente</p>
+              <p className="font-medium">{t('iconUpload.currentName')}</p>
               <p className="text-sm text-muted-foreground">
-                Questa è l'icona che appare quando gli utenti installano l'app
+                {t('iconUpload.currentDesc')}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Upload Nuova Icona */}
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="icon-upload">Carica Nuova Icona</Label>
+            <Label htmlFor="icon-upload">{t('iconUpload.uploadLabel')}</Label>
             <Input
               id="icon-upload"
               type="file"
@@ -224,20 +213,19 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
             />
           </div>
 
-          {/* Preview */}
           {previewIcon && (
             <div className="space-y-2">
-              <Label>Anteprima</Label>
+              <Label>{t('iconUpload.previewLabel')}</Label>
               <div className="flex items-center gap-4 p-4 border rounded-lg bg-blue-50">
-                <img 
-                  src={previewIcon} 
-                  alt="Anteprima nuova icona" 
+                <img
+                  src={previewIcon}
+                  alt={t('iconUpload.previewAlt')}
                   className="w-16 h-16 rounded-lg object-cover border"
                 />
                 <div className="flex-1">
-                  <p className="font-medium">Nuova Icona</p>
+                  <p className="font-medium">{t('iconUpload.newIconLabel')}</p>
                   <p className="text-sm text-muted-foreground">
-                    Sarà convertita automaticamente in formati 96x96, 192x192 e 512x512 PNG
+                    {t('iconUpload.newIconDesc')}
                   </p>
                 </div>
                 <Button
@@ -246,16 +234,15 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
                   onClick={clearPreview}
                   disabled={isUploading}
                 >
-                  Rimuovi
+                  {t('iconUpload.removeButton')}
                 </Button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Azioni */}
         <div className="flex gap-3">
-          <Button 
+          <Button
             onClick={uploadIcon}
             disabled={!previewIcon || isUploading}
             className="flex-1"
@@ -263,34 +250,33 @@ export default function IconUpload({ onIconUpdated }: IconUploadProps) {
             {isUploading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Caricamento...
+                {t('iconUpload.uploadingButton')}
               </>
             ) : (
               <>
                 <Check className="h-4 w-4 mr-2" />
-                Aggiorna Icona PWA
+                {t('iconUpload.uploadButton')}
               </>
             )}
           </Button>
-          
-          <Button 
+
+          <Button
             variant="outline"
             onClick={restoreDefaultIcon}
             disabled={isUploading}
           >
             <RotateCcw className="h-4 w-4 mr-2" />
-            Ripristina Predefinita
+            {t('iconUpload.restoreButton')}
           </Button>
         </div>
 
-        {/* Info */}
         <div className="bg-blue-50 p-4 rounded-lg space-y-2">
-          <h4 className="font-medium text-sm">ℹ️ Informazioni Importanti</h4>
+          <h4 className="font-medium text-sm">{t('iconUpload.info.heading')}</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• L'immagine sarà automaticamente ridimensionata in 96x96, 192x192 e 512x512 pixel</li>
-            <li>• Usa immagini quadrate per risultati migliori</li>
-            <li>• Le modifiche saranno visibili al prossimo aggiornamento/reinstallazione dell'app</li>
-            <li>• Formati supportati: JPG, PNG, GIF, WebP (max 10MB)</li>
+            <li>{t('iconUpload.info.b1')}</li>
+            <li>{t('iconUpload.info.b2')}</li>
+            <li>{t('iconUpload.info.b3')}</li>
+            <li>{t('iconUpload.info.b4')}</li>
           </ul>
         </div>
       </CardContent>

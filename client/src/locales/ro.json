@@ -481,7 +481,10 @@
     "incrementBy15Min": "Crește cu 15 min",
     "decrementBy15Min": "Scade cu 15 min",
     "selected": "Selectat",
-    "select": "Selectează"
+    "select": "Selectează",
+    "noServicesAvailable": "Niciun serviciu disponibil",
+    "goToSettingsToCreateService": "Mergi la Setări pentru a crea un serviciu",
+    "noServicesFound": "Niciun serviciu găsit"
   },
   "clients": {
     "title": "Clienți",
@@ -3612,7 +3615,84 @@
     "title": "Setări utilizator",
     "profile": "Profil",
     "account": "Cont",
-    "preferences": "Preferințe"
+    "preferences": "Preferințe",
+    "subtitle": "Personalizează experiența și configurează brandingul contului",
+    "loading": "Se încarcă setările...",
+    "roles": {
+      "admin": "Administrator",
+      "staff": "Personal",
+      "customer": "Client Premium"
+    },
+    "tabs": {
+      "branding": "Branding",
+      "contact": "Contacte",
+      "appearance": "Aspect",
+      "business": "Activitate"
+    },
+    "branding": {
+      "cardTitle": "Identitate de brand",
+      "cardDesc": "Personalizează numele și aspectul afacerii tale",
+      "businessNameLabel": "Numele afacerii",
+      "businessNamePlaceholder": "Introduceți numele afacerii dvs.",
+      "logoUrlLabel": "URL logo",
+      "primaryColorLabel": "Culoare principală",
+      "secondaryColorLabel": "Culoare secundară",
+      "greenButton": "🔥 BUTON VERDE",
+      "blueButton": "💾 BUTON ALBASTRU",
+      "savingLabel": "Se salvează...",
+      "creatingLabel": "Se creează...",
+      "logoUrlPlaceholder": "https://example.com/logo.png"
+    },
+    "contact": {
+      "cardTitle": "Informații de contact",
+      "cardDesc": "Configurează informațiile de contact personalizate",
+      "emailLabel": "E-mail de contact",
+      "phone1Label": "Telefon principal",
+      "phone2Label": "Telefon secundar",
+      "websiteLabel": "Site web",
+      "addressLabel": "Adresă",
+      "addressPlaceholder": "Str. Principală 123, Oraș",
+      "emailPlaceholder": "info@example.com",
+      "websitePlaceholder": "https://www.example.com"
+    },
+    "appearance": {
+      "cardTitle": "Aspectul interfeței",
+      "cardDesc": "Alege tema și aspectul aplicației",
+      "themeLabel": "Temă",
+      "themePlaceholder": "Selectează tema",
+      "themeProfessional": "Profesional",
+      "themeVibrant": "Vibrant",
+      "themeTint": "Nuanță",
+      "modeLabel": "Mod",
+      "modePlaceholder": "Selectează modul",
+      "modeLight": "Luminos",
+      "modeDark": "Întunecat",
+      "modeSystem": "Sistem"
+    },
+    "business": {
+      "cardTitle": "Rețele sociale",
+      "cardDesc": "Conectează profilurile sociale pentru o vizibilitate mai mare",
+      "instagramLabel": "Instagram",
+      "facebookLabel": "Facebook",
+      "linkedinLabel": "LinkedIn"
+    },
+    "toast": {
+      "savedTitle": "Setări salvate",
+      "savedDesc": "Toate setările au fost salvate cu succes!",
+      "saveErrorDesc": "Imposibil de salvat setările. Încearcă din nou.",
+      "businessNameSavedTitle": "Numele afacerii salvat",
+      "businessNameSavedDesc": "Numele afacerii a fost salvat cu succes!",
+      "businessNameErrorDesc": "Imposibil de salvat numele afacerii. Încearcă din nou.",
+      "colorSavedTitle": "Culoare salvată",
+      "colorSavedDesc": "Culoarea a fost salvată cu succes!",
+      "colorErrorDesc": "Imposibil de salvat culoarea. Încearcă din nou.",
+      "themeSavedTitle": "Temă salvată",
+      "themeSavedDesc": "Tema a fost salvată cu succes!",
+      "themeErrorDesc": "Imposibil de salvat tema. Încearcă din nou.",
+      "contactsSavedTitle": "Contacte salvate",
+      "contactsSavedDesc": "Informațiile de contact au fost salvate!",
+      "contactsErrorDesc": "Imposibil de salvat contactele. Încearcă din nou."
+    }
   },
   "staff": {
     "title": "Gestionare personal",
@@ -3653,7 +3733,10 @@
     "loadingClient": "Se încarcă datele clientului...",
     "otherAccount": "Alt cont",
     "creatingClient": "Se creează...",
-    "createNewClient": "+ Creați „<0>{{name}}</0>\" ca client nou",
+    "createNewClient": {
+      "before": "+ Creează \"",
+      "after": "\" ca client nou"
+    },
     "warnings": {
       "otherAccount": "<0>Atenție:</0> Creați o programare pentru un client al unui alt cont ({{firstName}} {{lastName}}). Verificați permisiunile necesare."
     },
@@ -3684,7 +3767,8 @@
         "desc": "{{firstName}} {{lastName}} creat. Puteți completa datele ulterior."
       },
       "validationTitle": "Eroare de validare",
-      "validationDesc": "Câmpuri cu erori: {{fields}}"
+      "validationDesc": "Câmpuri cu erori: {{fields}}",
+      "clientCreateErrorDesc": "Crearea clientului a eșuat"
     },
     "errors": {
       "requiredClient": "Selectați un client pentru programare",
@@ -3695,16 +3779,20 @@
       "createClient": "Imposibil de creat clientul"
     },
     "conflict": {
-      "title": "⚠️ Conflict de program detectat",
-      "intro": "Ați creat o programare care se suprapune cu una sau mai multe programări existente:",
-      "staffHeading": "🧑 Conflict de profesionist:",
+      "title": "Conflict de disponibilitate",
+      "intro": "Au fost detectate conflicte pentru programarea selectată:",
+      "staffHeading": "Conflicte cu personalul:",
       "staffLine": "<0>{{name}}</0> are deja o programare la {{time}}",
       "staffWith": " cu {{firstName}} {{lastName}}",
-      "roomHeading": "🏠 Conflict de cameră:",
+      "roomHeading": "Conflicte de săli:",
       "roomLine": "<0>{{name}}</0> este deja ocupată la {{time}}",
       "roomBy": " de {{firstName}} {{lastName}}",
-      "askProceed": "Doriți să continuați totuși cu crearea programării?",
-      "proceed": "Da, continuați"
+      "askProceed": "Doriți să continuați oricum?",
+      "proceed": "Continuă oricum",
+      "staffLineSuffix": "are deja o programare la",
+      "withClient": "cu",
+      "roomLineSuffix": "este deja ocupată la",
+      "byClient": "de"
     }
   },
   "clientNotes": {
@@ -4724,5 +4812,406 @@
     },
     "signaturePrefix": "Consimțământ digital acceptat la",
     "defaultConsentText": "Informare privind Confidențialitatea și Consimțământul pentru Prelucrarea Datelor cu Caracter Personal\n\n  În conformitate cu Regulamentul UE 2016/679 (GDPR), vă informăm că datele dumneavoastră cu caracter personal vor fi prelucrate în următoarele scopuri:\n\n  1. Gestionarea dosarului medical și administrativ\n  2. Îndeplinirea obligațiilor legale și de reglementare\n  3. Comunicări referitoare la serviciile prestate\n\n  Datele dumneavoastră vor fi prelucrate atât pe suport hârtie, cât și electronic, conform unei logici strâns legate de scopurile indicate mai sus și, în orice caz, astfel încât să se garanteze securitatea și confidențialitatea datelor.\n\n  Furnizarea datelor este obligatorie pentru prestarea serviciilor solicitate. Nefurnizarea acestora face imposibilă prestarea serviciilor.\n\n  Datele dumneavoastră nu vor fi comunicate terților, cu excepția cazurilor prevăzute de lege.\n\n  Aveți dreptul de a obține confirmarea existenței sau inexistenței datelor cu caracter personal care vă privesc, de a cunoaște conținutul și originea acestora, de a verifica exactitatea lor sau de a solicita integrarea ori actualizarea acestora, sau rectificarea lor. Aveți, de asemenea, dreptul de a solicita ștergerea, transformarea în formă anonimă sau blocarea datelor prelucrate cu încălcarea legii, precum și de a vă opune, în orice caz, din motive legitime, prelucrării acestora."
+  },
+  "installationGuide": {
+    "heading": "Cum să instalezi aplicația pe dispozitivul tău",
+    "chrome": {
+      "title": "Instrucțiuni pentru Google Chrome:",
+      "s1Lead": "Faceți clic pe cele trei puncte",
+      "s1Suffix": "în dreapta sus",
+      "s2Lead": "Selectați \"Instalare aplicație...\"",
+      "s2Suffix": "din meniu",
+      "s3Lead": "Confirmați",
+      "s3Suffix": "făcând clic pe \"Instalare\" în fereastra pop-up"
+    },
+    "safari": {
+      "title": "Instrucțiuni pentru Safari (iOS):",
+      "s1Lead": "Atinge butonul Distribuie",
+      "s1Suffix": "jos (iPhone) sau sus (iPad)",
+      "s2Lead": "Derulați și atingeți \"Adăugare la ecran principal\"",
+      "s3Lead": "Atingeți \"Adaugă\"",
+      "s3Suffix": "în colțul din dreapta sus"
+    },
+    "edge": {
+      "title": "Instrucțiuni pentru Microsoft Edge:",
+      "s1Lead": "Faceți clic pe cele trei puncte",
+      "s1Suffix": "în dreapta sus",
+      "s2Lead": "Selectați \"Aplicații\"",
+      "s2Suffix": "\"Instalați acest site ca aplicație\"",
+      "s3Lead": "Confirmați",
+      "s3Suffix": "făcând clic pe \"Instalare\" în fereastra pop-up"
+    },
+    "firefox": {
+      "title": "Instrucțiuni pentru Firefox:",
+      "s1Lead": "Faceți clic pe meniu",
+      "s1Suffix": "în dreapta sus",
+      "s2Lead": "Selectați \"+ Adaugă la ecranul principal\"",
+      "s3Lead": "Confirmați",
+      "s3Suffix": "instalarea"
+    },
+    "duckduckgo": {
+      "title": "Instrucțiuni pentru DuckDuckGo:",
+      "s1Lead": "Atinge cele trei puncte",
+      "s1Suffix": "în dreapta sus",
+      "s2Lead": "Selectați \"Distribuie\"",
+      "s2Suffix": "din meniu",
+      "s3Lead": "Alege \"Chrome\"",
+      "s3Suffix": "din lista de aplicații",
+      "s4Lead": "În Chrome",
+      "s4Suffix": "vei vedea apărând un banner sau un buton de instalare",
+      "s5Lead": "Atinge \"Instalare\"",
+      "s5Suffix": "pentru a finaliza instalarea",
+      "warningTitle": "De ce să folosești Chrome pentru instalare:",
+      "warningBody": "DuckDuckGo nu acceptă direct instalarea PWA. Din acest motiv, trebuie să folosești Chrome care oferă suport complet pentru instalarea aplicațiilor web pe dispozitivul tău."
+    },
+    "footer": "Notă: dacă instrucțiunile nu funcționează, încearcă Chrome pe Android sau Safari pe iOS care au suport mai bun pentru PWA."
+  },
+  "capabilities": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "Gestionează programările, orarele și disponibilitatea personalului într-un calendar centralizat."
+    },
+    "email_notifications": {
+      "title": "Notificări e-mail",
+      "description": "Trimite confirmări și mementouri automate prin e-mail clienților tăi."
+    },
+    "whatsapp_notifications": {
+      "title": "Notificări WhatsApp",
+      "description": "Trimite mesaje WhatsApp clienților pentru confirmări, mementouri și comunicări."
+    },
+    "invoices": {
+      "title": "Facturare",
+      "description": "Creează, gestionează și trimite facturi profesionale clienților tăi."
+    },
+    "reports": {
+      "title": "Rapoarte și statistici",
+      "description": "Analizează performanța afacerii cu rapoarte detaliate și statistici."
+    },
+    "google_calendar": {
+      "title": "Sincronizare Google Calendar",
+      "description": "Sincronizează automat programările cu Google Calendar."
+    },
+    "client_pwa_qr": {
+      "title": "Aplicație client personalizată (QR)",
+      "description": "Oferă clienților o aplicație web instalabilă cu brandul tău prin cod QR."
+    },
+    "staff_rooms": {
+      "title": "Personal și camere",
+      "description": "Gestionează mai mulți operatori și camere simultan cu planificare avansată."
+    },
+    "warehouse": {
+      "title": "Gestionare depozit",
+      "description": "Urmărește produsele, stocurile și consumul pentru fiecare serviciu oferit."
+    },
+    "unlimited_clients": {
+      "title": "Clienți nelimitați",
+      "description": "Adaugă și gestionează un număr nelimitat de clienți fără restricții."
+    },
+    "appointment_requests": {
+      "title": "Solicitări de programare",
+      "description": "Permite clienților să solicite programări online și gestionează-le ușor."
+    },
+    "promotional_packages": {
+      "title": "Pachete promoționale",
+      "description": "Creează oferte și pachete promoționale pentru a fideliza clienții."
+    },
+    "marketing_ai": {
+      "title": "Marketing AI",
+      "description": "Folosește inteligența artificială pentru a genera campanii de marketing personalizate."
+    }
+  },
+  "appNameEditor": {
+    "title": "Numele aplicației client",
+    "intro": "Personalizează numele care va fi afișat pe dispozitivele clienților când instalează aplicația.",
+    "successTitle": "Salvare finalizată",
+    "successDesc": "Informațiile aplicației au fost actualizate cu succes. Clienții vor vedea noul nume la instalare.",
+    "errorTitle": "Eroare",
+    "appNameLabel": "Nume complet al aplicației",
+    "appNamePlaceholder": "Aplicație client",
+    "appNameHint": "Acest nume va apărea în notificări și detaliile aplicației",
+    "appShortNameLabel": "Nume scurt al aplicației",
+    "appShortNamePlaceholder": "Aplicație client",
+    "appShortNameHint": "Acest nume va apărea sub pictogramă pe ecranul principal",
+    "info": "Modificările vor avea efect doar pentru noile instalări ale aplicației",
+    "savingButton": "Se salvează...",
+    "saveButton": "Salvează modificările",
+    "toast": {
+      "errorTitle": "Eroare",
+      "fetchErrorDesc": "Imposibil de încărcat informațiile aplicației",
+      "noChangesTitle": "Nicio modificare",
+      "noChangesDesc": "Nu s-au făcut modificări la numele aplicației",
+      "savedTitle": "Salvare finalizată",
+      "savedDesc": "Informațiile aplicației au fost actualizate cu succes",
+      "saveErrorTitle": "Eroare la salvare",
+      "saveErrorDesc": "A apărut o eroare la salvarea informațiilor"
+    },
+    "defaultAppName": "Aplicație Client"
+  },
+  "appIconUploader": {
+    "title": "Pictogramă a aplicației client",
+    "desc": "Încarcă o pictogramă personalizată care va fi folosită atât pentru aplicația principală, cât și pentru aplicația client. Această pictogramă va apărea pe ecranul principal al tuturor dispozitivelor.",
+    "savedTitle": "Salvat",
+    "savedDesc": "Pictograma aplicației a fost actualizată cu succes.",
+    "errorTitle": "Eroare",
+    "dropZoneText": "Trageți imaginea aici sau faceți clic pentru a o selecta",
+    "dropZoneFormats": "SVG, PNG sau JPG (max. 2 MB)",
+    "selectFileButton": "Selectare fișier",
+    "previewLabel": "Previzualizare",
+    "previewAlt": "Previzualizare pictogramă",
+    "smallIconAlt": "Pictogramă mică",
+    "defaultIconAlt": "Pictogramă implicită",
+    "noIcon": "Fără pictogramă",
+    "clientDevice": "Dispozitiv client:",
+    "clientApp": "Aplicație client",
+    "previewHint": "Pictograma va fi afișată pe ecranul principal al dispozitivelor când clienții instalează aplicația.",
+    "defaultIconLabel": "Pictogramă implicită: {{name}}",
+    "defaultIconHint": "Poți restaura această pictogramă implicită oricând.",
+    "restoringButton": "Se restaurează...",
+    "restoreButton": "Restaurează pictograma implicită",
+    "savingButton": "Se salvează...",
+    "saveButton": "Salvează pictograma",
+    "toast": {
+      "successResetTitle": "Pictogramă implicită setată",
+      "successResetDesc": "Pictograma implicită a fost restaurată cu succes.",
+      "successUploadTitle": "Pictogramă salvată",
+      "successUploadDesc": "Pictograma aplicației a fost actualizată și sincronizată pentru clienți.",
+      "noFileTitle": "Niciun fișier selectat",
+      "noFileDesc": "Selectează mai întâi o imagine de încărcat.",
+      "fileTooLarge": "Imaginea selectată este prea mare. Dimensiunea maximă este 2 MB.",
+      "invalidFileType": "Selectează un fișier imagine valid."
+    }
+  },
+  "iconUpload": {
+    "title": "Personalizare pictogramă PWA",
+    "desc": "Încarcă o imagine personalizată care va fi convertită automat în pictograme PWA pentru dispozitive mobile. Formate acceptate: JPG, PNG, GIF, WebP.",
+    "currentLabel": "Pictogramă curentă",
+    "currentName": "Pictograma PWA curentă",
+    "currentDesc": "Aceasta este pictograma care apare când utilizatorii instalează aplicația",
+    "currentAlt": "Pictogramă PWA curentă",
+    "uploadLabel": "Încărcare pictogramă nouă",
+    "previewLabel": "Previzualizare",
+    "previewAlt": "Previzualizare pictogramă nouă",
+    "newIconLabel": "Pictogramă nouă",
+    "newIconDesc": "Va fi convertită automat în formatele PNG 96x96, 192x192 și 512x512",
+    "removeButton": "Eliminare",
+    "uploadButton": "Actualizare pictogramă PWA",
+    "uploadingButton": "Se încarcă...",
+    "restoreButton": "Restaurare implicită",
+    "info": {
+      "heading": "ℹ️ Informații importante",
+      "b1": "• Imaginea va fi redimensionată automat la 96x96, 192x192 și 512x512 pixeli",
+      "b2": "• Folosește imagini pătrate pentru cele mai bune rezultate",
+      "b3": "• Modificările vor fi vizibile la următoarea actualizare/reinstalare a aplicației",
+      "b4": "• Formate acceptate: JPG, PNG, GIF, WebP (max. 10 MB)"
+    },
+    "toast": {
+      "errorTitle": "Eroare",
+      "invalidTypeDesc": "Selectați doar fișiere imagine (JPG, PNG, GIF etc.)",
+      "fileTooLargeDesc": "Fișierul este prea mare. Dimensiune maximă: 10 MB",
+      "noFileDesc": "Selectați mai întâi o imagine",
+      "successTitle": "Succes",
+      "uploadOkDesc": "Pictogramă PWA actualizată! Modificările vor fi vizibile la următoarea actualizare a aplicației.",
+      "restoreOkDesc": "Pictogramă implicită restaurată! Modificările vor fi vizibile la următoarea actualizare a aplicației.",
+      "uploadErrorDesc": "Eroare la încărcarea pictogramei",
+      "restoreErrorDesc": "Eroare la restaurarea pictogramei implicite"
+    }
+  },
+  "simplePhoneSetup": {
+    "ui": {
+      "lastUpdate": "Ultima actualizare:",
+      "registering": "Se înregistrează...",
+      "registerThisNumber": "Înregistrează acest număr",
+      "verifying": "Se verifică...",
+      "verifyCode": "Verifică codul"
+    },
+    "toast": {
+      "errorTitle": "Eroare",
+      "invalidPhoneDesc": "Introduceți un număr de telefon valid",
+      "numberRegisteredTitle": "Număr înregistrat",
+      "numberRegisteredDesc": "Ți-am trimis un SMS cu un cod de verificare",
+      "invalidCodeDesc": "Introduceți codul de verificare primit prin SMS",
+      "numberVerifiedTitle": "Număr verificat",
+      "numberVerifiedDesc": "Numărul tău a fost verificat cu succes!",
+      "numberRemovedTitle": "Număr eliminat",
+      "numberRemovedDesc": "Numărul de telefon a fost eliminat cu succes",
+      "removeFailedDesc": "Imposibil de eliminat numărul. Încearcă din nou.",
+      "registerFailedDesc": "Imposibil de înregistrat numărul. Încearcă din nou.",
+      "verifyFailedDesc": "Imposibil de verificat codul. Încearcă din nou.",
+      "whatsappLinkTitle": "Link WhatsApp generat",
+      "whatsappLinkDesc": "Am deschis WhatsApp cu un mesaj de test",
+      "whatsappFailedDesc": "Imposibil de generat linkul WhatsApp. Încearcă din nou."
+    },
+    "status": {
+      "disconnected": "Niciun telefon configurat",
+      "pending": "În așteptarea verificării",
+      "connected": "Telefon configurat și pregătit",
+      "unknown": "Stare necunoscută"
+    },
+    "header": {
+      "title": "Configurare telefon pentru notificări",
+      "subtitle": "Introdu numărul tău de telefon pentru a trimite mesaje și notificări clienților"
+    },
+    "card": {
+      "title": "Telefonul tău pentru notificări",
+      "descDisconnected": "Configurează un număr de telefon pentru a trimite notificări clienților",
+      "descConnected": "Starea curentă a numărului tău pentru notificări"
+    },
+    "setup": {
+      "heading": "Configurează numărul tău de telefon",
+      "intro": "Introdu numărul tău de telefon cu prefixul internațional (ex. +39)",
+      "phoneLabel": "Număr de telefon",
+      "phoneHint": "Exemplu: +393471234567 (fără spații)"
+    },
+    "verify": {
+      "heading": "Verifică numărul tău",
+      "intro": "Am trimis un cod de verificare la numărul",
+      "codeLabel": "Cod de verificare"
+    },
+    "connected": {
+      "heading": "Număr de telefon configurat",
+      "intro": "Numărul tău este configurat și pregătit să trimită notificări clienților",
+      "testButton": "Trimite WhatsApp de test",
+      "removeButton": "Elimină acest număr"
+    },
+    "guide": {
+      "title": "Ghid rapid",
+      "subtitle": "Informații utile pentru a configura numărul tău",
+      "stepsHeading": "Cum funcționează în 3 pași:",
+      "step1Title": "Introdu numărul tău",
+      "step1Body": "Introdu numărul tău de telefon cu prefixul internațional",
+      "step2Title": "Verifică numărul",
+      "step2Body": "Vei primi un cod de verificare pe care să îl introduci pentru a confirma numărul",
+      "step3Title": "Începe să trimiți notificări",
+      "step3Body": "Revino la pagina Notificări și începe să trimiți mementouri clienților tăi"
+    },
+    "tips": {
+      "title": "WhatsApp recomandat:",
+      "b1": "Acest număr va fi folosit în principal pentru trimiterea notificărilor prin WhatsApp",
+      "b2": "Mesajele WhatsApp sunt gratuite și mai fiabile decât SMS-urile",
+      "b3": "Asigură-te că numărul are WhatsApp instalat și activ",
+      "b4": "Introdu prefixul internațional corect (ex. +39 pentru Italia)"
+    },
+    "next": {
+      "title": "Ce să faci acum?",
+      "intro": "Numărul tău este configurat și pregătit. Acum poți:",
+      "b1": "Revino la pagina Notificări și trimite mesaje clienților",
+      "b2": "Trimite un mesaj WhatsApp de test pentru a verifica funcționarea"
+    }
+  },
+  "phoneDeviceSetup": {
+    "ui": {
+      "lastUpdate": "Ultima actualizare:",
+      "simulating": "Se simulează...",
+      "testModeButton": "Mod test: Simulează scanarea QR"
+    },
+    "qr": {
+      "step1": "Atinge pictograma ⋮ (trei puncte) din dreapta sus",
+      "step2": "Selectează \"Dispozitive conectate\"",
+      "step3": "Atinge \"Conectează un dispozitiv\"",
+      "step4": "Îndreaptă camera spre acest cod QR"
+    },
+    "toast": {
+      "errorTitle": "Eroare",
+      "qrGeneratingTitle": "Se generează codul QR",
+      "qrGeneratingDesc": "Așteaptă să apară codul QR și apoi scanează-l cu telefonul",
+      "pairingFailedDesc": "Imposibil de pornit procesul de asociere. Încearcă din nou peste câteva momente.",
+      "disconnectedTitle": "Dispozitiv deconectat",
+      "disconnectedDesc": "Dispozitivul a fost deconectat cu succes",
+      "disconnectFailedDesc": "Imposibil de deconectat dispozitivul. Încearcă din nou peste câteva momente.",
+      "simulationOkTitle": "Test de conexiune reușit",
+      "simulationOkDesc": "Simularea scanării QR a fost finalizată cu succes",
+      "simulationErrorTitle": "Eroare la simulare",
+      "simulationErrorDesc": "Imposibil de simulat scanarea codului QR"
+    },
+    "status": {
+      "disconnected": "Niciun telefon conectat",
+      "connecting": "Se conectează...",
+      "connected": "Telefon conectat",
+      "waitingScan": "Se așteaptă scanarea...",
+      "ready": "Telefon configurat și pregătit",
+      "error": "Eroare de conexiune",
+      "unknown": "Stare necunoscută"
+    },
+    "header": {
+      "title": "Configurare telefon pentru notificări",
+      "subtitle": "Această procedură îți permite să conectezi un telefon pentru a trimite mesaje clienților tăi"
+    },
+    "card": {
+      "title": "Telefonul tău pentru notificări",
+      "descDisconnected": "Conectează un telefon pentru a începe să trimiți notificări clienților",
+      "descConnected": "Starea curentă a conexiunii cu telefonul tău"
+    },
+    "setup": {
+      "heading": "Conectează telefonul tău",
+      "intro": "Faceți clic pe butonul de mai jos și urmați instrucțiunile simple pentru a conecta telefonul",
+      "startButton": "Începe configurarea",
+      "preparing": "Se pregătește..."
+    },
+    "connected": {
+      "heading": "Telefon conectat cu succes",
+      "intro": "Telefonul tău este gata să trimită notificări clienților",
+      "disconnectButton": "Deconectează acest telefon"
+    },
+    "scan": {
+      "heading": "Scanează codul QR",
+      "intro": "Deschide WhatsApp pe telefon:"
+    },
+    "guide": {
+      "title": "Ghid rapid",
+      "subtitle": "Informații utile pentru a configura dispozitivul",
+      "stepsHeading": "Cum funcționează în 3 pași:",
+      "step1Body": "Faceți clic pe \"Începe configurarea\" și scanați codul QR cu telefonul",
+      "step2Title": "Menține WhatsApp activ",
+      "step2Body": "Asigură-te că telefonul rămâne conectat la internet și WhatsApp rămâne activ",
+      "step3Title": "Începe să trimiți notificări",
+      "step3Body": "Revino la pagina \"Notificări\" și începe să trimiți mementouri automate clienților tăi"
+    },
+    "tips": {
+      "title": "Note importante:",
+      "b1": "Folosește telefonul de afaceri sau un telefon dedicat notificărilor pentru clienți",
+      "b2": "Asigură-te că telefonul este mereu încărcat și conectat la internet",
+      "b3": "Nu închide aplicația WhatsApp pe telefon",
+      "b4": "Pentru probleme cu trimiterea SMS-urilor sau mesajelor WhatsApp, repornește procedura"
+    },
+    "next": {
+      "title": "Ce să faci acum?",
+      "intro": "Telefonul tău este configurat și pregătit. Acum poți:",
+      "b1": "Revino la pagina Notificări și trimite mesaje clienților",
+      "b2": "Verifică dacă mesajele ajung corect"
+    }
+  },
+  "workingHoursEditor": {
+    "title": "Program de lucru",
+    "description": "Configurează orele de lucru ale afacerii pentru fiecare zi a săptămânii.",
+    "noteLabel": "Notă:",
+    "noteText": "aceste ore vor fi aplicate calendarului pentru a evidenția intervalele disponibile și a bloca rezervările în afara programului.",
+    "closed": "Închis",
+    "startTime": "Deschidere",
+    "endTime": "Închidere",
+    "dayDuration": "Durata zilei:",
+    "lunchSummary": "pauză {{start}}-{{end}}",
+    "lunchBreak": "Pauză de prânz",
+    "lunchStart": "Începutul pauzei",
+    "lunchEnd": "Sfârșitul pauzei",
+    "lunchDuration": "Durata pauzei:",
+    "endAfterStartError": "Ora de sfârșit trebuie să fie după ora de început.",
+    "nationalHolidays": "Sărbători naționale",
+    "country": "Țară",
+    "holidaysHeading": "Sărbători {{current}}-{{next}}",
+    "saveButton": "Salvează programul",
+    "days": {
+      "monday": "Luni",
+      "tuesday": "Marți",
+      "wednesday": "Miercuri",
+      "thursday": "Joi",
+      "friday": "Vineri",
+      "saturday": "Sâmbătă",
+      "sunday": "Duminică"
+    },
+    "toast": {
+      "savedTitle": "Program salvat",
+      "savedDesc": "Programul de lucru a fost salvat cu succes.",
+      "saveErrorDesc": "Imposibil de salvat programul. Încearcă din nou."
+    }
   }
 }

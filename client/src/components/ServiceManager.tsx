@@ -26,6 +26,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { useTranslation } from "react-i18next";
 
 interface Service {
   id: number;
@@ -49,6 +50,7 @@ export default function ServiceManager() {
   console.log("🔧 FRONTEND: ServiceManager component rendered");
   
   const { user } = useUserWithLicense();
+  const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>({
     name: "",
@@ -215,8 +217,8 @@ export default function ServiceManager() {
       resetForm();
       setIsDialogOpen(false);
       toast({
-        title: "Servizio creato",
-        description: "Il servizio è stato creato con successo",
+        title: t('serviceManager.toast.created.title'),
+        description: t('serviceManager.toast.created.desc'),
       });
       
       // Ricarica IMMEDIATA dal backend
@@ -227,7 +229,7 @@ export default function ServiceManager() {
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -257,13 +259,13 @@ export default function ServiceManager() {
       resetForm();
       setIsDialogOpen(false);
       toast({
-        title: "Servizio aggiornato",
-        description: "Il servizio è stato aggiornato con successo",
+        title: t('serviceManager.toast.updated.title'),
+        description: t('serviceManager.toast.updated.desc'),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -305,13 +307,13 @@ export default function ServiceManager() {
       console.log("✅ FRONTEND: Lista servizi aggiornata dopo eliminazione");
       
       toast({
-        title: "Servizio eliminato",
-        description: "Il servizio è stato eliminato con successo",
+        title: t('serviceManager.toast.deleted.title'),
+        description: t('serviceManager.toast.deleted.desc'),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -341,8 +343,8 @@ export default function ServiceManager() {
     e.preventDefault();
     if (!formData.name) {
       toast({
-        title: "Errore",
-        description: "Il nome del servizio è obbligatorio",
+        title: t('common.error'),
+        description: t('serviceManager.errors.requiredName'),
         variant: "destructive",
       });
       return;
@@ -376,7 +378,7 @@ export default function ServiceManager() {
   };
 
   const handleDeleteService = (id: number) => {
-    if (window.confirm("Sei sicuro di voler eliminare questo servizio?")) {
+    if (window.confirm(t('serviceManager.confirmDelete'))) {
       deleteServiceMutation.mutate(id);
     }
   };
@@ -432,9 +434,9 @@ export default function ServiceManager() {
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Errore</AlertTitle>
+        <AlertTitle>{t('common.error')}</AlertTitle>
         <AlertDescription>
-          Errore durante il caricamento dei servizi: {error.message}
+          {t('serviceManager.errors.loadingDesc', { message: error.message })}
         </AlertDescription>
       </Alert>
     );
@@ -443,23 +445,23 @@ export default function ServiceManager() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Gestione Trattamenti e Servizi</h3>
+        <h3 className="text-lg font-medium">{t('serviceManager.heading')}</h3>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
           <DialogTrigger asChild>
             <Button className="flex gap-2 items-center">
               <PlusCircle className="h-4 w-4" />
-              <span>Aggiungi Servizio</span>
+              <span>{t('serviceManager.addService')}</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="min-[1200px]:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{isEditing ? "Modifica Servizio" : "Nuovo Servizio"}</DialogTitle>
+              <DialogTitle>{isEditing ? t('serviceManager.editService') : t('serviceManager.newService')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="name" className="text-right">
-                    Nome
+                    {t('serviceManager.fields.name')}
                   </Label>
                   <Input
                     id="name"
@@ -467,12 +469,12 @@ export default function ServiceManager() {
                     value={formData.name}
                     onChange={handleInputChange}
                     className="col-span-3"
-                    placeholder="Es. Terapia Bicom"
+                    placeholder={t('serviceManager.fields.namePlaceholder')}
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="duration" className="text-right">
-                    Durata (min)
+                    {t('serviceManager.fields.duration')}
                   </Label>
                   <Input
                     id="duration"
@@ -487,7 +489,7 @@ export default function ServiceManager() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="price" className="text-right">
-                    Prezzo (€)
+                    {t('serviceManager.fields.price')}
                   </Label>
                   <Input
                     id="price"
@@ -502,7 +504,7 @@ export default function ServiceManager() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="color" className="text-right">
-                    Colore
+                    {t('serviceManager.fields.color')}
                   </Label>
                   <div className="col-span-3 flex gap-2">
                     <Input
@@ -523,7 +525,7 @@ export default function ServiceManager() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="description" className="text-right">
-                    Descrizione
+                    {t('serviceManager.fields.description')}
                   </Label>
                   <Input
                     id="description"
@@ -531,24 +533,24 @@ export default function ServiceManager() {
                     value={formData.description}
                     onChange={handleInputChange}
                     className="col-span-3"
-                    placeholder="Descrizione opzionale"
+                    placeholder={t('serviceManager.fields.descriptionPlaceholder')}
                   />
                 </div>
               </div>
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="button" variant="outline">
-                    Annulla
+                    {t('common.cancel')}
                   </Button>
                 </DialogClose>
                 <Button type="submit" disabled={createServiceMutation.isPending || updateServiceMutation.isPending}>
                   {createServiceMutation.isPending || updateServiceMutation.isPending ? (
                     <span className="flex items-center gap-2">
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent"></div>
-                      Salvataggio...
+                      {t('serviceManager.savingButton')}
                     </span>
                   ) : (
-                    "Salva"
+                    t('common.save')
                   )}
                 </Button>
               </DialogFooter>
@@ -559,11 +561,11 @@ export default function ServiceManager() {
 
       <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
-          Gestisci i trattamenti e i servizi offerti, inclusi durata e prezzo. Questi dati saranno utilizzati nei report e nelle fatture.
+          {t('serviceManager.intro')}
         </p>
         <div className="flex items-center gap-2 text-xs text-blue-600 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
           <Edit3 className="h-3 w-3" />
-          <span>Modifica rapida: clicca su qualsiasi campo (nome, durata, prezzo, colore) per modificarlo direttamente</span>
+          <span>{t('serviceManager.quickEditHint')}</span>
         </div>
       </div>
 
@@ -572,11 +574,11 @@ export default function ServiceManager() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[240px]">Nome</TableHead>
-                <TableHead>Durata</TableHead>
-                <TableHead>Prezzo</TableHead>
-                <TableHead>Colore</TableHead>
-                <TableHead className="text-right">Azioni</TableHead>
+                <TableHead className="w-[240px]">{t('serviceManager.tableHeaders.name')}</TableHead>
+                <TableHead>{t('serviceManager.tableHeaders.duration')}</TableHead>
+                <TableHead>{t('serviceManager.tableHeaders.price')}</TableHead>
+                <TableHead>{t('serviceManager.tableHeaders.color')}</TableHead>
+                <TableHead className="text-right">{t('serviceManager.tableHeaders.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -605,7 +607,7 @@ export default function ServiceManager() {
                         <div 
                           className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'name', service.name)}
-                          title="Clicca per modificare il nome"
+                          title={t('serviceManager.editTooltips.name')}
                         >
                           <span className="group-hover:text-blue-700">{service.name}</span>
                           <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
@@ -639,7 +641,7 @@ export default function ServiceManager() {
                         <div 
                           className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'duration', service.duration)}
-                          title="Clicca per modificare la durata"
+                          title={t('serviceManager.editTooltips.duration')}
                         >
                           <span className="group-hover:text-blue-700">{formatDuration(service.duration)}</span>
                           <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
@@ -673,7 +675,7 @@ export default function ServiceManager() {
                         <div 
                           className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'price', service.price)}
-                          title="Clicca per modificare il prezzo"
+                          title={t('serviceManager.editTooltips.price')}
                         >
                           <span className="group-hover:text-blue-700">{formatPrice(service.price)}</span>
                           <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
@@ -711,7 +713,7 @@ export default function ServiceManager() {
                         <div 
                           className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'color', service.color || '#3b82f6')}
-                          title="Clicca per modificare il colore"
+                          title={t('serviceManager.editTooltips.color')}
                         >
                           <div
                             className="w-4 h-4 rounded-full"
@@ -731,7 +733,7 @@ export default function ServiceManager() {
                           variant="outline"
                           size="icon"
                           onClick={() => handleEditService(service)}
-                          title="Modifica completo"
+                          title={t('serviceManager.actionTitles.editFull')}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -739,7 +741,7 @@ export default function ServiceManager() {
                           variant="outline"
                           size="icon"
                           onClick={() => handleDeleteService(service.id)}
-                          title="Elimina servizio"
+                          title={t('serviceManager.actionTitles.delete')}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -750,8 +752,8 @@ export default function ServiceManager() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center py-6">
-                    <p className="text-muted-foreground">Nessun servizio disponibile. Aggiungi il tuo primo servizio!</p>
-                    <p className="text-sm text-muted-foreground mt-1">Configura i servizi che offri ai tuoi clienti per iniziare a ricevere prenotazioni.</p>
+                    <p className="text-muted-foreground">{t('serviceManager.empty.title')}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{t('serviceManager.empty.subtitle')}</p>
                   </TableCell>
                 </TableRow>
               )}
@@ -761,7 +763,7 @@ export default function ServiceManager() {
       </Card>
 
       <div className="text-xs text-muted-foreground mt-2">
-        Nota: I servizi eliminati non saranno più disponibili per nuovi appuntamenti, ma quelli già programmati manterranno i dati originali.
+        {t('serviceManager.footnote')}
       </div>
     </div>
   );

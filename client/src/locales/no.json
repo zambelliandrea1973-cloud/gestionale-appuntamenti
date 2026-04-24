@@ -481,7 +481,10 @@
     "incrementBy15Min": "Øk med 15 min",
     "decrementBy15Min": "Reduser med 15 min",
     "selected": "Valgt",
-    "select": "Velg"
+    "select": "Velg",
+    "noServicesAvailable": "Ingen tjenester tilgjengelige",
+    "goToSettingsToCreateService": "Gå til Innstillinger for å opprette en tjeneste",
+    "noServicesFound": "Ingen tjenester funnet"
   },
   "clients": {
     "title": "Kunder",
@@ -3612,7 +3615,84 @@
     "title": "Brukerinnstillinger",
     "profile": "Profil",
     "account": "Konto",
-    "preferences": "Innstillinger"
+    "preferences": "Innstillinger",
+    "subtitle": "Tilpass opplevelsen din og konfigurer kontoens merkevare",
+    "loading": "Laster innstillinger...",
+    "roles": {
+      "admin": "Administrator",
+      "staff": "Ansatt",
+      "customer": "Premium-kunde"
+    },
+    "tabs": {
+      "branding": "Branding",
+      "contact": "Kontakter",
+      "appearance": "Utseende",
+      "business": "Bedrift"
+    },
+    "branding": {
+      "cardTitle": "Merkevareidentitet",
+      "cardDesc": "Tilpass navnet og utseendet til virksomheten din",
+      "businessNameLabel": "Bedriftsnavn",
+      "businessNamePlaceholder": "Skriv inn bedriftsnavnet ditt",
+      "logoUrlLabel": "Logo-URL",
+      "primaryColorLabel": "Primærfarge",
+      "secondaryColorLabel": "Sekundærfarge",
+      "greenButton": "🔥 GRØNN KNAPP",
+      "blueButton": "💾 BLÅ KNAPP",
+      "savingLabel": "Lagrer...",
+      "creatingLabel": "Oppretter...",
+      "logoUrlPlaceholder": "https://example.com/logo.png"
+    },
+    "contact": {
+      "cardTitle": "Kontaktinformasjon",
+      "cardDesc": "Konfigurer dine tilpassede kontaktopplysninger",
+      "emailLabel": "Kontakt-e-post",
+      "phone1Label": "Hovedtelefon",
+      "phone2Label": "Sekundærtelefon",
+      "websiteLabel": "Nettsted",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "Hovedgata 123, By",
+      "emailPlaceholder": "info@example.com",
+      "websitePlaceholder": "https://www.example.com"
+    },
+    "appearance": {
+      "cardTitle": "Grensesnittets utseende",
+      "cardDesc": "Velg tema og utseende for applikasjonen",
+      "themeLabel": "Tema",
+      "themePlaceholder": "Velg tema",
+      "themeProfessional": "Profesjonell",
+      "themeVibrant": "Levende",
+      "themeTint": "Fargenyanse",
+      "modeLabel": "Modus",
+      "modePlaceholder": "Velg modus",
+      "modeLight": "Lys",
+      "modeDark": "Mørk",
+      "modeSystem": "System"
+    },
+    "business": {
+      "cardTitle": "Sosiale medier",
+      "cardDesc": "Koble til sosiale profiler for større synlighet",
+      "instagramLabel": "Instagram",
+      "facebookLabel": "Facebook",
+      "linkedinLabel": "LinkedIn"
+    },
+    "toast": {
+      "savedTitle": "Innstillinger lagret",
+      "savedDesc": "Alle innstillinger er lagret!",
+      "saveErrorDesc": "Kunne ikke lagre innstillingene. Prøv igjen.",
+      "businessNameSavedTitle": "Bedriftsnavn lagret",
+      "businessNameSavedDesc": "Bedriftsnavnet er lagret!",
+      "businessNameErrorDesc": "Kunne ikke lagre bedriftsnavnet. Prøv igjen.",
+      "colorSavedTitle": "Farge lagret",
+      "colorSavedDesc": "Fargen er lagret!",
+      "colorErrorDesc": "Kunne ikke lagre fargen. Prøv igjen.",
+      "themeSavedTitle": "Tema lagret",
+      "themeSavedDesc": "Temaet er lagret!",
+      "themeErrorDesc": "Kunne ikke lagre temaet. Prøv igjen.",
+      "contactsSavedTitle": "Kontakter lagret",
+      "contactsSavedDesc": "Kontaktinformasjonen er lagret!",
+      "contactsErrorDesc": "Kunne ikke lagre kontaktene. Prøv igjen."
+    }
   },
   "staff": {
     "title": "Personalstyring",
@@ -3653,7 +3733,10 @@
     "loadingClient": "Laster klientdata...",
     "otherAccount": "Annen konto",
     "creatingClient": "Oppretter...",
-    "createNewClient": "+ Opprett \"<0>{{name}}</0>\" som ny klient",
+    "createNewClient": {
+      "before": "+ Opprett \"",
+      "after": "\" som ny kunde"
+    },
     "warnings": {
       "otherAccount": "<0>Advarsel:</0> Du oppretter en avtale for en klient fra en annen konto ({{firstName}} {{lastName}}). Sørg for at du har nødvendige tillatelser."
     },
@@ -3684,7 +3767,8 @@
         "desc": "{{firstName}} {{lastName}} opprettet. Du kan fylle ut resten senere."
       },
       "validationTitle": "Valideringsfeil",
-      "validationDesc": "Felter med feil: {{fields}}"
+      "validationDesc": "Felter med feil: {{fields}}",
+      "clientCreateErrorDesc": "Kunne ikke opprette klienten"
     },
     "errors": {
       "requiredClient": "Velg en klient for avtalen",
@@ -3695,16 +3779,20 @@
       "createClient": "Kunne ikke opprette klient"
     },
     "conflict": {
-      "title": "⚠️ Tidskonflikt oppdaget",
-      "intro": "Du har opprettet en avtale som overlapper med en eller flere eksisterende avtaler:",
-      "staffHeading": "🧑 Konflikt med fagperson:",
+      "title": "Tilgjengelighetskonflikt",
+      "intro": "Konflikter ble oppdaget for den valgte avtalen:",
+      "staffHeading": "Konflikter med personale:",
       "staffLine": "<0>{{name}}</0> har allerede en avtale kl. {{time}}",
       "staffWith": " med {{firstName}} {{lastName}}",
-      "roomHeading": "🏠 Romkonflikt:",
+      "roomHeading": "Romkonflikter:",
       "roomLine": "<0>{{name}}</0> er allerede opptatt kl. {{time}}",
       "roomBy": " av {{firstName}} {{lastName}}",
-      "askProceed": "Vil du opprette avtalen likevel?",
-      "proceed": "Ja, fortsett likevel"
+      "askProceed": "Vil du likevel fortsette?",
+      "proceed": "Fortsett likevel",
+      "staffLineSuffix": "har allerede en avtale kl.",
+      "withClient": "med",
+      "roomLineSuffix": "er allerede opptatt kl.",
+      "byClient": "av"
     }
   },
   "clientNotes": {
@@ -4724,5 +4812,406 @@
     },
     "signaturePrefix": "Digitalt samtykke akseptert den",
     "defaultConsentText": "Personvernerklæring og samtykke til behandling av personopplysninger\n\n  I henhold til EU-forordning 2016/679 (GDPR) informerer vi deg om at dine personopplysninger vil bli behandlet for følgende formål:\n\n  1. Forvaltning av helse- og administrative opplysninger\n  2. Oppfyllelse av lovbestemte og regulatoriske krav\n  3. Kommunikasjon knyttet til de leverte tjenestene\n\n  Dine data vil bli behandlet både i papirform og elektronisk, etter en logikk som er strengt knyttet til formålene angitt ovenfor, og uansett slik at sikkerheten og konfidensialiteten til dataene blir ivaretatt.\n\n  Det er obligatorisk å oppgi opplysningene for å kunne levere de forespurte tjenestene. Manglende avgivelse av opplysninger gjør det umulig å levere tjenestene.\n\n  Dine data vil ikke bli formidlet til tredjeparter, unntatt i tilfeller som er fastsatt ved lov.\n\n  Du har rett til å få bekreftelse på om det finnes personopplysninger om deg, å få kjennskap til innholdet og opprinnelsen, å kontrollere riktigheten eller be om at de utfylles, oppdateres eller rettes. Du har også rett til å be om sletting, omdanning til anonym form eller blokkering av data behandlet i strid med loven, samt til å motsette deg behandlingen i alle tilfeller, på legitimt grunnlag."
+  },
+  "installationGuide": {
+    "heading": "Slik installerer du appen på enheten din",
+    "chrome": {
+      "title": "Instruksjoner for Google Chrome:",
+      "s1Lead": "Klikk på de tre prikkene",
+      "s1Suffix": "øverst til høyre",
+      "s2Lead": "Velg \"Installer app...\"",
+      "s2Suffix": "fra menyen",
+      "s3Lead": "Bekreft",
+      "s3Suffix": "ved å klikke \"Installer\" i popup-vinduet"
+    },
+    "safari": {
+      "title": "Instruksjoner for Safari (iOS):",
+      "s1Lead": "Trykk på Del-knappen",
+      "s1Suffix": "nederst (iPhone) eller øverst (iPad)",
+      "s2Lead": "Bla og trykk \"Legg til på Hjem-skjerm\"",
+      "s3Lead": "Trykk \"Legg til\"",
+      "s3Suffix": "i øverste høyre hjørne"
+    },
+    "edge": {
+      "title": "Instruksjoner for Microsoft Edge:",
+      "s1Lead": "Klikk på de tre prikkene",
+      "s1Suffix": "øverst til høyre",
+      "s2Lead": "Velg \"Apper\"",
+      "s2Suffix": "\"Installer dette nettstedet som app\"",
+      "s3Lead": "Bekreft",
+      "s3Suffix": "ved å klikke \"Installer\" i popup-vinduet"
+    },
+    "firefox": {
+      "title": "Instruksjoner for Firefox:",
+      "s1Lead": "Klikk på menyen",
+      "s1Suffix": "øverst til høyre",
+      "s2Lead": "Velg \"+ Legg til på Hjem-skjerm\"",
+      "s3Lead": "Bekreft",
+      "s3Suffix": "installasjonen"
+    },
+    "duckduckgo": {
+      "title": "Instruksjoner for DuckDuckGo:",
+      "s1Lead": "Trykk på de tre prikkene",
+      "s1Suffix": "øverst til høyre",
+      "s2Lead": "Velg \"Del\"",
+      "s2Suffix": "fra menyen",
+      "s3Lead": "Velg \"Chrome\"",
+      "s3Suffix": "fra applisten",
+      "s4Lead": "I Chrome",
+      "s4Suffix": "ser du et banner eller en installasjonsknapp",
+      "s5Lead": "Trykk \"Installer\"",
+      "s5Suffix": "for å fullføre installasjonen",
+      "warningTitle": "Hvorfor bruke Chrome for installasjon:",
+      "warningBody": "DuckDuckGo støtter ikke PWA-installasjon direkte. Derfor må du bruke Chrome som tilbyr full støtte for installasjon av webapper på enheten din."
+    },
+    "footer": "Merk: hvis instruksjonene ikke fungerer, prøv Chrome på Android eller Safari på iOS som har bedre PWA-støtte."
+  },
+  "capabilities": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Administrer avtaler, tidsplaner og personalets tilgjengelighet i en sentralisert kalender."
+    },
+    "email_notifications": {
+      "title": "E-postvarsler",
+      "description": "Send automatiske e-postbekreftelser og påminnelser til kundene dine."
+    },
+    "whatsapp_notifications": {
+      "title": "WhatsApp-varsler",
+      "description": "Send WhatsApp-meldinger til kunder for bekreftelser, påminnelser og kommunikasjon."
+    },
+    "invoices": {
+      "title": "Fakturering",
+      "description": "Opprett, administrer og send profesjonelle fakturaer til kundene dine."
+    },
+    "reports": {
+      "title": "Rapporter og statistikk",
+      "description": "Analyser virksomhetens utvikling med detaljerte rapporter og statistikk."
+    },
+    "google_calendar": {
+      "title": "Google Kalender-synkronisering",
+      "description": "Synkroniser avtalene dine automatisk med Google Kalender."
+    },
+    "client_pwa_qr": {
+      "title": "Tilpasset klientapp (QR)",
+      "description": "Tilby kundene en installerbar webapp med din merkevare via QR-kode."
+    },
+    "staff_rooms": {
+      "title": "Personale og rom",
+      "description": "Administrer flere ansatte og rom samtidig med avansert planlegging."
+    },
+    "warehouse": {
+      "title": "Lageradministrasjon",
+      "description": "Spor produkter, lager og forbruk for hver tjeneste som tilbys."
+    },
+    "unlimited_clients": {
+      "title": "Ubegrensede kunder",
+      "description": "Legg til og administrer et ubegrenset antall kunder uten begrensninger."
+    },
+    "appointment_requests": {
+      "title": "Avtaleforespørsler",
+      "description": "La kundene be om avtaler på nettet og administrer dem enkelt."
+    },
+    "promotional_packages": {
+      "title": "Kampanjepakker",
+      "description": "Lag tilbud og kampanjepakker for å bygge kundelojalitet."
+    },
+    "marketing_ai": {
+      "title": "AI-markedsføring",
+      "description": "Bruk kunstig intelligens til å generere personaliserte markedsføringskampanjer."
+    }
+  },
+  "appNameEditor": {
+    "title": "Navn på klientappen",
+    "intro": "Tilpass navnet som vises på kundenes enheter når de installerer appen.",
+    "successTitle": "Lagring fullført",
+    "successDesc": "App-informasjonen er oppdatert. Kundene ser det nye navnet når de installerer appen.",
+    "errorTitle": "Feil",
+    "appNameLabel": "Fullt appnavn",
+    "appNamePlaceholder": "Klientapp",
+    "appNameHint": "Dette navnet vises i varsler og app-detaljer",
+    "appShortNameLabel": "Kort appnavn",
+    "appShortNamePlaceholder": "Klientapp",
+    "appShortNameHint": "Dette navnet vises under ikonet på startskjermen",
+    "info": "Endringer trer kun i kraft ved nye app-installasjoner",
+    "savingButton": "Lagrer...",
+    "saveButton": "Lagre endringer",
+    "toast": {
+      "errorTitle": "Feil",
+      "fetchErrorDesc": "Kunne ikke laste app-informasjon",
+      "noChangesTitle": "Ingen endringer",
+      "noChangesDesc": "Ingen endringer ble gjort i appnavnet",
+      "savedTitle": "Lagring fullført",
+      "savedDesc": "App-informasjonen er oppdatert",
+      "saveErrorTitle": "Lagringsfeil",
+      "saveErrorDesc": "Det oppstod en feil under lagring av informasjonen"
+    },
+    "defaultAppName": "Klientapp"
+  },
+  "appIconUploader": {
+    "title": "Ikon for klientappen",
+    "desc": "Last opp et tilpasset ikon som skal brukes for både hovedappen og klientappen. Dette ikonet vises på startskjermen til alle enheter.",
+    "savedTitle": "Lagret",
+    "savedDesc": "App-ikonet er oppdatert.",
+    "errorTitle": "Feil",
+    "dropZoneText": "Dra bildet hit eller klikk for å velge",
+    "dropZoneFormats": "SVG, PNG eller JPG (maks. 2 MB)",
+    "selectFileButton": "Velg fil",
+    "previewLabel": "Forhåndsvisning",
+    "previewAlt": "Forhåndsvisning av ikon",
+    "smallIconAlt": "Lite ikon",
+    "defaultIconAlt": "Standardikon",
+    "noIcon": "Ingen ikon",
+    "clientDevice": "Klientenhet:",
+    "clientApp": "Klientapp",
+    "previewHint": "Ikonet vises på enhetens startskjerm når kundene installerer appen.",
+    "defaultIconLabel": "Standardikon: {{name}}",
+    "defaultIconHint": "Du kan gjenopprette dette standardikonet når som helst.",
+    "restoringButton": "Gjenoppretter...",
+    "restoreButton": "Gjenopprett standardikon",
+    "savingButton": "Lagrer...",
+    "saveButton": "Lagre ikon",
+    "toast": {
+      "successResetTitle": "Standardikon angitt",
+      "successResetDesc": "Standardikonet er gjenopprettet.",
+      "successUploadTitle": "Ikon lagret",
+      "successUploadDesc": "App-ikonet er oppdatert og synkronisert for kundene.",
+      "noFileTitle": "Ingen fil valgt",
+      "noFileDesc": "Velg først et bilde du vil laste opp.",
+      "fileTooLarge": "Det valgte bildet er for stort. Maks. størrelse er 2 MB.",
+      "invalidFileType": "Velg en gyldig bildefil."
+    }
+  },
+  "iconUpload": {
+    "title": "Tilpass PWA-ikon",
+    "desc": "Last opp et tilpasset bilde som automatisk konverteres til PWA-ikoner for mobile enheter. Støttede formater: JPG, PNG, GIF, WebP.",
+    "currentLabel": "Gjeldende ikon",
+    "currentName": "Gjeldende PWA-ikon",
+    "currentDesc": "Dette er ikonet som vises når brukerne installerer appen",
+    "currentAlt": "Gjeldende PWA-ikon",
+    "uploadLabel": "Last opp nytt ikon",
+    "previewLabel": "Forhåndsvisning",
+    "previewAlt": "Forhåndsvisning av nytt ikon",
+    "newIconLabel": "Nytt ikon",
+    "newIconDesc": "Konverteres automatisk til PNG-formatene 96x96, 192x192 og 512x512",
+    "removeButton": "Fjern",
+    "uploadButton": "Oppdater PWA-ikon",
+    "uploadingButton": "Laster opp...",
+    "restoreButton": "Gjenopprett standard",
+    "info": {
+      "heading": "ℹ️ Viktig informasjon",
+      "b1": "• Bildet endres automatisk til 96x96, 192x192 og 512x512 piksler",
+      "b2": "• Bruk kvadratiske bilder for best resultat",
+      "b3": "• Endringene vises ved neste app-oppdatering/reinstallasjon",
+      "b4": "• Støttede formater: JPG, PNG, GIF, WebP (maks. 10 MB)"
+    },
+    "toast": {
+      "errorTitle": "Feil",
+      "invalidTypeDesc": "Velg kun bildefiler (JPG, PNG, GIF, osv.)",
+      "fileTooLargeDesc": "Filen er for stor. Maks. størrelse: 10 MB",
+      "noFileDesc": "Velg først et bilde",
+      "successTitle": "Suksess",
+      "uploadOkDesc": "PWA-ikon oppdatert! Endringene vises ved neste app-oppdatering.",
+      "restoreOkDesc": "Standardikon gjenopprettet! Endringene vises ved neste app-oppdatering.",
+      "uploadErrorDesc": "Feil under opplasting av ikonet",
+      "restoreErrorDesc": "Feil ved gjenoppretting av standardikonet"
+    }
+  },
+  "simplePhoneSetup": {
+    "ui": {
+      "lastUpdate": "Sist oppdatert:",
+      "registering": "Registrerer...",
+      "registerThisNumber": "Registrer dette nummeret",
+      "verifying": "Verifiserer...",
+      "verifyCode": "Verifiser kode"
+    },
+    "toast": {
+      "errorTitle": "Feil",
+      "invalidPhoneDesc": "Skriv inn et gyldig telefonnummer",
+      "numberRegisteredTitle": "Nummer registrert",
+      "numberRegisteredDesc": "Vi har sendt deg en SMS med en bekreftelseskode",
+      "invalidCodeDesc": "Skriv inn bekreftelseskoden mottatt via SMS",
+      "numberVerifiedTitle": "Nummer bekreftet",
+      "numberVerifiedDesc": "Nummeret ditt er bekreftet!",
+      "numberRemovedTitle": "Nummer fjernet",
+      "numberRemovedDesc": "Telefonnummeret er fjernet",
+      "removeFailedDesc": "Kunne ikke fjerne nummeret. Prøv igjen.",
+      "registerFailedDesc": "Kunne ikke registrere nummeret. Prøv igjen.",
+      "verifyFailedDesc": "Kunne ikke verifisere koden. Prøv igjen.",
+      "whatsappLinkTitle": "WhatsApp-lenke generert",
+      "whatsappLinkDesc": "Vi åpnet WhatsApp med en testmelding",
+      "whatsappFailedDesc": "Kunne ikke generere WhatsApp-lenken. Prøv igjen."
+    },
+    "status": {
+      "disconnected": "Ingen telefon konfigurert",
+      "pending": "Venter på bekreftelse",
+      "connected": "Telefon konfigurert og klar",
+      "unknown": "Ukjent status"
+    },
+    "header": {
+      "title": "Telefonoppsett for varsler",
+      "subtitle": "Skriv inn telefonnummeret ditt for å sende meldinger og varsler til kunder"
+    },
+    "card": {
+      "title": "Telefonen din for varsler",
+      "descDisconnected": "Sett opp et telefonnummer for å sende varsler til kunder",
+      "descConnected": "Gjeldende status for nummeret ditt for varsler"
+    },
+    "setup": {
+      "heading": "Sett opp telefonnummeret ditt",
+      "intro": "Skriv inn telefonnummeret ditt med internasjonalt prefiks (f.eks. +39)",
+      "phoneLabel": "Telefonnummer",
+      "phoneHint": "Eksempel: +393471234567 (uten mellomrom)"
+    },
+    "verify": {
+      "heading": "Bekreft nummeret ditt",
+      "intro": "Vi sendte en bekreftelseskode til nummeret",
+      "codeLabel": "Bekreftelseskode"
+    },
+    "connected": {
+      "heading": "Telefonnummer konfigurert",
+      "intro": "Nummeret ditt er konfigurert og klart til å sende varsler til kunder",
+      "testButton": "Send test-WhatsApp",
+      "removeButton": "Fjern dette nummeret"
+    },
+    "guide": {
+      "title": "Hurtigguide",
+      "subtitle": "Nyttig informasjon for å konfigurere nummeret ditt",
+      "stepsHeading": "Slik fungerer det i 3 trinn:",
+      "step1Title": "Skriv inn nummeret ditt",
+      "step1Body": "Skriv inn telefonnummeret ditt med internasjonalt prefiks",
+      "step2Title": "Bekreft nummeret",
+      "step2Body": "Du vil motta en bekreftelseskode du må skrive inn for å bekrefte nummeret",
+      "step3Title": "Begynn å sende varsler",
+      "step3Body": "Gå tilbake til Varsler-siden og begynn å sende påminnelser til kundene dine"
+    },
+    "tips": {
+      "title": "Anbefalt WhatsApp:",
+      "b1": "Dette nummeret brukes hovedsakelig for å sende varsler via WhatsApp",
+      "b2": "WhatsApp-meldinger er gratis og mer pålitelige enn SMS",
+      "b3": "Sørg for at nummeret har WhatsApp installert og aktivt",
+      "b4": "Skriv inn riktig internasjonalt prefiks (f.eks. +39 for Italia)"
+    },
+    "next": {
+      "title": "Hva nå?",
+      "intro": "Nummeret ditt er konfigurert og klart. Du kan nå:",
+      "b1": "Gå tilbake til Varsler-siden og sende meldinger til kunder",
+      "b2": "Sende en test-WhatsApp-melding for å bekrefte funksjonaliteten"
+    }
+  },
+  "phoneDeviceSetup": {
+    "ui": {
+      "lastUpdate": "Sist oppdatert:",
+      "simulating": "Simulerer...",
+      "testModeButton": "Testmodus: Simuler QR-skanning"
+    },
+    "qr": {
+      "step1": "Trykk på ⋮-ikonet (tre prikker) øverst til høyre",
+      "step2": "Velg \"Koblede enheter\"",
+      "step3": "Trykk \"Koble til enhet\"",
+      "step4": "Pek kameraet mot denne QR-koden"
+    },
+    "toast": {
+      "errorTitle": "Feil",
+      "qrGeneratingTitle": "Genererer QR-kode",
+      "qrGeneratingDesc": "Vent til QR-koden vises og skann den med telefonen din",
+      "pairingFailedDesc": "Kunne ikke starte parringsprosessen. Prøv igjen om litt.",
+      "disconnectedTitle": "Enhet frakoblet",
+      "disconnectedDesc": "Enheten er frakoblet",
+      "disconnectFailedDesc": "Kunne ikke koble fra enheten. Prøv igjen om litt.",
+      "simulationOkTitle": "Tilkoblingstest vellykket",
+      "simulationOkDesc": "QR-skanningssimuleringen ble fullført",
+      "simulationErrorTitle": "Simuleringsfeil",
+      "simulationErrorDesc": "Kunne ikke simulere QR-koden"
+    },
+    "status": {
+      "disconnected": "Ingen telefon tilkoblet",
+      "connecting": "Kobler til...",
+      "connected": "Telefon tilkoblet",
+      "waitingScan": "Venter på skanning...",
+      "ready": "Telefon konfigurert og klar",
+      "error": "Tilkoblingsfeil",
+      "unknown": "Ukjent status"
+    },
+    "header": {
+      "title": "Telefonoppsett for varsler",
+      "subtitle": "Denne prosedyren lar deg koble til en telefon for å sende meldinger til kundene dine"
+    },
+    "card": {
+      "title": "Telefonen din for varsler",
+      "descDisconnected": "Koble til en telefon for å begynne å sende varsler til kunder",
+      "descConnected": "Gjeldende status for tilkoblingen med telefonen din"
+    },
+    "setup": {
+      "heading": "Koble til telefonen din",
+      "intro": "Klikk på knappen nedenfor og følg de enkle instruksjonene for å koble til telefonen din",
+      "startButton": "Start oppsett",
+      "preparing": "Forbereder..."
+    },
+    "connected": {
+      "heading": "Telefon koblet til",
+      "intro": "Telefonen din er klar til å sende varsler til kunder",
+      "disconnectButton": "Koble fra denne telefonen"
+    },
+    "scan": {
+      "heading": "Skann QR-koden",
+      "intro": "Åpne WhatsApp på telefonen din:"
+    },
+    "guide": {
+      "title": "Hurtigguide",
+      "subtitle": "Nyttig informasjon for å konfigurere enheten din",
+      "stepsHeading": "Slik fungerer det i 3 trinn:",
+      "step1Body": "Klikk \"Start oppsett\" og skann QR-koden med telefonen din",
+      "step2Title": "Hold WhatsApp aktiv",
+      "step2Body": "Sørg for at telefonen forblir tilkoblet internett og at WhatsApp er aktiv",
+      "step3Title": "Begynn å sende varsler",
+      "step3Body": "Gå tilbake til \"Varsler\"-siden og begynn å sende automatiske påminnelser til kundene dine"
+    },
+    "tips": {
+      "title": "Viktige merknader:",
+      "b1": "Bruk forretningstelefonen din eller en telefon dedikert til kundevarsler",
+      "b2": "Sørg for at telefonen alltid er ladet og koblet til internett",
+      "b3": "Ikke lukk WhatsApp-appen på telefonen",
+      "b4": "Ved problemer med sending av SMS eller WhatsApp-meldinger, start prosedyren på nytt"
+    },
+    "next": {
+      "title": "Hva nå?",
+      "intro": "Telefonen din er konfigurert og klar. Du kan nå:",
+      "b1": "Gå tilbake til Varsler-siden og sende meldinger til kunder",
+      "b2": "Verifisere at meldingene kommer riktig fram"
+    }
+  },
+  "workingHoursEditor": {
+    "title": "Arbeidstider",
+    "description": "Konfigurer åpningstidene for hver dag i uken.",
+    "noteLabel": "Merk:",
+    "noteText": "disse tidene brukes i kalenderen for å fremheve tilgjengelige tider og blokkere bestillinger utenfor åpningstidene.",
+    "closed": "Stengt",
+    "startTime": "Åpning",
+    "endTime": "Stengning",
+    "dayDuration": "Dagens varighet:",
+    "lunchSummary": "pause {{start}}-{{end}}",
+    "lunchBreak": "Lunsjpause",
+    "lunchStart": "Pausestart",
+    "lunchEnd": "Pauseslutt",
+    "lunchDuration": "Pausens varighet:",
+    "endAfterStartError": "Sluttid må være etter starttid.",
+    "nationalHolidays": "Nasjonale helligdager",
+    "country": "Land",
+    "holidaysHeading": "Helligdager {{current}}-{{next}}",
+    "saveButton": "Lagre tider",
+    "days": {
+      "monday": "Mandag",
+      "tuesday": "Tirsdag",
+      "wednesday": "Onsdag",
+      "thursday": "Torsdag",
+      "friday": "Fredag",
+      "saturday": "Lørdag",
+      "sunday": "Søndag"
+    },
+    "toast": {
+      "savedTitle": "Tider lagret",
+      "savedDesc": "Arbeidstidene er lagret.",
+      "saveErrorDesc": "Kunne ikke lagre tidene. Prøv igjen."
+    }
   }
 }

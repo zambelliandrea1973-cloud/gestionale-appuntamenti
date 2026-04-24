@@ -481,7 +481,10 @@
     "incrementBy15Min": "Verhoog met 15 min",
     "decrementBy15Min": "Verlaag met 15 min",
     "selected": "Geselecteerd",
-    "select": "Selecteer"
+    "select": "Selecteer",
+    "noServicesAvailable": "Geen diensten beschikbaar",
+    "goToSettingsToCreateService": "Ga naar Instellingen om een dienst aan te maken",
+    "noServicesFound": "Geen diensten gevonden"
   },
   "clients": {
     "title": "Klanten",
@@ -3612,7 +3615,84 @@
     "title": "Gebruikersinstellingen",
     "profile": "Profiel",
     "account": "Account",
-    "preferences": "Voorkeuren"
+    "preferences": "Voorkeuren",
+    "subtitle": "Pas je ervaring aan en stel de huisstijl van je account in",
+    "loading": "Instellingen laden...",
+    "roles": {
+      "admin": "Beheerder",
+      "staff": "Personeel",
+      "customer": "Premium-klant"
+    },
+    "tabs": {
+      "branding": "Branding",
+      "contact": "Contacten",
+      "appearance": "Uiterlijk",
+      "business": "Bedrijf"
+    },
+    "branding": {
+      "cardTitle": "Merkidentiteit",
+      "cardDesc": "Pas de naam en het uiterlijk van je bedrijf aan",
+      "businessNameLabel": "Bedrijfsnaam",
+      "businessNamePlaceholder": "Voer je bedrijfsnaam in",
+      "logoUrlLabel": "Logo-URL",
+      "primaryColorLabel": "Primaire kleur",
+      "secondaryColorLabel": "Secundaire kleur",
+      "greenButton": "🔥 GROENE KNOP",
+      "blueButton": "💾 BLAUWE KNOP",
+      "savingLabel": "Opslaan...",
+      "creatingLabel": "Maken...",
+      "logoUrlPlaceholder": "https://example.com/logo.png"
+    },
+    "contact": {
+      "cardTitle": "Contactgegevens",
+      "cardDesc": "Configureer je aangepaste contactgegevens",
+      "emailLabel": "Contact-e-mail",
+      "phone1Label": "Primair telefoonnummer",
+      "phone2Label": "Secundair telefoonnummer",
+      "websiteLabel": "Website",
+      "addressLabel": "Adres",
+      "addressPlaceholder": "Hoofdstraat 123, Stad",
+      "emailPlaceholder": "info@example.com",
+      "websitePlaceholder": "https://www.example.com"
+    },
+    "appearance": {
+      "cardTitle": "Uiterlijk van de interface",
+      "cardDesc": "Kies het thema en uiterlijk van de applicatie",
+      "themeLabel": "Thema",
+      "themePlaceholder": "Selecteer thema",
+      "themeProfessional": "Professioneel",
+      "themeVibrant": "Levendig",
+      "themeTint": "Tint",
+      "modeLabel": "Modus",
+      "modePlaceholder": "Selecteer modus",
+      "modeLight": "Licht",
+      "modeDark": "Donker",
+      "modeSystem": "Systeem"
+    },
+    "business": {
+      "cardTitle": "Sociale media",
+      "cardDesc": "Verbind je social media profielen voor meer zichtbaarheid",
+      "instagramLabel": "Instagram",
+      "facebookLabel": "Facebook",
+      "linkedinLabel": "LinkedIn"
+    },
+    "toast": {
+      "savedTitle": "Instellingen opgeslagen",
+      "savedDesc": "Alle instellingen zijn succesvol opgeslagen!",
+      "saveErrorDesc": "Kan instellingen niet opslaan. Probeer het opnieuw.",
+      "businessNameSavedTitle": "Bedrijfsnaam opgeslagen",
+      "businessNameSavedDesc": "De bedrijfsnaam is succesvol opgeslagen!",
+      "businessNameErrorDesc": "Kan bedrijfsnaam niet opslaan. Probeer het opnieuw.",
+      "colorSavedTitle": "Kleur opgeslagen",
+      "colorSavedDesc": "De kleur is succesvol opgeslagen!",
+      "colorErrorDesc": "Kan kleur niet opslaan. Probeer het opnieuw.",
+      "themeSavedTitle": "Thema opgeslagen",
+      "themeSavedDesc": "Het thema is succesvol opgeslagen!",
+      "themeErrorDesc": "Kan thema niet opslaan. Probeer het opnieuw.",
+      "contactsSavedTitle": "Contacten opgeslagen",
+      "contactsSavedDesc": "Contactgegevens zijn opgeslagen!",
+      "contactsErrorDesc": "Kan contacten niet opslaan. Probeer het opnieuw."
+    }
   },
   "staff": {
     "title": "Personeelsbeheer",
@@ -3653,7 +3733,10 @@
     "loadingClient": "Klantgegevens laden...",
     "otherAccount": "Andere account",
     "creatingClient": "Bezig met aanmaken...",
-    "createNewClient": "+ \"<0>{{name}}</0>\" als nieuwe klant aanmaken",
+    "createNewClient": {
+      "before": "+ Aanmaken \"",
+      "after": "\" als nieuwe klant"
+    },
     "warnings": {
       "otherAccount": "<0>Let op:</0> Je maakt een afspraak voor een klant van een andere account ({{firstName}} {{lastName}}). Controleer of je de juiste rechten hebt."
     },
@@ -3684,7 +3767,8 @@
         "desc": "{{firstName}} {{lastName}} aangemaakt. Je kunt de gegevens later aanvullen."
       },
       "validationTitle": "Validatiefout",
-      "validationDesc": "Velden met fouten: {{fields}}"
+      "validationDesc": "Velden met fouten: {{fields}}",
+      "clientCreateErrorDesc": "Aanmaken klant mislukt"
     },
     "errors": {
       "requiredClient": "Selecteer een klant voor de afspraak",
@@ -3695,16 +3779,20 @@
       "createClient": "Kon klant niet aanmaken"
     },
     "conflict": {
-      "title": "⚠️ Tijdsconflict gedetecteerd",
-      "intro": "Je hebt een afspraak gemaakt die overlapt met een of meer bestaande afspraken:",
-      "staffHeading": "🧑 Conflict met professional:",
+      "title": "Beschikbaarheidsconflict",
+      "intro": "Er zijn conflicten gedetecteerd voor de geselecteerde afspraak:",
+      "staffHeading": "Conflicten met personeel:",
       "staffLine": "<0>{{name}}</0> heeft al een afspraak om {{time}}",
       "staffWith": " met {{firstName}} {{lastName}}",
-      "roomHeading": "🏠 Ruimteconflict:",
+      "roomHeading": "Ruimteconflicten:",
       "roomLine": "<0>{{name}}</0> is al bezet om {{time}}",
       "roomBy": " door {{firstName}} {{lastName}}",
-      "askProceed": "Wil je toch doorgaan met het maken van de afspraak?",
-      "proceed": "Ja, toch doorgaan"
+      "askProceed": "Wil je toch doorgaan?",
+      "proceed": "Toch doorgaan",
+      "staffLineSuffix": "heeft al een afspraak om",
+      "withClient": "met",
+      "roomLineSuffix": "is al bezet om",
+      "byClient": "door"
     }
   },
   "clientNotes": {
@@ -4724,5 +4812,406 @@
     },
     "signaturePrefix": "Digitale toestemming geaccepteerd op",
     "defaultConsentText": "Privacyverklaring en Toestemming voor de Verwerking van Persoonsgegevens\n\n  Op grond van EU-Verordening 2016/679 (AVG) informeren wij u dat uw persoonsgegevens voor de volgende doeleinden worden verwerkt:\n\n  1. Beheer van het medische en administratieve dossier\n  2. Naleving van wettelijke en regelgevende verplichtingen\n  3. Communicatie met betrekking tot de geleverde diensten\n\n  Uw gegevens worden verwerkt op papier en elektronisch, volgens een logica die strikt verband houdt met de hierboven aangegeven doeleinden en in elk geval op zodanige wijze dat de beveiliging en vertrouwelijkheid van de gegevens is gewaarborgd.\n\n  De verstrekking van de gegevens is verplicht voor het leveren van de gevraagde diensten. Het niet verstrekken ervan maakt het onmogelijk de diensten te leveren.\n\n  Uw gegevens worden niet aan derden meegedeeld, behalve in de gevallen waarin de wet voorziet.\n\n  U heeft het recht bevestiging te krijgen van het al dan niet bestaan van uw persoonsgegevens, de inhoud en de oorsprong ervan te kennen, de juistheid ervan te verifiëren of de aanvulling, bijwerking of rectificatie ervan te verzoeken. U heeft tevens het recht om de verwijdering, omzetting in anonieme vorm of de blokkering van in strijd met de wet verwerkte gegevens te verzoeken, alsook om in elk geval, om legitieme redenen, bezwaar te maken tegen de verwerking ervan."
+  },
+  "installationGuide": {
+    "heading": "Hoe installeer je de app op je apparaat",
+    "chrome": {
+      "title": "Instructies voor Google Chrome:",
+      "s1Lead": "Klik op de drie puntjes",
+      "s1Suffix": "rechtsboven",
+      "s2Lead": "Selecteer \"App installeren...\"",
+      "s2Suffix": "uit het menu",
+      "s3Lead": "Bevestig",
+      "s3Suffix": "door op \"Installeren\" te klikken in de pop-up"
+    },
+    "safari": {
+      "title": "Instructies voor Safari (iOS):",
+      "s1Lead": "Tik op de knop Delen",
+      "s1Suffix": "onderaan (iPhone) of bovenaan (iPad)",
+      "s2Lead": "Scroll en tik op \"Zet op beginscherm\"",
+      "s3Lead": "Tik op \"Voeg toe\"",
+      "s3Suffix": "in de rechterbovenhoek"
+    },
+    "edge": {
+      "title": "Instructies voor Microsoft Edge:",
+      "s1Lead": "Klik op de drie puntjes",
+      "s1Suffix": "rechtsboven",
+      "s2Lead": "Selecteer \"Apps\"",
+      "s2Suffix": "\"Deze site als app installeren\"",
+      "s3Lead": "Bevestig",
+      "s3Suffix": "door op \"Installeren\" te klikken in de pop-up"
+    },
+    "firefox": {
+      "title": "Instructies voor Firefox:",
+      "s1Lead": "Klik op het menu",
+      "s1Suffix": "rechtsboven",
+      "s2Lead": "Selecteer \"+ Toevoegen aan startscherm\"",
+      "s3Lead": "Bevestig",
+      "s3Suffix": "de installatie"
+    },
+    "duckduckgo": {
+      "title": "Instructies voor DuckDuckGo:",
+      "s1Lead": "Tik op de drie puntjes",
+      "s1Suffix": "rechtsboven",
+      "s2Lead": "Selecteer \"Delen\"",
+      "s2Suffix": "uit het menu",
+      "s3Lead": "Kies \"Chrome\"",
+      "s3Suffix": "uit de app-lijst",
+      "s4Lead": "In Chrome",
+      "s4Suffix": "verschijnt er een banner of installatieknop",
+      "s5Lead": "Tik op \"Installeren\"",
+      "s5Suffix": "om de installatie te voltooien",
+      "warningTitle": "Waarom Chrome gebruiken voor installatie:",
+      "warningBody": "DuckDuckGo ondersteunt PWA-installatie niet direct. Daarom moet je Chrome gebruiken, dat volledige ondersteuning biedt voor het installeren van web-apps op je apparaat."
+    },
+    "footer": "Opmerking: als de instructies niet werken, probeer dan Chrome op Android of Safari op iOS, die beter PWA's ondersteunen."
+  },
+  "capabilities": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Beheer afspraken, schema's en beschikbaarheid van personeel in een centrale agenda."
+    },
+    "email_notifications": {
+      "title": "E-mailmeldingen",
+      "description": "Stuur automatische e-mailbevestigingen en herinneringen naar je klanten."
+    },
+    "whatsapp_notifications": {
+      "title": "WhatsApp-meldingen",
+      "description": "Stuur WhatsApp-berichten naar klanten voor bevestigingen, herinneringen en communicatie."
+    },
+    "invoices": {
+      "title": "Facturering",
+      "description": "Maak, beheer en verstuur professionele facturen naar je klanten."
+    },
+    "reports": {
+      "title": "Rapporten en statistieken",
+      "description": "Analyseer de prestaties van je bedrijf met gedetailleerde rapporten en statistieken."
+    },
+    "google_calendar": {
+      "title": "Google Agenda-synchronisatie",
+      "description": "Synchroniseer je afspraken automatisch met Google Agenda."
+    },
+    "client_pwa_qr": {
+      "title": "Aangepaste klant-app (QR)",
+      "description": "Bied klanten een installeerbare web-app met je merk aan via QR-code."
+    },
+    "staff_rooms": {
+      "title": "Personeel en ruimtes",
+      "description": "Beheer meerdere medewerkers en ruimtes tegelijk met geavanceerde planning."
+    },
+    "warehouse": {
+      "title": "Magazijnbeheer",
+      "description": "Houd producten, voorraad en verbruik bij voor elke aangeboden dienst."
+    },
+    "unlimited_clients": {
+      "title": "Onbeperkt aantal klanten",
+      "description": "Voeg een onbeperkt aantal klanten toe en beheer ze zonder beperkingen."
+    },
+    "appointment_requests": {
+      "title": "Afspraakverzoeken",
+      "description": "Laat klanten online afspraken aanvragen en beheer ze eenvoudig."
+    },
+    "promotional_packages": {
+      "title": "Promotionele pakketten",
+      "description": "Maak aanbiedingen en promotiepakketten om klanten te binden."
+    },
+    "marketing_ai": {
+      "title": "AI-marketing",
+      "description": "Gebruik kunstmatige intelligentie om gepersonaliseerde marketingcampagnes te maken."
+    }
+  },
+  "appNameEditor": {
+    "title": "Naam van de klant-app",
+    "intro": "Pas de naam aan die op de apparaten van klanten wordt weergegeven wanneer ze de app installeren.",
+    "successTitle": "Opslaan voltooid",
+    "successDesc": "De app-informatie is succesvol bijgewerkt. Klanten zien de nieuwe naam wanneer ze de app installeren.",
+    "errorTitle": "Fout",
+    "appNameLabel": "Volledige app-naam",
+    "appNamePlaceholder": "Klant-app",
+    "appNameHint": "Deze naam verschijnt in meldingen en app-details",
+    "appShortNameLabel": "Korte app-naam",
+    "appShortNamePlaceholder": "Klant-app",
+    "appShortNameHint": "Deze naam verschijnt onder het pictogram op het startscherm",
+    "info": "Wijzigingen worden alleen toegepast bij nieuwe app-installaties",
+    "savingButton": "Opslaan...",
+    "saveButton": "Wijzigingen opslaan",
+    "toast": {
+      "errorTitle": "Fout",
+      "fetchErrorDesc": "Kan app-informatie niet laden",
+      "noChangesTitle": "Geen wijzigingen",
+      "noChangesDesc": "Er zijn geen wijzigingen aangebracht in de app-naam",
+      "savedTitle": "Opslaan voltooid",
+      "savedDesc": "De app-informatie is succesvol bijgewerkt",
+      "saveErrorTitle": "Opslaan mislukt",
+      "saveErrorDesc": "Er is een fout opgetreden bij het opslaan van de gegevens"
+    },
+    "defaultAppName": "Klant-app"
+  },
+  "appIconUploader": {
+    "title": "Pictogram van de klant-app",
+    "desc": "Upload een aangepast pictogram dat wordt gebruikt voor zowel de hoofd-app als de klant-app. Dit pictogram verschijnt op het startscherm van alle apparaten.",
+    "savedTitle": "Opgeslagen",
+    "savedDesc": "Het app-pictogram is succesvol bijgewerkt.",
+    "errorTitle": "Fout",
+    "dropZoneText": "Sleep je afbeelding hierheen of klik om te selecteren",
+    "dropZoneFormats": "SVG, PNG of JPG (max. 2 MB)",
+    "selectFileButton": "Bestand selecteren",
+    "previewLabel": "Voorbeeld",
+    "previewAlt": "Pictogramvoorbeeld",
+    "smallIconAlt": "Klein pictogram",
+    "defaultIconAlt": "Standaardpictogram",
+    "noIcon": "Geen pictogram",
+    "clientDevice": "Klantapparaat:",
+    "clientApp": "Klant-app",
+    "previewHint": "Het pictogram verschijnt op het startscherm van apparaten zodra klanten de app installeren.",
+    "defaultIconLabel": "Standaardpictogram: {{name}}",
+    "defaultIconHint": "Je kunt dit standaardpictogram op elk moment herstellen.",
+    "restoringButton": "Herstellen...",
+    "restoreButton": "Standaardpictogram herstellen",
+    "savingButton": "Opslaan...",
+    "saveButton": "Pictogram opslaan",
+    "toast": {
+      "successResetTitle": "Standaardpictogram ingesteld",
+      "successResetDesc": "Het standaardpictogram is succesvol hersteld.",
+      "successUploadTitle": "Pictogram opgeslagen",
+      "successUploadDesc": "Het app-pictogram is bijgewerkt en gesynchroniseerd voor klanten.",
+      "noFileTitle": "Geen bestand geselecteerd",
+      "noFileDesc": "Selecteer eerst een afbeelding om te uploaden.",
+      "fileTooLarge": "De geselecteerde afbeelding is te groot. Maximale grootte is 2 MB.",
+      "invalidFileType": "Selecteer een geldig afbeeldingsbestand."
+    }
+  },
+  "iconUpload": {
+    "title": "PWA-pictogram aanpassen",
+    "desc": "Upload een aangepaste afbeelding die automatisch wordt omgezet in PWA-pictogrammen voor mobiele apparaten. Ondersteunde formaten: JPG, PNG, GIF, WebP.",
+    "currentLabel": "Huidig pictogram",
+    "currentName": "Huidig PWA-pictogram",
+    "currentDesc": "Dit is het pictogram dat verschijnt wanneer gebruikers de app installeren",
+    "currentAlt": "Huidig PWA-pictogram",
+    "uploadLabel": "Nieuw pictogram uploaden",
+    "previewLabel": "Voorbeeld",
+    "previewAlt": "Voorbeeld nieuw pictogram",
+    "newIconLabel": "Nieuw pictogram",
+    "newIconDesc": "Wordt automatisch geconverteerd naar 96x96-, 192x192- en 512x512-PNG-formaten",
+    "removeButton": "Verwijderen",
+    "uploadButton": "PWA-pictogram bijwerken",
+    "uploadingButton": "Uploaden...",
+    "restoreButton": "Standaard herstellen",
+    "info": {
+      "heading": "ℹ️ Belangrijke informatie",
+      "b1": "• De afbeelding wordt automatisch geschaald naar 96x96, 192x192 en 512x512 pixels",
+      "b2": "• Gebruik vierkante afbeeldingen voor het beste resultaat",
+      "b3": "• Wijzigingen worden zichtbaar bij de volgende app-update/herinstallatie",
+      "b4": "• Ondersteunde formaten: JPG, PNG, GIF, WebP (max. 10 MB)"
+    },
+    "toast": {
+      "errorTitle": "Fout",
+      "invalidTypeDesc": "Selecteer alleen afbeeldingsbestanden (JPG, PNG, GIF, enz.)",
+      "fileTooLargeDesc": "Bestand is te groot. Maximale grootte: 10 MB",
+      "noFileDesc": "Selecteer eerst een afbeelding",
+      "successTitle": "Gelukt",
+      "uploadOkDesc": "PWA-pictogram bijgewerkt! Wijzigingen worden zichtbaar bij de volgende app-update.",
+      "restoreOkDesc": "Standaardpictogram hersteld! Wijzigingen worden zichtbaar bij de volgende app-update.",
+      "uploadErrorDesc": "Fout bij uploaden van het pictogram",
+      "restoreErrorDesc": "Fout bij het herstellen van het standaardpictogram"
+    }
+  },
+  "simplePhoneSetup": {
+    "ui": {
+      "lastUpdate": "Laatst bijgewerkt:",
+      "registering": "Bezig met registreren...",
+      "registerThisNumber": "Dit nummer registreren",
+      "verifying": "Bezig met verifiëren...",
+      "verifyCode": "Code verifiëren"
+    },
+    "toast": {
+      "errorTitle": "Fout",
+      "invalidPhoneDesc": "Voer een geldig telefoonnummer in",
+      "numberRegisteredTitle": "Nummer geregistreerd",
+      "numberRegisteredDesc": "We hebben je een sms gestuurd met een verificatiecode",
+      "invalidCodeDesc": "Voer de via sms ontvangen verificatiecode in",
+      "numberVerifiedTitle": "Nummer geverifieerd",
+      "numberVerifiedDesc": "Je nummer is succesvol geverifieerd!",
+      "numberRemovedTitle": "Nummer verwijderd",
+      "numberRemovedDesc": "Het telefoonnummer is succesvol verwijderd",
+      "removeFailedDesc": "Kan het nummer niet verwijderen. Probeer het opnieuw.",
+      "registerFailedDesc": "Kan het nummer niet registreren. Probeer het opnieuw.",
+      "verifyFailedDesc": "Kan de code niet verifiëren. Probeer het opnieuw.",
+      "whatsappLinkTitle": "WhatsApp-link gegenereerd",
+      "whatsappLinkDesc": "We hebben WhatsApp geopend met een testbericht",
+      "whatsappFailedDesc": "Kan de WhatsApp-link niet genereren. Probeer het opnieuw."
+    },
+    "status": {
+      "disconnected": "Geen telefoon geconfigureerd",
+      "pending": "Wacht op verificatie",
+      "connected": "Telefoon geconfigureerd en klaar",
+      "unknown": "Onbekende status"
+    },
+    "header": {
+      "title": "Telefoonconfiguratie voor meldingen",
+      "subtitle": "Voer je telefoonnummer in om berichten en meldingen naar klanten te sturen"
+    },
+    "card": {
+      "title": "Je telefoon voor meldingen",
+      "descDisconnected": "Stel een telefoonnummer in om meldingen naar klanten te sturen",
+      "descConnected": "Huidige status van je nummer voor meldingen"
+    },
+    "setup": {
+      "heading": "Stel je telefoonnummer in",
+      "intro": "Voer je telefoonnummer in met de internationale prefix (bijv. +39)",
+      "phoneLabel": "Telefoonnummer",
+      "phoneHint": "Voorbeeld: +393471234567 (zonder spaties)"
+    },
+    "verify": {
+      "heading": "Verifieer je nummer",
+      "intro": "We hebben een verificatiecode verzonden naar het nummer",
+      "codeLabel": "Verificatiecode"
+    },
+    "connected": {
+      "heading": "Telefoonnummer geconfigureerd",
+      "intro": "Je nummer is geconfigureerd en klaar om meldingen naar klanten te sturen",
+      "testButton": "Test-WhatsApp verzenden",
+      "removeButton": "Dit nummer verwijderen"
+    },
+    "guide": {
+      "title": "Snelgids",
+      "subtitle": "Nuttige informatie om je nummer in te stellen",
+      "stepsHeading": "Hoe het werkt in 3 stappen:",
+      "step1Title": "Voer je nummer in",
+      "step1Body": "Voer je telefoonnummer in met de internationale prefix",
+      "step2Title": "Verifieer het nummer",
+      "step2Body": "Je ontvangt een verificatiecode om je nummer te bevestigen",
+      "step3Title": "Begin met het verzenden van meldingen",
+      "step3Body": "Ga terug naar de pagina Meldingen en begin met het verzenden van herinneringen aan je klanten"
+    },
+    "tips": {
+      "title": "Aanbevolen WhatsApp:",
+      "b1": "Dit nummer wordt voornamelijk gebruikt om meldingen via WhatsApp te verzenden",
+      "b2": "WhatsApp-berichten zijn gratis en betrouwbaarder dan sms",
+      "b3": "Zorg ervoor dat het nummer WhatsApp geïnstalleerd en actief heeft",
+      "b4": "Voer de juiste internationale prefix in (bijv. +39 voor Italië)"
+    },
+    "next": {
+      "title": "Wat nu te doen?",
+      "intro": "Je nummer is geconfigureerd en klaar. Je kunt nu:",
+      "b1": "Terugkeren naar de pagina Meldingen en berichten naar klanten sturen",
+      "b2": "Een test-WhatsApp-bericht sturen om de werking te controleren"
+    }
+  },
+  "phoneDeviceSetup": {
+    "ui": {
+      "lastUpdate": "Laatst bijgewerkt:",
+      "simulating": "Bezig met simuleren...",
+      "testModeButton": "Testmodus: QR-scan simuleren"
+    },
+    "qr": {
+      "step1": "Tik op het ⋮-pictogram (drie puntjes) rechtsboven",
+      "step2": "Selecteer \"Gekoppelde apparaten\"",
+      "step3": "Tik op \"Apparaat koppelen\"",
+      "step4": "Richt de camera op deze QR-code"
+    },
+    "toast": {
+      "errorTitle": "Fout",
+      "qrGeneratingTitle": "QR-code wordt gegenereerd",
+      "qrGeneratingDesc": "Wacht tot de QR-code verschijnt en scan deze met je telefoon",
+      "pairingFailedDesc": "Kan het koppelproces niet starten. Probeer het over enkele ogenblikken opnieuw.",
+      "disconnectedTitle": "Apparaat losgekoppeld",
+      "disconnectedDesc": "Het apparaat is succesvol losgekoppeld",
+      "disconnectFailedDesc": "Kan het apparaat niet loskoppelen. Probeer het over enkele ogenblikken opnieuw.",
+      "simulationOkTitle": "Verbindingstest geslaagd",
+      "simulationOkDesc": "De simulatie van de QR-scan is succesvol voltooid",
+      "simulationErrorTitle": "Simulatiefout",
+      "simulationErrorDesc": "Kan de QR-codescan niet simuleren"
+    },
+    "status": {
+      "disconnected": "Geen telefoon verbonden",
+      "connecting": "Verbinden...",
+      "connected": "Telefoon verbonden",
+      "waitingScan": "Wachten op scan...",
+      "ready": "Telefoon geconfigureerd en klaar",
+      "error": "Verbindingsfout",
+      "unknown": "Onbekende status"
+    },
+    "header": {
+      "title": "Telefoonconfiguratie voor meldingen",
+      "subtitle": "Met deze procedure kun je een telefoon verbinden om berichten naar je klanten te sturen"
+    },
+    "card": {
+      "title": "Je telefoon voor meldingen",
+      "descDisconnected": "Verbind een telefoon om meldingen naar klanten te sturen",
+      "descConnected": "Huidige status van de verbinding met je telefoon"
+    },
+    "setup": {
+      "heading": "Verbind je telefoon",
+      "intro": "Klik op onderstaande knop en volg de eenvoudige instructies om je telefoon te verbinden",
+      "startButton": "Setup starten",
+      "preparing": "Voorbereiden..."
+    },
+    "connected": {
+      "heading": "Telefoon succesvol verbonden",
+      "intro": "Je telefoon is klaar om meldingen naar klanten te sturen",
+      "disconnectButton": "Deze telefoon loskoppelen"
+    },
+    "scan": {
+      "heading": "Scan de QR-code",
+      "intro": "Open WhatsApp op je telefoon:"
+    },
+    "guide": {
+      "title": "Snelgids",
+      "subtitle": "Nuttige informatie om je apparaat in te stellen",
+      "stepsHeading": "Hoe het werkt in 3 stappen:",
+      "step1Body": "Klik op \"Setup starten\" en scan de QR-code met je telefoon",
+      "step2Title": "Houd WhatsApp actief",
+      "step2Body": "Zorg dat de telefoon verbonden blijft met internet en WhatsApp actief blijft",
+      "step3Title": "Begin met het verzenden van meldingen",
+      "step3Body": "Ga terug naar de pagina \"Meldingen\" en begin met het verzenden van automatische herinneringen aan je klanten"
+    },
+    "tips": {
+      "title": "Belangrijke opmerkingen:",
+      "b1": "Gebruik je zakelijke telefoon of een telefoon die specifiek bedoeld is voor klantmeldingen",
+      "b2": "Zorg dat de telefoon altijd opgeladen en met internet verbonden is",
+      "b3": "Sluit de WhatsApp-app op de telefoon niet",
+      "b4": "Bij problemen met het verzenden van sms of WhatsApp-berichten, herstart de procedure"
+    },
+    "next": {
+      "title": "Wat nu te doen?",
+      "intro": "Je telefoon is geconfigureerd en klaar. Je kunt nu:",
+      "b1": "Terugkeren naar de pagina Meldingen en berichten naar klanten sturen",
+      "b2": "Controleren of berichten correct aankomen"
+    }
+  },
+  "workingHoursEditor": {
+    "title": "Werktijden",
+    "description": "Configureer de openingstijden van je bedrijf voor elke dag van de week.",
+    "noteLabel": "Opmerking:",
+    "noteText": "deze tijden worden toegepast op de agenda om beschikbare tijdvakken te markeren en boekingen buiten openingstijden te blokkeren.",
+    "closed": "Gesloten",
+    "startTime": "Opening",
+    "endTime": "Sluiting",
+    "dayDuration": "Dagduur:",
+    "lunchSummary": "pauze {{start}}-{{end}}",
+    "lunchBreak": "Lunchpauze",
+    "lunchStart": "Begin pauze",
+    "lunchEnd": "Einde pauze",
+    "lunchDuration": "Pauzeduur:",
+    "endAfterStartError": "De eindtijd moet later zijn dan de starttijd.",
+    "nationalHolidays": "Nationale feestdagen",
+    "country": "Land",
+    "holidaysHeading": "Feestdagen {{current}}-{{next}}",
+    "saveButton": "Tijden opslaan",
+    "days": {
+      "monday": "Maandag",
+      "tuesday": "Dinsdag",
+      "wednesday": "Woensdag",
+      "thursday": "Donderdag",
+      "friday": "Vrijdag",
+      "saturday": "Zaterdag",
+      "sunday": "Zondag"
+    },
+    "toast": {
+      "savedTitle": "Tijden opgeslagen",
+      "savedDesc": "De werktijden zijn succesvol opgeslagen.",
+      "saveErrorDesc": "Kan tijden niet opslaan. Probeer het opnieuw."
+    }
   }
 }
