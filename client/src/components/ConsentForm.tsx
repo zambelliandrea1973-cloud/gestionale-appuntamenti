@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -35,51 +36,32 @@ interface ConsentFormProps {
   embedded?: boolean;
 }
 
-const DEFAULT_CONSENT_TEXT = `Informativa sulla Privacy e Consenso al Trattamento dei Dati Personali
-
-Ai sensi del Regolamento UE 2016/679 (GDPR), la informiamo che i Suoi dati personali saranno trattati per le seguenti finalità:
-
-1. Gestione della pratica sanitaria e amministrativa
-2. Adempimenti di legge e normativi
-3. Comunicazioni relative ai servizi erogati
-
-I Suoi dati saranno trattati con modalità cartacee e informatiche, con logiche strettamente correlate alle finalità sopra indicate e, comunque, in modo da garantire la sicurezza e la riservatezza dei dati stessi.
-
-Il conferimento dei dati è obbligatorio per l'erogazione dei servizi richiesti. Il mancato conferimento comporta l'impossibilità di erogare i servizi.
-
-I Suoi dati non saranno comunicati a terzi, salvo nei casi previsti dalla legge.
-
-Lei ha diritto di ottenere la conferma dell'esistenza o meno dei Suoi dati personali, di conoscerne il contenuto e l'origine, di verificarne l'esattezza o chiederne l'integrazione o l'aggiornamento, oppure la rettificazione. Ha inoltre il diritto di chiedere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonché di opporsi in ogni caso, per motivi legittimi, al loro trattamento.`;
-
-const formSchema = z.object({
-  clientId: z.string(),
-  consentText: z.string().min(1, "Testo del consenso obbligatorio"),
-  consentAccepted: z.boolean().refine(val => val === true, {
-    message: "È necessario accettare il consenso per procedere"
-  }),
-  consentType: z.literal("digital_acceptance"),
-  fullName: z.string().min(2, "Nome e cognome obbligatori")
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 export default function ConsentForm({ clientId, embedded = false }: ConsentFormProps) {
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
+  const DEFAULT_CONSENT_TEXT = t("consentForm.defaultConsentText");
 
-  // TUTTI I HOOKS DEVONO ESSERE CHIAMATI AL TOP LEVEL - NESSUN HOOK CONDIZIONALE
-  
-  // Fetch client
+  const formSchema = useMemo(() => z.object({
+    clientId: z.string(),
+    consentText: z.string().min(1, t("consentForm.validation.consentTextRequired")),
+    consentAccepted: z.boolean().refine(val => val === true, {
+      message: t("consentForm.validation.mustAccept")
+    }),
+    consentType: z.literal("digital_acceptance"),
+    fullName: z.string().min(2, t("consentForm.validation.fullNameRequired"))
+  }), [t]);
+
+  type FormData = z.infer<typeof formSchema>;
+
   const { data: client, isLoading: isLoadingClient } = useQuery<any>({
     queryKey: ["/api/clients", clientId]
   });
 
-  // Fetch consent if exists
   const { data: existingConsent, isLoading: isLoadingConsent } = useQuery<any>({
     queryKey: ["/api/consents/client", clientId],
     retry: false
   });
 
-  // Form setup
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,39 +73,35 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     }
   });
 
-  // Create consent mutation
   const createConsentMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await apiRequest("POST", "/api/consents", {
         ...data,
-        signature: `${data.fullName} - Consenso digitale accettato il ${new Date().toLocaleString()}`
+        signature: `${data.fullName} - ${t("consentForm.signaturePrefix")} ${new Date().toLocaleString()}`
       });
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "Consenso registrato",
-        description: "Il consenso al trattamento dei dati è stato registrato con successo.",
+        title: t("consentForm.consentRecorded"),
+        description: t("consentForm.consentRecordedDesc"),
       });
-      
-      // Refresh consent data AND specific client data for immediate UI update
+
       queryClient.invalidateQueries({ queryKey: ["/api/consents/client"] });
       queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
       queryClient.invalidateQueries({ queryKey: [`/api/clients/${clientId}`] });
       queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
-      // Invalida anche mobile-sync per aggiornare la lista clienti
       queryClient.invalidateQueries({ queryKey: ["/api/mobile-sync"] });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Si è verificato un errore durante la registrazione del consenso.",
+        title: t("consentForm.errorTitle"),
+        description: error.message || t("consentForm.errorRegistering"),
         variant: "destructive",
       });
     },
   });
 
-  // Update form when client data changes
   React.useEffect(() => {
     if (client) {
       const fullName = `${client.firstName || ''} ${client.lastName || ''}`.trim();
@@ -133,12 +111,11 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     }
   }, [client, form]);
 
-  // Ensure client hasConsent is set to true if we have an existing consent
   React.useEffect(() => {
-    const consent = Array.isArray(existingConsent) 
+    const consent = Array.isArray(existingConsent)
       ? existingConsent.find(c => c.clientId === parseInt(clientId))
       : null;
-      
+
     if (consent && client && !client.hasConsent) {
       apiRequest("PUT", `/api/clients/${clientId}`, {
         ...client,
@@ -150,22 +127,19 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     }
   }, [existingConsent, client, clientId]);
 
-  // Handle form submission
   const onSubmit = (data: FormData) => {
     createConsentMutation.mutate(data);
   };
 
-  // Check for existing consent (array of consents)
-  const consent = Array.isArray(existingConsent) 
+  const consent = Array.isArray(existingConsent)
     ? existingConsent.find(c => c.clientId === parseInt(clientId))
     : null;
 
-  // RENDERING CONDIZIONALE DOPO TUTTI GLI HOOKS
   if (isLoadingClient || isLoadingConsent) {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Caricamento consenso...</span>
+        <span className="ml-2">{t("consentForm.loading")}</span>
       </div>
     );
   }
@@ -174,40 +148,39 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Errore</AlertTitle>
+        <AlertTitle>{t("consentForm.errorTitle")}</AlertTitle>
         <AlertDescription>
-          Cliente non trovato. Impossibile gestire il consenso.
+          {t("consentForm.clientNotFound")}
         </AlertDescription>
       </Alert>
     );
   }
 
-  // If consent already exists, show existing consent
   if (consent) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CheckCircle2 className="h-6 w-6 text-green-600" />
-            Consenso già registrato
+            {t("consentForm.alreadyRegistered")}
           </CardTitle>
           <CardDescription>
-            Il consenso al trattamento dei dati per questo cliente è già stato raccolto e registrato.
+            {t("consentForm.alreadyRegisteredDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h4 className="font-semibold text-green-800 mb-2">Dettagli consenso:</h4>
+            <h4 className="font-semibold text-green-800 mb-2">{t("consentForm.detailsHeading")}</h4>
             <div className="space-y-2 text-sm text-green-700">
-              <p><strong>Cliente:</strong> {client.firstName} {client.lastName}</p>
-              <p><strong>Data registrazione:</strong> {new Date(consent.createdAt).toLocaleString('it-IT')}</p>
-              <p><strong>Firma:</strong> {consent.signature}</p>
-              <p><strong>Stato:</strong> {consent.isActive ? 'Attivo' : 'Non attivo'}</p>
+              <p><strong>{t("consentForm.clientField")}</strong> {client.firstName} {client.lastName}</p>
+              <p><strong>{t("consentForm.registrationDateField")}</strong> {new Date(consent.createdAt).toLocaleString(i18n.language)}</p>
+              <p><strong>{t("consentForm.signatureField")}</strong> {consent.signature}</p>
+              <p><strong>{t("consentForm.statusField")}</strong> {consent.isActive ? t("consentForm.statusActive") : t("consentForm.statusInactive")}</p>
             </div>
           </div>
-          
+
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 max-h-60 overflow-y-auto">
-            <h4 className="font-semibold text-gray-800 mb-2">Testo del consenso:</h4>
+            <h4 className="font-semibold text-gray-800 mb-2">{t("consentForm.consentTextLabel")}</h4>
             <p className="text-sm text-gray-600 whitespace-pre-wrap">{consent.consentText}</p>
           </div>
 
@@ -219,7 +192,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `consenso_${client.firstName}_${client.lastName}_${new Date().toISOString().split('T')[0]}.txt`;
+                a.download = `${t("consentForm.downloadFilenamePrefix")}_${client.firstName}_${client.lastName}_${new Date().toISOString().split('T')[0]}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -227,7 +200,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
               }}
             >
               <Download className="h-4 w-4 mr-2" />
-              Scarica consenso
+              {t("consentForm.downloadConsent")}
             </Button>
           </div>
         </CardContent>
@@ -235,13 +208,12 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     );
   }
 
-  // Show consent registration form
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle>Consenso al Trattamento dei Dati</CardTitle>
+        <CardTitle>{t("consentForm.title")}</CardTitle>
         <CardDescription>
-          Registra il consenso GDPR per {client.firstName} {client.lastName}
+          {t("consentForm.subtitle", { firstName: client.firstName, lastName: client.lastName })}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -252,15 +224,15 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
               name="fullName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome e Cognome del Cliente</FormLabel>
+                  <FormLabel>{t("consentForm.fullNameLabel")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Inserisci nome e cognome"
+                      placeholder={t("consentForm.fullNamePlaceholder")}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Il nome completo deve corrispondere ai documenti ufficiali
+                    {t("consentForm.fullNameHelp")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -272,7 +244,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
               name="consentText"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Testo del Consenso</FormLabel>
+                  <FormLabel>{t("consentForm.consentTextField")}</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={15}
@@ -281,7 +253,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
                     />
                   </FormControl>
                   <FormDescription>
-                    Puoi modificare il testo standard se necessario
+                    {t("consentForm.consentTextHelp")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -301,11 +273,10 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      Confermo che il cliente ha letto e accettato il consenso
+                      {t("consentForm.consentAcceptedLabel")}
                     </FormLabel>
                     <FormDescription>
-                      Spuntando questa casella dichiari che il cliente ha preso visione 
-                      dell'informativa e ha prestato il consenso al trattamento dei dati personali.
+                      {t("consentForm.consentAcceptedHelp")}
                     </FormDescription>
                     <FormMessage />
                   </div>
@@ -327,10 +298,10 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
                 {createConsentMutation.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Registrazione...
+                    {t("consentForm.registering")}
                   </>
                 ) : (
-                  "Registra Consenso"
+                  t("consentForm.registerConsent")
                 )}
               </Button>
             </div>

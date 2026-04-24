@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2, ArrowLeft, ChevronLeft } from "lucide-react";
@@ -40,6 +41,7 @@ export default function ClientArea() {
   const [, setLocation] = useLocation();
   const params = useParams();
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -232,7 +234,7 @@ export default function ClientArea() {
       if (!response.ok) {
         const errorData = await response.text();
         console.error(`❌ Errore verifica token: ${response.status} - ${errorData}`);
-        throw new Error("Token non valido o scaduto");
+        throw new Error(t("clientArea.tokenInvalid"));
       }
       
       const clientData = await response.json();
@@ -286,8 +288,8 @@ export default function ClientArea() {
     } catch (error) {
       console.error("Errore verifica token QR:", error);
       toast({
-        title: "Token non valido",
-        description: "Il QR code è scaduto o non valido. Richiedi un nuovo codice.",
+        title: t("clientArea.tokenInvalid"),
+        description: t("clientArea.tokenExpiredDesc"),
         variant: "destructive",
       });
       
@@ -364,8 +366,8 @@ export default function ClientArea() {
         // Verifica che l'utente sia SOLO un client, NON un customer
         if (userData.type !== "client") {
           toast({
-            title: "Accesso negato",
-            description: "Questa area è riservata ai clienti dei professionisti",
+            title: t("clientArea.accessDeniedTitle"),
+            description: t("clientArea.reservedToProClients"),
             variant: "destructive",
           });
           
@@ -390,8 +392,8 @@ export default function ClientArea() {
     } catch (error) {
       console.error("Errore nel caricamento dell'utente corrente:", error);
       toast({
-        title: "Errore di connessione",
-        description: "Impossibile verificare l'autenticazione",
+        title: t("common.connectionError"),
+        description: t("clientArea.cannotVerifyAuth"),
         variant: "destructive",
       });
       
@@ -430,8 +432,8 @@ export default function ClientArea() {
     } catch (error) {
       console.error("Errore nel caricamento degli appuntamenti:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile caricare gli appuntamenti",
+        title: t("clientArea.errorGeneric"),
+        description: t("clientArea.errorLoadingAppointments"),
         variant: "destructive",
       });
     } finally {
@@ -453,18 +455,18 @@ export default function ClientArea() {
         }
         
         toast({
-          title: "Promemoria confermato",
-          description: "Grazie per aver confermato il tuo appuntamento.",
+          title: t("clientArea.reminderConfirmed"),
+          description: t("clientArea.thanksForConfirming"),
           variant: "default",
         });
       } else {
-        throw new Error("Errore nella conferma del promemoria");
+        throw new Error(t("clientArea.errorReminderResponse"));
       }
     } catch (error) {
       console.error("Errore nella conferma del promemoria:", error);
       toast({
-        title: "Errore",
-        description: "Impossibile confermare il promemoria",
+        title: t("clientArea.errorGeneric"),
+        description: t("clientArea.errorConfirmReminder"),
         variant: "destructive",
       });
     }
@@ -483,7 +485,7 @@ export default function ClientArea() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('it-IT', {
+    return new Intl.DateTimeFormat(i18n.language, {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
@@ -501,7 +503,7 @@ export default function ClientArea() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           {recoveryLoading && (
-            <p className="text-sm text-gray-600">Recupero ultimo accesso...</p>
+            <p className="text-sm text-gray-600">{t("clientArea.recoveringLastAccess")}</p>
           )}
         </div>
       </div>
@@ -517,15 +519,15 @@ export default function ClientArea() {
             <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mx-auto mb-4">
               <Smartphone className="h-8 w-8 text-white" />
             </div>
-            <CardTitle className="text-lg text-slate-900">App Installata Correttamente</CardTitle>
+            <CardTitle className="text-lg text-slate-900">{t("clientArea.appInstalledTitle")}</CardTitle>
             <CardDescription>
-              Per accedere alla tua area personale, scansiona il codice QR fornito dal tuo professionista
+              {t("clientArea.needAccessQR")}
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-sm text-blue-800">
-                L'app è ora installata sul tuo dispositivo. Per il primo accesso, utilizza il codice QR che ti è stato fornito.
+                {t("clientArea.appInstalledHint")}
               </p>
             </div>
             <Button 
@@ -538,7 +540,7 @@ export default function ClientArea() {
               variant="outline" 
               className="w-full"
             >
-              Riprova
+              {t("clientArea.retry")}
             </Button>
           </CardContent>
         </Card>
@@ -558,10 +560,10 @@ export default function ClientArea() {
             <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mb-6">
               <Calendar className="h-8 w-8 text-white" />
             </div>
-            <h2 className="text-lg font-medium text-slate-900 mb-6">Sessione Chiusa</h2>
+            <h2 className="text-lg font-medium text-slate-900 mb-6">{t("clientArea.sessionClosed")}</h2>
             
             <div className="w-full bg-[#f8fafc] p-5 rounded-lg mb-6">
-              <p className="font-medium text-[#4a6c33] mb-5 text-left">Per uscire completamente dall'app:</p>
+              <p className="font-medium text-[#4a6c33] mb-5 text-left">{t("clientArea.exitInstructions")}</p>
               
               <div className="mb-4 pb-4 border-b border-gray-100 opacity-30"></div>
               
@@ -569,7 +571,7 @@ export default function ClientArea() {
                 <div className="flex items-start">
                   <span className="text-gray-500 mr-2">2.</span>
                   <div>
-                    <p>Premi <strong>nuovamente</strong> il tasto indietro</p>
+                    <p dangerouslySetInnerHTML={{ __html: t("clientArea.pressBackAgain") }} />
                     <div className="flex justify-center gap-4 mt-3">
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
@@ -589,12 +591,13 @@ export default function ClientArea() {
                 </div>
               </div>
               
-              <p className="text-sm text-slate-600 text-center">
-                Sono necessari <strong>due tocchi</strong> del tasto<br />indietro per uscire completamente.
-              </p>
+              <p
+                className="text-sm text-slate-600 text-center"
+                dangerouslySetInnerHTML={{ __html: t("clientArea.needTwoTaps") }}
+              />
             </div>
             
-            <p className="text-sm text-muted-foreground mb-4">Grazie per aver utilizzato l'Area Cliente.</p>
+            <p className="text-sm text-muted-foreground mb-4">{t("clientArea.thanksForUsing")}</p>
           </div>
         </DialogContent>
       </Dialog>
@@ -604,7 +607,7 @@ export default function ClientArea() {
           {professionalIcon && (
             <img 
               src={professionalIcon} 
-              alt="Logo Professionista" 
+              alt={t("clientArea.professionalLogoAlt")} 
               className="w-12 h-12 rounded-full object-cover"
             />
           )}
@@ -612,17 +615,17 @@ export default function ClientArea() {
             {professionalName && (
               <p className="text-sm font-medium text-primary">{professionalName}</p>
             )}
-            <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{t("clientArea.areaTitle")}</h1>
             {user?.client && (
               <p className="text-muted-foreground">
-                Benvenuto, {user.client.firstName} {user.client.lastName}
+                {t("clientArea.welcomeUser", { firstName: user.client.firstName, lastName: user.client.lastName })}
               </p>
             )}
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
           <Button variant="outline" onClick={handleLogout}>
-            Esci
+            {t("clientArea.exit")}
           </Button>
         </div>
       </header>
@@ -632,25 +635,25 @@ export default function ClientArea() {
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center">
               <User className="mr-2 h-5 w-5" />
-              Profilo
+              {t("clientArea.profile")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-sm space-y-1">
               {user?.client && (
                 <>
-                  <p><strong>Nome:</strong> {user.client.firstName} {user.client.lastName}</p>
-                  <p><strong>Telefono:</strong> {user.client.phone}</p>
-                  {user.client.email && <p><strong>Email:</strong> {user.client.email}</p>}
-                  {user.client.address && <p><strong>Indirizzo:</strong> {user.client.address}</p>}
-                  {user.client.birthday && <p><strong>Data di nascita:</strong> {formatDate(user.client.birthday)}</p>}
+                  <p><strong>{t("clientArea.nameLabel")}</strong> {user.client.firstName} {user.client.lastName}</p>
+                  <p><strong>{t("clientArea.phoneLabelShort")}</strong> {user.client.phone}</p>
+                  {user.client.email && <p><strong>{t("clientArea.emailLabelShort")}</strong> {user.client.email}</p>}
+                  {user.client.address && <p><strong>{t("clientArea.addressLabel")}</strong> {user.client.address}</p>}
+                  {user.client.birthday && <p><strong>{t("clientArea.birthdayLabel")}</strong> {formatDate(user.client.birthday)}</p>}
                 </>
               )}
             </div>
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground text-center w-full">
-              Per aggiornare i dati contatta il tuo professionista
+              {t("clientArea.updateContactPro")}
             </p>
           </CardFooter>
         </Card>
@@ -659,16 +662,16 @@ export default function ClientArea() {
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center">
               <Calendar className="mr-2 h-5 w-5" />
-              Appuntamenti
+              {t("clientArea.appointmentsTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm">
               {loadingAppointments 
-                ? "Caricamento appuntamenti..." 
+                ? t("clientArea.loadingAppointments")
                 : futureAppointments.length > 0 
-                  ? `Hai ${futureAppointments.length} appuntament${futureAppointments.length === 1 ? 'o' : 'i'} futur${futureAppointments.length === 1 ? 'o' : 'i'}` 
-                  : "Nessun appuntamento futuro programmato"}
+                  ? t("clientArea.futureAppointmentsCount", { count: futureAppointments.length })
+                  : t("clientArea.noFutureAppointments")}
             </p>
           </CardContent>
           <CardFooter>
@@ -678,7 +681,7 @@ export default function ClientArea() {
               size="sm"
               onClick={() => setShowAllAppointments(true)}
             >
-              Visualizza tutti
+              {t("clientArea.viewAll")}
             </Button>
           </CardFooter>
         </Card>
@@ -687,14 +690,14 @@ export default function ClientArea() {
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center">
               <FileText className="mr-2 h-5 w-5" />
-              Consensi
+              {t("clientArea.consentsTitle")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm">
               {user?.client?.hasConsent 
-                ? "Hai fornito il consenso al trattamento dei dati" 
-                : "Consenso al trattamento dati non ancora fornito"}
+                ? t("clientArea.consentGiven")
+                : t("clientArea.consentNotGiven")}
             </p>
           </CardContent>
           <CardFooter>
@@ -704,7 +707,7 @@ export default function ClientArea() {
               size="sm"
               onClick={() => setLocation("/consent")}
             >
-              {user?.client?.hasConsent ? "Visualizza consenso" : "Fornisci consenso"}
+              {user?.client?.hasConsent ? t("clientArea.viewConsent") : t("clientArea.giveConsent")}
             </Button>
           </CardFooter>
         </Card>
@@ -723,10 +726,10 @@ export default function ClientArea() {
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <Calendar className="mr-2 h-5 w-5" />
-              Tutti i tuoi appuntamenti
+              {t("clientArea.allYourAppointments")}
             </DialogTitle>
             <DialogDescription>
-              Visualizza tutti i tuoi appuntamenti passati e futuri
+              {t("clientArea.allAppointmentsDesc")}
             </DialogDescription>
           </DialogHeader>
           
@@ -747,12 +750,12 @@ export default function ClientArea() {
                       {appointment.serviceName}
                       {isExpired && (
                         <span className="ml-2 px-2 py-0.5 rounded text-xs bg-red-100 text-red-800">
-                          Passato
+                          {t("clientArea.past")}
                         </span>
                       )}
                       {!isExpired && (
                         <span className="ml-2 px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">
-                          Futuro
+                          {t("clientArea.future")}
                         </span>
                       )}
                     </div>
@@ -773,7 +776,7 @@ export default function ClientArea() {
                       size="sm"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
-                      Dettagli
+                      {t("clientArea.details")}
                     </Button>
                     {appointment.reminderSent && !appointment.reminderConfirmed && !isExpired && (
                       <Button 
@@ -783,7 +786,7 @@ export default function ClientArea() {
                         onClick={() => confirmAppointmentReminder(appointment.id)}
                       >
                         <Check className="h-4 w-4 mr-1" />
-                        Conferma
+                        {t("clientArea.confirm")}
                       </Button>
                     )}
                   </div>
@@ -793,7 +796,7 @@ export default function ClientArea() {
             
             {appointments.length === 0 && !loadingAppointments && (
               <div className="text-center py-8">
-                <p className="text-muted-foreground">Non hai ancora nessun appuntamento</p>
+                <p className="text-muted-foreground">{t("clientArea.noAppointmentsYet")}</p>
               </div>
             )}
             
@@ -807,7 +810,7 @@ export default function ClientArea() {
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">
-                Chiudi
+                {t("clientArea.close")}
               </Button>
             </DialogClose>
           </DialogFooter>
@@ -820,10 +823,10 @@ export default function ClientArea() {
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <Calendar className="mr-2 h-5 w-5" />
-              Dettagli Appuntamento
+              {t("clientArea.appointmentDetailsTitle")}
             </DialogTitle>
             <DialogDescription>
-              Informazioni dettagliate sul trattamento
+              {t("clientArea.appointmentDetailsDesc")}
             </DialogDescription>
           </DialogHeader>
           
@@ -834,27 +837,27 @@ export default function ClientArea() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Data</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("clientArea.date")}</p>
                     <p className="text-sm">{formatDate(selectedAppointment.date)}</p>
                   </div>
                   
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Orario</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("clientArea.time")}</p>
                     <p className="text-sm">{formatTime(selectedAppointment.startTime)} - {formatTime(selectedAppointment.endTime)}</p>
                   </div>
                   
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Durata</p>
-                    <p className="text-sm">{selectedAppointment.duration} minuti</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("clientArea.duration")}</p>
+                    <p className="text-sm">{t("clientArea.minutesValue", { minutes: selectedAppointment.duration })}</p>
                   </div>
                   
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Stato</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("clientArea.status")}</p>
                     <div className="flex items-center">
                       {selectedAppointment.status === "completed" ? (
-                        <span className="px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">Completato</span>
+                        <span className="px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">{t("clientArea.statusCompleted")}</span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-800">Programmato</span>
+                        <span className="px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-800">{t("clientArea.statusScheduled")}</span>
                       )}
                     </div>
                   </div>
@@ -862,7 +865,7 @@ export default function ClientArea() {
                 
                 {selectedAppointment.notes && (
                   <div className="mt-4">
-                    <p className="text-sm font-medium text-muted-foreground">Note</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("clientArea.notesLabel")}</p>
                     <p className="text-sm whitespace-pre-wrap p-3 bg-muted rounded-md">{selectedAppointment.notes}</p>
                   </div>
                 )}
@@ -879,7 +882,7 @@ export default function ClientArea() {
                       }}
                     >
                       <Check className="h-4 w-4 mr-1" />
-                      Conferma appuntamento
+                      {t("clientArea.confirmAppointment")}
                     </Button>
                   </div>
                 )}
@@ -890,7 +893,7 @@ export default function ClientArea() {
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">
-                Chiudi
+                {t("clientArea.close")}
               </Button>
             </DialogClose>
           </DialogFooter>

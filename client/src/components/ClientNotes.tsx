@@ -60,7 +60,7 @@ type ClientNotesProps = {
 };
 
 export default function ClientNotes({ clientId }: ClientNotesProps) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -89,14 +89,14 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
       setOpen(false);
       resetForm();
       toast({ 
-        title: 'Nota creata', 
-        description: 'La nota è stata salvata con successo' 
+        title: t('clientNotes.noteCreated'), 
+        description: t('clientNotes.noteCreatedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
-        description: `Impossibile creare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorCreate', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -112,14 +112,14 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
       setOpen(false);
       resetForm();
       toast({ 
-        title: 'Nota aggiornata', 
-        description: 'La nota è stata aggiornata con successo' 
+        title: t('clientNotes.noteUpdated'), 
+        description: t('clientNotes.noteUpdatedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
-        description: `Impossibile aggiornare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorUpdate', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -132,14 +132,14 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
       toast({ 
-        title: 'Nota eliminata', 
-        description: 'La nota è stata eliminata con successo' 
+        title: t('clientNotes.noteDeleted'), 
+        description: t('clientNotes.noteDeletedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: 'Errore', 
-        description: `Impossibile eliminare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorDelete', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -170,8 +170,8 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
     
     if (!title.trim() || !content.trim()) {
       toast({ 
-        title: 'Dati mancanti', 
-        description: 'Inserisci titolo e contenuto per la nota',
+        title: t('clientNotes.missingData'), 
+        description: t('clientNotes.missingDataDesc'),
         variant: 'destructive'
       });
       return;
@@ -195,7 +195,7 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
   };
   
   const handleDeleteNote = (id: number) => {
-    if (confirm('Sei sicuro di voler eliminare questa nota?')) {
+    if (confirm(t('clientNotes.confirmDelete'))) {
       deleteNoteMutation.mutate(id);
     }
   };
@@ -224,10 +224,10 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">Note del cliente</h3>
+        <h3 className="text-lg font-medium">{t('clientNotes.headerTitle')}</h3>
         <Button onClick={handleOpenDialog} variant="outline" size="sm">
           <CirclePlus className="h-4 w-4 mr-2" />
-          Nuova nota
+          {t('clientNotes.newNote')}
         </Button>
       </div>
       
@@ -235,7 +235,7 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
         <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>
-              {editingNote ? 'Modifica nota' : 'Crea nuova nota'}
+              {editingNote ? t('clientNotes.editTitle') : t('clientNotes.createTitle')}
             </DialogTitle>
           </DialogHeader>
           
@@ -244,28 +244,28 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="title" className="text-sm font-medium">
-                    Titolo
+                    {t('clientNotes.fieldTitle')}
                   </label>
                   <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Titolo della nota"
+                    placeholder={t('clientNotes.fieldTitlePlaceholder')}
                   />
                 </div>
                 
                 <div>
                   <label htmlFor="category" className="text-sm font-medium">
-                    Categoria
+                    {t('clientNotes.fieldCategory')}
                   </label>
                   <Select value={category} onValueChange={setCategory}>
                     <SelectTrigger id="category">
-                      <SelectValue placeholder="Seleziona categoria" />
+                      <SelectValue placeholder={t('clientNotes.selectCategory')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="general">Generale</SelectItem>
-                      <SelectItem value="medical">Medica</SelectItem>
-                      <SelectItem value="allergies">Allergie</SelectItem>
+                      <SelectItem value="general">{t('clientNotes.categoryGeneral')}</SelectItem>
+                      <SelectItem value="medical">{t('clientNotes.categoryMedical')}</SelectItem>
+                      <SelectItem value="allergies">{t('clientNotes.categoryAllergies')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -273,13 +273,13 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
               
               <div>
                 <label htmlFor="content" className="text-sm font-medium">
-                  Contenuto
+                  {t('clientNotes.fieldContent')}
                 </label>
                 <Textarea
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Contenuto della nota"
+                  placeholder={t('clientNotes.fieldContentPlaceholder')}
                   rows={5}
                 />
               </div>
@@ -292,16 +292,16 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
                 onClick={() => setOpen(false)}
                 disabled={createNoteMutation.isPending || updateNoteMutation.isPending}
               >
-                Annulla
+                {t('clientNotes.cancel')}
               </Button>
               <Button 
                 type="submit"
                 disabled={createNoteMutation.isPending || updateNoteMutation.isPending}
               >
                 {createNoteMutation.isPending || updateNoteMutation.isPending ? (
-                  'Salvataggio...'
+                  t('clientNotes.saving')
                 ) : (
-                  editingNote ? 'Aggiorna' : 'Salva'
+                  editingNote ? t('clientNotes.update') : t('clientNotes.save')
                 )}
               </Button>
             </DialogFooter>
@@ -358,8 +358,8 @@ export default function ClientNotes({ clientId }: ClientNotesProps) {
       ) : (
         <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
           <FileText className="h-10 w-10 mb-2 opacity-20" />
-          <p>Nessuna nota disponibile</p>
-          <p className="text-sm">Crea una nuova nota per questo cliente</p>
+          <p>{t('clientNotes.emptyState')}</p>
+          <p className="text-sm">{t('clientNotes.emptyStateHint')}</p>
         </div>
       )}
     </div>

@@ -86,14 +86,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       setOpen(false);
       resetForm();
       toast({ 
-        title: 'Nota creata', 
-        description: 'La nota è stata salvata con successo' 
+        title: t('clientNotes.noteCreated'), 
+        description: t('clientNotes.noteCreatedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: t('common.error'), 
-        description: `Impossibile creare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorCreate', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -111,14 +111,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       setOpen(false);
       resetForm();
       toast({ 
-        title: 'Nota aggiornata', 
-        description: 'La nota è stata aggiornata con successo' 
+        title: t('clientNotes.noteUpdated'), 
+        description: t('clientNotes.noteUpdatedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: t('common.error'), 
-        description: `Impossibile aggiornare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorUpdate', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -133,14 +133,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
-        title: 'Nota eliminata', 
-        description: 'La nota è stata eliminata con successo' 
+        title: t('clientNotes.noteDeleted'), 
+        description: t('clientNotes.noteDeletedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: t('common.error'), 
-        description: `Impossibile eliminare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorDelete', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -150,7 +150,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     mutationFn: async (note: ClientNote) => {
       const duplicateNote = {
         clientId: note.clientId,
-        title: `${note.title} (copia)`,
+        title: `${note.title} ${t('clientNotes.copySuffix')}`,
         content: note.content,
         category: note.category
       };
@@ -162,14 +162,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
-        title: 'Nota duplicata', 
-        description: 'La nota è stata duplicata con successo' 
+        title: t('clientNotes.noteDuplicated'), 
+        description: t('clientNotes.noteDuplicatedDesc') 
       });
     },
     onError: (error: Error) => {
       toast({ 
-        title: t('common.error'), 
-        description: `Impossibile duplicare la nota: ${error.message}`,
+        title: t('clientNotes.error'), 
+        description: t('clientNotes.errorDuplicate', { message: error.message }),
         variant: 'destructive'
       });
     }
@@ -185,16 +185,16 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         body: formData,
         credentials: 'include'
       });
-      if (!res.ok) throw new Error('Upload fallito');
+      if (!res.ok) throw new Error(t('clientNotes.uploadFailed'));
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
-      toast({ title: 'Foto caricata con successo' });
+      toast({ title: t('clientNotes.photoUploadedShort') });
     },
     onError: () => {
-      toast({ title: 'Errore upload foto', variant: 'destructive' });
+      toast({ title: t('clientNotes.errorPhotoUpload'), variant: 'destructive' });
     }
   });
   
@@ -205,10 +205,10 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
-      toast({ title: 'Foto eliminata' });
+      toast({ title: t('clientNotes.photoDeleted') });
     },
     onError: () => {
-      toast({ title: 'Errore eliminazione foto', variant: 'destructive' });
+      toast({ title: t('clientNotes.errorPhotoDelete'), variant: 'destructive' });
     }
   });
   
@@ -236,8 +236,8 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     
     if (!title.trim() || !content.trim()) {
       toast({ 
-        title: 'Dati mancanti', 
-        description: 'Inserisci titolo e contenuto per la nota',
+        title: t('clientNotes.missingData'), 
+        description: t('clientNotes.missingDataDesc'),
         variant: 'destructive'
       });
       return;
@@ -261,7 +261,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   };
   
   const handleDeleteNote = (id: number) => {
-    if (confirm('Sei sicuro di voler eliminare questa nota?')) {
+    if (confirm(t('clientNotes.confirmDelete'))) {
       deleteNoteMutation.mutate(id);
       // Se stiamo eliminando la nota attiva, torniamo alla nota precedente
       if (sortedNotes && sortedNotes.length > 1 && activeNoteIndex < sortedNotes.length && sortedNotes[activeNoteIndex]?.id === id) {
@@ -343,8 +343,8 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       localStorage.setItem(`section-label-${category}-${clientId}`, tempLabel.trim());
       setEditingLabel(false);
       toast({
-        title: 'Titolo aggiornato',
-        description: 'Il titolo della sezione è stato modificato con successo'
+        title: t('clientNotes.labelUpdated'),
+        description: t('clientNotes.labelUpdatedDesc')
       });
     }
   };
@@ -355,8 +355,8 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     localStorage.removeItem(`section-label-${category}-${clientId}`);
     setEditingLabel(false);
     toast({
-      title: 'Titolo ripristinato',
-      description: 'Il titolo della sezione è stato ripristinato al valore originale'
+      title: t('clientNotes.labelReset'),
+      description: t('clientNotes.labelResetDesc')
     });
   };
 
@@ -379,13 +379,13 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
               autoFocus
             />
             <Button size="sm" onClick={handleSaveLabel}>
-              Salva
+              {t('clientNotes.save')}
             </Button>
             <Button size="sm" variant="outline" onClick={() => {
               setTempLabel(customLabel);
               setEditingLabel(false);
             }}>
-              Annulla
+              {t('clientNotes.cancel')}
             </Button>
           </div>
         ) : (
@@ -399,7 +399,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                 setTempLabel(customLabel);
                 setEditingLabel(true);
               }}
-              title="Modifica titolo"
+              title={t('clientNotes.editLabel')}
             >
               <Pencil className="h-4 w-4" />
             </Button>
@@ -409,7 +409,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                 size="icon"
                 className="h-7 w-7 text-destructive"
                 onClick={handleResetLabel}
-                title="Ripristina titolo originale"
+                title={t('clientNotes.resetLabel')}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -454,10 +454,10 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
             size="sm"
             className="gap-1"
             disabled={!hasNotes}
-            title={hasNotes ? "Duplica ultima nota" : "Nessuna nota da duplicare"}
+            title={hasNotes ? t('clientNotes.duplicateLast') : t('clientNotes.noNoteToDuplicate')}
           >
             <Plus className="h-4 w-4" />
-            Aggiungi
+            {t('clientNotes.addButton')}
           </Button>
         </div>
       </div>
@@ -467,7 +467,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         <DialogContent className="min-[1200px]:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>
-              {editingNote ? 'Modifica nota' : 'Crea nuova nota'}
+              {editingNote ? t('clientNotes.editTitle') : t('clientNotes.createTitle')}
             </DialogTitle>
           </DialogHeader>
           
@@ -475,25 +475,25 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
             <div className="grid gap-3">
               <div>
                 <label htmlFor="title" className="text-sm font-medium">
-                  Titolo
+                  {t('clientNotes.fieldTitle')}
                 </label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Titolo della nota"
+                  placeholder={t('clientNotes.fieldTitlePlaceholder')}
                 />
               </div>
               
               <div>
                 <label htmlFor="content" className="text-sm font-medium">
-                  Contenuto
+                  {t('clientNotes.fieldContent')}
                 </label>
                 <Textarea
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Contenuto della nota"
+                  placeholder={t('clientNotes.fieldContentPlaceholder')}
                   rows={5}
                 />
               </div>
@@ -506,16 +506,16 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                 onClick={() => setOpen(false)}
                 disabled={createNoteMutation.isPending || updateNoteMutation.isPending}
               >
-                Annulla
+                {t('clientNotes.cancel')}
               </Button>
               <Button 
                 type="submit"
                 disabled={createNoteMutation.isPending || updateNoteMutation.isPending}
               >
                 {createNoteMutation.isPending || updateNoteMutation.isPending ? (
-                  'Salvataggio...'
+                  t('clientNotes.saving')
                 ) : (
-                  editingNote ? 'Aggiorna' : 'Salva'
+                  editingNote ? t('clientNotes.update') : t('clientNotes.save')
                 )}
               </Button>
             </DialogFooter>
@@ -543,7 +543,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                 size="icon" 
                 onClick={handleOpenDialog}
                 className="h-7 w-7"
-                title="Crea nuova nota"
+                title={t('clientNotes.createDialogTrigger')}
               >
                 <Pencil className="h-4 w-4" />
               </Button>
@@ -552,13 +552,13 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                 size="icon" 
                 className="h-7 w-7 text-destructive opacity-50 cursor-not-allowed"
                 disabled
-                title="Nessuna nota da eliminare"
+                title={t('clientNotes.noNoteToDelete')}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
             <div className="flex items-center justify-center h-full text-center text-muted-foreground">
-              Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+              {t('clientNotes.emptyStateAdd')}
             </div>
           </div>
         ) : (
@@ -634,7 +634,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                           document.getElementById(`upload-${note.id}`)?.click();
                         }}
                         className="h-7 w-7 text-blue-600"
-                        title="Aggiungi foto"
+                        title={t('clientNotes.addPhoto')}
                       >
                         <ImageIcon className="h-4 w-4" />
                       </Button>
@@ -694,7 +694,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                           <div key={idx} className="relative group">
                             <img 
                               src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
-                              alt={`Foto ${idx + 1}`}
+                              alt={t('clientNotes.photoAlt', { n: idx + 1 })}
                               className="w-full h-32 object-contain rounded border bg-gray-50"
                             />
                             {isActive && (
@@ -704,7 +704,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                                 className="absolute top-1 right-1 h-6 w-6"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  if (confirm('Eliminare questa foto?')) {
+                                  if (confirm(t('clientNotes.confirmDeletePhoto'))) {
                                     deleteImageMutation.mutate({ noteId: note.id, imageIndex: idx });
                                   }
                                 }}
@@ -723,7 +723,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                     <div 
                       className="absolute bottom-0 right-2 text-xs text-muted-foreground opacity-50 animate-pulse"
                     >
-                      Scorrere per visualizzare le note successive →
+                      {t('clientNotes.scrollNext')}
                     </div>
                   )}
                 </div>
