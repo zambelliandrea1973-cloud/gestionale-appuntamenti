@@ -6140,5 +6140,32 @@
       "trialExtended": "Test verlängert",
       "cannotExtend": "Test kann nicht verlängert werden"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Tipp für Fehler 400",
+        "description": "Wenn der Fehler 400 (redirect_uri_mismatch) auftritt, besuche /api/google-auth/compare-auth-urls, um das Problem zu beheben."
+      },
+      "cloudConfig": {
+        "title": "Wichtig: Google Cloud-Konfiguration",
+        "intro": "Um die Google Kalender-Integration zu nutzen, musst du das Google Cloud-Projekt korrekt konfigurieren. Stelle sicher, dass die Weiterleitungs-URL in der Google Cloud-Konsole genau die folgende ist:",
+        "urlCopiedTitle": "URL kopiert",
+        "urlCopiedDesc": "Die Callback-URL wurde in die Zwischenablage kopiert",
+        "error403Help": "Wenn 403-Fehler (Zugriff verweigert) auftreten, kopiere diese exakte URL und stelle sicher, dass sie in der Google Cloud-Konsole → Anmeldedaten → OAuth 2.0-Client-IDs → Autorisierte Weiterleitungs-URIs korrekt konfiguriert ist.",
+        "domainCheck": "Überprüfe sorgfältig, dass die Domain genau \"wife-scheduler-zambelliandrea1.replit.app\" lautet und nicht \".repl.co\" oder etwas anderes.",
+        "debugTool": "Debug-Tool für Fehler 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Behebung von Fehler 403 (access_denied)",
+        "intro": "Wenn du weiterhin Fehler 403 erhältst, versuche dieses Vorgehen:",
+        "step1": "Gehe zur <1>Google Cloud-Konsole</1>",
+        "step2": "Wähle dein Projekt aus",
+        "step3": "<1>Lösche</1> die alten OAuth 2.0-Anmeldedaten",
+        "step4": "Erstelle eine komplett neue OAuth 2.0-Client-ID",
+        "step5": "Füge sorgfältig die exakte Callback-URL hinzu: <1>{{url}}</1>",
+        "step6": "Komme hierher zurück und versuche die Autorisierung erneut"
+      }
+    }
   }
 }

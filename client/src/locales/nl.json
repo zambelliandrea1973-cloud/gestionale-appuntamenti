@@ -6140,5 +6140,32 @@
       "trialExtended": "Proefperiode verlengd",
       "cannotExtend": "Kan proefperiode niet verlengen"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Tip voor fout 400",
+        "description": "Als je foutmelding 400 (redirect_uri_mismatch) krijgt, ga je naar /api/google-auth/compare-auth-urls om het probleem op te lossen."
+      },
+      "cloudConfig": {
+        "title": "Belangrijk: Google Cloud-configuratie",
+        "intro": "Om de integratie met Google Agenda te gebruiken, moet je het Google Cloud-project correct configureren. Zorg ervoor dat de doorverwijs-URL in de Google Cloud-console exact het volgende is:",
+        "urlCopiedTitle": "URL gekopieerd",
+        "urlCopiedDesc": "De callback-URL is naar het klembord gekopieerd",
+        "error403Help": "Als je 403-fouten (toegang geweigerd) krijgt, kopieer dan deze exacte URL en zorg ervoor dat deze correct is geconfigureerd in de Google Cloud-console → Inloggegevens → OAuth 2.0-client-ID's → Geautoriseerde doorverwijs-URI's.",
+        "domainCheck": "Controleer zorgvuldig of het domein exact \"wife-scheduler-zambelliandrea1.replit.app\" is en niet \".repl.co\" of iets anders.",
+        "debugTool": "Debugtool voor fout 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Oplossing voor fout 403 (access_denied)",
+        "intro": "Als je foutmelding 403 blijft krijgen, probeer dan deze procedure:",
+        "step1": "Ga naar de <1>Google Cloud-console</1>",
+        "step2": "Selecteer je project",
+        "step3": "<1>Verwijder</1> de oude OAuth 2.0-inloggegevens",
+        "step4": "Maak een volledig nieuwe OAuth 2.0-client-ID",
+        "step5": "Voeg zorgvuldig de exacte callback-URL toe: <1>{{url}}</1>",
+        "step6": "Kom hier terug en probeer de autorisatie opnieuw"
+      }
+    }
   }
 }

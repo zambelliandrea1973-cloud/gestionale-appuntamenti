@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useTimezone } from '@/hooks/use-timezone';
 import { 
   Card, 
@@ -120,8 +120,8 @@ export default function GoogleCalendarSimpleSetup() {
       
       // Aggiungi un suggerimento per l'errore 400 redirect_uri_mismatch
       toast({
-        title: "Suggerimento per errore 400",
-        description: "Se riscontri l'errore 400 (redirect_uri_mismatch), visita /api/google-auth/compare-auth-urls per risolvere il problema.",
+        title: t('google.simpleSetup.error400Tip.title'),
+        description: t('google.simpleSetup.error400Tip.description'),
         variant: "default",
         duration: 10000
       });
@@ -250,11 +250,10 @@ export default function GoogleCalendarSimpleSetup() {
           <div className="mb-6 p-4 border rounded-md bg-amber-50 dark:bg-amber-950">
             <h4 className="font-medium flex items-center text-amber-800 dark:text-amber-300 mb-2">
               <AlertCircle className="h-4 w-4 mr-2" />
-              Importante: configurazione Google Cloud
+              {t('google.simpleSetup.cloudConfig.title')}
             </h4>
             <p className="text-sm text-amber-700 dark:text-amber-400 mb-2">
-              Per utilizzare l'integrazione con Google Calendar, devi configurare correttamente il progetto Google Cloud.
-              Assicurati che l'URL di reindirizzamento nella console Google Cloud sia esattamente il seguente:
+              {t('google.simpleSetup.cloudConfig.intro')}
             </p>
             <div className="relative">
               <div className="p-3 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all mb-1">
@@ -264,8 +263,8 @@ export default function GoogleCalendarSimpleSetup() {
                 onClick={() => {
                   navigator.clipboard.writeText("https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback");
                   toast({
-                    title: "URL copiato",
-                    description: "L'URL di callback è stato copiato negli appunti"
+                    title: t('google.simpleSetup.cloudConfig.urlCopiedTitle'),
+                    description: t('google.simpleSetup.cloudConfig.urlCopiedDesc')
                   });
                 }}
                 className="absolute top-2 right-2 bg-amber-100 dark:bg-amber-800 p-1 rounded hover:bg-amber-200 dark:hover:bg-amber-700"
@@ -277,10 +276,10 @@ export default function GoogleCalendarSimpleSetup() {
               </button>
             </div>
             <p className="text-xs text-amber-600 dark:text-amber-500 mt-2">
-              Se riscontri errori 403 (accesso negato), copia questo URL esatto e assicurati che sia configurato correttamente nella console Google Cloud → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.
+              {t('google.simpleSetup.cloudConfig.error403Help')}
             </p>
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
-              Verifica attentamente che il dominio sia esattamente "wife-scheduler-zambelliandrea1.replit.app" e non ".repl.co" o altro.
+              {t('google.simpleSetup.cloudConfig.domainCheck')}
             </p>
             <div className="mt-3 border-t border-amber-200 dark:border-amber-700 pt-3">
               <a 
@@ -293,7 +292,7 @@ export default function GoogleCalendarSimpleSetup() {
                   <polyline points="15 3 21 3 21 9"/>
                   <line x1="10" y1="14" x2="21" y2="3"/>
                 </svg>
-                Strumento di debug per errore 400 (redirect_uri_mismatch)
+                {t('google.simpleSetup.cloudConfig.debugTool')}
               </a>
             </div>
           </div>
@@ -406,15 +405,35 @@ export default function GoogleCalendarSimpleSetup() {
             {showAdvancedHelp && (
               <div className="mt-3 text-sm space-y-4">
                 <div className="p-4 border rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
-                  <h5 className="font-medium mb-2">Risoluzione Errore 403 (access_denied)</h5>
-                  <p className="mb-2">Se continui a ricevere l'errore 403, prova questa procedura:</p>
+                  <h5 className="font-medium mb-2">{t('google.simpleSetup.error403.title')}</h5>
+                  <p className="mb-2">{t('google.simpleSetup.error403.intro')}</p>
                   <ol className="list-decimal list-inside space-y-1 ml-2">
-                    <li>Vai alla <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline">Console Google Cloud</a></li>
-                    <li>Seleziona il tuo progetto</li>
-                    <li><strong>Elimina</strong> le vecchie credenziali OAuth 2.0</li>
-                    <li>Crea un nuovo Client ID OAuth 2.0 completamente nuovo</li>
-                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback</span></li>
-                    <li>Ritorna qui e riprova l'autorizzazione</li>
+                    <li>
+                      <Trans
+                        i18nKey="google.simpleSetup.error403.step1"
+                        components={{
+                          1: <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline" />
+                        }}
+                      />
+                    </li>
+                    <li>{t('google.simpleSetup.error403.step2')}</li>
+                    <li>
+                      <Trans
+                        i18nKey="google.simpleSetup.error403.step3"
+                        components={{ 1: <strong /> }}
+                      />
+                    </li>
+                    <li>{t('google.simpleSetup.error403.step4')}</li>
+                    <li>
+                      <Trans
+                        i18nKey="google.simpleSetup.error403.step5"
+                        components={{
+                          1: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs" />
+                        }}
+                        values={{ url: 'https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback' }}
+                      />
+                    </li>
+                    <li>{t('google.simpleSetup.error403.step6')}</li>
                   </ol>
                 </div>
                 

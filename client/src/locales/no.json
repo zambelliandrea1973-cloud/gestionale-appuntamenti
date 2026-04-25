@@ -6140,5 +6140,32 @@
       "trialExtended": "Prøveperiode forlenget",
       "cannotExtend": "Kan ikke forlenge prøveperiode"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Tips for feil 400",
+        "description": "Hvis du får feil 400 (redirect_uri_mismatch), gå til /api/google-auth/compare-auth-urls for å løse problemet."
+      },
+      "cloudConfig": {
+        "title": "Viktig: Google Cloud-konfigurasjon",
+        "intro": "For å bruke integrasjonen med Google Kalender må du konfigurere Google Cloud-prosjektet riktig. Sørg for at omadresserings-URL-en i Google Cloud-konsollen er nøyaktig følgende:",
+        "urlCopiedTitle": "URL kopiert",
+        "urlCopiedDesc": "Callback-URL-en er kopiert til utklippstavlen",
+        "error403Help": "Hvis du får 403-feil (tilgang nektet), kopier denne nøyaktige URL-en og kontroller at den er riktig konfigurert i Google Cloud-konsollen → Legitimasjon → OAuth 2.0-klient-ID-er → Autoriserte omadresserings-URI-er.",
+        "domainCheck": "Kontroller nøye at domenet er nøyaktig «wife-scheduler-zambelliandrea1.replit.app» og ikke «.repl.co» eller noe annet.",
+        "debugTool": "Feilsøkingsverktøy for feil 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Løsning for feil 403 (access_denied)",
+        "intro": "Hvis du fortsatt får feil 403, prøv denne fremgangsmåten:",
+        "step1": "Gå til <1>Google Cloud-konsollen</1>",
+        "step2": "Velg prosjektet ditt",
+        "step3": "<1>Slett</1> de gamle OAuth 2.0-legitimasjonene",
+        "step4": "Opprett en helt ny OAuth 2.0-klient-ID",
+        "step5": "Legg nøye til den nøyaktige callback-URL-en: <1>{{url}}</1>",
+        "step6": "Kom tilbake hit og prøv autorisasjonen igjen"
+      }
+    }
   }
 }

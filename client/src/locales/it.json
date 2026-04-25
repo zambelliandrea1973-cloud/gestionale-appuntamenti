@@ -6140,5 +6140,32 @@
       "trialExtended": "Trial Esteso",
       "cannotExtend": "Impossibile estendere il trial"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Suggerimento per errore 400",
+        "description": "Se riscontri l'errore 400 (redirect_uri_mismatch), visita /api/google-auth/compare-auth-urls per risolvere il problema."
+      },
+      "cloudConfig": {
+        "title": "Importante: configurazione Google Cloud",
+        "intro": "Per utilizzare l'integrazione con Google Calendar, devi configurare correttamente il progetto Google Cloud. Assicurati che l'URL di reindirizzamento nella console Google Cloud sia esattamente il seguente:",
+        "urlCopiedTitle": "URL copiato",
+        "urlCopiedDesc": "L'URL di callback è stato copiato negli appunti",
+        "error403Help": "Se riscontri errori 403 (accesso negato), copia questo URL esatto e assicurati che sia configurato correttamente nella console Google Cloud → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.",
+        "domainCheck": "Verifica attentamente che il dominio sia esattamente \"wife-scheduler-zambelliandrea1.replit.app\" e non \".repl.co\" o altro.",
+        "debugTool": "Strumento di debug per errore 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Risoluzione Errore 403 (access_denied)",
+        "intro": "Se continui a ricevere l'errore 403, prova questa procedura:",
+        "step1": "Vai alla <1>Console Google Cloud</1>",
+        "step2": "Seleziona il tuo progetto",
+        "step3": "<1>Elimina</1> le vecchie credenziali OAuth 2.0",
+        "step4": "Crea un nuovo Client ID OAuth 2.0 completamente nuovo",
+        "step5": "Aggiungi con attenzione l'URL di callback esatto: <1>{{url}}</1>",
+        "step6": "Ritorna qui e riprova l'autorizzazione"
+      }
+    }
   }
 }

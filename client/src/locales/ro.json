@@ -6140,5 +6140,32 @@
       "trialExtended": "Test extins",
       "cannotExtend": "Nu se poate extinde testul"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Sfat pentru eroarea 400",
+        "description": "Dacă întâmpini eroarea 400 (redirect_uri_mismatch), accesează /api/google-auth/compare-auth-urls pentru a rezolva problema."
+      },
+      "cloudConfig": {
+        "title": "Important: configurare Google Cloud",
+        "intro": "Pentru a folosi integrarea cu Google Calendar, trebuie să configurezi corect proiectul Google Cloud. Asigură-te că URL-ul de redirecționare din consola Google Cloud este exact următorul:",
+        "urlCopiedTitle": "URL copiat",
+        "urlCopiedDesc": "URL-ul de callback a fost copiat în clipboard",
+        "error403Help": "Dacă întâmpini erori 403 (acces refuzat), copiază acest URL exact și asigură-te că este configurat corect în consola Google Cloud → Credențiale → ID-uri de client OAuth 2.0 → URI-uri de redirecționare autorizate.",
+        "domainCheck": "Verifică cu atenție că domeniul este exact „wife-scheduler-zambelliandrea1.replit.app” și nu „.repl.co” sau altceva.",
+        "debugTool": "Instrument de depanare pentru eroarea 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Rezolvarea erorii 403 (access_denied)",
+        "intro": "Dacă primești în continuare eroarea 403, încearcă această procedură:",
+        "step1": "Accesează <1>Consola Google Cloud</1>",
+        "step2": "Selectează proiectul tău",
+        "step3": "<1>Șterge</1> vechile credențiale OAuth 2.0",
+        "step4": "Creează un ID de client OAuth 2.0 complet nou",
+        "step5": "Adaugă cu atenție URL-ul de callback exact: <1>{{url}}</1>",
+        "step6": "Revino aici și încearcă din nou autorizarea"
+      }
+    }
   }
 }

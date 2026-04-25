@@ -6140,5 +6140,32 @@
       "trialExtended": "Trial Extended",
       "cannotExtend": "Unable to extend trial"
     }
+  },
+  "google": {
+    "simpleSetup": {
+      "error400Tip": {
+        "title": "Tip for error 400",
+        "description": "If you get error 400 (redirect_uri_mismatch), visit /api/google-auth/compare-auth-urls to fix the issue."
+      },
+      "cloudConfig": {
+        "title": "Important: Google Cloud setup",
+        "intro": "To use the Google Calendar integration, you must properly configure your Google Cloud project. Make sure the redirect URL in the Google Cloud console is exactly the following:",
+        "urlCopiedTitle": "URL copied",
+        "urlCopiedDesc": "The callback URL has been copied to the clipboard",
+        "error403Help": "If you get 403 errors (access denied), copy this exact URL and make sure it is properly configured in Google Cloud console → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.",
+        "domainCheck": "Carefully check that the domain is exactly \"wife-scheduler-zambelliandrea1.replit.app\" and not \".repl.co\" or anything else.",
+        "debugTool": "Debug tool for error 400 (redirect_uri_mismatch)"
+      },
+      "error403": {
+        "title": "Resolving Error 403 (access_denied)",
+        "intro": "If you keep getting error 403, try this procedure:",
+        "step1": "Go to the <1>Google Cloud Console</1>",
+        "step2": "Select your project",
+        "step3": "<1>Delete</1> the old OAuth 2.0 credentials",
+        "step4": "Create a brand new OAuth 2.0 Client ID",
+        "step5": "Carefully add the exact callback URL: <1>{{url}}</1>",
+        "step6": "Come back here and try the authorization again"
+      }
+    }
   }
 }
