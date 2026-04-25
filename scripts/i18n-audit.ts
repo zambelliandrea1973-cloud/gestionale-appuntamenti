@@ -15,6 +15,17 @@ const REPORT_PATH = path.resolve(process.cwd(), '.local/i18n-audit-report.md');
 const SKIP_DIRS = new Set(['locales', 'node_modules', '__tests__']);
 const TARGET_EXT = new Set(['.ts', '.tsx']);
 
+// File admin esclusi per scelta del proprietario: restano in italiano.
+const SKIP_FILES = new Set<string>([
+  'pages/BetaAdmin.tsx',
+  'pages/BetaPage.tsx',
+  'pages/PaymentAdmin.tsx',
+  'pages/AdminLicenseManagementPage.tsx',
+  'pages/AdminUsersPage.tsx',
+  'pages/ManualAdminPage.tsx',
+  'pages/SubscriptionPlansAdmin.tsx',
+]);
+
 const ITALIAN_HINT = /[àèéìòùÀÈÉÌÒÙ]|\b(il|lo|la|gli|le|un|una|del|della|degli|delle|che|con|per|alla|allo|alle|agli|nel|nella|sono|hai|sei|cliente|appuntament|fattur|salv|elimin|modific|crea|nuovo|nuova|scegli|inserisci|password|utente|conferma|annulla|errore|successo|aggiorn|carica|non|più|già|dopo|prima)\b/i;
 
 type Finding = {
@@ -75,7 +86,11 @@ async function scanFile(file: string) {
 
 async function main() {
   const files = await walk(ROOT);
-  for (const f of files) await scanFile(f);
+  const filtered = files.filter((f) => {
+    const rel = path.relative(ROOT, f).replace(/\\/g, '/');
+    return !SKIP_FILES.has(rel);
+  });
+  for (const f of filtered) await scanFile(f);
 
   const byFile = new Map<string, Finding[]>();
   for (const f of findings) {
