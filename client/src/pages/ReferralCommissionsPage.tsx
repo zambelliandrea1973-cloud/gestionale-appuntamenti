@@ -49,7 +49,7 @@ interface ReferralOverview {
 }
 
 export default function ReferralCommissionsPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
@@ -85,20 +85,20 @@ export default function ReferralCommissionsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ notes })
       });
-      if (!response.ok) throw new Error('Errore nel segnare la commissione come pagata');
+      if (!response.ok) throw new Error(t('referral.markPaidError'));
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/referral-overview'] });
       queryClient.invalidateQueries({ queryKey: ['/api/staff-commissions'] });
       toast({
-        title: "Commissione aggiornata",
-        description: "La commissione è stata segnata come pagata.",
+        title: t('referral.commissionMarkedTitle'),
+        description: t('referral.commissionMarkedDesc'),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -112,8 +112,8 @@ export default function ReferralCommissionsPage() {
   return (
     <AuthorizedRoute 
       requiredRole="admin"
-      featureName="Gestione Commissioni Referral"
-      description="Solo gli amministratori possono gestire le commissioni referral, coordinare e verificare gli abbonamenti sponsorizzati dallo staff per procedere ai pagamenti"
+      featureName={t('referral.adminFeatureName')}
+      description={t('referral.adminOnly')}
     >
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
         <div className="max-w-7xl mx-auto">
@@ -122,8 +122,8 @@ export default function ReferralCommissionsPage() {
             <div className="flex items-center gap-4 mb-4">
               <Award className="h-10 w-10" />
               <div>
-                <h1 className="text-3xl font-bold">Gestione Referral - Admin</h1>
-                <p className="text-blue-100">Panoramica completa delle commissioni staff</p>
+                <h1 className="text-3xl font-bold">{t('referral.adminTitle')}</h1>
+                <p className="text-blue-100">{t('referral.adminSubtitle')}</p>
               </div>
             </div>
             
@@ -132,28 +132,28 @@ export default function ReferralCommissionsPage() {
                 <div className="bg-white/10 rounded-lg p-4">
                   <div className="flex items-center gap-2">
                     <Users className="h-5 w-5" />
-                    <span className="text-sm font-medium">Staff Totali</span>
+                    <span className="text-sm font-medium">{t('referral.staffTotal')}</span>
                   </div>
                   <p className="text-2xl font-bold mt-1">{referralOverview.staffStats.length}</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5" />
-                    <span className="text-sm font-medium">Clienti Sponsorizzati</span>
+                    <span className="text-sm font-medium">{t('referral.sponsoredClients')}</span>
                   </div>
                   <p className="text-2xl font-bold mt-1">{referralOverview.totals.totalSponsored}</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
                   <div className="flex items-center gap-2">
                     <Coins className="h-5 w-5" />
-                    <span className="text-sm font-medium">Commissioni Totali</span>
+                    <span className="text-sm font-medium">{t('referral.totalCommissions')}</span>
                   </div>
                   <p className="text-2xl font-bold mt-1">{symbol}{(referralOverview.totals.totalCommissions / 100).toFixed(2)}</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="h-5 w-5" />
-                    <span className="text-sm font-medium">Commissioni Pagate</span>
+                    <span className="text-sm font-medium">{t('referral.paidCommissions')}</span>
                   </div>
                   <p className="text-2xl font-bold mt-1">{symbol}{(referralOverview.totals.totalPaid / 100).toFixed(2)}</p>
                 </div>
@@ -163,8 +163,8 @@ export default function ReferralCommissionsPage() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="overview">Panoramica Staff</TabsTrigger>
-              <TabsTrigger value="commissions">Commissioni Dettagliate</TabsTrigger>
+              <TabsTrigger value="overview">{t('referral.staffOverviewTab')}</TabsTrigger>
+              <TabsTrigger value="commissions">{t('referral.detailedCommissions')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview">
@@ -172,17 +172,17 @@ export default function ReferralCommissionsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" />
-                    Staff con Referral Attivi
+                    {t('referral.activeStaffReferrals')}
                   </CardTitle>
                   <CardDescription>
-                    Panoramica delle performance di referral per ogni membro dello staff
+                    {t('referral.staffPerformanceDesc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {overviewLoading ? (
-                    <div className="text-center p-8">Caricamento...</div>
+                    <div className="text-center p-8">{t('common.loading')}</div>
                   ) : overviewError ? (
-                    <div className="text-center p-8 text-red-600">Errore nel caricamento dei dati</div>
+                    <div className="text-center p-8 text-red-600">{t('referral.loadingError')}</div>
                   ) : referralOverview?.staffStats && referralOverview.staffStats.length > 0 ? (
                     <div className="space-y-4">
                       {referralOverview.staffStats.map((staff) => (
@@ -195,19 +195,19 @@ export default function ReferralCommissionsPage() {
                             <div className="text-right">
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                 <div>
-                                  <p className="text-gray-500">Sponsorizzati</p>
+                                  <p className="text-gray-500">{t('referral.sponsored')}</p>
                                   <p className="font-bold text-blue-600">{staff.sponsoredCount}</p>
                                 </div>
                                 <div>
-                                  <p className="text-gray-500">Tot. Commissioni</p>
+                                  <p className="text-gray-500">{t('referral.totalCommissionsShort')}</p>
                                   <p className="font-bold">{symbol}{(staff.totalCommissions / 100).toFixed(2)}</p>
                                 </div>
                                 <div>
-                                  <p className="text-gray-500">Pagate</p>
+                                  <p className="text-gray-500">{t('referral.paidPlural')}</p>
                                   <p className="font-bold text-green-600">{symbol}{(staff.paidCommissions / 100).toFixed(2)}</p>
                                 </div>
                                 <div>
-                                  <p className="text-gray-500">In Attesa</p>
+                                  <p className="text-gray-500">{t('referral.pendingPlural')}</p>
                                   <p className="font-bold text-orange-600">{symbol}{(staff.pendingCommissions / 100).toFixed(2)}</p>
                                 </div>
                               </div>
@@ -220,7 +220,7 @@ export default function ReferralCommissionsPage() {
                                 className="mt-2"
                               >
                                 <Eye className="h-4 w-4 mr-1" />
-                                Dettagli
+                                {t('referral.detailsBtn')}
                               </Button>
                             </div>
                           </div>
@@ -228,7 +228,7 @@ export default function ReferralCommissionsPage() {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center p-8">Nessuno staff con referral attivi al momento</div>
+                    <div className="text-center p-8">{t('referral.noStaffActive')}</div>
                   )}
                 </CardContent>
               </Card>
@@ -239,17 +239,17 @@ export default function ReferralCommissionsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Coins className="h-5 w-5" />
-                    Commissioni Dettagliate
+                    {t('referral.detailedCommissions')}
                   </CardTitle>
                   <CardDescription>
                     {selectedStaffId 
-                      ? `Commissioni per lo staff selezionato` 
-                      : "Tutte le commissioni di tutti gli staff"}
+                      ? t('referral.commissionsForStaff') 
+                      : t('referral.allCommissionsAllStaff')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {commissionsLoading ? (
-                    <div className="text-center p-8">Caricamento commissioni...</div>
+                    <div className="text-center p-8">{t('referral.loadingCommissions')}</div>
                   ) : staffCommissions && staffCommissions.length > 0 ? (
                     <div className="space-y-4">
                       {staffCommissions.map((commission) => (
@@ -261,17 +261,17 @@ export default function ReferralCommissionsPage() {
                                   {commission.licenseType.toUpperCase()}
                                 </Badge>
                                 <span className="text-sm text-gray-600">
-                                  Codice: {commission.licenseCode}
+                                  {t('referral.codeLabel')} {commission.licenseCode}
                                 </span>
                               </div>
                               <p className="font-medium">{commission.customerEmail}</p>
                               {!selectedStaffId && commission.staffName && (
                                 <p className="text-sm font-medium text-blue-600 mt-1">
-                                  Staff: {commission.staffName}
+                                  {t('referral.staffLabel')} {commission.staffName}
                                 </p>
                               )}
                               <p className="text-sm text-gray-600">
-                                Creata: {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
+                                {t('referral.createdLabel')} {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
                               </p>
                             </div>
                             <div className="text-right">
@@ -283,21 +283,21 @@ export default function ReferralCommissionsPage() {
                                   <div className="flex items-center gap-1 text-green-600">
                                     <CheckCircle className="h-4 w-4" />
                                     <span className="text-sm">
-                                      Pagata {commission.paidAt && format(new Date(commission.paidAt), 'dd/MM/yyyy')}
+                                      {t('referral.paidOn', { date: commission.paidAt ? format(new Date(commission.paidAt), 'dd/MM/yyyy') : '' })}
                                     </span>
                                   </div>
                                 ) : (
                                   <div className="space-y-2">
                                     <div className="flex items-center gap-1 text-orange-600">
                                       <Clock className="h-4 w-4" />
-                                      <span className="text-sm">In attesa di pagamento</span>
+                                      <span className="text-sm">{t('referral.awaitingPayment')}</span>
                                     </div>
                                     <Button
                                       onClick={() => handleMarkAsPaid(commission.id)}
                                       size="sm"
                                       disabled={markCommissionPaidMutation.isPending}
                                     >
-                                      Segna come Pagata
+                                      {t('referral.markAsPaidBtn')}
                                     </Button>
                                   </div>
                                 )}
@@ -306,14 +306,14 @@ export default function ReferralCommissionsPage() {
                           </div>
                           {commission.notes && (
                             <div className="mt-3 p-2 bg-gray-50 rounded text-sm">
-                              <strong>Note:</strong> {commission.notes}
+                              <strong>{t('referral.notesLabel')}</strong> {commission.notes}
                             </div>
                           )}
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center p-8">Nessuna commissione trovata per questo staff</div>
+                    <div className="text-center p-8">{t('referral.noCommissionsForStaff')}</div>
                   )}
                 </CardContent>
               </Card>

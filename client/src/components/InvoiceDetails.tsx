@@ -25,6 +25,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Trash2, Euro, FileEdit, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface InvoiceDetailsProps {
   invoice: any;
@@ -37,6 +38,7 @@ export default function InvoiceDetails({
   onPaymentAdd,
   onRefresh,
 }: InvoiceDetailsProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -71,13 +73,13 @@ export default function InvoiceDetails({
   const getStatusLabel = (status: string) => {
     switch (status) {
       case "paid":
-        return "Pagata";
+        return t("invoices.statusPaid");
       case "unpaid":
-        return "Non pagata";
+        return t("invoices.statusUnpaid");
       case "overdue":
-        return "Scaduta";
+        return t("invoices.statusOverdue");
       case "cancelled":
-        return "Annullata";
+        return t("invoices.statusCancelled");
       default:
         return status;
     }
@@ -94,11 +96,11 @@ export default function InvoiceDetails({
   const getPaymentMethodLabel = (method: string) => {
     switch (method) {
       case "cash":
-        return "Contanti";
+        return t("invoices.paymentMethod.cash");
       case "card":
-        return "Carta";
+        return t("invoices.paymentMethod.card");
       case "bank_transfer":
-        return "Bonifico";
+        return t("invoices.paymentMethod.bankTransfer");
       default:
         return method;
     }
@@ -111,8 +113,8 @@ export default function InvoiceDetails({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       toast({
-        title: "Pagamento eliminato",
-        description: "Il pagamento è stato eliminato con successo",
+        title: t("invoices.toast.paymentDeleted"),
+        description: t("invoices.toast.paymentDeletedDesc"),
       });
       setIsDeleteConfirmOpen(false);
       setPaymentToDelete(null);
@@ -120,8 +122,8 @@ export default function InvoiceDetails({
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Non è stato possibile eliminare il pagamento",
+        title: t("common.error"),
+        description: t("invoices.toast.paymentDeleteError"),
         variant: "destructive",
       });
     },
@@ -137,7 +139,7 @@ export default function InvoiceDetails({
     <div className="space-y-8 mt-4">
       <div className="flex justify-between items-center">
         <h3 className="text-2xl font-semibold">
-          Fattura #{invoice.invoiceNumber}
+          {t("invoices.invoiceNumber")}{invoice.invoiceNumber}
         </h3>
         <Badge variant={getStatusBadgeVariant(invoice.status) as any}>
           {getStatusLabel(invoice.status)}
@@ -146,51 +148,51 @@ export default function InvoiceDetails({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <h4 className="text-sm font-medium">Cliente</h4>
+          <h4 className="text-sm font-medium">{t("invoices.client")}</h4>
           <p className="text-lg">
             {invoice.client.firstName} {invoice.client.lastName}
           </p>
         </div>
         <div>
-          <h4 className="text-sm font-medium">Data</h4>
+          <h4 className="text-sm font-medium">{t("invoices.date")}</h4>
           <p className="text-lg">{formatDate(invoice.date)}</p>
         </div>
         <div>
-          <h4 className="text-sm font-medium">Scadenza</h4>
+          <h4 className="text-sm font-medium">{t("invoices.dueDate")}</h4>
           <p className="text-lg">{formatDate(invoice.dueDate)}</p>
         </div>
         <div>
-          <h4 className="text-sm font-medium">Totale</h4>
+          <h4 className="text-sm font-medium">{t("invoices.total")}</h4>
           <p className="text-xl font-bold">{formatCurrency(invoice.totalAmount)}</p>
         </div>
       </div>
 
       {invoice.tax > 0 && (
         <div>
-          <h4 className="text-sm font-medium">IVA</h4>
+          <h4 className="text-sm font-medium">{t("invoices.vat")}</h4>
           <p className="text-lg">{formatCurrency(invoice.tax)}</p>
         </div>
       )}
 
       {invoice.notes && (
         <div>
-          <h4 className="text-sm font-medium">Note</h4>
+          <h4 className="text-sm font-medium">{t("common.notes")}</h4>
           <p className="text-lg">{invoice.notes}</p>
         </div>
       )}
 
       <Card>
         <CardHeader>
-          <CardTitle>Elementi</CardTitle>
+          <CardTitle>{t("invoices.items")}</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Descrizione</TableHead>
-                <TableHead className="text-right">Quantità</TableHead>
-                <TableHead className="text-right">Prezzo</TableHead>
-                <TableHead className="text-right">Totale</TableHead>
+                <TableHead>{t("invoices.form.description")}</TableHead>
+                <TableHead className="text-right">{t("invoices.quantity")}</TableHead>
+                <TableHead className="text-right">{t("invoices.price")}</TableHead>
+                <TableHead className="text-right">{t("invoices.total")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -215,7 +217,7 @@ export default function InvoiceDetails({
               ))}
               <TableRow>
                 <TableCell colSpan={3} className="text-right font-bold">
-                  Totale
+                  {t("invoices.total")}
                 </TableCell>
                 <TableCell className="text-right font-bold">
                   {formatCurrency(invoice.totalAmount)}
@@ -228,7 +230,7 @@ export default function InvoiceDetails({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle>Pagamenti</CardTitle>
+          <CardTitle>{t("invoices.payments")}</CardTitle>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -236,7 +238,7 @@ export default function InvoiceDetails({
               onClick={onRefresh}
             >
               <RefreshCw className="h-4 w-4 mr-2" />
-              Aggiorna
+              {t("invoices.refresh")}
             </Button>
             <Button
               variant="default"
@@ -244,23 +246,23 @@ export default function InvoiceDetails({
               onClick={onPaymentAdd}
             >
               <Euro className="h-4 w-4 mr-2" />
-              Registra pagamento
+              {t("invoices.registerPayment")}
             </Button>
           </div>
         </CardHeader>
         <CardContent>
           {invoice.payments.length === 0 ? (
             <p className="text-center py-4 text-muted-foreground">
-              Nessun pagamento registrato
+              {t("invoices.noPaymentsRegistered")}
             </p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Metodo</TableHead>
-                  <TableHead className="text-right">Importo</TableHead>
-                  <TableHead className="text-right">Azioni</TableHead>
+                  <TableHead>{t("invoices.date")}</TableHead>
+                  <TableHead>{t("invoices.method")}</TableHead>
+                  <TableHead className="text-right">{t("invoices.amount")}</TableHead>
+                  <TableHead className="text-right">{t("common.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -289,7 +291,7 @@ export default function InvoiceDetails({
                 ))}
                 <TableRow>
                   <TableCell colSpan={2} className="text-right font-bold">
-                    Totale pagato
+                    {t("invoices.totalPaid")}
                   </TableCell>
                   <TableCell className="text-right font-bold">
                     {formatCurrency(calculateTotalPaid())}
@@ -298,7 +300,7 @@ export default function InvoiceDetails({
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={2} className="text-right font-bold">
-                    Saldo
+                    {t("invoices.balance")}
                   </TableCell>
                   <TableCell className="text-right font-bold">
                     {calculateBalance() > 0 ? (
@@ -321,11 +323,11 @@ export default function InvoiceDetails({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Conferma eliminazione</DialogTitle>
+            <DialogTitle>{t("invoices.confirmPaymentDelete")}</DialogTitle>
             <DialogDescription>
-              Sei sicuro di voler eliminare questo pagamento?
+              {t("invoices.confirmPaymentDeleteDesc")}
               <br />
-              Questa azione non può essere annullata.
+              {t("invoices.actionCannotBeUndone")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -334,10 +336,10 @@ export default function InvoiceDetails({
               onClick={handleDeletePayment}
               disabled={deletePaymentMutation.isPending}
             >
-              {deletePaymentMutation.isPending ? "Eliminazione..." : "Elimina"}
+              {deletePaymentMutation.isPending ? t("invoices.deleting") : t("common.delete")}
             </Button>
             <DialogClose asChild>
-              <Button variant="outline">Annulla</Button>
+              <Button variant="outline">{t("common.cancel")}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
