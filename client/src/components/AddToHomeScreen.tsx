@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +11,7 @@ interface AddToHomeScreenProps {
 }
 
 export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -17,7 +19,6 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
   const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
-    // Rileva il sistema operativo
     const userAgent = navigator.userAgent.toLowerCase();
     const isIOSDevice = /ipad|iphone|ipod/.test(userAgent) && !(window as any).MSStream;
     const isAndroidDevice = /android/.test(userAgent);
@@ -25,7 +26,6 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
     setIsIOS(isIOSDevice);
     setIsAndroid(isAndroidDevice);
     
-    // Verifica se l'app è già installata
     const isAppInstalled = (window as any).__pwaIsInstalled || 
                            window.matchMedia('(display-mode: standalone)').matches || 
                            (window.navigator as any).standalone === true;
@@ -35,12 +35,10 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
       setIsInstalled(true);
     }
     
-    // Recupera l'evento di installazione se disponibile
     if ((window as any).__installPromptEvent) {
       setDeferredPrompt((window as any).__installPromptEvent);
     }
     
-    // Ascolta gli eventi di installazione
     const handleInstallPrompt = (e: Event) => {
       console.log('Evento beforeinstallprompt catturato', e);
       e.preventDefault();
@@ -49,7 +47,6 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
       (window as any).__installPromptEvent = promptEvent;
     };
     
-    // Ascolta eventi personalizzati
     const handlePwaInstallReady = () => {
       if ((window as any).__installPromptEvent) {
         setDeferredPrompt((window as any).__installPromptEvent);
@@ -61,7 +58,6 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
       setDeferredPrompt(null);
     };
     
-    // Aggiungi i listener
     window.addEventListener('beforeinstallprompt', handleInstallPrompt);
     window.addEventListener('pwaInstallReady', handlePwaInstallReady);
     window.addEventListener('pwaInstalled', handlePwaInstalled);
@@ -75,17 +71,15 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
     };
   }, []);
 
-  // Non mostrare nulla se già installata
   if (isInstalled) {
     return null;
   }
 
-  // Funzione per avviare l'installazione
   const handleInstallClick = async () => {
     if (isIOS) {
       toast({
-        title: "Crea collegamento",
-        description: "Tocca l'icona di condivisione e seleziona 'Aggiungi a Home'",
+        title: t('addToHomeScreen.iosToastTitle'),
+        description: t('addToHomeScreen.iosToastDescription'),
         duration: 5000,
       });
       return;
@@ -98,8 +92,8 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
         
         if (choiceResult.outcome === 'accepted') {
           toast({
-            title: "Collegamento creato",
-            description: "L'app è stata aggiunta alla tua schermata Home",
+            title: t('addToHomeScreen.createdToastTitle'),
+            description: t('addToHomeScreen.createdToastDescription'),
           });
           setIsInstalled(true);
         }
@@ -109,24 +103,22 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
         console.error("Errore durante l'installazione:", error);
       }
     } else {
-      // Mostra istruzioni alternative
       if (isAndroid) {
         toast({
-          title: "Crea collegamento",
-          description: "Usa il menu del browser ⋮ e seleziona 'Aggiungi a schermata Home'",
+          title: t('addToHomeScreen.androidToastTitle'),
+          description: t('addToHomeScreen.androidToastDescription'),
           duration: 6000
         });
       } else {
         toast({
-          title: "Crea collegamento",
-          description: "Usa il menu del browser e seleziona 'Installa app' o 'Aggiungi a Home'",
+          title: t('addToHomeScreen.genericToastTitle'),
+          description: t('addToHomeScreen.genericToastDescription'),
           duration: 6000
         });
       }
     }
   };
 
-  // Versione minimale per essere inserita in punti strategici dell'interfaccia
   if (minimal) {
     return (
       <Button 
@@ -135,21 +127,20 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
         className="gap-2 bg-blue-100 hover:bg-blue-200 border-blue-200 text-blue-700"
       >
         <ExternalLink className="h-4 w-4" />
-        Salva collegamento
+        {t('addToHomeScreen.minimalButton')}
       </Button>
     );
   }
 
-  // Versione completa con card informativa
   return (
     <Card className="border-2 border-blue-200 bg-blue-50/50 shadow-sm">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center text-lg font-medium">
           <Home className="mr-2 h-5 w-5 text-blue-600" /> 
-          Crea collegamento diretto
+          {t('addToHomeScreen.cardTitle')}
         </CardTitle>
         <CardDescription>
-          Aggiungi un accesso rapido alla tua area cliente direttamente nella schermata Home
+          {t('addToHomeScreen.cardDescription')}
         </CardDescription>
       </CardHeader>
       
@@ -160,7 +151,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
           </div>
           
           <p className="text-sm text-center max-w-xs mx-auto">
-            Non dovrai più utilizzare il codice QR per accedere alla tua area personale!
+            {t('addToHomeScreen.cardBody')}
           </p>
         </div>
       </CardContent>
@@ -173,7 +164,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
             size="lg"
           >
             <Share className="h-5 w-5" />
-            Aggiungi alla schermata Home
+            {t('addToHomeScreen.iosButton')}
           </Button>
         ) : (
           <Button 
@@ -182,7 +173,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
             size="lg"
           >
             <Save className="h-5 w-5" />
-            Salva collegamento sul telefono
+            {t('addToHomeScreen.androidButton')}
           </Button>
         )}
       </CardFooter>

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,6 +48,7 @@ function suggestEmailFix(email: string): string | null {
 }
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -62,19 +64,19 @@ export default function RegisterPage() {
     setError(null);
 
     if (!email || !password) {
-      setError("Email e password sono obbligatori");
+      setError(t('registerPage.validationEmailPasswordRequired'));
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Inserisci un'email valida");
+      setError(t('registerPage.validationInvalidEmail'));
       return;
     }
     if (password.length < 8) {
-      setError("La password deve essere lunga almeno 8 caratteri");
+      setError(t('registerPage.validationPasswordTooShort'));
       return;
     }
     if (!termsAccepted) {
-      setError("Devi accettare i Termini di Servizio per procedere");
+      setError(t('registerPage.validationAcceptTerms'));
       return;
     }
 
@@ -88,7 +90,7 @@ export default function RegisterPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.message || "Errore durante la registrazione");
+        throw new Error(data.message || t('registerPage.registrationError'));
       }
 
       const data = await response.json();
@@ -100,7 +102,7 @@ export default function RegisterPage() {
         navigate(`/login?username=${encodeURIComponent(data.username || email)}`);
       }
     } catch (err: any) {
-      setError(err.message || "Si è verificato un errore durante la registrazione");
+      setError(err.message || t('registerPage.genericRegistrationError'));
     } finally {
       setLoading(false);
     }
@@ -111,9 +113,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <Card className="w-full shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Crea il tuo account</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">{t('registerPage.title')}</CardTitle>
             <CardDescription className="text-center">
-              Bastano 30 secondi · 40 giorni gratis
+              {t('registerPage.subtitle')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -121,13 +123,13 @@ export default function RegisterPage() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Errore</AlertTitle>
+                  <AlertTitle>{t('registerPage.errorTitle')}</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('registerPage.emailLabel')}</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -138,7 +140,7 @@ export default function RegisterPage() {
                     inputMode="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="tua@email.com"
+                    placeholder={t('registerPage.emailPlaceholder')}
                     className="pl-9 h-12"
                     required
                     data-testid="input-email"
@@ -146,7 +148,7 @@ export default function RegisterPage() {
                 </div>
                 {emailSuggestion && (
                   <p className="text-xs text-amber-600">
-                    Forse intendevi{" "}
+                    {t('registerPage.didYouMean')}{" "}
                     <button
                       type="button"
                       onClick={() => setEmail(emailSuggestion)}
@@ -161,13 +163,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t('registerPage.passwordLabel')}</Label>
                 <PasswordInput
                   id="password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Almeno 8 caratteri"
+                  placeholder={t('registerPage.passwordPlaceholder')}
                   className="h-12"
                   data-testid="input-password"
                 />
@@ -176,20 +178,19 @@ export default function RegisterPage() {
               {email.length > 3 && password.length >= 6 && (
                 <div className="space-y-2 pt-1 animate-in fade-in slide-in-from-top-2 duration-300">
                   <Label htmlFor="referralCode" className="text-sm">
-                    Codice sponsor <span className="text-muted-foreground font-normal">(opzionale)</span>
+                    {t('registerPage.referralCodeLabel')} <span className="text-muted-foreground font-normal">{t('registerPage.optional')}</span>
                   </Label>
                   <Input
                     id="referralCode"
                     name="referralCode"
                     value={referralCode}
                     onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                    placeholder="Es. ABC123"
+                    placeholder={t('registerPage.referralCodePlaceholder')}
                     className="h-11 uppercase tracking-wider"
                     data-testid="input-referral-code"
                   />
                   <p className="text-xs text-muted-foreground leading-snug">
-                    Hai ricevuto un codice da un consulente? Inseriscilo qui.
-                    Se non ne hai uno, puoi proseguire normalmente.
+                    {t('registerPage.referralCodeHint')}
                   </p>
                 </div>
               )}
@@ -202,13 +203,13 @@ export default function RegisterPage() {
                   data-testid="checkbox-terms-accepted"
                 />
                 <Label htmlFor="termsAccepted" className="text-xs font-normal cursor-pointer leading-snug">
-                  Accetto i{" "}
+                  {t('registerPage.acceptPrefix')}{" "}
                   <a href="/terms" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                    Termini di Servizio
+                    {t('registerPage.termsLink')}
                   </a>
-                  {" "}e la{" "}
+                  {" "}{t('registerPage.andThe')}{" "}
                   <a href="/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                    Privacy Policy
+                    {t('registerPage.privacyLink')}
                   </a>
                 </Label>
               </div>
@@ -220,33 +221,33 @@ export default function RegisterPage() {
                 data-testid="button-submit-register"
               >
                 {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : null}
-                {loading ? "Creazione account..." : "Crea account gratis"}
+                {loading ? t('registerPage.creating') : t('registerPage.createButton')}
               </Button>
 
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <Gift className="w-4 h-4 text-primary" />
-                  <h3 className="font-semibold text-xs text-primary">40 giorni di prova gratuita</h3>
+                  <h3 className="font-semibold text-xs text-primary">{t('registerPage.trialTitle')}</h3>
                 </div>
                 <ul className="text-xs text-muted-foreground space-y-1 ml-6">
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>Tutte le funzioni sbloccate</span>
+                    <span>{t('registerPage.trialFeature1')}</span>
                   </li>
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>Nessuna carta di credito</span>
+                    <span>{t('registerPage.trialFeature2')}</span>
                   </li>
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0" />
-                    <span>Cancella quando vuoi</span>
+                    <span>{t('registerPage.trialFeature3')}</span>
                   </li>
                 </ul>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2 text-center text-sm">
-            <div>Hai già un account? <a href="/login" className="text-primary hover:underline font-semibold">Accedi</a></div>
+            <div>{t('registerPage.haveAccount')} <a href="/login" className="text-primary hover:underline font-semibold">{t('registerPage.signIn')}</a></div>
           </CardFooter>
         </Card>
       </div>

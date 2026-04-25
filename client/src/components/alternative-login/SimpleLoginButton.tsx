@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { localStorageClient } from '@/lib/localStorageClient';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -26,17 +27,19 @@ export default function SimpleLoginButton({
   variant = 'default',
   size = 'default',
   isPwa = false,
-  text = 'Accesso semplificato'
+  text
 }: SimpleLoginButtonProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const buttonLabel = text ?? t('simpleLoginButton.defaultText');
 
   const handleSimpleLogin = async () => {
     if (!username || !clientId || !token) {
       toast({
-        title: "Errore",
-        description: "Credenziali incomplete per il login semplificato",
+        title: t('simpleLoginButton.errorTitle'),
+        description: t('simpleLoginButton.missingCredentials'),
         variant: "destructive"
       });
       return;
@@ -82,8 +85,8 @@ export default function SimpleLoginButton({
         localStorageClient.storeCredentials(username, clientId, token);
         
         toast({
-          title: "Accesso effettuato",
-          description: "Benvenuto nell'area cliente"
+          title: t('simpleLoginButton.loginSuccessTitle'),
+          description: t('simpleLoginButton.loginSuccessDescription')
         });
         
         // Reindirizza all'area client
@@ -92,16 +95,16 @@ export default function SimpleLoginButton({
         // Gestisce errori (anche quelli 401)
         console.error('Errore login semplificato:', data);
         toast({
-          title: "Errore di accesso",
-          description: data.message || 'Impossibile accedere con queste credenziali',
+          title: t('simpleLoginButton.loginErrorTitle'),
+          description: data.message || t('simpleLoginButton.loginErrorDescription'),
           variant: "destructive"
         });
       }
     } catch (error) {
       console.error('Errore durante il login semplificato:', error);
       toast({
-        title: "Errore di connessione",
-        description: "Verificare la connessione Internet e riprovare",
+        title: t('simpleLoginButton.connectionErrorTitle'),
+        description: t('simpleLoginButton.connectionErrorDescription'),
         variant: "destructive"
       });
     } finally {
@@ -119,10 +122,10 @@ export default function SimpleLoginButton({
       {isLoading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Accesso in corso...
+          {t('simpleLoginButton.loggingIn')}
         </>
       ) : (
-        text
+        buttonLabel
       )}
     </Button>
   );
