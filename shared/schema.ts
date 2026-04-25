@@ -27,6 +27,7 @@ export const clients = pgTable("clients", {
   vatNumber: text("vatNumber"),
   emailBlocked: boolean("email_blocked").default(false),
   emailBlockedReason: text("email_blocked_reason"),
+  isDemo: boolean("is_demo").default(false),
 }, (table) => ({
   userIdIdx: index("clients_user_id_idx").on(table.userId),
   ownerIdIdx: index("clients_owner_id_idx").on(table.ownerId),
@@ -104,6 +105,7 @@ export const services = pgTable("services", {
   color: text("color").default("#3f51b5"),
   price: integer("price"),
   onlineBooking: boolean("online_booking").default(true),
+  isDemo: boolean("is_demo").default(false),
 }, (table) => ({
   userIdIdx: index("services_user_id_idx").on(table.userId),
 }));

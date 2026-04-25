@@ -6780,5 +6780,15 @@
       "hungary": "Hungria",
       "romania": "Rumania"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Configura tu espacio",
+      "subtitle": "{{completed}} de {{total}} pasos completados. Los datos de ejemplo se eliminan automáticamente cuando agregas los tuyos.",
+      "dismiss": "Ocultar esta guía",
+      "takeTour": "Hacer el tour guiado",
+      "allDone": "¡Todo listo, cerrar!",
+      "stepDone": "Completado"
+    }
   }
 }

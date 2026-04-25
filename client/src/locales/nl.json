@@ -6780,5 +6780,15 @@
       "hungary": "Hongarije",
       "romania": "Roemenie"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Stel je werkruimte in",
+      "subtitle": "{{completed}} van {{total}} stappen voltooid. Voorbeeldgegevens worden automatisch verwijderd zodra je je eigen gegevens toevoegt.",
+      "dismiss": "Deze gids verbergen",
+      "takeTour": "Volg de rondleiding",
+      "allDone": "Alles klaar, sluiten",
+      "stepDone": "Voltooid"
+    }
   }
 }

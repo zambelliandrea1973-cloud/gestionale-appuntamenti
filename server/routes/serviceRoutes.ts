@@ -56,10 +56,21 @@ router.post("/api/services", async (req, res) => {
       name,
       duration: typeof duration === 'string' ? parseInt(duration) : duration,
       price: typeof price === 'string' ? Math.round(parseFloat(price)) : (typeof price === 'number' ? Math.round(price) : 0),
-      color: color || '#3f51b5'
+      color: color || '#3f51b5',
+      isDemo: false, // 🔒 Solo l'onboardingDemoService può creare record demo
     };
     
     const newService = await storage.createService(serviceData);
+
+    // Auto-cleanup: rimuovi servizi demo se l'utente ne ha appena creato uno reale
+    if (newService && !newService.isDemo) {
+      try {
+        const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+        await cleanupDemoDataIfNeeded(user.id, 'services');
+      } catch (cleanupErr) {
+        console.error(`⚠️ [/api/services] Errore cleanup demo:`, cleanupErr);
+      }
+    }
     
     console.log(`✅ [/api/services] Servizio "${newService.name}" creato in PostgreSQL per utente ${user.id} (ID: ${newService.id})`);
     res.status(201).json(newService);

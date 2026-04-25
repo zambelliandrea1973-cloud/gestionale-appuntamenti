@@ -109,6 +109,7 @@ router.get("/api/clients", async (req, res) => {
       vatNumber: clients.vatNumber,
       emailBlocked: clients.emailBlocked,
       emailBlockedReason: clients.emailBlockedReason,
+      isDemo: clients.isDemo,
       accessCount: sql<number>`COALESCE((SELECT COUNT(*) FROM client_accesses WHERE client_accesses.client_id = ${clients.id}), 0)`.as('accessCount'),
     })
       .from(clients)
@@ -219,11 +220,13 @@ router.post("/api/clients", async (req, res) => {
       // 🔒 MULTI-TENANT SECURITY: usa la stessa logica di tenant resolution del GET
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       
+      const { isDemo: _ignoreIsDemo, ...sanitizedBody } = req.body || {};
       const clientData = {
         userId: tenantId,  // ✅ Usa tenantId invece di user.id per staff compatibility
         ownerId: tenantId,
         professionistCode: await getProfessionistCode(tenantId),
-        ...req.body
+        ...sanitizedBody,
+        isDemo: false, // 🔒 Solo l'onboardingDemoService può creare record demo
       };
       
       const newClient = await storage.createClient(clientData);
@@ -249,6 +252,16 @@ router.post("/api/clients", async (req, res) => {
       await storage.updateClient(newClient.id, updateData);
       
       const finalClient = await storage.getClient(newClient.id);
+
+      // Auto-cleanup: rimuovi clienti demo se l'utente ne ha appena creato uno reale
+      if (finalClient && !finalClient.isDemo) {
+        try {
+          const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+          await cleanupDemoDataIfNeeded(tenantId, 'clients');
+        } catch (cleanupErr) {
+          console.error(`⚠️ [POST /api/clients] Errore cleanup demo:`, cleanupErr);
+        }
+      }
       
       logger.debug(`✅ [POST /api/clients] Cliente creato: ${finalClient.firstName} ${finalClient.lastName}`);
       if (newUniqueCode) {

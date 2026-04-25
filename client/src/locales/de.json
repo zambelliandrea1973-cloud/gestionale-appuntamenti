@@ -6780,5 +6780,15 @@
       "hungary": "Ungarn",
       "romania": "Rumanien"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Richte deinen Arbeitsbereich ein",
+      "subtitle": "{{completed}} von {{total}} Schritten erledigt. Die Beispieldaten werden automatisch entfernt, sobald du eigene Daten hinzufügst.",
+      "dismiss": "Diese Anleitung ausblenden",
+      "takeTour": "Geführte Tour starten",
+      "allDone": "Alles erledigt, schließen",
+      "stepDone": "Erledigt"
+    }
   }
 }

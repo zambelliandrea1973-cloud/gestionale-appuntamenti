@@ -6780,5 +6780,15 @@
       "hungary": "Hungary",
       "romania": "Romania"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Set up your workspace",
+      "subtitle": "{{completed}} of {{total}} steps completed. Sample data is removed automatically when you add your own.",
+      "dismiss": "Hide this guide",
+      "takeTour": "Take the guided tour",
+      "allDone": "All done, close",
+      "stepDone": "Completed"
+    }
   }
 }

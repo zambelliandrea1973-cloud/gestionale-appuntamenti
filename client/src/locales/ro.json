@@ -6780,5 +6780,15 @@
       "hungary": "Ungaria",
       "romania": "Romania"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Configurează-ți spațiul de lucru",
+      "subtitle": "{{completed}} din {{total}} pași completați. Datele demonstrative sunt eliminate automat când adaugi propriile tale.",
+      "dismiss": "Ascunde acest ghid",
+      "takeTour": "Pornește turul ghidat",
+      "allDone": "Totul gata, închide",
+      "stepDone": "Finalizat"
+    }
   }
 }

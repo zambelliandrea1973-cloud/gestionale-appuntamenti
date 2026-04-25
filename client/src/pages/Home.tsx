@@ -22,7 +22,7 @@ import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import FooterContactIcons from "@/components/FooterContactIcons";
-import WelcomeGuide from "@/components/WelcomeGuide";
+import OnboardingBanner from "@/components/OnboardingBanner";
 
 // Componente per l'icona dell'app - STESSA LOGICA NOME AZIENDALE
 function AppIcon() {
@@ -83,6 +83,7 @@ function AppIcon() {
 
 // Componente per il nome aziendale
 function CompanyName() {
+  const { t } = useTranslation();
   const { user } = useUserWithLicense();
   const [settings, setSettings] = useState<{
     name: string;
@@ -193,18 +194,19 @@ export default function Home() {
   const [_, navigate] = useLocation();
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
-  const [showWelcomeGuide, setShowWelcomeGuide] = useState(false);
-  const [welcomeGuideDismissed, setWelcomeGuideDismissed] = useState(false);
+  const [onboardingDismissed, setOnboardingDismissed] = useState(false);
 
-  useEffect(() => {
-    if (user && user.type !== 'client' && !user.hideWelcomeGuide && !welcomeGuideDismissed) {
-      setShowWelcomeGuide(true);
-    }
-  }, [user, welcomeGuideDismissed]);
+  const showOnboardingBanner =
+    !!user &&
+    user.type !== 'client' &&
+    !user.hideWelcomeGuide &&
+    !onboardingDismissed;
 
   return (
     <div className="space-y-6 relative">
-      <WelcomeGuide open={showWelcomeGuide} onClose={() => { setShowWelcomeGuide(false); setWelcomeGuideDismissed(true); }} />
+      {showOnboardingBanner && (
+        <OnboardingBanner onDismiss={() => setOnboardingDismissed(true)} />
+      )}
       <BetaBadge />
       <div className="text-center my-8">
         <div className="flex flex-col items-center mb-6">

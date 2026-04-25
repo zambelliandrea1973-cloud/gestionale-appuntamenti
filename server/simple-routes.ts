@@ -347,6 +347,14 @@ export function registerSimpleRoutes(app: Express): Server {
       } catch (licenseError) {
         console.error(`Errore durante la creazione della licenza di prova per l'utente ${username}:`, licenseError);
       }
+
+      // Seed demo data (2 clienti + 3 servizi marcati isDemo) per la prima esperienza
+      try {
+        const { seedDemoData } = await import('./services/onboardingDemoService');
+        await seedDemoData(newUser.id);
+      } catch (demoError) {
+        console.error(`Errore durante il seeding demo per l'utente ${username}:`, demoError);
+      }
       
       // Invia email di benvenuto con le credenziali (asincrono, non blocca la risposta)
       console.log(`📧 [WELCOME] Avvio invio email di benvenuto a ${email}...`);

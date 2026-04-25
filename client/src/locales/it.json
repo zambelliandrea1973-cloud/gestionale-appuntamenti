@@ -6780,5 +6780,15 @@
       "hungary": "Ungheria",
       "romania": "Romania"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Configura il tuo gestionale",
+      "subtitle": "{{completed}} di {{total}} passaggi completati. I dati di esempio verranno rimossi automaticamente quando inserirai i tuoi.",
+      "dismiss": "Nascondi questa guida",
+      "takeTour": "Fai il tour guidato",
+      "allDone": "Tutto pronto, chiudi",
+      "stepDone": "Completato"
+    }
   }
 }

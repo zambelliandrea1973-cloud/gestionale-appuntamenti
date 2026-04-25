@@ -6780,5 +6780,15 @@
       "hungary": "Ungarn",
       "romania": "Romania"
     }
+  },
+  "onboarding": {
+    "banner": {
+      "title": "Sett opp arbeidsområdet",
+      "subtitle": "{{completed}} av {{total}} trinn fullført. Eksempeldata fjernes automatisk når du legger til dine egne.",
+      "dismiss": "Skjul denne veiledningen",
+      "takeTour": "Ta den veiledede omvisningen",
+      "allDone": "Alt er klart, lukk",
+      "stepDone": "Fullført"
+    }
   }
 }
