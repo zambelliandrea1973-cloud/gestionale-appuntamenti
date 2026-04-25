@@ -22,7 +22,8 @@ router.get("/api/services", async (req, res) => {
   }
   
   try {
-    let userServices = await storage.getServicesForUser(user.id);
+    let userServices: Array<Awaited<ReturnType<typeof storage.getServicesForUser>>[number] & { isDefault?: boolean }> =
+      await storage.getServicesForUser(user.id);
     
     if (userServices.length === 0) {
       const defaultService = await storage.createService({

@@ -23,7 +23,10 @@ interface Service {
   duration: number;
   price: number;
   userId: number;
+  color?: string | null;
   onlineBooking?: boolean;
+  isDemo?: boolean;
+  isDefault?: boolean;
 }
 
 export default function SimpleServiceManager() {
@@ -343,7 +346,7 @@ export default function SimpleServiceManager() {
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span>{service.name}</span>
-                        {(service as any).isDemo && (
+                        {service.isDemo && (
                           <Badge
                             variant="outline"
                             className="text-[10px] uppercase tracking-wide border-amber-300 text-amber-700 bg-amber-50"
