@@ -4248,7 +4248,9 @@
       "update": "Fehler beim Aktualisieren des Services",
       "delete": "Fehler beim Löschen des Services",
       "loadingTitle": "Fehler",
-      "loadingDesc": "Fehler beim Laden der Services: {{message}}"
+      "loadingDesc": "Fehler beim Laden der Services: {{message}}",
+      "unknown": "Unbekannter Fehler",
+      "httpStatus": "Fehler {{status}}: {{statusText}}"
     },
     "confirmDelete": "Möchten Sie diesen Service wirklich löschen?",
     "savingButton": "Speichern..."

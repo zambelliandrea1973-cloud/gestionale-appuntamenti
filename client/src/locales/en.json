@@ -4248,7 +4248,9 @@
       "update": "Error while updating the service",
       "delete": "Error while deleting the service",
       "loadingTitle": "Error",
-      "loadingDesc": "Error loading services: {{message}}"
+      "loadingDesc": "Error loading services: {{message}}",
+      "unknown": "Unknown error",
+      "httpStatus": "Error {{status}}: {{statusText}}"
     },
     "confirmDelete": "Are you sure you want to delete this service?",
     "savingButton": "Saving..."

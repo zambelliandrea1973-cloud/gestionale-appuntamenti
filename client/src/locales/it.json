@@ -4286,7 +4286,9 @@
       "update": "Errore durante l'aggiornamento del servizio",
       "delete": "Errore durante l'eliminazione del servizio",
       "loadingTitle": "Errore",
-      "loadingDesc": "Errore durante il caricamento dei servizi: {{message}}"
+      "loadingDesc": "Errore durante il caricamento dei servizi: {{message}}",
+      "unknown": "Errore sconosciuto",
+      "httpStatus": "Errore {{status}}: {{statusText}}"
     },
     "confirmDelete": "Sei sicuro di voler eliminare questo servizio?",
     "savingButton": "Salvataggio..."

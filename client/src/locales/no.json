@@ -4248,7 +4248,9 @@
       "update": "Feil ved oppdatering av tjenesten",
       "delete": "Feil ved sletting av tjenesten",
       "loadingTitle": "Feil",
-      "loadingDesc": "Feil ved lasting av tjenester: {{message}}"
+      "loadingDesc": "Feil ved lasting av tjenester: {{message}}",
+      "unknown": "Ukjent feil",
+      "httpStatus": "Feil {{status}}: {{statusText}}"
     },
     "confirmDelete": "Er du sikker på at du vil slette denne tjenesten?",
     "savingButton": "Lagrer..."

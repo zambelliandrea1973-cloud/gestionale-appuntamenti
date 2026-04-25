@@ -4248,7 +4248,9 @@
       "update": "Erreur lors de la mise à jour du service",
       "delete": "Erreur lors de la suppression du service",
       "loadingTitle": "Erreur",
-      "loadingDesc": "Erreur lors du chargement des services : {{message}}"
+      "loadingDesc": "Erreur lors du chargement des services : {{message}}",
+      "unknown": "Erreur inconnue",
+      "httpStatus": "Erreur {{status}} : {{statusText}}"
     },
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce service ?",
     "savingButton": "Enregistrement..."

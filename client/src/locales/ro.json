@@ -4248,7 +4248,9 @@
       "update": "Eroare la actualizarea serviciului",
       "delete": "Eroare la ștergerea serviciului",
       "loadingTitle": "Eroare",
-      "loadingDesc": "Eroare la încărcarea serviciilor: {{message}}"
+      "loadingDesc": "Eroare la încărcarea serviciilor: {{message}}",
+      "unknown": "Eroare necunoscută",
+      "httpStatus": "Eroare {{status}}: {{statusText}}"
     },
     "confirmDelete": "Sigur doriți să ștergeți acest serviciu?",
     "savingButton": "Se salvează..."

@@ -587,7 +587,7 @@ export default function AppointmentForm({
             const staff = collaborators.find((c: any) => c.id === apt.staffId);
             staffConflicts.push({
               appointment: apt,
-              staffName: staff ? `${staff.firstName} ${staff.lastName}` : 'Professionista',
+              staffName: staff ? `${staff.firstName} ${staff.lastName}` : t('appointmentForm.fields.staff'),
               time: `${apt.startTime.substring(0, 5)} - ${apt.endTime.substring(0, 5)}`
             });
           }

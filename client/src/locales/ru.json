@@ -4248,7 +4248,9 @@
       "update": "Ошибка при обновлении услуги",
       "delete": "Ошибка при удалении услуги",
       "loadingTitle": "Ошибка",
-      "loadingDesc": "Ошибка загрузки услуг: {{message}}"
+      "loadingDesc": "Ошибка загрузки услуг: {{message}}",
+      "unknown": "Неизвестная ошибка",
+      "httpStatus": "Ошибка {{status}}: {{statusText}}"
     },
     "confirmDelete": "Вы уверены, что хотите удалить эту услугу?",
     "savingButton": "Сохранение..."

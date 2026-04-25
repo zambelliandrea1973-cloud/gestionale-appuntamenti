@@ -131,7 +131,7 @@ export default function ServiceManager() {
           setServices([]);
           return;
         }
-        throw new Error(`Errore ${response.status}: ${response.statusText}`);
+        throw new Error(t('serviceManager.errors.httpStatus', { status: response.status, statusText: response.statusText }));
       }
       
       const data = await response.json();
@@ -140,12 +140,12 @@ export default function ServiceManager() {
       
     } catch (err) {
       console.error("❌ FRONTEND ServiceManager: Errore caricamento servizi:", err);
-      setError(err instanceof Error ? err : new Error('Errore sconosciuto'));
+      setError(err instanceof Error ? err : new Error(t('serviceManager.errors.unknown')));
       setServices([]);
     } finally {
       setIsLoading(false);
     }
-  }, [user?.id]);
+  }, [user?.id, t]);
 
   // Carica servizi al mount del componente e al cambio utente
   useEffect(() => {
@@ -183,7 +183,7 @@ export default function ServiceManager() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("❌ FRONTEND: Errore dal backend:", errorData);
-        throw new Error(errorData.message || "Errore durante la creazione del servizio");
+        throw new Error(errorData.message || t('serviceManager.errors.create'));
       }
       
       const newService = await response.json();
@@ -242,7 +242,7 @@ export default function ServiceManager() {
       const response = await apiRequest("PUT", `/api/services/${data.id}`, data);
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'aggiornamento del servizio");
+        throw new Error(errorData.message || t('serviceManager.errors.update'));
       }
       return response.json();
     },
@@ -281,7 +281,7 @@ export default function ServiceManager() {
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'eliminazione del servizio");
+        throw new Error(errorData.message || t('serviceManager.errors.delete'));
       }
       
       // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
