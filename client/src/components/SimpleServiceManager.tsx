@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Label } from "@/components/ui/label";
 import { PlusCircle, Pencil, Trash2, Globe, CircleOff } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
@@ -339,7 +340,20 @@ export default function SimpleServiceManager() {
               <TableBody>
                 {services.map((service) => (
                   <TableRow key={service.id} className={service.onlineBooking === false ? 'opacity-60' : ''}>
-                    <TableCell className="font-medium">{service.name}</TableCell>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span>{service.name}</span>
+                        {(service as any).isDemo && (
+                          <Badge
+                            variant="outline"
+                            className="text-[10px] uppercase tracking-wide border-amber-300 text-amber-700 bg-amber-50"
+                            data-testid={`badge-sample-service-${service.id}`}
+                          >
+                            {t('onboarding.sampleBadge')}
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
                     <TableCell>{service.duration} min</TableCell>
                     <TableCell>{symbol}{service.price?.toFixed(2) || '0.00'}</TableCell>
                     <TableCell>

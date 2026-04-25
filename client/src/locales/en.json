@@ -6789,6 +6789,7 @@
       "takeTour": "Take the guided tour",
       "allDone": "All done, close",
       "stepDone": "Completed"
-    }
+    },
+    "sampleBadge": "Sample"
   }
 }

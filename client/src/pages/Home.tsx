@@ -129,10 +129,12 @@ function CompanyName() {
     fetchCompanyNameSettings();
   }, [user?.id]);
   
+  // Niente flash di "Caricamento nome..." durante il fetch: il banner di
+  // onboarding è già il prompt principale per impostare il nome aziendale.
   if (loading) {
-    return <div className="text-center text-xs text-muted-foreground mt-2">{t('i18nFinale.homePage.loadingName')}</div>;
+    return null;
   }
-  
+
   if (!settings || !settings.enabled || !settings.name) {
     console.log("🏢 FRONTEND CompanyName: Non mostro nome - settings:", settings);
     return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato

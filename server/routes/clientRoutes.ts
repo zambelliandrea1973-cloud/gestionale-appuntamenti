@@ -314,9 +314,16 @@ router.get("/api/client-owners", async (req, res) => {
 router.post("/api/clients/import-csv", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const ownerId = user.type === 'staff' ? user.userId : user.id;
+    // 🔒 MULTI-TENANT SECURITY: usa la stessa logica di tenant resolution
+    // delle altre route (POST /api/clients e GET /api/clients).
+    const ownerId = user.ownerId ?? user.tenantId ?? user.id;
 
-    console.log(`📥 [CSV IMPORT] Utente ${user.id} avvia importazione CSV`);
+    if (!ownerId) {
+      console.error(`❌ [CSV IMPORT] Tenant non risolto per utente ${user.id} (type=${user.type})`);
+      return res.status(400).json({ success: false, error: 'Tenant non risolto' });
+    }
+
+    console.log(`📥 [CSV IMPORT] Utente ${user.id} (tenant ${ownerId}) avvia importazione CSV`);
 
     try {
       const { contacts } = req.body;
@@ -349,6 +356,8 @@ router.post("/api/clients/import-csv", async (req, res) => {
           phone: contact.phone || '',
           notes: contact.notes || 'Importato da file CSV',
           userId: ownerId,
+          ownerId,
+          isDemo: false,
         };
 
         await storage.createClient(clientData);
@@ -356,6 +365,16 @@ router.post("/api/clients/import-csv", async (req, res) => {
       }
 
       logger.debug(`✅ [CSV IMPORT] Importati ${imported} contatti, saltati ${skipped}`);
+
+      // Auto-cleanup: rimuovi clienti demo se l'import ne ha aggiunti di reali
+      if (imported > 0) {
+        try {
+          const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+          await cleanupDemoDataIfNeeded(ownerId, 'clients');
+        } catch (cleanupErr) {
+          console.error('⚠️ [CSV IMPORT] Errore cleanup demo:', cleanupErr);
+        }
+      }
 
       res.json({ 
         success: true, 

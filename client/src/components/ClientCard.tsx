@@ -283,10 +283,21 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       <CardContent className="pt-6">
         <div className="flex justify-between items-start">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-medium flex items-center">
-              {client.firstName} {client.lastName}
+            <h3 className="text-lg font-medium flex items-center flex-wrap gap-1.5">
+              <span>
+                {client.firstName} {client.lastName}
+              </span>
               {client.isFrequent && (
-                <Star className="h-4 w-4 ml-1.5 text-pink-500" />
+                <Star className="h-4 w-4 text-pink-500" />
+              )}
+              {client.isDemo && (
+                <Badge
+                  variant="outline"
+                  className="text-[10px] uppercase tracking-wide border-amber-300 text-amber-700 bg-amber-50"
+                  data-testid={`badge-sample-client-${client.id}`}
+                >
+                  {t('onboarding.sampleBadge')}
+                </Badge>
               )}
             </h3>
             {client.phone && client.phone.trim() !== '' && (
