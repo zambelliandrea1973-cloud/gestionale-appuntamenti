@@ -2809,7 +2809,8 @@
     "nameMinChars": "Имя должно содержать минимум 2 символа",
     "lastNameMinChars": "Фамилия должна содержать минимум 2 символа",
     "phoneMinChars": "Номер телефона должен содержать минимум 6 цифр",
-    "emailInvalid": "Некорректный email"
+    "emailInvalid": "Некорректный email",
+    "prefixPlaceholder": "Преф."
   },
   "privacyConsent": {
     "consentRequired": "Требуется согласие",
@@ -3748,7 +3749,8 @@
       "after": "\" как нового клиента"
     },
     "warnings": {
-      "otherAccount": "<0>Внимание:</0> Вы создаёте запись для клиента из другого аккаунта ({{firstName}} {{lastName}}). Убедитесь, что у вас есть необходимые разрешения."
+      "otherAccount": "<0>Внимание:</0> Вы создаёте запись для клиента из другого аккаунта ({{firstName}} {{lastName}}). Убедитесь, что у вас есть необходимые разрешения.",
+      "otherAccountClient": "Вы создаёте запись для клиента из другой учётной записи ({{firstName}} {{lastName}}). Убедитесь, что у вас есть необходимые права, прежде чем продолжить."
     },
     "notifications": {
       "title": "Выберите каналы уведомлений"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Ошибка валидации",
       "validationDesc": "Поля с ошибками: {{fields}}",
-      "clientCreateErrorDesc": "Не удалось создать клиента"
+      "clientCreateErrorDesc": "Не удалось создать клиента",
+      "savedAndCalendarUpdated": "Запись сохранена, календарь обновлён"
     },
     "errors": {
       "requiredClient": "Выберите клиента для записи",
@@ -3786,7 +3789,11 @@
       "consentWarning": "Клиент не дал согласия на обработку данных. Запись всё равно будет создана.",
       "confirmOtherAccount": "ВНИМАНИЕ: Вы создаёте запись для {{firstName}} {{lastName}}, который относится к другому аккаунту.\n\nПродолжить?",
       "savingTitle": "Ошибка при сохранении",
-      "createClient": "Не удалось создать клиента"
+      "createClient": "Не удалось создать клиента",
+      "dataIncomplete": "Неполные данные для записи",
+      "serviceNotFound": "Услуга не найдена",
+      "requiredDate": "Выберите дату для записи",
+      "requiredStartTime": "Выберите время начала"
     },
     "conflict": {
       "title": "Конфликт доступности",
@@ -3803,7 +3810,10 @@
       "withClient": "с",
       "roomLineSuffix": "уже занято в",
       "byClient": "клиентом"
-    }
+    },
+    "directSaveButton": "Сохранить напрямую",
+    "directSaveNote": "Запись создана прямым сохранением",
+    "durationLabel": "Длительность: {{minutes}} мин"
   },
   "clientNotes": {
     "title": "Заметки клиента",

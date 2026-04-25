@@ -2809,7 +2809,8 @@
     "nameMinChars": "Fornavn må inneholde minst 2 tegn",
     "lastNameMinChars": "Etternavn må inneholde minst 2 tegn",
     "phoneMinChars": "Telefonnummer må inneholde minst 6 sifre",
-    "emailInvalid": "Ugyldig e-post"
+    "emailInvalid": "Ugyldig e-post",
+    "prefixPlaceholder": "Forv."
   },
   "privacyConsent": {
     "consentRequired": "Samtykke påkrevd",
@@ -3748,7 +3749,8 @@
       "after": "\" som ny kunde"
     },
     "warnings": {
-      "otherAccount": "<0>Advarsel:</0> Du oppretter en avtale for en klient fra en annen konto ({{firstName}} {{lastName}}). Sørg for at du har nødvendige tillatelser."
+      "otherAccount": "<0>Advarsel:</0> Du oppretter en avtale for en klient fra en annen konto ({{firstName}} {{lastName}}). Sørg for at du har nødvendige tillatelser.",
+      "otherAccountClient": "Du oppretter en avtale for en kunde som tilhører en annen konto ({{firstName}} {{lastName}}). Kontroller at du har de nødvendige tillatelsene før du fortsetter."
     },
     "notifications": {
       "title": "Velg varslingskanaler"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Valideringsfeil",
       "validationDesc": "Felter med feil: {{fields}}",
-      "clientCreateErrorDesc": "Kunne ikke opprette klienten"
+      "clientCreateErrorDesc": "Kunne ikke opprette klienten",
+      "savedAndCalendarUpdated": "Avtale lagret og kalender oppdatert"
     },
     "errors": {
       "requiredClient": "Velg en klient for avtalen",
@@ -3786,7 +3789,11 @@
       "consentWarning": "Klienten har ikke gitt samtykke til databehandling. Avtalen opprettes likevel.",
       "confirmOtherAccount": "ADVARSEL: Du er i ferd med å opprette en avtale for {{firstName}} {{lastName}}, som tilhører en annen konto.\n\nEr du sikker på at du vil fortsette?",
       "savingTitle": "Feil under lagring",
-      "createClient": "Kunne ikke opprette klient"
+      "createClient": "Kunne ikke opprette klient",
+      "dataIncomplete": "Ufullstendige data for avtalen",
+      "serviceNotFound": "Tjenesten ble ikke funnet",
+      "requiredDate": "Velg en dato for avtalen",
+      "requiredStartTime": "Velg et starttidspunkt"
     },
     "conflict": {
       "title": "Tilgjengelighetskonflikt",
@@ -3803,7 +3810,10 @@
       "withClient": "med",
       "roomLineSuffix": "er allerede opptatt kl.",
       "byClient": "av"
-    }
+    },
+    "directSaveButton": "Lagre direkte",
+    "directSaveNote": "Avtale opprettet med direkte lagring",
+    "durationLabel": "Varighet: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Klientnotater",

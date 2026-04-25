@@ -2809,7 +2809,8 @@
     "nameMinChars": "Der Vorname muss mindestens 2 Zeichen enthalten",
     "lastNameMinChars": "Der Nachname muss mindestens 2 Zeichen enthalten",
     "phoneMinChars": "Die Telefonnummer muss mindestens 6 Ziffern enthalten",
-    "emailInvalid": "Ungültige E-Mail"
+    "emailInvalid": "Ungültige E-Mail",
+    "prefixPlaceholder": "Vorw."
   },
   "privacyConsent": {
     "consentRequired": "Einwilligung erforderlich",
@@ -3748,7 +3749,8 @@
       "after": "\" als neuen Kunden"
     },
     "warnings": {
-      "otherAccount": "<0>Achtung:</0> Du erstellst einen Termin für einen Kunden aus einem anderen Konto ({{firstName}} {{lastName}}). Stelle sicher, dass du die nötigen Berechtigungen hast."
+      "otherAccount": "<0>Achtung:</0> Du erstellst einen Termin für einen Kunden aus einem anderen Konto ({{firstName}} {{lastName}}). Stelle sicher, dass du die nötigen Berechtigungen hast.",
+      "otherAccountClient": "Sie legen einen Termin für einen Kunden eines anderen Kontos an ({{firstName}} {{lastName}}). Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen, bevor Sie fortfahren."
     },
     "notifications": {
       "title": "Benachrichtigungskanäle auswählen"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Validierungsfehler",
       "validationDesc": "Felder mit Fehlern: {{fields}}",
-      "clientCreateErrorDesc": "Fehler beim Erstellen des Kunden"
+      "clientCreateErrorDesc": "Fehler beim Erstellen des Kunden",
+      "savedAndCalendarUpdated": "Termin gespeichert und Kalender aktualisiert"
     },
     "errors": {
       "requiredClient": "Wähle einen Kunden für den Termin",
@@ -3786,7 +3789,11 @@
       "consentWarning": "Der Kunde hat keine Einwilligung zur Datenverarbeitung erteilt. Der Termin wird trotzdem erstellt.",
       "confirmOtherAccount": "ACHTUNG: Du möchtest einen Termin für {{firstName}} {{lastName}} erstellen, der zu einem anderen Konto gehört.\n\nMöchtest du wirklich fortfahren?",
       "savingTitle": "Fehler beim Speichern",
-      "createClient": "Kunde konnte nicht erstellt werden"
+      "createClient": "Kunde konnte nicht erstellt werden",
+      "dataIncomplete": "Unvollständige Daten für den Termin",
+      "serviceNotFound": "Dienstleistung nicht gefunden",
+      "requiredDate": "Wählen Sie ein Datum für den Termin",
+      "requiredStartTime": "Wählen Sie eine Startzeit"
     },
     "conflict": {
       "title": "Verfügbarkeitskonflikt",
@@ -3803,7 +3810,10 @@
       "withClient": "mit",
       "roomLineSuffix": "ist bereits belegt um",
       "byClient": "von"
-    }
+    },
+    "directSaveButton": "Direkt speichern",
+    "directSaveNote": "Termin per Direktspeicherung erstellt",
+    "durationLabel": "Dauer: {{minutes}} Min."
   },
   "clientNotes": {
     "title": "Kundennotizen",

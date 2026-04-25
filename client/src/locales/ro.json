@@ -2809,7 +2809,8 @@
     "nameMinChars": "Prenumele trebuie să conțină cel puțin 2 caractere",
     "lastNameMinChars": "Numele trebuie să conțină cel puțin 2 caractere",
     "phoneMinChars": "Numărul de telefon trebuie să conțină cel puțin 6 cifre",
-    "emailInvalid": "Email invalid"
+    "emailInvalid": "Email invalid",
+    "prefixPlaceholder": "Pref."
   },
   "privacyConsent": {
     "consentRequired": "Consimțământ necesar",
@@ -3748,7 +3749,8 @@
       "after": "\" ca client nou"
     },
     "warnings": {
-      "otherAccount": "<0>Atenție:</0> Creați o programare pentru un client al unui alt cont ({{firstName}} {{lastName}}). Verificați permisiunile necesare."
+      "otherAccount": "<0>Atenție:</0> Creați o programare pentru un client al unui alt cont ({{firstName}} {{lastName}}). Verificați permisiunile necesare.",
+      "otherAccountClient": "Creezi o programare pentru un client care aparține altui cont ({{firstName}} {{lastName}}). Asigură-te că ai permisiunile necesare înainte de a continua."
     },
     "notifications": {
       "title": "Selectați canalele de notificare"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Eroare de validare",
       "validationDesc": "Câmpuri cu erori: {{fields}}",
-      "clientCreateErrorDesc": "Crearea clientului a eșuat"
+      "clientCreateErrorDesc": "Crearea clientului a eșuat",
+      "savedAndCalendarUpdated": "Programare salvată și calendar actualizat"
     },
     "errors": {
       "requiredClient": "Selectați un client pentru programare",
@@ -3786,7 +3789,11 @@
       "consentWarning": "Clientul nu și-a dat consimțământul pentru prelucrarea datelor. Programarea va fi creată oricum.",
       "confirmOtherAccount": "ATENȚIE: Sunteți pe cale să creați o programare pentru {{firstName}} {{lastName}}, care aparține altui cont.\n\nSigur doriți să continuați?",
       "savingTitle": "Eroare la salvare",
-      "createClient": "Imposibil de creat clientul"
+      "createClient": "Imposibil de creat clientul",
+      "dataIncomplete": "Date incomplete pentru programare",
+      "serviceNotFound": "Serviciul nu a fost găsit",
+      "requiredDate": "Selectează o dată pentru programare",
+      "requiredStartTime": "Selectează o oră de început"
     },
     "conflict": {
       "title": "Conflict de disponibilitate",
@@ -3803,7 +3810,10 @@
       "withClient": "cu",
       "roomLineSuffix": "este deja ocupată la",
       "byClient": "de"
-    }
+    },
+    "directSaveButton": "Salvează direct",
+    "directSaveNote": "Programare creată prin salvare directă",
+    "durationLabel": "Durată: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Note client",

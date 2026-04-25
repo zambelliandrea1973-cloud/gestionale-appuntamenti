@@ -2809,7 +2809,8 @@
     "nameMinChars": "Il nome deve contenere almeno 2 caratteri",
     "lastNameMinChars": "Il cognome deve contenere almeno 2 caratteri",
     "phoneMinChars": "Il numero di telefono deve contenere almeno 6 cifre",
-    "emailInvalid": "Email non valida"
+    "emailInvalid": "Email non valida",
+    "prefixPlaceholder": "Pref."
   },
   "privacyConsent": {
     "consentRequired": "Consenso richiesto",
@@ -3748,7 +3749,8 @@
       "after": "\" come nuovo cliente"
     },
     "warnings": {
-      "otherAccount": "<0>Attenzione:</0> Stai creando un appuntamento per un cliente di un altro account ({{firstName}} {{lastName}}). Verifica di avere i permessi necessari prima di procedere."
+      "otherAccount": "<0>Attenzione:</0> Stai creando un appuntamento per un cliente di un altro account ({{firstName}} {{lastName}}). Verifica di avere i permessi necessari prima di procedere.",
+      "otherAccountClient": "Stai creando un appuntamento per un cliente di un altro account ({{firstName}} {{lastName}}). Verifica di avere i permessi necessari prima di procedere."
     },
     "notifications": {
       "title": "Seleziona Canali di Notifica"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Errore di validazione",
       "validationDesc": "Campi con errori: {{fields}}",
-      "clientCreateErrorDesc": "Errore nella creazione del cliente"
+      "clientCreateErrorDesc": "Errore nella creazione del cliente",
+      "savedAndCalendarUpdated": "Appuntamento salvato e calendario aggiornato"
     },
     "errors": {
       "requiredClient": "Seleziona un cliente per l'appuntamento",
@@ -3786,7 +3789,11 @@
       "consentWarning": "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
       "confirmOtherAccount": "ATTENZIONE: Stai per creare un appuntamento per {{firstName}} {{lastName}}, che appartiene a un altro account.\n\nSei sicuro di voler procedere?",
       "savingTitle": "Errore durante il salvataggio",
-      "createClient": "Impossibile creare il cliente"
+      "createClient": "Impossibile creare il cliente",
+      "dataIncomplete": "Dati incompleti per l'appuntamento",
+      "serviceNotFound": "Servizio non trovato",
+      "requiredDate": "Seleziona una data per l'appuntamento",
+      "requiredStartTime": "Seleziona un orario di inizio"
     },
     "conflict": {
       "title": "Conflitto di disponibilità",
@@ -3803,7 +3810,10 @@
       "withClient": "con",
       "roomLineSuffix": "è già occupata alle",
       "byClient": "da"
-    }
+    },
+    "directSaveButton": "Salva Direttamente",
+    "directSaveNote": "Appuntamento creato con salvataggio diretto",
+    "durationLabel": "Durata: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Note Cliente",

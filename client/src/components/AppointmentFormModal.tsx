@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import AppointmentForm from "./AppointmentForm";
@@ -31,6 +32,7 @@ function formatDateForApi(date: Date): string {
 
 export default function AppointmentFormModal({ clientId, onClose }: AppointmentFormModalProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [appointmentSaved, setAppointmentSaved] = useState(false);
   const formRef = useRef<HTMLFormElement | null>(null);
   
@@ -79,7 +81,7 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     try {
       // Verifica che ci sia una data, altrimenti lascia che sia il form a gestire l'errore
       if (!formData.date) {
-        throw new Error("Seleziona una data per l'appuntamento");
+        throw new Error(t('appointmentForm.errors.requiredDate'));
       }
       
       const date = formData.date;
@@ -119,8 +121,8 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
       
       // Notifica successo
       toast({
-        title: "Appuntamento creato",
-        description: "Nuovo appuntamento creato con successo",
+        title: t('appointmentForm.toast.created.title'),
+        description: t('appointmentForm.toast.created.desc'),
       });
       
       // Notifica al sistema che l'appuntamento è stato salvato
@@ -128,8 +130,8 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     } catch (error: any) {
       console.error("[MODAL] ERRORE durante la richiesta:", error);
       toast({
-        title: "Errore",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('common.error'),
+        description: t('common.errorWithMessage', { message: error.message }),
         variant: "destructive"
       });
     }
@@ -144,7 +146,9 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     
     console.log("[MODAL] Testo data trovato:", dateText);
     
-    if (dateText && dateText !== "Seleziona data") {
+    // Verifica che il testo contenga almeno una cifra (numero del giorno)
+    // — placeholder localizzati come "Seleziona data" non hanno numeri
+    if (dateText && /\d/.test(dateText)) {
       // Tenta di estrarre la data in formato italiano
       const parts = dateText.split(' ');
       console.log("[MODAL] Parti della data:", parts);
@@ -267,12 +271,12 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
                   date: new Date(),
                   startTime: "09:00",
                   serviceId: 1,
-                  notes: "Appuntamento creato con salvataggio diretto"
+                  notes: t('appointmentForm.directSaveNote')
                 });
               }
             }}
           >
-            Salva Direttamente
+            {t('appointmentForm.directSaveButton')}
           </button>
         </div>
       </div>

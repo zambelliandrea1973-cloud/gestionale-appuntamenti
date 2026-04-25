@@ -2809,7 +2809,8 @@
     "nameMinChars": "Voornaam moet minstens 2 tekens bevatten",
     "lastNameMinChars": "Achternaam moet minstens 2 tekens bevatten",
     "phoneMinChars": "Telefoonnummer moet minstens 6 cijfers bevatten",
-    "emailInvalid": "Ongeldig e-mailadres"
+    "emailInvalid": "Ongeldig e-mailadres",
+    "prefixPlaceholder": "Pref."
   },
   "privacyConsent": {
     "consentRequired": "Toestemming vereist",
@@ -3748,7 +3749,8 @@
       "after": "\" als nieuwe klant"
     },
     "warnings": {
-      "otherAccount": "<0>Let op:</0> Je maakt een afspraak voor een klant van een andere account ({{firstName}} {{lastName}}). Controleer of je de juiste rechten hebt."
+      "otherAccount": "<0>Let op:</0> Je maakt een afspraak voor een klant van een andere account ({{firstName}} {{lastName}}). Controleer of je de juiste rechten hebt.",
+      "otherAccountClient": "Je maakt een afspraak voor een klant van een ander account ({{firstName}} {{lastName}}). Controleer of je over de benodigde rechten beschikt voordat je doorgaat."
     },
     "notifications": {
       "title": "Selecteer meldingskanalen"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Validatiefout",
       "validationDesc": "Velden met fouten: {{fields}}",
-      "clientCreateErrorDesc": "Aanmaken klant mislukt"
+      "clientCreateErrorDesc": "Aanmaken klant mislukt",
+      "savedAndCalendarUpdated": "Afspraak opgeslagen en agenda bijgewerkt"
     },
     "errors": {
       "requiredClient": "Selecteer een klant voor de afspraak",
@@ -3786,7 +3789,11 @@
       "consentWarning": "De klant heeft geen toestemming gegeven voor gegevensverwerking. De afspraak wordt toch aangemaakt.",
       "confirmOtherAccount": "LET OP: Je staat op het punt een afspraak aan te maken voor {{firstName}} {{lastName}}, die bij een andere account hoort.\n\nWeet je zeker dat je wilt doorgaan?",
       "savingTitle": "Fout bij het opslaan",
-      "createClient": "Kon klant niet aanmaken"
+      "createClient": "Kon klant niet aanmaken",
+      "dataIncomplete": "Onvolledige gegevens voor de afspraak",
+      "serviceNotFound": "Service niet gevonden",
+      "requiredDate": "Selecteer een datum voor de afspraak",
+      "requiredStartTime": "Selecteer een begintijd"
     },
     "conflict": {
       "title": "Beschikbaarheidsconflict",
@@ -3803,7 +3810,10 @@
       "withClient": "met",
       "roomLineSuffix": "is al bezet om",
       "byClient": "door"
-    }
+    },
+    "directSaveButton": "Direct opslaan",
+    "directSaveNote": "Afspraak aangemaakt met directe opslag",
+    "durationLabel": "Duur: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Klantnotities",

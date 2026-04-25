@@ -56,21 +56,22 @@ interface AppointmentFormProps {
 }
 
 // Schema personalizzato per evitare limitazioni integer su timestamp ID
+// I messaggi di errore sono chiavi i18n e vengono tradotti automaticamente da <FormMessage />
 const formSchema = z.object({
   clientId: z.number({
-    required_error: "Seleziona un cliente",
+    required_error: "appointmentForm.errors.requiredClient",
   }),
   serviceId: z.number({
-    required_error: "Seleziona un servizio",
+    required_error: "appointmentForm.errors.requiredService",
   }),
   staffId: z.number().nullable().optional(),
   roomId: z.number().nullable().optional(),
   packagePurchaseId: z.number().nullable().optional(),
   date: z.date({
-    required_error: "Seleziona una data per l'appuntamento",
+    required_error: "appointmentForm.errors.requiredDate",
   }),
   startTime: z.string({
-    required_error: "Seleziona un orario di inizio",
+    required_error: "appointmentForm.errors.requiredStartTime",
   }),
   endTime: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
@@ -289,13 +290,13 @@ export default function AppointmentForm({
           date: data.date,
           startTime: data.startTime
         });
-        throw new Error("Dati incompleti per l'appuntamento");
+        throw new Error(t('appointmentForm.errors.dataIncomplete'));
       }
       
       // Calcola l'orario di fine in base alla durata del servizio o alla durata personalizzata
       const service = services.find((s: any) => s.id === data.serviceId);
       if (!service) {
-        throw new Error("Servizio non trovato");
+        throw new Error(t('appointmentForm.errors.serviceNotFound'));
       }
       
       // Calcola l'orario di fine utilizzando la durata personalizzata se disponibile
@@ -349,10 +350,12 @@ export default function AppointmentForm({
       console.log("Appuntamento salvato con successo:", data);
       
       toast({
-        title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-        description: appointmentId 
-          ? "L'appuntamento è stato aggiornato con successo" 
-          : "Nuovo appuntamento creato con successo",
+        title: appointmentId
+          ? t('appointmentForm.toast.updated.title')
+          : t('appointmentForm.toast.created.title'),
+        description: appointmentId
+          ? t('appointmentForm.toast.updated.desc')
+          : t('appointmentForm.toast.created.desc'),
       });
       
       // Invalidate all related queries
@@ -491,10 +494,12 @@ export default function AppointmentForm({
       
       // Notifica successo
       toast({
-        title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-        description: appointmentId 
-          ? "L'appuntamento è stato aggiornato con successo" 
-          : "Nuovo appuntamento creato con successo",
+        title: appointmentId
+          ? t('appointmentForm.toast.updated.title')
+          : t('appointmentForm.toast.created.title'),
+        description: appointmentId
+          ? t('appointmentForm.toast.updated.desc')
+          : t('appointmentForm.toast.created.desc'),
       });
       
       // Chiudi la form
@@ -592,7 +597,7 @@ export default function AppointmentForm({
             const room = treatmentRooms.find((r: any) => r.id === apt.roomId);
             roomConflicts.push({
               appointment: apt,
-              roomName: room ? room.name : 'Stanza',
+              roomName: room ? room.name : t('appointmentForm.fields.room'),
               time: `${apt.startTime.substring(0, 5)} - ${apt.endTime.substring(0, 5)}`
             });
           }
@@ -616,9 +621,10 @@ export default function AppointmentForm({
       const clientOwnerId = client?.ownerId || client?.originalOwnerId;
       if (currentUser?.type === 'admin' && client && clientOwnerId && clientOwnerId !== currentUser.id) {
         const confirmed = window.confirm(
-          `ATTENZIONE: Stai per creare un appuntamento per ${client.firstName} ${client.lastName}, ` +
-          `che appartiene a un altro account.\n\n` +
-          `Sei sicuro di voler procedere?`
+          t('appointmentForm.errors.confirmOtherAccount', {
+            firstName: client.firstName,
+            lastName: client.lastName,
+          })
         );
         
         if (!confirmed) {
@@ -745,7 +751,7 @@ export default function AppointmentForm({
     } catch (error: any) {
       toast({
         title: t("common.error"),
-        description: error.message || 'Impossibile creare il cliente',
+        description: error.message || t('appointmentForm.errors.createClient'),
         variant: "destructive",
       });
     } finally {
@@ -760,7 +766,7 @@ export default function AppointmentForm({
     <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] min-[1200px]:max-w-[600px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">
-          {appointmentId ? "Modifica Appuntamento" : "Nuovo Appuntamento"}
+          {appointmentId ? t('appointmentForm.editTitle') : t('appointmentForm.newTitle')}
         </h2>
         <Button 
           variant="ghost" 
@@ -792,8 +798,7 @@ export default function AppointmentForm({
               <Alert className="border-orange-300 bg-orange-50">
                 <Users className="h-4 w-4 text-orange-600" />
                 <AlertDescription className="text-orange-800">
-                  <strong>Attenzione:</strong> Stai creando un appuntamento per un cliente di un altro account ({selectedClient.firstName} {selectedClient.lastName}). 
-                  Verifica di avere i permessi necessari prima di procedere.
+                  <strong>{t('common.warning')}:</strong> {t('appointmentForm.warnings.otherAccountClient', { firstName: selectedClient.firstName, lastName: selectedClient.lastName })}
                 </AlertDescription>
               </Alert>
             )}
@@ -973,11 +978,11 @@ export default function AppointmentForm({
                 
                 return (
                   <FormItem>
-                    <FormLabel>Servizio</FormLabel>
+                    <FormLabel>{t('appointmentForm.service')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input 
-                          placeholder="Cerca servizio..." 
+                          placeholder={t('appointmentForm.fields.servicePlaceholder')} 
                           value={serviceSearchTerm}
                           onChange={(e) => setServiceSearchTerm(e.target.value)}
                           onFocus={() => setIsServiceDropdownOpen(true)}
@@ -1052,7 +1057,7 @@ export default function AppointmentForm({
                                     <span>{service.name} - {service.duration} min</span>
                                     {isFromPackage && packageForService && (
                                       <Badge variant="secondary" className="ml-2 bg-amber-100 text-amber-800 text-xs">
-                                        Pacchetto ({packageForService.sessionsRemaining} disponibili)
+                                        {t('appointmentForm.packageBadge', { count: packageForService.sessionsRemaining })}
                                       </Badge>
                                     )}
                                   </div>
@@ -1080,7 +1085,7 @@ export default function AppointmentForm({
                         const selectedService = services.find((s: any) => s.id === form.getValues().serviceId);
                         return selectedService ? 
                           `${selectedService.name}: ${customDuration} min` : 
-                          `Durata: ${customDuration} min`;
+                          t('appointmentForm.durationLabel', { minutes: customDuration });
                       })()}
                     </p>
                   </div>
@@ -1126,7 +1131,7 @@ export default function AppointmentForm({
                   name="staffId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Professionista</FormLabel>
+                      <FormLabel>{t('appointmentForm.fields.staff')}</FormLabel>
                       <FormControl>
                         <Select
                           value={field.value?.toString() || "none"}
@@ -1153,10 +1158,10 @@ export default function AppointmentForm({
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Seleziona professionista..." />
+                            <SelectValue placeholder={t('appointmentForm.fields.staffPlaceholder')} />
                           </SelectTrigger>
                           <SelectContent className="z-[9999] max-h-[200px] overflow-y-auto bg-white border shadow-lg">
-                            <SelectItem value="none">Nessun professionista</SelectItem>
+                            <SelectItem value="none">{t('appointmentForm.fields.noStaff')}</SelectItem>
                             {collaborators
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((collaborator: any) => collaborator.isActive)
@@ -1187,7 +1192,7 @@ export default function AppointmentForm({
                   name="roomId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Stanza/Cabina (opzionale)</FormLabel>
+                      <FormLabel>{t('appointmentForm.fields.room')}</FormLabel>
                       <FormControl>
                         <Select
                           value={field.value?.toString() || "none"}
@@ -1214,10 +1219,10 @@ export default function AppointmentForm({
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Seleziona stanza..." />
+                            <SelectValue placeholder={t('appointmentForm.fields.roomPlaceholder')} />
                           </SelectTrigger>
                           <SelectContent className="z-[9999] max-h-[200px] overflow-y-auto bg-white border shadow-lg">
-                            <SelectItem value="none">Nessuna stanza</SelectItem>
+                            <SelectItem value="none">{t('appointmentForm.fields.noRoom')}</SelectItem>
                             {treatmentRooms
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((room: any) => room.isActive)
@@ -1339,10 +1344,10 @@ export default function AppointmentForm({
                   o se vengono forniti valori di default */}
               {(showDateTimeDetails || !!appointmentId || !!defaultDate || !!defaultTime) && (
                 <div className="p-3 bg-blue-50 rounded-md">
-                  <p className="text-sm text-blue-700 font-medium">Dettagli slot selezionato:</p>
+                  <p className="text-sm text-blue-700 font-medium">{t('appointmentForm.slotDetails.title')}</p>
                   <div className="flex justify-between mt-1">
-                    <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: getDateLocale(i18n.language) })}</span>
-                    <span className="text-sm">Ora: {form.getValues().startTime}</span>
+                    <span className="text-sm">{t('appointmentForm.slotDetails.dateLabel', { date: format(form.getValues().date, "PPP", { locale: getDateLocale(i18n.language) }) })}</span>
+                    <span className="text-sm">{t('appointmentForm.slotDetails.timeLabel', { time: form.getValues().startTime })}</span>
                   </div>
                 </div>
               )}
@@ -1352,7 +1357,7 @@ export default function AppointmentForm({
             <div className="mt-4 p-3 border-2 border-dashed border-green-200 rounded-md bg-green-50">
               <h3 className="font-medium text-base mb-3 flex items-center text-green-700">
                 <Bell className="h-5 w-5 mr-2" />
-                Seleziona Canali di Notifica
+                {t('appointmentForm.notifications.title')}
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">

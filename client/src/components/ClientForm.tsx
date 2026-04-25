@@ -57,11 +57,12 @@ interface ClientFormProps {
 }
 
 // Extended schema with validation (escludiamo userId perché viene aggiunto automaticamente)
+// I messaggi di errore sono chiavi i18n e vengono tradotti automaticamente da <FormMessage />
 const formSchema = insertClientSchema.omit({ userId: true, ownerId: true }).extend({
-  firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
-  lastName: z.string().min(2, "Il cognome deve contenere almeno 2 caratteri"),
-  phone: z.string().min(6, "Il numero di telefono deve contenere almeno 6 cifre"),
-  email: z.string().email("Email non valida").or(z.literal("")),
+  firstName: z.string().min(2, "clientForm.nameMinChars"),
+  lastName: z.string().min(2, "clientForm.lastNameMinChars"),
+  phone: z.string().min(6, "clientForm.phoneMinChars"),
+  email: z.string().email("clientForm.emailInvalid").or(z.literal("")),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -411,7 +412,7 @@ export default function ClientForm({
                             <Select value={prefix} onValueChange={handlePrefixChange}>
                               <FormControl>
                                 <SelectTrigger className="w-[90px] shrink-0 px-2">
-                                  <SelectValue placeholder="Pref." />
+                                  <SelectValue placeholder={t('clientForm.prefixPlaceholder')} />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>

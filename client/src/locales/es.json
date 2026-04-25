@@ -2809,7 +2809,8 @@
     "nameMinChars": "El nombre debe contener al menos 2 caracteres",
     "lastNameMinChars": "El apellido debe contener al menos 2 caracteres",
     "phoneMinChars": "El número de teléfono debe contener al menos 6 dígitos",
-    "emailInvalid": "Email no válido"
+    "emailInvalid": "Email no válido",
+    "prefixPlaceholder": "Pref."
   },
   "privacyConsent": {
     "consentRequired": "Consentimiento requerido",
@@ -3748,7 +3749,8 @@
       "after": "\" como nuevo cliente"
     },
     "warnings": {
-      "otherAccount": "<0>Atención:</0> Estás creando una cita para un cliente de otra cuenta ({{firstName}} {{lastName}}). Verifica que tengas los permisos necesarios."
+      "otherAccount": "<0>Atención:</0> Estás creando una cita para un cliente de otra cuenta ({{firstName}} {{lastName}}). Verifica que tengas los permisos necesarios.",
+      "otherAccountClient": "Estás creando una cita para un cliente que pertenece a otra cuenta ({{firstName}} {{lastName}}). Comprueba que tienes los permisos necesarios antes de continuar."
     },
     "notifications": {
       "title": "Selecciona canales de notificación"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Error de validación",
       "validationDesc": "Campos con errores: {{fields}}",
-      "clientCreateErrorDesc": "Error al crear el cliente"
+      "clientCreateErrorDesc": "Error al crear el cliente",
+      "savedAndCalendarUpdated": "Cita guardada y calendario actualizado"
     },
     "errors": {
       "requiredClient": "Selecciona un cliente para la cita",
@@ -3786,7 +3789,11 @@
       "consentWarning": "El cliente no ha dado su consentimiento para el tratamiento de datos. La cita se creará igualmente.",
       "confirmOtherAccount": "ATENCIÓN: Vas a crear una cita para {{firstName}} {{lastName}}, que pertenece a otra cuenta.\n\n¿Seguro que quieres continuar?",
       "savingTitle": "Error al guardar",
-      "createClient": "No se pudo crear el cliente"
+      "createClient": "No se pudo crear el cliente",
+      "dataIncomplete": "Datos incompletos para la cita",
+      "serviceNotFound": "Servicio no encontrado",
+      "requiredDate": "Selecciona una fecha para la cita",
+      "requiredStartTime": "Selecciona una hora de inicio"
     },
     "conflict": {
       "title": "Conflicto de disponibilidad",
@@ -3803,7 +3810,10 @@
       "withClient": "con",
       "roomLineSuffix": "ya está ocupada a las",
       "byClient": "por"
-    }
+    },
+    "directSaveButton": "Guardar directamente",
+    "directSaveNote": "Cita creada con guardado directo",
+    "durationLabel": "Duración: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Notas del cliente",

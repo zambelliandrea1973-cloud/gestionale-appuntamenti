@@ -2809,7 +2809,8 @@
     "nameMinChars": "First name must contain at least 2 characters",
     "lastNameMinChars": "Last name must contain at least 2 characters",
     "phoneMinChars": "Phone number must contain at least 6 digits",
-    "emailInvalid": "Invalid email"
+    "emailInvalid": "Invalid email",
+    "prefixPlaceholder": "Pref."
   },
   "privacyConsent": {
     "consentRequired": "Consent required",
@@ -3748,7 +3749,8 @@
       "after": "\" as new client"
     },
     "warnings": {
-      "otherAccount": "<0>Warning:</0> You are creating an appointment for a client from another account ({{firstName}} {{lastName}}). Make sure you have the required permissions before proceeding."
+      "otherAccount": "<0>Warning:</0> You are creating an appointment for a client from another account ({{firstName}} {{lastName}}). Make sure you have the required permissions before proceeding.",
+      "otherAccountClient": "You are creating an appointment for a client belonging to another account ({{firstName}} {{lastName}}). Make sure you have the necessary permissions before proceeding."
     },
     "notifications": {
       "title": "Select Notification Channels"
@@ -3778,7 +3780,8 @@
       },
       "validationTitle": "Validation error",
       "validationDesc": "Fields with errors: {{fields}}",
-      "clientCreateErrorDesc": "Failed to create the client"
+      "clientCreateErrorDesc": "Failed to create the client",
+      "savedAndCalendarUpdated": "Appointment saved and calendar updated"
     },
     "errors": {
       "requiredClient": "Select a client for the appointment",
@@ -3786,7 +3789,11 @@
       "consentWarning": "The client has not given consent to data processing. The appointment will be created anyway.",
       "confirmOtherAccount": "WARNING: You are about to create an appointment for {{firstName}} {{lastName}}, who belongs to another account.\n\nAre you sure you want to proceed?",
       "savingTitle": "Error while saving",
-      "createClient": "Could not create the client"
+      "createClient": "Could not create the client",
+      "dataIncomplete": "Incomplete data for the appointment",
+      "serviceNotFound": "Service not found",
+      "requiredDate": "Select a date for the appointment",
+      "requiredStartTime": "Select a start time"
     },
     "conflict": {
       "title": "Availability conflict",
@@ -3803,7 +3810,10 @@
       "withClient": "with",
       "roomLineSuffix": "is already booked at",
       "byClient": "by"
-    }
+    },
+    "directSaveButton": "Save Directly",
+    "directSaveNote": "Appointment created with direct save",
+    "durationLabel": "Duration: {{minutes}} min"
   },
   "clientNotes": {
     "title": "Client Notes",

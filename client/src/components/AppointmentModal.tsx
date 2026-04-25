@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AppointmentForm from "./AppointmentForm";
 import SaveDirectButton from "./SaveDirectButton";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -28,6 +29,7 @@ export default function AppointmentModal({
   selectedSlots = []
 }: AppointmentModalProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [calculatedEndTime, setCalculatedEndTime] = useState<string | null>(null);
   
@@ -50,8 +52,8 @@ export default function AppointmentModal({
     onClose();
     
     toast({
-      title: "Successo",
-      description: "Appuntamento salvato e calendario aggiornato",
+      title: t('common.success'),
+      description: t('appointmentForm.toast.savedAndCalendarUpdated'),
     });
   };
   
