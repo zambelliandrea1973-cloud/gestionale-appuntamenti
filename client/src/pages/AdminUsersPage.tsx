@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,11 +11,11 @@ import { Users, Clock, CheckCircle2, XCircle, AlertCircle, Loader2, Calendar } f
 import { format } from 'date-fns';
 
 export default function AdminUsersPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [extendingUser, setExtendingUser] = useState<number | null>(null);
 
-  // Fetch tutti gli utenti
   const { data: usersData, isLoading } = useQuery({
     queryKey: ['/api/admin-license/all-users'],
     queryFn: async () => {
@@ -23,7 +24,6 @@ export default function AdminUsersPage() {
     },
   });
 
-  // Mutation per estendere il trial
   const extendTrialMutation = useMutation({
     mutationFn: async (userId: number) => {
       setExtendingUser(userId);
@@ -32,7 +32,7 @@ export default function AdminUsersPage() {
     },
     onSuccess: (data) => {
       toast({
-        title: 'Trial Esteso',
+        title: t('adminUsers.toast.trialExtended'),
         description: data.message,
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin-license/all-users'] });
@@ -40,15 +40,14 @@ export default function AdminUsersPage() {
     },
     onError: (error: any) => {
       toast({
-        title: 'Errore',
-        description: error.message || 'Impossibile estendere il trial',
+        title: t('common.error'),
+        description: error.message || t('adminUsers.toast.cannotExtend'),
         variant: 'destructive',
       });
       setExtendingUser(null);
     },
   });
 
-  // Calcola statistiche
   const stats = usersData?.users ? {
     total: usersData.users.length,
     active: usersData.users.filter((u: any) => u.status.licenseStatus === 'active' || u.status.licenseStatus === 'subscribed').length,
@@ -59,22 +58,22 @@ export default function AdminUsersPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'subscribed':
-        return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"><CheckCircle2 className="w-3 h-3 mr-1" />Abbonato</Badge>;
+        return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"><CheckCircle2 className="w-3 h-3 mr-1" />{t('adminUsers.badges.subscribed')}</Badge>;
       case 'active':
-        return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"><Clock className="w-3 h-3 mr-1" />Trial Attivo</Badge>;
+        return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"><Clock className="w-3 h-3 mr-1" />{t('adminUsers.badges.trialActive')}</Badge>;
       case 'expired':
-        return <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"><XCircle className="w-3 h-3 mr-1" />Scaduto</Badge>;
+        return <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"><XCircle className="w-3 h-3 mr-1" />{t('adminUsers.badges.expired')}</Badge>;
       case 'permanent':
-        return <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"><CheckCircle2 className="w-3 h-3 mr-1" />Permanente</Badge>;
+        return <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"><CheckCircle2 className="w-3 h-3 mr-1" />{t('adminUsers.badges.permanent')}</Badge>;
       default:
-        return <Badge variant="outline"><AlertCircle className="w-3 h-3 mr-1" />Sconosciuto</Badge>;
+        return <Badge variant="outline"><AlertCircle className="w-3 h-3 mr-1" />{t('adminUsers.badges.unknown')}</Badge>;
     }
   };
 
   const getUserTypeBadge = (type: string) => {
     switch (type) {
       case 'customer':
-        return <Badge variant="outline">Cliente</Badge>;
+        return <Badge variant="outline">{t('adminUsers.badges.customer')}</Badge>;
       case 'staff':
         return <Badge className="bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">Staff</Badge>;
       case 'admin':
@@ -94,17 +93,15 @@ export default function AdminUsersPage() {
 
   return (
     <div className="container py-8 max-w-7xl">
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Gestione Utenti</h1>
-        <p className="text-muted-foreground">Visualizza e gestisci tutti gli utenti registrati nel sistema</p>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">{t('adminUsers.title')}</h1>
+        <p className="text-muted-foreground">{t('adminUsers.subtitle')}</p>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Totale Utenti</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('adminUsers.stats.total')}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -113,7 +110,7 @@ export default function AdminUsersPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Licenze Attive</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('adminUsers.stats.active')}</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
@@ -122,7 +119,7 @@ export default function AdminUsersPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">In Scadenza (&lt;7gg)</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('adminUsers.stats.expiring')}</CardTitle>
             <AlertCircle className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
@@ -131,7 +128,7 @@ export default function AdminUsersPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Scaduti</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('adminUsers.stats.expired')}</CardTitle>
             <XCircle className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
@@ -140,24 +137,23 @@ export default function AdminUsersPage() {
         </Card>
       </div>
 
-      {/* Users Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Tutti gli Utenti</CardTitle>
-          <CardDescription>Elenco completo con stato licenze e abbonamenti</CardDescription>
+          <CardTitle>{t('adminUsers.table.title')}</CardTitle>
+          <CardDescription>{t('adminUsers.table.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Username</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>Stato Licenza</TableHead>
-                <TableHead>Scadenza</TableHead>
-                <TableHead>Giorni Rimanenti</TableHead>
-                <TableHead>Piano</TableHead>
-                <TableHead>Azioni</TableHead>
+                <TableHead>{t('adminUsers.table.username')}</TableHead>
+                <TableHead>{t('adminUsers.table.email')}</TableHead>
+                <TableHead>{t('adminUsers.table.type')}</TableHead>
+                <TableHead>{t('adminUsers.table.status')}</TableHead>
+                <TableHead>{t('adminUsers.table.expiresAt')}</TableHead>
+                <TableHead>{t('adminUsers.table.daysLeft')}</TableHead>
+                <TableHead>{t('adminUsers.table.plan')}</TableHead>
+                <TableHead>{t('adminUsers.table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -185,7 +181,7 @@ export default function AdminUsersPage() {
                             user.status.daysLeft > 7 ? 'text-green-600' : 
                             user.status.daysLeft > 0 ? 'text-orange-600' : 'text-red-600'
                           }`}>
-                            {user.status.daysLeft} giorni
+                            {t('adminUsers.table.daysCount', { count: user.status.daysLeft })}
                           </span>
                           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
                             <div 
@@ -213,9 +209,9 @@ export default function AdminUsersPage() {
                           data-testid={`button-extend-trial-${user.id}`}
                         >
                           {extendingUser === user.id ? (
-                            <><Loader2 className="w-4 h-4 mr-1 animate-spin" />Estendendo...</>
+                            <><Loader2 className="w-4 h-4 mr-1 animate-spin" />{t('adminUsers.actions.extending')}</>
                           ) : (
-                            <>+40 giorni</>
+                            <>{t('adminUsers.actions.extend40')}</>
                           )}
                         </Button>
                       ) : (
@@ -227,7 +223,7 @@ export default function AdminUsersPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
-                    Nessun utente trovato
+                    {t('adminUsers.table.empty')}
                   </TableCell>
                 </TableRow>
               )}

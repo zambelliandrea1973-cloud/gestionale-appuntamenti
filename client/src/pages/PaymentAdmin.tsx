@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToast } from "@/hooks/use-toast";
 import { useCurrency } from "@/hooks/use-currency";
 import { Button } from "@/components/ui/button";
@@ -60,6 +61,7 @@ interface BankingSettings {
 }
 
 export default function PaymentAdmin() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { symbol } = useCurrency();
   const [isLoading, setIsLoading] = useState(true);
@@ -127,8 +129,8 @@ export default function PaymentAdmin() {
     } catch (error) {
       console.error('Errore durante il recupero dei dati:', error);
       toast({
-        title: "Errore",
-        description: "Impossibile caricare i dati del dashboard.",
+        title: t('paymentAdmin.toast.error'),
+        description: t('paymentAdmin.toast.loadError'),
         variant: "destructive",
       });
     } finally {
@@ -152,8 +154,8 @@ export default function PaymentAdmin() {
     fetchDashboardData();
     fetchBankingSettings();
     toast({
-      title: "Aggiornamento dati",
-      description: "Aggiornamento dati in corso...",
+      title: t('paymentAdmin.toast.refreshing'),
+      description: t('paymentAdmin.toast.refreshingDesc'),
     });
   };
 
@@ -165,16 +167,16 @@ export default function PaymentAdmin() {
     },
     onSuccess: () => {
       toast({
-        title: "Impostazioni salvate",
-        description: "Le impostazioni bancarie sono state aggiornate con successo",
+        title: t('paymentAdmin.toast.settingsSaved'),
+        description: t('paymentAdmin.toast.settingsSavedDesc'),
       });
       fetchBankingSettings();
       triggerRefreshAfterSave('banking');
     },
     onError: () => {
       toast({
-        title: "Errore",
-        description: "Impossibile salvare le impostazioni bancarie",
+        title: t('paymentAdmin.toast.error'),
+        description: t('paymentAdmin.toast.settingsSaveError'),
         variant: "destructive",
       });
     },
@@ -188,14 +190,14 @@ export default function PaymentAdmin() {
     },
     onSuccess: (data) => {
       toast({
-        title: "Test completato",
-        description: data.message || "Il sistema di pagamento è configurato correttamente",
+        title: t('paymentAdmin.toast.testCompleted'),
+        description: data.message || t('paymentAdmin.toast.testCompletedDesc'),
       });
     },
     onError: () => {
       toast({
-        title: "Test fallito",
-        description: "Verifica la configurazione dei dati bancari",
+        title: t('paymentAdmin.toast.testFailed'),
+        description: t('paymentAdmin.toast.testFailedDesc'),
         variant: "destructive",
       });
     },
@@ -210,7 +212,7 @@ export default function PaymentAdmin() {
     },
     onSuccess: (data) => {
       toast({
-        title: 'Trial Esteso',
+        title: t('paymentAdmin.toast.trialExtended'),
         description: data.message,
       });
       fetchDashboardData(); // Ricarica i dati per mostrare la nuova scadenza
@@ -218,8 +220,8 @@ export default function PaymentAdmin() {
     },
     onError: (error: any) => {
       toast({
-        title: 'Errore',
-        description: error.message || 'Impossibile estendere il trial',
+        title: t('paymentAdmin.toast.error'),
+        description: error.message || t('paymentAdmin.toast.trialError'),
         variant: 'destructive',
       });
       setExtendingUserId(null);
@@ -234,15 +236,15 @@ export default function PaymentAdmin() {
     },
     onSuccess: (data) => {
       toast({
-        title: 'Upgrade a Staff completato',
+        title: t('paymentAdmin.toast.staffUpgraded'),
         description: data.message,
       });
       fetchDashboardData();
     },
     onError: (error: any) => {
       toast({
-        title: 'Errore',
-        description: error.message || 'Impossibile promuovere a Staff',
+        title: t('paymentAdmin.toast.error'),
+        description: error.message || t('paymentAdmin.toast.staffUpgradeError'),
         variant: 'destructive',
       });
     },
@@ -260,7 +262,7 @@ export default function PaymentAdmin() {
     },
     onSuccess: (data) => {
       toast({
-        title: 'Data Aggiornata',
+        title: t('paymentAdmin.toast.dateUpdated'),
         description: data.message,
       });
       setEditingDateField(null);
@@ -268,8 +270,8 @@ export default function PaymentAdmin() {
     },
     onError: (error: any) => {
       toast({
-        title: 'Errore',
-        description: error.message || 'Impossibile aggiornare la data',
+        title: t('paymentAdmin.toast.error'),
+        description: error.message || t('paymentAdmin.toast.dateError'),
         variant: 'destructive',
       });
       setEditingDateField(null);
@@ -286,14 +288,14 @@ export default function PaymentAdmin() {
       return await response.json();
     },
     onSuccess: (data) => {
-      toast({ title: "Account eliminato", description: data.message || "L'account è stato eliminato con successo" });
+      toast({ title: t('paymentAdmin.toast.accountDeleted'), description: data.message || t('paymentAdmin.toast.accountDeletedDesc') });
       setDeleteDialogOpen(false);
       setDeleteTargetUser(null);
       setDeleteConfirmText("");
       fetchDashboardData();
     },
     onError: (error: any) => {
-      toast({ title: "Errore", description: error.message || "Impossibile eliminare l'account", variant: "destructive" });
+      toast({ title: t('paymentAdmin.toast.error'), description: error.message || t('paymentAdmin.toast.deleteError'), variant: "destructive" });
     },
   });
 
@@ -367,7 +369,7 @@ export default function PaymentAdmin() {
     try {
       return format(new Date(dateString), 'dd MMM yyyy, HH:mm');
     } catch (error) {
-      return 'Data non valida';
+      return t('paymentAdmin.dateInvalid');
     }
   };
 
@@ -375,11 +377,11 @@ export default function PaymentAdmin() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'completed':
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle2 className="w-3 h-3 mr-1" /> Completato</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle2 className="w-3 h-3 mr-1" /> {t('paymentAdmin.status.completed')}</span>;
       case 'pending':
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><Timer className="w-3 h-3 mr-1" /> In attesa</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><Timer className="w-3 h-3 mr-1" /> {t('paymentAdmin.status.pending')}</span>;
       case 'failed':
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><AlertCircle className="w-3 h-3 mr-1" /> Fallito</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><AlertCircle className="w-3 h-3 mr-1" /> {t('paymentAdmin.status.failed')}</span>;
       default:
         return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{status}</span>;
     }
@@ -413,8 +415,8 @@ export default function PaymentAdmin() {
   return (
     <div className="min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Dashboard Amministrazione Pagamenti</h1>
-        <Button variant="outline" onClick={handleRefresh}>Aggiorna Dati</Button>
+        <h1 className="text-3xl font-bold">{t('paymentAdmin.title')}</h1>
+        <Button variant="outline" onClick={handleRefresh}>{t('paymentAdmin.refresh')}</Button>
       </header>
 
       {isLoading ? (
@@ -427,7 +429,7 @@ export default function PaymentAdmin() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Entrate Totali</CardTitle>
+                  <CardTitle className="text-sm font-medium text-muted-foreground">{t('paymentAdmin.kpi.totalRevenue')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center">
@@ -439,7 +441,7 @@ export default function PaymentAdmin() {
 
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Abbonamenti Attivi</CardTitle>
+                  <CardTitle className="text-sm font-medium text-muted-foreground">{t('paymentAdmin.kpi.activeSubs')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center">
@@ -451,7 +453,7 @@ export default function PaymentAdmin() {
 
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Transazioni Totali</CardTitle>
+                  <CardTitle className="text-sm font-medium text-muted-foreground">{t('paymentAdmin.kpi.totalTx')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center">
@@ -465,26 +467,26 @@ export default function PaymentAdmin() {
 
           <Tabs defaultValue="transactions" className="w-full">
             <TabsList className="mb-4 h-auto flex-wrap justify-start">
-              <TabsTrigger value="transactions">Transazioni</TabsTrigger>
-              <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
-              <TabsTrigger value="plans">Piani</TabsTrigger>
-              <TabsTrigger value="licenses">Licenze</TabsTrigger>
+              <TabsTrigger value="transactions">{t('paymentAdmin.tab.transactions')}</TabsTrigger>
+              <TabsTrigger value="subscriptions">{t('paymentAdmin.tab.subscriptions')}</TabsTrigger>
+              <TabsTrigger value="plans">{t('paymentAdmin.tab.plans')}</TabsTrigger>
+              <TabsTrigger value="licenses">{t('paymentAdmin.tab.licenses')}</TabsTrigger>
               <TabsTrigger value="payment-methods" className="flex items-center gap-1">
                 <Settings className="h-4 w-4" />
-                <span>Metodi di Pagamento</span>
+                <span>{t('paymentAdmin.tab.paymentMethods')}</span>
               </TabsTrigger>
               <TabsTrigger value="banking-config" className="flex items-center gap-1 bg-green-50 text-green-700 data-[state=active]:bg-green-600 data-[state=active]:text-white">
                 <Shield className="h-4 w-4" />
-                <span>Configurazione Bancaria</span>
+                <span>{t('paymentAdmin.tab.bankingConfig')}</span>
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="transactions">
               <Card>
                 <CardHeader>
-                  <CardTitle>Ultime Transazioni</CardTitle>
+                  <CardTitle>{t('paymentAdmin.transactions.title')}</CardTitle>
                   <CardDescription>
-                    Dettaglio delle ultime transazioni di pagamento
+                    {t('paymentAdmin.transactions.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -493,12 +495,12 @@ export default function PaymentAdmin() {
                       <TableHeader>
                         <TableRow>
                           <TableHead>ID</TableHead>
-                          <TableHead>Utente</TableHead>
-                          <TableHead>Data</TableHead>
-                          <TableHead>Importo</TableHead>
-                          <TableHead>Metodo</TableHead>
-                          <TableHead>Stato</TableHead>
-                          <TableHead>Descrizione</TableHead>
+                          <TableHead>{t('paymentAdmin.col.user')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.date')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.amount')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.method')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.status')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.description')}</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -540,7 +542,7 @@ export default function PaymentAdmin() {
                         ) : (
                           <TableRow>
                             <TableCell colSpan={7} className="text-center py-4">
-                              Nessuna transazione trovata
+                              {t('paymentAdmin.transactions.empty')}
                             </TableCell>
                           </TableRow>
                         )}
@@ -554,9 +556,9 @@ export default function PaymentAdmin() {
             <TabsContent value="subscriptions">
               <Card>
                 <CardHeader>
-                  <CardTitle>Abbonamenti</CardTitle>
+                  <CardTitle>{t('paymentAdmin.subs.title')}</CardTitle>
                   <CardDescription>
-                    Elenco degli abbonamenti attivi e scaduti
+                    {t('paymentAdmin.subs.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -565,12 +567,12 @@ export default function PaymentAdmin() {
                       <TableHeader>
                         <TableRow>
                           <TableHead>ID</TableHead>
-                          <TableHead>Utente</TableHead>
-                          <TableHead>Piano</TableHead>
-                          <TableHead>Stato</TableHead>
-                          <TableHead>Inizio</TableHead>
-                          <TableHead>Scadenza</TableHead>
-                          <TableHead>Metodo</TableHead>
+                          <TableHead>{t('paymentAdmin.col.user')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.plan')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.status')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.start')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.expiry')}</TableHead>
+                          <TableHead>{t('paymentAdmin.col.method')}</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -603,7 +605,7 @@ export default function PaymentAdmin() {
                         ) : (
                           <TableRow>
                             <TableCell colSpan={7} className="text-center py-4">
-                              Nessun abbonamento trovato
+                              {t('paymentAdmin.subs.empty')}
                             </TableCell>
                           </TableRow>
                         )}
@@ -618,9 +620,9 @@ export default function PaymentAdmin() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Piani di Abbonamento</CardTitle>
+                    <CardTitle>{t('paymentAdmin.plans.title')}</CardTitle>
                     <CardDescription>
-                      Gestisci i piani di abbonamento: modifica prezzi, features e disponibilità
+                      {t('paymentAdmin.plans.description')}
                     </CardDescription>
                   </CardHeader>
                 </Card>
@@ -631,9 +633,9 @@ export default function PaymentAdmin() {
             <TabsContent value="licenses">
               <Card>
                 <CardHeader>
-                  <CardTitle>Licenze</CardTitle>
+                  <CardTitle>{t('paymentAdmin.licenses.title')}</CardTitle>
                   <CardDescription>
-                    Gestione delle licenze e degli utenti associati
+                    {t('paymentAdmin.licenses.description')}
                   </CardDescription>
                   
                   {/* Widget Statistiche Accessi - compatto */}
@@ -641,19 +643,19 @@ export default function PaymentAdmin() {
                     <div className="mt-3 p-2.5 bg-muted/50 rounded-lg border flex items-center gap-3 flex-wrap text-sm">
                       <div className="flex items-center gap-1.5">
                         <Activity className="h-4 w-4 text-primary" />
-                        <span className="font-medium">Accessi:</span>
+                        <span className="font-medium">{t('paymentAdmin.access.label')}</span>
                       </div>
                       <div className="flex gap-3 flex-wrap">
                         <span className="text-muted-foreground">
-                          Oggi: <span className="font-semibold text-foreground">{accessStats.today}</span>
-                          <span className="text-xs ml-1">({accessStats.uniqueToday} utenti)</span>
+                          {t('paymentAdmin.access.today')} <span className="font-semibold text-foreground">{accessStats.today}</span>
+                          <span className="text-xs ml-1">({accessStats.uniqueToday} {t('paymentAdmin.access.users')})</span>
                         </span>
                         <span className="text-muted-foreground">
-                          7gg: <span className="font-semibold text-foreground">{accessStats.week}</span>
-                          <span className="text-xs ml-1">({accessStats.uniqueWeek} utenti)</span>
+                          {t('paymentAdmin.access.week')} <span className="font-semibold text-foreground">{accessStats.week}</span>
+                          <span className="text-xs ml-1">({accessStats.uniqueWeek} {t('paymentAdmin.access.users')})</span>
                         </span>
                         <span className="text-muted-foreground">
-                          Totali: <span className="font-semibold text-foreground">{accessStats.total}</span>
+                          {t('paymentAdmin.access.total')} <span className="font-semibold text-foreground">{accessStats.total}</span>
                         </span>
                       </div>
                     </div>
@@ -681,20 +683,20 @@ export default function PaymentAdmin() {
                         const getStatusInfo = () => {
                           if (!license.isActive) {
                             return {
-                              label: 'Disattivata',
+                              label: t('paymentAdmin.license.disabled'),
                               icon: <AlertCircle className="w-3 h-3 mr-1" />,
                               className: 'bg-red-100 text-red-800'
                             };
                           }
                           if (license.expiresAt && daysLeft !== null && daysLeft <= 0) {
                             return {
-                              label: 'Congelato',
+                              label: t('paymentAdmin.license.frozen'),
                               icon: <Timer className="w-3 h-3 mr-1" />,
                               className: 'bg-orange-100 text-orange-800'
                             };
                           }
                           return {
-                            label: 'Attiva',
+                            label: t('paymentAdmin.license.active'),
                             icon: <CheckCircle2 className="w-3 h-3 mr-1" />,
                             className: 'bg-green-100 text-green-800'
                           };
@@ -708,18 +710,18 @@ export default function PaymentAdmin() {
                               {/* Prima Riga: Info Utente e Stato */}
                               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-3">
                                 <div>
-                                  <p className="text-xs text-muted-foreground mb-1">Utente</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.user')}</p>
                                   <p className="font-medium text-sm">{license.user?.username || '-'}</p>
                                   <p className="text-xs text-muted-foreground">{license.user?.email || '-'}</p>
                                 </div>
                                 
                                 <div>
-                                  <p className="text-xs text-muted-foreground mb-1">Tipo Licenza</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.type')}</p>
                                   {getLicenseTypeBadge(license.type)}
                                 </div>
                                 
                                 <div>
-                                  <p className="text-xs text-muted-foreground mb-1">Stato</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.status')}</p>
                                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusInfo.className}`}>
                                     {statusInfo.icon} {statusInfo.label}
                                   </span>
@@ -727,22 +729,22 @@ export default function PaymentAdmin() {
                                 
                                 <div className="flex gap-4 items-start">
                                   <div>
-                                    <p className="text-xs text-muted-foreground mb-1">ID</p>
+                                    <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.id')}</p>
                                     <p className="font-mono text-sm">{license.id}</p>
                                   </div>
                                   <div>
                                     <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
-                                      <Activity className="h-3 w-3 text-primary" /> Accessi
+                                      <Activity className="h-3 w-3 text-primary" /> {t('paymentAdmin.license.accesses')}
                                     </p>
                                     <div className="flex gap-2 text-xs">
                                       <span title="Oggi" className="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">
-                                        Oggi: <span className="font-semibold">{license.accessToday || 0}</span>
+                                        {t('paymentAdmin.access.today')} <span className="font-semibold">{license.accessToday || 0}</span>
                                       </span>
                                       <span title="Ultimi 7 giorni" className="bg-green-100 text-green-800 px-1.5 py-0.5 rounded">
-                                        7gg: <span className="font-semibold">{license.accessWeek || 0}</span>
+                                        {t('paymentAdmin.access.week')} <span className="font-semibold">{license.accessWeek || 0}</span>
                                       </span>
                                       <span title="Totale" className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded">
-                                        Tot: <span className="font-semibold">{license.accessTotal || 0}</span>
+                                        {t('paymentAdmin.license.totalShort')} <span className="font-semibold">{license.accessTotal || 0}</span>
                                       </span>
                                     </div>
                                   </div>
@@ -754,7 +756,7 @@ export default function PaymentAdmin() {
                               {/* Seconda Riga: Date e Giorni Rimanenti */}
                               <div className="grid grid-cols-3 gap-2 items-end">
                                 <div className="min-w-0">
-                                  <p className="text-xs text-muted-foreground mb-1">Data Creazione</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.created')}</p>
                                   <Popover>
                                     <PopoverTrigger asChild>
                                       <Button
@@ -767,7 +769,7 @@ export default function PaymentAdmin() {
                                         data-testid={`edit-created-${license.id}`}
                                       >
                                         <Calendar className="mr-1 h-3 w-3 shrink-0" />
-                                        <span className="text-xs truncate">{license.createdAt ? formatDate(license.createdAt) : "Seleziona"}</span>
+                                        <span className="text-xs truncate">{license.createdAt ? formatDate(license.createdAt) : t('paymentAdmin.license.select')}</span>
                                       </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0" align="start">
@@ -790,10 +792,10 @@ export default function PaymentAdmin() {
                                 </div>
                                 
                                 <div className="min-w-0">
-                                  <p className="text-xs text-muted-foreground mb-1">Scadenza</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.expiry')}</p>
                                   {license.type === 'passepartout' && !license.expiresAt ? (
                                     <div className="h-8 flex items-center">
-                                      <span className="text-green-600 font-medium text-xs">Illimitata</span>
+                                      <span className="text-green-600 font-medium text-xs">{t('paymentAdmin.license.unlimited')}</span>
                                     </div>
                                   ) : (
                                     <Popover>
@@ -808,7 +810,7 @@ export default function PaymentAdmin() {
                                           data-testid={`edit-expiry-${license.id}`}
                                         >
                                           <Calendar className="mr-1 h-3 w-3 shrink-0" />
-                                          <span className="text-xs truncate">{license.expiresAt ? formatDate(license.expiresAt) : "Seleziona"}</span>
+                                          <span className="text-xs truncate">{license.expiresAt ? formatDate(license.expiresAt) : t('paymentAdmin.license.select')}</span>
                                         </Button>
                                       </PopoverTrigger>
                                       <PopoverContent className="w-auto p-0" align="start">
@@ -833,14 +835,14 @@ export default function PaymentAdmin() {
                                 </div>
                                 
                                 <div className="min-w-0">
-                                  <p className="text-xs text-muted-foreground mb-1">Giorni Rimanenti</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.daysLeft')}</p>
                                   {daysLeft !== null ? (
                                     <div className="flex flex-col">
                                       <span className={`font-semibold text-xs mb-1 ${
                                         daysLeft > 7 ? 'text-green-600' : 
                                         daysLeft > 0 ? 'text-orange-600' : 'text-red-600'
                                       }`}>
-                                        {daysLeft} giorni
+                                        {daysLeft} {t('paymentAdmin.license.days')}
                                       </span>
                                       <div className="w-full bg-gray-200 rounded-full h-2">
                                         <div 
@@ -860,7 +862,7 @@ export default function PaymentAdmin() {
                                 </div>
                                 
                                 <div>
-                                  <p className="text-xs text-muted-foreground mb-1">Azioni</p>
+                                  <p className="text-xs text-muted-foreground mb-1">{t('paymentAdmin.license.actions')}</p>
                                   <div className="flex items-center gap-1">
                                     {license.user?.id && (license.user as any).role !== 'admin' ? (
                                       <Button
@@ -871,9 +873,9 @@ export default function PaymentAdmin() {
                                         data-testid={`button-extend-trial-${license.user.id}`}
                                       >
                                         {extendingUserId === license.user.id ? (
-                                          <><Loader2 className="w-3 h-3 mr-1 animate-spin" /><span className="text-xs">Estendendo...</span></>
+                                          <><Loader2 className="w-3 h-3 mr-1 animate-spin" /><span className="text-xs">{t('paymentAdmin.license.extending')}</span></>
                                         ) : (
-                                          <span className="text-xs">+40 giorni</span>
+                                          <span className="text-xs">{t('paymentAdmin.license.extend40')}</span>
                                         )}
                                       </Button>
                                     ) : (
@@ -887,7 +889,7 @@ export default function PaymentAdmin() {
                                           </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                          <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                                          <DropdownMenuLabel>{t('paymentAdmin.license.actions')}</DropdownMenuLabel>
                                           <DropdownMenuSeparator />
                                           {license.type !== 'staff_free' && (
                                             <DropdownMenuItem
@@ -900,7 +902,7 @@ export default function PaymentAdmin() {
                                               data-testid={`button-upgrade-staff-${license.user.id}`}
                                             >
                                               <Shield className="h-4 w-4 mr-2" />
-                                              Promuovi a Staff (10 anni gratis)
+                                              {t('paymentAdmin.license.upgradeStaff')}
                                             </DropdownMenuItem>
                                           )}
                                           <DropdownMenuSeparator />
@@ -913,7 +915,7 @@ export default function PaymentAdmin() {
                                             }}
                                           >
                                             <Trash2 className="h-4 w-4 mr-2" />
-                                            Elimina account
+                                            {t('paymentAdmin.license.deleteAccount')}
                                           </DropdownMenuItem>
                                         </DropdownMenuContent>
                                       </DropdownMenu>
@@ -928,7 +930,7 @@ export default function PaymentAdmin() {
                     ) : (
                       <Card>
                         <CardContent className="p-8 text-center">
-                          <p className="text-muted-foreground">Nessuna licenza trovata</p>
+                          <p className="text-muted-foreground">{t('paymentAdmin.license.empty')}</p>
                         </CardContent>
                       </Card>
                     )}
@@ -964,8 +966,7 @@ export default function PaymentAdmin() {
                     <Alert className="bg-green-50 border-green-200">
                       <Shield className="h-4 w-4 text-green-700" />
                       <AlertDescription className="text-green-800">
-                        Questi dati vengono utilizzati per elaborare automaticamente i pagamenti delle commissioni referral allo staff. 
-                        Tutti i dati sono crittografati e conservati in sicurezza.
+                        {t('paymentAdmin.banking.alert')}
                       </AlertDescription>
                     </Alert>
 
@@ -975,32 +976,32 @@ export default function PaymentAdmin() {
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2">
                             <CreditCard className="h-5 w-5" />
-                            Dati Bancari Admin
+                            {t('paymentAdmin.banking.title')}
                           </CardTitle>
                           <CardDescription>
-                            IBAN aziendale dove ricevere i pagamenti dai clienti
+                            {t('paymentAdmin.banking.description')}
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           <form onSubmit={(e) => { e.preventDefault(); handleSaveSettings(new FormData(e.currentTarget)); }} className="space-y-4">
                             <div className="grid gap-2">
-                              <Label htmlFor="bankName">Nome Banca</Label>
+                              <Label htmlFor="bankName">{t('paymentAdmin.banking.bankName')}</Label>
                               <Input
                                 id="bankName"
                                 name="bankName"
                                 defaultValue={currentSettings.bankName}
-                                placeholder="es. Intesa Sanpaolo"
+                                placeholder={t('paymentAdmin.banking.bankNamePlaceholder')}
                                 required
                               />
                             </div>
 
                             <div className="grid gap-2">
-                              <Label htmlFor="accountHolder">Intestatario Conto</Label>
+                              <Label htmlFor="accountHolder">{t('paymentAdmin.banking.holder')}</Label>
                               <Input
                                 id="accountHolder"
                                 name="accountHolder"
                                 defaultValue={currentSettings.accountHolder}
-                                placeholder="Nome e Cognome / Ragione Sociale"
+                                placeholder={t('paymentAdmin.banking.holderPlaceholder')}
                                 required
                               />
                             </div>
@@ -1014,7 +1015,7 @@ export default function PaymentAdmin() {
                                   size="sm"
                                   onClick={() => setShowIban(!showIban)}
                                 >
-                                  {showIban ? "Nascondi" : "Mostra"}
+                                  {showIban ? t('paymentAdmin.banking.hide') : t('paymentAdmin.banking.show')}
                                 </Button>
                               </div>
                               {showIban ? (
@@ -1035,7 +1036,7 @@ export default function PaymentAdmin() {
                                   <div className="h-10 px-3 py-2 border rounded-md bg-muted font-mono text-sm flex items-center">
                                     {currentSettings.iban 
                                       ? '••••••••••••••••••••' + currentSettings.iban.slice(-4)
-                                      : 'IBAN non configurato'}
+                                      : t('paymentAdmin.banking.ibanNotConfigured')}
                                   </div>
                                   <input type="hidden" name="iban" value={currentSettings.iban} />
                                 </>
@@ -1048,17 +1049,17 @@ export default function PaymentAdmin() {
                                 id="bic"
                                 name="bic"
                                 defaultValue={currentSettings.bic}
-                                placeholder="es. BCITITMM"
+                                placeholder={t('paymentAdmin.banking.bicPlaceholder')}
                               />
                             </div>
 
                             <div className="grid gap-2">
-                              <Label htmlFor="address">Indirizzo</Label>
+                              <Label htmlFor="address">{t('paymentAdmin.banking.address')}</Label>
                               <Textarea
                                 id="address"
                                 name="address"
                                 defaultValue={currentSettings.address}
-                                placeholder="Indirizzo completo per fatturazione"
+                                placeholder={t('paymentAdmin.banking.addressPlaceholder')}
                                 rows={3}
                               />
                             </div>
@@ -1068,7 +1069,7 @@ export default function PaymentAdmin() {
                               className="w-full bg-green-600 hover:bg-green-700"
                               disabled={updateBankingMutation.isPending}
                             >
-                              {updateBankingMutation.isPending ? "Salvando..." : "Salva Dati Bancari"}
+                              {updateBankingMutation.isPending ? t('paymentAdmin.banking.saving') : t('paymentAdmin.banking.save')}
                             </Button>
                           </form>
                         </CardContent>
@@ -1079,19 +1080,19 @@ export default function PaymentAdmin() {
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2">
                             <Settings className="h-5 w-5" />
-                            Pagamenti Automatici
+                            {t('paymentAdmin.autopay.title')}
                           </CardTitle>
                           <CardDescription>
-                            Configura le commissioni per i referral staff
+                            {t('paymentAdmin.autopay.description')}
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           <form onSubmit={(e) => { e.preventDefault(); handleSavePaymentSettings(new FormData(e.currentTarget)); }} className="space-y-4">
                             <div className="flex items-center justify-between">
                               <div className="space-y-0.5">
-                                <Label>Pagamenti Automatici</Label>
+                                <Label>{t('paymentAdmin.autopay.title')}</Label>
                                 <p className="text-sm text-muted-foreground">
-                                  Abilita i pagamenti automatici delle commissioni
+                                  {t('paymentAdmin.autopay.enableHint')}
                                 </p>
                               </div>
                               <Switch 
@@ -1103,7 +1104,7 @@ export default function PaymentAdmin() {
                             <Separator />
 
                             <div className="grid gap-2">
-                              <Label htmlFor="paymentDelay">Ritardo Pagamento (giorni)</Label>
+                              <Label htmlFor="paymentDelay">{t('paymentAdmin.autopay.delay')}</Label>
                               <Input
                                 id="paymentDelay"
                                 name="paymentDelay"
@@ -1114,12 +1115,12 @@ export default function PaymentAdmin() {
                                 placeholder="30"
                               />
                               <p className="text-sm text-muted-foreground">
-                                Giorni di attesa prima di processare il pagamento
+                                {t('paymentAdmin.autopay.delayHint')}
                               </p>
                             </div>
 
                             <div className="grid gap-2">
-                              <Label htmlFor="minimumAmount">Importo Minimo ({symbol})</Label>
+                              <Label htmlFor="minimumAmount">{t('paymentAdmin.autopay.minAmount')} ({symbol})</Label>
                               <Input
                                 id="minimumAmount"
                                 name="minimumAmount"
@@ -1130,17 +1131,17 @@ export default function PaymentAdmin() {
                                 placeholder="1.00"
                               />
                               <p className="text-sm text-muted-foreground">
-                                Importo minimo per processare un pagamento
+                                {t('paymentAdmin.autopay.minAmountHint')}
                               </p>
                             </div>
 
                             <div className="grid gap-2">
-                              <Label htmlFor="description">Descrizione Pagamento</Label>
+                              <Label htmlFor="description">{t('paymentAdmin.autopay.descriptionLabel')}</Label>
                               <Input
                                 id="description"
                                 name="description"
                                 defaultValue={currentSettings.description}
-                                placeholder="Descrizione che apparirà nei bonifici"
+                                placeholder={t('paymentAdmin.autopay.descriptionPlaceholder')}
                               />
                             </div>
 
@@ -1150,7 +1151,7 @@ export default function PaymentAdmin() {
                               className="w-full"
                               disabled={updateBankingMutation.isPending}
                             >
-                              {updateBankingMutation.isPending ? "Salvando..." : "Salva Configurazione"}
+                              {updateBankingMutation.isPending ? t('paymentAdmin.banking.saving') : t('paymentAdmin.autopay.save')}
                             </Button>
                           </form>
                         </CardContent>
@@ -1164,12 +1165,12 @@ export default function PaymentAdmin() {
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2">
                             <Banknote className="h-5 w-5" />
-                            Test Sistema
+                            {t('paymentAdmin.test.title')}
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                           <p className="text-sm text-muted-foreground">
-                            Verifica che la configurazione sia corretta eseguendo un test del sistema di pagamento.
+                            {t('paymentAdmin.test.description')}
                           </p>
                           
                           <Button 
@@ -1177,7 +1178,7 @@ export default function PaymentAdmin() {
                             disabled={testPaymentMutation.isPending || !currentSettings.isConfigured}
                             className="w-full"
                           >
-                            {testPaymentMutation.isPending ? "Test in corso..." : "Testa Configurazione"}
+                            {testPaymentMutation.isPending ? t('paymentAdmin.test.running') : t('paymentAdmin.test.run')}
                           </Button>
                         </CardContent>
                       </Card>
@@ -1187,25 +1188,25 @@ export default function PaymentAdmin() {
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2">
                             <Euro className="h-5 w-5" />
-                            Riepilogo Commissioni
+                            {t('paymentAdmin.summary.title')}
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-4 text-center">
                             <div className="space-y-1">
                               <div className="text-2xl font-bold text-green-600">25%</div>
-                              <div className="text-sm text-muted-foreground">Per abbonamento</div>
+                              <div className="text-sm text-muted-foreground">{t('paymentAdmin.summary.perSubscription')}</div>
                             </div>
                             <div className="space-y-1">
                               <div className="text-2xl font-bold text-blue-600">{currentSettings.paymentDelay}</div>
-                              <div className="text-sm text-muted-foreground">Giorni di attesa</div>
+                              <div className="text-sm text-muted-foreground">{t('paymentAdmin.summary.waitingDays')}</div>
                             </div>
                           </div>
                           
                           <Separator />
                           
                           <div className="text-sm text-muted-foreground">
-                            Le commissioni vengono pagate automaticamente {currentSettings.paymentDelay} giorni dopo ogni abbonamento sponsorizzato.
+                            {t('paymentAdmin.summary.note', { days: currentSettings.paymentDelay })}
                           </div>
                         </CardContent>
                       </Card>
@@ -1225,15 +1226,15 @@ export default function PaymentAdmin() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
-              <Trash2 className="h-5 w-5" /> Elimina Account
+              <Trash2 className="h-5 w-5" /> {t('paymentAdmin.deleteDialog.title')}
             </DialogTitle>
             <DialogDescription>
-              Stai per eliminare definitivamente l'account <strong>{deleteTargetUser?.username}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.
+              <span dangerouslySetInnerHTML={{ __html: t('paymentAdmin.deleteDialog.description', { username: deleteTargetUser?.username || '' }) }} />
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2 py-2">
             <Label htmlFor="confirm-delete-payment">
-              Digita <strong>{deleteTargetUser?.username}</strong> per confermare:
+              <span dangerouslySetInnerHTML={{ __html: t('paymentAdmin.deleteDialog.confirmHint', { username: deleteTargetUser?.username || '' }) }} />
             </Label>
             <Input
               id="confirm-delete-payment"
@@ -1245,7 +1246,7 @@ export default function PaymentAdmin() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => { setDeleteDialogOpen(false); setDeleteTargetUser(null); setDeleteConfirmText(""); }} disabled={deleteUserMutation.isPending}>
-              Annulla
+              {t('paymentAdmin.deleteDialog.cancel')}
             </Button>
             <Button
               variant="destructive"
@@ -1253,8 +1254,8 @@ export default function PaymentAdmin() {
               disabled={deleteUserMutation.isPending || deleteConfirmText !== deleteTargetUser?.username}
             >
               {deleteUserMutation.isPending ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Eliminazione...</>
-              ) : "Elimina definitivamente"}
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />{t('paymentAdmin.deleteDialog.deleting')}</>
+              ) : t('paymentAdmin.deleteDialog.confirm')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1264,16 +1265,14 @@ export default function PaymentAdmin() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-green-600" /> Promuovi a Staff
+              <Shield className="h-5 w-5 text-green-600" /> {t('paymentAdmin.staffDialog.title')}
             </AlertDialogTitle>
-            <AlertDialogDescription>
-              Stai per promuovere <strong>{upgradeStaffTarget?.username}</strong> a <strong>Staff</strong> con accesso gratuito completo per <strong>10 anni</strong>.
-              <br /><br />
-              La licenza attuale verrà disattivata e sostituita con una licenza STAFF_FREE. Vuoi procedere?
+            <AlertDialogDescription asChild>
+              <div dangerouslySetInnerHTML={{ __html: t('paymentAdmin.staffDialog.description', { username: upgradeStaffTarget?.username || '' }) }} />
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={upgradeToStaffMutation.isPending}>Annulla</AlertDialogCancel>
+            <AlertDialogCancel disabled={upgradeToStaffMutation.isPending}>{t('paymentAdmin.deleteDialog.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={(e) => {
                 e.preventDefault();
@@ -1288,8 +1287,8 @@ export default function PaymentAdmin() {
               data-testid="button-confirm-upgrade-staff"
             >
               {upgradeToStaffMutation.isPending ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Promozione...</>
-              ) : "Promuovi a Staff"}
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />{t('paymentAdmin.staffDialog.promoting')}</>
+              ) : t('paymentAdmin.staffDialog.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

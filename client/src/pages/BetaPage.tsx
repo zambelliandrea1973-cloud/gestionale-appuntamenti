@@ -8,9 +8,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useAuth } from '@/hooks/use-auth';
 import { useLocation } from 'wouter';
+import { useTranslation } from 'react-i18next';
 import { Loader2 } from 'lucide-react';
 
 export default function BetaPage() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { user } = useAuth();
   const [location, setLocation] = useLocation();
@@ -22,56 +24,47 @@ export default function BetaPage() {
     rating: 5
   });
 
-  // Query per verificare un codice di invito
   const verifyCode = useMutation({
     mutationFn: async (data: { inviteCode: string, email: string }) => {
       const res = await apiRequest('GET', `/api/beta/verify/${data.inviteCode}`);
       const responseData = await res.json();
-      // Salva l'email per creare l'account
       localStorage.setItem('betaRegistrationEmail', data.email);
       return { ...responseData, email: data.email };
     },
     onSuccess: (data) => {
       if (data.valid) {
-        // Se l'utente è loggato, procedi all'utilizzo del codice
         if (user) {
           useCodeMutation.mutate(code);
         } else {
-          // Mostra una notifica di successo e memorizza l'invito valido
           toast({
-            title: 'Codice valido!',
-            description: 'Il codice di invito è valido. Ora puoi accedere al programma beta.',
+            title: t('betaPage.toast.codeValid'),
+            description: t('betaPage.toast.codeValidDesc'),
             variant: 'default',
           });
-          
-          // Memorizza l'invito valido
           localStorage.setItem('betaInviteCode', code);
           localStorage.setItem('betaInviteEmail', data.email);
           localStorage.setItem('betaInviteStatus', 'valid');
-          
-          // Reindirizza all'app principale dopo un breve ritardo
           setTimeout(() => {
-            window.location.href = '/'; // Reindirizza alla home page
+            window.location.href = '/';
           }, 2000);
         }
       } else {
         toast({
-          title: 'Codice non valido',
-          description: data.message || 'Il codice di invito non è valido.',
+          title: t('betaPage.toast.codeInvalid'),
+          description: data.message || t('betaPage.toast.codeInvalidDesc'),
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante la verifica del codice.',
+        title: t('betaPage.toast.error'),
+        description: t('betaPage.toast.verifyError'),
         variant: 'destructive',
       });
     }
   });
 
-  // Mutation per utilizzare un codice
   const useCodeMutation = useMutation({
     mutationFn: async (inviteCode: string) => {
       const res = await apiRequest('POST', `/api/beta/use/${inviteCode}`);
@@ -80,30 +73,28 @@ export default function BetaPage() {
     onSuccess: (data) => {
       if (data.success) {
         toast({
-          title: 'Codice utilizzato!',
-          description: 'Ora sei un beta tester ufficiale!',
+          title: t('betaPage.toast.codeUsed'),
+          description: t('betaPage.toast.codeUsedDesc'),
           variant: 'default',
         });
-        // Reindirizza alla pagina degli abbonamenti
         setLocation('/subscribe');
       } else {
         toast({
-          title: 'Errore',
-          description: data.message || 'Si è verificato un errore durante l\'utilizzo del codice.',
+          title: t('betaPage.toast.error'),
+          description: data.message || t('betaPage.toast.useError'),
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'utilizzo del codice.',
+        title: t('betaPage.toast.error'),
+        description: t('betaPage.toast.useError'),
         variant: 'destructive',
       });
     }
   });
 
-  // Mutation per inviare feedback
   const sendFeedbackMutation = useMutation({
     mutationFn: async (data: typeof feedbackData) => {
       const res = await apiRequest('POST', '/api/beta/feedback', data);
@@ -112,11 +103,10 @@ export default function BetaPage() {
     onSuccess: (data) => {
       if (data.success) {
         toast({
-          title: 'Feedback inviato!',
-          description: 'Grazie per il tuo feedback!',
+          title: t('betaPage.toast.feedbackSent'),
+          description: t('betaPage.toast.feedbackSentDesc'),
           variant: 'default',
         });
-        // Reset del form
         setFeedbackData({
           feedbackType: 'general',
           content: '',
@@ -124,16 +114,16 @@ export default function BetaPage() {
         });
       } else {
         toast({
-          title: 'Errore',
-          description: data.message || 'Si è verificato un errore durante l\'invio del feedback.',
+          title: t('betaPage.toast.error'),
+          description: data.message || t('betaPage.toast.feedbackError'),
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'invio del feedback.',
+        title: t('betaPage.toast.error'),
+        description: t('betaPage.toast.feedbackError'),
         variant: 'destructive',
       });
     }
@@ -143,22 +133,22 @@ export default function BetaPage() {
     e.preventDefault();
     if (!code) {
       toast({
-        title: 'Codice mancante',
-        description: 'Inserisci un codice di invito valido.',
+        title: t('betaPage.toast.codeMissing'),
+        description: t('betaPage.toast.codeMissingDesc'),
         variant: 'destructive',
       });
       return;
     }
-    
+
     if (!email || !validateEmail(email)) {
       toast({
-        title: 'Email non valida',
-        description: 'Inserisci un indirizzo email valido.',
+        title: t('betaPage.toast.emailInvalid'),
+        description: t('betaPage.toast.emailInvalidDesc'),
         variant: 'destructive',
       });
       return;
     }
-    
+
     verifyCode.mutate({ inviteCode: code, email });
   };
 
@@ -170,8 +160,8 @@ export default function BetaPage() {
     e.preventDefault();
     if (!feedbackData.content) {
       toast({
-        title: 'Feedback mancante',
-        description: 'Inserisci un feedback valido.',
+        title: t('betaPage.toast.feedbackMissing'),
+        description: t('betaPage.toast.feedbackMissingDesc'),
         variant: 'destructive',
       });
       return;
@@ -182,96 +172,94 @@ export default function BetaPage() {
   return (
     <div className="container py-10 mx-auto">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-extrabold tracking-tight text-center mb-10">Programma Beta</h1>
-        
+        <h1 className="text-4xl font-extrabold tracking-tight text-center mb-10">{t('betaPage.title')}</h1>
+
         <div className="grid gap-8 md:grid-cols-2">
-          {/* Card per il codice di invito */}
           <Card>
             <CardHeader>
-              <CardTitle>Accesso Beta Tester</CardTitle>
+              <CardTitle>{t('betaPage.access.title')}</CardTitle>
               <CardDescription>
-                Inserisci il tuo codice di invito e l'email associata per partecipare al programma beta
+                {t('betaPage.access.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleVerifyCode} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="inviteCode">Codice di Invito</Label>
+                  <Label htmlFor="inviteCode">{t('betaPage.inviteCode')}</Label>
                   <Input
                     id="inviteCode"
-                    placeholder="Inserisci il codice di invito"
+                    placeholder={t('betaPage.inviteCodePlaceholder')}
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="inviteEmail">Email</Label>
+                  <Label htmlFor="inviteEmail">{t('betaPage.email')}</Label>
                   <Input
                     id="inviteEmail"
                     type="email"
-                    placeholder="Inserisci la tua email"
+                    placeholder={t('betaPage.emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <p className="text-xs text-gray-500">
-                    Deve corrispondere all'email associata al tuo invito beta
+                    {t('betaPage.emailHint')}
                   </p>
                 </div>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full"
                   disabled={verifyCode.isPending || !code || !email}
                 >
                   {verifyCode.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Verifica in corso...
+                      {t('betaPage.verifying')}
                     </>
                   ) : (
-                    'Verifica Codice'
+                    t('betaPage.verifyButton')
                   )}
                 </Button>
               </form>
             </CardContent>
           </Card>
 
-          {/* Card per il feedback */}
           <Card>
             <CardHeader>
-              <CardTitle>Invia Feedback</CardTitle>
+              <CardTitle>{t('betaPage.feedback.title')}</CardTitle>
               <CardDescription>
-                Aiutaci a migliorare con il tuo feedback
+                {t('betaPage.feedback.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSendFeedback} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="feedbackType">Tipo di Feedback</Label>
+                  <Label htmlFor="feedbackType">{t('betaPage.feedback.type')}</Label>
                   <select
                     id="feedbackType"
                     className="w-full p-2 border rounded-md"
                     value={feedbackData.feedbackType}
                     onChange={(e) => setFeedbackData({...feedbackData, feedbackType: e.target.value})}
                   >
-                    <option value="general">Generale</option>
-                    <option value="bug">Bug</option>
-                    <option value="feature">Nuova Funzionalità</option>
-                    <option value="usability">Usabilità</option>
+                    <option value="general">{t('betaPage.feedback.general')}</option>
+                    <option value="bug">{t('betaPage.feedback.bug')}</option>
+                    <option value="feature">{t('betaPage.feedback.feature')}</option>
+                    <option value="usability">{t('betaPage.feedback.usability')}</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="content">Il tuo Feedback</Label>
+                  <Label htmlFor="content">{t('betaPage.feedback.yourFeedback')}</Label>
                   <textarea
                     id="content"
                     rows={4}
                     className="w-full p-2 border rounded-md"
-                    placeholder="Descrivi il tuo feedback..."
+                    placeholder={t('betaPage.feedback.placeholder')}
                     value={feedbackData.content}
                     onChange={(e) => setFeedbackData({...feedbackData, content: e.target.value})}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="rating">Valutazione (1-5)</Label>
+                  <Label htmlFor="rating">{t('betaPage.feedback.rating')}</Label>
                   <Input
                     id="rating"
                     type="number"
@@ -281,18 +269,18 @@ export default function BetaPage() {
                     onChange={(e) => setFeedbackData({...feedbackData, rating: parseInt(e.target.value)})}
                   />
                 </div>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full"
                   disabled={sendFeedbackMutation.isPending || !feedbackData.content}
                 >
                   {sendFeedbackMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Invio in corso...
+                      {t('betaPage.feedback.sending')}
                     </>
                   ) : (
-                    'Invia Feedback'
+                    t('betaPage.feedback.send')
                   )}
                 </Button>
               </form>
@@ -301,24 +289,23 @@ export default function BetaPage() {
         </div>
 
         <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold mb-4">Come Funziona il Programma Beta?</h2>
+          <h2 className="text-2xl font-bold mb-4">{t('betaPage.howItWorks.title')}</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Il nostro programma beta ti dà accesso anticipato alle nuove funzionalità prima del rilascio ufficiale.
-            In cambio, ci aiuti a migliorare l'applicazione con i tuoi preziosi feedback.
+            {t('betaPage.howItWorks.description')}
           </p>
-          
+
           <div className="grid gap-6 md:grid-cols-3 mt-8">
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-2">1. Ottieni un Codice</h3>
-              <p>Inserisci il tuo codice di invito e l'email associata per accedere come beta tester</p>
+              <h3 className="text-xl font-bold mb-2">{t('betaPage.steps.code.title')}</h3>
+              <p>{t('betaPage.steps.code.description')}</p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-2">2. Esplora l'App</h3>
-              <p>Prova tutte le funzionalità della piattaforma in anteprima</p>
+              <h3 className="text-xl font-bold mb-2">{t('betaPage.steps.explore.title')}</h3>
+              <p>{t('betaPage.steps.explore.description')}</p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-2">3. Condividi Feedback</h3>
-              <p>Inviaci i tuoi commenti, segnalazioni e suggerimenti</p>
+              <h3 className="text-xl font-bold mb-2">{t('betaPage.steps.feedback.title')}</h3>
+              <p>{t('betaPage.steps.feedback.description')}</p>
             </div>
           </div>
         </div>

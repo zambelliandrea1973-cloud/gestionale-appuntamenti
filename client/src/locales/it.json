@@ -406,7 +406,14 @@
     "selected": "Selezionato",
     "selectSlots": "Seleziona gli slot temporali",
     "confirmDelete": "Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "Elimina appuntamento"
+    "confirmDeleteTitle": "Elimina appuntamento",
+    "confirmDeleteDescription": "Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.",
+    "deleted": "Appuntamento eliminato",
+    "deletedDesc": "L'appuntamento è stato eliminato con successo",
+    "errorOccurred": "Si è verificato un errore: {{message}}",
+    "frequentClient": "Cliente frequente",
+    "noConsent": "Consenso non fornito",
+    "notesLabel": "Note:"
   },
   "navigation": {
     "home": "Home",
@@ -5503,5 +5510,635 @@
     "cardBody": "Non dovrai più utilizzare il codice QR per accedere alla tua area personale!",
     "iosButton": "Aggiungi alla schermata Home",
     "androidButton": "Salva collegamento sul telefono"
+  },
+  "betaPage": {
+    "title": "Programma Beta",
+    "access": {
+      "title": "Accesso Beta Tester",
+      "description": "Inserisci il tuo codice di invito e l'email associata per partecipare al programma beta"
+    },
+    "inviteCode": "Codice di Invito",
+    "inviteCodePlaceholder": "Inserisci il codice di invito",
+    "email": "Email",
+    "emailPlaceholder": "Inserisci la tua email",
+    "emailHint": "Deve corrispondere all'email associata al tuo invito beta",
+    "verifying": "Verifica in corso...",
+    "verifyButton": "Verifica Codice",
+    "feedback": {
+      "title": "Invia Feedback",
+      "description": "Aiutaci a migliorare con il tuo feedback",
+      "type": "Tipo di Feedback",
+      "general": "Generale",
+      "bug": "Bug",
+      "feature": "Nuova Funzionalità",
+      "usability": "Usabilità",
+      "yourFeedback": "Il tuo Feedback",
+      "placeholder": "Descrivi il tuo feedback...",
+      "rating": "Valutazione (1-5)",
+      "sending": "Invio in corso...",
+      "send": "Invia Feedback"
+    },
+    "howItWorks": {
+      "title": "Come Funziona il Programma Beta?",
+      "description": "Il nostro programma beta ti dà accesso anticipato alle nuove funzionalità prima del rilascio ufficiale. In cambio, ci aiuti a migliorare l'applicazione con i tuoi preziosi feedback."
+    },
+    "steps": {
+      "code": {
+        "title": "1. Ottieni un Codice",
+        "description": "Inserisci il tuo codice di invito e l'email associata per accedere come beta tester"
+      },
+      "explore": {
+        "title": "2. Esplora l'App",
+        "description": "Prova tutte le funzionalità della piattaforma in anteprima"
+      },
+      "feedback": {
+        "title": "3. Condividi Feedback",
+        "description": "Inviaci i tuoi commenti, segnalazioni e suggerimenti"
+      }
+    },
+    "toast": {
+      "codeValid": "Codice valido!",
+      "codeValidDesc": "Il codice di invito è valido. Ora puoi accedere al programma beta.",
+      "codeInvalid": "Codice non valido",
+      "codeInvalidDesc": "Il codice di invito non è valido.",
+      "error": "Errore",
+      "verifyError": "Si è verificato un errore durante la verifica del codice.",
+      "codeUsed": "Codice utilizzato!",
+      "codeUsedDesc": "Ora sei un beta tester ufficiale!",
+      "useError": "Si è verificato un errore durante l'utilizzo del codice.",
+      "feedbackSent": "Feedback inviato!",
+      "feedbackSentDesc": "Grazie per il tuo feedback!",
+      "feedbackError": "Si è verificato un errore durante l'invio del feedback.",
+      "codeMissing": "Codice mancante",
+      "codeMissingDesc": "Inserisci un codice di invito valido.",
+      "emailInvalid": "Email non valida",
+      "emailInvalidDesc": "Inserisci un indirizzo email valido.",
+      "feedbackMissing": "Feedback mancante",
+      "feedbackMissingDesc": "Inserisci un feedback valido."
+    }
+  },
+  "betaAdmin": {
+    "statusActive": "Attivo/Completato",
+    "statusPending": "In Attesa",
+    "statusFailed": "Fallito/Cancellato",
+    "unknown": "Sconosciuto",
+    "toast": {
+      "inviteCreated": "Invito creato!",
+      "inviteCreatedDesc": "Il codice di invito è stato creato con successo.",
+      "error": "Errore",
+      "inviteError": "Si è verificato un errore durante la creazione dell'invito.",
+      "feedbackUpdated": "Feedback aggiornato!",
+      "feedbackUpdatedDesc": "Lo stato del feedback è stato aggiornato con successo.",
+      "feedbackUpdateError": "Si è verificato un errore durante l'aggiornamento del feedback.",
+      "emailMissing": "Email mancante",
+      "emailMissingDesc": "Inserisci un'email valida per l'invito.",
+      "creating": "Creazione in corso...",
+      "creatingDesc": "Sto creando il codice di invito, attendi qualche secondo.",
+      "codeCopied": "Codice copiato!",
+      "codeCopiedDesc": "Il codice è stato copiato negli appunti.",
+      "copyError": "Impossibile copiare il codice negli appunti.",
+      "passwordRequired": "Password richiesta",
+      "loginSuccess": "Accesso effettuato",
+      "loginSuccessDesc": "Ora hai accesso alle funzionalità amministrative.",
+      "accessDenied": "Accesso negato",
+      "accessDeniedDesc": "La password inserita non è corretta.",
+      "loginError": "Errore durante l'accesso",
+      "loginErrorDesc": "Si è verificato un errore durante il processo di login.",
+      "passwordTooShort": "Password troppo corta",
+      "passwordTooShortDesc": "La nuova password deve contenere almeno 6 caratteri.",
+      "passwordMismatch": "Le password non corrispondono",
+      "passwordMismatchDesc": "La conferma della password non corrisponde alla nuova password.",
+      "passwordUpdated": "Password aggiornata",
+      "passwordUpdatedDesc": "La password amministrativa è stata modificata con successo."
+    },
+    "login": {
+      "title": "Accesso Amministratore",
+      "description": "Inserisci la password per accedere all'area amministrativa.",
+      "passwordLabel": "Password Amministratore",
+      "passwordPlaceholder": "Inserisci la password",
+      "submit": "Accedi"
+    },
+    "title": "Amministrazione",
+    "tabs": {
+      "beta": "Beta Test",
+      "payments": "Pagamenti"
+    },
+    "create": {
+      "title": "Crea Nuovo Codice di Invito",
+      "description": "Genera un nuovo codice di invito per i beta tester",
+      "emailLabel": "Email del Destinatario",
+      "maxUsesLabel": "Numero Massimo di Utilizzi",
+      "expiryLabel": "Scadenza (giorni)",
+      "creating": "Creazione in corso...",
+      "submit": "Crea Codice di Invito"
+    },
+    "list": {
+      "title": "Codici di Invito",
+      "description": "Lista di tutti i codici di invito generati",
+      "caption": "Lista dei codici di invito per beta test",
+      "empty": "Nessun codice di invito trovato. Crea il tuo primo codice!"
+    },
+    "refresh": "Aggiorna",
+    "col": {
+      "code": "Codice",
+      "email": "Email",
+      "usage": "Utilizzi",
+      "createdOn": "Creato il",
+      "expiry": "Scadenza",
+      "status": "Stato",
+      "actions": "Azioni",
+      "user": "Utente",
+      "type": "Tipo",
+      "content": "Contenuto",
+      "rating": "Valutazione",
+      "date": "Data",
+      "amount": "Importo",
+      "method": "Metodo",
+      "description": "Descrizione",
+      "plan": "Piano",
+      "start": "Inizio",
+      "end": "Termine",
+      "activated": "Attivata",
+      "name": "Nome",
+      "price": "Prezzo",
+      "interval": "Intervallo"
+    },
+    "notExpiring": "Non scade",
+    "badge": {
+      "used": "Utilizzato",
+      "expired": "Scaduto",
+      "active": "Attivo"
+    },
+    "feedback": {
+      "title": "Feedback Beta Test",
+      "description": "Feedback ricevuti dai beta tester",
+      "caption": "Lista dei feedback ricevuti dai beta tester",
+      "general": "Generale",
+      "bug": "Bug",
+      "feature": "Funzionalità",
+      "usability": "Usabilità",
+      "statusPending": "In attesa",
+      "statusReviewed": "Esaminato",
+      "statusImplemented": "Implementato",
+      "empty": "Nessun feedback ricevuto dai beta tester."
+    },
+    "dashboard": {
+      "title": "Dashboard Beta Test",
+      "description": "Statistiche generali sul programma beta",
+      "activeCodes": "Codici Attivi",
+      "betaTesters": "Beta Tester",
+      "feedbackReceived": "Feedback Ricevuti"
+    },
+    "security": {
+      "title": "Sicurezza",
+      "description": "Gestisci la password di amministrazione",
+      "cancel": "Annulla",
+      "changePassword": "Cambia Password",
+      "newPassword": "Nuova Password",
+      "newPasswordPlaceholder": "Nuova password",
+      "confirmPassword": "Conferma Password",
+      "confirmPasswordPlaceholder": "Conferma nuova password",
+      "savePassword": "Salva Nuova Password",
+      "statusOk": "La password attuale è sicura.",
+      "lastChange": "Ultima modifica:",
+      "activeSession": "sessione attiva",
+      "notSet": "non impostata"
+    },
+    "payments": {
+      "dashboardTitle": "Dashboard Pagamenti",
+      "dashboardDescription": "Panoramica delle metriche di pagamento e abbonamenti",
+      "recurringRevenue": "Ricavi Ricorrenti",
+      "totalSubscribers": "Abbonati Totali",
+      "totalTransactions": "Transazioni Totali",
+      "monthlyRevenue": "Ricavi Mensili",
+      "noData": "Nessun dato disponibile",
+      "cannotLoad": "Impossibile caricare i dati della dashboard",
+      "tabTransactions": "Transazioni",
+      "tabSubscriptions": "Abbonamenti",
+      "tabLicenses": "Licenze",
+      "tabPlans": "Piani",
+      "tabExternal": "Collegamenti",
+      "lastTransactions": "Ultime Transazioni",
+      "lastTransactionsDesc": "Elenco completo delle transazioni di pagamento",
+      "noTransactions": "Nessuna transazione trovata",
+      "subscriptionsTitle": "Abbonamenti",
+      "subscriptionsDesc": "Elenco degli abbonamenti attivi e passati",
+      "noSubscriptions": "Nessun abbonamento trovato",
+      "licensesTitle": "Licenze",
+      "licensesDesc": "Elenco delle licenze e degli account associati",
+      "licenseActive": "Attiva",
+      "licenseExpired": "Scaduta",
+      "noExpiry": "Nessuna scadenza",
+      "noLicenses": "Nessuna licenza trovata",
+      "plansTitle": "Piani di Abbonamento",
+      "plansDesc": "Dettaglio dei piani di abbonamento disponibili",
+      "monthly": "Mensile",
+      "yearly": "Annuale",
+      "planActive": "Attivo",
+      "planInactive": "Inattivo",
+      "noPlans": "Nessun piano di abbonamento trovato"
+    },
+    "external": {
+      "title": "Collegamenti Esterni",
+      "description": "Accedi direttamente alle piattaforme di pagamento",
+      "paypalDesc": "Gestisci transazioni e abbonamenti",
+      "dashboardBusiness": "Dashboard Business",
+      "completedTransactions": "Transazioni Completate",
+      "subscriptionPlans": "Piani di Abbonamento",
+      "subscriptionMgmt": "Gestione Abbonamenti",
+      "wiseDesc": "Gestisci pagamenti internazionali",
+      "dashboardAccount": "Dashboard Account",
+      "balanceMovements": "Bilancio e Movimenti",
+      "recentActivity": "Attività Recenti",
+      "recipientsMgmt": "Gestione Destinatari",
+      "importantNote": "Nota importante",
+      "importantNoteText": "Questi collegamenti aprono le interfacce ufficiali di PayPal e Wise per una gestione diretta delle transazioni. Assicurati di essere connesso agli account corretti prima di eseguire operazioni importanti."
+    }
+  },
+  "paymentAdmin": {
+    "title": "Dashboard Amministrazione Pagamenti",
+    "refresh": "Aggiorna Dati",
+    "toast": {
+      "error": "Errore",
+      "loadError": "Impossibile caricare i dati del dashboard.",
+      "refreshing": "Aggiornamento dati",
+      "refreshingDesc": "Aggiornamento dati in corso...",
+      "settingsSaved": "Impostazioni salvate",
+      "settingsSavedDesc": "Le impostazioni bancarie sono state aggiornate con successo",
+      "settingsSaveError": "Impossibile salvare le impostazioni bancarie",
+      "testCompleted": "Test completato",
+      "testCompletedDesc": "Il sistema di pagamento è configurato correttamente",
+      "testFailed": "Test fallito",
+      "testFailedDesc": "Verifica la configurazione dei dati bancari",
+      "trialExtended": "Trial Esteso",
+      "trialError": "Impossibile estendere il trial",
+      "staffUpgraded": "Upgrade a Staff completato",
+      "staffUpgradeError": "Impossibile promuovere a Staff",
+      "dateUpdated": "Data Aggiornata",
+      "dateError": "Impossibile aggiornare la data",
+      "accountDeleted": "Account eliminato",
+      "accountDeletedDesc": "L'account è stato eliminato con successo",
+      "deleteError": "Impossibile eliminare l'account"
+    },
+    "dateInvalid": "Data non valida",
+    "status": {
+      "completed": "Completato",
+      "pending": "In attesa",
+      "failed": "Fallito"
+    },
+    "kpi": {
+      "totalRevenue": "Entrate Totali",
+      "activeSubs": "Abbonamenti Attivi",
+      "totalTx": "Transazioni Totali"
+    },
+    "tab": {
+      "transactions": "Transazioni",
+      "subscriptions": "Abbonamenti",
+      "plans": "Piani",
+      "licenses": "Licenze",
+      "paymentMethods": "Metodi di Pagamento",
+      "bankingConfig": "Configurazione Bancaria"
+    },
+    "transactions": {
+      "title": "Ultime Transazioni",
+      "description": "Dettaglio delle ultime transazioni di pagamento",
+      "empty": "Nessuna transazione trovata"
+    },
+    "col": {
+      "user": "Utente",
+      "date": "Data",
+      "amount": "Importo",
+      "method": "Metodo",
+      "status": "Stato",
+      "description": "Descrizione",
+      "plan": "Piano",
+      "start": "Inizio",
+      "expiry": "Scadenza",
+      "actions": "Azioni"
+    },
+    "subs": {
+      "title": "Abbonamenti",
+      "description": "Elenco degli abbonamenti attivi e scaduti",
+      "empty": "Nessun abbonamento trovato"
+    },
+    "plans": {
+      "title": "Piani di Abbonamento",
+      "description": "Gestisci i piani di abbonamento: modifica prezzi, features e disponibilità"
+    },
+    "licenses": {
+      "title": "Licenze",
+      "description": "Gestione delle licenze e degli utenti associati"
+    },
+    "access": {
+      "label": "Accessi:",
+      "today": "Oggi:",
+      "week": "7gg:",
+      "total": "Totali:",
+      "users": "utenti"
+    },
+    "license": {
+      "disabled": "Disattivata",
+      "frozen": "Congelato",
+      "active": "Attiva",
+      "user": "Utente",
+      "type": "Tipo Licenza",
+      "status": "Stato",
+      "id": "ID",
+      "accesses": "Accessi",
+      "totalShort": "Tot:",
+      "created": "Data Creazione",
+      "expiry": "Scadenza",
+      "unlimited": "Illimitata",
+      "select": "Seleziona",
+      "daysLeft": "Giorni Rimanenti",
+      "days": "giorni",
+      "actions": "Azioni",
+      "extending": "Estendendo...",
+      "extend40": "+40 giorni",
+      "upgradeStaff": "Promuovi a Staff (10 anni gratis)",
+      "deleteAccount": "Elimina account",
+      "empty": "Nessuna licenza trovata"
+    },
+    "banking": {
+      "alert": "Questi dati vengono utilizzati per elaborare automaticamente i pagamenti delle commissioni referral allo staff. Tutti i dati sono crittografati e conservati in sicurezza.",
+      "title": "Dati Bancari Admin",
+      "description": "IBAN aziendale dove ricevere i pagamenti dai clienti",
+      "bankName": "Nome Banca",
+      "bankNamePlaceholder": "es. Intesa Sanpaolo",
+      "holder": "Intestatario Conto",
+      "holderPlaceholder": "Nome e Cognome / Ragione Sociale",
+      "iban": "IBAN",
+      "hide": "Nascondi",
+      "show": "Mostra",
+      "ibanNotConfigured": "IBAN non configurato",
+      "bicPlaceholder": "es. BCITITMM",
+      "address": "Indirizzo",
+      "addressPlaceholder": "Indirizzo completo per fatturazione",
+      "saving": "Salvando...",
+      "save": "Salva Dati Bancari"
+    },
+    "autopay": {
+      "title": "Pagamenti Automatici",
+      "description": "Configura le commissioni per i referral staff",
+      "enableHint": "Abilita i pagamenti automatici delle commissioni",
+      "delay": "Ritardo Pagamento (giorni)",
+      "delayHint": "Giorni di attesa prima di processare il pagamento",
+      "minAmount": "Importo Minimo",
+      "minAmountHint": "Importo minimo per processare un pagamento",
+      "descriptionLabel": "Descrizione Pagamento",
+      "descriptionPlaceholder": "Descrizione che apparirà nei bonifici",
+      "save": "Salva Configurazione"
+    },
+    "test": {
+      "title": "Test Sistema",
+      "description": "Verifica che la configurazione sia corretta eseguendo un test del sistema di pagamento.",
+      "running": "Test in corso...",
+      "run": "Testa Configurazione"
+    },
+    "summary": {
+      "title": "Riepilogo Commissioni",
+      "perSubscription": "Per abbonamento",
+      "waitingDays": "Giorni di attesa",
+      "note": "Le commissioni vengono pagate automaticamente {{days}} giorni dopo ogni abbonamento sponsorizzato."
+    },
+    "deleteDialog": {
+      "title": "Elimina Account",
+      "description": "Stai per eliminare definitivamente l'account <strong>{{username}}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.",
+      "confirmHint": "Digita <strong>{{username}}</strong> per confermare:",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione...",
+      "confirm": "Elimina definitivamente"
+    },
+    "staffDialog": {
+      "title": "Promuovi a Staff",
+      "description": "Stai per promuovere <strong>{{username}}</strong> a <strong>Staff</strong> con accesso gratuito completo per <strong>10 anni</strong>.<br /><br />La licenza attuale verrà disattivata e sostituita con una licenza STAFF_FREE. Vuoi procedere?",
+      "promoting": "Promozione...",
+      "confirm": "Promuovi a Staff"
+    }
+  },
+  "adminLicense": {
+    "toast": {
+      "unauthorized": "Non autorizzato",
+      "accessDenied": "Accesso negato",
+      "adminOnly": "Solo gli amministratori possono accedere a questa pagina",
+      "error": "Errore",
+      "cannotVerify": "Impossibile verificare l'autorizzazione",
+      "success": "Successo",
+      "licenseCreated": "Licenza gratuita creata con successo",
+      "licenseRevoked": "Licenza revocata con successo",
+      "accountDeleted": "Account eliminato",
+      "accountDeletedDesc": "L'account è stato eliminato con successo"
+    },
+    "error": {
+      "staffUsersFetch": "Errore nel recupero degli utenti staff",
+      "licensesFetch": "Errore nel recupero delle licenze",
+      "licenseGenerate": "Errore nella generazione della licenza",
+      "licenseRevoke": "Errore nella revoca della licenza",
+      "deleteAccount": "Errore nell'eliminazione dell'account",
+      "generic": "Si è verificato un errore durante il caricamento dei dati"
+    },
+    "warning": {
+      "title": "Attenzione",
+      "selectStaff": "Seleziona un utente staff"
+    },
+    "formatNoExpiry": "Nessuna scadenza",
+    "heading": "Gestione Licenze Staff",
+    "intro": "Questa sezione è riservata all'amministratore. Qui puoi gestire le licenze gratuite di 10 anni per i membri dello staff.",
+    "access": {
+      "label": "Accessi:",
+      "today": "Oggi:",
+      "week": "7gg:",
+      "total": "Totali:",
+      "users": "utenti"
+    },
+    "create": {
+      "title": "Genera Nuova Licenza Staff",
+      "description": "Crea una licenza gratuita di 10 anni per un membro dello staff",
+      "staffUserLabel": "Utente Staff",
+      "staffUserPlaceholder": "Seleziona un utente staff",
+      "licenseTypeLabel": "Tipo di Licenza",
+      "licenseTypePlaceholder": "Seleziona un tipo di licenza",
+      "creating": "Creazione in corso...",
+      "submit": "Genera Licenza"
+    },
+    "licenseType": {
+      "base": "Base",
+      "pro": "Professionale",
+      "business": "Business"
+    },
+    "list": {
+      "title": "Licenze Attive",
+      "description": "Gestisci le licenze staff esistenti",
+      "empty": "Nessuna licenza trovata"
+    },
+    "col": {
+      "user": "Utente",
+      "type": "Tipo",
+      "status": "Stato",
+      "expiry": "Scadenza",
+      "actions": "Azioni"
+    },
+    "status": {
+      "active": "Attiva",
+      "revoked": "Revocata"
+    },
+    "openMenu": "Apri menu",
+    "actions": {
+      "revoke": "Revoca licenza",
+      "delete": "Elimina account"
+    },
+    "delete": {
+      "title": "Elimina Account",
+      "description": "Stai per eliminare definitivamente l'account <strong>{{username}}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.",
+      "confirmHint": "Digita <strong>{{username}}</strong> per confermare:",
+      "placeholder": "Digita il nome utente...",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione...",
+      "confirm": "Elimina definitivamente"
+    },
+    "revoke": {
+      "title": "Conferma revoca",
+      "description": "Sei sicuro di voler revocare questa licenza? L'utente perderà l'accesso alle funzionalità premium.",
+      "cancel": "Annulla",
+      "revoking": "Revoca in corso...",
+      "confirm": "Revoca licenza"
+    }
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "Errore durante il caricamento del contenuto",
+      "upload": "Errore durante l'upload del file",
+      "save": "Errore durante il salvataggio",
+      "deleteFile": "Errore durante l'eliminazione del file dal server"
+    },
+    "fileType": {
+      "video": "Video",
+      "image": "Immagine"
+    },
+    "toast": {
+      "uploaded": "{{type}} caricato",
+      "uploadedDesc": "{{type}} aggiunto. Clicca \"Salva\" per confermare.",
+      "uploadError": "Errore upload",
+      "saved": "Salvato",
+      "savedDesc": "Contenuto salvato con successo",
+      "error": "Errore",
+      "invalidFile": "Seleziona solo immagini o video",
+      "fileTooBig": "Il file deve essere massimo 1GB",
+      "titleMissing": "Inserisci un titolo per la sezione",
+      "fileRemoved": "File rimosso",
+      "fileRemovedDesc": "Il file è stato eliminato dal server. Ricorda di salvare le modifiche.",
+      "deleteError": "Errore eliminazione",
+      "cannotDelete": "Impossibile eliminare il file"
+    },
+    "loading": "Caricamento...",
+    "title": "Amministrazione Manuale",
+    "subtitle": "Gestisci contenuti e video tutorial per ogni sezione",
+    "edit": "Modifica",
+    "saving": "Salvataggio...",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "selectorTitle": "Seleziona Sezione e Lingua",
+    "sectionLabel": "Sezione del Manuale",
+    "sectionPlaceholder": "Seleziona una sezione...",
+    "languageLabel": "Lingua",
+    "languagePlaceholder": "Seleziona lingua...",
+    "titlePlaceholder": "Titolo sezione...",
+    "noTitle": "Nessun titolo",
+    "textExplanation": "Spiegazione Testuale",
+    "contentPlaceholder": "Inserisci la spiegazione testuale per questa sezione...",
+    "noContent": "Nessun contenuto disponibile",
+    "supportMedia": "Media di Supporto (Video e Immagini)",
+    "imageAlt": "Immagine manuale",
+    "captionPlaceholder": "Didascalia...",
+    "uploadHeading": "Carica video o immagini",
+    "uploadHintImages": "Immagini: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "Video: MP4, WEBM, MOV (max 1GB)",
+    "uploading": "Caricamento...",
+    "addFile": "Aggiungi File",
+    "uploadInProgress": "Upload in corso...",
+    "noMedia": "Nessun media disponibile",
+    "sections": {
+      "s11": "1.1 Primo accesso al sistema",
+      "s12": "1.2 Configurare i Dati Aziendali",
+      "s13": "1.3 Configurare i Dati Bancari",
+      "s14": "1.4 Gestire Staff e Stanze di Trattamento",
+      "s15": "1.5 Configurare le Email Automatiche",
+      "s21": "2.1 Gestione Clienti",
+      "s22": "2.2 Calendario e Appuntamenti",
+      "s23": "2.3 Richieste Appuntamento PWA Cliente",
+      "s24": "2.4 Gestione Fatture",
+      "s31": "3.1 Gestione Inventario e Magazzino",
+      "s32": "3.2 Report e Statistiche",
+      "s33": "3.3 Campagne Marketing con AI",
+      "s34": "3.4 Centro WhatsApp",
+      "s35": "3.5 Sistema Referral e Commissioni",
+      "s41": "4.1 Come i Clienti Accedono alla Loro Area",
+      "s42": "4.2 Cosa Possono Fare i Clienti nell'Area Riservata",
+      "s43": "4.3 Come Installare l'App sul Telefono (PWA)",
+      "s44": "4.4 Personalizzare l'Aspetto dell'Area Cliente",
+      "s51": "5.1 Impostazioni",
+      "s61": "6.1 Funzioni Avanzate"
+    }
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "description": "Inserisci la tua nuova password",
+    "error": "Errore",
+    "newPassword": "Nuova Password",
+    "newPasswordPlaceholder": "Inserisci la nuova password",
+    "confirmPassword": "Conferma Password",
+    "confirmPasswordPlaceholder": "Conferma la nuova password",
+    "success": "Password resetata",
+    "successDesc": "La tua password è stata resetata con successo. Accedi con la nuova password.",
+    "tokenNotFound": "Token di reset non trovato. Richiedi un nuovo link di recupero.",
+    "tokenInvalid": "Token scaduto o non valido. Richiedi un nuovo link di recupero.",
+    "tokenVerifyError": "Errore durante la verifica del token.",
+    "bothFieldsRequired": "Inserisci la nuova password in entrambi i campi",
+    "passwordsMismatch": "Le password non coincidono",
+    "passwordTooShort": "La password deve contenere almeno 6 caratteri",
+    "resetError": "Errore durante il reset della password. Riprova più tardi.",
+    "verifying": "Verifica in corso...",
+    "resetting": "Reset in corso...",
+    "submit": "Reimposta Password"
+  },
+  "adminUsers": {
+    "title": "Gestione Utenti",
+    "subtitle": "Visualizza e gestisci tutti gli utenti registrati nel sistema",
+    "stats": {
+      "total": "Totale Utenti",
+      "active": "Licenze Attive",
+      "expiring": "In Scadenza (<7gg)",
+      "expired": "Scaduti"
+    },
+    "table": {
+      "title": "Tutti gli Utenti",
+      "description": "Elenco completo con stato licenze e abbonamenti",
+      "username": "Username",
+      "email": "Email",
+      "type": "Tipo",
+      "status": "Stato Licenza",
+      "expiresAt": "Scadenza",
+      "daysLeft": "Giorni Rimanenti",
+      "plan": "Piano",
+      "actions": "Azioni",
+      "empty": "Nessun utente trovato",
+      "daysCount": "{{count}} giorni"
+    },
+    "badges": {
+      "subscribed": "Abbonato",
+      "trialActive": "Trial Attivo",
+      "expired": "Scaduto",
+      "permanent": "Permanente",
+      "unknown": "Sconosciuto",
+      "customer": "Cliente"
+    },
+    "actions": {
+      "extending": "Estendendo...",
+      "extend40": "+40 giorni"
+    },
+    "toast": {
+      "trialExtended": "Trial Esteso",
+      "cannotExtend": "Impossibile estendere il trial"
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Trash2, Pencil, X } from "lucide-react";
@@ -19,6 +20,7 @@ export default function AppointmentCardSmall({
   view 
 }: AppointmentCardSmallProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   
@@ -28,8 +30,8 @@ export default function AppointmentCardSmall({
     },
     onSuccess: async () => {
       toast({
-        title: "Appuntamento eliminato",
-        description: "L'appuntamento è stato eliminato con successo",
+        title: t('appointment.deleted'),
+        description: t('appointment.deletedDesc'),
       });
       
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
@@ -44,8 +46,8 @@ export default function AppointmentCardSmall({
     },
     onError: (error) => {
       toast({
-        title: "Errore",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('common.error'),
+        description: t('appointment.errorOccurred', { message: error.message }),
         variant: "destructive",
       });
     }
@@ -175,7 +177,7 @@ export default function AppointmentCardSmall({
               </Button>
             </div>
             <p className="text-gray-600 mb-6">
-              Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
+              {t('appointment.confirmDeleteDescription')}
             </p>
             <div className="flex justify-end gap-3">
               <Button
@@ -186,7 +188,7 @@ export default function AppointmentCardSmall({
                   setIsDeleteConfirmOpen(false);
                 }}
               >
-                Annulla
+                {t('common.cancel')}
               </Button>
               <Button
                 variant="destructive"

@@ -48,6 +48,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 
 interface StaffUser {
@@ -81,7 +82,8 @@ enum LicenseType {
 }
 
 export default function AdminLicenseManagementPage() {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [, navigate] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
@@ -99,22 +101,22 @@ export default function AdminLicenseManagementPage() {
       try {
         const response = await apiRequest("GET", "/api/current-user");
         if (!response.ok) {
-          throw new Error("Non autorizzato");
+          throw new Error(t('adminLicense.toast.unauthorized'));
         }
         
         const userData = await response.json();
         if (userData.role !== "admin") {
           toast({
-            title: "Accesso negato",
-            description: "Solo gli amministratori possono accedere a questa pagina",
+            title: t('adminLicense.toast.accessDenied'),
+            description: t('adminLicense.toast.adminOnly'),
             variant: "destructive",
           });
           navigate("/dashboard");
         }
       } catch (error) {
         toast({
-          title: "Errore",
-          description: "Impossibile verificare l'autorizzazione",
+          title: t('adminLicense.toast.error'),
+          description: t('adminLicense.toast.cannotVerify'),
           variant: "destructive",
         });
         navigate("/");
@@ -136,7 +138,7 @@ export default function AdminLicenseManagementPage() {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Errore nel recupero degli utenti staff");
+        throw new Error(errorData.message || t('adminLicense.error.staffUsersFetch'));
       }
       
       return response.json() as Promise<StaffUser[]>;
@@ -155,7 +157,7 @@ export default function AdminLicenseManagementPage() {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Errore nel recupero delle licenze");
+        throw new Error(errorData.message || t('adminLicense.error.licensesFetch'));
       }
       
       return response.json() as Promise<License[]>;
@@ -184,15 +186,15 @@ export default function AdminLicenseManagementPage() {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Errore nella generazione della licenza");
+        throw new Error(errorData.message || t('adminLicense.error.licenseGenerate'));
       }
       
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "Successo",
-        description: "Licenza gratuita creata con successo",
+        title: t('adminLicense.toast.success'),
+        description: t('adminLicense.toast.licenseCreated'),
       });
       
       // Invalida le query per aggiornare i dati
@@ -205,7 +207,7 @@ export default function AdminLicenseManagementPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('adminLicense.toast.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -222,15 +224,15 @@ export default function AdminLicenseManagementPage() {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Errore nella revoca della licenza");
+        throw new Error(errorData.message || t('adminLicense.error.licenseRevoke'));
       }
       
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "Successo",
-        description: "Licenza revocata con successo",
+        title: t('adminLicense.toast.success'),
+        description: t('adminLicense.toast.licenseRevoked'),
       });
       
       // Invalida le query per aggiornare i dati
@@ -242,7 +244,7 @@ export default function AdminLicenseManagementPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('adminLicense.toast.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -256,14 +258,14 @@ export default function AdminLicenseManagementPage() {
       const response = await apiRequest("DELETE", `/api/admin-license/delete-user/${userId}`);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Errore nell'eliminazione dell'account");
+        throw new Error(errorData.message || t('adminLicense.error.deleteAccount'));
       }
       return response.json();
     },
     onSuccess: (data) => {
       toast({
-        title: "Account eliminato",
-        description: data.message || "L'account è stato eliminato con successo",
+        title: t('adminLicense.toast.accountDeleted'),
+        description: data.message || t('adminLicense.toast.accountDeletedDesc'),
       });
       queryClient.invalidateQueries({ queryKey: ["/api/admin-license/licenses"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin-license/staff-users"] });
@@ -274,7 +276,7 @@ export default function AdminLicenseManagementPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('adminLicense.toast.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -283,7 +285,7 @@ export default function AdminLicenseManagementPage() {
 
   // Funzione per formattare la data
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return "Nessuna scadenza";
+    if (!dateString) return t('adminLicense.formatNoExpiry');
     
     const date = new Date(dateString);
     return date.toLocaleDateString("it-IT", {
@@ -297,8 +299,8 @@ export default function AdminLicenseManagementPage() {
   const handleGenerateLicense = () => {
     if (!selectedUserId) {
       toast({
-        title: "Attenzione",
-        description: "Seleziona un utente staff",
+        title: t('adminLicense.warning.title'),
+        description: t('adminLicense.warning.selectStaff'),
         variant: "destructive",
       });
       return;
@@ -336,10 +338,10 @@ export default function AdminLicenseManagementPage() {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6 flex items-center">
-        <ShieldCheck className="mr-2 h-8 w-8 text-primary" /> Gestione Licenze Staff
+        <ShieldCheck className="mr-2 h-8 w-8 text-primary" /> {t('adminLicense.heading')}
       </h1>
       <p className="text-muted-foreground mb-4">
-        Questa sezione è riservata all'amministratore. Qui puoi gestire le licenze gratuite di 10 anni per i membri dello staff.
+        {t('adminLicense.intro')}
       </p>
       
       {/* Widget Statistiche Accessi - compatto */}
@@ -347,21 +349,21 @@ export default function AdminLicenseManagementPage() {
         <div className="mb-6 p-3 bg-muted/50 rounded-lg border flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Accessi:</span>
+            <span className="text-sm font-medium">{t('adminLicense.access.label')}</span>
           </div>
           <div className="flex gap-4 text-sm">
             <div className="flex items-center gap-1.5">
-              <span className="text-muted-foreground">Oggi:</span>
+              <span className="text-muted-foreground">{t('adminLicense.access.today')}</span>
               <Badge variant="secondary" className="font-mono">{accessStats.today}</Badge>
-              <span className="text-xs text-muted-foreground">({accessStats.uniqueToday} utenti)</span>
+              <span className="text-xs text-muted-foreground">({accessStats.uniqueToday} {t('adminLicense.access.users')})</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-muted-foreground">7gg:</span>
+              <span className="text-muted-foreground">{t('adminLicense.access.week')}</span>
               <Badge variant="secondary" className="font-mono">{accessStats.week}</Badge>
-              <span className="text-xs text-muted-foreground">({accessStats.uniqueWeek} utenti)</span>
+              <span className="text-xs text-muted-foreground">({accessStats.uniqueWeek} {t('adminLicense.access.users')})</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-muted-foreground">Totali:</span>
+              <span className="text-muted-foreground">{t('adminLicense.access.total')}</span>
               <Badge variant="outline" className="font-mono">{accessStats.total}</Badge>
             </div>
           </div>
@@ -370,13 +372,13 @@ export default function AdminLicenseManagementPage() {
       
       {(staffUsersError || licensesError) && (
         <Alert variant="destructive" className="mb-6">
-          <AlertTitle>Errore</AlertTitle>
+          <AlertTitle>{t('adminLicense.toast.error')}</AlertTitle>
           <AlertDescription>
             {staffUsersError instanceof Error 
               ? staffUsersError.message 
               : licensesError instanceof Error 
                 ? licensesError.message 
-                : "Si è verificato un errore durante il caricamento dei dati"}
+                : t('adminLicense.error.generic')}
           </AlertDescription>
         </Alert>
       )}
@@ -386,23 +388,23 @@ export default function AdminLicenseManagementPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <KeyRound className="mr-2 h-5 w-5" /> Genera Nuova Licenza Staff
+              <KeyRound className="mr-2 h-5 w-5" /> {t('adminLicense.create.title')}
             </CardTitle>
             <CardDescription>
-              Crea una licenza gratuita di 10 anni per un membro dello staff
+              {t('adminLicense.create.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="staff-user">Utente Staff</Label>
+                <Label htmlFor="staff-user">{t('adminLicense.create.staffUserLabel')}</Label>
                 <Select 
                   disabled={isLoadingStaffUsers || isCreatingLicense}
                   value={selectedUserId?.toString() || ""}
                   onValueChange={(value) => setSelectedUserId(parseInt(value))}
                 >
                   <SelectTrigger id="staff-user">
-                    <SelectValue placeholder="Seleziona un utente staff" />
+                    <SelectValue placeholder={t('adminLicense.create.staffUserPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
                     {staffUsers?.map((user) => (
@@ -415,19 +417,19 @@ export default function AdminLicenseManagementPage() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="license-type">Tipo di Licenza</Label>
+                <Label htmlFor="license-type">{t('adminLicense.create.licenseTypeLabel')}</Label>
                 <Select 
                   disabled={isCreatingLicense}
                   value={selectedLicenseType}
                   onValueChange={(value) => setSelectedLicenseType(value as LicenseType)}
                 >
                   <SelectTrigger id="license-type">
-                    <SelectValue placeholder="Seleziona un tipo di licenza" />
+                    <SelectValue placeholder={t('adminLicense.create.licenseTypePlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={LicenseType.BASE}>Base</SelectItem>
-                    <SelectItem value={LicenseType.PRO}>Professionale</SelectItem>
-                    <SelectItem value={LicenseType.BUSINESS}>Business</SelectItem>
+                    <SelectItem value={LicenseType.BASE}>{t('adminLicense.licenseType.base')}</SelectItem>
+                    <SelectItem value={LicenseType.PRO}>{t('adminLicense.licenseType.pro')}</SelectItem>
+                    <SelectItem value={LicenseType.BUSINESS}>{t('adminLicense.licenseType.business')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -442,10 +444,10 @@ export default function AdminLicenseManagementPage() {
               {isCreatingLicense ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creazione in corso...
+                  {t('adminLicense.create.creating')}
                 </>
               ) : (
-                "Genera Licenza"
+                t('adminLicense.create.submit')
               )}
             </Button>
           </CardFooter>
@@ -455,10 +457,10 @@ export default function AdminLicenseManagementPage() {
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Users className="mr-2 h-5 w-5" /> Licenze Attive
+              <Users className="mr-2 h-5 w-5" /> {t('adminLicense.list.title')}
             </CardTitle>
             <CardDescription>
-              Gestisci le licenze staff esistenti
+              {t('adminLicense.list.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -468,18 +470,18 @@ export default function AdminLicenseManagementPage() {
               </div>
             ) : !licenses || licenses.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                Nessuna licenza trovata
+                {t('adminLicense.list.empty')}
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Utente</TableHead>
-                      <TableHead>Tipo</TableHead>
-                      <TableHead>Stato</TableHead>
-                      <TableHead>Scadenza</TableHead>
-                      <TableHead className="text-right">Azioni</TableHead>
+                      <TableHead>{t('adminLicense.col.user')}</TableHead>
+                      <TableHead>{t('adminLicense.col.type')}</TableHead>
+                      <TableHead>{t('adminLicense.col.status')}</TableHead>
+                      <TableHead>{t('adminLicense.col.expiry')}</TableHead>
+                      <TableHead className="text-right">{t('adminLicense.col.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -504,7 +506,7 @@ export default function AdminLicenseManagementPage() {
                             ) : (
                               <X className="h-3 w-3 mr-1" />
                             )}
-                            {license.license.isActive ? "Attiva" : "Revocata"}
+                            {license.license.isActive ? t('adminLicense.status.active') : t('adminLicense.status.revoked')}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -517,14 +519,14 @@ export default function AdminLicenseManagementPage() {
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Apri menu</span>
+                                <span className="sr-only">{t('adminLicense.openMenu')}</span>
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M3.625 7.5C3.625 8.12132 3.12132 8.625 2.5 8.625C1.87868 8.625 1.375 8.12132 1.375 7.5C1.375 6.87868 1.87868 6.375 2.5 6.375C3.12132 6.375 3.625 6.87868 3.625 7.5ZM8.625 7.5C8.625 8.12132 8.12132 8.625 7.5 8.625C6.87868 8.625 6.375 8.12132 6.375 7.5C6.375 6.87868 6.87868 6.375 7.5 6.375C8.12132 6.375 8.625 6.87868 8.625 7.5ZM13.625 7.5C13.625 8.12132 13.1213 8.625 12.5 8.625C11.8787 8.625 11.375 8.12132 11.375 7.5C11.375 6.87868 11.8787 6.375 12.5 6.375C13.1213 6.375 13.625 6.87868 13.625 7.5Z" fill="currentColor" />
                                 </svg>
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                              <DropdownMenuLabel>{t('adminLicense.col.actions')}</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               {license.license.isActive && (
                                 <DropdownMenuItem
@@ -534,7 +536,7 @@ export default function AdminLicenseManagementPage() {
                                     setConfirmationDialogOpen(true);
                                   }}
                                 >
-                                  Revoca licenza
+                                  {t('adminLicense.actions.revoke')}
                                 </DropdownMenuItem>
                               )}
                               <DropdownMenuSeparator />
@@ -547,7 +549,7 @@ export default function AdminLicenseManagementPage() {
                                 }}
                               >
                                 <Trash2 className="h-4 w-4 mr-2" />
-                                Elimina account
+                                {t('adminLicense.actions.delete')}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -570,21 +572,21 @@ export default function AdminLicenseManagementPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-destructive flex items-center gap-2">
-              <Trash2 className="h-5 w-5" /> Elimina Account
+              <Trash2 className="h-5 w-5" /> {t('adminLicense.delete.title')}
             </DialogTitle>
-            <DialogDescription>
-              Stai per eliminare definitivamente l'account <strong>{deleteTargetUser?.username}</strong> e tutti i suoi dati (clienti, appuntamenti, impostazioni). Questa azione è irreversibile.
+            <DialogDescription asChild>
+              <div dangerouslySetInnerHTML={{ __html: t('adminLicense.delete.description', { username: deleteTargetUser?.username || '' }) }} />
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">
             <Label htmlFor="confirm-delete">
-              Digita <strong>{deleteTargetUser?.username}</strong> per confermare:
+              <span dangerouslySetInnerHTML={{ __html: t('adminLicense.delete.confirmHint', { username: deleteTargetUser?.username || '' }) }} />
             </Label>
             <Input
               id="confirm-delete"
               value={deleteConfirmText}
               onChange={(e) => setDeleteConfirmText(e.target.value)}
-              placeholder="Digita il nome utente..."
+              placeholder={t('adminLicense.delete.placeholder')}
               disabled={deleteUserMutation.isPending}
             />
           </div>
@@ -594,7 +596,7 @@ export default function AdminLicenseManagementPage() {
               onClick={() => { setDeleteDialogOpen(false); setDeleteTargetUser(null); setDeleteConfirmText(""); }}
               disabled={deleteUserMutation.isPending}
             >
-              Annulla
+              {t('adminLicense.delete.cancel')}
             </Button>
             <Button
               variant="destructive"
@@ -606,10 +608,10 @@ export default function AdminLicenseManagementPage() {
               {deleteUserMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminazione...
+                  {t('adminLicense.delete.deleting')}
                 </>
               ) : (
-                "Elimina definitivamente"
+                t('adminLicense.delete.confirm')
               )}
             </Button>
           </DialogFooter>
@@ -620,9 +622,9 @@ export default function AdminLicenseManagementPage() {
       <Dialog open={confirmationDialogOpen} onOpenChange={setConfirmationDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Conferma revoca</DialogTitle>
+            <DialogTitle>{t('adminLicense.revoke.title')}</DialogTitle>
             <DialogDescription>
-              Sei sicuro di voler revocare questa licenza? L'utente perderà l'accesso alle funzionalità premium.
+              {t('adminLicense.revoke.description')}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -631,7 +633,7 @@ export default function AdminLicenseManagementPage() {
               onClick={() => setConfirmationDialogOpen(false)}
               disabled={revokeLicenseMutation.isPending}
             >
-              Annulla
+              {t('adminLicense.revoke.cancel')}
             </Button>
             <Button
               variant="destructive"
@@ -641,10 +643,10 @@ export default function AdminLicenseManagementPage() {
               {revokeLicenseMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Revoca in corso...
+                  {t('adminLicense.revoke.revoking')}
                 </>
               ) : (
-                "Revoca licenza"
+                t('adminLicense.revoke.confirm')
               )}
             </Button>
           </DialogFooter>

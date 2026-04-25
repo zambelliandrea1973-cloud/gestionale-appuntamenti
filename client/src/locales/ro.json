@@ -1779,7 +1779,14 @@
     "selected": "Selectat",
     "selectSlots": "Selectați intervalele orare",
     "confirmDelete": "Ești sigur că vrei să ștergi această programare?",
-    "confirmDeleteTitle": "Șterge programarea"
+    "confirmDeleteTitle": "Șterge programarea",
+    "confirmDeleteDescription": "Sigur doriți să ștergeți această programare? Această acțiune nu poate fi anulată.",
+    "deleted": "Programare ștearsă",
+    "deletedDesc": "Programarea a fost ștearsă cu succes",
+    "errorOccurred": "A apărut o eroare: {{message}}",
+    "frequentClient": "Client frecvent",
+    "noConsent": "Consimțământ neacordat",
+    "notesLabel": "Note:"
   },
   "navigation": {
     "home": "Acasă",
@@ -5503,5 +5510,635 @@
     "cardBody": "Nu va mai trebui să folosești codul QR pentru a accesa zona ta personală!",
     "iosButton": "Adaugă la ecranul principal",
     "androidButton": "Salvează scurtătura pe telefon"
+  },
+  "betaPage": {
+    "title": "Program Beta",
+    "access": {
+      "title": "Acces Beta Tester",
+      "description": "Introdu codul de invitație și email-ul asociat pentru a participa la programul beta"
+    },
+    "inviteCode": "Cod de invitație",
+    "inviteCodePlaceholder": "Introdu codul de invitație",
+    "email": "Email",
+    "emailPlaceholder": "Introdu email-ul tău",
+    "emailHint": "Trebuie să se potrivească cu email-ul asociat invitației tale beta",
+    "verifying": "Se verifică...",
+    "verifyButton": "Verifică codul",
+    "feedback": {
+      "title": "Trimite feedback",
+      "description": "Ajută-ne să ne îmbunătățim cu feedback-ul tău",
+      "type": "Tip de feedback",
+      "general": "General",
+      "bug": "Eroare",
+      "feature": "Funcționalitate nouă",
+      "usability": "Utilizabilitate",
+      "yourFeedback": "Feedback-ul tău",
+      "placeholder": "Descrie feedback-ul tău...",
+      "rating": "Evaluare (1-5)",
+      "sending": "Se trimite...",
+      "send": "Trimite feedback"
+    },
+    "howItWorks": {
+      "title": "Cum funcționează programul beta?",
+      "description": "Programul nostru beta îți oferă acces anticipat la funcționalitățile noi înainte de lansarea oficială. În schimb, ne ajuți să îmbunătățim aplicația cu feedback-ul tău valoros."
+    },
+    "steps": {
+      "code": {
+        "title": "1. Obține un cod",
+        "description": "Introdu codul de invitație și email-ul asociat pentru a accesa ca beta tester"
+      },
+      "explore": {
+        "title": "2. Explorează aplicația",
+        "description": "Încearcă toate funcționalitățile platformei în avanpremieră"
+      },
+      "feedback": {
+        "title": "3. Împărtășește feedback",
+        "description": "Trimite-ne comentariile, raportările și sugestiile tale"
+      }
+    },
+    "toast": {
+      "codeValid": "Cod valid!",
+      "codeValidDesc": "Codul de invitație este valid. Acum poți accesa programul beta.",
+      "codeInvalid": "Cod invalid",
+      "codeInvalidDesc": "Codul de invitație nu este valid.",
+      "error": "Eroare",
+      "verifyError": "A apărut o eroare la verificarea codului.",
+      "codeUsed": "Cod utilizat!",
+      "codeUsedDesc": "Acum ești un beta tester oficial!",
+      "useError": "A apărut o eroare la utilizarea codului.",
+      "feedbackSent": "Feedback trimis!",
+      "feedbackSentDesc": "Mulțumim pentru feedback!",
+      "feedbackError": "A apărut o eroare la trimiterea feedback-ului.",
+      "codeMissing": "Cod lipsă",
+      "codeMissingDesc": "Introdu un cod de invitație valid.",
+      "emailInvalid": "Email invalid",
+      "emailInvalidDesc": "Introdu o adresă de email validă.",
+      "feedbackMissing": "Feedback lipsă",
+      "feedbackMissingDesc": "Introdu un feedback valid."
+    }
+  },
+  "betaAdmin": {
+    "statusActive": "Activ/Finalizat",
+    "statusPending": "În așteptare",
+    "statusFailed": "Eșuat/Anulat",
+    "unknown": "Necunoscut",
+    "toast": {
+      "inviteCreated": "Invitație creată!",
+      "inviteCreatedDesc": "Codul de invitație a fost creat cu succes.",
+      "error": "Eroare",
+      "inviteError": "A apărut o eroare la crearea invitației.",
+      "feedbackUpdated": "Feedback actualizat!",
+      "feedbackUpdatedDesc": "Statusul feedback-ului a fost actualizat cu succes.",
+      "feedbackUpdateError": "A apărut o eroare la actualizarea feedback-ului.",
+      "emailMissing": "Email lipsă",
+      "emailMissingDesc": "Introdu un email valid pentru invitație.",
+      "creating": "Se creează...",
+      "creatingDesc": "Se creează codul de invitație, așteaptă câteva secunde.",
+      "codeCopied": "Cod copiat!",
+      "codeCopiedDesc": "Codul a fost copiat în clipboard.",
+      "copyError": "Codul nu a putut fi copiat în clipboard.",
+      "passwordRequired": "Parolă necesară",
+      "loginSuccess": "Autentificat",
+      "loginSuccessDesc": "Acum ai acces la funcțiile administrative.",
+      "accessDenied": "Acces refuzat",
+      "accessDeniedDesc": "Parola introdusă nu este corectă.",
+      "loginError": "Eroare la autentificare",
+      "loginErrorDesc": "A apărut o eroare în timpul autentificării.",
+      "passwordTooShort": "Parolă prea scurtă",
+      "passwordTooShortDesc": "Noua parolă trebuie să conțină cel puțin 6 caractere.",
+      "passwordMismatch": "Parolele nu se potrivesc",
+      "passwordMismatchDesc": "Confirmarea parolei nu se potrivește cu noua parolă.",
+      "passwordUpdated": "Parolă actualizată",
+      "passwordUpdatedDesc": "Parola de administrator a fost schimbată cu succes."
+    },
+    "login": {
+      "title": "Autentificare administrator",
+      "description": "Introdu parola pentru a accesa zona de administrare.",
+      "passwordLabel": "Parolă administrator",
+      "passwordPlaceholder": "Introdu parola",
+      "submit": "Autentificare"
+    },
+    "title": "Administrare",
+    "tabs": {
+      "beta": "Beta Test",
+      "payments": "Plăți"
+    },
+    "create": {
+      "title": "Creează cod de invitație nou",
+      "description": "Generează un cod de invitație nou pentru beta tester",
+      "emailLabel": "Email destinatar",
+      "maxUsesLabel": "Număr maxim de utilizări",
+      "expiryLabel": "Expirare (zile)",
+      "creating": "Se creează...",
+      "submit": "Creează cod de invitație"
+    },
+    "list": {
+      "title": "Coduri de invitație",
+      "description": "Lista tuturor codurilor de invitație generate",
+      "caption": "Lista codurilor de invitație pentru beta test",
+      "empty": "Nu s-au găsit coduri de invitație. Creează primul tău cod!"
+    },
+    "refresh": "Reîmprospătează",
+    "col": {
+      "code": "Cod",
+      "email": "Email",
+      "usage": "Utilizări",
+      "createdOn": "Creat la",
+      "expiry": "Expirare",
+      "status": "Stare",
+      "actions": "Acțiuni",
+      "user": "Utilizator",
+      "type": "Tip",
+      "content": "Conținut",
+      "rating": "Evaluare",
+      "date": "Data",
+      "amount": "Sumă",
+      "method": "Metodă",
+      "description": "Descriere",
+      "plan": "Plan",
+      "start": "Început",
+      "end": "Sfârșit",
+      "activated": "Activată",
+      "name": "Nume",
+      "price": "Preț",
+      "interval": "Interval"
+    },
+    "notExpiring": "Nu expiră",
+    "badge": {
+      "used": "Utilizat",
+      "expired": "Expirat",
+      "active": "Activ"
+    },
+    "feedback": {
+      "title": "Feedback Beta Test",
+      "description": "Feedback primit de la beta tester",
+      "caption": "Lista feedback-ului primit de la beta tester",
+      "general": "General",
+      "bug": "Eroare",
+      "feature": "Funcționalitate",
+      "usability": "Utilizabilitate",
+      "statusPending": "În așteptare",
+      "statusReviewed": "Examinat",
+      "statusImplemented": "Implementat",
+      "empty": "Nu s-a primit feedback de la beta tester."
+    },
+    "dashboard": {
+      "title": "Tablou Beta Test",
+      "description": "Statistici generale despre programul beta",
+      "activeCodes": "Coduri active",
+      "betaTesters": "Beta Tester",
+      "feedbackReceived": "Feedback primit"
+    },
+    "security": {
+      "title": "Securitate",
+      "description": "Gestionează parola de administrare",
+      "cancel": "Anulează",
+      "changePassword": "Schimbă parola",
+      "newPassword": "Parolă nouă",
+      "newPasswordPlaceholder": "Parolă nouă",
+      "confirmPassword": "Confirmă parola",
+      "confirmPasswordPlaceholder": "Confirmă noua parolă",
+      "savePassword": "Salvează noua parolă",
+      "statusOk": "Parola actuală este sigură.",
+      "lastChange": "Ultima modificare:",
+      "activeSession": "sesiune activă",
+      "notSet": "nesetat"
+    },
+    "payments": {
+      "dashboardTitle": "Tablou Plăți",
+      "dashboardDescription": "Prezentare generală a metricilor de plăți și abonamente",
+      "recurringRevenue": "Venituri recurente",
+      "totalSubscribers": "Abonați totali",
+      "totalTransactions": "Tranzacții totale",
+      "monthlyRevenue": "Venituri lunare",
+      "noData": "Nu există date disponibile",
+      "cannotLoad": "Nu se pot încărca datele tabloului de bord",
+      "tabTransactions": "Tranzacții",
+      "tabSubscriptions": "Abonamente",
+      "tabLicenses": "Licențe",
+      "tabPlans": "Planuri",
+      "tabExternal": "Linkuri",
+      "lastTransactions": "Ultimele tranzacții",
+      "lastTransactionsDesc": "Lista completă a tranzacțiilor de plată",
+      "noTransactions": "Nu s-au găsit tranzacții",
+      "subscriptionsTitle": "Abonamente",
+      "subscriptionsDesc": "Lista abonamentelor active și anterioare",
+      "noSubscriptions": "Nu s-au găsit abonamente",
+      "licensesTitle": "Licențe",
+      "licensesDesc": "Lista licențelor și conturilor asociate",
+      "licenseActive": "Activă",
+      "licenseExpired": "Expirată",
+      "noExpiry": "Fără expirare",
+      "noLicenses": "Nu s-au găsit licențe",
+      "plansTitle": "Planuri de abonament",
+      "plansDesc": "Detalii despre planurile de abonament disponibile",
+      "monthly": "Lunar",
+      "yearly": "Anual",
+      "planActive": "Activ",
+      "planInactive": "Inactiv",
+      "noPlans": "Nu s-au găsit planuri de abonament"
+    },
+    "external": {
+      "title": "Linkuri externe",
+      "description": "Accesează direct platformele de plată",
+      "paypalDesc": "Gestionează tranzacții și abonamente",
+      "dashboardBusiness": "Tablou Business",
+      "completedTransactions": "Tranzacții finalizate",
+      "subscriptionPlans": "Planuri de abonament",
+      "subscriptionMgmt": "Gestionare abonamente",
+      "wiseDesc": "Gestionează plăți internaționale",
+      "dashboardAccount": "Tablou cont",
+      "balanceMovements": "Sold și mișcări",
+      "recentActivity": "Activitate recentă",
+      "recipientsMgmt": "Gestionare destinatari",
+      "importantNote": "Notă importantă",
+      "importantNoteText": "Aceste linkuri deschid interfețele oficiale PayPal și Wise pentru gestionarea directă a tranzacțiilor. Asigură-te că ești conectat la conturile corecte înainte de a efectua operațiuni importante."
+    }
+  },
+  "paymentAdmin": {
+    "title": "Tablou administrare plăți",
+    "refresh": "Reîmprospătează date",
+    "toast": {
+      "error": "Eroare",
+      "loadError": "Nu se pot încărca datele tabloului de bord.",
+      "refreshing": "Se actualizează datele",
+      "refreshingDesc": "Se actualizează datele...",
+      "settingsSaved": "Setări salvate",
+      "settingsSavedDesc": "Setările bancare au fost actualizate cu succes",
+      "settingsSaveError": "Nu se pot salva setările bancare",
+      "testCompleted": "Test finalizat",
+      "testCompletedDesc": "Sistemul de plată este configurat corect",
+      "testFailed": "Test eșuat",
+      "testFailedDesc": "Verifică configurația datelor bancare",
+      "trialExtended": "Probă extinsă",
+      "trialError": "Nu se poate extinde proba",
+      "staffUpgraded": "Promovare la Staff finalizată",
+      "staffUpgradeError": "Nu se poate promova la Staff",
+      "dateUpdated": "Dată actualizată",
+      "dateError": "Nu se poate actualiza data",
+      "accountDeleted": "Cont șters",
+      "accountDeletedDesc": "Contul a fost șters cu succes",
+      "deleteError": "Nu se poate șterge contul"
+    },
+    "dateInvalid": "Dată invalidă",
+    "status": {
+      "completed": "Finalizat",
+      "pending": "În așteptare",
+      "failed": "Eșuat"
+    },
+    "kpi": {
+      "totalRevenue": "Venituri totale",
+      "activeSubs": "Abonamente active",
+      "totalTx": "Tranzacții totale"
+    },
+    "tab": {
+      "transactions": "Tranzacții",
+      "subscriptions": "Abonamente",
+      "plans": "Planuri",
+      "licenses": "Licențe",
+      "paymentMethods": "Metode de plată",
+      "bankingConfig": "Configurație bancară"
+    },
+    "transactions": {
+      "title": "Ultimele tranzacții",
+      "description": "Detalii despre ultimele tranzacții de plată",
+      "empty": "Nu s-au găsit tranzacții"
+    },
+    "col": {
+      "user": "Utilizator",
+      "date": "Data",
+      "amount": "Sumă",
+      "method": "Metodă",
+      "status": "Stare",
+      "description": "Descriere",
+      "plan": "Plan",
+      "start": "Început",
+      "expiry": "Expirare",
+      "actions": "Acțiuni"
+    },
+    "subs": {
+      "title": "Abonamente",
+      "description": "Lista abonamentelor active și expirate",
+      "empty": "Nu s-au găsit abonamente"
+    },
+    "plans": {
+      "title": "Planuri de abonament",
+      "description": "Gestionează planurile de abonament: editează prețuri, funcții și disponibilitate"
+    },
+    "licenses": {
+      "title": "Licențe",
+      "description": "Gestionarea licențelor și utilizatorilor asociați"
+    },
+    "access": {
+      "label": "Accesări:",
+      "today": "Azi:",
+      "week": "7z:",
+      "total": "Total:",
+      "users": "utilizatori"
+    },
+    "license": {
+      "disabled": "Dezactivată",
+      "frozen": "Înghețat",
+      "active": "Activă",
+      "user": "Utilizator",
+      "type": "Tip licență",
+      "status": "Stare",
+      "id": "ID",
+      "accesses": "Accesări",
+      "totalShort": "Tot:",
+      "created": "Data creării",
+      "expiry": "Expirare",
+      "unlimited": "Nelimitată",
+      "select": "Selectează",
+      "daysLeft": "Zile rămase",
+      "days": "zile",
+      "actions": "Acțiuni",
+      "extending": "Se extinde...",
+      "extend40": "+40 zile",
+      "upgradeStaff": "Promovează la Staff (10 ani gratuit)",
+      "deleteAccount": "Șterge cont",
+      "empty": "Nu s-au găsit licențe"
+    },
+    "banking": {
+      "alert": "Aceste date sunt folosite pentru a procesa automat plățile comisioanelor de recomandare către personal. Toate datele sunt criptate și stocate în siguranță.",
+      "title": "Date bancare admin",
+      "description": "IBAN companie pentru a primi plăți de la clienți",
+      "bankName": "Nume bancă",
+      "bankNamePlaceholder": "ex. Intesa Sanpaolo",
+      "holder": "Titular cont",
+      "holderPlaceholder": "Nume și prenume / Denumire companie",
+      "iban": "IBAN",
+      "hide": "Ascunde",
+      "show": "Arată",
+      "ibanNotConfigured": "IBAN neconfigurat",
+      "bicPlaceholder": "ex. BCITITMM",
+      "address": "Adresă",
+      "addressPlaceholder": "Adresa completă pentru facturare",
+      "saving": "Se salvează...",
+      "save": "Salvează date bancare"
+    },
+    "autopay": {
+      "title": "Plăți automate",
+      "description": "Configurează comisioanele pentru recomandările personalului",
+      "enableHint": "Activează plățile automate ale comisioanelor",
+      "delay": "Întârziere plată (zile)",
+      "delayHint": "Zile de așteptare înainte de procesarea plății",
+      "minAmount": "Sumă minimă",
+      "minAmountHint": "Suma minimă pentru a procesa o plată",
+      "descriptionLabel": "Descriere plată",
+      "descriptionPlaceholder": "Descriere care va apărea în transferuri bancare",
+      "save": "Salvează configurația"
+    },
+    "test": {
+      "title": "Test sistem",
+      "description": "Verifică dacă configurația este corectă rulând un test al sistemului de plată.",
+      "running": "Test în curs...",
+      "run": "Testează configurația"
+    },
+    "summary": {
+      "title": "Rezumat comisioane",
+      "perSubscription": "Per abonament",
+      "waitingDays": "Zile de așteptare",
+      "note": "Comisioanele sunt plătite automat la {{days}} zile după fiecare abonament sponsorizat."
+    },
+    "deleteDialog": {
+      "title": "Șterge cont",
+      "description": "Ești pe cale să ștergi definitiv contul <strong>{{username}}</strong> și toate datele sale (clienți, programări, setări). Această acțiune este ireversibilă.",
+      "confirmHint": "Tastează <strong>{{username}}</strong> pentru a confirma:",
+      "cancel": "Anulează",
+      "deleting": "Se șterge...",
+      "confirm": "Șterge definitiv"
+    },
+    "staffDialog": {
+      "title": "Promovează la Staff",
+      "description": "Ești pe cale să promovezi <strong>{{username}}</strong> la <strong>Staff</strong> cu acces complet gratuit timp de <strong>10 ani</strong>.<br /><br />Licența actuală va fi dezactivată și înlocuită cu o licență STAFF_FREE. Dorești să continui?",
+      "promoting": "Se promovează...",
+      "confirm": "Promovează la Staff"
+    }
+  },
+  "adminLicense": {
+    "toast": {
+      "unauthorized": "Neautorizat",
+      "accessDenied": "Acces refuzat",
+      "adminOnly": "Doar administratorii pot accesa această pagină",
+      "error": "Eroare",
+      "cannotVerify": "Nu se poate verifica autorizarea",
+      "success": "Succes",
+      "licenseCreated": "Licență gratuită creată cu succes",
+      "licenseRevoked": "Licență revocată cu succes",
+      "accountDeleted": "Cont șters",
+      "accountDeletedDesc": "Contul a fost șters cu succes"
+    },
+    "error": {
+      "staffUsersFetch": "Eroare la preluarea utilizatorilor staff",
+      "licensesFetch": "Eroare la preluarea licențelor",
+      "licenseGenerate": "Eroare la generarea licenței",
+      "licenseRevoke": "Eroare la revocarea licenței",
+      "deleteAccount": "Eroare la ștergerea contului",
+      "generic": "A apărut o eroare la încărcarea datelor"
+    },
+    "warning": {
+      "title": "Atenție",
+      "selectStaff": "Selectează un utilizator staff"
+    },
+    "formatNoExpiry": "Fără expirare",
+    "heading": "Gestionarea licențelor staff",
+    "intro": "Această secțiune este rezervată administratorului. Aici poți gestiona licențele gratuite de 10 ani pentru membrii staff.",
+    "access": {
+      "label": "Accesări:",
+      "today": "Azi:",
+      "week": "7z:",
+      "total": "Total:",
+      "users": "utilizatori"
+    },
+    "create": {
+      "title": "Generează licență staff nouă",
+      "description": "Creează o licență gratuită de 10 ani pentru un membru staff",
+      "staffUserLabel": "Utilizator staff",
+      "staffUserPlaceholder": "Selectează un utilizator staff",
+      "licenseTypeLabel": "Tip licență",
+      "licenseTypePlaceholder": "Selectează un tip de licență",
+      "creating": "Se creează...",
+      "submit": "Generează licența"
+    },
+    "licenseType": {
+      "base": "Bază",
+      "pro": "Profesional",
+      "business": "Business"
+    },
+    "list": {
+      "title": "Licențe active",
+      "description": "Gestionează licențele staff existente",
+      "empty": "Nu s-au găsit licențe"
+    },
+    "col": {
+      "user": "Utilizator",
+      "type": "Tip",
+      "status": "Stare",
+      "expiry": "Expirare",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "active": "Activă",
+      "revoked": "Revocată"
+    },
+    "openMenu": "Deschide meniul",
+    "actions": {
+      "revoke": "Revocă licența",
+      "delete": "Șterge cont"
+    },
+    "delete": {
+      "title": "Șterge cont",
+      "description": "Ești pe cale să ștergi definitiv contul <strong>{{username}}</strong> și toate datele sale (clienți, programări, setări). Această acțiune este ireversibilă.",
+      "confirmHint": "Tastează <strong>{{username}}</strong> pentru a confirma:",
+      "placeholder": "Tastează numele de utilizator...",
+      "cancel": "Anulează",
+      "deleting": "Se șterge...",
+      "confirm": "Șterge definitiv"
+    },
+    "revoke": {
+      "title": "Confirmă revocarea",
+      "description": "Sigur dorești să revoci această licență? Utilizatorul va pierde accesul la funcțiile premium.",
+      "cancel": "Anulează",
+      "revoking": "Se revocă...",
+      "confirm": "Revocă licența"
+    }
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "Eroare la încărcarea conținutului",
+      "upload": "Eroare la încărcarea fișierului",
+      "save": "Eroare la salvare",
+      "deleteFile": "Eroare la ștergerea fișierului de pe server"
+    },
+    "fileType": {
+      "video": "Video",
+      "image": "Imagine"
+    },
+    "toast": {
+      "uploaded": "{{type}} încărcat",
+      "uploadedDesc": "{{type}} adăugat. Apasă „Salvează\" pentru a confirma.",
+      "uploadError": "Eroare la încărcare",
+      "saved": "Salvat",
+      "savedDesc": "Conținut salvat cu succes",
+      "error": "Eroare",
+      "invalidFile": "Selectează doar imagini sau videoclipuri",
+      "fileTooBig": "Fișierul trebuie să fie de maximum 1 GB",
+      "titleMissing": "Introdu un titlu pentru secțiune",
+      "fileRemoved": "Fișier eliminat",
+      "fileRemovedDesc": "Fișierul a fost șters de pe server. Amintește-ți să salvezi modificările.",
+      "deleteError": "Eroare la ștergere",
+      "cannotDelete": "Nu se poate șterge fișierul"
+    },
+    "loading": "Se încarcă...",
+    "title": "Administrare manual",
+    "subtitle": "Gestionează conținutul și tutorialele video pentru fiecare secțiune",
+    "edit": "Editează",
+    "saving": "Se salvează...",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "selectorTitle": "Selectează secțiunea și limba",
+    "sectionLabel": "Secțiunea manualului",
+    "sectionPlaceholder": "Selectează o secțiune...",
+    "languageLabel": "Limbă",
+    "languagePlaceholder": "Selectează limba...",
+    "titlePlaceholder": "Titlu secțiune...",
+    "noTitle": "Fără titlu",
+    "textExplanation": "Explicație text",
+    "contentPlaceholder": "Introdu explicația text pentru această secțiune...",
+    "noContent": "Nu există conținut disponibil",
+    "supportMedia": "Media de suport (videoclipuri și imagini)",
+    "imageAlt": "Imagine manual",
+    "captionPlaceholder": "Legendă...",
+    "uploadHeading": "Încarcă videoclipuri sau imagini",
+    "uploadHintImages": "Imagini: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "Videoclipuri: MP4, WEBM, MOV (max 1 GB)",
+    "uploading": "Se încarcă...",
+    "addFile": "Adaugă fișier",
+    "uploadInProgress": "Încărcare în curs...",
+    "noMedia": "Nu există media disponibilă",
+    "sections": {
+      "s11": "1.1 Primul acces în sistem",
+      "s12": "1.2 Configurați datele companiei",
+      "s13": "1.3 Configurați datele bancare",
+      "s14": "1.4 Gestionați personalul și sălile de tratament",
+      "s15": "1.5 Configurați e-mailurile automate",
+      "s21": "2.1 Gestionare clienți",
+      "s22": "2.2 Calendar și programări",
+      "s23": "2.3 Cereri de programare PWA client",
+      "s24": "2.4 Gestionare facturi",
+      "s31": "3.1 Gestionare inventar și depozit",
+      "s32": "3.2 Rapoarte și statistici",
+      "s33": "3.3 Campanii de marketing cu AI",
+      "s34": "3.4 Centru WhatsApp",
+      "s35": "3.5 Sistem de recomandări și comisioane",
+      "s41": "4.1 Cum accesează clienții zona lor",
+      "s42": "4.2 Ce pot face clienții în zona rezervată",
+      "s43": "4.3 Cum să instalați aplicația pe telefon (PWA)",
+      "s44": "4.4 Personalizați aspectul zonei clientului",
+      "s51": "5.1 Setări",
+      "s61": "6.1 Funcții avansate"
+    }
+  },
+  "resetPassword": {
+    "title": "Resetare parolă",
+    "description": "Introduceți noua parolă",
+    "error": "Eroare",
+    "newPassword": "Parolă nouă",
+    "newPasswordPlaceholder": "Introduceți noua parolă",
+    "confirmPassword": "Confirmă parola",
+    "confirmPasswordPlaceholder": "Confirmați noua parolă",
+    "success": "Parolă resetată",
+    "successDesc": "Parola a fost resetată cu succes. Conectați-vă cu noua parolă.",
+    "tokenNotFound": "Tokenul de resetare nu a fost găsit. Solicitați un nou link de recuperare.",
+    "tokenInvalid": "Token expirat sau invalid. Solicitați un nou link de recuperare.",
+    "tokenVerifyError": "Eroare la verificarea tokenului.",
+    "bothFieldsRequired": "Introduceți noua parolă în ambele câmpuri",
+    "passwordsMismatch": "Parolele nu coincid",
+    "passwordTooShort": "Parola trebuie să aibă cel puțin 6 caractere",
+    "resetError": "Eroare la resetarea parolei. Încercați din nou mai târziu.",
+    "verifying": "Se verifică...",
+    "resetting": "Se resetează...",
+    "submit": "Resetare parolă"
+  },
+  "adminUsers": {
+    "title": "Gestionare utilizatori",
+    "subtitle": "Vizualizați și gestionați toți utilizatorii înregistrați în sistem",
+    "stats": {
+      "total": "Total utilizatori",
+      "active": "Licențe active",
+      "expiring": "Expiră (<7z)",
+      "expired": "Expirate"
+    },
+    "table": {
+      "title": "Toți utilizatorii",
+      "description": "Listă completă cu starea licențelor și abonamentelor",
+      "username": "Utilizator",
+      "email": "Email",
+      "type": "Tip",
+      "status": "Stare licență",
+      "expiresAt": "Expirare",
+      "daysLeft": "Zile rămase",
+      "plan": "Plan",
+      "actions": "Acțiuni",
+      "empty": "Niciun utilizator găsit",
+      "daysCount": "{{count}} zile"
+    },
+    "badges": {
+      "subscribed": "Abonat",
+      "trialActive": "Test activ",
+      "expired": "Expirat",
+      "permanent": "Permanent",
+      "unknown": "Necunoscut",
+      "customer": "Client"
+    },
+    "actions": {
+      "extending": "Se extinde...",
+      "extend40": "+40 zile"
+    },
+    "toast": {
+      "trialExtended": "Test extins",
+      "cannotExtend": "Nu se poate extinde testul"
+    }
   }
 }

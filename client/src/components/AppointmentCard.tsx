@@ -41,8 +41,8 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     },
     onSuccess: async () => {
       toast({
-        title: "Appuntamento eliminato",
-        description: "L'appuntamento è stato eliminato con successo",
+        title: t('appointment.deleted'),
+        description: t('appointment.deletedDesc'),
       });
       
       // Invalidate queries to refresh data
@@ -55,8 +55,8 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     },
     onError: (error) => {
       toast({
-        title: "Errore",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('common.error'),
+        description: t('appointment.errorOccurred', { message: error.message }),
         variant: "destructive",
       });
     }
@@ -209,11 +209,11 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                     <AlertDialogHeader>
                       <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
+                        {t('appointment.confirmDeleteDescription')}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Annulla</AlertDialogCancel>
+                      <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                       <AlertDialogAction 
                         onClick={handleDelete}
                         className="bg-red-600 hover:bg-red-700"
@@ -347,11 +347,11 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                   <AlertDialogHeader>
                     <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
+                      {t('appointment.confirmDeleteDescription')}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Annulla</AlertDialogCancel>
+                    <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                     <AlertDialogAction 
                       onClick={handleDelete}
                       className="bg-red-600 hover:bg-red-700"
@@ -416,11 +416,11 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                 <AlertDialogHeader>
                   <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Sei sicuro di voler eliminare questo appuntamento? Questa azione non può essere annullata.
+                    {t('appointment.confirmDeleteDescription')}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Annulla</AlertDialogCancel>
+                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                   <AlertDialogAction 
                     onClick={handleDelete}
                     className="bg-red-600 hover:bg-red-700"
@@ -456,14 +456,14 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
             {appointment.client?.isFrequent && (
               <div className="flex items-center text-sm">
                 <Star className="h-3.5 w-3.5 mr-1 text-pink-500" />
-                <span className="text-gray-600">Cliente frequente</span>
+                <span className="text-gray-600">{t('appointment.frequentClient')}</span>
               </div>
             )}
             
             {!appointment.client?.hasConsent && (
               <div className="flex items-center text-sm">
                 <Info className="h-3.5 w-3.5 mr-1 text-amber-500" />
-                <span className="text-gray-600">Consenso non fornito</span>
+                <span className="text-gray-600">{t('appointment.noConsent')}</span>
               </div>
             )}
           </div>

@@ -8,8 +8,10 @@ import { AlertCircle, Loader2, Eye, EyeOff, Shield } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPasswordPage() {
+  const { t } = useTranslation();
   const [token, setToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,7 +30,7 @@ export default function ResetPasswordPage() {
       setToken(resetToken);
       verifyToken(resetToken);
     } else {
-      setError("Token di reset non trovato. Richiedi un nuovo link di recupero.");
+      setError(t('resetPassword.tokenNotFound'));
     }
   }, []);
 
@@ -37,10 +39,10 @@ export default function ResetPasswordPage() {
     try {
       const response = await apiRequest("POST", "/api/verify-reset-token", { token: resetToken });
       if (!response.ok) {
-        setError("Token scaduto o non valido. Richiedi un nuovo link di recupero.");
+        setError(t('resetPassword.tokenInvalid'));
       }
     } catch (err) {
-      setError("Errore durante la verifica del token.");
+      setError(t('resetPassword.tokenVerifyError'));
     } finally {
       setIsLoading(false);
     }
@@ -51,17 +53,17 @@ export default function ResetPasswordPage() {
     setError(null);
 
     if (!newPassword || !confirmPassword) {
-      setError("Inserisci la nuova password in entrambi i campi");
+      setError(t('resetPassword.bothFieldsRequired'));
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setError("Le password non coincidono");
+      setError(t('resetPassword.passwordsMismatch'));
       return;
     }
 
     if (newPassword.length < 6) {
-      setError("La password deve contenere almeno 6 caratteri");
+      setError(t('resetPassword.passwordTooShort'));
       return;
     }
 
@@ -74,8 +76,8 @@ export default function ResetPasswordPage() {
 
       if (response.ok) {
         toast({
-          title: "Password resetata",
-          description: "La tua password è stata resetata con successo. Accedi con la nuova password.",
+          title: t('resetPassword.success'),
+          description: t('resetPassword.successDesc'),
         });
         setTimeout(() => navigate("/login"), 2000);
       } else {
@@ -83,7 +85,7 @@ export default function ResetPasswordPage() {
         setError(error);
       }
     } catch (err) {
-      setError("Errore durante il reset della password. Riprova più tardi.");
+      setError(t('resetPassword.resetError'));
     } finally {
       setIsResetting(false);
     }
@@ -95,7 +97,7 @@ export default function ResetPasswordPage() {
         <Card className="w-full max-w-md shadow-lg">
           <CardContent className="pt-6 flex flex-col items-center justify-center min-h-[200px]">
             <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
-            <p className="text-muted-foreground">Verifica in corso...</p>
+            <p className="text-muted-foreground">{t('resetPassword.verifying')}</p>
           </CardContent>
         </Card>
       </div>
@@ -112,29 +114,29 @@ export default function ResetPasswordPage() {
                 <Shield className="h-6 w-6 text-blue-600" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
-            <CardDescription>Inserisci la tua nuova password</CardDescription>
+            <CardTitle className="text-2xl font-bold">{t('resetPassword.title')}</CardTitle>
+            <CardDescription>{t('resetPassword.description')}</CardDescription>
           </CardHeader>
 
           <CardContent>
             {error && (
               <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Errore</AlertTitle>
+                <AlertTitle>{t('resetPassword.error')}</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="newPassword">Nuova Password</Label>
+                <Label htmlFor="newPassword">{t('resetPassword.newPassword')}</Label>
                 <div className="relative">
                   <Input
                     id="newPassword"
                     type={showPassword ? "text" : "password"}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Inserisci la nuova password"
+                    placeholder={t('resetPassword.newPasswordPlaceholder')}
                     disabled={isResetting}
                     className="pr-10"
                   />
@@ -153,14 +155,14 @@ export default function ResetPasswordPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Conferma Password</Label>
+                <Label htmlFor="confirmPassword">{t('resetPassword.confirmPassword')}</Label>
                 <div className="relative">
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Conferma la nuova password"
+                    placeholder={t('resetPassword.confirmPasswordPlaceholder')}
                     disabled={isResetting}
                     className="pr-10"
                   />
@@ -182,10 +184,10 @@ export default function ResetPasswordPage() {
                 {isResetting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Reset in corso...
+                    {t('resetPassword.resetting')}
                   </>
                 ) : (
-                  "Reimposta Password"
+                  t('resetPassword.submit')
                 )}
               </Button>
             </form>

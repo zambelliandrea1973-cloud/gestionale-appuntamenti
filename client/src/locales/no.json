@@ -1779,7 +1779,14 @@
     "selected": "Valgt",
     "selectSlots": "Velg tidsluker",
     "confirmDelete": "Er du sikker på at du vil slette denne avtalen?",
-    "confirmDeleteTitle": "Slett avtale"
+    "confirmDeleteTitle": "Slett avtale",
+    "confirmDeleteDescription": "Er du sikker på at du vil slette denne avtalen? Denne handlingen kan ikke angres.",
+    "deleted": "Avtalen er slettet",
+    "deletedDesc": "Avtalen ble slettet",
+    "errorOccurred": "Det oppstod en feil: {{message}}",
+    "frequentClient": "Fast kunde",
+    "noConsent": "Samtykke ikke gitt",
+    "notesLabel": "Notater:"
   },
   "navigation": {
     "home": "Hjem",
@@ -5503,5 +5510,635 @@
     "cardBody": "Du trenger ikke lenger bruke QR-koden for å få tilgang til ditt personlige område!",
     "iosButton": "Legg til på Hjem-skjerm",
     "androidButton": "Lagre snarvei på telefonen"
+  },
+  "betaPage": {
+    "title": "Beta-program",
+    "access": {
+      "title": "Beta-tester-tilgang",
+      "description": "Skriv inn invitasjonskoden og tilhørende e-post for å delta i beta-programmet"
+    },
+    "inviteCode": "Invitasjonskode",
+    "inviteCodePlaceholder": "Skriv inn invitasjonskoden",
+    "email": "E-post",
+    "emailPlaceholder": "Skriv inn e-posten din",
+    "emailHint": "Må samsvare med e-posten knyttet til beta-invitasjonen din",
+    "verifying": "Verifiserer...",
+    "verifyButton": "Verifiser kode",
+    "feedback": {
+      "title": "Send tilbakemelding",
+      "description": "Hjelp oss å forbedre oss med din tilbakemelding",
+      "type": "Type tilbakemelding",
+      "general": "Generelt",
+      "bug": "Feil",
+      "feature": "Ny funksjon",
+      "usability": "Brukervennlighet",
+      "yourFeedback": "Din tilbakemelding",
+      "placeholder": "Beskriv tilbakemeldingen din...",
+      "rating": "Vurdering (1-5)",
+      "sending": "Sender...",
+      "send": "Send tilbakemelding"
+    },
+    "howItWorks": {
+      "title": "Hvordan fungerer beta-programmet?",
+      "description": "Beta-programmet vårt gir deg tidlig tilgang til nye funksjoner før offisiell utgivelse. Til gjengjeld hjelper du oss å forbedre applikasjonen med din verdifulle tilbakemelding."
+    },
+    "steps": {
+      "code": {
+        "title": "1. Skaff en kode",
+        "description": "Skriv inn invitasjonskoden og tilhørende e-post for å få tilgang som beta-tester"
+      },
+      "explore": {
+        "title": "2. Utforsk appen",
+        "description": "Prøv alle plattformens funksjoner i forhåndsvisning"
+      },
+      "feedback": {
+        "title": "3. Del tilbakemelding",
+        "description": "Send oss kommentarer, rapporter og forslag"
+      }
+    },
+    "toast": {
+      "codeValid": "Gyldig kode!",
+      "codeValidDesc": "Invitasjonskoden er gyldig. Du kan nå få tilgang til beta-programmet.",
+      "codeInvalid": "Ugyldig kode",
+      "codeInvalidDesc": "Invitasjonskoden er ikke gyldig.",
+      "error": "Feil",
+      "verifyError": "Det oppstod en feil under verifisering av koden.",
+      "codeUsed": "Kode brukt!",
+      "codeUsedDesc": "Du er nå en offisiell beta-tester!",
+      "useError": "Det oppstod en feil ved bruk av koden.",
+      "feedbackSent": "Tilbakemelding sendt!",
+      "feedbackSentDesc": "Takk for tilbakemeldingen!",
+      "feedbackError": "Det oppstod en feil ved sending av tilbakemeldingen.",
+      "codeMissing": "Mangler kode",
+      "codeMissingDesc": "Skriv inn en gyldig invitasjonskode.",
+      "emailInvalid": "Ugyldig e-post",
+      "emailInvalidDesc": "Skriv inn en gyldig e-postadresse.",
+      "feedbackMissing": "Mangler tilbakemelding",
+      "feedbackMissingDesc": "Skriv inn gyldig tilbakemelding."
+    }
+  },
+  "betaAdmin": {
+    "statusActive": "Aktiv/Fullført",
+    "statusPending": "Venter",
+    "statusFailed": "Mislyktes/Avbrutt",
+    "unknown": "Ukjent",
+    "toast": {
+      "inviteCreated": "Invitasjon opprettet!",
+      "inviteCreatedDesc": "Invitasjonskoden ble opprettet.",
+      "error": "Feil",
+      "inviteError": "Det oppstod en feil ved opprettelse av invitasjonen.",
+      "feedbackUpdated": "Tilbakemelding oppdatert!",
+      "feedbackUpdatedDesc": "Statusen for tilbakemeldingen ble oppdatert.",
+      "feedbackUpdateError": "Det oppstod en feil ved oppdatering av tilbakemeldingen.",
+      "emailMissing": "E-post mangler",
+      "emailMissingDesc": "Skriv inn en gyldig e-post for invitasjonen.",
+      "creating": "Oppretter...",
+      "creatingDesc": "Oppretter invitasjonskode, vent noen sekunder.",
+      "codeCopied": "Kode kopiert!",
+      "codeCopiedDesc": "Koden ble kopiert til utklippstavlen.",
+      "copyError": "Kunne ikke kopiere koden til utklippstavlen.",
+      "passwordRequired": "Passord kreves",
+      "loginSuccess": "Innlogget",
+      "loginSuccessDesc": "Du har nå tilgang til administrative funksjoner.",
+      "accessDenied": "Tilgang nektet",
+      "accessDeniedDesc": "Passordet du oppga er ikke riktig.",
+      "loginError": "Feil ved innlogging",
+      "loginErrorDesc": "Det oppstod en feil under innlogging.",
+      "passwordTooShort": "Passord for kort",
+      "passwordTooShortDesc": "Det nye passordet må inneholde minst 6 tegn.",
+      "passwordMismatch": "Passordene samsvarer ikke",
+      "passwordMismatchDesc": "Passordbekreftelsen samsvarer ikke med det nye passordet.",
+      "passwordUpdated": "Passord oppdatert",
+      "passwordUpdatedDesc": "Administratorpassordet ble endret."
+    },
+    "login": {
+      "title": "Administratorinnlogging",
+      "description": "Skriv inn passordet for å få tilgang til administratorområdet.",
+      "passwordLabel": "Administratorpassord",
+      "passwordPlaceholder": "Skriv inn passord",
+      "submit": "Logg inn"
+    },
+    "title": "Administrasjon",
+    "tabs": {
+      "beta": "Beta-test",
+      "payments": "Betalinger"
+    },
+    "create": {
+      "title": "Opprett ny invitasjonskode",
+      "description": "Generer en ny invitasjonskode for beta-testere",
+      "emailLabel": "E-post til mottaker",
+      "maxUsesLabel": "Maks antall bruk",
+      "expiryLabel": "Utløp (dager)",
+      "creating": "Oppretter...",
+      "submit": "Opprett invitasjonskode"
+    },
+    "list": {
+      "title": "Invitasjonskoder",
+      "description": "Liste over alle genererte invitasjonskoder",
+      "caption": "Liste over invitasjonskoder for beta-test",
+      "empty": "Ingen invitasjonskoder funnet. Lag den første koden din!"
+    },
+    "refresh": "Oppdater",
+    "col": {
+      "code": "Kode",
+      "email": "E-post",
+      "usage": "Bruk",
+      "createdOn": "Opprettet",
+      "expiry": "Utløp",
+      "status": "Status",
+      "actions": "Handlinger",
+      "user": "Bruker",
+      "type": "Type",
+      "content": "Innhold",
+      "rating": "Vurdering",
+      "date": "Dato",
+      "amount": "Beløp",
+      "method": "Metode",
+      "description": "Beskrivelse",
+      "plan": "Plan",
+      "start": "Start",
+      "end": "Slutt",
+      "activated": "Aktivert",
+      "name": "Navn",
+      "price": "Pris",
+      "interval": "Intervall"
+    },
+    "notExpiring": "Utløper ikke",
+    "badge": {
+      "used": "Brukt",
+      "expired": "Utløpt",
+      "active": "Aktiv"
+    },
+    "feedback": {
+      "title": "Beta-test-tilbakemelding",
+      "description": "Tilbakemeldinger mottatt fra beta-testere",
+      "caption": "Liste over tilbakemeldinger mottatt fra beta-testere",
+      "general": "Generelt",
+      "bug": "Feil",
+      "feature": "Funksjon",
+      "usability": "Brukervennlighet",
+      "statusPending": "Venter",
+      "statusReviewed": "Vurdert",
+      "statusImplemented": "Implementert",
+      "empty": "Ingen tilbakemeldinger mottatt fra beta-testere."
+    },
+    "dashboard": {
+      "title": "Beta-test-dashbord",
+      "description": "Generell statistikk om beta-programmet",
+      "activeCodes": "Aktive koder",
+      "betaTesters": "Beta-testere",
+      "feedbackReceived": "Mottatte tilbakemeldinger"
+    },
+    "security": {
+      "title": "Sikkerhet",
+      "description": "Administrer administratorpassordet",
+      "cancel": "Avbryt",
+      "changePassword": "Endre passord",
+      "newPassword": "Nytt passord",
+      "newPasswordPlaceholder": "Nytt passord",
+      "confirmPassword": "Bekreft passord",
+      "confirmPasswordPlaceholder": "Bekreft nytt passord",
+      "savePassword": "Lagre nytt passord",
+      "statusOk": "Det nåværende passordet er sikkert.",
+      "lastChange": "Siste endring:",
+      "activeSession": "aktiv økt",
+      "notSet": "ikke angitt"
+    },
+    "payments": {
+      "dashboardTitle": "Betalingsdashbord",
+      "dashboardDescription": "Oversikt over betalings- og abonnementsmål",
+      "recurringRevenue": "Tilbakevendende inntekter",
+      "totalSubscribers": "Totalt abonnenter",
+      "totalTransactions": "Totalt antall transaksjoner",
+      "monthlyRevenue": "Månedlige inntekter",
+      "noData": "Ingen data tilgjengelig",
+      "cannotLoad": "Kunne ikke laste dashbord-data",
+      "tabTransactions": "Transaksjoner",
+      "tabSubscriptions": "Abonnementer",
+      "tabLicenses": "Lisenser",
+      "tabPlans": "Planer",
+      "tabExternal": "Lenker",
+      "lastTransactions": "Siste transaksjoner",
+      "lastTransactionsDesc": "Fullstendig liste over betalingstransaksjoner",
+      "noTransactions": "Ingen transaksjoner funnet",
+      "subscriptionsTitle": "Abonnementer",
+      "subscriptionsDesc": "Liste over aktive og tidligere abonnementer",
+      "noSubscriptions": "Ingen abonnementer funnet",
+      "licensesTitle": "Lisenser",
+      "licensesDesc": "Liste over lisenser og tilhørende kontoer",
+      "licenseActive": "Aktiv",
+      "licenseExpired": "Utløpt",
+      "noExpiry": "Ingen utløp",
+      "noLicenses": "Ingen lisenser funnet",
+      "plansTitle": "Abonnementsplaner",
+      "plansDesc": "Detaljer om tilgjengelige abonnementsplaner",
+      "monthly": "Månedlig",
+      "yearly": "Årlig",
+      "planActive": "Aktiv",
+      "planInactive": "Inaktiv",
+      "noPlans": "Ingen abonnementsplaner funnet"
+    },
+    "external": {
+      "title": "Eksterne lenker",
+      "description": "Få direkte tilgang til betalingsplattformer",
+      "paypalDesc": "Administrer transaksjoner og abonnementer",
+      "dashboardBusiness": "Bedriftsdashbord",
+      "completedTransactions": "Fullførte transaksjoner",
+      "subscriptionPlans": "Abonnementsplaner",
+      "subscriptionMgmt": "Abonnementsadministrasjon",
+      "wiseDesc": "Administrer internasjonale betalinger",
+      "dashboardAccount": "Kontodashbord",
+      "balanceMovements": "Saldo og bevegelser",
+      "recentActivity": "Nylig aktivitet",
+      "recipientsMgmt": "Mottakerstyring",
+      "importantNote": "Viktig merknad",
+      "importantNoteText": "Disse lenkene åpner de offisielle PayPal- og Wise-grensesnittene for direkte transaksjonsstyring. Sørg for at du er koblet til riktige kontoer før du utfører viktige operasjoner."
+    }
+  },
+  "paymentAdmin": {
+    "title": "Administrasjonsdashbord for betalinger",
+    "refresh": "Oppdater data",
+    "toast": {
+      "error": "Feil",
+      "loadError": "Kunne ikke laste dashbord-data.",
+      "refreshing": "Oppdaterer data",
+      "refreshingDesc": "Oppdaterer data...",
+      "settingsSaved": "Innstillinger lagret",
+      "settingsSavedDesc": "Bankinnstillinger ble oppdatert",
+      "settingsSaveError": "Kan ikke lagre bankinnstillinger",
+      "testCompleted": "Test fullført",
+      "testCompletedDesc": "Betalingssystemet er konfigurert riktig",
+      "testFailed": "Test mislyktes",
+      "testFailedDesc": "Sjekk konfigurasjonen for bankdata",
+      "trialExtended": "Prøveperiode forlenget",
+      "trialError": "Kan ikke forlenge prøveperioden",
+      "staffUpgraded": "Oppgradert til Staff",
+      "staffUpgradeError": "Kan ikke oppgradere til Staff",
+      "dateUpdated": "Dato oppdatert",
+      "dateError": "Kan ikke oppdatere dato",
+      "accountDeleted": "Konto slettet",
+      "accountDeletedDesc": "Kontoen ble slettet",
+      "deleteError": "Kan ikke slette kontoen"
+    },
+    "dateInvalid": "Ugyldig dato",
+    "status": {
+      "completed": "Fullført",
+      "pending": "Venter",
+      "failed": "Mislyktes"
+    },
+    "kpi": {
+      "totalRevenue": "Totale inntekter",
+      "activeSubs": "Aktive abonnementer",
+      "totalTx": "Totale transaksjoner"
+    },
+    "tab": {
+      "transactions": "Transaksjoner",
+      "subscriptions": "Abonnementer",
+      "plans": "Planer",
+      "licenses": "Lisenser",
+      "paymentMethods": "Betalingsmetoder",
+      "bankingConfig": "Bankkonfigurasjon"
+    },
+    "transactions": {
+      "title": "Siste transaksjoner",
+      "description": "Detaljer om de siste betalingstransaksjonene",
+      "empty": "Ingen transaksjoner funnet"
+    },
+    "col": {
+      "user": "Bruker",
+      "date": "Dato",
+      "amount": "Beløp",
+      "method": "Metode",
+      "status": "Status",
+      "description": "Beskrivelse",
+      "plan": "Plan",
+      "start": "Start",
+      "expiry": "Utløp",
+      "actions": "Handlinger"
+    },
+    "subs": {
+      "title": "Abonnementer",
+      "description": "Liste over aktive og utløpte abonnementer",
+      "empty": "Ingen abonnementer funnet"
+    },
+    "plans": {
+      "title": "Abonnementsplaner",
+      "description": "Administrer abonnementsplaner: rediger priser, funksjoner og tilgjengelighet"
+    },
+    "licenses": {
+      "title": "Lisenser",
+      "description": "Administrasjon av lisenser og tilknyttede brukere"
+    },
+    "access": {
+      "label": "Tilganger:",
+      "today": "I dag:",
+      "week": "7d:",
+      "total": "Totalt:",
+      "users": "brukere"
+    },
+    "license": {
+      "disabled": "Deaktivert",
+      "frozen": "Frosset",
+      "active": "Aktiv",
+      "user": "Bruker",
+      "type": "Lisenstype",
+      "status": "Status",
+      "id": "ID",
+      "accesses": "Tilganger",
+      "totalShort": "Tot:",
+      "created": "Opprettelsesdato",
+      "expiry": "Utløp",
+      "unlimited": "Ubegrenset",
+      "select": "Velg",
+      "daysLeft": "Dager igjen",
+      "days": "dager",
+      "actions": "Handlinger",
+      "extending": "Forlenger...",
+      "extend40": "+40 dager",
+      "upgradeStaff": "Forfremme til Staff (10 år gratis)",
+      "deleteAccount": "Slett konto",
+      "empty": "Ingen lisenser funnet"
+    },
+    "banking": {
+      "alert": "Disse dataene brukes til automatisk å behandle henvisningsprovisjoner til ansatte. Alle data er kryptert og lagres sikkert.",
+      "title": "Bankdata for administrator",
+      "description": "Bedrifts-IBAN for å motta betalinger fra kunder",
+      "bankName": "Banknavn",
+      "bankNamePlaceholder": "f.eks. Intesa Sanpaolo",
+      "holder": "Kontoinnehaver",
+      "holderPlaceholder": "Fornavn og etternavn / Firmanavn",
+      "iban": "IBAN",
+      "hide": "Skjul",
+      "show": "Vis",
+      "ibanNotConfigured": "IBAN ikke konfigurert",
+      "bicPlaceholder": "f.eks. BCITITMM",
+      "address": "Adresse",
+      "addressPlaceholder": "Fullstendig adresse for fakturering",
+      "saving": "Lagrer...",
+      "save": "Lagre bankdata"
+    },
+    "autopay": {
+      "title": "Automatiske betalinger",
+      "description": "Konfigurer provisjoner for ansatthenvisninger",
+      "enableHint": "Aktiver automatiske provisjonsbetalinger",
+      "delay": "Betalingsforsinkelse (dager)",
+      "delayHint": "Antall dager å vente før behandling av betalingen",
+      "minAmount": "Minimumsbeløp",
+      "minAmountHint": "Minimumsbeløp for å behandle en betaling",
+      "descriptionLabel": "Betalingsbeskrivelse",
+      "descriptionPlaceholder": "Beskrivelse som vises i bankoverføringer",
+      "save": "Lagre konfigurasjon"
+    },
+    "test": {
+      "title": "Systemtest",
+      "description": "Verifiser at konfigurasjonen er riktig ved å kjøre en test av betalingssystemet.",
+      "running": "Test pågår...",
+      "run": "Test konfigurasjon"
+    },
+    "summary": {
+      "title": "Provisjonsoversikt",
+      "perSubscription": "Per abonnement",
+      "waitingDays": "Ventedager",
+      "note": "Provisjoner betales automatisk {{days}} dager etter hvert sponset abonnement."
+    },
+    "deleteDialog": {
+      "title": "Slett konto",
+      "description": "Du er i ferd med å slette kontoen <strong>{{username}}</strong> og alle dens data (kunder, avtaler, innstillinger) permanent. Denne handlingen kan ikke angres.",
+      "confirmHint": "Skriv <strong>{{username}}</strong> for å bekrefte:",
+      "cancel": "Avbryt",
+      "deleting": "Sletter...",
+      "confirm": "Slett permanent"
+    },
+    "staffDialog": {
+      "title": "Forfremme til Staff",
+      "description": "Du er i ferd med å forfremme <strong>{{username}}</strong> til <strong>Staff</strong> med full gratis tilgang i <strong>10 år</strong>.<br /><br />Den nåværende lisensen vil bli deaktivert og erstattet med en STAFF_FREE-lisens. Vil du fortsette?",
+      "promoting": "Forfremmer...",
+      "confirm": "Forfremme til Staff"
+    }
+  },
+  "adminLicense": {
+    "toast": {
+      "unauthorized": "Ikke autorisert",
+      "accessDenied": "Tilgang nektet",
+      "adminOnly": "Bare administratorer har tilgang til denne siden",
+      "error": "Feil",
+      "cannotVerify": "Kan ikke verifisere autorisasjon",
+      "success": "Suksess",
+      "licenseCreated": "Gratis lisens opprettet",
+      "licenseRevoked": "Lisens tilbakekalt",
+      "accountDeleted": "Konto slettet",
+      "accountDeletedDesc": "Kontoen ble slettet"
+    },
+    "error": {
+      "staffUsersFetch": "Feil ved henting av staff-brukere",
+      "licensesFetch": "Feil ved henting av lisenser",
+      "licenseGenerate": "Feil ved generering av lisens",
+      "licenseRevoke": "Feil ved tilbakekalling av lisens",
+      "deleteAccount": "Feil ved sletting av kontoen",
+      "generic": "Det oppstod en feil ved lasting av data"
+    },
+    "warning": {
+      "title": "Advarsel",
+      "selectStaff": "Velg en staff-bruker"
+    },
+    "formatNoExpiry": "Ingen utløp",
+    "heading": "Administrasjon av staff-lisenser",
+    "intro": "Denne seksjonen er forbeholdt administratoren. Her kan du administrere de gratis 10-års lisensene for staff-medlemmer.",
+    "access": {
+      "label": "Tilganger:",
+      "today": "I dag:",
+      "week": "7d:",
+      "total": "Totalt:",
+      "users": "brukere"
+    },
+    "create": {
+      "title": "Generer ny staff-lisens",
+      "description": "Opprett en gratis 10-års lisens for et staff-medlem",
+      "staffUserLabel": "Staff-bruker",
+      "staffUserPlaceholder": "Velg en staff-bruker",
+      "licenseTypeLabel": "Lisenstype",
+      "licenseTypePlaceholder": "Velg en lisenstype",
+      "creating": "Oppretter...",
+      "submit": "Generer lisens"
+    },
+    "licenseType": {
+      "base": "Basis",
+      "pro": "Profesjonell",
+      "business": "Business"
+    },
+    "list": {
+      "title": "Aktive lisenser",
+      "description": "Administrer eksisterende staff-lisenser",
+      "empty": "Ingen lisenser funnet"
+    },
+    "col": {
+      "user": "Bruker",
+      "type": "Type",
+      "status": "Status",
+      "expiry": "Utløp",
+      "actions": "Handlinger"
+    },
+    "status": {
+      "active": "Aktiv",
+      "revoked": "Tilbakekalt"
+    },
+    "openMenu": "Åpne meny",
+    "actions": {
+      "revoke": "Tilbakekall lisens",
+      "delete": "Slett konto"
+    },
+    "delete": {
+      "title": "Slett konto",
+      "description": "Du er i ferd med å slette kontoen <strong>{{username}}</strong> og alle dens data (kunder, avtaler, innstillinger) permanent. Denne handlingen kan ikke angres.",
+      "confirmHint": "Skriv <strong>{{username}}</strong> for å bekrefte:",
+      "placeholder": "Skriv brukernavnet...",
+      "cancel": "Avbryt",
+      "deleting": "Sletter...",
+      "confirm": "Slett permanent"
+    },
+    "revoke": {
+      "title": "Bekreft tilbakekalling",
+      "description": "Er du sikker på at du vil tilbakekalle denne lisensen? Brukeren vil miste tilgang til premium-funksjoner.",
+      "cancel": "Avbryt",
+      "revoking": "Tilbakekaller...",
+      "confirm": "Tilbakekall lisens"
+    }
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "Feil ved lasting av innhold",
+      "upload": "Feil ved opplasting av filen",
+      "save": "Feil ved lagring",
+      "deleteFile": "Feil ved sletting av filen fra serveren"
+    },
+    "fileType": {
+      "video": "Video",
+      "image": "Bilde"
+    },
+    "toast": {
+      "uploaded": "{{type}} lastet opp",
+      "uploadedDesc": "{{type}} lagt til. Klikk \"Lagre\" for å bekrefte.",
+      "uploadError": "Opplastingsfeil",
+      "saved": "Lagret",
+      "savedDesc": "Innhold lagret",
+      "error": "Feil",
+      "invalidFile": "Velg kun bilder eller videoer",
+      "fileTooBig": "Filen kan være maksimalt 1 GB",
+      "titleMissing": "Skriv inn en tittel for seksjonen",
+      "fileRemoved": "Fil fjernet",
+      "fileRemovedDesc": "Filen ble slettet fra serveren. Husk å lagre endringene.",
+      "deleteError": "Slettefeil",
+      "cannotDelete": "Kan ikke slette filen"
+    },
+    "loading": "Laster...",
+    "title": "Administrasjon av manualen",
+    "subtitle": "Administrer innhold og opplæringsvideoer for hver seksjon",
+    "edit": "Rediger",
+    "saving": "Lagrer...",
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "selectorTitle": "Velg seksjon og språk",
+    "sectionLabel": "Manualseksjon",
+    "sectionPlaceholder": "Velg en seksjon...",
+    "languageLabel": "Språk",
+    "languagePlaceholder": "Velg språk...",
+    "titlePlaceholder": "Seksjonstittel...",
+    "noTitle": "Ingen tittel",
+    "textExplanation": "Tekstforklaring",
+    "contentPlaceholder": "Skriv inn tekstforklaringen for denne seksjonen...",
+    "noContent": "Ingen innhold tilgjengelig",
+    "supportMedia": "Støttemedier (videoer og bilder)",
+    "imageAlt": "Manualbilde",
+    "captionPlaceholder": "Bildetekst...",
+    "uploadHeading": "Last opp videoer eller bilder",
+    "uploadHintImages": "Bilder: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "Videoer: MP4, WEBM, MOV (maks 1 GB)",
+    "uploading": "Laster opp...",
+    "addFile": "Legg til fil",
+    "uploadInProgress": "Opplasting pågår...",
+    "noMedia": "Ingen medier tilgjengelig",
+    "sections": {
+      "s11": "1.1 Første systemtilgang",
+      "s12": "1.2 Konfigurer bedriftsdata",
+      "s13": "1.3 Konfigurer bankdata",
+      "s14": "1.4 Administrer personale og behandlingsrom",
+      "s15": "1.5 Konfigurer automatiske e-poster",
+      "s21": "2.1 Kundeadministrasjon",
+      "s22": "2.2 Kalender og avtaler",
+      "s23": "2.3 Kundens PWA-avtaleforespørsler",
+      "s24": "2.4 Fakturaadministrasjon",
+      "s31": "3.1 Lager- og varebeholdning",
+      "s32": "3.2 Rapporter og statistikk",
+      "s33": "3.3 AI-markedsføringskampanjer",
+      "s34": "3.4 WhatsApp-senter",
+      "s35": "3.5 Henvisnings- og provisjonssystem",
+      "s41": "4.1 Slik får kundene tilgang til området sitt",
+      "s42": "4.2 Hva kundene kan gjøre i det reserverte området",
+      "s43": "4.3 Slik installerer du appen på telefonen (PWA)",
+      "s44": "4.4 Tilpass utseendet til kundeområdet",
+      "s51": "5.1 Innstillinger",
+      "s61": "6.1 Avanserte funksjoner"
+    }
+  },
+  "resetPassword": {
+    "title": "Tilbakestill passord",
+    "description": "Skriv inn det nye passordet",
+    "error": "Feil",
+    "newPassword": "Nytt passord",
+    "newPasswordPlaceholder": "Skriv inn det nye passordet",
+    "confirmPassword": "Bekreft passord",
+    "confirmPasswordPlaceholder": "Bekreft det nye passordet",
+    "success": "Passord tilbakestilt",
+    "successDesc": "Passordet ditt er tilbakestilt. Logg inn med det nye passordet.",
+    "tokenNotFound": "Tilbakestillingstoken ble ikke funnet. Be om en ny gjenopprettingslenke.",
+    "tokenInvalid": "Token er utløpt eller ugyldig. Be om en ny gjenopprettingslenke.",
+    "tokenVerifyError": "Feil ved verifisering av token.",
+    "bothFieldsRequired": "Skriv inn det nye passordet i begge feltene",
+    "passwordsMismatch": "Passordene stemmer ikke overens",
+    "passwordTooShort": "Passordet må være minst 6 tegn",
+    "resetError": "Feil ved tilbakestilling av passord. Prøv igjen senere.",
+    "verifying": "Verifiserer...",
+    "resetting": "Tilbakestiller...",
+    "submit": "Tilbakestill passord"
+  },
+  "adminUsers": {
+    "title": "Brukeradministrasjon",
+    "subtitle": "Vis og administrer alle brukere registrert i systemet",
+    "stats": {
+      "total": "Totalt brukere",
+      "active": "Aktive lisenser",
+      "expiring": "Utløper (<7d)",
+      "expired": "Utløpt"
+    },
+    "table": {
+      "title": "Alle brukere",
+      "description": "Komplett liste med lisens- og abonnementsstatus",
+      "username": "Brukernavn",
+      "email": "E-post",
+      "type": "Type",
+      "status": "Lisensstatus",
+      "expiresAt": "Utløper",
+      "daysLeft": "Dager igjen",
+      "plan": "Plan",
+      "actions": "Handlinger",
+      "empty": "Ingen brukere funnet",
+      "daysCount": "{{count}} dager"
+    },
+    "badges": {
+      "subscribed": "Abonnent",
+      "trialActive": "Prøveperiode aktiv",
+      "expired": "Utløpt",
+      "permanent": "Permanent",
+      "unknown": "Ukjent",
+      "customer": "Kunde"
+    },
+    "actions": {
+      "extending": "Forlenger...",
+      "extend40": "+40 dager"
+    },
+    "toast": {
+      "trialExtended": "Prøveperiode forlenget",
+      "cannotExtend": "Kan ikke forlenge prøveperiode"
+    }
   }
 }

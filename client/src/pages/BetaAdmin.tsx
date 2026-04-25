@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -120,7 +121,7 @@ const formatCurrency = (amount: number) => {
 };
 
 // Genera un badge per lo stato della transazione/abbonamento
-const getStatusBadge = (status: string) => {
+const getStatusBadge = (status: string, t: (key: string) => string) => {
   switch (status?.toLowerCase()) {
     case 'active':
     case 'attivo':
@@ -130,14 +131,14 @@ const getStatusBadge = (status: string) => {
     case 'pagato':
       return (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-          <CheckCircle2 className="w-3 h-3 mr-1" /> Attivo/Completato
+          <CheckCircle2 className="w-3 h-3 mr-1" /> {t('betaAdmin.statusActive')}
         </span>
       );
     case 'pending':
     case 'in attesa':
       return (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-          <Timer className="w-3 h-3 mr-1" /> In Attesa
+          <Timer className="w-3 h-3 mr-1" /> {t('betaAdmin.statusPending')}
         </span>
       );
     case 'failed':
@@ -146,20 +147,20 @@ const getStatusBadge = (status: string) => {
     case 'cancellato':
       return (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-          <AlertCircle className="w-3 h-3 mr-1" /> Fallito/Cancellato
+          <AlertCircle className="w-3 h-3 mr-1" /> {t('betaAdmin.statusFailed')}
         </span>
       );
     default:
       return (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-          {status || 'Sconosciuto'}
+          {status || t('betaAdmin.unknown')}
         </span>
       );
   }
 };
 
 // Genera un badge per il metodo di pagamento
-const getPaymentMethodBadge = (method: string) => {
+const getPaymentMethodBadge = (method: string, t: (key: string) => string) => {
   const methodLower = method?.toLowerCase() || '';
   
   if (methodLower.includes('stripe')) {
@@ -183,13 +184,14 @@ const getPaymentMethodBadge = (method: string) => {
   } else {
     return (
       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-800">
-        <Wallet className="w-3 h-3 mr-1" /> {method || 'Sconosciuto'}
+        <Wallet className="w-3 h-3 mr-1" /> {method || t('betaAdmin.unknown')}
       </span>
     );
   }
 };
 
 export default function BetaAdmin() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { user } = useAuth();
   const [adminPassword, setAdminPassword] = useState('');
@@ -305,8 +307,8 @@ export default function BetaAdmin() {
     },
     onSuccess: () => {
       toast({
-        title: 'Invito creato!',
-        description: 'Il codice di invito è stato creato con successo.',
+        title: t('betaAdmin.toast.inviteCreated'),
+        description: t('betaAdmin.toast.inviteCreatedDesc'),
         variant: 'default',
       });
       // Reset del form
@@ -320,8 +322,8 @@ export default function BetaAdmin() {
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante la creazione dell\'invito.',
+        title: t('betaAdmin.toast.error'),
+        description: t('betaAdmin.toast.inviteError'),
         variant: 'destructive',
       });
     }
@@ -335,8 +337,8 @@ export default function BetaAdmin() {
     },
     onSuccess: () => {
       toast({
-        title: 'Feedback aggiornato!',
-        description: 'Lo stato del feedback è stato aggiornato con successo.',
+        title: t('betaAdmin.toast.feedbackUpdated'),
+        description: t('betaAdmin.toast.feedbackUpdatedDesc'),
         variant: 'default',
       });
       // Aggiorna la lista dei feedback
@@ -344,8 +346,8 @@ export default function BetaAdmin() {
     },
     onError: (error: Error) => {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'aggiornamento del feedback.',
+        title: t('betaAdmin.toast.error'),
+        description: t('betaAdmin.toast.feedbackUpdateError'),
         variant: 'destructive',
       });
     }
@@ -355,8 +357,8 @@ export default function BetaAdmin() {
     e.preventDefault();
     if (!inviteData.email) {
       toast({
-        title: 'Email mancante',
-        description: 'Inserisci un\'email valida per l\'invito.',
+        title: t('betaAdmin.toast.emailMissing'),
+        description: t('betaAdmin.toast.emailMissingDesc'),
         variant: 'destructive',
       });
       return;
@@ -364,8 +366,8 @@ export default function BetaAdmin() {
     
     // Mostra un messaggio di operazione in corso
     toast({
-      title: 'Creazione in corso...',
-      description: 'Sto creando il codice di invito, attendi qualche secondo.',
+      title: t('betaAdmin.toast.creating'),
+      description: t('betaAdmin.toast.creatingDesc'),
     });
     
     createInviteMutation.mutate(inviteData);
@@ -376,8 +378,8 @@ export default function BetaAdmin() {
       .then(() => {
         setCopiedCode(code);
         toast({
-          title: 'Codice copiato!',
-          description: 'Il codice è stato copiato negli appunti.',
+          title: t('betaAdmin.toast.codeCopied'),
+          description: t('betaAdmin.toast.codeCopiedDesc'),
           variant: 'default',
         });
         
@@ -388,8 +390,8 @@ export default function BetaAdmin() {
       })
       .catch(() => {
         toast({
-          title: 'Errore',
-          description: 'Impossibile copiare il codice negli appunti.',
+          title: t('betaAdmin.toast.error'),
+          description: t('betaAdmin.toast.copyError'),
           variant: 'destructive',
         });
       });
@@ -407,7 +409,7 @@ export default function BetaAdmin() {
     e.preventDefault();
     
     if (!adminPassword) {
-      toast({ title: 'Password richiesta', variant: 'destructive' });
+      toast({ title: t('betaAdmin.toast.passwordRequired'), variant: 'destructive' });
       return;
     }
     
@@ -427,8 +429,8 @@ export default function BetaAdmin() {
         document.documentElement.setAttribute('data-beta-admin-auth', 'true');
         
         toast({
-          title: 'Accesso effettuato',
-          description: 'Ora hai accesso alle funzionalità amministrative.',
+          title: t('betaAdmin.toast.loginSuccess'),
+          description: t('betaAdmin.toast.loginSuccessDesc'),
           variant: 'default',
         });
         
@@ -437,16 +439,16 @@ export default function BetaAdmin() {
         }, 1000);
       } else {
         toast({
-          title: 'Accesso negato',
-          description: 'La password inserita non è corretta.',
+          title: t('betaAdmin.toast.accessDenied'),
+          description: t('betaAdmin.toast.accessDeniedDesc'),
           variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Errore durante il login:', error);
       toast({
-        title: 'Errore durante l\'accesso',
-        description: 'Si è verificato un errore durante il processo di login.',
+        title: t('betaAdmin.toast.loginError'),
+        description: t('betaAdmin.toast.loginErrorDesc'),
         variant: 'destructive',
       });
     }
@@ -457,8 +459,8 @@ export default function BetaAdmin() {
     
     if (newPassword.length < 6) {
       toast({
-        title: 'Password troppo corta',
-        description: 'La nuova password deve contenere almeno 6 caratteri.',
+        title: t('betaAdmin.toast.passwordTooShort'),
+        description: t('betaAdmin.toast.passwordTooShortDesc'),
         variant: 'destructive'
       });
       return;
@@ -466,8 +468,8 @@ export default function BetaAdmin() {
     
     if (newPassword !== confirmPassword) {
       toast({
-        title: 'Le password non corrispondono',
-        description: 'La conferma della password non corrisponde alla nuova password.',
+        title: t('betaAdmin.toast.passwordMismatch'),
+        description: t('betaAdmin.toast.passwordMismatchDesc'),
         variant: 'destructive'
       });
       return;
@@ -481,8 +483,8 @@ export default function BetaAdmin() {
     console.log('Password amministrativa aggiornata');
     
     toast({
-      title: 'Password aggiornata',
-      description: 'La password amministrativa è stata modificata con successo.',
+      title: t('betaAdmin.toast.passwordUpdated'),
+      description: t('betaAdmin.toast.passwordUpdatedDesc'),
       variant: 'default'
     });
     
@@ -525,20 +527,20 @@ export default function BetaAdmin() {
       <div className="container py-10 mx-auto">
         <Card className="max-w-md mx-auto">
           <CardHeader>
-            <CardTitle>Accesso Amministratore</CardTitle>
+            <CardTitle>{t('betaAdmin.login.title')}</CardTitle>
             <CardDescription>
-              Inserisci la password per accedere all'area amministrativa.
+              {t('betaAdmin.login.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleAdminLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="adminPassword">Password Amministratore</Label>
+                <Label htmlFor="adminPassword">{t('betaAdmin.login.passwordLabel')}</Label>
                 <div className="relative">
                   <Input
                     id="adminPassword"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Inserisci la password"
+                    placeholder={t('betaAdmin.login.passwordPlaceholder')}
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}
                   />
@@ -561,7 +563,7 @@ export default function BetaAdmin() {
                 </div>
               </div>
               <Button type="submit" className="w-full">
-                Accedi
+                {t('betaAdmin.login.submit')}
               </Button>
             </form>
           </CardContent>
@@ -573,28 +575,28 @@ export default function BetaAdmin() {
   return (
     <div className="container py-10 mx-auto">
       <div className="max-w-6xl mx-auto space-y-8">
-        <h1 className="text-4xl font-extrabold tracking-tight">Amministrazione</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight">{t('betaAdmin.title')}</h1>
         
         <Tabs defaultValue="beta" className="w-full">
           <TabsList className="mb-4">
-            <TabsTrigger value="beta">Beta Test</TabsTrigger>
-            <TabsTrigger value="payments">Pagamenti</TabsTrigger>
+            <TabsTrigger value="beta">{t('betaAdmin.tabs.beta')}</TabsTrigger>
+            <TabsTrigger value="payments">{t('betaAdmin.tabs.payments')}</TabsTrigger>
           </TabsList>
           
           <TabsContent value="beta">
             {/* Sezione Creazione Inviti */}
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>Crea Nuovo Codice di Invito</CardTitle>
+                <CardTitle>{t('betaAdmin.create.title')}</CardTitle>
                 <CardDescription>
-                  Genera un nuovo codice di invito per i beta tester
+                  {t('betaAdmin.create.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleCreateInvite} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email del Destinatario</Label>
+                      <Label htmlFor="email">{t('betaAdmin.create.emailLabel')}</Label>
                       <Input
                         id="email"
                         type="email"
@@ -604,7 +606,7 @@ export default function BetaAdmin() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="maxUses">Numero Massimo di Utilizzi</Label>
+                      <Label htmlFor="maxUses">{t('betaAdmin.create.maxUsesLabel')}</Label>
                       <Input
                         id="maxUses"
                         type="number"
@@ -614,7 +616,7 @@ export default function BetaAdmin() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="expiryDays">Scadenza (giorni)</Label>
+                      <Label htmlFor="expiryDays">{t('betaAdmin.create.expiryLabel')}</Label>
                       <Input
                         id="expiryDays"
                         type="number"
@@ -632,10 +634,10 @@ export default function BetaAdmin() {
                     {createInviteMutation.isPending ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Creazione in corso...
+                        {t('betaAdmin.create.creating')}
                       </>
                     ) : (
-                      'Crea Codice di Invito'
+                      t('betaAdmin.create.submit')
                     )}
                   </Button>
                 </form>
@@ -646,14 +648,14 @@ export default function BetaAdmin() {
             <Card className="mb-6">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div>
-                  <CardTitle>Codici di Invito</CardTitle>
+                  <CardTitle>{t('betaAdmin.list.title')}</CardTitle>
                   <CardDescription>
-                    Lista di tutti i codici di invito generati
+                    {t('betaAdmin.list.description')}
                   </CardDescription>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => refetchInvitations()}>
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Aggiorna
+                  {t('betaAdmin.refresh')}
                 </Button>
               </CardHeader>
               <CardContent>
@@ -663,16 +665,16 @@ export default function BetaAdmin() {
                   </div>
                 ) : invitations && invitations.length > 0 ? (
                   <Table>
-                    <TableCaption>Lista dei codici di invito per beta test</TableCaption>
+                    <TableCaption>{t('betaAdmin.list.caption')}</TableCaption>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Codice</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Utilizzi</TableHead>
-                        <TableHead>Creato il</TableHead>
-                        <TableHead>Scadenza</TableHead>
-                        <TableHead>Stato</TableHead>
-                        <TableHead className="text-right">Azioni</TableHead>
+                        <TableHead>{t('betaAdmin.col.code')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.email')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.usage')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.createdOn')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.expiry')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.status')}</TableHead>
+                        <TableHead className="text-right">{t('betaAdmin.col.actions')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -683,15 +685,15 @@ export default function BetaAdmin() {
                           <TableCell>{invite.usedCount} / {invite.maxUses}</TableCell>
                           <TableCell>{new Date(invite.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell>
-                            {invite.expiresAt ? new Date(invite.expiresAt).toLocaleDateString() : 'Non scade'}
+                            {invite.expiresAt ? new Date(invite.expiresAt).toLocaleDateString() : t('betaAdmin.notExpiring')}
                           </TableCell>
                           <TableCell>
                             {invite.isUsed ? (
-                              <Badge variant="destructive">Utilizzato</Badge>
+                              <Badge variant="destructive">{t('betaAdmin.badge.used')}</Badge>
                             ) : new Date(invite.expiresAt || '') < new Date() ? (
-                              <Badge variant="outline">Scaduto</Badge>
+                              <Badge variant="outline">{t('betaAdmin.badge.expired')}</Badge>
                             ) : (
-                              <Badge variant="default" className="bg-green-500">Attivo</Badge>
+                              <Badge variant="default" className="bg-green-500">{t('betaAdmin.badge.active')}</Badge>
                             )}
                           </TableCell>
                           <TableCell className="text-right">
@@ -713,7 +715,7 @@ export default function BetaAdmin() {
                   </Table>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
-                    Nessun codice di invito trovato. Crea il tuo primo codice!
+                    {t('betaAdmin.list.empty')}
                   </div>
                 )}
               </CardContent>
@@ -723,14 +725,14 @@ export default function BetaAdmin() {
             <Card className="mb-6">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div>
-                  <CardTitle>Feedback Beta Test</CardTitle>
+                  <CardTitle>{t('betaAdmin.feedback.title')}</CardTitle>
                   <CardDescription>
-                    Feedback ricevuti dai beta tester
+                    {t('betaAdmin.feedback.description')}
                   </CardDescription>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => refetchFeedbacks()}>
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Aggiorna
+                  {t('betaAdmin.refresh')}
                 </Button>
               </CardHeader>
               <CardContent>
@@ -740,16 +742,16 @@ export default function BetaAdmin() {
                   </div>
                 ) : feedbacks && feedbacks.length > 0 ? (
                   <Table>
-                    <TableCaption>Lista dei feedback ricevuti dai beta tester</TableCaption>
+                    <TableCaption>{t('betaAdmin.feedback.caption')}</TableCaption>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Utente</TableHead>
-                        <TableHead>Tipo</TableHead>
-                        <TableHead>Contenuto</TableHead>
-                        <TableHead>Valutazione</TableHead>
-                        <TableHead>Data</TableHead>
-                        <TableHead>Stato</TableHead>
-                        <TableHead className="text-right">Azioni</TableHead>
+                        <TableHead>{t('betaAdmin.col.user')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.type')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.content')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.rating')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.date')}</TableHead>
+                        <TableHead>{t('betaAdmin.col.status')}</TableHead>
+                        <TableHead className="text-right">{t('betaAdmin.col.actions')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -758,10 +760,10 @@ export default function BetaAdmin() {
                           <TableCell>{feedback.username}</TableCell>
                           <TableCell>
                             <Badge variant="outline">
-                              {feedback.feedbackType === 'general' && 'Generale'}
-                              {feedback.feedbackType === 'bug' && 'Bug'}
-                              {feedback.feedbackType === 'feature' && 'Funzionalità'}
-                              {feedback.feedbackType === 'usability' && 'Usabilità'}
+                              {feedback.feedbackType === 'general' && t('betaAdmin.feedback.general')}
+                              {feedback.feedbackType === 'bug' && t('betaAdmin.feedback.bug')}
+                              {feedback.feedbackType === 'feature' && t('betaAdmin.feedback.feature')}
+                              {feedback.feedbackType === 'usability' && t('betaAdmin.feedback.usability')}
                             </Badge>
                           </TableCell>
                           <TableCell className="max-w-xs truncate">{feedback.content}</TableCell>
@@ -769,13 +771,13 @@ export default function BetaAdmin() {
                           <TableCell>{new Date(feedback.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell>
                             {feedback.status === 'pending' && (
-                              <Badge variant="outline">In attesa</Badge>
+                              <Badge variant="outline">{t('betaAdmin.feedback.statusPending')}</Badge>
                             )}
                             {feedback.status === 'reviewed' && (
-                              <Badge variant="secondary">Esaminato</Badge>
+                              <Badge variant="secondary">{t('betaAdmin.feedback.statusReviewed')}</Badge>
                             )}
                             {feedback.status === 'implemented' && (
-                              <Badge variant="default" className="bg-green-500">Implementato</Badge>
+                              <Badge variant="default" className="bg-green-500">{t('betaAdmin.feedback.statusImplemented')}</Badge>
                             )}
                           </TableCell>
                           <TableCell className="text-right space-x-1">
@@ -800,7 +802,7 @@ export default function BetaAdmin() {
                   </Table>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
-                    Nessun feedback ricevuto dai beta tester.
+                    {t('betaAdmin.feedback.empty')}
                   </div>
                 )}
               </CardContent>
@@ -809,27 +811,27 @@ export default function BetaAdmin() {
             {/* Sezione Dashboard */}
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>Dashboard Beta Test</CardTitle>
+                <CardTitle>{t('betaAdmin.dashboard.title')}</CardTitle>
                 <CardDescription>
-                  Statistiche generali sul programma beta
+                  {t('betaAdmin.dashboard.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                    <span className="text-sm text-gray-500">Codici Attivi</span>
+                    <span className="text-sm text-gray-500">{t('betaAdmin.dashboard.activeCodes')}</span>
                     <span className="text-3xl font-bold">
                       {invitations ? invitations.filter((i: BetaInvitation) => !i.isUsed && new Date(i.expiresAt || '') > new Date()).length : 0}
                     </span>
                   </div>
                   <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                    <span className="text-sm text-gray-500">Beta Tester</span>
+                    <span className="text-sm text-gray-500">{t('betaAdmin.dashboard.betaTesters')}</span>
                     <span className="text-3xl font-bold">
                       {invitations ? invitations.filter((i: BetaInvitation) => i.isUsed).length : 0}
                     </span>
                   </div>
                   <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                    <span className="text-sm text-gray-500">Feedback Ricevuti</span>
+                    <span className="text-sm text-gray-500">{t('betaAdmin.dashboard.feedbackReceived')}</span>
                     <span className="text-3xl font-bold">
                       {feedbacks ? feedbacks.length : 0}
                     </span>
@@ -842,28 +844,28 @@ export default function BetaAdmin() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>Sicurezza</CardTitle>
+                  <CardTitle>{t('betaAdmin.security.title')}</CardTitle>
                   <CardDescription>
-                    Gestisci la password di amministrazione
+                    {t('betaAdmin.security.description')}
                   </CardDescription>
                 </div>
                 <Button 
                   variant="outline" 
                   onClick={() => setIsChangingPassword(!isChangingPassword)}
                 >
-                  {isChangingPassword ? 'Annulla' : 'Cambia Password'}
+                  {isChangingPassword ? t('betaAdmin.security.cancel') : t('betaAdmin.security.changePassword')}
                 </Button>
               </CardHeader>
               <CardContent>
                 {isChangingPassword ? (
                   <form onSubmit={handlePasswordChange} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="newPassword">Nuova Password</Label>
+                      <Label htmlFor="newPassword">{t('betaAdmin.security.newPassword')}</Label>
                       <div className="relative">
                         <Input
                           id="newPassword"
                           type={showNewPassword ? "text" : "password"}
-                          placeholder="Nuova password"
+                          placeholder={t('betaAdmin.security.newPasswordPlaceholder')}
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
                           className="pr-10"
@@ -881,12 +883,12 @@ export default function BetaAdmin() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="confirmPassword">Conferma Password</Label>
+                      <Label htmlFor="confirmPassword">{t('betaAdmin.security.confirmPassword')}</Label>
                       <div className="relative">
                         <Input
                           id="confirmPassword"
                           type={showConfirmPassword ? "text" : "password"}
-                          placeholder="Conferma nuova password"
+                          placeholder={t('betaAdmin.security.confirmPasswordPlaceholder')}
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           className="pr-10"
@@ -903,11 +905,11 @@ export default function BetaAdmin() {
                         </button>
                       </div>
                     </div>
-                    <Button type="submit" className="w-full">Salva Nuova Password</Button>
+                    <Button type="submit" className="w-full">{t('betaAdmin.security.savePassword')}</Button>
                   </form>
                 ) : (
                   <div className="text-center py-4">
-                    <p>La password attuale è sicura. <span className="text-sm text-gray-500">Ultima modifica: {sessionStorage.getItem('betaAdminPassword') ? 'sessione attiva' : 'non impostata'}</span></p>
+                    <p>{t('betaAdmin.security.statusOk')} <span className="text-sm text-gray-500">{t('betaAdmin.security.lastChange')} {sessionStorage.getItem('betaAdminPassword') ? t('betaAdmin.security.activeSession') : t('betaAdmin.security.notSet')}</span></p>
                   </div>
                 )}
               </CardContent>
@@ -918,9 +920,9 @@ export default function BetaAdmin() {
             {/* Sezione Dashboard Pagamenti */}
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>Dashboard Pagamenti</CardTitle>
+                <CardTitle>{t('betaAdmin.payments.dashboardTitle')}</CardTitle>
                 <CardDescription>
-                  Panoramica delle metriche di pagamento e abbonamenti
+                  {t('betaAdmin.payments.dashboardDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -932,19 +934,19 @@ export default function BetaAdmin() {
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                       <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                        <span className="text-sm text-gray-500">Ricavi Ricorrenti</span>
+                        <span className="text-sm text-gray-500">{t('betaAdmin.payments.recurringRevenue')}</span>
                         <span className="text-3xl font-bold">
                           {formatCurrency(dashboardData.totalRecurringRevenue)}
                         </span>
                       </div>
                       <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                        <span className="text-sm text-gray-500">Abbonati Totali</span>
+                        <span className="text-sm text-gray-500">{t('betaAdmin.payments.totalSubscribers')}</span>
                         <span className="text-3xl font-bold">
                           {dashboardData.totalSubscribers}
                         </span>
                       </div>
                       <div className="flex flex-col space-y-2 p-4 border rounded-lg">
-                        <span className="text-sm text-gray-500">Transazioni Totali</span>
+                        <span className="text-sm text-gray-500">{t('betaAdmin.payments.totalTransactions')}</span>
                         <span className="text-3xl font-bold">
                           {dashboardData.totalTransactions}
                         </span>
@@ -952,7 +954,7 @@ export default function BetaAdmin() {
                     </div>
                     
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Ricavi Mensili</h3>
+                      <h3 className="text-lg font-medium mb-4">{t('betaAdmin.payments.monthlyRevenue')}</h3>
                       <div className="h-64 w-full">
                         {dashboardData.transactionsByMonth?.length > 0 ? (
                           <div className="grid grid-cols-12 h-full gap-2">
@@ -973,7 +975,7 @@ export default function BetaAdmin() {
                           </div>
                         ) : (
                           <div className="flex items-center justify-center h-full border rounded-md bg-gray-50">
-                            <p className="text-gray-500">Nessun dato disponibile</p>
+                            <p className="text-gray-500">{t('betaAdmin.payments.noData')}</p>
                           </div>
                         )}
                       </div>
@@ -981,7 +983,7 @@ export default function BetaAdmin() {
                   </>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
-                    Impossibile caricare i dati della dashboard
+                    {t('betaAdmin.payments.cannotLoad')}
                   </div>
                 )}
               </CardContent>
@@ -989,19 +991,19 @@ export default function BetaAdmin() {
             
             <Tabs defaultValue="transactions" className="w-full">
               <TabsList className="mb-4">
-                <TabsTrigger value="transactions">Transazioni</TabsTrigger>
-                <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
-                <TabsTrigger value="licenses">Licenze</TabsTrigger>
-                <TabsTrigger value="plans">Piani</TabsTrigger>
-                <TabsTrigger value="external-links">Collegamenti</TabsTrigger>
+                <TabsTrigger value="transactions">{t('betaAdmin.payments.tabTransactions')}</TabsTrigger>
+                <TabsTrigger value="subscriptions">{t('betaAdmin.payments.tabSubscriptions')}</TabsTrigger>
+                <TabsTrigger value="licenses">{t('betaAdmin.payments.tabLicenses')}</TabsTrigger>
+                <TabsTrigger value="plans">{t('betaAdmin.payments.tabPlans')}</TabsTrigger>
+                <TabsTrigger value="external-links">{t('betaAdmin.payments.tabExternal')}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="transactions">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Ultime Transazioni</CardTitle>
+                    <CardTitle>{t('betaAdmin.payments.lastTransactions')}</CardTitle>
                     <CardDescription>
-                      Elenco completo delle transazioni di pagamento
+                      {t('betaAdmin.payments.lastTransactionsDesc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -1010,12 +1012,12 @@ export default function BetaAdmin() {
                         <TableHeader>
                           <TableRow>
                             <TableHead>ID</TableHead>
-                            <TableHead>Utente</TableHead>
-                            <TableHead>Importo</TableHead>
-                            <TableHead>Metodo</TableHead>
-                            <TableHead>Stato</TableHead>
-                            <TableHead>Data</TableHead>
-                            <TableHead>Descrizione</TableHead>
+                            <TableHead>{t('betaAdmin.col.user')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.amount')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.method')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.status')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.date')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.description')}</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -1031,8 +1033,8 @@ export default function BetaAdmin() {
                                 <TableCell className="font-medium">{transaction.id}</TableCell>
                                 <TableCell>{transaction.userId}</TableCell>
                                 <TableCell>{formatCurrency(transaction.amount)}</TableCell>
-                                <TableCell>{getPaymentMethodBadge(transaction.paymentMethod)}</TableCell>
-                                <TableCell>{getStatusBadge(transaction.status)}</TableCell>
+                                <TableCell>{getPaymentMethodBadge(transaction.paymentMethod, t)}</TableCell>
+                                <TableCell>{getStatusBadge(transaction.status, t)}</TableCell>
                                 <TableCell>{formatDate(transaction.createdAt)}</TableCell>
                                 <TableCell className="max-w-xs truncate">{transaction.description}</TableCell>
                               </TableRow>
@@ -1040,7 +1042,7 @@ export default function BetaAdmin() {
                           ) : (
                             <TableRow>
                               <TableCell colSpan={7} className="text-center py-4">
-                                Nessuna transazione trovata
+                                {t('betaAdmin.payments.noTransactions')}
                               </TableCell>
                             </TableRow>
                           )}
@@ -1054,9 +1056,9 @@ export default function BetaAdmin() {
               <TabsContent value="subscriptions">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Abbonamenti</CardTitle>
+                    <CardTitle>{t('betaAdmin.payments.subscriptionsTitle')}</CardTitle>
                     <CardDescription>
-                      Elenco degli abbonamenti attivi e passati
+                      {t('betaAdmin.payments.subscriptionsDesc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -1065,12 +1067,12 @@ export default function BetaAdmin() {
                         <TableHeader>
                           <TableRow>
                             <TableHead>ID</TableHead>
-                            <TableHead>Utente</TableHead>
-                            <TableHead>Piano</TableHead>
-                            <TableHead>Stato</TableHead>
-                            <TableHead>Inizio</TableHead>
-                            <TableHead>Termine</TableHead>
-                            <TableHead>Metodo</TableHead>
+                            <TableHead>{t('betaAdmin.col.user')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.plan')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.status')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.start')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.end')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.method')}</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -1086,16 +1088,16 @@ export default function BetaAdmin() {
                                 <TableCell className="font-medium">{subscription.id}</TableCell>
                                 <TableCell>{subscription.userId}</TableCell>
                                 <TableCell>{subscription.plan?.name || '-'}</TableCell>
-                                <TableCell>{getStatusBadge(subscription.status)}</TableCell>
+                                <TableCell>{getStatusBadge(subscription.status, t)}</TableCell>
                                 <TableCell>{formatDate(subscription.currentPeriodStart)}</TableCell>
                                 <TableCell>{formatDate(subscription.currentPeriodEnd)}</TableCell>
-                                <TableCell>{getPaymentMethodBadge(subscription.paymentMethod)}</TableCell>
+                                <TableCell>{getPaymentMethodBadge(subscription.paymentMethod, t)}</TableCell>
                               </TableRow>
                             ))
                           ) : (
                             <TableRow>
                               <TableCell colSpan={7} className="text-center py-4">
-                                Nessun abbonamento trovato
+                                {t('betaAdmin.payments.noSubscriptions')}
                               </TableCell>
                             </TableRow>
                           )}
@@ -1109,9 +1111,9 @@ export default function BetaAdmin() {
               <TabsContent value="licenses">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Licenze</CardTitle>
+                    <CardTitle>{t('betaAdmin.payments.licensesTitle')}</CardTitle>
                     <CardDescription>
-                      Elenco delle licenze e degli account associati
+                      {t('betaAdmin.payments.licensesDesc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -1119,12 +1121,12 @@ export default function BetaAdmin() {
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead>Codice</TableHead>
-                            <TableHead>Tipo</TableHead>
-                            <TableHead>Utente</TableHead>
-                            <TableHead>Stato</TableHead>
-                            <TableHead>Attivata</TableHead>
-                            <TableHead>Scadenza</TableHead>
+                            <TableHead>{t('betaAdmin.col.code')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.type')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.user')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.status')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.activated')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.expiry')}</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -1197,11 +1199,11 @@ export default function BetaAdmin() {
                                 <TableCell>
                                   {license.isActive ? (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                      <CheckCircle2 className="w-3 h-3 mr-1" /> Attiva
+                                      <CheckCircle2 className="w-3 h-3 mr-1" /> {t('betaAdmin.payments.licenseActive')}
                                     </span>
                                   ) : (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                      <X className="w-3 h-3 mr-1" /> Scaduta
+                                      <X className="w-3 h-3 mr-1" /> {t('betaAdmin.payments.licenseExpired')}
                                     </span>
                                   )}
                                 </TableCell>
@@ -1214,7 +1216,7 @@ export default function BetaAdmin() {
                                       {formatDate(license.expiresAt)}
                                     </span>
                                   ) : (
-                                    <span className="text-gray-500">Nessuna scadenza</span>
+                                    <span className="text-gray-500">{t('betaAdmin.payments.noExpiry')}</span>
                                   )}
                                 </TableCell>
                               </TableRow>
@@ -1222,7 +1224,7 @@ export default function BetaAdmin() {
                           ) : (
                             <TableRow>
                               <TableCell colSpan={6} className="text-center py-4">
-                                Nessuna licenza trovata
+                                {t('betaAdmin.payments.noLicenses')}
                               </TableCell>
                             </TableRow>
                           )}
@@ -1236,9 +1238,9 @@ export default function BetaAdmin() {
               <TabsContent value="plans">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Piani di Abbonamento</CardTitle>
+                    <CardTitle>{t('betaAdmin.payments.plansTitle')}</CardTitle>
                     <CardDescription>
-                      Dettaglio dei piani di abbonamento disponibili
+                      {t('betaAdmin.payments.plansDesc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -1247,10 +1249,10 @@ export default function BetaAdmin() {
                         <TableHeader>
                           <TableRow>
                             <TableHead>ID</TableHead>
-                            <TableHead>Nome</TableHead>
-                            <TableHead>Prezzo</TableHead>
-                            <TableHead>Intervallo</TableHead>
-                            <TableHead>Stato</TableHead>
+                            <TableHead>{t('betaAdmin.col.name')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.price')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.interval')}</TableHead>
+                            <TableHead>{t('betaAdmin.col.status')}</TableHead>
                             <TableHead>Features</TableHead>
                           </TableRow>
                         </TableHeader>
@@ -1261,15 +1263,15 @@ export default function BetaAdmin() {
                                 <TableCell className="font-medium">{plan.id}</TableCell>
                                 <TableCell>{plan.name}</TableCell>
                                 <TableCell>{formatCurrency(plan.price / 100)}</TableCell>
-                                <TableCell>{plan.interval === 'month' ? 'Mensile' : 'Annuale'}</TableCell>
+                                <TableCell>{plan.interval === 'month' ? t('betaAdmin.payments.monthly') : t('betaAdmin.payments.yearly')}</TableCell>
                                 <TableCell>
                                   {plan.isActive ? (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                      <CheckCircle2 className="w-3 h-3 mr-1" /> Attivo
+                                      <CheckCircle2 className="w-3 h-3 mr-1" /> {t('betaAdmin.payments.planActive')}
                                     </span>
                                   ) : (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                      Inattivo
+                                      {t('betaAdmin.payments.planInactive')}
                                     </span>
                                   )}
                                 </TableCell>
@@ -1291,7 +1293,7 @@ export default function BetaAdmin() {
                           ) : (
                             <TableRow>
                               <TableCell colSpan={6} className="text-center py-4">
-                                Nessun piano di abbonamento trovato
+                                {t('betaAdmin.payments.noPlans')}
                               </TableCell>
                             </TableRow>
                           )}
@@ -1305,9 +1307,9 @@ export default function BetaAdmin() {
               <TabsContent value="external-links">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Collegamenti Esterni</CardTitle>
+                    <CardTitle>{t('betaAdmin.external.title')}</CardTitle>
                     <CardDescription>
-                      Accedi direttamente alle piattaforme di pagamento
+                      {t('betaAdmin.external.description')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -1322,7 +1324,7 @@ export default function BetaAdmin() {
                           </div>
                           <div>
                             <h3 className="text-xl font-semibold">PayPal</h3>
-                            <p className="text-sm text-gray-500">Gestisci transazioni e abbonamenti</p>
+                            <p className="text-sm text-gray-500">{t('betaAdmin.external.paypalDesc')}</p>
                           </div>
                         </div>
                         
@@ -1333,7 +1335,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
                           >
-                            <span>Dashboard Business</span>
+                            <span>{t('betaAdmin.external.dashboardBusiness')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1345,7 +1347,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
                           >
-                            <span>Transazioni Completate</span>
+                            <span>{t('betaAdmin.external.completedTransactions')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1357,7 +1359,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
                           >
-                            <span>Piani di Abbonamento</span>
+                            <span>{t('betaAdmin.external.subscriptionPlans')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1369,7 +1371,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
                           >
-                            <span>Gestione Abbonamenti</span>
+                            <span>{t('betaAdmin.external.subscriptionMgmt')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1389,7 +1391,7 @@ export default function BetaAdmin() {
                           </div>
                           <div>
                             <h3 className="text-xl font-semibold">Wise</h3>
-                            <p className="text-sm text-gray-500">Gestisci pagamenti internazionali</p>
+                            <p className="text-sm text-gray-500">{t('betaAdmin.external.wiseDesc')}</p>
                           </div>
                         </div>
                         
@@ -1400,7 +1402,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
                           >
-                            <span>Dashboard Account</span>
+                            <span>{t('betaAdmin.external.dashboardAccount')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1412,7 +1414,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
                           >
-                            <span>Bilancio e Movimenti</span>
+                            <span>{t('betaAdmin.external.balanceMovements')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1424,7 +1426,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
                           >
-                            <span>Attività Recenti</span>
+                            <span>{t('betaAdmin.external.recentActivity')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1436,7 +1438,7 @@ export default function BetaAdmin() {
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
                           >
-                            <span>Gestione Destinatari</span>
+                            <span>{t('betaAdmin.external.recipientsMgmt')}</span>
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -1451,9 +1453,9 @@ export default function BetaAdmin() {
                           <path d="M13 16H12V12H11M12 8H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div>
-                          <h4 className="text-sm font-medium">Nota importante</h4>
+                          <h4 className="text-sm font-medium">{t('betaAdmin.external.importantNote')}</h4>
                           <p className="text-sm text-gray-500 mt-1">
-                            Questi collegamenti aprono le interfacce ufficiali di PayPal e Wise per una gestione diretta delle transazioni. Assicurati di essere connesso agli account corretti prima di eseguire operazioni importanti.
+                            {t('betaAdmin.external.importantNoteText')}
                           </p>
                         </div>
                       </div>

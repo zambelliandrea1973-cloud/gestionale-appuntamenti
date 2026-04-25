@@ -1797,7 +1797,14 @@
     "selected": "Ausgewählt",
     "selectSlots": "Zeitslots auswählen",
     "confirmDelete": "Sind Sie sicher, dass Sie diesen Termin löschen möchten?",
-    "confirmDeleteTitle": "Termin löschen"
+    "confirmDeleteTitle": "Termin löschen",
+    "confirmDeleteDescription": "Möchten Sie diesen Termin wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleted": "Termin gelöscht",
+    "deletedDesc": "Der Termin wurde erfolgreich gelöscht",
+    "errorOccurred": "Ein Fehler ist aufgetreten: {{message}}",
+    "frequentClient": "Stammkunde",
+    "noConsent": "Einwilligung nicht erteilt",
+    "notesLabel": "Notizen:"
   },
   "trial": {
     "days": "Tage",
@@ -5503,5 +5510,635 @@
     "cardBody": "Du musst den QR-Code nicht mehr verwenden, um auf deinen persönlichen Bereich zuzugreifen!",
     "iosButton": "Zum Home-Bildschirm hinzufügen",
     "androidButton": "Verknüpfung auf dem Telefon speichern"
+  },
+  "betaPage": {
+    "title": "Beta-Programm",
+    "access": {
+      "title": "Beta-Tester-Zugang",
+      "description": "Gib deinen Einladungscode und die zugehörige E-Mail ein, um am Beta-Programm teilzunehmen"
+    },
+    "inviteCode": "Einladungscode",
+    "inviteCodePlaceholder": "Einladungscode eingeben",
+    "email": "E-Mail",
+    "emailPlaceholder": "E-Mail eingeben",
+    "emailHint": "Muss mit der E-Mail übereinstimmen, die mit deiner Beta-Einladung verknüpft ist",
+    "verifying": "Wird überprüft...",
+    "verifyButton": "Code überprüfen",
+    "feedback": {
+      "title": "Feedback senden",
+      "description": "Hilf uns mit deinem Feedback, besser zu werden",
+      "type": "Feedback-Typ",
+      "general": "Allgemein",
+      "bug": "Fehler",
+      "feature": "Neue Funktion",
+      "usability": "Benutzbarkeit",
+      "yourFeedback": "Dein Feedback",
+      "placeholder": "Beschreibe dein Feedback...",
+      "rating": "Bewertung (1-5)",
+      "sending": "Wird gesendet...",
+      "send": "Feedback senden"
+    },
+    "howItWorks": {
+      "title": "Wie funktioniert das Beta-Programm?",
+      "description": "Unser Beta-Programm bietet dir frühzeitigen Zugang zu neuen Funktionen vor der offiziellen Veröffentlichung. Im Gegenzug hilfst du uns mit deinem wertvollen Feedback, die Anwendung zu verbessern."
+    },
+    "steps": {
+      "code": {
+        "title": "1. Erhalte einen Code",
+        "description": "Gib deinen Einladungscode und die zugehörige E-Mail ein, um als Beta-Tester zuzugreifen"
+      },
+      "explore": {
+        "title": "2. Entdecke die App",
+        "description": "Teste alle Funktionen der Plattform in der Vorschau"
+      },
+      "feedback": {
+        "title": "3. Teile Feedback",
+        "description": "Sende uns deine Kommentare, Meldungen und Vorschläge"
+      }
+    },
+    "toast": {
+      "codeValid": "Gültiger Code!",
+      "codeValidDesc": "Der Einladungscode ist gültig. Du kannst jetzt auf das Beta-Programm zugreifen.",
+      "codeInvalid": "Ungültiger Code",
+      "codeInvalidDesc": "Der Einladungscode ist nicht gültig.",
+      "error": "Fehler",
+      "verifyError": "Beim Überprüfen des Codes ist ein Fehler aufgetreten.",
+      "codeUsed": "Code verwendet!",
+      "codeUsedDesc": "Du bist jetzt ein offizieller Beta-Tester!",
+      "useError": "Beim Verwenden des Codes ist ein Fehler aufgetreten.",
+      "feedbackSent": "Feedback gesendet!",
+      "feedbackSentDesc": "Danke für dein Feedback!",
+      "feedbackError": "Beim Senden des Feedbacks ist ein Fehler aufgetreten.",
+      "codeMissing": "Code fehlt",
+      "codeMissingDesc": "Gib einen gültigen Einladungscode ein.",
+      "emailInvalid": "Ungültige E-Mail",
+      "emailInvalidDesc": "Gib eine gültige E-Mail-Adresse ein.",
+      "feedbackMissing": "Feedback fehlt",
+      "feedbackMissingDesc": "Gib gültiges Feedback ein."
+    }
+  },
+  "betaAdmin": {
+    "statusActive": "Aktiv/Abgeschlossen",
+    "statusPending": "Ausstehend",
+    "statusFailed": "Fehlgeschlagen/Storniert",
+    "unknown": "Unbekannt",
+    "toast": {
+      "inviteCreated": "Einladung erstellt!",
+      "inviteCreatedDesc": "Der Einladungscode wurde erfolgreich erstellt.",
+      "error": "Fehler",
+      "inviteError": "Beim Erstellen der Einladung ist ein Fehler aufgetreten.",
+      "feedbackUpdated": "Feedback aktualisiert!",
+      "feedbackUpdatedDesc": "Der Feedback-Status wurde erfolgreich aktualisiert.",
+      "feedbackUpdateError": "Beim Aktualisieren des Feedbacks ist ein Fehler aufgetreten.",
+      "emailMissing": "E-Mail fehlt",
+      "emailMissingDesc": "Gib eine gültige E-Mail für die Einladung ein.",
+      "creating": "Wird erstellt...",
+      "creatingDesc": "Einladungscode wird erstellt, bitte warte einige Sekunden.",
+      "codeCopied": "Code kopiert!",
+      "codeCopiedDesc": "Der Code wurde in die Zwischenablage kopiert.",
+      "copyError": "Code konnte nicht in die Zwischenablage kopiert werden.",
+      "passwordRequired": "Passwort erforderlich",
+      "loginSuccess": "Angemeldet",
+      "loginSuccessDesc": "Du hast jetzt Zugriff auf die Admin-Funktionen.",
+      "accessDenied": "Zugriff verweigert",
+      "accessDeniedDesc": "Das eingegebene Passwort ist nicht korrekt.",
+      "loginError": "Fehler bei der Anmeldung",
+      "loginErrorDesc": "Beim Anmeldevorgang ist ein Fehler aufgetreten.",
+      "passwordTooShort": "Passwort zu kurz",
+      "passwordTooShortDesc": "Das neue Passwort muss mindestens 6 Zeichen enthalten.",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "passwordMismatchDesc": "Die Passwortbestätigung stimmt nicht mit dem neuen Passwort überein.",
+      "passwordUpdated": "Passwort aktualisiert",
+      "passwordUpdatedDesc": "Das Admin-Passwort wurde erfolgreich geändert."
+    },
+    "login": {
+      "title": "Admin-Login",
+      "description": "Gib das Passwort ein, um auf den Admin-Bereich zuzugreifen.",
+      "passwordLabel": "Admin-Passwort",
+      "passwordPlaceholder": "Passwort eingeben",
+      "submit": "Anmelden"
+    },
+    "title": "Verwaltung",
+    "tabs": {
+      "beta": "Beta-Test",
+      "payments": "Zahlungen"
+    },
+    "create": {
+      "title": "Neuen Einladungscode erstellen",
+      "description": "Generiere einen neuen Einladungscode für Beta-Tester",
+      "emailLabel": "E-Mail des Empfängers",
+      "maxUsesLabel": "Maximale Anzahl der Verwendungen",
+      "expiryLabel": "Ablauf (Tage)",
+      "creating": "Wird erstellt...",
+      "submit": "Einladungscode erstellen"
+    },
+    "list": {
+      "title": "Einladungscodes",
+      "description": "Liste aller generierten Einladungscodes",
+      "caption": "Liste der Einladungscodes für den Beta-Test",
+      "empty": "Keine Einladungscodes gefunden. Erstelle deinen ersten Code!"
+    },
+    "refresh": "Aktualisieren",
+    "col": {
+      "code": "Code",
+      "email": "E-Mail",
+      "usage": "Verwendungen",
+      "createdOn": "Erstellt am",
+      "expiry": "Ablauf",
+      "status": "Status",
+      "actions": "Aktionen",
+      "user": "Benutzer",
+      "type": "Typ",
+      "content": "Inhalt",
+      "rating": "Bewertung",
+      "date": "Datum",
+      "amount": "Betrag",
+      "method": "Methode",
+      "description": "Beschreibung",
+      "plan": "Plan",
+      "start": "Start",
+      "end": "Ende",
+      "activated": "Aktiviert",
+      "name": "Name",
+      "price": "Preis",
+      "interval": "Intervall"
+    },
+    "notExpiring": "Läuft nicht ab",
+    "badge": {
+      "used": "Verwendet",
+      "expired": "Abgelaufen",
+      "active": "Aktiv"
+    },
+    "feedback": {
+      "title": "Beta-Test-Feedback",
+      "description": "Erhaltenes Feedback von Beta-Testern",
+      "caption": "Liste des erhaltenen Feedbacks von Beta-Testern",
+      "general": "Allgemein",
+      "bug": "Fehler",
+      "feature": "Funktion",
+      "usability": "Benutzbarkeit",
+      "statusPending": "Ausstehend",
+      "statusReviewed": "Überprüft",
+      "statusImplemented": "Implementiert",
+      "empty": "Kein Feedback von Beta-Testern erhalten."
+    },
+    "dashboard": {
+      "title": "Beta-Test-Dashboard",
+      "description": "Allgemeine Statistiken zum Beta-Programm",
+      "activeCodes": "Aktive Codes",
+      "betaTesters": "Beta-Tester",
+      "feedbackReceived": "Erhaltenes Feedback"
+    },
+    "security": {
+      "title": "Sicherheit",
+      "description": "Verwalte das Admin-Passwort",
+      "cancel": "Abbrechen",
+      "changePassword": "Passwort ändern",
+      "newPassword": "Neues Passwort",
+      "newPasswordPlaceholder": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
+      "savePassword": "Neues Passwort speichern",
+      "statusOk": "Das aktuelle Passwort ist sicher.",
+      "lastChange": "Letzte Änderung:",
+      "activeSession": "aktive Sitzung",
+      "notSet": "nicht festgelegt"
+    },
+    "payments": {
+      "dashboardTitle": "Zahlungs-Dashboard",
+      "dashboardDescription": "Übersicht über Zahlungs- und Abo-Kennzahlen",
+      "recurringRevenue": "Wiederkehrende Einnahmen",
+      "totalSubscribers": "Abonnenten insgesamt",
+      "totalTransactions": "Transaktionen insgesamt",
+      "monthlyRevenue": "Monatliche Einnahmen",
+      "noData": "Keine Daten verfügbar",
+      "cannotLoad": "Dashboard-Daten konnten nicht geladen werden",
+      "tabTransactions": "Transaktionen",
+      "tabSubscriptions": "Abos",
+      "tabLicenses": "Lizenzen",
+      "tabPlans": "Pläne",
+      "tabExternal": "Links",
+      "lastTransactions": "Letzte Transaktionen",
+      "lastTransactionsDesc": "Vollständige Liste der Zahlungstransaktionen",
+      "noTransactions": "Keine Transaktionen gefunden",
+      "subscriptionsTitle": "Abos",
+      "subscriptionsDesc": "Liste der aktiven und vergangenen Abos",
+      "noSubscriptions": "Keine Abos gefunden",
+      "licensesTitle": "Lizenzen",
+      "licensesDesc": "Liste der Lizenzen und zugehörigen Konten",
+      "licenseActive": "Aktiv",
+      "licenseExpired": "Abgelaufen",
+      "noExpiry": "Kein Ablauf",
+      "noLicenses": "Keine Lizenzen gefunden",
+      "plansTitle": "Abo-Pläne",
+      "plansDesc": "Details zu verfügbaren Abo-Plänen",
+      "monthly": "Monatlich",
+      "yearly": "Jährlich",
+      "planActive": "Aktiv",
+      "planInactive": "Inaktiv",
+      "noPlans": "Keine Abo-Pläne gefunden"
+    },
+    "external": {
+      "title": "Externe Links",
+      "description": "Direkter Zugriff auf Zahlungsplattformen",
+      "paypalDesc": "Verwalte Transaktionen und Abos",
+      "dashboardBusiness": "Business-Dashboard",
+      "completedTransactions": "Abgeschlossene Transaktionen",
+      "subscriptionPlans": "Abo-Pläne",
+      "subscriptionMgmt": "Abo-Verwaltung",
+      "wiseDesc": "Verwalte internationale Zahlungen",
+      "dashboardAccount": "Konto-Dashboard",
+      "balanceMovements": "Saldo und Bewegungen",
+      "recentActivity": "Letzte Aktivität",
+      "recipientsMgmt": "Empfängerverwaltung",
+      "importantNote": "Wichtiger Hinweis",
+      "importantNoteText": "Diese Links öffnen die offiziellen Oberflächen von PayPal und Wise zur direkten Transaktionsverwaltung. Stelle sicher, dass du mit den richtigen Konten verbunden bist, bevor du wichtige Operationen durchführst."
+    }
+  },
+  "paymentAdmin": {
+    "title": "Zahlungsverwaltung-Dashboard",
+    "refresh": "Daten aktualisieren",
+    "toast": {
+      "error": "Fehler",
+      "loadError": "Dashboard-Daten konnten nicht geladen werden.",
+      "refreshing": "Daten werden aktualisiert",
+      "refreshingDesc": "Daten werden aktualisiert...",
+      "settingsSaved": "Einstellungen gespeichert",
+      "settingsSavedDesc": "Bankeinstellungen wurden erfolgreich aktualisiert",
+      "settingsSaveError": "Bankeinstellungen konnten nicht gespeichert werden",
+      "testCompleted": "Test abgeschlossen",
+      "testCompletedDesc": "Das Zahlungssystem ist korrekt konfiguriert",
+      "testFailed": "Test fehlgeschlagen",
+      "testFailedDesc": "Überprüfe die Bankeinstellungen",
+      "trialExtended": "Testzeitraum verlängert",
+      "trialError": "Testzeitraum konnte nicht verlängert werden",
+      "staffUpgraded": "Upgrade zu Staff abgeschlossen",
+      "staffUpgradeError": "Upgrade zu Staff nicht möglich",
+      "dateUpdated": "Datum aktualisiert",
+      "dateError": "Datum konnte nicht aktualisiert werden",
+      "accountDeleted": "Konto gelöscht",
+      "accountDeletedDesc": "Das Konto wurde erfolgreich gelöscht",
+      "deleteError": "Konto konnte nicht gelöscht werden"
+    },
+    "dateInvalid": "Ungültiges Datum",
+    "status": {
+      "completed": "Abgeschlossen",
+      "pending": "Ausstehend",
+      "failed": "Fehlgeschlagen"
+    },
+    "kpi": {
+      "totalRevenue": "Gesamteinnahmen",
+      "activeSubs": "Aktive Abos",
+      "totalTx": "Transaktionen insgesamt"
+    },
+    "tab": {
+      "transactions": "Transaktionen",
+      "subscriptions": "Abos",
+      "plans": "Pläne",
+      "licenses": "Lizenzen",
+      "paymentMethods": "Zahlungsmethoden",
+      "bankingConfig": "Bankkonfiguration"
+    },
+    "transactions": {
+      "title": "Letzte Transaktionen",
+      "description": "Details der letzten Zahlungstransaktionen",
+      "empty": "Keine Transaktionen gefunden"
+    },
+    "col": {
+      "user": "Benutzer",
+      "date": "Datum",
+      "amount": "Betrag",
+      "method": "Methode",
+      "status": "Status",
+      "description": "Beschreibung",
+      "plan": "Plan",
+      "start": "Start",
+      "expiry": "Ablauf",
+      "actions": "Aktionen"
+    },
+    "subs": {
+      "title": "Abos",
+      "description": "Liste der aktiven und abgelaufenen Abos",
+      "empty": "Keine Abos gefunden"
+    },
+    "plans": {
+      "title": "Abo-Pläne",
+      "description": "Verwalte Abo-Pläne: Preise, Funktionen und Verfügbarkeit bearbeiten"
+    },
+    "licenses": {
+      "title": "Lizenzen",
+      "description": "Verwaltung der Lizenzen und zugehörigen Benutzer"
+    },
+    "access": {
+      "label": "Zugriffe:",
+      "today": "Heute:",
+      "week": "7T:",
+      "total": "Gesamt:",
+      "users": "Benutzer"
+    },
+    "license": {
+      "disabled": "Deaktiviert",
+      "frozen": "Eingefroren",
+      "active": "Aktiv",
+      "user": "Benutzer",
+      "type": "Lizenztyp",
+      "status": "Status",
+      "id": "ID",
+      "accesses": "Zugriffe",
+      "totalShort": "Ges:",
+      "created": "Erstellungsdatum",
+      "expiry": "Ablauf",
+      "unlimited": "Unbegrenzt",
+      "select": "Auswählen",
+      "daysLeft": "Verbleibende Tage",
+      "days": "Tage",
+      "actions": "Aktionen",
+      "extending": "Wird verlängert...",
+      "extend40": "+40 Tage",
+      "upgradeStaff": "Zu Staff hochstufen (10 Jahre kostenlos)",
+      "deleteAccount": "Konto löschen",
+      "empty": "Keine Lizenzen gefunden"
+    },
+    "banking": {
+      "alert": "Diese Daten werden verwendet, um Empfehlungsprovisionen automatisch an die Mitarbeiter auszuzahlen. Alle Daten sind verschlüsselt und sicher gespeichert.",
+      "title": "Admin-Bankdaten",
+      "description": "Firmen-IBAN für den Empfang von Kundenzahlungen",
+      "bankName": "Bankname",
+      "bankNamePlaceholder": "z. B. Intesa Sanpaolo",
+      "holder": "Kontoinhaber",
+      "holderPlaceholder": "Vor- und Nachname / Firmenname",
+      "iban": "IBAN",
+      "hide": "Ausblenden",
+      "show": "Anzeigen",
+      "ibanNotConfigured": "IBAN nicht konfiguriert",
+      "bicPlaceholder": "z. B. BCITITMM",
+      "address": "Adresse",
+      "addressPlaceholder": "Vollständige Rechnungsadresse",
+      "saving": "Wird gespeichert...",
+      "save": "Bankdaten speichern"
+    },
+    "autopay": {
+      "title": "Automatische Zahlungen",
+      "description": "Konfiguriere Provisionen für Mitarbeiter-Empfehlungen",
+      "enableHint": "Automatische Provisionszahlungen aktivieren",
+      "delay": "Zahlungsverzögerung (Tage)",
+      "delayHint": "Wartezeit in Tagen vor der Zahlungsverarbeitung",
+      "minAmount": "Mindestbetrag",
+      "minAmountHint": "Mindestbetrag zur Verarbeitung einer Zahlung",
+      "descriptionLabel": "Zahlungsbeschreibung",
+      "descriptionPlaceholder": "Beschreibung, die in Überweisungen erscheint",
+      "save": "Konfiguration speichern"
+    },
+    "test": {
+      "title": "Systemtest",
+      "description": "Überprüfe, ob die Konfiguration korrekt ist, indem du das Zahlungssystem testest.",
+      "running": "Test läuft...",
+      "run": "Konfiguration testen"
+    },
+    "summary": {
+      "title": "Provisionsübersicht",
+      "perSubscription": "Pro Abo",
+      "waitingDays": "Wartetage",
+      "note": "Provisionen werden automatisch {{days}} Tage nach jedem gesponserten Abo ausgezahlt."
+    },
+    "deleteDialog": {
+      "title": "Konto löschen",
+      "description": "Du bist dabei, das Konto <strong>{{username}}</strong> und alle seine Daten (Kunden, Termine, Einstellungen) endgültig zu löschen. Diese Aktion ist unwiderruflich.",
+      "confirmHint": "Tippe <strong>{{username}}</strong> zur Bestätigung:",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht...",
+      "confirm": "Endgültig löschen"
+    },
+    "staffDialog": {
+      "title": "Zu Staff hochstufen",
+      "description": "Du bist dabei, <strong>{{username}}</strong> zu <strong>Staff</strong> mit vollständigem kostenlosen Zugriff für <strong>10 Jahre</strong> hochzustufen.<br /><br />Die aktuelle Lizenz wird deaktiviert und durch eine STAFF_FREE-Lizenz ersetzt. Möchtest du fortfahren?",
+      "promoting": "Wird hochgestuft...",
+      "confirm": "Zu Staff hochstufen"
+    }
+  },
+  "adminLicense": {
+    "toast": {
+      "unauthorized": "Nicht autorisiert",
+      "accessDenied": "Zugriff verweigert",
+      "adminOnly": "Nur Administratoren können auf diese Seite zugreifen",
+      "error": "Fehler",
+      "cannotVerify": "Berechtigung konnte nicht überprüft werden",
+      "success": "Erfolg",
+      "licenseCreated": "Kostenlose Lizenz erfolgreich erstellt",
+      "licenseRevoked": "Lizenz erfolgreich widerrufen",
+      "accountDeleted": "Konto gelöscht",
+      "accountDeletedDesc": "Das Konto wurde erfolgreich gelöscht"
+    },
+    "error": {
+      "staffUsersFetch": "Fehler beim Abrufen der Staff-Benutzer",
+      "licensesFetch": "Fehler beim Abrufen der Lizenzen",
+      "licenseGenerate": "Fehler beim Generieren der Lizenz",
+      "licenseRevoke": "Fehler beim Widerrufen der Lizenz",
+      "deleteAccount": "Fehler beim Löschen des Kontos",
+      "generic": "Beim Laden der Daten ist ein Fehler aufgetreten"
+    },
+    "warning": {
+      "title": "Achtung",
+      "selectStaff": "Wähle einen Staff-Benutzer aus"
+    },
+    "formatNoExpiry": "Kein Ablauf",
+    "heading": "Staff-Lizenzverwaltung",
+    "intro": "Dieser Bereich ist für den Administrator reserviert. Hier kannst du die kostenlosen 10-Jahres-Lizenzen für Staff-Mitglieder verwalten.",
+    "access": {
+      "label": "Zugriffe:",
+      "today": "Heute:",
+      "week": "7T:",
+      "total": "Gesamt:",
+      "users": "Benutzer"
+    },
+    "create": {
+      "title": "Neue Staff-Lizenz generieren",
+      "description": "Erstelle eine kostenlose 10-Jahres-Lizenz für ein Staff-Mitglied",
+      "staffUserLabel": "Staff-Benutzer",
+      "staffUserPlaceholder": "Wähle einen Staff-Benutzer aus",
+      "licenseTypeLabel": "Lizenztyp",
+      "licenseTypePlaceholder": "Wähle einen Lizenztyp aus",
+      "creating": "Wird erstellt...",
+      "submit": "Lizenz generieren"
+    },
+    "licenseType": {
+      "base": "Basis",
+      "pro": "Professional",
+      "business": "Business"
+    },
+    "list": {
+      "title": "Aktive Lizenzen",
+      "description": "Verwalte vorhandene Staff-Lizenzen",
+      "empty": "Keine Lizenzen gefunden"
+    },
+    "col": {
+      "user": "Benutzer",
+      "type": "Typ",
+      "status": "Status",
+      "expiry": "Ablauf",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "active": "Aktiv",
+      "revoked": "Widerrufen"
+    },
+    "openMenu": "Menü öffnen",
+    "actions": {
+      "revoke": "Lizenz widerrufen",
+      "delete": "Konto löschen"
+    },
+    "delete": {
+      "title": "Konto löschen",
+      "description": "Du bist dabei, das Konto <strong>{{username}}</strong> und alle seine Daten (Kunden, Termine, Einstellungen) endgültig zu löschen. Diese Aktion ist unwiderruflich.",
+      "confirmHint": "Tippe <strong>{{username}}</strong> zur Bestätigung:",
+      "placeholder": "Benutzernamen eingeben...",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht...",
+      "confirm": "Endgültig löschen"
+    },
+    "revoke": {
+      "title": "Widerruf bestätigen",
+      "description": "Möchtest du diese Lizenz wirklich widerrufen? Der Benutzer verliert den Zugriff auf Premium-Funktionen.",
+      "cancel": "Abbrechen",
+      "revoking": "Wird widerrufen...",
+      "confirm": "Lizenz widerrufen"
+    }
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "Fehler beim Laden des Inhalts",
+      "upload": "Fehler beim Hochladen der Datei",
+      "save": "Fehler beim Speichern",
+      "deleteFile": "Fehler beim Löschen der Datei vom Server"
+    },
+    "fileType": {
+      "video": "Video",
+      "image": "Bild"
+    },
+    "toast": {
+      "uploaded": "{{type}} hochgeladen",
+      "uploadedDesc": "{{type}} hinzugefügt. Klicke auf \"Speichern\", um zu bestätigen.",
+      "uploadError": "Upload-Fehler",
+      "saved": "Gespeichert",
+      "savedDesc": "Inhalt erfolgreich gespeichert",
+      "error": "Fehler",
+      "invalidFile": "Wähle nur Bilder oder Videos aus",
+      "fileTooBig": "Die Datei darf maximal 1 GB groß sein",
+      "titleMissing": "Gib einen Titel für den Abschnitt ein",
+      "fileRemoved": "Datei entfernt",
+      "fileRemovedDesc": "Die Datei wurde vom Server gelöscht. Vergiss nicht, deine Änderungen zu speichern.",
+      "deleteError": "Fehler beim Löschen",
+      "cannotDelete": "Datei konnte nicht gelöscht werden"
+    },
+    "loading": "Wird geladen...",
+    "title": "Handbuchverwaltung",
+    "subtitle": "Inhalte und Tutorial-Videos für jeden Abschnitt verwalten",
+    "edit": "Bearbeiten",
+    "saving": "Wird gespeichert...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "selectorTitle": "Abschnitt und Sprache auswählen",
+    "sectionLabel": "Handbuchabschnitt",
+    "sectionPlaceholder": "Wähle einen Abschnitt aus...",
+    "languageLabel": "Sprache",
+    "languagePlaceholder": "Sprache auswählen...",
+    "titlePlaceholder": "Abschnittstitel...",
+    "noTitle": "Kein Titel",
+    "textExplanation": "Textuelle Erklärung",
+    "contentPlaceholder": "Gib die textuelle Erklärung für diesen Abschnitt ein...",
+    "noContent": "Kein Inhalt verfügbar",
+    "supportMedia": "Support-Medien (Videos und Bilder)",
+    "imageAlt": "Handbuchbild",
+    "captionPlaceholder": "Bildunterschrift...",
+    "uploadHeading": "Videos oder Bilder hochladen",
+    "uploadHintImages": "Bilder: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "Videos: MP4, WEBM, MOV (max. 1 GB)",
+    "uploading": "Wird hochgeladen...",
+    "addFile": "Datei hinzufügen",
+    "uploadInProgress": "Upload läuft...",
+    "noMedia": "Keine Medien verfügbar",
+    "sections": {
+      "s11": "1.1 Erster Systemzugriff",
+      "s12": "1.2 Firmendaten konfigurieren",
+      "s13": "1.3 Bankdaten konfigurieren",
+      "s14": "1.4 Personal und Behandlungsräume verwalten",
+      "s15": "1.5 Automatische E-Mails konfigurieren",
+      "s21": "2.1 Kundenverwaltung",
+      "s22": "2.2 Kalender und Termine",
+      "s23": "2.3 Kunden-PWA-Terminanfragen",
+      "s24": "2.4 Rechnungsverwaltung",
+      "s31": "3.1 Inventar- und Lagerverwaltung",
+      "s32": "3.2 Berichte und Statistiken",
+      "s33": "3.3 KI-Marketingkampagnen",
+      "s34": "3.4 WhatsApp-Zentrum",
+      "s35": "3.5 Empfehlungs- und Provisionssystem",
+      "s41": "4.1 So greifen Kunden auf ihren Bereich zu",
+      "s42": "4.2 Was Kunden im geschützten Bereich tun können",
+      "s43": "4.3 So installieren Sie die App auf dem Telefon (PWA)",
+      "s44": "4.4 Erscheinungsbild des Kundenbereichs anpassen",
+      "s51": "5.1 Einstellungen",
+      "s61": "6.1 Erweiterte Funktionen"
+    }
+  },
+  "resetPassword": {
+    "title": "Passwort zurücksetzen",
+    "description": "Geben Sie Ihr neues Passwort ein",
+    "error": "Fehler",
+    "newPassword": "Neues Passwort",
+    "newPasswordPlaceholder": "Neues Passwort eingeben",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
+    "success": "Passwort zurückgesetzt",
+    "successDesc": "Ihr Passwort wurde erfolgreich zurückgesetzt. Melden Sie sich mit dem neuen Passwort an.",
+    "tokenNotFound": "Reset-Token nicht gefunden. Fordern Sie einen neuen Wiederherstellungslink an.",
+    "tokenInvalid": "Token abgelaufen oder ungültig. Fordern Sie einen neuen Wiederherstellungslink an.",
+    "tokenVerifyError": "Fehler bei der Überprüfung des Tokens.",
+    "bothFieldsRequired": "Geben Sie das neue Passwort in beide Felder ein",
+    "passwordsMismatch": "Passwörter stimmen nicht überein",
+    "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein",
+    "resetError": "Fehler beim Zurücksetzen des Passworts. Bitte versuchen Sie es später erneut.",
+    "verifying": "Überprüfung läuft...",
+    "resetting": "Wird zurückgesetzt...",
+    "submit": "Passwort zurücksetzen"
+  },
+  "adminUsers": {
+    "title": "Benutzerverwaltung",
+    "subtitle": "Alle im System registrierten Benutzer anzeigen und verwalten",
+    "stats": {
+      "total": "Benutzer gesamt",
+      "active": "Aktive Lizenzen",
+      "expiring": "Läuft bald ab (<7T)",
+      "expired": "Abgelaufen"
+    },
+    "table": {
+      "title": "Alle Benutzer",
+      "description": "Vollständige Liste mit Lizenz- und Abonnementstatus",
+      "username": "Benutzername",
+      "email": "E-Mail",
+      "type": "Typ",
+      "status": "Lizenzstatus",
+      "expiresAt": "Ablauf",
+      "daysLeft": "Verbleibende Tage",
+      "plan": "Plan",
+      "actions": "Aktionen",
+      "empty": "Keine Benutzer gefunden",
+      "daysCount": "{{count}} Tage"
+    },
+    "badges": {
+      "subscribed": "Abonniert",
+      "trialActive": "Test aktiv",
+      "expired": "Abgelaufen",
+      "permanent": "Dauerhaft",
+      "unknown": "Unbekannt",
+      "customer": "Kunde"
+    },
+    "actions": {
+      "extending": "Wird verlängert...",
+      "extend40": "+40 Tage"
+    },
+    "toast": {
+      "trialExtended": "Test verlängert",
+      "cannotExtend": "Test kann nicht verlängert werden"
+    }
   }
 }

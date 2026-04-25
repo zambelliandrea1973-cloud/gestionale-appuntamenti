@@ -1779,7 +1779,14 @@
     "selected": "Geselecteerd",
     "selectSlots": "Selecteer tijdsloten",
     "confirmDelete": "Weet u zeker dat u deze afspraak wilt verwijderen?",
-    "confirmDeleteTitle": "Afspraak verwijderen"
+    "confirmDeleteTitle": "Afspraak verwijderen",
+    "confirmDeleteDescription": "Weet u zeker dat u deze afspraak wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "deleted": "Afspraak verwijderd",
+    "deletedDesc": "De afspraak is succesvol verwijderd",
+    "errorOccurred": "Er is een fout opgetreden: {{message}}",
+    "frequentClient": "Vaste klant",
+    "noConsent": "Toestemming niet gegeven",
+    "notesLabel": "Notities:"
   },
   "navigation": {
     "home": "Home",
@@ -5503,5 +5510,635 @@
     "cardBody": "Je hoeft de QR-code niet meer te gebruiken om naar je persoonlijke gedeelte te gaan!",
     "iosButton": "Toevoegen aan beginscherm",
     "androidButton": "Snelkoppeling opslaan op de telefoon"
+  },
+  "betaPage": {
+    "title": "Beta-programma",
+    "access": {
+      "title": "Beta-testertoegang",
+      "description": "Voer je uitnodigingscode en het bijbehorende e-mailadres in om deel te nemen aan het beta-programma"
+    },
+    "inviteCode": "Uitnodigingscode",
+    "inviteCodePlaceholder": "Voer de uitnodigingscode in",
+    "email": "E-mail",
+    "emailPlaceholder": "Voer je e-mail in",
+    "emailHint": "Moet overeenkomen met het e-mailadres van je beta-uitnodiging",
+    "verifying": "Verifiëren...",
+    "verifyButton": "Code verifiëren",
+    "feedback": {
+      "title": "Feedback versturen",
+      "description": "Help ons te verbeteren met je feedback",
+      "type": "Feedbacktype",
+      "general": "Algemeen",
+      "bug": "Bug",
+      "feature": "Nieuwe functie",
+      "usability": "Bruikbaarheid",
+      "yourFeedback": "Jouw feedback",
+      "placeholder": "Beschrijf je feedback...",
+      "rating": "Beoordeling (1-5)",
+      "sending": "Versturen...",
+      "send": "Feedback versturen"
+    },
+    "howItWorks": {
+      "title": "Hoe werkt het beta-programma?",
+      "description": "Ons beta-programma geeft je vroege toegang tot nieuwe functies vóór de officiële release. In ruil daarvoor help je ons de applicatie te verbeteren met je waardevolle feedback."
+    },
+    "steps": {
+      "code": {
+        "title": "1. Verkrijg een code",
+        "description": "Voer je uitnodigingscode en bijbehorend e-mailadres in om als beta-tester toegang te krijgen"
+      },
+      "explore": {
+        "title": "2. Verken de app",
+        "description": "Probeer alle functies van het platform in preview"
+      },
+      "feedback": {
+        "title": "3. Deel feedback",
+        "description": "Stuur ons je opmerkingen, meldingen en suggesties"
+      }
+    },
+    "toast": {
+      "codeValid": "Geldige code!",
+      "codeValidDesc": "De uitnodigingscode is geldig. Je hebt nu toegang tot het beta-programma.",
+      "codeInvalid": "Ongeldige code",
+      "codeInvalidDesc": "De uitnodigingscode is niet geldig.",
+      "error": "Fout",
+      "verifyError": "Er is een fout opgetreden bij het verifiëren van de code.",
+      "codeUsed": "Code gebruikt!",
+      "codeUsedDesc": "Je bent nu een officiële beta-tester!",
+      "useError": "Er is een fout opgetreden bij het gebruiken van de code.",
+      "feedbackSent": "Feedback verstuurd!",
+      "feedbackSentDesc": "Bedankt voor je feedback!",
+      "feedbackError": "Er is een fout opgetreden bij het versturen van de feedback.",
+      "codeMissing": "Code ontbreekt",
+      "codeMissingDesc": "Voer een geldige uitnodigingscode in.",
+      "emailInvalid": "Ongeldige e-mail",
+      "emailInvalidDesc": "Voer een geldig e-mailadres in.",
+      "feedbackMissing": "Feedback ontbreekt",
+      "feedbackMissingDesc": "Voer geldige feedback in."
+    }
+  },
+  "betaAdmin": {
+    "statusActive": "Actief/Voltooid",
+    "statusPending": "In afwachting",
+    "statusFailed": "Mislukt/Geannuleerd",
+    "unknown": "Onbekend",
+    "toast": {
+      "inviteCreated": "Uitnodiging aangemaakt!",
+      "inviteCreatedDesc": "De uitnodigingscode is succesvol aangemaakt.",
+      "error": "Fout",
+      "inviteError": "Er is een fout opgetreden bij het aanmaken van de uitnodiging.",
+      "feedbackUpdated": "Feedback bijgewerkt!",
+      "feedbackUpdatedDesc": "De feedbackstatus is succesvol bijgewerkt.",
+      "feedbackUpdateError": "Er is een fout opgetreden bij het bijwerken van de feedback.",
+      "emailMissing": "E-mail ontbreekt",
+      "emailMissingDesc": "Voer een geldig e-mailadres in voor de uitnodiging.",
+      "creating": "Aanmaken...",
+      "creatingDesc": "Bezig met aanmaken van de uitnodigingscode, een ogenblik geduld.",
+      "codeCopied": "Code gekopieerd!",
+      "codeCopiedDesc": "De code is naar het klembord gekopieerd.",
+      "copyError": "Kan de code niet naar het klembord kopiëren.",
+      "passwordRequired": "Wachtwoord vereist",
+      "loginSuccess": "Ingelogd",
+      "loginSuccessDesc": "Je hebt nu toegang tot de beheerfuncties.",
+      "accessDenied": "Toegang geweigerd",
+      "accessDeniedDesc": "Het ingevoerde wachtwoord is niet correct.",
+      "loginError": "Fout bij het inloggen",
+      "loginErrorDesc": "Er is een fout opgetreden tijdens het inloggen.",
+      "passwordTooShort": "Wachtwoord te kort",
+      "passwordTooShortDesc": "Het nieuwe wachtwoord moet minimaal 6 tekens bevatten.",
+      "passwordMismatch": "Wachtwoorden komen niet overeen",
+      "passwordMismatchDesc": "De wachtwoordbevestiging komt niet overeen met het nieuwe wachtwoord.",
+      "passwordUpdated": "Wachtwoord bijgewerkt",
+      "passwordUpdatedDesc": "Het beheerderswachtwoord is succesvol gewijzigd."
+    },
+    "login": {
+      "title": "Beheerder login",
+      "description": "Voer het wachtwoord in om toegang te krijgen tot het beheergedeelte.",
+      "passwordLabel": "Beheerderswachtwoord",
+      "passwordPlaceholder": "Voer wachtwoord in",
+      "submit": "Inloggen"
+    },
+    "title": "Beheer",
+    "tabs": {
+      "beta": "Beta-test",
+      "payments": "Betalingen"
+    },
+    "create": {
+      "title": "Nieuwe uitnodigingscode aanmaken",
+      "description": "Genereer een nieuwe uitnodigingscode voor beta-testers",
+      "emailLabel": "E-mail van ontvanger",
+      "maxUsesLabel": "Maximaal aantal gebruik",
+      "expiryLabel": "Vervaldatum (dagen)",
+      "creating": "Aanmaken...",
+      "submit": "Uitnodigingscode aanmaken"
+    },
+    "list": {
+      "title": "Uitnodigingscodes",
+      "description": "Lijst van alle gegenereerde uitnodigingscodes",
+      "caption": "Lijst van uitnodigingscodes voor beta-test",
+      "empty": "Geen uitnodigingscodes gevonden. Maak je eerste code aan!"
+    },
+    "refresh": "Vernieuwen",
+    "col": {
+      "code": "Code",
+      "email": "E-mail",
+      "usage": "Gebruik",
+      "createdOn": "Aangemaakt op",
+      "expiry": "Vervaldatum",
+      "status": "Status",
+      "actions": "Acties",
+      "user": "Gebruiker",
+      "type": "Type",
+      "content": "Inhoud",
+      "rating": "Beoordeling",
+      "date": "Datum",
+      "amount": "Bedrag",
+      "method": "Methode",
+      "description": "Beschrijving",
+      "plan": "Plan",
+      "start": "Start",
+      "end": "Einde",
+      "activated": "Geactiveerd",
+      "name": "Naam",
+      "price": "Prijs",
+      "interval": "Interval"
+    },
+    "notExpiring": "Verloopt niet",
+    "badge": {
+      "used": "Gebruikt",
+      "expired": "Verlopen",
+      "active": "Actief"
+    },
+    "feedback": {
+      "title": "Beta-test-feedback",
+      "description": "Ontvangen feedback van beta-testers",
+      "caption": "Lijst van ontvangen feedback van beta-testers",
+      "general": "Algemeen",
+      "bug": "Bug",
+      "feature": "Functie",
+      "usability": "Bruikbaarheid",
+      "statusPending": "In afwachting",
+      "statusReviewed": "Beoordeeld",
+      "statusImplemented": "Geïmplementeerd",
+      "empty": "Geen feedback ontvangen van beta-testers."
+    },
+    "dashboard": {
+      "title": "Beta-test-dashboard",
+      "description": "Algemene statistieken over het beta-programma",
+      "activeCodes": "Actieve codes",
+      "betaTesters": "Beta-testers",
+      "feedbackReceived": "Ontvangen feedback"
+    },
+    "security": {
+      "title": "Beveiliging",
+      "description": "Beheer het beheerderswachtwoord",
+      "cancel": "Annuleren",
+      "changePassword": "Wachtwoord wijzigen",
+      "newPassword": "Nieuw wachtwoord",
+      "newPasswordPlaceholder": "Nieuw wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "confirmPasswordPlaceholder": "Nieuw wachtwoord bevestigen",
+      "savePassword": "Nieuw wachtwoord opslaan",
+      "statusOk": "Het huidige wachtwoord is veilig.",
+      "lastChange": "Laatste wijziging:",
+      "activeSession": "actieve sessie",
+      "notSet": "niet ingesteld"
+    },
+    "payments": {
+      "dashboardTitle": "Betalingsdashboard",
+      "dashboardDescription": "Overzicht van betalings- en abonnementsmetrics",
+      "recurringRevenue": "Terugkerende inkomsten",
+      "totalSubscribers": "Totaal aantal abonnees",
+      "totalTransactions": "Totaal aantal transacties",
+      "monthlyRevenue": "Maandelijkse inkomsten",
+      "noData": "Geen gegevens beschikbaar",
+      "cannotLoad": "Kan dashboardgegevens niet laden",
+      "tabTransactions": "Transacties",
+      "tabSubscriptions": "Abonnementen",
+      "tabLicenses": "Licenties",
+      "tabPlans": "Plannen",
+      "tabExternal": "Links",
+      "lastTransactions": "Laatste transacties",
+      "lastTransactionsDesc": "Volledige lijst van betalingstransacties",
+      "noTransactions": "Geen transacties gevonden",
+      "subscriptionsTitle": "Abonnementen",
+      "subscriptionsDesc": "Lijst van actieve en eerdere abonnementen",
+      "noSubscriptions": "Geen abonnementen gevonden",
+      "licensesTitle": "Licenties",
+      "licensesDesc": "Lijst van licenties en bijbehorende accounts",
+      "licenseActive": "Actief",
+      "licenseExpired": "Verlopen",
+      "noExpiry": "Geen vervaldatum",
+      "noLicenses": "Geen licenties gevonden",
+      "plansTitle": "Abonnementsplannen",
+      "plansDesc": "Details van beschikbare abonnementsplannen",
+      "monthly": "Maandelijks",
+      "yearly": "Jaarlijks",
+      "planActive": "Actief",
+      "planInactive": "Inactief",
+      "noPlans": "Geen abonnementsplannen gevonden"
+    },
+    "external": {
+      "title": "Externe links",
+      "description": "Krijg direct toegang tot betalingsplatformen",
+      "paypalDesc": "Beheer transacties en abonnementen",
+      "dashboardBusiness": "Business-dashboard",
+      "completedTransactions": "Voltooide transacties",
+      "subscriptionPlans": "Abonnementsplannen",
+      "subscriptionMgmt": "Abonnementenbeheer",
+      "wiseDesc": "Beheer internationale betalingen",
+      "dashboardAccount": "Accountdashboard",
+      "balanceMovements": "Saldo en bewegingen",
+      "recentActivity": "Recente activiteit",
+      "recipientsMgmt": "Ontvangersbeheer",
+      "importantNote": "Belangrijke opmerking",
+      "importantNoteText": "Deze links openen de officiële PayPal- en Wise-interfaces voor direct transactiebeheer. Zorg ervoor dat je bent ingelogd op de juiste accounts voordat je belangrijke handelingen uitvoert."
+    }
+  },
+  "paymentAdmin": {
+    "title": "Beheerdersdashboard betalingen",
+    "refresh": "Gegevens vernieuwen",
+    "toast": {
+      "error": "Fout",
+      "loadError": "Kan dashboardgegevens niet laden.",
+      "refreshing": "Gegevens vernieuwen",
+      "refreshingDesc": "Gegevens worden bijgewerkt...",
+      "settingsSaved": "Instellingen opgeslagen",
+      "settingsSavedDesc": "Bankinstellingen zijn succesvol bijgewerkt",
+      "settingsSaveError": "Kan bankinstellingen niet opslaan",
+      "testCompleted": "Test voltooid",
+      "testCompletedDesc": "Het betalingssysteem is correct geconfigureerd",
+      "testFailed": "Test mislukt",
+      "testFailedDesc": "Controleer de bankgegevensconfiguratie",
+      "trialExtended": "Proef verlengd",
+      "trialError": "Kan proef niet verlengen",
+      "staffUpgraded": "Geüpgraded naar Staff",
+      "staffUpgradeError": "Kan niet upgraden naar Staff",
+      "dateUpdated": "Datum bijgewerkt",
+      "dateError": "Kan datum niet bijwerken",
+      "accountDeleted": "Account verwijderd",
+      "accountDeletedDesc": "Het account is succesvol verwijderd",
+      "deleteError": "Kan account niet verwijderen"
+    },
+    "dateInvalid": "Ongeldige datum",
+    "status": {
+      "completed": "Voltooid",
+      "pending": "In afwachting",
+      "failed": "Mislukt"
+    },
+    "kpi": {
+      "totalRevenue": "Totale inkomsten",
+      "activeSubs": "Actieve abonnementen",
+      "totalTx": "Totale transacties"
+    },
+    "tab": {
+      "transactions": "Transacties",
+      "subscriptions": "Abonnementen",
+      "plans": "Plannen",
+      "licenses": "Licenties",
+      "paymentMethods": "Betalingsmethoden",
+      "bankingConfig": "Bankconfiguratie"
+    },
+    "transactions": {
+      "title": "Laatste transacties",
+      "description": "Details van de laatste betalingstransacties",
+      "empty": "Geen transacties gevonden"
+    },
+    "col": {
+      "user": "Gebruiker",
+      "date": "Datum",
+      "amount": "Bedrag",
+      "method": "Methode",
+      "status": "Status",
+      "description": "Beschrijving",
+      "plan": "Plan",
+      "start": "Start",
+      "expiry": "Vervaldatum",
+      "actions": "Acties"
+    },
+    "subs": {
+      "title": "Abonnementen",
+      "description": "Lijst van actieve en verlopen abonnementen",
+      "empty": "Geen abonnementen gevonden"
+    },
+    "plans": {
+      "title": "Abonnementsplannen",
+      "description": "Beheer abonnementsplannen: bewerk prijzen, functies en beschikbaarheid"
+    },
+    "licenses": {
+      "title": "Licenties",
+      "description": "Beheer van licenties en bijbehorende gebruikers"
+    },
+    "access": {
+      "label": "Toegangen:",
+      "today": "Vandaag:",
+      "week": "7d:",
+      "total": "Totaal:",
+      "users": "gebruikers"
+    },
+    "license": {
+      "disabled": "Uitgeschakeld",
+      "frozen": "Bevroren",
+      "active": "Actief",
+      "user": "Gebruiker",
+      "type": "Licentietype",
+      "status": "Status",
+      "id": "ID",
+      "accesses": "Toegangen",
+      "totalShort": "Tot:",
+      "created": "Aanmaakdatum",
+      "expiry": "Vervaldatum",
+      "unlimited": "Onbeperkt",
+      "select": "Selecteren",
+      "daysLeft": "Resterende dagen",
+      "days": "dagen",
+      "actions": "Acties",
+      "extending": "Verlengen...",
+      "extend40": "+40 dagen",
+      "upgradeStaff": "Promoveren naar Staff (10 jaar gratis)",
+      "deleteAccount": "Account verwijderen",
+      "empty": "Geen licenties gevonden"
+    },
+    "banking": {
+      "alert": "Deze gegevens worden gebruikt om automatisch verwijzingscommissies aan medewerkers uit te betalen. Alle gegevens zijn versleuteld en veilig opgeslagen.",
+      "title": "Bankgegevens beheerder",
+      "description": "Bedrijfs-IBAN om betalingen van klanten te ontvangen",
+      "bankName": "Banknaam",
+      "bankNamePlaceholder": "bijv. Intesa Sanpaolo",
+      "holder": "Rekeninghouder",
+      "holderPlaceholder": "Voor- en achternaam / Bedrijfsnaam",
+      "iban": "IBAN",
+      "hide": "Verbergen",
+      "show": "Tonen",
+      "ibanNotConfigured": "IBAN niet geconfigureerd",
+      "bicPlaceholder": "bijv. BCITITMM",
+      "address": "Adres",
+      "addressPlaceholder": "Volledig adres voor facturering",
+      "saving": "Opslaan...",
+      "save": "Bankgegevens opslaan"
+    },
+    "autopay": {
+      "title": "Automatische betalingen",
+      "description": "Configureer commissies voor personeelsverwijzingen",
+      "enableHint": "Automatische commissiebetalingen inschakelen",
+      "delay": "Betalingsvertraging (dagen)",
+      "delayHint": "Aantal wachtdagen voordat de betaling wordt verwerkt",
+      "minAmount": "Minimumbedrag",
+      "minAmountHint": "Minimumbedrag om een betaling te verwerken",
+      "descriptionLabel": "Betalingsbeschrijving",
+      "descriptionPlaceholder": "Beschrijving die in overschrijvingen verschijnt",
+      "save": "Configuratie opslaan"
+    },
+    "test": {
+      "title": "Systeemtest",
+      "description": "Controleer of de configuratie correct is door een test van het betalingssysteem uit te voeren.",
+      "running": "Test loopt...",
+      "run": "Configuratie testen"
+    },
+    "summary": {
+      "title": "Commissiesamenvatting",
+      "perSubscription": "Per abonnement",
+      "waitingDays": "Wachtdagen",
+      "note": "Commissies worden automatisch {{days}} dagen na elk gesponsord abonnement uitbetaald."
+    },
+    "deleteDialog": {
+      "title": "Account verwijderen",
+      "description": "Je staat op het punt het account <strong>{{username}}</strong> en alle bijbehorende gegevens (klanten, afspraken, instellingen) permanent te verwijderen. Deze actie is onomkeerbaar.",
+      "confirmHint": "Typ <strong>{{username}}</strong> om te bevestigen:",
+      "cancel": "Annuleren",
+      "deleting": "Verwijderen...",
+      "confirm": "Permanent verwijderen"
+    },
+    "staffDialog": {
+      "title": "Promoveren naar Staff",
+      "description": "Je staat op het punt <strong>{{username}}</strong> te promoveren naar <strong>Staff</strong> met volledige gratis toegang voor <strong>10 jaar</strong>.<br /><br />De huidige licentie wordt uitgeschakeld en vervangen door een STAFF_FREE-licentie. Wil je doorgaan?",
+      "promoting": "Promoveren...",
+      "confirm": "Promoveren naar Staff"
+    }
+  },
+  "adminLicense": {
+    "toast": {
+      "unauthorized": "Niet geautoriseerd",
+      "accessDenied": "Toegang geweigerd",
+      "adminOnly": "Alleen beheerders hebben toegang tot deze pagina",
+      "error": "Fout",
+      "cannotVerify": "Kan autorisatie niet verifiëren",
+      "success": "Succes",
+      "licenseCreated": "Gratis licentie succesvol aangemaakt",
+      "licenseRevoked": "Licentie succesvol ingetrokken",
+      "accountDeleted": "Account verwijderd",
+      "accountDeletedDesc": "Het account is succesvol verwijderd"
+    },
+    "error": {
+      "staffUsersFetch": "Fout bij het ophalen van staff-gebruikers",
+      "licensesFetch": "Fout bij het ophalen van licenties",
+      "licenseGenerate": "Fout bij het genereren van de licentie",
+      "licenseRevoke": "Fout bij het intrekken van de licentie",
+      "deleteAccount": "Fout bij het verwijderen van het account",
+      "generic": "Er is een fout opgetreden bij het laden van de gegevens"
+    },
+    "warning": {
+      "title": "Waarschuwing",
+      "selectStaff": "Selecteer een staff-gebruiker"
+    },
+    "formatNoExpiry": "Geen vervaldatum",
+    "heading": "Beheer van staff-licenties",
+    "intro": "Dit gedeelte is gereserveerd voor de beheerder. Hier kun je de gratis 10-jarige licenties voor staff-leden beheren.",
+    "access": {
+      "label": "Toegangen:",
+      "today": "Vandaag:",
+      "week": "7d:",
+      "total": "Totaal:",
+      "users": "gebruikers"
+    },
+    "create": {
+      "title": "Nieuwe staff-licentie genereren",
+      "description": "Maak een gratis licentie van 10 jaar voor een staff-lid",
+      "staffUserLabel": "Staff-gebruiker",
+      "staffUserPlaceholder": "Selecteer een staff-gebruiker",
+      "licenseTypeLabel": "Licentietype",
+      "licenseTypePlaceholder": "Selecteer een licentietype",
+      "creating": "Aanmaken...",
+      "submit": "Licentie genereren"
+    },
+    "licenseType": {
+      "base": "Basis",
+      "pro": "Professional",
+      "business": "Business"
+    },
+    "list": {
+      "title": "Actieve licenties",
+      "description": "Beheer bestaande staff-licenties",
+      "empty": "Geen licenties gevonden"
+    },
+    "col": {
+      "user": "Gebruiker",
+      "type": "Type",
+      "status": "Status",
+      "expiry": "Vervaldatum",
+      "actions": "Acties"
+    },
+    "status": {
+      "active": "Actief",
+      "revoked": "Ingetrokken"
+    },
+    "openMenu": "Menu openen",
+    "actions": {
+      "revoke": "Licentie intrekken",
+      "delete": "Account verwijderen"
+    },
+    "delete": {
+      "title": "Account verwijderen",
+      "description": "Je staat op het punt het account <strong>{{username}}</strong> en alle bijbehorende gegevens (klanten, afspraken, instellingen) permanent te verwijderen. Deze actie is onomkeerbaar.",
+      "confirmHint": "Typ <strong>{{username}}</strong> om te bevestigen:",
+      "placeholder": "Typ de gebruikersnaam...",
+      "cancel": "Annuleren",
+      "deleting": "Verwijderen...",
+      "confirm": "Permanent verwijderen"
+    },
+    "revoke": {
+      "title": "Intrekking bevestigen",
+      "description": "Weet je zeker dat je deze licentie wilt intrekken? De gebruiker verliest toegang tot premium-functies.",
+      "cancel": "Annuleren",
+      "revoking": "Intrekken...",
+      "confirm": "Licentie intrekken"
+    }
+  },
+  "manualAdmin": {
+    "error": {
+      "contentLoad": "Fout bij het laden van inhoud",
+      "upload": "Fout bij het uploaden van het bestand",
+      "save": "Fout bij opslaan",
+      "deleteFile": "Fout bij het verwijderen van het bestand van de server"
+    },
+    "fileType": {
+      "video": "Video",
+      "image": "Afbeelding"
+    },
+    "toast": {
+      "uploaded": "{{type}} geüpload",
+      "uploadedDesc": "{{type}} toegevoegd. Klik op \"Opslaan\" om te bevestigen.",
+      "uploadError": "Uploadfout",
+      "saved": "Opgeslagen",
+      "savedDesc": "Inhoud succesvol opgeslagen",
+      "error": "Fout",
+      "invalidFile": "Selecteer alleen afbeeldingen of video's",
+      "fileTooBig": "Het bestand mag maximaal 1 GB zijn",
+      "titleMissing": "Voer een titel voor de sectie in",
+      "fileRemoved": "Bestand verwijderd",
+      "fileRemovedDesc": "Het bestand is van de server verwijderd. Vergeet niet je wijzigingen op te slaan.",
+      "deleteError": "Verwijderfout",
+      "cannotDelete": "Kan het bestand niet verwijderen"
+    },
+    "loading": "Laden...",
+    "title": "Handleidingbeheer",
+    "subtitle": "Beheer inhoud en tutorialvideo's voor elke sectie",
+    "edit": "Bewerken",
+    "saving": "Opslaan...",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "selectorTitle": "Selecteer sectie en taal",
+    "sectionLabel": "Sectie van handleiding",
+    "sectionPlaceholder": "Selecteer een sectie...",
+    "languageLabel": "Taal",
+    "languagePlaceholder": "Selecteer taal...",
+    "titlePlaceholder": "Sectietitel...",
+    "noTitle": "Geen titel",
+    "textExplanation": "Tekstuele uitleg",
+    "contentPlaceholder": "Voer de tekstuele uitleg voor deze sectie in...",
+    "noContent": "Geen inhoud beschikbaar",
+    "supportMedia": "Ondersteunende media (video's en afbeeldingen)",
+    "imageAlt": "Handleidingafbeelding",
+    "captionPlaceholder": "Bijschrift...",
+    "uploadHeading": "Upload video's of afbeeldingen",
+    "uploadHintImages": "Afbeeldingen: JPG, PNG, GIF, WEBP",
+    "uploadHintVideos": "Video's: MP4, WEBM, MOV (max. 1 GB)",
+    "uploading": "Uploaden...",
+    "addFile": "Bestand toevoegen",
+    "uploadInProgress": "Upload bezig...",
+    "noMedia": "Geen media beschikbaar",
+    "sections": {
+      "s11": "1.1 Eerste toegang tot het systeem",
+      "s12": "1.2 Bedrijfsgegevens configureren",
+      "s13": "1.3 Bankgegevens configureren",
+      "s14": "1.4 Personeel en behandelkamers beheren",
+      "s15": "1.5 Automatische e-mails configureren",
+      "s21": "2.1 Klantenbeheer",
+      "s22": "2.2 Agenda en afspraken",
+      "s23": "2.3 PWA-afspraakverzoeken van klanten",
+      "s24": "2.4 Factuurbeheer",
+      "s31": "3.1 Voorraad- en magazijnbeheer",
+      "s32": "3.2 Rapporten en statistieken",
+      "s33": "3.3 AI-marketingcampagnes",
+      "s34": "3.4 WhatsApp-centrum",
+      "s35": "3.5 Verwijs- en commissiesysteem",
+      "s41": "4.1 Hoe klanten toegang krijgen tot hun gebied",
+      "s42": "4.2 Wat klanten kunnen doen in het besloten gedeelte",
+      "s43": "4.3 Hoe de app op uw telefoon installeren (PWA)",
+      "s44": "4.4 Het uiterlijk van het klantgedeelte aanpassen",
+      "s51": "5.1 Instellingen",
+      "s61": "6.1 Geavanceerde functies"
+    }
+  },
+  "resetPassword": {
+    "title": "Wachtwoord opnieuw instellen",
+    "description": "Voer uw nieuwe wachtwoord in",
+    "error": "Fout",
+    "newPassword": "Nieuw wachtwoord",
+    "newPasswordPlaceholder": "Voer het nieuwe wachtwoord in",
+    "confirmPassword": "Bevestig wachtwoord",
+    "confirmPasswordPlaceholder": "Bevestig het nieuwe wachtwoord",
+    "success": "Wachtwoord opnieuw ingesteld",
+    "successDesc": "Uw wachtwoord is opnieuw ingesteld. Log in met het nieuwe wachtwoord.",
+    "tokenNotFound": "Reset-token niet gevonden. Vraag een nieuwe herstellink aan.",
+    "tokenInvalid": "Token verlopen of ongeldig. Vraag een nieuwe herstellink aan.",
+    "tokenVerifyError": "Fout bij het verifiëren van het token.",
+    "bothFieldsRequired": "Voer het nieuwe wachtwoord in beide velden in",
+    "passwordsMismatch": "Wachtwoorden komen niet overeen",
+    "passwordTooShort": "Wachtwoord moet minstens 6 tekens bevatten",
+    "resetError": "Fout bij het opnieuw instellen van het wachtwoord. Probeer het later opnieuw.",
+    "verifying": "Verifiëren...",
+    "resetting": "Bezig met opnieuw instellen...",
+    "submit": "Wachtwoord opnieuw instellen"
+  },
+  "adminUsers": {
+    "title": "Gebruikersbeheer",
+    "subtitle": "Bekijk en beheer alle in het systeem geregistreerde gebruikers",
+    "stats": {
+      "total": "Totaal gebruikers",
+      "active": "Actieve licenties",
+      "expiring": "Verloopt (<7d)",
+      "expired": "Verlopen"
+    },
+    "table": {
+      "title": "Alle gebruikers",
+      "description": "Volledige lijst met licentie- en abonnementsstatus",
+      "username": "Gebruikersnaam",
+      "email": "E-mail",
+      "type": "Type",
+      "status": "Licentiestatus",
+      "expiresAt": "Vervaldatum",
+      "daysLeft": "Resterende dagen",
+      "plan": "Plan",
+      "actions": "Acties",
+      "empty": "Geen gebruikers gevonden",
+      "daysCount": "{{count}} dagen"
+    },
+    "badges": {
+      "subscribed": "Geabonneerd",
+      "trialActive": "Proefperiode actief",
+      "expired": "Verlopen",
+      "permanent": "Permanent",
+      "unknown": "Onbekend",
+      "customer": "Klant"
+    },
+    "actions": {
+      "extending": "Verlengen...",
+      "extend40": "+40 dagen"
+    },
+    "toast": {
+      "trialExtended": "Proefperiode verlengd",
+      "cannotExtend": "Kan proefperiode niet verlengen"
+    }
   }
 }

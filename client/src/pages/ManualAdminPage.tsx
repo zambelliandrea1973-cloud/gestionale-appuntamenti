@@ -52,26 +52,26 @@ interface ManualSection {
 }
 
 const SECTIONS = [
-  { value: 'section-1-1', label: '1.1 Primo accesso al sistema' },
-  { value: 'section-1-2', label: '1.2 Configurare i Dati Aziendali' },
-  { value: 'section-1-3', label: '1.3 Configurare i Dati Bancari' },
-  { value: 'section-1-4', label: '1.4 Gestire Staff e Stanze di Trattamento' },
-  { value: 'section-1-5', label: '1.5 Configurare le Email Automatiche' },
-  { value: 'section-2-1', label: '2.1 Gestione Clienti' },
-  { value: 'section-2-2', label: '2.2 Calendario e Appuntamenti' },
-  { value: 'section-2-3', label: '2.3 Richieste Appuntamento PWA Cliente' },
-  { value: 'section-2-4', label: '2.4 Gestione Fatture' },
-  { value: 'section-3-1', label: '3.1 Gestione Inventario e Magazzino' },
-  { value: 'section-3-2', label: '3.2 Report e Statistiche' },
-  { value: 'section-3-3', label: '3.3 Campagne Marketing con AI' },
-  { value: 'section-3-4', label: '3.4 Centro WhatsApp' },
-  { value: 'section-3-5', label: '3.5 Sistema Referral e Commissioni' },
-  { value: 'section-4-1', label: '4.1 Come i Clienti Accedono alla Loro Area' },
-  { value: 'section-4-2', label: '4.2 Cosa Possono Fare i Clienti nell\'Area Riservata' },
-  { value: 'section-4-3', label: '4.3 Come Installare l\'App sul Telefono (PWA)' },
-  { value: 'section-4-4', label: '4.4 Personalizzare l\'Aspetto dell\'Area Cliente' },
-  { value: 'section-5-1', label: '5.1 Impostazioni' },
-  { value: 'section-6-1', label: '6.1 Funzioni Avanzate' }
+  { value: 'section-1-1', labelKey: 'manualAdmin.sections.s11' },
+  { value: 'section-1-2', labelKey: 'manualAdmin.sections.s12' },
+  { value: 'section-1-3', labelKey: 'manualAdmin.sections.s13' },
+  { value: 'section-1-4', labelKey: 'manualAdmin.sections.s14' },
+  { value: 'section-1-5', labelKey: 'manualAdmin.sections.s15' },
+  { value: 'section-2-1', labelKey: 'manualAdmin.sections.s21' },
+  { value: 'section-2-2', labelKey: 'manualAdmin.sections.s22' },
+  { value: 'section-2-3', labelKey: 'manualAdmin.sections.s23' },
+  { value: 'section-2-4', labelKey: 'manualAdmin.sections.s24' },
+  { value: 'section-3-1', labelKey: 'manualAdmin.sections.s31' },
+  { value: 'section-3-2', labelKey: 'manualAdmin.sections.s32' },
+  { value: 'section-3-3', labelKey: 'manualAdmin.sections.s33' },
+  { value: 'section-3-4', labelKey: 'manualAdmin.sections.s34' },
+  { value: 'section-3-5', labelKey: 'manualAdmin.sections.s35' },
+  { value: 'section-4-1', labelKey: 'manualAdmin.sections.s41' },
+  { value: 'section-4-2', labelKey: 'manualAdmin.sections.s42' },
+  { value: 'section-4-3', labelKey: 'manualAdmin.sections.s43' },
+  { value: 'section-4-4', labelKey: 'manualAdmin.sections.s44' },
+  { value: 'section-5-1', labelKey: 'manualAdmin.sections.s51' },
+  { value: 'section-6-1', labelKey: 'manualAdmin.sections.s61' }
 ];
 
 const LOCALES = [
@@ -126,7 +126,7 @@ export default function ManualAdminPage() {
         credentials: 'include'
       });
       if (!response.ok) {
-        throw new Error('Errore durante il caricamento del contenuto');
+        throw new Error(t('manualAdmin.error.contentLoad'));
       }
       return response.json();
     },
@@ -168,7 +168,7 @@ export default function ManualAdminPage() {
 
       const response = await apiRequest('POST', '/api/manual/upload', formData);
       if (!response.ok) {
-        throw new Error('Errore durante l\'upload del file');
+        throw new Error(t('manualAdmin.error.upload'));
       }
       return response.json();
     },
@@ -182,17 +182,17 @@ export default function ManualAdminPage() {
       
       setMediaFiles(prev => [...prev, newMedia]);
       
-      const fileType = data.file.type === 'video' ? 'Video' : 'Immagine';
+      const fileType = data.file.type === 'video' ? t('manualAdmin.fileType.video') : t('manualAdmin.fileType.image');
       toast({
-        title: `✅ ${fileType} caricato`,
-        description: `${fileType} aggiunto. Clicca "Salva" per confermare.`,
+        title: `✅ ${t('manualAdmin.toast.uploaded', { type: fileType })}`,
+        description: t('manualAdmin.toast.uploadedDesc', { type: fileType }),
       });
       
       setUploadingFile(false);
     },
     onError: (error: Error) => {
       toast({
-        title: "❌ Errore upload",
+        title: `❌ ${t('manualAdmin.toast.uploadError')}`,
         description: error.message,
         variant: "destructive"
       });
@@ -224,21 +224,21 @@ export default function ManualAdminPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Errore durante il salvataggio');
+        throw new Error(t('manualAdmin.error.save'));
       }
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "✅ Salvato",
-        description: "Contenuto salvato con successo",
+        title: `✅ ${t('manualAdmin.toast.saved')}`,
+        description: t('manualAdmin.toast.savedDesc'),
       });
       setEditMode(false);
       queryClient.invalidateQueries({ queryKey: ['/api/manual/content', selectedSection, selectedLocale] });
     },
     onError: (error: Error) => {
       toast({
-        title: "❌ Errore",
+        title: `❌ ${t('manualAdmin.toast.error')}`,
         description: error.message,
         variant: "destructive"
       });
@@ -254,8 +254,8 @@ export default function ManualAdminPage() {
 
     if (!isImage && !isVideo) {
       toast({
-        title: "Errore",
-        description: "Seleziona solo immagini o video",
+        title: t('manualAdmin.toast.error'),
+        description: t('manualAdmin.toast.invalidFile'),
         variant: "destructive"
       });
       return;
@@ -263,8 +263,8 @@ export default function ManualAdminPage() {
 
     if (file.size > 1024 * 1024 * 1024) {
       toast({
-        title: "Errore",
-        description: "Il file deve essere massimo 1GB",
+        title: t('manualAdmin.toast.error'),
+        description: t('manualAdmin.toast.fileTooBig'),
         variant: "destructive"
       });
       return;
@@ -277,8 +277,8 @@ export default function ManualAdminPage() {
   const handleSave = () => {
     if (!sectionTitle.trim()) {
       toast({
-        title: "Errore",
-        description: "Inserisci un titolo per la sezione",
+        title: t('manualAdmin.toast.error'),
+        description: t('manualAdmin.toast.titleMissing'),
         variant: "destructive"
       });
       return;
@@ -303,20 +303,20 @@ export default function ManualAdminPage() {
       });
       
       if (!response.ok) {
-        throw new Error('Errore durante l\'eliminazione del file dal server');
+        throw new Error(t('manualAdmin.error.deleteFile'));
       }
       
       // Solo se l'eliminazione server-side ha successo, rimuovi dallo stato
       setMediaFiles(prev => prev.filter((_, i) => i !== index));
       
       toast({
-        title: "✅ File rimosso",
-        description: "Il file è stato eliminato dal server. Ricorda di salvare le modifiche.",
+        title: `✅ ${t('manualAdmin.toast.fileRemoved')}`,
+        description: t('manualAdmin.toast.fileRemovedDesc'),
       });
     } catch (error) {
       toast({
-        title: "❌ Errore eliminazione",
-        description: error instanceof Error ? error.message : "Impossibile eliminare il file",
+        title: `❌ ${t('manualAdmin.toast.deleteError')}`,
+        description: error instanceof Error ? error.message : t('manualAdmin.toast.cannotDelete'),
         variant: "destructive"
       });
     }
@@ -325,7 +325,7 @@ export default function ManualAdminPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Caricamento...</p>
+        <p>{t('manualAdmin.loading')}</p>
       </div>
     );
   }
@@ -344,9 +344,9 @@ export default function ManualAdminPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-2xl font-bold">Amministrazione Manuale</h1>
+            <h1 className="text-2xl font-bold">{t('manualAdmin.title')}</h1>
             <p className="text-sm text-muted-foreground">
-              Gestisci contenuti e video tutorial per ogni sezione
+              {t('manualAdmin.subtitle')}
             </p>
           </div>
         </div>
@@ -356,7 +356,7 @@ export default function ManualAdminPage() {
             data-testid="button-edit-mode"
           >
             <Edit className="mr-2 h-4 w-4" />
-            Modifica
+            {t('manualAdmin.edit')}
           </Button>
         ) : (
           <div className="flex gap-2">
@@ -366,7 +366,7 @@ export default function ManualAdminPage() {
               data-testid="button-save"
             >
               <Save className="mr-2 h-4 w-4" />
-              {saveContentMutation.isPending ? 'Salvataggio...' : 'Salva'}
+              {saveContentMutation.isPending ? t('manualAdmin.saving') : t('manualAdmin.save')}
             </Button>
             <Button
               variant="outline"
@@ -389,7 +389,7 @@ export default function ManualAdminPage() {
               }}
               data-testid="button-cancel"
             >
-              Annulla
+              {t('manualAdmin.cancel')}
             </Button>
           </div>
         )}
@@ -398,12 +398,12 @@ export default function ManualAdminPage() {
       {/* Selettori Sezione e Lingua */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Seleziona Sezione e Lingua</CardTitle>
+          <CardTitle>{t('manualAdmin.selectorTitle')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label>Sezione del Manuale</Label>
+              <Label>{t('manualAdmin.sectionLabel')}</Label>
               <Select
                 value={selectedSection}
                 onValueChange={(value) => {
@@ -414,20 +414,20 @@ export default function ManualAdminPage() {
               >
                 <SelectTrigger data-testid="select-section">
                   <SelectValue>
-                    {SECTIONS.find(s => s.value === selectedSection)?.label || "Seleziona una sezione..."}
+                    {(() => { const s = SECTIONS.find(s => s.value === selectedSection); return s ? t(s.labelKey) : t('manualAdmin.sectionPlaceholder'); })()}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {SECTIONS.map((section) => (
                     <SelectItem key={section.value} value={section.value}>
-                      {section.label}
+                      {t(section.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Lingua</Label>
+              <Label>{t('manualAdmin.languageLabel')}</Label>
               <Select
                 value={selectedLocale}
                 onValueChange={(value) => {
@@ -437,7 +437,7 @@ export default function ManualAdminPage() {
               >
                 <SelectTrigger data-testid="select-locale">
                   <SelectValue>
-                    {LOCALES.find(l => l.value === selectedLocale)?.label || "Seleziona lingua..."}
+                    {LOCALES.find(l => l.value === selectedLocale)?.label || t('manualAdmin.languagePlaceholder')}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
@@ -457,35 +457,35 @@ export default function ManualAdminPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Badge variant="outline">{SECTIONS.find(s => s.value === selectedSection)?.label}</Badge>
+            <Badge variant="outline">{(() => { const s = SECTIONS.find(s => s.value === selectedSection); return s ? t(s.labelKey) : ''; })()}</Badge>
             {editMode ? (
               <Input
                 value={sectionTitle}
                 onChange={(e) => setSectionTitle(e.target.value)}
-                placeholder="Titolo sezione..."
+                placeholder={t('manualAdmin.titlePlaceholder')}
                 className="ml-4"
               />
             ) : (
-              <span>{sectionTitle || 'Nessun titolo'}</span>
+              <span>{sectionTitle || t('manualAdmin.noTitle')}</span>
             )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Testo di spiegazione */}
           <div>
-            <Label className="text-base font-semibold mb-2 block">Spiegazione Testuale</Label>
+            <Label className="text-base font-semibold mb-2 block">{t('manualAdmin.textExplanation')}</Label>
             {editMode ? (
               <Textarea
                 value={sectionContent}
                 onChange={(e) => setSectionContent(e.target.value)}
-                placeholder="Inserisci la spiegazione testuale per questa sezione..."
+                placeholder={t('manualAdmin.contentPlaceholder')}
                 rows={6}
                 className="font-mono text-sm"
               />
             ) : (
               <div className="p-4 bg-muted rounded-lg min-h-[100px]">
                 <p className="whitespace-pre-wrap">
-                  {sectionContent || <span className="text-muted-foreground italic">Nessun contenuto disponibile</span>}
+                  {sectionContent || <span className="text-muted-foreground italic">{t('manualAdmin.noContent')}</span>}
                 </p>
               </div>
             )}
@@ -495,7 +495,7 @@ export default function ManualAdminPage() {
           <div>
             <Label className="text-base font-semibold mb-2 block flex items-center gap-2">
               <Video className="h-5 w-5" />
-              Media di Supporto (Video e Immagini)
+              {t('manualAdmin.supportMedia')}
             </Label>
             
             {/* Galleria Media Esistenti */}
@@ -515,7 +515,7 @@ export default function ManualAdminPage() {
                       <div className="relative aspect-video bg-gray-100">
                         <img
                           src={media.url}
-                          alt={media.caption || 'Immagine manuale'}
+                          alt={media.caption || t('manualAdmin.imageAlt')}
                           className="w-full h-full object-contain"
                         />
                       </div>
@@ -533,7 +533,7 @@ export default function ManualAdminPage() {
                     )}
                     <div className="p-3 bg-white/95 space-y-2">
                       <div className="text-xs font-medium text-center text-muted-foreground">
-                        {media.type === 'video' ? '📹 Video' : '🖼️ Immagine'} #{index + 1}
+                        {media.type === 'video' ? `📹 ${t('manualAdmin.fileType.video')}` : `🖼️ ${t('manualAdmin.fileType.image')}`} #{index + 1}
                       </div>
                       {editMode ? (
                         <Input
@@ -543,7 +543,7 @@ export default function ManualAdminPage() {
                             newMediaFiles[index] = { ...media, caption: e.target.value };
                             setMediaFiles(newMediaFiles);
                           }}
-                          placeholder="Didascalia..."
+                          placeholder={t('manualAdmin.captionPlaceholder')}
                           className="text-xs"
                           data-testid={`input-caption-${index}`}
                         />
@@ -567,11 +567,11 @@ export default function ManualAdminPage() {
                   <Upload className="h-12 w-12 text-muted-foreground" />
                   <div className="text-center">
                     <p className="text-sm font-medium mb-2">
-                      Carica video o immagini
+                      {t('manualAdmin.uploadHeading')}
                     </p>
                     <p className="text-xs text-muted-foreground mb-4">
-                      Immagini: JPG, PNG, GIF, WEBP<br/>
-                      Video: MP4, WEBM, MOV (max 1GB)
+                      {t('manualAdmin.uploadHintImages')}<br/>
+                      {t('manualAdmin.uploadHintVideos')}
                     </p>
                   </div>
                   
@@ -591,13 +591,13 @@ export default function ManualAdminPage() {
                     data-testid="button-upload-media"
                   >
                     <Upload className="mr-2 h-4 w-4" />
-                    {uploadingFile ? 'Caricamento...' : 'Aggiungi File'}
+                    {uploadingFile ? t('manualAdmin.uploading') : t('manualAdmin.addFile')}
                   </Button>
                   
                   {uploadingFile && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Upload className="h-4 w-4 animate-pulse" />
-                      <span>Upload in corso...</span>
+                      <span>{t('manualAdmin.uploadInProgress')}</span>
                     </div>
                   )}
                 </div>
@@ -607,7 +607,7 @@ export default function ManualAdminPage() {
             {/* Messaggio quando non ci sono media */}
             {!editMode && mediaFiles.length === 0 && (
               <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-muted-foreground italic">Nessun media disponibile</p>
+                <p className="text-muted-foreground italic">{t('manualAdmin.noMedia')}</p>
               </div>
             )}
           </div>
