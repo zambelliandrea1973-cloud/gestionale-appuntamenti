@@ -6156,7 +6156,8 @@
     "resetError": "Fout bij het opnieuw instellen van het wachtwoord. Probeer het later opnieuw.",
     "verifying": "Verifiëren...",
     "resetting": "Bezig met opnieuw instellen...",
-    "submit": "Wachtwoord opnieuw instellen"
+    "submit": "Wachtwoord opnieuw instellen",
+    "rateLimitError": "Te veel pogingen. Probeer het over 15 minuten opnieuw."
   },
   "adminUsers": {
     "title": "Gebruikersbeheer",
@@ -6224,5 +6225,138 @@
         "step6": "Kom hier terug en probeer de autorisatie opnieuw"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Afsprakenbeheer",
+      "subtitle": "BICOM Partnerschapsvoorstel",
+      "date": "Januari 2026"
+    },
+    "hero": {
+      "badge": "Exclusief Voorstel voor BICOM Italia",
+      "titleLine1": "De Perfecte Beheersoftware voor",
+      "titleLine2": "Bioresonantie Professionals",
+      "subtitle": "Bied uw klanten een unieke meerwaarde: een compleet systeem om afspraken, patiënten en facturatie te beheren, geïntegreerd met de aankoop van BICOM-apparaten.",
+      "demoButton": "Vraag een Persoonlijke Demo aan"
+    },
+    "valueProp": {
+      "title": "Waarom zou BICOM deze beheersoftware moeten aanbieden?",
+      "unique": {
+        "title": "Unieke Toegevoegde Waarde",
+        "desc": "Onderscheid je van de concurrentie door niet alleen hardware aan te bieden, maar een complete oplossing. De klant ontvangt apparaat plus beheersoftware."
+      },
+      "value": {
+        "title": "Verhoog de Gepercipieerde Waarde",
+        "desc": "Je kunt de prijs van het bundel apparaat+software verhogen en zo extra marge per verkoop creëren."
+      },
+      "loyalty": {
+        "title": "Klantenbinding",
+        "desc": "Professionals die je software gebruiken blijven binnen je ecosysteem. Meer betrokkenheid = meer upsell-kansen."
+      }
+    },
+    "features": {
+      "title": "Functies van de Beheersoftware",
+      "subtitle": "Een compleet systeem dat klaar is, getest en in productie, gemakkelijk aan te passen aan de behoeften van BICOM.",
+      "scheduling": {
+        "title": "Afsprakenagenda",
+        "desc": "Intuïtieve kalender met dag-, week- en maandweergave"
+      },
+      "patients": {
+        "title": "Patiëntenbeheer",
+        "desc": "Volledige database met anamnese, medische notities en behandelhistorie"
+      },
+      "notifications": {
+        "title": "Push-meldingen",
+        "desc": "Automatische herinneringen via app, e-mail en WhatsApp"
+      },
+      "app": {
+        "title": "Mobiele App (PWA)",
+        "desc": "Werkt op Android en iOS zonder installatie via de store"
+      },
+      "clientArea": {
+        "title": "Eigen Klantgedeelte",
+        "desc": "Elke patiënt heeft zijn eigen gebied om afspraken en documenten te bekijken"
+      },
+      "booking": {
+        "title": "Online Boeking",
+        "desc": "Patiënten boeken zelf in de beschikbare slots"
+      },
+      "invoicing": {
+        "title": "Geïntegreerde Facturatie",
+        "desc": "Genereer PDF-facturen, beheer betalingen en ontvangsten"
+      },
+      "multilang": {
+        "title": "Meertalig",
+        "desc": "Ondersteuning voor 9 talen, perfect voor internationale praktijken"
+      },
+      "custom": {
+        "title": "Aanpasbaar",
+        "desc": "Aanpasbaar aan de specifieke behoeften van bioresonantie"
+      }
+    },
+    "partnership": {
+      "title": "Voorgestelde Partnerschapsmodellen",
+      "recommended": "Aanbevolen",
+      "option1": "Optie 1",
+      "option2": "Optie 2",
+      "option3": "Optie 3",
+      "whiteLabel": {
+        "title": "White-Label Licentie",
+        "f1": "Volledige BICOM-branding",
+        "f2": "Eigen domein",
+        "f3": "Technische ondersteuning inbegrepen",
+        "f4": "Doorlopende updates"
+      },
+      "royalty": {
+        "title": "Royalty per Verkoop",
+        "f1": "Geen vaste startkosten",
+        "f2": "Je betaalt alleen als je verkoopt",
+        "f3": "Gedeeld risico",
+        "f4": "Schaalbaar met de groei"
+      },
+      "hybrid": {
+        "title": "Hybride Model",
+        "f1": "Eenmalige initiële setup",
+        "f2": "Verlaagde maandelijkse vergoeding",
+        "f3": "Aanpassingen inbegrepen",
+        "f4": "Training van BICOM-personeel"
+      },
+      "priceTbd": "Nader te bepalen",
+      "priceTbdSub": "afhankelijk van de overeenkomst",
+      "priceTbdSubAlt": "afhankelijk van de behoeften"
+    },
+    "stats": {
+      "cloud": "Cloudgebaseerd",
+      "languages": "Ondersteunde talen",
+      "platform": "Android + iOS",
+      "compliant": "Conform"
+    },
+    "cta": {
+      "title": "Laten we praten",
+      "subtitle": "Ik ben beschikbaar voor een persoonlijke demo en om het partnerschapsmodel te bespreken dat het best aansluit bij de behoeften van BICOM.",
+      "role": "Ontwikkelaar & Oprichter",
+      "email": "E-mail"
+    },
+    "footer": {
+      "line1": "Vertrouwelijk zakelijk voorstel - Januari 2026",
+      "line2": "Afsprakenbeheer - Beheersysteem voor zorgprofessionals"
+    }
+  },
+  "forgotPassword": {
+    "title": "Wachtwoord Herstellen",
+    "description": "Voer je e-mailadres in om een link te ontvangen waarmee je je wachtwoord opnieuw kunt instellen",
+    "error": "Fout",
+    "success": "Succes",
+    "emailLabel": "E-mailadres",
+    "emailPlaceholder": "voorbeeld@jouwdomein.com",
+    "emailRequired": "Voer je e-mailadres in",
+    "sending": "Verzenden...",
+    "submit": "Verstuur Resetlink",
+    "backToLogin": "Terug naar Inloggen",
+    "emailSentDefault": "Herstel-e-mail verzonden! Controleer je inbox.",
+    "toastTitle": "E-mail verzonden",
+    "toastDesc": "Controleer je e-mail voor de link om je wachtwoord opnieuw in te stellen",
+    "sendError": "Fout bij het verzenden van de e-mail. Probeer het later opnieuw.",
+    "rateLimitError": "Te veel pogingen. Probeer het over 15 minuten opnieuw."
   }
 }

@@ -6156,7 +6156,8 @@
     "resetError": "Feil ved tilbakestilling av passord. Prøv igjen senere.",
     "verifying": "Verifiserer...",
     "resetting": "Tilbakestiller...",
-    "submit": "Tilbakestill passord"
+    "submit": "Tilbakestill passord",
+    "rateLimitError": "For mange forsøk. Prøv igjen om 15 minutter."
   },
   "adminUsers": {
     "title": "Brukeradministrasjon",
@@ -6224,5 +6225,138 @@
         "step6": "Kom tilbake hit og prøv autorisasjonen igjen"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Avtaleadministrasjon",
+      "subtitle": "BICOM Partnerskapsforslag",
+      "date": "Januar 2026"
+    },
+    "hero": {
+      "badge": "Eksklusivt Tilbud for BICOM Italia",
+      "titleLine1": "Den Perfekte Programvaren for",
+      "titleLine2": "Bioresonans-Fagfolk",
+      "subtitle": "Tilby kundene dine en unik merverdi: et komplett system for å håndtere avtaler, pasienter og fakturering, integrert med kjøp av BICOM-maskiner.",
+      "demoButton": "Be om Tilpasset Demo"
+    },
+    "valueProp": {
+      "title": "Hvorfor bør BICOM tilby denne programvaren?",
+      "unique": {
+        "title": "Unik Merverdi",
+        "desc": "Skill deg ut fra konkurrentene ved å tilby ikke bare maskinvare, men en komplett løsning. Kunden får maskinen pluss programvaren."
+      },
+      "value": {
+        "title": "Øk den Opplevde Verdien",
+        "desc": "Du kan øke prisen på pakken med maskin+programvare og skape en ekstra margin per salg."
+      },
+      "loyalty": {
+        "title": "Kundelojalitet",
+        "desc": "Fagfolk som bruker programvaren din forblir i økosystemet ditt. Mer engasjement = flere mersalgsmuligheter."
+      }
+    },
+    "features": {
+      "title": "Programvarens Funksjoner",
+      "subtitle": "Et komplett system som er klart, testet og i produksjon, og enkelt å tilpasse til BICOMs behov.",
+      "scheduling": {
+        "title": "Avtalekalender",
+        "desc": "Intuitiv kalender med daglig, ukentlig og månedlig visning"
+      },
+      "patients": {
+        "title": "Pasientadministrasjon",
+        "desc": "Komplett database med anamnese, medisinske notater og behandlingshistorikk"
+      },
+      "notifications": {
+        "title": "Push-varsler",
+        "desc": "Automatiske påminnelser via app, e-post og WhatsApp"
+      },
+      "app": {
+        "title": "Mobilapp (PWA)",
+        "desc": "Fungerer på Android og iOS uten installasjon fra butikken"
+      },
+      "clientArea": {
+        "title": "Dedikert Kundeområde",
+        "desc": "Hver pasient har sitt eget område for å se avtaler og dokumenter"
+      },
+      "booking": {
+        "title": "Nettbestilling",
+        "desc": "Pasientene bestiller selv i ledige tider"
+      },
+      "invoicing": {
+        "title": "Integrert Fakturering",
+        "desc": "Generer PDF-fakturaer og håndter betalinger og innbetalinger"
+      },
+      "multilang": {
+        "title": "Flerspråklig",
+        "desc": "Støtte for 9 språk, perfekt for internasjonale praksiser"
+      },
+      "custom": {
+        "title": "Tilpassbar",
+        "desc": "Tilpasses de spesifikke behovene innen bioresonans"
+      }
+    },
+    "partnership": {
+      "title": "Foreslåtte Partnerskapsmodeller",
+      "recommended": "Anbefalt",
+      "option1": "Alternativ 1",
+      "option2": "Alternativ 2",
+      "option3": "Alternativ 3",
+      "whiteLabel": {
+        "title": "White-Label Lisens",
+        "f1": "Komplett BICOM-merkevarebygging",
+        "f2": "Eget domene",
+        "f3": "Teknisk støtte inkludert",
+        "f4": "Kontinuerlige oppdateringer"
+      },
+      "royalty": {
+        "title": "Royalty per Salg",
+        "f1": "Ingen faste oppstartskostnader",
+        "f2": "Du betaler kun når du selger",
+        "f3": "Delt risiko",
+        "f4": "Skalerer med veksten"
+      },
+      "hybrid": {
+        "title": "Hybridmodell",
+        "f1": "Engangsoppsett",
+        "f2": "Redusert månedlig avgift",
+        "f3": "Tilpasninger inkludert",
+        "f4": "Opplæring av BICOM-ansatte"
+      },
+      "priceTbd": "Skal fastsettes",
+      "priceTbdSub": "avhengig av avtalen",
+      "priceTbdSubAlt": "avhengig av behovene"
+    },
+    "stats": {
+      "cloud": "Skybasert",
+      "languages": "Støttede språk",
+      "platform": "Android + iOS",
+      "compliant": "Samsvarende"
+    },
+    "cta": {
+      "title": "La oss snakke sammen",
+      "subtitle": "Jeg er tilgjengelig for en personlig demo og for å diskutere partnerskapsmodellen som passer best for BICOMs behov.",
+      "role": "Utvikler & Grunnlegger",
+      "email": "E-post"
+    },
+    "footer": {
+      "line1": "Konfidensielt forretningsforslag - Januar 2026",
+      "line2": "Avtaleadministrasjon - Styringssystem for helsepersonell"
+    }
+  },
+  "forgotPassword": {
+    "title": "Tilbakestilling av Passord",
+    "description": "Skriv inn e-postadressen din for å motta en lenke for å tilbakestille passordet",
+    "error": "Feil",
+    "success": "Suksess",
+    "emailLabel": "E-postadresse",
+    "emailPlaceholder": "eksempel@dittdomene.com",
+    "emailRequired": "Vennligst skriv inn e-postadressen din",
+    "sending": "Sender...",
+    "submit": "Send Tilbakestillingslenke",
+    "backToLogin": "Tilbake til Innlogging",
+    "emailSentDefault": "Gjenopprettings-e-post sendt! Sjekk innboksen din.",
+    "toastTitle": "E-post sendt",
+    "toastDesc": "Sjekk e-posten din for lenken til tilbakestilling av passord",
+    "sendError": "Feil ved sending av e-post. Prøv igjen senere.",
+    "rateLimitError": "For mange forsøk. Prøv igjen om 15 minutter."
   }
 }

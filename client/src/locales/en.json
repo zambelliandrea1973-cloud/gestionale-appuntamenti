@@ -6156,7 +6156,8 @@
     "resetError": "Error resetting the password. Please try again later.",
     "verifying": "Verifying...",
     "resetting": "Resetting...",
-    "submit": "Reset Password"
+    "submit": "Reset Password",
+    "rateLimitError": "Too many attempts. Please try again in 15 minutes."
   },
   "adminUsers": {
     "title": "User Management",
@@ -6224,5 +6225,138 @@
         "step6": "Come back here and try the authorization again"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Appointment Manager",
+      "subtitle": "BICOM Partnership Proposal",
+      "date": "January 2026"
+    },
+    "hero": {
+      "badge": "Exclusive Proposal for BICOM Italia",
+      "titleLine1": "The Perfect Management Software for",
+      "titleLine2": "Bioresonance Professionals",
+      "subtitle": "Offer your customers a unique added value: a complete system to manage appointments, patients and billing, integrated with the purchase of BICOM machines.",
+      "demoButton": "Request Personalized Demo"
+    },
+    "valueProp": {
+      "title": "Why Should BICOM Offer This Management Software?",
+      "unique": {
+        "title": "Unique Added Value",
+        "desc": "Stand out from the competition by offering not just hardware, but a complete solution. The customer gets the machine plus the management software."
+      },
+      "value": {
+        "title": "Increase the Perceived Value",
+        "desc": "You can raise the price of the machine+software bundle, creating an additional margin on every sale."
+      },
+      "loyalty": {
+        "title": "Customer Loyalty",
+        "desc": "Professionals using your software stay within your ecosystem. More engagement means more upselling opportunities."
+      }
+    },
+    "features": {
+      "title": "Software Features",
+      "subtitle": "A complete system that is ready, tested and in production, easily customizable to BICOM's needs.",
+      "scheduling": {
+        "title": "Appointment Calendar",
+        "desc": "Intuitive calendar with daily, weekly and monthly views"
+      },
+      "patients": {
+        "title": "Patient Management",
+        "desc": "Complete database with medical history, clinical notes and treatment records"
+      },
+      "notifications": {
+        "title": "Push Notifications",
+        "desc": "Automatic reminders via app, email and WhatsApp"
+      },
+      "app": {
+        "title": "Mobile App (PWA)",
+        "desc": "Works on Android and iOS without store installation"
+      },
+      "clientArea": {
+        "title": "Dedicated Client Area",
+        "desc": "Each patient has their own area to view appointments and documents"
+      },
+      "booking": {
+        "title": "Online Booking",
+        "desc": "Patients book on their own in the available slots"
+      },
+      "invoicing": {
+        "title": "Integrated Invoicing",
+        "desc": "Generate PDF invoices and manage payments and receipts"
+      },
+      "multilang": {
+        "title": "Multi-language",
+        "desc": "Support for 9 languages, perfect for international practices"
+      },
+      "custom": {
+        "title": "Customizable",
+        "desc": "Adaptable to the specific needs of bioresonance"
+      }
+    },
+    "partnership": {
+      "title": "Proposed Partnership Models",
+      "recommended": "Recommended",
+      "option1": "Option 1",
+      "option2": "Option 2",
+      "option3": "Option 3",
+      "whiteLabel": {
+        "title": "White-Label License",
+        "f1": "Full BICOM branding",
+        "f2": "Dedicated domain",
+        "f3": "Technical support included",
+        "f4": "Continuous updates"
+      },
+      "royalty": {
+        "title": "Royalty per Sale",
+        "f1": "No upfront fixed cost",
+        "f2": "Pay only when you sell",
+        "f3": "Shared risk",
+        "f4": "Scales with growth"
+      },
+      "hybrid": {
+        "title": "Hybrid Model",
+        "f1": "One-time initial setup",
+        "f2": "Reduced monthly fee",
+        "f3": "Customizations included",
+        "f4": "BICOM staff training"
+      },
+      "priceTbd": "To be defined",
+      "priceTbdSub": "based on the agreement",
+      "priceTbdSubAlt": "based on the requirements"
+    },
+    "stats": {
+      "cloud": "Cloud-based",
+      "languages": "Supported languages",
+      "platform": "Android + iOS",
+      "compliant": "Compliant"
+    },
+    "cta": {
+      "title": "Let's Talk",
+      "subtitle": "I am available for a personalized demo and to discuss the partnership model best suited to BICOM's needs.",
+      "role": "Developer & Founder",
+      "email": "Email"
+    },
+    "footer": {
+      "line1": "Confidential business proposal - January 2026",
+      "line2": "Appointment Manager - Management system for healthcare professionals"
+    }
+  },
+  "forgotPassword": {
+    "title": "Password Recovery",
+    "description": "Enter your email address to receive a password reset link",
+    "error": "Error",
+    "success": "Success",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "example@yourdomain.com",
+    "emailRequired": "Please enter your email address",
+    "sending": "Sending...",
+    "submit": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "emailSentDefault": "Recovery email sent! Check your inbox.",
+    "toastTitle": "Email sent",
+    "toastDesc": "Check your email for the password reset link",
+    "sendError": "Error sending the email. Please try again later.",
+    "rateLimitError": "Too many attempts. Please try again in 15 minutes."
   }
 }

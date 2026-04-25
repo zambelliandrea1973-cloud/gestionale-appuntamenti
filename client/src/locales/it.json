@@ -6156,7 +6156,8 @@
     "resetError": "Errore durante il reset della password. Riprova più tardi.",
     "verifying": "Verifica in corso...",
     "resetting": "Reset in corso...",
-    "submit": "Reimposta Password"
+    "submit": "Reimposta Password",
+    "rateLimitError": "Troppi tentativi. Riprova tra 15 minuti."
   },
   "adminUsers": {
     "title": "Gestione Utenti",
@@ -6224,5 +6225,138 @@
         "step6": "Ritorna qui e riprova l'autorizzazione"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Gestionale Appuntamenti",
+      "subtitle": "Proposta Partnership BICOM",
+      "date": "Gennaio 2026"
+    },
+    "hero": {
+      "badge": "Proposta Esclusiva per BICOM Italia",
+      "titleLine1": "Il Gestionale Perfetto per i",
+      "titleLine2": "Professionisti della Biorisonanza",
+      "subtitle": "Offri ai tuoi clienti un valore aggiunto unico: un sistema completo per gestire appuntamenti, pazienti e fatturazione, integrato con l'acquisto delle macchine BICOM.",
+      "demoButton": "Richiedi Demo Personalizzata"
+    },
+    "valueProp": {
+      "title": "Perché BICOM Dovrebbe Offrire Questo Gestionale?",
+      "unique": {
+        "title": "Valore Aggiunto Unico",
+        "desc": "Differenziati dalla concorrenza offrendo non solo hardware, ma una soluzione completa. Il cliente riceve macchina + software gestionale."
+      },
+      "value": {
+        "title": "Aumenta il Valore Percepito",
+        "desc": "Puoi aumentare il prezzo del bundle macchina+software, creando un margine aggiuntivo su ogni vendita."
+      },
+      "loyalty": {
+        "title": "Fidelizzazione Clienti",
+        "desc": "I professionisti che usano il tuo software rimangono nel tuo ecosistema. Più engagement = più opportunità di upselling."
+      }
+    },
+    "features": {
+      "title": "Funzionalità del Gestionale",
+      "subtitle": "Un sistema completo già pronto, testato e in produzione, facilmente personalizzabile per le esigenze BICOM.",
+      "scheduling": {
+        "title": "Agenda Appuntamenti",
+        "desc": "Calendario intuitivo con vista giornaliera, settimanale e mensile"
+      },
+      "patients": {
+        "title": "Gestione Pazienti",
+        "desc": "Database completo con anamnesi, note mediche, storico trattamenti"
+      },
+      "notifications": {
+        "title": "Notifiche Push",
+        "desc": "Promemoria automatici via app, email e WhatsApp"
+      },
+      "app": {
+        "title": "App Mobile (PWA)",
+        "desc": "Funziona su Android e iOS senza installazione da store"
+      },
+      "clientArea": {
+        "title": "Area Cliente Dedicata",
+        "desc": "Ogni paziente ha la sua area per vedere appuntamenti e documenti"
+      },
+      "booking": {
+        "title": "Prenotazione Online",
+        "desc": "I pazienti prenotano autonomamente negli slot disponibili"
+      },
+      "invoicing": {
+        "title": "Fatturazione Integrata",
+        "desc": "Genera fatture PDF, gestisci pagamenti e incassi"
+      },
+      "multilang": {
+        "title": "Multi-lingua",
+        "desc": "Supporto per 9 lingue, perfetto per studi internazionali"
+      },
+      "custom": {
+        "title": "Personalizzabile",
+        "desc": "Adattabile alle specifiche esigenze della biorisonanza"
+      }
+    },
+    "partnership": {
+      "title": "Modelli di Partnership Proposti",
+      "recommended": "Consigliato",
+      "option1": "Opzione 1",
+      "option2": "Opzione 2",
+      "option3": "Opzione 3",
+      "whiteLabel": {
+        "title": "Licenza White-Label",
+        "f1": "Branding BICOM completo",
+        "f2": "Dominio dedicato",
+        "f3": "Supporto tecnico incluso",
+        "f4": "Aggiornamenti continui"
+      },
+      "royalty": {
+        "title": "Royalty per Vendita",
+        "f1": "Nessun costo fisso iniziale",
+        "f2": "Paghi solo quando vendi",
+        "f3": "Rischio condiviso",
+        "f4": "Scalabile con la crescita"
+      },
+      "hybrid": {
+        "title": "Modello Ibrido",
+        "f1": "Setup iniziale una tantum",
+        "f2": "Canone ridotto mensile",
+        "f3": "Personalizzazioni incluse",
+        "f4": "Formazione staff BICOM"
+      },
+      "priceTbd": "Da definire",
+      "priceTbdSub": "in base all'accordo",
+      "priceTbdSubAlt": "in base alle esigenze"
+    },
+    "stats": {
+      "cloud": "Cloud-based",
+      "languages": "Lingue supportate",
+      "platform": "Android + iOS",
+      "compliant": "Compliant"
+    },
+    "cta": {
+      "title": "Parliamone Insieme",
+      "subtitle": "Sono disponibile per una demo personalizzata e per discutere il modello di partnership più adatto alle esigenze di BICOM.",
+      "role": "Sviluppatore & Founder",
+      "email": "Email"
+    },
+    "footer": {
+      "line1": "Proposta commerciale riservata - Gennaio 2026",
+      "line2": "Gestionale Appuntamenti - Sistema di gestione per professionisti sanitari"
+    }
+  },
+  "forgotPassword": {
+    "title": "Recupero Password",
+    "description": "Inserisci il tuo indirizzo email per ricevere un link di reset password",
+    "error": "Errore",
+    "success": "Successo",
+    "emailLabel": "Indirizzo Email",
+    "emailPlaceholder": "esempio@tuodominio.com",
+    "emailRequired": "Inserisci il tuo indirizzo email",
+    "sending": "Invio in corso...",
+    "submit": "Invia Link di Reset",
+    "backToLogin": "Torna al Login",
+    "emailSentDefault": "Email di recupero inviata! Controlla la tua casella di posta.",
+    "toastTitle": "Email inviata",
+    "toastDesc": "Controlla la tua email per il link di reset password",
+    "sendError": "Errore durante l'invio dell'email. Riprova più tardi.",
+    "rateLimitError": "Troppi tentativi. Riprova tra 15 minuti."
   }
 }

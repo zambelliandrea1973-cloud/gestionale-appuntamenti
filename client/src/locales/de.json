@@ -6156,7 +6156,8 @@
     "resetError": "Fehler beim Zurücksetzen des Passworts. Bitte versuchen Sie es später erneut.",
     "verifying": "Überprüfung läuft...",
     "resetting": "Wird zurückgesetzt...",
-    "submit": "Passwort zurücksetzen"
+    "submit": "Passwort zurücksetzen",
+    "rateLimitError": "Zu viele Versuche. Bitte versuchen Sie es in 15 Minuten erneut."
   },
   "adminUsers": {
     "title": "Benutzerverwaltung",
@@ -6224,5 +6225,138 @@
         "step6": "Komme hierher zurück und versuche die Autorisierung erneut"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Terminverwaltung",
+      "subtitle": "BICOM Partnerschaftsvorschlag",
+      "date": "Januar 2026"
+    },
+    "hero": {
+      "badge": "Exklusives Angebot für BICOM Italia",
+      "titleLine1": "Die perfekte Verwaltungssoftware für",
+      "titleLine2": "Bioresonanz-Profis",
+      "subtitle": "Bieten Sie Ihren Kunden einen einzigartigen Mehrwert: ein vollständiges System zur Verwaltung von Terminen, Patienten und Rechnungsstellung, integriert mit dem Kauf von BICOM-Geräten.",
+      "demoButton": "Personalisierte Demo anfordern"
+    },
+    "valueProp": {
+      "title": "Warum sollte BICOM diese Verwaltungssoftware anbieten?",
+      "unique": {
+        "title": "Einzigartiger Mehrwert",
+        "desc": "Heben Sie sich von der Konkurrenz ab, indem Sie nicht nur Hardware, sondern eine Komplettlösung anbieten. Der Kunde erhält Gerät plus Verwaltungssoftware."
+      },
+      "value": {
+        "title": "Wahrgenommenen Wert steigern",
+        "desc": "Sie können den Preis des Bundles aus Gerät und Software erhöhen und so eine zusätzliche Marge bei jedem Verkauf erzielen."
+      },
+      "loyalty": {
+        "title": "Kundenbindung",
+        "desc": "Profis, die Ihre Software nutzen, bleiben in Ihrem Ökosystem. Mehr Engagement = mehr Upselling-Chancen."
+      }
+    },
+    "features": {
+      "title": "Funktionen der Verwaltungssoftware",
+      "subtitle": "Ein komplettes System, das einsatzbereit, getestet und in Produktion ist und leicht an die Bedürfnisse von BICOM angepasst werden kann.",
+      "scheduling": {
+        "title": "Terminkalender",
+        "desc": "Intuitiver Kalender mit Tages-, Wochen- und Monatsansicht"
+      },
+      "patients": {
+        "title": "Patientenverwaltung",
+        "desc": "Vollständige Datenbank mit Anamnese, medizinischen Notizen und Behandlungshistorie"
+      },
+      "notifications": {
+        "title": "Push-Benachrichtigungen",
+        "desc": "Automatische Erinnerungen über App, E-Mail und WhatsApp"
+      },
+      "app": {
+        "title": "Mobile App (PWA)",
+        "desc": "Funktioniert auf Android und iOS ohne Store-Installation"
+      },
+      "clientArea": {
+        "title": "Eigener Kundenbereich",
+        "desc": "Jeder Patient hat seinen eigenen Bereich, um Termine und Dokumente einzusehen"
+      },
+      "booking": {
+        "title": "Online-Buchung",
+        "desc": "Patienten buchen selbstständig in den verfügbaren Slots"
+      },
+      "invoicing": {
+        "title": "Integrierte Rechnungsstellung",
+        "desc": "Erstellen Sie PDF-Rechnungen und verwalten Sie Zahlungen und Einnahmen"
+      },
+      "multilang": {
+        "title": "Mehrsprachig",
+        "desc": "Unterstützung für 9 Sprachen, perfekt für internationale Praxen"
+      },
+      "custom": {
+        "title": "Anpassbar",
+        "desc": "Anpassbar an die spezifischen Anforderungen der Bioresonanz"
+      }
+    },
+    "partnership": {
+      "title": "Vorgeschlagene Partnerschaftsmodelle",
+      "recommended": "Empfohlen",
+      "option1": "Option 1",
+      "option2": "Option 2",
+      "option3": "Option 3",
+      "whiteLabel": {
+        "title": "White-Label-Lizenz",
+        "f1": "Vollständiges BICOM-Branding",
+        "f2": "Eigene Domain",
+        "f3": "Technischer Support inklusive",
+        "f4": "Laufende Aktualisierungen"
+      },
+      "royalty": {
+        "title": "Lizenzgebühr pro Verkauf",
+        "f1": "Keine festen Anfangskosten",
+        "f2": "Sie zahlen nur, wenn Sie verkaufen",
+        "f3": "Geteiltes Risiko",
+        "f4": "Skaliert mit dem Wachstum"
+      },
+      "hybrid": {
+        "title": "Hybrid-Modell",
+        "f1": "Einmalige Ersteinrichtung",
+        "f2": "Reduzierte monatliche Gebühr",
+        "f3": "Anpassungen inklusive",
+        "f4": "Schulung des BICOM-Personals"
+      },
+      "priceTbd": "Wird festgelegt",
+      "priceTbdSub": "je nach Vereinbarung",
+      "priceTbdSubAlt": "je nach Anforderungen"
+    },
+    "stats": {
+      "cloud": "Cloud-basiert",
+      "languages": "Unterstützte Sprachen",
+      "platform": "Android + iOS",
+      "compliant": "Konform"
+    },
+    "cta": {
+      "title": "Lassen Sie uns reden",
+      "subtitle": "Ich stehe für eine personalisierte Demo und Gespräche über das passende Partnerschaftsmodell für BICOM zur Verfügung.",
+      "role": "Entwickler & Gründer",
+      "email": "E-Mail"
+    },
+    "footer": {
+      "line1": "Vertrauliches Geschäftsangebot - Januar 2026",
+      "line2": "Terminverwaltung - Verwaltungssystem für Gesundheitsfachkräfte"
+    }
+  },
+  "forgotPassword": {
+    "title": "Passwort zurücksetzen",
+    "description": "Geben Sie Ihre E-Mail-Adresse ein, um einen Link zum Zurücksetzen des Passworts zu erhalten",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "beispiel@ihredomain.com",
+    "emailRequired": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+    "sending": "Wird gesendet...",
+    "submit": "Reset-Link senden",
+    "backToLogin": "Zurück zur Anmeldung",
+    "emailSentDefault": "Wiederherstellungs-E-Mail gesendet! Überprüfen Sie Ihren Posteingang.",
+    "toastTitle": "E-Mail gesendet",
+    "toastDesc": "Überprüfen Sie Ihre E-Mails auf den Link zum Zurücksetzen des Passworts",
+    "sendError": "Fehler beim Senden der E-Mail. Bitte versuchen Sie es später erneut.",
+    "rateLimitError": "Zu viele Versuche. Bitte versuchen Sie es in 15 Minuten erneut."
   }
 }

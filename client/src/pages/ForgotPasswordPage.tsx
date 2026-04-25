@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +24,7 @@ export default function ForgotPasswordPage() {
     setSuccessMessage(null);
 
     if (!email) {
-      setError("Inserisci il tuo indirizzo email");
+      setError(t('forgotPassword.emailRequired'));
       return;
     }
 
@@ -34,20 +36,21 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email }),
         credentials: "include",
       });
-      const data = await res.json();
       if (res.ok) {
-        setSuccessMessage(data.message || "Email di recupero inviata! Controlla la tua casella di posta.");
+        setSuccessMessage(t('forgotPassword.emailSentDefault'));
         toast({
-          title: "Email inviata",
-          description: "Controlla il tuo email per il link di reset password",
+          title: t('forgotPassword.toastTitle'),
+          description: t('forgotPassword.toastDesc'),
         });
         setEmail("");
         setTimeout(() => navigate("/login"), 3000);
+      } else if (res.status === 429) {
+        setError(t('forgotPassword.rateLimitError'));
       } else {
-        setError(data.error || "Errore durante l'invio dell'email. Riprova più tardi.");
+        setError(t('forgotPassword.sendError'));
       }
-    } catch (err: any) {
-      setError(err.message || "Errore durante l'invio dell'email. Riprova più tardi.");
+    } catch {
+      setError(t('forgotPassword.sendError'));
     } finally {
       setIsLoading(false);
     }
@@ -63,9 +66,9 @@ export default function ForgotPasswordPage() {
                 <Mail className="h-6 w-6 text-blue-600" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">Recupero Password</CardTitle>
+            <CardTitle className="text-2xl font-bold">{t('forgotPassword.title')}</CardTitle>
             <CardDescription className="text-center">
-              Inserisci il tuo indirizzo email per ricevere un link di reset password
+              {t('forgotPassword.description')}
             </CardDescription>
           </CardHeader>
 
@@ -73,7 +76,7 @@ export default function ForgotPasswordPage() {
             {error && (
               <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Errore</AlertTitle>
+                <AlertTitle>{t('forgotPassword.error')}</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -81,20 +84,20 @@ export default function ForgotPasswordPage() {
             {successMessage && (
               <Alert className="mb-4 bg-green-50 border-green-200">
                 <Mail className="h-4 w-4 text-green-600" />
-                <AlertTitle className="text-green-900">Successo</AlertTitle>
+                <AlertTitle className="text-green-900">{t('forgotPassword.success')}</AlertTitle>
                 <AlertDescription className="text-green-800">{successMessage}</AlertDescription>
               </Alert>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Indirizzo Email</Label>
+                <Label htmlFor="email">{t('forgotPassword.emailLabel')}</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="esempio@tuodominio.com"
+                  placeholder={t('forgotPassword.emailPlaceholder')}
                   disabled={isLoading || !!successMessage}
                 />
               </div>
@@ -107,10 +110,10 @@ export default function ForgotPasswordPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Invio in corso...
+                    {t('forgotPassword.sending')}
                   </>
                 ) : (
-                  "Invia Link di Reset"
+                  t('forgotPassword.submit')
                 )}
               </Button>
             </form>
@@ -124,7 +127,7 @@ export default function ForgotPasswordPage() {
               onClick={() => navigate("/login")}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Torna al Login
+              {t('forgotPassword.backToLogin')}
             </Button>
           </CardFooter>
         </Card>

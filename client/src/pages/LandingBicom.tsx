@@ -1,10 +1,24 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Calendar, Users, Bell, Smartphone, Shield, Clock, CheckCircle, Mail, Phone, Globe, Star, Zap, BarChart3, HeartPulse } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function LandingBicom() {
-  const [showContact, setShowContact] = useState(false);
+  const { t } = useTranslation();
+  const [, setShowContact] = useState(false);
+
+  const features = [
+    { icon: Calendar, title: t('landingBicom.features.scheduling.title'), desc: t('landingBicom.features.scheduling.desc') },
+    { icon: Users, title: t('landingBicom.features.patients.title'), desc: t('landingBicom.features.patients.desc') },
+    { icon: Bell, title: t('landingBicom.features.notifications.title'), desc: t('landingBicom.features.notifications.desc') },
+    { icon: Smartphone, title: t('landingBicom.features.app.title'), desc: t('landingBicom.features.app.desc') },
+    { icon: Shield, title: t('landingBicom.features.clientArea.title'), desc: t('landingBicom.features.clientArea.desc') },
+    { icon: Clock, title: t('landingBicom.features.booking.title'), desc: t('landingBicom.features.booking.desc') },
+    { icon: CheckCircle, title: t('landingBicom.features.invoicing.title'), desc: t('landingBicom.features.invoicing.desc') },
+    { icon: Globe, title: t('landingBicom.features.multilang.title'), desc: t('landingBicom.features.multilang.desc') },
+    { icon: HeartPulse, title: t('landingBicom.features.custom.title'), desc: t('landingBicom.features.custom.desc') },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -16,12 +30,12 @@ export default function LandingBicom() {
               <HeartPulse className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">Gestionale Appuntamenti</h1>
-              <p className="text-xs text-gray-500">Proposta Partnership BICOM</p>
+              <h1 className="text-xl font-bold text-gray-900">{t('landingBicom.header.title')}</h1>
+              <p className="text-xs text-gray-500">{t('landingBicom.header.subtitle')}</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600">Gennaio 2026</p>
+            <p className="text-sm text-gray-600">{t('landingBicom.header.date')}</p>
           </div>
         </div>
       </header>
@@ -31,20 +45,19 @@ export default function LandingBicom() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Zap className="h-4 w-4" />
-            Proposta Esclusiva per BICOM Italia
+            {t('landingBicom.hero.badge')}
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Il Gestionale Perfetto per i<br />
-            <span className="text-blue-600">Professionisti della Biorisonanza</span>
+            {t('landingBicom.hero.titleLine1')}<br />
+            <span className="text-blue-600">{t('landingBicom.hero.titleLine2')}</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Offri ai tuoi clienti un valore aggiunto unico: un sistema completo per gestire 
-            appuntamenti, pazienti e fatturazione, integrato con l'acquisto delle macchine BICOM.
+            {t('landingBicom.hero.subtitle')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={() => setShowContact(true)}>
               <Mail className="mr-2 h-5 w-5" />
-              Richiedi Demo Personalizzata
+              {t('landingBicom.hero.demoButton')}
             </Button>
             <Button size="lg" variant="outline">
               <Phone className="mr-2 h-5 w-5" />
@@ -58,7 +71,7 @@ export default function LandingBicom() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Perché BICOM Dovrebbe Offrire Questo Gestionale?
+            {t('landingBicom.valueProp.title')}
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="border-2 border-blue-100 hover:border-blue-300 transition-colors">
@@ -66,12 +79,11 @@ export default function LandingBicom() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <Star className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Valore Aggiunto Unico</CardTitle>
+                <CardTitle>{t('landingBicom.valueProp.unique.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Differenziati dalla concorrenza offrendo non solo hardware, ma una soluzione 
-                  completa. Il cliente riceve macchina + software gestionale.
+                  {t('landingBicom.valueProp.unique.desc')}
                 </p>
               </CardContent>
             </Card>
@@ -81,12 +93,11 @@ export default function LandingBicom() {
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                   <BarChart3 className="h-6 w-6 text-green-600" />
                 </div>
-                <CardTitle>Aumenta il Valore Percepito</CardTitle>
+                <CardTitle>{t('landingBicom.valueProp.value.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Puoi aumentare il prezzo del bundle macchina+software, creando un margine 
-                  aggiuntivo su ogni vendita.
+                  {t('landingBicom.valueProp.value.desc')}
                 </p>
               </CardContent>
             </Card>
@@ -96,12 +107,11 @@ export default function LandingBicom() {
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-purple-600" />
                 </div>
-                <CardTitle>Fidelizzazione Clienti</CardTitle>
+                <CardTitle>{t('landingBicom.valueProp.loyalty.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  I professionisti che usano il tuo software rimangono nel tuo ecosistema. 
-                  Più engagement = più opportunità di upselling.
+                  {t('landingBicom.valueProp.loyalty.desc')}
                 </p>
               </CardContent>
             </Card>
@@ -113,25 +123,14 @@ export default function LandingBicom() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-900 mb-4">
-            Funzionalità del Gestionale
+            {t('landingBicom.features.title')}
           </h3>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            Un sistema completo già pronto, testato e in produzione, 
-            facilmente personalizzabile per le esigenze BICOM.
+            {t('landingBicom.features.subtitle')}
           </p>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Calendar, title: 'Agenda Appuntamenti', desc: 'Calendario intuitivo con vista giornaliera, settimanale e mensile' },
-              { icon: Users, title: 'Gestione Pazienti', desc: 'Database completo con anamnesi, note mediche, storico trattamenti' },
-              { icon: Bell, title: 'Notifiche Push', desc: 'Promemoria automatici via app, email e WhatsApp' },
-              { icon: Smartphone, title: 'App Mobile (PWA)', desc: 'Funziona su Android e iOS senza installazione da store' },
-              { icon: Shield, title: 'Area Cliente Dedicata', desc: 'Ogni paziente ha la sua area per vedere appuntamenti e documenti' },
-              { icon: Clock, title: 'Prenotazione Online', desc: 'I pazienti prenotano autonomamente negli slot disponibili' },
-              { icon: CheckCircle, title: 'Fatturazione Integrata', desc: 'Genera fatture PDF, gestisci pagamenti e incassi' },
-              { icon: Globe, title: 'Multi-lingua', desc: 'Supporto per 9 lingue, perfetto per studi internazionali' },
-              { icon: HeartPulse, title: 'Personalizzabile', desc: 'Adattabile alle specifiche esigenze della biorisonanza' },
-            ].map((feature, i) => (
+            {features.map((feature, i) => (
               <div key={i} className="flex gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
                   <feature.icon className="h-5 w-5 text-blue-600" />
@@ -150,75 +149,75 @@ export default function LandingBicom() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Modelli di Partnership Proposti
+            {t('landingBicom.partnership.title')}
           </h3>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="border-2 hover:border-blue-300 transition-colors">
               <CardHeader className="bg-gradient-to-br from-slate-50 to-slate-100">
                 <CardTitle className="text-center">
-                  <span className="text-sm text-gray-500 block mb-2">Opzione 1</span>
-                  Licenza White-Label
+                  <span className="text-sm text-gray-500 block mb-2">{t('landingBicom.partnership.option1')}</span>
+                  {t('landingBicom.partnership.whiteLabel.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Branding BICOM completo</span>
+                    <span className="text-sm">{t('landingBicom.partnership.whiteLabel.f1')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Dominio dedicato</span>
+                    <span className="text-sm">{t('landingBicom.partnership.whiteLabel.f2')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Supporto tecnico incluso</span>
+                    <span className="text-sm">{t('landingBicom.partnership.whiteLabel.f3')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Aggiornamenti continui</span>
+                    <span className="text-sm">{t('landingBicom.partnership.whiteLabel.f4')}</span>
                   </li>
                 </ul>
                 <div className="mt-6 text-center">
-                  <p className="text-2xl font-bold text-gray-900">Da definire</p>
-                  <p className="text-sm text-gray-500">in base all'accordo</p>
+                  <p className="text-2xl font-bold text-gray-900">{t('landingBicom.partnership.priceTbd')}</p>
+                  <p className="text-sm text-gray-500">{t('landingBicom.partnership.priceTbdSub')}</p>
                 </div>
               </CardContent>
             </Card>
 
             <Card className="border-2 border-blue-500 shadow-lg relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                Consigliato
+                {t('landingBicom.partnership.recommended')}
               </div>
               <CardHeader className="bg-gradient-to-br from-blue-50 to-indigo-100">
                 <CardTitle className="text-center">
-                  <span className="text-sm text-blue-600 block mb-2">Opzione 2</span>
-                  Royalty per Vendita
+                  <span className="text-sm text-blue-600 block mb-2">{t('landingBicom.partnership.option2')}</span>
+                  {t('landingBicom.partnership.royalty.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Nessun costo fisso iniziale</span>
+                    <span className="text-sm">{t('landingBicom.partnership.royalty.f1')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Paghi solo quando vendi</span>
+                    <span className="text-sm">{t('landingBicom.partnership.royalty.f2')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Rischio condiviso</span>
+                    <span className="text-sm">{t('landingBicom.partnership.royalty.f3')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Scalabile con la crescita</span>
+                    <span className="text-sm">{t('landingBicom.partnership.royalty.f4')}</span>
                   </li>
                 </ul>
                 <div className="mt-6 text-center">
-                  <p className="text-2xl font-bold text-blue-600">Da definire</p>
-                  <p className="text-sm text-gray-500">in base all'accordo</p>
+                  <p className="text-2xl font-bold text-blue-600">{t('landingBicom.partnership.priceTbd')}</p>
+                  <p className="text-sm text-gray-500">{t('landingBicom.partnership.priceTbdSub')}</p>
                 </div>
               </CardContent>
             </Card>
@@ -226,32 +225,32 @@ export default function LandingBicom() {
             <Card className="border-2 hover:border-blue-300 transition-colors">
               <CardHeader className="bg-gradient-to-br from-slate-50 to-slate-100">
                 <CardTitle className="text-center">
-                  <span className="text-sm text-gray-500 block mb-2">Opzione 3</span>
-                  Modello Ibrido
+                  <span className="text-sm text-gray-500 block mb-2">{t('landingBicom.partnership.option3')}</span>
+                  {t('landingBicom.partnership.hybrid.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Setup iniziale una tantum</span>
+                    <span className="text-sm">{t('landingBicom.partnership.hybrid.f1')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Canone ridotto mensile</span>
+                    <span className="text-sm">{t('landingBicom.partnership.hybrid.f2')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Personalizzazioni incluse</span>
+                    <span className="text-sm">{t('landingBicom.partnership.hybrid.f3')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">Formazione staff BICOM</span>
+                    <span className="text-sm">{t('landingBicom.partnership.hybrid.f4')}</span>
                   </li>
                 </ul>
                 <div className="mt-6 text-center">
-                  <p className="text-2xl font-bold text-gray-900">Da definire</p>
-                  <p className="text-sm text-gray-500">in base alle esigenze</p>
+                  <p className="text-2xl font-bold text-gray-900">{t('landingBicom.partnership.priceTbd')}</p>
+                  <p className="text-sm text-gray-500">{t('landingBicom.partnership.priceTbdSubAlt')}</p>
                 </div>
               </CardContent>
             </Card>
@@ -265,19 +264,19 @@ export default function LandingBicom() {
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
               <p className="text-4xl font-bold mb-2">100%</p>
-              <p className="text-blue-100">Cloud-based</p>
+              <p className="text-blue-100">{t('landingBicom.stats.cloud')}</p>
             </div>
             <div>
               <p className="text-4xl font-bold mb-2">9</p>
-              <p className="text-blue-100">Lingue supportate</p>
+              <p className="text-blue-100">{t('landingBicom.stats.languages')}</p>
             </div>
             <div>
               <p className="text-4xl font-bold mb-2">PWA</p>
-              <p className="text-blue-100">Android + iOS</p>
+              <p className="text-blue-100">{t('landingBicom.stats.platform')}</p>
             </div>
             <div>
               <p className="text-4xl font-bold mb-2">GDPR</p>
-              <p className="text-blue-100">Compliant</p>
+              <p className="text-blue-100">{t('landingBicom.stats.compliant')}</p>
             </div>
           </div>
         </div>
@@ -287,19 +286,18 @@ export default function LandingBicom() {
       <section className="py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-3xl font-bold text-gray-900 mb-6">
-            Parliamone Insieme
+            {t('landingBicom.cta.title')}
           </h3>
           <p className="text-xl text-gray-600 mb-8">
-            Sono disponibile per una demo personalizzata e per discutere 
-            il modello di partnership più adatto alle esigenze di BICOM.
+            {t('landingBicom.cta.subtitle')}
           </p>
-          
+
           <Card className="bg-gradient-to-br from-slate-50 to-blue-50 border-2 border-blue-100">
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                 <div className="text-center md:text-left">
                   <p className="font-semibold text-gray-900">Andrea Zambelli</p>
-                  <p className="text-gray-600">Sviluppatore & Founder</p>
+                  <p className="text-gray-600">{t('landingBicom.cta.role')}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a href="tel:+393472550110" className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
@@ -308,7 +306,7 @@ export default function LandingBicom() {
                   </a>
                   <a href="mailto:zambelli.andrea.1973@gmail.com" className="inline-flex items-center gap-2 bg-white text-blue-600 border border-blue-200 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
                     <Mail className="h-4 w-4" />
-                    Email
+                    {t('landingBicom.cta.email')}
                   </a>
                 </div>
               </div>
@@ -321,10 +319,10 @@ export default function LandingBicom() {
       <footer className="py-8 px-4 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400 text-sm">
-            Proposta commerciale riservata - Gennaio 2026
+            {t('landingBicom.footer.line1')}
           </p>
           <p className="text-gray-500 text-xs mt-2">
-            Gestionale Appuntamenti - Sistema di gestione per professionisti sanitari
+            {t('landingBicom.footer.line2')}
           </p>
         </div>
       </footer>

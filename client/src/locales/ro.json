@@ -6156,7 +6156,8 @@
     "resetError": "Eroare la resetarea parolei. Încercați din nou mai târziu.",
     "verifying": "Se verifică...",
     "resetting": "Se resetează...",
-    "submit": "Resetare parolă"
+    "submit": "Resetare parolă",
+    "rateLimitError": "Prea multe încercări. Încearcă din nou în 15 minute."
   },
   "adminUsers": {
     "title": "Gestionare utilizatori",
@@ -6224,5 +6225,138 @@
         "step6": "Revino aici și încearcă din nou autorizarea"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Manager de Programări",
+      "subtitle": "Propunere de Parteneriat BICOM",
+      "date": "Ianuarie 2026"
+    },
+    "hero": {
+      "badge": "Propunere Exclusivă pentru BICOM Italia",
+      "titleLine1": "Software-ul Perfect de Gestiune pentru",
+      "titleLine2": "Profesioniștii din Biorezonanță",
+      "subtitle": "Oferă clienților tăi o valoare adăugată unică: un sistem complet pentru gestionarea programărilor, pacienților și facturării, integrat cu achiziționarea aparatelor BICOM.",
+      "demoButton": "Solicită Demo Personalizat"
+    },
+    "valueProp": {
+      "title": "De ce ar trebui BICOM să ofere acest software de gestiune?",
+      "unique": {
+        "title": "Valoare Adăugată Unică",
+        "desc": "Diferențiază-te de concurență oferind nu doar hardware, ci o soluție completă. Clientul primește aparatul plus software-ul de gestiune."
+      },
+      "value": {
+        "title": "Crește Valoarea Percepută",
+        "desc": "Poți crește prețul pachetului aparat+software, creând o marjă suplimentară la fiecare vânzare."
+      },
+      "loyalty": {
+        "title": "Fidelizarea Clienților",
+        "desc": "Profesioniștii care îți folosesc software-ul rămân în ecosistemul tău. Mai multă implicare = mai multe oportunități de upselling."
+      }
+    },
+    "features": {
+      "title": "Funcționalitățile Software-ului",
+      "subtitle": "Un sistem complet, gata, testat și în producție, ușor de personalizat pentru nevoile BICOM.",
+      "scheduling": {
+        "title": "Agenda Programărilor",
+        "desc": "Calendar intuitiv cu vizualizare zilnică, săptămânală și lunară"
+      },
+      "patients": {
+        "title": "Gestionarea Pacienților",
+        "desc": "Bază de date completă cu anamneză, note medicale și istoric tratamente"
+      },
+      "notifications": {
+        "title": "Notificări Push",
+        "desc": "Mementouri automate prin aplicație, email și WhatsApp"
+      },
+      "app": {
+        "title": "Aplicație Mobilă (PWA)",
+        "desc": "Funcționează pe Android și iOS fără instalare din magazin"
+      },
+      "clientArea": {
+        "title": "Zonă Client Dedicată",
+        "desc": "Fiecare pacient are propria zonă pentru a vedea programările și documentele"
+      },
+      "booking": {
+        "title": "Rezervare Online",
+        "desc": "Pacienții rezervă singuri în intervalele disponibile"
+      },
+      "invoicing": {
+        "title": "Facturare Integrată",
+        "desc": "Generează facturi PDF, gestionează plățile și încasările"
+      },
+      "multilang": {
+        "title": "Multilingv",
+        "desc": "Suport pentru 9 limbi, perfect pentru cabinete internaționale"
+      },
+      "custom": {
+        "title": "Personalizabil",
+        "desc": "Adaptabil la nevoile specifice ale biorezonanței"
+      }
+    },
+    "partnership": {
+      "title": "Modele de Parteneriat Propuse",
+      "recommended": "Recomandat",
+      "option1": "Opțiunea 1",
+      "option2": "Opțiunea 2",
+      "option3": "Opțiunea 3",
+      "whiteLabel": {
+        "title": "Licență White-Label",
+        "f1": "Branding BICOM complet",
+        "f2": "Domeniu dedicat",
+        "f3": "Suport tehnic inclus",
+        "f4": "Actualizări continue"
+      },
+      "royalty": {
+        "title": "Royalty per Vânzare",
+        "f1": "Niciun cost fix inițial",
+        "f2": "Plătești doar când vinzi",
+        "f3": "Risc împărțit",
+        "f4": "Scalabil odată cu creșterea"
+      },
+      "hybrid": {
+        "title": "Model Hibrid",
+        "f1": "Setup inițial unic",
+        "f2": "Abonament lunar redus",
+        "f3": "Personalizări incluse",
+        "f4": "Instruirea echipei BICOM"
+      },
+      "priceTbd": "De stabilit",
+      "priceTbdSub": "în funcție de acord",
+      "priceTbdSubAlt": "în funcție de cerințe"
+    },
+    "stats": {
+      "cloud": "Bazat pe cloud",
+      "languages": "Limbi acceptate",
+      "platform": "Android + iOS",
+      "compliant": "Conform"
+    },
+    "cta": {
+      "title": "Hai să vorbim",
+      "subtitle": "Sunt disponibil pentru o demo personalizată și pentru a discuta modelul de parteneriat cel mai potrivit pentru BICOM.",
+      "role": "Dezvoltator & Fondator",
+      "email": "Email"
+    },
+    "footer": {
+      "line1": "Propunere comercială confidențială - Ianuarie 2026",
+      "line2": "Manager de Programări - Sistem de gestiune pentru profesioniștii din sănătate"
+    }
+  },
+  "forgotPassword": {
+    "title": "Recuperare Parolă",
+    "description": "Introdu adresa de email pentru a primi un link de resetare a parolei",
+    "error": "Eroare",
+    "success": "Succes",
+    "emailLabel": "Adresă de Email",
+    "emailPlaceholder": "exemplu@domeniultau.com",
+    "emailRequired": "Te rugăm să introduci adresa de email",
+    "sending": "Se trimite...",
+    "submit": "Trimite Linkul de Resetare",
+    "backToLogin": "Înapoi la Autentificare",
+    "emailSentDefault": "Email-ul de recuperare a fost trimis! Verifică-ți căsuța de email.",
+    "toastTitle": "Email trimis",
+    "toastDesc": "Verifică-ți emailul pentru linkul de resetare a parolei",
+    "sendError": "Eroare la trimiterea emailului. Încearcă din nou mai târziu.",
+    "rateLimitError": "Prea multe încercări. Încearcă din nou în 15 minute."
   }
 }

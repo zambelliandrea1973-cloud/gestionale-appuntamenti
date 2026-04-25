@@ -80,9 +80,12 @@ export default function ResetPasswordPage() {
           description: t('resetPassword.successDesc'),
         });
         setTimeout(() => navigate("/login"), 2000);
+      } else if (response.status === 429) {
+        setError(t('resetPassword.rateLimitError'));
+      } else if (response.status === 400) {
+        setError(t('resetPassword.tokenInvalid'));
       } else {
-        const error = await response.text();
-        setError(error);
+        setError(t('resetPassword.resetError'));
       }
     } catch (err) {
       setError(t('resetPassword.resetError'));

@@ -6156,7 +6156,8 @@
     "resetError": "Erreur lors de la réinitialisation du mot de passe. Réessayez plus tard.",
     "verifying": "Vérification en cours...",
     "resetting": "Réinitialisation en cours...",
-    "submit": "Réinitialiser le mot de passe"
+    "submit": "Réinitialiser le mot de passe",
+    "rateLimitError": "Trop de tentatives. Veuillez réessayer dans 15 minutes."
   },
   "adminUsers": {
     "title": "Gestion des utilisateurs",
@@ -6224,5 +6225,138 @@
         "step6": "Revenez ici et réessayez l'autorisation"
       }
     }
+  },
+  "landingBicom": {
+    "header": {
+      "title": "Gestionnaire de Rendez-vous",
+      "subtitle": "Proposition de Partenariat BICOM",
+      "date": "Janvier 2026"
+    },
+    "hero": {
+      "badge": "Proposition Exclusive pour BICOM Italia",
+      "titleLine1": "Le Logiciel de Gestion Parfait pour les",
+      "titleLine2": "Professionnels de la Biorésonance",
+      "subtitle": "Offrez à vos clients une valeur ajoutée unique : un système complet pour gérer les rendez-vous, les patients et la facturation, intégré à l'achat des machines BICOM.",
+      "demoButton": "Demander une Démo Personnalisée"
+    },
+    "valueProp": {
+      "title": "Pourquoi BICOM devrait-il proposer ce logiciel de gestion ?",
+      "unique": {
+        "title": "Valeur Ajoutée Unique",
+        "desc": "Démarquez-vous de la concurrence en proposant non seulement du matériel, mais une solution complète. Le client reçoit la machine et le logiciel de gestion."
+      },
+      "value": {
+        "title": "Augmentez la Valeur Perçue",
+        "desc": "Vous pouvez augmenter le prix du pack machine+logiciel, créant ainsi une marge supplémentaire sur chaque vente."
+      },
+      "loyalty": {
+        "title": "Fidélisation des Clients",
+        "desc": "Les professionnels qui utilisent votre logiciel restent dans votre écosystème. Plus d'engagement = plus d'opportunités de vente additionnelle."
+      }
+    },
+    "features": {
+      "title": "Fonctionnalités du Logiciel",
+      "subtitle": "Un système complet déjà prêt, testé et en production, facilement personnalisable selon les besoins de BICOM.",
+      "scheduling": {
+        "title": "Agenda de Rendez-vous",
+        "desc": "Calendrier intuitif avec vue quotidienne, hebdomadaire et mensuelle"
+      },
+      "patients": {
+        "title": "Gestion des Patients",
+        "desc": "Base de données complète avec anamnèse, notes médicales et historique des traitements"
+      },
+      "notifications": {
+        "title": "Notifications Push",
+        "desc": "Rappels automatiques via l'app, l'email et WhatsApp"
+      },
+      "app": {
+        "title": "Application Mobile (PWA)",
+        "desc": "Fonctionne sur Android et iOS sans installation depuis le store"
+      },
+      "clientArea": {
+        "title": "Espace Client Dédié",
+        "desc": "Chaque patient dispose de son espace pour voir les rendez-vous et les documents"
+      },
+      "booking": {
+        "title": "Réservation en Ligne",
+        "desc": "Les patients réservent eux-mêmes dans les créneaux disponibles"
+      },
+      "invoicing": {
+        "title": "Facturation Intégrée",
+        "desc": "Générez des factures PDF et gérez paiements et encaissements"
+      },
+      "multilang": {
+        "title": "Multilingue",
+        "desc": "Prend en charge 9 langues, parfait pour les cabinets internationaux"
+      },
+      "custom": {
+        "title": "Personnalisable",
+        "desc": "Adaptable aux besoins spécifiques de la biorésonance"
+      }
+    },
+    "partnership": {
+      "title": "Modèles de Partenariat Proposés",
+      "recommended": "Recommandé",
+      "option1": "Option 1",
+      "option2": "Option 2",
+      "option3": "Option 3",
+      "whiteLabel": {
+        "title": "Licence White-Label",
+        "f1": "Branding BICOM complet",
+        "f2": "Domaine dédié",
+        "f3": "Support technique inclus",
+        "f4": "Mises à jour continues"
+      },
+      "royalty": {
+        "title": "Royalties par Vente",
+        "f1": "Aucun coût fixe initial",
+        "f2": "Vous ne payez que lorsque vous vendez",
+        "f3": "Risque partagé",
+        "f4": "Évolue avec la croissance"
+      },
+      "hybrid": {
+        "title": "Modèle Hybride",
+        "f1": "Frais d'installation uniques",
+        "f2": "Abonnement mensuel réduit",
+        "f3": "Personnalisations incluses",
+        "f4": "Formation du personnel BICOM"
+      },
+      "priceTbd": "À définir",
+      "priceTbdSub": "selon l'accord",
+      "priceTbdSubAlt": "selon les besoins"
+    },
+    "stats": {
+      "cloud": "Basé sur le cloud",
+      "languages": "Langues prises en charge",
+      "platform": "Android + iOS",
+      "compliant": "Conforme"
+    },
+    "cta": {
+      "title": "Discutons-en",
+      "subtitle": "Je suis disponible pour une démo personnalisée et pour discuter du modèle de partenariat le mieux adapté aux besoins de BICOM.",
+      "role": "Développeur & Fondateur",
+      "email": "E-mail"
+    },
+    "footer": {
+      "line1": "Proposition commerciale confidentielle - Janvier 2026",
+      "line2": "Gestionnaire de Rendez-vous - Système de gestion pour professionnels de santé"
+    }
+  },
+  "forgotPassword": {
+    "title": "Récupération du Mot de Passe",
+    "description": "Saisissez votre adresse email pour recevoir un lien de réinitialisation",
+    "error": "Erreur",
+    "success": "Succès",
+    "emailLabel": "Adresse Email",
+    "emailPlaceholder": "exemple@votredomaine.com",
+    "emailRequired": "Veuillez saisir votre adresse email",
+    "sending": "Envoi en cours...",
+    "submit": "Envoyer le Lien de Réinitialisation",
+    "backToLogin": "Retour à la Connexion",
+    "emailSentDefault": "Email de récupération envoyé ! Vérifiez votre boîte de réception.",
+    "toastTitle": "Email envoyé",
+    "toastDesc": "Vérifiez votre email pour le lien de réinitialisation du mot de passe",
+    "sendError": "Erreur lors de l'envoi de l'email. Veuillez réessayer plus tard.",
+    "rateLimitError": "Trop de tentatives. Veuillez réessayer dans 15 minutes."
   }
 }
