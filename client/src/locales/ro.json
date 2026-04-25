@@ -6358,5 +6358,427 @@
     "toastDesc": "Verifică-ți emailul pentru linkul de resetare a parolei",
     "sendError": "Eroare la trimiterea emailului. Încearcă din nou mai târziu.",
     "rateLimitError": "Prea multe încercări. Încearcă din nou în 15 minute."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "Poți accesa rapid aplicația din ecranul principal al dispozitivului tău.",
+      "androidInstallTap": "Instalează direct cu o atingere",
+      "iosStepsIntro": "Urmează acești pași pentru a instala aplicația pe iPhone sau iPad",
+      "iosUseSafari": "Asigură-te că folosești Safari, instalarea nu funcționează în alte browsere precum Chrome sau Firefox.",
+      "iosShareLocation": "Se află în bara de instrumente Safari, în partea de jos a ecranului (iPhone) sau în partea de sus (iPad)",
+      "iosScrollAddHome": "Derulează în jos și apasă \"Adaugă pe ecranul principal\"",
+      "iosScrollOptions": "Derulează prin opțiunile disponibile în meniul de partajare",
+      "iosCanRename": "Poți modifica numele aplicației dacă dorești",
+      "iosAppOnHome": "Aplicația va apărea pe ecranul principal",
+      "browserNote": "Notă: pe iOS trebuie să folosești Safari. Pe Android este recomandat Chrome.",
+      "appInstalledCorrectly": "Aplicație instalată corect",
+      "installAppOnDevice": "Instalează aplicația pe dispozitivul tău",
+      "installOnAndroid": "Instalează pe Android",
+      "tapShareInSafari": "Apasă partajare în Safari",
+      "selectAddToHome": "Selectează \"Adaugă pe ecranul principal\"",
+      "seeIosInstructions": "Vezi instrucțiunile iOS",
+      "iosInstallTitle": "Instalare pe iOS",
+      "important": "Important",
+      "tapShareIcon": "Apasă pe pictograma de partajare",
+      "tapAddTopRight": "Apasă \"Adaugă\" în dreapta sus",
+      "done": "Gata!",
+      "closeButton": "Închide"
+    },
+    "pushNotifications": {
+      "permissionRequired": "Trebuie să permiți notificările pentru a primi actualizări.",
+      "subscribed": "Vei primi o notificare când programarea ta este confirmată.",
+      "subscribeError": "Notificările nu au putut fi activate. Încearcă din nou.",
+      "unsubscribed": "Nu vei mai primi notificări push.",
+      "unsubscribeError": "Notificările nu au putut fi dezactivate.",
+      "notSupported": "Notificările push nu sunt acceptate în acest browser. Încearcă să deschizi aplicația ca PWA instalată.",
+      "permissionDeniedTitle": "Permisiune refuzată",
+      "notificationsActivatedTitle": "Notificări activate",
+      "notificationsDeactivatedTitle": "Notificări dezactivate"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Adaugă funcționalitate",
+      "featuresIncluded": "Funcționalități incluse",
+      "noFeatures": "Nicio funcționalitate configurată. Apasă \"Editează\" pentru a adăuga funcționalități.",
+      "featureNamePlaceholder": "Nume funcționalitate",
+      "planUpdated": "Planul de abonament a fost actualizat cu succes.",
+      "loadingPlans": "Se încarcă planurile...",
+      "previewPublicPlans": "Previzualizare planuri publice",
+      "priceCents": "Preț (cenți)",
+      "clientLimit": "Limită clienți",
+      "statusLabel": "Stare",
+      "planDescription": "Descriere plan",
+      "planUpdatedTitle": "Plan actualizat",
+      "monthShort": "luna",
+      "yearShort": "an",
+      "unlimited": "Nelimitat"
+    },
+    "clientsPage": {
+      "newShort": "Nou",
+      "noClientsInSystem": "Nu există încă clienți în sistem.",
+      "noClientsForProfessional": "Niciun client găsit pentru acest profesionist",
+      "updateError": "Eroare la actualizarea datelor",
+      "allTab": "Toți",
+      "othersTab": "Alții",
+      "noConsentTab": "Fără consimțământ",
+      "loadingSummary": "Se încarcă rezumatul...",
+      "noProfessionalsFound": "Niciun profesionist găsit",
+      "clientsLoadedTitle": "Clienți încărcați",
+      "clientsLoadFailedTitle": "Nu se pot încărca clienții"
+    },
+    "clientCard": {
+      "incompleteData": "Date client de completat",
+      "deletionUnlocked": "Ștergere deblocată",
+      "unlockDeletionAction": "Deblochează ștergerea",
+      "cannotUnlock": "Nu se poate debloca ștergerea",
+      "cannotMarkDeleted": "Nu se poate simula ștergerea",
+      "clientRemoved": "Client eliminat din sistem"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "Linkul de acces direct a fost copiat în clipboard.",
+      "copyFailed": "Nu am putut copia linkul. Încearcă să îl selectezi manual.",
+      "openInNewTab": "Deschide într-o filă nouă",
+      "easyAccessNote": "Acest link permite acces mai ușor la zona clientului, cu numele de utilizator precompletat.",
+      "passwordOnlyNote": "Va fi nevoie doar de parolă, făcând accesul rapid și simplu.",
+      "accessLink": "Link de acces",
+      "linkCopiedTitle": "Link copiat!",
+      "directLinkTitle": "Link direct",
+      "copyAndShareDesc": "Copiaza si partajeaza acest link cu {{clientName}} pentru acces simplu si direct la zona client.",
+      "copyLinkTitle": "Copiaza link",
+      "securityNoteLabel": "Nota de securitate:",
+      "securityNoteText": "Acest link contine un token rezervat. De partajat doar cu {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Token regenerat cu succes",
+      "regeneratedDescription": "A fost generat un nou cod QR.",
+      "cannotRegenerate": "Tokenul nu poate fi regenerat. Încearcă mai târziu.",
+      "later": "Mai târziu",
+      "expiringTitle": "Atentie: token in expirare",
+      "expiresToday": "Tokenul tau de acces expira azi.",
+      "expiresInOneDay": "Tokenul tau de acces expira in 1 zi.",
+      "expiresInDays": "Tokenul tau de acces expira in {{count}} zile.",
+      "regenerationPrompt": "Pentru a continua sa accesezi zona client prin cod QR, este necesar sa generezi un nou token. Il regenerezi acum?",
+      "regenerating": "Regenerare...",
+      "regenerateToken": "Regenereaza token"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Creează și gestionează șabloanele pentru mesajele de memento prin email și WhatsApp. Șabloanele unificate funcționează pentru ambele canale.",
+      "loadAppointmentsError": "Nu se pot încărca programările: {{error}}",
+      "loadHistoryError": "Nu se poate încărca istoricul: {{error}}",
+      "loadSmsHistoryError": "Nu se poate încărca istoricul SMS: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Bine ai venit în aplicația pentru clienți",
+      "verifyingUser": "Se verifică informațiile utilizatorului...",
+      "ifNotRedirected": "Dacă nu ești redirecționat automat,",
+      "enterPassword": "Te rugăm să introduci parola",
+      "scanQrToConfigure": "Te rugăm să scanezi codul QR pentru a configura aplicația",
+      "insufficientDataToken": "Date insuficiente pentru a recrea tokenul",
+      "initCheck": "Inițializare și verificare credențiale",
+      "initApp": "Inițializare aplicație...",
+      "attemptRepair": "Încearcă reparare",
+      "showDebugInfo": "Afișează info debug",
+      "hideDebugInfo": "Ascunde info debug",
+      "missing": "lipsește",
+      "present": "prezent",
+      "clickHere": "apasă aici",
+      "toProceedLogin": "pentru a continua la autentificare.",
+      "autoAccessTitle": "Acces automat",
+      "credentialsFoundDesc": "Credențiale găsite, autentificare în curs...",
+      "loginRequiredTitle": "Autentificare necesară",
+      "configRequiredTitle": "Configurare necesară",
+      "storageRepairedTitle": "Stocare reparată",
+      "tokenRecreatedDesc": "Token recreat din qrData",
+      "cannotRepairTitle": "Imposibil de reparat"
+    },
+    "betaStatus": {
+      "title": "Mod beta",
+      "welcomeMessage": "Bine ai venit în programul beta! Poți trimite feedback oricând din pagina beta.",
+      "invalidCode": "Cod beta invalid"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "Poți accesa rapid zona ta personală din ecranul principal al dispozitivului.",
+      "addHomeForFasterAccess": "Adaugă această aplicație pe ecranul principal pentru acces mai rapid",
+      "iosHowTo": "Pentru a instala aplicația pe iOS:",
+      "scrollDownAndTap": "Derulează în jos și apasă",
+      "installInstructions": "Instalează aplicația pe dispozitiv pentru acces mai ușor la programări și datele personale, chiar și offline.",
+      "appInstalledCorrectly": "Aplicație instalată corect",
+      "installAppTitle": "Instalează aplicația",
+      "tapShareIcon": "Apasă pictograma de partajare în",
+      "addToHome": "Adaugă pe ecranul principal",
+      "tap": "Apasă",
+      "add": "Adaugă",
+      "installAppCta": "Instalează aplicația"
+    },
+    "useLicense": {
+      "activated": "Licența ta a fost activată cu succes.",
+      "activationError": "Eroare de activare",
+      "activationErrorDesc": "A apărut o eroare la activarea licenței.",
+      "generationError": "Eroare de generare",
+      "generationErrorDesc": "A apărut o eroare la generarea codului.",
+      "activatedTitle": "Licență activată",
+      "codeGeneratedTitle": "Cod generat",
+      "codeGeneratedDesc": "Cod de activare: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "Acest client nu are programări înregistrate",
+      "notAssigned": "Neatribuit",
+      "collaboratorNotFound": "Colaborator negăsit",
+      "notSpecifiedFem": "Nespecificată",
+      "roomNotFound": "Cameră negăsită"
+    },
+    "currencySelector": {
+      "selectDescription": "Selectează moneda care va fi folosită în întregul program pentru prețuri, facturi și rapoarte.",
+      "updateError": "Nu se poate actualiza moneda",
+      "selectCurrency": "Selectează moneda",
+      "currencyUpdatedTitle": "Moneda actualizata",
+      "currencySetTo": "Moneda setata la {{name}} ({{symbol}})",
+      "currencyHeading": "Moneda",
+      "currentCurrencyLabel": "Moneda curenta",
+      "currentSymbolLabel": "Simbol curent:"
+    },
+    "dayView": {
+      "clickToSelect": "Apasă pentru a selecta",
+      "tapToClose": "Apasă pentru a închide",
+      "selectClient": "Selectează client",
+      "noClientsAvailable": "Niciun client disponibil",
+      "selectedBadge": "SELECTAT"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "Această pagină este rezervată clienților",
+      "connectionError": "Eroare de conexiune",
+      "consentRegistered": "Consimțământul tău a fost înregistrat cu succes",
+      "loading": "Se încarcă...",
+      "privacyPolicyTitle": "Politica de confidențialitate",
+      "accessDeniedTitle": "Acces refuzat",
+      "verifyAuthFailed": "Nu se poate verifica autentificarea",
+      "consentRegisteredTitle": "Consimțământ înregistrat"
+    },
+    "promotionPage": {
+      "notFound": "Promoție negăsită",
+      "invalidLink": "Linkul accesat nu este valid sau promoția a expirat.",
+      "videoNotSupported": "Browserul tău nu acceptă videoclipuri.",
+      "validNote": "Promoție valabilă. Contactează-ne pentru mai multe informații!"
+    },
+    "colorEditor": {
+      "savedDescription": "Culoarea primară a fost salvată cu succes.",
+      "colorSavedTitle": "Culoare salvata",
+      "primaryColorLabel": "Culoare primara",
+      "secondaryColorLabel": "Culoare secundara",
+      "saveColors": "Salveaza culorile",
+      "savedSuccessText": "Culori salvate cu succes!"
+    },
+    "footerContent": {
+      "writeUsAt": "Pentru orice întrebare sau problemă, scrie-ne la:",
+      "callOurSupport": "Sună la numărul nostru de suport:",
+      "supportHours": "Disponibil de luni până vineri, 9:00-18:00",
+      "privacyPolicy": "Politica de confidențialitate",
+      "emailSupport": "Asistență prin email",
+      "responseGuarantee": "Răspuns garantat în 24 de ore",
+      "helpCenterTitle": "Centru de Asistenta",
+      "phoneSupportTitle": "Asistenta Telefonica"
+    },
+    "saveDirect": {
+      "appointmentCreated": "Programare nouă creată cu succes",
+      "appointmentCreatedTitle": "Programare creată"
+    },
+    "stripeCheckout": {
+      "paymentError": "Eroare de plată",
+      "paymentErrorDesc": "A apărut o eroare în timpul procesului de plată"
+    },
+    "pwaRedirector": {
+      "appStartError": "A apărut o eroare la pornirea aplicației."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Ștergere client",
+      "newBadge": "NOU",
+      "title": "Notificări admin",
+      "noNotifications": "Nicio notificare disponibilă"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Adaugă această aplicație pe ecranul principal pentru acces mai rapid",
+      "quickAccessPersonal": "Acces rapid la zona ta personală",
+      "installAppTitle": "Instalează aplicația",
+      "worksOffline": "Functioneaza si offline",
+      "automaticUpdates": "Actualizari automate"
+    },
+    "pwaSession": {
+      "expiredDesc": "Sesiunea ta a expirat, autentifică-te din nou.",
+      "expiredTitle": "Sesiune expirata",
+      "verifying": "Se verifica sesiunea..."
+    },
+    "restartApp": {
+      "errorTitle": "Eroare la repornire",
+      "restartingTitle": "Se repornește"
+    },
+    "directAccess": {
+      "invalidLink": "Link de acces invalid",
+      "missingParams": "Linkul folosit nu conține toți parametrii necesari pentru acces."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Calendar indisponibil",
+      "availableOnlyInPlans": "Integrarea cu Google Calendar este disponibilă doar în planurile"
+    },
+    "manualSection": {
+      "noContent": "Niciun conținut disponibil pentru această secțiune."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Plătește cu PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "Programare nouă"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Eroare"
+    },
+    "inventory": {
+      "unitOfMeasure": "Unitate de măsură"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Selectează cel puțin un serviciu",
+      "nameRequired": "Numele pachetului este obligatoriu",
+      "minOneSession": "Numărul de sesiuni trebuie să fie cel puțin 1",
+      "pricePositive": "Prețul trebuie să fie pozitiv"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "Nicio programare",
+      "serviceColumn": "Serviciu",
+      "roomColumn": "Cameră",
+      "statusColumn": "Stare",
+      "completedLabel": "Finalizat",
+      "confirmedLabel": "Confirmat",
+      "cancelledLabel": "Anulat",
+      "scheduledLabel": "Programat",
+      "appointmentsHeading": "Programari",
+      "dateColumn": "Data",
+      "timeColumn": "Ora",
+      "collaboratorColumn": "Colaborator"
+    },
+    "appointmentCard": {
+      "hide": "Ascunde",
+      "details": "Detalii",
+      "emailReminderSent": "Memento email trimis",
+      "emailSendFailed": "Trimiterea emailului a eșuat",
+      "whatsappReminderSent": "Memento WhatsApp trimis"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Deblochează ștergerea",
+      "emailButton": "Email",
+      "deletionNotificationTitle": "Notificare de ștergere",
+      "deletionUnlockedBadge": "Stergere deblocata",
+      "otherAccountClient": "Client al altui cont (doar vizualizare)",
+      "viewOnlyBadge": "Doar vizualizare"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "Email:",
+      "phoneLabel": "Telefon:",
+      "termsOfService": "Termenii serviciului",
+      "privacyPolicy": "Politica de confidențialitate",
+      "cellularLabel": "Mobil:",
+      "websiteLabel": "Site web:",
+      "developedBy": "Dezvoltat de {{author}}",
+      "versionLine": "Versiunea {{version}} - Gestionar Programari PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Închide",
+      "selectServiceTitle": "Selectează serviciul"
+    },
+    "socialIcons": {
+      "emailLabel": "Email",
+      "phoneLabel": "Telefon"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Plan necesar:",
+      "viewPlans": "Vezi planurile"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Politica de confidențialitate",
+      "termsOfService": "Termenii serviciului"
+    },
+    "appointmentForm": {
+      "emailLabel": "Email"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Selectează serviciul"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@exemplu.com",
+      "websiteExamplePlaceholder": "exemplu.ro sau www.exemplu.ro"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Politica de confidențialitate"
+    },
+    "monthView": {
+      "addAppointment": "Adaugă programare"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "Email"
+    },
+    "homePage": {
+      "loadingName": "Se încarcă numele..."
+    },
+    "promotionPageExtra": {
+      "loading": "Se încarcă...",
+      "specialPromotionTitle": "Promotie speciala"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Politica de confidențialitate"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Se pornește...",
+      "redirecting": "Redirectionare..."
+    },
+    "staffManagementSimple": {
+      "loading": "Se încarcă..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "nume@exemplu.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Sincronizare mobila",
+      "mobileSyncDesc": "Test sync: {{count}} clienti disponibili",
+      "testServer": "Test server"
+    },
+    "inventoryExtra": {
+      "removeImage": "Sterge"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Salveaza direct"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Popular"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Gestionar Programari de {{author}}",
+      "versionLine": "Versiunea {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Gestionare personal (versiune simpla)",
+      "pageLoadedSuccess": "Pagina incarcata cu succes! Au fost gasiti {{count}} utilizatori."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Gestionar Programari"
+    },
+    "countryPrefixes": {
+      "italy": "Italia",
+      "usaCanada": "SUA/Canada",
+      "unitedKingdom": "Regatul Unit",
+      "france": "Franta",
+      "germany": "Germania",
+      "spain": "Spania",
+      "switzerland": "Elvetia",
+      "austria": "Austria",
+      "belgium": "Belgia",
+      "netherlands": "Tarile de Jos",
+      "portugal": "Portugalia",
+      "greece": "Grecia",
+      "sweden": "Suedia",
+      "norway": "Norvegia",
+      "denmark": "Danemarca",
+      "finland": "Finlanda",
+      "poland": "Polonia",
+      "czechRepublic": "Cehia",
+      "hungary": "Ungaria",
+      "romania": "Romania"
+    }
   }
 }

@@ -116,9 +116,9 @@ export default function GoogleSetupInstructionsPage() {
           <Card className="border-2 border-purple-200 bg-purple-50/50">
             <CardContent className="text-center py-12">
               <Lock className="h-16 w-16 mx-auto text-purple-600 mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Google Calendar Non Disponibile</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('i18nFinale.googleSetup.notAvailable')}</h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                L'integrazione con Google Calendar è disponibile solo nei piani <span className="font-bold text-purple-700">Pro</span> e <span className="font-bold text-purple-700">Business</span>.
+                {t('i18nFinale.googleSetup.availableOnlyInPlans')} <span className="font-bold text-purple-700">Pro</span> e <span className="font-bold text-purple-700">Business</span>.
               </p>
               <Button 
                 onClick={() => setShowUpgradePrompt(true)}

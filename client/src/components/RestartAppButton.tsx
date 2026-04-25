@@ -71,7 +71,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
       
       // Mostra un toast di successo
       toast({
-        title: 'Riavvio in corso',
+        title: t('i18nFinale.restartApp.restartingTitle'),
         description: restartData.message,
         duration: 5000,
       });
@@ -79,7 +79,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
       console.error('Errore durante il riavvio:', error);
       
       toast({
-        title: 'Errore di riavvio',
+        title: t('i18nFinale.restartApp.errorTitle'),
         description: error.message || 'Si è verificato un errore durante il riavvio dell\'applicazione',
         variant: 'destructive',
       });

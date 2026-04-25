@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Facebook, Instagram, Twitter, Youtube, Linkedin, Mail, Phone, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -16,6 +17,7 @@ interface SocialData {
 }
 
 export default function SocialIcons() {
+  const { t } = useTranslation();
   const [socialData, setSocialData] = useState<SocialData>({});
   const [loading, setLoading] = useState(true);
 
@@ -79,13 +81,13 @@ export default function SocialIcons() {
     {
       icon: Mail,
       url: `mailto:${socialData.email || 'info@studiomedico.it'}`,
-      label: "Email",
+      label: t('i18nFinale.socialIcons.emailLabel'),
       color: "hover:text-green-600"
     },
     {
       icon: Phone,
       url: `tel:${socialData.phone || '+390000000000'}`,
-      label: "Telefono",
+      label: t('i18nFinale.socialIcons.phoneLabel'),
       color: "hover:text-purple-600"
     },
     {

@@ -105,15 +105,15 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
-        title: "Cancellazione sbloccata",
+        title: t('i18nFinale.clientCard.deletionUnlocked'),
         description: `${client.firstName} ${client.lastName} può ora essere eliminato`,
       });
       if (onUpdate) onUpdate();
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Impossibile sbloccare la cancellazione",
+        title: t('common.error'),
+        description: error.message || t('i18nFinale.clientCard.cannotUnlock'),
         variant: "destructive",
       });
     },
@@ -127,7 +127,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       toast({
-        title: "Notifica eliminazione",
+        title: t('i18nFinale.clientCardExtra.deletionNotificationTitle'),
         description: `${client.firstName} ${client.lastName} eliminato dall'account originale`,
         variant: "destructive",
       });
@@ -135,8 +135,8 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
     },
     onError: (error: any) => {
       toast({
-        title: "Errore",
-        description: error.message || "Impossibile simulare eliminazione",
+        title: t('common.error'),
+        description: error.message || t('i18nFinale.clientCard.cannotMarkDeleted'),
         variant: "destructive",
       });
     },
@@ -189,7 +189,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
         
         toast({
           title: t('notifications.clientDeleted'),
-          description: "Cliente rimosso dal sistema",
+          description: t('i18nFinale.clientCard.clientRemoved'),
         });
         
         if (onUpdate) {
@@ -257,12 +257,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
               className="ml-2 h-6 px-2 text-xs bg-white hover:bg-red-50 border-red-300"
             >
               <Unlock className="h-3 w-3 mr-1" />
-              Sblocca eliminazione
+              {t('i18nFinale.clientCardExtra.unlockDeletion')}
             </Button>
           )}
           {isDeletionUnlocked && (
             <Badge variant="secondary" className="ml-2 text-xs bg-green-100 text-green-800">
-              Eliminazione sbloccata
+              {t('i18nFinale.clientCardExtra.deletionUnlockedBadge')}
             </Badge>
           )}
         </div>
@@ -271,13 +271,13 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       {/* Notifica altro account (solo se non eliminato alla fonte) */}
       {isOtherAccount && !isDeletedAtSource && (
         <div className="bg-orange-100 px-3 py-1 text-xs text-orange-800 font-medium border-b border-orange-200">
-          👥 Cliente di altro account (sola visualizzazione)
+          👥 {t('i18nFinale.clientCardExtra.otherAccountClient')}
         </div>
       )}
       {isIncompleteData && !isDeletedAtSource && (
         <div className="bg-red-500 px-3 py-2 text-xs text-white font-medium border-b border-red-600 flex items-center gap-2">
           <UserCog className="h-4 w-4" />
-          Dati cliente da completare
+          {t('i18nFinale.clientCard.incompleteData')}
         </div>
       )}
       <CardContent className="pt-6">
@@ -354,7 +354,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
               </>
             ) : (
               <Badge variant="outline" className="text-xs text-orange-600 border-orange-300">
-                Solo visualizzazione
+                {t('i18nFinale.clientCardExtra.viewOnlyBadge')}
               </Badge>
             )}
           </div>
@@ -495,7 +495,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                     }}
                   >
                     <Mail className="h-3 w-3" />
-                    Email
+                    {t('i18nFinale.clientCardExtra.emailButton')}
                   </Button>
                 )}
               </div>

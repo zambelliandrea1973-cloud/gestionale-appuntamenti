@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,7 @@ interface PlanFeature {
 }
 
 export default function SubscriptionPlansAdmin() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [editingPlan, setEditingPlan] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<SubscriptionPlan>>({});
@@ -48,15 +50,15 @@ export default function SubscriptionPlansAdmin() {
       queryClient.invalidateQueries({ queryKey: ['/api/subscription-plans'] });
       queryClient.invalidateQueries({ queryKey: ['/api/payments/plans'] });
       toast({
-        title: "Piano aggiornato",
-        description: "Il piano abbonamento è stato aggiornato con successo.",
+        title: t('i18nFinale.subscriptionPlansAdmin.planUpdatedTitle'),
+        description: t('i18nFinale.subscriptionPlansAdmin.planUpdated'),
       });
       setEditingPlan(null);
       setEditForm({});
     },
     onError: (error: Error) => {
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -126,7 +128,7 @@ export default function SubscriptionPlansAdmin() {
   };
 
   if (isLoading) {
-    return <div className="text-center p-4">Caricamento piani...</div>;
+    return <div className="text-center p-4">{t('i18nFinale.subscriptionPlansAdmin.loadingPlans')}</div>;
   }
 
   return (
@@ -140,7 +142,7 @@ export default function SubscriptionPlansAdmin() {
           data-testid="button-preview-plans"
         >
           <Eye className="h-4 w-4" />
-          Anteprima Piani Pubblici
+          {t('i18nFinale.subscriptionPlansAdmin.previewPublicPlans')}
         </Button>
       </div>
       {plans?.map((plan) => {
@@ -184,7 +186,7 @@ export default function SubscriptionPlansAdmin() {
                       <Input
                         value={editForm.description || ''}
                         onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                        placeholder="Descrizione piano"
+                        placeholder={t('i18nFinale.subscriptionPlansAdmin.planDescription')}
                       />
                     ) : (
                       plan.description
@@ -201,7 +203,7 @@ export default function SubscriptionPlansAdmin() {
                         disabled={updatePlanMutation.isPending}
                       >
                         <X className="h-4 w-4 mr-1" />
-                        Annulla
+                        {t('common.cancel')}
                       </Button>
                       <Button
                         size="sm"
@@ -209,13 +211,13 @@ export default function SubscriptionPlansAdmin() {
                         disabled={updatePlanMutation.isPending}
                       >
                         <Save className="h-4 w-4 mr-1" />
-                        Salva
+                        {t('common.save')}
                       </Button>
                     </>
                   ) : (
                     <Button size="sm" variant="outline" onClick={() => startEditing(plan)}>
                       <Edit2 className="h-4 w-4 mr-1" />
-                      Modifica
+                      {t('common.edit')}
                     </Button>
                   )}
                 </div>
@@ -225,7 +227,7 @@ export default function SubscriptionPlansAdmin() {
               {/* Prezzo e Intervallo */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <Label>Prezzo (centesimi)</Label>
+                  <Label>{t('i18nFinale.subscriptionPlansAdmin.priceCents')}</Label>
                   {isEditing ? (
                     <Input
                       type="number"
@@ -236,27 +238,27 @@ export default function SubscriptionPlansAdmin() {
                     <div className="flex items-center gap-2 mt-2">
                       <Euro className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">{(plan.price / 100).toFixed(2)}</span>
-                      <span className="text-sm text-muted-foreground">/ {plan.interval === 'month' ? 'mese' : 'anno'}</span>
+                      <span className="text-sm text-muted-foreground">/ {plan.interval === 'month' ? t('i18nFinale.subscriptionPlansAdmin.monthShort') : t('i18nFinale.subscriptionPlansAdmin.yearShort')}</span>
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <Label>Limite Clienti</Label>
+                  <Label>{t('i18nFinale.subscriptionPlansAdmin.clientLimit')}</Label>
                   {isEditing ? (
                     <Input
                       type="number"
                       value={editForm.clientLimit || ''}
                       onChange={(e) => setEditForm({ ...editForm, clientLimit: e.target.value ? parseInt(e.target.value) : null })}
-                      placeholder="Illimitato"
+                      placeholder={t('i18nFinale.subscriptionPlansAdmin.unlimited')}
                     />
                   ) : (
-                    <div className="mt-2 font-medium">{plan.clientLimit || 'Illimitato'}</div>
+                    <div className="mt-2 font-medium">{plan.clientLimit || t('i18nFinale.subscriptionPlansAdmin.unlimited')}</div>
                   )}
                 </div>
 
                 <div>
-                  <Label>Stato</Label>
+                  <Label>{t('i18nFinale.subscriptionPlansAdmin.statusLabel')}</Label>
                   {isEditing ? (
                     <div className="flex items-center gap-2 mt-2">
                       <Switch
@@ -276,10 +278,10 @@ export default function SubscriptionPlansAdmin() {
               {/* Features */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <Label>Funzionalità Incluse</Label>
+                  <Label>{t('i18nFinale.subscriptionPlansAdmin.featuresIncluded')}</Label>
                   {isEditing && (
                     <Button size="sm" variant="outline" onClick={addFeature}>
-                      Aggiungi Funzionalità
+                      {t('i18nFinale.subscriptionPlansAdmin.addFeature')}
                     </Button>
                   )}
                 </div>
@@ -290,7 +292,7 @@ export default function SubscriptionPlansAdmin() {
                         <Input
                           value={feature.name}
                           onChange={(e) => updateFeature(index, 'name', e.target.value)}
-                          placeholder="Nome funzionalità"
+                          placeholder={t('i18nFinale.subscriptionPlansAdmin.featureNamePlaceholder')}
                         />
                         <Switch
                           checked={feature.included}
@@ -320,7 +322,7 @@ export default function SubscriptionPlansAdmin() {
                     ))
                   ) : (
                     <div className="text-sm text-muted-foreground italic">
-                      Nessuna funzionalità configurata. Clicca "Modifica" per aggiungere funzionalità.
+                      {t('i18nFinale.subscriptionPlansAdmin.noFeatures')}
                     </div>
                   )}
                 </div>

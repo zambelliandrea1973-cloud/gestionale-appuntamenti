@@ -172,7 +172,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   type="email"
                   value={contactInfo.email || ''}
                   onChange={handleInputChange('email')}
-                  placeholder="email@esempio.com"
+                  placeholder={t('i18nFinale.contactInfoEditor.emailPlaceholder')}
                   className={validationErrors.email ? 'border-red-500' : ''}
                 />
                 {validationErrors.email && (
@@ -229,7 +229,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   id="website"
                   value={contactInfo.website || ''}
                   onChange={handleInputChange('website')}
-                  placeholder="esempio.it o www.esempio.com"
+                  placeholder={t('i18nFinale.contactInfoEditor.websiteExamplePlaceholder')}
                   className={validationErrors.website ? 'border-red-500' : ''}
                 />
                 {validationErrors.website && (

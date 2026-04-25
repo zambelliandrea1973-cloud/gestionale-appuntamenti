@@ -1,5 +1,6 @@
-// Testo dei consensi privacy in diverse lingue/giurisdizioni
-// Ogni testo è conforme alle normative locali di ogni paese
+// i18n-audit-ignore-file
+// Testo dei consensi privacy in diverse lingue/giurisdizioni: dati strutturati
+// per lingua (non stringhe UI). Selezionati a runtime in base alla lingua scelta.
 
 export interface ConsentText {
   language: string;

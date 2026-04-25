@@ -15,10 +15,21 @@ const REPORT_PATH = path.resolve(process.cwd(), '.local/i18n-audit-report.md');
 const SKIP_DIRS = new Set(['locales', 'node_modules', '__tests__']);
 const TARGET_EXT = new Set(['.ts', '.tsx']);
 
-// File admin esclusi per scelta del proprietario: restano in italiano.
-const SKIP_FILES = new Set<string>([]);
+// File esclusi per scelta del proprietario: restano in italiano.
+// - Pagine staff/admin: out of scope per task #35.
+const SKIP_FILES = new Set<string>([
+  'pages/StaffManagementPageClean.tsx',
+  'pages/AdminLicenseManagementPage.tsx',
+  'pages/AdminUsersPage.tsx',
+  'pages/BetaAdmin.tsx',
+  'pages/ManualAdminPage.tsx',
+  'pages/PaymentAdmin.tsx',
+]);
 
-const ITALIAN_HINT = /[àèéìòùÀÈÉÌÒÙ]|\b(il|lo|la|gli|le|un|una|del|della|degli|delle|che|con|per|alla|allo|alle|agli|nel|nella|sono|hai|sei|cliente|appuntament|fattur|salv|elimin|modific|crea|nuovo|nuova|scegli|inserisci|password|utente|conferma|annulla|errore|successo|aggiorn|carica|non|più|già|dopo|prima)\b/i;
+// Marker da inserire in cima a un file per escluderlo dall'audit (data-only files).
+const IGNORE_MARKER = 'i18n-audit-ignore-file';
+
+const ITALIAN_HINT = /[àèéìòùÀÈÉÌÒÙ]|\b(?:il|lo|la|gli|le|un|una|del|della|degli|delle|dell|all|nell|sull|dall|che|con|per|alla|allo|alle|agli|nel|nella|sono|hai|sei|cliente|clienti|appuntament|fattur|salv|elimin|modific|crea|creato|nuovo|nuova|scegli|seleziona|inserisci|password|utente|conferma|annulla|errore|successo|aggiorn|carica|caricamento|non|più|già|dopo|prima|tocca|installa|installata|installato|installazione|configurazione|condivisione|chiudi|vedi|fatto|importante|mostra|nascondi|presente|mancante|riparazione|riparato|ricreato|ricreare|automatico|automatica|attiva|disattiva|attivata|disattivate|attivate|attive|negato|necessaria|necessario|notifiche|notifica|inizializzazione|applicazione|informativa|privacy|accesso|attivazione|configurato|trovate|corso|richiesto|impossibile|verificare|registrato|registrata|consenso|alto|destra|destra|app|tenta|nascondi|aggiungi|tutta|tutti|tutte|tuoi|tuo|tua|sua|mio|mia|miei|nostro|nostra|nostri|nostre|vostro|vostra|vostri|vostre|loro|essere|fare|avere|stare|può|sarà|sarò|sarai|hanno|abbia|deve|dove|quando|quale|qualcuno|qualcosa|altro|altra|altri|altre|stesso|stessa|tutto|stesso|propria|proprio|propri|proprie|operatore|operatori|prenotazione|prenotazioni|servizio|servizi|sede|sedi|stanza|stanze|piano|piani|profilo|profili|cancellazione|disponibile|disponibili|necessario|necessari|riservata|riservato|sblocca|sbloccato|copiata|copiato|copiare|gestione|gestire|aggiungi|aggiungere|aggiunto|aggiunta|controlla|controllo|invia|inviato|inviare|completato|completata|completare|completa|riprova|riprovare|consentito|invalido|valido|valida|finalizzato|finalizzare|disabilitato|abilitato|inattivo|attivo|cessato|annullato|rimosso|rimossa|inviato|gentile|grazie|risponde|risposta|seguito|aggiungere|nessun|nessuna|connessione|reset|risincronizza|risincronizzato|cosi|cosi|fino|tipo|nome|cognome|telefono|email|prezzo|importo|saldo|totale|durata|orario|ora|data|giorno|mese|anno|settimana|categoria|categorie|stato|finalizza|riepilogo|dettagli|conferma)\b/i;
 
 type Finding = {
   file: string;
@@ -56,6 +67,7 @@ async function walk(dir: string): Promise<string[]> {
 
 async function scanFile(file: string) {
   const content = await fs.readFile(file, 'utf-8');
+  if (content.includes(IGNORE_MARKER)) return;
   const lines = content.split('\n');
   for (const { regex, type, group = 1 } of PATTERNS) {
     regex.lastIndex = 0;

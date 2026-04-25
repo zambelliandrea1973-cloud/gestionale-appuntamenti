@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface TimeSlotProps {
   time: string;
@@ -6,6 +7,7 @@ interface TimeSlotProps {
 }
 
 export default function TimeSlot({ time, onAddAppointment }: TimeSlotProps) {
+  const { t } = useTranslation();
   const handleNewAppointmentClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -21,7 +23,7 @@ export default function TimeSlot({ time, onAddAppointment }: TimeSlotProps) {
         onClick={handleNewAppointmentClick}
       >
         <Plus className="h-4 w-4 mr-1" />
-        Nuovo appuntamento
+        {t('i18nFinale.timeSlot.newAppointment')}
       </button>
     </div>
   );

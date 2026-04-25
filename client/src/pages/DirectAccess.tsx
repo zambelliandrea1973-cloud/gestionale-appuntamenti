@@ -1,8 +1,10 @@
 import { useLocation } from 'wouter';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DirectLinkAccess } from '@/components/DirectLinkAccess';
 
 export default function DirectAccess() {
+  const { t } = useTranslation();
   const [location] = useLocation();
   const [token, setToken] = useState<string | null>(null);
   const [clientId, setClientId] = useState<number | null>(null);
@@ -23,9 +25,9 @@ export default function DirectAccess() {
     return (
       <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Link di accesso non valido</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('i18nFinale.directAccess.invalidLink')}</h1>
           <p className="text-muted-foreground">
-            Il link utilizzato non contiene tutti i parametri necessari per l'accesso.
+            {t('i18nFinale.directAccess.missingParams')}
           </p>
         </div>
       </div>

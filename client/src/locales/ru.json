@@ -6358,5 +6358,427 @@
     "toastDesc": "Проверьте почту, чтобы найти ссылку для сброса пароля",
     "sendError": "Ошибка при отправке письма. Попробуйте позже.",
     "rateLimitError": "Слишком много попыток. Повторите через 15 минут."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "Вы можете быстро открыть приложение с главного экрана устройства.",
+      "androidInstallTap": "Установите одним нажатием",
+      "iosStepsIntro": "Следуйте этим шагам, чтобы установить приложение на iPhone или iPad",
+      "iosUseSafari": "Используйте Safari — установка не работает в других браузерах, например Chrome или Firefox.",
+      "iosShareLocation": "Она находится на панели инструментов Safari внизу экрана (iPhone) или сверху (iPad)",
+      "iosScrollAddHome": "Прокрутите вниз и нажмите «На экран „Домой“»",
+      "iosScrollOptions": "Прокрутите варианты в меню «Поделиться»",
+      "iosCanRename": "При желании можно изменить имя приложения",
+      "iosAppOnHome": "Приложение появится на главном экране",
+      "browserNote": "Примечание: на iOS используйте Safari. На Android рекомендуется Chrome.",
+      "appInstalledCorrectly": "Приложение установлено успешно",
+      "installAppOnDevice": "Установите приложение на устройство",
+      "installOnAndroid": "Установить на Android",
+      "tapShareInSafari": "Нажмите «Поделиться» в Safari",
+      "selectAddToHome": "Выберите «На экран „Домой“»",
+      "seeIosInstructions": "См. инструкции для iOS",
+      "iosInstallTitle": "Установка на iOS",
+      "important": "Важно",
+      "tapShareIcon": "Нажмите значок «Поделиться»",
+      "tapAddTopRight": "Нажмите «Добавить» в правом верхнем углу",
+      "done": "Готово!",
+      "closeButton": "Закрыть"
+    },
+    "pushNotifications": {
+      "permissionRequired": "Чтобы получать обновления, разрешите уведомления.",
+      "subscribed": "Вы получите уведомление, когда ваша запись будет подтверждена.",
+      "subscribeError": "Не удалось включить уведомления. Попробуйте ещё раз.",
+      "unsubscribed": "Вы больше не будете получать push-уведомления.",
+      "unsubscribeError": "Не удалось отключить уведомления.",
+      "notSupported": "Push-уведомления не поддерживаются в этом браузере. Попробуйте открыть приложение как установленное PWA.",
+      "permissionDeniedTitle": "Разрешение отклонено",
+      "notificationsActivatedTitle": "Уведомления включены",
+      "notificationsDeactivatedTitle": "Уведомления отключены"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Добавить функцию",
+      "featuresIncluded": "Включённые функции",
+      "noFeatures": "Функции не настроены. Нажмите «Изменить», чтобы добавить функции.",
+      "featureNamePlaceholder": "Название функции",
+      "planUpdated": "План подписки успешно обновлён.",
+      "loadingPlans": "Загрузка планов...",
+      "previewPublicPlans": "Предпросмотр публичных планов",
+      "priceCents": "Цена (копейки)",
+      "clientLimit": "Лимит клиентов",
+      "statusLabel": "Статус",
+      "planDescription": "Описание плана",
+      "planUpdatedTitle": "План обновлён",
+      "monthShort": "мес.",
+      "yearShort": "год",
+      "unlimited": "Неограниченно"
+    },
+    "clientsPage": {
+      "newShort": "Новый",
+      "noClientsInSystem": "В системе пока нет клиентов.",
+      "noClientsForProfessional": "Для этого специалиста клиенты не найдены",
+      "updateError": "Ошибка при обновлении данных",
+      "allTab": "Все",
+      "othersTab": "Другие",
+      "noConsentTab": "Без согласия",
+      "loadingSummary": "Загрузка сводки...",
+      "noProfessionalsFound": "Специалисты не найдены",
+      "clientsLoadedTitle": "Клиенты загружены",
+      "clientsLoadFailedTitle": "Не удалось загрузить клиентов"
+    },
+    "clientCard": {
+      "incompleteData": "Данные клиента нужно заполнить",
+      "deletionUnlocked": "Удаление разблокировано",
+      "unlockDeletionAction": "Разблокировать удаление",
+      "cannotUnlock": "Не удалось разблокировать удаление",
+      "cannotMarkDeleted": "Не удалось имитировать удаление",
+      "clientRemoved": "Клиент удалён из системы"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "Прямая ссылка скопирована в буфер обмена.",
+      "copyFailed": "Не удалось скопировать ссылку. Попробуйте выделить её вручную.",
+      "openInNewTab": "Открыть в новой вкладке",
+      "easyAccessNote": "По этой ссылке проще войти в кабинет клиента: имя пользователя уже заполнено.",
+      "passwordOnlyNote": "Потребуется ввести только пароль — это быстро и удобно.",
+      "accessLink": "Ссылка доступа",
+      "linkCopiedTitle": "Ссылка скопирована!",
+      "directLinkTitle": "Прямая ссылка",
+      "copyAndShareDesc": "Скопируйте и поделитесь этой ссылкой с {{clientName}} для простого и прямого доступа в клиентскую зону.",
+      "copyLinkTitle": "Скопировать ссылку",
+      "securityNoteLabel": "Примечание о безопасности:",
+      "securityNoteText": "Эта ссылка содержит конфиденциальный токен. Делитесь только с {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Токен успешно обновлён",
+      "regeneratedDescription": "Создан новый QR-код.",
+      "cannotRegenerate": "Не удалось обновить токен. Попробуйте позже.",
+      "later": "Позже",
+      "expiringTitle": "Внимание: токен скоро истекает",
+      "expiresToday": "Ваш токен доступа истекает сегодня.",
+      "expiresInOneDay": "Ваш токен доступа истекает через 1 день.",
+      "expiresInDays": "Ваш токен доступа истекает через {{count}} дн.",
+      "regenerationPrompt": "Чтобы продолжать пользоваться клиентской зоной через QR-код, необходимо создать новый токен. Создать сейчас?",
+      "regenerating": "Создание...",
+      "regenerateToken": "Создать новый токен"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Создавайте и управляйте шаблонами для напоминаний по email и WhatsApp. Единые шаблоны работают для обоих каналов.",
+      "loadAppointmentsError": "Не удалось загрузить записи: {{error}}",
+      "loadHistoryError": "Не удалось загрузить историю: {{error}}",
+      "loadSmsHistoryError": "Не удалось загрузить историю SMS: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Добро пожаловать в клиентское приложение",
+      "verifyingUser": "Проверка данных пользователя...",
+      "ifNotRedirected": "Если переадресация не произошла автоматически,",
+      "enterPassword": "Введите пароль",
+      "scanQrToConfigure": "Отсканируйте QR-код для настройки приложения",
+      "insufficientDataToken": "Недостаточно данных для воссоздания токена",
+      "initCheck": "Инициализация и проверка учётных данных",
+      "initApp": "Инициализация приложения...",
+      "attemptRepair": "Попробовать восстановить",
+      "showDebugInfo": "Показать отладочные данные",
+      "hideDebugInfo": "Скрыть отладочные данные",
+      "missing": "отсутствует",
+      "present": "присутствует",
+      "clickHere": "нажмите здесь",
+      "toProceedLogin": "чтобы перейти к входу.",
+      "autoAccessTitle": "Автоматический вход",
+      "credentialsFoundDesc": "Учётные данные найдены, выполняется вход...",
+      "loginRequiredTitle": "Требуется вход",
+      "configRequiredTitle": "Требуется настройка",
+      "storageRepairedTitle": "Хранилище восстановлено",
+      "tokenRecreatedDesc": "Токен воссоздан из qrData",
+      "cannotRepairTitle": "Не удалось восстановить"
+    },
+    "betaStatus": {
+      "title": "Бета-режим",
+      "welcomeMessage": "Добро пожаловать в бета-программу! Вы можете оставить отзыв в любое время на странице беты.",
+      "invalidCode": "Неверный код беты"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "Вы можете быстро открыть личный кабинет с главного экрана устройства.",
+      "addHomeForFasterAccess": "Добавьте это приложение на главный экран для быстрого доступа",
+      "iosHowTo": "Как установить приложение на iOS:",
+      "scrollDownAndTap": "Прокрутите вниз и нажмите",
+      "installInstructions": "Установите приложение на устройство, чтобы быстрее получать доступ к записям и личным данным даже в офлайне.",
+      "appInstalledCorrectly": "Приложение установлено успешно",
+      "installAppTitle": "Установить приложение",
+      "tapShareIcon": "Нажмите значок «Поделиться» в",
+      "addToHome": "На экран «Домой»",
+      "tap": "Нажмите",
+      "add": "Добавить",
+      "installAppCta": "Установить приложение"
+    },
+    "useLicense": {
+      "activated": "Ваша лицензия успешно активирована.",
+      "activationError": "Ошибка активации",
+      "activationErrorDesc": "Произошла ошибка при активации лицензии.",
+      "generationError": "Ошибка генерации",
+      "generationErrorDesc": "Произошла ошибка при генерации кода.",
+      "activatedTitle": "Лицензия активирована",
+      "codeGeneratedTitle": "Код создан",
+      "codeGeneratedDesc": "Код активации: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "У этого клиента нет записей",
+      "notAssigned": "Не назначен",
+      "collaboratorNotFound": "Сотрудник не найден",
+      "notSpecifiedFem": "Не указана",
+      "roomNotFound": "Кабинет не найден"
+    },
+    "currencySelector": {
+      "selectDescription": "Выберите валюту, которая будет использоваться во всей программе для цен, счетов и отчётов.",
+      "updateError": "Не удалось обновить валюту",
+      "selectCurrency": "Выберите валюту",
+      "currencyUpdatedTitle": "Валюта обновлена",
+      "currencySetTo": "Валюта установлена: {{name}} ({{symbol}})",
+      "currencyHeading": "Валюта",
+      "currentCurrencyLabel": "Текущая валюта",
+      "currentSymbolLabel": "Текущий символ:"
+    },
+    "dayView": {
+      "clickToSelect": "Нажмите, чтобы выбрать",
+      "tapToClose": "Нажмите, чтобы закрыть",
+      "selectClient": "Выберите клиента",
+      "noClientsAvailable": "Нет доступных клиентов",
+      "selectedBadge": "ВЫБРАНО"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "Эта страница только для клиентов",
+      "connectionError": "Ошибка подключения",
+      "consentRegistered": "Ваше согласие успешно записано",
+      "loading": "Загрузка...",
+      "privacyPolicyTitle": "Политика конфиденциальности",
+      "accessDeniedTitle": "Доступ запрещён",
+      "verifyAuthFailed": "Не удалось проверить аутентификацию",
+      "consentRegisteredTitle": "Согласие зарегистрировано"
+    },
+    "promotionPage": {
+      "notFound": "Акция не найдена",
+      "invalidLink": "Ссылка недействительна или акция истекла.",
+      "videoNotSupported": "Ваш браузер не поддерживает видео.",
+      "validNote": "Акция действительна. Свяжитесь с нами для дополнительной информации!"
+    },
+    "colorEditor": {
+      "savedDescription": "Основной цвет успешно сохранён.",
+      "colorSavedTitle": "Цвет сохранён",
+      "primaryColorLabel": "Основной цвет",
+      "secondaryColorLabel": "Дополнительный цвет",
+      "saveColors": "Сохранить цвета",
+      "savedSuccessText": "Цвета успешно сохранены!"
+    },
+    "footerContent": {
+      "writeUsAt": "По любым вопросам пишите нам на:",
+      "callOurSupport": "Позвоните в нашу службу поддержки:",
+      "supportHours": "Доступно с понедельника по пятницу, 9:00-18:00",
+      "privacyPolicy": "Политика конфиденциальности",
+      "emailSupport": "Поддержка по email",
+      "responseGuarantee": "Ответ в течение 24 часов",
+      "helpCenterTitle": "Центр помощи",
+      "phoneSupportTitle": "Телефонная поддержка"
+    },
+    "saveDirect": {
+      "appointmentCreated": "Новая запись успешно создана",
+      "appointmentCreatedTitle": "Запись создана"
+    },
+    "stripeCheckout": {
+      "paymentError": "Ошибка оплаты",
+      "paymentErrorDesc": "Во время оплаты произошла ошибка"
+    },
+    "pwaRedirector": {
+      "appStartError": "Произошла ошибка при запуске приложения."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Удаление клиента",
+      "newBadge": "НОВОЕ",
+      "title": "Уведомления администратора",
+      "noNotifications": "Нет уведомлений"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Добавьте это приложение на главный экран для быстрого доступа",
+      "quickAccessPersonal": "Быстрый доступ к личному кабинету",
+      "installAppTitle": "Установить приложение",
+      "worksOffline": "Работает офлайн",
+      "automaticUpdates": "Автоматические обновления"
+    },
+    "pwaSession": {
+      "expiredDesc": "Сессия истекла, войдите снова.",
+      "expiredTitle": "Сессия истекла",
+      "verifying": "Проверка сессии..."
+    },
+    "restartApp": {
+      "errorTitle": "Ошибка перезапуска",
+      "restartingTitle": "Перезапуск"
+    },
+    "directAccess": {
+      "invalidLink": "Недействительная ссылка доступа",
+      "missingParams": "В ссылке отсутствуют необходимые для доступа параметры."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Календарь недоступен",
+      "availableOnlyInPlans": "Интеграция с Google Календарём доступна только в тарифах"
+    },
+    "manualSection": {
+      "noContent": "Для этого раздела нет содержимого."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Оплатить через PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "Новая запись"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Ошибка"
+    },
+    "inventory": {
+      "unitOfMeasure": "Единица измерения"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Выберите хотя бы одну услугу",
+      "nameRequired": "Требуется название пакета",
+      "minOneSession": "Количество сеансов должно быть не менее 1",
+      "pricePositive": "Цена должна быть положительной"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "Нет записей",
+      "serviceColumn": "Услуга",
+      "roomColumn": "Кабинет",
+      "statusColumn": "Статус",
+      "completedLabel": "Завершено",
+      "confirmedLabel": "Подтверждено",
+      "cancelledLabel": "Отменено",
+      "scheduledLabel": "Запланировано",
+      "appointmentsHeading": "Записи",
+      "dateColumn": "Дата",
+      "timeColumn": "Время",
+      "collaboratorColumn": "Сотрудник"
+    },
+    "appointmentCard": {
+      "hide": "Скрыть",
+      "details": "Подробности",
+      "emailReminderSent": "Напоминание по email отправлено",
+      "emailSendFailed": "Не удалось отправить email",
+      "whatsappReminderSent": "Напоминание в WhatsApp отправлено"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Разблокировать удаление",
+      "emailButton": "Email",
+      "deletionNotificationTitle": "Уведомление об удалении",
+      "deletionUnlockedBadge": "Удаление разблокировано",
+      "otherAccountClient": "Клиент другого аккаунта (только просмотр)",
+      "viewOnlyBadge": "Только просмотр"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "Email:",
+      "phoneLabel": "Телефон:",
+      "termsOfService": "Условия обслуживания",
+      "privacyPolicy": "Политика конфиденциальности",
+      "cellularLabel": "Мобильный:",
+      "websiteLabel": "Веб-сайт:",
+      "developedBy": "Разработано {{author}}",
+      "versionLine": "Версия {{version}} - Менеджер записей PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Закрыть",
+      "selectServiceTitle": "Выберите услугу"
+    },
+    "socialIcons": {
+      "emailLabel": "Email",
+      "phoneLabel": "Телефон"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Требуемый план:",
+      "viewPlans": "Посмотреть планы"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Политика конфиденциальности",
+      "termsOfService": "Условия обслуживания"
+    },
+    "appointmentForm": {
+      "emailLabel": "Email"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Выберите услугу"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@example.com",
+      "websiteExamplePlaceholder": "пример.ru или www.пример.ru"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Политика конфиденциальности"
+    },
+    "monthView": {
+      "addAppointment": "Добавить запись"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "Email"
+    },
+    "homePage": {
+      "loadingName": "Загрузка имени..."
+    },
+    "promotionPageExtra": {
+      "loading": "Загрузка...",
+      "specialPromotionTitle": "Специальное предложение"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Политика конфиденциальности"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Запуск...",
+      "redirecting": "Перенаправление..."
+    },
+    "staffManagementSimple": {
+      "loading": "Загрузка..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "name@example.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Мобильная синхронизация",
+      "mobileSyncDesc": "Тест синхронизации: {{count}} клиентов доступно",
+      "testServer": "Проверить сервер"
+    },
+    "inventoryExtra": {
+      "removeImage": "Удалить"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Сохранить напрямую"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Популярный"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Менеджер записей от {{author}}",
+      "versionLine": "Версия {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Управление персоналом (упрощённая версия)",
+      "pageLoadedSuccess": "Страница успешно загружена! Найдено пользователей: {{count}}."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Менеджер записей"
+    },
+    "countryPrefixes": {
+      "italy": "Италия",
+      "usaCanada": "США/Канада",
+      "unitedKingdom": "Великобритания",
+      "france": "Франция",
+      "germany": "Германия",
+      "spain": "Испания",
+      "switzerland": "Швейцария",
+      "austria": "Австрия",
+      "belgium": "Бельгия",
+      "netherlands": "Нидерланды",
+      "portugal": "Португалия",
+      "greece": "Греция",
+      "sweden": "Швеция",
+      "norway": "Норвегия",
+      "denmark": "Дания",
+      "finland": "Финляндия",
+      "poland": "Польша",
+      "czechRepublic": "Чехия",
+      "hungary": "Венгрия",
+      "romania": "Румыния"
+    }
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +16,7 @@ export default function StripeCheckoutButton({
   buttonText = 'Paga con carta di credito',
   className = ''
 }: StripeCheckoutButtonProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -51,8 +53,8 @@ export default function StripeCheckoutButton({
       console.error('Errore durante il processo di pagamento:', error);
       
       toast({
-        title: 'Errore di pagamento',
-        description: error instanceof Error ? error.message : 'Si è verificato un errore durante il processo di pagamento',
+        title: t('i18nFinale.stripeCheckout.paymentError'),
+        description: error instanceof Error ? error.message : t('i18nFinale.stripeCheckout.paymentErrorDesc'),
         variant: 'destructive'
       });
     } finally {
@@ -69,7 +71,7 @@ export default function StripeCheckoutButton({
       {isLoading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Elaborazione...
+          {t('common.processing')}
         </>
       ) : (
         <>

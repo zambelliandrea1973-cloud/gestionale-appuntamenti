@@ -147,8 +147,8 @@ export default function Clients() {
     } catch (error) {
       console.error("Errore durante il refresh dopo creazione cliente:", error);
       toast({
-        title: "Errore",
-        description: "Errore durante l'aggiornamento dei dati",
+        title: t('common.error'),
+        description: t('i18nFinale.clientsPage.updateError'),
         variant: "destructive",
       });
     }
@@ -202,13 +202,13 @@ export default function Clients() {
       setExpandedOwners(prev => new Set(prev).add(ownerId));
       
       toast({
-        title: "Clienti caricati",
-        description: `Caricati ${data.length} clienti`,
+        title: t('i18nFinale.clientsPage.clientsLoadedTitle'),
+        description: `${t('i18nFinale.clientsPage.clientsLoadedTitle')}: ${data.length}`,
       });
     } catch (error) {
       toast({
-        title: "Errore",
-        description: "Impossibile caricare i clienti",
+        title: t('common.error'),
+        description: t('i18nFinale.clientsPage.clientsLoadFailedTitle'),
         variant: "destructive"
       });
     } finally {
@@ -296,8 +296,8 @@ export default function Clients() {
               onClick={async () => {
                 await queryClient.invalidateQueries({ queryKey: ['/api/mobile-sync'] });
                 toast({
-                  title: "Sincronizzazione Mobile",
-                  description: `Test sync: ${clientsCount} clienti disponibili`,
+                  title: t('i18nFinale.clientsPageExtra.mobileSyncTitle'),
+                  description: t('i18nFinale.clientsPageExtra.mobileSyncDesc', { count: clientsCount }),
                 });
               }}
               variant="secondary"
@@ -313,8 +313,8 @@ export default function Clients() {
             className="flex-shrink-0"
           >
             <Server className="h-4 w-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">Test Server</span>
-            <span className="sm:hidden">Test</span>
+            <span className="hidden sm:inline">{t('i18nFinale.clientsPageExtra.testServer')}</span>
+            <span className="sm:hidden">{t('common.test')}</span>
           </Button>
           <Button
             onClick={async () => {
@@ -334,7 +334,7 @@ export default function Clients() {
               <Button className="flex-shrink-0">
                 <Plus className="h-4 w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">{t("clients.addClient")}</span>
-                <span className="sm:hidden">Nuovo</span>
+                <span className="sm:hidden">{t('i18nFinale.clientsPage.newShort')}</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -369,7 +369,7 @@ export default function Clients() {
             <TabsTrigger value="all" className="flex items-center gap-1 text-xs sm:text-sm px-2">
               <Users className="h-3 w-3 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{t("clients.allClients")}</span>
-              <span className="sm:hidden">Tutti</span>
+              <span className="sm:hidden">{t('i18nFinale.clientsPage.allTab')}</span>
               <span className="ml-0.5">({clients.filter(() => true).length})</span>
             </TabsTrigger>
             {currentUser?.type === 'admin' && (
@@ -388,7 +388,7 @@ export default function Clients() {
                 <TabsTrigger value="other-clients" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-orange-50 border-orange-200 text-orange-700 data-[state=active]:bg-orange-100">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span className="hidden sm:inline">{t("clientsPageNotifications.otherAccountsLabel")}</span>
-                  <span className="sm:hidden">Altri</span>
+                  <span className="sm:hidden">{t('i18nFinale.clientsPage.othersTab')}</span>
                   <span className="ml-0.5">({clients.filter((c: any) => c.ownerId !== currentUser.id).length})</span>
                 </TabsTrigger>
               </>
@@ -402,7 +402,7 @@ export default function Clients() {
             <TabsTrigger value="no-consent" className="flex items-center gap-1 text-xs sm:text-sm px-2">
               <UserX className="h-3 w-3 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{t("clients.noConsent")}</span>
-              <span className="sm:hidden">No consenso</span>
+              <span className="sm:hidden">{t('i18nFinale.clientsPage.noConsentTab')}</span>
               <span className="ml-0.5">({clients.filter((c: any) => c.hasConsent !== true).length})</span>
             </TabsTrigger>
           </TabsList>
@@ -415,15 +415,15 @@ export default function Clients() {
                 {summaryLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <RefreshCw className="h-6 w-6 animate-spin mr-2" />
-                    <span>Caricamento riepilogo...</span>
+                    <span>{t('i18nFinale.clientsPage.loadingSummary')}</span>
                   </div>
                 ) : clientsSummary.length === 0 ? (
                   <Card>
                     <CardContent className="flex flex-col items-center justify-center py-16">
                       <Building2 className="h-12 w-12 text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">Nessun professionista trovato</h3>
+                      <h3 className="text-lg font-semibold mb-2">{t('i18nFinale.clientsPage.noProfessionalsFound')}</h3>
                       <p className="text-muted-foreground text-center">
-                        Non ci sono ancora clienti nel sistema.
+                        {t('i18nFinale.clientsPage.noClientsInSystem')}
                       </p>
                     </CardContent>
                   </Card>
@@ -498,7 +498,7 @@ export default function Clients() {
                             ) : (
                               <div className="text-center py-8 text-muted-foreground">
                                 <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                                <p>Nessun cliente trovato per questo professionista</p>
+                                <p>{t('i18nFinale.clientsPage.noClientsForProfessional')}</p>
                               </div>
                             )}
                           </CardContent>

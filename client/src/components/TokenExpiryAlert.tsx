@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -19,6 +20,7 @@ interface TokenExpiryAlertProps {
 }
 
 export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
+  const { t } = useTranslation();
   const [isExpiringSoon, setIsExpiringSoon] = useState<boolean>(false);
   const [daysToExpiry, setDaysToExpiry] = useState<number>(0);
   const [showDialog, setShowDialog] = useState<boolean>(false);
@@ -62,8 +64,8 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
         const data = await response.json();
         
         toast({
-          title: 'Token rigenerato con successo',
-          description: 'Un nuovo QR code è stato generato.',
+          title: t('i18nFinale.tokenExpiry.regenerated'),
+          description: t('i18nFinale.tokenExpiry.regeneratedDescription'),
         });
         
         // Chiudi il dialog
@@ -77,8 +79,8 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
     } catch (error) {
       console.error('Errore nella rigenerazione del token:', error);
       toast({
-        title: 'Errore',
-        description: 'Impossibile rigenerare il token. Riprova più tardi.',
+        title: t('common.error'),
+        description: t('i18nFinale.tokenExpiry.cannotRegenerate'),
         variant: 'destructive',
       });
     } finally {
@@ -97,20 +99,23 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center text-amber-600">
             <AlertTriangle className="h-5 w-5 mr-2" />
-            Attenzione: Token in scadenza
+            {t('i18nFinale.tokenExpiry.expiringTitle')}
           </AlertDialogTitle>
           <AlertDialogDescription>
             <p className="mt-2">
-              Il tuo token di accesso scadrà {daysToExpiry === 0 ? 'oggi' : `tra ${daysToExpiry} ${daysToExpiry === 1 ? 'giorno' : 'giorni'}`}.
+              {daysToExpiry === 0
+                ? t('i18nFinale.tokenExpiry.expiresToday')
+                : daysToExpiry === 1
+                  ? t('i18nFinale.tokenExpiry.expiresInOneDay')
+                  : t('i18nFinale.tokenExpiry.expiresInDays', { count: daysToExpiry })}
             </p>
             <p className="mt-2">
-              Per continuare ad accedere all'area cliente tramite QR code, è necessario generare un nuovo token. 
-              Vuoi rigenerarlo ora?
+              {t('i18nFinale.tokenExpiry.regenerationPrompt')}
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Più tardi</AlertDialogCancel>
+          <AlertDialogCancel>{t('i18nFinale.tokenExpiry.later')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={regenerateToken}
             disabled={isRegenerating}
@@ -119,10 +124,10 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
             {isRegenerating ? (
               <>
                 <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                Rigenerazione...
+                {t('i18nFinale.tokenExpiry.regenerating')}
               </>
             ) : (
-              'Rigenera Token'
+              t('i18nFinale.tokenExpiry.regenerateToken')
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

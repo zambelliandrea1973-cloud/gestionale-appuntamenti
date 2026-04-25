@@ -6358,5 +6358,427 @@
     "toastDesc": "Check your email for the password reset link",
     "sendError": "Error sending the email. Please try again later.",
     "rateLimitError": "Too many attempts. Please try again in 15 minutes."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "You can quickly access the app from your device's home screen.",
+      "androidInstallTap": "Install directly with one tap",
+      "iosStepsIntro": "Follow these steps to install the app on your iPhone or iPad",
+      "iosUseSafari": "Make sure you use Safari, installation does not work on other browsers like Chrome or Firefox.",
+      "iosShareLocation": "It is in the Safari toolbar, at the bottom of the screen (iPhone) or at the top (iPad)",
+      "iosScrollAddHome": "Scroll down and tap \"Add to Home Screen\"",
+      "iosScrollOptions": "Scroll through the options available in the share menu",
+      "iosCanRename": "You can change the app name if you wish",
+      "iosAppOnHome": "The app will appear on your Home screen",
+      "browserNote": "Note: on iOS you must use Safari. On Android, Chrome is recommended.",
+      "appInstalledCorrectly": "App installed successfully",
+      "installAppOnDevice": "Install the app on your device",
+      "installOnAndroid": "Install on Android",
+      "tapShareInSafari": "Tap share in Safari",
+      "selectAddToHome": "Select \"Add to Home Screen\"",
+      "seeIosInstructions": "See iOS instructions",
+      "iosInstallTitle": "Install on iOS",
+      "important": "Important",
+      "tapShareIcon": "Tap the share icon",
+      "tapAddTopRight": "Tap \"Add\" in the top right",
+      "done": "Done!",
+      "closeButton": "Close"
+    },
+    "pushNotifications": {
+      "permissionRequired": "You must allow notifications to receive updates.",
+      "subscribed": "You will receive a notification when your appointment is confirmed.",
+      "subscribeError": "Unable to enable notifications. Please try again.",
+      "unsubscribed": "You will no longer receive push notifications.",
+      "unsubscribeError": "Unable to disable notifications.",
+      "notSupported": "Push notifications are not supported on this browser. Try opening the app as an installed PWA.",
+      "permissionDeniedTitle": "Permission denied",
+      "notificationsActivatedTitle": "Notifications enabled",
+      "notificationsDeactivatedTitle": "Notifications disabled"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Add Feature",
+      "featuresIncluded": "Included Features",
+      "noFeatures": "No features configured. Click \"Edit\" to add features.",
+      "featureNamePlaceholder": "Feature name",
+      "planUpdated": "The subscription plan has been updated successfully.",
+      "loadingPlans": "Loading plans...",
+      "previewPublicPlans": "Preview Public Plans",
+      "priceCents": "Price (cents)",
+      "clientLimit": "Client Limit",
+      "statusLabel": "Status",
+      "planDescription": "Plan description",
+      "planUpdatedTitle": "Plan updated",
+      "monthShort": "month",
+      "yearShort": "year",
+      "unlimited": "Unlimited"
+    },
+    "clientsPage": {
+      "newShort": "New",
+      "noClientsInSystem": "There are no clients in the system yet.",
+      "noClientsForProfessional": "No clients found for this professional",
+      "updateError": "Error while updating data",
+      "allTab": "All",
+      "othersTab": "Others",
+      "noConsentTab": "No consent",
+      "loadingSummary": "Loading summary...",
+      "noProfessionalsFound": "No professionals found",
+      "clientsLoadedTitle": "Clients loaded",
+      "clientsLoadFailedTitle": "Unable to load clients"
+    },
+    "clientCard": {
+      "incompleteData": "Client data to complete",
+      "deletionUnlocked": "Deletion unlocked",
+      "unlockDeletionAction": "Unlock deletion",
+      "cannotUnlock": "Unable to unlock deletion",
+      "cannotMarkDeleted": "Unable to simulate deletion",
+      "clientRemoved": "Client removed from the system"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "The direct access link has been copied to the clipboard.",
+      "copyFailed": "Could not copy the link. Try selecting it manually.",
+      "openInNewTab": "Open in a new tab",
+      "easyAccessNote": "This link allows easier access to the client area with the username pre-filled.",
+      "passwordOnlyNote": "Only the password will need to be entered, making access quick and easy.",
+      "accessLink": "Access link",
+      "linkCopiedTitle": "Link copied!",
+      "directLinkTitle": "Direct link",
+      "copyAndShareDesc": "Copy and share this link with {{clientName}} for simple and direct access to the client area.",
+      "copyLinkTitle": "Copy link",
+      "securityNoteLabel": "Security note:",
+      "securityNoteText": "This link contains a private token. Share only with {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Token regenerated successfully",
+      "regeneratedDescription": "A new QR code has been generated.",
+      "cannotRegenerate": "Unable to regenerate the token. Please try again later.",
+      "later": "Later",
+      "expiringTitle": "Warning: token expiring soon",
+      "expiresToday": "Your access token expires today.",
+      "expiresInOneDay": "Your access token expires in 1 day.",
+      "expiresInDays": "Your access token expires in {{count}} days.",
+      "regenerationPrompt": "To continue accessing the client area via QR code, you need to generate a new token. Regenerate it now?",
+      "regenerating": "Regenerating...",
+      "regenerateToken": "Regenerate token"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Create and manage templates for email and WhatsApp reminder messages. Unified templates work for both channels.",
+      "loadAppointmentsError": "Unable to load appointments: {{error}}",
+      "loadHistoryError": "Unable to load history: {{error}}",
+      "loadSmsHistoryError": "Unable to load SMS history: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Welcome to the Client App",
+      "verifyingUser": "Verifying user information...",
+      "ifNotRedirected": "If you are not redirected automatically,",
+      "enterPassword": "Please enter your password",
+      "scanQrToConfigure": "Please scan the QR code to set up the app",
+      "insufficientDataToken": "Insufficient data to recreate the token",
+      "initCheck": "Initialization and credential check",
+      "initApp": "Initializing application...",
+      "attemptRepair": "Attempt repair",
+      "showDebugInfo": "Show debug info",
+      "hideDebugInfo": "Hide debug info",
+      "missing": "missing",
+      "present": "present",
+      "clickHere": "click here",
+      "toProceedLogin": "to proceed to login.",
+      "autoAccessTitle": "Automatic access",
+      "credentialsFoundDesc": "Credentials found, signing in...",
+      "loginRequiredTitle": "Login required",
+      "configRequiredTitle": "Configuration required",
+      "storageRepairedTitle": "Storage repaired",
+      "tokenRecreatedDesc": "Token recreated from qrData",
+      "cannotRepairTitle": "Cannot repair"
+    },
+    "betaStatus": {
+      "title": "Beta Mode",
+      "welcomeMessage": "Welcome to the beta program! You can submit feedback at any time from the beta page.",
+      "invalidCode": "Invalid beta code"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "You can quickly access your personal area from your device's home screen.",
+      "addHomeForFasterAccess": "Add this app to the home screen for faster access",
+      "iosHowTo": "To install the app on iOS:",
+      "scrollDownAndTap": "Scroll down and tap",
+      "installInstructions": "Install the app on your device for easier access to your appointments and personal data, even offline.",
+      "appInstalledCorrectly": "App installed successfully",
+      "installAppTitle": "Install the App",
+      "tapShareIcon": "Tap the share icon in",
+      "addToHome": "Add to Home Screen",
+      "tap": "Tap",
+      "add": "Add",
+      "installAppCta": "Install App"
+    },
+    "useLicense": {
+      "activated": "Your license has been activated successfully.",
+      "activationError": "Activation error",
+      "activationErrorDesc": "An error occurred while activating the license.",
+      "generationError": "Generation error",
+      "generationErrorDesc": "An error occurred while generating the code.",
+      "activatedTitle": "License activated",
+      "codeGeneratedTitle": "Code generated",
+      "codeGeneratedDesc": "Activation code: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "This client has no recorded appointments",
+      "notAssigned": "Not assigned",
+      "collaboratorNotFound": "Collaborator not found",
+      "notSpecifiedFem": "Not specified",
+      "roomNotFound": "Room not found"
+    },
+    "currencySelector": {
+      "selectDescription": "Select the currency that will be used throughout the program for prices, invoices and reports.",
+      "updateError": "Unable to update currency",
+      "selectCurrency": "Select currency",
+      "currencyUpdatedTitle": "Currency updated",
+      "currencySetTo": "Currency set to {{name}} ({{symbol}})",
+      "currencyHeading": "Currency",
+      "currentCurrencyLabel": "Current currency",
+      "currentSymbolLabel": "Current symbol:"
+    },
+    "dayView": {
+      "clickToSelect": "Click to select",
+      "tapToClose": "Tap to close",
+      "selectClient": "Select Client",
+      "noClientsAvailable": "No clients available",
+      "selectedBadge": "SELECTED"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "This page is reserved for clients",
+      "connectionError": "Connection error",
+      "consentRegistered": "Your consent has been recorded successfully",
+      "loading": "Loading...",
+      "privacyPolicyTitle": "Privacy Policy",
+      "accessDeniedTitle": "Access denied",
+      "verifyAuthFailed": "Unable to verify authentication",
+      "consentRegisteredTitle": "Consent registered"
+    },
+    "promotionPage": {
+      "notFound": "Promotion not found",
+      "invalidLink": "The link you followed is not valid or the promotion has expired.",
+      "videoNotSupported": "Your browser does not support videos.",
+      "validNote": "Promotion valid. Contact us for more information!"
+    },
+    "colorEditor": {
+      "savedDescription": "The primary color has been saved successfully.",
+      "colorSavedTitle": "Color saved",
+      "primaryColorLabel": "Primary color",
+      "secondaryColorLabel": "Secondary color",
+      "saveColors": "Save colors",
+      "savedSuccessText": "Colors saved successfully!"
+    },
+    "footerContent": {
+      "writeUsAt": "For any question or issue, write to us at:",
+      "callOurSupport": "Call our support number:",
+      "supportHours": "Available Monday to Friday, 9:00-18:00",
+      "privacyPolicy": "Privacy Policy",
+      "emailSupport": "Email Support",
+      "responseGuarantee": "Response guaranteed within 24 hours",
+      "helpCenterTitle": "Help Center",
+      "phoneSupportTitle": "Phone Support"
+    },
+    "saveDirect": {
+      "appointmentCreated": "New appointment created successfully",
+      "appointmentCreatedTitle": "Appointment created"
+    },
+    "stripeCheckout": {
+      "paymentError": "Payment error",
+      "paymentErrorDesc": "An error occurred during the payment process"
+    },
+    "pwaRedirector": {
+      "appStartError": "An error occurred while starting the app."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Client Deletion",
+      "newBadge": "NEW",
+      "title": "Admin Notifications",
+      "noNotifications": "No notifications available"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Add this app to the home screen for faster access",
+      "quickAccessPersonal": "Quick access to your personal area",
+      "installAppTitle": "Install the App",
+      "worksOffline": "Works offline",
+      "automaticUpdates": "Automatic updates"
+    },
+    "pwaSession": {
+      "expiredDesc": "Your session has expired, please log in again.",
+      "expiredTitle": "Session expired",
+      "verifying": "Verifying session..."
+    },
+    "restartApp": {
+      "errorTitle": "Restart error",
+      "restartingTitle": "Restarting"
+    },
+    "directAccess": {
+      "invalidLink": "Invalid access link",
+      "missingParams": "The link does not contain all the parameters needed for access."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Calendar Not Available",
+      "availableOnlyInPlans": "Google Calendar integration is available only on the"
+    },
+    "manualSection": {
+      "noContent": "No content available for this section."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Pay with PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "New appointment"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Error"
+    },
+    "inventory": {
+      "unitOfMeasure": "Unit of Measure"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Select at least one service",
+      "nameRequired": "Package name required",
+      "minOneSession": "Number of sessions must be at least 1",
+      "pricePositive": "Price must be positive"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "No appointments",
+      "serviceColumn": "Service",
+      "roomColumn": "Room",
+      "statusColumn": "Status",
+      "completedLabel": "Completed",
+      "confirmedLabel": "Confirmed",
+      "cancelledLabel": "Cancelled",
+      "scheduledLabel": "Scheduled",
+      "appointmentsHeading": "Appointments",
+      "dateColumn": "Date",
+      "timeColumn": "Time",
+      "collaboratorColumn": "Collaborator"
+    },
+    "appointmentCard": {
+      "hide": "Hide",
+      "details": "Details",
+      "emailReminderSent": "Email reminder sent",
+      "emailSendFailed": "Email sending failed",
+      "whatsappReminderSent": "WhatsApp reminder sent"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Unlock deletion",
+      "emailButton": "Email",
+      "deletionNotificationTitle": "Deletion notification",
+      "deletionUnlockedBadge": "Deletion unlocked",
+      "otherAccountClient": "Client from another account (view only)",
+      "viewOnlyBadge": "View only"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "Email:",
+      "phoneLabel": "Phone:",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "cellularLabel": "Mobile:",
+      "websiteLabel": "Website:",
+      "developedBy": "Developed by {{author}}",
+      "versionLine": "Version {{version}} - Appointment Manager PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Close",
+      "selectServiceTitle": "Select Service"
+    },
+    "socialIcons": {
+      "emailLabel": "Email",
+      "phoneLabel": "Phone"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Required plan:",
+      "viewPlans": "View Plans"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "appointmentForm": {
+      "emailLabel": "Email"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Select service"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@example.com",
+      "websiteExamplePlaceholder": "example.com or www.example.com"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Privacy Policy"
+    },
+    "monthView": {
+      "addAppointment": "Add appointment"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "Email"
+    },
+    "homePage": {
+      "loadingName": "Loading name..."
+    },
+    "promotionPageExtra": {
+      "loading": "Loading...",
+      "specialPromotionTitle": "Special promotion"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Privacy Policy"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Starting...",
+      "redirecting": "Redirecting..."
+    },
+    "staffManagementSimple": {
+      "loading": "Loading..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "name@example.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Mobile sync",
+      "mobileSyncDesc": "Test sync: {{count}} clients available",
+      "testServer": "Test server"
+    },
+    "inventoryExtra": {
+      "removeImage": "Remove"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Save directly"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Popular"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Appointment Manager by {{author}}",
+      "versionLine": "Version {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Staff Management (Simple Version)",
+      "pageLoadedSuccess": "Page loaded successfully! Found {{count}} users."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Appointment Manager"
+    },
+    "countryPrefixes": {
+      "italy": "Italy",
+      "usaCanada": "USA/Canada",
+      "unitedKingdom": "United Kingdom",
+      "france": "France",
+      "germany": "Germany",
+      "spain": "Spain",
+      "switzerland": "Switzerland",
+      "austria": "Austria",
+      "belgium": "Belgium",
+      "netherlands": "Netherlands",
+      "portugal": "Portugal",
+      "greece": "Greece",
+      "sweden": "Sweden",
+      "norway": "Norway",
+      "denmark": "Denmark",
+      "finland": "Finland",
+      "poland": "Poland",
+      "czechRepublic": "Czech Republic",
+      "hungary": "Hungary",
+      "romania": "Romania"
+    }
   }
 }

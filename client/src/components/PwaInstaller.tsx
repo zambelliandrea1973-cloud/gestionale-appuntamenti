@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { Download, X } from "lucide-react";
 import { 
@@ -12,6 +13,7 @@ import {
 import { BeforeInstallPromptEvent } from '@/types/pwa';
 
 export function PwaInstaller() {
+  const { t } = useTranslation();
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   
@@ -93,7 +95,7 @@ export function PwaInstaller() {
       <Card className="border-primary/20 shadow-xl">
         <CardHeader className="pb-2">
           <div className="flex justify-between items-start">
-            <CardTitle className="text-base">Installa l'App</CardTitle>
+            <CardTitle className="text-base">{t('i18nFinale.pwaInstaller.installAppTitle')}</CardTitle>
             <Button 
               variant="ghost" 
               size="icon" 
@@ -104,22 +106,22 @@ export function PwaInstaller() {
             </Button>
           </div>
           <CardDescription>
-            Aggiungi quest'app alla home screen per un accesso più rapido
+            {t('i18nFinale.pwaInstaller.addToHomeForFaster')}
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-0">
           <div className="flex items-center text-sm text-muted-foreground">
             <ul className="list-disc ml-5 space-y-1">
-              <li>Accesso rapido alla tua area personale</li>
-              <li>Funziona anche offline</li>
-              <li>Aggiornamenti automatici</li>
+              <li>{t('i18nFinale.pwaInstaller.quickAccessPersonal')}</li>
+              <li>{t('i18nFinale.pwaInstaller.worksOffline')}</li>
+              <li>{t('i18nFinale.pwaInstaller.automaticUpdates')}</li>
             </ul>
           </div>
         </CardContent>
         <CardFooter className="pt-4">
           <Button onClick={handleInstallClick} className="w-full">
             <Download className="mr-2 h-4 w-4" />
-            Installa l'App
+            {t('i18nFinale.pwaInstaller.installAppTitle')}
           </Button>
         </CardFooter>
       </Card>

@@ -129,7 +129,7 @@ function CompanyName() {
   }, [user?.id]);
   
   if (loading) {
-    return <div className="text-center text-xs text-muted-foreground mt-2">Caricamento nome...</div>;
+    return <div className="text-center text-xs text-muted-foreground mt-2">{t('i18nFinale.homePage.loadingName')}</div>;
   }
   
   if (!settings || !settings.enabled || !settings.name) {

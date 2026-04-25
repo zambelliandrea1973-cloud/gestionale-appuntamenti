@@ -156,8 +156,8 @@ const NotificationsPage: React.FC = () => {
     } catch (err: any) {
       setError(err.message);
       toast({
-        title: 'Errore',
-        description: `Impossibile caricare gli appuntamenti: ${err.message}`,
+        title: t('common.error'),
+        description: t('i18nFinale.notificationsPage.loadAppointmentsError', { error: err.message }),
         variant: 'destructive'
       });
     } finally {
@@ -185,8 +185,8 @@ const NotificationsPage: React.FC = () => {
       }
     } catch (err: any) {
       toast({
-        title: 'Errore',
-        description: `Impossibile caricare lo storico: ${err.message}`,
+        title: t('common.error'),
+        description: t('i18nFinale.notificationsPage.loadHistoryError', { error: err.message }),
         variant: 'destructive'
       });
     } finally {
@@ -221,8 +221,8 @@ const NotificationsPage: React.FC = () => {
       }
     } catch (err: any) {
       toast({
-        title: 'Errore',
-        description: `Impossibile caricare lo storico SMS: ${err.message}`,
+        title: t('common.error'),
+        description: t('i18nFinale.notificationsPage.loadSmsHistoryError', { error: err.message }),
         variant: 'destructive'
       });
     } finally {
@@ -979,7 +979,7 @@ const NotificationsPage: React.FC = () => {
                     {t('notificationsPageExtra.messageTemplates')}
                   </CardTitle>
                   <CardDescription>
-                    Crea e gestisci i template per i messaggi di promemoria email e WhatsApp. I template unificati funzionano per entrambi i canali.
+                    {t('i18nFinale.notificationsPage.templatesDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -68,7 +68,7 @@ export function useSyncGoogleCalendar(options: UseSyncGoogleCalendarOptions = {}
     onError: (error: any) => {
       if (showToast) {
         toast({
-          title: "❌ Errore",
+          title: t('i18nFinale.googleCalendarSync.errorWithEmoji'),
           description: error.message || "Impossibile sincronizzare con Google Calendar",
           variant: "destructive",
         });

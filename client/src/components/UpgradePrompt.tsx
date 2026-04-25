@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 
 interface UpgradePromptProps {
   open: boolean;
@@ -26,6 +27,7 @@ export function UpgradePrompt({
   description,
   requiredPlan,
 }: UpgradePromptProps) {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
 
   const handleUpgrade = () => {
@@ -46,17 +48,17 @@ export function UpgradePrompt({
           </AlertDialogDescription>
           <div className="mt-4 p-4 bg-muted rounded-lg">
             <p className="text-sm font-medium">
-              Piano richiesto: <span className="text-primary font-bold">{requiredPlan}</span>
+              {t('i18nFinale.upgradePrompt.requiredPlan')} <span className="text-primary font-bold">{requiredPlan}</span>
             </p>
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Annulla</AlertDialogCancel>
+          <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
           <AlertDialogAction 
             onClick={handleUpgrade}
             className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
           >
-            Vedi Piani
+            {t('i18nFinale.upgradePrompt.viewPlans')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

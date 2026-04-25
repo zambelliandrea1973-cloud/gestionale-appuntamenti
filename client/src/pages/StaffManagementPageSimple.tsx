@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 
 interface StaffUser {
@@ -11,6 +12,7 @@ interface StaffUser {
 }
 
 export default function StaffManagementPageSimple() {
+  const { t } = useTranslation();
   console.log("🔥 SIMPLE PAGE: Componente caricato!");
   
   const { data: staffUsers = [], isLoading, error } = useQuery({
@@ -40,7 +42,7 @@ export default function StaffManagementPageSimple() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Caricamento...</span>
+        <span className="ml-2">{t('i18nFinale.staffManagementSimple.loading')}</span>
       </div>
     );
   }
@@ -57,10 +59,10 @@ export default function StaffManagementPageSimple() {
 
   return (
     <div className="container mx-auto py-6">
-      <h1 className="text-3xl font-bold mb-6">Staff Management (Versione Semplice)</h1>
+      <h1 className="text-3xl font-bold mb-6">{t('i18nFinale.staffSimple.pageTitle')}</h1>
       
       <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-        Pagina caricata con successo! Trovati {staffUsers.length} utenti.
+        {t('i18nFinale.staffSimple.pageLoadedSuccess', { count: staffUsers.length })}
       </div>
       
       <div className="space-y-4">

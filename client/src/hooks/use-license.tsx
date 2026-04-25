@@ -2,6 +2,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { queryClient, apiRequest } from '@/lib/queryClient';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 
 // Tipi di licenze supportati
@@ -23,6 +24,7 @@ export interface LicenseInfo {
 
 // Hook per la gestione delle licenze
 export function useLicense() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [appTitle, setAppTitle] = useState<string>('Gestionale Appuntamenti');
   
@@ -79,15 +81,15 @@ export function useLicense() {
       queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
       
       toast({
-        title: "Licenza attivata",
-        description: "La tua licenza è stata attivata con successo.",
+        title: t('i18nFinale.useLicense.activatedTitle'),
+        description: t('i18nFinale.useLicense.activated'),
         variant: "default",
       });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore nell'attivazione",
-        description: error.message || "Si è verificato un errore durante l'attivazione della licenza.",
+        title: t('i18nFinale.useLicense.activationError'),
+        description: error.message || t('i18nFinale.useLicense.activationErrorDesc'),
         variant: "destructive",
       });
     }
@@ -101,15 +103,15 @@ export function useLicense() {
     },
     onSuccess: (data) => {
       toast({
-        title: "Codice generato",
-        description: `Il codice di attivazione è: ${data.activationCode}`,
+        title: t('i18nFinale.useLicense.codeGeneratedTitle'),
+        description: t('i18nFinale.useLicense.codeGeneratedDesc', { code: data.activationCode }),
         variant: "default",
       });
     },
     onError: (error: any) => {
       toast({
-        title: "Errore nella generazione",
-        description: error.message || "Si è verificato un errore durante la generazione del codice.",
+        title: t('i18nFinale.useLicense.generationError'),
+        description: error.message || t('i18nFinale.useLicense.generationErrorDesc'),
         variant: "destructive",
       });
     }

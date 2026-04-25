@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -10,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
  * Cerca informazioni memorizzate (token, link QR, ecc.) e reindirizza alla pagina appropriata.
  */
 export default function PwaRedirector() {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [_, setLocation] = useLocation();
   const { toast } = useToast();
@@ -61,8 +63,8 @@ export default function PwaRedirector() {
       } catch (error) {
         console.error("PwaRedirector - Errore durante il reindirizzamento:", error);
         toast({
-          title: "Errore",
-          description: "Si è verificato un errore durante l'avvio dell'app.",
+          title: t('common.error'),
+          description: t('i18nFinale.pwaRedirector.appStartError'),
           variant: "destructive",
         });
         
@@ -84,9 +86,9 @@ export default function PwaRedirector() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      <p className="mt-4 text-muted-foreground">Avvio in corso...</p>
+      <p className="mt-4 text-muted-foreground">{t('i18nFinale.pwaRedirectorExtra.starting')}</p>
       {!isLoading && (
-        <p className="mt-2 text-sm text-muted-foreground">Reindirizzamento...</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t('i18nFinale.pwaRedirectorExtra.redirecting')}</p>
       )}
     </div>
   );

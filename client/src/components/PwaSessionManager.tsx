@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 export default function PwaSessionManager({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [_, setLocation] = useLocation();
@@ -29,8 +31,8 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
           setIsLoading(false);
           if (isPWA) {
             toast({
-              title: "Sessione scaduta",
-              description: "La tua sessione è scaduta, effettua nuovamente l'accesso.",
+              title: t('i18nFinale.pwaSession.expiredTitle'),
+              description: t('i18nFinale.pwaSession.expiredDesc'),
               variant: "destructive",
             });
             setTimeout(() => {
@@ -55,8 +57,8 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
           
           if (isPWA) {
             toast({
-              title: "Sessione scaduta",
-              description: "La tua sessione è scaduta, effettua nuovamente l'accesso.",
+              title: t('i18nFinale.pwaSession.expiredTitle'),
+              description: t('i18nFinale.pwaSession.expiredDesc'),
               variant: "destructive",
             });
             setTimeout(() => {
@@ -79,7 +81,7 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        <p className="mt-4 text-muted-foreground">Verifica sessione...</p>
+        <p className="mt-4 text-muted-foreground">{t('i18nFinale.pwaSession.verifying')}</p>
       </div>
     );
   }

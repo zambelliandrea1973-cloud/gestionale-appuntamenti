@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { Phone, Download, Check, X } from "lucide-react";
 import { BeforeInstallPromptEvent } from '@/types/pwa';
@@ -14,6 +15,7 @@ import {
 
 // Componente semplificato con due pulsanti distinti per Android e iOS
 export function ClientPwaInstaller() {
+  const { t } = useTranslation();
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIos, setIsIos] = useState(false);
@@ -126,9 +128,9 @@ export function ClientPwaInstaller() {
       <div className="rounded-lg bg-green-50 border border-green-200 p-4 my-4">
         <div className="flex items-center">
           <Check className="h-5 w-5 text-green-600 mr-2" />
-          <span className="text-green-800 font-medium">App installata correttamente</span>
+          <span className="text-green-800 font-medium">{t('i18nFinale.clientPwaInstaller.appInstalledCorrectly')}</span>
         </div>
-        <p className="text-green-700 text-sm mt-1">Puoi accedere rapidamente all'app dalla home screen del tuo dispositivo.</p>
+        <p className="text-green-700 text-sm mt-1">{t('i18nFinale.clientPwaInstaller.alreadyInstalledHint')}</p>
       </div>
     );
   }
@@ -136,7 +138,7 @@ export function ClientPwaInstaller() {
   // Mostra due pulsanti distinti per Android e iOS
   return (
     <div className="rounded-lg bg-primary-50 border border-primary-200 p-4 my-4">
-      <h3 className="font-medium text-center mb-4">Installa l'app sul tuo dispositivo</h3>
+      <h3 className="font-medium text-center mb-4">{t('i18nFinale.clientPwaInstaller.installAppOnDevice')}</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Pulsante per Android */}
@@ -148,7 +150,7 @@ export function ClientPwaInstaller() {
             <span className="font-medium">Android</span>
           </div>
           <p className="text-sm text-gray-600 mb-3">
-            Installa direttamente con un tocco
+            {t('i18nFinale.clientPwaInstaller.androidInstallTap')}
           </p>
           <Button 
             onClick={handleAndroidInstall} 
@@ -156,7 +158,7 @@ export function ClientPwaInstaller() {
             disabled={!installPrompt}
           >
             <Download className="mr-2 h-4 w-4" />
-            Installa su Android
+            {t('i18nFinale.clientPwaInstaller.installOnAndroid')}
           </Button>
         </div>
         
@@ -170,8 +172,8 @@ export function ClientPwaInstaller() {
           </div>
           <div className="text-sm text-gray-600 mb-2">
             <ol className="list-decimal pl-5 space-y-1">
-              <li>Tocca condivisione in Safari</li>
-              <li>Seleziona "Aggiungi a Home"</li>
+              <li>{t('i18nFinale.clientPwaInstaller.tapShareInSafari')}</li>
+              <li>{t('i18nFinale.clientPwaInstaller.selectAddToHome')}</li>
             </ol>
           </div>
           <Dialog>
@@ -181,21 +183,21 @@ export function ClientPwaInstaller() {
                 variant="default"
               >
                 <Phone className="mr-2 h-4 w-4" />
-                Vedi istruzioni iOS
+                {t('i18nFinale.clientPwaInstaller.seeIosInstructions')}
               </Button>
             </DialogTrigger>
             <DialogContent className="min-[1200px]:max-w-md">
               <DialogHeader>
-                <DialogTitle>Installazione su iOS</DialogTitle>
+                <DialogTitle>{t('i18nFinale.clientPwaInstaller.iosInstallTitle')}</DialogTitle>
                 <DialogDescription>
-                  Segui questi passaggi per installare l'app sul tuo iPhone o iPad
+                  {t('i18nFinale.clientPwaInstaller.iosStepsIntro')}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-blue-800 mb-2">Importante</h3>
+                  <h3 className="font-medium text-blue-800 mb-2">{t('i18nFinale.clientPwaInstaller.important')}</h3>
                   <p className="text-sm text-blue-700">
-                    Assicurati di usare Safari, l'installazione non funziona su altri browser come Chrome o Firefox.
+                    {t('i18nFinale.clientPwaInstaller.iosUseSafari')}
                   </p>
                 </div>
                 
@@ -203,9 +205,9 @@ export function ClientPwaInstaller() {
                   <li className="flex">
                     <div className="bg-blue-100 rounded-full h-8 w-8 flex items-center justify-center text-blue-800 font-bold mr-3 flex-shrink-0">1</div>
                     <div>
-                      <p className="font-medium">Tocca l'icona di condivisione</p>
+                      <p className="font-medium">{t('i18nFinale.clientPwaInstaller.tapShareIcon')}</p>
                       <p className="text-sm text-gray-600 mt-1">
-                        Si trova nella barra degli strumenti di Safari, in basso sullo schermo (iPhone) o in alto (iPad)
+                        {t('i18nFinale.clientPwaInstaller.iosShareLocation')}
                       </p>
                       <div className="mt-2 bg-gray-100 p-3 rounded flex justify-center">
                         <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center">
@@ -222,9 +224,9 @@ export function ClientPwaInstaller() {
                   <li className="flex">
                     <div className="bg-blue-100 rounded-full h-8 w-8 flex items-center justify-center text-blue-800 font-bold mr-3 flex-shrink-0">2</div>
                     <div>
-                      <p className="font-medium">Scorri verso il basso e tocca "Aggiungi a Home"</p>
+                      <p className="font-medium">{t('i18nFinale.clientPwaInstaller.iosScrollAddHome')}</p>
                       <p className="text-sm text-gray-600 mt-1">
-                        Scorri tra le opzioni disponibili nel menu di condivisione
+                        {t('i18nFinale.clientPwaInstaller.iosScrollOptions')}
                       </p>
                     </div>
                   </li>
@@ -232,9 +234,9 @@ export function ClientPwaInstaller() {
                   <li className="flex">
                     <div className="bg-blue-100 rounded-full h-8 w-8 flex items-center justify-center text-blue-800 font-bold mr-3 flex-shrink-0">3</div>
                     <div>
-                      <p className="font-medium">Tocca "Aggiungi" in alto a destra</p>
+                      <p className="font-medium">{t('i18nFinale.clientPwaInstaller.tapAddTopRight')}</p>
                       <p className="text-sm text-gray-600 mt-1">
-                        Puoi modificare il nome dell'app se lo desideri
+                        {t('i18nFinale.clientPwaInstaller.iosCanRename')}
                       </p>
                     </div>
                   </li>
@@ -242,9 +244,9 @@ export function ClientPwaInstaller() {
                   <li className="flex">
                     <div className="bg-blue-100 rounded-full h-8 w-8 flex items-center justify-center text-blue-800 font-bold mr-3 flex-shrink-0">4</div>
                     <div>
-                      <p className="font-medium">Fatto!</p>
+                      <p className="font-medium">{t('i18nFinale.clientPwaInstaller.done')}</p>
                       <p className="text-sm text-gray-600 mt-1">
-                        L'app apparirà sulla tua schermata Home
+                        {t('i18nFinale.clientPwaInstaller.iosAppOnHome')}
                       </p>
                     </div>
                   </li>
@@ -252,7 +254,7 @@ export function ClientPwaInstaller() {
               </div>
               <div className="flex justify-end">
                 <DialogClose asChild>
-                  <Button variant="outline">Chiudi</Button>
+                  <Button variant="outline">{t('i18nFinale.clientPwaInstaller.closeButton')}</Button>
                 </DialogClose>
               </div>
             </DialogContent>
@@ -261,7 +263,7 @@ export function ClientPwaInstaller() {
       </div>
       
       <p className="text-xs text-center mt-3 text-gray-500">
-        Nota: su iOS è necessario usare Safari. Su Android è consigliato Chrome.
+        {t('i18nFinale.clientPwaInstaller.browserNote')}
       </p>
     </div>
   );

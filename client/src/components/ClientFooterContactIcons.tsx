@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Mail, Phone, Globe, Facebook, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -21,6 +22,7 @@ interface ContactInfo {
 }
 
 export default function ClientFooterContactIcons() {
+  const { t } = useTranslation();
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
 
   // Funzione per caricare le informazioni di contatto dall'endpoint pubblico
@@ -166,7 +168,7 @@ export default function ClientFooterContactIcons() {
           <div className="text-center space-y-2 text-sm text-gray-600">
             {contactInfo.email && contactInfo.showEmail !== false && (
               <p>
-                <span className="font-medium">Email:</span>{' '}
+                <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.emailLabel')}</span>{' '}
                 <a 
                   href={`mailto:${contactInfo.email}`} 
                   className="text-blue-600 hover:text-blue-800"
@@ -178,7 +180,7 @@ export default function ClientFooterContactIcons() {
             
             {contactInfo.phone && contactInfo.showPhone !== false && (
               <p>
-                <span className="font-medium">Telefono:</span>{' '}
+                <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.phoneLabel')}</span>{' '}
                 <a 
                   href={`tel:${contactInfo.phone}`} 
                   className="text-blue-600 hover:text-blue-800"
@@ -190,7 +192,7 @@ export default function ClientFooterContactIcons() {
 
             {contactInfo.phone1 && contactInfo.showPhone1 !== false && (
               <p>
-                <span className="font-medium">Cellulare:</span>{' '}
+                <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.cellularLabel')}</span>{' '}
                 <a 
                   href={`tel:${contactInfo.phone1}`} 
                   className="text-blue-600 hover:text-blue-800"
@@ -202,7 +204,7 @@ export default function ClientFooterContactIcons() {
             
             {contactInfo.website && contactInfo.showWebsite !== false && (
               <p>
-                <span className="font-medium">Sito web:</span>{' '}
+                <span className="font-medium">{t('i18nFinale.clientFooterContactIcons.websiteLabel')}</span>{' '}
                 <a 
                   href={contactInfo.website?.startsWith('http') ? contactInfo.website : `https://${contactInfo.website}`} 
                   target="_blank" 
@@ -236,7 +238,7 @@ export default function ClientFooterContactIcons() {
                 target="_blank" 
                 className="text-gray-600 hover:text-gray-800 underline"
               >
-                Termini di Servizio
+                {t('i18nFinale.clientFooterContactIcons.termsOfService')}
               </a>
               {' · '}
               <a 
@@ -244,11 +246,11 @@ export default function ClientFooterContactIcons() {
                 target="_blank" 
                 className="text-gray-600 hover:text-gray-800 underline"
               >
-                Privacy Policy
+                {t('i18nFinale.clientFooterContactIcons.privacyPolicy')}
               </a>
             </p>
-            <p>Sviluppato da Zambelli Andrea</p>
-            <p>Versione 2.1.0 - Gestionale Appuntamenti PWA</p>
+            <p>{t('i18nFinale.clientFooterContactIcons.developedBy', { author: 'Zambelli Andrea' })}</p>
+            <p>{t('i18nFinale.clientFooterContactIcons.versionLine', { version: '2.1.0' })}</p>
           </div>
         </CardContent>
       </Card>

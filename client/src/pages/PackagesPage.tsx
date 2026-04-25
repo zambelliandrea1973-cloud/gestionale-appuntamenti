@@ -34,14 +34,15 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useCurrency } from "@/hooks/use-currency";
 import { format } from "date-fns";
+import i18n from "@/lib/i18n";
 
 // Schema validazione per template pacchetto
 const packageTemplateSchema = z.object({
-  name: z.string().min(1, "Nome pacchetto richiesto"),
+  name: z.string().min(1, () => i18n.t('i18nFinale.packagesValidation.nameRequired')),
   description: z.string().optional(),
-  serviceIds: z.array(z.number()).min(1, "Seleziona almeno un servizio"),
-  totalSessions: z.number().min(1, "Numero sedute deve essere almeno 1"),
-  price: z.number().min(0, "Prezzo deve essere positivo"),
+  serviceIds: z.array(z.number()).min(1, () => i18n.t('i18nFinale.packagesValidation.selectAtLeastOneService')),
+  totalSessions: z.number().min(1, () => i18n.t('i18nFinale.packagesValidation.minOneSession')),
+  price: z.number().min(0, () => i18n.t('i18nFinale.packagesValidation.pricePositive')),
   expirationDays: z.number().optional(),
 });
 

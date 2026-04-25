@@ -124,7 +124,7 @@ export default function ClientAppointments() {
         // Se l'ora attuale è dopo l'ora di fine, l'appuntamento è completato
         if (now > endDateTime) {
           return {
-            label: 'Completato',
+            label: t('i18nFinale.clientAppointmentsPage.completedLabel'),
             variant: "default" as const
           };
         }
@@ -136,23 +136,23 @@ export default function ClientAppointments() {
     
     if (appointment.status === "confirmed") {
       return {
-        label: 'Confermato',
+        label: t('i18nFinale.clientAppointmentsPage.confirmedLabel'),
         variant: "secondary" as const
       };
     } else if (appointment.status === "cancelled") {
       return {
-        label: 'Cancellato',
+        label: t('i18nFinale.clientAppointmentsPage.cancelledLabel'),
         variant: "destructive" as const
       };
     } else if (appointmentDateTime < now && (!appointment.endTime || appointment.date !== new Date().toISOString().split('T')[0])) {
       // Consideriamo completato se la data è passata o se l'ora è passata
       return {
-        label: 'Completato',
+        label: t('i18nFinale.clientAppointmentsPage.completedLabel'),
         variant: "default" as const
       };
     } else {
       return {
-        label: 'Programmato',
+        label: t('i18nFinale.clientAppointmentsPage.scheduledLabel'),
         variant: "outline" as const
       };
     }
@@ -169,7 +169,7 @@ export default function ClientAppointments() {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-2xl">
-                {client.firstName} {client.lastName} - Appuntamenti
+                {client.firstName} {client.lastName} - {t('i18nFinale.clientAppointmentsPage.appointmentsHeading')}
               </CardTitle>
             </div>
             <Button 
@@ -177,7 +177,7 @@ export default function ClientAppointments() {
               onClick={() => setLocation(`/client-medical-details?id=${clientId}`)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Indietro
+              {t('common.back')}
             </Button>
           </div>
         </CardHeader>
@@ -186,22 +186,22 @@ export default function ClientAppointments() {
           {sortedAppointments.length === 0 ? (
             <div className="text-center p-6">
               <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-lg font-medium">Nessun appuntamento</p>
+              <p className="text-lg font-medium">{t('i18nFinale.clientAppointmentsPage.noAppointments')}</p>
               <p className="text-sm text-muted-foreground mt-2">
-                Questo cliente non ha appuntamenti registrati
+                {t('i18nFinale.clientAppointments.noAppointmentsForClient')}
               </p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Ora</TableHead>
-                  <TableHead>Servizio</TableHead>
-                  <TableHead>Collaboratore</TableHead>
-                  <TableHead>Stanza</TableHead>
-                  <TableHead>Stato</TableHead>
-                  <TableHead>Azioni</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.dateColumn')}</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.timeColumn')}</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.serviceColumn')}</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.collaboratorColumn')}</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.roomColumn')}</TableHead>
+                  <TableHead>{t('i18nFinale.clientAppointmentsPage.statusColumn')}</TableHead>
+                  <TableHead>{t('common.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -228,7 +228,7 @@ export default function ClientAppointments() {
                       <TableCell>
                         {(() => {
                           if (!appointment.staffId) return (
-                            <span className="text-muted-foreground text-sm">Non assegnato</span>
+                            <span className="text-muted-foreground text-sm">{t('i18nFinale.clientAppointments.notAssigned')}</span>
                           );
                           const staff = collaborators.find((c: any) => c.id === appointment.staffId);
                           return staff ? (
@@ -237,14 +237,14 @@ export default function ClientAppointments() {
                               <span className="text-sm">{staff.firstName} {staff.lastName}</span>
                             </div>
                           ) : (
-                            <span className="text-muted-foreground text-sm">Collaboratore non trovato</span>
+                            <span className="text-muted-foreground text-sm">{t('i18nFinale.clientAppointments.collaboratorNotFound')}</span>
                           );
                         })()}
                       </TableCell>
                       <TableCell>
                         {(() => {
                           if (!appointment.roomId) return (
-                            <span className="text-muted-foreground text-sm">Non specificata</span>
+                            <span className="text-muted-foreground text-sm">{t('i18nFinale.clientAppointments.notSpecifiedFem')}</span>
                           );
                           const room = treatmentRooms.find((r: any) => r.id === appointment.roomId);
                           return room ? (
@@ -259,7 +259,7 @@ export default function ClientAppointments() {
                               </div>
                             </div>
                           ) : (
-                            <span className="text-muted-foreground text-sm">Stanza non trovata</span>
+                            <span className="text-muted-foreground text-sm">{t('i18nFinale.clientAppointments.roomNotFound')}</span>
                           );
                         })()}
                       </TableCell>

@@ -1217,7 +1217,7 @@ export default function PureClientArea() {
                   rel="noopener noreferrer"
                   className="hover:text-blue-600 transition-colors underline"
                 >
-                  Privacy Policy
+                  {t('i18nFinale.pureClientArea.privacyPolicy')}
                 </a>
                 <span>•</span>
                 <a 
@@ -1237,9 +1237,9 @@ export default function PureClientArea() {
                 </button>
               </div>
               <div className="flex flex-wrap justify-center gap-4 text-xs">
-                <span>&copy; 2024 Gestionale Appuntamenti by Zambelli Andrea</span>
+                <span>{t('i18nFinale.pureClientAreaExtra.copyrightLine', { year: 2024, author: 'Zambelli Andrea' })}</span>
                 <span>•</span>
-                <span>Versione 2.4.1</span>
+                <span>{t('i18nFinale.pureClientAreaExtra.versionLine', { version: '2.4.1' })}</span>
                 <span>•</span>
                 <a href="mailto:zambelli.andrea@libero.it" className="hover:text-blue-600 transition-colors">
                   {t('clientArea.technicalSupport')}

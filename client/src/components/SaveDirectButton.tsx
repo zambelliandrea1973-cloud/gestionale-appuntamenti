@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +18,7 @@ function formatDateForApi(date: Date): string {
 }
 
 export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -90,8 +92,8 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       
       // Notifica successo
       toast({
-        title: "Appuntamento creato",
-        description: "Nuovo appuntamento creato con successo",
+        title: t('i18nFinale.saveDirect.appointmentCreatedTitle'),
+        description: t('i18nFinale.saveDirect.appointmentCreated'),
       });
       
       // Invalidazione delle query
@@ -120,7 +122,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
     } catch (error: any) {
       console.error("[DIRECT-BUTTON] ERRORE durante il salvataggio:", error);
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: `Si è verificato un errore: ${error.message}`,
         variant: "destructive"
       });
@@ -136,7 +138,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       onClick={saveAppointmentDirectly}
       disabled={isSaving}
     >
-      Salva Direttamente
+      {t('i18nFinale.saveDirectButton.saveDirectly')}
     </button>
   );
 }

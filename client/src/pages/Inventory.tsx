@@ -611,7 +611,7 @@ export default function Inventory() {
                           data-testid="button-remove-product-image"
                         >
                           <X className="h-4 w-4 mr-1" />
-                          Rimuovi
+                          {t('i18nFinale.inventoryExtra.removeImage')}
                         </Button>
                       )}
                     </div>
@@ -658,7 +658,7 @@ export default function Inventory() {
                       name="unit"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Unità di Misura</FormLabel>
+                          <FormLabel>{t('i18nFinale.inventory.unitOfMeasure')}</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
@@ -933,7 +933,7 @@ export default function Inventory() {
                           data-testid="button-edit-remove-product-image"
                         >
                           <X className="h-4 w-4 mr-1" />
-                          Rimuovi
+                          {t('i18nFinale.inventoryExtra.removeImage')}
                         </Button>
                       )}
                     </div>

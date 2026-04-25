@@ -6358,5 +6358,427 @@
     "toastDesc": "Sjekk e-posten din for lenken til tilbakestilling av passord",
     "sendError": "Feil ved sending av e-post. Prøv igjen senere.",
     "rateLimitError": "For mange forsøk. Prøv igjen om 15 minutter."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "Du kan raskt få tilgang til appen fra startskjermen på enheten din.",
+      "androidInstallTap": "Installer direkte med ett trykk",
+      "iosStepsIntro": "Følg disse trinnene for å installere appen på din iPhone eller iPad",
+      "iosUseSafari": "Sørg for å bruke Safari, installasjonen fungerer ikke i andre nettlesere som Chrome eller Firefox.",
+      "iosShareLocation": "Den finnes i Safari-verktøylinjen, nederst på skjermen (iPhone) eller øverst (iPad)",
+      "iosScrollAddHome": "Bla nedover og trykk \"Legg til på Hjem-skjerm\"",
+      "iosScrollOptions": "Bla gjennom alternativene i delings-menyen",
+      "iosCanRename": "Du kan endre appnavnet hvis du ønsker det",
+      "iosAppOnHome": "Appen vises på Hjem-skjermen",
+      "browserNote": "Merk: på iOS må du bruke Safari. På Android anbefales Chrome.",
+      "appInstalledCorrectly": "App installert korrekt",
+      "installAppOnDevice": "Installer appen på enheten din",
+      "installOnAndroid": "Installer på Android",
+      "tapShareInSafari": "Trykk på Del i Safari",
+      "selectAddToHome": "Velg \"Legg til på Hjem-skjerm\"",
+      "seeIosInstructions": "Se iOS-instruksjoner",
+      "iosInstallTitle": "Installasjon på iOS",
+      "important": "Viktig",
+      "tapShareIcon": "Trykk på del-ikonet",
+      "tapAddTopRight": "Trykk \"Legg til\" øverst til høyre",
+      "done": "Ferdig!",
+      "closeButton": "Lukk"
+    },
+    "pushNotifications": {
+      "permissionRequired": "Du må tillate varsler for å motta oppdateringer.",
+      "subscribed": "Du får et varsel når avtalen din blir bekreftet.",
+      "subscribeError": "Kunne ikke aktivere varsler. Prøv igjen.",
+      "unsubscribed": "Du vil ikke lenger motta push-varsler.",
+      "unsubscribeError": "Kunne ikke deaktivere varsler.",
+      "notSupported": "Push-varsler støttes ikke i denne nettleseren. Prøv å åpne appen som installert PWA.",
+      "permissionDeniedTitle": "Tillatelse avslått",
+      "notificationsActivatedTitle": "Varsler aktivert",
+      "notificationsDeactivatedTitle": "Varsler deaktivert"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Legg til funksjon",
+      "featuresIncluded": "Inkluderte funksjoner",
+      "noFeatures": "Ingen funksjoner konfigurert. Klikk \"Rediger\" for å legge til funksjoner.",
+      "featureNamePlaceholder": "Funksjonsnavn",
+      "planUpdated": "Abonnementsplanen er oppdatert.",
+      "loadingPlans": "Laster planer...",
+      "previewPublicPlans": "Forhåndsvis offentlige planer",
+      "priceCents": "Pris (øre)",
+      "clientLimit": "Kundegrense",
+      "statusLabel": "Status",
+      "planDescription": "Planbeskrivelse",
+      "planUpdatedTitle": "Plan oppdatert",
+      "monthShort": "maned",
+      "yearShort": "ar",
+      "unlimited": "Ubegrenset"
+    },
+    "clientsPage": {
+      "newShort": "Ny",
+      "noClientsInSystem": "Det finnes ingen kunder i systemet ennå.",
+      "noClientsForProfessional": "Ingen kunder funnet for denne fagpersonen",
+      "updateError": "Feil ved oppdatering av data",
+      "allTab": "Alle",
+      "othersTab": "Andre",
+      "noConsentTab": "Uten samtykke",
+      "loadingSummary": "Laster sammendrag...",
+      "noProfessionalsFound": "Ingen fagpersoner funnet",
+      "clientsLoadedTitle": "Kunder lastet inn",
+      "clientsLoadFailedTitle": "Kan ikke laste inn kunder"
+    },
+    "clientCard": {
+      "incompleteData": "Kundedata som må fullføres",
+      "deletionUnlocked": "Sletting låst opp",
+      "unlockDeletionAction": "Lås opp sletting",
+      "cannotUnlock": "Kan ikke låse opp slettingen",
+      "cannotMarkDeleted": "Kan ikke simulere sletting",
+      "clientRemoved": "Kunden er fjernet fra systemet"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "Direktelinken er kopiert til utklippstavlen.",
+      "copyFailed": "Kunne ikke kopiere lenken. Prøv å merke den manuelt.",
+      "openInNewTab": "Åpne i ny fane",
+      "easyAccessNote": "Denne lenken gir enklere tilgang til kundeområdet med brukernavn forhåndsutfylt.",
+      "passwordOnlyNote": "Kun passordet må skrives inn, noe som gir rask og enkel tilgang.",
+      "accessLink": "Tilgangslenke",
+      "linkCopiedTitle": "Lenke kopiert!",
+      "directLinkTitle": "Direkte lenke",
+      "copyAndShareDesc": "Kopier og del denne lenken med {{clientName}} for enkel og direkte tilgang til kundeomradet.",
+      "copyLinkTitle": "Kopier lenke",
+      "securityNoteLabel": "Sikkerhetsnotat:",
+      "securityNoteText": "Denne lenken inneholder et privat token. Del kun med {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Token regenerert vellykket",
+      "regeneratedDescription": "En ny QR-kode er generert.",
+      "cannotRegenerate": "Kan ikke regenerere token. Prøv igjen senere.",
+      "later": "Senere",
+      "expiringTitle": "OBS: token utloper snart",
+      "expiresToday": "Tilgangstokenet ditt utloper i dag.",
+      "expiresInOneDay": "Tilgangstokenet ditt utloper om 1 dag.",
+      "expiresInDays": "Tilgangstokenet ditt utloper om {{count}} dager.",
+      "regenerationPrompt": "For a fortsette tilgang til kundeomradet via QR-kode, ma du generere et nytt token. Generere nytt na?",
+      "regenerating": "Genererer pa nytt...",
+      "regenerateToken": "Generer token pa nytt"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Opprett og administrer maler for e-post- og WhatsApp-påminnelser. Felles maler fungerer for begge kanalene.",
+      "loadAppointmentsError": "Kan ikke laste inn avtaler: {{error}}",
+      "loadHistoryError": "Kan ikke laste inn historikk: {{error}}",
+      "loadSmsHistoryError": "Kan ikke laste inn SMS-historikk: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Velkommen til kundeappen",
+      "verifyingUser": "Bekrefter brukerinformasjonen...",
+      "ifNotRedirected": "Hvis du ikke blir omdirigert automatisk,",
+      "enterPassword": "Skriv inn passordet ditt",
+      "scanQrToConfigure": "Skann QR-koden for å konfigurere appen",
+      "insufficientDataToken": "Utilstrekkelige data til å gjenskape tokenet",
+      "initCheck": "Initialisering og legitimasjonskontroll",
+      "initApp": "Initialiserer applikasjonen...",
+      "attemptRepair": "Forsøk reparasjon",
+      "showDebugInfo": "Vis feilsøkingsinfo",
+      "hideDebugInfo": "Skjul feilsøkingsinfo",
+      "missing": "mangler",
+      "present": "tilstede",
+      "clickHere": "klikk her",
+      "toProceedLogin": "for å fortsette til pålogging.",
+      "autoAccessTitle": "Automatisk tilgang",
+      "credentialsFoundDesc": "Legitimasjon funnet, logger inn...",
+      "loginRequiredTitle": "Pålogging kreves",
+      "configRequiredTitle": "Konfigurasjon kreves",
+      "storageRepairedTitle": "Lagring reparert",
+      "tokenRecreatedDesc": "Token gjenopprettet fra qrData",
+      "cannotRepairTitle": "Kan ikke reparere"
+    },
+    "betaStatus": {
+      "title": "Beta-modus",
+      "welcomeMessage": "Velkommen til betaprogrammet! Du kan sende tilbakemelding når som helst fra betasiden.",
+      "invalidCode": "Ugyldig betakode"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "Du kan raskt få tilgang til ditt personlige område fra startskjermen.",
+      "addHomeForFasterAccess": "Legg til denne appen på startskjermen for raskere tilgang",
+      "iosHowTo": "Slik installerer du appen på iOS:",
+      "scrollDownAndTap": "Bla nedover og trykk",
+      "installInstructions": "Installer appen på enheten din for enklere tilgang til avtalene og personlige data, også offline.",
+      "appInstalledCorrectly": "App installert korrekt",
+      "installAppTitle": "Installer appen",
+      "tapShareIcon": "Trykk på del-ikonet i",
+      "addToHome": "Legg til på Hjem-skjerm",
+      "tap": "Trykk på",
+      "add": "Legg til",
+      "installAppCta": "Installer app"
+    },
+    "useLicense": {
+      "activated": "Lisensen din er aktivert.",
+      "activationError": "Aktiveringsfeil",
+      "activationErrorDesc": "En feil oppstod under aktivering av lisensen.",
+      "generationError": "Genereringsfeil",
+      "generationErrorDesc": "En feil oppstod under generering av koden.",
+      "activatedTitle": "Lisens aktivert",
+      "codeGeneratedTitle": "Kode generert",
+      "codeGeneratedDesc": "Aktiveringskode: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "Denne kunden har ingen registrerte avtaler",
+      "notAssigned": "Ikke tildelt",
+      "collaboratorNotFound": "Medarbeider ikke funnet",
+      "notSpecifiedFem": "Ikke spesifisert",
+      "roomNotFound": "Rom ikke funnet"
+    },
+    "currencySelector": {
+      "selectDescription": "Velg valutaen som skal brukes i hele programmet for priser, fakturaer og rapporter.",
+      "updateError": "Kan ikke oppdatere valuta",
+      "selectCurrency": "Velg valuta",
+      "currencyUpdatedTitle": "Valuta oppdatert",
+      "currencySetTo": "Valuta satt til {{name}} ({{symbol}})",
+      "currencyHeading": "Valuta",
+      "currentCurrencyLabel": "Nagjeldende valuta",
+      "currentSymbolLabel": "Nagjeldende symbol:"
+    },
+    "dayView": {
+      "clickToSelect": "Klikk for å velge",
+      "tapToClose": "Trykk for å lukke",
+      "selectClient": "Velg kunde",
+      "noClientsAvailable": "Ingen tilgjengelige kunder",
+      "selectedBadge": "VALGT"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "Denne siden er forbeholdt kunder",
+      "connectionError": "Tilkoblingsfeil",
+      "consentRegistered": "Samtykket ditt er registrert.",
+      "loading": "Laster...",
+      "privacyPolicyTitle": "Personvernerklæring",
+      "accessDeniedTitle": "Tilgang nektet",
+      "verifyAuthFailed": "Kunne ikke verifisere autentisering",
+      "consentRegisteredTitle": "Samtykke registrert"
+    },
+    "promotionPage": {
+      "notFound": "Kampanje ikke funnet",
+      "invalidLink": "Lenken er ugyldig eller kampanjen har utløpt.",
+      "videoNotSupported": "Nettleseren din støtter ikke video.",
+      "validNote": "Kampanjen er gyldig. Kontakt oss for mer informasjon!"
+    },
+    "colorEditor": {
+      "savedDescription": "Primærfargen er lagret.",
+      "colorSavedTitle": "Farge lagret",
+      "primaryColorLabel": "Primarfarge",
+      "secondaryColorLabel": "Sekundarfarge",
+      "saveColors": "Lagre farger",
+      "savedSuccessText": "Farger lagret!"
+    },
+    "footerContent": {
+      "writeUsAt": "Skriv til oss for spørsmål eller problemer:",
+      "callOurSupport": "Ring vår supporttelefon:",
+      "supportHours": "Tilgjengelig mandag til fredag, 09:00-18:00",
+      "privacyPolicy": "Personvernerklæring",
+      "emailSupport": "E-poststøtte",
+      "responseGuarantee": "Svar garantert innen 24 timer",
+      "helpCenterTitle": "Hjelpesenter",
+      "phoneSupportTitle": "Telefonstotte"
+    },
+    "saveDirect": {
+      "appointmentCreated": "Ny avtale opprettet",
+      "appointmentCreatedTitle": "Avtale opprettet"
+    },
+    "stripeCheckout": {
+      "paymentError": "Betalingsfeil",
+      "paymentErrorDesc": "En feil oppstod under betalingen"
+    },
+    "pwaRedirector": {
+      "appStartError": "En feil oppstod under oppstart av appen."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Sletting av kunde",
+      "newBadge": "NY",
+      "title": "Admin-varsler",
+      "noNotifications": "Ingen varsler tilgjengelig"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Legg til denne appen på startskjermen for raskere tilgang",
+      "quickAccessPersonal": "Rask tilgang til ditt personlige område",
+      "installAppTitle": "Installer appen",
+      "worksOffline": "Fungerer ogsa frakoblet",
+      "automaticUpdates": "Automatiske oppdateringer"
+    },
+    "pwaSession": {
+      "expiredDesc": "Økten din er utløpt, logg inn på nytt.",
+      "expiredTitle": "Okten utlopt",
+      "verifying": "Verifiserer okt..."
+    },
+    "restartApp": {
+      "errorTitle": "Omstartsfeil",
+      "restartingTitle": "Starter på nytt"
+    },
+    "directAccess": {
+      "invalidLink": "Ugyldig tilgangslenke",
+      "missingParams": "Lenken inneholder ikke alle nødvendige parametere for tilgang."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Kalender ikke tilgjengelig",
+      "availableOnlyInPlans": "Google Kalender-integrasjonen er kun tilgjengelig i abonnementene"
+    },
+    "manualSection": {
+      "noContent": "Ingen innhold tilgjengelig for denne seksjonen."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Betal med PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "Ny avtale"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Feil"
+    },
+    "inventory": {
+      "unitOfMeasure": "Måleenhet"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Velg minst én tjeneste",
+      "nameRequired": "Pakkenavn påkrevd",
+      "minOneSession": "Antall økter må være minst 1",
+      "pricePositive": "Pris må være positiv"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "Ingen avtaler",
+      "serviceColumn": "Tjeneste",
+      "roomColumn": "Rom",
+      "statusColumn": "Status",
+      "completedLabel": "Fullført",
+      "confirmedLabel": "Bekreftet",
+      "cancelledLabel": "Avlyst",
+      "scheduledLabel": "Planlagt",
+      "appointmentsHeading": "Avtaler",
+      "dateColumn": "Dato",
+      "timeColumn": "Tid",
+      "collaboratorColumn": "Medarbeider"
+    },
+    "appointmentCard": {
+      "hide": "Skjul",
+      "details": "Detaljer",
+      "emailReminderSent": "E-postpåminnelse sendt",
+      "emailSendFailed": "E-postsending mislyktes",
+      "whatsappReminderSent": "WhatsApp-påminnelse sendt"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Lås opp sletting",
+      "emailButton": "E-post",
+      "deletionNotificationTitle": "Slettevarsel",
+      "deletionUnlockedBadge": "Sletting opplast",
+      "otherAccountClient": "Kunde fra annen konto (kun visning)",
+      "viewOnlyBadge": "Kun visning"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "E-post:",
+      "phoneLabel": "Telefon:",
+      "termsOfService": "Tjenestevilkår",
+      "privacyPolicy": "Personvernerklæring",
+      "cellularLabel": "Mobil:",
+      "websiteLabel": "Nettsted:",
+      "developedBy": "Utviklet av {{author}}",
+      "versionLine": "Versjon {{version}} - Avtaleadministrasjon PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Lukk",
+      "selectServiceTitle": "Velg tjeneste"
+    },
+    "socialIcons": {
+      "emailLabel": "E-post",
+      "phoneLabel": "Telefon"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Påkrevd plan:",
+      "viewPlans": "Se planer"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Personvernerklæring",
+      "termsOfService": "Tjenestevilkår"
+    },
+    "appointmentForm": {
+      "emailLabel": "E-post"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Velg tjeneste"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "epost@eksempel.com",
+      "websiteExamplePlaceholder": "eksempel.no eller www.eksempel.no"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Personvernerklæring"
+    },
+    "monthView": {
+      "addAppointment": "Legg til avtale"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "E-post"
+    },
+    "homePage": {
+      "loadingName": "Laster navn..."
+    },
+    "promotionPageExtra": {
+      "loading": "Laster...",
+      "specialPromotionTitle": "Spesialtilbud"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Personvernerklæring"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Starter...",
+      "redirecting": "Omdirigerer..."
+    },
+    "staffManagementSimple": {
+      "loading": "Laster..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "navn@eksempel.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Mobil synkronisering",
+      "mobileSyncDesc": "Test sync: {{count}} kunder tilgjengelig",
+      "testServer": "Test server"
+    },
+    "inventoryExtra": {
+      "removeImage": "Fjern"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Lagre direkte"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Populaer"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Avtaleadministrasjon av {{author}}",
+      "versionLine": "Versjon {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Personaladministrasjon (enkel versjon)",
+      "pageLoadedSuccess": "Siden er lastet inn! Fant {{count}} brukere."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Avtaleadministrasjon"
+    },
+    "countryPrefixes": {
+      "italy": "Italia",
+      "usaCanada": "USA/Canada",
+      "unitedKingdom": "Storbritannia",
+      "france": "Frankrike",
+      "germany": "Tyskland",
+      "spain": "Spania",
+      "switzerland": "Sveits",
+      "austria": "Osterrike",
+      "belgium": "Belgia",
+      "netherlands": "Nederland",
+      "portugal": "Portugal",
+      "greece": "Hellas",
+      "sweden": "Sverige",
+      "norway": "Norge",
+      "denmark": "Danmark",
+      "finland": "Finland",
+      "poland": "Polen",
+      "czechRepublic": "Tsjekkia",
+      "hungary": "Ungarn",
+      "romania": "Romania"
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import PrivacyConsentForm from "@/components/PrivacyConsentForm";
@@ -20,6 +21,7 @@ interface UserData {
 }
 
 export default function ConsentPage() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [user, setUser] = useState<UserData | null>(null);
@@ -40,8 +42,8 @@ export default function ConsentPage() {
         // Verifica che l'utente sia un cliente
         if (userData.type !== "client") {
           toast({
-            title: "Accesso negato",
-            description: "Questa pagina è riservata ai clienti",
+            title: t('i18nFinale.consentPage.accessDeniedTitle'),
+            description: t('i18nFinale.consentPage.accessDeniedDesc'),
             variant: "destructive",
           });
           
@@ -57,8 +59,8 @@ export default function ConsentPage() {
     } catch (error) {
       console.error("Errore nel caricamento dell'utente corrente:", error);
       toast({
-        title: "Errore di connessione",
-        description: "Impossibile verificare l'autenticazione",
+        title: t('i18nFinale.consentPage.connectionError'),
+        description: t('i18nFinale.consentPage.verifyAuthFailed'),
         variant: "destructive",
       });
       
@@ -89,8 +91,8 @@ export default function ConsentPage() {
           
           // Mostra un messaggio di successo
           toast({
-            title: "Consenso registrato",
-            description: "Il tuo consenso è stato registrato con successo",
+            title: t('i18nFinale.consentPage.consentRegisteredTitle'),
+            description: t('i18nFinale.consentPage.consentRegistered'),
           });
           
           // Reindirizza all'area cliente
@@ -107,7 +109,7 @@ export default function ConsentPage() {
       <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Caricamento...</p>
+          <p className="text-muted-foreground">{t('i18nFinale.consentPage.loading')}</p>
         </div>
       </div>
     );
@@ -116,7 +118,7 @@ export default function ConsentPage() {
   return (
     <div className="container mx-auto p-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Informativa sulla Privacy</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">{t('i18nFinale.consentPage.privacyPolicyTitle')}</h1>
         
         {user?.client && (
           <PrivacyConsentForm 

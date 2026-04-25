@@ -479,13 +479,13 @@ export default function DayViewWithTimeSlots({
                 <div className="flex-grow relative">
                   {selected && (
                     <div className="absolute inset-0 bg-blue-200 border-2 border-blue-400 rounded-md flex items-center justify-center">
-                      <span className="text-blue-800 font-semibold text-xs">SELEZIONATO</span>
+                      <span className="text-blue-800 font-semibold text-xs">{t('i18nFinale.dayView.selectedBadge')}</span>
                     </div>
                   )}
                   {!selected && isSelectionMode && (
                     <div className={`h-full w-full ${occupied ? 'bg-orange-50/50' : 'bg-gray-50'} hover:bg-blue-50 rounded border border-dashed ${occupied ? 'border-orange-300' : 'border-gray-300'}`}>
                       <div className="flex items-center justify-center h-full">
-                        <span className="text-gray-400 text-xs">Clicca per selezionare</span>
+                        <span className="text-gray-400 text-xs">{t('i18nFinale.dayView.clickToSelect')}</span>
                       </div>
                     </div>
                   )}
@@ -611,7 +611,7 @@ export default function DayViewWithTimeSlots({
                       setExpandedAppointment(null);
                     }}
                     className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full"
-                    title="Chiudi"
+                    title={t('i18nFinale.dayViewWithTimeSlots.closeTitle')}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -638,7 +638,7 @@ export default function DayViewWithTimeSlots({
                   {/* Aggiunge un indicatore di tocco quando l'appuntamento è espanso su mobile */}
                   {isExpanded && isMobile && (
                     <span className="ml-1 text-[9px] text-gray-500 bg-gray-100 px-1 rounded-full">
-                      Tocca per chiudere
+                      {t('i18nFinale.dayView.tapToClose')}
                     </span>
                   )}
                 </div>
@@ -792,7 +792,7 @@ export default function DayViewWithTimeSlots({
                         setAppointmentToDelete(null);
                       }}
                     >
-                      Chiudi
+                      {t('i18nFinale.dayViewWithTimeSlots.closeTitle')}
                     </Button>
                   </div>
                 </>
@@ -834,7 +834,7 @@ export default function DayViewWithTimeSlots({
       <Dialog open={showClientSelector} onOpenChange={setShowClientSelector}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Seleziona Cliente</DialogTitle>
+            <DialogTitle>{t('i18nFinale.dayView.selectClient')}</DialogTitle>
           </DialogHeader>
           <div className="max-h-64 overflow-y-auto">
             {clients.length > 0 ? (
@@ -861,7 +861,7 @@ export default function DayViewWithTimeSlots({
               </div>
             ) : (
               <div className="text-center py-4 text-gray-500">
-                Nessun cliente disponibile
+                {t('i18nFinale.dayView.noClientsAvailable')}
               </div>
             )}
           </div>
@@ -872,7 +872,7 @@ export default function DayViewWithTimeSlots({
       <Dialog open={showServiceSelector} onOpenChange={setShowServiceSelector}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Seleziona Servizio</DialogTitle>
+            <DialogTitle>{t('i18nFinale.dayViewWithTimeSlots.selectServiceTitle')}</DialogTitle>
           </DialogHeader>
           <div className="max-h-64 overflow-y-auto">
             {services.length > 0 ? (

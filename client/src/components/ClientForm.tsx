@@ -67,28 +67,28 @@ const formSchema = insertClientSchema.omit({ userId: true, ownerId: true }).exte
 
 type FormData = z.infer<typeof formSchema>;
 
-// Lista dei prefissi internazionali più comuni
+// Lista dei prefissi internazionali piu comuni
 const countryPrefixes = [
-  { value: "+39", label: "Italia (+39)" },
-  { value: "+1", label: "USA/Canada (+1)" },
-  { value: "+44", label: "Regno Unito (+44)" },
-  { value: "+33", label: "Francia (+33)" },
-  { value: "+49", label: "Germania (+49)" },
-  { value: "+34", label: "Spagna (+34)" },
-  { value: "+41", label: "Svizzera (+41)" },
-  { value: "+43", label: "Austria (+43)" },
-  { value: "+32", label: "Belgio (+32)" },
-  { value: "+31", label: "Paesi Bassi (+31)" },
-  { value: "+351", label: "Portogallo (+351)" },
-  { value: "+30", label: "Grecia (+30)" },
-  { value: "+46", label: "Svezia (+46)" },
-  { value: "+47", label: "Norvegia (+47)" },
-  { value: "+45", label: "Danimarca (+45)" },
-  { value: "+358", label: "Finlandia (+358)" },
-  { value: "+48", label: "Polonia (+48)" },
-  { value: "+420", label: "Repubblica Ceca (+420)" },
-  { value: "+36", label: "Ungheria (+36)" },
-  { value: "+40", label: "Romania (+40)" },
+  { value: "+39", labelKey: "italy" },
+  { value: "+1", labelKey: "usaCanada" },
+  { value: "+44", labelKey: "unitedKingdom" },
+  { value: "+33", labelKey: "france" },
+  { value: "+49", labelKey: "germany" },
+  { value: "+34", labelKey: "spain" },
+  { value: "+41", labelKey: "switzerland" },
+  { value: "+43", labelKey: "austria" },
+  { value: "+32", labelKey: "belgium" },
+  { value: "+31", labelKey: "netherlands" },
+  { value: "+351", labelKey: "portugal" },
+  { value: "+30", labelKey: "greece" },
+  { value: "+46", labelKey: "sweden" },
+  { value: "+47", labelKey: "norway" },
+  { value: "+45", labelKey: "denmark" },
+  { value: "+358", labelKey: "finland" },
+  { value: "+48", labelKey: "poland" },
+  { value: "+420", labelKey: "czechRepublic" },
+  { value: "+36", labelKey: "hungary" },
+  { value: "+40", labelKey: "romania" },
 ];
 
 export default function ClientForm({ 
@@ -418,7 +418,7 @@ export default function ClientForm({
                               <SelectContent>
                                 {countryPrefixes.map((prefix) => (
                                   <SelectItem key={prefix.value} value={prefix.value}>
-                                    {prefix.label}
+                                    {t(`i18nFinale.countryPrefixes.${prefix.labelKey}`)} ({prefix.value})
                                   </SelectItem>
                                 ))}
                               </SelectContent>

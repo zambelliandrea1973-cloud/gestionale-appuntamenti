@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 
@@ -13,6 +14,7 @@ export default function PayPalButton({
   currency,
   intent,
 }: PayPalButtonProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -30,11 +32,11 @@ export default function PayPalButton({
       {isLoading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Elaborazione...
+          {t('common.processing')}
         </>
       ) : (
         <>
-          Paga con PayPal
+          {t('i18nFinale.payPalButton.payWithPayPal')}
         </>
       )}
     </Button>

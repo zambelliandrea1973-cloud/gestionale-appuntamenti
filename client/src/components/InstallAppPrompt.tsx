@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, X, Check } from 'lucide-react';
 import { BeforeInstallPromptEvent } from '@/types/pwa';
 
 export default function InstallAppPrompt() {
+  const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
@@ -117,10 +119,10 @@ export default function InstallAppPrompt() {
       <div className="w-full max-w-md mx-auto mt-4 mb-6 rounded-lg bg-green-50 border border-green-200 p-4">
         <div className="flex items-center">
           <Check className="h-5 w-5 text-green-600 mr-2" />
-          <span className="text-green-800 font-medium">App installata correttamente</span>
+          <span className="text-green-800 font-medium">{t('i18nFinale.installAppPrompt.appInstalledCorrectly')}</span>
         </div>
         <p className="text-green-700 text-sm mt-1">
-          Puoi accedere rapidamente alla tua area personale dalla home screen del tuo dispositivo.
+          {t('i18nFinale.installAppPrompt.alreadyInstalledNote')}
         </p>
       </div>
     );
@@ -139,24 +141,24 @@ export default function InstallAppPrompt() {
         >
           <X className="h-4 w-4" />
         </Button>
-        <CardTitle>Installa l'App</CardTitle>
+        <CardTitle>{t('i18nFinale.installAppPrompt.installAppTitle')}</CardTitle>
         <CardDescription>
-          Aggiungi questa app alla schermata home per un accesso più rapido
+          {t('i18nFinale.installAppPrompt.addHomeForFasterAccess')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {isIOS ? (
           <div className="space-y-3">
-            <p className="text-sm">Per installare l'app su iOS:</p>
+            <p className="text-sm">{t('i18nFinale.installAppPrompt.iosHowTo')}</p>
             <ol className="text-sm list-decimal pl-5 space-y-1">
-              <li>Tocca l'icona di condivisione <span className="inline-block px-2 py-1 rounded bg-gray-100">📤</span> in Safari</li>
-              <li>Scorri verso il basso e tocca <strong>Aggiungi a Home</strong></li>
-              <li>Tocca <strong>Aggiungi</strong> in alto a destra</li>
+              <li>{t('i18nFinale.installAppPrompt.tapShareIcon')} <span className="inline-block px-2 py-1 rounded bg-gray-100">📤</span> Safari</li>
+              <li>{t('i18nFinale.installAppPrompt.scrollDownAndTap')} <strong>{t('i18nFinale.installAppPrompt.addToHome')}</strong></li>
+              <li>{t('i18nFinale.installAppPrompt.tap')} <strong>{t('i18nFinale.installAppPrompt.add')}</strong></li>
             </ol>
           </div>
         ) : (
           <p className="text-sm">
-            Installa l'app sul tuo dispositivo per accedere più facilmente ai tuoi appuntamenti e dati personali, anche offline.
+            {t('i18nFinale.installAppPrompt.installInstructions')}
           </p>
         )}
       </CardContent>
@@ -164,7 +166,7 @@ export default function InstallAppPrompt() {
         {!isIOS && (
           <Button onClick={handleInstallClick} className="w-full flex items-center justify-center">
             <Download className="mr-2 h-4 w-4" />
-            Installa App
+            {t('i18nFinale.installAppPrompt.installAppCta')}
           </Button>
         )}
       </CardFooter>

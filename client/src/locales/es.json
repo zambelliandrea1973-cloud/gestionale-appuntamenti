@@ -6358,5 +6358,427 @@
     "toastDesc": "Revisa tu correo para encontrar el enlace de restablecimiento de la contraseña",
     "sendError": "Error al enviar el correo. Inténtalo de nuevo más tarde.",
     "rateLimitError": "Demasiados intentos. Vuelve a intentarlo en 15 minutos."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "Puedes acceder rápidamente a la app desde la pantalla de inicio de tu dispositivo.",
+      "androidInstallTap": "Instala directamente con un toque",
+      "iosStepsIntro": "Sigue estos pasos para instalar la app en tu iPhone o iPad",
+      "iosUseSafari": "Asegúrate de usar Safari, la instalación no funciona en otros navegadores como Chrome o Firefox.",
+      "iosShareLocation": "Se encuentra en la barra de herramientas de Safari, en la parte inferior de la pantalla (iPhone) o en la parte superior (iPad)",
+      "iosScrollAddHome": "Desplázate hacia abajo y toca \"Añadir a pantalla de inicio\"",
+      "iosScrollOptions": "Desplázate por las opciones disponibles en el menú de compartir",
+      "iosCanRename": "Puedes cambiar el nombre de la app si lo deseas",
+      "iosAppOnHome": "La app aparecerá en tu pantalla de inicio",
+      "browserNote": "Nota: en iOS debes usar Safari. En Android se recomienda Chrome.",
+      "appInstalledCorrectly": "App instalada correctamente",
+      "installAppOnDevice": "Instala la app en tu dispositivo",
+      "installOnAndroid": "Instalar en Android",
+      "tapShareInSafari": "Toca compartir en Safari",
+      "selectAddToHome": "Selecciona \"Añadir a pantalla de inicio\"",
+      "seeIosInstructions": "Ver instrucciones de iOS",
+      "iosInstallTitle": "Instalación en iOS",
+      "important": "Importante",
+      "tapShareIcon": "Toca el icono de compartir",
+      "tapAddTopRight": "Toca \"Añadir\" arriba a la derecha",
+      "done": "¡Listo!",
+      "closeButton": "Cerrar"
+    },
+    "pushNotifications": {
+      "permissionRequired": "Debes permitir las notificaciones para recibir actualizaciones.",
+      "subscribed": "Recibirás una notificación cuando se confirme tu cita.",
+      "subscribeError": "No se pueden activar las notificaciones. Inténtalo de nuevo.",
+      "unsubscribed": "Ya no recibirás notificaciones push.",
+      "unsubscribeError": "No se pueden desactivar las notificaciones.",
+      "notSupported": "Las notificaciones push no son compatibles con este navegador. Prueba a abrir la app como PWA instalada.",
+      "permissionDeniedTitle": "Permiso denegado",
+      "notificationsActivatedTitle": "Notificaciones activadas",
+      "notificationsDeactivatedTitle": "Notificaciones desactivadas"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Añadir función",
+      "featuresIncluded": "Funciones incluidas",
+      "noFeatures": "No hay funciones configuradas. Haz clic en \"Editar\" para añadir funciones.",
+      "featureNamePlaceholder": "Nombre de la función",
+      "planUpdated": "El plan de suscripción se ha actualizado correctamente.",
+      "loadingPlans": "Cargando planes...",
+      "previewPublicPlans": "Previsualizar planes públicos",
+      "priceCents": "Precio (céntimos)",
+      "clientLimit": "Límite de clientes",
+      "statusLabel": "Estado",
+      "planDescription": "Descripción del plan",
+      "planUpdatedTitle": "Plan actualizado",
+      "monthShort": "mes",
+      "yearShort": "año",
+      "unlimited": "Ilimitado"
+    },
+    "clientsPage": {
+      "newShort": "Nuevo",
+      "noClientsInSystem": "Aún no hay clientes en el sistema.",
+      "noClientsForProfessional": "No se han encontrado clientes para este profesional",
+      "updateError": "Error al actualizar los datos",
+      "allTab": "Todos",
+      "othersTab": "Otros",
+      "noConsentTab": "Sin consentimiento",
+      "loadingSummary": "Cargando resumen...",
+      "noProfessionalsFound": "No se han encontrado profesionales",
+      "clientsLoadedTitle": "Clientes cargados",
+      "clientsLoadFailedTitle": "No se pueden cargar los clientes"
+    },
+    "clientCard": {
+      "incompleteData": "Datos del cliente por completar",
+      "deletionUnlocked": "Eliminación desbloqueada",
+      "unlockDeletionAction": "Desbloquear eliminación",
+      "cannotUnlock": "No se puede desbloquear la eliminación",
+      "cannotMarkDeleted": "No se puede simular la eliminación",
+      "clientRemoved": "Cliente eliminado del sistema"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "El enlace de acceso directo se ha copiado al portapapeles.",
+      "copyFailed": "No se pudo copiar el enlace. Intenta seleccionarlo manualmente.",
+      "openInNewTab": "Abrir en una nueva pestaña",
+      "easyAccessNote": "Este enlace permite un acceso más fácil al área del cliente con el nombre de usuario precompletado.",
+      "passwordOnlyNote": "Solo será necesario introducir la contraseña, haciendo el acceso rápido y sencillo.",
+      "accessLink": "Enlace de acceso",
+      "linkCopiedTitle": "¡Enlace copiado!",
+      "directLinkTitle": "Enlace directo",
+      "copyAndShareDesc": "Copia y comparte este enlace con {{clientName}} para un acceso simple y directo al area del cliente.",
+      "copyLinkTitle": "Copiar enlace",
+      "securityNoteLabel": "Nota de seguridad:",
+      "securityNoteText": "Este enlace contiene un token reservado. Comparte solo con {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Token regenerado correctamente",
+      "regeneratedDescription": "Se ha generado un nuevo código QR.",
+      "cannotRegenerate": "No se puede regenerar el token. Inténtalo más tarde.",
+      "later": "Más tarde",
+      "expiringTitle": "Atencion: token a punto de expirar",
+      "expiresToday": "Tu token de acceso expira hoy.",
+      "expiresInOneDay": "Tu token de acceso expira en 1 dia.",
+      "expiresInDays": "Tu token de acceso expira en {{count}} dias.",
+      "regenerationPrompt": "Para seguir accediendo al area del cliente mediante codigo QR, debes generar un nuevo token. ¿Regenerarlo ahora?",
+      "regenerating": "Regenerando...",
+      "regenerateToken": "Regenerar token"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Crea y gestiona plantillas para los mensajes recordatorio por email y WhatsApp. Las plantillas unificadas funcionan en ambos canales.",
+      "loadAppointmentsError": "No se pueden cargar las citas: {{error}}",
+      "loadHistoryError": "No se puede cargar el historial: {{error}}",
+      "loadSmsHistoryError": "No se puede cargar el historial de SMS: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Bienvenido a la app del cliente",
+      "verifyingUser": "Comprobando la información del usuario...",
+      "ifNotRedirected": "Si no se te redirige automáticamente,",
+      "enterPassword": "Por favor, introduce tu contraseña",
+      "scanQrToConfigure": "Por favor, escanea el código QR para configurar la app",
+      "insufficientDataToken": "Datos insuficientes para recrear el token",
+      "initCheck": "Inicialización y comprobación de credenciales",
+      "initApp": "Inicializando aplicación...",
+      "attemptRepair": "Intentar reparar",
+      "showDebugInfo": "Mostrar información de depuración",
+      "hideDebugInfo": "Ocultar información de depuración",
+      "missing": "ausente",
+      "present": "presente",
+      "clickHere": "haz clic aquí",
+      "toProceedLogin": "para acceder al inicio de sesión.",
+      "autoAccessTitle": "Acceso automático",
+      "credentialsFoundDesc": "Credenciales encontradas, accediendo...",
+      "loginRequiredTitle": "Inicio de sesión requerido",
+      "configRequiredTitle": "Configuración necesaria",
+      "storageRepairedTitle": "Almacenamiento reparado",
+      "tokenRecreatedDesc": "Token recreado desde qrData",
+      "cannotRepairTitle": "No se puede reparar"
+    },
+    "betaStatus": {
+      "title": "Modo beta",
+      "welcomeMessage": "¡Bienvenido al programa beta! Puedes enviar comentarios en cualquier momento desde la página beta.",
+      "invalidCode": "Código beta no válido"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "Puedes acceder rápidamente a tu área personal desde la pantalla de inicio de tu dispositivo.",
+      "addHomeForFasterAccess": "Añade esta app a la pantalla de inicio para un acceso más rápido",
+      "iosHowTo": "Para instalar la app en iOS:",
+      "scrollDownAndTap": "Desplázate hacia abajo y toca",
+      "installInstructions": "Instala la app en tu dispositivo para acceder más fácilmente a tus citas y datos personales, incluso sin conexión.",
+      "appInstalledCorrectly": "App instalada correctamente",
+      "installAppTitle": "Instalar la app",
+      "tapShareIcon": "Toca el icono de compartir en",
+      "addToHome": "Añadir a pantalla de inicio",
+      "tap": "Toca",
+      "add": "Añadir",
+      "installAppCta": "Instalar app"
+    },
+    "useLicense": {
+      "activated": "Tu licencia se ha activado correctamente.",
+      "activationError": "Error de activación",
+      "activationErrorDesc": "Se ha producido un error al activar la licencia.",
+      "generationError": "Error de generación",
+      "generationErrorDesc": "Se ha producido un error al generar el código.",
+      "activatedTitle": "Licencia activada",
+      "codeGeneratedTitle": "Codigo generado",
+      "codeGeneratedDesc": "Codigo de activacion: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "Este cliente no tiene citas registradas",
+      "notAssigned": "No asignado",
+      "collaboratorNotFound": "Colaborador no encontrado",
+      "notSpecifiedFem": "No especificada",
+      "roomNotFound": "Sala no encontrada"
+    },
+    "currencySelector": {
+      "selectDescription": "Selecciona la moneda que se usará en todo el programa para precios, facturas e informes.",
+      "updateError": "No se puede actualizar la moneda",
+      "selectCurrency": "Seleccionar moneda",
+      "currencyUpdatedTitle": "Moneda actualizada",
+      "currencySetTo": "Moneda establecida en {{name}} ({{symbol}})",
+      "currencyHeading": "Moneda",
+      "currentCurrencyLabel": "Moneda actual",
+      "currentSymbolLabel": "Simbolo actual:"
+    },
+    "dayView": {
+      "clickToSelect": "Haz clic para seleccionar",
+      "tapToClose": "Toca para cerrar",
+      "selectClient": "Selecciona cliente",
+      "noClientsAvailable": "No hay clientes disponibles",
+      "selectedBadge": "SELECCIONADO"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "Esta página está reservada para los clientes",
+      "connectionError": "Error de conexión",
+      "consentRegistered": "Tu consentimiento se ha registrado correctamente",
+      "loading": "Cargando...",
+      "privacyPolicyTitle": "Política de privacidad",
+      "accessDeniedTitle": "Acceso denegado",
+      "verifyAuthFailed": "No se puede verificar la autenticación",
+      "consentRegisteredTitle": "Consentimiento registrado"
+    },
+    "promotionPage": {
+      "notFound": "Promoción no encontrada",
+      "invalidLink": "El enlace que has seguido no es válido o la promoción ha expirado.",
+      "videoNotSupported": "Tu navegador no admite vídeos.",
+      "validNote": "Promoción válida. ¡Contáctanos para más información!"
+    },
+    "colorEditor": {
+      "savedDescription": "El color primario se ha guardado correctamente.",
+      "colorSavedTitle": "Color guardado",
+      "primaryColorLabel": "Color primario",
+      "secondaryColorLabel": "Color secundario",
+      "saveColors": "Guardar colores",
+      "savedSuccessText": "¡Colores guardados con exito!"
+    },
+    "footerContent": {
+      "writeUsAt": "Para cualquier pregunta o problema, escríbenos a:",
+      "callOurSupport": "Llama a nuestro número de soporte:",
+      "supportHours": "Disponible de lunes a viernes, 9:00-18:00",
+      "privacyPolicy": "Política de privacidad",
+      "emailSupport": "Asistencia por correo",
+      "responseGuarantee": "Respuesta garantizada en 24 horas",
+      "helpCenterTitle": "Centro de Ayuda",
+      "phoneSupportTitle": "Soporte Telefonico"
+    },
+    "saveDirect": {
+      "appointmentCreated": "Nueva cita creada correctamente",
+      "appointmentCreatedTitle": "Cita creada"
+    },
+    "stripeCheckout": {
+      "paymentError": "Error de pago",
+      "paymentErrorDesc": "Se ha producido un error durante el proceso de pago"
+    },
+    "pwaRedirector": {
+      "appStartError": "Se ha producido un error al iniciar la app."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Eliminación de cliente",
+      "newBadge": "NUEVO",
+      "title": "Notificaciones de admin",
+      "noNotifications": "No hay notificaciones disponibles"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Añade esta app a la pantalla de inicio para un acceso más rápido",
+      "quickAccessPersonal": "Acceso rápido a tu área personal",
+      "installAppTitle": "Instalar la app",
+      "worksOffline": "Funciona sin conexion",
+      "automaticUpdates": "Actualizaciones automaticas"
+    },
+    "pwaSession": {
+      "expiredDesc": "Tu sesión ha expirado, vuelve a iniciar sesión.",
+      "expiredTitle": "Sesion expirada",
+      "verifying": "Verificando sesion..."
+    },
+    "restartApp": {
+      "errorTitle": "Error de reinicio",
+      "restartingTitle": "Reiniciando"
+    },
+    "directAccess": {
+      "invalidLink": "Enlace de acceso no válido",
+      "missingParams": "El enlace utilizado no contiene todos los parámetros necesarios para el acceso."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Calendar no disponible",
+      "availableOnlyInPlans": "La integración con Google Calendar solo está disponible en los planes"
+    },
+    "manualSection": {
+      "noContent": "No hay contenido disponible para esta sección."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Pagar con PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "Nueva cita"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Error"
+    },
+    "inventory": {
+      "unitOfMeasure": "Unidad de medida"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Selecciona al menos un servicio",
+      "nameRequired": "Nombre del paquete requerido",
+      "minOneSession": "El número de sesiones debe ser al menos 1",
+      "pricePositive": "El precio debe ser positivo"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "Sin citas",
+      "serviceColumn": "Servicio",
+      "roomColumn": "Sala",
+      "statusColumn": "Estado",
+      "completedLabel": "Completado",
+      "confirmedLabel": "Confirmado",
+      "cancelledLabel": "Cancelado",
+      "scheduledLabel": "Programado",
+      "appointmentsHeading": "Citas",
+      "dateColumn": "Fecha",
+      "timeColumn": "Hora",
+      "collaboratorColumn": "Colaborador"
+    },
+    "appointmentCard": {
+      "hide": "Ocultar",
+      "details": "Detalles",
+      "emailReminderSent": "Recordatorio por correo enviado",
+      "emailSendFailed": "Error al enviar el correo",
+      "whatsappReminderSent": "Recordatorio de WhatsApp enviado"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Desbloquear eliminación",
+      "emailButton": "Correo",
+      "deletionNotificationTitle": "Notificación de eliminación",
+      "deletionUnlockedBadge": "Eliminacion desbloqueada",
+      "otherAccountClient": "Cliente de otra cuenta (solo lectura)",
+      "viewOnlyBadge": "Solo lectura"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "Correo:",
+      "phoneLabel": "Teléfono:",
+      "termsOfService": "Términos del servicio",
+      "privacyPolicy": "Política de privacidad",
+      "cellularLabel": "Movil:",
+      "websiteLabel": "Sitio web:",
+      "developedBy": "Desarrollado por {{author}}",
+      "versionLine": "Version {{version}} - Gestor de Citas PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Cerrar",
+      "selectServiceTitle": "Seleccionar servicio"
+    },
+    "socialIcons": {
+      "emailLabel": "Correo",
+      "phoneLabel": "Teléfono"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Plan requerido:",
+      "viewPlans": "Ver planes"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Política de privacidad",
+      "termsOfService": "Términos del servicio"
+    },
+    "appointmentForm": {
+      "emailLabel": "Correo"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Seleccionar servicio"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@ejemplo.com",
+      "websiteExamplePlaceholder": "ejemplo.com o www.ejemplo.com"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Política de privacidad"
+    },
+    "monthView": {
+      "addAppointment": "Añadir cita"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "Correo"
+    },
+    "homePage": {
+      "loadingName": "Cargando nombre..."
+    },
+    "promotionPageExtra": {
+      "loading": "Cargando...",
+      "specialPromotionTitle": "Promocion especial"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Política de privacidad"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Iniciando...",
+      "redirecting": "Redirigiendo..."
+    },
+    "staffManagementSimple": {
+      "loading": "Cargando..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "nombre@ejemplo.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Sincronizacion movil",
+      "mobileSyncDesc": "Test sync: {{count}} clientes disponibles",
+      "testServer": "Probar servidor"
+    },
+    "inventoryExtra": {
+      "removeImage": "Eliminar"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Guardar directamente"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Popular"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Gestor de Citas por {{author}}",
+      "versionLine": "Version {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Gestion de personal (version simple)",
+      "pageLoadedSuccess": "¡Pagina cargada con exito! Se encontraron {{count}} usuarios."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Gestor de Citas"
+    },
+    "countryPrefixes": {
+      "italy": "Italia",
+      "usaCanada": "EE.UU./Canada",
+      "unitedKingdom": "Reino Unido",
+      "france": "Francia",
+      "germany": "Alemania",
+      "spain": "España",
+      "switzerland": "Suiza",
+      "austria": "Austria",
+      "belgium": "Belgica",
+      "netherlands": "Paises Bajos",
+      "portugal": "Portugal",
+      "greece": "Grecia",
+      "sweden": "Suecia",
+      "norway": "Noruega",
+      "denmark": "Dinamarca",
+      "finland": "Finlandia",
+      "poland": "Polonia",
+      "czechRepublic": "Republica Checa",
+      "hungary": "Hungria",
+      "romania": "Rumania"
+    }
   }
 }

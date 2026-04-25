@@ -31,7 +31,7 @@ const FooterOnly: React.FC = () => {
                 onClick={() => navigate('/privacy')}
                 data-testid="button-privacy-policy"
               >
-                Privacy Policy
+                {t('i18nFinale.footerOnly.privacyPolicy')}
               </Button>
               <Button 
                 variant="link" 

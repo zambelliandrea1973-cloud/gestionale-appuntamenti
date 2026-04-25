@@ -162,7 +162,7 @@ export default function AppointmentCardSmall({
             }}
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold">Elimina appuntamento</h3>
+              <h3 className="text-lg font-semibold">{t('appointment.confirmDeleteTitle')}</h3>
               <Button
                 variant="ghost"
                 size="icon"

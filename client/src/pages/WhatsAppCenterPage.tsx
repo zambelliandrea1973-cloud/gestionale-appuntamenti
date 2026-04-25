@@ -880,7 +880,7 @@ const WhatsAppCenterPage: React.FC = () => {
                           <Input
                             id="email-input"
                             type="email"
-                            placeholder="nome@esempio.com"
+                            placeholder={t('i18nFinale.whatsAppCenterPage.emailPlaceholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="mt-1"

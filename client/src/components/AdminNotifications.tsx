@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Bell, Trash2, Eye, EyeOff } from "lucide-react";
@@ -20,6 +21,7 @@ interface AdminNotification {
 }
 
 export default function AdminNotifications() {
+  const { t } = useTranslation();
   const { data: notifications = [], isLoading } = useQuery({
     queryKey: ['/api/admin/notifications'],
     queryFn: async () => {
@@ -47,7 +49,7 @@ export default function AdminNotifications() {
         <CardHeader>
           <CardTitle className="flex items-center">
             <Bell className="h-5 w-5 mr-2" />
-            Notifiche Admin
+            {t('i18nFinale.adminNotifications.title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -65,7 +67,7 @@ export default function AdminNotifications() {
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center">
             <Bell className="h-5 w-5 mr-2" />
-            Notifiche Admin
+            {t('i18nFinale.adminNotifications.title')}
           </div>
           {unreadCount > 0 && (
             <Badge variant="destructive" className="ml-2">
@@ -77,7 +79,7 @@ export default function AdminNotifications() {
       <CardContent>
         {notifications.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
-            Nessuna notifica disponibile
+            {t('i18nFinale.adminNotifications.noNotifications')}
           </p>
         ) : (
           <ScrollArea className="h-64">
@@ -96,11 +98,11 @@ export default function AdminNotifications() {
                       <div className="flex items-center mb-1">
                         <Trash2 className="h-4 w-4 mr-2 text-red-500" />
                         <span className="text-sm font-medium">
-                          Eliminazione Cliente
+                          {t('i18nFinale.adminNotifications.deletionTitle')}
                         </span>
                         {!notification.read && (
                           <Badge variant="destructive" className="ml-2 h-5 text-xs">
-                            NUOVO
+                            {t('i18nFinale.adminNotifications.newBadge')}
                           </Badge>
                         )}
                       </div>

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
  * 4. Backup dei dati di accesso per evitare perdite
  */
 export default function PwaLauncher() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(true);
   const [storageData, setStorageData] = useState<any>(null);
@@ -60,8 +62,8 @@ export default function PwaLauncher() {
         
         // Aggiorniamo il messaggio toast per avere un feedback migliore
         toast({
-          title: "Accesso automatico",
-          description: "Credenziali trovate, accesso in corso...",
+          title: t('i18nFinale.pwaLauncher.autoAccessTitle'),
+          description: t('i18nFinale.pwaLauncher.credentialsFoundDesc'),
           duration: 2000,
         });
         
@@ -76,8 +78,8 @@ export default function PwaLauncher() {
         console.log("Utente già configurato, reindirizzamento alla pagina di login");
         
         toast({
-          title: "Login richiesto",
-          description: "Per favore, inserisci la tua password",
+          title: t('i18nFinale.pwaLauncher.loginRequiredTitle'),
+          description: t('i18nFinale.pwaLauncher.enterPassword'),
           duration: 2000,
         });
         
@@ -89,8 +91,8 @@ export default function PwaLauncher() {
         console.log("Utente non configurato, reindirizzamento alla pagina di attivazione QR");
         
         toast({
-          title: "Configurazione necessaria",
-          description: "Per favore, scansiona il QR code per configurare l'app",
+          title: t('i18nFinale.pwaLauncher.configRequiredTitle'),
+          description: t('i18nFinale.pwaLauncher.scanQrToConfigure'),
           duration: 2000,
         });
         
@@ -113,16 +115,16 @@ export default function PwaLauncher() {
     if (storageData.clientId && storageData.qrData && !storageData.clientAccessToken) {
       localStorage.setItem('clientAccessToken', storageData.qrData);
       toast({
-        title: "Storage riparato",
-        description: "Token ricreato da qrData",
+        title: t('i18nFinale.pwaLauncher.storageRepairedTitle'),
+        description: t('i18nFinale.pwaLauncher.tokenRecreatedDesc'),
       });
       
       // Refresh della pagina
       window.location.reload();
     } else {
       toast({
-        title: "Impossibile riparare",
-        description: "Dati insufficienti per ricreare il token",
+        title: t('i18nFinale.pwaLauncher.cannotRepairTitle'),
+        description: t('i18nFinale.pwaLauncher.insufficientDataToken'),
         variant: "destructive"
       });
     }
@@ -133,10 +135,10 @@ export default function PwaLauncher() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">
-            Benvenuto nell'App Cliente
+            {t('i18nFinale.pwaLauncher.welcome')}
           </CardTitle>
           <CardDescription className="text-center">
-            Inizializzazione e controllo credenziali
+            {t('i18nFinale.pwaLauncher.initCheck')}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center py-6 gap-6">
@@ -144,10 +146,10 @@ export default function PwaLauncher() {
             <>
               <Loader2 className="h-16 w-16 animate-spin text-primary" />
               <p className="text-center text-muted-foreground">
-                Inizializzazione applicazione...
+                {t('i18nFinale.pwaLauncher.initApp')}
               </p>
               <p className="text-sm text-center">
-                Verifica delle informazioni utente in corso...
+                {t('i18nFinale.pwaLauncher.verifyingUser')}
               </p>
               <div className="w-full mt-2">
                 <Button 
@@ -155,16 +157,16 @@ export default function PwaLauncher() {
                   className="text-xs" 
                   onClick={() => setShowDebugInfo(!showDebugInfo)}
                 >
-                  {showDebugInfo ? "Nascondi info debug" : "Mostra info debug"}
+                  {showDebugInfo ? t('i18nFinale.pwaLauncher.hideDebugInfo') : t('i18nFinale.pwaLauncher.showDebugInfo')}
                 </Button>
                 
                 {showDebugInfo && storageData && (
                   <div className="text-xs bg-muted p-2 rounded mt-2 overflow-auto max-h-40">
                     <p><strong>localStorage:</strong></p>
-                    <p>clientId: {storageData.clientId || 'mancante'}</p>
-                    <p>username: {storageData.clientUsername || 'mancante'}</p>
-                    <p>token: {storageData.clientAccessToken ? 'presente' : 'mancante'}</p>
-                    <p>qrData: {storageData.qrData ? 'presente' : 'mancante'}</p>
+                    <p>clientId: {storageData.clientId || t('i18nFinale.pwaLauncher.missing')}</p>
+                    <p>username: {storageData.clientUsername || t('i18nFinale.pwaLauncher.missing')}</p>
+                    <p>token: {storageData.clientAccessToken ? t('i18nFinale.pwaLauncher.present') : t('i18nFinale.pwaLauncher.missing')}</p>
+                    <p>qrData: {storageData.qrData ? t('i18nFinale.pwaLauncher.present') : t('i18nFinale.pwaLauncher.missing')}</p>
                     <p>hasToken: {storageData.hasToken}</p>
                     
                     <Button 
@@ -173,7 +175,7 @@ export default function PwaLauncher() {
                       className="mt-2 text-xs h-6" 
                       onClick={riparaStorage}
                     >
-                      Tenta riparazione
+                      {t('i18nFinale.pwaLauncher.attemptRepair')}
                     </Button>
                   </div>
                 )}
@@ -181,15 +183,15 @@ export default function PwaLauncher() {
             </>
           ) : (
             <p className="text-center">
-              Se non vieni reindirizzato automaticamente, 
+              {t('i18nFinale.pwaLauncher.ifNotRedirected')}
               <Button 
                 variant="link"
                 onClick={() => setLocation('/client-login')}
                 className="p-0 h-auto mx-1"
               >
-                clicca qui
+                {t('i18nFinale.pwaLauncher.clickHere')}
               </Button> 
-              per procedere al login.
+              {t('i18nFinale.pwaLauncher.toProceedLogin')}
             </p>
           )}
         </CardContent>

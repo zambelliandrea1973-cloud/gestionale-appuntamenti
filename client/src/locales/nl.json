@@ -6358,5 +6358,427 @@
     "toastDesc": "Controleer je e-mail voor de link om je wachtwoord opnieuw in te stellen",
     "sendError": "Fout bij het verzenden van de e-mail. Probeer het later opnieuw.",
     "rateLimitError": "Te veel pogingen. Probeer het over 15 minuten opnieuw."
+  },
+  "i18nFinale": {
+    "clientPwaInstaller": {
+      "alreadyInstalledHint": "Je hebt snel toegang tot de app vanaf het startscherm van je apparaat.",
+      "androidInstallTap": "Installeer direct met één tik",
+      "iosStepsIntro": "Volg deze stappen om de app op je iPhone of iPad te installeren",
+      "iosUseSafari": "Zorg ervoor dat je Safari gebruikt, installatie werkt niet in andere browsers zoals Chrome of Firefox.",
+      "iosShareLocation": "Het staat in de werkbalk van Safari, onderaan het scherm (iPhone) of bovenaan (iPad)",
+      "iosScrollAddHome": "Scrol omlaag en tik op \"Zet op beginscherm\"",
+      "iosScrollOptions": "Bekijk de beschikbare opties in het deelmenu",
+      "iosCanRename": "Je kunt de naam van de app desgewenst aanpassen",
+      "iosAppOnHome": "De app verschijnt op je beginscherm",
+      "browserNote": "Opmerking: op iOS moet je Safari gebruiken. Op Android wordt Chrome aanbevolen.",
+      "appInstalledCorrectly": "App correct geïnstalleerd",
+      "installAppOnDevice": "Installeer de app op je apparaat",
+      "installOnAndroid": "Installeren op Android",
+      "tapShareInSafari": "Tik op delen in Safari",
+      "selectAddToHome": "Selecteer \"Zet op beginscherm\"",
+      "seeIosInstructions": "Bekijk iOS-instructies",
+      "iosInstallTitle": "Installatie op iOS",
+      "important": "Belangrijk",
+      "tapShareIcon": "Tik op het deelpictogram",
+      "tapAddTopRight": "Tik op \"Voeg toe\" rechtsboven",
+      "done": "Klaar!",
+      "closeButton": "Sluiten"
+    },
+    "pushNotifications": {
+      "permissionRequired": "Je moet meldingen toestaan om updates te ontvangen.",
+      "subscribed": "Je ontvangt een melding wanneer je afspraak is bevestigd.",
+      "subscribeError": "Meldingen kunnen niet worden ingeschakeld. Probeer het opnieuw.",
+      "unsubscribed": "Je ontvangt geen pushmeldingen meer.",
+      "unsubscribeError": "Meldingen kunnen niet worden uitgeschakeld.",
+      "notSupported": "Pushmeldingen worden niet ondersteund in deze browser. Probeer de app als geïnstalleerde PWA te openen.",
+      "permissionDeniedTitle": "Toestemming geweigerd",
+      "notificationsActivatedTitle": "Meldingen ingeschakeld",
+      "notificationsDeactivatedTitle": "Meldingen uitgeschakeld"
+    },
+    "subscriptionPlansAdmin": {
+      "addFeature": "Functie toevoegen",
+      "featuresIncluded": "Inbegrepen functies",
+      "noFeatures": "Geen functies geconfigureerd. Klik op \"Bewerken\" om functies toe te voegen.",
+      "featureNamePlaceholder": "Naam van de functie",
+      "planUpdated": "Het abonnement is succesvol bijgewerkt.",
+      "loadingPlans": "Plannen worden geladen...",
+      "previewPublicPlans": "Voorbeeld openbare plannen",
+      "priceCents": "Prijs (centen)",
+      "clientLimit": "Klantlimiet",
+      "statusLabel": "Status",
+      "planDescription": "Planbeschrijving",
+      "planUpdatedTitle": "Plan bijgewerkt",
+      "monthShort": "maand",
+      "yearShort": "jaar",
+      "unlimited": "Onbeperkt"
+    },
+    "clientsPage": {
+      "newShort": "Nieuw",
+      "noClientsInSystem": "Er zijn nog geen klanten in het systeem.",
+      "noClientsForProfessional": "Geen klanten gevonden voor deze professional",
+      "updateError": "Fout bij het bijwerken van de gegevens",
+      "allTab": "Alle",
+      "othersTab": "Anderen",
+      "noConsentTab": "Geen toestemming",
+      "loadingSummary": "Samenvatting wordt geladen...",
+      "noProfessionalsFound": "Geen professionals gevonden",
+      "clientsLoadedTitle": "Klanten geladen",
+      "clientsLoadFailedTitle": "Klanten kunnen niet worden geladen"
+    },
+    "clientCard": {
+      "incompleteData": "Klantgegevens te voltooien",
+      "deletionUnlocked": "Verwijdering ontgrendeld",
+      "unlockDeletionAction": "Verwijdering ontgrendelen",
+      "cannotUnlock": "Kan verwijdering niet ontgrendelen",
+      "cannotMarkDeleted": "Kan verwijdering niet simuleren",
+      "clientRemoved": "Klant uit het systeem verwijderd"
+    },
+    "directLinkGenerator": {
+      "linkCopied": "De directe toegangslink is naar het klembord gekopieerd.",
+      "copyFailed": "De link kon niet worden gekopieerd. Probeer hem handmatig te selecteren.",
+      "openInNewTab": "Openen in een nieuw tabblad",
+      "easyAccessNote": "Met deze link krijg je eenvoudig toegang tot het klantgebied met de gebruikersnaam vooraf ingevuld.",
+      "passwordOnlyNote": "Alleen het wachtwoord hoeft ingevoerd te worden, voor snelle en eenvoudige toegang.",
+      "accessLink": "Toegangslink",
+      "linkCopiedTitle": "Link gekopieerd!",
+      "directLinkTitle": "Directe link",
+      "copyAndShareDesc": "Kopieer en deel deze link met {{clientName}} voor eenvoudige en directe toegang tot het klantgedeelte.",
+      "copyLinkTitle": "Link kopieren",
+      "securityNoteLabel": "Beveiligingsnotitie:",
+      "securityNoteText": "Deze link bevat een privetoken. Deel alleen met {{clientName}}."
+    },
+    "tokenExpiry": {
+      "regenerated": "Token succesvol opnieuw gegenereerd",
+      "regeneratedDescription": "Er is een nieuwe QR-code gegenereerd.",
+      "cannotRegenerate": "Token kan niet opnieuw worden gegenereerd. Probeer het later opnieuw.",
+      "later": "Later",
+      "expiringTitle": "Let op: token verloopt binnenkort",
+      "expiresToday": "Uw toegangstoken verloopt vandaag.",
+      "expiresInOneDay": "Uw toegangstoken verloopt over 1 dag.",
+      "expiresInDays": "Uw toegangstoken verloopt over {{count}} dagen.",
+      "regenerationPrompt": "Om het klantgedeelte via QR-code te blijven openen, moet u een nieuw token aanmaken. Nu opnieuw genereren?",
+      "regenerating": "Opnieuw genereren...",
+      "regenerateToken": "Token opnieuw genereren"
+    },
+    "notificationsPage": {
+      "templatesDescription": "Maak en beheer sjablonen voor herinneringsberichten via e-mail en WhatsApp. Geünificeerde sjablonen werken voor beide kanalen.",
+      "loadAppointmentsError": "Afspraken kunnen niet worden geladen: {{error}}",
+      "loadHistoryError": "Geschiedenis kan niet worden geladen: {{error}}",
+      "loadSmsHistoryError": "SMS-geschiedenis kan niet worden geladen: {{error}}"
+    },
+    "pwaLauncher": {
+      "welcome": "Welkom in de klant-app",
+      "verifyingUser": "Gebruikersgegevens worden gecontroleerd...",
+      "ifNotRedirected": "Als je niet automatisch wordt doorgestuurd,",
+      "enterPassword": "Voer je wachtwoord in",
+      "scanQrToConfigure": "Scan de QR-code om de app in te stellen",
+      "insufficientDataToken": "Onvoldoende gegevens om de token opnieuw te maken",
+      "initCheck": "Initialisatie en controle van inloggegevens",
+      "initApp": "Toepassing wordt geïnitialiseerd...",
+      "attemptRepair": "Reparatie proberen",
+      "showDebugInfo": "Foutopsporingsinfo tonen",
+      "hideDebugInfo": "Foutopsporingsinfo verbergen",
+      "missing": "ontbreekt",
+      "present": "aanwezig",
+      "clickHere": "klik hier",
+      "toProceedLogin": "om verder te gaan naar de login.",
+      "autoAccessTitle": "Automatische toegang",
+      "credentialsFoundDesc": "Inloggegevens gevonden, bezig met inloggen...",
+      "loginRequiredTitle": "Inloggen vereist",
+      "configRequiredTitle": "Configuratie vereist",
+      "storageRepairedTitle": "Opslag hersteld",
+      "tokenRecreatedDesc": "Token opnieuw aangemaakt vanuit qrData",
+      "cannotRepairTitle": "Kan niet repareren"
+    },
+    "betaStatus": {
+      "title": "Bètamodus",
+      "welcomeMessage": "Welkom bij het bètaprogramma! Je kunt op elk moment feedback geven via de bètapagina.",
+      "invalidCode": "Ongeldige bètacode"
+    },
+    "installAppPrompt": {
+      "alreadyInstalledNote": "Je hebt snel toegang tot je persoonlijke gedeelte vanaf het startscherm van je apparaat.",
+      "addHomeForFasterAccess": "Voeg deze app toe aan het startscherm voor snellere toegang",
+      "iosHowTo": "Zo installeer je de app op iOS:",
+      "scrollDownAndTap": "Scrol omlaag en tik op",
+      "installInstructions": "Installeer de app op je apparaat voor eenvoudige toegang tot je afspraken en persoonlijke gegevens, ook offline.",
+      "appInstalledCorrectly": "App correct geïnstalleerd",
+      "installAppTitle": "App installeren",
+      "tapShareIcon": "Tik op het deelpictogram in",
+      "addToHome": "Zet op beginscherm",
+      "tap": "Tik op",
+      "add": "Voeg toe",
+      "installAppCta": "App installeren"
+    },
+    "useLicense": {
+      "activated": "Je licentie is succesvol geactiveerd.",
+      "activationError": "Activatiefout",
+      "activationErrorDesc": "Er is een fout opgetreden bij het activeren van de licentie.",
+      "generationError": "Generatiefout",
+      "generationErrorDesc": "Er is een fout opgetreden bij het genereren van de code.",
+      "activatedTitle": "Licentie geactiveerd",
+      "codeGeneratedTitle": "Code gegenereerd",
+      "codeGeneratedDesc": "Activeringscode: {{code}}"
+    },
+    "clientAppointments": {
+      "noAppointmentsForClient": "Deze klant heeft geen geregistreerde afspraken",
+      "notAssigned": "Niet toegewezen",
+      "collaboratorNotFound": "Medewerker niet gevonden",
+      "notSpecifiedFem": "Niet opgegeven",
+      "roomNotFound": "Ruimte niet gevonden"
+    },
+    "currencySelector": {
+      "selectDescription": "Selecteer de valuta die in het hele programma wordt gebruikt voor prijzen, facturen en rapporten.",
+      "updateError": "Valuta kan niet worden bijgewerkt",
+      "selectCurrency": "Valuta selecteren",
+      "currencyUpdatedTitle": "Valuta bijgewerkt",
+      "currencySetTo": "Valuta ingesteld op {{name}} ({{symbol}})",
+      "currencyHeading": "Valuta",
+      "currentCurrencyLabel": "Huidige valuta",
+      "currentSymbolLabel": "Huidig symbool:"
+    },
+    "dayView": {
+      "clickToSelect": "Klik om te selecteren",
+      "tapToClose": "Tik om te sluiten",
+      "selectClient": "Klant selecteren",
+      "noClientsAvailable": "Geen klanten beschikbaar",
+      "selectedBadge": "GESELECTEERD"
+    },
+    "consentPage": {
+      "accessDeniedDesc": "Deze pagina is alleen voor klanten",
+      "connectionError": "Verbindingsfout",
+      "consentRegistered": "Je toestemming is succesvol geregistreerd",
+      "loading": "Bezig met laden...",
+      "privacyPolicyTitle": "Privacybeleid",
+      "accessDeniedTitle": "Toegang geweigerd",
+      "verifyAuthFailed": "Authenticatie kan niet worden geverifieerd",
+      "consentRegisteredTitle": "Toestemming geregistreerd"
+    },
+    "promotionPage": {
+      "notFound": "Promotie niet gevonden",
+      "invalidLink": "De gevolgde link is ongeldig of de promotie is verlopen.",
+      "videoNotSupported": "Je browser ondersteunt geen video's.",
+      "validNote": "Promotie geldig. Neem contact op voor meer informatie!"
+    },
+    "colorEditor": {
+      "savedDescription": "De primaire kleur is succesvol opgeslagen.",
+      "colorSavedTitle": "Kleur opgeslagen",
+      "primaryColorLabel": "Primaire kleur",
+      "secondaryColorLabel": "Secundaire kleur",
+      "saveColors": "Kleuren opslaan",
+      "savedSuccessText": "Kleuren succesvol opgeslagen!"
+    },
+    "footerContent": {
+      "writeUsAt": "Voor vragen of problemen kun je ons mailen op:",
+      "callOurSupport": "Bel ons supportnummer:",
+      "supportHours": "Bereikbaar van maandag t/m vrijdag, 9:00-18:00",
+      "privacyPolicy": "Privacybeleid",
+      "emailSupport": "E-mailondersteuning",
+      "responseGuarantee": "Antwoord gegarandeerd binnen 24 uur",
+      "helpCenterTitle": "Helpcentrum",
+      "phoneSupportTitle": "Telefonische Ondersteuning"
+    },
+    "saveDirect": {
+      "appointmentCreated": "Nieuwe afspraak succesvol aangemaakt",
+      "appointmentCreatedTitle": "Afspraak aangemaakt"
+    },
+    "stripeCheckout": {
+      "paymentError": "Betalingsfout",
+      "paymentErrorDesc": "Er is een fout opgetreden tijdens het betaalproces"
+    },
+    "pwaRedirector": {
+      "appStartError": "Er is een fout opgetreden bij het starten van de app."
+    },
+    "adminNotifications": {
+      "deletionTitle": "Klant verwijderen",
+      "newBadge": "NIEUW",
+      "title": "Beheerdersmeldingen",
+      "noNotifications": "Geen meldingen beschikbaar"
+    },
+    "pwaInstaller": {
+      "addToHomeForFaster": "Voeg deze app toe aan het startscherm voor snellere toegang",
+      "quickAccessPersonal": "Snelle toegang tot je persoonlijke gedeelte",
+      "installAppTitle": "App installeren",
+      "worksOffline": "Werkt ook offline",
+      "automaticUpdates": "Automatische updates"
+    },
+    "pwaSession": {
+      "expiredDesc": "Je sessie is verlopen, log opnieuw in.",
+      "expiredTitle": "Sessie verlopen",
+      "verifying": "Sessie verifieren..."
+    },
+    "restartApp": {
+      "errorTitle": "Herstartfout",
+      "restartingTitle": "Bezig met herstarten"
+    },
+    "directAccess": {
+      "invalidLink": "Ongeldige toegangslink",
+      "missingParams": "De gebruikte link bevat niet alle parameters die nodig zijn voor toegang."
+    },
+    "googleSetup": {
+      "notAvailable": "Google Agenda niet beschikbaar",
+      "availableOnlyInPlans": "De integratie met Google Agenda is alleen beschikbaar in de abonnementen"
+    },
+    "manualSection": {
+      "noContent": "Geen inhoud beschikbaar voor dit onderdeel."
+    },
+    "payPalButton": {
+      "payWithPayPal": "Betalen met PayPal"
+    },
+    "timeSlot": {
+      "newAppointment": "Nieuwe afspraak"
+    },
+    "googleCalendarSync": {
+      "errorWithEmoji": "❌ Fout"
+    },
+    "inventory": {
+      "unitOfMeasure": "Meeteenheid"
+    },
+    "packagesValidation": {
+      "selectAtLeastOneService": "Selecteer minstens één dienst",
+      "nameRequired": "Pakketnaam vereist",
+      "minOneSession": "Aantal sessies moet minstens 1 zijn",
+      "pricePositive": "Prijs moet positief zijn"
+    },
+    "clientAppointmentsPage": {
+      "noAppointments": "Geen afspraken",
+      "serviceColumn": "Dienst",
+      "roomColumn": "Kamer",
+      "statusColumn": "Status",
+      "completedLabel": "Voltooid",
+      "confirmedLabel": "Bevestigd",
+      "cancelledLabel": "Geannuleerd",
+      "scheduledLabel": "Gepland",
+      "appointmentsHeading": "Afspraken",
+      "dateColumn": "Datum",
+      "timeColumn": "Tijd",
+      "collaboratorColumn": "Medewerker"
+    },
+    "appointmentCard": {
+      "hide": "Verbergen",
+      "details": "Details",
+      "emailReminderSent": "E-mailherinnering verzonden",
+      "emailSendFailed": "Verzenden van e-mail mislukt",
+      "whatsappReminderSent": "WhatsApp-herinnering verzonden"
+    },
+    "clientCardExtra": {
+      "unlockDeletion": "Verwijdering ontgrendelen",
+      "emailButton": "E-mail",
+      "deletionNotificationTitle": "Verwijderingsmelding",
+      "deletionUnlockedBadge": "Verwijdering ontgrendeld",
+      "otherAccountClient": "Klant van ander account (alleen-lezen)",
+      "viewOnlyBadge": "Alleen-lezen"
+    },
+    "clientFooterContactIcons": {
+      "emailLabel": "E-mail:",
+      "phoneLabel": "Telefoon:",
+      "termsOfService": "Servicevoorwaarden",
+      "privacyPolicy": "Privacybeleid",
+      "cellularLabel": "Mobiel:",
+      "websiteLabel": "Website:",
+      "developedBy": "Ontwikkeld door {{author}}",
+      "versionLine": "Versie {{version}} - Afsprakenbeheer PWA"
+    },
+    "dayViewWithTimeSlots": {
+      "closeTitle": "Sluiten",
+      "selectServiceTitle": "Dienst selecteren"
+    },
+    "socialIcons": {
+      "emailLabel": "E-mail",
+      "phoneLabel": "Telefoon"
+    },
+    "upgradePrompt": {
+      "requiredPlan": "Vereist abonnement:",
+      "viewPlans": "Bekijk abonnementen"
+    },
+    "welcomePage": {
+      "privacyPolicy": "Privacybeleid",
+      "termsOfService": "Servicevoorwaarden"
+    },
+    "appointmentForm": {
+      "emailLabel": "E-mail"
+    },
+    "appointmentFormModal": {
+      "selectServiceAria": "Dienst selecteren"
+    },
+    "contactInfoEditor": {
+      "emailPlaceholder": "email@voorbeeld.com",
+      "websiteExamplePlaceholder": "voorbeeld.nl of www.voorbeeld.nl"
+    },
+    "footerOnly": {
+      "privacyPolicy": "Privacybeleid"
+    },
+    "monthView": {
+      "addAppointment": "Afspraak toevoegen"
+    },
+    "reminderTemplateManager": {
+      "emailLabel": "E-mail"
+    },
+    "homePage": {
+      "loadingName": "Naam wordt geladen..."
+    },
+    "promotionPageExtra": {
+      "loading": "Bezig met laden...",
+      "specialPromotionTitle": "Speciale promotie"
+    },
+    "pureClientArea": {
+      "privacyPolicy": "Privacybeleid"
+    },
+    "pwaRedirectorExtra": {
+      "starting": "Bezig met opstarten...",
+      "redirecting": "Doorverwijzen..."
+    },
+    "staffManagementSimple": {
+      "loading": "Bezig met laden..."
+    },
+    "whatsAppCenterPage": {
+      "emailPlaceholder": "naam@voorbeeld.com"
+    },
+    "clientsPageExtra": {
+      "mobileSyncTitle": "Mobiele synchronisatie",
+      "mobileSyncDesc": "Test sync: {{count}} klanten beschikbaar",
+      "testServer": "Server testen"
+    },
+    "inventoryExtra": {
+      "removeImage": "Verwijderen"
+    },
+    "saveDirectButton": {
+      "saveDirectly": "Direct opslaan"
+    },
+    "paymentPageExtra": {
+      "popularBadge": "Populair"
+    },
+    "pureClientAreaExtra": {
+      "copyrightLine": "© {{year}} Afsprakenbeheer door {{author}}",
+      "versionLine": "Versie {{version}}"
+    },
+    "staffSimple": {
+      "pageTitle": "Personeelsbeheer (eenvoudige versie)",
+      "pageLoadedSuccess": "Pagina succesvol geladen! {{count}} gebruikers gevonden."
+    },
+    "welcomePageExtra": {
+      "developerCredit": "{{author}} - Afsprakenbeheer"
+    },
+    "countryPrefixes": {
+      "italy": "Italie",
+      "usaCanada": "VS/Canada",
+      "unitedKingdom": "Verenigd Koninkrijk",
+      "france": "Frankrijk",
+      "germany": "Duitsland",
+      "spain": "Spanje",
+      "switzerland": "Zwitserland",
+      "austria": "Oostenrijk",
+      "belgium": "Belgie",
+      "netherlands": "Nederland",
+      "portugal": "Portugal",
+      "greece": "Griekenland",
+      "sweden": "Zweden",
+      "norway": "Noorwegen",
+      "denmark": "Denemarken",
+      "finland": "Finland",
+      "poland": "Polen",
+      "czechRepublic": "Tsjechie",
+      "hungary": "Hongarije",
+      "romania": "Roemenie"
+    }
   }
 }

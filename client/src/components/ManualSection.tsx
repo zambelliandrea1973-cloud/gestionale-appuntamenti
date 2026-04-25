@@ -8,6 +8,7 @@
  */
 
 import { Play, Image as ImageIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ManualMedia {
   type: 'image' | 'video';
@@ -35,6 +36,7 @@ interface ManualSectionProps {
  * - Video/immagini sotto
  */
 export function ManualSection({ steps, isLoading, fallbackContent }: ManualSectionProps) {
+  const { t } = useTranslation();
   // Loading state
   if (isLoading) {
     return (
@@ -52,7 +54,7 @@ export function ManualSection({ steps, isLoading, fallbackContent }: ManualSecti
     ) : (
       <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
         <p className="text-sm text-muted-foreground">
-          Nessun contenuto disponibile per questa sezione.
+          {t('i18nFinale.manualSection.noContent')}
         </p>
       </div>
     );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -12,6 +13,7 @@ import {
 } from '@/lib/betaUtils';
 
 export function BetaStatusChecker() {
+  const { t } = useTranslation();
   const [isChecking, setIsChecking] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
@@ -40,8 +42,8 @@ export function BetaStatusChecker() {
               
               // Mostra un toast di benvenuto per il beta tester
               toast({
-                title: 'Modalità Beta',
-                description: 'Benvenuto nel programma beta! Puoi inviare feedback in qualsiasi momento dalla pagina beta.',
+                title: t('i18nFinale.betaStatus.title'),
+                description: t('i18nFinale.betaStatus.welcomeMessage'),
                 variant: 'default',
                 duration: 5000,
               });
@@ -50,7 +52,7 @@ export function BetaStatusChecker() {
               clearBetaInvite(user.id);
               
               toast({
-                title: 'Codice beta non valido',
+                title: t('i18nFinale.betaStatus.invalidCode'),
                 description: data.message || 'Il codice beta non è più valido.',
                 variant: 'destructive',
               });

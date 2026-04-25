@@ -396,7 +396,7 @@ export default function ReminderTemplateManager() {
                   />
                   <div className="flex items-center gap-1.5">
                     <MailIcon className="h-4 w-4 text-muted-foreground" />
-                    <Label htmlFor="email-checkbox" className="cursor-pointer">Email</Label>
+                    <Label htmlFor="email-checkbox" className="cursor-pointer">{t('i18nFinale.reminderTemplateManager.emailLabel')}</Label>
                   </div>
                 </div>
               </div>

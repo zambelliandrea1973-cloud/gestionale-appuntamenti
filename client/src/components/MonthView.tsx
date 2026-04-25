@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ interface MonthViewProps {
 }
 
 export default function MonthView({ selectedDate, onRefresh, onDateSelect }: MonthViewProps) {
+  const { t } = useTranslation();
   const [calendar, setCalendar] = useState<Date[][]>([]);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
@@ -169,7 +171,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
                         handleDayClick(e, day, true);
                       }}
                     >
-                      <span className="sr-only">Aggiungi appuntamento</span>
+                      <span className="sr-only">{t('i18nFinale.monthView.addAppointment')}</span>
                       +
                     </Button>
                   )}

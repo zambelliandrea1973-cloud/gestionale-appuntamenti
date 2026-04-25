@@ -104,14 +104,14 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     if (appointment.reminderType.includes('email')) {
       if (appointment.reminderStatus === 'sent') {
         flags.push(
-          <div key="email" className="flex items-center gap-1 text-green-600" title="Email promemoria inviata">
+          <div key="email" className="flex items-center gap-1 text-green-600" title={t('i18nFinale.appointmentCard.emailReminderSent')}>
             <Mail className="h-3 w-3" />
             <CheckCircle2 className="h-3 w-3" />
           </div>
         );
       } else if (appointment.reminderStatus === 'failed') {
         flags.push(
-          <div key="email" className="flex items-center gap-1 text-red-500" title="Invio email fallito">
+          <div key="email" className="flex items-center gap-1 text-red-500" title={t('i18nFinale.appointmentCard.emailSendFailed')}>
             <Mail className="h-3 w-3" />
             <span className="text-xs">✗</span>
           </div>
@@ -123,7 +123,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     if (appointment.reminderType.includes('whatsapp')) {
       if (appointment.reminderStatus === 'sent') {
         flags.push(
-          <div key="whatsapp" className="flex items-center gap-1 text-green-600" title="WhatsApp promemoria inviato">
+          <div key="whatsapp" className="flex items-center gap-1 text-green-600" title={t('i18nFinale.appointmentCard.whatsappReminderSent')}>
             <MessageCircle className="h-3 w-3" />
             <CheckCircle2 className="h-3 w-3" />
           </div>
@@ -192,7 +192,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                   }}
                 >
                   <Pencil className="h-4 w-4 mr-1" />
-                  <span className="text-sm">Modifica</span>
+                  <span className="text-sm">{t('common.edit')}</span>
                 </button>
                 
                 <AlertDialog>
@@ -202,12 +202,12 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Trash2 className="h-4 w-4 mr-1" />
-                      <span className="text-sm">Elimina</span>
+                      <span className="text-sm">{t('common.delete')}</span>
                     </button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
+                      <AlertDialogTitle>{t('appointment.confirmDeleteTitle')}</AlertDialogTitle>
                       <AlertDialogDescription>
                         {t('appointment.confirmDeleteDescription')}
                       </AlertDialogDescription>
@@ -218,7 +218,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                         onClick={handleDelete}
                         className="bg-red-600 hover:bg-red-700"
                       >
-                        Elimina
+                        {t('common.delete')}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -307,12 +307,12 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
               {isExpanded ? (
                 <>
                   <ChevronUp className="h-4 w-4 mr-1" />
-                  <span>Nascondi</span>
+                  <span>{t('i18nFinale.appointmentCard.hide')}</span>
                 </>
               ) : (
                 <>
                   <Plus className="h-4 w-4 mr-1" />
-                  <span>Dettagli</span>
+                  <span>{t('i18nFinale.appointmentCard.details')}</span>
                 </>
               )}
             </Button>
@@ -345,7 +345,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
+                    <AlertDialogTitle>{t('appointment.confirmDeleteTitle')}</AlertDialogTitle>
                     <AlertDialogDescription>
                       {t('appointment.confirmDeleteDescription')}
                     </AlertDialogDescription>
@@ -356,7 +356,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                       onClick={handleDelete}
                       className="bg-red-600 hover:bg-red-700"
                     >
-                      Elimina
+                      {t('common.delete')}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -414,7 +414,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Elimina appuntamento</AlertDialogTitle>
+                  <AlertDialogTitle>{t('appointment.confirmDeleteTitle')}</AlertDialogTitle>
                   <AlertDialogDescription>
                     {t('appointment.confirmDeleteDescription')}
                   </AlertDialogDescription>
@@ -425,7 +425,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
                     onClick={handleDelete}
                     className="bg-red-600 hover:bg-red-700"
                   >
-                    Elimina
+                    {t('common.delete')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -471,7 +471,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
           {/* Notes */}
           {appointment.notes && (
             <div className="text-sm text-gray-600">
-              <span className="font-medium">Note:</span> {appointment.notes}
+              <span className="font-medium">{t('appointment.notesLabel')}</span> {appointment.notes}
             </div>
           )}
         </div>

@@ -99,7 +99,7 @@ export default function PaymentPage() {
                 <CardTitle className="flex justify-between items-center">
                   <span>{plan.name}</span>
                   {plan.name.toLowerCase().includes('pro') && (
-                    <Badge className="bg-white text-blue-600">Popolare</Badge>
+                    <Badge className="bg-white text-blue-600">{t('i18nFinale.paymentPageExtra.popularBadge')}</Badge>
                   )}
                 </CardTitle>
                 <CardDescription className={`
@@ -183,7 +183,7 @@ export default function PaymentPage() {
                         // Qui sarà implementata la logica PayPal
                       }}
                     >
-                      Paga con PayPal
+                      {t('i18nFinale.payPalButton.payWithPayPal')}
                     </div>
                   </TabsContent>
                 </Tabs>

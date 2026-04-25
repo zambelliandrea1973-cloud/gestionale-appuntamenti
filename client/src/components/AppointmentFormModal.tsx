@@ -186,7 +186,7 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     const startTime = timeInput?.value || "09:00";
     
     // Per il servizio, cerchiamo nella selezione
-    const serviceSelect = document.querySelector('[aria-label="Seleziona servizio"]') as HTMLButtonElement;
+    const serviceSelect = document.querySelector(`[aria-label="${t('i18nFinale.appointmentFormModal.selectServiceAria')}"]`) as HTMLButtonElement;
     let serviceId = 1; // Default al primo servizio
     
     if (serviceSelect) {

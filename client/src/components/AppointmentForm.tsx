@@ -1412,7 +1412,7 @@ export default function AppointmentForm({
                     htmlFor="reminderEmail"
                     className="text-sm font-medium flex items-center leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    <MailIcon className="h-4 w-4 mr-1" /> Email
+                    <MailIcon className="h-4 w-4 mr-1" /> {t('i18nFinale.appointmentForm.emailLabel')}
                   </label>
                 </div>
               </div>

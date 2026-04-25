@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'wouter';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -14,6 +15,7 @@ interface Promotion {
 }
 
 export default function PromotionPage() {
+  const { t } = useTranslation();
   const { code } = useParams<{ code: string }>();
   const [promotion, setPromotion] = useState<Promotion | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +51,7 @@ export default function PromotionPage() {
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Caricamento...</p>
+          <p className="text-muted-foreground">{t('i18nFinale.promotionPageExtra.loading')}</p>
         </div>
       </div>
     );
@@ -62,12 +64,12 @@ export default function PromotionPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <AlertCircle className="h-6 w-6 text-red-500" />
-              <CardTitle>Promozione non trovata</CardTitle>
+              <CardTitle>{t('i18nFinale.promotionPage.notFound')}</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Il link che hai seguito non è valido o la promozione è scaduta.
+              {t('i18nFinale.promotionPage.invalidLink')}
             </p>
           </CardContent>
         </Card>
@@ -82,7 +84,7 @@ export default function PromotionPage() {
         <div className="text-center py-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <Sparkles className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">Promozione Speciale</h1>
+            <h1 className="text-3xl font-bold">{t('i18nFinale.promotionPageExtra.specialPromotionTitle')}</h1>
           </div>
         </div>
 
@@ -114,7 +116,7 @@ export default function PromotionPage() {
                       className="w-full h-auto max-h-[600px]"
                       key={currentMediaIndex}
                     >
-                      Il tuo browser non supporta i video.
+                      {t('i18nFinale.promotionPage.videoNotSupported')}
                     </video>
                   )}
                 </div>
@@ -186,7 +188,7 @@ export default function PromotionPage() {
 
         {/* Footer */}
         <div className="text-center py-8 text-sm text-muted-foreground">
-          <p>Promozione valida. Contattaci per maggiori informazioni!</p>
+          <p>{t('i18nFinale.promotionPage.validNote')}</p>
         </div>
       </div>
     </div>

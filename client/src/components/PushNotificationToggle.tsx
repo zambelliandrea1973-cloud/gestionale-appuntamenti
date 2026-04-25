@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Bell, BellOff, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +10,7 @@ interface PushNotificationToggleProps {
 }
 
 export function PushNotificationToggle({ clientId, ownerId }: PushNotificationToggleProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,8 +61,8 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
         toast({
-          title: 'Permesso negato',
-          description: 'Devi permettere le notifiche per ricevere aggiornamenti.',
+          title: t('i18nFinale.pushNotifications.permissionDeniedTitle'),
+          description: t('i18nFinale.pushNotifications.permissionRequired'),
           variant: 'destructive'
         });
         setIsLoading(false);
@@ -95,8 +97,8 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
       if (response.ok) {
         setIsSubscribed(true);
         toast({
-          title: 'Notifiche attivate',
-          description: 'Riceverai una notifica quando il tuo appuntamento viene confermato.'
+          title: t('i18nFinale.pushNotifications.notificationsActivatedTitle'),
+          description: t('i18nFinale.pushNotifications.subscribed')
         });
       } else {
         throw new Error('Errore salvataggio subscription');
@@ -104,8 +106,8 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
     } catch (error) {
       console.error('[PUSH] Errore attivazione:', error);
       toast({
-        title: 'Errore',
-        description: 'Impossibile attivare le notifiche. Riprova.',
+        title: t('common.error'),
+        description: t('i18nFinale.pushNotifications.subscribeError'),
         variant: 'destructive'
       });
     }
@@ -132,14 +134,14 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
 
       setIsSubscribed(false);
       toast({
-        title: 'Notifiche disattivate',
-        description: 'Non riceverai più notifiche push.'
+        title: t('i18nFinale.pushNotifications.notificationsDeactivatedTitle'),
+        description: t('i18nFinale.pushNotifications.unsubscribed')
       });
     } catch (error) {
       console.error('[PUSH] Errore disattivazione:', error);
       toast({
-        title: 'Errore',
-        description: 'Impossibile disattivare le notifiche.',
+        title: t('common.error'),
+        description: t('i18nFinale.pushNotifications.unsubscribeError'),
         variant: 'destructive'
       });
     }
@@ -150,7 +152,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
   if (!isSupported) {
     return (
       <p className="text-xs text-gray-400 italic">
-        Le notifiche push non sono supportate su questo browser. Prova ad aprire l'app come PWA installata.
+        {t('i18nFinale.pushNotifications.notSupported')}
       </p>
     );
   }

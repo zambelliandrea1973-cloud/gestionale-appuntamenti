@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,7 @@ interface ColorSettings {
 }
 
 export default function ColorEditor() {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState<ColorSettings>({
     primaryColor: '#3f51b5',
     secondaryColor: '#ffffff'
@@ -63,8 +65,8 @@ export default function ColorEditor() {
         }, 1000);
         
         toast({
-          title: "Colore salvato",
-          description: "Il colore primario è stato salvato con successo.",
+          title: t('i18nFinale.colorEditor.colorSavedTitle'),
+          description: t('i18nFinale.colorEditor.savedDescription'),
           variant: "default",
         });
       } else {
@@ -75,7 +77,7 @@ export default function ColorEditor() {
     } catch (error: any) {
       setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
       toast({
-        title: "Errore",
+        title: t('common.error'),
         description: error.message || 'Si è verificato un errore durante il salvataggio',
         variant: "destructive",
       });
@@ -94,7 +96,7 @@ export default function ColorEditor() {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="primaryColor">Colore Primario</Label>
+          <Label htmlFor="primaryColor">{t('i18nFinale.colorEditor.primaryColorLabel')}</Label>
           <div className="flex gap-2">
             <Input
               id="primaryColor"
@@ -114,7 +116,7 @@ export default function ColorEditor() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="secondaryColor">Colore Secondario</Label>
+          <Label htmlFor="secondaryColor">{t('i18nFinale.colorEditor.secondaryColorLabel')}</Label>
           <div className="flex gap-2">
             <Input
               id="secondaryColor"
@@ -140,12 +142,12 @@ export default function ColorEditor() {
           onClick={saveSettings} 
           className="w-full"
         >
-          💾 Salva Colori
+          💾 {t('i18nFinale.colorEditor.saveColors')}
         </Button>
         
         {saveSuccess && (
           <div className="mt-2 text-sm text-green-600">
-            ✅ Colori salvati con successo!
+            ✅ {t('i18nFinale.colorEditor.savedSuccessText')}
           </div>
         )}
         
