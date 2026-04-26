@@ -6916,7 +6916,19 @@
       "optionAILabel": "Option 2 — Let the AI do it",
       "or": "OR",
       "allDone": "All done, close",
-      "stepDone": "Completed"
+      "stepDone": "Completed",
+      "confirmHide": {
+        "step1": {
+          "title": "Hide this card?",
+          "description": "This setup card will no longer appear automatically when you open the app. Are you sure you want to continue?",
+          "confirm": "Yes, continue"
+        },
+        "step2": {
+          "title": "Final confirmation",
+          "description": "By confirming, the manual or guided setup card will be permanently hidden. You'll only be able to bring it back from advanced settings. Do you really want to hide it?",
+          "confirm": "Yes, hide it forever"
+        }
+      }
     },
     "sampleBadge": "Sample"
   }

@@ -6916,7 +6916,19 @@
       "optionAILabel": "Opción 2 — Deja que lo haga la IA",
       "or": "O",
       "allDone": "¡Todo listo, cerrar!",
-      "stepDone": "Completado"
+      "stepDone": "Completado",
+      "confirmHide": {
+        "step1": {
+          "title": "¿Ocultar esta tarjeta?",
+          "description": "Esta tarjeta de configuración ya no aparecerá automáticamente al abrir la aplicación. ¿Seguro que quieres continuar?",
+          "confirm": "Sí, continuar"
+        },
+        "step2": {
+          "title": "Confirmación definitiva",
+          "description": "Al confirmar, la tarjeta de configuración manual o guiada se ocultará permanentemente. Solo podrás recuperarla desde la configuración avanzada. ¿De verdad quieres ocultarla?",
+          "confirm": "Sí, ocultar para siempre"
+        }
+      }
     },
     "sampleBadge": "Ejemplo"
   }

@@ -6916,7 +6916,19 @@
       "optionAILabel": "Option 2 — Laisser faire l'IA",
       "or": "OU",
       "allDone": "Tout est prêt, fermer",
-      "stepDone": "Terminé"
+      "stepDone": "Terminé",
+      "confirmHide": {
+        "step1": {
+          "title": "Masquer cette carte ?",
+          "description": "Cette carte de configuration ne s'affichera plus automatiquement à l'ouverture de l'application. Voulez-vous vraiment continuer ?",
+          "confirm": "Oui, continuer"
+        },
+        "step2": {
+          "title": "Confirmation définitive",
+          "description": "En confirmant, la carte de configuration manuelle ou guidée sera masquée définitivement. Vous ne pourrez la récupérer que depuis les paramètres avancés. Voulez-vous vraiment la masquer ?",
+          "confirm": "Oui, masquer pour toujours"
+        }
+      }
     },
     "sampleBadge": "Exemple"
   }

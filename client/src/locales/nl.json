@@ -6916,7 +6916,19 @@
       "optionAILabel": "Optie 2 — Laat AI het doen",
       "or": "OF",
       "allDone": "Alles klaar, sluiten",
-      "stepDone": "Voltooid"
+      "stepDone": "Voltooid",
+      "confirmHide": {
+        "step1": {
+          "title": "Deze kaart verbergen?",
+          "description": "Deze configuratiekaart verschijnt niet meer automatisch bij het openen van de app. Weet je zeker dat je wilt doorgaan?",
+          "confirm": "Ja, doorgaan"
+        },
+        "step2": {
+          "title": "Definitieve bevestiging",
+          "description": "Door te bevestigen wordt de handmatige of begeleide configuratiekaart permanent verborgen. Je kunt hem alleen terughalen via de geavanceerde instellingen. Wil je hem echt verbergen?",
+          "confirm": "Ja, voorgoed verbergen"
+        }
+      }
     },
     "sampleBadge": "Voorbeeld"
   }

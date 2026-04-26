@@ -6,6 +6,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
   Sparkles,
   Building,
   Scissors,
@@ -41,6 +51,9 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [dismissing, setDismissing] = useState(false);
+  // Doppio consenso prima di nascondere il banner per sempre:
+  // step 0 = nessun dialog, step 1 = prima conferma, step 2 = seconda conferma.
+  const [confirmStep, setConfirmStep] = useState<0 | 1 | 2>(0);
 
   const { data: services = [] } = useQuery<Array<{ id: number; isDemo?: boolean }>>({
     queryKey: ['/api/services'],
@@ -120,12 +133,18 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
     setLocation(path);
   };
 
-  const handleDismiss = async () => {
+  // Avvia il flusso di doppio consenso: il banner NON sparisce automaticamente
+  // né per la sessione né in modo persistente finché entrambe le conferme non
+  // sono state date. Così l'utente non lo perde "per sbaglio" cliccando la X.
+  const requestDismiss = () => setConfirmStep(1);
+
+  const performDismiss = async () => {
     setDismissing(true);
     try {
       await apiRequest('POST', '/api/hide-welcome-guide');
       queryClient.invalidateQueries({ queryKey: ['/api/user'] });
       queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+      setConfirmStep(0);
       onDismiss();
     } catch {
       toast({
@@ -161,7 +180,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={handleDismiss}
+            onClick={requestDismiss}
             disabled={dismissing}
             className="shrink-0 h-8 w-8"
             data-testid="button-dismiss-onboarding"
@@ -267,7 +286,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
             <Button
               variant="default"
               size="sm"
-              onClick={handleDismiss}
+              onClick={requestDismiss}
               disabled={dismissing}
               data-testid="button-finish-onboarding"
               className="gap-2"
@@ -278,6 +297,69 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
           </div>
         )}
       </CardContent>
+
+      {/* Doppio consenso prima di nascondere il banner per sempre. */}
+      <AlertDialog
+        open={confirmStep === 1}
+        onOpenChange={(open) => !open && setConfirmStep(0)}
+      >
+        <AlertDialogContent data-testid="dialog-confirm-hide-1">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t('onboarding.banner.confirmHide.step1.title')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('onboarding.banner.confirmHide.step1.description')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-confirm-hide-1-cancel">
+              {t('common.cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                setConfirmStep(2);
+              }}
+              data-testid="button-confirm-hide-1-continue"
+            >
+              {t('onboarding.banner.confirmHide.step1.confirm')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={confirmStep === 2}
+        onOpenChange={(open) => !open && setConfirmStep(0)}
+      >
+        <AlertDialogContent data-testid="dialog-confirm-hide-2">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t('onboarding.banner.confirmHide.step2.title')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('onboarding.banner.confirmHide.step2.description')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-confirm-hide-2-cancel">
+              {t('common.cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                performDismiss();
+              }}
+              disabled={dismissing}
+              data-testid="button-confirm-hide-2-confirm"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {t('onboarding.banner.confirmHide.step2.confirm')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }

@@ -6916,7 +6916,19 @@
       "optionAILabel": "Alternativ 2 — La AI gjøre det",
       "or": "ELLER",
       "allDone": "Alt er klart, lukk",
-      "stepDone": "Fullført"
+      "stepDone": "Fullført",
+      "confirmHide": {
+        "step1": {
+          "title": "Skjule dette kortet?",
+          "description": "Dette oppsettskortet vil ikke lenger vises automatisk når du åpner appen. Er du sikker på at du vil fortsette?",
+          "confirm": "Ja, fortsett"
+        },
+        "step2": {
+          "title": "Endelig bekreftelse",
+          "description": "Ved å bekrefte blir det manuelle eller veiledede oppsettskortet skjult permanent. Du kan bare hente det tilbake fra avanserte innstillinger. Vil du virkelig skjule det?",
+          "confirm": "Ja, skjul for alltid"
+        }
+      }
     },
     "sampleBadge": "Eksempel"
   }

@@ -6916,7 +6916,19 @@
       "optionAILabel": "Opțiunea 2 — Lasă AI să facă",
       "or": "SAU",
       "allDone": "Totul gata, închide",
-      "stepDone": "Finalizat"
+      "stepDone": "Finalizat",
+      "confirmHide": {
+        "step1": {
+          "title": "Ascunzi acest card?",
+          "description": "Acest card de configurare nu va mai apărea automat la deschiderea aplicației. Sigur vrei să continui?",
+          "confirm": "Da, continuă"
+        },
+        "step2": {
+          "title": "Confirmare definitivă",
+          "description": "Prin confirmare, cardul de configurare manuală sau ghidată va fi ascuns permanent. Îl vei putea recupera doar din setările avansate. Chiar vrei să-l ascunzi?",
+          "confirm": "Da, ascunde pentru totdeauna"
+        }
+      }
     },
     "sampleBadge": "Exemplu"
   }
