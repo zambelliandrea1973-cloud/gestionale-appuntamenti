@@ -25293,6 +25293,16 @@
       "phone": "",
       "email": "",
       "businessType": "Dentista"
+    },
+    "97": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
     }
   },
   "products": [
@@ -28354,5 +28364,13 @@
     ],
     "isCompleted": true,
     "completedAt": "2026-04-26T15:39:54.565Z"
+  },
+  "onboarding_97": {
+    "userId": 97,
+    "currentStep": 1,
+    "completedSteps": [
+      0
+    ],
+    "updatedAt": "2026-04-26T15:57:38.346Z"
   }
 }

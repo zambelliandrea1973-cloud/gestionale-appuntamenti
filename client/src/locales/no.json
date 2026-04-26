@@ -2981,7 +2981,7 @@
     },
     "workingHoursStep": {
       "title": "Arbeidstid",
-      "description": "Angi dagene og timene du tar imot avtaler. Kan endres når som helst.",
+      "description": "Vi har allerede satt opp standard åpningstider. Du kan endre dem når som helst i Innstillinger, der du finner hele kalenderen med alle dager og pauser.",
       "presets": "Hurtigmaler",
       "presetMonFri": "Man–Fre 9:00–18:00",
       "presetMonSat": "Man–Lør 9:00–19:00",
@@ -2998,7 +2998,12 @@
         "friday": "Fre",
         "saturday": "Lør",
         "sunday": "Søn"
-      }
+      },
+      "defaultsLabel": "Standardtider aktive",
+      "defaultsValue": "Mandag – Lørdag, 08:00 – 22:00",
+      "editHint": "Åpne Innstillinger i en ny fane for å justere dager, tidsrom eller pauser — turen forblir der den er.",
+      "openSettings": "Åpne i Innstillinger",
+      "keepDefaults": "Greit, fortsett"
     },
     "clientManagementStep": {
       "title": "Kundebehandling",

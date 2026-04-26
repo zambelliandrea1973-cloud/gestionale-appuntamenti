@@ -2981,7 +2981,12 @@
     },
     "workingHoursStep": {
       "title": "Orari di lavoro",
-      "description": "Imposta i giorni e le ore in cui ricevi appuntamenti. Potrai cambiarli quando vuoi.",
+      "description": "Abbiamo già impostato orari di apertura predefiniti. Puoi modificarli quando vuoi dalle Impostazioni, dove trovi il calendario completo con tutti i giorni e le pause.",
+      "defaultsLabel": "Orari predefiniti attivi",
+      "defaultsValue": "Lunedì – Sabato, 08:00 – 22:00",
+      "editHint": "Per regolare giorni, fasce orarie o pause apri le Impostazioni in una nuova scheda: il tour resta dov'è.",
+      "openSettings": "Modifica nelle Impostazioni",
+      "keepDefaults": "Va bene così, continua",
       "presets": "Modelli rapidi",
       "presetMonFri": "Lun–Ven 9:00–18:00",
       "presetMonSat": "Lun–Sab 9:00–19:00",

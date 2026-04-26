@@ -34,13 +34,14 @@ interface StepProps {
   isSaving?: boolean;
 }
 
-// Nota: lo step "Orari di lavoro" è stato rimosso dal wizard: l'utente lo
-// configurerà dalla pagina Impostazioni manualmente (più flessibile).
+// Lo step "Orari di lavoro" è una semplice scheda informativa che reindirizza
+// alla pagina Impostazioni manuale (più flessibile della form rigida che era qui).
 const STEP_KEYS = [
   { titleKey: 'welcome', descKey: 'welcomeDesc' },
   { titleKey: 'businessInfo', descKey: 'businessInfoDesc' },
   { titleKey: 'aiAnalysis', descKey: 'aiAnalysisDesc' },
   { titleKey: 'services', descKey: 'servicesDesc' },
+  { titleKey: 'workingHours', descKey: 'workingHoursDesc' },
   { titleKey: 'clientManagement', descKey: 'clientManagementDesc' },
   { titleKey: 'communication', descKey: 'communicationDesc' },
   { titleKey: 'integrations', descKey: 'integrationsDesc' },
@@ -366,37 +367,21 @@ const ServicesStep = ({ onNext, onPrevious, data }: StepProps) => {
   );
 };
 
-// Step 5: Working Hours
-const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
+// Step 5: Working Hours — scheda informativa che reindirizza alla pagina
+// Impostazioni manuale (più flessibile della form rigida che era qui).
 const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
   const { t } = useTranslation();
-  const [workingDays, setWorkingDays] = useState<string[]>(
-    data.workingDays || ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-  );
-  const [start, setStart] = useState<string>(data.workingHoursStart || '09:00');
-  const [end, setEnd] = useState<string>(data.workingHoursEnd || '18:00');
 
-  const toggleDay = (day: string) => {
-    setWorkingDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
+  const openSettings = () => {
+    try {
+      localStorage.setItem('settings_active_tab', 'contacts');
+    } catch {
+      // ignore storage errors
+    }
+    window.open('/settings', '_blank', 'noopener');
   };
 
-  const applyPreset = (days: string[], s: string, e: string) => {
-    setWorkingDays(days);
-    setStart(s);
-    setEnd(e);
-  };
-
-  const handleNext = () => {
-    onNext({
-      ...data,
-      workingDays,
-      workingHoursStart: start,
-      workingHoursEnd: end,
-    });
-  };
-
-  const isValid = workingDays.length > 0 && start < end;
+  const handleNext = () => onNext({ ...data });
 
   return (
     <Card className="max-w-2xl mx-auto">
@@ -407,77 +392,38 @@ const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
         </CardTitle>
         <CardDescription>{t('onboardingWizard.workingHoursStep.description')}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div>
-          <h4 className="text-sm font-semibold mb-2">{t('onboardingWizard.workingHoursStep.presets')}</h4>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={() => applyPreset(['monday', 'tuesday', 'wednesday', 'thursday', 'friday'], '09:00', '18:00')}>
-              {t('onboardingWizard.workingHoursStep.presetMonFri')}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => applyPreset(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], '09:00', '19:00')}>
-              {t('onboardingWizard.workingHoursStep.presetMonSat')}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => applyPreset(['tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], '10:00', '20:00')}>
-              {t('onboardingWizard.workingHoursStep.presetTueSat')}
-            </Button>
-          </div>
+      <CardContent className="space-y-5">
+        <div className="rounded-md border bg-muted/40 p-4 space-y-2">
+          <p className="text-sm font-semibold">
+            {t('onboardingWizard.workingHoursStep.defaultsLabel')}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {t('onboardingWizard.workingHoursStep.defaultsValue')}
+          </p>
         </div>
 
-        <div>
-          <h4 className="text-sm font-semibold mb-2">{t('onboardingWizard.workingHoursStep.daysLabel')}</h4>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {DAYS.map((day) => (
-              <button
-                key={day}
-                type="button"
-                onClick={() => toggleDay(day)}
-                data-testid={`button-day-${day}`}
-                className={`px-3 py-2 text-sm rounded-md border transition ${
-                  workingDays.includes(day)
-                    ? 'bg-primary text-primary-foreground border-primary'
-                    : 'bg-background hover:bg-muted'
-                }`}
-              >
-                {t(`onboardingWizard.workingHoursStep.days.${day}`)}
-              </button>
-            ))}
-          </div>
+        <p className="text-sm text-muted-foreground">
+          {t('onboardingWizard.workingHoursStep.editHint')}
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-2 sm:justify-start">
+          <Button
+            variant="outline"
+            onClick={openSettings}
+            data-testid="button-open-working-hours-settings"
+          >
+            <ArrowRight className="mr-2 h-4 w-4" />
+            {t('onboardingWizard.workingHoursStep.openSettings')}
+          </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="wh-start">{t('onboardingWizard.workingHoursStep.startLabel')}</Label>
-            <Input
-              id="wh-start"
-              type="time"
-              value={start}
-              onChange={(e) => setStart(e.target.value)}
-              data-testid="input-working-hours-start"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="wh-end">{t('onboardingWizard.workingHoursStep.endLabel')}</Label>
-            <Input
-              id="wh-end"
-              type="time"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
-              data-testid="input-working-hours-end"
-            />
-          </div>
-        </div>
-
-        {!isValid && (
-          <p className="text-sm text-destructive">{t('onboardingWizard.workingHoursStep.invalidHint')}</p>
-        )}
-
-        <div className="flex justify-between">
+        <div className="flex justify-between pt-2">
           <Button variant="outline" onClick={onPrevious}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('onboardingWizard.previous')}
           </Button>
-          <Button onClick={handleNext} disabled={!isValid} data-testid="button-working-hours-next">
-            {t('onboardingWizard.continue')}
+          <Button onClick={handleNext} data-testid="button-working-hours-next">
+            {t('onboardingWizard.workingHoursStep.keepDefaults')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -780,7 +726,17 @@ export default function OnboardingWizard() {
 
   const completeOnboardingMutation = useMutation({
     mutationFn: async (finalData: any) => {
-      const response = await apiRequest('POST', '/api/onboarding/complete', { stepData: finalData });
+      // Hard-strip dei campi orari: il wizard non li gestisce più, ma eventuali
+      // valori legacy in `stepData` non devono essere mai applicati al backend.
+      const {
+        workingDays: _wd,
+        workingHoursStart: _whs,
+        workingHoursEnd: _whe,
+        dailySchedule: _ds,
+        ...sanitized
+      } = finalData || {};
+      void _wd; void _whs; void _whe; void _ds;
+      const response = await apiRequest('POST', '/api/onboarding/complete', { stepData: sanitized });
       return response.json();
     },
     onSuccess: (result) => {
@@ -813,14 +769,14 @@ export default function OnboardingWizard() {
   useEffect(() => {
     if (progress && !progress.isCompleted) {
       setCurrentStep(progress.currentStep || 0);
+      // NB: workingDays / workingHoursStart / workingHoursEnd NON vengono più
+      // idratati: il wizard non gestisce più gli orari (l'utente li configura
+      // dalle Impostazioni). Eventuali valori legacy nel progress vengono ignorati.
       setStepData((prev: any) => ({
         ...prev,
         businessName: progress.businessName,
         businessType: progress.businessType,
         primaryServices: progress.primaryServices,
-        workingDays: progress.workingDays,
-        workingHoursStart: progress.workingHoursStart,
-        workingHoursEnd: progress.workingHoursEnd,
         appointmentDuration: progress.appointmentDuration,
         clientManagementNeeds: progress.clientManagementNeeds,
         communicationPreferences: progress.communicationPreferences,
@@ -896,7 +852,6 @@ export default function OnboardingWizard() {
       isSaving: completeOnboardingMutation.isPending,
     };
 
-    // 8 step (orari rimossi: si configurano dalle Impostazioni)
     switch (currentStep) {
       case 0:
         return <WelcomeStep {...stepProps} />;
@@ -907,12 +862,14 @@ export default function OnboardingWizard() {
       case 3:
         return <ServicesStep {...stepProps} />;
       case 4:
-        return <ClientManagementStep {...stepProps} />;
+        return <WorkingHoursStep {...stepProps} />;
       case 5:
-        return <CommunicationStep {...stepProps} />;
+        return <ClientManagementStep {...stepProps} />;
       case 6:
-        return <IntegrationsStep {...stepProps} />;
+        return <CommunicationStep {...stepProps} />;
       case 7:
+        return <IntegrationsStep {...stepProps} />;
+      case 8:
         return <CompletionStep {...stepProps} />;
       default:
         return <WelcomeStep {...stepProps} />;

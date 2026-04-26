@@ -54,6 +54,12 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
   const { data: workingHours } = useQuery<{ dailySchedule?: unknown }>({
     queryKey: ['/api/working-hours'],
   });
+  // Se l'utente ha completato il tour AI, marchiamo tutta la checklist manuale
+  // come "completata" pur lasciando ogni voce cliccabile per ulteriori modifiche.
+  const { data: onboardingProgress } = useQuery<{ isCompleted?: boolean }>({
+    queryKey: ['/api/onboarding/progress'],
+  });
+  const tourCompleted = !!onboardingProgress?.isCompleted;
 
   const steps: ChecklistStep[] = useMemo(() => {
     const realServices = services.filter((s) => !s.isDemo).length;
@@ -69,7 +75,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.companyData.button',
         path: '/settings',
         tab: 'appearance',
-        done: businessDone,
+        done: tourCompleted || businessDone,
         color: 'text-blue-600 bg-blue-100',
       },
       {
@@ -79,7 +85,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.services.button',
         path: '/settings',
         tab: 'app',
-        done: realServices > 0,
+        done: tourCompleted || realServices > 0,
         color: 'text-purple-600 bg-purple-100',
       },
       {
@@ -89,7 +95,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.clients.button',
         path: '/clients',
         tab: null,
-        done: realClients > 0,
+        done: tourCompleted || realClients > 0,
         color: 'text-green-600 bg-green-100',
       },
       {
@@ -99,11 +105,11 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.workingHours.button',
         path: '/settings',
         tab: 'contacts',
-        done: hoursDone,
+        done: tourCompleted || hoursDone,
         color: 'text-orange-600 bg-orange-100',
       },
     ];
-  }, [services, clients, businessData, workingHours]);
+  }, [services, clients, businessData, workingHours, tourCompleted]);
 
   const completed = steps.filter((s) => s.done).length;
   const total = steps.length;

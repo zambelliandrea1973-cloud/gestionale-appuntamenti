@@ -2981,7 +2981,7 @@
     },
     "workingHoursStep": {
       "title": "Program de lucru",
-      "description": "Setează zilele și orele în care primești programări. Poți schimba oricând.",
+      "description": "Am setat deja un program implicit de deschidere. Îl poți modifica oricând din Setări, unde găsești calendarul complet cu toate zilele și pauzele.",
       "presets": "Șabloane rapide",
       "presetMonFri": "Lun–Vin 9:00–18:00",
       "presetMonSat": "Lun–Sâm 9:00–19:00",
@@ -2998,7 +2998,12 @@
         "friday": "Vin",
         "saturday": "Sâm",
         "sunday": "Dum"
-      }
+      },
+      "defaultsLabel": "Program implicit activ",
+      "defaultsValue": "Luni – Sâmbătă, 08:00 – 22:00",
+      "editHint": "Pentru a ajusta zilele, intervalele sau pauzele, deschide Setări într-o filă nouă — turul rămâne așa cum este.",
+      "openSettings": "Deschide Setările",
+      "keepDefaults": "E bine, continuă"
     },
     "clientManagementStep": {
       "title": "Gestionare clienți",
