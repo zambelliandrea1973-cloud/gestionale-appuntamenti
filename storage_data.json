@@ -25192,14 +25192,15 @@
   ],
   "userBusinessData": {
     "3": {
-      "companyName": "",
+      "companyName": "Gestionale andrea",
       "address": "",
       "city": "",
       "postalCode": "",
       "vatNumber": "",
       "fiscalCode": "",
       "phone": "",
-      "email": ""
+      "email": "",
+      "businessType": "Naturopata tecnico di biorisonanza"
     },
     "9": {
       "companyName": "",
@@ -25281,6 +25282,17 @@
       "fiscalCode": "",
       "phone": "",
       "email": ""
+    },
+    "96": {
+      "companyName": "Pippo",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": "",
+      "businessType": "Dentista"
     }
   },
   "products": [
@@ -28165,5 +28177,182 @@
     ],
     "isCompleted": true,
     "completedAt": "2026-04-26T06:54:48.361Z"
+  },
+  "onboarding_3": {
+    "userId": 3,
+    "currentStep": 8,
+    "completedSteps": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "updatedAt": "2026-04-26T10:36:25.280Z",
+    "businessName": "Gestionale andrea",
+    "businessType": "Naturopata tecnico di biorisonanza",
+    "description": "Salute e prevenzione naturale e con biorisonanza bicom",
+    "analysis": {
+      "suggestedBusinessType": "medical",
+      "recommendedServices": [
+        "Consultazione Naturopatica Iniziale",
+        "Sessione di Biorisonanza Bicom",
+        "Piani di Prevenzione Personalizzati",
+        "Follow-up e Revisione del Piano",
+        "Trattamenti di Benessere Naturale"
+      ],
+      "workingHoursRecommendation": "Implement daily booking slots from 9:00 AM to 6:00 PM, Monday to Friday. Allow for extended hours or Saturday morning availability based on client demand. Ensure automatic buffer times between appointments for preparation and clean-up.",
+      "clientManagementNeeds": [
+        "Anamnesi e Schede Paziente Digitali",
+        "Storico Appuntamenti e Trattamenti",
+        "Gestione dei Piani Terapeutici",
+        "Archiviazione Sicura dei Dati Sensibili (GDPR Compliance)",
+        "Sistema di Fatturazione e Pagamenti"
+      ],
+      "communicationPreferences": [
+        "sms",
+        "email",
+        "whatsapp"
+      ],
+      "integrationGoals": [
+        "Integrazione con Gateway di Pagamento (es. Stripe/PayPal)",
+        "Sincronizzazione Calendario (Google Calendar/Outlook)",
+        "Sistema CRM/EHR per Pratiche di Benessere",
+        "Widget di Prenotazione sul Sito Web",
+        "Strumento per Videoconsulenze (se offerte)"
+      ],
+      "personalizedTips": [
+        "Since no existing tools are in place, prioritize a user-friendly appointment system that automates reminders to drastically reduce no-shows.",
+        "Clearly define and describe each service offered online, including duration and pricing, to manage client expectations.",
+        "Ensure the chosen system offers robust data security and compliance features suitable for handling health-related information.",
+        "Utilize automated client intake forms before the first appointment to gather necessary health information efficiently.",
+        "Start with basic features and gradually add more advanced functionalities as the business grows and needs evolve."
+      ]
+    },
+    "primaryServices": [
+      "Consultazione Naturopatica Iniziale",
+      "Sessione di Biorisonanza Bicom",
+      "Piani di Prevenzione Personalizzati",
+      "Follow-up e Revisione del Piano",
+      "Trattamenti di Benessere Naturale"
+    ],
+    "workingDays": [
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "monday"
+    ],
+    "workingHoursStart": "09:00",
+    "workingHoursEnd": "18:00",
+    "clientManagementNeeds": [
+      "notes",
+      "history",
+      "payments",
+      "loyalty"
+    ],
+    "communicationPreferences": [
+      "email",
+      "whatsapp",
+      "push"
+    ],
+    "integrationGoals": [
+      "googleCalendar",
+      "appleCalendar",
+      "payments"
+    ],
+    "isCompleted": true,
+    "completedAt": "2026-04-26T10:36:29.961Z"
+  },
+  "onboarding_96": {
+    "userId": 96,
+    "currentStep": 8,
+    "completedSteps": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "updatedAt": "2026-04-26T15:39:48.065Z",
+    "businessName": "Pippo",
+    "businessType": "Dentista",
+    "description": "Otturazioni protesi sbiancamenti",
+    "analysis": {
+      "suggestedBusinessType": "medical",
+      "recommendedServices": [
+        "Dental Check-up & Consultation",
+        "Dental Fillings (Otturazioni)",
+        "Prosthetic Dentistry (Protesi)",
+        "Teeth Whitening (Sbiancamenti)",
+        "Dental Hygiene & Cleaning",
+        "Emergency Dental Services"
+      ],
+      "workingHoursRecommendation": "Monday-Friday: 9:00 AM - 1:00 PM and 2:00 PM - 6:00 PM; Saturday: 9:00 AM - 1:00 PM (optional, based on demand). Ensure clear blocking for lunch breaks and administrative tasks.",
+      "clientManagementNeeds": [
+        "Secure patient records and medical history integration",
+        "Consent form management and digital signing",
+        "Insurance verification and billing information capture",
+        "Pre-appointment instructions and post-treatment follow-ups",
+        "Automated recall system for regular check-ups and re-booking"
+      ],
+      "communicationPreferences": [
+        "sms",
+        "email",
+        "whatsapp"
+      ],
+      "integrationGoals": [
+        "Integration with a dedicated Dental Practice Management Software (PMS)",
+        "Payment processing gateway integration for deposits/payments",
+        "Website embeddable booking widget",
+        "Telehealth platform integration for initial consultations (optional, but growing)"
+      ],
+      "personalizedTips": [
+        "Prioritize a system that ensures patient data security and compliance with healthcare regulations (e.g., GDPR, HIPAA if applicable).",
+        "Implement automated appointment reminders (SMS/Email) to significantly reduce no-shows and improve clinic efficiency.",
+        "Offer online self-scheduling to empower patients and reduce administrative burden on your team.",
+        "Categorize services by treatment type and duration to ensure accurate scheduling and resource allocation.",
+        "Gather feedback after appointments to continuously improve patient experience and service quality."
+      ]
+    },
+    "primaryServices": [
+      "Dental Check-up & Consultation",
+      "Dental Fillings (Otturazioni)",
+      "Prosthetic Dentistry (Protesi)",
+      "Teeth Whitening (Sbiancamenti)",
+      "Dental Hygiene & Cleaning",
+      "Emergency Dental Services"
+    ],
+    "workingDays": [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday"
+    ],
+    "workingHoursStart": "09:00",
+    "workingHoursEnd": "18:00",
+    "clientManagementNeeds": [
+      "notes",
+      "history",
+      "payments",
+      "loyalty"
+    ],
+    "communicationPreferences": [
+      "email",
+      "whatsapp"
+    ],
+    "integrationGoals": [
+      "googleCalendar",
+      "appleCalendar",
+      "payments"
+    ],
+    "isCompleted": true,
+    "completedAt": "2026-04-26T15:39:54.565Z"
   }
 }

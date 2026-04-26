@@ -147,37 +147,42 @@ router.post('/api/onboarding/update-step', requireAuth, (req, res) => {
     }
   });
 
-  // POST /api/onboarding/analyze - Analizza i dati business con AI
+  // POST /api/onboarding/analyze - Analizza i dati business con AI nella lingua dell'utente
 router.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
     try {
-      const { businessName, businessType, description } = req.body;
-      
-      console.log('🤖 [AI ONBOARDING] Richiesta analisi per:', businessName);
-      
-      // Chiama il servizio AI per analizzare il business
+      const { businessName, businessType, description, language } = req.body;
+      // Lingua dal body (i18n del client) o dall'header Accept-Language come fallback
+      const lang = (language || (req.headers['accept-language'] || 'en').toString().split(',')[0] || 'en')
+        .toLowerCase().split('-')[0];
+
+      console.log('🤖 [AI ONBOARDING] Richiesta analisi per:', businessName, '- lingua:', lang);
+
+      // Chiama il servizio AI per analizzare il business nella lingua corretta
       const analysis = await analyzeBusinessNeeds({
         businessName,
         businessDescription: description,
-        targetClients: businessType
+        targetClients: businessType,
+        language: lang,
       });
-      
+
       console.log('✅ [AI ONBOARDING] Analisi completata');
       res.json(analysis);
     } catch (error: any) {
       console.error('❌ Errore analisi AI:', error);
-      // Ritorna raccomandazioni di fallback
+      // Il fallback localizzato è già gestito dentro analyzeBusinessNeeds, ma in caso di
+      // errore prima della chiamata, ritorniamo il fallback inglese minimale
       res.json({
         suggestedBusinessType: 'consulting',
-        recommendedServices: ['Consulenza', 'Visita', 'Controllo'],
-        workingHoursRecommendation: 'Lunedì - Venerdì, 9:00 - 18:00',
-        clientManagementNeeds: ['gestione-appuntamenti', 'comunicazione-clienti'],
-        communicationPreferences: ['email', 'sms'],
-        integrationGoals: ['calendario', 'promemoria-automatici'],
+        recommendedServices: ['Consultation', 'Follow-up', 'Initial visit'],
+        workingHoursRecommendation: 'Monday to Friday, 9:00 AM to 6:00 PM',
+        clientManagementNeeds: ['appointment-scheduling', 'client-communication'],
+        communicationPreferences: ['email', 'whatsapp'],
+        integrationGoals: ['calendar-sync', 'automated-reminders'],
         personalizedTips: [
-          'Inizia con la gestione base degli appuntamenti',
-          'Configura promemoria automatici per ridurre gli assenti',
-          'Crea un portale clienti per prenotazioni facili'
-        ]
+          'Start with basic appointment scheduling',
+          'Set up automated reminders to reduce no-shows',
+          'Create a simple client portal for easy booking',
+        ],
       });
     }
   });

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,12 +34,13 @@ interface StepProps {
   isSaving?: boolean;
 }
 
+// Nota: lo step "Orari di lavoro" è stato rimosso dal wizard: l'utente lo
+// configurerà dalla pagina Impostazioni manualmente (più flessibile).
 const STEP_KEYS = [
   { titleKey: 'welcome', descKey: 'welcomeDesc' },
   { titleKey: 'businessInfo', descKey: 'businessInfoDesc' },
   { titleKey: 'aiAnalysis', descKey: 'aiAnalysisDesc' },
   { titleKey: 'services', descKey: 'servicesDesc' },
-  { titleKey: 'workingHours', descKey: 'workingHoursDesc' },
   { titleKey: 'clientManagement', descKey: 'clientManagementDesc' },
   { titleKey: 'communication', descKey: 'communicationDesc' },
   { titleKey: 'integrations', descKey: 'integrationsDesc' },
@@ -162,7 +164,11 @@ const AIAnalysisStep = ({ onNext, onPrevious, data }: StepProps) => {
 
   const analyzeBusinessMutation = useMutation({
     mutationFn: async (businessData: any) => {
-      const response = await apiRequest('POST', '/api/onboarding/analyze', businessData);
+      // Passa la lingua corrente del client perché Gemini risponda nella stessa lingua
+      const response = await apiRequest('POST', '/api/onboarding/analyze', {
+        ...businessData,
+        language: i18n.language || 'en',
+      });
       return response.json();
     },
     onSuccess: (result) => {
@@ -546,7 +552,9 @@ const ClientManagementStep = ({ onNext, onPrevious, data }: StepProps) => {
 };
 
 // Step 7: Communication
-const COMM_OPTIONS = ['email', 'sms', 'whatsapp', 'push'];
+// Nota: SMS rimosso perché l'app non ha integrazione SMS (verrà aggiunto se in
+// futuro si integrerà Twilio o un altro gateway).
+const COMM_OPTIONS = ['email', 'whatsapp', 'push'];
 
 const CommunicationStep = ({ onNext, onPrevious, data }: StepProps) => {
   const { t } = useTranslation();
@@ -611,7 +619,9 @@ const CommunicationStep = ({ onNext, onPrevious, data }: StepProps) => {
 };
 
 // Step 8: Integrations
-const INT_OPTIONS = ['googleCalendar', 'appleCalendar', 'outlook', 'payments'];
+// Nota: Outlook rimosso perché non c'è ancora integrazione con Microsoft Calendar
+// (verrà ripristinato quando sarà implementata).
+const INT_OPTIONS = ['googleCalendar', 'appleCalendar', 'payments'];
 
 const IntegrationsStep = ({ onNext, onPrevious, data }: StepProps) => {
   const { t } = useTranslation();
@@ -673,15 +683,11 @@ const IntegrationsStep = ({ onNext, onPrevious, data }: StepProps) => {
   );
 };
 
-// Step 9: Completion (summary + save)
+// Step 8: Completion (summary + save)
 const CompletionStep = ({ onNext, onPrevious, data, isSaving }: StepProps) => {
   const { t } = useTranslation();
-  const dayLabel = (d: string) => t(`onboardingWizard.workingHoursStep.days.${d}`);
   const hasBusiness = !!(data.businessName || data.businessType);
   const services: string[] = data.primaryServices || [];
-  const days: string[] = data.workingDays || [];
-  const start = data.workingHoursStart;
-  const end = data.workingHoursEnd;
 
   return (
     <Card className="max-w-2xl mx-auto">
@@ -713,17 +719,6 @@ const CompletionStep = ({ onNext, onPrevious, data, isSaving }: StepProps) => {
                   {t('onboardingWizard.completionStep.summary.services', { count: services.length })}
                 </p>
                 <p className="text-muted-foreground">{services.join(', ')}</p>
-              </div>
-            </div>
-          )}
-          {days.length > 0 && start && end && (
-            <div className="flex items-start gap-2 p-3 rounded-md bg-orange-50 dark:bg-orange-950/30 border border-orange-100 dark:border-orange-900">
-              <CheckCircle className="h-4 w-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium">{t('onboardingWizard.completionStep.summary.hours')}</p>
-                <p className="text-muted-foreground">
-                  {days.map(dayLabel).join(', ')} · {start}–{end}
-                </p>
               </div>
             </div>
           )}
@@ -793,7 +788,6 @@ export default function OnboardingWizard() {
       const parts: string[] = [];
       if (applied.businessData) parts.push(t('onboardingWizard.appliedToast.business'));
       if (applied.services > 0) parts.push(t('onboardingWizard.appliedToast.services', { count: applied.services }));
-      if (applied.workingHours) parts.push(t('onboardingWizard.appliedToast.hours'));
       if (applied.preferences) parts.push(t('onboardingWizard.appliedToast.preferences'));
       toast({
         title: t('onboardingWizard.completedToastTitle'),
@@ -902,6 +896,7 @@ export default function OnboardingWizard() {
       isSaving: completeOnboardingMutation.isPending,
     };
 
+    // 8 step (orari rimossi: si configurano dalle Impostazioni)
     switch (currentStep) {
       case 0:
         return <WelcomeStep {...stepProps} />;
@@ -912,14 +907,12 @@ export default function OnboardingWizard() {
       case 3:
         return <ServicesStep {...stepProps} />;
       case 4:
-        return <WorkingHoursStep {...stepProps} />;
-      case 5:
         return <ClientManagementStep {...stepProps} />;
-      case 6:
+      case 5:
         return <CommunicationStep {...stepProps} />;
-      case 7:
+      case 6:
         return <IntegrationsStep {...stepProps} />;
-      case 8:
+      case 7:
         return <CompletionStep {...stepProps} />;
       default:
         return <WelcomeStep {...stepProps} />;
