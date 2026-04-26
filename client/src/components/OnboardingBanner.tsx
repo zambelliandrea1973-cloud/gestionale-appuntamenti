@@ -187,7 +187,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
             className="shrink-0 h-8 w-8"
             data-testid="button-dismiss-onboarding"
             aria-label={t('onboarding.banner.dismiss')}
-            title={t('onboarding.banner.hideUntilRestartHint')}
           >
             <X className="h-4 w-4" />
           </Button>
@@ -317,12 +316,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2">
-            <AlertDialogCancel
-              disabled={dismissing}
-              data-testid="button-finish-cancel"
-            >
-              {t('common.cancel')}
-            </AlertDialogCancel>
             <Button
               type="button"
               variant="outline"
