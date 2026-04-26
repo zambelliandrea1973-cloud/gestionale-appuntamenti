@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestionale-appuntamenti-v1';
+const CACHE_NAME = 'gestionale-appuntamenti-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -30,6 +30,15 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') {
     return;
+  }
+
+  const url = new URL(event.request.url);
+
+  // 🚫 NON cachare mai le chiamate API: cache-first qui causava il bug
+  // "appuntamento salvato ma calendario vuoto finché non si esce e rientra".
+  // Le API devono sempre passare dalla rete così React Query riceve dati freschi.
+  if (url.pathname.startsWith('/api/')) {
+    return; // lascia che il browser/React Query gestisca la richiesta normalmente
   }
 
   event.respondWith(
