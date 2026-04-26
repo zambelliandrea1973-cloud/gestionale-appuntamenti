@@ -7,6 +7,7 @@ import { users, licenses, userIcons, companyNameSettings, userSettings as userSe
 import { eq } from 'drizzle-orm';
 import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 import { requireAuth } from '../middleware/authMiddleware';
+import { invalidateIconCache } from '../icon-proxy';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -956,6 +957,9 @@ router.post("/api/upload-app-icon", async (req, res) => {
         await storage.saveUserIcon(userId, iconData);
         logger.debug(`✅ Icona salvata nel database PostgreSQL per utente ${userId} (${iconData.length} bytes)`);
         
+        // Invalidate server-side icon cache so next request regenerates with Sharp
+        invalidateIconCache(userId);
+        
         // Backward compatibility: salva anche in JSON per sistemi legacy
         storageData.userIcons[userId] = iconData;
         saveStorageData(storageData);
@@ -983,6 +987,9 @@ router.post("/api/reset-app-icon", async (req, res) => {
     // 🚀 SOLUZIONE SLIPLANE: Salva icona default nel database PostgreSQL
     await storage.saveUserIcon(userId, defaultIconBase64);
     logger.debug(`✅ Reset icona a Fleur de Vie nel database PostgreSQL per utente ${userId}`);
+    
+    // Invalidate server-side icon cache so next request regenerates with Sharp
+    invalidateIconCache(userId);
     
     // Backward compatibility: salva anche in JSON
     storageData.userIcons[userId] = defaultIconBase64;

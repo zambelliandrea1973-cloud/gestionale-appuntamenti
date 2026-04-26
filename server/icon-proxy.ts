@@ -7,36 +7,87 @@ import path from 'path';
 import fs from 'fs';
 import { storage } from './storage';
 
+/**
+ * In-memory cache: key = `${ownerUserId}:${sizeNum}`, value = PNG buffer.
+ * Capped at MAX_ICON_CACHE_SIZE entries; oldest entry is evicted when full.
+ * Cleared per-owner when the user saves or resets their icon.
+ */
+const MAX_ICON_CACHE_SIZE = 500;
+const iconCache = new Map<string, Buffer>();
+
+function setCached(key: string, buffer: Buffer): void {
+  if (iconCache.size >= MAX_ICON_CACHE_SIZE) {
+    const oldest = iconCache.keys().next().value;
+    if (oldest !== undefined) {
+      iconCache.delete(oldest);
+    }
+  }
+  iconCache.set(key, buffer);
+}
+
+/**
+ * Invalidate all cached icons for a specific owner.
+ * Call this whenever a user saves or resets their icon.
+ */
+export function invalidateIconCache(ownerUserId: number): void {
+  const prefix = `${ownerUserId}:`;
+  for (const key of iconCache.keys()) {
+    if (key.startsWith(prefix)) {
+      iconCache.delete(key);
+    }
+  }
+  console.log(`🗑️ ICON CACHE: Invalidated entries for owner ${ownerUserId}`);
+}
+
 export async function serveCustomIcon(req: Request, res: Response) {
   try {
     const { size } = req.params;
-    const ownerUserId = req.query.owner || req.query.bust;
-    
-    console.log(`🖼️ ICON PROXY DB: Richiesta icona ${size} per owner ${ownerUserId}`);
-    
+
     // Determina dimensione numerica (supporta sia "192" che "192x192")
     const sizeNum = parseInt(size.split('x')[0]);
     if (!sizeNum || ![16, 32, 48, 64, 96, 128, 144, 152, 192, 384, 512].includes(sizeNum)) {
       console.log(`❌ ICON PROXY DB: Dimensione non valida: ${size} → ${sizeNum}`);
       return res.status(400).send('Dimensione icona non valida');
     }
+
+    // Derive owner identity strictly from `owner` param (never from `bust`,
+    // which can be a timestamp and would pollute the cache with never-hit entries).
+    const ownerParam = req.query.owner;
+    const ownerId = ownerParam && ownerParam !== 'default'
+      ? parseInt(ownerParam as string)
+      : null;
+    const cacheKey = ownerId && !isNaN(ownerId) ? `${ownerId}:${sizeNum}` : null;
+
+    if (cacheKey && iconCache.has(cacheKey)) {
+      const cached = iconCache.get(cacheKey)!;
+      res.set({
+        'Content-Type': 'image/png',
+        'Content-Length': cached.length.toString(),
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'X-Content-Type-Options': 'nosniff',
+        'X-PWA-Icon': 'database-cached',
+        'Access-Control-Allow-Origin': '*'
+      });
+      return res.send(cached);
+    }
     
+    console.log(`🖼️ ICON PROXY DB: Richiesta icona ${size} per owner ${ownerId ?? 'default'}`);
+
     // Carica icona dal database PostgreSQL
     let iconBase64: string | undefined;
     
-    if (ownerUserId && ownerUserId !== 'default') {
+    if (ownerId) {
       try {
-        iconBase64 = await storage.getUserIcon(parseInt(ownerUserId as string));
-        console.log(`🖼️ ICON PROXY DB: Icona trovata per user ${ownerUserId}:`, iconBase64 ? 'SÌ' : 'NO');
+        iconBase64 = await storage.getUserIcon(ownerId);
       } catch (error) {
-        console.log(`⚠️ ICON PROXY DB: Errore caricamento user ${ownerUserId}:`, error);
+        console.log(`⚠️ ICON PROXY DB: Errore caricamento user ${ownerId}:`, error);
       }
     }
     
     // Fallback a icona default da file
     if (!iconBase64) {
-      console.log(`🖼️ ICON PROXY DB: Usando icona default per owner ${ownerUserId}`);
-      
       const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app_icon.jpg');
       if (fs.existsSync(defaultIconPath)) {
         const defaultBuffer = fs.readFileSync(defaultIconPath);
@@ -62,9 +113,13 @@ export async function serveCustomIcon(req: Request, res: Response) {
         })
         .png()
         .toBuffer();
+
+      // Store in server-side cache (only for authenticated owners, not defaults)
+      if (cacheKey) {
+        setCached(cacheKey, resizedBuffer);
+        console.log(`💾 ICON CACHE STORE: Icona ${size} per owner ${ownerId} salvata nel cache`);
+      }
       
-      // Servi icona con headers no-cache per garantire sempre l'icona aggiornata
-      // dopo ogni deploy (altrimenti i browser potrebbero mostrare icone stantie)
       res.set({
         'Content-Type': 'image/png',
         'Content-Length': resizedBuffer.length.toString(),
@@ -76,7 +131,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
         'Access-Control-Allow-Origin': '*'
       });
       
-      console.log(`✅ ICON PROXY DB: Servendo icona ${size} per owner ${ownerUserId}, dimensione: ${resizedBuffer.length} bytes`);
+      console.log(`✅ ICON PROXY DB: Servendo icona ${size} per owner ${ownerId ?? 'default'}, dimensione: ${resizedBuffer.length} bytes`);
       
       res.send(resizedBuffer);
       
@@ -86,7 +141,6 @@ export async function serveCustomIcon(req: Request, res: Response) {
       // Fallback a icona statica se generazione fallisce
       const staticIconPath = path.join(process.cwd(), 'public', 'icons', `icon-${size}.png`);
       if (fs.existsSync(staticIconPath)) {
-        console.log(`📁 ICON PROXY DB: Fallback a icona statica: ${staticIconPath}`);
         res.sendFile(staticIconPath);
       } else {
         res.status(500).send('Errore generazione icona');
