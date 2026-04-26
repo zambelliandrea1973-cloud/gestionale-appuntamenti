@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestionale-appuntamenti-v2';
+const CACHE_NAME = 'gestionale-appuntamenti-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -6,6 +6,7 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(urlsToCache).catch(err => console.log('Cache add failed:', err));
@@ -15,16 +16,25 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName !== CACHE_NAME) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      self.clients.claim()
+    ])
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', event => {
@@ -34,11 +44,8 @@ self.addEventListener('fetch', event => {
 
   const url = new URL(event.request.url);
 
-  // 🚫 NON cachare mai le chiamate API: cache-first qui causava il bug
-  // "appuntamento salvato ma calendario vuoto finché non si esce e rientra".
-  // Le API devono sempre passare dalla rete così React Query riceve dati freschi.
   if (url.pathname.startsWith('/api/')) {
-    return; // lascia che il browser/React Query gestisca la richiesta normalmente
+    return;
   }
 
   event.respondWith(
