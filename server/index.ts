@@ -106,9 +106,19 @@ app.use((req, res, next) => {
   } else {
     // Prevent the browser from caching index.html and the service worker so
     // that every deploy is picked up immediately without a manual hard-refresh.
+    // This covers:
+    //   - Explicit index.html requests (/ and /index.html)
+    //   - All SPA deep-link routes (/dashboard, /orders/123, etc.) which also
+    //     receive index.html content via the catch-all in serveStatic
+    //   - The service worker file
+    // Static assets (JS/CSS bundles, images, fonts) keep their normal caching.
     app.use((req, res, next) => {
       const p = req.path;
-      if (p === "/" || p === "/index.html" || p.endsWith("/service-worker.js")) {
+      const isServiceWorker = p.endsWith("service-worker.js");
+      // Paths without a file extension are SPA routes served with index.html.
+      // Also catch explicit /index.html requests.
+      const isSpaShell = !p.includes(".") || p === "/index.html";
+      if (isServiceWorker || isSpaShell) {
         res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
         res.setHeader("Pragma", "no-cache");
         res.setHeader("Expires", "0");
