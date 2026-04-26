@@ -908,7 +908,8 @@
     "processing": "Verwerken...",
     "activate": "Activeren",
     "copied": "Gekopieerd",
-    "notSpecified": "Niet opgegeven"
+    "notSpecified": "Niet opgegeven",
+    "tryAgain": "Probeer opnieuw"
   },
   "notifications": {
     "success": "Bewerking succesvol voltooid",
@@ -2975,7 +2976,118 @@
       "addCustom": "Aangepaste Dienst Toevoegen:",
       "customPlaceholder": "Naam van de dienst...",
       "addButton": "Toevoegen",
-      "selected": "Geselecteerde Diensten:"
+      "selected": "Geselecteerde Diensten:",
+      "editLater": "Je kunt naam, duur en prijs van elke dienst later in de Instellingen aanpassen."
+    },
+    "workingHoursStep": {
+      "title": "Werkuren",
+      "description": "Stel in op welke dagen en uren je afspraken aanneemt. Altijd te wijzigen.",
+      "presets": "Snelle sjablonen",
+      "presetMonFri": "Ma–Vr 9:00–18:00",
+      "presetMonSat": "Ma–Za 9:00–19:00",
+      "presetTueSat": "Di–Za 10:00–20:00",
+      "daysLabel": "Openingsdagen",
+      "startLabel": "Open vanaf",
+      "endLabel": "Sluiting",
+      "invalidHint": "Kies minstens één dag en controleer dat de openingstijd vóór de sluitingstijd ligt.",
+      "days": {
+        "monday": "Ma",
+        "tuesday": "Di",
+        "wednesday": "Wo",
+        "thursday": "Do",
+        "friday": "Vr",
+        "saturday": "Za",
+        "sunday": "Zo"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Klantbeheer",
+      "description": "Welke functies vind je het belangrijkst? Dit personaliseert je ervaring.",
+      "helpText": "Alleen voorkeuren — alle functies blijven beschikbaar in de app.",
+      "needs": {
+        "notes": {
+          "title": "Klantnotities & voorkeuren",
+          "desc": "Privé-notities, allergieën, behandelingsvoorkeuren"
+        },
+        "history": {
+          "title": "Afsprakenhistorie",
+          "desc": "Bekijk alle afspraken per klant"
+        },
+        "payments": {
+          "title": "Betalingsbeheer",
+          "desc": "Betalingen, bonnen en facturen bijhouden"
+        },
+        "loyalty": {
+          "title": "Klantenbinding",
+          "desc": "Automatische herinneringen, kortingen en pakketten"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Klantcommunicatie",
+      "description": "Hoe wil je klanten aan hun afspraken herinneren?",
+      "helpText": "Extra kanalen (SMS, WhatsApp) vereisen aparte configuratie.",
+      "options": {
+        "email": {
+          "title": "E-mail",
+          "desc": "Automatische e-mailherinneringen (gratis)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "SMS-herinneringen (Twilio nodig)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "WhatsApp-herinneringen (configuratie nodig)"
+        },
+        "push": {
+          "title": "Pushmeldingen",
+          "desc": "Directe meldingen in de klant-app"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "Externe integraties",
+      "description": "Wil je je agenda synchroniseren met andere tools?",
+      "helpText": "Integraties worden één voor één geactiveerd in de Instellingen.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Agenda",
+          "desc": "Zie afspraken ook in je Google-agenda"
+        },
+        "appleCalendar": {
+          "title": "Apple Agenda",
+          "desc": "Synchroniseren met iPhone en Mac"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Synchroniseren met Microsoft Outlook"
+        },
+        "payments": {
+          "title": "Online betalingen",
+          "desc": "Stripe / PayPal voor aanbetalingen"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "Alles klaar!",
+      "description": "Dit maken we aan in je account zodra je bevestigt.",
+      "saving": "Opslaan...",
+      "finishButton": "Opslaan en naar dashboard",
+      "editHint": "Alles kan altijd worden aangepast vanuit de Instellingen.",
+      "summary": {
+        "business": "Jouw bedrijf",
+        "services": "{{count}} dienst aangemaakt",
+        "services_other": "{{count}} diensten aangemaakt",
+        "hours": "Werkuren"
+      }
+    },
+    "appliedToast": {
+      "business": "Bedrijfsgegevens opgeslagen",
+      "services": "{{count}} dienst aangemaakt",
+      "services_other": "{{count}} diensten aangemaakt",
+      "hours": "Uren opgeslagen",
+      "preferences": "Voorkeuren opgeslagen"
     }
   },
   "serviceManagerSimple": {

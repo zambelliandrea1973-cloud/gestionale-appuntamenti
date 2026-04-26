@@ -908,7 +908,8 @@
     "processing": "Behandler...",
     "activate": "Aktiver",
     "copied": "Kopiert",
-    "notSpecified": "Ikke angitt"
+    "notSpecified": "Ikke angitt",
+    "tryAgain": "Prøv igjen"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",
@@ -2975,7 +2976,118 @@
       "addCustom": "Legg til Tilpasset Tjeneste:",
       "customPlaceholder": "Navn på tjenesten...",
       "addButton": "Legg til",
-      "selected": "Valgte Tjenester:"
+      "selected": "Valgte Tjenester:",
+      "editLater": "Du kan endre navn, varighet og pris på hver tjeneste i Innstillinger."
+    },
+    "workingHoursStep": {
+      "title": "Arbeidstid",
+      "description": "Angi dagene og timene du tar imot avtaler. Kan endres når som helst.",
+      "presets": "Hurtigmaler",
+      "presetMonFri": "Man–Fre 9:00–18:00",
+      "presetMonSat": "Man–Lør 9:00–19:00",
+      "presetTueSat": "Tir–Lør 10:00–20:00",
+      "daysLabel": "Åpne dager",
+      "startLabel": "Åpning",
+      "endLabel": "Stenging",
+      "invalidHint": "Velg minst én dag og sjekk at åpningstiden er før stengetid.",
+      "days": {
+        "monday": "Man",
+        "tuesday": "Tir",
+        "wednesday": "Ons",
+        "thursday": "Tor",
+        "friday": "Fre",
+        "saturday": "Lør",
+        "sunday": "Søn"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Kundebehandling",
+      "description": "Hvilke funksjoner er viktigst for deg? Dette personliggjør opplevelsen.",
+      "helpText": "Bare preferanser — alle funksjoner forblir tilgjengelige.",
+      "needs": {
+        "notes": {
+          "title": "Kundenotater og preferanser",
+          "desc": "Private notater, allergier, behandlingspreferanser"
+        },
+        "history": {
+          "title": "Avtalehistorikk",
+          "desc": "Se alle tidligere avtaler per kunde"
+        },
+        "payments": {
+          "title": "Betalingsoppfølging",
+          "desc": "Spor betalinger, kvitteringer og fakturaer"
+        },
+        "loyalty": {
+          "title": "Lojalitet",
+          "desc": "Automatiske påminnelser, rabatter og pakker"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Kundekommunikasjon",
+      "description": "Hvordan vil du minne kundene om avtalene deres?",
+      "helpText": "Ekstra kanaler (SMS, WhatsApp) krever separat oppsett.",
+      "options": {
+        "email": {
+          "title": "E-post",
+          "desc": "Automatiske e-postpåminnelser (gratis)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "SMS-påminnelser (krever Twilio)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "WhatsApp-påminnelser (krever oppsett)"
+        },
+        "push": {
+          "title": "Push-varsler",
+          "desc": "Direkte varsler i kundeappen"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "Eksterne integrasjoner",
+      "description": "Vil du synkronisere bookingsystemet med andre verktøy?",
+      "helpText": "Integrasjoner aktiveres én etter én i Innstillinger.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Kalender",
+          "desc": "Se avtaler også i Google-kalenderen"
+        },
+        "appleCalendar": {
+          "title": "Apple-kalender",
+          "desc": "Synkroniser med iPhone og Mac"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Synkroniser med Microsoft Outlook"
+        },
+        "payments": {
+          "title": "Nettbetalinger",
+          "desc": "Stripe / PayPal for forskudd"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "Alt klart!",
+      "description": "Dette opprettes i kontoen din når du bekrefter.",
+      "saving": "Lagrer...",
+      "finishButton": "Lagre og gå til dashbord",
+      "editHint": "Alt kan endres når som helst i Innstillinger.",
+      "summary": {
+        "business": "Din virksomhet",
+        "services": "{{count}} tjeneste opprettet",
+        "services_other": "{{count}} tjenester opprettet",
+        "hours": "Arbeidstid"
+      }
+    },
+    "appliedToast": {
+      "business": "Virksomhetsdata lagret",
+      "services": "{{count}} tjeneste opprettet",
+      "services_other": "{{count}} tjenester opprettet",
+      "hours": "Tider lagret",
+      "preferences": "Preferanser lagret"
     }
   },
   "serviceManagerSimple": {

@@ -908,7 +908,8 @@
     "processing": "Se procesează...",
     "activate": "Activează",
     "copied": "Copiat",
-    "notSpecified": "Nespecificat"
+    "notSpecified": "Nespecificat",
+    "tryAgain": "Încearcă din nou"
   },
   "notifications": {
     "success": "Operațiune finalizată cu succes",
@@ -2975,7 +2976,118 @@
       "addCustom": "Adăugați Serviciu Personalizat:",
       "customPlaceholder": "Numele serviciului...",
       "addButton": "Adaugă",
-      "selected": "Servicii Selectate:"
+      "selected": "Servicii Selectate:",
+      "editLater": "Vei putea modifica numele, durata și prețul fiecărui serviciu din Setări."
+    },
+    "workingHoursStep": {
+      "title": "Program de lucru",
+      "description": "Setează zilele și orele în care primești programări. Poți schimba oricând.",
+      "presets": "Șabloane rapide",
+      "presetMonFri": "Lun–Vin 9:00–18:00",
+      "presetMonSat": "Lun–Sâm 9:00–19:00",
+      "presetTueSat": "Mar–Sâm 10:00–20:00",
+      "daysLabel": "Zile de deschidere",
+      "startLabel": "Deschidere",
+      "endLabel": "Închidere",
+      "invalidHint": "Alege cel puțin o zi și verifică ca deschiderea să fie înainte de închidere.",
+      "days": {
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mie",
+        "thursday": "Joi",
+        "friday": "Vin",
+        "saturday": "Sâm",
+        "sunday": "Dum"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Gestionare clienți",
+      "description": "Ce funcții te interesează mai mult? Personalizează experiența.",
+      "helpText": "Doar preferințe — toate funcțiile rămân disponibile în aplicație.",
+      "needs": {
+        "notes": {
+          "title": "Note și preferințe client",
+          "desc": "Note private, alergii, preferințe de tratament"
+        },
+        "history": {
+          "title": "Istoric programări",
+          "desc": "Vezi toate programările trecute pentru fiecare client"
+        },
+        "payments": {
+          "title": "Gestionare plăți",
+          "desc": "Urmărește plăți, chitanțe și facturi"
+        },
+        "loyalty": {
+          "title": "Fidelizare",
+          "desc": "Memento-uri automate, reduceri și pachete"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Comunicare cu clienții",
+      "description": "Cum vrei să le reamintești clienților de programări?",
+      "helpText": "Canalele suplimentare (SMS, WhatsApp) necesită configurare separată.",
+      "options": {
+        "email": {
+          "title": "Email",
+          "desc": "Memento-uri automate prin email (gratuit)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "Memento-uri prin SMS (necesită Twilio)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "Memento-uri pe WhatsApp (necesită configurare)"
+        },
+        "push": {
+          "title": "Notificări push",
+          "desc": "Notificări directe în aplicația clientului"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "Integrări externe",
+      "description": "Vrei să sincronizezi agenda cu alte instrumente?",
+      "helpText": "Integrările se activează una câte una din Setări.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Calendar",
+          "desc": "Vezi programările și în Google Calendar"
+        },
+        "appleCalendar": {
+          "title": "Apple Calendar",
+          "desc": "Sincronizează cu iPhone și Mac"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Sincronizează cu Microsoft Outlook"
+        },
+        "payments": {
+          "title": "Plăți online",
+          "desc": "Stripe / PayPal pentru avansuri"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "Totul gata!",
+      "description": "Iată ce vom crea în contul tău la confirmare.",
+      "saving": "Se salvează...",
+      "finishButton": "Salvează și mergi la panou",
+      "editHint": "Totul poate fi modificat oricând din Setări.",
+      "summary": {
+        "business": "Afacerea ta",
+        "services": "{{count}} serviciu creat",
+        "services_other": "{{count}} servicii create",
+        "hours": "Program de lucru"
+      }
+    },
+    "appliedToast": {
+      "business": "Date afacere salvate",
+      "services": "{{count}} serviciu creat",
+      "services_other": "{{count}} servicii create",
+      "hours": "Program salvat",
+      "preferences": "Preferințe salvate"
     }
   },
   "serviceManagerSimple": {

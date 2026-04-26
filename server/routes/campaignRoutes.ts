@@ -182,33 +182,182 @@ router.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
     }
   });
 
-  // POST /api/onboarding/complete - Segna l'onboarding come completato
-router.post('/api/onboarding/complete', requireAuth, (req, res) => {
+  // POST /api/onboarding/complete - Applica i dati raccolti nel wizard alle entità reali
+router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
+      const userId = user.id;
       const storageData = loadStorageData();
-      const onboardingKey = `onboarding_${user.id}`;
-      
-      // Crea o aggiorna il record di onboarding
-      if (!storageData[onboardingKey]) {
-        storageData[onboardingKey] = {
-          userId: user.id,
-          currentStep: 0,
-          completedSteps: []
-        };
+      const onboardingKey = `onboarding_${userId}`;
+
+      // Recupera i dati raccolti durante il wizard (dal body o dallo storage)
+      const stored = storageData[onboardingKey] || {};
+      const rawStepData = (req.body && req.body.stepData) || stored;
+
+      // Whitelist dei campi accettati dal wizard per evitare over-posting nel JSON storage
+      const ALLOWED_FIELDS = [
+        'businessName', 'businessType', 'description',
+        'primaryServices', 'appointmentDuration',
+        'workingDays', 'workingHoursStart', 'workingHoursEnd', 'dailySchedule',
+        'clientManagementNeeds', 'communicationPreferences', 'integrationGoals',
+        'analysis',
+      ];
+      const stepData: any = {};
+      for (const k of ALLOWED_FIELDS) {
+        if (rawStepData[k] !== undefined) stepData[k] = rawStepData[k];
       }
-      
-      // Segna come completato
-      storageData[onboardingKey].isCompleted = true;
-      storageData[onboardingKey].completedAt = new Date().toISOString();
+
+      const created = {
+        businessData: false,
+        services: 0,
+        workingHours: false,
+        preferences: false,
+      };
+
+      // 1) Dati aziendali → userSettings
+      if (stepData.businessName || stepData.businessType) {
+        try {
+          const currentSettings = await storage.getUserSettings(userId);
+          const currentPrefs = (currentSettings?.preferences as any) || {};
+          await storage.updateUserSettings(userId, {
+            businessName: stepData.businessName || currentSettings?.businessName,
+            preferences: {
+              ...currentPrefs,
+              businessData: {
+                ...(currentPrefs.businessData || {}),
+                companyName: stepData.businessName || currentPrefs?.businessData?.companyName || '',
+                businessType: stepData.businessType || currentPrefs?.businessData?.businessType || '',
+                description: stepData.description || currentPrefs?.businessData?.description || '',
+                updatedAt: new Date().toISOString(),
+              },
+            },
+          });
+          // Aggiorna anche lo storage JSON usato da GET /api/company-business-data
+          if (!storageData.userBusinessData) storageData.userBusinessData = {};
+          storageData.userBusinessData[userId] = {
+            ...(storageData.userBusinessData[userId] || {}),
+            companyName: stepData.businessName || storageData.userBusinessData[userId]?.companyName || '',
+            businessType: stepData.businessType || storageData.userBusinessData[userId]?.businessType || '',
+          };
+          created.businessData = true;
+        } catch (e) {
+          console.error('⚠️ [ONBOARDING] Errore salvataggio dati aziendali:', e);
+        }
+      }
+
+      // 2) Servizi selezionati → tabella services (solo quelli non ancora presenti)
+      if (Array.isArray(stepData.primaryServices) && stepData.primaryServices.length > 0) {
+        try {
+          const existingServices = await storage.getServices(userId);
+          const existingNames = new Set(
+            existingServices
+              .filter((s: any) => !s.isDemo)
+              .map((s: any) => (s.name || '').trim().toLowerCase())
+          );
+          const palette = ['#3f51b5', '#4caf50', '#ff9800', '#e91e63', '#9c27b0', '#00bcd4', '#f44336', '#795548'];
+          let colorIdx = 0;
+          for (const serviceName of stepData.primaryServices) {
+            const trimmed = (serviceName || '').toString().trim();
+            if (!trimmed) continue;
+            if (existingNames.has(trimmed.toLowerCase())) continue;
+            await storage.createService({
+              userId,
+              name: trimmed,
+              duration: stepData.appointmentDuration || 30,
+              color: palette[colorIdx % palette.length],
+              price: 0,
+              onlineBooking: true,
+              isDemo: false,
+            } as any);
+            colorIdx++;
+            created.services++;
+          }
+          // Pulisci i dati demo se ora ci sono servizi reali
+          if (created.services > 0) {
+            try {
+              const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
+              await cleanupDemoDataIfNeeded(userId, 'services');
+            } catch (e) {
+              console.error('⚠️ [ONBOARDING] Cleanup demo services fallito:', e);
+            }
+          }
+        } catch (e) {
+          console.error('⚠️ [ONBOARDING] Errore creazione servizi:', e);
+        }
+      }
+
+      // 3) Orari di lavoro → userSettings
+      if (stepData.workingDays || stepData.workingHoursStart || stepData.workingHoursEnd || stepData.dailySchedule) {
+        try {
+          const settingsUpdate: any = {};
+          // Regex più stretta: HH:MM con HH 00-23 e MM 00-59
+          const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+          const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+          if (stepData.workingHoursStart && timeRegex.test(stepData.workingHoursStart)) {
+            settingsUpdate.workingHoursStart = stepData.workingHoursStart;
+          }
+          if (stepData.workingHoursEnd && timeRegex.test(stepData.workingHoursEnd)) {
+            settingsUpdate.workingHoursEnd = stepData.workingHoursEnd;
+          }
+          if (Array.isArray(stepData.workingDays)) {
+            const filtered = stepData.workingDays.filter((d: string) => validDays.includes(d));
+            if (filtered.length > 0) settingsUpdate.workingDays = filtered;
+          }
+          if (stepData.dailySchedule && typeof stepData.dailySchedule === 'object') {
+            settingsUpdate.dailySchedule = stepData.dailySchedule;
+          }
+          if (Object.keys(settingsUpdate).length > 0) {
+            await storage.updateUserSettings(userId, settingsUpdate);
+            created.workingHours = true;
+          }
+        } catch (e) {
+          console.error('⚠️ [ONBOARDING] Errore salvataggio orari:', e);
+        }
+      }
+
+      // 4) Preferenze comunicazione/integrazioni/clienti → preferences.onboarding
+      if (
+        Array.isArray(stepData.communicationPreferences) ||
+        Array.isArray(stepData.integrationGoals) ||
+        Array.isArray(stepData.clientManagementNeeds)
+      ) {
+        try {
+          const currentSettings = await storage.getUserSettings(userId);
+          const currentPrefs = (currentSettings?.preferences as any) || {};
+          await storage.updateUserSettings(userId, {
+            preferences: {
+              ...currentPrefs,
+              onboarding: {
+                ...(currentPrefs.onboarding || {}),
+                communicationPreferences: stepData.communicationPreferences || currentPrefs?.onboarding?.communicationPreferences || [],
+                integrationGoals: stepData.integrationGoals || currentPrefs?.onboarding?.integrationGoals || [],
+                clientManagementNeeds: stepData.clientManagementNeeds || currentPrefs?.onboarding?.clientManagementNeeds || [],
+              },
+            },
+          });
+          created.preferences = true;
+        } catch (e) {
+          console.error('⚠️ [ONBOARDING] Errore salvataggio preferenze:', e);
+        }
+      }
+
+      // Aggiorna lo storage JSON con tutti i dati raccolti + flag completato
+      storageData[onboardingKey] = {
+        ...stored,
+        ...stepData,
+        userId,
+        isCompleted: true,
+        completedAt: new Date().toISOString(),
+      };
       saveStorageData(storageData);
-      
-      console.log('✅ [AI ONBOARDING] Onboarding completato per utente', user.id, '- isCompleted:', storageData[onboardingKey].isCompleted);
-      
+
+      console.log('✅ [AI ONBOARDING] Onboarding applicato per utente', userId, '-', created);
+
       res.json({
         success: true,
         isCompleted: true,
-        welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.'
+        applied: created,
+        welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.',
       });
     } catch (error: any) {
       console.error('❌ Errore completamento onboarding:', error);

@@ -941,7 +941,8 @@
     "processing": "Processing...",
     "activate": "Activate",
     "copied": "Copied",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "tryAgain": "Try again"
   },
   "notifications": {
     "success": "Operation completed successfully",
@@ -2975,7 +2976,118 @@
       "addCustom": "Add Custom Service:",
       "customPlaceholder": "Service name...",
       "addButton": "Add",
-      "selected": "Selected Services:"
+      "selected": "Selected Services:",
+      "editLater": "You can edit the name, duration and price of each service from Settings later."
+    },
+    "workingHoursStep": {
+      "title": "Working hours",
+      "description": "Set the days and hours you accept appointments. You can change them anytime.",
+      "presets": "Quick presets",
+      "presetMonFri": "Mon–Fri 9:00–18:00",
+      "presetMonSat": "Mon–Sat 9:00–19:00",
+      "presetTueSat": "Tue–Sat 10:00–20:00",
+      "daysLabel": "Open days",
+      "startLabel": "Open from",
+      "endLabel": "Close at",
+      "invalidHint": "Pick at least one day and make sure opening time is before closing time.",
+      "days": {
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat",
+        "sunday": "Sun"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Client management",
+      "description": "Which features matter most to you? This helps personalize your experience.",
+      "helpText": "These are just preferences — all features remain available in the app.",
+      "needs": {
+        "notes": {
+          "title": "Client notes & preferences",
+          "desc": "Save private notes, allergies, treatment preferences"
+        },
+        "history": {
+          "title": "Appointment history",
+          "desc": "See every past appointment for each client"
+        },
+        "payments": {
+          "title": "Payment tracking",
+          "desc": "Track payments, receipts and invoices"
+        },
+        "loyalty": {
+          "title": "Loyalty & retention",
+          "desc": "Automatic reminders, discounts and packages"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Client communication",
+      "description": "How would you like to remind your clients about their appointments?",
+      "helpText": "Extra channels (SMS, WhatsApp) require separate setup in Settings.",
+      "options": {
+        "email": {
+          "title": "Email",
+          "desc": "Automatic email reminders (free)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "SMS reminders (requires Twilio setup)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "WhatsApp reminders (requires setup)"
+        },
+        "push": {
+          "title": "Push notifications",
+          "desc": "Direct notifications inside the client app"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "External integrations",
+      "description": "Want to sync your booking system with other tools you already use?",
+      "helpText": "Integrations are activated one by one from the Settings page.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Calendar",
+          "desc": "See appointments on your Google calendar too"
+        },
+        "appleCalendar": {
+          "title": "Apple Calendar",
+          "desc": "Sync with iPhone and Mac calendars"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Sync with Microsoft Outlook calendar"
+        },
+        "payments": {
+          "title": "Online payments",
+          "desc": "Stripe / PayPal to collect deposits"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "All set!",
+      "description": "Here's what we'll create in your account when you confirm.",
+      "saving": "Saving...",
+      "finishButton": "Save and go to dashboard",
+      "editHint": "Everything can be changed anytime from Settings.",
+      "summary": {
+        "business": "Your business",
+        "services": "{{count}} service created",
+        "services_other": "{{count}} services created",
+        "hours": "Working hours"
+      }
+    },
+    "appliedToast": {
+      "business": "Business info saved",
+      "services": "{{count}} service created",
+      "services_other": "{{count}} services created",
+      "hours": "Hours saved",
+      "preferences": "Preferences saved"
     }
   },
   "serviceManagerSimple": {

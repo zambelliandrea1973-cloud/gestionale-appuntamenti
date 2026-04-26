@@ -926,7 +926,8 @@
     "processing": "Verarbeitung...",
     "activate": "Aktivieren",
     "copied": "Kopiert",
-    "notSpecified": "Nicht angegeben"
+    "notSpecified": "Nicht angegeben",
+    "tryAgain": "Erneut versuchen"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",
@@ -2975,7 +2976,118 @@
       "addCustom": "Benutzerdefinierte Dienstleistung Hinzufügen:",
       "customPlaceholder": "Name der Dienstleistung...",
       "addButton": "Hinzufügen",
-      "selected": "Ausgewählte Dienstleistungen:"
+      "selected": "Ausgewählte Dienstleistungen:",
+      "editLater": "Name, Dauer und Preis jeder Leistung kannst du später in den Einstellungen ändern."
+    },
+    "workingHoursStep": {
+      "title": "Arbeitszeiten",
+      "description": "Lege fest, an welchen Tagen und Uhrzeiten du Termine annimmst. Jederzeit änderbar.",
+      "presets": "Schnellvorlagen",
+      "presetMonFri": "Mo–Fr 9:00–18:00",
+      "presetMonSat": "Mo–Sa 9:00–19:00",
+      "presetTueSat": "Di–Sa 10:00–20:00",
+      "daysLabel": "Geöffnete Tage",
+      "startLabel": "Öffnung",
+      "endLabel": "Schließung",
+      "invalidHint": "Wähle mindestens einen Tag und stelle sicher, dass die Öffnungszeit vor der Schließungszeit liegt.",
+      "days": {
+        "monday": "Mo",
+        "tuesday": "Di",
+        "wednesday": "Mi",
+        "thursday": "Do",
+        "friday": "Fr",
+        "saturday": "Sa",
+        "sunday": "So"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Kundenverwaltung",
+      "description": "Welche Funktionen sind dir wichtig? Das hilft, dein Erlebnis zu personalisieren.",
+      "helpText": "Nur Präferenzen — alle Funktionen bleiben in der App verfügbar.",
+      "needs": {
+        "notes": {
+          "title": "Notizen & Präferenzen",
+          "desc": "Private Notizen, Allergien, Behandlungspräferenzen"
+        },
+        "history": {
+          "title": "Terminhistorie",
+          "desc": "Alle vergangenen Termine pro Kunde sehen"
+        },
+        "payments": {
+          "title": "Zahlungsverwaltung",
+          "desc": "Zahlungen, Belege und Rechnungen verfolgen"
+        },
+        "loyalty": {
+          "title": "Kundenbindung",
+          "desc": "Automatische Erinnerungen, Rabatte und Pakete"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Kundenkommunikation",
+      "description": "Wie möchtest du deine Kunden an Termine erinnern?",
+      "helpText": "Zusätzliche Kanäle (SMS, WhatsApp) erfordern eine separate Einrichtung.",
+      "options": {
+        "email": {
+          "title": "E-Mail",
+          "desc": "Automatische E-Mail-Erinnerungen (kostenlos)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "SMS-Erinnerungen (Twilio erforderlich)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "WhatsApp-Erinnerungen (Einrichtung erforderlich)"
+        },
+        "push": {
+          "title": "Push-Benachrichtigungen",
+          "desc": "Direkte Benachrichtigungen in der Kunden-App"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "Externe Integrationen",
+      "description": "Möchtest du dein Buchungssystem mit anderen Tools synchronisieren?",
+      "helpText": "Integrationen werden einzeln in den Einstellungen aktiviert.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Kalender",
+          "desc": "Termine auch im Google Kalender sehen"
+        },
+        "appleCalendar": {
+          "title": "Apple Kalender",
+          "desc": "Synchronisation mit iPhone und Mac"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Synchronisation mit Microsoft Outlook"
+        },
+        "payments": {
+          "title": "Online-Zahlungen",
+          "desc": "Stripe / PayPal für Anzahlungen"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "Alles bereit!",
+      "description": "Das wird in deinem Konto erstellt, sobald du bestätigst.",
+      "saving": "Wird gespeichert...",
+      "finishButton": "Speichern und zum Dashboard",
+      "editHint": "Alles kann jederzeit in den Einstellungen geändert werden.",
+      "summary": {
+        "business": "Dein Unternehmen",
+        "services": "{{count}} Leistung erstellt",
+        "services_other": "{{count}} Leistungen erstellt",
+        "hours": "Arbeitszeiten"
+      }
+    },
+    "appliedToast": {
+      "business": "Unternehmensdaten gespeichert",
+      "services": "{{count}} Leistung erstellt",
+      "services_other": "{{count}} Leistungen erstellt",
+      "hours": "Arbeitszeiten gespeichert",
+      "preferences": "Einstellungen gespeichert"
     }
   },
   "serviceManagerSimple": {

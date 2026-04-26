@@ -946,7 +946,8 @@
     "processing": "Elaborazione...",
     "activate": "Attiva",
     "copied": "Copiato",
-    "notSpecified": "Non specificato"
+    "notSpecified": "Non specificato",
+    "tryAgain": "Riprova"
   },
   "notifications": {
     "success": "Operazione completata con successo",
@@ -2975,7 +2976,118 @@
       "addCustom": "Aggiungi Servizio Personalizzato:",
       "customPlaceholder": "Nome del servizio...",
       "addButton": "Aggiungi",
-      "selected": "Servizi Selezionati:"
+      "selected": "Servizi Selezionati:",
+      "editLater": "Potrai modificare nome, durata e prezzo di ogni servizio dalle Impostazioni."
+    },
+    "workingHoursStep": {
+      "title": "Orari di lavoro",
+      "description": "Imposta i giorni e le ore in cui ricevi appuntamenti. Potrai cambiarli quando vuoi.",
+      "presets": "Modelli rapidi",
+      "presetMonFri": "Lun–Ven 9:00–18:00",
+      "presetMonSat": "Lun–Sab 9:00–19:00",
+      "presetTueSat": "Mar–Sab 10:00–20:00",
+      "daysLabel": "Giorni di apertura",
+      "startLabel": "Apertura",
+      "endLabel": "Chiusura",
+      "invalidHint": "Seleziona almeno un giorno e controlla che l'apertura sia prima della chiusura.",
+      "days": {
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mer",
+        "thursday": "Gio",
+        "friday": "Ven",
+        "saturday": "Sab",
+        "sunday": "Dom"
+      }
+    },
+    "clientManagementStep": {
+      "title": "Gestione clienti",
+      "description": "Quali funzioni ti interessano di più? Ti aiutano a personalizzare l'esperienza.",
+      "helpText": "Sono solo preferenze: tutte queste funzioni restano comunque disponibili nell'app.",
+      "needs": {
+        "notes": {
+          "title": "Note e preferenze cliente",
+          "desc": "Salva note private, allergie, preferenze di trattamento"
+        },
+        "history": {
+          "title": "Storico appuntamenti",
+          "desc": "Vedi tutti gli appuntamenti passati di ogni cliente"
+        },
+        "payments": {
+          "title": "Gestione pagamenti",
+          "desc": "Tieni traccia di pagamenti, scontrini e fatture"
+        },
+        "loyalty": {
+          "title": "Fidelizzazione",
+          "desc": "Promemoria automatici, sconti e pacchetti"
+        }
+      }
+    },
+    "communicationStep": {
+      "title": "Comunicazione con i clienti",
+      "description": "Come vuoi avvisare i tuoi clienti dei loro appuntamenti?",
+      "helpText": "I canali extra (SMS, WhatsApp) richiedono una configurazione separata in Impostazioni.",
+      "options": {
+        "email": {
+          "title": "Email",
+          "desc": "Promemoria automatici via email (gratis)"
+        },
+        "sms": {
+          "title": "SMS",
+          "desc": "Promemoria via SMS (richiede configurazione Twilio)"
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "desc": "Promemoria su WhatsApp (richiede configurazione)"
+        },
+        "push": {
+          "title": "Notifiche push",
+          "desc": "Notifiche dirette nell'app cliente"
+        }
+      }
+    },
+    "integrationsStep": {
+      "title": "Integrazioni esterne",
+      "description": "Vuoi sincronizzare il gestionale con altri strumenti che già usi?",
+      "helpText": "Le integrazioni si attivano una alla volta dalla pagina Impostazioni.",
+      "options": {
+        "googleCalendar": {
+          "title": "Google Calendar",
+          "desc": "Vedi gli appuntamenti anche sul tuo calendario Google"
+        },
+        "appleCalendar": {
+          "title": "Apple Calendar",
+          "desc": "Sincronizza con il calendario di iPhone e Mac"
+        },
+        "outlook": {
+          "title": "Outlook",
+          "desc": "Sincronizza con il calendario Microsoft Outlook"
+        },
+        "payments": {
+          "title": "Pagamenti online",
+          "desc": "Stripe / PayPal per incassare anticipi e caparre"
+        }
+      }
+    },
+    "completionStep": {
+      "title": "Tutto pronto!",
+      "description": "Ecco cosa creeremo nel tuo account quando confermi.",
+      "saving": "Sto salvando...",
+      "finishButton": "Salva e vai alla dashboard",
+      "editHint": "Tutto si può modificare in qualsiasi momento dalle Impostazioni.",
+      "summary": {
+        "business": "La tua attività",
+        "services": "{{count}} servizio creato",
+        "services_other": "{{count}} servizi creati",
+        "hours": "Orari di lavoro"
+      }
+    },
+    "appliedToast": {
+      "business": "Dati attività salvati",
+      "services": "{{count}} servizio creato",
+      "services_other": "{{count}} servizi creati",
+      "hours": "Orari salvati",
+      "preferences": "Preferenze salvate"
     }
   },
   "serviceManagerSimple": {
