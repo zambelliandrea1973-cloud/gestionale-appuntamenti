@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -36,6 +36,18 @@ export default function Settings() {
   const { user } = useUserWithLicense(); // Ottiene i dati dell'utente corrente incluso il tipo
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("app");
+  // Se l'utente è arrivato qui dal wizard AI con ?returnTo=/onboarding,
+  // mostriamo un banner che lo guida al ritorno automatico dopo il salvataggio.
+  const [returnTo, setReturnTo] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const r = params.get('returnTo');
+      if (r && r.startsWith('/') && !r.startsWith('//')) setReturnTo(r);
+    } catch {
+      // ignore
+    }
+  }, []);
   
   // Recupera la tab selezionata da localStorage quando il componente viene montato
   useEffect(() => {
@@ -99,6 +111,30 @@ export default function Settings() {
           {t('settings.description', 'Personalizza l\'applicazione e configura le preferenze')}
         </p>
       </header>
+
+      {returnTo && (
+        <Card className="mb-6 border-primary/40 bg-primary/5">
+          <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+            <Sparkles className="h-5 w-5 text-primary shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium">
+                {t('settings.returnToTourBanner.title')}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {t('settings.returnToTourBanner.description')}
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLocation(returnTo)}
+              data-testid="button-return-to-tour"
+            >
+              {t('settings.returnToTourBanner.button')}
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
         setActiveTab(value);

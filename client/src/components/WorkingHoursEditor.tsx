@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'wouter';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -284,6 +285,7 @@ function formatDuration(startTime: string, endTime: string): string | null {
 export default function WorkingHoursEditor() {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [expandedDay, setExpandedDay] = useState<string | null>(null);
@@ -374,6 +376,17 @@ export default function WorkingHoursEditor() {
       });
       if (response.ok) {
         toast({ title: t('workingHoursEditor.toast.savedTitle'), description: t('workingHoursEditor.toast.savedDesc') });
+        // Se siamo arrivati dal wizard AI con ?returnTo=..., riportiamo
+        // l'utente al tour per completare la configurazione AI.
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const returnTo = params.get('returnTo');
+          if (returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')) {
+            setTimeout(() => setLocation(returnTo), 600);
+          }
+        } catch {
+          // ignore
+        }
       } else {
         throw new Error(t('workingHoursEditor.toast.saveErrorDesc'));
       }

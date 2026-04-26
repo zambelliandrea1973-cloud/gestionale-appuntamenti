@@ -909,7 +909,12 @@
     "enableEmail": "Abilita invio email",
     "emailDesc": "Abilita l'invio di email di notifica ai clienti",
     "emailAddress": "Indirizzo Email",
-    "emailPassword": "Password o Chiave App"
+    "emailPassword": "Password o Chiave App",
+    "returnToTourBanner": {
+      "title": "Stai configurando dal tour AI",
+      "description": "Dopo aver salvato le tue impostazioni torni automaticamente al wizard per completare la configurazione.",
+      "button": "Torna al tour"
+    }
   },
   "common": {
     "backToHome": "Torna alla Home",
@@ -3003,7 +3008,8 @@
         "friday": "Ven",
         "saturday": "Sab",
         "sunday": "Dom"
-      }
+      },
+      "returnHint": "Dopo il salvataggio nelle Impostazioni torni automaticamente al tour per completare la configurazione AI."
     },
     "clientManagementStep": {
       "title": "Gestione clienti",

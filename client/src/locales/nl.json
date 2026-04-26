@@ -871,7 +871,12 @@
     "enableEmail": "E-mailverzending inschakelen",
     "emailDesc": "Schakel het verzenden van e-mailmeldingen naar klanten in",
     "emailAddress": "E-mailadres",
-    "emailPassword": "Wachtwoord of App-sleutel"
+    "emailPassword": "Wachtwoord of App-sleutel",
+    "returnToTourBanner": {
+      "title": "Configureren vanuit de AI-rondleiding",
+      "description": "Nadat je je instellingen hebt opgeslagen ga je automatisch terug naar de wizard om de configuratie te voltooien.",
+      "button": "Terug naar rondleiding"
+    }
   },
   "common": {
     "backToHome": "Terug naar Home",
@@ -3003,7 +3008,8 @@
       "defaultsValue": "Maandag – Zaterdag, 08:00 – 22:00",
       "editHint": "Open de Instellingen in een nieuw tabblad om dagen, tijdvakken of pauzes aan te passen — de rondleiding blijft staan.",
       "openSettings": "Openen in Instellingen",
-      "keepDefaults": "Prima, doorgaan"
+      "keepDefaults": "Prima, doorgaan",
+      "returnHint": "Na het opslaan in de Instellingen ga je automatisch terug naar de rondleiding om de AI-configuratie te voltooien."
     },
     "clientManagementStep": {
       "title": "Klantbeheer",

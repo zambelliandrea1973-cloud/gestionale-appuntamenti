@@ -889,7 +889,12 @@
     "enableEmail": "Activar envío de emails",
     "emailDesc": "Activa el envío de emails de notificación a los clientes",
     "emailAddress": "Dirección de Email",
-    "emailPassword": "Contraseña o Clave de App"
+    "emailPassword": "Contraseña o Clave de App",
+    "returnToTourBanner": {
+      "title": "Estás configurando desde el tour con IA",
+      "description": "Después de guardar tus ajustes volverás automáticamente al asistente para completar la configuración.",
+      "button": "Volver al tour"
+    }
   },
   "common": {
     "backToHome": "Volver al Inicio",
@@ -3003,7 +3008,8 @@
       "defaultsValue": "Lunes – Sábado, 08:00 – 22:00",
       "editHint": "Para ajustar días, franjas horarias o descansos, abre Ajustes en una pestaña nueva: el tour permanecerá donde está.",
       "openSettings": "Abrir en Ajustes",
-      "keepDefaults": "Está bien, continuar"
+      "keepDefaults": "Está bien, continuar",
+      "returnHint": "Después de guardar en Ajustes volverás automáticamente al tour para completar la configuración con IA."
     },
     "clientManagementStep": {
       "title": "Gestión de clientes",

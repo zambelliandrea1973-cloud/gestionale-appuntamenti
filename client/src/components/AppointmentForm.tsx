@@ -81,6 +81,18 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 // Helper function to format date for API
+// Normalizza qualsiasi forma di data (Date | "yyyy-MM-dd" | ISO string) in
+// "yyyy-MM-dd" senza far esplodere date-fns v3 (che non accetta string in format()).
+function toApiDate(d: any): string {
+  if (!d) return formatDateForApi(new Date());
+  if (typeof d === 'string') {
+    if (/^\d{4}-\d{2}-\d{2}/.test(d)) return d.slice(0, 10);
+    return formatDateForApi(new Date(d));
+  }
+  if (d instanceof Date) return formatDateForApi(d);
+  return formatDateForApi(new Date(d));
+}
+
 function formatDateForApi(date: Date | string): string {
   if (typeof date === 'string') return date;
   return format(date, 'yyyy-MM-dd');
@@ -380,14 +392,19 @@ export default function AppointmentForm({
       // Invalidate general appointments list
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       
-      // Invalidate the specific date for this appointment
-      const appointmentDate = formatDateForApi(data.date);
+      // Invalidate the specific date for this appointment.
+      // Il backend restituisce `data.date` come stringa (es. "2026-04-26" o
+      // ISO con timezone). date-fns v3 NON accetta stringhe in `format()` e
+      // lancia un'eccezione che interrompe l'invalidazione: per questo prima
+      // del fix il calendario non si aggiornava dopo il salvataggio.
+      const appointmentDate = toApiDate(data.date);
       await queryClient.invalidateQueries({ 
         queryKey: [`/api/appointments/date/${appointmentDate}`] 
       });
       
-      // Invalidate surrounding dates to ensure calendar updates
-      const today = new Date(data.date);
+      // Invalidate surrounding dates to ensure calendar updates.
+      // Usa T00:00:00 (locale) per evitare drift di un giorno per fusi orari.
+      const today = new Date(`${appointmentDate}T00:00:00`);
       for (let i = -2; i <= 2; i++) {
         const date = new Date(today);
         date.setDate(date.getDate() + i);
@@ -493,12 +510,16 @@ export default function AppointmentForm({
       console.log("Invalidazione diretta delle query");
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       
-      // Invalida anche le query per data specifica per i prossimi 30 giorni
-      const today = new Date();
-      for (let i = -7; i < 30; i++) {
-        const date = new Date(today);
-        date.setDate(date.getDate() + i);
-        const formattedDate = formatDateForApi(date);
+      // Invalida la data specifica dell'appuntamento + ±2 giorni (timezone-safe)
+      // FIX: prima il loop era centrato su `new Date()` (oggi del sistema), quindi
+      // se l'appuntamento era in una data lontana la sua chiave di cache non veniva
+      // toccata e il calendario restava stale (toast diceva "salvato" ma vista vuota).
+      const appointmentApiDate = toApiDate(data.date as any);
+      const baseDate = new Date(`${appointmentApiDate}T00:00:00`);
+      for (let i = -2; i <= 2; i++) {
+        const d = new Date(baseDate);
+        d.setDate(d.getDate() + i);
+        const formattedDate = formatDateForApi(d);
         await queryClient.invalidateQueries({ 
           queryKey: [`/api/appointments/date/${formattedDate}`] 
         });
@@ -506,7 +527,7 @@ export default function AppointmentForm({
       
       // Forza il refetch immediato delle query principali
       await queryClient.refetchQueries({ queryKey: ['/api/appointments'] });
-      await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(data.date)}`] });
+      await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${appointmentApiDate}`] });
       
       // Notifica successo
       toast({

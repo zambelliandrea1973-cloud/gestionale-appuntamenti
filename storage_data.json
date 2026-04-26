@@ -23946,7 +23946,8 @@
     "41": "PROF_041",
     "42": "PROF_042",
     "51": "PROF_051",
-    "54": "PROF_054"
+    "54": "PROF_054",
+    "97": "PROF_097"
   },
   "userContactInfo": {
     "3": {
@@ -25295,14 +25296,15 @@
       "businessType": "Dentista"
     },
     "97": {
-      "companyName": "",
+      "companyName": "Pippo",
       "address": "",
       "city": "",
       "postalCode": "",
       "vatNumber": "",
       "fiscalCode": "",
       "phone": "",
-      "email": ""
+      "email": "",
+      "businessType": "Dentista"
     }
   },
   "products": [
@@ -28367,10 +28369,81 @@
   },
   "onboarding_97": {
     "userId": 97,
-    "currentStep": 1,
+    "currentStep": 8,
     "completedSteps": [
-      0
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
     ],
-    "updatedAt": "2026-04-26T15:57:38.346Z"
+    "updatedAt": "2026-04-26T16:01:35.321Z",
+    "businessName": "Pippo",
+    "businessType": "Dentista",
+    "description": "Otturazioni protesi pulizia ",
+    "analysis": {
+      "suggestedBusinessType": "medical",
+      "recommendedServices": [
+        "Gestione appuntamenti per otturazioni dentali",
+        "Pianificazione interventi e controlli protesici",
+        "Prenotazione sedute di igiene e pulizia dentale",
+        "Organizzazione visite di controllo periodiche",
+        "Gestione liste d'attesa per trattamenti specifici"
+      ],
+      "workingHoursRecommendation": "Orario continuato dal lunedì al venerdì, dalle 09:00 alle 13:00 e dalle 15:00 alle 19:00, con possibilità di estensione o apertura il sabato mattina per urgenze o appuntamenti specifici.",
+      "clientManagementNeeds": [
+        "Registrazione e accesso rapido alla storia clinica e ai trattamenti precedenti dei pazienti",
+        "Invio automatico di promemoria per appuntamenti (SMS, email)",
+        "Gestione delle anagrafiche pazienti con dati di contatto e preferenze",
+        "Tracciamento dei pagamenti e della fatturazione",
+        "Possibilità di annotare informazioni importanti e follow-up per ciascun paziente"
+      ],
+      "communicationPreferences": [
+        "Email per conferme dettagliate dell'appuntamento e invio di documenti informativi",
+        "WhatsApp per comunicazioni rapide, promemoria urgenti o modifiche dell'ultimo minuto",
+        "SMS per promemoria appuntamento brevi e puntuali"
+      ],
+      "integrationGoals": [
+        "Integrazione con il software gestionale dello studio dentistico per unificare la cartella clinica digitale e la schedulazione",
+        "Sincronizzazione bidirezionale con calendari professionali (es. Google Calendar, Outlook Calendar)",
+        "Connessione con sistemi di fatturazione elettronica per automatizzare il processo",
+        "Integrazione con software di radiografia digitale per un accesso immediato alle immagini diagnostiche"
+      ],
+      "personalizedTips": [
+        "Implementare un sistema di prenotazione online 24/7 per consentire ai pazienti di fissare, modificare o cancellare appuntamenti autonomamente, riducendo il carico di lavoro del personale di segreteria.",
+        "Utilizzare promemoria automatici via SMS e WhatsApp per minimizzare il tasso di mancate presentazioni agli appuntamenti, un problema comune negli studi medici.",
+        "Mantenere un database pazienti dettagliato e aggiornato per personalizzare la comunicazione e offrire servizi mirati (es. richiamo per pulizia annuale).",
+        "Considerare l'implementazione di un sistema di feedback post-visita per raccogliere opinioni dai pazienti e migliorare continuamente la qualità del servizio offerto.",
+        "Garantire la conformità al GDPR nella gestione dei dati sensibili dei pazienti, scegliendo un sistema che offra elevati standard di sicurezza e privacy."
+      ]
+    },
+    "primaryServices": [
+      "Gestione appuntamenti per otturazioni dentali",
+      "Pianificazione interventi e controlli protesici",
+      "Prenotazione sedute di igiene e pulizia dentale",
+      "Organizzazione visite di controllo periodiche",
+      "Gestione liste d'attesa per trattamenti specifici",
+      "Apparecchi"
+    ],
+    "clientManagementNeeds": [
+      "notes",
+      "history",
+      "payments",
+      "loyalty"
+    ],
+    "communicationPreferences": [
+      "email",
+      "whatsapp",
+      "push"
+    ],
+    "integrationGoals": [
+      "googleCalendar",
+      "payments"
+    ],
+    "isCompleted": true,
+    "completedAt": "2026-04-26T16:01:44.412Z"
   }
 }

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -371,6 +372,7 @@ const ServicesStep = ({ onNext, onPrevious, data }: StepProps) => {
 // Impostazioni manuale (più flessibile della form rigida che era qui).
 const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
 
   const openSettings = () => {
     try {
@@ -378,7 +380,9 @@ const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
     } catch {
       // ignore storage errors
     }
-    window.open('/settings', '_blank', 'noopener');
+    // Naviga nella stessa scheda con il flag returnTo: dopo il salvataggio
+    // l'utente verrà rispedito al wizard per completare la configurazione AI.
+    setLocation('/settings?returnTo=/onboarding');
   };
 
   const handleNext = () => onNext({ ...data });
@@ -416,6 +420,10 @@ const WorkingHoursStep = ({ onNext, onPrevious, data }: StepProps) => {
             {t('onboardingWizard.workingHoursStep.openSettings')}
           </Button>
         </div>
+
+        <p className="text-xs text-muted-foreground">
+          {t('onboardingWizard.workingHoursStep.returnHint')}
+        </p>
 
         <div className="flex justify-between pt-2">
           <Button variant="outline" onClick={onPrevious}>
@@ -567,7 +575,7 @@ const CommunicationStep = ({ onNext, onPrevious, data }: StepProps) => {
 // Step 8: Integrations
 // Nota: Outlook rimosso perché non c'è ancora integrazione con Microsoft Calendar
 // (verrà ripristinato quando sarà implementata).
-const INT_OPTIONS = ['googleCalendar', 'appleCalendar', 'payments'];
+const INT_OPTIONS = ['googleCalendar', 'payments'];
 
 const IntegrationsStep = ({ onNext, onPrevious, data }: StepProps) => {
   const { t } = useTranslation();

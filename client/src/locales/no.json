@@ -871,7 +871,12 @@
     "enableEmail": "Aktiver e-postsending",
     "emailDesc": "Aktiver sending av varsel-e-poster til kunder",
     "emailAddress": "E-postadresse",
-    "emailPassword": "Passord eller App-nøkkel"
+    "emailPassword": "Passord eller App-nøkkel",
+    "returnToTourBanner": {
+      "title": "Konfigurerer fra AI-turen",
+      "description": "Etter at du har lagret innstillingene blir du automatisk sendt tilbake til veiviseren for å fullføre oppsettet.",
+      "button": "Tilbake til turen"
+    }
   },
   "common": {
     "backToHome": "Tilbake til Hjem",
@@ -3003,7 +3008,8 @@
       "defaultsValue": "Mandag – Lørdag, 08:00 – 22:00",
       "editHint": "Åpne Innstillinger i en ny fane for å justere dager, tidsrom eller pauser — turen forblir der den er.",
       "openSettings": "Åpne i Innstillinger",
-      "keepDefaults": "Greit, fortsett"
+      "keepDefaults": "Greit, fortsett",
+      "returnHint": "Etter at du har lagret i Innstillinger blir du automatisk sendt tilbake til turen for å fullføre AI-oppsettet."
     },
     "clientManagementStep": {
       "title": "Kundebehandling",

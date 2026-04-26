@@ -904,7 +904,12 @@
     "enableEmail": "Enable email sending",
     "emailDesc": "Enable sending notification emails to clients",
     "emailAddress": "Email Address",
-    "emailPassword": "Password or App Key"
+    "emailPassword": "Password or App Key",
+    "returnToTourBanner": {
+      "title": "Setting things up from the AI tour",
+      "description": "After saving your settings you'll be brought back to the wizard automatically to finish the setup.",
+      "button": "Back to tour"
+    }
   },
   "common": {
     "backToHome": "Back to Home",
@@ -3003,7 +3008,8 @@
       "defaultsValue": "Monday – Saturday, 08:00 – 22:00",
       "editHint": "To adjust days, time slots or breaks, open Settings in a new tab — the tour will stay where it is.",
       "openSettings": "Open in Settings",
-      "keepDefaults": "Looks good, continue"
+      "keepDefaults": "Looks good, continue",
+      "returnHint": "After saving in Settings you'll be brought back to the tour automatically to finish the AI setup."
     },
     "clientManagementStep": {
       "title": "Client management",

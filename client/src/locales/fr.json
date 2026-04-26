@@ -889,7 +889,12 @@
     "enableEmail": "Activer l'envoi d'emails",
     "emailDesc": "Activez l'envoi d'emails de notification aux clients",
     "emailAddress": "Adresse Email",
-    "emailPassword": "Mot de passe ou Clé d'App"
+    "emailPassword": "Mot de passe ou Clé d'App",
+    "returnToTourBanner": {
+      "title": "Configuration depuis le tour IA",
+      "description": "Une fois vos paramètres enregistrés, vous serez automatiquement renvoyé à l'assistant pour terminer la configuration.",
+      "button": "Retour au tour"
+    }
   },
   "common": {
     "backToHome": "Retour à l'accueil",
@@ -3003,7 +3008,8 @@
       "defaultsValue": "Lundi – Samedi, 08h00 – 22h00",
       "editHint": "Pour ajuster les jours, plages horaires ou pauses, ouvrez les Paramètres dans un nouvel onglet : le tour restera tel quel.",
       "openSettings": "Ouvrir les Paramètres",
-      "keepDefaults": "C'est bon, continuer"
+      "keepDefaults": "C'est bon, continuer",
+      "returnHint": "Après l'enregistrement dans les Paramètres, vous serez automatiquement renvoyé au tour pour terminer la configuration IA."
     },
     "clientManagementStep": {
       "title": "Gestion des clients",
