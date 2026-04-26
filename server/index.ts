@@ -121,7 +121,11 @@ app.use((req, res, next) => {
       // Paths without a file extension are SPA routes served with index.html.
       // Also catch explicit /index.html requests.
       const isSpaShell = !p.includes(".") || p === "/index.html";
-      if (isServiceWorker || isManifest || isSpaShell) {
+      // PWA icon paths: dynamic per-owner icons and static fallback icons must
+      // always be fresh so that icon or theme-color changes are visible immediately
+      // after a deploy without waiting for browser cache to expire.
+      const isPwaIcon = p.startsWith("/pwa-icon/") || p.startsWith("/icons/");
+      if (isServiceWorker || isManifest || isSpaShell || isPwaIcon) {
         res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
         res.setHeader("Pragma", "no-cache");
         res.setHeader("Expires", "0");

@@ -63,13 +63,14 @@ export async function serveCustomIcon(req: Request, res: Response) {
         .png()
         .toBuffer();
       
-      // Servi icona con headers ottimizzati
+      // Servi icona con headers no-cache per garantire sempre l'icona aggiornata
+      // dopo ogni deploy (altrimenti i browser potrebbero mostrare icone stantie)
       res.set({
         'Content-Type': 'image/png',
         'Content-Length': resizedBuffer.length.toString(),
-        'Cache-Control': 'public, max-age=86400', // Cache 24h (le icone non cambiano spesso)
-        'Last-Modified': new Date().toUTCString(),
-        'ETag': `"${Date.now()}-${ownerUserId || 'default'}-${sizeNum}"`,
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
         'X-Content-Type-Options': 'nosniff',
         'X-PWA-Icon': 'database-dynamic',
         'Access-Control-Allow-Origin': '*'

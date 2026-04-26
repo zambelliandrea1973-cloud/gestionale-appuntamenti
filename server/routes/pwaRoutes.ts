@@ -232,7 +232,9 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
         logger.debug(`✅ PWA ICON OWNER: Trovata icona per proprietario ${ownerId}`);
         const buffer = Buffer.from(userIcon, 'base64');
         res.set('Content-Type', 'image/png');
-        res.set('Cache-Control', 'public, max-age=3600');
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.set('Pragma', 'no-cache');
+        res.set('Expires', '0');
         return res.send(buffer);
       } else {
         console.log(`❌ PWA ICON OWNER: Nessuna icona trovata per proprietario ${ownerId}`);
@@ -328,7 +330,9 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         
         res.set({
           'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=3600', // Cache per 1 ora
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
           'Content-Length': buffer.length
         });
         
@@ -381,7 +385,9 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
         
         res.set({
           'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=86400',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
           'Content-Length': buffer.length
         });
         
