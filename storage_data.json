@@ -25271,6 +25271,16 @@
       "fiscalCode": "",
       "phone": "",
       "email": ""
+    },
+    "95": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
     }
   },
   "products": [
@@ -28103,5 +28113,57 @@
         "updated_at": "2025-05-27T13:42:53.387Z"
       }
     ]
-  ]
+  ],
+  "onboarding_95": {
+    "userId": 95,
+    "currentStep": 8,
+    "completedSteps": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "updatedAt": "2026-04-26T06:54:43.255Z",
+    "businessName": "Pino",
+    "businessType": "Osteopata ",
+    "description": "Sistemo postura e dolori articolari muscoli tendini",
+    "analysis": {
+      "suggestedBusinessType": "consulting",
+      "recommendedServices": [
+        "Consultation",
+        "Meeting",
+        "Session"
+      ],
+      "workingHoursRecommendation": "Monday to Friday, 9:00 AM to 6:00 PM",
+      "clientManagementNeeds": [
+        "appointment-scheduling",
+        "client-communication",
+        "payment-tracking"
+      ],
+      "communicationPreferences": [
+        "email",
+        "sms"
+      ],
+      "integrationGoals": [
+        "calendar-sync",
+        "automated-reminders",
+        "client-portal"
+      ],
+      "personalizedTips": [
+        "Start with basic appointment scheduling",
+        "Set up automated reminders to reduce no-shows",
+        "Create a simple client portal for easy booking"
+      ]
+    },
+    "primaryServices": [
+      "Posturale",
+      "Streccing"
+    ],
+    "isCompleted": true,
+    "completedAt": "2026-04-26T06:54:48.361Z"
+  }
 }

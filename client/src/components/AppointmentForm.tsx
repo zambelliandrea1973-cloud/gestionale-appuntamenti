@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 // import { insertAppointmentSchema } from "../../../shared/schema"; // Rimosso per evitare limiti integer
 import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users, Package, UserPlus, AlertCircle, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { getDateLocale } from "@/lib/utils/date";
@@ -120,7 +120,23 @@ export default function AppointmentForm({
     roomConflicts: any[];
   } | null>(null);
   const [pendingAppointmentData, setPendingAppointmentData] = useState<any>(null);
-  
+
+  // 🛡️ Anti-double-submit: ref sincrono (blocca il secondo click prima del re-render)
+  // + stato React per disabilitare il bottone e mostrare la barra di caricamento.
+  const submittingRef = useRef(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Flag per distinguere la chiusura del conflict dialog "Procedi" (NON sbloccare)
+  // dalle chiusure per Cancel/Escape/click-fuori (sblocca).
+  const proceedingFromConflictRef = useRef(false);
+  const beginSubmitting = () => {
+    submittingRef.current = true;
+    setIsSubmitting(true);
+  };
+  const endSubmitting = () => {
+    submittingRef.current = false;
+    setIsSubmitting(false);
+  };
+
   // i18n
   const { t, i18n } = useTranslation();
 
@@ -522,6 +538,9 @@ export default function AppointmentForm({
         variant: "destructive"
       });
       throw error;
+    } finally {
+      // 🛡️ Sblocca sempre il submit, sia in caso di successo che di errore.
+      endSubmitting();
     }
   };
 
@@ -530,6 +549,9 @@ export default function AppointmentForm({
     if (!pendingAppointmentData) return;
     
     console.log("✅ Utente ha confermato di procedere nonostante i conflitti");
+    // Marca questa chiusura come "proceed": onOpenChange NON deve sbloccare il submit,
+    // la lock resterà attiva fino al finally di saveAppointment.
+    proceedingFromConflictRef.current = true;
     setConflictDialogOpen(false);
     
     try {
@@ -612,6 +634,12 @@ export default function AppointmentForm({
   };
 
   const onSubmit = async (data: FormData) => {
+    // 🛡️ Guard sincrono contro doppi click: se è già in corso, ignora il submit.
+    if (submittingRef.current) {
+      console.log("⏭️ Submit ignorato: salvataggio già in corso");
+      return;
+    }
+    beginSubmitting();
     try {
       console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
       console.log("Dati form:", data);
@@ -629,6 +657,7 @@ export default function AppointmentForm({
         
         if (!confirmed) {
           console.log("Salvataggio annullato dall'utente");
+          endSubmitting();
           return;
         }
       }
@@ -653,6 +682,7 @@ export default function AppointmentForm({
           description: t('appointmentForm.errors.requiredClient'),
           variant: "destructive"
         });
+        endSubmitting();
         return;
       }
       
@@ -663,6 +693,7 @@ export default function AppointmentForm({
           description: t('appointmentForm.errors.requiredService'),
           variant: "destructive"
         });
+        endSubmitting();
         return;
       }
       
@@ -707,6 +738,7 @@ export default function AppointmentForm({
         description: t('common.errorWithMessage', { message: error.message }),
         variant: "destructive"
       });
+      endSubmitting();
     }
   };
 
@@ -772,12 +804,29 @@ export default function AppointmentForm({
           variant="ghost" 
           size="icon" 
           onClick={onClose}
-          disabled={mutation.isPending}
+          disabled={isSubmitting || mutation.isPending}
         >
           <X className="h-4 w-4" />
         </Button>
       </div>
-      
+
+      {/* 🔄 Barra di caricamento durante il salvataggio: rende visibile che il
+          processo è in corso così l'utente non clicca più volte il pulsante. */}
+      {(isSubmitting || mutation.isPending) && (
+        <div
+          role="status"
+          aria-live="polite"
+          data-testid="appointment-form-saving-bar"
+          className="mb-4 flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-2 text-sm font-medium text-primary"
+        >
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span>{t('appointmentForm.actions.savingButton')}</span>
+          <div className="ml-auto h-1 w-24 overflow-hidden rounded-full bg-primary/20">
+            <div className="h-full w-1/2 animate-pulse rounded-full bg-primary" />
+          </div>
+        </div>
+      )}
+
       {isLoading ? (
         <div className="flex justify-center p-6">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -1443,15 +1492,17 @@ export default function AppointmentForm({
                 type="button"
                 variant="outline"
                 onClick={onClose}
-                disabled={mutation.isPending}
+                disabled={isSubmitting || mutation.isPending}
+                data-testid="appointment-form-cancel"
               >
                 {t('common.cancel')}
               </Button>
               <Button 
                 type="submit"
-                disabled={mutation.isPending}
+                disabled={isSubmitting || mutation.isPending}
+                data-testid="appointment-form-submit"
               >
-                {mutation.isPending ? (
+                {(isSubmitting || mutation.isPending) ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {t('appointmentForm.actions.savingButton')}
@@ -1466,7 +1517,26 @@ export default function AppointmentForm({
       )}
       
       {/* Alert Dialog per Conflitti Orari */}
-      <AlertDialog open={conflictDialogOpen} onOpenChange={setConflictDialogOpen}>
+      <AlertDialog open={conflictDialogOpen} onOpenChange={(open) => {
+        setConflictDialogOpen(open);
+        // Se il dialog viene chiuso (Escape, X, click fuori) senza confermare,
+        // sblocca il submit così l'utente può riprovare.
+        // ATTENZIONE: se la chiusura è causata dal click su "Procedi"
+        // (proceedingFromConflictRef = true), NON sbloccare: la lock deve
+        // restare attiva fino al finally di saveAppointment per impedire
+        // doppi invii in flight.
+        if (!open) {
+          if (proceedingFromConflictRef.current) {
+            // Resetta il flag e mantieni la lock attiva
+            proceedingFromConflictRef.current = false;
+          } else {
+            // Chiusura non confermata: sblocca submit e ripulisci lo stato pendente
+            endSubmitting();
+            setPendingAppointmentData(null);
+            setConflictDetails(null);
+          }
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-orange-600">{t('appointmentForm.conflict.title')}</AlertDialogTitle>
