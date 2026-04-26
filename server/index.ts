@@ -104,6 +104,17 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
+    // Prevent the browser from caching index.html and the service worker so
+    // that every deploy is picked up immediately without a manual hard-refresh.
+    app.use((req, res, next) => {
+      const p = req.path;
+      if (p === "/" || p === "/index.html" || p.endsWith("/service-worker.js")) {
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+      }
+      next();
+    });
     serveStatic(app);
   }
 
