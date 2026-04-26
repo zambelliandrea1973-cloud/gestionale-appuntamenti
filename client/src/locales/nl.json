@@ -876,6 +876,7 @@
   "common": {
     "backToHome": "Terug naar Home",
     "loading": "Laden...",
+    "scrollDown": "Scrol omlaag",
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
     "delete": "Verwijderen",

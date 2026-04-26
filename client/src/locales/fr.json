@@ -894,6 +894,7 @@
   "common": {
     "backToHome": "Retour à l'accueil",
     "loading": "Chargement...",
+    "scrollDown": "Faire défiler vers le bas",
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "delete": "Supprimer",

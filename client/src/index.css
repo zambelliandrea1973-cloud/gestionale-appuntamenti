@@ -176,37 +176,3 @@ button[data-appointment-link="true"],
   }
 }
 
-/* Welcome guide: barra laterale di scroll sempre ben visibile per segnalare
-   chiaramente che il contenuto è scorrevole verso il basso (anche su mobile,
-   dove le scrollbar di sistema sono normalmente nascoste). */
-.welcome-guide-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary) / 0.6) hsl(var(--muted) / 0.5);
-  /* iOS Safari: non auto-nascondere lo scrollbar */
-  -webkit-overflow-scrolling: touch;
-}
-
-.welcome-guide-scroll::-webkit-scrollbar {
-  width: 10px;
-  -webkit-appearance: none;
-  display: block;
-}
-
-.welcome-guide-scroll::-webkit-scrollbar-track {
-  background: hsl(var(--muted) / 0.5);
-  border-radius: 6px;
-  margin: 6px 2px;
-}
-
-.welcome-guide-scroll::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.65);
-  border-radius: 6px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  min-height: 40px;
-}
-
-.welcome-guide-scroll::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.85);
-  background-clip: padding-box;
-}

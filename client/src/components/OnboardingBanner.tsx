@@ -31,6 +31,9 @@ interface ChecklistStep {
   path: string;
   tab: string | null;
   done: boolean;
+  // Coppia di classi Tailwind statiche per il colore pastello dell'icona
+  // (un colore diverso per ogni passo, coerente con il modale WelcomeGuide).
+  color: string;
 }
 
 export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
@@ -67,6 +70,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         path: '/settings',
         tab: 'appearance',
         done: businessDone,
+        color: 'text-blue-600 bg-blue-100',
       },
       {
         id: 'services',
@@ -76,6 +80,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         path: '/settings',
         tab: 'app',
         done: realServices > 0,
+        color: 'text-purple-600 bg-purple-100',
       },
       {
         id: 'clients',
@@ -85,6 +90,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         path: '/clients',
         tab: null,
         done: realClients > 0,
+        color: 'text-green-600 bg-green-100',
       },
       {
         id: 'workingHours',
@@ -94,6 +100,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         path: '/settings',
         tab: 'contacts',
         done: hoursDone,
+        color: 'text-orange-600 bg-orange-100',
       },
     ];
   }, [services, clients, businessData, workingHours]);
@@ -181,7 +188,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
                   className={`shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${
                     step.done
                       ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400'
-                      : 'bg-primary/10 text-primary'
+                      : step.color
                   }`}
                 >
                   {step.done ? (

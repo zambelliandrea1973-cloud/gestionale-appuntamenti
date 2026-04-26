@@ -876,6 +876,7 @@
   "common": {
     "backToHome": "Înapoi la Acasă",
     "loading": "Se încarcă...",
+    "scrollDown": "Derulează în jos",
     "cancel": "Anulează",
     "confirm": "Confirmă",
     "delete": "Ștergeți",

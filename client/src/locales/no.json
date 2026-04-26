@@ -876,6 +876,7 @@
   "common": {
     "backToHome": "Tilbake til Hjem",
     "loading": "Laster...",
+    "scrollDown": "Bla nedover",
     "cancel": "Avbryt",
     "confirm": "Bekreft",
     "delete": "Slett",

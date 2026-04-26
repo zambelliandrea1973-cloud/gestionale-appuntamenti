@@ -914,6 +914,7 @@
   "common": {
     "backToHome": "Torna alla Home",
     "loading": "Caricamento...",
+    "scrollDown": "Scorri giù",
     "cancel": "Annulla",
     "confirm": "Conferma",
     "delete": "Elimina",

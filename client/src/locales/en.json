@@ -909,6 +909,7 @@
   "common": {
     "backToHome": "Back to Home",
     "loading": "Loading...",
+    "scrollDown": "Scroll down",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "delete": "Delete",

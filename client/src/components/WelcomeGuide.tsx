@@ -36,7 +36,7 @@ const STEP_KEYS = [
     buttonKey: 'welcomeGuide.steps.companyData.button',
     path: '/settings',
     tab: 'appearance',
-    color: 'text-white bg-gradient-to-br from-blue-500 to-blue-600 shadow-md shadow-blue-500/30',
+    color: 'text-blue-600 bg-blue-100',
   },
   {
     icon: Scissors,
@@ -45,7 +45,7 @@ const STEP_KEYS = [
     buttonKey: 'welcomeGuide.steps.services.button',
     path: '/settings',
     tab: 'app',
-    color: 'text-white bg-gradient-to-br from-purple-500 to-purple-600 shadow-md shadow-purple-500/30',
+    color: 'text-purple-600 bg-purple-100',
   },
   {
     icon: Users,
@@ -54,7 +54,7 @@ const STEP_KEYS = [
     buttonKey: 'welcomeGuide.steps.clients.button',
     path: '/clients',
     tab: null,
-    color: 'text-white bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-md shadow-emerald-500/30',
+    color: 'text-green-600 bg-green-100',
   },
   {
     icon: Clock,
@@ -63,7 +63,7 @@ const STEP_KEYS = [
     buttonKey: 'welcomeGuide.steps.workingHours.button',
     path: '/settings',
     tab: 'contacts',
-    color: 'text-white bg-gradient-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30',
+    color: 'text-orange-600 bg-orange-100',
   },
 ];
 
@@ -94,7 +94,7 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
 
   return (
     <Dialog open={open} onOpenChange={() => handleClose()}>
-      <DialogContent className="min-[1200px]:max-w-lg max-h-[90vh] overflow-y-auto welcome-guide-scroll relative">
+      <DialogContent className="min-[1200px]:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader className="text-center pb-2">
           <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-3">
             <Sparkles className="h-7 w-7 text-primary" />
