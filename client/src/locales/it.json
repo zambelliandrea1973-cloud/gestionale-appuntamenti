@@ -6917,17 +6917,12 @@
       "optionManualLabel": "Opzione 1 — Compila tu",
       "optionAILabel": "Opzione 2 — Lascia fare all'AI",
       "or": "OPPURE",
-      "confirmHide": {
-        "step1": {
-          "title": "Vuoi nascondere questa scheda?",
-          "description": "Questa scheda di configurazione non riapparirà più automaticamente all'avvio dell'app. Sicuro di voler procedere?",
-          "confirm": "Sì, continua"
-        },
-        "step2": {
-          "title": "Conferma definitiva",
-          "description": "Confermando, la scheda di configurazione manuale o guidata verrà nascosta in modo permanente. Potrai recuperarla solo dalle impostazioni avanzate. Vuoi davvero nasconderla?",
-          "confirm": "Sì, nascondi per sempre"
-        }
+      "hideUntilRestartHint": "Nascondi fino al prossimo riavvio dell'app",
+      "finishDialog": {
+        "title": "Configurazione completata!",
+        "description": "Hai completato tutti i passaggi della configurazione iniziale. Vuoi nascondere questi suggerimenti? Puoi scegliere se eliminarli per sempre oppure nasconderli solo fino al prossimo avvio dell'app.",
+        "permanent": "Elimina definitivamente i suggerimenti",
+        "session": "Nascondi fino al prossimo riavvio"
       }
     },
     "sampleBadge": "Esempio"

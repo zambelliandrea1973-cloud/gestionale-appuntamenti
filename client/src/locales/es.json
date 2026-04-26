@@ -6917,17 +6917,12 @@
       "or": "O",
       "allDone": "¡Todo listo, cerrar!",
       "stepDone": "Completado",
-      "confirmHide": {
-        "step1": {
-          "title": "¿Ocultar esta tarjeta?",
-          "description": "Esta tarjeta de configuración ya no aparecerá automáticamente al abrir la aplicación. ¿Seguro que quieres continuar?",
-          "confirm": "Sí, continuar"
-        },
-        "step2": {
-          "title": "Confirmación definitiva",
-          "description": "Al confirmar, la tarjeta de configuración manual o guiada se ocultará permanentemente. Solo podrás recuperarla desde la configuración avanzada. ¿De verdad quieres ocultarla?",
-          "confirm": "Sí, ocultar para siempre"
-        }
+      "hideUntilRestartHint": "Ocultar hasta el próximo reinicio de la aplicación",
+      "finishDialog": {
+        "title": "¡Configuración completada!",
+        "description": "Has completado todos los pasos de la configuración inicial. ¿Quieres ocultar estas sugerencias? Puedes eliminarlas para siempre o solo ocultarlas hasta el próximo arranque de la aplicación.",
+        "permanent": "Eliminar definitivamente las sugerencias",
+        "session": "Ocultar hasta el próximo reinicio"
       }
     },
     "sampleBadge": "Ejemplo"

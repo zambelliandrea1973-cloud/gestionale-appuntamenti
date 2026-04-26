@@ -6917,17 +6917,12 @@
       "or": "OR",
       "allDone": "All done, close",
       "stepDone": "Completed",
-      "confirmHide": {
-        "step1": {
-          "title": "Hide this card?",
-          "description": "This setup card will no longer appear automatically when you open the app. Are you sure you want to continue?",
-          "confirm": "Yes, continue"
-        },
-        "step2": {
-          "title": "Final confirmation",
-          "description": "By confirming, the manual or guided setup card will be permanently hidden. You'll only be able to bring it back from advanced settings. Do you really want to hide it?",
-          "confirm": "Yes, hide it forever"
-        }
+      "hideUntilRestartHint": "Hide until the next app restart",
+      "finishDialog": {
+        "title": "Setup complete!",
+        "description": "You've completed all the initial setup steps. Do you want to hide these suggestions? You can either remove them permanently or just hide them until the next time you open the app.",
+        "permanent": "Remove suggestions permanently",
+        "session": "Hide until next restart"
       }
     },
     "sampleBadge": "Sample"

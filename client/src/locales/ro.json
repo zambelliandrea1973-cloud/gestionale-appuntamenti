@@ -6917,17 +6917,12 @@
       "or": "SAU",
       "allDone": "Totul gata, închide",
       "stepDone": "Finalizat",
-      "confirmHide": {
-        "step1": {
-          "title": "Ascunzi acest card?",
-          "description": "Acest card de configurare nu va mai apărea automat la deschiderea aplicației. Sigur vrei să continui?",
-          "confirm": "Da, continuă"
-        },
-        "step2": {
-          "title": "Confirmare definitivă",
-          "description": "Prin confirmare, cardul de configurare manuală sau ghidată va fi ascuns permanent. Îl vei putea recupera doar din setările avansate. Chiar vrei să-l ascunzi?",
-          "confirm": "Da, ascunde pentru totdeauna"
-        }
+      "hideUntilRestartHint": "Ascunde până la următoarea repornire a aplicației",
+      "finishDialog": {
+        "title": "Configurare finalizată!",
+        "description": "Ai finalizat toți pașii de configurare inițială. Vrei să ascunzi aceste sugestii? Le poți elimina definitiv sau doar le ascunzi până la următoarea pornire a aplicației.",
+        "permanent": "Elimină definitiv sugestiile",
+        "session": "Ascunde până la următoarea repornire"
       }
     },
     "sampleBadge": "Exemplu"

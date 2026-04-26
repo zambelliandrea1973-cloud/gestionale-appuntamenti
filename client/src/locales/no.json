@@ -6917,17 +6917,12 @@
       "or": "ELLER",
       "allDone": "Alt er klart, lukk",
       "stepDone": "Fullført",
-      "confirmHide": {
-        "step1": {
-          "title": "Skjule dette kortet?",
-          "description": "Dette oppsettskortet vil ikke lenger vises automatisk når du åpner appen. Er du sikker på at du vil fortsette?",
-          "confirm": "Ja, fortsett"
-        },
-        "step2": {
-          "title": "Endelig bekreftelse",
-          "description": "Ved å bekrefte blir det manuelle eller veiledede oppsettskortet skjult permanent. Du kan bare hente det tilbake fra avanserte innstillinger. Vil du virkelig skjule det?",
-          "confirm": "Ja, skjul for alltid"
-        }
+      "hideUntilRestartHint": "Skjul til neste omstart av appen",
+      "finishDialog": {
+        "title": "Oppsett fullført!",
+        "description": "Du har fullført alle trinn i den første konfigurasjonen. Vil du skjule disse forslagene? Du kan enten fjerne dem permanent eller bare skjule dem til neste gang du åpner appen.",
+        "permanent": "Fjern forslagene permanent",
+        "session": "Skjul til neste omstart"
       }
     },
     "sampleBadge": "Eksempel"

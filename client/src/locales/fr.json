@@ -6917,17 +6917,12 @@
       "or": "OU",
       "allDone": "Tout est prêt, fermer",
       "stepDone": "Terminé",
-      "confirmHide": {
-        "step1": {
-          "title": "Masquer cette carte ?",
-          "description": "Cette carte de configuration ne s'affichera plus automatiquement à l'ouverture de l'application. Voulez-vous vraiment continuer ?",
-          "confirm": "Oui, continuer"
-        },
-        "step2": {
-          "title": "Confirmation définitive",
-          "description": "En confirmant, la carte de configuration manuelle ou guidée sera masquée définitivement. Vous ne pourrez la récupérer que depuis les paramètres avancés. Voulez-vous vraiment la masquer ?",
-          "confirm": "Oui, masquer pour toujours"
-        }
+      "hideUntilRestartHint": "Masquer jusqu'au prochain redémarrage de l'application",
+      "finishDialog": {
+        "title": "Configuration terminée !",
+        "description": "Vous avez terminé toutes les étapes de la configuration initiale. Voulez-vous masquer ces suggestions ? Vous pouvez les supprimer définitivement ou simplement les masquer jusqu'au prochain démarrage de l'application.",
+        "permanent": "Supprimer définitivement les suggestions",
+        "session": "Masquer jusqu'au prochain redémarrage"
       }
     },
     "sampleBadge": "Exemple"

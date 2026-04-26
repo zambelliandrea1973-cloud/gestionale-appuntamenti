@@ -6917,17 +6917,12 @@
       "or": "ODER",
       "allDone": "Alles erledigt, schließen",
       "stepDone": "Erledigt",
-      "confirmHide": {
-        "step1": {
-          "title": "Diese Karte ausblenden?",
-          "description": "Diese Einrichtungskarte wird beim Öffnen der App nicht mehr automatisch angezeigt. Möchtest du wirklich fortfahren?",
-          "confirm": "Ja, fortfahren"
-        },
-        "step2": {
-          "title": "Endgültige Bestätigung",
-          "description": "Mit der Bestätigung wird die manuelle oder geführte Einrichtungskarte dauerhaft ausgeblendet. Du kannst sie nur über die erweiterten Einstellungen wiederherstellen. Möchtest du sie wirklich ausblenden?",
-          "confirm": "Ja, dauerhaft ausblenden"
-        }
+      "hideUntilRestartHint": "Bis zum nächsten App-Neustart ausblenden",
+      "finishDialog": {
+        "title": "Einrichtung abgeschlossen!",
+        "description": "Du hast alle Schritte der Ersteinrichtung abgeschlossen. Möchtest du diese Vorschläge ausblenden? Du kannst sie endgültig entfernen oder nur bis zum nächsten Start der App ausblenden.",
+        "permanent": "Vorschläge endgültig entfernen",
+        "session": "Bis zum nächsten Neustart ausblenden"
       }
     },
     "sampleBadge": "Beispiel"

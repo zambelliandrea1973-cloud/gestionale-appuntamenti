@@ -51,9 +51,9 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [dismissing, setDismissing] = useState(false);
-  // Doppio consenso prima di nascondere il banner per sempre:
-  // step 0 = nessun dialog, step 1 = prima conferma, step 2 = seconda conferma.
-  const [confirmStep, setConfirmStep] = useState<0 | 1 | 2>(0);
+  // Dialogo finale "Tutto fatto" con due opzioni: nascondi per sempre
+  // oppure nascondi solo fino al prossimo riavvio dell'app.
+  const [showFinishDialog, setShowFinishDialog] = useState(false);
 
   const { data: services = [] } = useQuery<Array<{ id: number; isDemo?: boolean }>>({
     queryKey: ['/api/services'],
@@ -133,18 +133,21 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
     setLocation(path);
   };
 
-  // Avvia il flusso di doppio consenso: il banner NON sparisce automaticamente
-  // né per la sessione né in modo persistente finché entrambe le conferme non
-  // sono state date. Così l'utente non lo perde "per sbaglio" cliccando la X.
-  const requestDismiss = () => setConfirmStep(1);
+  // X = nasconde solo per la sessione corrente. Il banner riapparirà al prossimo
+  // riavvio dell'app perché la preferenza non viene persistita sul server.
+  const handleHideForSession = () => {
+    onDismiss();
+  };
 
-  const performDismiss = async () => {
+  // "Elimina definitivamente i suggerimenti" dal dialogo finale: chiama l'API
+  // che setta hideWelcomeGuide=true sul server, così il banner non riapparirà più.
+  const handleHidePermanently = async () => {
     setDismissing(true);
     try {
       await apiRequest('POST', '/api/hide-welcome-guide');
       queryClient.invalidateQueries({ queryKey: ['/api/user'] });
       queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
-      setConfirmStep(0);
+      setShowFinishDialog(false);
       onDismiss();
     } catch {
       toast({
@@ -180,11 +183,11 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={requestDismiss}
-            disabled={dismissing}
+            onClick={handleHideForSession}
             className="shrink-0 h-8 w-8"
             data-testid="button-dismiss-onboarding"
             aria-label={t('onboarding.banner.dismiss')}
+            title={t('onboarding.banner.hideUntilRestartHint')}
           >
             <X className="h-4 w-4" />
           </Button>
@@ -286,7 +289,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
             <Button
               variant="default"
               size="sm"
-              onClick={requestDismiss}
+              onClick={() => setShowFinishDialog(true)}
               disabled={dismissing}
               data-testid="button-finish-onboarding"
               className="gap-2"
@@ -298,65 +301,49 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         )}
       </CardContent>
 
-      {/* Doppio consenso prima di nascondere il banner per sempre. */}
+      {/* Dialogo finale: l'utente sceglie tra eliminare per sempre i suggerimenti
+          oppure nasconderli solo fino al prossimo riavvio dell'app. */}
       <AlertDialog
-        open={confirmStep === 1}
-        onOpenChange={(open) => !open && setConfirmStep(0)}
+        open={showFinishDialog}
+        onOpenChange={(open) => !open && !dismissing && setShowFinishDialog(false)}
       >
-        <AlertDialogContent data-testid="dialog-confirm-hide-1">
+        <AlertDialogContent data-testid="dialog-finish-onboarding">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {t('onboarding.banner.confirmHide.step1.title')}
+              {t('onboarding.banner.finishDialog.title')}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {t('onboarding.banner.confirmHide.step1.description')}
+              {t('onboarding.banner.finishDialog.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel data-testid="button-confirm-hide-1-cancel">
-              {t('common.cancel')}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={(e) => {
-                e.preventDefault();
-                setConfirmStep(2);
-              }}
-              data-testid="button-confirm-hide-1-continue"
-            >
-              {t('onboarding.banner.confirmHide.step1.confirm')}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      <AlertDialog
-        open={confirmStep === 2}
-        onOpenChange={(open) => !open && setConfirmStep(0)}
-      >
-        <AlertDialogContent data-testid="dialog-confirm-hide-2">
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t('onboarding.banner.confirmHide.step2.title')}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {t('onboarding.banner.confirmHide.step2.description')}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel data-testid="button-confirm-hide-2-cancel">
-              {t('common.cancel')}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={(e) => {
-                e.preventDefault();
-                performDismiss();
-              }}
+          <AlertDialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2">
+            <AlertDialogCancel
               disabled={dismissing}
-              data-testid="button-confirm-hide-2-confirm"
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              data-testid="button-finish-cancel"
             >
-              {t('onboarding.banner.confirmHide.step2.confirm')}
-            </AlertDialogAction>
+              {t('common.cancel')}
+            </AlertDialogCancel>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={dismissing}
+              onClick={() => {
+                setShowFinishDialog(false);
+                handleHideForSession();
+              }}
+              data-testid="button-finish-session"
+            >
+              {t('onboarding.banner.finishDialog.session')}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={dismissing}
+              onClick={handleHidePermanently}
+              data-testid="button-finish-permanent"
+            >
+              {t('onboarding.banner.finishDialog.permanent')}
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

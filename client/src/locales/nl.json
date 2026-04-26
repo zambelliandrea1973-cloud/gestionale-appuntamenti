@@ -6917,17 +6917,12 @@
       "or": "OF",
       "allDone": "Alles klaar, sluiten",
       "stepDone": "Voltooid",
-      "confirmHide": {
-        "step1": {
-          "title": "Deze kaart verbergen?",
-          "description": "Deze configuratiekaart verschijnt niet meer automatisch bij het openen van de app. Weet je zeker dat je wilt doorgaan?",
-          "confirm": "Ja, doorgaan"
-        },
-        "step2": {
-          "title": "Definitieve bevestiging",
-          "description": "Door te bevestigen wordt de handmatige of begeleide configuratiekaart permanent verborgen. Je kunt hem alleen terughalen via de geavanceerde instellingen. Wil je hem echt verbergen?",
-          "confirm": "Ja, voorgoed verbergen"
-        }
+      "hideUntilRestartHint": "Verberg tot de volgende herstart van de app",
+      "finishDialog": {
+        "title": "Configuratie voltooid!",
+        "description": "Je hebt alle stappen van de eerste configuratie voltooid. Wil je deze suggesties verbergen? Je kunt ze permanent verwijderen of alleen verbergen tot de volgende keer dat je de app opent.",
+        "permanent": "Suggesties definitief verwijderen",
+        "session": "Verberg tot de volgende herstart"
       }
     },
     "sampleBadge": "Voorbeeld"
