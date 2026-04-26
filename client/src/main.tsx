@@ -11,7 +11,7 @@ import "./lib/i18n";
 
 // CRITICAL: Force service worker update and cache purge on every page load
 // Version 11 - Fix session mixing and stale data on mobile
-const SW_VERSION = 'v11-session-fix';
+const SW_VERSION = 'v12-onboarding-fix';
 const LAST_SW_VERSION_KEY = 'last-sw-version';
 
 async function forceServiceWorkerRefresh() {
