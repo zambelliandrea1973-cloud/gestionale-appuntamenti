@@ -6787,7 +6787,11 @@
       "title": "Sett opp arbeidsområdet",
       "subtitle": "{{completed}} av {{total}} trinn fullført. Eksempeldata fjernes automatisk når du legger til dine egne.",
       "dismiss": "Skjul denne veiledningen",
-      "takeTour": "Ta den veiledede omvisningen",
+      "takeTour": "Ta AI-veiledet omvisning",
+      "takeTourDesc": "Veiledet prosess: svar på noen spørsmål og AI foreslår tjenester og innstillinger",
+      "optionManualLabel": "Alternativ 1 — Fyll ut selv",
+      "optionAILabel": "Alternativ 2 — La AI gjøre det",
+      "or": "ELLER",
       "allDone": "Alt er klart, lukk",
       "stepDone": "Fullført"
     },

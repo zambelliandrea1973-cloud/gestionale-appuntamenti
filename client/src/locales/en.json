@@ -6787,7 +6787,11 @@
       "title": "Set up your workspace",
       "subtitle": "{{completed}} of {{total}} steps completed. Sample data is removed automatically when you add your own.",
       "dismiss": "Hide this guide",
-      "takeTour": "Take the guided tour",
+      "takeTour": "Take the AI-guided tour",
+      "takeTourDesc": "Guided process: answer a few questions and AI suggests services and settings",
+      "optionManualLabel": "Option 1 — Fill it in yourself",
+      "optionAILabel": "Option 2 — Let the AI do it",
+      "or": "OR",
       "allDone": "All done, close",
       "stepDone": "Completed"
     },

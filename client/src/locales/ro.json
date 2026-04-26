@@ -6787,7 +6787,11 @@
       "title": "Configurează-ți spațiul de lucru",
       "subtitle": "{{completed}} din {{total}} pași completați. Datele demonstrative sunt eliminate automat când adaugi propriile tale.",
       "dismiss": "Ascunde acest ghid",
-      "takeTour": "Pornește turul ghidat",
+      "takeTour": "Pornește turul ghidat cu AI",
+      "takeTourDesc": "Proces asistat: răspunde la câteva întrebări și AI sugerează servicii și setări",
+      "optionManualLabel": "Opțiunea 1 — Completează singur",
+      "optionAILabel": "Opțiunea 2 — Lasă AI să facă",
+      "or": "SAU",
       "allDone": "Totul gata, închide",
       "stepDone": "Finalizat"
     },

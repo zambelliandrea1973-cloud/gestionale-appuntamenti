@@ -172,7 +172,11 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {t('onboarding.banner.optionManualLabel')}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
@@ -217,20 +221,43 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
               </button>
             );
           })}
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 pt-1">
-          <Button
-            variant="outline"
-            size="sm"
+        <div className="relative flex items-center py-1" aria-hidden="true">
+          <div className="flex-grow border-t border-muted" />
+          <span className="mx-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {t('onboarding.banner.or')}
+          </span>
+          <div className="flex-grow border-t border-muted" />
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {t('onboarding.banner.optionAILabel')}
+          </p>
+          <button
             onClick={() => setLocation('/onboarding')}
             data-testid="button-take-tour"
-            className="gap-2"
+            className="group w-full flex items-center gap-3 rounded-md border p-3 text-left transition hover:border-primary/50 hover:bg-primary/5 bg-background"
           >
-            <Compass className="h-4 w-4" />
-            {t('onboarding.banner.takeTour')}
-          </Button>
-          {completed === total && (
+            <div className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center text-indigo-600 bg-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300">
+              <Compass className="h-4 w-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">
+                {t('onboarding.banner.takeTour')}
+              </p>
+              <p className="text-xs text-muted-foreground truncate">
+                {t('onboarding.banner.takeTourDesc')}
+              </p>
+            </div>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0" />
+          </button>
+        </div>
+
+        {completed === total && (
+          <div className="flex flex-wrap gap-2 pt-1">
             <Button
               variant="default"
               size="sm"
@@ -242,8 +269,8 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
               <CheckCircle2 className="h-4 w-4" />
               {t('onboarding.banner.allDone')}
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

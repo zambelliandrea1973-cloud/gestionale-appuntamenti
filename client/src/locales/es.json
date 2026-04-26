@@ -6787,7 +6787,11 @@
       "title": "Configura tu espacio",
       "subtitle": "{{completed}} de {{total}} pasos completados. Los datos de ejemplo se eliminan automáticamente cuando agregas los tuyos.",
       "dismiss": "Ocultar esta guía",
-      "takeTour": "Hacer el tour guiado",
+      "takeTour": "Hacer el tour guiado con IA",
+      "takeTourDesc": "Proceso asistido: responde a unas preguntas y la IA sugiere servicios y ajustes",
+      "optionManualLabel": "Opción 1 — Rellénalo tú",
+      "optionAILabel": "Opción 2 — Deja que lo haga la IA",
+      "or": "O",
       "allDone": "¡Todo listo, cerrar!",
       "stepDone": "Completado"
     },

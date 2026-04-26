@@ -6787,7 +6787,11 @@
       "title": "Stel je werkruimte in",
       "subtitle": "{{completed}} van {{total}} stappen voltooid. Voorbeeldgegevens worden automatisch verwijderd zodra je je eigen gegevens toevoegt.",
       "dismiss": "Deze gids verbergen",
-      "takeTour": "Volg de rondleiding",
+      "takeTour": "Volg de AI-rondleiding",
+      "takeTourDesc": "Begeleid proces: beantwoord een paar vragen en AI stelt diensten en instellingen voor",
+      "optionManualLabel": "Optie 1 — Vul zelf in",
+      "optionAILabel": "Optie 2 — Laat AI het doen",
+      "or": "OF",
       "allDone": "Alles klaar, sluiten",
       "stepDone": "Voltooid"
     },

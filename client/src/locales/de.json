@@ -6787,7 +6787,11 @@
       "title": "Richte deinen Arbeitsbereich ein",
       "subtitle": "{{completed}} von {{total}} Schritten erledigt. Die Beispieldaten werden automatisch entfernt, sobald du eigene Daten hinzufügst.",
       "dismiss": "Diese Anleitung ausblenden",
-      "takeTour": "Geführte Tour starten",
+      "takeTour": "KI-geführte Tour starten",
+      "takeTourDesc": "Geführter Prozess: Beantworten Sie ein paar Fragen und die KI schlägt Dienstleistungen und Einstellungen vor",
+      "optionManualLabel": "Option 1 — Selbst ausfüllen",
+      "optionAILabel": "Option 2 — Die KI machen lassen",
+      "or": "ODER",
       "allDone": "Alles erledigt, schließen",
       "stepDone": "Erledigt"
     },

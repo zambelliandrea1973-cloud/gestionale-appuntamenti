@@ -6787,9 +6787,13 @@
       "title": "Configura il tuo gestionale",
       "subtitle": "{{completed}} di {{total}} passaggi completati. I dati di esempio verranno rimossi automaticamente quando inserirai i tuoi.",
       "dismiss": "Nascondi questa guida",
-      "takeTour": "Fai il tour guidato",
+      "takeTour": "Fai il tour guidato con AI",
+      "takeTourDesc": "Procedura assistita: rispondi a poche domande e l'AI ti suggerisce servizi e impostazioni",
       "allDone": "Tutto pronto, chiudi",
-      "stepDone": "Completato"
+      "stepDone": "Completato",
+      "optionManualLabel": "Opzione 1 — Compila tu",
+      "optionAILabel": "Opzione 2 — Lascia fare all'AI",
+      "or": "OPPURE"
     },
     "sampleBadge": "Esempio"
   }
