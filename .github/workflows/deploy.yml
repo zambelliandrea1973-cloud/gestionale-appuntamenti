@@ -1,0 +1,23 @@
+name: Deploy to Sliplane
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Sliplane
+        env:
+          SLIPLANE_USERNAME: ${{ secrets.SLIPLANE_USERNAME }}
+          SLIPLANE_TOKEN: ${{ secrets.SLIPLANE_TOKEN }}
+        run: |
+          git push https://${SLIPLANE_USERNAME}:${SLIPLANE_TOKEN}@git.sliplane.app/zambelliandrea1973-cloud/gestionale-appuntamenti.git HEAD:main
