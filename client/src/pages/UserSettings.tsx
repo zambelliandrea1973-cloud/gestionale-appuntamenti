@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
-import { Settings, Palette, Mail, Phone, Building, Globe } from "lucide-react";
+import { Settings, Palette, Mail, Phone, Building, Globe, Hash } from "lucide-react";
 import ColorEditor from "@/components/ColorEditor";
 
 interface UserSettings {
@@ -40,6 +40,8 @@ export default function UserSettings() {
   const [settings, setSettings] = useState<UserSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [assignmentCode, setAssignmentCode] = useState('');
+  const [savingCode, setSavingCode] = useState(false);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -75,8 +77,27 @@ export default function UserSettings() {
       }
     };
 
+    const loadAssignmentCode = async () => {
+      if (user?.type !== 'staff' && user?.type !== 'admin') return;
+      try {
+        const response = await fetch(`/api/user-with-license`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.assignmentCode) {
+            setAssignmentCode(data.assignmentCode);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load assignment code:', error);
+      }
+    };
+
     if (user) {
       loadUserSettings();
+      loadAssignmentCode();
     }
   }, [user]);
 
@@ -262,6 +283,62 @@ export default function UserSettings() {
     }
   };
 
+  const saveAssignmentCode = async () => {
+    if (!user) return;
+    const code = assignmentCode.trim();
+    if (!code) {
+      toast({
+        title: t('common.error'),
+        description: t('userSettings.toast.assignmentCodeInvalid'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!/^[a-zA-Z0-9]{4,10}$/.test(code)) {
+      toast({
+        title: t('common.error'),
+        description: t('userSettings.toast.assignmentCodeInvalid'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    setSavingCode(true);
+    try {
+      const response = await fetch('/api/user/assignment-code', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ assignmentCode: code }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAssignmentCode(data.assignmentCode);
+        toast({
+          title: t('userSettings.toast.assignmentCodeSavedTitle'),
+          description: t('userSettings.toast.assignmentCodeSavedDesc'),
+        });
+      } else {
+        const isDuplicate = response.status === 409;
+        toast({
+          title: t('common.error'),
+          description: isDuplicate
+            ? t('userSettings.toast.assignmentCodeDuplicate')
+            : t('userSettings.toast.assignmentCodeErrorDesc'),
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Failed to save assignment code:', error);
+      toast({
+        title: t('common.error'),
+        description: t('userSettings.toast.assignmentCodeErrorDesc'),
+        variant: 'destructive',
+      });
+    } finally {
+      setSavingCode(false);
+    }
+  };
+
   const updateSetting = (field: keyof UserSettings, value: string) => {
     if (!settings) return;
     setSettings({
@@ -319,6 +396,43 @@ export default function UserSettings() {
         </TabsList>
 
         <TabsContent value="branding" className="space-y-6">
+          {(user?.type === 'staff' || user?.type === 'admin') && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5" />
+                  {t('userSettings.branding.assignmentCodeLabel')}
+                </CardTitle>
+                <CardDescription>
+                  {t('userSettings.branding.assignmentCodeDesc')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-3 items-end">
+                  <div className="flex-1 space-y-2">
+                    <Label htmlFor="assignmentCode">{t('userSettings.branding.assignmentCodeLabel')}</Label>
+                    <Input
+                      id="assignmentCode"
+                      value={assignmentCode}
+                      onChange={(e) => setAssignmentCode(e.target.value.toUpperCase())}
+                      placeholder={t('userSettings.branding.assignmentCodePlaceholder')}
+                      maxLength={10}
+                      className="font-mono text-base uppercase"
+                    />
+                  </div>
+                  <Button
+                    onClick={saveAssignmentCode}
+                    disabled={savingCode}
+                    className="bg-primary hover:bg-primary/90 text-white"
+                  >
+                    {savingCode
+                      ? t('userSettings.branding.assignmentCodeSaving')
+                      : t('userSettings.branding.assignmentCodeSave')}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
           <Card>
             <CardHeader>
               <CardTitle>{t('userSettings.branding.cardTitle')}</CardTitle>

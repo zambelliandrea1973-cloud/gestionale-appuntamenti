@@ -1312,4 +1312,50 @@ router.post("/api/currency-settings", async (req, res) => {
     }
   });
 
+// Endpoint per aggiornare il codice identificativo del professionista (assignmentCode)
+router.patch("/api/user/assignment-code", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Non autenticato" });
+  }
+
+  const user = req.user as any;
+
+  if (user.type !== 'staff' && user.type !== 'admin') {
+    return res.status(403).json({ error: "Accesso consentito solo a staff e admin" });
+  }
+
+  const { assignmentCode } = req.body;
+
+  if (!assignmentCode) {
+    return res.status(400).json({ error: "Codice identificativo richiesto" });
+  }
+
+  if (!/^[a-zA-Z0-9]{4,10}$/.test(assignmentCode)) {
+    return res.status(400).json({ error: "Il codice deve contenere solo caratteri alfanumerici (4-10 caratteri)" });
+  }
+
+  const upperCode = assignmentCode.toUpperCase();
+
+  try {
+    const existing = await storage.getUserByAssignmentCode(upperCode);
+    if (existing && existing.id !== user.id) {
+      return res.status(409).json({ error: "Codice già in uso da un altro professionista" });
+    }
+
+    const updated = await storage.updateUser(user.id, { assignmentCode: upperCode });
+    if (!updated) {
+      return res.status(500).json({ error: "Impossibile aggiornare il codice" });
+    }
+
+    logger.debug(`✅ [PATCH /api/user/assignment-code] Codice aggiornato per utente ${user.id}: ${upperCode}`);
+    res.json({ success: true, assignmentCode: upperCode });
+  } catch (error: any) {
+    if (error?.code === '23505') {
+      return res.status(409).json({ error: "Codice già in uso da un altro professionista" });
+    }
+    console.error(`❌ [PATCH /api/user/assignment-code] Errore:`, error);
+    res.status(500).json({ error: "Errore interno del server" });
+  }
+});
+
 export default router;

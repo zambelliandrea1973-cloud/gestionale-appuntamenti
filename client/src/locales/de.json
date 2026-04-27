@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BLAUER KNOPF",
       "savingLabel": "Speichern...",
       "creatingLabel": "Erstellen...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Identifikationscode",
+      "assignmentCodeDesc": "Wird als Präfix in Ihren Kundencodes verwendet (z.B. BRUNA42-001)",
+      "assignmentCodePlaceholder": "z.B. BRUNA42",
+      "assignmentCodeSave": "Code speichern",
+      "assignmentCodeSaving": "Speichern..."
     },
     "contact": {
       "cardTitle": "Kontaktinformationen",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Thema kann nicht gespeichert werden. Bitte erneut versuchen.",
       "contactsSavedTitle": "Kontakte gespeichert",
       "contactsSavedDesc": "Kontaktinformationen wurden gespeichert!",
-      "contactsErrorDesc": "Kontakte können nicht gespeichert werden. Bitte erneut versuchen."
+      "contactsErrorDesc": "Kontakte können nicht gespeichert werden. Bitte erneut versuchen.",
+      "assignmentCodeSavedTitle": "Code gespeichert",
+      "assignmentCodeSavedDesc": "Der Identifikationscode wurde erfolgreich aktualisiert.",
+      "assignmentCodeErrorDesc": "Code konnte nicht gespeichert werden. Bitte erneut versuchen.",
+      "assignmentCodeDuplicate": "Code wird bereits von einem anderen Fachmann verwendet.",
+      "assignmentCodeInvalid": "Code darf nur alphanumerische Zeichen enthalten (4-10 Zeichen)."
     }
   },
   "staff": {

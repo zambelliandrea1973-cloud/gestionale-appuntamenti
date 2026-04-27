@@ -17,6 +17,7 @@ export interface UserWithLicense {
   type: 'user' | 'staff' | 'admin' | 'customer' | 'client'; // Tipi di account possibili
   firstName: string | null;
   lastName: string | null;
+  assignmentCode: string | null;
   licenseInfo: LicenseInfo;
 }
 

@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BLUE BUTTON",
       "savingLabel": "Saving...",
       "creatingLabel": "Creating...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Identification Code",
+      "assignmentCodeDesc": "Used as prefix in your client codes (e.g. BRUNA42-001)",
+      "assignmentCodePlaceholder": "e.g. BRUNA42",
+      "assignmentCodeSave": "Save code",
+      "assignmentCodeSaving": "Saving..."
     },
     "contact": {
       "cardTitle": "Contact Information",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Unable to save theme. Please try again.",
       "contactsSavedTitle": "Contacts saved",
       "contactsSavedDesc": "Contact information has been saved!",
-      "contactsErrorDesc": "Unable to save contacts. Please try again."
+      "contactsErrorDesc": "Unable to save contacts. Please try again.",
+      "assignmentCodeSavedTitle": "Code saved",
+      "assignmentCodeSavedDesc": "The identification code has been updated successfully.",
+      "assignmentCodeErrorDesc": "Unable to save the code. Please try again.",
+      "assignmentCodeDuplicate": "Code already in use by another professional.",
+      "assignmentCodeInvalid": "Code must contain only alphanumeric characters (4-10 characters)."
     }
   },
   "staff": {

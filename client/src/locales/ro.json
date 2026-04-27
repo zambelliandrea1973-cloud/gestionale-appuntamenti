@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BUTON ALBASTRU",
       "savingLabel": "Se salvează...",
       "creatingLabel": "Se creează...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Cod de identificare",
+      "assignmentCodeDesc": "Folosit ca prefix în codurile clienților dvs. (ex. BRUNA42-001)",
+      "assignmentCodePlaceholder": "ex. BRUNA42",
+      "assignmentCodeSave": "Salvează codul",
+      "assignmentCodeSaving": "Se salvează..."
     },
     "contact": {
       "cardTitle": "Informații de contact",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Imposibil de salvat tema. Încearcă din nou.",
       "contactsSavedTitle": "Contacte salvate",
       "contactsSavedDesc": "Informațiile de contact au fost salvate!",
-      "contactsErrorDesc": "Imposibil de salvat contactele. Încearcă din nou."
+      "contactsErrorDesc": "Imposibil de salvat contactele. Încearcă din nou.",
+      "assignmentCodeSavedTitle": "Cod salvat",
+      "assignmentCodeSavedDesc": "Codul de identificare a fost actualizat cu succes.",
+      "assignmentCodeErrorDesc": "Imposibil de salvat codul. Încercați din nou.",
+      "assignmentCodeDuplicate": "Codul este deja folosit de alt profesionist.",
+      "assignmentCodeInvalid": "Codul poate conține doar caractere alfanumerice (4-10 caractere)."
     }
   },
   "staff": {

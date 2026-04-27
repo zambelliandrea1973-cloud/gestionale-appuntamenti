@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BLÅ KNAPP",
       "savingLabel": "Lagrer...",
       "creatingLabel": "Oppretter...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Identifikasjonskode",
+      "assignmentCodeDesc": "Brukes som prefiks i klientkodene dine (f.eks. BRUNA42-001)",
+      "assignmentCodePlaceholder": "f.eks. BRUNA42",
+      "assignmentCodeSave": "Lagre kode",
+      "assignmentCodeSaving": "Lagrer..."
     },
     "contact": {
       "cardTitle": "Kontaktinformasjon",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Kunne ikke lagre temaet. Prøv igjen.",
       "contactsSavedTitle": "Kontakter lagret",
       "contactsSavedDesc": "Kontaktinformasjonen er lagret!",
-      "contactsErrorDesc": "Kunne ikke lagre kontaktene. Prøv igjen."
+      "contactsErrorDesc": "Kunne ikke lagre kontaktene. Prøv igjen.",
+      "assignmentCodeSavedTitle": "Kode lagret",
+      "assignmentCodeSavedDesc": "Identifikasjonskoden ble oppdatert.",
+      "assignmentCodeErrorDesc": "Kan ikke lagre koden. Prøv igjen.",
+      "assignmentCodeDuplicate": "Koden brukes allerede av en annen fagperson.",
+      "assignmentCodeInvalid": "Koden kan bare inneholde alfanumeriske tegn (4-10 tegn)."
     }
   },
   "staff": {

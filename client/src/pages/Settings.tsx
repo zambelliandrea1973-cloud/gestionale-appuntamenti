@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   Dialog,
   DialogContent,
@@ -15,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles, Hash } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -36,6 +37,8 @@ export default function Settings() {
   const { user } = useUserWithLicense(); // Ottiene i dati dell'utente corrente incluso il tipo
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("app");
+  const [assignmentCode, setAssignmentCode] = useState('');
+  const [savingCode, setSavingCode] = useState(false);
   // Se l'utente è arrivato qui dal wizard AI con ?returnTo=/onboarding,
   // mostriamo un banner che lo guida al ritorno automatico dopo il salvataggio.
   const [returnTo, setReturnTo] = useState<string | null>(null);
@@ -75,6 +78,60 @@ export default function Settings() {
   useEffect(() => {
     console.log("🔧 SETTINGS: Tab attualmente attiva:", activeTab);
   }, [activeTab]);
+
+  // Carica il codice identificativo dall'utente corrente
+  useEffect(() => {
+    if (user && (user.type === 'staff' || user.type === 'admin') && user.assignmentCode) {
+      setAssignmentCode(user.assignmentCode);
+    }
+  }, [user]);
+
+  const saveAssignmentCode = async () => {
+    const code = assignmentCode.trim();
+    if (!code || !/^[a-zA-Z0-9]{4,10}$/.test(code)) {
+      toast({
+        title: t('common.error', 'Errore'),
+        description: t('userSettings.toast.assignmentCodeInvalid'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    setSavingCode(true);
+    try {
+      const response = await fetch('/api/user/assignment-code', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ assignmentCode: code }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAssignmentCode(data.assignmentCode);
+        toast({
+          title: t('userSettings.toast.assignmentCodeSavedTitle'),
+          description: t('userSettings.toast.assignmentCodeSavedDesc'),
+        });
+      } else {
+        const isDuplicate = response.status === 409;
+        toast({
+          title: t('common.error', 'Errore'),
+          description: isDuplicate
+            ? t('userSettings.toast.assignmentCodeDuplicate')
+            : t('userSettings.toast.assignmentCodeErrorDesc'),
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Failed to save assignment code:', error);
+      toast({
+        title: t('common.error', 'Errore'),
+        description: t('userSettings.toast.assignmentCodeErrorDesc'),
+        variant: 'destructive',
+      });
+    } finally {
+      setSavingCode(false);
+    }
+  };
 
   // Verifico se l'utente è un amministratore
   const isAdmin = user?.type === 'admin';
@@ -368,29 +425,67 @@ export default function Settings() {
         </TabsContent>
         
         <TabsContent value="appearance">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Brush className="mr-2 h-5 w-5" />
-                {t('settings.appearanceTitle', 'Identità Aziendale')}
-              </CardTitle>
-              <CardDescription>
-                {t('settings.appearanceDesc', 'Personalizza l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Questa impostazione si applicherà sia all\'app principale che all\'app cliente.')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <AppIconUploader onSuccess={() => {
-                toast({
-                  title: t('settingsPage.iconUpdated'),
-                  description: t('settingsPage.iconUpdatedDescription'),
-                });
-              }} />
-              
-              <CompanyNameEditor />
+          <div className="space-y-6">
+            {(user?.type === 'staff' || user?.type === 'admin') && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Hash className="mr-2 h-5 w-5" />
+                    {t('userSettings.branding.assignmentCodeLabel')}
+                  </CardTitle>
+                  <CardDescription>
+                    {t('userSettings.branding.assignmentCodeDesc')}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-3 items-end">
+                    <div className="flex-1 space-y-2">
+                      <Label htmlFor="assignmentCode">{t('userSettings.branding.assignmentCodeLabel')}</Label>
+                      <Input
+                        id="assignmentCode"
+                        value={assignmentCode}
+                        onChange={(e) => setAssignmentCode(e.target.value.toUpperCase())}
+                        placeholder={t('userSettings.branding.assignmentCodePlaceholder')}
+                        maxLength={10}
+                        className="font-mono text-base uppercase"
+                      />
+                    </div>
+                    <Button
+                      onClick={saveAssignmentCode}
+                      disabled={savingCode}
+                    >
+                      {savingCode
+                        ? t('userSettings.branding.assignmentCodeSaving')
+                        : t('userSettings.branding.assignmentCodeSave')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Brush className="mr-2 h-5 w-5" />
+                  {t('settings.appearanceTitle', 'Identità Aziendale')}
+                </CardTitle>
+                <CardDescription>
+                  {t('settings.appearanceDesc', 'Personalizza l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Questa impostazione si applicherà sia all\'app principale che all\'app cliente.')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <AppIconUploader onSuccess={() => {
+                  toast({
+                    title: t('settingsPage.iconUpdated'),
+                    description: t('settingsPage.iconUpdatedDescription'),
+                  });
+                }} />
+                
+                <CompanyNameEditor />
 
-              <CompanyBusinessDataEditor />
-            </CardContent>
-          </Card>
+                <CompanyBusinessDataEditor />
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="security">

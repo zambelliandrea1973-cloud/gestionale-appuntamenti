@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BOTÓN AZUL",
       "savingLabel": "Guardando...",
       "creatingLabel": "Creando...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Código identificativo",
+      "assignmentCodeDesc": "Usado como prefijo en los códigos de sus clientes (p. ej. BRUNA42-001)",
+      "assignmentCodePlaceholder": "p. ej. BRUNA42",
+      "assignmentCodeSave": "Guardar código",
+      "assignmentCodeSaving": "Guardando..."
     },
     "contact": {
       "cardTitle": "Información de contacto",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "No se puede guardar el tema. Inténtalo de nuevo.",
       "contactsSavedTitle": "Contactos guardados",
       "contactsSavedDesc": "¡La información de contacto se ha guardado!",
-      "contactsErrorDesc": "No se pueden guardar los contactos. Inténtalo de nuevo."
+      "contactsErrorDesc": "No se pueden guardar los contactos. Inténtalo de nuevo.",
+      "assignmentCodeSavedTitle": "Código guardado",
+      "assignmentCodeSavedDesc": "El código identificativo ha sido actualizado con éxito.",
+      "assignmentCodeErrorDesc": "No se pudo guardar el código. Inténtelo de nuevo.",
+      "assignmentCodeDuplicate": "El código ya está en uso por otro profesional.",
+      "assignmentCodeInvalid": "El código solo puede contener caracteres alfanuméricos (4-10 caracteres)."
     }
   },
   "staff": {

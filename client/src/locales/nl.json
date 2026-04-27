@@ -3840,7 +3840,12 @@
       "blueButton": "💾 BLAUWE KNOP",
       "savingLabel": "Opslaan...",
       "creatingLabel": "Maken...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Identificatiecode",
+      "assignmentCodeDesc": "Gebruikt als prefix in uw klantcodes (bijv. BRUNA42-001)",
+      "assignmentCodePlaceholder": "bijv. BRUNA42",
+      "assignmentCodeSave": "Code opslaan",
+      "assignmentCodeSaving": "Opslaan..."
     },
     "contact": {
       "cardTitle": "Contactgegevens",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Kan thema niet opslaan. Probeer het opnieuw.",
       "contactsSavedTitle": "Contacten opgeslagen",
       "contactsSavedDesc": "Contactgegevens zijn opgeslagen!",
-      "contactsErrorDesc": "Kan contacten niet opslaan. Probeer het opnieuw."
+      "contactsErrorDesc": "Kan contacten niet opslaan. Probeer het opnieuw.",
+      "assignmentCodeSavedTitle": "Code opgeslagen",
+      "assignmentCodeSavedDesc": "De identificatiecode is succesvol bijgewerkt.",
+      "assignmentCodeErrorDesc": "Kan de code niet opslaan. Probeer het opnieuw.",
+      "assignmentCodeDuplicate": "Code is al in gebruik door een andere professional.",
+      "assignmentCodeInvalid": "Code mag alleen alfanumerieke tekens bevatten (4-10 tekens)."
     }
   },
   "staff": {

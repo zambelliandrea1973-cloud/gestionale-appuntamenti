@@ -469,7 +469,7 @@ export const users = pgTable("users", {
   role: text("role").default("staff").notNull(), // admin, staff, client
   clientId: integer("client_id"), // Solo per utenti di tipo client
   type: text("type").default("staff").notNull(), // staff, client
-  assignmentCode: text("assignment_code"), // Codice per assegnare clienti a questo account
+  assignmentCode: text("assignment_code"), // Codice per assegnare clienti a questo account (unique index applied at DB level)
   referralCode: text("referral_code"), // Codice referral per commissioni tra professionisti
   referredBy: integer("referred_by"), // ID dell'utente sponsor che ha invitato questo utente
   iban: text("iban"), // IBAN per pagamenti commissioni staff

@@ -3840,7 +3840,12 @@
       "blueButton": "💾 СИНЯЯ КНОПКА",
       "savingLabel": "Сохранение...",
       "creatingLabel": "Создание...",
-      "logoUrlPlaceholder": "https://example.com/logo.png"
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "assignmentCodeLabel": "Идентификационный код",
+      "assignmentCodeDesc": "Используется как префикс в кодах ваших клиентов (напр. BRUNA42-001)",
+      "assignmentCodePlaceholder": "напр. BRUNA42",
+      "assignmentCodeSave": "Сохранить код",
+      "assignmentCodeSaving": "Сохранение..."
     },
     "contact": {
       "cardTitle": "Контактная информация",
@@ -3890,7 +3895,12 @@
       "themeErrorDesc": "Не удалось сохранить тему. Попробуйте снова.",
       "contactsSavedTitle": "Контакты сохранены",
       "contactsSavedDesc": "Контактные данные сохранены!",
-      "contactsErrorDesc": "Не удалось сохранить контакты. Попробуйте снова."
+      "contactsErrorDesc": "Не удалось сохранить контакты. Попробуйте снова.",
+      "assignmentCodeSavedTitle": "Код сохранён",
+      "assignmentCodeSavedDesc": "Идентификационный код успешно обновлён.",
+      "assignmentCodeErrorDesc": "Не удалось сохранить код. Попробуйте ещё раз.",
+      "assignmentCodeDuplicate": "Код уже используется другим специалистом.",
+      "assignmentCodeInvalid": "Код может содержать только буквенно-цифровые символы (4-10 символов)."
     }
   },
   "staff": {
