@@ -412,16 +412,27 @@ router.post('/upgrade-to-staff', async (req, res) => {
       expiresAt
     });
 
-    // Aggiorna anche users.type e users.role a 'staff' (così l'UI riconosce lo Staff correttamente)
+    // Genera assignmentCode se l'utente non ne ha già uno.
+    // Senza questo codice il filtro clienti restituisce sempre [] per gli staff.
+    let assignmentCode = user.assignmentCode || null;
+    if (!assignmentCode) {
+      const alphanumUsername = (user.username || '').replace(/[^a-zA-Z0-9]/g, '');
+      const prefix = alphanumUsername.substring(0, 3).toUpperCase().padEnd(3, 'X');
+      const paddedId = String(userId).padStart(4, '0');
+      assignmentCode = `${prefix}${paddedId}`;
+    }
+
+    // Aggiorna users.type, users.role e (se mancante) users.assignmentCode
     await db.update(users)
-      .set({ type: 'staff', role: 'staff' })
+      .set({ type: 'staff', role: 'staff', assignmentCode })
       .where(eq(users.id, userId));
 
     res.json({
       success: true,
       message: `Utente ${user.username} promosso a Staff (accesso gratuito per 10 anni)`,
       username: user.username,
-      expiresAt
+      expiresAt,
+      assignmentCode
     });
   } catch (error: any) {
     console.error("Errore nell'upgrade a Staff:", error);

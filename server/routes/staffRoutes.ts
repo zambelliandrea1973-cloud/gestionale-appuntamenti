@@ -183,6 +183,15 @@ export default function setupStaffRoutes(app: Express) {
           // Staff e Admin hanno type uguale al role
           updateData.type = role;
         }
+
+        // Se si promuove a staff e l'utente non ha ancora un assignmentCode,
+        // generane uno automaticamente (necessario per la visibilità dei clienti)
+        if (role === 'staff' && !user.assignmentCode) {
+          const alphanumUsername = (user.username || '').replace(/[^a-zA-Z0-9]/g, '');
+          const prefix = alphanumUsername.substring(0, 3).toUpperCase().padEnd(3, 'X');
+          const paddedId = String(userId).padStart(4, '0');
+          updateData.assignmentCode = `${prefix}${paddedId}`;
+        }
       }
       
       // Verifica che ci sia almeno un campo da aggiornare
