@@ -15,22 +15,33 @@ git log --oneline -5
 
 ### 🚀 Deploy a Sliplane
 
-#### Opzione 1: Se tutto è già committato
+> **⚠️ IMPORTANTE - Limitazione Replit**: L'ambiente Replit blocca le connessioni in uscita verso `git.sliplane.app`.  
+> Il comando `git push sliplane main` **deve essere eseguito da un computer locale** (non da Replit).  
+> In alternativa, usa il pulsante "Redeploy" nella dashboard Sliplane.
+
+#### Opzione 1: Push diretto a Sliplane (da macchina locale)
 ```bash
-# Push diretto a Sliplane
-git push origin main
+# Il remote "sliplane" è già configurato nel repo
+# URL: https://git.sliplane.app/zambelliandrea1973-cloud/gestionale-appuntamenti.git
+
+git push sliplane main
 ```
 
-#### Opzione 2: Se ci sono modifiche da committare
+#### Opzione 2: Rideploy manuale via dashboard Sliplane
+1. Vai su https://sliplane.io → apri il tuo servizio
+2. Cerca il pulsante **"Redeploy"** o **"Deploy"**
+3. Conferma il rideploy
+
+#### Opzione 3: Se ci sono modifiche da committare (da macchina locale)
 ```bash
 # Aggiungi tutte le modifiche
 git add .
 
 # Commit con messaggio descrittivo
-git commit -m "feat: Trial blocking system, admin license management, customer visibility fix - Oct 24 2025"
+git commit -m "feat: descrizione delle modifiche"
 
 # Push a Sliplane (trigger auto-deployment)
-git push origin main
+git push sliplane main
 ```
 
 ---
