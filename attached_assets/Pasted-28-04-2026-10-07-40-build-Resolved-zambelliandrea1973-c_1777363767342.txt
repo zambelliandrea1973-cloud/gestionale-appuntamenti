@@ -1,0 +1,1956 @@
+28/04/2026, 10:07:40:
+build
+Resolved zambelliandrea1973-cloud/gestionale-appuntamenti@main -> ba52f7b789f06124ccefdfac78fcafbefe223934
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/booking-requests 401 in 873ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/license/has-business-access 304 in 877ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/client-owners 401 in 876ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/user-with-license 401 in 887ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/clients 401 in 887ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/admin/clients-summary 401 in 905ms
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/tenant-context 401 in 902ms
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] Session ID: 3MKhzrplInfbi7RAEVb4dczLxKGlV1MO
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] req.user: undefined
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] Cookie header: present
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] ============================
+28/04/2026, 10:07:53:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+28/04/2026, 10:07:53:
+runtime
+8:07:53 AM [express] GET /api/license/has-pro-access 304 in 911ms
+28/04/2026, 10:07:54:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/04/2026, 10:07:54:
+runtime
+Logout completato con successo
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] POST /api/logout 200 in 480ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/user-with-license 401 in 2ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/booking-requests 401 in 1ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/clients 401 in 1ms
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] Session ID: 93NhzIdDnxe8UPVLKDFT-gH1z7roV46a
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] isAuthenticated: false
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] req.user: undefined
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] Cookie header: missing
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] ============================
+28/04/2026, 10:07:54:
+runtime
+🔐 [has-pro-access] Utente NON autenticato - return false
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/license/has-pro-access 304 in 1ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/license/license-info 304 in 1ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/license/application-title 304 in 1ms
+28/04/2026, 10:07:54:
+runtime
+8:07:54 AM [express] GET /api/license/has-business-access 304 in 1ms
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: Referer: 
+28/04/2026, 10:07:55:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/04/2026, 10:07:55:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1777363675651-default
+28/04/2026, 10:07:55:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+28/04/2026, 10:07:55:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Referer: 
+28/04/2026, 10:07:56:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/04/2026, 10:07:56:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1777363676077-default
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+28/04/2026, 10:07:56:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+28/04/2026, 10:07:56:
+runtime
+8:07:56 AM [express] GET /api/timezone-settings 200 in 1ms
+28/04/2026, 10:07:56:
+runtime
+8:07:56 AM [express] GET /api/user-with-license 401 in 1ms
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Referer: 
+28/04/2026, 10:07:56:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/04/2026, 10:07:56:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1777363676618-default
+28/04/2026, 10:07:56:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+28/04/2026, 10:07:56:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+28/04/2026, 10:07:56:
+runtime
+8:07:56 AM [express] GET /api/timezone-settings 304 in 1ms
+28/04/2026, 10:07:56:
+runtime
+8:07:56 AM [express] GET /api/user-with-license 401 in 1ms
+28/04/2026, 10:07:56:
+runtime
+8:07:56 AM [express] POST /api/timezone-settings 200 in 1ms
+28/04/2026, 10:07:59:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/04/2026, 10:07:59:
+runtime
+Logout completato con successo
+28/04/2026, 10:07:59:
+runtime
+8:07:59 AM [express] POST /api/logout 200 in 352ms
+28/04/2026, 10:07:59:
+runtime
+8:07:59 AM [express] GET /api/user-with-license 401 in 1ms
+28/04/2026, 10:08:02:
+runtime
+8:08:02 AM [express] POST /api/staff/login 200 in 2053ms
+28/04/2026, 10:08:03:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: Referer: 
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+28/04/2026, 10:08:03:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+28/04/2026, 10:08:03:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+28/04/2026, 10:08:03:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1777363683359-default
+28/04/2026, 10:08:05:
+runtime
+8:08:05 AM [express] GET /api/timezone-settings 200 in 468ms
+28/04/2026, 10:08:05:
+runtime
+8:08:05 AM [express] GET /api/license/has-business-access 200 in 463ms
+28/04/2026, 10:08:05:
+runtime
+8:08:05 AM [express] GET /api/license/license-info 200 in 465ms
+28/04/2026, 10:08:06:
+runtime
+8:08:06 AM [express] POST /api/timezone-settings 200 in 462ms
+28/04/2026, 10:08:06:
+runtime
+8:08:06 AM [express] GET /api/license/application-title 304 in 1165ms
+28/04/2026, 10:08:06:
+runtime
+8:08:06 AM [express] GET /api/client-app-info 200 in 1308ms
+28/04/2026, 10:08:06:
+runtime
+8:08:06 AM [express] GET /api/booking-requests 304 in 1425ms
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] Session ID: iqw8H1zroUv3SnDZCfZvkyy6Rl66FBwY
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] Cookie header: present
+28/04/2026, 10:08:07:
+runtime
+🔐 [has-pro-access] ============================
+28/04/2026, 10:08:07:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: Referer: 
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: Headers referer: undefined
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+28/04/2026, 10:08:07:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1777363687316-default
+28/04/2026, 10:08:07:
+runtime
+🔍 PWA MANIFEST: Referer: , isClientArea: false, isAdminArea: undefined
+28/04/2026, 10:08:07:
+runtime
+📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/timezone-settings 200 in 465ms
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/license/application-title 304 in 486ms
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/license/license-info 304 in 490ms
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/license/has-business-access 304 in 489ms
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/booking-requests 304 in 701ms
+28/04/2026, 10:08:08:
+runtime
+8:08:08 AM [express] GET /api/user-with-license 200 in 979ms
+28/04/2026, 10:08:09:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1777363689013.5417&admin=1","/pwa-icon/192x192?owner=3&v=1777363689013.5417&admin=1","/pwa-icon/512x512?owner=3&v=1777363689013.5417&admin=1"]
+28/04/2026, 10:08:09:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+28/04/2026, 10:08:09:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+28/04/2026, 10:08:09:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+28/04/2026, 10:08:09:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1777363688956' }
+28/04/2026, 10:08:09:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+28/04/2026, 10:08:09:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] POST /api/timezone-settings 200 in 468ms
+28/04/2026, 10:08:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+28/04/2026, 10:08:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 32x32 per owner 3
+28/04/2026, 10:08:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 3
+28/04/2026, 10:08:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 96x96 per owner 3
+28/04/2026, 10:08:09:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 3
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/client-app-info 200 in 1320ms
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] req.user: User ID 3, type: admin
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] isAuthenticated: true
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] Session ID: iqw8H1zroUv3SnDZCfZvkyy6Rl66FBwY
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] ====== DEBUG SESSION ======
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] ============================
+28/04/2026, 10:08:09:
+runtime
+🔐 [has-pro-access] Cookie header: present
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/license/has-pro-access 200 in 1494ms
+28/04/2026, 10:08:09:
+runtime
+Recupero impostazioni per utente 3
+28/04/2026, 10:08:09:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+28/04/2026, 10:08:09:
+runtime
+Recupero impostazioni per utente 3
+28/04/2026, 10:08:09:
+runtime
+🏢 [/api/company-business-data] GET per utente 3
+28/04/2026, 10:08:09:
+runtime
+🏢 [/api/company-business-data] Dati per utente 3: {
+28/04/2026, 10:08:09:
+runtime
+  companyName: 'Gestionale andrea',
+28/04/2026, 10:08:09:
+runtime
+  address: '',
+28/04/2026, 10:08:09:
+runtime
+  city: '',
+28/04/2026, 10:08:09:
+runtime
+  postalCode: '',
+28/04/2026, 10:08:09:
+runtime
+  vatNumber: '',
+28/04/2026, 10:08:09:
+runtime
+  fiscalCode: '',
+28/04/2026, 10:08:09:
+runtime
+  phone: '',
+28/04/2026, 10:08:09:
+runtime
+  email: '',
+28/04/2026, 10:08:09:
+runtime
+  businessType: 'Naturopata tecnico di biorisonanza'
+28/04/2026, 10:08:09:
+runtime
+}
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/company-business-data 304 in 720ms
+28/04/2026, 10:08:09:
+runtime
+💾 ICON CACHE STORE: Icona 96x96 per owner 3 salvata nel cache
+28/04/2026, 10:08:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+28/04/2026, 10:08:09:
+runtime
+💾 ICON CACHE STORE: Icona 32x32 per owner 3 salvata nel cache
+28/04/2026, 10:08:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 32x32 per owner 3, dimensione: 2867 bytes
+28/04/2026, 10:08:09:
+runtime
+💾 ICON CACHE STORE: Icona 192x192 per owner 3 salvata nel cache
+28/04/2026, 10:08:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 3, dimensione: 59090 bytes
+28/04/2026, 10:08:09:
+runtime
+💾 ICON CACHE STORE: Icona 96x96 per owner 3 salvata nel cache
+28/04/2026, 10:08:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 96x96 per owner 3, dimensione: 18487 bytes
+28/04/2026, 10:08:09:
+runtime
+🔧 [/api/services] [desktop] Caricati 14 servizi da PostgreSQL per utente 3
+28/04/2026, 10:08:09:
+runtime
+💾 ICON CACHE STORE: Icona 512x512 per owner 3 salvata nel cache
+28/04/2026, 10:08:09:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 3, dimensione: 302009 bytes
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/onboarding/progress 304 in 870ms
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/services 304 in 941ms
+28/04/2026, 10:08:09:
+runtime
+Impostazioni trovate per utente 3: SI
+28/04/2026, 10:08:09:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+28/04/2026, 10:08:09:
+runtime
+  businessName: 'Gestionale Appuntamenti',
+28/04/2026, 10:08:09:
+runtime
+  showBusinessName: true,
+28/04/2026, 10:08:09:
+runtime
+  name: 'zambelli.andrea.1973@gmail.com',
+28/04/2026, 10:08:09:
+runtime
+  fontSize: 24,
+28/04/2026, 10:08:09:
+runtime
+  fontFamily: 'Arial, sans-serif',
+28/04/2026, 10:08:09:
+runtime
+  fontStyle: 'normal',
+28/04/2026, 10:08:09:
+runtime
+  color: '#000000',
+28/04/2026, 10:08:09:
+runtime
+  enabled: true
+28/04/2026, 10:08:09:
+runtime
+}
+28/04/2026, 10:08:09:
+runtime
+Impostazioni trovate per utente 3: SI
+28/04/2026, 10:08:09:
+runtime
+8:08:09 AM [express] GET /api/clients 304 in 964ms
+28/04/2026, 10:08:10:
+runtime
+8:08:10 AM [express] GET /api/company-name-settings 200 in 1061ms
+28/04/2026, 10:08:10:
+runtime
+Recupero impostazioni per utente 3
+28/04/2026, 10:08:10:
+runtime
+8:08:10 AM [express] GET /api/tenant-context 200 in 1537ms
+28/04/2026, 10:08:10:
+runtime
+Impostazioni trovate per utente 3: SI
+28/04/2026, 10:08:10:
+runtime
+8:08:10 AM [express] GET /api/working-hours 304 in 1746ms
+28/04/2026, 10:08:11:
+runtime
+8:08:11 AM [express] GET /api/contact-info 200 in 2921ms
+28/04/2026, 10:08:20:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1777363700441.3506&admin=1","/pwa-icon/192x192?owner=3&v=1777363700441.3506&admin=1","/pwa-icon/512x512?owner=3&v=1777363700441.3506&admin=1"]
+28/04/2026, 10:08:20:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+28/04/2026, 10:08:20:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+28/04/2026, 10:08:20:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+28/04/2026, 10:08:20:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1777363700367' }
+28/04/2026, 10:08:20:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+28/04/2026, 10:08:20:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:20:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:20:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:20:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR] GET /api/currency-settings
+28/04/2026, 10:08:20:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:20:
+runtime
+8:08:20 AM [express] GET /api/currency-settings 500 in 118ms
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] GET /api/admin-license/access-stats
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:21:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:21:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:21:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+8:08:21 AM [express] GET /api/admin-license/access-stats 500 in 803ms
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] GET /api/payments/payment-admin/dashboard
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:21:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:21:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:21:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:21:
+runtime
+8:08:21 AM [express] GET /api/payments/payment-admin/dashboard 500 in 831ms
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] GET /api/admin/banking-settings
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:21:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:21:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:21:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:21:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:21:
+runtime
+8:08:21 AM [express] GET /api/admin/banking-settings 500 in 838ms
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] GET /api/payments/payment-admin/dashboard
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:25:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:25:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:25:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:25:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:25:
+runtime
+8:08:25 AM [express] GET /api/payments/payment-admin/dashboard 500 in 828ms
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] GET /api/admin/banking-settings
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:26:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:26:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:26:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:26:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:26:
+runtime
+8:08:26 AM [express] GET /api/admin/banking-settings 500 in 823ms
+28/04/2026, 10:08:37:
+runtime
+🔍 ADMIN MANIFEST: Richiesta manifest area professionale
+28/04/2026, 10:08:37:
+runtime
+🔍 ADMIN MANIFEST: User loggato: NESSUNO
+28/04/2026, 10:08:37:
+runtime
+🔍 ADMIN MANIFEST: Query params: { userId: '3', ts: '1777363717052' }
+28/04/2026, 10:08:37:
+runtime
+📱 ADMIN MANIFEST: UserId da query param: 3
+28/04/2026, 10:08:37:
+runtime
+✅ ADMIN MANIFEST: Servendo manifest per Professionista (ID: 3)
+28/04/2026, 10:08:37:
+runtime
+📱 ADMIN MANIFEST ID: gestionale-appuntamenti-admin-generic
+28/04/2026, 10:08:37:
+runtime
+📱 ADMIN MANIFEST ICONE: ["/pwa-icon/96x96?owner=3&v=1777363717111.2812&admin=1","/pwa-icon/192x192?owner=3&v=1777363717111.2812&admin=1","/pwa-icon/512x512?owner=3&v=1777363717111.2812&admin=1"]
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] GET /api/user-with-license
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:37:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:37:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:37:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+8:08:37 AM [express] GET /api/user-with-license 500 in 815ms
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] GET /api/client-owners
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:37:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:37:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:37:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+8:08:37 AM [express] GET /api/client-owners 500 in 815ms
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:37:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:37:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:37:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] GET /api/clients
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:37:
+runtime
+8:08:37 AM [express] GET /api/clients 500 in 820ms
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:37:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:37:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:37:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR] GET /api/admin/clients-summary
+28/04/2026, 10:08:37:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:37:
+runtime
+8:08:37 AM [express] GET /api/admin/clients-summary 500 in 832ms
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] GET /api/booking-requests
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:39:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:39:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:39:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:39:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:39:
+runtime
+8:08:39 AM [express] GET /api/booking-requests 500 in 820ms
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:40:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:40:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:40:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR] POST /api/logout
+28/04/2026, 10:08:40:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:40:
+runtime
+8:08:40 AM [express] POST /api/logout 500 in 798ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/user-with-license
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/user-with-license 500 in 818ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/clients
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-pro-access
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/license/has-pro-access 500 in 807ms
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/clients 500 in 804ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/license-info
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/license/license-info 500 in 814ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/application-title
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/license/application-title 500 in 815ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-business-access
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/license/has-business-access 500 in 823ms
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] GET /api/booking-requests
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:41:
+runtime
+8:08:41 AM [express] GET /api/booking-requests 500 in 829ms
+28/04/2026, 10:08:42:
+build
+Cloned commit hash: ba52f7b789f06124ccefdfac78fcafbefe223934
+28/04/2026, 10:08:42:
+build
+#1 [service_event_3vedjgau0nn4 internal] load build definition from Dockerfile
+28/04/2026, 10:08:42:
+build
+#1 transferring dockerfile: 945B done
+28/04/2026, 10:08:42:
+build
+#1 DONE 0.0s
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#2 [service_event_3vedjgau0nn4 internal] load metadata for docker.io/library/node:20-alpine
+28/04/2026, 10:08:42:
+build
+#2 DONE 0.0s
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#3 [service_event_3vedjgau0nn4 internal] load .dockerignore
+28/04/2026, 10:08:42:
+build
+#3 transferring context: 830B done
+28/04/2026, 10:08:42:
+build
+#3 DONE 0.0s
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#4 [service_event_3vedjgau0nn4 1/8] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+28/04/2026, 10:08:42:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 done
+28/04/2026, 10:08:42:
+build
+#4 DONE 0.0s
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#5 [service_event_3vedjgau0nn4 internal] load build context
+28/04/2026, 10:08:42:
+build
+#5 transferring context: 81.74MB 0.2s done
+28/04/2026, 10:08:42:
+build
+#5 DONE 0.2s
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#6 [service_event_3vedjgau0nn4 5/8] RUN npm ci
+28/04/2026, 10:08:42:
+build
+#6 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#7 [service_event_3vedjgau0nn4 6/8] COPY . .
+28/04/2026, 10:08:42:
+build
+#7 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#8 [service_event_3vedjgau0nn4 7/8] RUN npx vite build
+28/04/2026, 10:08:42:
+build
+#8 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#9 [service_event_3vedjgau0nn4 3/8] COPY package.json package-lock.json ./
+28/04/2026, 10:08:42:
+build
+#9 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#10 [service_event_3vedjgau0nn4 4/8] RUN echo "Build timestamp: 2026-04-26-21:50"
+28/04/2026, 10:08:42:
+build
+#10 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#11 [service_event_3vedjgau0nn4 2/8] WORKDIR /app
+28/04/2026, 10:08:42:
+build
+#11 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#12 [service_event_3vedjgau0nn4 8/8] RUN cp -r dist/public server/public
+28/04/2026, 10:08:42:
+build
+#12 CACHED
+28/04/2026, 10:08:42:
+build
+28/04/2026, 10:08:42:
+build
+#13 [service_event_3vedjgau0nn4] exporting to image
+28/04/2026, 10:08:42:
+build
+#13 exporting layers done
+28/04/2026, 10:08:42:
+build
+#13 exporting manifest sha256:b2a03c13791a8d3b1f713d535cc1e8f3bfbed553f2a23e7380dabace090801b6 done
+28/04/2026, 10:08:42:
+build
+#13 exporting config sha256:94a0ea55b4adb1a2be31d46cbec25b32e40b5c68e831b7118e9ce7c4256ba42e done
+28/04/2026, 10:08:42:
+build
+#13 pushing layers 0.1s done
+28/04/2026, 10:08:42:
+build
+#13 pushing manifest for registry-01.nbg1.ger.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_3vedjgau0nn4@sha256:b2a03c13791a8d3b1f713d535cc1e8f3bfbed553f2a23e7380dabace090801b6
+28/04/2026, 10:08:43:
+build
+#13 pushing manifest for registry-01.nbg1.ger.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_3vedjgau0nn4@sha256:b2a03c13791a8d3b1f713d535cc1e8f3bfbed553f2a23e7380dabace090801b6 0.9s done
+28/04/2026, 10:08:43:
+build
+#13 DONE 1.1s
+28/04/2026, 10:08:44:
+build
+service_event_3vedjgau0nn4: Pulling from org_ft3fgctptd0y/service_mmjl8cc6666z
+28/04/2026, 10:08:44:
+build
+Digest: sha256:b2a03c13791a8d3b1f713d535cc1e8f3bfbed553f2a23e7380dabace090801b6
+28/04/2026, 10:08:44:
+build
+Status: Downloaded newer image for registry-01.nbg1.ger.sliplane.io/org_ft3fgctptd0y/service_mmjl8cc6666z:service_event_3vedjgau0nn4
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:44:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:44:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:44:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR] POST /api/logout
+28/04/2026, 10:08:44:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:44:
+runtime
+8:08:44 AM [express] POST /api/logout 500 in 796ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/application-title
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/license/application-title 500 in 789ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-business-access
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/license/has-business-access 500 in 818ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/license-info
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/license/license-info 500 in 835ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-pro-access
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/booking-requests
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/license/has-pro-access 500 in 843ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/booking-requests 500 in 848ms
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/user-with-license
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/user-with-license 500 in 842ms
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] GET /api/clients
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:45:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:45:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:45:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:45:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:45:
+runtime
+8:08:45 AM [express] GET /api/clients 500 in 848ms
+28/04/2026, 10:08:48:
+runtime
+8:08:47 AM [express] POST /api/logout 500 in 824ms
+28/04/2026, 10:08:48:
+runtime
+🗄️ Usando PostgreSQL per le sessioni (sessioni persistenti tra i deploy)
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/user-with-license
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/booking-requests
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-pro-access
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/booking-requests 500 in 810ms
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/license/has-pro-access 500 in 806ms
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/user-with-license 500 in 832ms
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/license-info
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/license/license-info 500 in 810ms
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/clients
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/clients 500 in 843ms
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-business-access
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/application-title
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/license/has-business-access 500 in 850ms
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+28/04/2026, 10:08:48:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+28/04/2026, 10:08:48:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+28/04/2026, 10:08:48:
+runtime
+🔴 [GLOBAL ERROR] ==================
+28/04/2026, 10:08:48:
+runtime
+8:08:48 AM [express] GET /api/license/application-title 500 in 850ms
+28/04/2026, 10:08:50:
+runtime
+Servizio gestione telefono diretto inizializzato
+28/04/2026, 10:08:50:
+runtime
+}
+28/04/2026, 10:08:50:
+runtime
+  secretPresent: 'Present'
+28/04/2026, 10:08:50:
+runtime
+  clientId: 'Present (first chars: 26403...)',
+28/04/2026, 10:08:50:
+runtime
+Google Credentials: {
+28/04/2026, 10:08:50:
+runtime
+Google OAuth callback URL: https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
+28/04/2026, 10:08:50:
+runtime
+}
+28/04/2026, 10:08:50:
+runtime
+  redirectUri: 'https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback'
+28/04/2026, 10:08:50:
+runtime
+Debug OAuth URL: {
+28/04/2026, 10:08:50:
+runtime
+⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate
+28/04/2026, 10:08:50:
+runtime
+   📅 Appuntamenti caricati: 50
+28/04/2026, 10:08:50:
+runtime
+   👥 Clienti caricati: 40
+28/04/2026, 10:08:50:
+runtime
+   🔍 Primi 3 appuntamenti: [
+28/04/2026, 10:08:50:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+28/04/2026, 10:08:50:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+28/04/2026, 10:08:50:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+28/04/2026, 10:08:50:
+runtime
+]
+28/04/2026, 10:08:50:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+28/04/2026, 10:08:50:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+28/04/2026, 10:08:51:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+28/04/2026, 10:08:51:
+runtime
+🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni 120 ore)
+28/04/2026, 10:08:51:
+runtime
+⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)
+28/04/2026, 10:08:51:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+28/04/2026, 10:08:51:
+runtime
+🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)
+28/04/2026, 10:08:51:
+runtime
+📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)
+28/04/2026, 10:08:51:
+runtime
+Tutti gli scheduler inizializzati
+28/04/2026, 10:08:51:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+28/04/2026, 10:08:51:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+28/04/2026, 10:08:51:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+28/04/2026, 10:08:51:
+runtime
+✅ [ICON SYNC] Icone per utente 27 già presenti
+28/04/2026, 10:08:51:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+28/04/2026, 10:08:51:
+runtime
+8:08:51 AM [express] serving on port 5000
+28/04/2026, 10:08:51:
+runtime
+Telefono caricato dal database: +393472550110
+28/04/2026, 10:08:51:
+runtime
+✅ PostgreSQL database is available
+28/04/2026, 10:08:56:
+runtime
+🚀 Esecuzione immediata del job di promemoria all'avvio del server
+28/04/2026, 10:09:01:
+runtime
+🔍 [MONITOR] Controllo soglie scalabilità...
+28/04/2026, 10:09:02:
+runtime
+📊 [MONITOR] Stats: 64 utenti, 4576 clienti, 724 appuntamenti, max 0 clienti/utente
+28/04/2026, 10:09:02:
+runtime
+✅ [MONITOR] Nessuna soglia critica raggiunta
