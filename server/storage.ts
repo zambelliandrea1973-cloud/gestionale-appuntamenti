@@ -440,7 +440,6 @@ export class DatabaseStorage implements IStorage {
       this.sessionStore = new PgStore({
         pool: pgPool,
         tableName: 'user_sessions',
-        createTableIfMissing: true,
         ttl: 30 * 24 * 60 * 60, // 30 days in seconds
       });
     } else {
