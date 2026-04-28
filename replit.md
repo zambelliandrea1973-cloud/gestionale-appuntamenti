@@ -89,3 +89,25 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - `BETA_ADMIN_PASSWORD` (production only)
 - `EMERGENCY_RESTART_KEY` (production only)
 - `LOG_LEVEL`
+- `GITHUB_PERSONAL_ACCESS_TOKEN` (GitHub PAT for pushing to GitHub remote; also embedded in `.git/config` origin URL)
+
+## GitHub Personal Access Token (PAT) Renewal
+
+### Current Token
+- **Token name**: Sliplane Deploy 1
+- **Last renewed**: 2026-04-28
+- **Expiry**: Set to 1 year → renew by **2027-04-28** (set a calendar reminder 2 weeks before)
+- **Scopes needed**: `repo` (full repository access)
+
+### How to renew (step by step)
+1. Go to **GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens** (or classic tokens if that's what was used).
+2. Find **Sliplane Deploy 1**, click **Regenerate** (or create a new token with the same `repo` scope and 1-year expiry).
+3. Copy the new token value immediately (it is shown only once).
+4. Update the **Replit secret** `GITHUB_PERSONAL_ACCESS_TOKEN` with the new token value.
+5. Update the **git remote URL** in `.git/config` for the `origin` remote:
+   ```
+   git remote set-url origin https://<github-username>:<NEW_TOKEN>@github.com/zambelliandrea1973-cloud/gestionale-appuntamenti
+   ```
+   Replace `<github-username>` with `zambelliandrea1973-cloud` and `<NEW_TOKEN>` with the new token.
+6. Verify the connection: `git ls-remote origin` — should list refs without errors.
+7. Note the new expiry date here in `replit.md` for the next renewal cycle.
