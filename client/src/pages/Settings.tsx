@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { queryClient } from "@/lib/queryClient";
 import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound, Clock, CreditCard, Sparkles, Hash } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
@@ -39,6 +40,8 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("app");
   const [assignmentCode, setAssignmentCode] = useState('');
   const [savingCode, setSavingCode] = useState(false);
+  const [showCodeChangeDialog, setShowCodeChangeDialog] = useState(false);
+  const [originalAssignmentCode, setOriginalAssignmentCode] = useState('');
   // Se l'utente è arrivato qui dal wizard AI con ?returnTo=/onboarding,
   // mostriamo un banner che lo guida al ritorno automatico dopo il salvataggio.
   const [returnTo, setReturnTo] = useState<string | null>(null);
@@ -83,19 +86,12 @@ export default function Settings() {
   useEffect(() => {
     if (user && (user.type === 'staff' || user.type === 'admin') && user.assignmentCode) {
       setAssignmentCode(user.assignmentCode);
+      setOriginalAssignmentCode(user.assignmentCode);
     }
   }, [user]);
 
-  const saveAssignmentCode = async () => {
+  const performSaveAssignmentCode = async () => {
     const code = assignmentCode.trim();
-    if (!code || !/^[a-zA-Z0-9]{4,10}$/.test(code)) {
-      toast({
-        title: t('common.error', 'Errore'),
-        description: t('userSettings.toast.assignmentCodeInvalid'),
-        variant: 'destructive',
-      });
-      return;
-    }
     setSavingCode(true);
     try {
       const response = await fetch('/api/user/assignment-code', {
@@ -107,6 +103,8 @@ export default function Settings() {
       if (response.ok) {
         const data = await response.json();
         setAssignmentCode(data.assignmentCode);
+        setOriginalAssignmentCode(data.assignmentCode);
+        queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
         toast({
           title: t('userSettings.toast.assignmentCodeSavedTitle'),
           description: t('userSettings.toast.assignmentCodeSavedDesc'),
@@ -131,6 +129,23 @@ export default function Settings() {
     } finally {
       setSavingCode(false);
     }
+  };
+
+  const saveAssignmentCode = async () => {
+    const code = assignmentCode.trim();
+    if (!code || !/^[a-zA-Z0-9]{4,10}$/.test(code)) {
+      toast({
+        title: t('common.error', 'Errore'),
+        description: t('userSettings.toast.assignmentCodeInvalid'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (originalAssignmentCode && originalAssignmentCode !== code) {
+      setShowCodeChangeDialog(true);
+      return;
+    }
+    await performSaveAssignmentCode();
   };
 
   // Verifico se l'utente è un amministratore
@@ -542,6 +557,30 @@ export default function Settings() {
 
       {/* Il dialog per la richiesta della password è stato rimosso - 
          l'accesso è ora diretto per gli utenti amministratori */}
+
+      <Dialog open={showCodeChangeDialog} onOpenChange={setShowCodeChangeDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('userSettings.branding.assignmentCodeChangeWarningTitle')}</DialogTitle>
+            <DialogDescription>
+              {t('userSettings.branding.assignmentCodeChangeWarningDesc')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCodeChangeDialog(false)}>
+              {t('userSettings.branding.assignmentCodeChangeCancel')}
+            </Button>
+            <Button
+              onClick={async () => {
+                setShowCodeChangeDialog(false);
+                await performSaveAssignmentCode();
+              }}
+            >
+              {t('userSettings.branding.assignmentCodeChangeConfirm')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

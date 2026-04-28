@@ -3846,7 +3846,11 @@
       "assignmentCodeDesc": "Brukes som prefiks i klientkodene dine (f.eks. BRUNA42-001)",
       "assignmentCodePlaceholder": "f.eks. BRUNA42",
       "assignmentCodeSave": "Lagre kode",
-      "assignmentCodeSaving": "Lagrer..."
+      "assignmentCodeSaving": "Lagrer...",
+      "assignmentCodeChangeWarningTitle": "Endre identifikasjonskode",
+      "assignmentCodeChangeWarningDesc": "Dine eksisterende klienter beholder sine nåværende koder. Bare nye klienter vil bruke det nye prefikset.",
+      "assignmentCodeChangeConfirm": "Bekreft endring",
+      "assignmentCodeChangeCancel": "Avbryt"
     },
     "contact": {
       "cardTitle": "Kontaktinformasjon",

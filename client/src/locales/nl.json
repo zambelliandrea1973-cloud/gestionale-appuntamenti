@@ -3846,7 +3846,11 @@
       "assignmentCodeDesc": "Gebruikt als prefix in uw klantcodes (bijv. BRUNA42-001)",
       "assignmentCodePlaceholder": "bijv. BRUNA42",
       "assignmentCodeSave": "Code opslaan",
-      "assignmentCodeSaving": "Opslaan..."
+      "assignmentCodeSaving": "Opslaan...",
+      "assignmentCodeChangeWarningTitle": "Identificatiecode wijzigen",
+      "assignmentCodeChangeWarningDesc": "Uw bestaande cliënten behouden hun huidige codes. Alleen nieuwe cliënten gebruiken het nieuwe voorvoegsel.",
+      "assignmentCodeChangeConfirm": "Wijziging bevestigen",
+      "assignmentCodeChangeCancel": "Annuleren"
     },
     "contact": {
       "cardTitle": "Contactgegevens",

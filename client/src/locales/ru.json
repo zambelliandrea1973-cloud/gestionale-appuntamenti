@@ -3846,7 +3846,11 @@
       "assignmentCodeDesc": "Используется как префикс в кодах ваших клиентов (напр. BRUNA42-001)",
       "assignmentCodePlaceholder": "напр. BRUNA42",
       "assignmentCodeSave": "Сохранить код",
-      "assignmentCodeSaving": "Сохранение..."
+      "assignmentCodeSaving": "Сохранение...",
+      "assignmentCodeChangeWarningTitle": "Изменение идентификационного кода",
+      "assignmentCodeChangeWarningDesc": "Ваши существующие клиенты сохранят свои текущие коды. Только новые клиенты будут использовать новый префикс.",
+      "assignmentCodeChangeConfirm": "Подтвердить изменение",
+      "assignmentCodeChangeCancel": "Отмена"
     },
     "contact": {
       "cardTitle": "Контактная информация",

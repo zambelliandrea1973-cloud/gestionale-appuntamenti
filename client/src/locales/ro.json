@@ -3846,7 +3846,11 @@
       "assignmentCodeDesc": "Folosit ca prefix în codurile clienților dvs. (ex. BRUNA42-001)",
       "assignmentCodePlaceholder": "ex. BRUNA42",
       "assignmentCodeSave": "Salvează codul",
-      "assignmentCodeSaving": "Se salvează..."
+      "assignmentCodeSaving": "Se salvează...",
+      "assignmentCodeChangeWarningTitle": "Schimbarea codului de identificare",
+      "assignmentCodeChangeWarningDesc": "Clienții existenți vor păstra codurile actuale. Doar clienții noi vor folosi noul prefix.",
+      "assignmentCodeChangeConfirm": "Confirmă modificarea",
+      "assignmentCodeChangeCancel": "Anulează"
     },
     "contact": {
       "cardTitle": "Informații de contact",

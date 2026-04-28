@@ -3846,7 +3846,11 @@
       "assignmentCodeDesc": "Used as prefix in your client codes (e.g. BRUNA42-001)",
       "assignmentCodePlaceholder": "e.g. BRUNA42",
       "assignmentCodeSave": "Save code",
-      "assignmentCodeSaving": "Saving..."
+      "assignmentCodeSaving": "Saving...",
+      "assignmentCodeChangeWarningTitle": "Changing identification code",
+      "assignmentCodeChangeWarningDesc": "Your existing clients will keep their current codes. Only new clients will use the new prefix.",
+      "assignmentCodeChangeConfirm": "Confirm change",
+      "assignmentCodeChangeCancel": "Cancel"
     },
     "contact": {
       "cardTitle": "Contact Information",
