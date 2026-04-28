@@ -78,6 +78,38 @@ async function checkDatabaseAvailability(): Promise<boolean> {
 // Call this check at module initialization
 checkDatabaseAvailability();
 
+// Ensure the user_sessions table exists (for connect-pg-simple)
+export async function ensureSessionTable(): Promise<void> {
+  if (!process.env.DATABASE_URL) return;
+  try {
+    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS "user_sessions" (
+        "sid" varchar NOT NULL COLLATE "default",
+        "sess" json NOT NULL,
+        "expire" timestamp(6) NOT NULL
+      );
+    `);
+    await pool.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_constraint WHERE conname = 'session_pkey'
+        ) THEN
+          ALTER TABLE "user_sessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+        END IF;
+      END$$;
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
+    `);
+    await pool.end();
+    console.log('✅ Tabella user_sessions verificata/creata con successo');
+  } catch (error) {
+    console.error('⚠️ Errore nella creazione della tabella user_sessions:', error);
+  }
+}
+
 // Interface defining all storage operations
 export interface IStorage {
   // Client operations
