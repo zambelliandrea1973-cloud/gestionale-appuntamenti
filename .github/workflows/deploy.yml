@@ -1,0 +1,42 @@
+name: Deploy to Sliplane
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Sliplane
+        id: deploy
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${{ secrets.SLIPLANE_DEPLOY_HOOK_URL }}")
+          echo "status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
+            echo "Deploy hook returned HTTP $HTTP_STATUS — treating as failure."
+            exit 1
+          fi
+          echo "Deploy hook accepted (HTTP $HTTP_STATUS)."
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "## Deployment Failed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "The deployment to **Sliplane** failed on branch \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Commit | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Author | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Workflow run | [View logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Please check the workflow logs and the Sliplane dashboard for details." >> "$GITHUB_STEP_SUMMARY"
