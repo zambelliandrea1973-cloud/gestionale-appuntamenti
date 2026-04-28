@@ -2881,7 +2881,8 @@
     "lastNameMinChars": "Achternaam moet minstens 2 tekens bevatten",
     "phoneMinChars": "Telefoonnummer moet minstens 6 cijfers bevatten",
     "emailInvalid": "Ongeldig e-mailadres",
-    "prefixPlaceholder": "Pref."
+    "prefixPlaceholder": "Pref.",
+    "codePreview": "Deze cliënt ontvangt de code: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Toestemming vereist",

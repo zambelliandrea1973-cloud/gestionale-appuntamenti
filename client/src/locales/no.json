@@ -2881,7 +2881,8 @@
     "lastNameMinChars": "Etternavn må inneholde minst 2 tegn",
     "phoneMinChars": "Telefonnummer må inneholde minst 6 sifre",
     "emailInvalid": "Ugyldig e-post",
-    "prefixPlaceholder": "Forv."
+    "prefixPlaceholder": "Forv.",
+    "codePreview": "Denne klienten vil motta koden: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Samtykke påkrevd",

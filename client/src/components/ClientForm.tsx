@@ -6,7 +6,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "../../../shared/schema";
-import { Loader2, AlertTriangle } from "lucide-react";
+import { Loader2, AlertTriangle, Tag } from "lucide-react";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -112,6 +112,13 @@ export default function ClientForm({
     queryKey: [`/api/clients/${clientId}`],
     enabled: !!clientId
   });
+
+  // Fetch next client code preview (only when creating new client)
+  const { data: nextCodeData } = useQuery<{ previewCode: string }>({
+    queryKey: ['/api/clients/next-code'],
+    enabled: !clientId,
+    staleTime: 0,
+  });
   
   // Form setup
   const form = useForm<FormData>({
@@ -190,6 +197,7 @@ export default function ClientForm({
       // Invalidate queries to refresh data - forza refetch immediato
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'], refetchType: 'all' });
       await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients/next-code'] });
       
       if (!clientId) {
         // Reset form to default values to clear all fields
@@ -326,6 +334,15 @@ export default function ClientForm({
             })} className="flex flex-col flex-1 min-h-0">
               <div className="overflow-y-auto flex-1 px-6 touch-manipulation">
                 <TabsContent value="personal" className="space-y-4 py-4 mt-0">
+                {/* Client code preview – only shown when creating a new client */}
+                {!clientId && nextCodeData?.previewCode && (
+                  <div className="flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-2 text-sm text-muted-foreground">
+                    <Tag className="h-4 w-4 shrink-0 text-primary" />
+                    <span>
+                      {t('clientForm.codePreview', { code: nextCodeData.previewCode })}
+                    </span>
+                  </div>
+                )}
                 {/* Personal information fields */}
                 <div className="grid grid-cols-2 gap-4">
                   <FormField

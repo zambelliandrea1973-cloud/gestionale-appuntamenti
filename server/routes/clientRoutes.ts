@@ -36,6 +36,53 @@ async function generateClientCode(ownerId: number, clientId: number): Promise<st
   return `${profCode}_C${clientNumber}`;
 }
 
+  // Preview next client code for the current user
+router.get("/api/clients/next-code", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+
+    // Use the same tenant resolution as POST /api/clients
+    const tenantId = user.ownerId ?? user.tenantId ?? user.id;
+
+    try {
+      const [userRow] = await db.select({ assignmentCode: users.assignmentCode })
+        .from(users)
+        .where(eq(users.id, tenantId))
+        .limit(1);
+
+      if (!userRow?.assignmentCode) {
+        return res.json({ previewCode: null });
+      }
+
+      const professionalCode = userRow.assignmentCode;
+
+      const existingClients = await db.select({ newUniqueCode: clients.newUniqueCode })
+        .from(clients)
+        .where(eq(clients.ownerId, tenantId));
+
+      let maxSequence = 0;
+      const pattern = new RegExp(`^${professionalCode}-(\\d+)$`);
+      for (const client of existingClients) {
+        if (client.newUniqueCode) {
+          const match = client.newUniqueCode.match(pattern);
+          if (match) {
+            const seq = parseInt(match[1], 10);
+            if (seq > maxSequence) maxSequence = seq;
+          }
+        }
+      }
+
+      const nextSequence = maxSequence + 1;
+      const paddedSequence = nextSequence.toString().padStart(3, '0');
+      const previewCode = `${professionalCode}-${paddedSequence}`;
+
+      return res.json({ previewCode });
+    } catch (error: any) {
+      logger.error("Errore preview next client code:", error);
+      return res.status(500).json({ message: "Errore interno" });
+    }
+  });
+
   // Sistema lineare semplice - Clienti
   // NOTA: Per admin, carica SOLO i propri clienti (lazy loading per gli altri)
 router.get("/api/clients", async (req, res) => {

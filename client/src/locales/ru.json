@@ -2881,7 +2881,8 @@
     "lastNameMinChars": "Фамилия должна содержать минимум 2 символа",
     "phoneMinChars": "Номер телефона должен содержать минимум 6 цифр",
     "emailInvalid": "Некорректный email",
-    "prefixPlaceholder": "Преф."
+    "prefixPlaceholder": "Преф.",
+    "codePreview": "Этот клиент получит код: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Требуется согласие",

@@ -2881,7 +2881,8 @@
     "lastNameMinChars": "Il cognome deve contenere almeno 2 caratteri",
     "phoneMinChars": "Il numero di telefono deve contenere almeno 6 cifre",
     "emailInvalid": "Email non valida",
-    "prefixPlaceholder": "Pref."
+    "prefixPlaceholder": "Pref.",
+    "codePreview": "Questo cliente riceverà il codice: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Consenso richiesto",

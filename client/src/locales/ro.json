@@ -2881,7 +2881,8 @@
     "lastNameMinChars": "Numele trebuie să conțină cel puțin 2 caractere",
     "phoneMinChars": "Numărul de telefon trebuie să conțină cel puțin 6 cifre",
     "emailInvalid": "Email invalid",
-    "prefixPlaceholder": "Pref."
+    "prefixPlaceholder": "Pref.",
+    "codePreview": "Acest client va primi codul: {{code}}"
   },
   "privacyConsent": {
     "consentRequired": "Consimțământ necesar",

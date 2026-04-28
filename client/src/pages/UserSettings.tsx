@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
+import { queryClient } from "@/lib/queryClient";
 import { Settings, Palette, Mail, Phone, Building, Globe, Hash } from "lucide-react";
 import ColorEditor from "@/components/ColorEditor";
 
@@ -313,6 +314,7 @@ export default function UserSettings() {
       if (response.ok) {
         const data = await response.json();
         setAssignmentCode(data.assignmentCode);
+        queryClient.invalidateQueries({ queryKey: ['/api/clients/next-code'] });
         toast({
           title: t('userSettings.toast.assignmentCodeSavedTitle'),
           description: t('userSettings.toast.assignmentCodeSavedDesc'),
