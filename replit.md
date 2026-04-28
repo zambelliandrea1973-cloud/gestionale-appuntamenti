@@ -110,4 +110,31 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
    ```
    Replace `<github-username>` with `zambelliandrea1973-cloud` and `<NEW_TOKEN>` with the new token.
 6. Verify the connection: `git ls-remote origin` — should list refs without errors.
+
+## ⚠️ AZIONE URGENTE — Migrazione server Sliplane (scadenza 18 maggio 2026)
+
+### Cosa sta succedendo
+Sliplane migra il server su una nuova VM il **4 maggio 2026 ore 12-13 CEST**.
+Dopo la migrazione invierà una seconda email con i nuovi indirizzi e porte dei database.
+Il vecchio indirizzo funziona come ponte fino al **18 maggio 2026 ore 13:00 CEST**.
+Dopo quella data l'app va offline se DATABASE_URL non è stato aggiornato.
+
+### Cosa aggiornare (appena arriva la seconda email da Sliplane)
+Aggiornare la variabile `DATABASE_URL` nelle impostazioni ambiente di Sliplane
+con il nuovo host e la nuova porta. I due database coinvolti sono:
+- `postgres-ag4d.sliplane.app` → porta attuale 5432 (cambierà)
+- `postgres-vnrp.sliplane.app` → porta attuale 10180 (cambierà)
+
+### Come aggiornare
+1. Aprire il pannello Sliplane → servizio → Environment variables
+2. Aggiornare `DATABASE_URL` con il nuovo host:porta comunicato da Sliplane
+3. Riavviare il servizio su Sliplane
+4. Verificare che il login funzioni correttamente
+
+### Stato
+- [ ] 4 maggio: migrazione completata (attendere email di conferma da Sliplane)
+- [ ] Ricevuti nuovi host/porte da Sliplane
+- [ ] DATABASE_URL aggiornato su Sliplane
+- [ ] App verificata funzionante dopo aggiornamento
+- **Scadenza tassativa: 18 maggio 2026 ore 13:00 CEST**
 7. Note the new expiry date here in `replit.md` for the next renewal cycle.
