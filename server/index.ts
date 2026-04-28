@@ -3,7 +3,7 @@ import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
-import { storage } from "./storage";
+import { storage, ensureSessionTable } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 
@@ -60,6 +60,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Garantisce che la tabella user_sessions esista nel DB prima di qualsiasi richiesta
+  await ensureSessionTable();
+
   // Inizializza il servizio di setup iniziale
   try {
     await initialSetupService.initialize();
