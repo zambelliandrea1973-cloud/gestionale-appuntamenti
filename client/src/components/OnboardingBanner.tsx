@@ -24,7 +24,6 @@ import {
   ArrowRight,
   CheckCircle2,
   X,
-  Compass,
 } from 'lucide-react';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -67,13 +66,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
   const { data: workingHours } = useQuery<{ dailySchedule?: unknown }>({
     queryKey: ['/api/working-hours'],
   });
-  // Se l'utente ha completato il tour AI, marchiamo tutta la checklist manuale
-  // come "completata" pur lasciando ogni voce cliccabile per ulteriori modifiche.
-  const { data: onboardingProgress } = useQuery<{ isCompleted?: boolean }>({
-    queryKey: ['/api/onboarding/progress'],
-  });
-  const tourCompleted = !!onboardingProgress?.isCompleted;
-
   const steps: ChecklistStep[] = useMemo(() => {
     const realServices = services.filter((s) => !s.isDemo).length;
     const realClients = clients.filter((c) => !c.isDemo).length;
@@ -88,7 +80,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.companyData.button',
         path: '/settings',
         tab: 'appearance',
-        done: tourCompleted || businessDone,
+        done: businessDone,
         color: 'text-blue-600 bg-blue-100',
       },
       {
@@ -98,7 +90,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.services.button',
         path: '/settings',
         tab: 'app',
-        done: tourCompleted || realServices > 0,
+        done: realServices > 0,
         color: 'text-purple-600 bg-purple-100',
       },
       {
@@ -108,7 +100,7 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.clients.button',
         path: '/clients',
         tab: null,
-        done: tourCompleted || realClients > 0,
+        done: realClients > 0,
         color: 'text-green-600 bg-green-100',
       },
       {
@@ -118,11 +110,11 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         buttonKey: 'welcomeGuide.steps.workingHours.button',
         path: '/settings',
         tab: 'contacts',
-        done: tourCompleted || hoursDone,
+        done: hoursDone,
         color: 'text-orange-600 bg-orange-100',
       },
     ];
-  }, [services, clients, businessData, workingHours, tourCompleted]);
+  }, [services, clients, businessData, workingHours]);
 
   const completed = steps.filter((s) => s.done).length;
   const total = steps.length;
@@ -200,9 +192,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            {t('onboarding.banner.optionManualLabel')}
-          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {steps.map((step) => {
             const Icon = step.icon;
@@ -249,38 +238,6 @@ export default function OnboardingBanner({ onDismiss }: OnboardingBannerProps) {
             );
           })}
           </div>
-        </div>
-
-        <div className="relative flex items-center py-1" aria-hidden="true">
-          <div className="flex-grow border-t border-muted" />
-          <span className="mx-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t('onboarding.banner.or')}
-          </span>
-          <div className="flex-grow border-t border-muted" />
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            {t('onboarding.banner.optionAILabel')}
-          </p>
-          <button
-            onClick={() => setLocation('/onboarding')}
-            data-testid="button-take-tour"
-            className="group w-full flex items-center gap-3 rounded-md border p-3 text-left transition hover:border-primary/50 hover:bg-primary/5 bg-background"
-          >
-            <div className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center text-indigo-600 bg-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300">
-              <Compass className="h-4 w-4" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">
-                {t('onboarding.banner.takeTour')}
-              </p>
-              <p className="text-xs text-muted-foreground truncate">
-                {t('onboarding.banner.takeTourDesc')}
-              </p>
-            </div>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0" />
-          </button>
         </div>
 
         {completed === total && (
