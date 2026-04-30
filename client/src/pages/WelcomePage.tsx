@@ -236,7 +236,7 @@ export default function WelcomePage() {
                     className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-auto"
                   >
                     <Eye className="h-3 w-3" />
-                    Anteprima
+                    {t("invoices.preview", "Anteprima")}
                   </button>
                 </div>
               );
