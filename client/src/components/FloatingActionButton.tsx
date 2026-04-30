@@ -6,11 +6,22 @@ interface FloatingActionButtonProps {
   onClick: () => void;
   text: string;
   variant?: 'primary' | 'secondary';
-  position?: 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left' | 'none';
   storageKey?: string;
 }
 
 const LONG_PRESS_MS = 1500;
+const MIN_SCALE = 0.6;
+const MAX_SCALE = 2.0;
+
+function loadSaved<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
 
 function getDefaultPos(): { x: number; y: number } {
   return {
@@ -19,94 +30,153 @@ function getDefaultPos(): { x: number; y: number } {
   };
 }
 
-function loadSavedPos(key: string): { x: number; y: number } | null {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-    const pos = JSON.parse(raw);
-    if (typeof pos.x === 'number' && typeof pos.y === 'number') return pos;
-  } catch {}
-  return null;
-}
-
 export function FloatingActionButton({
   onClick,
   text,
   variant = 'primary',
   storageKey = 'fab-position',
 }: FloatingActionButtonProps) {
-  const key = storageKey;
-  const [isBlinking, setIsBlinking] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const posKey   = storageKey;
+  const scaleKey = `${storageKey}-scale`;
+
   const [pos, setPos] = useState<{ x: number; y: number }>(
-    () => loadSavedPos(key) ?? getDefaultPos()
+    () => loadSaved<{ x: number; y: number } | null>(posKey, null) ?? getDefaultPos()
   );
+  const [scale, setScale]       = useState<number>(() => loadSaved<number>(scaleKey, 1));
+  const [isBlinking, setIsBlinking] = useState(false);
+  const [isDraggingUI, setIsDraggingUI] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Use refs for drag logic to avoid stale closures in pointer callbacks
+  const isDraggingRef = useRef(false);
+  const posRef        = useRef(pos);
+  const scaleRef      = useRef(scale);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragStart = useRef<{ px: number; py: number; ex: number; ey: number } | null>(null);
-  const hasDragged = useRef(false);
-  const posRef = useRef(pos);
-  posRef.current = pos;
+  const hasDragged    = useRef(false);
 
-  const shadowColor = variant === 'primary' ? 'rgba(74,222,128,0.7)' : 'rgba(156,163,175,0.7)';
-  const shadowFade  = variant === 'primary' ? 'rgba(74,222,128,0)'   : 'rgba(156,163,175,0)';
-  const activeClass   = variant === 'primary' ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-600';
-  const inactiveClass = variant === 'primary' ? 'bg-green-600/60 hover:bg-green-700' : 'bg-gray-500/60 hover:bg-gray-600';
+  // Keep refs in sync with state
+  posRef.current   = pos;
+  scaleRef.current = scale;
 
+  // Pinch-to-scale state
+  const pinchRef = useRef<{ dist: number; scale0: number } | null>(null);
+
+  // Blinking pulse
   useEffect(() => {
-    const interval = setInterval(() => setIsBlinking(p => !p), 1000);
-    return () => clearInterval(interval);
+    const id = setInterval(() => setIsBlinking(p => !p), 1000);
+    return () => clearInterval(id);
   }, []);
 
   const clamp = useCallback((x: number, y: number) => {
-    const w = containerRef.current?.offsetWidth ?? 160;
-    const h = containerRef.current?.offsetHeight ?? 48;
+    const w = (containerRef.current?.offsetWidth  ?? 160) * scaleRef.current;
+    const h = (containerRef.current?.offsetHeight ?? 48)  * scaleRef.current;
     return {
-      x: Math.max(8, Math.min(window.innerWidth - w - 8, x)),
+      x: Math.max(8, Math.min(window.innerWidth  - w - 8, x)),
       y: Math.max(8, Math.min(window.innerHeight - h - 8, y)),
     };
   }, []);
+
+  // --- Pointer events for drag ---
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     e.currentTarget.setPointerCapture(e.pointerId);
     hasDragged.current = false;
     longPressTimer.current = setTimeout(() => {
-      setIsDragging(true);
-      dragStart.current = { px: posRef.current.x, py: posRef.current.y, ex: e.clientX, ey: e.clientY };
+      isDraggingRef.current = true;
+      setIsDraggingUI(true);
+      dragStart.current = {
+        px: posRef.current.x,
+        py: posRef.current.y,
+        ex: e.clientX,
+        ey: e.clientY,
+      };
     }, LONG_PRESS_MS);
   }, []);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!dragStart.current) return;
+    if (!isDraggingRef.current || !dragStart.current) return;
     const dx = e.clientX - dragStart.current.ex;
     const dy = e.clientY - dragStart.current.ey;
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasDragged.current = true;
-    if (isDragging) setPos(clamp(dragStart.current.px + dx, dragStart.current.py + dy));
-  }, [isDragging, clamp]);
+    const newPos = clamp(dragStart.current.px + dx, dragStart.current.py + dy);
+    posRef.current = newPos;
+    setPos(newPos);
+  }, [clamp]);
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
-    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
-    if (isDragging && dragStart.current) {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    if (isDraggingRef.current && dragStart.current) {
       const dx = e.clientX - dragStart.current.ex;
       const dy = e.clientY - dragStart.current.ey;
       const newPos = clamp(dragStart.current.px + dx, dragStart.current.py + dy);
+      posRef.current = newPos;
       setPos(newPos);
-      localStorage.setItem(key, JSON.stringify(newPos));
-      dragStart.current = null;
-      setIsDragging(false);
+      localStorage.setItem(posKey, JSON.stringify(newPos));
+      dragStart.current    = null;
+      isDraggingRef.current = false;
+      setIsDraggingUI(false);
     } else if (!hasDragged.current) {
       onClick();
     }
     hasDragged.current = false;
-  }, [isDragging, clamp, key, onClick]);
+  }, [clamp, posKey, onClick]);
 
   const onPointerCancel = useCallback(() => {
-    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
-    setIsDragging(false);
-    dragStart.current = null;
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    isDraggingRef.current = false;
+    setIsDraggingUI(false);
+    dragStart.current  = null;
     hasDragged.current = false;
   }, []);
+
+  // --- Touch events for pinch-to-scale ---
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx   = e.touches[0].clientX - e.touches[1].clientX;
+      const dy   = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      pinchRef.current = { dist, scale0: scaleRef.current };
+    }
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2 && pinchRef.current) {
+      e.preventDefault();
+      const dx      = e.touches[0].clientX - e.touches[1].clientX;
+      const dy      = e.touches[0].clientY - e.touches[1].clientY;
+      const dist    = Math.hypot(dx, dy);
+      const newScale = Math.min(
+        MAX_SCALE,
+        Math.max(MIN_SCALE, pinchRef.current.scale0 * (dist / pinchRef.current.dist))
+      );
+      scaleRef.current = newScale;
+      setScale(newScale);
+    }
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    if (pinchRef.current) {
+      localStorage.setItem(scaleKey, JSON.stringify(scaleRef.current));
+      pinchRef.current = null;
+    }
+  }, [scaleKey]);
+
+  // --- Styling ---
+
+  const shadowColor = variant === 'primary' ? 'rgba(74,222,128,0.7)' : 'rgba(156,163,175,0.7)';
+  const shadowFade  = variant === 'primary' ? 'rgba(74,222,128,0)'   : 'rgba(156,163,175,0)';
+  const activeClass   = variant === 'primary' ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-600';
+  const inactiveClass = variant === 'primary' ? 'bg-green-600/60 hover:bg-green-700' : 'bg-gray-500/60 hover:bg-gray-600';
 
   return (
     <div
@@ -115,6 +185,9 @@ export function FloatingActionButton({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
       style={{
         position: 'fixed',
         left: pos.x,
@@ -122,28 +195,36 @@ export function FloatingActionButton({
         zIndex: 50,
         touchAction: 'none',
         userSelect: 'none',
-        cursor: isDragging ? 'grabbing' : 'pointer',
+        cursor: isDraggingUI ? 'grabbing' : 'pointer',
         borderRadius: '9999px',
-        boxShadow: isDragging ? `0 0 0 4px ${shadowColor}, 0 8px 24px rgba(0,0,0,0.25)` : undefined,
-        animation: isDragging || variant !== 'primary' ? undefined : 'fab-pulse 2s infinite',
+        transform: `scale(${scale})`,
+        transformOrigin: 'bottom right',
+        boxShadow: isDraggingUI
+          ? `0 0 0 4px ${shadowColor}, 0 8px 24px rgba(0,0,0,0.25)`
+          : undefined,
+        animation: isDraggingUI || variant !== 'primary'
+          ? undefined
+          : 'fab-pulse 2s infinite',
       }}
     >
       <style>{`
         @keyframes fab-pulse {
-          0%   { transform: scale(1);    box-shadow: 0 0 0 0 ${shadowColor}; }
-          70%  { transform: scale(1.05); box-shadow: 0 0 0 15px ${shadowFade}; }
-          100% { transform: scale(1);    box-shadow: 0 0 0 0 ${shadowFade}; }
+          0%   { box-shadow: 0 0 0 0   ${shadowColor}; }
+          70%  { box-shadow: 0 0 0 15px ${shadowFade}; }
+          100% { box-shadow: 0 0 0 0   ${shadowFade}; }
         }
       `}</style>
       <Button
         size="lg"
         className={`rounded-full flex items-center gap-2 select-none transition-colors duration-300 ${
-          isDragging ? activeClass + ' opacity-80' : isBlinking ? activeClass : inactiveClass
+          isDraggingUI
+            ? activeClass + ' opacity-80'
+            : isBlinking ? activeClass : inactiveClass
         }`}
         style={{ pointerEvents: 'none' }}
       >
-        {isDragging ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
-        {isDragging ? 'Sposta...' : text}
+        {isDraggingUI ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+        {isDraggingUI ? 'Sposta...' : text}
       </Button>
     </div>
   );

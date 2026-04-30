@@ -253,6 +253,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
             setIsAppointmentFormOpen(true);
           }}
           text="Seleziona nuovo appuntamento"
+          storageKey="fab-week-position"
         />
       )}
     </div>

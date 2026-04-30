@@ -220,6 +220,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
             setIsAppointmentFormOpen(true);
           }}
           text="Seleziona nuovo appuntamento"
+          storageKey="fab-month-position"
         />
       )}
     </div>
