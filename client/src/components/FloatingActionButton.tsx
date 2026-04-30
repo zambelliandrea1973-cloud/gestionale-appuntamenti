@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { Plus, X, Move } from "lucide-react";
+import { Plus, Move } from "lucide-react";
 
 interface FloatingActionButtonProps {
   onClick: () => void;
   text: string;
   variant?: 'primary' | 'secondary';
   position?: 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left' | 'none';
+  storageKey?: string;
 }
 
-const STORAGE_KEY = 'fab-position';
 const LONG_PRESS_MS = 1500;
 
 function getDefaultPos(): { x: number; y: number } {
@@ -19,9 +19,9 @@ function getDefaultPos(): { x: number; y: number } {
   };
 }
 
-function loadSavedPos(): { x: number; y: number } | null {
+function loadSavedPos(key: string): { x: number; y: number } | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(key);
     if (!raw) return null;
     const pos = JSON.parse(raw);
     if (typeof pos.x === 'number' && typeof pos.y === 'number') return pos;
@@ -33,27 +33,33 @@ export function FloatingActionButton({
   onClick,
   text,
   variant = 'primary',
+  storageKey = 'fab-position',
 }: FloatingActionButtonProps) {
+  const key = storageKey;
   const [isBlinking, setIsBlinking] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [isLongPress, setIsLongPress] = useState(false);
-  const [pos, setPos] = useState<{ x: number; y: number }>(() => loadSavedPos() ?? getDefaultPos());
+  const [pos, setPos] = useState<{ x: number; y: number }>(
+    () => loadSavedPos(key) ?? getDefaultPos()
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragStart = useRef<{ px: number; py: number; ex: number; ey: number } | null>(null);
   const hasDragged = useRef(false);
+  const posRef = useRef(pos);
+  posRef.current = pos;
 
-  const selectedColors = variant === 'primary'
-    ? { active: 'bg-green-600 hover:bg-green-700', inactive: 'bg-green-600/50 hover:bg-green-600/70', shadowColor: 'rgba(74,222,128,0.7)', shadowFade: 'rgba(74,222,128,0)' }
-    : { active: 'bg-gray-500 hover:bg-gray-600', inactive: 'bg-gray-500/50 hover:bg-gray-500/70', shadowColor: 'rgba(156,163,175,0.7)', shadowFade: 'rgba(156,163,175,0)' };
+  const shadowColor = variant === 'primary' ? 'rgba(74,222,128,0.7)' : 'rgba(156,163,175,0.7)';
+  const shadowFade  = variant === 'primary' ? 'rgba(74,222,128,0)'   : 'rgba(156,163,175,0)';
+  const activeClass   = variant === 'primary' ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-600';
+  const inactiveClass = variant === 'primary' ? 'bg-green-600/60 hover:bg-green-700' : 'bg-gray-500/60 hover:bg-gray-600';
 
   useEffect(() => {
     const interval = setInterval(() => setIsBlinking(p => !p), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  const clampPos = useCallback((x: number, y: number) => {
+  const clamp = useCallback((x: number, y: number) => {
     const w = containerRef.current?.offsetWidth ?? 160;
     const h = containerRef.current?.offsetHeight ?? 48;
     return {
@@ -62,63 +68,45 @@ export function FloatingActionButton({
     };
   }, []);
 
-  const startLongPress = useCallback((ex: number, ey: number) => {
-    longPressTimer.current = setTimeout(() => {
-      setIsLongPress(true);
-      setIsDragging(true);
-      dragStart.current = { px: pos.x, py: pos.y, ex, ey };
-      hasDragged.current = false;
-    }, LONG_PRESS_MS);
-  }, [pos]);
-
-  const cancelLongPress = useCallback(() => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
-    }
-  }, []);
-
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     e.currentTarget.setPointerCapture(e.pointerId);
-    startLongPress(e.clientX, e.clientY);
-  }, [startLongPress]);
+    hasDragged.current = false;
+    longPressTimer.current = setTimeout(() => {
+      setIsDragging(true);
+      dragStart.current = { px: posRef.current.x, py: posRef.current.y, ex: e.clientX, ey: e.clientY };
+    }, LONG_PRESS_MS);
+  }, []);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isDragging || !dragStart.current) return;
+    if (!dragStart.current) return;
     const dx = e.clientX - dragStart.current.ex;
     const dy = e.clientY - dragStart.current.ey;
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasDragged.current = true;
-    const newPos = clampPos(dragStart.current.px + dx, dragStart.current.py + dy);
-    setPos(newPos);
-  }, [isDragging, clampPos]);
+    if (isDragging) setPos(clamp(dragStart.current.px + dx, dragStart.current.py + dy));
+  }, [isDragging, clamp]);
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
-    cancelLongPress();
-    if (isDragging) {
-      setIsDragging(false);
-      setIsLongPress(false);
-      const dx = e.clientX - (dragStart.current?.ex ?? e.clientX);
-      const dy = e.clientY - (dragStart.current?.ey ?? e.clientY);
-      const newPos = clampPos(
-        (dragStart.current?.px ?? pos.x) + dx,
-        (dragStart.current?.py ?? pos.y) + dy,
-      );
+    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
+    if (isDragging && dragStart.current) {
+      const dx = e.clientX - dragStart.current.ex;
+      const dy = e.clientY - dragStart.current.ey;
+      const newPos = clamp(dragStart.current.px + dx, dragStart.current.py + dy);
       setPos(newPos);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newPos));
+      localStorage.setItem(key, JSON.stringify(newPos));
       dragStart.current = null;
+      setIsDragging(false);
     } else if (!hasDragged.current) {
       onClick();
     }
     hasDragged.current = false;
-  }, [isDragging, cancelLongPress, clampPos, pos, onClick]);
+  }, [isDragging, clamp, key, onClick]);
 
   const onPointerCancel = useCallback(() => {
-    cancelLongPress();
+    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
     setIsDragging(false);
-    setIsLongPress(false);
     dragStart.current = null;
     hasDragged.current = false;
-  }, [cancelLongPress]);
+  }, []);
 
   return (
     <div
@@ -135,45 +123,28 @@ export function FloatingActionButton({
         touchAction: 'none',
         userSelect: 'none',
         cursor: isDragging ? 'grabbing' : 'pointer',
-        transition: isDragging ? 'none' : 'box-shadow 0.3s',
-        animation: isDragging || variant !== 'primary' ? undefined : 'fab-pulse 2s infinite',
         borderRadius: '9999px',
-        boxShadow: isDragging ? '0 0 0 3px rgba(74,222,128,0.8), 0 8px 24px rgba(0,0,0,0.25)' : undefined,
+        boxShadow: isDragging ? `0 0 0 4px ${shadowColor}, 0 8px 24px rgba(0,0,0,0.25)` : undefined,
+        animation: isDragging || variant !== 'primary' ? undefined : 'fab-pulse 2s infinite',
       }}
     >
       <style>{`
         @keyframes fab-pulse {
-          0%   { transform: scale(1);    box-shadow: 0 0 0 0 ${selectedColors.shadowColor}; }
-          70%  { transform: scale(1.05); box-shadow: 0 0 0 15px ${selectedColors.shadowFade}; }
-          100% { transform: scale(1);    box-shadow: 0 0 0 0 ${selectedColors.shadowFade}; }
+          0%   { transform: scale(1);    box-shadow: 0 0 0 0 ${shadowColor}; }
+          70%  { transform: scale(1.05); box-shadow: 0 0 0 15px ${shadowFade}; }
+          100% { transform: scale(1);    box-shadow: 0 0 0 0 ${shadowFade}; }
         }
       `}</style>
-
       <Button
         size="lg"
-        className={`rounded-full flex items-center gap-2 transition-all duration-300 select-none ${
-          isBlinking && !isDragging ? selectedColors.active : selectedColors.inactive
-        } ${isDragging ? 'opacity-80 scale-105' : ''}`}
+        className={`rounded-full flex items-center gap-2 select-none transition-colors duration-300 ${
+          isDragging ? activeClass + ' opacity-80' : isBlinking ? activeClass : inactiveClass
+        }`}
         style={{ pointerEvents: 'none' }}
       >
-        {isDragging
-          ? <Move className="h-5 w-5" />
-          : variant === 'primary'
-            ? <Plus className="h-5 w-5" />
-            : <X className="h-5 w-5" />
-        }
+        {isDragging ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
         {isDragging ? 'Sposta...' : text}
       </Button>
-
-      {isLongPress && !isDragging && (
-        <div
-          style={{
-            position: 'absolute', inset: 0, borderRadius: '9999px',
-            background: 'rgba(255,255,255,0.3)',
-            animation: 'none',
-          }}
-        />
-      )}
     </div>
   );
 }

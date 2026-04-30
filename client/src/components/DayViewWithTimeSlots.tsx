@@ -745,22 +745,26 @@ export default function DayViewWithTimeSlots({
           <FloatingActionButton 
             onClick={completeSelection} 
             text={t('calendar.confirmAndAssociateClient')}
-            position="bottom-right"
+            storageKey="fab-confirm-position"
           />
           
-          {/* Pulsante Annulla (in basso a sinistra) */}
-          <FloatingActionButton
+          {/* Pulsante Annulla — X fissa in alto a destra */}
+          <button
             onClick={cancelSelection}
-            text={t('common.cancel')}
-            variant="secondary"
-            position="bottom-left"
-          />
+            className="fixed top-20 right-4 z-50 w-10 h-10 rounded-full bg-gray-600 hover:bg-gray-700 text-white flex items-center justify-center shadow-lg"
+            aria-label={t('common.cancel')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </>
       ) : (
         <FloatingActionButton 
           onClick={startSelectionMode} 
           text={t('calendar.selectTimeNewAppointment')}
-          position="bottom-right"
+          storageKey="fab-select-position"
         />
       )}
       
