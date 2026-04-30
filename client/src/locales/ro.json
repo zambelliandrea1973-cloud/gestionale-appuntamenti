@@ -1818,7 +1818,9 @@
     "errorOccurred": "A apărut o eroare: {{message}}",
     "frequentClient": "Client frecvent",
     "noConsent": "Consimțământ neacordat",
-    "notesLabel": "Note:"
+    "notesLabel": "Note:",
+    "noSlotsSelected": "Niciun interval selectat",
+    "pleaseSelectSlots": "Selectați cel puțin un interval înainte de a confirma"
   },
   "navigation": {
     "home": "Acasă",

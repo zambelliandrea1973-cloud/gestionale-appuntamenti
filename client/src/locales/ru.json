@@ -1836,7 +1836,9 @@
     "errorOccurred": "Произошла ошибка: {{message}}",
     "frequentClient": "Постоянный клиент",
     "noConsent": "Согласие не предоставлено",
-    "notesLabel": "Заметки:"
+    "notesLabel": "Заметки:",
+    "noSlotsSelected": "Слот не выбран",
+    "pleaseSelectSlots": "Выберите хотя бы один слот перед подтверждением"
   },
   "trial": {
     "days": "дней",

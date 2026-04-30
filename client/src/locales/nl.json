@@ -1818,7 +1818,9 @@
     "errorOccurred": "Er is een fout opgetreden: {{message}}",
     "frequentClient": "Vaste klant",
     "noConsent": "Toestemming niet gegeven",
-    "notesLabel": "Notities:"
+    "notesLabel": "Notities:",
+    "noSlotsSelected": "Geen tijdslot geselecteerd",
+    "pleaseSelectSlots": "Selecteer minimaal één tijdslot voordat u bevestigt"
   },
   "navigation": {
     "home": "Home",

@@ -1836,7 +1836,9 @@
     "errorOccurred": "Ein Fehler ist aufgetreten: {{message}}",
     "frequentClient": "Stammkunde",
     "noConsent": "Einwilligung nicht erteilt",
-    "notesLabel": "Notizen:"
+    "notesLabel": "Notizen:",
+    "noSlotsSelected": "Kein Zeitslot ausgewählt",
+    "pleaseSelectSlots": "Bitte mindestens einen Zeitslot vor der Bestätigung auswählen"
   },
   "trial": {
     "days": "Tage",

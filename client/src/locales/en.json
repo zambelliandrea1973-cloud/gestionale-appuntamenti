@@ -413,7 +413,9 @@
     "errorOccurred": "An error occurred: {{message}}",
     "frequentClient": "Frequent client",
     "noConsent": "Consent not provided",
-    "notesLabel": "Notes:"
+    "notesLabel": "Notes:",
+    "noSlotsSelected": "No slot selected",
+    "pleaseSelectSlots": "Please select at least one slot before confirming"
   },
   "navigation": {
     "home": "Home",

@@ -1836,7 +1836,9 @@
     "errorOccurred": "Une erreur s'est produite : {{message}}",
     "frequentClient": "Client fréquent",
     "noConsent": "Consentement non fourni",
-    "notesLabel": "Notes :"
+    "notesLabel": "Notes :",
+    "noSlotsSelected": "Aucun créneau sélectionné",
+    "pleaseSelectSlots": "Veuillez sélectionner au moins un créneau avant de confirmer"
   },
   "trial": {
     "days": "jours",

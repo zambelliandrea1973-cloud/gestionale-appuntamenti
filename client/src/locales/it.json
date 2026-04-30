@@ -413,7 +413,9 @@
     "errorOccurred": "Si è verificato un errore: {{message}}",
     "frequentClient": "Cliente frequente",
     "noConsent": "Consenso non fornito",
-    "notesLabel": "Note:"
+    "notesLabel": "Note:",
+    "noSlotsSelected": "Nessuno slot selezionato",
+    "pleaseSelectSlots": "Seleziona almeno uno slot prima di confermare"
   },
   "navigation": {
     "home": "Home",

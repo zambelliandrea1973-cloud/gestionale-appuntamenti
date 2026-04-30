@@ -1818,7 +1818,9 @@
     "errorOccurred": "Det oppstod en feil: {{message}}",
     "frequentClient": "Fast kunde",
     "noConsent": "Samtykke ikke gitt",
-    "notesLabel": "Notater:"
+    "notesLabel": "Notater:",
+    "noSlotsSelected": "Ingen tidsluke valgt",
+    "pleaseSelectSlots": "Velg minst én tidsluke før du bekrefter"
   },
   "navigation": {
     "home": "Hjem",

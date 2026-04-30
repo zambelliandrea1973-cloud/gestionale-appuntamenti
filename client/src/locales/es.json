@@ -1836,7 +1836,9 @@
     "errorOccurred": "Se produjo un error: {{message}}",
     "frequentClient": "Cliente frecuente",
     "noConsent": "Consentimiento no otorgado",
-    "notesLabel": "Notas:"
+    "notesLabel": "Notas:",
+    "noSlotsSelected": "Ningún horario seleccionado",
+    "pleaseSelectSlots": "Selecciona al menos un horario antes de confirmar"
   },
   "trial": {
     "days": "días",
