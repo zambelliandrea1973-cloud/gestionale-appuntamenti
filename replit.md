@@ -10,6 +10,14 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) streamlines 
 - Work independently and efficiently
 - Keep dev and production environments synchronized
 
+## ⚠️ REGOLA OBBLIGATORIA — Internazionalizzazione (i18n)
+Qualunque testo in italiano aggiunto o modificato nell'interfaccia utente **DEVE** essere gestito tramite il sistema i18n (`t("chiave", "fallback")`).
+- Prima di aggiungere testo fisso in italiano, verificare se esiste già una chiave nei file locale (`client/src/locales/*.json`).
+- Se la chiave esiste in `it.json`, usarla direttamente — è già tradotta in tutte le 9 lingue supportate (it, en, es, fr, de, nl, no, ro, ru).
+- Se la chiave **non esiste**, aggiungerla a tutti e 9 i file locale prima di procedere con il codice.
+- **Non lasciare mai testo italiano hardcoded** nelle pagine o nei componenti React.
+- Lingue supportate: 🇮🇹 it · 🇬🇧 en · 🇪🇸 es · 🇫🇷 fr · 🇩🇪 de · 🇳🇱 nl · 🇳🇴 no · 🇷🇴 ro · 🇷🇺 ru
+
 ## System Architecture
 
 ### UI/UX Decisions
