@@ -17,10 +17,10 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { LanguageSelector } from "@/components/ui/language-selector";
-import calendarPreview from "@assets/Screenshot_2025-11-26-13-30-22-009_com.android.chrome_1777543046827.jpg";
-import clientiPreview from "@assets/Screenshot_2025-11-26-13-32-49-248_com.android.chrome_1777543064883.jpg";
-import whatsappPreview from "@assets/Screenshot_2025-11-26-13-33-14-252_com.android.chrome_1777543107269.jpg";
-import fatturePreview from "@assets/Screenshot_2025-11-26-13-34-05-845_com.android.chrome_1777543070374.jpg";
+import calendarPreview from "../assets/preview-calendario.jpg";
+import clientiPreview from "../assets/preview-clienti.jpg";
+import whatsappPreview from "../assets/preview-whatsapp.jpg";
+import fatturePreview from "../assets/preview-fatture.jpg";
 
 const QUICK_LANGS = [
   { code: "en", flag: "🇬🇧", label: "English" },
