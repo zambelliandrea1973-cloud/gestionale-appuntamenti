@@ -230,7 +230,7 @@ export function FloatingActionButton({
         {isDraggingUI ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
         {isDraggingUI ? 'Sposta...' : text}
       </Button>
-      {onCancel && (
+      {onCancel && !isDraggingUI && (
         <button
           onPointerDown={e => e.stopPropagation()}
           onPointerUp={e => e.stopPropagation()}
