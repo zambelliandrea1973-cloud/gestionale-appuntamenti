@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
-import { Plus, Move } from "lucide-react";
+import { Plus, Move, X } from "lucide-react";
 
 interface FloatingActionButtonProps {
   onClick: () => void;
   text: string;
   variant?: 'primary' | 'secondary';
   storageKey?: string;
+  onCancel?: () => void;
 }
 
 const LONG_PRESS_MS = 1500;
@@ -35,7 +37,9 @@ export function FloatingActionButton({
   text,
   variant = 'primary',
   storageKey = 'fab-position',
+  onCancel,
 }: FloatingActionButtonProps) {
+  const { t } = useTranslation();
   const posKey   = storageKey;
   const scaleKey = `${storageKey}-scale`;
 
@@ -226,6 +230,18 @@ export function FloatingActionButton({
         {isDraggingUI ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
         {isDraggingUI ? 'Sposta...' : text}
       </Button>
+      {onCancel && (
+        <button
+          onPointerDown={e => e.stopPropagation()}
+          onPointerUp={e => e.stopPropagation()}
+          onClick={e => { e.stopPropagation(); onCancel(); }}
+          className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gray-700 hover:bg-gray-900 text-white flex items-center justify-center shadow-md z-10"
+          aria-label={t('common.cancel')}
+          style={{ touchAction: 'none' }}
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      )}
     </div>
   );
 }
