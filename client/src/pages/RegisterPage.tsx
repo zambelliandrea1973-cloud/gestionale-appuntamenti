@@ -97,7 +97,11 @@ export default function RegisterPage() {
       // Tracciamento conversione Google Ads — registrazione completata
       try {
         if (typeof window.gtag === 'function') {
-          window.gtag('event', 'conversion', { send_to: 'AW-18109628280' });
+          window.gtag('event', 'conversion', {
+            send_to: 'AW-18109628280/yySaCPqEkKUcEPj-q7tD',
+            value: 1.0,
+            currency: 'EUR',
+          });
           window.gtag('event', 'sign_up', { method: 'email' });
         }
       } catch (_) {}
