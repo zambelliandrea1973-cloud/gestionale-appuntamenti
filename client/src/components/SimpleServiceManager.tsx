@@ -349,10 +349,10 @@ export default function SimpleServiceManager() {
                         {service.isDemo && (
                           <Badge
                             variant="outline"
-                            className="text-[10px] uppercase tracking-wide border-amber-300 text-amber-700 bg-amber-50"
-                            data-testid={`badge-sample-service-${service.id}`}
+                            className="text-[10px] uppercase tracking-wide border-gray-300 text-gray-500 bg-gray-100"
+                            data-testid={`badge-demo-service-${service.id}`}
                           >
-                            {t('onboarding.sampleBadge')}
+                            {t('common.demoLabel')}
                           </Badge>
                         )}
                       </div>

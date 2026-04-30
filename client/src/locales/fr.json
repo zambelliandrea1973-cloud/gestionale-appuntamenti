@@ -932,7 +932,8 @@
     "activate": "Activer",
     "copied": "Copié",
     "notSpecified": "Non spécifié",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "demoLabel": "Demo"
   },
   "notifications": {
     "success": "Opération réussie",

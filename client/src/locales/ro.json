@@ -914,7 +914,8 @@
     "activate": "Activează",
     "copied": "Copiat",
     "notSpecified": "Nespecificat",
-    "tryAgain": "Încearcă din nou"
+    "tryAgain": "Încearcă din nou",
+    "demoLabel": "Demo"
   },
   "notifications": {
     "success": "Operațiune finalizată cu succes",

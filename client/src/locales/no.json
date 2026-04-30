@@ -914,7 +914,8 @@
     "activate": "Aktiver",
     "copied": "Kopiert",
     "notSpecified": "Ikke angitt",
-    "tryAgain": "Prøv igjen"
+    "tryAgain": "Prøv igjen",
+    "demoLabel": "Demo"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",

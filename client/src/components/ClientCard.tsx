@@ -293,10 +293,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
               {client.isDemo && (
                 <Badge
                   variant="outline"
-                  className="text-[10px] uppercase tracking-wide border-amber-300 text-amber-700 bg-amber-50"
-                  data-testid={`badge-sample-client-${client.id}`}
+                  className="text-[10px] uppercase tracking-wide border-gray-300 text-gray-500 bg-gray-100"
+                  data-testid={`badge-demo-client-${client.id}`}
                 >
-                  {t('onboarding.sampleBadge')}
+                  {t('common.demoLabel')}
                 </Badge>
               )}
             </h3>

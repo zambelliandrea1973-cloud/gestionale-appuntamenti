@@ -914,7 +914,8 @@
     "activate": "Activeren",
     "copied": "Gekopieerd",
     "notSpecified": "Niet opgegeven",
-    "tryAgain": "Probeer opnieuw"
+    "tryAgain": "Probeer opnieuw",
+    "demoLabel": "Demo"
   },
   "notifications": {
     "success": "Bewerking succesvol voltooid",
