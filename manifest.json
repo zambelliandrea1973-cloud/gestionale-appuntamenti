@@ -4,9 +4,10 @@
   "description": "Accedi alla tua area personale. Prenota appuntamenti, visualizza documenti e rimani in contatto con il tuo professionista di fiducia.",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#ffffff",
   "theme_color": "#006400",
-  "orientation": "portrait",
+  "orientation": "any",
   "categories": [
     "healthcare"
   ],
