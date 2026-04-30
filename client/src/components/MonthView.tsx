@@ -213,13 +213,15 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
       )}
       
       {/* Floating Action Button for creating appointments */}
-      <FloatingActionButton 
-        onClick={() => {
-          setSelectedDayForAppointment(selectedDate);
-          setIsAppointmentFormOpen(true);
-        }}
-        text="Seleziona nuovo appuntamento"
-      />
+      {!isAppointmentFormOpen && (
+        <FloatingActionButton 
+          onClick={() => {
+            setSelectedDayForAppointment(selectedDate);
+            setIsAppointmentFormOpen(true);
+          }}
+          text="Seleziona nuovo appuntamento"
+        />
+      )}
     </div>
   );
 }

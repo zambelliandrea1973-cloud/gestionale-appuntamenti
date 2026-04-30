@@ -244,15 +244,17 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
         </div>
       )}
       
-      {/* Floating Action Button for creating appointments */}
-      <FloatingActionButton 
-        onClick={() => {
-          setSelectedDayForAppointment(selectedDate);
-          setSelectedTimeForAppointment("09:00");
-          setIsAppointmentFormOpen(true);
-        }}
-        text="Seleziona nuovo appuntamento"
-      />
+      {/* Floating Action Button for creating appointments - nascosto quando il form è già aperto */}
+      {!isAppointmentFormOpen && (
+        <FloatingActionButton 
+          onClick={() => {
+            setSelectedDayForAppointment(selectedDate);
+            setSelectedTimeForAppointment("09:00");
+            setIsAppointmentFormOpen(true);
+          }}
+          text="Seleziona nuovo appuntamento"
+        />
+      )}
     </div>
   );
 }
