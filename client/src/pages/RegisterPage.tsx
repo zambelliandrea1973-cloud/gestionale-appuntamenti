@@ -94,6 +94,13 @@ export default function RegisterPage() {
       }
 
       const data = await response.json();
+      // Tracciamento conversione Google Ads — registrazione completata
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'conversion', { send_to: 'AW-18109628280' });
+          window.gtag('event', 'sign_up', { method: 'email' });
+        }
+      } catch (_) {}
       // Auto-login lato server, invalida cache utente e vai alla dashboard
       await queryClient.invalidateQueries();
       if (data.autoLogin) {
