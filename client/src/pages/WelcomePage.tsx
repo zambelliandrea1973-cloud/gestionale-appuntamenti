@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -11,10 +11,16 @@ import {
   Star,
   UserPlus,
   LogIn,
+  X,
+  Eye,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { LanguageSelector } from "@/components/ui/language-selector";
+import calendarPreview from "@assets/Screenshot_2025-11-26-13-30-22-009_com.android.chrome_1777543046827.jpg";
+import clientiPreview from "@assets/Screenshot_2025-11-26-13-32-49-248_com.android.chrome_1777543064883.jpg";
+import whatsappPreview from "@assets/Screenshot_2025-11-26-13-33-14-252_com.android.chrome_1777543107269.jpg";
+import fatturePreview from "@assets/Screenshot_2025-11-26-13-34-05-845_com.android.chrome_1777543070374.jpg";
 
 const QUICK_LANGS = [
   { code: "en", flag: "🇬🇧", label: "English" },
@@ -28,6 +34,7 @@ export default function WelcomePage() {
   const [, setLocation] = useLocation();
   const { user, isLoading } = useUserWithLicense();
   const { t, i18n } = useTranslation();
+  const [previewImg, setPreviewImg] = useState<{ src: string; title: string } | null>(null);
 
   const currentLang = i18n.language?.split("-")[0] || "it";
   const changeLang = (code: string) => {
@@ -71,24 +78,28 @@ export default function WelcomePage() {
       title: t("welcomePage.feature1Title", "Calendario smart"),
       desc: t("welcomePage.feature1Desc", "Appuntamenti sempre sotto controllo"),
       color: "bg-emerald-50 text-emerald-700",
+      preview: calendarPreview,
     },
     {
       icon: Users,
       title: t("welcomePage.feature2Title", "Clienti & schede"),
       desc: t("welcomePage.feature2Desc", "Storico completo a portata di mano"),
       color: "bg-blue-50 text-blue-700",
+      preview: clientiPreview,
     },
     {
       icon: MessageCircle,
       title: t("welcomePage.feature3Title", "Promemoria WhatsApp"),
       desc: t("welcomePage.feature3Desc", "Riduci i no-show fino al 70%"),
       color: "bg-green-50 text-green-700",
+      preview: whatsappPreview,
     },
     {
       icon: FileText,
       title: t("welcomePage.feature4Title", "Fatture & incassi"),
       desc: t("welcomePage.feature4Desc", "Gestione fiscale integrata"),
       color: "bg-amber-50 text-amber-700",
+      preview: fatturePreview,
     },
   ];
 
@@ -207,7 +218,7 @@ export default function WelcomePage() {
               return (
                 <div
                   key={i}
-                  className="bg-card border rounded-xl p-4 text-center hover:shadow-md transition-shadow"
+                  className="bg-card border rounded-xl p-4 text-center hover:shadow-md transition-shadow flex flex-col items-center"
                   data-testid={`feature-card-${i}`}
                 >
                   <div
@@ -216,13 +227,50 @@ export default function WelcomePage() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <h3 className="font-semibold text-sm mb-1">{f.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-snug">
+                  <p className="text-xs text-muted-foreground leading-snug mb-3">
                     {f.desc}
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewImg({ src: f.preview, title: f.title })}
+                    className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-auto"
+                  >
+                    <Eye className="h-3 w-3" />
+                    Anteprima
+                  </button>
                 </div>
               );
             })}
           </section>
+
+          {/* Lightbox */}
+          {previewImg && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+              onClick={() => setPreviewImg(null)}
+            >
+              <div
+                className="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between px-4 py-3 border-b">
+                  <span className="font-semibold text-sm">{previewImg.title}</span>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewImg(null)}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <img
+                  src={previewImg.src}
+                  alt={previewImg.title}
+                  className="w-full object-contain max-h-[70vh]"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Benefits */}
           <section className="bg-card border rounded-xl p-5 md:p-6 mb-10 max-w-xl mx-auto">
