@@ -6942,7 +6942,6 @@
         "permanent": "Eliminar definitivamente las sugerencias",
         "session": "Ocultar hasta el próximo reinicio"
       }
-    },
-    "sampleBadge": "Ejemplo"
+    }
   }
 }

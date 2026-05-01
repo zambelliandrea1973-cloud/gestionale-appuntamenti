@@ -6942,7 +6942,6 @@
         "permanent": "Supprimer définitivement les suggestions",
         "session": "Masquer jusqu'au prochain redémarrage"
       }
-    },
-    "sampleBadge": "Exemple"
+    }
   }
 }
