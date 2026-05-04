@@ -1,0 +1,480 @@
+04/05/2026, 17:02:09:
+runtime
+error: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:09:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:09:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:09:
+runtime
+error: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:09:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:09:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:09:
+runtime
+error: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:09:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:09:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] GET /api/timezone-settings
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:09:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:09:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:09:
+runtime
+3:02:09 PM [express] GET /api/timezone-settings 500 in 117ms
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] GET /api/user-with-license
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:09:
+runtime
+3:02:09 PM [express] GET /api/user-with-license 500 in 118ms
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:09:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:09:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:09:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:09:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/booking-requests
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-pro-access
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/booking-requests 500 in 844ms
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/license/has-pro-access 500 in 846ms
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/license-info
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/license/license-info 500 in 854ms
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/application-title
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/license/application-title 500 in 858ms
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /dashboard
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/client-app-info
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /api/license/has-business-access
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/client-app-info 500 in 864ms
+04/05/2026, 17:02:10:
+runtime
+3:02:10 PM [express] GET /api/license/has-business-access 500 in 863ms
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] POST /api/timezone-settings
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] GET /fleur-de-vie.jpg
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:10:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:10:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:10:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:10:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] GET /login
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:19:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:19:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:19:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:19:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] GET /
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:27:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:27:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:27:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:27:
+runtime
+🔴 [GLOBAL ERROR] ==================
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR HANDLER] ==================
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] GET /
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] Message: relation "user_sessions" does not exist
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] Status: 500
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] Code: 42P01
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] Stack: error: relation "user_sessions" does not exist
+04/05/2026, 17:02:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+04/05/2026, 17:02:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+04/05/2026, 17:02:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+04/05/2026, 17:02:41:
+runtime
+🔴 [GLOBAL ERROR] ==================
