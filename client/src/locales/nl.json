@@ -5,18 +5,7 @@
     "description": "Beheer eenvoudig afspraken, klanten en facturen"
   },
   "welcomePage": {
-    "title": "Welkom bij Afsprakenbeheer",
-    "subtitle": "Kies hoe u wilt doorgaan",
-    "createAccount": "Nieuw account aanmaken",
-    "createAccountDesc": "Voor nieuwe gebruikers die het systeem willen gebruiken",
-    "professionalLogin": "Professionele Toegang",
-    "staffLogin": "Personeel/Admin Toegang",
-    "chooseAccessType": "Kies het juiste toegangstype",
-    "version": "Afsprakenbeheer v3.5.0",
-    "copyright": "© 2023-2025 Alle rechten voorbehouden",
-    "footerCopyright": "© 2023-2025 Zambelli Andrea - Afsprakenbeheer",
     "login": "Inloggen",
-    "loginDesc": "Voor professionals en medewerkers met een account",
     "badge": "Gebruikt door honderden professionals",
     "heroTitle": "Jouw zaak, altijd op zak",
     "heroSubtitle": "Beheer afspraken, klanten, herinneringen en facturen in één app voor kappers, schoonheidsspecialisten en wellness-professionals.",
@@ -114,54 +103,11 @@
     "staffLabel": "Per Professional",
     "myClientsLabel": "Mijn Klanten",
     "otherAccountsLabel": "Andere Accounts",
-    "clientPersonal": "Persoonlijke Klanten",
-    "clientSingular": "klant",
-    "clientPlural": "klanten",
     "loadingClients": "Klanten laden...",
     "errorLoadingClients": "Fout bij het laden van klanten:",
     "retry": "Opnieuw proberen"
   },
   "proPages": {
-    "syncGoogleCalendar": "Google Calendar synchroniseren",
-    "syncGoogleCalendarDesc": "Beheer de synchronisatie van uw afspraken met Google Calendar",
-    "clickToConfigure": "Klik om de Google Calendar-synchronisatie te configureren en te beheren",
-    "invoiceCreated": "Factuur succesvol aangemaakt",
-    "invoiceCreateError": "Fout bij aanmaken factuur",
-    "clientRequired": "Klant vereist",
-    "amountPositive": "Bedrag moet positief zijn",
-    "dateRequired": "Datum vereist",
-    "dueDateRequired": "Vervaldatum vereist",
-    "invalidEmail": "Ongeldige email",
-    "subjectRequired": "Onderwerp vereist",
-    "emailSent": "Email succesvol verzonden",
-    "emailSentTo": "Factuur verzonden naar",
-    "emailSendError": "Fout bij verzenden email",
-    "checkEmailSettings": "Controleer email instellingen",
-    "statusUpdated": "Status bijgewerkt",
-    "markedAs": "Factuur gemarkeerd als:",
-    "paid": "Betaald",
-    "unpaid": "Onbetaald",
-    "statusUpdateError": "Fout bij bijwerken status",
-    "promotionalPackages": "Promotiepakketten",
-    "newPackage": "Nieuw Pakket",
-    "createNewPackage": "Nieuw Promotiepakket Maken",
-    "packageName": "Pakketnaam",
-    "descriptionOptional": "Beschrijving (optioneel)",
-    "numberOfSessions": "Aantal Sessies",
-    "totalPrice": "Totaalprijs",
-    "validityDays": "Geldigheid (dagen, optioneel)",
-    "includedServices": "Inbegrepen Diensten",
-    "addService": "Dienst toevoegen...",
-    "templateCreated": "Sjabloon aangemaakt",
-    "packageCreatedDesc": "Promotiepakket succesvol aangemaakt",
-    "cannotCreateTemplate": "Kan sjabloon niet aanmaken",
-    "packageSold": "Pakket verkocht",
-    "packageAssigned": "Pakket toegewezen aan klant",
-    "cannotSellPackage": "Kan pakket niet verkopen",
-    "templateDeleted": "Sjabloon verwijderd",
-    "templateDeletedDesc": "Sjabloon succesvol verwijderd",
-    "cannotDeleteTemplate": "Kan sjabloon niet verwijderen",
-    "inventory": "Voorraad",
     "categoryRequired": "Categorienaam vereist",
     "productRequired": "Productnaam vereist",
     "pricePositive": "Prijs moet positief zijn",
@@ -177,50 +123,10 @@
     "maxImageSize": "Afbeelding moet maximaal 5MB zijn",
     "productCreatedImageError": "Product aangemaakt, maar fout bij uploaden afbeelding",
     "canAddImageLater": "U kunt het product bewerken om de afbeelding toe te voegen",
-    "productCreated": "Product succesvol aangemaakt",
     "productCreateError": "Fout bij aanmaken product",
-    "productUpdated": "Product succesvol bijgewerkt",
     "productUpdateError": "Fout bij bijwerken product",
-    "productDeleted": "Product succesvol verwijderd",
     "productDeleteError": "Fout bij verwijderen product",
-    "unknownError": "Onbekende fout",
-    "reports": "Rapporten",
-    "statisticalReports": "Statistische Rapporten",
-    "reportsAvailablePro": "Gedetailleerde activiteitsrapporten zijn beschikbaar vanaf het Pro-plan.",
-    "downloadPdf": "PDF downloaden",
-    "weekly": "Wekelijks",
-    "monthly": "Maandelijks",
-    "yearly": "Jaarlijks",
-    "week": "Week",
-    "totalAppointments": "Totaal Afspraken",
-    "totalRevenue": "Totale Omzet",
-    "dailyAverage": "Dagelijks Gemiddelde",
-    "appointmentDetails": "Afspraakdetails",
-    "day": "Dag",
-    "date": "Datum",
-    "month": "Maand",
-    "numberOfAppointments": "Aantal Afspraken",
-    "revenue": "Omzet",
-    "serviceDetails": "Dienstdetails",
-    "service": "Dienst",
-    "generatedOn": "Gegenereerd op"
-  },
-  "paymentPages": {
-    "popular": "Populair",
-    "error": "Fout",
-    "unableToLoadDashboard": "Kan dashboard-gegevens niet laden",
-    "dataRefresh": "Gegevens vernieuwen",
-    "dataRefreshInProgress": "Gegevens vernieuwen bezig...",
-    "settingsSaved": "Instellingen opgeslagen",
-    "bankingSettingsUpdated": "Bankinstellingen zijn succesvol bijgewerkt",
-    "cannotSaveBankingSettings": "Kan bankinstellingen niet opslaan",
-    "testCompleted": "Test voltooid",
-    "paymentSystemConfigured": "Betalingssysteem is correct geconfigureerd",
-    "testFailed": "Test mislukt",
-    "verifyBankingConfig": "Controleer de bankgegevens configuratie",
-    "trialExtended": "Proefperiode verlengd",
-    "cannotExtendTrial": "Kan proefperiode niet verlengen",
-    "dateUpdated": "Datum bijgewerkt"
+    "unknownError": "Onbekende fout"
   },
   "services": {
     "title": "Dienstenbeheer",
@@ -263,7 +169,6 @@
     "enableAllOnline": "Alles inschakelen",
     "allOnlineEnabled": "Alle services zijn online boekbaar",
     "allOnlineDisabled": "Online boeken uitgeschakeld voor alle services",
-    "online": "Online",
     "onlineHeader": "Online Boekingen"
   },
   "settingsPage": {
@@ -306,14 +211,8 @@
     "advancedConfig": "Geavanceerde configuratie (QR-methode)",
     "whatsappNotifications": "WhatsApp Meldingen",
     "whatsappInfo": "Informatie over WhatsApp meldingen:",
-    "whatsappInfoList": [
-      "WhatsApp berichten zijn gratis en betrouwbaarder dan SMS",
-      "Controleer of telefoonnummers correct zijn met internationale prefix (bijv. +31612345678)",
-      "Alle berichten genereren een WhatsApp link die automatisch opent"
-    ],
     "error": "Fout",
     "messageTemplates": "Berichtsjablonen",
-    "messageTemplatesDesc": "Pas herinneringsberichtsjablonen aan",
     "noAppointmentSelected": "Geen afspraak geselecteerd",
     "selectAppointmentForNotifications": "Selecteer minimaal één afspraak om meldingen te verzenden",
     "selectAppointmentForSMS": "Selecteer minimaal één afspraak om SMS te verzenden",
@@ -327,12 +226,7 @@
     "twilioLimitationsDesc": "Uw Twilio account heeft beperkingen en kan SMS mogelijk niet aan alle nummers bezorgen.",
     "smsError": "SMS verzendfout",
     "recipient": "ontvanger",
-    "recipients": "ontvangers",
-    "loadingError": "Laadfout:",
-    "cannotLoadAppointments": "Kan afspraken niet laden:",
-    "cannotLoadHistory": "Kan geschiedenis niet laden:",
-    "cannotLoadSmsHistory": "Kan SMS geschiedenis niet laden:",
-    "unknownError": "Onbekende fout"
+    "recipients": "ontvangers"
   },
   "bookingRequests": {
     "title": "Boekingsverzoeken",
@@ -413,30 +307,6 @@
     "select": "Selecteer taal"
   },
   "home": {
-    "calendar": {
-      "title": "Agenda",
-      "description": "Bekijk en beheer alle afspraken",
-      "content": "Bekijk afspraken in dagelijkse, wekelijkse of maandelijkse weergave, en maak eenvoudig nieuwe afspraken.",
-      "button": "Naar Agenda"
-    },
-    "clients": {
-      "title": "Klanten",
-      "description": "Beheer klantinformatie",
-      "content": "Voeg toe, bewerk en bekijk klantgegevens, inclusief persoonlijke en medische informatie.",
-      "button": "Beheer Klanten"
-    },
-    "invoices": {
-      "title": "Facturen",
-      "description": "Beheer facturen en betalingen",
-      "content": "Maak en beheer facturen, registreer betalingen en volg de status van facturen in realtime.",
-      "button": "Beheer Facturen"
-    },
-    "reports": {
-      "title": "Rapporten",
-      "description": "Analyseer bedrijfsprestaties",
-      "content": "Bekijk dagelijkse, wekelijkse en maandelijkse rapporten om bedrijfsprestaties te analyseren.",
-      "button": "Bekijk Rapporten"
-    },
     "manual": {
       "title": "Handleiding",
       "description": "Volledige gebruikershandleiding",
@@ -451,35 +321,11 @@
     "monthly": "Maandelijks",
     "addAppointment": "Nieuwe Afspraak",
     "today": "Vandaag",
-    "days": {
-      "monday": "Maandag",
-      "tuesday": "Dinsdag",
-      "wednesday": "Woensdag",
-      "thursday": "Donderdag",
-      "friday": "Vrijdag",
-      "saturday": "Zaterdag",
-      "sunday": "Zondag"
-    },
-    "months": {
-      "january": "Januari",
-      "february": "Februari",
-      "march": "Maart",
-      "april": "April",
-      "may": "Mei",
-      "june": "Juni",
-      "july": "Juli",
-      "august": "Augustus",
-      "september": "September",
-      "october": "Oktober",
-      "november": "November",
-      "december": "December"
-    },
     "description": "Bekijk en beheer alle afspraken",
     "subDescription": "Bekijk afspraken in dag-, week- of maandweergave, en maak gemakkelijk nieuwe afspraken aan",
     "goTo": "Ga naar Kalender",
     "weekView": "Weekweergave",
     "monthView": "Maandweergave",
-    "selectNewAppointment": "Selecteer nieuwe afspraak",
     "selectTimeNewAppointment": "Selecteer tijdstip voor nieuwe afspraak",
     "confirmAndAssociateClient": "Bevestigen en koppel klant",
     "searchResults": "Zoekresultaten",
@@ -490,8 +336,6 @@
     "customDuration": "Aangepaste duur",
     "incrementBy15Min": "Verhoog met 15 min",
     "decrementBy15Min": "Verlaag met 15 min",
-    "selected": "Geselecteerd",
-    "select": "Selecteer",
     "noServicesAvailable": "Geen diensten beschikbaar",
     "goToSettingsToCreateService": "Ga naar Instellingen om een dienst aan te maken",
     "noServicesFound": "Geen diensten gevonden"
@@ -502,41 +346,13 @@
     "subDescription": "Voeg toe, bewerk en bekijk klantgegevens, inclusief persoonlijke en medische informatie",
     "goTo": "Beheer Klanten",
     "addClient": "Nieuwe Klant",
-    "newClient": "Nieuwe Klant",
     "addFirstClient": "Voeg eerste klant toe",
-    "search": {
-      "placeholder": "Zoek klanten op naam, telefoon of e-mail...",
-      "minLength": "Voer minimaal 2 tekens in om te zoeken"
-    },
     "filter": {
-      "all": "Alle",
-      "frequent": "Frequente",
       "noConsent": "Zonder Toestemming"
     },
-    "noClientsFound": "Geen klanten gevonden",
-    "noClientsInSystem": "Er zijn geen klanten geregistreerd in het systeem",
-    "noResultsMatch": "Geen klanten komen overeen met de zoekcriteria \"{{query}}\"",
-    "refreshSuccess": "Klantgegevens zijn bijgewerkt",
-    "lastUpdate": "Laatste update",
-    "autoUpdate": "Automatische update elk uur en om 23:59",
-    "stats": {
-      "total": "Totaal aantal klanten",
-      "frequent": "Frequente klanten",
-      "noConsent": "Zonder toestemming"
-    },
-    "table": {
-      "name": "Voornaam",
-      "surname": "Achternaam",
-      "email": "Email",
-      "phone": "Telefoon",
-      "actions": "Acties"
-    },
     "details": {
-      "title": "Klantgegevens",
       "personalInfo": "Persoonlijke Informatie",
-      "medicalInfo": "Medische Informatie",
       "appointments": "Afspraken",
-      "notes": "Notities",
       "consents": "Toestemmingen",
       "clientDataConsent": "Klantgegevens/toestemming",
       "clientFile": "Klantdossier",
@@ -574,29 +390,10 @@
     },
     "form": {
       "firstName": "Voornaam",
-      "lastName": "Achternaam",
-      "email": "Email",
-      "phone": "Telefoon",
-      "birthDate": "Geboortedatum",
-      "address": "Adres",
-      "city": "Plaats",
-      "zipCode": "Postcode",
-      "notes": "Notities",
-      "save": "Opslaan",
-      "cancel": "Annuleren"
+      "lastName": "Achternaam"
     },
-    "loading": "Klanten laden...",
-    "loadingAccessStatus": "Klanttoegang controleren...",
-    "showDetails": "Details",
-    "showAppointments": "Afspraken",
-    "clientAccess": "Klanttoegang",
-    "qrGenerated": "QR gegenereerd",
-    "qrNotGenerated": "QR niet gegenereerd",
-    "generateQR": "Genereer QR",
-    "manageClient": "Beheer Klant",
     "accesses": {
       "loading": "Caricamento...",
-      "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
@@ -630,18 +427,12 @@
     "date": "Datum",
     "dueDate": "Vervaldatum",
     "amount": "Bedrag",
-    "status": "Status",
     "paid": "Betaald",
     "unpaid": "Onbetaald",
     "sentToClient": "Verzonden naar klant",
     "preview": "Voorbeeld",
     "print": "Afdrukken",
-    "sendEmail": "Email verzenden",
-    "sendMultichannel": "Factuur verzenden",
-    "markAsPaid": "Markeren als Betaald",
-    "markAsUnpaid": "Markeren als Onbetaald",
     "deleteInvoice": "Factuur verwijderen",
-    "confirmDelete": "Weet u zeker dat u deze factuur wilt verwijderen?",
     "irreversibleAction": "Deze actie is onomkeerbaar!",
     "form": {
       "clientRequired": "Klant vereist",
@@ -652,18 +443,7 @@
       "selectClient": "Klant selecteren",
       "amountManualPh": "Voer bedrag handmatig in"
     },
-    "email": {
-      "title": "Factuur via Email verzenden",
-      "recipient": "Email ontvanger",
-      "subject": "Onderwerp",
-      "message": "Bericht",
-      "invalidEmail": "Ongeldige email",
-      "subjectRequired": "Onderwerp vereist"
-    },
     "channels": {
-      "pwa": "Klant-App",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
       "noChannelSelected": "Selecteer minimaal één verzendkanaal",
       "noChannelSelectedTitle": "Geen kanaal geselecteerd"
     },
@@ -709,19 +489,10 @@
     "chronologicalKept": "✓ Chronologische volgorde behouden",
     "doCleanup": "Nummering opschonen",
     "previewTitle": "👁️ Factuur-voorbeeld",
-    "previewDesc": "Voorbeeld van hoe factuur {{number}} eruit ziet voor verzending of afdruk",
-    "generatingPreview": "Voorbeeld genereren...",
-    "noPreviewAvailable": "Geen voorbeeld beschikbaar",
-    "closePreview": "Voorbeeld sluiten",
     "printing": "Afdrukken...",
     "printInvoice": "Factuur afdrukken",
-    "sendByEmailBtn": "Per e-mail verzenden",
-    "deleteConfirmText": "Weet u zeker dat u factuur {{number}} wilt verwijderen?\n\nDeze actie kan niet ongedaan worden gemaakt!",
     "resendTitle": "⚠️ Bevestig opnieuw verzenden",
-    "alreadySentVia": "Deze factuur is al verzonden via de volgende kanalen:",
-    "sentOnDate": "Verzonden op {{date}}",
     "resendQuestion": "Wil je de factuur echt opnieuw verzenden naar de geselecteerde kanalen?",
-    "confirmResend": "Bevestig opnieuw versturen",
     "recipientPlaceholder": "klant@voorbeeld.nl",
     "currentFormatValue": "Gemengd (06/2025/001, 09/2025/002, enz.)",
     "afterFormatValue": "Wettelijk NNN/JJJJ (001/2025, 002/2025, enz.)",
@@ -792,28 +563,9 @@
   },
   "reports": {
     "title": "Rapporten en Statistieken",
-    "subtitle": "Analyseer uw bedrijfsprestaties",
-    "period": "Periode",
-    "today": "Vandaag",
-    "thisWeek": "Deze week",
-    "thisMonth": "Deze maand",
-    "thisYear": "Dit jaar",
-    "custom": "Aangepast",
-    "from": "Van",
-    "to": "Tot",
     "revenue": "Omzet",
     "appointments": "Afspraken",
-    "clients": "Klanten",
-    "newClients": "Nieuwe klanten",
-    "averageTicket": "Gemiddeld bonbedrag",
-    "mostPopularTreatments": "Populairste behandelingen",
-    "revenueByProfessional": "Omzet per professional",
-    "appointmentsByDay": "Afspraken per dag",
-    "export": "Exporteren",
     "exportPdf": "PDF exporteren",
-    "exportCsv": "CSV exporteren",
-    "noData": "Geen gegevens beschikbaar voor deze periode",
-    "loading": "Rapporten laden...",
     "weekly": "Wekelijks",
     "monthly": "Maandelijks",
     "yearly": "Jaarlijks",
@@ -847,19 +599,10 @@
   "settings": {
     "title": "Instellingen",
     "general": "Algemeen",
-    "profile": "Profiel",
     "appearance": "Weergave",
-    "notifications": "Meldingen",
-    "language": "Taal",
-    "theme": "Thema",
-    "save": "Instellingen Opslaan",
-    "googleCalendar": "Google agenda",
     "contacts": "Contacten & Tijden",
-    "saving": "Bezig met opslaan...",
     "contactsTitle": "Contactgegevens",
     "contactsDesc": "Beheer uw contactgegevens die worden weergegeven in de voettekst van de klant-app",
-    "appName": "App Naam",
-    "appIcon": "App Icoon",
     "integrations": "Integraties",
     "appearanceTitle": "Merkidentiteit",
     "appearanceDesc": "Pas de naam en het icoon van de applicatie aan om de identiteit van uw bedrijf weer te geven. Deze instellingen worden toegepast op zowel de hoofdapp als de klantapp.",
@@ -883,16 +626,13 @@
     "loading": "Laden...",
     "scrollDown": "Scrol omlaag",
     "cancel": "Annuleren",
-    "confirm": "Bevestigen",
     "delete": "Verwijderen",
     "edit": "Bewerken",
     "save": "Opslaan",
-    "send": "Verzenden",
     "close": "Sluiten",
     "error": "Fout",
     "success": "Succes",
     "warning": "Waarschuwing",
-    "saving": "Opslaan...",
     "back": "Terug",
     "backToHomeBilingual": "Terug naar Home",
     "email": "E-mail",
@@ -900,12 +640,8 @@
     "test": "Test",
     "actions": "Acties",
     "search": "Zoeken",
-    "required": "Vereist",
     "notes": "Notities",
-    "add": "Toevoegen",
-    "update": "Bijwerken",
     "create": "Aanmaken",
-    "confirmDelete": "Weet u zeker dat u wilt verwijderen?",
     "copy": "Kopiëren",
     "errorWithMessage": "Er is een fout opgetreden: {{message}}",
     "saved": "Opgeslagen",
@@ -918,12 +654,7 @@
     "demoLabel": "Demo"
   },
   "notifications": {
-    "success": "Bewerking succesvol voltooid",
-    "error": "Er is een fout opgetreden",
-    "warning": "Waarschuwing",
-    "info": "Informatie",
-    "clientDeleted": "Klant verwijderd",
-    "clientDeletedSuccess": "De klant is succesvol verwijderd"
+    "clientDeleted": "Klant verwijderd"
   },
   "whatsappNotifications": {
     "title": "Klantmeldingen",
@@ -942,13 +673,7 @@
       "calendar": "Google Agenda"
     },
     "howItWorks": {
-      "title": "Hoe WhatsApp-meldingen werken",
-      "steps": [
-        "Selecteer afspraken waarvoor u een herinnering wilt sturen",
-        "Klik op \"WhatsApp-meldingen genereren\" om links te maken",
-        "Er worden links gegenereerd die WhatsApp openen met vooraf ingevulde teksten",
-        "U kunt de standaardtekst voor het verzenden aanpassen"
-      ]
+      "title": "Hoe WhatsApp-meldingen werken"
     },
     "customMessage": {
       "title": "Aangepast bericht (optioneel)",
@@ -967,7 +692,6 @@
       "service": "Dienst",
       "time": "Tijd",
       "actions": "Acties",
-      "send": "Verzenden",
       "selectAll": "Alles selecteren"
     },
     "buttons": {
@@ -994,56 +718,17 @@
         "failed": "Fallito",
         "unknown": "Sconosciuto"
       }
-    },
-    "appointmentList": {
-      "selectAll": "Alles selecteren",
-      "actions": "Acties",
-      "sendButton": "WhatsApp-meldingen genereren",
-      "sending": "Meldingen genereren..."
-    },
-    "errors": {
-      "loadingAppointments": "Kan afspraken niet laden",
-      "loadingHistory": "Kan geschiedenis niet laden",
-      "noneSelected": "Selecteer ten minste één afspraak om meldingen te verzenden",
-      "sendingFailed": "Kan herinneringen niet verzenden"
-    },
-    "success": {
-      "remindersSent": "Herinneringen succesvol gegenereerd"
-    },
-    "whatsappLink": "WhatsApp openen"
+    }
   },
   "notificationSettings": {
     "title": "Meldingsinstellingen",
-    "enableEmailNotifications": "E-mailmeldingen inschakelen",
-    "emailSetup": {
-      "title": "Snelle e-mailinstellingen",
-      "email": "E-mail",
-      "emailPlaceholder": "Voer uw e-mailadres in",
-      "password": "Wachtwoord",
-      "passwordPlaceholder": "Voer uw e-mailwachtwoord in",
-      "description": "Deze configuratie stelt uw e-mailaccount in voor het verzenden van meldingen.",
-      "autoDetect": "Instellingen automatisch detecteren",
-      "emailRequired": "Voer uw e-mailadres in om instellingen te detecteren"
-    },
-    "errors": {
-      "loadingSettings": "Kan meldingsinstellingen niet laden",
-      "savingSettings": "Kan instellingen niet opslaan",
-      "testEmailMissing": "Voer een e-mailadres in voor testen"
-    },
-    "success": {
-      "settingsSaved": "Meldingsinstellingen succesvol opgeslagen",
-      "testEmailSent": "Test-e-mail succesvol verzonden",
-      "remindersProcessed": "Herinneringen succesvol verwerkt"
-    },
     "tabs": {
       "email": "E-mail",
       "whatsapp": "WhatsApp",
       "general": "Algemene instellingen"
     },
     "email": {
-      "enable": "E-mailmeldingen inschakelen",
-      "placeholderEmail": "Voer uw e-mailadres in",
-      "placeholderPassword": "Voer uw e-mailwachtwoord in"
+      "enable": "E-mailmeldingen inschakelen"
     },
     "whatsapp": {
       "enable": "WhatsApp-meldingen inschakelen"
@@ -1112,7 +797,6 @@
     "quickEmailSetup": "Snelle e-mailconfiguratie",
     "signatureLabel": "E-mailhandtekening",
     "whatsappNumberLabel": "WhatsApp-nummer voor meldingen",
-    "enterEmail": "Voer je e-mail in",
     "testEmailSettings": "E-mailinstellingen testen",
     "whatsappNotificationsTitle": "WhatsApp-meldingen",
     "phoneForNotifications": "Telefoonnummer voor meldingen",
@@ -1139,29 +823,13 @@
     "defaultSignature": "Met vriendelijke groet,"
   },
   "googleCalendar": {
-    "title": "Google Agenda",
-    "setupInstructions": "Google Calendar-integratie instellen",
-    "emailLabel": "Gmail-account",
-    "emailPlaceholder": "jouw.adres@gmail.com",
-    "emailDescription": "Het Google-account dat u wilt gebruiken voor de agenda",
-    "connected": "Verbonden",
-    "notConnected": "Niet verbonden",
-    "clientIdLabel": "Client ID",
-    "clientIdPlaceholder": "Uw Google Client ID",
-    "clientIdDescription": "Haal deze waarde op uit de Google Cloud-console",
-    "clientSecretLabel": "Client Secret",
-    "clientSecretPlaceholder": "Uw Google Client Secret",
-    "clientSecretDescription": "Haal deze waarde op uit de Google Cloud-console",
-    "configHelp": "Hulp bij configuratie",
     "errors": {
-      "authorizationUrlFailed": "Kan autorisatie-URL niet genereren",
       "emailRequired": "Voer de Google-e-mail in die u wilt synchroniseren",
       "popupBlocked": "De popup is geblokkeerd. Schakel de popup-blocker uit voor deze site.",
       "authError": "Fout tijdens autorisatie"
     },
     "success": {
       "settingsSaved": "Synchronisatie-instellingen zijn succesvol opgeslagen",
-      "authorizationComplete": "Uw Google-account is succesvol verbonden",
       "connected": "Google Agenda succesvol verbonden"
     },
     "setup": {
@@ -1194,27 +862,16 @@
       "proOnlyMessage": "Deze functie is alleen beschikbaar met het PRO-abonnement.",
       "upgradeToPro": "Upgraden naar PRO",
       "backToDashboard": "Terug naar Dashboard",
-      "syncingNow": "Synchroniseren...",
-      "syncNow": "Nu synchroniseren",
-      "syncStatus": "Synchronisatiestatus",
-      "lastSync": "Laatste synchronisatie: {{date}}",
-      "syncedEvents": "Gesynchroniseerde gebeurtenissen: {{count}}",
-      "contactsSyncTitle": "Google Contacten synchroniseren",
-      "contactsSyncDesc": "Importeer contacten uit je Google-adresboek als klanten",
-      "testFeatureTitle": "🧪 Functie in testfase",
-      "testFeatureDesc": "Google Contacten importeren is momenteel alleen beschikbaar voor geautoriseerde testgebruikers. Als je geen tester bent, zie je mogelijk een \"Toegang geblokkeerd\"-fout van Google.",
       "reconnectNeeded": "Opnieuw verbinden vereist",
       "reconnectDesc": "Om toegang te krijgen tot contacten moet je je Google-account opnieuw verbinden met de nieuwe machtigingen.",
       "reconnectButton": "Google opnieuw verbinden",
       "loadingContacts": "Contacten laden...",
       "loadContacts": "Contacten laden vanuit Google",
       "contactsFound": "{{count}} contacten gevonden in je Google-adresboek",
-      "selectOrImportAll": "Selecteer contacten om te importeren of gebruik \"Alles importeren\"",
       "deselectAll": "Alles deselecteren",
       "selectAll": "Alles selecteren",
       "importAll": "Alles importeren ({{count}})",
       "importSelected": "Selectie importeren ({{count}})",
-      "unnamed": "Naamloos",
       "reloadContacts": "Contacten herladen",
       "contactsNote1": "• Bestaande contacten (zelfde e-mail of telefoon) worden overgeslagen",
       "contactsNote2": "• Geïmporteerde contacten krijgen de notitie \"Geïmporteerd uit Google Contacts\"",
@@ -1244,41 +901,10 @@
       "csvFormatTitle": "📋 Vereist bestandsformaat",
       "csvFormatDesc": "Het CSV-bestand moet de kolommen hebben: <strong>Naam</strong>, <strong>E-mail</strong>, <strong>Telefoon</strong>",
       "csvUpload": "Klik om een CSV-bestand te uploaden",
-      "csvSelectedForImport": "{{count}} geselecteerd voor import",
       "csvImporting": "Importeren...",
       "csvImportButton": "{{count}} contacten importeren",
       "csvNote1": "• Ondersteunde formaten: CSV (komma- of puntkomma-scheidingsteken)",
       "csvNote2": "• Reeds bestaande contacten worden automatisch overgeslagen",
-      "toastSyncStarted": "Synchronisatie voltooid",
-      "toastSyncDetails": "Geïmporteerd: {{imported}}, Geëxporteerd: {{exported}}",
-      "toastSyncError": "Synchronisatiefout",
-      "toastSyncDefaultError": "Fout tijdens synchronisatie",
-      "toastSyncDefaultSuccess": "Synchronisatie voltooid!",
-      "toastSessionExpired": "Sessie verlopen. Log opnieuw in.",
-      "toastConnectionError": "Verbindingsfout",
-      "toastReconnectError": "Kan opnieuw verbinden niet starten",
-      "toastContactsLoaded": "Contacten geladen",
-      "toastContactsLoadedDesc": "{{count}} contacten gevonden in je Google-adresboek",
-      "toastReconnectGoogle": "Google opnieuw verbinden",
-      "toastReconnectGoogleDesc": "Je moet je Google-account opnieuw verbinden om toegang tot contacten te krijgen.",
-      "toastContactsLoadError": "Fout bij laden van contacten",
-      "toastImportComplete": "Import voltooid",
-      "toastImportedCount": "{{count}} contacten geïmporteerd",
-      "toastImportError": "Importfout",
-      "toastImportContactsError": "Fout bij importeren van contacten",
-      "toastEmptyFile": "Leeg bestand",
-      "toastEmptyFileDesc": "Het CSV-bestand bevat geen gegevens",
-      "toastInvalidFormat": "Ongeldig formaat",
-      "toastInvalidFormatDesc": "Het bestand moet kolommen bevatten: naam, e-mail of telefoon",
-      "toastFileLoaded": "Bestand geladen",
-      "toastFileLoadedDesc": "{{count}} contacten gevonden in het bestand",
-      "toastFileReadError": "Fout bij lezen van bestand",
-      "toastFileReadErrorDesc": "Kan CSV-bestand niet lezen",
-      "toastNoSelected": "Geen contact geselecteerd",
-      "toastNoSelectedDesc": "Selecteer minstens één contact om te importeren",
-      "csvImportedFromCsv": "Geïmporteerd uit CSV-bestand",
-      "csvImportedCount": "{{imported}} contacten geïmporteerd{{skipped}}",
-      "csvSkippedSuffix": ", {{skipped}} bestonden al",
       "connError": "Kan herverbinding niet starten",
       "connErrorGeneric": "Verbindingsfout",
       "sessionExpired": "Sessie verlopen. Log opnieuw in.",
@@ -1314,38 +940,18 @@
       "contactsCardDesc": "Importeer contacten uit je Google-adresboek als klanten",
       "testFeatureLong": "🧪 Functie in testfase",
       "testFeatureLongDesc": "Google-contactenimport is momenteel alleen beschikbaar voor geautoriseerde testers. Als je geen tester bent, zie je mogelijk een \"Toegang geblokkeerd\"-fout van Google.",
-      "reconnectNeededDesc": "Om toegang te krijgen tot contacten moet je je Google-account opnieuw verbinden met de nieuwe machtigingen.",
-      "loadContactsButton": "Contacten laden vanuit Google",
       "contactsCountFound": "{{count}} contacten gevonden",
       "contactsHint": "Selecteer contacten om te importeren of gebruik \"Alles importeren\"",
       "noName": "Geen naam",
-      "csvCardTitle": "Importeren uit bestand (CSV/vCard)",
-      "csvCardDesc": "Voor niet-Gmail-gebruikers: importeer contacten van je telefoon of andere diensten",
-      "csvHowToTitle": "Contacten exporteren vanaf je telefoon",
-      "csvUploadHint": "Klik om een CSV-bestand te uploaden",
       "csvSelectedN": "{{count}} geselecteerd voor import",
       "syncStatusTitle": "Synchronisatiestatus",
       "lastSyncDate": "Laatste synchronisatie: {{date}}",
       "syncedEventsN": "Gesynchroniseerde gebeurtenissen: {{count}}"
     },
-    "connect": "Google Agenda koppelen",
-    "disconnect": "Google Agenda ontkoppelen",
-    "sync": "Synchroniseren",
-    "syncing": "Synchroniseren...",
     "settings": {
-      "title": "Google Agenda Synchronisatie",
-      "description": "Synchroniseer je afspraken met je Google-agenda",
       "loadError": "Fout bij het laden van synchronisatie-instellingen",
-      "enableSync": "Synchronisatie met Google Agenda inschakelen",
-      "enableSyncDesc": "Indien actief worden afspraken automatisch gesynchroniseerd met de opgegeven Google-agenda",
-      "gmailAddress": "Gmail-adres",
-      "gmailHelp": "Voer het Gmail-adres in van de agenda waarmee je afspraken wilt synchroniseren:",
       "gmailHint": "Voer het Gmail-adres in van de agenda waarmee je je afspraken wilt synchroniseren:",
-      "alreadyAuthorized": "Je Google-account is al geautoriseerd",
-      "notAuthorized": "Google-account niet geautoriseerd",
-      "notAuthorizedDesc": "Om de installatie te voltooien moet je toegang tot je Google-account autoriseren.",
       "clientIdLabel": "Google Client ID",
-      "clientIdHelpTitle": "Hoe verkrijg je de Google Client ID:",
       "clientIdSteps": [
         "Open de Google Cloud Console",
         "Selecteer of maak een nieuw project",
@@ -1356,9 +962,7 @@
         "De Client ID verschijnt na klikken op \"Maken\""
       ],
       "clientIdPlaceholder": "Je Google Client ID",
-      "getFromConsole": "Verkrijg vanuit Google Cloud Console",
       "clientSecretLabel": "Google Client Secret",
-      "clientSecretHelpTitle": "Hoe verkrijg je het Google Client Secret:",
       "clientSecretSteps": [
         "Volg dezelfde procedure als voor de Client ID",
         "Na het maken van de OAuth-client-ID toont de pagina zowel de Client ID als het Client Secret",
@@ -1368,81 +972,15 @@
       ],
       "clientSecretPlaceholder": "Je Google Client Secret",
       "startAuth": "Autorisatieproces starten",
-      "configHelp": "Hulp bij configuratie",
-      "stepGuideTitle": "Stapsgewijze installatiegids",
-      "guide1Title": "1. Google Cloud-project aanmaken",
-      "guide1Steps": [
-        "Ga naar Google Cloud Console",
-        "Maak een nieuw project (bv. \"Afspraken App\")"
-      ],
-      "guide2Title": "2. Google Calendar API inschakelen",
-      "guide2Steps": [
-        "Ga in het zijmenu naar \"APIs & Services\" → \"Bibliotheek\"",
-        "Zoek \"Google Calendar API\" en selecteer deze",
-        "Klik op \"Inschakelen\""
-      ],
-      "guide3Title": "3. OAuth-toestemming configureren",
-      "guide3Steps": [
-        "Ga in het zijmenu naar \"APIs & Services\" → \"OAuth-toestemmingsscherm\"",
-        "Selecteer \"Extern\" en klik op \"Maken\"",
-        "Vul de verplichte velden in (app-naam, support-e-mail)",
-        "Voeg bij \"Geautoriseerde domeinen\" het domein van je app toe",
-        "Voor de scopes voeg \"./auth/calendar\" en \"./auth/calendar.events\" toe",
-        "Voeg je e-mailadres toe als testgebruiker"
-      ],
-      "guide4Title": "4. OAuth-inloggegevens maken",
-      "guide4Steps": [
-        "Ga in het zijmenu naar \"APIs & Services\" → \"Inloggegevens\"",
-        "Klik op \"Inloggegevens maken\" → \"OAuth-client-ID\"",
-        "Selecteer \"Webapplicatie\" als type",
-        "Voeg een naam toe (bv. \"Afspraken Web App\")",
-        "Voeg bij \"Geautoriseerde omleidings-URI's\" de volledige URL van de instellingenpagina toe (inclusief \"https://\")",
-        "Klik op \"Maken\" en kopieer Client ID en Client Secret"
-      ],
       "instructionsTitle": "Installatie-instructies:",
-      "instructionStep1": "Maak een project op Google Cloud",
-      "instructionStep1Sub1": "Ga naar Google Cloud Console",
-      "instructionStep1Sub2": "Maak een nieuw project of selecteer een bestaand",
-      "instructionStep2": "Schakel Google Calendar API's in",
-      "instructionStep2Sub1": "Ga naar API Library",
-      "instructionStep2Sub2": "Zoek \"Google Calendar API\" en schakel deze in",
-      "instructionStep3": "Configureer OAuth-inloggegevens",
-      "instructionStep3Sub1": "Ga naar Inloggegevens",
-      "instructionStep3Sub2": "Klik \"Inloggegevens maken\" en selecteer \"OAuth-client-ID\"",
-      "instructionStep3Sub3": "Configureer het OAuth-toestemmingsscherm (verplicht)",
-      "instructionStep3Sub4": "Voeg de URL van je app toe als \"Geautoriseerde omleidings-URI\"",
-      "instructionStep3Sub5": "Kopieer de Client ID en Client Secret naar de applicatie",
-      "instructionStep4": "Voltooi de autorisatie",
-      "instructionStep4Sub1": "Klik op \"Autorisatieproces starten\"",
-      "instructionStep4Sub2": "Volg de instructies in het dialoogvenster",
-      "note": "Opmerking:",
       "noteText": "Afspraken worden alleen gesynchroniseerd als de optie is ingeschakeld, de autorisatie is voltooid en het Gmail-adres correct is.",
       "savingButton": "Opslaan...",
       "saveButton": "Instellingen opslaan",
-      "authDialogTitle": "Google Agenda autoriseren",
-      "authDialogDesc": "Om afspraken te synchroniseren moet je toegang tot je Google Agenda-account autoriseren",
-      "openLinkAndAuth": "Open de volgende link en volg de instructies om toegang tot Google Agenda te autoriseren:",
-      "openGoogleAuthPage": "Google-autorisatiepagina openen",
-      "authCode": "Autorisatiecode",
-      "authCodePlaceholder": "Plak hier de door Google verstrekte code",
-      "cancel": "Annuleren",
       "verifying": "Verifiëren...",
-      "verifyCode": "Code verifiëren",
-      "selectCalendar": "Selecteer een agenda",
-      "selectCalendarDesc": "Kies de Google-agenda voor synchronisatie",
-      "mainCalendar": "Hoofdagenda",
-      "noCalendarsFound": "Geen agenda's gevonden in je Google-account",
-      "toastSettingsSaved": "Instellingen opgeslagen",
-      "toastSaveSuccess": "Synchronisatie-instellingen zijn succesvol opgeslagen",
       "toastSaveError": "Kan instellingen niet opslaan. Probeer het later opnieuw.",
-      "toastAuthComplete": "Autorisatie voltooid",
-      "toastAuthCompleteDesc": "Je Google-account is succesvol gekoppeld",
       "toastAuthError": "Autorisatiefout",
       "toastAuthErrorDesc": "Kan je Google-account niet autoriseren. Controleer de ingevoerde code.",
       "toastAuthErrorGeneric": "Er is een fout opgetreden tijdens de Google-autorisatie",
-      "toastCodeMissing": "Code ontbreekt",
-      "toastCodeMissingDesc": "Voer de door Google verstrekte autorisatiecode in",
-      "toastAuthUrlError": "Kon autorisatie-URL niet genereren",
       "toastSavedTitle": "Instellingen opgeslagen",
       "toastAuthCompleted": "Autorisatie voltooid",
       "toastMissingCode": "Code ontbreekt",
@@ -1580,7 +1118,6 @@
         "Voor Google-accounts moet je een specifiek \"app-wachtwoord\" gebruiken",
         "Controleer of het Google-account correct is geautoriseerd"
       ],
-      "createAppPassword": "Maak een app-wachtwoord",
       "goToEmailSettings": "Ga naar e-mailinstellingen",
       "restartAuth": "Autorisatie herstarten",
       "restartAuthDesc": "In sommige gevallen moet je het Google-autorisatieproces volledig herstarten. Dit kan problemen met verlopen of ingetrokken tokens oplossen.",
@@ -1609,7 +1146,6 @@
       "restartAuthorization": "Autorisatie herstarten",
       "toastAuthDone": "Autorisatie voltooid",
       "toastAuthDoneDesc": "Het Google-account is succesvol geautoriseerd",
-      "toastAuthErrorTitle": "Fout",
       "toastCannotStart": "Kon Google-autorisatie niet starten",
       "toastAuthErrorDesc": "Er is een fout opgetreden tijdens Google-autorisatie",
       "statusAccountAuthorized": "Account geautoriseerd",
@@ -1620,17 +1156,11 @@
     }
   },
   "errors": {
-    "genericError": "Er is een fout opgetreden: {{error}}",
-    "qrCodeFetchError": "Fout bij het ophalen van bestaande QR-code:"
+    "genericError": "Er is een fout opgetreden: {{error}}"
   },
   "auth": {
     "login": "Inloggen",
-    "logout": "Uitloggen",
-    "username": "Gebruikersnaam",
-    "password": "Wachtwoord",
-    "rememberMe": "Onthoud mij",
-    "forgotPassword": "Wachtwoord vergeten?",
-    "loginButton": "Inloggen"
+    "logout": "Uitloggen"
   },
   "clientArea": {
     "installApp": "App installeren",
@@ -1641,8 +1171,6 @@
     "newRequest": "Nieuwe aanvraag",
     "pushNotifDesc": "Ontvang een melding wanneer je afspraak is bevestigd",
     "selectService": "Dienst selecteren",
-    "noServicesAvailable": "Op dit moment geen diensten beschikbaar.",
-    "contactCenter": "Neem contact op met het centrum voor meer informatie.",
     "chooseService": "Kies een dienst...",
     "preferredStaff": "Voorkeursprofessional (optioneel)",
     "chooseStaff": "Kies professional...",
@@ -1763,8 +1291,6 @@
     "updateContactPro": "Neem contact op met je professional om je gegevens bij te werken",
     "appointmentsTitle": "Afspraken",
     "loadingAppointments": "Afspraken laden...",
-    "futureAppointmentsCount_one": "Je hebt {{count}} aankomende afspraak",
-    "futureAppointmentsCount_other": "Je hebt {{count}} aankomende afspraken",
     "noFutureAppointments": "Geen aankomende afspraken gepland",
     "viewAll": "Alles bekijken",
     "consentsTitle": "Toestemmingen",
@@ -1801,16 +1327,14 @@
     "reservedToProClients": "Dit gebied is voorbehouden aan klanten van de professionals",
     "cannotVerifyAuth": "Kan authenticatie niet verifiëren",
     "errorLoadingAppointments": "Kan afspraken niet laden",
-    "errorGeneric": "Fout"
+    "errorGeneric": "Fout",
+    "futureAppointmentsCount_one": "Je hebt {{count}} aankomende afspraak",
+    "futureAppointmentsCount_other": "Je hebt {{count}} aankomende afspraken"
   },
   "contacts": {
     "accessOurContacts": "Toegang tot onze contacten"
   },
   "appointment": {
-    "selectTimeSlots": "Selecteer tijd voor nieuwe afspraak",
-    "confirmAndAssociateClient": "Bevestig en koppel klant",
-    "selected": "Geselecteerd",
-    "selectSlots": "Selecteer tijdsloten",
     "confirmDelete": "Weet u zeker dat u deze afspraak wilt verwijderen?",
     "confirmDeleteTitle": "Afspraak verwijderen",
     "confirmDeleteDescription": "Weet u zeker dat u deze afspraak wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
@@ -1827,149 +1351,25 @@
     "home": "Home",
     "notifications": "Meldingen",
     "referral": "Verwijzing",
-    "aiSetup": "AI-configuratie",
-    "aiSettings": "AI-instellingen",
     "aiAssistant": "AI-assistent",
     "staff": "Personeel",
     "payments": "Betalingen",
     "requests": "Aanvragen"
-  },
-  "sidebar": {
-    "clients": "Klanten",
-    "calendar": "Agenda",
-    "invoices": "Facturen",
-    "reports": "Rapporten",
-    "settings": "Instellingen"
   },
   "trial": {
     "days": "dagen",
     "expired": "Verlopen",
     "upgradeMessage": "Ontdek premium plannen"
   },
-  "banking": {
-    "title": "Betalingsconfiguratie",
-    "subtitle": "Beheer bankgegevens voor automatische betalingen van doorverwijsingscommissies",
-    "bankName": "Banknaam",
-    "bankNamePlaceholder": "bijv. ING Bank",
-    "accountHolder": "Rekeninghouder",
-    "accountHolderPlaceholder": "Volledige naam / Bedrijfsnaam",
-    "iban": "IBAN",
-    "ibanPlaceholder": "NL91 ABNA 0417 1643 00",
-    "bic": "BIC/SWIFT",
-    "bicPlaceholder": "bijv. ABNANL2A",
-    "address": "Adres",
-    "addressPlaceholder": "Volledig factuuradres",
-    "autoPayEnabled": "Automatische Commissiebetaling",
-    "paymentDelay": "Betalingsvertraging (dagen)",
-    "paymentDelayPlaceholder": "30",
-    "minimumAmount": "Minimumbedrag (€)",
-    "minimumAmountPlaceholder": "1.00",
-    "description": "Omschrijving",
-    "descriptionPlaceholder": "Omschrijving voor overschrijvingen",
-    "showIban": "IBAN tonen",
-    "hideIban": "IBAN verbergen",
-    "testPayment": "Betaling testen",
-    "saveSettings": "Instellingen opslaan",
-    "configured": "Geconfigureerd",
-    "notConfigured": "Niet geconfigureerd",
-    "status": {
-      "configured": "Bankgegevens zijn correct geconfigureerd",
-      "notConfigured": "Configureer bankgegevens om commissiebetalingen te activeren"
-    },
-    "alerts": {
-      "security": "Bankgegevens zijn beveiligd en versleuteld. Alleen beheerders kunnen ze bekijken.",
-      "paymentInfo": "Commissies worden automatisch betaald wanneer het saldo het geconfigureerde minimumbedrag overschrijdt."
-    },
-    "success": {
-      "saved": "Instellingen opgeslagen",
-      "savedDescription": "Bankinstellingen zijn succesvol bijgewerkt",
-      "testComplete": "Test voltooid",
-      "testSuccess": "Betalingssysteem is correct geconfigureerd"
-    },
-    "errors": {
-      "saveFailed": "Kan bankinstellingen niet opslaan",
-      "testFailed": "Controleer de configuratie van bankgegevens"
-    }
-  },
   "payments": {
-    "title": "Betalingsbeheer",
-    "subtitle": "Beheer abonnementen, transacties en commissies",
-    "tabs": {
-      "overview": "Overzicht",
-      "transactions": "Transacties",
-      "methods": "Betaalmethoden",
-      "settings": "Instellingen"
-    },
-    "demo": "DEMO",
-    "realData": "Echte Gegevens",
-    "testTransaction": "Testtransactie",
-    "filterByLicense": "Filter op licentie",
-    "allLicenses": "Alle licenties",
-    "stats": {
-      "totalRevenue": "Totale Omzet",
-      "activeSubscriptions": "Actieve Abonnementen",
-      "pendingCommissions": "Openstaande Commissies"
-    },
-    "table": {
-      "date": "Datum",
-      "user": "Gebruiker",
-      "license": "Licentie",
-      "amount": "Bedrag",
-      "method": "Methode",
-      "status": "Status",
-      "actions": "Acties"
-    },
-    "status": {
-      "completed": "Voltooid",
-      "pending": "In behandeling",
-      "failed": "Mislukt",
-      "cancelled": "Geannuleerd"
-    },
-    "methods": {
-      "stripe": "Stripe",
-      "paypal": "PayPal",
-      "bankTransfer": "Bankoverschrijving",
-      "wise": "Wise"
-    }
+    "title": "Betalingsbeheer"
   },
   "referral": {
     "title": "Verwijzingsprogramma",
-    "subtitle": "Verdien commissies door nieuwe klanten uit te nodigen",
     "adminOnly": "Alleen beheerders kunnen doorverwijzingen beheren, door personeel gesponsorde abonnementen coördineren en verifiëren om betalingen te verwerken",
-    "yourCode": "Jouw code",
-    "copyCode": "Code kopiëren",
     "shareCode": "Deel je verwijzingscode",
     "copyToClipboard": "Kopieer naar klembord",
-    "share": "Delen",
-    "earnings": {
-      "title": "Uw Inkomsten",
-      "total": "Totaal Verdiend",
-      "pending": "In behandeling",
-      "paid": "Betaald"
-    },
-    "iban": {
-      "title": "IBAN voor Betalingen",
-      "placeholder": "NL91 ABNA 0417 1643 00",
-      "description": "Voer uw IBAN in om commissies te ontvangen",
-      "save": "IBAN opslaan",
-      "saved": "IBAN succesvol opgeslagen"
-    },
-    "commissions": {
-      "title": "Commissies",
-      "customer": "Klant",
-      "license": "Licentie",
-      "amount": "Bedrag",
-      "status": "Status",
-      "date": "Datum",
-      "noCommissions": "Nog geen commissies",
-      "pending": "In behandeling",
-      "paid": "Betaald"
-    },
     "howItWorks": "Hoe het programma werkt",
-    "shareLink": "Link delen",
-    "invitations": "Uitnodigingen",
-    "rewards": "Beloningen",
-    "copied": "Code gekopieerd!",
     "payout": {
       "dialogTitle": "Uitbetalingsmethoden voor commissies",
       "dialogDesc": "Stel in hoe je je verwijscommissies wilt ontvangen.",
@@ -1989,7 +1389,6 @@
       "save": "Opslaan"
     },
     "upgradeToAccess": "Werk je abonnement bij om toegang te krijgen",
-    "registrationAndSub": "Registratie en abonnement:",
     "paymentMethods": "Betaalmethoden:",
     "noActiveSubTitle": "Geen actief abonnement",
     "noActiveSubDesc": "Gebruikers moeten een betaald abonnement activeren om commissies te genereren",
@@ -2004,7 +1403,6 @@
     "configSaved": "Configuratie opgeslagen",
     "bankSaveError": "Kan bankgegevens niet opslaan: {{msg}}",
     "codeCopiedTitle": "Code gekopieerd!",
-    "shareError": "Fout bij delen:",
     "textCopiedTitle": "Tekst gekopieerd!",
     "codeGenTitle": "Code gegenereerd",
     "yourReferralCode": "Je persoonlijke verwijzingscode",
@@ -2094,193 +1492,7 @@
   },
   "manual": {
     "pwa": {
-      "title": "PWA Klant Afspraakverzoeken",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Hoe het werkt voor de klant",
-          "badge": {
-            "text": "Hoe het werkt voor de klant",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "PWA Toegang",
-                  "text": "De klant opent zijn persoonlijke PWA-app (geïnstalleerd via QR-code)"
-                },
-                {
-                  "title": "Afsprakenmenu",
-                  "text": "Klikt op \"Afspraak Aanvragen\" in het hoofdmenu"
-                },
-                {
-                  "title": "Dienst Selecteren",
-                  "text": "Kiest de gewenste behandeling uit de lijst"
-                },
-                {
-                  "title": "Medewerker Voorkeur",
-                  "text": "OPTIONEEL",
-                  "items": [
-                    "Kan een voorkeursmedewerker kiezen uit het vervolgkeuzemenu",
-                    "Of \"Geen voorkeur\" laten voor automatische toewijzing"
-                  ]
-                },
-                {
-                  "title": "Datum en Tijd",
-                  "text": "Selecteert de gewenste datum en tijdsperiode"
-                },
-                {
-                  "title": "Verzoek Verzenden",
-                  "text": "Klikt op \"Verzoek Verzenden\" - het verzoek komt aan in uw sectie \"Boekingsverzoeken\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Verzoekenbeheer (Beheerder)",
-          "badge": {
-            "text": "Verzoekenbeheer (Beheerder)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Pad: Hoofdmenu → Boekingsverzoeken"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Ontvang de melding",
-                  "text": "U bekijkt het verzoek met alle details (klant, dienst, datum, tijd, medewerkervoorkeur)"
-                },
-                {
-                  "title": "Automatische Bevestiging",
-                  "items": [
-                    "Klik op \"Goedkeuren\" voor snelle bevestiging",
-                    "Het systeem wijst automatisch de voorkeursmedewerker toe (indien beschikbaar) of een beschikbare medewerker",
-                    "Wijst automatisch de eerste beschikbare kamer toe"
-                  ]
-                },
-                {
-                  "title": "Handmatige Bevestiging",
-                  "items": [
-                    "Er opent een dialoogvenster met selectieopties",
-                    "U kunt handmatig de medewerker en kamer kiezen",
-                    "Nuttig voor het optimaliseren van de organisatie of het beheren van speciale voorkeuren"
-                  ]
-                },
-                {
-                  "title": "Klantmelding",
-                  "text": "De klant ontvangt bevestiging van de afspraak met volledige details (toegewezen medewerker en kamer)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Andere PWA Klant Functionaliteiten",
-          "badge": {
-            "text": "Andere PWA Klant Functionaliteiten",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Afspraken Bekijken",
-                  "items": [
-                    "Volledige lijst van alle afspraken (verleden en toekomst)",
-                    "Details: datum, tijd, dienst, toegewezen medewerker, kamer",
-                    "Afspraakstatus (bevestigd, voltooid, geannuleerd)",
-                    "Realtime updates"
-                  ]
-                },
-                {
-                  "title": "📄 Documenten en Facturen",
-                  "items": [
-                    "Toegang tot alle uitgegeven facturen",
-                    "PDF-downloads direct vanuit de app",
-                    "Volledige betalingsgeschiedenis"
-                  ]
-                },
-                {
-                  "title": "📞 Directe Contacten",
-                  "items": [
-                    "📧 E-mail: Tik om e-mailclient te openen met vooraf ingevuld adres",
-                    "📱 Telefoon: Tik om rechtstreeks de praktijk te bellen",
-                    "🌐 Website: Directe link naar uw website",
-                    "📷 Instagram: Instagram-profiel openen",
-                    "👍 Facebook: Link naar Facebook-pagina"
-                  ]
-                },
-                {
-                  "title": "🔔 Push-meldingen",
-                  "items": [
-                    "Automatische afspraakherinneringen",
-                    "Boekingsbevestigingen",
-                    "Belangrijke updates van de praktijk"
-                  ]
-                },
-                {
-                  "title": "📱 Werkt Offline",
-                  "items": [
-                    "Toegang tot gegevens ook zonder internetverbinding",
-                    "Automatische synchronisatie wanneer weer online"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "benefits": {
-        "title": "✨ Voordelen van de PWA-app voor Klanten",
-        "items": [
-          {
-            "title": "Geen Download uit Store",
-            "text": "Directe installatie via QR-code, zonder via App Store of Google Play te gaan"
-          },
-          {
-            "title": "Altijd Bijgewerkt",
-            "text": "Automatische updates zonder nieuwe versies te hoeven installeren"
-          },
-          {
-            "title": "Gepersonaliseerd",
-            "text": "Elke klant ziet alleen zijn eigen gegevens (afspraken, facturen, documenten)"
-          },
-          {
-            "title": "Aangepast Icoon",
-            "text": "De app toont het logo van uw praktijk op het startscherm van de telefoon"
-          },
-          {
-            "title": "Snelle Toegang",
-            "text": "Eén tik op het icoon en de klant is in zijn beveiligde omgeving"
-          },
-          {
-            "title": "Multi-Platform",
-            "text": "Werkt op iPhone, Android, tablet en desktop"
-          },
-          {
-            "title": "Veilig",
-            "text": "Authenticatie via unieke token, geen wachtwoord om te onthouden"
-          },
-          {
-            "title": "Direct Contact",
-            "text": "E-mail, telefoon en sociale media op één tik afstand"
-          }
-        ]
-      },
-      "tips": {
-        "proTip": "Toon klanten hoe ze de app installeren tijdens het eerste bezoek. Ze zullen onmiddellijk de toegevoegde waarde zien en zich meer betrokken voelen bij de relatie met uw praktijk!",
-        "retention": "De gepersonaliseerde PWA-app creëert een sterkere band met klanten, verhoogt de retentie en vermindert no-shows dankzij automatische herinneringen en de premium gebruikerservaring."
-      }
+      "title": "PWA Klant Afspraakverzoeken"
     },
     "page": {
       "header": {
@@ -2580,12 +1792,8 @@
   },
   "packages": {
     "title": "Beheer Actiepakketten",
-    "subtitle": "Maak en beheer behandelingspakketten voor uw klanten",
     "newPackage": "Nieuw Pakket",
     "newShort": "Nieuw",
-    "noPackages": "Geen pakketten gevonden",
-    "startCreating": "Begin met het maken van uw eerste actiepakket",
-    "createFirst": "Eerste Pakket Maken",
     "noPackagesCreated": "Geen actiepakket aangemaakt",
     "createFirstPackage": "Maak uw eerste pakket",
     "noPackagesSold": "Nog geen pakketten verkocht",
@@ -2593,23 +1801,12 @@
     "inactive": "Inactief",
     "completed": "Voltooid",
     "expired": "Verlopen",
-    "soldTo": "Verkocht aan",
-    "used": "Gebruikt",
-    "of": "van",
-    "sessions": "sessies",
     "sessionsLabel": "Sessies",
-    "remaining": "Resterend",
-    "valid": "Geldig",
-    "until": "tot",
     "validity": "Geldigheid",
     "days": "dagen",
     "price": "Prijs",
-    "originalPrice": "Oorspronkelijke prijs",
-    "discount": "Korting",
     "services": "Diensten",
-    "edit": "Bewerken",
     "delete": "Verwijderen",
-    "confirmDelete": "Weet u zeker dat u dit pakket wilt verwijderen?",
     "confirmDeleteTitle": "Verwijdering bevestigen",
     "confirmDeleteDesc": "Weet u zeker dat u deze sjabloon wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
     "tabs": {
@@ -2633,18 +1830,13 @@
     "form": {
       "name": "Pakketnaam",
       "namePlaceholder": "bijv. 10 Premium Gezichtsbehandelingen",
-      "description": "Beschrijving",
       "descriptionOptional": "Beschrijving (optioneel)",
       "descriptionPlaceholder": "Pakketbeschrijving...",
       "totalSessions": "Aantal Sessies",
       "totalPrice": "Totale Prijs",
-      "price": "Kortingsprijs",
-      "originalPrice": "Oorspronkelijke prijs",
       "validDays": "Geldigheid (dagen, optioneel)",
       "includedServices": "Inbegrepen Diensten",
       "addService": "Dienst toevoegen...",
-      "selectClient": "Klant selecteren",
-      "selectTreatment": "Behandeling selecteren",
       "cancel": "Annuleren",
       "creating": "Aanmaken...",
       "createPackage": "Pakket Maken",
@@ -2653,12 +1845,10 @@
     "toast": {
       "created": "Pakket succesvol aangemaakt",
       "createdDesc": "Het actiepakket is succesvol aangemaakt",
-      "updated": "Pakket bijgewerkt",
       "deleted": "Pakket verwijderd",
       "deletedDesc": "De sjabloon is succesvol verwijderd",
       "sold": "Pakket verkocht",
       "soldDesc": "Het pakket is toegewezen aan de klant",
-      "error": "Fout bij pakketoperatie",
       "cannotCreate": "Kan sjabloon niet aanmaken",
       "cannotSell": "Kan pakket niet verkopen",
       "cannotDelete": "Kan sjabloon niet verwijderen"
@@ -2666,19 +1856,12 @@
   },
   "inventory": {
     "title": "Voorraadbeheer",
-    "subtitle": "Beheer uw producten en voorraad",
     "newProduct": "Nieuw Product",
     "addNewProduct": "Nieuw Product Toevoegen",
     "editProduct": "Product Bewerken",
-    "noProducts": "Geen producten gevonden",
-    "startCreating": "Begin met het toevoegen van uw eerste product",
-    "createFirst": "Eerste Product Toevoegen",
     "available": "Beschikbaar",
-    "inStock": "Op voorraad",
     "lowStock": "Lage voorraad",
     "outOfStock": "Uitverkocht",
-    "quantity": "Hoeveelheid",
-    "minStock": "Minimumvoorraad",
     "price": "Prijs",
     "cost": "Kosten",
     "min": "Min",
@@ -2689,22 +1872,17 @@
       "registerSale": "Verkoop Registreren",
       "unitPrice": "Eenheidsprijs",
       "reference": "Referentie (Factuur, etc.)",
-      "registering": "Registreren...",
       "registerLoad": "Ontvangst Registreren",
       "registerSaleBtn": "Verkoop Registreren"
     },
     "sku": "SKU-code",
     "barcode": "Barcode",
-    "category": "Categorie",
     "edit": "Bewerken",
     "delete": "Verwijderen",
     "confirmDelete": "Verwijdering bevestigen",
     "confirmDeleteDesc": "Weet u zeker dat u het product wilt verwijderen",
     "cannotUndo": "Deze actie kan niet ongedaan worden gemaakt.",
     "cancel": "Annuleren",
-    "adjustStock": "Voorraad Aanpassen",
-    "addStock": "Toevoegen",
-    "removeStock": "Verwijderen",
     "tabs": {
       "products": "Producten",
       "movements": "Bewegingen",
@@ -2727,7 +1905,6 @@
     "form": {
       "name": "Productnaam",
       "description": "Beschrijving",
-      "sku": "SKU-code",
       "category": "Categorie",
       "selectCategory": "Categorie selecteren",
       "noCategories": "Geen categorieën beschikbaar",
@@ -2735,11 +1912,7 @@
       "price": "Verkoopprijs",
       "costPrice": "Inkoopprijs",
       "quantity": "Beschikbare hoeveelheid",
-      "minStock": "Minimumvoorraad",
-      "maxStock": "Maximumvoorraad",
-      "unit": "Eenheid",
       "supplier": "Leverancier",
-      "supplierContact": "Leveranciercontact",
       "location": "Magazijnlocatie",
       "image": "Productafbeelding (optioneel)",
       "changeImage": "Afbeelding Wijzigen",
@@ -2751,13 +1924,7 @@
       "discount": "Korting (%)"
     },
     "movements": {
-      "title": "Recente Magazijnbewegingen",
-      "noMovements": "Geen recente bewegingen",
-      "in": "Inkomend",
-      "out": "Uitgaand",
-      "sale": "Verkoop",
-      "adjustment": "Aanpassing",
-      "waste": "Afval"
+      "title": "Recente Magazijnbewegingen"
     },
     "sales": {
       "title": "Productverkopen",
@@ -2768,10 +1935,7 @@
       "newCategory": "Nieuwe Categorie",
       "addNewCategory": "Nieuwe Categorie Toevoegen",
       "name": "Categorienaam",
-      "description": "Beschrijving",
       "color": "Kleur",
-      "products": "producten",
-      "creating": "Aanmaken...",
       "create": "Categorie Maken"
     },
     "saving": "Opslaan...",
@@ -2991,23 +2155,6 @@
     "workingHoursStep": {
       "title": "Werkuren",
       "description": "We hebben al standaardopeningstijden ingesteld. Je kunt ze op elk moment wijzigen in de Instellingen, waar je het volledige rooster met alle dagen en pauzes vindt.",
-      "presets": "Snelle sjablonen",
-      "presetMonFri": "Ma–Vr 9:00–18:00",
-      "presetMonSat": "Ma–Za 9:00–19:00",
-      "presetTueSat": "Di–Za 10:00–20:00",
-      "daysLabel": "Openingsdagen",
-      "startLabel": "Open vanaf",
-      "endLabel": "Sluiting",
-      "invalidHint": "Kies minstens één dag en controleer dat de openingstijd vóór de sluitingstijd ligt.",
-      "days": {
-        "monday": "Ma",
-        "tuesday": "Di",
-        "wednesday": "Wo",
-        "thursday": "Do",
-        "friday": "Vr",
-        "saturday": "Za",
-        "sunday": "Zo"
-      },
       "defaultsLabel": "Standaardtijden actief",
       "defaultsValue": "Maandag – Zaterdag, 08:00 – 22:00",
       "editHint": "Open de Instellingen in een nieuw tabblad om dagen, tijdvakken of pauzes aan te passen — de rondleiding blijft staan.",
@@ -3093,16 +2240,14 @@
       "summary": {
         "business": "Jouw bedrijf",
         "services": "{{count}} dienst aangemaakt",
-        "services_other": "{{count}} diensten aangemaakt",
-        "hours": "Werkuren"
+        "services_other": "{{count}} diensten aangemaakt"
       }
     },
     "appliedToast": {
       "business": "Bedrijfsgegevens opgeslagen",
       "services": "{{count}} dienst aangemaakt",
-      "services_other": "{{count}} diensten aangemaakt",
-      "hours": "Uren opgeslagen",
-      "preferences": "Voorkeuren opgeslagen"
+      "preferences": "Voorkeuren opgeslagen",
+      "services_other": "{{count}} diensten aangemaakt"
     }
   },
   "serviceManagerSimple": {
@@ -3630,16 +2775,6 @@
         }
       ],
       "plansHeading": "3. Abonnementsplannen",
-      "plansLabels": {
-        "monthly": "Maandelijks",
-        "annual": "Jaarlijks",
-        "savings": "bespaar",
-        "clientLimit": "Klantlimiet",
-        "unlimited": "Onbeperkt",
-        "featuresIncluded": "Inbegrepen functies",
-        "featuresIncludedExtra": "Inbegrepen functies (bovenop het Basisplan)",
-        "featuresIncludedAll": "Inbegrepen functies (alle functies)"
-      },
       "plans": [
         {
           "id": "base",
@@ -3701,27 +2836,14 @@
             "AI-marketingcampagnes"
           ]
         }
-      ],
-      "footer": {
-        "version": "Gestionale Appuntamenti v2.1.0",
-        "copyright": "© 2025 Zambelli Development - Alle rechten voorbehouden"
-      }
+      ]
     },
     "lastUpdated": "Laatst bijgewerkt"
   },
   "emailSettings": {
     "title": "E-mailconfiguratie",
-    "smtpServer": "SMTP-server",
-    "smtpPort": "SMTP-poort",
-    "testConnection": "Verbinding testen",
-    "saveSuccess": "E-mailinstellingen opgeslagen",
     "invalidEmail": "Voer een geldig e-mailadres in",
     "passwordRequired": "Wachtwoord is verplicht als e-mail is ingeschakeld",
-    "config": "E-mailconfiguratie",
-    "enable": "E-mail verzenden inschakelen",
-    "enableDesc": "Verzenden van meldingsmails naar klanten inschakelen",
-    "address": "E-mailadres",
-    "password": "Wachtwoord of App-sleutel",
     "gmailWarning": "📧 Voor Gmail: gebruik NIET het gewone accountwachtwoord",
     "gmailSteps": "Je moet een App-wachtwoord genereren. Volg deze stappen:",
     "step1": "Schakel tweestapsverificatie in:",
@@ -3743,7 +2865,6 @@
     "sendTest": "Test verzenden",
     "toastSaved": "Instellingen opgeslagen",
     "toastSavedDesc": "E-mailinstellingen zijn succesvol bijgewerkt",
-    "toastError": "Fout",
     "toastSaveError": "Er is een fout opgetreden bij het opslaan",
     "toastTestEmailMissing": "Voer een e-mailadres in voor de test",
     "toastTestSent": "E-mail verzonden",
@@ -3816,9 +2937,6 @@
   },
   "userSettings": {
     "title": "Gebruikersinstellingen",
-    "profile": "Profiel",
-    "account": "Account",
-    "preferences": "Voorkeuren",
     "subtitle": "Pas je ervaring aan en stel de huisstijl van je account in",
     "loading": "Instellingen laden...",
     "roles": {
@@ -3912,31 +3030,16 @@
     }
   },
   "staff": {
-    "title": "Personeelsbeheer",
-    "addMember": "Lid toevoegen",
-    "role": "Rol",
-    "permissions": "Machtigingen",
-    "active": "Actief",
-    "inactive": "Inactief"
+    "title": "Personeelsbeheer"
   },
   "appointmentForm": {
-    "title": "Nieuwe afspraak",
     "editTitle": "Afspraak bewerken",
     "client": "Klant",
     "service": "Dienst",
-    "date": "Datum",
-    "time": "Tijd",
-    "duration": "Duur",
-    "notes": "Notities",
     "save": "Afspraak opslaan",
-    "saved": "Afspraak opgeslagen",
-    "selectClient": "Klant selecteren",
-    "selectService": "Dienst selecteren",
     "newTitle": "Nieuwe afspraak",
     "fields": {
-      "client": "Klant",
       "clientPlaceholder": "Klant zoeken...",
-      "service": "Dienst",
       "servicePlaceholder": "Dienst zoeken...",
       "staff": "Professional",
       "staffPlaceholder": "Selecteer een professional...",
@@ -3944,7 +3047,6 @@
       "room": "Ruimte/Cabine (optioneel)",
       "roomPlaceholder": "Selecteer een ruimte...",
       "noRoom": "Geen ruimte",
-      "notes": "Notities",
       "notesPlaceholder": "Voeg eventuele notities over de afspraak toe"
     },
     "loadingClient": "Klantgegevens laden...",
@@ -3955,7 +3057,6 @@
       "after": "\" als nieuwe klant"
     },
     "warnings": {
-      "otherAccount": "<0>Let op:</0> Je maakt een afspraak voor een klant van een andere account ({{firstName}} {{lastName}}). Controleer of je de juiste rechten hebt.",
       "otherAccountClient": "Je maakt een afspraak voor een klant van een ander account ({{firstName}} {{lastName}}). Controleer of je over de benodigde rechten beschikt voordat je doorgaat."
     },
     "notifications": {
@@ -4005,11 +3106,7 @@
       "title": "Beschikbaarheidsconflict",
       "intro": "Er zijn conflicten gedetecteerd voor de geselecteerde afspraak:",
       "staffHeading": "Conflicten met personeel:",
-      "staffLine": "<0>{{name}}</0> heeft al een afspraak om {{time}}",
-      "staffWith": " met {{firstName}} {{lastName}}",
       "roomHeading": "Ruimteconflicten:",
-      "roomLine": "<0>{{name}}</0> is al bezet om {{time}}",
-      "roomBy": " door {{firstName}} {{lastName}}",
       "askProceed": "Wil je toch doorgaan?",
       "proceed": "Toch doorgaan",
       "staffLineSuffix": "heeft al een afspraak om",
@@ -4022,12 +3119,6 @@
     "durationLabel": "Duur: {{minutes}} min"
   },
   "clientNotes": {
-    "title": "Klantnotities",
-    "addNote": "Notitie toevoegen",
-    "placeholder": "Schrijf hier je notitie...",
-    "empty": "Geen notities beschikbaar",
-    "saved": "Notitie opgeslagen",
-    "deleted": "Notitie verwijderd",
     "headerTitle": "Klantnotities",
     "newNote": "Nieuwe notitie",
     "addButton": "Toevoegen",
@@ -4091,11 +3182,6 @@
     "photoAlt": "Foto {{n}}",
     "scrollNext": "Scroll om de volgende notities te bekijken →",
     "createDialogTrigger": "Nieuwe notitie maken"
-  },
-  "manuale": {
-    "title": "Gebruikershandleiding",
-    "search": "Zoeken in handleiding...",
-    "tableOfContents": "Inhoudsopgave"
   },
   "whatsappConfigHelper": {
     "title": "WhatsApp-configuratie",
@@ -4453,87 +3539,12 @@
       "create": "Fout bij het aanmaken van de dienst",
       "update": "Fout bij het bijwerken van de dienst",
       "delete": "Fout bij het verwijderen van de dienst",
-      "loadingTitle": "Fout",
       "loadingDesc": "Fout bij het laden van diensten: {{message}}",
       "unknown": "Onbekende fout",
       "httpStatus": "Fout {{status}}: {{statusText}}"
     },
     "confirmDelete": "Weet je zeker dat je deze dienst wilt verwijderen?",
     "savingButton": "Opslaan..."
-  },
-  "clientLegacyNotes": {
-    "dialog": {
-      "editTitle": "Notitie bewerken",
-      "createTitle": "Nieuwe notitie maken"
-    },
-    "fields": {
-      "titleLabel": "Titel",
-      "titlePlaceholder": "Notitietitel",
-      "contentLabel": "Inhoud",
-      "contentPlaceholder": "Notitie-inhoud"
-    },
-    "titles": {
-      "editLabel": "Titel bewerken",
-      "resetLabel": "Originele titel herstellen",
-      "duplicateLast": "Laatste notitie dupliceren",
-      "noNoteToDuplicate": "Geen notitie om te dupliceren",
-      "addPhoto": "Foto toevoegen",
-      "createNote": "Nieuwe notitie maken",
-      "noNoteToDelete": "Geen notitie om te verwijderen"
-    },
-    "empty": "Geen notities beschikbaar. Klik op \"Toevoegen\" om er een te maken.",
-    "imageAlt": "Foto {{idx}}",
-    "confirm": {
-      "deleteNote": "Weet je zeker dat je deze notitie wilt verwijderen?",
-      "deletePhoto": "Deze foto verwijderen?"
-    },
-    "toast": {
-      "created": {
-        "title": "Notitie aangemaakt",
-        "desc": "De notitie is succesvol opgeslagen"
-      },
-      "updated": {
-        "title": "Notitie bijgewerkt",
-        "desc": "De notitie is succesvol bijgewerkt"
-      },
-      "deleted": {
-        "title": "Notitie verwijderd",
-        "desc": "De notitie is succesvol verwijderd"
-      },
-      "duplicated": {
-        "title": "Notitie gedupliceerd",
-        "desc": "De notitie is succesvol gedupliceerd"
-      },
-      "duplicateSuffix": " (kopie)",
-      "imageUploaded": {
-        "title": "Foto geüpload",
-        "desc": "De foto is succesvol toegevoegd"
-      },
-      "imageDeleted": {
-        "title": "Foto verwijderd",
-        "desc": "De foto is succesvol verwijderd"
-      },
-      "titleUpdated": {
-        "title": "Titel bijgewerkt",
-        "desc": "De sectietitel is succesvol bijgewerkt"
-      },
-      "titleReset": {
-        "title": "Titel hersteld",
-        "desc": "De sectietitel is hersteld naar de originele waarde"
-      },
-      "missingFields": {
-        "title": "Ontbrekende gegevens",
-        "desc": "Voer titel en inhoud van de notitie in"
-      }
-    },
-    "errors": {
-      "create": "Kon notitie niet aanmaken: {{message}}",
-      "update": "Kon notitie niet bijwerken: {{message}}",
-      "delete": "Kon notitie niet verwijderen: {{message}}",
-      "duplicate": "Kon notitie niet dupliceren: {{message}}",
-      "uploadImage": "Kon foto niet uploaden: {{message}}",
-      "deleteImage": "Kon foto niet verwijderen: {{message}}"
-    }
   },
   "staffManagement": {
     "subtitle": "Bekijk en beheer je personeel",
@@ -4629,16 +3640,9 @@
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
     "staffBadge": "Personeel",
-    "pageSubtitle": "Bekijk en beheer je teamleden",
-    "addStaffButton": "Medewerker toevoegen",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Annuleren",
-    "actionsLabel": "Acties",
-    "registeredLabel": "Geregistreerd: {{date}}",
-    "proAccessLabel": "✓ PRO-toegang",
-    "bankingDataButton": "Bankgegevens",
-    "noResultsFound": "Geen resultaten gevonden.",
     "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
   },
   "passwordChange": {
@@ -4742,18 +3746,12 @@
     "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
-    "alreadyInstalled": "App al geïnstalleerd",
-    "alreadyInstalledDesc": "U gebruikt al de geïnstalleerde versie van de app",
     "installing": "Installatie bezig",
     "installingDesc": "Bevestig de installatie in uw browser",
     "installed": "App geïnstalleerd",
     "installedDesc": "De app is succesvol geïnstalleerd!",
-    "installCancelled": "Installatie geannuleerd",
-    "installCancelledDesc": "U kunt de app altijd installeren",
     "errorTitle": "Fout",
     "installError": "Er is een fout opgetreden tijdens de installatie",
-    "browserNotSupported": "Browser niet ondersteund",
-    "browserNotSupportedDesc": "Uw browser ondersteunt geen automatische installatie. Volg de handmatige instructies.",
     "installButton": "App installeren",
     "selectBrowser": "Selecteer uw browser",
     "selectBrowserDesc": "Kies de browser die u gebruikt om de juiste installatie-instructies te zien",
@@ -4866,60 +3864,15 @@
     "trialExpiredSafe": "💾 Geen zorgen: al je gegevens (klanten, afspraken, instellingen) zijn veilig en worden hersteld zodra je een plan afneemt.",
     "for40Days": "Voor 40 dagen",
     "annualSub": "Jaarabonnement",
-    "appointmentReq": "Klantafsprakenverzoek",
     "invalidActivation": "Voer een geldige activeringscode in",
     "licenseActivated": "Licentie geactiveerd",
     "licenseActivatedDesc": "Je licentie is succesvol geactiveerd.",
     "genericError": "Er is een fout opgetreden tijdens de bewerking",
     "redirectingPaypal": "Je wordt doorgestuurd naar de PayPal-betaalpagina",
     "paypalError": "PayPal-fout",
-    "paypalCantStart": "Het PayPal-betaalproces kon niet worden gestart",
-    "redirectingStripe": "Je wordt doorgestuurd naar de beveiligde betaalpagina",
     "stripeError": "Stripe-fout",
-    "stripeCantStart": "Het kaartbetalingsproces kon niet worden gestart",
-    "trial40Free": "Probeer 40 dagen gratis",
-    "baseMonthly": "Basis maandelijks",
-    "baseMonthlyDesc": "Basisplan: maandelijkse facturering",
-    "proMonthly": "Pro maandelijks",
-    "proMonthlyDesc": "Professioneel plan: maandelijkse facturering",
-    "businessMonthly": "Business maandelijks",
-    "businessMonthlyDesc": "Businessplan: maandelijkse facturering",
-    "trialIncluded": "Alle abonnementen bevatten een gratis proefperiode van 40 dagen. Geen creditcard nodig om te beginnen.",
-    "subActive": "Actief abonnement",
-    "trialActiveUntil": "Je proefperiode is actief tot",
-    "alreadyActive": "Al actief",
-    "faqCancelQ": "Kan ik mijn abonnement annuleren?",
-    "faqCancelA": "Ja, je kunt je abonnement op elk moment annuleren. De toegang blijft actief tot het einde van de reeds betaalde periode.",
-    "faqTrialQ": "Hoe werkt de proefperiode?",
-    "faqTrialA": "De proefperiode van 40 dagen bevat alle basisfuncties. Geen creditcard nodig om te beginnen.",
-    "faqUpgradeA": "Ja, je kunt op elk moment overstappen naar een hoger plan. Het prijsverschil wordt naar rato berekend.",
     "activateCode": "Activeer je code",
-    "activateCodeDesc": "Voer de activeringscode in die je na betaling hebt ontvangen.",
-    "activationCode": "Activeringscode",
-    "bankTransferTitle": "Betaling per bankoverschrijving",
-    "bankTransferDesc": "Volg de instructies om de bankoverschrijving te voltooien.",
-    "subPlanName": "{{plan}}-abonnement",
-    "feat": {
-      "customerMgmt": "Klantbeheer",
-      "qrPwa": "QR/PWA-app voor klanten",
-      "notifyClients": "Klantmeldingen"
-    },
-    "paypalErrorMutation": "PayPal-mutatiefout: {{msg}}",
-    "subWithPaypal": "abonnement met PayPal",
-    "stripeErrorMutation": "Stripe-mutatiefout: {{msg}}",
-    "subWithStripe": "abonnement met Stripe",
-    "parseFeatError": "Fout bij het parsen van plan-features: {{msg}}",
-    "calendarDesc": "Beheer eenvoudig je agenda en klantafspraken.",
-    "customerMgmt": "Klantbeheer",
-    "customerMgmtDesc": "Bewaar al je klantgegevens op één veilige plek.",
-    "remindersDesc": "Stuur automatische herinneringen om annuleringen te verminderen.",
-    "reportsDesc": "Analyseer je bedrijf met uitgebreide rapporten en statistieken.",
-    "choosePlan": "Kies het perfecte abonnement voor jouw bedrijf",
     "currentPlan": "Huidig abonnement",
-    "faqUpgradeQ": "Kan ik later van abonnement veranderen?",
-    "processing": "Verwerken...",
-    "bankDetailsCopied": "Overschrijvingsdetails naar het klembord gekopieerd",
-    "copyDetails": "Details kopiëren",
     "missingCode": "Code ontbreekt",
     "redirectingPaypalTitle": "Doorsturen naar PayPal...",
     "redirectingStripeTitle": "Doorsturen naar Stripe...",
@@ -6012,8 +4965,7 @@
       "description": "Beschrijving",
       "plan": "Plan",
       "start": "Start",
-      "expiry": "Vervaldatum",
-      "actions": "Acties"
+      "expiry": "Vervaldatum"
     },
     "subs": {
       "title": "Abonnementen",
@@ -6066,7 +5018,6 @@
       "bankNamePlaceholder": "bijv. Intesa Sanpaolo",
       "holder": "Rekeninghouder",
       "holderPlaceholder": "Voor- en achternaam / Bedrijfsnaam",
-      "iban": "IBAN",
       "hide": "Verbergen",
       "show": "Tonen",
       "ibanNotConfigured": "IBAN niet geconfigureerd",
@@ -6570,7 +5521,6 @@
     "clientCard": {
       "incompleteData": "Klantgegevens te voltooien",
       "deletionUnlocked": "Verwijdering ontgrendeld",
-      "unlockDeletionAction": "Verwijdering ontgrendelen",
       "cannotUnlock": "Kan verwijdering niet ontgrendelen",
       "cannotMarkDeleted": "Kan verwijdering niet simuleren",
       "clientRemoved": "Klant uit het systeem verwijderd"
@@ -6855,9 +5805,6 @@
     "reminderTemplateManager": {
       "emailLabel": "E-mail"
     },
-    "homePage": {
-      "loadingName": "Naam wordt geladen..."
-    },
     "promotionPageExtra": {
       "loading": "Bezig met laden...",
       "specialPromotionTitle": "Speciale promotie"
@@ -6928,14 +5875,8 @@
       "title": "Stel je werkruimte in",
       "subtitle": "{{completed}} van {{total}} stappen voltooid. Voorbeeldgegevens worden automatisch verwijderd zodra je je eigen gegevens toevoegt.",
       "dismiss": "Deze gids verbergen",
-      "takeTour": "Volg de AI-rondleiding",
-      "takeTourDesc": "Begeleid proces: beantwoord een paar vragen en AI stelt diensten en instellingen voor",
-      "optionManualLabel": "Optie 1 — Vul zelf in",
-      "optionAILabel": "Optie 2 — Laat AI het doen",
-      "or": "OF",
       "allDone": "Alles klaar, sluiten",
       "stepDone": "Voltooid",
-      "hideUntilRestartHint": "Verberg tot de volgende herstart van de app",
       "finishDialog": {
         "title": "Configuratie voltooid!",
         "description": "Je hebt alle stappen van de eerste configuratie voltooid. Wil je deze suggesties verbergen? Je kunt ze permanent verwijderen of alleen verbergen tot de volgende keer dat je de app opent.",

@@ -5,18 +5,7 @@
     "description": "Легко управляйте записями, клиентами и счетами"
   },
   "welcomePage": {
-    "title": "Добро пожаловать в Управление Записями",
-    "subtitle": "Выберите, как вы хотите продолжить",
-    "createAccount": "Создать новый аккаунт",
-    "createAccountDesc": "Для новых пользователей, которые хотят начать использовать систему",
-    "professionalLogin": "Профессиональный Вход",
-    "staffLogin": "Вход для Персонала/Админа",
-    "chooseAccessType": "Выберите подходящий тип доступа",
-    "version": "Управление Записями v3.5.0",
-    "copyright": "© 2023-2025 Все права защищены",
-    "footerCopyright": "© 2023-2025 Zambelli Andrea - Управление Записями",
     "login": "Войти",
-    "loginDesc": "Для специалистов и сотрудников с учетной записью",
     "badge": "Используют сотни специалистов",
     "heroTitle": "Ваш бизнес всегда в кармане",
     "heroSubtitle": "Управляйте записями, клиентами, напоминаниями и счетами в одном приложении для парикмахеров, косметологов и специалистов по wellness.",
@@ -114,54 +103,11 @@
     "staffLabel": "По Профессионалу",
     "myClientsLabel": "Мои Клиенты",
     "otherAccountsLabel": "Другие Учетные Записи",
-    "clientPersonal": "Персональные Клиенты",
-    "clientSingular": "клиент",
-    "clientPlural": "клиентов",
     "loadingClients": "Загрузка клиентов...",
     "errorLoadingClients": "Ошибка при загрузке клиентов:",
     "retry": "Повторить"
   },
   "proPages": {
-    "syncGoogleCalendar": "Синхронизировать Google Calendar",
-    "syncGoogleCalendarDesc": "Управляйте синхронизацией ваших записей с Google Calendar",
-    "clickToConfigure": "Нажмите для настройки и управления синхронизацией с Google Calendar",
-    "invoiceCreated": "Счёт успешно создан",
-    "invoiceCreateError": "Ошибка при создании счёта",
-    "clientRequired": "Клиент обязателен",
-    "amountPositive": "Сумма должна быть положительной",
-    "dateRequired": "Дата обязательна",
-    "dueDateRequired": "Срок оплаты обязателен",
-    "invalidEmail": "Неверный email",
-    "subjectRequired": "Тема обязательна",
-    "emailSent": "Email успешно отправлен",
-    "emailSentTo": "Счёт отправлен на",
-    "emailSendError": "Ошибка при отправке email",
-    "checkEmailSettings": "Проверьте настройки email",
-    "statusUpdated": "Статус обновлён",
-    "markedAs": "Счёт отмечен как:",
-    "paid": "Оплачен",
-    "unpaid": "Не оплачен",
-    "statusUpdateError": "Ошибка обновления статуса",
-    "promotionalPackages": "Промо-пакеты",
-    "newPackage": "Новый Пакет",
-    "createNewPackage": "Создать Новый Промо-пакет",
-    "packageName": "Название Пакета",
-    "descriptionOptional": "Описание (необязательно)",
-    "numberOfSessions": "Количество Сеансов",
-    "totalPrice": "Общая Цена",
-    "validityDays": "Срок действия (дни, необязательно)",
-    "includedServices": "Включённые Услуги",
-    "addService": "Добавить услугу...",
-    "templateCreated": "Шаблон создан",
-    "packageCreatedDesc": "Промо-пакет успешно создан",
-    "cannotCreateTemplate": "Невозможно создать шаблон",
-    "packageSold": "Пакет продан",
-    "packageAssigned": "Пакет назначен клиенту",
-    "cannotSellPackage": "Невозможно продать пакет",
-    "templateDeleted": "Шаблон удалён",
-    "templateDeletedDesc": "Шаблон успешно удалён",
-    "cannotDeleteTemplate": "Невозможно удалить шаблон",
-    "inventory": "Склад",
     "categoryRequired": "Название категории обязательно",
     "productRequired": "Название продукта обязательно",
     "pricePositive": "Цена должна быть положительной",
@@ -177,50 +123,10 @@
     "maxImageSize": "Изображение должно быть не более 5МБ",
     "productCreatedImageError": "Продукт создан, но ошибка загрузки изображения",
     "canAddImageLater": "Вы можете отредактировать продукт, чтобы добавить изображение",
-    "productCreated": "Продукт успешно создан",
     "productCreateError": "Ошибка при создании продукта",
-    "productUpdated": "Продукт успешно обновлён",
     "productUpdateError": "Ошибка при обновлении продукта",
-    "productDeleted": "Продукт успешно удалён",
     "productDeleteError": "Ошибка при удалении продукта",
-    "unknownError": "Неизвестная ошибка",
-    "reports": "Отчёты",
-    "statisticalReports": "Статистические Отчёты",
-    "reportsAvailablePro": "Подробные отчёты о деятельности доступны начиная с плана Pro.",
-    "downloadPdf": "Скачать PDF",
-    "weekly": "Еженедельный",
-    "monthly": "Ежемесячный",
-    "yearly": "Годовой",
-    "week": "Неделя",
-    "totalAppointments": "Всего Записей",
-    "totalRevenue": "Общий Доход",
-    "dailyAverage": "Среднее за День",
-    "appointmentDetails": "Детали Записей",
-    "day": "День",
-    "date": "Дата",
-    "month": "Месяц",
-    "numberOfAppointments": "Количество Записей",
-    "revenue": "Доход",
-    "serviceDetails": "Детали Услуг",
-    "service": "Услуга",
-    "generatedOn": "Сгенерировано"
-  },
-  "paymentPages": {
-    "popular": "Популярный",
-    "error": "Ошибка",
-    "unableToLoadDashboard": "Невозможно загрузить данные панели управления",
-    "dataRefresh": "Обновление данных",
-    "dataRefreshInProgress": "Обновление данных...",
-    "settingsSaved": "Настройки сохранены",
-    "bankingSettingsUpdated": "Банковские настройки успешно обновлены",
-    "cannotSaveBankingSettings": "Невозможно сохранить банковские настройки",
-    "testCompleted": "Тест завершён",
-    "paymentSystemConfigured": "Платёжная система настроена правильно",
-    "testFailed": "Тест не пройден",
-    "verifyBankingConfig": "Проверьте настройки банковских данных",
-    "trialExtended": "Пробный период продлён",
-    "cannotExtendTrial": "Невозможно продлить пробный период",
-    "dateUpdated": "Дата обновлена"
+    "unknownError": "Неизвестная ошибка"
   },
   "services": {
     "title": "Управление Услугами",
@@ -263,7 +169,6 @@
     "enableAllOnline": "Включить все",
     "allOnlineEnabled": "Все услуги доступны для онлайн-бронирования",
     "allOnlineDisabled": "Онлайн-бронирование отключено для всех услуг",
-    "online": "Онлайн",
     "onlineHeader": "Онлайн-бронирования"
   },
   "settingsPage": {
@@ -306,14 +211,8 @@
     "advancedConfig": "Расширенная настройка (QR-метод)",
     "whatsappNotifications": "Уведомления WhatsApp",
     "whatsappInfo": "Информация об уведомлениях WhatsApp:",
-    "whatsappInfoList": [
-      "Сообщения WhatsApp бесплатны и надежнее SMS",
-      "Убедитесь, что номера телефонов указаны правильно с международным кодом (напр. +79123456789)",
-      "Все сообщения создают ссылку WhatsApp, которая открывается автоматически"
-    ],
     "error": "Ошибка",
     "messageTemplates": "Шаблоны Сообщений",
-    "messageTemplatesDesc": "Настройте шаблоны напоминаний",
     "noAppointmentSelected": "Запись не выбрана",
     "selectAppointmentForNotifications": "Выберите хотя бы одну запись для отправки уведомлений",
     "selectAppointmentForSMS": "Выберите хотя бы одну запись для отправки SMS",
@@ -327,12 +226,7 @@
     "twilioLimitationsDesc": "Ваш аккаунт Twilio имеет ограничения и может не доставлять SMS на все номера.",
     "smsError": "Ошибка отправки SMS",
     "recipient": "получатель",
-    "recipients": "получателей",
-    "loadingError": "Ошибка загрузки:",
-    "cannotLoadAppointments": "Невозможно загрузить записи:",
-    "cannotLoadHistory": "Невозможно загрузить историю:",
-    "cannotLoadSmsHistory": "Невозможно загрузить историю SMS:",
-    "unknownError": "Неизвестная ошибка"
+    "recipients": "получателей"
   },
   "bookingRequests": {
     "title": "Запросы на Бронирование",
@@ -404,19 +298,10 @@
     "home": "Главная",
     "notifications": "Уведомления",
     "referral": "Рекомендации",
-    "aiSetup": "Настройка ИИ",
-    "aiSettings": "Настройки ИИ",
     "aiAssistant": "Ассистент ИИ",
     "staff": "Персонал",
     "payments": "Платежи",
     "requests": "Заявки"
-  },
-  "sidebar": {
-    "clients": "Клиенты",
-    "calendar": "Календарь",
-    "invoices": "Счета",
-    "reports": "Отчеты",
-    "settings": "Настройки"
   },
   "language": {
     "it": "Итальянский",
@@ -431,30 +316,6 @@
     "select": "Выбрать язык"
   },
   "home": {
-    "calendar": {
-      "title": "Календарь",
-      "description": "Просмотр и управление всеми записями",
-      "content": "Просматривайте записи в ежедневном, еженедельном или ежемесячном режиме, и легко создавайте новые записи.",
-      "button": "Перейти к Календарю"
-    },
-    "clients": {
-      "title": "Клиенты",
-      "description": "Управление информацией о клиентах",
-      "content": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию.",
-      "button": "Управление Клиентами"
-    },
-    "invoices": {
-      "title": "Счета",
-      "description": "Управление счетами и платежами",
-      "content": "Создавайте и управляйте счетами, регистрируйте платежи и отслеживайте статус счетов в реальном времени.",
-      "button": "Управление Счетами"
-    },
-    "reports": {
-      "title": "Отчеты",
-      "description": "Анализ производительности бизнеса",
-      "content": "Просматривайте ежедневные, еженедельные и ежемесячные отчеты для анализа производительности бизнеса.",
-      "button": "Просмотр Отчетов"
-    },
     "manual": {
       "title": "Руководство",
       "description": "Полное руководство пользователя",
@@ -477,30 +338,6 @@
     "searchResults": "Результаты поиска",
     "noAppointmentsFound": "Не найдено записей на",
     "goToDay": "Перейти к дате",
-    "days": {
-      "monday": "Понедельник",
-      "tuesday": "Вторник",
-      "wednesday": "Среда",
-      "thursday": "Четверг",
-      "friday": "Пятница",
-      "saturday": "Суббота",
-      "sunday": "Воскресенье"
-    },
-    "months": {
-      "january": "Январь",
-      "february": "Февраль",
-      "march": "Март",
-      "april": "Апрель",
-      "may": "Май",
-      "june": "Июнь",
-      "july": "Июль",
-      "august": "Август",
-      "september": "Сентябрь",
-      "october": "Октябрь",
-      "november": "Ноябрь",
-      "december": "Декабрь"
-    },
-    "selectNewAppointment": "Выберите новую запись",
     "selectTimeNewAppointment": "Выберите время для новой записи",
     "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
     "hasAppointments": "Есть записи",
@@ -508,8 +345,6 @@
     "customDuration": "Пользовательская длительность",
     "incrementBy15Min": "Увеличить на 15 мин",
     "decrementBy15Min": "Уменьшить на 15 мин",
-    "selected": "Выбрано",
-    "select": "Выбрать",
     "noServicesAvailable": "Нет доступных услуг",
     "goToSettingsToCreateService": "Перейдите в Настройки, чтобы создать услугу",
     "noServicesFound": "Услуги не найдены"
@@ -520,41 +355,13 @@
     "subDescription": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию",
     "goTo": "Управление Клиентами",
     "addClient": "Новый Клиент",
-    "newClient": "Новый Клиент",
     "addFirstClient": "Добавить первого клиента",
-    "search": {
-      "placeholder": "Поиск клиентов по имени, телефону или email...",
-      "minLength": "Введите не менее 2 символов для поиска"
-    },
     "filter": {
-      "all": "Все",
-      "frequent": "Частые",
       "noConsent": "Без согласия"
-    },
-    "noClientsFound": "Клиенты не найдены",
-    "noClientsInSystem": "В системе нет зарегистрированных клиентов",
-    "noResultsMatch": "Ни один клиент не соответствует критериям поиска \"{{query}}\"",
-    "refreshSuccess": "Данные клиентов обновлены",
-    "lastUpdate": "Последнее обновление",
-    "autoUpdate": "Автоматическое обновление каждый час и в 23:59",
-    "stats": {
-      "total": "Всего клиентов",
-      "frequent": "Частые клиенты",
-      "noConsent": "Без согласия"
-    },
-    "table": {
-      "name": "Имя",
-      "surname": "Фамилия",
-      "email": "Email",
-      "phone": "Телефон",
-      "actions": "Действия"
     },
     "details": {
-      "title": "Детали Клиента",
       "personalInfo": "Личная Информация",
-      "medicalInfo": "Медицинская Информация",
       "appointments": "Записи",
-      "notes": "Заметки",
       "consents": "Согласия",
       "clientDataConsent": "Данные клиента/согласие",
       "clientFile": "Карточка клиента",
@@ -592,29 +399,10 @@
     },
     "form": {
       "firstName": "Имя",
-      "lastName": "Фамилия",
-      "email": "Email",
-      "phone": "Телефон",
-      "birthDate": "Дата Рождения",
-      "address": "Адрес",
-      "city": "Город",
-      "zipCode": "Почтовый Индекс",
-      "notes": "Заметки",
-      "save": "Сохранить",
-      "cancel": "Отмена"
+      "lastName": "Фамилия"
     },
-    "loading": "Загрузка клиентов...",
-    "loadingAccessStatus": "Проверка доступа клиента...",
-    "showDetails": "Детали",
-    "showAppointments": "Записи",
-    "clientAccess": "Доступ клиента",
-    "qrGenerated": "QR создан",
-    "qrNotGenerated": "QR не создан",
-    "generateQR": "Создать QR",
-    "manageClient": "Управление клиентом",
     "accesses": {
       "loading": "Caricamento...",
-      "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
@@ -648,18 +436,12 @@
     "date": "Дата",
     "dueDate": "Срок оплаты",
     "amount": "Сумма",
-    "status": "Статус",
     "paid": "Оплачено",
     "unpaid": "Не оплачено",
     "sentToClient": "Отправлено клиенту",
     "preview": "Предпросмотр",
     "print": "Печать",
-    "sendEmail": "Отправить Email",
-    "sendMultichannel": "Отправить счёт",
-    "markAsPaid": "Отметить как Оплачен",
-    "markAsUnpaid": "Отметить как Не оплачен",
     "deleteInvoice": "Удалить счёт",
-    "confirmDelete": "Вы уверены, что хотите удалить этот счёт?",
     "irreversibleAction": "Это действие необратимо!",
     "form": {
       "clientRequired": "Клиент обязателен",
@@ -670,18 +452,7 @@
       "selectClient": "Выберите клиента",
       "amountManualPh": "Введите сумму вручную"
     },
-    "email": {
-      "title": "Отправить счёт по Email",
-      "recipient": "Email получателя",
-      "subject": "Тема",
-      "message": "Сообщение",
-      "invalidEmail": "Неверный email",
-      "subjectRequired": "Тема обязательна"
-    },
     "channels": {
-      "pwa": "Приложение клиента",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
       "noChannelSelected": "Выберите хотя бы один канал отправки",
       "noChannelSelectedTitle": "Канал не выбран"
     },
@@ -727,19 +498,10 @@
     "chronologicalKept": "✓ Хронологический порядок сохранён",
     "doCleanup": "Очистить нумерацию",
     "previewTitle": "👁️ Предпросмотр счёта",
-    "previewDesc": "Предпросмотр счёта {{number}} перед отправкой или печатью",
-    "generatingPreview": "Создание предпросмотра...",
-    "noPreviewAvailable": "Предпросмотр недоступен",
-    "closePreview": "Закрыть предпросмотр",
     "printing": "Печать...",
     "printInvoice": "Распечатать счёт",
-    "sendByEmailBtn": "Отправить по email",
-    "deleteConfirmText": "Вы уверены, что хотите удалить счёт {{number}}?\n\nЭто действие необратимо!",
     "resendTitle": "⚠️ Подтвердите повторную отправку счёта",
-    "alreadySentVia": "Этот счёт уже был отправлен по следующим каналам:",
-    "sentOnDate": "Отправлено {{date}}",
     "resendQuestion": "Вы действительно хотите повторно отправить счёт по выбранным каналам?",
-    "confirmResend": "Подтвердить отправку",
     "recipientPlaceholder": "клиент@пример.ru",
     "currentFormatValue": "Смешанный (06/2025/001, 09/2025/002 и т.д.)",
     "afterFormatValue": "Юридический NNN/ГГГГ (001/2025, 002/2025 и т.д.)",
@@ -810,28 +572,9 @@
   },
   "reports": {
     "title": "Отчёты и статистика",
-    "subtitle": "Анализируйте эффективность вашего бизнеса",
-    "period": "Период",
-    "today": "Сегодня",
-    "thisWeek": "Эта неделя",
-    "thisMonth": "Этот месяц",
-    "thisYear": "Этот год",
-    "custom": "Произвольный",
-    "from": "С",
-    "to": "По",
     "revenue": "Выручка",
     "appointments": "Записи",
-    "clients": "Клиенты",
-    "newClients": "Новые клиенты",
-    "averageTicket": "Средний чек",
-    "mostPopularTreatments": "Самые популярные процедуры",
-    "revenueByProfessional": "Выручка по специалистам",
-    "appointmentsByDay": "Записи по дням",
-    "export": "Экспорт",
     "exportPdf": "Экспорт PDF",
-    "exportCsv": "Экспорт CSV",
-    "noData": "Нет данных за этот период",
-    "loading": "Загрузка отчётов...",
     "weekly": "Еженедельно",
     "monthly": "Ежемесячно",
     "yearly": "Ежегодно",
@@ -865,19 +608,10 @@
   "settings": {
     "title": "Настройки",
     "general": "Общие",
-    "profile": "Профиль",
     "appearance": "Внешний Вид",
-    "notifications": "Уведомления",
-    "language": "Язык",
-    "theme": "Тема",
-    "save": "Сохранить Настройки",
-    "googleCalendar": "Google календарь",
     "contacts": "Контакты & Часы работы",
-    "saving": "Сохранение...",
     "contactsTitle": "Контактная Информация",
     "contactsDesc": "Управляйте контактной информацией, которая будет отображаться в нижней части приложения для клиентов",
-    "appName": "Название Приложения",
-    "appIcon": "Иконка Приложения",
     "integrations": "Интеграции",
     "appearanceTitle": "Фирменный Стиль",
     "appearanceDesc": "Настройте название и иконку приложения в соответствии с фирменным стилем вашей компании. Эти настройки будут применены как к основному приложению, так и к приложению для клиентов.",
@@ -901,16 +635,13 @@
     "loading": "Загрузка...",
     "scrollDown": "Прокрутить вниз",
     "cancel": "Отмена",
-    "confirm": "Подтвердить",
     "delete": "Удалить",
     "edit": "Изменить",
     "save": "Сохранить",
-    "send": "Отправить",
     "close": "Закрыть",
     "error": "Ошибка",
     "success": "Успех",
     "warning": "Внимание",
-    "saving": "Сохранение...",
     "back": "Назад",
     "backToHomeBilingual": "На главную",
     "email": "Эл. почта",
@@ -918,12 +649,8 @@
     "test": "Тест",
     "actions": "Действия",
     "search": "Поиск",
-    "required": "Обязательно",
     "notes": "Заметки",
-    "add": "Добавить",
-    "update": "Обновить",
     "create": "Создать",
-    "confirmDelete": "Вы уверены, что хотите удалить?",
     "copy": "Копировать",
     "errorWithMessage": "Произошла ошибка: {{message}}",
     "saved": "Сохранено",
@@ -936,12 +663,7 @@
     "demoLabel": "Demo"
   },
   "notifications": {
-    "success": "Операция успешно завершена",
-    "error": "Произошла ошибка",
-    "warning": "Предупреждение",
-    "info": "Информация",
-    "clientDeleted": "Клиент удален",
-    "clientDeletedSuccess": "Клиент был успешно удален"
+    "clientDeleted": "Клиент удален"
   },
   "whatsappNotifications": {
     "title": "Уведомления клиентов",
@@ -960,13 +682,7 @@
       "calendar": "Google Календарь"
     },
     "howItWorks": {
-      "title": "Как работают WhatsApp уведомления",
-      "steps": [
-        "Выберите записи, для которых хотите отправить напоминание",
-        "Нажмите \"Создать WhatsApp уведомления\" для создания ссылок",
-        "Будут созданы ссылки, открывающие WhatsApp с предварительно заполненными текстами",
-        "Вы можете настроить стандартный текст перед отправкой"
-      ]
+      "title": "Как работают WhatsApp уведомления"
     },
     "customMessage": {
       "title": "Персонализированное сообщение (опционально)",
@@ -985,7 +701,6 @@
       "service": "Услуга",
       "time": "Время",
       "actions": "Действия",
-      "send": "Отправить",
       "selectAll": "Выбрать все"
     },
     "buttons": {
@@ -1012,56 +727,17 @@
         "failed": "Fallito",
         "unknown": "Sconosciuto"
       }
-    },
-    "appointmentList": {
-      "selectAll": "Выбрать все",
-      "actions": "Действия",
-      "sendButton": "Создать WhatsApp уведомления",
-      "sending": "Создание уведомлений..."
-    },
-    "errors": {
-      "loadingAppointments": "Невозможно загрузить записи",
-      "loadingHistory": "Невозможно загрузить историю",
-      "noneSelected": "Выберите хотя бы одну запись для отправки уведомлений",
-      "sendingFailed": "Не удалось отправить напоминания"
-    },
-    "success": {
-      "remindersSent": "Напоминания успешно созданы"
-    },
-    "whatsappLink": "Открыть WhatsApp"
+    }
   },
   "notificationSettings": {
     "title": "Настройки уведомлений",
-    "enableEmailNotifications": "Включить уведомления по электронной почте",
-    "emailSetup": {
-      "title": "Быстрая настройка электронной почты",
-      "email": "Электронная почта",
-      "emailPlaceholder": "Введите свой адрес электронной почты",
-      "password": "Пароль",
-      "passwordPlaceholder": "Введите пароль от электронной почты",
-      "description": "Эта конфигурация настраивает вашу учетную запись электронной почты для отправки уведомлений.",
-      "autoDetect": "Автоматическое определение настроек",
-      "emailRequired": "Введите свой адрес электронной почты для определения настроек"
-    },
-    "errors": {
-      "loadingSettings": "Невозможно загрузить настройки уведомлений",
-      "savingSettings": "Невозможно сохранить настройки",
-      "testEmailMissing": "Введите адрес электронной почты для тестирования"
-    },
-    "success": {
-      "settingsSaved": "Настройки уведомлений успешно сохранены",
-      "testEmailSent": "Тестовое письмо успешно отправлено",
-      "remindersProcessed": "Напоминания успешно обработаны"
-    },
     "tabs": {
       "email": "Эл. почта",
       "whatsapp": "WhatsApp",
       "general": "Общие настройки"
     },
     "email": {
-      "enable": "Включить уведомления по электронной почте",
-      "placeholderEmail": "Введите ваш email",
-      "placeholderPassword": "Введите пароль почты"
+      "enable": "Включить уведомления по электронной почте"
     },
     "whatsapp": {
       "enable": "Включить уведомления WhatsApp"
@@ -1130,7 +806,6 @@
     "quickEmailSetup": "Быстрая настройка email",
     "signatureLabel": "Подпись email",
     "whatsappNumberLabel": "Номер WhatsApp для уведомлений",
-    "enterEmail": "Введите email",
     "testEmailSettings": "Проверить настройки email",
     "whatsappNotificationsTitle": "Уведомления WhatsApp",
     "phoneForNotifications": "Номер телефона для уведомлений",
@@ -1157,29 +832,13 @@
     "defaultSignature": "С уважением,"
   },
   "googleCalendar": {
-    "title": "Google Календарь",
-    "setupInstructions": "Настройка интеграции с Google Calendar",
-    "emailLabel": "Аккаунт Gmail",
-    "emailPlaceholder": "ваш.адрес@gmail.com",
-    "emailDescription": "Аккаунт Google, который вы хотите использовать для календаря",
-    "connected": "Подключено",
-    "notConnected": "Не подключено",
-    "clientIdLabel": "Client ID",
-    "clientIdPlaceholder": "Ваш Client ID Google",
-    "clientIdDescription": "Получите это значение из консоли Google Cloud",
-    "clientSecretLabel": "Client Secret",
-    "clientSecretPlaceholder": "Ваш Client Secret Google",
-    "clientSecretDescription": "Получите это значение из консоли Google Cloud",
-    "configHelp": "Помощь с настройкой",
     "errors": {
-      "authorizationUrlFailed": "Невозможно создать URL авторизации",
       "emailRequired": "Введите email Google, который хотите синхронизировать",
       "popupBlocked": "Всплывающее окно заблокировано. Отключите блокировку всплывающих окон для этого сайта.",
       "authError": "Ошибка при авторизации"
     },
     "success": {
       "settingsSaved": "Настройки синхронизации успешно сохранены",
-      "authorizationComplete": "Ваш аккаунт Google успешно подключен",
       "connected": "Google Календарь успешно подключен"
     },
     "setup": {
@@ -1212,27 +871,16 @@
       "proOnlyMessage": "Эта функция доступна только с планом PRO.",
       "upgradeToPro": "Перейти на PRO",
       "backToDashboard": "Вернуться к Dashboard",
-      "syncingNow": "Синхронизация...",
-      "syncNow": "Синхронизировать сейчас",
-      "syncStatus": "Статус синхронизации",
-      "lastSync": "Последняя синхронизация: {{date}}",
-      "syncedEvents": "Синхронизированных событий: {{count}}",
-      "contactsSyncTitle": "Синхронизация контактов Google",
-      "contactsSyncDesc": "Импортируйте контакты из адресной книги Google как клиентов",
-      "testFeatureTitle": "🧪 Функция в стадии тестирования",
-      "testFeatureDesc": "Импорт контактов Google в настоящее время доступен только авторизованным тестировщикам. Если вы не тестировщик, вы можете увидеть ошибку \"Доступ заблокирован\" от Google.",
       "reconnectNeeded": "Требуется повторное подключение",
       "reconnectDesc": "Для доступа к контактам необходимо переподключить аккаунт Google с новыми разрешениями.",
       "reconnectButton": "Переподключить Google",
       "loadingContacts": "Загрузка контактов...",
       "loadContacts": "Загрузить контакты из Google",
       "contactsFound": "Найдено {{count}} контактов в адресной книге Google",
-      "selectOrImportAll": "Выберите контакты для импорта или используйте \"Импортировать все\"",
       "deselectAll": "Снять выделение со всех",
       "selectAll": "Выбрать все",
       "importAll": "Импортировать все ({{count}})",
       "importSelected": "Импортировать выбранные ({{count}})",
-      "unnamed": "Без имени",
       "reloadContacts": "Перезагрузить контакты",
       "contactsNote1": "• Существующие контакты (тот же e-mail или телефон) будут пропущены",
       "contactsNote2": "• Импортированные контакты получат заметку «Импортировано из Google Contacts»",
@@ -1262,41 +910,10 @@
       "csvFormatTitle": "📋 Требуемый формат файла",
       "csvFormatDesc": "CSV-файл должен содержать столбцы: <strong>Имя</strong>, <strong>E-mail</strong>, <strong>Телефон</strong>",
       "csvUpload": "Нажмите, чтобы загрузить CSV-файл",
-      "csvSelectedForImport": "Выбрано для импорта: {{count}}",
       "csvImporting": "Импорт...",
       "csvImportButton": "Импортировать {{count}} контактов",
       "csvNote1": "• Поддерживаемые форматы: CSV (разделитель запятая или точка с запятой)",
       "csvNote2": "• Уже существующие контакты будут автоматически пропущены",
-      "toastSyncStarted": "Синхронизация завершена",
-      "toastSyncDetails": "Импортировано: {{imported}}, Экспортировано: {{exported}}",
-      "toastSyncError": "Ошибка синхронизации",
-      "toastSyncDefaultError": "Ошибка во время синхронизации",
-      "toastSyncDefaultSuccess": "Синхронизация завершена!",
-      "toastSessionExpired": "Сессия истекла. Войдите снова.",
-      "toastConnectionError": "Ошибка соединения",
-      "toastReconnectError": "Не удалось начать переподключение",
-      "toastContactsLoaded": "Контакты загружены",
-      "toastContactsLoadedDesc": "Найдено {{count}} контактов в адресной книге Google",
-      "toastReconnectGoogle": "Переподключить Google",
-      "toastReconnectGoogleDesc": "Необходимо переподключить аккаунт Google для доступа к контактам.",
-      "toastContactsLoadError": "Ошибка загрузки контактов",
-      "toastImportComplete": "Импорт завершён",
-      "toastImportedCount": "Импортировано {{count}} контактов",
-      "toastImportError": "Ошибка импорта",
-      "toastImportContactsError": "Ошибка импорта контактов",
-      "toastEmptyFile": "Пустой файл",
-      "toastEmptyFileDesc": "CSV-файл не содержит данных",
-      "toastInvalidFormat": "Неверный формат",
-      "toastInvalidFormatDesc": "Файл должен содержать колонки: имя, email или телефон",
-      "toastFileLoaded": "Файл загружен",
-      "toastFileLoadedDesc": "В файле найдено {{count}} контактов",
-      "toastFileReadError": "Ошибка чтения файла",
-      "toastFileReadErrorDesc": "Не удалось прочитать CSV-файл",
-      "toastNoSelected": "Контакт не выбран",
-      "toastNoSelectedDesc": "Выберите хотя бы один контакт для импорта",
-      "csvImportedFromCsv": "Импортировано из CSV-файла",
-      "csvImportedCount": "Импортировано {{imported}} контактов{{skipped}}",
-      "csvSkippedSuffix": ", {{skipped}} уже существовали",
       "connError": "Не удалось начать повторное подключение",
       "connErrorGeneric": "Ошибка соединения",
       "sessionExpired": "Сессия истекла. Войдите снова.",
@@ -1332,38 +949,18 @@
       "contactsCardDesc": "Импортируйте контакты из адресной книги Google как клиентов",
       "testFeatureLong": "🧪 Функция на этапе тестирования",
       "testFeatureLongDesc": "Импорт контактов Google сейчас доступен только авторизованным тестировщикам. Если вы не тестировщик, вы можете увидеть ошибку «Доступ заблокирован» от Google.",
-      "reconnectNeededDesc": "Для доступа к контактам нужно переподключить аккаунт Google с новыми разрешениями.",
-      "loadContactsButton": "Загрузить контакты из Google",
       "contactsCountFound": "Найдено {{count}} контактов",
       "contactsHint": "Выберите контакты для импорта или используйте «Импортировать все»",
       "noName": "Без имени",
-      "csvCardTitle": "Импорт из файла (CSV/vCard)",
-      "csvCardDesc": "Для тех, кто не использует Gmail: импортируйте контакты с телефона или из других сервисов",
-      "csvHowToTitle": "Как экспортировать контакты с телефона",
-      "csvUploadHint": "Нажмите, чтобы загрузить CSV-файл",
       "csvSelectedN": "Выбрано {{count}} для импорта",
       "syncStatusTitle": "Статус синхронизации",
       "lastSyncDate": "Последняя синхронизация: {{date}}",
       "syncedEventsN": "Синхронизировано событий: {{count}}"
     },
-    "connect": "Подключить Google Календарь",
-    "disconnect": "Отключить Google Календарь",
-    "sync": "Синхронизировать",
-    "syncing": "Синхронизация...",
     "settings": {
-      "title": "Синхронизация Google Календаря",
-      "description": "Синхронизируйте встречи с Google Календарём",
       "loadError": "Ошибка загрузки настроек синхронизации",
-      "enableSync": "Включить синхронизацию с Google Календарём",
-      "enableSyncDesc": "Если включено, встречи будут автоматически синхронизироваться с указанным Google Календарём",
-      "gmailAddress": "Адрес Gmail",
-      "gmailHelp": "Введите адрес Gmail календаря, с которым хотите синхронизировать встречи:",
       "gmailHint": "Введите адрес Gmail календаря, с которым нужно синхронизировать встречи:",
-      "alreadyAuthorized": "Ваш аккаунт Google уже авторизован",
-      "notAuthorized": "Аккаунт Google не авторизован",
-      "notAuthorizedDesc": "Чтобы завершить настройку, авторизуйте доступ к вашему аккаунту Google.",
       "clientIdLabel": "Google Client ID",
-      "clientIdHelpTitle": "Как получить Google Client ID:",
       "clientIdSteps": [
         "Откройте Google Cloud Console",
         "Выберите или создайте новый проект",
@@ -1374,9 +971,7 @@
         "Идентификатор клиента появится после нажатия «Создать»"
       ],
       "clientIdPlaceholder": "Ваш Google Client ID",
-      "getFromConsole": "Получить в Google Cloud Console",
       "clientSecretLabel": "Google Client Secret",
-      "clientSecretHelpTitle": "Как получить Google Client Secret:",
       "clientSecretSteps": [
         "Повторите ту же процедуру, что и для Client ID",
         "После создания идентификатора клиента OAuth на странице будут показаны Client ID и Client Secret",
@@ -1386,81 +981,15 @@
       ],
       "clientSecretPlaceholder": "Ваш Google Client Secret",
       "startAuth": "Начать процесс авторизации",
-      "configHelp": "Помощь с настройкой",
-      "stepGuideTitle": "Пошаговое руководство по настройке",
-      "guide1Title": "1. Создание проекта Google Cloud",
-      "guide1Steps": [
-        "Перейдите в Google Cloud Console",
-        "Создайте новый проект (напр. \"App Встреч\")"
-      ],
-      "guide2Title": "2. Включите Google Calendar API",
-      "guide2Steps": [
-        "В боковом меню перейдите в \"API и сервисы\" → \"Библиотека\"",
-        "Найдите \"Google Calendar API\" и выберите его",
-        "Нажмите \"Включить\""
-      ],
-      "guide3Title": "3. Настройте согласие OAuth",
-      "guide3Steps": [
-        "В боковом меню перейдите в \"API и сервисы\" → \"Окно согласия OAuth\"",
-        "Выберите \"Внешний\" и нажмите \"Создать\"",
-        "Заполните обязательные поля (название приложения, email поддержки)",
-        "В \"Авторизованных доменах\" добавьте домен приложения",
-        "Для областей добавьте \"./auth/calendar\" и \"./auth/calendar.events\"",
-        "Добавьте свой email как тестового пользователя"
-      ],
-      "guide4Title": "4. Создайте учётные данные OAuth",
-      "guide4Steps": [
-        "В боковом меню перейдите в \"API и сервисы\" → \"Учётные данные\"",
-        "Нажмите \"Создать учётные данные\" → \"OAuth client ID\"",
-        "Выберите \"Веб-приложение\" в качестве типа",
-        "Добавьте имя (напр. \"Web App Встреч\")",
-        "В \"Авторизованных URI перенаправления\" добавьте полный URL страницы настроек (включая \"https://\")",
-        "Нажмите \"Создать\" и скопируйте Client ID и Client Secret"
-      ],
       "instructionsTitle": "Инструкции по настройке:",
-      "instructionStep1": "Создайте проект в Google Cloud",
-      "instructionStep1Sub1": "Перейдите в Google Cloud Console",
-      "instructionStep1Sub2": "Создайте новый или выберите существующий проект",
-      "instructionStep2": "Включите API Google Calendar",
-      "instructionStep2Sub1": "Перейдите в API Library",
-      "instructionStep2Sub2": "Найдите \"Google Calendar API\" и включите",
-      "instructionStep3": "Настройте учётные данные OAuth",
-      "instructionStep3Sub1": "Перейдите в Credentials",
-      "instructionStep3Sub2": "Нажмите \"Создать учётные данные\" и выберите \"OAuth Client ID\"",
-      "instructionStep3Sub3": "Настройте окно согласия OAuth (обязательно)",
-      "instructionStep3Sub4": "Добавьте URL приложения как \"Авторизованный URI перенаправления\"",
-      "instructionStep3Sub5": "Скопируйте Client ID и Client Secret в приложение",
-      "instructionStep4": "Завершите авторизацию",
-      "instructionStep4Sub1": "Нажмите \"Начать процесс авторизации\"",
-      "instructionStep4Sub2": "Следуйте инструкциям в диалоговом окне",
-      "note": "Примечание:",
       "noteText": "Встречи будут синхронизироваться только если опция включена, авторизация завершена и адрес Gmail указан верно.",
       "savingButton": "Сохранение...",
       "saveButton": "Сохранить настройки",
-      "authDialogTitle": "Авторизовать Google Календарь",
-      "authDialogDesc": "Чтобы синхронизировать встречи, авторизуйте доступ к вашему аккаунту Google Календаря",
-      "openLinkAndAuth": "Откройте следующую ссылку и следуйте инструкциям для авторизации доступа к Google Календарю:",
-      "openGoogleAuthPage": "Открыть страницу авторизации Google",
-      "authCode": "Код авторизации",
-      "authCodePlaceholder": "Вставьте здесь код, предоставленный Google",
-      "cancel": "Отмена",
       "verifying": "Проверка...",
-      "verifyCode": "Проверить код",
-      "selectCalendar": "Выберите календарь",
-      "selectCalendarDesc": "Выберите Google Календарь для синхронизации",
-      "mainCalendar": "Основной календарь",
-      "noCalendarsFound": "Календари в вашем Google-аккаунте не найдены",
-      "toastSettingsSaved": "Настройки сохранены",
-      "toastSaveSuccess": "Настройки синхронизации успешно сохранены",
       "toastSaveError": "Не удалось сохранить настройки. Повторите попытку позже.",
-      "toastAuthComplete": "Авторизация завершена",
-      "toastAuthCompleteDesc": "Ваш аккаунт Google успешно связан",
       "toastAuthError": "Ошибка авторизации",
       "toastAuthErrorDesc": "Не удалось авторизовать ваш аккаунт Google. Проверьте введённый код.",
       "toastAuthErrorGeneric": "Произошла ошибка во время авторизации Google",
-      "toastCodeMissing": "Код отсутствует",
-      "toastCodeMissingDesc": "Введите код авторизации, предоставленный Google",
-      "toastAuthUrlError": "Не удалось создать URL авторизации",
       "toastSavedTitle": "Настройки сохранены",
       "toastAuthCompleted": "Авторизация завершена",
       "toastMissingCode": "Код отсутствует",
@@ -1598,7 +1127,6 @@
         "Для аккаунтов Google нужно использовать специальный \"пароль приложения\"",
         "Проверьте, что аккаунт Google авторизован корректно"
       ],
-      "createAppPassword": "Создать пароль приложения",
       "goToEmailSettings": "К настройкам email",
       "restartAuth": "Перезапустить авторизацию",
       "restartAuthDesc": "В некоторых случаях необходимо полностью перезапустить процесс авторизации Google. Это может устранить проблемы с истёкшими или отозванными токенами.",
@@ -1627,7 +1155,6 @@
       "restartAuthorization": "Перезапустить авторизацию",
       "toastAuthDone": "Авторизация завершена",
       "toastAuthDoneDesc": "Аккаунт Google успешно авторизован",
-      "toastAuthErrorTitle": "Ошибка",
       "toastCannotStart": "Не удалось запустить авторизацию Google",
       "toastAuthErrorDesc": "Произошла ошибка во время авторизации Google",
       "statusAccountAuthorized": "Аккаунт авторизован",
@@ -1638,17 +1165,11 @@
     }
   },
   "errors": {
-    "genericError": "Произошла ошибка: {{error}}",
-    "qrCodeFetchError": "Ошибка при получении существующего QR-кода:"
+    "genericError": "Произошла ошибка: {{error}}"
   },
   "auth": {
     "login": "Вход",
-    "logout": "Выход",
-    "username": "Имя пользователя",
-    "password": "Пароль",
-    "rememberMe": "Запомнить меня",
-    "forgotPassword": "Забыли пароль?",
-    "loginButton": "Войти"
+    "logout": "Выход"
   },
   "clientArea": {
     "installApp": "Установить приложение",
@@ -1659,8 +1180,6 @@
     "newRequest": "Новый запрос",
     "pushNotifDesc": "Получите уведомление, когда ваша запись будет подтверждена",
     "selectService": "Выберите услугу",
-    "noServicesAvailable": "На данный момент услуги недоступны.",
-    "contactCenter": "Свяжитесь с центром для получения дополнительной информации.",
     "chooseService": "Выберите услугу...",
     "preferredStaff": "Предпочитаемый специалист (необязательно)",
     "chooseStaff": "Выберите специалиста...",
@@ -1781,8 +1300,6 @@
     "updateContactPro": "Чтобы обновить данные, обратитесь к вашему специалисту",
     "appointmentsTitle": "Записи",
     "loadingAppointments": "Загрузка записей...",
-    "futureAppointmentsCount_one": "У вас {{count}} предстоящая запись",
-    "futureAppointmentsCount_other": "У вас {{count}} предстоящих записей",
     "noFutureAppointments": "Предстоящие записи не запланированы",
     "viewAll": "Показать все",
     "consentsTitle": "Согласия",
@@ -1819,16 +1336,14 @@
     "reservedToProClients": "Этот раздел предназначен только для клиентов специалистов",
     "cannotVerifyAuth": "Не удалось проверить аутентификацию",
     "errorLoadingAppointments": "Не удалось загрузить записи",
-    "errorGeneric": "Ошибка"
+    "errorGeneric": "Ошибка",
+    "futureAppointmentsCount_one": "У вас {{count}} предстоящая запись",
+    "futureAppointmentsCount_other": "У вас {{count}} предстоящих записей"
   },
   "contacts": {
     "accessOurContacts": "Доступ к нашим контактам"
   },
   "appointment": {
-    "selectTimeSlots": "Выберите время для новой записи",
-    "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
-    "selected": "Выбрано",
-    "selectSlots": "Выберите временные интервалы",
     "confirmDelete": "Вы уверены, что хотите удалить эту запись?",
     "confirmDeleteTitle": "Удалить запись",
     "confirmDeleteDescription": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
@@ -1846,130 +1361,15 @@
     "expired": "Истёк",
     "upgradeMessage": "Открыть премиум планы"
   },
-  "banking": {
-    "title": "Настройка Платежей",
-    "subtitle": "Управление банковскими данными для автоматических платежей реферальных комиссий",
-    "bankName": "Название Банка",
-    "bankNamePlaceholder": "напр. Сбербанк",
-    "accountHolder": "Владелец Счета",
-    "accountHolderPlaceholder": "Полное имя / Название компании",
-    "iban": "IBAN",
-    "ibanPlaceholder": "RU12 3456 7890 1234 5678 9012 3456",
-    "bic": "БИК/SWIFT",
-    "bicPlaceholder": "напр. SABRRUMMXXX",
-    "address": "Адрес",
-    "addressPlaceholder": "Полный адрес для выставления счетов",
-    "autoPayEnabled": "Автоматическая Выплата Комиссий",
-    "paymentDelay": "Задержка Платежа (дней)",
-    "paymentDelayPlaceholder": "30",
-    "minimumAmount": "Минимальная Сумма (€)",
-    "minimumAmountPlaceholder": "1.00",
-    "description": "Описание",
-    "descriptionPlaceholder": "Описание для банковских переводов",
-    "showIban": "Показать IBAN",
-    "hideIban": "Скрыть IBAN",
-    "testPayment": "Проверить Платеж",
-    "saveSettings": "Сохранить Настройки",
-    "configured": "Настроено",
-    "notConfigured": "Не Настроено",
-    "status": {
-      "configured": "Банковские данные правильно настроены",
-      "notConfigured": "Настройте банковские данные для активации выплат комиссий"
-    },
-    "alerts": {
-      "security": "Банковские данные защищены и зашифрованы. Только администраторы могут их просматривать.",
-      "paymentInfo": "Комиссии будут выплачиваться автоматически когда баланс превысит настроенную минимальную сумму."
-    },
-    "success": {
-      "saved": "Настройки сохранены",
-      "savedDescription": "Банковские настройки успешно обновлены",
-      "testComplete": "Проверка завершена",
-      "testSuccess": "Платежная система настроена правильно"
-    },
-    "errors": {
-      "saveFailed": "Не удалось сохранить банковские настройки",
-      "testFailed": "Проверьте конфигурацию банковских данных"
-    }
-  },
   "payments": {
-    "title": "Администрирование Платежей",
-    "subtitle": "Управление подписками, транзакциями и комиссиями",
-    "tabs": {
-      "overview": "Обзор",
-      "transactions": "Транзакции",
-      "methods": "Способы Оплаты",
-      "settings": "Настройки"
-    },
-    "demo": "ДЕМО",
-    "realData": "Реальные Данные",
-    "testTransaction": "Тестовая транзакция",
-    "filterByLicense": "Фильтр по лицензии",
-    "allLicenses": "Все лицензии",
-    "stats": {
-      "totalRevenue": "Общий Доход",
-      "activeSubscriptions": "Активные Подписки",
-      "pendingCommissions": "Ожидающие Комиссии"
-    },
-    "table": {
-      "date": "Дата",
-      "user": "Пользователь",
-      "license": "Лицензия",
-      "amount": "Сумма",
-      "method": "Способ",
-      "status": "Статус",
-      "actions": "Действия"
-    },
-    "status": {
-      "completed": "Завершено",
-      "pending": "Ожидает",
-      "failed": "Не удалось",
-      "cancelled": "Отменено"
-    },
-    "methods": {
-      "stripe": "Stripe",
-      "paypal": "PayPal",
-      "bankTransfer": "Банковский Перевод",
-      "wise": "Wise"
-    }
+    "title": "Администрирование Платежей"
   },
   "referral": {
     "title": "Реферальная программа",
-    "subtitle": "Зарабатывайте комиссии приглашая новых клиентов",
     "adminOnly": "Только администраторы могут управлять рефералами, координировать и проверять подписки спонсированные персоналом для осуществления платежей",
-    "yourCode": "Ваш код",
-    "copyCode": "Копировать код",
     "shareCode": "Поделитесь своим реферальным кодом",
     "copyToClipboard": "Копировать в буфер обмена",
-    "share": "Поделиться",
-    "earnings": {
-      "title": "Ваш Заработок",
-      "total": "Всего Заработано",
-      "pending": "Ожидает",
-      "paid": "Оплачено"
-    },
-    "iban": {
-      "title": "IBAN для Платежей",
-      "placeholder": "RU12 3456 7890 1234 5678 9012 3456",
-      "description": "Введите ваш IBAN для получения комиссий",
-      "save": "Сохранить IBAN",
-      "saved": "IBAN успешно сохранен"
-    },
-    "commissions": {
-      "title": "Комиссии",
-      "customer": "Клиент",
-      "license": "Лицензия",
-      "amount": "Сумма",
-      "status": "Статус",
-      "date": "Дата",
-      "noCommissions": "Комиссий пока нет",
-      "pending": "Ожидает",
-      "paid": "Оплачено"
-    },
     "howItWorks": "Как работает программа",
-    "shareLink": "Поделиться ссылкой",
-    "invitations": "Приглашения",
-    "rewards": "Награды",
-    "copied": "Код скопирован!",
     "payout": {
       "dialogTitle": "Способы выплаты комиссии",
       "dialogDesc": "Настройте, как вы хотите получать выплаты реферальных комиссий.",
@@ -1989,7 +1389,6 @@
       "save": "Сохранить"
     },
     "upgradeToAccess": "Обновите свой план для доступа",
-    "registrationAndSub": "Регистрация и подписка:",
     "paymentMethods": "Способы оплаты:",
     "noActiveSubTitle": "Нет активной подписки",
     "noActiveSubDesc": "Пользователи должны активировать платную подписку для получения комиссий",
@@ -2004,7 +1403,6 @@
     "configSaved": "Конфигурация сохранена",
     "bankSaveError": "Не удалось сохранить банковские данные: {{msg}}",
     "codeCopiedTitle": "Код скопирован!",
-    "shareError": "Ошибка при отправке:",
     "textCopiedTitle": "Текст скопирован!",
     "codeGenTitle": "Код сгенерирован",
     "yourReferralCode": "Ваш персональный реферальный код",
@@ -2094,193 +1492,7 @@
   },
   "manual": {
     "pwa": {
-      "title": "Запросы на Запись через PWA Клиента",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Как это работает для клиента",
-          "badge": {
-            "text": "Как это работает для клиента",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Доступ к PWA",
-                  "text": "Клиент открывает свое персональное PWA-приложение (установленное через QR-код)"
-                },
-                {
-                  "title": "Меню Записей",
-                  "text": "Нажимает на \"Запросить Запись\" в главном меню"
-                },
-                {
-                  "title": "Выбор Услуги",
-                  "text": "Выбирает желаемую процедуру из списка"
-                },
-                {
-                  "title": "Предпочтение по Специалисту",
-                  "text": "ОПЦИОНАЛЬНО",
-                  "items": [
-                    "Может выбрать предпочтительного специалиста из выпадающего меню",
-                    "Или оставить \"Без предпочтений\" для автоматического назначения"
-                  ]
-                },
-                {
-                  "title": "Дата и Время",
-                  "text": "Выбирает желаемую дату и временное окно"
-                },
-                {
-                  "title": "Отправка Запроса",
-                  "text": "Нажимает \"Отправить Запрос\" - запрос поступает в Ваш раздел \"Запросы на Бронирование\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Управление запросами (Админ)",
-          "badge": {
-            "text": "Управление запросами (Админ)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Путь: Главное меню → Запросы на Бронирование"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Получение уведомления",
-                  "text": "Вы видите запрос со всеми деталями (клиент, услуга, дата, время, предпочтение по специалисту)"
-                },
-                {
-                  "title": "Автоматическое Подтверждение",
-                  "items": [
-                    "Нажмите \"Одобрить\" для быстрого подтверждения",
-                    "Система автоматически назначает предпочтительного специалиста (если доступен) или свободного",
-                    "Автоматически назначает первый свободный кабинет"
-                  ]
-                },
-                {
-                  "title": "Ручное Подтверждение",
-                  "items": [
-                    "Открывается диалог с опциями выбора",
-                    "Вы можете вручную выбрать специалиста и кабинет",
-                    "Полезно для оптимизации организации или обработки особых предпочтений"
-                  ]
-                },
-                {
-                  "title": "Уведомление Клиента",
-                  "text": "Клиент получает подтверждение записи с полными деталями (назначенный специалист и кабинет)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Другие Функции PWA Клиента",
-          "badge": {
-            "text": "Другие Функции PWA Клиента",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Просмотр Записей",
-                  "items": [
-                    "Полный список всех записей (прошлых и будущих)",
-                    "Детали: дата, время, услуга, назначенный специалист, кабинет",
-                    "Статус записи (подтверждена, завершена, отменена)",
-                    "Обновление в реальном времени"
-                  ]
-                },
-                {
-                  "title": "📄 Документы и Счета",
-                  "items": [
-                    "Доступ ко всем выставленным счетам",
-                    "Скачивание PDF прямо из приложения",
-                    "Полная история платежей"
-                  ]
-                },
-                {
-                  "title": "📞 Прямые Контакты",
-                  "items": [
-                    "📧 Email: Нажатие для открытия почтового клиента с предзаполненным адресом",
-                    "📱 Телефон: Нажатие для прямого звонка в клинику",
-                    "🌐 Веб-сайт: Прямая ссылка на Ваш сайт",
-                    "📷 Instagram: Открытие профиля Instagram",
-                    "👍 Facebook: Ссылка на страницу Facebook"
-                  ]
-                },
-                {
-                  "title": "🔔 Push-Уведомления",
-                  "items": [
-                    "Автоматические напоминания о записях",
-                    "Подтверждения бронирований",
-                    "Важные обновления от клиники"
-                  ]
-                },
-                {
-                  "title": "📱 Работает Офлайн",
-                  "items": [
-                    "Доступ к данным даже без подключения",
-                    "Автоматическая синхронизация при восстановлении связи"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "benefits": {
-        "title": "✨ Преимущества PWA-Приложения для Клиентов",
-        "items": [
-          {
-            "title": "Не Требуется Загрузка из Магазина",
-            "text": "Мгновенная установка через QR-код, без необходимости обращаться в App Store или Google Play"
-          },
-          {
-            "title": "Всегда Обновлено",
-            "text": "Автоматические обновления без необходимости устанавливать новые версии"
-          },
-          {
-            "title": "Персонализировано",
-            "text": "Каждый клиент видит только свои данные (записи, счета, документы)"
-          },
-          {
-            "title": "Персональная Иконка",
-            "text": "Приложение отображает логотип Вашей клиники на главном экране телефона"
-          },
-          {
-            "title": "Быстрый Доступ",
-            "text": "Одно нажатие на иконку - и клиент в своей личной области"
-          },
-          {
-            "title": "Мультиплатформенность",
-            "text": "Работает на iPhone, Android, планшетах и десктопах"
-          },
-          {
-            "title": "Безопасность",
-            "text": "Аутентификация через уникальный токен, не нужно запоминать пароль"
-          },
-          {
-            "title": "Прямой Контакт",
-            "text": "Email, телефон и социальные сети в одно нажатие"
-          }
-        ]
-      },
-      "tips": {
-        "proTip": "Покажите клиентам как установить приложение во время первого визита. Они сразу увидят добавленную ценность и почувствуют себя более вовлеченными в отношения с Вашей клиникой!",
-        "retention": "Персонализированное PWA-приложение создает более прочную связь с клиентами, увеличивая удержание и снижая количество неявок благодаря автоматическим напоминаниям и премиальному пользовательскому опыту."
-      }
+      "title": "Запросы на Запись через PWA Клиента"
     },
     "page": {
       "header": {
@@ -2580,12 +1792,8 @@
   },
   "packages": {
     "title": "Управление рекламными пакетами",
-    "subtitle": "Создавайте и управляйте пакетами процедур для ваших клиентов",
     "newPackage": "Новый пакет",
     "newShort": "Новый",
-    "noPackages": "Пакеты не найдены",
-    "startCreating": "Начните с создания первого рекламного пакета",
-    "createFirst": "Создать первый пакет",
     "noPackagesCreated": "Рекламный пакет не создан",
     "createFirstPackage": "Создайте свой первый пакет",
     "noPackagesSold": "Пакеты ещё не проданы",
@@ -2593,23 +1801,12 @@
     "inactive": "Неактивен",
     "completed": "Завершён",
     "expired": "Истёк",
-    "soldTo": "Продан",
-    "used": "Использовано",
-    "of": "из",
-    "sessions": "сеансов",
     "sessionsLabel": "Сеансы",
-    "remaining": "Осталось",
-    "valid": "Действителен",
-    "until": "до",
     "validity": "Срок действия",
     "days": "дней",
     "price": "Цена",
-    "originalPrice": "Исходная цена",
-    "discount": "Скидка",
     "services": "Услуги",
-    "edit": "Редактировать",
     "delete": "Удалить",
-    "confirmDelete": "Вы уверены, что хотите удалить этот пакет?",
     "confirmDeleteTitle": "Подтвердить удаление",
     "confirmDeleteDesc": "Вы уверены, что хотите удалить этот шаблон? Это действие нельзя отменить.",
     "tabs": {
@@ -2633,18 +1830,13 @@
     "form": {
       "name": "Название пакета",
       "namePlaceholder": "напр. 10 Премиум процедур для лица",
-      "description": "Описание",
       "descriptionOptional": "Описание (необязательно)",
       "descriptionPlaceholder": "Описание пакета...",
       "totalSessions": "Количество сеансов",
       "totalPrice": "Общая цена",
-      "price": "Цена со скидкой",
-      "originalPrice": "Исходная цена",
       "validDays": "Срок действия (дней, необязательно)",
       "includedServices": "Включённые услуги",
       "addService": "Добавить услугу...",
-      "selectClient": "Выберите клиента",
-      "selectTreatment": "Выберите процедуру",
       "cancel": "Отмена",
       "creating": "Создание...",
       "createPackage": "Создать пакет",
@@ -2653,12 +1845,10 @@
     "toast": {
       "created": "Пакет успешно создан",
       "createdDesc": "Рекламный пакет успешно создан",
-      "updated": "Пакет обновлён",
       "deleted": "Пакет удалён",
       "deletedDesc": "Шаблон успешно удалён",
       "sold": "Пакет продан",
       "soldDesc": "Пакет назначен клиенту",
-      "error": "Ошибка операции с пакетом",
       "cannotCreate": "Невозможно создать шаблон",
       "cannotSell": "Невозможно продать пакет",
       "cannotDelete": "Невозможно удалить шаблон"
@@ -2666,19 +1856,12 @@
   },
   "inventory": {
     "title": "Управление складом",
-    "subtitle": "Управляйте вашими продуктами и запасами",
     "newProduct": "Новый продукт",
     "addNewProduct": "Добавить новый продукт",
     "editProduct": "Редактировать продукт",
-    "noProducts": "Продукты не найдены",
-    "startCreating": "Начните с добавления первого продукта",
-    "createFirst": "Добавить первый продукт",
     "available": "Доступен",
-    "inStock": "В наличии",
     "lowStock": "Мало на складе",
     "outOfStock": "Нет в наличии",
-    "quantity": "Количество",
-    "minStock": "Минимальный запас",
     "price": "Цена",
     "cost": "Стоимость",
     "min": "Мин",
@@ -2689,22 +1872,17 @@
       "registerSale": "Зарегистрировать продажу",
       "unitPrice": "Цена за единицу",
       "reference": "Ссылка (Счёт и т.д.)",
-      "registering": "Регистрация...",
       "registerLoad": "Зарегистрировать приход",
       "registerSaleBtn": "Зарегистрировать продажу"
     },
     "sku": "Код SKU",
     "barcode": "Штрих-код",
-    "category": "Категория",
     "edit": "Редактировать",
     "delete": "Удалить",
     "confirmDelete": "Подтвердите удаление",
     "confirmDeleteDesc": "Вы уверены, что хотите удалить продукт",
     "cannotUndo": "Это действие нельзя отменить.",
     "cancel": "Отмена",
-    "adjustStock": "Изменить запас",
-    "addStock": "Добавить",
-    "removeStock": "Убрать",
     "tabs": {
       "products": "Продукты",
       "movements": "Движения",
@@ -2727,7 +1905,6 @@
     "form": {
       "name": "Название продукта",
       "description": "Описание",
-      "sku": "Код SKU",
       "category": "Категория",
       "selectCategory": "Выберите категорию",
       "noCategories": "Категории недоступны",
@@ -2735,11 +1912,7 @@
       "price": "Цена продажи",
       "costPrice": "Закупочная цена",
       "quantity": "Доступное количество",
-      "minStock": "Минимальный запас",
-      "maxStock": "Максимальный запас",
-      "unit": "Единица",
       "supplier": "Поставщик",
-      "supplierContact": "Контакт поставщика",
       "location": "Расположение на складе",
       "image": "Изображение продукта (необязательно)",
       "changeImage": "Изменить изображение",
@@ -2751,13 +1924,7 @@
       "discount": "Скидка (%)"
     },
     "movements": {
-      "title": "Последние движения склада",
-      "noMovements": "Нет последних движений",
-      "in": "Приход",
-      "out": "Расход",
-      "sale": "Продажа",
-      "adjustment": "Корректировка",
-      "waste": "Списание"
+      "title": "Последние движения склада"
     },
     "sales": {
       "title": "Продажи продуктов",
@@ -2768,10 +1935,7 @@
       "newCategory": "Новая категория",
       "addNewCategory": "Добавить новую категорию",
       "name": "Название категории",
-      "description": "Описание",
       "color": "Цвет",
-      "products": "продуктов",
-      "creating": "Создание...",
       "create": "Создать категорию"
     },
     "saving": "Сохранение...",
@@ -2991,23 +2155,6 @@
     "workingHoursStep": {
       "title": "Рабочие часы",
       "description": "Мы уже настроили стандартные часы работы. Вы можете изменить их в любое время в Настройках, где найдёте полное расписание со всеми днями и перерывами.",
-      "presets": "Быстрые шаблоны",
-      "presetMonFri": "Пн–Пт 9:00–18:00",
-      "presetMonSat": "Пн–Сб 9:00–19:00",
-      "presetTueSat": "Вт–Сб 10:00–20:00",
-      "daysLabel": "Рабочие дни",
-      "startLabel": "Открытие",
-      "endLabel": "Закрытие",
-      "invalidHint": "Выберите хотя бы один день и убедитесь, что открытие раньше закрытия.",
-      "days": {
-        "monday": "Пн",
-        "tuesday": "Вт",
-        "wednesday": "Ср",
-        "thursday": "Чт",
-        "friday": "Пт",
-        "saturday": "Сб",
-        "sunday": "Вс"
-      },
       "defaultsLabel": "Стандартные часы активны",
       "defaultsValue": "Понедельник – Суббота, 08:00 – 22:00",
       "editHint": "Чтобы изменить дни, интервалы или перерывы, откройте Настройки в новой вкладке — тур останется на месте.",
@@ -3093,16 +2240,14 @@
       "summary": {
         "business": "Ваш бизнес",
         "services": "Создано услуг: {{count}}",
-        "services_other": "Создано услуг: {{count}}",
-        "hours": "Рабочие часы"
+        "services_other": "Создано услуг: {{count}}"
       }
     },
     "appliedToast": {
       "business": "Данные бизнеса сохранены",
       "services": "Создано услуг: {{count}}",
-      "services_other": "Создано услуг: {{count}}",
-      "hours": "Часы сохранены",
-      "preferences": "Настройки сохранены"
+      "preferences": "Настройки сохранены",
+      "services_other": "Создано услуг: {{count}}"
     }
   },
   "serviceManagerSimple": {
@@ -3630,16 +2775,6 @@
         }
       ],
       "plansHeading": "3. Тарифные планы",
-      "plansLabels": {
-        "monthly": "Ежемесячно",
-        "annual": "Ежегодно",
-        "savings": "экономия",
-        "clientLimit": "Лимит клиентов",
-        "unlimited": "Без ограничений",
-        "featuresIncluded": "Включённые функции",
-        "featuresIncludedExtra": "Включённые функции (помимо Базового тарифа)",
-        "featuresIncludedAll": "Включённые функции (все функции)"
-      },
       "plans": [
         {
           "id": "base",
@@ -3701,27 +2836,14 @@
             "ИИ-маркетинговые кампании"
           ]
         }
-      ],
-      "footer": {
-        "version": "Gestionale Appuntamenti v2.1.0",
-        "copyright": "© 2025 Zambelli Development - Все права защищены"
-      }
+      ]
     },
     "lastUpdated": "Последнее обновление"
   },
   "emailSettings": {
     "title": "Настройка Email",
-    "smtpServer": "SMTP-сервер",
-    "smtpPort": "Порт SMTP",
-    "testConnection": "Проверить соединение",
-    "saveSuccess": "Настройки эл. почты сохранены",
     "invalidEmail": "Введите корректный адрес email",
     "passwordRequired": "Пароль обязателен, если email включён",
-    "config": "Настройка Email",
-    "enable": "Включить отправку email",
-    "enableDesc": "Включить отправку email-уведомлений клиентам",
-    "address": "Адрес Email",
-    "password": "Пароль или ключ приложения",
     "gmailWarning": "📧 Для Gmail: НЕ используйте обычный пароль аккаунта",
     "gmailSteps": "Вам нужно создать пароль приложения. Следуйте этим шагам:",
     "step1": "Включите двухэтапную проверку:",
@@ -3743,7 +2865,6 @@
     "sendTest": "Отправить тест",
     "toastSaved": "Настройки сохранены",
     "toastSavedDesc": "Настройки email успешно обновлены",
-    "toastError": "Ошибка",
     "toastSaveError": "Произошла ошибка при сохранении",
     "toastTestEmailMissing": "Введите email-адрес для теста",
     "toastTestSent": "Email отправлен",
@@ -3816,9 +2937,6 @@
   },
   "userSettings": {
     "title": "Настройки пользователя",
-    "profile": "Профиль",
-    "account": "Аккаунт",
-    "preferences": "Настройки",
     "subtitle": "Настройте свой интерфейс и брендинг аккаунта",
     "loading": "Загрузка настроек...",
     "roles": {
@@ -3912,31 +3030,16 @@
     }
   },
   "staff": {
-    "title": "Управление персоналом",
-    "addMember": "Добавить участника",
-    "role": "Роль",
-    "permissions": "Разрешения",
-    "active": "Активный",
-    "inactive": "Неактивный"
+    "title": "Управление персоналом"
   },
   "appointmentForm": {
-    "title": "Новая запись",
     "editTitle": "Изменить запись",
     "client": "Клиент",
     "service": "Услуга",
-    "date": "Дата",
-    "time": "Время",
-    "duration": "Длительность",
-    "notes": "Заметки",
     "save": "Сохранить запись",
-    "saved": "Запись сохранена",
-    "selectClient": "Выберите клиента",
-    "selectService": "Выберите услугу",
     "newTitle": "Новая запись",
     "fields": {
-      "client": "Клиент",
       "clientPlaceholder": "Поиск клиента...",
-      "service": "Услуга",
       "servicePlaceholder": "Поиск услуги...",
       "staff": "Специалист",
       "staffPlaceholder": "Выберите специалиста...",
@@ -3944,7 +3047,6 @@
       "room": "Кабинет/Кабина (необязательно)",
       "roomPlaceholder": "Выберите кабинет...",
       "noRoom": "Без кабинета",
-      "notes": "Заметки",
       "notesPlaceholder": "Добавьте примечания к записи"
     },
     "loadingClient": "Загрузка данных клиента...",
@@ -3955,7 +3057,6 @@
       "after": "\" как нового клиента"
     },
     "warnings": {
-      "otherAccount": "<0>Внимание:</0> Вы создаёте запись для клиента из другого аккаунта ({{firstName}} {{lastName}}). Убедитесь, что у вас есть необходимые разрешения.",
       "otherAccountClient": "Вы создаёте запись для клиента из другой учётной записи ({{firstName}} {{lastName}}). Убедитесь, что у вас есть необходимые права, прежде чем продолжить."
     },
     "notifications": {
@@ -4005,11 +3106,7 @@
       "title": "Конфликт доступности",
       "intro": "Обнаружены конфликты для выбранной встречи:",
       "staffHeading": "Конфликты со сотрудниками:",
-      "staffLine": "У <0>{{name}}</0> уже есть запись в {{time}}",
-      "staffWith": " с {{firstName}} {{lastName}}",
       "roomHeading": "Конфликты помещений:",
-      "roomLine": "<0>{{name}}</0> уже занят в {{time}}",
-      "roomBy": " клиентом {{firstName}} {{lastName}}",
       "askProceed": "Продолжить в любом случае?",
       "proceed": "Продолжить всё равно",
       "staffLineSuffix": "уже имеет встречу в",
@@ -4022,12 +3119,6 @@
     "durationLabel": "Длительность: {{minutes}} мин"
   },
   "clientNotes": {
-    "title": "Заметки клиента",
-    "addNote": "Добавить заметку",
-    "placeholder": "Напишите заметку здесь...",
-    "empty": "Заметок нет",
-    "saved": "Заметка сохранена",
-    "deleted": "Заметка удалена",
     "headerTitle": "Заметки клиента",
     "newNote": "Новая заметка",
     "addButton": "Добавить",
@@ -4091,11 +3182,6 @@
     "photoAlt": "Фото {{n}}",
     "scrollNext": "Прокрутите, чтобы увидеть следующие заметки →",
     "createDialogTrigger": "Создать новую заметку"
-  },
-  "manuale": {
-    "title": "Руководство пользователя",
-    "search": "Поиск в руководстве...",
-    "tableOfContents": "Содержание"
   },
   "whatsappConfigHelper": {
     "title": "Настройка WhatsApp",
@@ -4453,87 +3539,12 @@
       "create": "Ошибка при создании услуги",
       "update": "Ошибка при обновлении услуги",
       "delete": "Ошибка при удалении услуги",
-      "loadingTitle": "Ошибка",
       "loadingDesc": "Ошибка загрузки услуг: {{message}}",
       "unknown": "Неизвестная ошибка",
       "httpStatus": "Ошибка {{status}}: {{statusText}}"
     },
     "confirmDelete": "Вы уверены, что хотите удалить эту услугу?",
     "savingButton": "Сохранение..."
-  },
-  "clientLegacyNotes": {
-    "dialog": {
-      "editTitle": "Изменить заметку",
-      "createTitle": "Создать заметку"
-    },
-    "fields": {
-      "titleLabel": "Заголовок",
-      "titlePlaceholder": "Заголовок заметки",
-      "contentLabel": "Содержимое",
-      "contentPlaceholder": "Содержимое заметки"
-    },
-    "titles": {
-      "editLabel": "Изменить заголовок",
-      "resetLabel": "Сбросить к исходному заголовку",
-      "duplicateLast": "Дублировать последнюю заметку",
-      "noNoteToDuplicate": "Нет заметок для дублирования",
-      "addPhoto": "Добавить фото",
-      "createNote": "Создать заметку",
-      "noNoteToDelete": "Нет заметок для удаления"
-    },
-    "empty": "Заметки отсутствуют. Нажмите «Добавить», чтобы создать.",
-    "imageAlt": "Фото {{idx}}",
-    "confirm": {
-      "deleteNote": "Вы уверены, что хотите удалить эту заметку?",
-      "deletePhoto": "Удалить это фото?"
-    },
-    "toast": {
-      "created": {
-        "title": "Заметка создана",
-        "desc": "Заметка успешно сохранена"
-      },
-      "updated": {
-        "title": "Заметка обновлена",
-        "desc": "Заметка успешно обновлена"
-      },
-      "deleted": {
-        "title": "Заметка удалена",
-        "desc": "Заметка успешно удалена"
-      },
-      "duplicated": {
-        "title": "Заметка дублирована",
-        "desc": "Заметка успешно дублирована"
-      },
-      "duplicateSuffix": " (копия)",
-      "imageUploaded": {
-        "title": "Фото загружено",
-        "desc": "Фото успешно добавлено"
-      },
-      "imageDeleted": {
-        "title": "Фото удалено",
-        "desc": "Фото успешно удалено"
-      },
-      "titleUpdated": {
-        "title": "Заголовок обновлён",
-        "desc": "Заголовок раздела успешно обновлён"
-      },
-      "titleReset": {
-        "title": "Заголовок сброшен",
-        "desc": "Заголовок раздела сброшен к исходному значению"
-      },
-      "missingFields": {
-        "title": "Отсутствуют данные",
-        "desc": "Введите заголовок и содержимое заметки"
-      }
-    },
-    "errors": {
-      "create": "Не удалось создать заметку: {{message}}",
-      "update": "Не удалось обновить заметку: {{message}}",
-      "delete": "Не удалось удалить заметку: {{message}}",
-      "duplicate": "Не удалось дублировать заметку: {{message}}",
-      "uploadImage": "Не удалось загрузить фото: {{message}}",
-      "deleteImage": "Не удалось удалить фото: {{message}}"
-    }
   },
   "staffManagement": {
     "subtitle": "Просматривайте и управляйте сотрудниками",
@@ -4629,16 +3640,9 @@
     "adminBadge": "Админ",
     "customerProBadge": "Customer PRO",
     "staffBadge": "Сотрудник",
-    "pageSubtitle": "Просматривайте и управляйте сотрудниками",
-    "addStaffButton": "Добавить сотрудника",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Отмена",
-    "actionsLabel": "Действия",
-    "registeredLabel": "Зарегистрирован: {{date}}",
-    "proAccessLabel": "✓ Доступ PRO",
-    "bankingDataButton": "Банковские данные",
-    "noResultsFound": "Ничего не найдено.",
     "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
   },
   "passwordChange": {
@@ -4742,18 +3746,12 @@
     "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
-    "alreadyInstalled": "Приложение уже установлено",
-    "alreadyInstalledDesc": "Вы уже используете установленную версию приложения",
     "installing": "Идёт установка",
     "installingDesc": "Подтвердите установку в браузере",
     "installed": "Приложение установлено",
     "installedDesc": "Приложение успешно установлено!",
-    "installCancelled": "Установка отменена",
-    "installCancelledDesc": "Вы можете установить приложение в любой момент",
     "errorTitle": "Ошибка",
     "installError": "Ошибка при установке",
-    "browserNotSupported": "Браузер не поддерживается",
-    "browserNotSupportedDesc": "Ваш браузер не поддерживает автоматическую установку. Следуйте инструкциям вручную.",
     "installButton": "Установить приложение",
     "selectBrowser": "Выберите браузер",
     "selectBrowserDesc": "Выберите используемый браузер для отображения корректных инструкций",
@@ -4866,60 +3864,15 @@
     "trialExpiredSafe": "💾 Не волнуйтесь: все ваши данные (клиенты, записи, настройки) сохранены и будут восстановлены сразу после оформления плана.",
     "for40Days": "На 40 дней",
     "annualSub": "Годовая подписка",
-    "appointmentReq": "Запрос клиента на встречу",
     "invalidActivation": "Введите действительный код активации",
     "licenseActivated": "Лицензия активирована",
     "licenseActivatedDesc": "Ваша лицензия успешно активирована.",
     "genericError": "Произошла ошибка во время операции",
     "redirectingPaypal": "Вы будете перенаправлены на страницу оплаты PayPal",
     "paypalError": "Ошибка PayPal",
-    "paypalCantStart": "Не удалось запустить процесс оплаты PayPal",
-    "redirectingStripe": "Вы будете перенаправлены на защищённую страницу оплаты",
     "stripeError": "Ошибка Stripe",
-    "stripeCantStart": "Не удалось запустить процесс оплаты картой",
-    "trial40Free": "Бесплатная пробная версия на 40 дней",
-    "baseMonthly": "Базовый ежемесячный",
-    "baseMonthlyDesc": "Базовый план: ежемесячная оплата",
-    "proMonthly": "Pro ежемесячный",
-    "proMonthlyDesc": "Профессиональный план: ежемесячная оплата",
-    "businessMonthly": "Business ежемесячный",
-    "businessMonthlyDesc": "Бизнес-план: ежемесячная оплата",
-    "trialIncluded": "Все планы включают 40-дневный бесплатный пробный период. Кредитная карта не требуется для начала.",
-    "subActive": "Активная подписка",
-    "trialActiveUntil": "Ваш пробный период активен до",
-    "alreadyActive": "Уже активно",
-    "faqCancelQ": "Могу ли я отменить подписку?",
-    "faqCancelA": "Да, вы можете отменить подписку в любое время. Доступ останется активным до конца уже оплаченного периода.",
-    "faqTrialQ": "Как работает пробный период?",
-    "faqTrialA": "40-дневный пробный период включает все базовые функции. Кредитная карта не требуется для начала.",
-    "faqUpgradeA": "Да, вы можете перейти на более высокий план в любое время. Разница в цене будет рассчитана пропорционально.",
     "activateCode": "Активируйте код",
-    "activateCodeDesc": "Введите код активации, полученный после оплаты.",
-    "activationCode": "Код активации",
-    "bankTransferTitle": "Оплата банковским переводом",
-    "bankTransferDesc": "Следуйте инструкциям, чтобы завершить оплату банковским переводом.",
-    "subPlanName": "Подписка {{plan}}",
-    "feat": {
-      "customerMgmt": "Управление клиентами",
-      "qrPwa": "QR/PWA-приложение для клиентов",
-      "notifyClients": "Уведомления клиентов"
-    },
-    "paypalErrorMutation": "Ошибка мутации PayPal: {{msg}}",
-    "subWithPaypal": "подписка через PayPal",
-    "stripeErrorMutation": "Ошибка мутации Stripe: {{msg}}",
-    "subWithStripe": "подписка через Stripe",
-    "parseFeatError": "Ошибка разбора функций плана: {{msg}}",
-    "calendarDesc": "Удобно организуйте календарь и встречи с клиентами.",
-    "customerMgmt": "Управление клиентами",
-    "customerMgmtDesc": "Храните данные всех клиентов в одном безопасном месте.",
-    "remindersDesc": "Отправляйте автоматические напоминания клиентам, чтобы снизить число отмен.",
-    "reportsDesc": "Анализируйте свой бизнес с помощью отчётов и статистики.",
-    "choosePlan": "Выберите идеальный план для вашего бизнеса",
     "currentPlan": "Текущий план",
-    "faqUpgradeQ": "Могу ли я изменить план позже?",
-    "processing": "Обработка...",
-    "bankDetailsCopied": "Реквизиты банковского перевода скопированы в буфер обмена",
-    "copyDetails": "Копировать реквизиты",
     "missingCode": "Код отсутствует",
     "redirectingPaypalTitle": "Перенаправление на PayPal...",
     "redirectingStripeTitle": "Перенаправление на Stripe...",
@@ -6012,8 +4965,7 @@
       "description": "Описание",
       "plan": "План",
       "start": "Начало",
-      "expiry": "Срок",
-      "actions": "Действия"
+      "expiry": "Срок"
     },
     "subs": {
       "title": "Подписки",
@@ -6066,7 +5018,6 @@
       "bankNamePlaceholder": "напр. Intesa Sanpaolo",
       "holder": "Владелец счёта",
       "holderPlaceholder": "Имя и фамилия / Название компании",
-      "iban": "IBAN",
       "hide": "Скрыть",
       "show": "Показать",
       "ibanNotConfigured": "IBAN не настроен",
@@ -6570,7 +5521,6 @@
     "clientCard": {
       "incompleteData": "Данные клиента нужно заполнить",
       "deletionUnlocked": "Удаление разблокировано",
-      "unlockDeletionAction": "Разблокировать удаление",
       "cannotUnlock": "Не удалось разблокировать удаление",
       "cannotMarkDeleted": "Не удалось имитировать удаление",
       "clientRemoved": "Клиент удалён из системы"
@@ -6855,9 +5805,6 @@
     "reminderTemplateManager": {
       "emailLabel": "Email"
     },
-    "homePage": {
-      "loadingName": "Загрузка имени..."
-    },
     "promotionPageExtra": {
       "loading": "Загрузка...",
       "specialPromotionTitle": "Специальное предложение"
@@ -6928,14 +5875,8 @@
       "title": "Настройте рабочее пространство",
       "subtitle": "Выполнено {{completed}} из {{total}} шагов. Демоданные удаляются автоматически, как только вы добавите свои.",
       "dismiss": "Скрыть это руководство",
-      "takeTour": "Пройти тур с ИИ",
-      "takeTourDesc": "Помощник: ответьте на несколько вопросов, и ИИ предложит услуги и настройки",
-      "optionManualLabel": "Вариант 1 — Заполнить самому",
-      "optionAILabel": "Вариант 2 — Доверить ИИ",
-      "or": "ИЛИ",
       "allDone": "Всё готово, закрыть",
       "stepDone": "Готово",
-      "hideUntilRestartHint": "Скрыть до следующего перезапуска приложения",
       "finishDialog": {
         "title": "Настройка завершена!",
         "description": "Вы завершили все шаги первоначальной настройки. Хотите скрыть эти подсказки? Вы можете удалить их навсегда или скрыть только до следующего запуска приложения.",

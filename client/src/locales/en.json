@@ -5,18 +5,7 @@
     "description": "Easily manage appointments, clients and invoices"
   },
   "welcomePage": {
-    "title": "Welcome to Appointment Management",
-    "subtitle": "Choose how you want to proceed",
-    "createAccount": "Create a new account",
-    "createAccountDesc": "For new users who want to start using the system",
-    "professionalLogin": "Professional Login",
-    "staffLogin": "Staff/Admin Login",
-    "chooseAccessType": "Choose the appropriate access type",
-    "version": "Appointment Management v3.5.0",
-    "copyright": "© 2023-2025 All rights reserved",
-    "footerCopyright": "© 2023-2025 Zambelli Andrea - Appointment Management",
     "login": "Sign In",
-    "loginDesc": "For professionals and collaborators with an account",
     "badge": "Used by hundreds of professionals",
     "heroTitle": "Your business, always in your pocket",
     "heroSubtitle": "Manage appointments, clients, reminders and invoices in one app designed for hairdressers, beauticians and wellness professionals.",
@@ -114,54 +103,11 @@
     "staffLabel": "Per Professional",
     "myClientsLabel": "My Clients",
     "otherAccountsLabel": "Other Accounts",
-    "clientPersonal": "Personal Clients",
-    "clientSingular": "client",
-    "clientPlural": "clients",
     "loadingClients": "Loading clients...",
     "errorLoadingClients": "Error loading clients:",
     "retry": "Retry"
   },
   "proPages": {
-    "syncGoogleCalendar": "Sync Google Calendar",
-    "syncGoogleCalendarDesc": "Manage synchronization of your appointments with Google Calendar",
-    "clickToConfigure": "Click to configure and manage Google Calendar synchronization",
-    "invoiceCreated": "Invoice created successfully",
-    "invoiceCreateError": "Error creating invoice",
-    "clientRequired": "Client required",
-    "amountPositive": "Amount must be positive",
-    "dateRequired": "Date required",
-    "dueDateRequired": "Due date required",
-    "invalidEmail": "Invalid email",
-    "subjectRequired": "Subject required",
-    "emailSent": "Email sent successfully",
-    "emailSentTo": "Invoice sent to",
-    "emailSendError": "Error sending email",
-    "checkEmailSettings": "Check email settings",
-    "statusUpdated": "Status updated",
-    "markedAs": "Invoice marked as:",
-    "paid": "Paid",
-    "unpaid": "Unpaid",
-    "statusUpdateError": "Status update error",
-    "promotionalPackages": "Promotional Packages",
-    "newPackage": "New Package",
-    "createNewPackage": "Create New Promotional Package",
-    "packageName": "Package Name",
-    "descriptionOptional": "Description (optional)",
-    "numberOfSessions": "Number of Sessions",
-    "totalPrice": "Total Price",
-    "validityDays": "Validity (days, optional)",
-    "includedServices": "Included Services",
-    "addService": "Add service...",
-    "templateCreated": "Template created",
-    "packageCreatedDesc": "Promotional package created successfully",
-    "cannotCreateTemplate": "Cannot create template",
-    "packageSold": "Package sold",
-    "packageAssigned": "Package assigned to client",
-    "cannotSellPackage": "Cannot sell package",
-    "templateDeleted": "Template deleted",
-    "templateDeletedDesc": "Template deleted successfully",
-    "cannotDeleteTemplate": "Cannot delete template",
-    "inventory": "Inventory",
     "categoryRequired": "Category name required",
     "productRequired": "Product name required",
     "pricePositive": "Price must be positive",
@@ -177,50 +123,10 @@
     "maxImageSize": "Image must be maximum 5MB",
     "productCreatedImageError": "Product created, but image upload error",
     "canAddImageLater": "You can edit the product to add the image",
-    "productCreated": "Product created successfully",
     "productCreateError": "Error creating product",
-    "productUpdated": "Product updated successfully",
     "productUpdateError": "Error updating product",
-    "productDeleted": "Product deleted successfully",
     "productDeleteError": "Error deleting product",
-    "unknownError": "Unknown error",
-    "reports": "Reports",
-    "statisticalReports": "Statistical Reports",
-    "reportsAvailablePro": "Detailed activity reports are available from the Pro plan and above.",
-    "downloadPdf": "Download PDF",
-    "weekly": "Weekly",
-    "monthly": "Monthly",
-    "yearly": "Yearly",
-    "week": "Week",
-    "totalAppointments": "Total Appointments",
-    "totalRevenue": "Total Revenue",
-    "dailyAverage": "Daily Average",
-    "appointmentDetails": "Appointment Details",
-    "day": "Day",
-    "date": "Date",
-    "month": "Month",
-    "numberOfAppointments": "Number of Appointments",
-    "revenue": "Revenue",
-    "serviceDetails": "Service Details",
-    "service": "Service",
-    "generatedOn": "Generated on"
-  },
-  "paymentPages": {
-    "popular": "Popular",
-    "error": "Error",
-    "unableToLoadDashboard": "Unable to load dashboard data",
-    "dataRefresh": "Data refresh",
-    "dataRefreshInProgress": "Data refresh in progress...",
-    "settingsSaved": "Settings saved",
-    "bankingSettingsUpdated": "Banking settings have been updated successfully",
-    "cannotSaveBankingSettings": "Unable to save banking settings",
-    "testCompleted": "Test completed",
-    "paymentSystemConfigured": "Payment system is configured correctly",
-    "testFailed": "Test failed",
-    "verifyBankingConfig": "Verify banking data configuration",
-    "trialExtended": "Trial Extended",
-    "cannotExtendTrial": "Unable to extend trial",
-    "dateUpdated": "Date Updated"
+    "unknownError": "Unknown error"
   },
   "services": {
     "title": "Service Management",
@@ -263,7 +169,6 @@
     "enableAllOnline": "Enable all",
     "allOnlineEnabled": "All services are bookable online",
     "allOnlineDisabled": "Online booking disabled for all services",
-    "online": "Online",
     "onlineHeader": "Online Bookings"
   },
   "settingsPage": {
@@ -306,14 +211,8 @@
     "advancedConfig": "Advanced configuration (QR method)",
     "whatsappNotifications": "WhatsApp Notifications",
     "whatsappInfo": "Information about WhatsApp notifications:",
-    "whatsappInfoList": [
-      "WhatsApp messages are free and more reliable than SMS",
-      "Verify phone numbers are correct with international prefix (e.g., +1234567890)",
-      "All messages generate a WhatsApp link that opens automatically"
-    ],
     "error": "Error",
     "messageTemplates": "Message Templates",
-    "messageTemplatesDesc": "Customize reminder message templates",
     "noAppointmentSelected": "No appointment selected",
     "selectAppointmentForNotifications": "Select at least one appointment to send notifications",
     "selectAppointmentForSMS": "Select at least one appointment to send SMS",
@@ -327,12 +226,7 @@
     "twilioLimitationsDesc": "Your Twilio account has limitations and may not deliver SMS to all numbers.",
     "smsError": "SMS sending error",
     "recipient": "recipient",
-    "recipients": "recipients",
-    "loadingError": "Loading error:",
-    "cannotLoadAppointments": "Cannot load appointments:",
-    "cannotLoadHistory": "Cannot load history:",
-    "cannotLoadSmsHistory": "Cannot load SMS history:",
-    "unknownError": "Unknown error"
+    "recipients": "recipients"
   },
   "bookingRequests": {
     "title": "Booking Requests",
@@ -401,10 +295,6 @@
     "featureReportsDesc": "Monitor your business performance"
   },
   "appointment": {
-    "selectTimeSlots": "Select time for new appointment",
-    "confirmAndAssociateClient": "Confirm and associate client",
-    "selected": "Selected",
-    "selectSlots": "Select time slots",
     "confirmDelete": "Are you sure you want to delete this appointment?",
     "confirmDeleteTitle": "Delete Appointment",
     "confirmDeleteDescription": "Are you sure you want to delete this appointment? This action cannot be undone.",
@@ -421,19 +311,10 @@
     "home": "Home",
     "notifications": "Notifications",
     "referral": "Referral",
-    "aiSetup": "AI Setup",
-    "aiSettings": "AI Settings",
     "aiAssistant": "AI Assistant",
     "staff": "Staff",
     "payments": "Payments",
     "requests": "Requests"
-  },
-  "sidebar": {
-    "clients": "Clients",
-    "calendar": "Calendar",
-    "invoices": "Invoices",
-    "reports": "Reports",
-    "settings": "Settings"
   },
   "language": {
     "it": "Italian",
@@ -448,30 +329,6 @@
     "select": "Select language"
   },
   "home": {
-    "calendar": {
-      "title": "Calendar",
-      "description": "View and manage all appointments",
-      "content": "View appointments in daily, weekly or monthly mode, and easily create new appointments.",
-      "button": "Go to Calendar"
-    },
-    "clients": {
-      "title": "Clients",
-      "description": "Manage client information",
-      "content": "Add, edit and view client data, including personal and medical information.",
-      "button": "Manage Clients"
-    },
-    "invoices": {
-      "title": "Invoices",
-      "description": "Manage invoices and payments",
-      "content": "Create and manage invoices, record payments and monitor invoice status in real time.",
-      "button": "Manage Invoices"
-    },
-    "reports": {
-      "title": "Reports",
-      "description": "Analyze business performance",
-      "content": "View daily, weekly and monthly reports to analyze business performance.",
-      "button": "View Reports"
-    },
     "manual": {
       "title": "Manual",
       "description": "Complete user guide",
@@ -494,30 +351,6 @@
     "searchResults": "Search results",
     "noAppointmentsFound": "No appointments found for",
     "goToDay": "Go to day",
-    "days": {
-      "monday": "Monday",
-      "tuesday": "Tuesday",
-      "wednesday": "Wednesday",
-      "thursday": "Thursday",
-      "friday": "Friday",
-      "saturday": "Saturday",
-      "sunday": "Sunday"
-    },
-    "months": {
-      "january": "January",
-      "february": "February",
-      "march": "March",
-      "april": "April",
-      "may": "May",
-      "june": "June",
-      "july": "July",
-      "august": "August",
-      "september": "September",
-      "october": "October",
-      "november": "November",
-      "december": "December"
-    },
-    "selectNewAppointment": "Select new appointment",
     "selectTimeNewAppointment": "Select time for new appointment",
     "confirmAndAssociateClient": "Confirm and associate client",
     "hasAppointments": "Has appointments",
@@ -525,8 +358,6 @@
     "customDuration": "Custom duration",
     "incrementBy15Min": "Increase by 15 min",
     "decrementBy15Min": "Decrease by 15 min",
-    "selected": "Selected",
-    "select": "Select",
     "noServicesAvailable": "No services available",
     "goToSettingsToCreateService": "Go to Settings to create a service",
     "noServicesFound": "No services found"
@@ -543,50 +374,13 @@
     "subDescription": "Add, edit and view client data, including personal and medical information",
     "goTo": "Manage Clients",
     "addClient": "New Client",
-    "newClient": "New Client",
     "addFirstClient": "Add first client",
-    "search": {
-      "placeholder": "Search clients by name, phone or email...",
-      "minLength": "Enter at least 2 characters to search"
-    },
     "filter": {
-      "all": "All",
-      "frequent": "Frequent",
       "noConsent": "No Consent"
     },
-    "noClientsFound": "No clients found",
-    "noClientsInSystem": "There are no clients registered in the system",
-    "noResultsMatch": "No clients match the search criteria \"{{query}}\"",
-    "refreshSuccess": "Client data has been updated",
-    "lastUpdate": "Last update",
-    "autoUpdate": "Automatic update every hour and at 11:59 PM",
-    "stats": {
-      "total": "Total clients",
-      "frequent": "Frequent clients",
-      "noConsent": "Without consent"
-    },
-    "loading": "Loading clients...",
-    "loadingAccessStatus": "Checking client access...",
-    "showDetails": "Details",
-    "showAppointments": "Appointments",
-    "clientAccess": "Client Access",
-    "qrGenerated": "QR generated",
-    "qrNotGenerated": "QR not generated",
-    "generateQR": "Generate QR",
-    "manageClient": "Manage Client",
-    "table": {
-      "name": "Name",
-      "surname": "Surname",
-      "email": "Email",
-      "phone": "Phone",
-      "actions": "Actions"
-    },
     "details": {
-      "title": "Client Details",
       "personalInfo": "Personal Information",
-      "medicalInfo": "Medical Information",
       "appointments": "Appointments",
-      "notes": "Notes",
       "consents": "Consents",
       "clientDataConsent": "Client data/consent",
       "clientFile": "Client File",
@@ -624,20 +418,10 @@
     },
     "form": {
       "firstName": "First Name",
-      "lastName": "Last Name",
-      "email": "Email",
-      "phone": "Phone",
-      "birthDate": "Birth Date",
-      "address": "Address",
-      "city": "City",
-      "zipCode": "ZIP Code",
-      "notes": "Notes",
-      "save": "Save",
-      "cancel": "Cancel"
+      "lastName": "Last Name"
     },
     "accesses": {
       "loading": "Caricamento...",
-      "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
@@ -665,18 +449,12 @@
     "date": "Date",
     "dueDate": "Due Date",
     "amount": "Amount",
-    "status": "Status",
     "paid": "Paid",
     "unpaid": "Unpaid",
     "sentToClient": "Sent to client",
     "preview": "Preview",
     "print": "Print",
-    "sendEmail": "Send Email",
-    "sendMultichannel": "Send Invoice",
-    "markAsPaid": "Mark as Paid",
-    "markAsUnpaid": "Mark as Unpaid",
     "deleteInvoice": "Delete Invoice",
-    "confirmDelete": "Are you sure you want to delete this invoice?",
     "irreversibleAction": "This action is irreversible!",
     "form": {
       "clientRequired": "Client required",
@@ -687,18 +465,7 @@
       "selectClient": "Select client",
       "amountManualPh": "Enter amount manually"
     },
-    "email": {
-      "title": "Send Invoice via Email",
-      "recipient": "Recipient email",
-      "subject": "Subject",
-      "message": "Message",
-      "invalidEmail": "Invalid email",
-      "subjectRequired": "Subject required"
-    },
     "channels": {
-      "pwa": "Client App",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
       "noChannelSelected": "Select at least one sending channel",
       "noChannelSelectedTitle": "No channel selected"
     },
@@ -744,19 +511,10 @@
     "chronologicalKept": "✓ Chronological order maintained",
     "doCleanup": "Clean Numbering",
     "previewTitle": "👁️ Invoice Preview",
-    "previewDesc": "Preview of how invoice {{number}} will look before sending or printing",
-    "generatingPreview": "Generating preview...",
-    "noPreviewAvailable": "No preview available",
-    "closePreview": "Close Preview",
     "printing": "Printing...",
     "printInvoice": "Print Invoice",
-    "sendByEmailBtn": "Send by Email",
-    "deleteConfirmText": "Are you sure you want to delete invoice {{number}}?\n\nThis action is irreversible!",
     "resendTitle": "⚠️ Confirm Invoice Resend",
-    "alreadySentVia": "This invoice has already been sent through the following channels:",
-    "sentOnDate": "Sent on {{date}}",
     "resendQuestion": "Do you really want to resend the invoice to the selected channels?",
-    "confirmResend": "Confirm Resend",
     "recipientPlaceholder": "client@example.com",
     "currentFormatValue": "Mixed (06/2025/001, 09/2025/002, etc.)",
     "afterFormatValue": "Legal NNN/YYYY (001/2025, 002/2025, etc.)",
@@ -827,28 +585,9 @@
   },
   "reports": {
     "title": "Reports and Statistics",
-    "subtitle": "Analyze your business performance",
-    "period": "Period",
-    "today": "Today",
-    "thisWeek": "This week",
-    "thisMonth": "This month",
-    "thisYear": "This year",
-    "custom": "Custom",
-    "from": "From",
-    "to": "To",
     "revenue": "Revenue",
     "appointments": "Appointments",
-    "clients": "Clients",
-    "newClients": "New clients",
-    "averageTicket": "Average ticket",
-    "mostPopularTreatments": "Most popular treatments",
-    "revenueByProfessional": "Revenue by professional",
-    "appointmentsByDay": "Appointments by day",
-    "export": "Export",
     "exportPdf": "Export PDF",
-    "exportCsv": "Export CSV",
-    "noData": "No data available for this period",
-    "loading": "Loading reports...",
     "weekly": "Weekly",
     "monthly": "Monthly",
     "yearly": "Yearly",
@@ -882,19 +621,10 @@
   "settings": {
     "title": "Settings",
     "general": "General",
-    "profile": "Profile",
     "appearance": "Appearance",
-    "notifications": "Notifications",
-    "language": "Language",
-    "theme": "Theme",
-    "save": "Save Settings",
-    "saving": "Saving...",
     "contacts": "Contacts & Hours",
     "contactsTitle": "Contact Information",
     "contactsDesc": "Manage your contact information that will be shown in the footer of the client app",
-    "appName": "App Name",
-    "appIcon": "App Icon",
-    "googleCalendar": "Google calendar",
     "integrations": "Integrations",
     "appearanceTitle": "Brand Identity",
     "appearanceDesc": "Customize the name and icon of the application to reflect your company's identity. These settings will apply to both the main app and the client app.",
@@ -918,16 +648,13 @@
     "loading": "Loading...",
     "scrollDown": "Scroll down",
     "cancel": "Cancel",
-    "confirm": "Confirm",
     "delete": "Delete",
     "edit": "Edit",
     "save": "Save",
-    "send": "Send",
     "close": "Close",
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "saving": "Saving...",
     "back": "Back",
     "backToHomeBilingual": "Back to Home",
     "email": "Email",
@@ -935,12 +662,8 @@
     "test": "Test",
     "actions": "Actions",
     "search": "Search",
-    "required": "Required",
     "notes": "Notes",
-    "add": "Add",
-    "update": "Update",
     "create": "Create",
-    "confirmDelete": "Are you sure you want to delete?",
     "copy": "Copy",
     "errorWithMessage": "An error occurred: {{message}}",
     "saved": "Saved",
@@ -953,12 +676,7 @@
     "demoLabel": "Demo"
   },
   "notifications": {
-    "success": "Operation completed successfully",
-    "error": "An error has occurred",
-    "warning": "Warning",
-    "info": "Information",
-    "clientDeleted": "Client deleted",
-    "clientDeletedSuccess": "The client has been successfully deleted"
+    "clientDeleted": "Client deleted"
   },
   "whatsappNotifications": {
     "title": "Client Notifications",
@@ -977,13 +695,7 @@
       "calendar": "Google Calendar"
     },
     "howItWorks": {
-      "title": "How WhatsApp notifications work",
-      "steps": [
-        "Select appointments for which you want to send a reminder",
-        "Click on \"Generate WhatsApp notifications\" to create links",
-        "Links will be generated that open WhatsApp with pre-filled texts",
-        "You can customize the standard text before sending"
-      ]
+      "title": "How WhatsApp notifications work"
     },
     "customMessage": {
       "title": "Custom message (optional)",
@@ -1002,7 +714,6 @@
       "service": "Service",
       "time": "Time",
       "actions": "Actions",
-      "send": "Send",
       "selectAll": "Select all"
     },
     "buttons": {
@@ -1029,56 +740,17 @@
         "failed": "Failed",
         "unknown": "Unknown"
       }
-    },
-    "appointmentList": {
-      "selectAll": "Select all",
-      "actions": "Actions",
-      "sendButton": "Generate WhatsApp notifications",
-      "sending": "Generating notifications..."
-    },
-    "errors": {
-      "loadingAppointments": "Unable to load appointments",
-      "loadingHistory": "Unable to load history",
-      "noneSelected": "Select at least one appointment to send notifications",
-      "sendingFailed": "Unable to send reminders"
-    },
-    "success": {
-      "remindersSent": "Reminders generated successfully"
-    },
-    "whatsappLink": "Open WhatsApp"
+    }
   },
   "notificationSettings": {
     "title": "Notification settings",
-    "enableEmailNotifications": "Enable email notifications",
-    "emailSetup": {
-      "title": "Quick Email Setup",
-      "email": "Email",
-      "emailPlaceholder": "Enter your email address",
-      "password": "Password",
-      "passwordPlaceholder": "Enter your email password",
-      "description": "This configuration sets up your email account for sending notifications.",
-      "autoDetect": "Auto-detect settings",
-      "emailRequired": "Enter your email address to detect settings"
-    },
-    "errors": {
-      "loadingSettings": "Unable to load notification settings",
-      "savingSettings": "Unable to save settings",
-      "testEmailMissing": "Enter an email address for testing"
-    },
-    "success": {
-      "settingsSaved": "Notification settings saved successfully",
-      "testEmailSent": "Test email sent successfully",
-      "remindersProcessed": "Reminders processed successfully"
-    },
     "tabs": {
       "email": "Email",
       "whatsapp": "WhatsApp",
       "general": "General settings"
     },
     "email": {
-      "enable": "Enable email notifications",
-      "placeholderEmail": "Enter your email address",
-      "placeholderPassword": "Enter your email password"
+      "enable": "Enable email notifications"
     },
     "whatsapp": {
       "enable": "Enable WhatsApp notifications"
@@ -1147,7 +819,6 @@
     "quickEmailSetup": "Quick Email Setup",
     "signatureLabel": "Email signature",
     "whatsappNumberLabel": "WhatsApp number for notifications",
-    "enterEmail": "Enter your email address",
     "testEmailSettings": "Test email settings",
     "whatsappNotificationsTitle": "WhatsApp notifications",
     "phoneForNotifications": "Phone number for notifications",
@@ -1174,29 +845,13 @@
     "defaultSignature": "Best regards,"
   },
   "googleCalendar": {
-    "title": "Google Calendar",
-    "setupInstructions": "Set up Google Calendar integration",
-    "emailLabel": "Gmail Account",
-    "emailPlaceholder": "your.address@gmail.com",
-    "emailDescription": "The Google account you want to use for calendar",
-    "connected": "Connected",
-    "notConnected": "Not connected",
-    "clientIdLabel": "Client ID",
-    "clientIdPlaceholder": "Your Google Client ID",
-    "clientIdDescription": "Get this value from the Google Cloud console",
-    "clientSecretLabel": "Client Secret",
-    "clientSecretPlaceholder": "Your Google Client Secret",
-    "clientSecretDescription": "Get this value from the Google Cloud console",
-    "configHelp": "Help with configuration",
     "errors": {
-      "authorizationUrlFailed": "Unable to generate authorization URL",
       "emailRequired": "Enter the Google email you want to sync",
       "popupBlocked": "The popup was blocked. Disable popup blocker for this site.",
       "authError": "Error during authorization"
     },
     "success": {
       "settingsSaved": "Synchronization settings have been saved successfully",
-      "authorizationComplete": "Your Google account has been successfully connected",
       "connected": "Google Calendar connected successfully"
     },
     "setup": {
@@ -1229,27 +884,16 @@
       "proOnlyMessage": "This feature is only available with the PRO plan.",
       "upgradeToPro": "Upgrade to PRO",
       "backToDashboard": "Back to Dashboard",
-      "syncingNow": "Syncing...",
-      "syncNow": "Sync now",
-      "syncStatus": "Sync status",
-      "lastSync": "Last sync: {{date}}",
-      "syncedEvents": "Synced events: {{count}}",
-      "contactsSyncTitle": "Google Contacts Sync",
-      "contactsSyncDesc": "Import contacts from your Google address book as clients",
-      "testFeatureTitle": "🧪 Feature in testing phase",
-      "testFeatureDesc": "Google Contacts import is currently only available for authorized test users. If you are not a tester, you may see an \"Access blocked\" error from Google.",
       "reconnectNeeded": "Reconnection required",
       "reconnectDesc": "To access contacts, you need to reconnect your Google account with the new permissions.",
       "reconnectButton": "Reconnect Google",
       "loadingContacts": "Loading contacts...",
       "loadContacts": "Load contacts from Google",
       "contactsFound": "Found {{count}} contacts in your Google address book",
-      "selectOrImportAll": "Select contacts to import or use \"Import all\"",
       "deselectAll": "Deselect all",
       "selectAll": "Select all",
       "importAll": "Import all ({{count}})",
       "importSelected": "Import selected ({{count}})",
-      "unnamed": "Unnamed",
       "reloadContacts": "Reload contacts",
       "contactsNote1": "• Existing contacts (same email or phone) will be skipped",
       "contactsNote2": "• Imported contacts will have the note \"Imported from Google Contacts\"",
@@ -1279,41 +923,10 @@
       "csvFormatTitle": "📋 Required file format",
       "csvFormatDesc": "The CSV file must have columns: <strong>Name</strong>, <strong>Email</strong>, <strong>Phone</strong>",
       "csvUpload": "Click to upload a CSV file",
-      "csvSelectedForImport": "{{count}} selected for import",
       "csvImporting": "Importing...",
       "csvImportButton": "Import {{count}} contacts",
       "csvNote1": "• Supported formats: CSV (comma or semicolon separator)",
       "csvNote2": "• Already existing contacts will be skipped automatically",
-      "toastSyncStarted": "Sync completed",
-      "toastSyncDetails": "Imported: {{imported}}, Exported: {{exported}}",
-      "toastSyncError": "Sync error",
-      "toastSyncDefaultError": "Error during synchronization",
-      "toastSyncDefaultSuccess": "Sync completed!",
-      "toastSessionExpired": "Session expired. Please log in again.",
-      "toastConnectionError": "Connection error",
-      "toastReconnectError": "Unable to start reconnection",
-      "toastContactsLoaded": "Contacts loaded",
-      "toastContactsLoadedDesc": "Found {{count}} contacts in your Google address book",
-      "toastReconnectGoogle": "Reconnect Google",
-      "toastReconnectGoogleDesc": "You need to reconnect your Google account to access contacts.",
-      "toastContactsLoadError": "Error loading contacts",
-      "toastImportComplete": "Import completed",
-      "toastImportedCount": "Imported {{count}} contacts",
-      "toastImportError": "Import error",
-      "toastImportContactsError": "Error importing contacts",
-      "toastEmptyFile": "Empty file",
-      "toastEmptyFileDesc": "The CSV file contains no data",
-      "toastInvalidFormat": "Invalid format",
-      "toastInvalidFormatDesc": "The file must contain columns: name, email or phone",
-      "toastFileLoaded": "File loaded",
-      "toastFileLoadedDesc": "Found {{count}} contacts in the file",
-      "toastFileReadError": "File read error",
-      "toastFileReadErrorDesc": "Unable to read the CSV file",
-      "toastNoSelected": "No contact selected",
-      "toastNoSelectedDesc": "Select at least one contact to import",
-      "csvImportedFromCsv": "Imported from CSV file",
-      "csvImportedCount": "{{imported}} contacts imported{{skipped}}",
-      "csvSkippedSuffix": ", {{skipped}} already existed",
       "connError": "Unable to start reconnection",
       "connErrorGeneric": "Connection error",
       "sessionExpired": "Session expired. Please log in again.",
@@ -1349,38 +962,18 @@
       "contactsCardDesc": "Import contacts from your Google address book as clients",
       "testFeatureLong": "🧪 Feature in testing",
       "testFeatureLongDesc": "Google contacts import is currently available only for authorized tester users. If you're not a tester, you may see an \"Access blocked\" error from Google.",
-      "reconnectNeededDesc": "To access contacts you need to reconnect your Google account with the new permissions.",
-      "loadContactsButton": "Load contacts from Google",
       "contactsCountFound": "Found {{count}} contacts",
       "contactsHint": "Select contacts to import or use \"Import all\"",
       "noName": "No name",
-      "csvCardTitle": "Import from file (CSV/vCard)",
-      "csvCardDesc": "For non-Gmail users: import contacts from your phone or other services",
-      "csvHowToTitle": "How to export contacts from your phone",
-      "csvUploadHint": "Click to upload a CSV file",
       "csvSelectedN": "{{count}} selected for import",
       "syncStatusTitle": "Sync status",
       "lastSyncDate": "Last sync: {{date}}",
       "syncedEventsN": "Synced events: {{count}}"
     },
-    "connect": "Connect Google Calendar",
-    "disconnect": "Disconnect Google Calendar",
-    "sync": "Sync",
-    "syncing": "Syncing...",
     "settings": {
-      "title": "Google Calendar Sync",
-      "description": "Sync your appointments with your Google calendar",
       "loadError": "Error loading sync settings",
-      "enableSync": "Enable sync with Google Calendar",
-      "enableSyncDesc": "When active, appointments will be automatically synced with the specified Google calendar",
-      "gmailAddress": "Gmail Address",
-      "gmailHelp": "Enter the Gmail address of the calendar you want to sync appointments with:",
       "gmailHint": "Enter the Gmail address of the calendar you want to sync your appointments with:",
-      "alreadyAuthorized": "Your Google account has already been authorized",
-      "notAuthorized": "Google account not authorized",
-      "notAuthorizedDesc": "To complete setup, you need to authorize access to your Google account.",
       "clientIdLabel": "Google Client ID",
-      "clientIdHelpTitle": "How to get the Google Client ID:",
       "clientIdSteps": [
         "Open the Google Cloud Console",
         "Select or create a new project",
@@ -1391,9 +984,7 @@
         "The Client ID will be shown after clicking \"Create\""
       ],
       "clientIdPlaceholder": "Your Google Client ID",
-      "getFromConsole": "Get from Google Cloud Console",
       "clientSecretLabel": "Google Client Secret",
-      "clientSecretHelpTitle": "How to get the Google Client Secret:",
       "clientSecretSteps": [
         "Follow the same steps as for the Client ID",
         "After creating the OAuth client ID, the page will display both the Client ID and Client Secret",
@@ -1403,81 +994,15 @@
       ],
       "clientSecretPlaceholder": "Your Google Client Secret",
       "startAuth": "Start authorization process",
-      "configHelp": "Configuration help",
-      "stepGuideTitle": "Step-by-step setup guide",
-      "guide1Title": "1. Create Google Cloud project",
-      "guide1Steps": [
-        "Go to Google Cloud Console",
-        "Create a new project (e.g. \"Appointments App\")"
-      ],
-      "guide2Title": "2. Enable Google Calendar API",
-      "guide2Steps": [
-        "In the side menu, go to \"APIs & Services\" → \"Library\"",
-        "Search for \"Google Calendar API\" and select it",
-        "Click \"Enable\""
-      ],
-      "guide3Title": "3. Configure OAuth consent",
-      "guide3Steps": [
-        "In the side menu, go to \"APIs & Services\" → \"OAuth consent screen\"",
-        "Select \"External\" and click \"Create\"",
-        "Fill in the required fields (app name, support email)",
-        "In \"Authorized domains\" add your app's domain",
-        "For scopes, add \"./auth/calendar\" and \"./auth/calendar.events\"",
-        "Add your email address as a test user"
-      ],
-      "guide4Title": "4. Create OAuth credentials",
-      "guide4Steps": [
-        "In the side menu, go to \"APIs & Services\" → \"Credentials\"",
-        "Click \"Create Credentials\" → \"OAuth client ID\"",
-        "Select \"Web application\" as the type",
-        "Add a name (e.g. \"Appointments Web App\")",
-        "In \"Authorized redirect URIs\" add the full URL of the settings page (including \"https://\")",
-        "Click \"Create\" and copy Client ID and Client Secret"
-      ],
       "instructionsTitle": "Setup instructions:",
-      "instructionStep1": "Create a project on Google Cloud",
-      "instructionStep1Sub1": "Go to Google Cloud Console",
-      "instructionStep1Sub2": "Create a new project or select an existing one",
-      "instructionStep2": "Enable Google Calendar APIs",
-      "instructionStep2Sub1": "Go to API Library",
-      "instructionStep2Sub2": "Search for \"Google Calendar API\" and enable it",
-      "instructionStep3": "Configure OAuth credentials",
-      "instructionStep3Sub1": "Go to Credentials",
-      "instructionStep3Sub2": "Click \"Create Credentials\" and select \"OAuth Client ID\"",
-      "instructionStep3Sub3": "Configure the OAuth consent screen (required)",
-      "instructionStep3Sub4": "Add your app URL as \"Authorized redirect URI\"",
-      "instructionStep3Sub5": "Copy the Client ID and Client Secret into the application",
-      "instructionStep4": "Complete authorization",
-      "instructionStep4Sub1": "Click \"Start authorization process\"",
-      "instructionStep4Sub2": "Follow the instructions in the dialog",
-      "note": "Note:",
       "noteText": "Appointments will only be synced if the option is enabled, authorization is complete, and the Gmail address is correct.",
       "savingButton": "Saving...",
       "saveButton": "Save settings",
-      "authDialogTitle": "Authorize Google Calendar",
-      "authDialogDesc": "To sync appointments, you need to authorize access to your Google Calendar account",
-      "openLinkAndAuth": "Open the following link and follow the instructions to authorize access to Google Calendar:",
-      "openGoogleAuthPage": "Open Google authorization page",
-      "authCode": "Authorization code",
-      "authCodePlaceholder": "Paste the code provided by Google here",
-      "cancel": "Cancel",
       "verifying": "Verifying...",
-      "verifyCode": "Verify code",
-      "selectCalendar": "Select a calendar",
-      "selectCalendarDesc": "Choose the Google calendar to use for synchronization",
-      "mainCalendar": "Main calendar",
-      "noCalendarsFound": "No calendars found in your Google account",
-      "toastSettingsSaved": "Settings saved",
-      "toastSaveSuccess": "Sync settings have been saved successfully",
       "toastSaveError": "Unable to save settings. Please try again later.",
-      "toastAuthComplete": "Authorization complete",
-      "toastAuthCompleteDesc": "Your Google account has been linked successfully",
       "toastAuthError": "Authorization error",
       "toastAuthErrorDesc": "Unable to authorize your Google account. Please check the code you entered.",
       "toastAuthErrorGeneric": "An error occurred during Google authorization",
-      "toastCodeMissing": "Code missing",
-      "toastCodeMissingDesc": "Enter the authorization code provided by Google",
-      "toastAuthUrlError": "Could not generate authorization URL",
       "toastSavedTitle": "Settings saved",
       "toastAuthCompleted": "Authorization complete",
       "toastMissingCode": "Missing code",
@@ -1615,7 +1140,6 @@
         "For Google accounts, you need to use a specific \"app password\"",
         "Verify the Google account has been authorized correctly"
       ],
-      "createAppPassword": "Create an app password",
       "goToEmailSettings": "Go to email settings",
       "restartAuth": "Restart authorization",
       "restartAuthDesc": "In some cases you need to completely restart the Google authorization process. This can fix issues with expired or revoked tokens.",
@@ -1644,7 +1168,6 @@
       "restartAuthorization": "Restart authorization",
       "toastAuthDone": "Authorization complete",
       "toastAuthDoneDesc": "The Google account has been authorized successfully",
-      "toastAuthErrorTitle": "Error",
       "toastCannotStart": "Could not start Google authorization",
       "toastAuthErrorDesc": "An error occurred during Google authorization",
       "statusAccountAuthorized": "Account authorized",
@@ -1655,17 +1178,11 @@
     }
   },
   "errors": {
-    "genericError": "An error occurred: {{error}}",
-    "qrCodeFetchError": "Error retrieving existing QR code:"
+    "genericError": "An error occurred: {{error}}"
   },
   "auth": {
     "login": "Login",
-    "logout": "Logout",
-    "username": "Username",
-    "password": "Password",
-    "rememberMe": "Remember me",
-    "forgotPassword": "Forgot password?",
-    "loginButton": "Login"
+    "logout": "Logout"
   },
   "clientArea": {
     "installApp": "Install App",
@@ -1676,8 +1193,6 @@
     "newRequest": "New Request",
     "pushNotifDesc": "Receive a notification when your appointment is confirmed",
     "selectService": "Select Service",
-    "noServicesAvailable": "No services available at the moment.",
-    "contactCenter": "Contact the center for more information.",
     "chooseService": "Choose a service...",
     "preferredStaff": "Preferred Professional (optional)",
     "chooseStaff": "Choose professional...",
@@ -1798,8 +1313,6 @@
     "updateContactPro": "To update your data, please contact your professional",
     "appointmentsTitle": "Appointments",
     "loadingAppointments": "Loading appointments...",
-    "futureAppointmentsCount_one": "You have {{count}} upcoming appointment",
-    "futureAppointmentsCount_other": "You have {{count}} upcoming appointments",
     "noFutureAppointments": "No upcoming appointments scheduled",
     "viewAll": "View all",
     "consentsTitle": "Consents",
@@ -1836,7 +1349,9 @@
     "reservedToProClients": "This area is reserved for clients of the professionals",
     "cannotVerifyAuth": "Unable to verify authentication",
     "errorLoadingAppointments": "Unable to load appointments",
-    "errorGeneric": "Error"
+    "errorGeneric": "Error",
+    "futureAppointmentsCount_one": "You have {{count}} upcoming appointment",
+    "futureAppointmentsCount_other": "You have {{count}} upcoming appointments"
   },
   "contacts": {
     "accessOurContacts": "Access our contacts"
@@ -1846,130 +1361,15 @@
     "expired": "Expired",
     "upgradeMessage": "Discover premium plans"
   },
-  "banking": {
-    "title": "Payment Configuration",
-    "subtitle": "Manage bank details for automatic referral commission payments",
-    "bankName": "Bank Name",
-    "bankNamePlaceholder": "e.g. Bank of America",
-    "accountHolder": "Account Holder",
-    "accountHolderPlaceholder": "Full Name / Business Name",
-    "iban": "IBAN",
-    "ibanPlaceholder": "GB29 NWBK 6016 1331 9268 19",
-    "bic": "BIC/SWIFT",
-    "bicPlaceholder": "e.g. NWBKGB2L",
-    "address": "Address",
-    "addressPlaceholder": "Full billing address",
-    "autoPayEnabled": "Automatic Commission Payment",
-    "paymentDelay": "Payment Delay (days)",
-    "paymentDelayPlaceholder": "30",
-    "minimumAmount": "Minimum Amount (€)",
-    "minimumAmountPlaceholder": "1.00",
-    "description": "Description",
-    "descriptionPlaceholder": "Description that will appear in transfers",
-    "showIban": "Show IBAN",
-    "hideIban": "Hide IBAN",
-    "testPayment": "Test Payment",
-    "saveSettings": "Save Settings",
-    "configured": "Configured",
-    "notConfigured": "Not Configured",
-    "status": {
-      "configured": "Bank details are correctly configured",
-      "notConfigured": "Configure bank details to enable commission payments"
-    },
-    "alerts": {
-      "security": "Bank details are protected and encrypted. Only administrators can view them.",
-      "paymentInfo": "Commissions will be paid automatically when the balance exceeds the configured minimum amount."
-    },
-    "success": {
-      "saved": "Settings saved",
-      "savedDescription": "Bank settings have been successfully updated",
-      "testComplete": "Test completed",
-      "testSuccess": "Payment system is correctly configured"
-    },
-    "errors": {
-      "saveFailed": "Unable to save bank settings",
-      "testFailed": "Please check bank details configuration"
-    }
-  },
   "payments": {
-    "title": "Payment Administration",
-    "subtitle": "Manage subscriptions, transactions and commissions",
-    "tabs": {
-      "overview": "Overview",
-      "transactions": "Transactions",
-      "methods": "Payment Methods",
-      "settings": "Settings"
-    },
-    "demo": "DEMO",
-    "realData": "Real Data",
-    "testTransaction": "Test transaction",
-    "filterByLicense": "Filter by license",
-    "allLicenses": "All licenses",
-    "stats": {
-      "totalRevenue": "Total Revenue",
-      "activeSubscriptions": "Active Subscriptions",
-      "pendingCommissions": "Pending Commissions"
-    },
-    "table": {
-      "date": "Date",
-      "user": "User",
-      "license": "License",
-      "amount": "Amount",
-      "method": "Method",
-      "status": "Status",
-      "actions": "Actions"
-    },
-    "status": {
-      "completed": "Completed",
-      "pending": "Pending",
-      "failed": "Failed",
-      "cancelled": "Cancelled"
-    },
-    "methods": {
-      "stripe": "Stripe",
-      "paypal": "PayPal",
-      "bankTransfer": "Bank Transfer",
-      "wise": "Wise"
-    }
+    "title": "Payment Administration"
   },
   "referral": {
     "title": "Referral Program",
-    "subtitle": "Earn commissions by inviting new customers",
     "adminOnly": "Only administrators can manage referrals, coordinate and verify staff-sponsored subscriptions to proceed with payments",
-    "yourCode": "Your code",
-    "copyCode": "Copy code",
     "shareCode": "Share your referral code",
     "copyToClipboard": "Copy to clipboard",
-    "share": "Share",
-    "earnings": {
-      "title": "Your Earnings",
-      "total": "Total Earned",
-      "pending": "Pending",
-      "paid": "Paid"
-    },
-    "iban": {
-      "title": "IBAN for Payments",
-      "placeholder": "GB29 NWBK 6016 1331 9268 19",
-      "description": "Enter your IBAN to receive commissions",
-      "save": "Save IBAN",
-      "saved": "IBAN saved successfully"
-    },
-    "commissions": {
-      "title": "Commissions",
-      "customer": "Customer",
-      "license": "License",
-      "amount": "Amount",
-      "status": "Status",
-      "date": "Date",
-      "noCommissions": "No commissions yet",
-      "pending": "Pending",
-      "paid": "Paid"
-    },
     "howItWorks": "How the program works",
-    "shareLink": "Share link",
-    "invitations": "Invitations",
-    "rewards": "Rewards",
-    "copied": "Code copied!",
     "payout": {
       "dialogTitle": "Commission payout methods",
       "dialogDesc": "Configure how you want to receive your referral commission payouts.",
@@ -1989,7 +1389,6 @@
       "save": "Save"
     },
     "upgradeToAccess": "Upgrade your plan to access",
-    "registrationAndSub": "Registration and subscription:",
     "paymentMethods": "Payment methods:",
     "noActiveSubTitle": "No active subscription",
     "noActiveSubDesc": "Users must activate a paid subscription to generate commissions",
@@ -2004,7 +1403,6 @@
     "configSaved": "Configuration saved",
     "bankSaveError": "Could not save bank details: {{msg}}",
     "codeCopiedTitle": "Code copied!",
-    "shareError": "Sharing error:",
     "textCopiedTitle": "Text copied!",
     "codeGenTitle": "Code generated",
     "yourReferralCode": "Your personal referral code",
@@ -2094,193 +1492,7 @@
   },
   "manual": {
     "pwa": {
-      "title": "Client PWA Appointment Requests",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "How it works for the client",
-          "badge": {
-            "text": "How it works for the client",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "PWA Access",
-                  "text": "The client opens their personal PWA app (installed via QR code)"
-                },
-                {
-                  "title": "Appointments Menu",
-                  "text": "Clicks on \"Request Appointment\" from the main menu"
-                },
-                {
-                  "title": "Service Selection",
-                  "text": "Chooses the desired treatment from the list"
-                },
-                {
-                  "title": "Staff Preference",
-                  "text": "OPTIONAL",
-                  "items": [
-                    "Can choose a preferred staff member from the dropdown menu",
-                    "Or leave \"No preference\" for automatic assignment"
-                  ]
-                },
-                {
-                  "title": "Date and Time",
-                  "text": "Selects the date and desired time slot"
-                },
-                {
-                  "title": "Submit Request",
-                  "text": "Clicks \"Submit Request\" - the request arrives in your \"Booking Requests\" section"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Request Management (Admin)",
-          "badge": {
-            "text": "Request Management (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Path: Main menu → Booking Requests"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Receive notification",
-                  "text": "View the request with all details (client, service, date, time, staff preference)"
-                },
-                {
-                  "title": "Automatic Confirmation",
-                  "items": [
-                    "Click \"Approve\" for quick confirmation",
-                    "The system automatically assigns the preferred staff member (if available) or an available one",
-                    "Automatically assigns the first available room"
-                  ]
-                },
-                {
-                  "title": "Manual Confirmation",
-                  "items": [
-                    "A dialog opens with selection options",
-                    "You can manually choose staff member and room",
-                    "Useful for optimizing organization or handling special preferences"
-                  ]
-                },
-                {
-                  "title": "Client Notification",
-                  "text": "The client receives appointment confirmation with complete details (assigned staff member and room)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Other Client PWA Features",
-          "badge": {
-            "text": "Other Client PWA Features",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 View Appointments",
-                  "items": [
-                    "Complete list of all appointments (past and future)",
-                    "Details: date, time, service, assigned staff member, room",
-                    "Appointment status (confirmed, completed, cancelled)",
-                    "Real-time updates"
-                  ]
-                },
-                {
-                  "title": "📄 Documents and Invoices",
-                  "items": [
-                    "Access to all issued invoices",
-                    "PDF download directly from the app",
-                    "Complete payment history"
-                  ]
-                },
-                {
-                  "title": "📞 Direct Contacts",
-                  "items": [
-                    "📧 Email: Tap to open email client with pre-filled address",
-                    "📱 Phone: Tap to call the practice directly",
-                    "🌐 Website: Direct link to your website",
-                    "📷 Instagram: Open Instagram profile",
-                    "👍 Facebook: Link to Facebook page"
-                  ]
-                },
-                {
-                  "title": "🔔 Push Notifications",
-                  "items": [
-                    "Automatic appointment reminders",
-                    "Booking confirmations",
-                    "Important updates from the practice"
-                  ]
-                },
-                {
-                  "title": "📱 Works Offline",
-                  "items": [
-                    "Access to data even without connection",
-                    "Automatic synchronization when back online"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "benefits": {
-        "title": "✨ Client PWA App Benefits",
-        "items": [
-          {
-            "title": "No Store Download",
-            "text": "Instant installation via QR code, without going through App Store or Google Play"
-          },
-          {
-            "title": "Always Updated",
-            "text": "Automatic updates without needing to install new versions"
-          },
-          {
-            "title": "Personalized",
-            "text": "Each client sees only their data (appointments, invoices, documents)"
-          },
-          {
-            "title": "Custom Icon",
-            "text": "The app displays your practice logo on the phone's home screen"
-          },
-          {
-            "title": "Quick Access",
-            "text": "One tap on the icon and the client is in their personal area"
-          },
-          {
-            "title": "Multi-Platform",
-            "text": "Works on iPhone, Android, tablet and desktop"
-          },
-          {
-            "title": "Secure",
-            "text": "Authentication via unique token, no password to remember"
-          },
-          {
-            "title": "Direct Contact",
-            "text": "Email, phone and social networks at your fingertips"
-          }
-        ]
-      },
-      "tips": {
-        "proTip": "Show clients how to install the app during their first visit. They will immediately see the added value and feel more engaged in their relationship with your practice!",
-        "retention": "The personalized PWA app creates a stronger bond with clients, increasing retention and reducing no-shows thanks to automatic reminders and the premium user experience."
-      }
+      "title": "Client PWA Appointment Requests"
     },
     "page": {
       "header": {
@@ -2580,12 +1792,8 @@
   },
   "packages": {
     "title": "Promotional Packages Management",
-    "subtitle": "Create and manage treatment packages for your clients",
     "newPackage": "New Package",
     "newShort": "New",
-    "noPackages": "No packages found",
-    "startCreating": "Start by creating your first promotional package",
-    "createFirst": "Create First Package",
     "noPackagesCreated": "No promotional package created",
     "createFirstPackage": "Create your first package",
     "noPackagesSold": "No packages sold yet",
@@ -2593,23 +1801,12 @@
     "inactive": "Inactive",
     "completed": "Completed",
     "expired": "Expired",
-    "soldTo": "Sold to",
-    "used": "Used",
-    "of": "of",
-    "sessions": "sessions",
     "sessionsLabel": "Sessions",
-    "remaining": "Remaining",
-    "valid": "Valid",
-    "until": "until",
     "validity": "Validity",
     "days": "days",
     "price": "Price",
-    "originalPrice": "Original price",
-    "discount": "Discount",
     "services": "Services",
-    "edit": "Edit",
     "delete": "Delete",
-    "confirmDelete": "Are you sure you want to delete this package?",
     "confirmDeleteTitle": "Confirm deletion",
     "confirmDeleteDesc": "Are you sure you want to delete this template? This action cannot be undone.",
     "tabs": {
@@ -2633,18 +1830,13 @@
     "form": {
       "name": "Package name",
       "namePlaceholder": "e.g. 10 Premium Face Treatments",
-      "description": "Description",
       "descriptionOptional": "Description (optional)",
       "descriptionPlaceholder": "Package description...",
       "totalSessions": "Number of Sessions",
       "totalPrice": "Total Price",
-      "price": "Discounted price",
-      "originalPrice": "Original price",
       "validDays": "Validity (days, optional)",
       "includedServices": "Included Services",
       "addService": "Add service...",
-      "selectClient": "Select client",
-      "selectTreatment": "Select treatment",
       "cancel": "Cancel",
       "creating": "Creating...",
       "createPackage": "Create Package",
@@ -2653,12 +1845,10 @@
     "toast": {
       "created": "Package created successfully",
       "createdDesc": "The promotional package has been created successfully",
-      "updated": "Package updated",
       "deleted": "Package deleted",
       "deletedDesc": "The template has been deleted successfully",
       "sold": "Package sold",
       "soldDesc": "The package has been assigned to the client",
-      "error": "Package operation error",
       "cannotCreate": "Cannot create template",
       "cannotSell": "Cannot sell package",
       "cannotDelete": "Cannot delete template"
@@ -2666,19 +1856,12 @@
   },
   "inventory": {
     "title": "Inventory Management",
-    "subtitle": "Manage your products and inventory",
     "newProduct": "New Product",
     "addNewProduct": "Add New Product",
     "editProduct": "Edit Product",
-    "noProducts": "No products found",
-    "startCreating": "Start by adding your first product",
-    "createFirst": "Add First Product",
     "available": "Available",
-    "inStock": "In stock",
     "lowStock": "Low stock",
     "outOfStock": "Out of stock",
-    "quantity": "Quantity",
-    "minStock": "Minimum stock",
     "price": "Price",
     "cost": "Cost",
     "min": "Min",
@@ -2689,22 +1872,17 @@
       "registerSale": "Register Sale",
       "unitPrice": "Unit Price",
       "reference": "Reference (Invoice, etc.)",
-      "registering": "Registering...",
       "registerLoad": "Register Load",
       "registerSaleBtn": "Register Sale"
     },
     "sku": "SKU Code",
     "barcode": "Barcode",
-    "category": "Category",
     "edit": "Edit",
     "delete": "Delete",
     "confirmDelete": "Confirm deletion",
     "confirmDeleteDesc": "Are you sure you want to delete the product",
     "cannotUndo": "This action cannot be undone.",
     "cancel": "Cancel",
-    "adjustStock": "Adjust Stock",
-    "addStock": "Add",
-    "removeStock": "Remove",
     "tabs": {
       "products": "Products",
       "movements": "Movements",
@@ -2727,7 +1905,6 @@
     "form": {
       "name": "Product Name",
       "description": "Description",
-      "sku": "SKU Code",
       "category": "Category",
       "selectCategory": "Select category",
       "noCategories": "No categories available",
@@ -2735,11 +1912,7 @@
       "price": "Sale price",
       "costPrice": "Purchase Cost",
       "quantity": "Available quantity",
-      "minStock": "Minimum stock",
-      "maxStock": "Maximum stock",
-      "unit": "Unit",
       "supplier": "Supplier",
-      "supplierContact": "Supplier contact",
       "location": "Warehouse location",
       "image": "Product Image (optional)",
       "changeImage": "Change Image",
@@ -2751,13 +1924,7 @@
       "discount": "Discount (%)"
     },
     "movements": {
-      "title": "Recent Warehouse Movements",
-      "noMovements": "No recent movements",
-      "in": "Load",
-      "out": "Unload",
-      "sale": "Sale",
-      "adjustment": "Adjustment",
-      "waste": "Waste"
+      "title": "Recent Warehouse Movements"
     },
     "sales": {
       "title": "Product Sales",
@@ -2768,10 +1935,7 @@
       "newCategory": "New Category",
       "addNewCategory": "Add New Category",
       "name": "Category Name",
-      "description": "Description",
       "color": "Color",
-      "products": "products",
-      "creating": "Creating...",
       "create": "Create Category"
     },
     "saving": "Saving...",
@@ -2991,23 +2155,6 @@
     "workingHoursStep": {
       "title": "Working hours",
       "description": "We've already set default opening hours. You can change them anytime in Settings, where you'll find the full schedule with all days and breaks.",
-      "presets": "Quick presets",
-      "presetMonFri": "Mon–Fri 9:00–18:00",
-      "presetMonSat": "Mon–Sat 9:00–19:00",
-      "presetTueSat": "Tue–Sat 10:00–20:00",
-      "daysLabel": "Open days",
-      "startLabel": "Open from",
-      "endLabel": "Close at",
-      "invalidHint": "Pick at least one day and make sure opening time is before closing time.",
-      "days": {
-        "monday": "Mon",
-        "tuesday": "Tue",
-        "wednesday": "Wed",
-        "thursday": "Thu",
-        "friday": "Fri",
-        "saturday": "Sat",
-        "sunday": "Sun"
-      },
       "defaultsLabel": "Default hours active",
       "defaultsValue": "Monday – Saturday, 08:00 – 22:00",
       "editHint": "To adjust days, time slots or breaks, open Settings in a new tab — the tour will stay where it is.",
@@ -3093,16 +2240,14 @@
       "summary": {
         "business": "Your business",
         "services": "{{count}} service created",
-        "services_other": "{{count}} services created",
-        "hours": "Working hours"
+        "services_other": "{{count}} services created"
       }
     },
     "appliedToast": {
       "business": "Business info saved",
       "services": "{{count}} service created",
-      "services_other": "{{count}} services created",
-      "hours": "Hours saved",
-      "preferences": "Preferences saved"
+      "preferences": "Preferences saved",
+      "services_other": "{{count}} services created"
     }
   },
   "serviceManagerSimple": {
@@ -3630,16 +2775,6 @@
         }
       ],
       "plansHeading": "3. Subscription Plans",
-      "plansLabels": {
-        "monthly": "Monthly",
-        "annual": "Annual",
-        "savings": "save",
-        "clientLimit": "Client limit",
-        "unlimited": "Unlimited",
-        "featuresIncluded": "Included features",
-        "featuresIncludedExtra": "Included features (in addition to Base Plan)",
-        "featuresIncludedAll": "Included features (all features)"
-      },
       "plans": [
         {
           "id": "base",
@@ -3701,27 +2836,14 @@
             "AI Marketing Campaigns"
           ]
         }
-      ],
-      "footer": {
-        "version": "Gestionale Appuntamenti v2.1.0",
-        "copyright": "© 2025 Zambelli Development - All rights reserved"
-      }
+      ]
     },
     "lastUpdated": "Last updated"
   },
   "emailSettings": {
     "title": "Email Configuration",
-    "smtpServer": "SMTP Server",
-    "smtpPort": "SMTP Port",
-    "testConnection": "Test connection",
-    "saveSuccess": "Email settings saved",
     "invalidEmail": "Enter a valid email address",
     "passwordRequired": "Password is required if email is enabled",
-    "config": "Email Configuration",
-    "enable": "Enable email sending",
-    "enableDesc": "Enable sending notification emails to clients",
-    "address": "Email Address",
-    "password": "Password or App Key",
     "gmailWarning": "📧 For Gmail: do NOT use your normal account password",
     "gmailSteps": "You must generate an App Password. Follow these steps:",
     "step1": "Enable two-step verification:",
@@ -3743,7 +2865,6 @@
     "sendTest": "Send test",
     "toastSaved": "Settings saved",
     "toastSavedDesc": "Email settings have been updated successfully",
-    "toastError": "Error",
     "toastSaveError": "An error occurred while saving",
     "toastTestEmailMissing": "Enter an email address for the test",
     "toastTestSent": "Email sent",
@@ -3816,9 +2937,6 @@
   },
   "userSettings": {
     "title": "User settings",
-    "profile": "Profile",
-    "account": "Account",
-    "preferences": "Preferences",
     "subtitle": "Customize your experience and configure your account branding",
     "loading": "Loading settings...",
     "roles": {
@@ -3912,31 +3030,16 @@
     }
   },
   "staff": {
-    "title": "Staff Management",
-    "addMember": "Add member",
-    "role": "Role",
-    "permissions": "Permissions",
-    "active": "Active",
-    "inactive": "Inactive"
+    "title": "Staff Management"
   },
   "appointmentForm": {
-    "title": "New Appointment",
     "editTitle": "Edit Appointment",
     "client": "Client",
     "service": "Service",
-    "date": "Date",
-    "time": "Time",
-    "duration": "Duration",
-    "notes": "Notes",
     "save": "Save appointment",
-    "saved": "Appointment saved",
-    "selectClient": "Select client",
-    "selectService": "Select service",
     "newTitle": "New Appointment",
     "fields": {
-      "client": "Client",
       "clientPlaceholder": "Search client...",
-      "service": "Service",
       "servicePlaceholder": "Search service...",
       "staff": "Professional",
       "staffPlaceholder": "Select professional...",
@@ -3944,7 +3047,6 @@
       "room": "Room/Cabin (optional)",
       "roomPlaceholder": "Select room...",
       "noRoom": "No room",
-      "notes": "Notes",
       "notesPlaceholder": "Add any notes about the appointment"
     },
     "loadingClient": "Loading client data...",
@@ -3955,7 +3057,6 @@
       "after": "\" as new client"
     },
     "warnings": {
-      "otherAccount": "<0>Warning:</0> You are creating an appointment for a client from another account ({{firstName}} {{lastName}}). Make sure you have the required permissions before proceeding.",
       "otherAccountClient": "You are creating an appointment for a client belonging to another account ({{firstName}} {{lastName}}). Make sure you have the necessary permissions before proceeding."
     },
     "notifications": {
@@ -4005,11 +3106,7 @@
       "title": "Availability conflict",
       "intro": "Conflicts were detected for the selected appointment:",
       "staffHeading": "Staff conflicts:",
-      "staffLine": "<0>{{name}}</0> already has an appointment at {{time}}",
-      "staffWith": " with {{firstName}} {{lastName}}",
       "roomHeading": "Room conflicts:",
-      "roomLine": "<0>{{name}}</0> is already occupied at {{time}}",
-      "roomBy": " by {{firstName}} {{lastName}}",
       "askProceed": "Do you want to proceed anyway?",
       "proceed": "Proceed anyway",
       "staffLineSuffix": "already has an appointment at",
@@ -4022,12 +3119,6 @@
     "durationLabel": "Duration: {{minutes}} min"
   },
   "clientNotes": {
-    "title": "Client Notes",
-    "addNote": "Add note",
-    "placeholder": "Write your note here...",
-    "empty": "No notes available",
-    "saved": "Note saved",
-    "deleted": "Note deleted",
     "headerTitle": "Client notes",
     "newNote": "New note",
     "addButton": "Add",
@@ -4091,11 +3182,6 @@
     "photoAlt": "Photo {{n}}",
     "scrollNext": "Scroll to view next notes →",
     "createDialogTrigger": "Create new note"
-  },
-  "manuale": {
-    "title": "User Manual",
-    "search": "Search the manual...",
-    "tableOfContents": "Table of contents"
   },
   "whatsappConfigHelper": {
     "title": "WhatsApp Configuration",
@@ -4453,87 +3539,12 @@
       "create": "Error while creating the service",
       "update": "Error while updating the service",
       "delete": "Error while deleting the service",
-      "loadingTitle": "Error",
       "loadingDesc": "Error loading services: {{message}}",
       "unknown": "Unknown error",
       "httpStatus": "Error {{status}}: {{statusText}}"
     },
     "confirmDelete": "Are you sure you want to delete this service?",
     "savingButton": "Saving..."
-  },
-  "clientLegacyNotes": {
-    "dialog": {
-      "editTitle": "Edit note",
-      "createTitle": "Create new note"
-    },
-    "fields": {
-      "titleLabel": "Title",
-      "titlePlaceholder": "Note title",
-      "contentLabel": "Content",
-      "contentPlaceholder": "Note content"
-    },
-    "titles": {
-      "editLabel": "Edit title",
-      "resetLabel": "Reset to original title",
-      "duplicateLast": "Duplicate latest note",
-      "noNoteToDuplicate": "No note to duplicate",
-      "addPhoto": "Add photo",
-      "createNote": "Create new note",
-      "noNoteToDelete": "No note to delete"
-    },
-    "empty": "No notes available. Click \"Add\" to create one.",
-    "imageAlt": "Photo {{idx}}",
-    "confirm": {
-      "deleteNote": "Are you sure you want to delete this note?",
-      "deletePhoto": "Delete this photo?"
-    },
-    "toast": {
-      "created": {
-        "title": "Note created",
-        "desc": "The note was saved successfully"
-      },
-      "updated": {
-        "title": "Note updated",
-        "desc": "The note was updated successfully"
-      },
-      "deleted": {
-        "title": "Note deleted",
-        "desc": "The note was deleted successfully"
-      },
-      "duplicated": {
-        "title": "Note duplicated",
-        "desc": "The note was duplicated successfully"
-      },
-      "duplicateSuffix": " (copy)",
-      "imageUploaded": {
-        "title": "Photo uploaded",
-        "desc": "The photo was added successfully"
-      },
-      "imageDeleted": {
-        "title": "Photo deleted",
-        "desc": "The photo was removed successfully"
-      },
-      "titleUpdated": {
-        "title": "Title updated",
-        "desc": "The section title was updated successfully"
-      },
-      "titleReset": {
-        "title": "Title reset",
-        "desc": "The section title was reset to the original value"
-      },
-      "missingFields": {
-        "title": "Missing data",
-        "desc": "Enter the title and content of the note"
-      }
-    },
-    "errors": {
-      "create": "Could not create the note: {{message}}",
-      "update": "Could not update the note: {{message}}",
-      "delete": "Could not delete the note: {{message}}",
-      "duplicate": "Could not duplicate the note: {{message}}",
-      "uploadImage": "Could not upload the photo: {{message}}",
-      "deleteImage": "Could not delete the photo: {{message}}"
-    }
   },
   "staffManagement": {
     "subtitle": "View and manage your staff members",
@@ -4629,16 +3640,9 @@
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
     "staffBadge": "Staff",
-    "pageSubtitle": "View and manage your staff members",
-    "addStaffButton": "Add Staff",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Cancel",
-    "actionsLabel": "Actions",
-    "registeredLabel": "Registered: {{date}}",
-    "proAccessLabel": "✓ PRO access",
-    "bankingDataButton": "Banking Data",
-    "noResultsFound": "No results found.",
     "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
   },
   "passwordChange": {
@@ -4742,18 +3746,12 @@
     "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
-    "alreadyInstalled": "App already installed",
-    "alreadyInstalledDesc": "You are already using the installed version of the app",
     "installing": "Installation in progress",
     "installingDesc": "Confirm the installation in your browser",
     "installed": "App installed",
     "installedDesc": "The app has been installed successfully!",
-    "installCancelled": "Installation cancelled",
-    "installCancelledDesc": "You can install the app anytime",
     "errorTitle": "Error",
     "installError": "An error occurred during installation",
-    "browserNotSupported": "Browser not supported",
-    "browserNotSupportedDesc": "Your browser does not support automatic installation. Follow the manual instructions.",
     "installButton": "Install App",
     "selectBrowser": "Select your browser",
     "selectBrowserDesc": "Choose the browser you are using to see the correct installation instructions",
@@ -4866,60 +3864,15 @@
     "trialExpiredSafe": "💾 Don't worry: all your data (clients, appointments, settings) is safe and will be restored as soon as you subscribe to a plan.",
     "for40Days": "For 40 days",
     "annualSub": "Annual subscription",
-    "appointmentReq": "Customer appointment request",
     "invalidActivation": "Enter a valid activation code",
     "licenseActivated": "License activated",
     "licenseActivatedDesc": "Your license has been activated successfully.",
     "genericError": "An error occurred during the operation",
     "redirectingPaypal": "You will be redirected to the PayPal payment page",
     "paypalError": "PayPal Error",
-    "paypalCantStart": "Could not start the PayPal payment process",
-    "redirectingStripe": "You will be redirected to the secure payment page",
     "stripeError": "Stripe Error",
-    "stripeCantStart": "Could not start the card payment process",
-    "trial40Free": "Free 40-day trial",
-    "baseMonthly": "Monthly Basic",
-    "baseMonthlyDesc": "Basic plan: monthly billing",
-    "proMonthly": "Pro Monthly",
-    "proMonthlyDesc": "Professional plan: monthly billing",
-    "businessMonthly": "Business Monthly",
-    "businessMonthlyDesc": "Business plan: monthly billing",
-    "trialIncluded": "All plans include a 40-day free trial. No credit card required to start.",
-    "subActive": "Active subscription",
-    "trialActiveUntil": "Your trial period is active until",
-    "alreadyActive": "Already Active",
-    "faqCancelQ": "Can I cancel my subscription?",
-    "faqCancelA": "Yes, you can cancel your subscription at any time. Access will remain active until the end of the period already paid.",
-    "faqTrialQ": "How does the trial period work?",
-    "faqTrialA": "The 40-day trial includes all basic features. No credit card is required to start.",
-    "faqUpgradeA": "Yes, you can upgrade to a higher plan at any time. The price difference will be calculated proportionally.",
     "activateCode": "Activate your code",
-    "activateCodeDesc": "Enter the activation code you received after payment.",
-    "activationCode": "Activation code",
-    "bankTransferTitle": "Bank Transfer Payment",
-    "bankTransferDesc": "Follow the instructions to complete the bank transfer payment.",
-    "subPlanName": "{{plan}} Subscription",
-    "feat": {
-      "customerMgmt": "Customer management",
-      "qrPwa": "QR/PWA app for customers",
-      "notifyClients": "Customer notifications"
-    },
-    "paypalErrorMutation": "PayPal mutation error: {{msg}}",
-    "subWithPaypal": "subscription with PayPal",
-    "stripeErrorMutation": "Stripe mutation error: {{msg}}",
-    "subWithStripe": "subscription with Stripe",
-    "parseFeatError": "Error parsing plan features: {{msg}}",
-    "calendarDesc": "Easily organize your calendar and customer appointments.",
-    "customerMgmt": "Customer Management",
-    "customerMgmtDesc": "Keep all your customer data in one secure place.",
-    "remindersDesc": "Send automatic reminders to customers to reduce cancellations.",
-    "reportsDesc": "Analyze your business with comprehensive reports and statistics.",
-    "choosePlan": "Choose the perfect plan for your business",
     "currentPlan": "Current plan",
-    "faqUpgradeQ": "Can I change my plan later?",
-    "processing": "Processing...",
-    "bankDetailsCopied": "Bank transfer details copied to clipboard",
-    "copyDetails": "Copy details",
     "missingCode": "Code missing",
     "redirectingPaypalTitle": "Redirecting to PayPal...",
     "redirectingStripeTitle": "Redirecting to Stripe...",
@@ -6012,8 +4965,7 @@
       "description": "Description",
       "plan": "Plan",
       "start": "Start",
-      "expiry": "Expiry",
-      "actions": "Actions"
+      "expiry": "Expiry"
     },
     "subs": {
       "title": "Subscriptions",
@@ -6066,7 +5018,6 @@
       "bankNamePlaceholder": "e.g. Intesa Sanpaolo",
       "holder": "Account Holder",
       "holderPlaceholder": "First and Last Name / Company Name",
-      "iban": "IBAN",
       "hide": "Hide",
       "show": "Show",
       "ibanNotConfigured": "IBAN not configured",
@@ -6570,7 +5521,6 @@
     "clientCard": {
       "incompleteData": "Client data to complete",
       "deletionUnlocked": "Deletion unlocked",
-      "unlockDeletionAction": "Unlock deletion",
       "cannotUnlock": "Unable to unlock deletion",
       "cannotMarkDeleted": "Unable to simulate deletion",
       "clientRemoved": "Client removed from the system"
@@ -6855,9 +5805,6 @@
     "reminderTemplateManager": {
       "emailLabel": "Email"
     },
-    "homePage": {
-      "loadingName": "Loading name..."
-    },
     "promotionPageExtra": {
       "loading": "Loading...",
       "specialPromotionTitle": "Special promotion"
@@ -6928,14 +5875,8 @@
       "title": "Set up your workspace",
       "subtitle": "{{completed}} of {{total}} steps completed. Sample data is removed automatically when you add your own.",
       "dismiss": "Hide this guide",
-      "takeTour": "Take the AI-guided tour",
-      "takeTourDesc": "Guided process: answer a few questions and AI suggests services and settings",
-      "optionManualLabel": "Option 1 — Fill it in yourself",
-      "optionAILabel": "Option 2 — Let the AI do it",
-      "or": "OR",
       "allDone": "All done, close",
       "stepDone": "Completed",
-      "hideUntilRestartHint": "Hide until the next app restart",
       "finishDialog": {
         "title": "Setup complete!",
         "description": "You've completed all the initial setup steps. Do you want to hide these suggestions? You can either remove them permanently or just hide them until the next time you open the app.",

@@ -5,18 +5,7 @@
     "description": "Gérez facilement les rendez-vous, les clients et les factures"
   },
   "welcomePage": {
-    "title": "Bienvenue dans Gestion des Rendez-vous",
-    "subtitle": "Choisissez comment vous souhaitez procéder",
-    "createAccount": "Créer un nouveau compte",
-    "createAccountDesc": "Pour les nouveaux utilisateurs qui souhaitent commencer à utiliser le système",
-    "professionalLogin": "Accès Professionnel",
-    "staffLogin": "Accès Personnel/Admin",
-    "chooseAccessType": "Choisissez le type d'accès approprié",
-    "version": "Gestion des Rendez-vous v3.5.0",
-    "copyright": "© 2023-2025 Tous droits réservés",
-    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestion des Rendez-vous",
     "login": "Se Connecter",
-    "loginDesc": "Pour les professionnels et collaborateurs avec un compte",
     "badge": "Utilisé par des centaines de professionnels",
     "heroTitle": "Votre activité, toujours en poche",
     "heroSubtitle": "Gérez rendez-vous, clients, rappels et factures dans une seule app pensée pour les coiffeurs, esthéticiennes et professionnels du bien-être.",
@@ -114,54 +103,11 @@
     "staffLabel": "Par Professionnel",
     "myClientsLabel": "Mes Clients",
     "otherAccountsLabel": "Autres Comptes",
-    "clientPersonal": "Clients Personnels",
-    "clientSingular": "client",
-    "clientPlural": "clients",
     "loadingClients": "Chargement des clients...",
     "errorLoadingClients": "Erreur lors du chargement des clients :",
     "retry": "Réessayer"
   },
   "proPages": {
-    "syncGoogleCalendar": "Synchroniser Google Calendar",
-    "syncGoogleCalendarDesc": "Gérez la synchronisation de vos rendez-vous avec Google Calendar",
-    "clickToConfigure": "Cliquez pour configurer et gérer la synchronisation avec Google Calendar",
-    "invoiceCreated": "Facture créée avec succès",
-    "invoiceCreateError": "Erreur lors de la création de la facture",
-    "clientRequired": "Client requis",
-    "amountPositive": "Le montant doit être positif",
-    "dateRequired": "Date requise",
-    "dueDateRequired": "Date d'échéance requise",
-    "invalidEmail": "Email invalide",
-    "subjectRequired": "Objet requis",
-    "emailSent": "Email envoyé avec succès",
-    "emailSentTo": "Facture envoyée à",
-    "emailSendError": "Erreur lors de l'envoi de l'email",
-    "checkEmailSettings": "Vérifiez les paramètres email",
-    "statusUpdated": "Statut mis à jour",
-    "markedAs": "Facture marquée comme :",
-    "paid": "Payée",
-    "unpaid": "Non payée",
-    "statusUpdateError": "Erreur de mise à jour du statut",
-    "promotionalPackages": "Forfaits Promotionnels",
-    "newPackage": "Nouveau Forfait",
-    "createNewPackage": "Créer un Nouveau Forfait Promotionnel",
-    "packageName": "Nom du Forfait",
-    "descriptionOptional": "Description (optionnelle)",
-    "numberOfSessions": "Nombre de Séances",
-    "totalPrice": "Prix Total",
-    "validityDays": "Validité (jours, optionnel)",
-    "includedServices": "Services Inclus",
-    "addService": "Ajouter un service...",
-    "templateCreated": "Modèle créé",
-    "packageCreatedDesc": "Forfait promotionnel créé avec succès",
-    "cannotCreateTemplate": "Impossible de créer le modèle",
-    "packageSold": "Forfait vendu",
-    "packageAssigned": "Forfait attribué au client",
-    "cannotSellPackage": "Impossible de vendre le forfait",
-    "templateDeleted": "Modèle supprimé",
-    "templateDeletedDesc": "Modèle supprimé avec succès",
-    "cannotDeleteTemplate": "Impossible de supprimer le modèle",
-    "inventory": "Stock",
     "categoryRequired": "Nom de catégorie requis",
     "productRequired": "Nom de produit requis",
     "pricePositive": "Le prix doit être positif",
@@ -177,50 +123,10 @@
     "maxImageSize": "L'image doit faire maximum 5Mo",
     "productCreatedImageError": "Produit créé, mais erreur de téléchargement d'image",
     "canAddImageLater": "Vous pouvez modifier le produit pour ajouter l'image",
-    "productCreated": "Produit créé avec succès",
     "productCreateError": "Erreur lors de la création du produit",
-    "productUpdated": "Produit modifié avec succès",
     "productUpdateError": "Erreur lors de la modification du produit",
-    "productDeleted": "Produit supprimé avec succès",
     "productDeleteError": "Erreur lors de la suppression du produit",
-    "unknownError": "Erreur inconnue",
-    "reports": "Rapports",
-    "statisticalReports": "Rapports Statistiques",
-    "reportsAvailablePro": "Les rapports d'activité détaillés sont disponibles à partir du plan Pro.",
-    "downloadPdf": "Télécharger PDF",
-    "weekly": "Hebdomadaire",
-    "monthly": "Mensuel",
-    "yearly": "Annuel",
-    "week": "Semaine",
-    "totalAppointments": "Total des Rendez-vous",
-    "totalRevenue": "Chiffre d'Affaires Total",
-    "dailyAverage": "Moyenne Quotidienne",
-    "appointmentDetails": "Détail des Rendez-vous",
-    "day": "Jour",
-    "date": "Date",
-    "month": "Mois",
-    "numberOfAppointments": "Nombre de Rendez-vous",
-    "revenue": "Chiffre d'Affaires",
-    "serviceDetails": "Détail des Services",
-    "service": "Service",
-    "generatedOn": "Généré le"
-  },
-  "paymentPages": {
-    "popular": "Populaire",
-    "error": "Erreur",
-    "unableToLoadDashboard": "Impossible de charger les données du tableau de bord",
-    "dataRefresh": "Actualisation des données",
-    "dataRefreshInProgress": "Actualisation des données en cours...",
-    "settingsSaved": "Paramètres enregistrés",
-    "bankingSettingsUpdated": "Les paramètres bancaires ont été mis à jour avec succès",
-    "cannotSaveBankingSettings": "Impossible d'enregistrer les paramètres bancaires",
-    "testCompleted": "Test terminé",
-    "paymentSystemConfigured": "Le système de paiement est correctement configuré",
-    "testFailed": "Test échoué",
-    "verifyBankingConfig": "Vérifiez la configuration des données bancaires",
-    "trialExtended": "Période d'essai prolongée",
-    "cannotExtendTrial": "Impossible de prolonger la période d'essai",
-    "dateUpdated": "Date mise à jour"
+    "unknownError": "Erreur inconnue"
   },
   "services": {
     "title": "Gestion des Services",
@@ -263,7 +169,6 @@
     "enableAllOnline": "Activer tous",
     "allOnlineEnabled": "Tous les services sont réservables en ligne",
     "allOnlineDisabled": "Réservation en ligne désactivée pour tous les services",
-    "online": "En ligne",
     "onlineHeader": "Réservations en Ligne"
   },
   "settingsPage": {
@@ -306,14 +211,8 @@
     "advancedConfig": "Configuration avancée (méthode QR)",
     "whatsappNotifications": "Notifications WhatsApp",
     "whatsappInfo": "Informations sur les notifications WhatsApp :",
-    "whatsappInfoList": [
-      "Les messages WhatsApp sont gratuits et plus fiables que les SMS",
-      "Vérifiez que les numéros de téléphone sont corrects avec le préfixe international (ex. +33612345678)",
-      "Tous les messages génèrent un lien WhatsApp qui s'ouvre automatiquement"
-    ],
     "error": "Erreur",
     "messageTemplates": "Modèles de Messages",
-    "messageTemplatesDesc": "Personnalisez les modèles de messages de rappel",
     "noAppointmentSelected": "Aucun rendez-vous sélectionné",
     "selectAppointmentForNotifications": "Sélectionnez au moins un rendez-vous pour envoyer des notifications",
     "selectAppointmentForSMS": "Sélectionnez au moins un rendez-vous pour envoyer des SMS",
@@ -327,12 +226,7 @@
     "twilioLimitationsDesc": "Votre compte Twilio a des limitations et peut ne pas délivrer des SMS à tous les numéros.",
     "smsError": "Erreur d'envoi SMS",
     "recipient": "destinataire",
-    "recipients": "destinataires",
-    "loadingError": "Erreur de chargement :",
-    "cannotLoadAppointments": "Impossible de charger les rendez-vous :",
-    "cannotLoadHistory": "Impossible de charger l'historique :",
-    "cannotLoadSmsHistory": "Impossible de charger l'historique SMS :",
-    "unknownError": "Erreur inconnue"
+    "recipients": "destinataires"
   },
   "bookingRequests": {
     "title": "Demandes de Réservation",
@@ -404,19 +298,10 @@
     "home": "Accueil",
     "notifications": "Notifications",
     "referral": "Parrainage",
-    "aiSetup": "Configuration IA",
-    "aiSettings": "Paramètres IA",
     "aiAssistant": "Assistant IA",
     "staff": "Personnel",
     "payments": "Paiements",
     "requests": "Demandes"
-  },
-  "sidebar": {
-    "clients": "Clients",
-    "calendar": "Calendrier",
-    "invoices": "Factures",
-    "reports": "Rapports",
-    "settings": "Paramètres"
   },
   "language": {
     "it": "Italien",
@@ -431,30 +316,6 @@
     "select": "Sélectionner la langue"
   },
   "home": {
-    "calendar": {
-      "title": "Calendrier",
-      "description": "Visualisez et gérez tous les rendez-vous",
-      "content": "Affichez les rendez-vous en mode quotidien, hebdomadaire ou mensuel, et créez facilement de nouveaux rendez-vous.",
-      "button": "Accéder au Calendrier"
-    },
-    "clients": {
-      "title": "Clients",
-      "description": "Gérez les informations des clients",
-      "content": "Ajoutez, modifiez et visualisez les données des clients, y compris les informations personnelles et médicales.",
-      "button": "Gérer les Clients"
-    },
-    "invoices": {
-      "title": "Factures",
-      "description": "Gérez les factures et les paiements",
-      "content": "Créez et gérez des factures, enregistrez les paiements et suivez l'état des factures en temps réel.",
-      "button": "Gérer les Factures"
-    },
-    "reports": {
-      "title": "Rapports",
-      "description": "Analysez la performance de l'entreprise",
-      "content": "Consultez des rapports quotidiens, hebdomadaires et mensuels pour analyser la performance de l'entreprise.",
-      "button": "Voir les Rapports"
-    },
     "manual": {
       "title": "Manuel",
       "description": "Guide complet d'utilisation",
@@ -477,30 +338,6 @@
     "searchResults": "Résultats de recherche",
     "noAppointmentsFound": "Aucun rendez-vous trouvé pour",
     "goToDay": "Aller au jour",
-    "days": {
-      "monday": "Lundi",
-      "tuesday": "Mardi",
-      "wednesday": "Mercredi",
-      "thursday": "Jeudi",
-      "friday": "Vendredi",
-      "saturday": "Samedi",
-      "sunday": "Dimanche"
-    },
-    "months": {
-      "january": "Janvier",
-      "february": "Février",
-      "march": "Mars",
-      "april": "Avril",
-      "may": "Mai",
-      "june": "Juin",
-      "july": "Juillet",
-      "august": "Août",
-      "september": "Septembre",
-      "october": "Octobre",
-      "november": "Novembre",
-      "december": "Décembre"
-    },
-    "selectNewAppointment": "Sélectionner un nouveau rendez-vous",
     "selectTimeNewAppointment": "Sélectionner l'heure du nouveau rendez-vous",
     "confirmAndAssociateClient": "Confirmer et associer le client",
     "hasAppointments": "A des rendez-vous",
@@ -508,8 +345,6 @@
     "customDuration": "Durée personnalisée",
     "incrementBy15Min": "Augmenter de 15 min",
     "decrementBy15Min": "Diminuer de 15 min",
-    "selected": "Sélectionné",
-    "select": "Sélectionner",
     "noServicesAvailable": "Aucun service disponible",
     "goToSettingsToCreateService": "Allez dans Paramètres pour créer un service",
     "noServicesFound": "Aucun service trouvé"
@@ -520,41 +355,13 @@
     "subDescription": "Ajoutez, modifiez et visualisez les données des clients, y compris les informations personnelles et médicales",
     "goTo": "Gérer les Clients",
     "addClient": "Nouveau Client",
-    "newClient": "Nouveau Client",
     "addFirstClient": "Ajouter le premier client",
-    "search": {
-      "placeholder": "Rechercher des clients par nom, téléphone ou email...",
-      "minLength": "Entrez au moins 2 caractères pour rechercher"
-    },
     "filter": {
-      "all": "Tous",
-      "frequent": "Fréquents",
       "noConsent": "Sans Consentement"
     },
-    "noClientsFound": "Aucun client trouvé",
-    "noClientsInSystem": "Aucun client n'est enregistré dans le système",
-    "noResultsMatch": "Aucun client ne correspond aux critères de recherche \"{{query}}\"",
-    "refreshSuccess": "Les données des clients ont été mises à jour",
-    "lastUpdate": "Dernière mise à jour",
-    "autoUpdate": "Mise à jour automatique toutes les heures et à 23h59",
-    "stats": {
-      "total": "Total des clients",
-      "frequent": "Clients fréquents",
-      "noConsent": "Sans consentement"
-    },
-    "table": {
-      "name": "Prénom",
-      "surname": "Nom",
-      "email": "Email",
-      "phone": "Téléphone",
-      "actions": "Actions"
-    },
     "details": {
-      "title": "Détails du Client",
       "personalInfo": "Informations Personnelles",
-      "medicalInfo": "Informations Médicales",
       "appointments": "Rendez-vous",
-      "notes": "Notes",
       "consents": "Consentements",
       "clientDataConsent": "Données client/consentement",
       "clientFile": "Dossier Client",
@@ -592,29 +399,10 @@
     },
     "form": {
       "firstName": "Prénom",
-      "lastName": "Nom",
-      "email": "Email",
-      "phone": "Téléphone",
-      "birthDate": "Date de Naissance",
-      "address": "Adresse",
-      "city": "Ville",
-      "zipCode": "Code Postal",
-      "notes": "Notes",
-      "save": "Enregistrer",
-      "cancel": "Annuler"
+      "lastName": "Nom"
     },
-    "loading": "Chargement des clients...",
-    "loadingAccessStatus": "Vérification de l'accès client...",
-    "showDetails": "Détails",
-    "showAppointments": "Rendez-vous",
-    "clientAccess": "Accès Client",
-    "qrGenerated": "QR généré",
-    "qrNotGenerated": "QR non généré",
-    "generateQR": "Générer QR",
-    "manageClient": "Gérer le client",
     "accesses": {
       "loading": "Caricamento...",
-      "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
@@ -648,18 +436,12 @@
     "date": "Date",
     "dueDate": "Date d'Échéance",
     "amount": "Montant",
-    "status": "Statut",
     "paid": "Payée",
     "unpaid": "Non payée",
     "sentToClient": "Envoyée au client",
     "preview": "Aperçu",
     "print": "Imprimer",
-    "sendEmail": "Envoyer Email",
-    "sendMultichannel": "Envoyer Facture",
-    "markAsPaid": "Marquer comme Payée",
-    "markAsUnpaid": "Marquer comme Non Payée",
     "deleteInvoice": "Supprimer la Facture",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette facture?",
     "irreversibleAction": "Cette action est irréversible !",
     "form": {
       "clientRequired": "Client requis",
@@ -670,18 +452,7 @@
       "selectClient": "Sélectionner client",
       "amountManualPh": "Saisissez le montant manuellement"
     },
-    "email": {
-      "title": "Envoyer Facture par Email",
-      "recipient": "Email du destinataire",
-      "subject": "Objet",
-      "message": "Message",
-      "invalidEmail": "Email invalide",
-      "subjectRequired": "Objet requis"
-    },
     "channels": {
-      "pwa": "App Client",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
       "noChannelSelected": "Sélectionnez au moins un canal d'envoi",
       "noChannelSelectedTitle": "Aucun canal sélectionné"
     },
@@ -727,19 +498,10 @@
     "chronologicalKept": "✓ Ordre chronologique conservé",
     "doCleanup": "Nettoyer la numérotation",
     "previewTitle": "👁️ Aperçu de la facture",
-    "previewDesc": "Aperçu de la facture {{number}} avant l'envoi ou l'impression",
-    "generatingPreview": "Génération de l'aperçu...",
-    "noPreviewAvailable": "Aucun aperçu disponible",
-    "closePreview": "Fermer l'aperçu",
     "printing": "Impression...",
     "printInvoice": "Imprimer la facture",
-    "sendByEmailBtn": "Envoyer par email",
-    "deleteConfirmText": "Êtes-vous sûr de vouloir supprimer la facture {{number}} ?\n\nCette action est irréversible !",
     "resendTitle": "⚠️ Confirmer le renvoi de la facture",
-    "alreadySentVia": "Cette facture a déjà été envoyée via les canaux suivants :",
-    "sentOnDate": "Envoyée le {{date}}",
     "resendQuestion": "Voulez-vous vraiment renvoyer la facture aux canaux sélectionnés ?",
-    "confirmResend": "Confirmer le renvoi",
     "recipientPlaceholder": "client@exemple.com",
     "currentFormatValue": "Mixte (06/2025/001, 09/2025/002, etc.)",
     "afterFormatValue": "Légal NNN/AAAA (001/2025, 002/2025, etc.)",
@@ -810,28 +572,9 @@
   },
   "reports": {
     "title": "Rapports et Statistiques",
-    "subtitle": "Analysez les performances de votre activité",
-    "period": "Période",
-    "today": "Aujourd'hui",
-    "thisWeek": "Cette semaine",
-    "thisMonth": "Ce mois",
-    "thisYear": "Cette année",
-    "custom": "Personnalisé",
-    "from": "Du",
-    "to": "Au",
     "revenue": "Chiffre d'affaires",
     "appointments": "Rendez-vous",
-    "clients": "Clients",
-    "newClients": "Nouveaux clients",
-    "averageTicket": "Panier moyen",
-    "mostPopularTreatments": "Traitements les plus populaires",
-    "revenueByProfessional": "CA par professionnel",
-    "appointmentsByDay": "Rendez-vous par jour",
-    "export": "Exporter",
     "exportPdf": "Exporter PDF",
-    "exportCsv": "Exporter CSV",
-    "noData": "Aucune donnée disponible pour cette période",
-    "loading": "Chargement des rapports...",
     "weekly": "Hebdomadaire",
     "monthly": "Mensuel",
     "yearly": "Annuel",
@@ -865,19 +608,10 @@
   "settings": {
     "title": "Paramètres",
     "general": "Général",
-    "profile": "Profil",
     "appearance": "Apparence",
-    "notifications": "Notifications",
-    "language": "Langue",
-    "theme": "Thème",
-    "save": "Enregistrer les Paramètres",
-    "googleCalendar": "Google agenda",
     "contacts": "Contacts & Horaires",
-    "saving": "Enregistrement en cours...",
     "contactsTitle": "Informations de Contact",
     "contactsDesc": "Gérez vos informations de contact qui seront affichées dans le pied de page de l'application client",
-    "appName": "Nom de l'App",
-    "appIcon": "Icône de l'App",
     "integrations": "Intégrations",
     "appearanceTitle": "Identité de la Marque",
     "appearanceDesc": "Personnalisez le nom et l'icône de l'application pour refléter l'identité de votre entreprise. Ces paramètres s'appliqueront à la fois à l'application principale et à l'application client.",
@@ -901,16 +635,13 @@
     "loading": "Chargement...",
     "scrollDown": "Faire défiler vers le bas",
     "cancel": "Annuler",
-    "confirm": "Confirmer",
     "delete": "Supprimer",
     "edit": "Modifier",
     "save": "Enregistrer",
-    "send": "Envoyer",
     "close": "Fermer",
     "error": "Erreur",
     "success": "Succès",
     "warning": "Attention",
-    "saving": "Enregistrement...",
     "back": "Retour",
     "backToHomeBilingual": "Retour à l'accueil",
     "email": "E-mail",
@@ -918,12 +649,8 @@
     "test": "Test",
     "actions": "Actions",
     "search": "Rechercher",
-    "required": "Obligatoire",
     "notes": "Notes",
-    "add": "Ajouter",
-    "update": "Mettre à jour",
     "create": "Créer",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ?",
     "copy": "Copier",
     "errorWithMessage": "Une erreur s'est produite : {{message}}",
     "saved": "Enregistré",
@@ -936,12 +663,7 @@
     "demoLabel": "Demo"
   },
   "notifications": {
-    "success": "Opération réussie",
-    "error": "Une erreur s'est produite",
-    "warning": "Avertissement",
-    "info": "Information",
-    "clientDeleted": "Client supprimé",
-    "clientDeletedSuccess": "Le client a été supprimé avec succès"
+    "clientDeleted": "Client supprimé"
   },
   "whatsappNotifications": {
     "title": "Notifications clients",
@@ -960,13 +682,7 @@
       "calendar": "Google Agenda"
     },
     "howItWorks": {
-      "title": "Comment fonctionnent les notifications WhatsApp",
-      "steps": [
-        "Sélectionnez les rendez-vous pour lesquels vous souhaitez envoyer un rappel",
-        "Cliquez sur \"Générer des notifications WhatsApp\" pour créer des liens",
-        "Des liens seront générés qui ouvrent WhatsApp avec des textes préremplis",
-        "Vous pouvez personnaliser le texte standard avant l'envoi"
-      ]
+      "title": "Comment fonctionnent les notifications WhatsApp"
     },
     "customMessage": {
       "title": "Message personnalisé (facultatif)",
@@ -980,28 +696,11 @@
       "empty": "Aucun rendez-vous à notifier",
       "description": "Il n'y a pas de rendez-vous à venir qui nécessitent des rappels."
     },
-    "appointmentList": {
-      "selectAll": "Tout sélectionner",
-      "actions": "Actions",
-      "sendButton": "Générer des notifications WhatsApp",
-      "sending": "Génération des notifications..."
-    },
-    "errors": {
-      "loadingAppointments": "Impossible de charger les rendez-vous",
-      "loadingHistory": "Impossible de charger l'historique",
-      "noneSelected": "Sélectionnez au moins un rendez-vous pour envoyer des notifications",
-      "sendingFailed": "Impossible d'envoyer les rappels"
-    },
-    "success": {
-      "remindersSent": "Rappels générés avec succès"
-    },
-    "whatsappLink": "Ouvrir WhatsApp",
     "table": {
       "client": "Cliente",
       "service": "Servizio",
       "time": "Orario",
       "actions": "Azioni",
-      "send": "Invia",
       "selectAll": "Seleziona tutti"
     },
     "buttons": {
@@ -1032,36 +731,13 @@
   },
   "notificationSettings": {
     "title": "Paramètres de notification",
-    "enableEmailNotifications": "Activer les notifications par e-mail",
-    "emailSetup": {
-      "title": "Configuration rapide de l'e-mail",
-      "email": "E-mail",
-      "emailPlaceholder": "Entrez votre adresse e-mail",
-      "password": "Mot de passe",
-      "passwordPlaceholder": "Entrez votre mot de passe e-mail",
-      "description": "Cette configuration configure votre compte e-mail pour l'envoi de notifications.",
-      "autoDetect": "Détecter automatiquement",
-      "emailRequired": "Entrez votre adresse e-mail pour détecter les paramètres"
-    },
-    "errors": {
-      "loadingSettings": "Impossible de charger les paramètres de notification",
-      "savingSettings": "Impossible d'enregistrer les paramètres",
-      "testEmailMissing": "Entrez une adresse e-mail pour le test"
-    },
-    "success": {
-      "settingsSaved": "Paramètres de notification enregistrés avec succès",
-      "testEmailSent": "E-mail de test envoyé avec succès",
-      "remindersProcessed": "Rappels traités avec succès"
-    },
     "tabs": {
       "email": "E-mail",
       "whatsapp": "WhatsApp",
       "general": "Paramètres généraux"
     },
     "email": {
-      "enable": "Activer les notifications par e-mail",
-      "placeholderEmail": "Saisissez votre adresse e-mail",
-      "placeholderPassword": "Saisissez votre mot de passe e-mail"
+      "enable": "Activer les notifications par e-mail"
     },
     "whatsapp": {
       "enable": "Activer les notifications WhatsApp"
@@ -1130,7 +806,6 @@
     "quickEmailSetup": "Configuration rapide email",
     "signatureLabel": "Signature email",
     "whatsappNumberLabel": "Numéro WhatsApp pour notifications",
-    "enterEmail": "Saisissez votre email",
     "testEmailSettings": "Tester les paramètres email",
     "whatsappNotificationsTitle": "Notifications WhatsApp",
     "phoneForNotifications": "Numéro de téléphone pour notifications",
@@ -1157,29 +832,13 @@
     "defaultSignature": "Cordialement,"
   },
   "googleCalendar": {
-    "title": "Google Agenda",
-    "setupInstructions": "Configurer l'intégration avec Google Agenda",
-    "emailLabel": "Compte Gmail",
-    "emailPlaceholder": "votre.adresse@gmail.com",
-    "emailDescription": "Le compte Google que vous souhaitez utiliser pour l'agenda",
-    "connected": "Connecté",
-    "notConnected": "Non connecté",
-    "clientIdLabel": "Client ID",
-    "clientIdPlaceholder": "Votre Client ID Google",
-    "clientIdDescription": "Obtenez cette valeur depuis la console Google Cloud",
-    "clientSecretLabel": "Client Secret",
-    "clientSecretPlaceholder": "Votre Client Secret Google",
-    "clientSecretDescription": "Obtenez cette valeur depuis la console Google Cloud",
-    "configHelp": "Aide à la configuration",
     "errors": {
-      "authorizationUrlFailed": "Impossible de générer l'URL d'autorisation",
       "emailRequired": "Entrez l'email Google que vous souhaitez synchroniser",
       "popupBlocked": "Le popup a été bloqué. Désactivez le bloqueur de popups pour ce site.",
       "authError": "Erreur lors de l'autorisation"
     },
     "success": {
       "settingsSaved": "Les paramètres de synchronisation ont été enregistrés avec succès",
-      "authorizationComplete": "Votre compte Google a été connecté avec succès",
       "connected": "Google Agenda connecté avec succès"
     },
     "setup": {
@@ -1212,27 +871,16 @@
       "proOnlyMessage": "Cette fonctionnalité n'est disponible qu'avec le plan PRO.",
       "upgradeToPro": "Passer à PRO",
       "backToDashboard": "Retour au tableau de bord",
-      "syncingNow": "Synchronisation...",
-      "syncNow": "Synchroniser maintenant",
-      "syncStatus": "État de synchronisation",
-      "lastSync": "Dernière synchronisation : {{date}}",
-      "syncedEvents": "Événements synchronisés : {{count}}",
-      "contactsSyncTitle": "Synchronisation des contacts Google",
-      "contactsSyncDesc": "Importez les contacts de votre carnet d'adresses Google comme clients",
-      "testFeatureTitle": "🧪 Fonctionnalité en phase de test",
-      "testFeatureDesc": "L'importation de contacts Google n'est actuellement disponible que pour les utilisateurs testeurs autorisés. Si vous n'êtes pas testeur, vous pourriez voir une erreur « Accès bloqué » de Google.",
       "reconnectNeeded": "Reconnexion requise",
       "reconnectDesc": "Pour accéder aux contacts, vous devez reconnecter votre compte Google avec les nouvelles autorisations.",
       "reconnectButton": "Reconnecter Google",
       "loadingContacts": "Chargement des contacts...",
       "loadContacts": "Charger les contacts depuis Google",
       "contactsFound": "{{count}} contacts trouvés dans votre carnet d'adresses Google",
-      "selectOrImportAll": "Sélectionnez les contacts à importer ou utilisez « Importer tout »",
       "deselectAll": "Tout désélectionner",
       "selectAll": "Tout sélectionner",
       "importAll": "Tout importer ({{count}})",
       "importSelected": "Importer la sélection ({{count}})",
-      "unnamed": "Sans nom",
       "reloadContacts": "Recharger les contacts",
       "contactsNote1": "• Les contacts déjà existants (même email ou téléphone) seront ignorés",
       "contactsNote2": "• Les contacts importés auront la note \"Importé depuis Google Contacts\"",
@@ -1262,41 +910,10 @@
       "csvFormatTitle": "📋 Format de fichier requis",
       "csvFormatDesc": "Le fichier CSV doit avoir les colonnes : <strong>Nom</strong>, <strong>Email</strong>, <strong>Téléphone</strong>",
       "csvUpload": "Cliquez pour télécharger un fichier CSV",
-      "csvSelectedForImport": "{{count}} sélectionnés pour l'importation",
       "csvImporting": "Importation...",
       "csvImportButton": "Importer {{count}} contacts",
       "csvNote1": "• Formats supportés : CSV (séparateur virgule ou point-virgule)",
       "csvNote2": "• Les contacts déjà existants seront ignorés automatiquement",
-      "toastSyncStarted": "Synchronisation terminée",
-      "toastSyncDetails": "Importés : {{imported}}, Exportés : {{exported}}",
-      "toastSyncError": "Erreur de synchronisation",
-      "toastSyncDefaultError": "Erreur lors de la synchronisation",
-      "toastSyncDefaultSuccess": "Synchronisation terminée !",
-      "toastSessionExpired": "Session expirée. Veuillez vous reconnecter.",
-      "toastConnectionError": "Erreur de connexion",
-      "toastReconnectError": "Impossible de démarrer la reconnexion",
-      "toastContactsLoaded": "Contacts chargés",
-      "toastContactsLoadedDesc": "{{count}} contacts trouvés dans votre carnet d'adresses Google",
-      "toastReconnectGoogle": "Reconnecter Google",
-      "toastReconnectGoogleDesc": "Vous devez reconnecter votre compte Google pour accéder aux contacts.",
-      "toastContactsLoadError": "Erreur lors du chargement des contacts",
-      "toastImportComplete": "Importation terminée",
-      "toastImportedCount": "{{count}} contacts importés",
-      "toastImportError": "Erreur d'importation",
-      "toastImportContactsError": "Erreur lors de l'importation des contacts",
-      "toastEmptyFile": "Fichier vide",
-      "toastEmptyFileDesc": "Le fichier CSV ne contient aucune donnée",
-      "toastInvalidFormat": "Format invalide",
-      "toastInvalidFormatDesc": "Le fichier doit contenir les colonnes : nom, email ou téléphone",
-      "toastFileLoaded": "Fichier chargé",
-      "toastFileLoadedDesc": "{{count}} contacts trouvés dans le fichier",
-      "toastFileReadError": "Erreur de lecture du fichier",
-      "toastFileReadErrorDesc": "Impossible de lire le fichier CSV",
-      "toastNoSelected": "Aucun contact sélectionné",
-      "toastNoSelectedDesc": "Sélectionnez au moins un contact à importer",
-      "csvImportedFromCsv": "Importé depuis un fichier CSV",
-      "csvImportedCount": "{{imported}} contacts importés{{skipped}}",
-      "csvSkippedSuffix": ", {{skipped}} déjà existants",
       "connError": "Impossible de lancer la reconnexion",
       "connErrorGeneric": "Erreur de connexion",
       "sessionExpired": "Session expirée. Veuillez vous reconnecter.",
@@ -1332,38 +949,18 @@
       "contactsCardDesc": "Importez les contacts de votre carnet d'adresses Google comme clients",
       "testFeatureLong": "🧪 Fonction en phase de test",
       "testFeatureLongDesc": "L'importation des contacts Google n'est actuellement disponible que pour les utilisateurs testeurs autorisés. Si vous n'êtes pas testeur, vous pouvez voir une erreur \"Accès bloqué\" de Google.",
-      "reconnectNeededDesc": "Pour accéder aux contacts, vous devez reconnecter votre compte Google avec les nouvelles autorisations.",
-      "loadContactsButton": "Charger les contacts depuis Google",
       "contactsCountFound": "{{count}} contacts trouvés",
       "contactsHint": "Sélectionnez les contacts à importer ou utilisez \"Tout importer\"",
       "noName": "Sans nom",
-      "csvCardTitle": "Importer depuis un fichier (CSV/vCard)",
-      "csvCardDesc": "Pour ceux qui n'utilisent pas Gmail : importez les contacts depuis votre téléphone ou d'autres services",
-      "csvHowToTitle": "Comment exporter les contacts depuis votre téléphone",
-      "csvUploadHint": "Cliquez pour charger un fichier CSV",
       "csvSelectedN": "{{count}} sélectionnés pour l'importation",
       "syncStatusTitle": "État de la synchronisation",
       "lastSyncDate": "Dernière synchronisation : {{date}}",
       "syncedEventsN": "Événements synchronisés : {{count}}"
     },
-    "connect": "Connecter Google Agenda",
-    "disconnect": "Déconnecter Google Agenda",
-    "sync": "Synchroniser",
-    "syncing": "Synchronisation...",
     "settings": {
-      "title": "Synchronisation Google Calendar",
-      "description": "Synchronisez vos rendez-vous avec votre agenda Google",
       "loadError": "Erreur lors du chargement des paramètres de synchronisation",
-      "enableSync": "Activer la synchronisation avec Google Calendar",
-      "enableSyncDesc": "Lorsqu'elle est active, les rendez-vous seront automatiquement synchronisés avec l'agenda Google spécifié",
-      "gmailAddress": "Adresse Gmail",
-      "gmailHelp": "Saisissez l'adresse Gmail de l'agenda avec lequel synchroniser les rendez-vous :",
       "gmailHint": "Saisissez l'adresse Gmail du calendrier avec lequel vous souhaitez synchroniser vos rendez-vous :",
-      "alreadyAuthorized": "Votre compte Google a déjà été autorisé",
-      "notAuthorized": "Compte Google non autorisé",
-      "notAuthorizedDesc": "Pour terminer la configuration, vous devez autoriser l'accès à votre compte Google.",
       "clientIdLabel": "Google Client ID",
-      "clientIdHelpTitle": "Comment obtenir le Google Client ID :",
       "clientIdSteps": [
         "Ouvrez la Google Cloud Console",
         "Sélectionnez ou créez un nouveau projet",
@@ -1374,9 +971,7 @@
         "Le Client ID s'affichera après avoir cliqué sur \"Créer\""
       ],
       "clientIdPlaceholder": "Votre Client ID Google",
-      "getFromConsole": "Obtenir depuis la Google Cloud Console",
       "clientSecretLabel": "Google Client Secret",
-      "clientSecretHelpTitle": "Comment obtenir le Google Client Secret :",
       "clientSecretSteps": [
         "Suivez la même procédure que pour le Client ID",
         "Après création de l'ID client OAuth, la page affichera à la fois le Client ID et le Client Secret",
@@ -1386,81 +981,15 @@
       ],
       "clientSecretPlaceholder": "Votre Client Secret Google",
       "startAuth": "Démarrer le processus d'autorisation",
-      "configHelp": "Aide à la configuration",
-      "stepGuideTitle": "Guide de configuration étape par étape",
-      "guide1Title": "1. Création du projet Google Cloud",
-      "guide1Steps": [
-        "Allez sur Google Cloud Console",
-        "Créez un nouveau projet (ex. « App Rendez-vous »)"
-      ],
-      "guide2Title": "2. Activer l'API Google Calendar",
-      "guide2Steps": [
-        "Dans le menu latéral, allez dans « APIs et services » → « Bibliothèque »",
-        "Recherchez « Google Calendar API » et sélectionnez-la",
-        "Cliquez sur « Activer »"
-      ],
-      "guide3Title": "3. Configurer le consentement OAuth",
-      "guide3Steps": [
-        "Dans le menu latéral, allez dans « APIs et services » → « Écran de consentement OAuth »",
-        "Sélectionnez « Externe » et cliquez sur « Créer »",
-        "Remplissez les champs obligatoires (nom de l'app, email de support)",
-        "Dans « Domaines autorisés », ajoutez le domaine de votre app",
-        "Pour les portées, ajoutez « ./auth/calendar » et « ./auth/calendar.events »",
-        "Ajoutez votre adresse email comme utilisateur de test"
-      ],
-      "guide4Title": "4. Créer les identifiants OAuth",
-      "guide4Steps": [
-        "Dans le menu latéral, allez dans « APIs et services » → « Identifiants »",
-        "Cliquez sur « Créer des identifiants » → « ID client OAuth »",
-        "Sélectionnez « Application Web » comme type",
-        "Ajoutez un nom (ex. « App Web Rendez-vous »)",
-        "Dans « URI de redirection autorisés », ajoutez l'URL complète de la page de paramètres (incluant « https:// »)",
-        "Cliquez sur « Créer » et copiez Client ID et Client Secret"
-      ],
       "instructionsTitle": "Instructions de configuration :",
-      "instructionStep1": "Créez un projet sur Google Cloud",
-      "instructionStep1Sub1": "Allez sur Google Cloud Console",
-      "instructionStep1Sub2": "Créez un nouveau projet ou sélectionnez-en un existant",
-      "instructionStep2": "Activez les API Google Calendar",
-      "instructionStep2Sub1": "Allez sur API Library",
-      "instructionStep2Sub2": "Recherchez « Google Calendar API » et activez-la",
-      "instructionStep3": "Configurez les identifiants OAuth",
-      "instructionStep3Sub1": "Allez sur Identifiants",
-      "instructionStep3Sub2": "Cliquez sur « Créer des identifiants » et sélectionnez « ID Client OAuth »",
-      "instructionStep3Sub3": "Configurez l'écran de consentement OAuth (obligatoire)",
-      "instructionStep3Sub4": "Ajoutez l'URL de votre app comme « URI de redirection autorisé »",
-      "instructionStep3Sub5": "Copiez le Client ID et Client Secret dans l'application",
-      "instructionStep4": "Terminez l'autorisation",
-      "instructionStep4Sub1": "Cliquez sur « Démarrer le processus d'autorisation »",
-      "instructionStep4Sub2": "Suivez les instructions dans la boîte de dialogue",
-      "note": "Note :",
       "noteText": "Les rendez-vous ne seront synchronisés que si l'option est activée, l'autorisation est terminée et l'adresse Gmail est correcte.",
       "savingButton": "Enregistrement...",
       "saveButton": "Enregistrer les paramètres",
-      "authDialogTitle": "Autoriser Google Calendar",
-      "authDialogDesc": "Pour synchroniser les rendez-vous, vous devez autoriser l'accès à votre compte Google Calendar",
-      "openLinkAndAuth": "Ouvrez le lien suivant et suivez les instructions pour autoriser l'accès à Google Calendar :",
-      "openGoogleAuthPage": "Ouvrir la page d'autorisation Google",
-      "authCode": "Code d'autorisation",
-      "authCodePlaceholder": "Collez ici le code fourni par Google",
-      "cancel": "Annuler",
       "verifying": "Vérification...",
-      "verifyCode": "Vérifier le code",
-      "selectCalendar": "Sélectionnez un agenda",
-      "selectCalendarDesc": "Choisissez l'agenda Google à utiliser pour la synchronisation",
-      "mainCalendar": "Agenda principal",
-      "noCalendarsFound": "Aucun agenda trouvé dans votre compte Google",
-      "toastSettingsSaved": "Paramètres enregistrés",
-      "toastSaveSuccess": "Les paramètres de synchronisation ont été enregistrés avec succès",
       "toastSaveError": "Impossible d'enregistrer les paramètres. Réessayez plus tard.",
-      "toastAuthComplete": "Autorisation terminée",
-      "toastAuthCompleteDesc": "Votre compte Google a été lié avec succès",
       "toastAuthError": "Erreur d'autorisation",
       "toastAuthErrorDesc": "Impossible d'autoriser votre compte Google. Vérifiez le code saisi.",
       "toastAuthErrorGeneric": "Une erreur s'est produite lors de l'autorisation Google",
-      "toastCodeMissing": "Code manquant",
-      "toastCodeMissingDesc": "Saisissez le code d'autorisation fourni par Google",
-      "toastAuthUrlError": "Impossible de générer l'URL d'autorisation",
       "toastSavedTitle": "Paramètres enregistrés",
       "toastAuthCompleted": "Autorisation terminée",
       "toastMissingCode": "Code manquant",
@@ -1598,7 +1127,6 @@
         "Pour les comptes Google, vous devez utiliser un « mot de passe d'application » spécifique",
         "Vérifiez que le compte Google a été correctement autorisé"
       ],
-      "createAppPassword": "Créer un mot de passe d'application",
       "goToEmailSettings": "Aller aux paramètres email",
       "restartAuth": "Redémarrer l'autorisation",
       "restartAuthDesc": "Dans certains cas, vous devez redémarrer complètement le processus d'autorisation avec Google. Cela peut résoudre les problèmes de jetons expirés ou révoqués.",
@@ -1627,7 +1155,6 @@
       "restartAuthorization": "Redémarrer l'autorisation",
       "toastAuthDone": "Autorisation terminée",
       "toastAuthDoneDesc": "Le compte Google a été autorisé avec succès",
-      "toastAuthErrorTitle": "Erreur",
       "toastCannotStart": "Impossible de démarrer l'autorisation Google",
       "toastAuthErrorDesc": "Une erreur s'est produite lors de l'autorisation Google",
       "statusAccountAuthorized": "Compte autorisé",
@@ -1638,17 +1165,11 @@
     }
   },
   "errors": {
-    "genericError": "Une erreur s'est produite: {{error}}",
-    "qrCodeFetchError": "Erreur lors de la récupération du QR code existant:"
+    "genericError": "Une erreur s'est produite: {{error}}"
   },
   "auth": {
     "login": "Connexion",
-    "logout": "Déconnexion",
-    "username": "Nom d'utilisateur",
-    "password": "Mot de passe",
-    "rememberMe": "Se souvenir de moi",
-    "forgotPassword": "Mot de passe oublié?",
-    "loginButton": "Se connecter"
+    "logout": "Déconnexion"
   },
   "clientArea": {
     "installApp": "Installer l'application",
@@ -1659,8 +1180,6 @@
     "newRequest": "Nouvelle demande",
     "pushNotifDesc": "Recevez une notification lorsque votre rendez-vous est confirmé",
     "selectService": "Sélectionner le service",
-    "noServicesAvailable": "Aucun service disponible pour le moment.",
-    "contactCenter": "Contactez le centre pour plus d'informations.",
     "chooseService": "Choisir un service...",
     "preferredStaff": "Professionnel préféré (optionnel)",
     "chooseStaff": "Choisir un professionnel...",
@@ -1781,8 +1300,6 @@
     "updateContactPro": "Pour mettre à jour vos données, contactez votre professionnel",
     "appointmentsTitle": "Rendez-vous",
     "loadingAppointments": "Chargement des rendez-vous...",
-    "futureAppointmentsCount_one": "Vous avez {{count}} rendez-vous à venir",
-    "futureAppointmentsCount_other": "Vous avez {{count}} rendez-vous à venir",
     "noFutureAppointments": "Aucun rendez-vous à venir programmé",
     "viewAll": "Tout afficher",
     "consentsTitle": "Consentements",
@@ -1819,16 +1336,14 @@
     "reservedToProClients": "Cet espace est réservé aux clients des professionnels",
     "cannotVerifyAuth": "Impossible de vérifier l'authentification",
     "errorLoadingAppointments": "Impossible de charger les rendez-vous",
-    "errorGeneric": "Erreur"
+    "errorGeneric": "Erreur",
+    "futureAppointmentsCount_one": "Vous avez {{count}} rendez-vous à venir",
+    "futureAppointmentsCount_other": "Vous avez {{count}} rendez-vous à venir"
   },
   "contacts": {
     "accessOurContacts": "Accéder à nos contacts"
   },
   "appointment": {
-    "selectTimeSlots": "Sélectionner l'heure du nouveau rendez-vous",
-    "confirmAndAssociateClient": "Confirmer et associer le client",
-    "selected": "Sélectionné",
-    "selectSlots": "Sélectionner les créneaux horaires",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
     "confirmDeleteTitle": "Supprimer le rendez-vous",
     "confirmDeleteDescription": "Êtes-vous sûr de vouloir supprimer ce rendez-vous ? Cette action est irréversible.",
@@ -1846,130 +1361,15 @@
     "expired": "Expiré",
     "upgradeMessage": "Découvrir les plans premium"
   },
-  "banking": {
-    "title": "Configuration des paiements",
-    "subtitle": "Gérer les coordonnées bancaires pour les paiements automatiques de commissions de parrainage",
-    "bankName": "Nom de la banque",
-    "bankNamePlaceholder": "ex. BNP Paribas",
-    "accountHolder": "Titulaire du compte",
-    "accountHolderPlaceholder": "Nom complet / Raison sociale",
-    "iban": "IBAN",
-    "ibanPlaceholder": "FR14 2004 1010 0505 0001 3M02 606",
-    "bic": "BIC/SWIFT",
-    "bicPlaceholder": "ex. BNPAFRPPXXX",
-    "address": "Adresse",
-    "addressPlaceholder": "Adresse complète de facturation",
-    "autoPayEnabled": "Paiement automatique des commissions",
-    "paymentDelay": "Délai de paiement (jours)",
-    "paymentDelayPlaceholder": "30",
-    "minimumAmount": "Montant minimum (€)",
-    "minimumAmountPlaceholder": "1.00",
-    "description": "Description",
-    "descriptionPlaceholder": "Description qui apparaîtra dans les virements",
-    "showIban": "Afficher IBAN",
-    "hideIban": "Masquer IBAN",
-    "testPayment": "Tester le paiement",
-    "saveSettings": "Enregistrer les paramètres",
-    "configured": "Configuré",
-    "notConfigured": "Non configuré",
-    "status": {
-      "configured": "Les coordonnées bancaires sont correctement configurées",
-      "notConfigured": "Configurer les coordonnées bancaires pour activer les paiements de commissions"
-    },
-    "alerts": {
-      "security": "Les coordonnées bancaires sont protégées et cryptées. Seuls les administrateurs peuvent les consulter.",
-      "paymentInfo": "Les commissions seront payées automatiquement lorsque le solde dépasse le montant minimum configuré."
-    },
-    "success": {
-      "saved": "Paramètres enregistrés",
-      "savedDescription": "Les paramètres bancaires ont été mis à jour avec succès",
-      "testComplete": "Test terminé",
-      "testSuccess": "Le système de paiement est correctement configuré"
-    },
-    "errors": {
-      "saveFailed": "Impossible d'enregistrer les paramètres bancaires",
-      "testFailed": "Veuillez vérifier la configuration des coordonnées bancaires"
-    }
-  },
   "payments": {
-    "title": "Administration des paiements",
-    "subtitle": "Gérer les abonnements, transactions et commissions",
-    "tabs": {
-      "overview": "Aperçu",
-      "transactions": "Transactions",
-      "methods": "Moyens de paiement",
-      "settings": "Paramètres"
-    },
-    "demo": "DÉMO",
-    "realData": "Données réelles",
-    "testTransaction": "Transaction de test",
-    "filterByLicense": "Filtrer par licence",
-    "allLicenses": "Toutes les licences",
-    "stats": {
-      "totalRevenue": "Revenu total",
-      "activeSubscriptions": "Abonnements actifs",
-      "pendingCommissions": "Commissions en attente"
-    },
-    "table": {
-      "date": "Date",
-      "user": "Utilisateur",
-      "license": "Licence",
-      "amount": "Montant",
-      "method": "Méthode",
-      "status": "Statut",
-      "actions": "Actions"
-    },
-    "status": {
-      "completed": "Terminé",
-      "pending": "En attente",
-      "failed": "Échoué",
-      "cancelled": "Annulé"
-    },
-    "methods": {
-      "stripe": "Stripe",
-      "paypal": "PayPal",
-      "bankTransfer": "Virement bancaire",
-      "wise": "Wise"
-    }
+    "title": "Administration des paiements"
   },
   "referral": {
     "title": "Programme de parrainage",
-    "subtitle": "Gagnez des commissions en invitant de nouveaux clients",
     "adminOnly": "Seuls les administrateurs peuvent gérer les parrainages, coordonner et vérifier les abonnements parrainés par le personnel pour procéder aux paiements",
-    "yourCode": "Votre code",
-    "copyCode": "Copier le code",
     "shareCode": "Partagez votre code de parrainage",
     "copyToClipboard": "Copier dans le presse-papiers",
-    "share": "Partager",
-    "earnings": {
-      "title": "Vos gains",
-      "total": "Total gagné",
-      "pending": "En attente",
-      "paid": "Payé"
-    },
-    "iban": {
-      "title": "IBAN pour les paiements",
-      "placeholder": "FR14 2004 1010 0505 0001 3M02 606",
-      "description": "Entrez votre IBAN pour recevoir les commissions",
-      "save": "Enregistrer l'IBAN",
-      "saved": "IBAN enregistré avec succès"
-    },
-    "commissions": {
-      "title": "Commissions",
-      "customer": "Client",
-      "license": "Licence",
-      "amount": "Montant",
-      "status": "Statut",
-      "date": "Date",
-      "noCommissions": "Aucune commission pour le moment",
-      "pending": "En attente",
-      "paid": "Payé"
-    },
     "howItWorks": "Comment fonctionne le programme",
-    "shareLink": "Partager le lien",
-    "invitations": "Invitations",
-    "rewards": "Récompenses",
-    "copied": "Code copié !",
     "payout": {
       "dialogTitle": "Méthodes de paiement des commissions",
       "dialogDesc": "Configurez comment vous souhaitez recevoir vos paiements de commissions de parrainage.",
@@ -1989,7 +1389,6 @@
       "save": "Enregistrer"
     },
     "upgradeToAccess": "Mettez à niveau votre forfait pour accéder",
-    "registrationAndSub": "Inscription et abonnement :",
     "paymentMethods": "Méthodes de paiement :",
     "noActiveSubTitle": "Aucun abonnement actif",
     "noActiveSubDesc": "Les utilisateurs doivent activer un abonnement payant pour générer des commissions",
@@ -2004,7 +1403,6 @@
     "configSaved": "Configuration enregistrée",
     "bankSaveError": "Impossible d'enregistrer les coordonnées bancaires : {{msg}}",
     "codeCopiedTitle": "Code copié !",
-    "shareError": "Erreur de partage :",
     "textCopiedTitle": "Texte copié !",
     "codeGenTitle": "Code généré",
     "yourReferralCode": "Votre code de parrainage personnel",
@@ -2094,193 +1492,7 @@
   },
   "manual": {
     "pwa": {
-      "title": "Demandes de Rendez-vous PWA Client",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Comment ça fonctionne pour le client",
-          "badge": {
-            "text": "Comment ça fonctionne pour le client",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Accès PWA",
-                  "text": "Le client ouvre son app PWA personnelle (installée via QR code)"
-                },
-                {
-                  "title": "Menu Rendez-vous",
-                  "text": "Cliquer sur \"Demander un Rendez-vous\" depuis le menu principal"
-                },
-                {
-                  "title": "Sélection du Service",
-                  "text": "Choisir le traitement souhaité dans la liste"
-                },
-                {
-                  "title": "Préférence Collaborateur",
-                  "text": "OPTIONNEL",
-                  "items": [
-                    "Peut choisir un collaborateur préféré dans le menu déroulant",
-                    "Ou laisser \"Aucune préférence\" pour une attribution automatique"
-                  ]
-                },
-                {
-                  "title": "Date et Heure",
-                  "text": "Sélectionner la date et la plage horaire souhaitée"
-                },
-                {
-                  "title": "Envoi de la Demande",
-                  "text": "Cliquer sur \"Envoyer la Demande\" - la demande arrive dans votre section \"Demandes de Réservation\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Gestion des demandes (Admin)",
-          "badge": {
-            "text": "Gestion des demandes (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Chemin : Menu principal → Demandes de Réservation"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Recevoir la notification",
-                  "text": "Vous visualisez la demande avec tous les détails (client, service, date, heure, préférence collaborateur)"
-                },
-                {
-                  "title": "Confirmation Automatique",
-                  "items": [
-                    "Cliquer sur \"Approuver\" pour une confirmation rapide",
-                    "Le système attribue automatiquement le collaborateur préféré (si disponible) ou un collaborateur libre",
-                    "Attribue automatiquement la première salle disponible"
-                  ]
-                },
-                {
-                  "title": "Confirmation Manuelle",
-                  "items": [
-                    "Un dialogue s'ouvre avec des options de sélection",
-                    "Vous pouvez choisir manuellement le collaborateur et la salle",
-                    "Utile pour optimiser l'organisation ou gérer des préférences spéciales"
-                  ]
-                },
-                {
-                  "title": "Notification Client",
-                  "text": "Le client reçoit une confirmation du rendez-vous avec les détails complets (collaborateur et salle attribués)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Autres Fonctionnalités PWA Client",
-          "badge": {
-            "text": "Autres Fonctionnalités PWA Client",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Visualiser les Rendez-vous",
-                  "items": [
-                    "Liste complète de tous les rendez-vous (passés et futurs)",
-                    "Détails : date, heure, service, collaborateur attribué, salle",
-                    "Statut du rendez-vous (confirmé, terminé, annulé)",
-                    "Mise à jour en temps réel"
-                  ]
-                },
-                {
-                  "title": "📄 Documents et Factures",
-                  "items": [
-                    "Accès à toutes les factures émises",
-                    "Téléchargement PDF directement depuis l'app",
-                    "Historique complet des paiements"
-                  ]
-                },
-                {
-                  "title": "📞 Contacts Directs",
-                  "items": [
-                    "📧 Email : Tap pour ouvrir le client email avec l'adresse pré-remplie",
-                    "📱 Téléphone : Tap pour appeler directement le cabinet",
-                    "🌐 Site Web : Lien direct vers votre site",
-                    "📷 Instagram : Ouverture du profil Instagram",
-                    "👍 Facebook : Lien vers la page Facebook"
-                  ]
-                },
-                {
-                  "title": "🔔 Notifications Push",
-                  "items": [
-                    "Rappels automatiques des rendez-vous",
-                    "Confirmations de réservations",
-                    "Mises à jour importantes du cabinet"
-                  ]
-                },
-                {
-                  "title": "📱 Fonctionne Hors Ligne",
-                  "items": [
-                    "Accès aux données même sans connexion",
-                    "Synchronisation automatique au retour en ligne"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "benefits": {
-        "title": "✨ Avantages de l'App PWA pour les Clients",
-        "items": [
-          {
-            "title": "Aucun Téléchargement depuis un Store",
-            "text": "Installation instantanée via QR code, sans passer par l'App Store ou Google Play"
-          },
-          {
-            "title": "Toujours à Jour",
-            "text": "Mises à jour automatiques sans besoin d'installer de nouvelles versions"
-          },
-          {
-            "title": "Personnalisée",
-            "text": "Chaque client voit uniquement ses données (rendez-vous, factures, documents)"
-          },
-          {
-            "title": "Icône Personnalisée",
-            "text": "L'app affiche le logo de votre cabinet sur l'écran d'accueil du téléphone"
-          },
-          {
-            "title": "Accès Rapide",
-            "text": "Un tap sur l'icône et le client accède à son espace personnel"
-          },
-          {
-            "title": "Multi-Plateforme",
-            "text": "Fonctionne sur iPhone, Android, tablette et desktop"
-          },
-          {
-            "title": "Sécurisée",
-            "text": "Authentification par token unique, aucun mot de passe à mémoriser"
-          },
-          {
-            "title": "Contact Direct",
-            "text": "Email, téléphone et réseaux sociaux à portée de tap"
-          }
-        ]
-      },
-      "tips": {
-        "proTip": "Montrez aux clients comment installer l'app lors de la première visite. Ils verront immédiatement la valeur ajoutée et se sentiront plus impliqués dans leur relation avec votre cabinet !",
-        "retention": "L'app PWA personnalisée crée un lien plus fort avec les clients, augmentant la fidélisation et réduisant les absences grâce aux rappels automatiques et à l'expérience utilisateur premium."
-      }
+      "title": "Demandes de Rendez-vous PWA Client"
     },
     "page": {
       "header": {
@@ -2580,12 +1792,8 @@
   },
   "packages": {
     "title": "Gestion des Forfaits Promotionnels",
-    "subtitle": "Créez et gérez des forfaits de soins pour vos clients",
     "newPackage": "Nouveau Forfait",
     "newShort": "Nouveau",
-    "noPackages": "Aucun forfait trouvé",
-    "startCreating": "Commencez par créer votre premier forfait promotionnel",
-    "createFirst": "Créer Premier Forfait",
     "noPackagesCreated": "Aucun forfait promotionnel créé",
     "createFirstPackage": "Créez votre premier forfait",
     "noPackagesSold": "Aucun forfait vendu encore",
@@ -2593,23 +1801,12 @@
     "inactive": "Inactif",
     "completed": "Terminé",
     "expired": "Expiré",
-    "soldTo": "Vendu à",
-    "used": "Utilisées",
-    "of": "sur",
-    "sessions": "séances",
     "sessionsLabel": "Séances",
-    "remaining": "Restantes",
-    "valid": "Valide",
-    "until": "jusqu'au",
     "validity": "Validité",
     "days": "jours",
     "price": "Prix",
-    "originalPrice": "Prix original",
-    "discount": "Réduction",
     "services": "Services",
-    "edit": "Modifier",
     "delete": "Supprimer",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce forfait?",
     "confirmDeleteTitle": "Confirmer la suppression",
     "confirmDeleteDesc": "Êtes-vous sûr de vouloir supprimer ce modèle? Cette action ne peut pas être annulée.",
     "tabs": {
@@ -2633,18 +1830,13 @@
     "form": {
       "name": "Nom du forfait",
       "namePlaceholder": "ex. 10 Soins Visage Premium",
-      "description": "Description",
       "descriptionOptional": "Description (optionnel)",
       "descriptionPlaceholder": "Description du forfait...",
       "totalSessions": "Nombre de Séances",
       "totalPrice": "Prix Total",
-      "price": "Prix réduit",
-      "originalPrice": "Prix original",
       "validDays": "Validité (jours, optionnel)",
       "includedServices": "Services Inclus",
       "addService": "Ajouter service...",
-      "selectClient": "Sélectionner client",
-      "selectTreatment": "Sélectionner traitement",
       "cancel": "Annuler",
       "creating": "Création...",
       "createPackage": "Créer Forfait",
@@ -2653,12 +1845,10 @@
     "toast": {
       "created": "Forfait créé avec succès",
       "createdDesc": "Le forfait promotionnel a été créé avec succès",
-      "updated": "Forfait mis à jour",
       "deleted": "Forfait supprimé",
       "deletedDesc": "Le modèle a été supprimé avec succès",
       "sold": "Forfait vendu",
       "soldDesc": "Le forfait a été attribué au client",
-      "error": "Erreur d'opération forfait",
       "cannotCreate": "Impossible de créer le modèle",
       "cannotSell": "Impossible de vendre le forfait",
       "cannotDelete": "Impossible de supprimer le modèle"
@@ -2666,19 +1856,12 @@
   },
   "inventory": {
     "title": "Gestion des Stocks",
-    "subtitle": "Gérez vos produits et votre inventaire",
     "newProduct": "Nouveau Produit",
     "addNewProduct": "Ajouter Nouveau Produit",
     "editProduct": "Modifier Produit",
-    "noProducts": "Aucun produit trouvé",
-    "startCreating": "Commencez par ajouter votre premier produit",
-    "createFirst": "Ajouter Premier Produit",
     "available": "Disponible",
-    "inStock": "En stock",
     "lowStock": "Stock faible",
     "outOfStock": "Épuisé",
-    "quantity": "Quantité",
-    "minStock": "Stock minimum",
     "price": "Prix",
     "cost": "Coût",
     "min": "Min",
@@ -2689,22 +1872,17 @@
       "registerSale": "Enregistrer Vente",
       "unitPrice": "Prix Unitaire",
       "reference": "Référence (Facture, etc.)",
-      "registering": "Enregistrement...",
       "registerLoad": "Enregistrer Entrée",
       "registerSaleBtn": "Enregistrer Vente"
     },
     "sku": "Code SKU",
     "barcode": "Code-barres",
-    "category": "Catégorie",
     "edit": "Modifier",
     "delete": "Supprimer",
     "confirmDelete": "Confirmer la suppression",
     "confirmDeleteDesc": "Êtes-vous sûr de vouloir supprimer le produit",
     "cannotUndo": "Cette action ne peut pas être annulée.",
     "cancel": "Annuler",
-    "adjustStock": "Ajuster Stock",
-    "addStock": "Ajouter",
-    "removeStock": "Retirer",
     "tabs": {
       "products": "Produits",
       "movements": "Mouvements",
@@ -2727,7 +1905,6 @@
     "form": {
       "name": "Nom du Produit",
       "description": "Description",
-      "sku": "Code SKU",
       "category": "Catégorie",
       "selectCategory": "Sélectionner catégorie",
       "noCategories": "Aucune catégorie disponible",
@@ -2735,11 +1912,7 @@
       "price": "Prix de vente",
       "costPrice": "Coût d'Achat",
       "quantity": "Quantité disponible",
-      "minStock": "Stock minimum",
-      "maxStock": "Stock maximum",
-      "unit": "Unité",
       "supplier": "Fournisseur",
-      "supplierContact": "Contact fournisseur",
       "location": "Emplacement entrepôt",
       "image": "Image Produit (optionnel)",
       "changeImage": "Changer Image",
@@ -2751,13 +1924,7 @@
       "discount": "Remise (%)"
     },
     "movements": {
-      "title": "Mouvements d'Entrepôt Récents",
-      "noMovements": "Aucun mouvement récent",
-      "in": "Entrée",
-      "out": "Sortie",
-      "sale": "Vente",
-      "adjustment": "Ajustement",
-      "waste": "Perte"
+      "title": "Mouvements d'Entrepôt Récents"
     },
     "sales": {
       "title": "Ventes de Produits",
@@ -2768,10 +1935,7 @@
       "newCategory": "Nouvelle Catégorie",
       "addNewCategory": "Ajouter Nouvelle Catégorie",
       "name": "Nom de Catégorie",
-      "description": "Description",
       "color": "Couleur",
-      "products": "produits",
-      "creating": "Création...",
       "create": "Créer Catégorie"
     },
     "saving": "Enregistrement...",
@@ -2991,23 +2155,6 @@
     "workingHoursStep": {
       "title": "Horaires de travail",
       "description": "Nous avons déjà configuré des horaires d'ouverture par défaut. Vous pouvez les modifier à tout moment dans les Paramètres, où vous trouverez le calendrier complet avec tous les jours et les pauses.",
-      "presets": "Modèles rapides",
-      "presetMonFri": "Lun–Ven 9:00–18:00",
-      "presetMonSat": "Lun–Sam 9:00–19:00",
-      "presetTueSat": "Mar–Sam 10:00–20:00",
-      "daysLabel": "Jours d'ouverture",
-      "startLabel": "Ouverture",
-      "endLabel": "Fermeture",
-      "invalidHint": "Choisissez au moins un jour et vérifiez que l'ouverture est avant la fermeture.",
-      "days": {
-        "monday": "Lun",
-        "tuesday": "Mar",
-        "wednesday": "Mer",
-        "thursday": "Jeu",
-        "friday": "Ven",
-        "saturday": "Sam",
-        "sunday": "Dim"
-      },
       "defaultsLabel": "Horaires par défaut actifs",
       "defaultsValue": "Lundi – Samedi, 08h00 – 22h00",
       "editHint": "Pour ajuster les jours, plages horaires ou pauses, ouvrez les Paramètres dans un nouvel onglet : le tour restera tel quel.",
@@ -3093,16 +2240,14 @@
       "summary": {
         "business": "Votre activité",
         "services": "{{count}} service créé",
-        "services_other": "{{count}} services créés",
-        "hours": "Horaires de travail"
+        "services_other": "{{count}} services créés"
       }
     },
     "appliedToast": {
       "business": "Infos d'activité enregistrées",
       "services": "{{count}} service créé",
-      "services_other": "{{count}} services créés",
-      "hours": "Horaires enregistrés",
-      "preferences": "Préférences enregistrées"
+      "preferences": "Préférences enregistrées",
+      "services_other": "{{count}} services créés"
     }
   },
   "serviceManagerSimple": {
@@ -3630,16 +2775,6 @@
         }
       ],
       "plansHeading": "3. Formules d'Abonnement",
-      "plansLabels": {
-        "monthly": "Mensuel",
-        "annual": "Annuel",
-        "savings": "économisez",
-        "clientLimit": "Limite de clients",
-        "unlimited": "Illimité",
-        "featuresIncluded": "Fonctionnalités incluses",
-        "featuresIncludedExtra": "Fonctionnalités incluses (en plus du Plan Base)",
-        "featuresIncludedAll": "Fonctionnalités incluses (toutes les fonctionnalités)"
-      },
       "plans": [
         {
           "id": "base",
@@ -3701,27 +2836,14 @@
             "Campagnes Marketing IA"
           ]
         }
-      ],
-      "footer": {
-        "version": "Gestionale Appuntamenti v2.1.0",
-        "copyright": "© 2025 Zambelli Development - Tous droits réservés"
-      }
+      ]
     },
     "lastUpdated": "Dernière mise à jour"
   },
   "emailSettings": {
     "title": "Configuration Email",
-    "smtpServer": "Serveur SMTP",
-    "smtpPort": "Port SMTP",
-    "testConnection": "Tester la connexion",
-    "saveSuccess": "Paramètres e-mail enregistrés",
     "invalidEmail": "Saisissez une adresse email valide",
     "passwordRequired": "Le mot de passe est obligatoire si l'email est activé",
-    "config": "Configuration Email",
-    "enable": "Activer l'envoi d'email",
-    "enableDesc": "Activer l'envoi d'emails de notification aux clients",
-    "address": "Adresse Email",
-    "password": "Mot de passe ou Clé d'application",
     "gmailWarning": "📧 Pour Gmail : N'utilisez PAS le mot de passe habituel du compte",
     "gmailSteps": "Vous devez générer un Mot de passe d'application. Suivez ces étapes :",
     "step1": "Activez la vérification en deux étapes :",
@@ -3743,7 +2865,6 @@
     "sendTest": "Envoyer le test",
     "toastSaved": "Paramètres enregistrés",
     "toastSavedDesc": "Les paramètres email ont été mis à jour avec succès",
-    "toastError": "Erreur",
     "toastSaveError": "Une erreur s'est produite lors de l'enregistrement",
     "toastTestEmailMissing": "Saisissez une adresse email pour le test",
     "toastTestSent": "Email envoyé",
@@ -3816,9 +2937,6 @@
   },
   "userSettings": {
     "title": "Paramètres utilisateur",
-    "profile": "Profil",
-    "account": "Compte",
-    "preferences": "Préférences",
     "subtitle": "Personnalisez votre expérience et configurez l'image de marque de votre compte",
     "loading": "Chargement des paramètres...",
     "roles": {
@@ -3912,31 +3030,16 @@
     }
   },
   "staff": {
-    "title": "Gestion du personnel",
-    "addMember": "Ajouter un membre",
-    "role": "Rôle",
-    "permissions": "Autorisations",
-    "active": "Actif",
-    "inactive": "Inactif"
+    "title": "Gestion du personnel"
   },
   "appointmentForm": {
-    "title": "Nouveau rendez-vous",
     "editTitle": "Modifier le rendez-vous",
     "client": "Client",
     "service": "Service",
-    "date": "Date",
-    "time": "Heure",
-    "duration": "Durée",
-    "notes": "Notes",
     "save": "Enregistrer le rendez-vous",
-    "saved": "Rendez-vous enregistré",
-    "selectClient": "Sélectionner un client",
-    "selectService": "Sélectionner un service",
     "newTitle": "Nouveau rendez-vous",
     "fields": {
-      "client": "Client",
       "clientPlaceholder": "Rechercher un client...",
-      "service": "Service",
       "servicePlaceholder": "Rechercher un service...",
       "staff": "Professionnel",
       "staffPlaceholder": "Sélectionnez un professionnel...",
@@ -3944,7 +3047,6 @@
       "room": "Salle/Cabine (facultatif)",
       "roomPlaceholder": "Sélectionnez une salle...",
       "noRoom": "Aucune salle",
-      "notes": "Notes",
       "notesPlaceholder": "Ajoutez des notes sur le rendez-vous"
     },
     "loadingClient": "Chargement des données client...",
@@ -3955,7 +3057,6 @@
       "after": "\" comme nouveau client"
     },
     "warnings": {
-      "otherAccount": "<0>Attention :</0> Vous créez un rendez-vous pour un client d'un autre compte ({{firstName}} {{lastName}}). Vérifiez d'avoir les autorisations nécessaires.",
       "otherAccountClient": "Vous créez un rendez-vous pour un client appartenant à un autre compte ({{firstName}} {{lastName}}). Vérifiez que vous disposez des autorisations nécessaires avant de continuer."
     },
     "notifications": {
@@ -4005,11 +3106,7 @@
       "title": "Conflit de disponibilité",
       "intro": "Des conflits ont été détectés pour le rendez-vous sélectionné :",
       "staffHeading": "Conflits avec le personnel :",
-      "staffLine": "<0>{{name}}</0> a déjà un rendez-vous à {{time}}",
-      "staffWith": " avec {{firstName}} {{lastName}}",
       "roomHeading": "Conflits de salles :",
-      "roomLine": "<0>{{name}}</0> est déjà occupée à {{time}}",
-      "roomBy": " par {{firstName}} {{lastName}}",
       "askProceed": "Souhaitez-vous continuer quand même ?",
       "proceed": "Continuer quand même",
       "staffLineSuffix": "a déjà un rendez-vous à",
@@ -4022,12 +3119,6 @@
     "durationLabel": "Durée : {{minutes}} min"
   },
   "clientNotes": {
-    "title": "Notes du client",
-    "addNote": "Ajouter une note",
-    "placeholder": "Écrivez votre note ici...",
-    "empty": "Aucune note disponible",
-    "saved": "Note enregistrée",
-    "deleted": "Note supprimée",
     "headerTitle": "Notes du client",
     "newNote": "Nouvelle note",
     "addButton": "Ajouter",
@@ -4091,11 +3182,6 @@
     "photoAlt": "Photo {{n}}",
     "scrollNext": "Faites défiler pour voir les notes suivantes →",
     "createDialogTrigger": "Créer une nouvelle note"
-  },
-  "manuale": {
-    "title": "Manuel utilisateur",
-    "search": "Rechercher dans le manuel...",
-    "tableOfContents": "Table des matières"
   },
   "whatsappConfigHelper": {
     "title": "Configuration WhatsApp",
@@ -4453,87 +3539,12 @@
       "create": "Erreur lors de la création du service",
       "update": "Erreur lors de la mise à jour du service",
       "delete": "Erreur lors de la suppression du service",
-      "loadingTitle": "Erreur",
       "loadingDesc": "Erreur lors du chargement des services : {{message}}",
       "unknown": "Erreur inconnue",
       "httpStatus": "Erreur {{status}} : {{statusText}}"
     },
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce service ?",
     "savingButton": "Enregistrement..."
-  },
-  "clientLegacyNotes": {
-    "dialog": {
-      "editTitle": "Modifier la note",
-      "createTitle": "Créer une nouvelle note"
-    },
-    "fields": {
-      "titleLabel": "Titre",
-      "titlePlaceholder": "Titre de la note",
-      "contentLabel": "Contenu",
-      "contentPlaceholder": "Contenu de la note"
-    },
-    "titles": {
-      "editLabel": "Modifier le titre",
-      "resetLabel": "Réinitialiser le titre",
-      "duplicateLast": "Dupliquer la dernière note",
-      "noNoteToDuplicate": "Aucune note à dupliquer",
-      "addPhoto": "Ajouter une photo",
-      "createNote": "Créer une nouvelle note",
-      "noNoteToDelete": "Aucune note à supprimer"
-    },
-    "empty": "Aucune note disponible. Cliquez sur « Ajouter » pour en créer une.",
-    "imageAlt": "Photo {{idx}}",
-    "confirm": {
-      "deleteNote": "Êtes-vous sûr de vouloir supprimer cette note ?",
-      "deletePhoto": "Supprimer cette photo ?"
-    },
-    "toast": {
-      "created": {
-        "title": "Note créée",
-        "desc": "La note a été enregistrée avec succès"
-      },
-      "updated": {
-        "title": "Note mise à jour",
-        "desc": "La note a été mise à jour avec succès"
-      },
-      "deleted": {
-        "title": "Note supprimée",
-        "desc": "La note a été supprimée avec succès"
-      },
-      "duplicated": {
-        "title": "Note dupliquée",
-        "desc": "La note a été dupliquée avec succès"
-      },
-      "duplicateSuffix": " (copie)",
-      "imageUploaded": {
-        "title": "Photo téléchargée",
-        "desc": "La photo a été ajoutée avec succès"
-      },
-      "imageDeleted": {
-        "title": "Photo supprimée",
-        "desc": "La photo a été supprimée avec succès"
-      },
-      "titleUpdated": {
-        "title": "Titre mis à jour",
-        "desc": "Le titre de la section a été modifié avec succès"
-      },
-      "titleReset": {
-        "title": "Titre réinitialisé",
-        "desc": "Le titre de la section a été réinitialisé à sa valeur d'origine"
-      },
-      "missingFields": {
-        "title": "Données manquantes",
-        "desc": "Saisissez le titre et le contenu de la note"
-      }
-    },
-    "errors": {
-      "create": "Impossible de créer la note : {{message}}",
-      "update": "Impossible de mettre à jour la note : {{message}}",
-      "delete": "Impossible de supprimer la note : {{message}}",
-      "duplicate": "Impossible de dupliquer la note : {{message}}",
-      "uploadImage": "Impossible de télécharger la photo : {{message}}",
-      "deleteImage": "Impossible de supprimer la photo : {{message}}"
-    }
   },
   "staffManagement": {
     "subtitle": "Consultez et gérez les membres de votre équipe",
@@ -4629,16 +3640,9 @@
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
     "staffBadge": "Membre",
-    "pageSubtitle": "Consultez et gérez vos membres du personnel",
-    "addStaffButton": "Ajouter du personnel",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Annuler",
-    "actionsLabel": "Actions",
-    "registeredLabel": "Inscrit le : {{date}}",
-    "proAccessLabel": "✓ Accès PRO",
-    "bankingDataButton": "Données bancaires",
-    "noResultsFound": "Aucun résultat trouvé.",
     "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
   },
   "passwordChange": {
@@ -4742,18 +3746,12 @@
     "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
-    "alreadyInstalled": "Application déjà installée",
-    "alreadyInstalledDesc": "Vous utilisez déjà la version installée de l'application",
     "installing": "Installation en cours",
     "installingDesc": "Confirmez l'installation dans votre navigateur",
     "installed": "Application installée",
     "installedDesc": "L'application a été installée avec succès !",
-    "installCancelled": "Installation annulée",
-    "installCancelledDesc": "Vous pouvez installer l'application à tout moment",
     "errorTitle": "Erreur",
     "installError": "Une erreur est survenue lors de l'installation",
-    "browserNotSupported": "Navigateur non pris en charge",
-    "browserNotSupportedDesc": "Votre navigateur ne prend pas en charge l'installation automatique. Suivez les instructions manuelles.",
     "installButton": "Installer l'app",
     "selectBrowser": "Sélectionnez votre navigateur",
     "selectBrowserDesc": "Choisissez le navigateur que vous utilisez pour voir les bonnes instructions d'installation",
@@ -4866,60 +3864,15 @@
     "trialExpiredSafe": "💾 Pas d'inquiétude : toutes vos données (clients, rendez-vous, paramètres) sont en sécurité et seront restaurées dès votre abonnement à un plan.",
     "for40Days": "Pour 40 jours",
     "annualSub": "Abonnement annuel",
-    "appointmentReq": "Demande de rendez-vous client",
     "invalidActivation": "Saisissez un code d'activation valide",
     "licenseActivated": "Licence activée",
     "licenseActivatedDesc": "Votre licence a été activée avec succès.",
     "genericError": "Une erreur s'est produite pendant l'opération",
     "redirectingPaypal": "Vous serez redirigé vers la page de paiement PayPal",
     "paypalError": "Erreur PayPal",
-    "paypalCantStart": "Impossible de démarrer le processus de paiement PayPal",
-    "redirectingStripe": "Vous serez redirigé vers la page de paiement sécurisée",
     "stripeError": "Erreur Stripe",
-    "stripeCantStart": "Impossible de démarrer le processus de paiement par carte",
-    "trial40Free": "Essai gratuit de 40 jours",
-    "baseMonthly": "Base mensuel",
-    "baseMonthlyDesc": "Forfait basique : facturation mensuelle",
-    "proMonthly": "Pro mensuel",
-    "proMonthlyDesc": "Forfait professionnel : facturation mensuelle",
-    "businessMonthly": "Business mensuel",
-    "businessMonthlyDesc": "Forfait business : facturation mensuelle",
-    "trialIncluded": "Tous les forfaits incluent une période d'essai gratuite de 40 jours. Aucune carte de crédit requise pour commencer.",
-    "subActive": "Abonnement actif",
-    "trialActiveUntil": "Votre période d'essai est active jusqu'au",
-    "alreadyActive": "Déjà actif",
-    "faqCancelQ": "Puis-je annuler mon abonnement ?",
-    "faqCancelA": "Oui, vous pouvez annuler votre abonnement à tout moment. L'accès restera actif jusqu'à la fin de la période déjà payée.",
-    "faqTrialQ": "Comment fonctionne la période d'essai ?",
-    "faqTrialA": "La période d'essai de 40 jours comprend toutes les fonctionnalités de base. Aucune carte de crédit n'est requise pour commencer.",
-    "faqUpgradeA": "Oui, vous pouvez passer à un forfait supérieur à tout moment. La différence de prix sera calculée au prorata.",
     "activateCode": "Activez votre code",
-    "activateCodeDesc": "Saisissez le code d'activation reçu après le paiement.",
-    "activationCode": "Code d'activation",
-    "bankTransferTitle": "Paiement par virement bancaire",
-    "bankTransferDesc": "Suivez les instructions pour effectuer le paiement par virement bancaire.",
-    "subPlanName": "Abonnement {{plan}}",
-    "feat": {
-      "customerMgmt": "Gestion des clients",
-      "qrPwa": "Application QR/PWA pour clients",
-      "notifyClients": "Notifications clients"
-    },
-    "paypalErrorMutation": "Erreur de mutation PayPal : {{msg}}",
-    "subWithPaypal": "abonnement avec PayPal",
-    "stripeErrorMutation": "Erreur de mutation Stripe : {{msg}}",
-    "subWithStripe": "abonnement avec Stripe",
-    "parseFeatError": "Erreur d'analyse des fonctionnalités du forfait : {{msg}}",
-    "calendarDesc": "Organisez facilement votre calendrier et vos rendez-vous clients.",
-    "customerMgmt": "Gestion des clients",
-    "customerMgmtDesc": "Conservez toutes les données de vos clients en un seul endroit sécurisé.",
-    "remindersDesc": "Envoyez des rappels automatiques aux clients pour réduire les annulations.",
-    "reportsDesc": "Analysez votre activité avec des rapports et des statistiques complets.",
-    "choosePlan": "Choisissez le forfait parfait pour votre activité",
     "currentPlan": "Forfait actuel",
-    "faqUpgradeQ": "Puis-je changer de forfait plus tard ?",
-    "processing": "Traitement...",
-    "bankDetailsCopied": "Détails du virement copiés dans le presse-papiers",
-    "copyDetails": "Copier les détails",
     "missingCode": "Code manquant",
     "redirectingPaypalTitle": "Redirection vers PayPal...",
     "redirectingStripeTitle": "Redirection vers Stripe...",
@@ -6012,8 +4965,7 @@
       "description": "Description",
       "plan": "Forfait",
       "start": "Début",
-      "expiry": "Expiration",
-      "actions": "Actions"
+      "expiry": "Expiration"
     },
     "subs": {
       "title": "Abonnements",
@@ -6066,7 +5018,6 @@
       "bankNamePlaceholder": "ex. Intesa Sanpaolo",
       "holder": "Titulaire du compte",
       "holderPlaceholder": "Prénom et nom / Raison sociale",
-      "iban": "IBAN",
       "hide": "Masquer",
       "show": "Afficher",
       "ibanNotConfigured": "IBAN non configuré",
@@ -6570,7 +5521,6 @@
     "clientCard": {
       "incompleteData": "Données client à compléter",
       "deletionUnlocked": "Suppression déverrouillée",
-      "unlockDeletionAction": "Déverrouiller la suppression",
       "cannotUnlock": "Impossible de déverrouiller la suppression",
       "cannotMarkDeleted": "Impossible de simuler la suppression",
       "clientRemoved": "Client supprimé du système"
@@ -6855,9 +5805,6 @@
     "reminderTemplateManager": {
       "emailLabel": "E-mail"
     },
-    "homePage": {
-      "loadingName": "Chargement du nom..."
-    },
     "promotionPageExtra": {
       "loading": "Chargement...",
       "specialPromotionTitle": "Promotion speciale"
@@ -6928,14 +5875,8 @@
       "title": "Configurez votre espace",
       "subtitle": "{{completed}} sur {{total}} étapes terminées. Les données d'exemple sont supprimées automatiquement lorsque vous ajoutez les vôtres.",
       "dismiss": "Masquer ce guide",
-      "takeTour": "Faire la visite guidée avec l'IA",
-      "takeTourDesc": "Procédure assistée : répondez à quelques questions et l'IA suggère services et paramètres",
-      "optionManualLabel": "Option 1 — Remplir vous-même",
-      "optionAILabel": "Option 2 — Laisser faire l'IA",
-      "or": "OU",
       "allDone": "Tout est prêt, fermer",
       "stepDone": "Terminé",
-      "hideUntilRestartHint": "Masquer jusqu'au prochain redémarrage de l'application",
       "finishDialog": {
         "title": "Configuration terminée !",
         "description": "Vous avez terminé toutes les étapes de la configuration initiale. Voulez-vous masquer ces suggestions ? Vous pouvez les supprimer définitivement ou simplement les masquer jusqu'au prochain démarrage de l'application.",

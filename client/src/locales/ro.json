@@ -5,18 +5,7 @@
     "description": "Gestionați cu ușurință programări, clienți și facturi"
   },
   "welcomePage": {
-    "title": "Bine ați venit la Gestionare Programări",
-    "subtitle": "Alegeți cum doriți să continuați",
-    "createAccount": "Creați un cont nou",
-    "createAccountDesc": "Pentru utilizatori noi care doresc să înceapă să utilizeze sistemul",
-    "professionalLogin": "Acces Profesional",
-    "staffLogin": "Acces Personal/Admin",
-    "chooseAccessType": "Alegeți tipul de acces potrivit",
-    "version": "Gestionare Programări v3.5.0",
-    "copyright": "© 2023-2025 Toate drepturile rezervate",
-    "footerCopyright": "© 2023-2025 Zambelli Andrea - Gestionare Programări",
     "login": "Autentificare",
-    "loginDesc": "Pentru profesioniști și colaboratori cu cont",
     "badge": "Folosit de sute de profesioniști",
     "heroTitle": "Afacerea ta, mereu în buzunar",
     "heroSubtitle": "Gestionează programări, clienți, mementouri și facturi într-o singură aplicație creată pentru frizeri, esteticiene și profesioniști din wellness.",
@@ -114,54 +103,11 @@
     "staffLabel": "Per Profesionist",
     "myClientsLabel": "Clienții Mei",
     "otherAccountsLabel": "Alte Conturi",
-    "clientPersonal": "Clienți Personali",
-    "clientSingular": "client",
-    "clientPlural": "clienți",
     "loadingClients": "Se încarcă clienți...",
     "errorLoadingClients": "Eroare la încărcarea clienților:",
     "retry": "Reîncercați"
   },
   "proPages": {
-    "syncGoogleCalendar": "Sincronizează Google Calendar",
-    "syncGoogleCalendarDesc": "Gestionează sincronizarea programărilor tale cu Google Calendar",
-    "clickToConfigure": "Click pentru a configura și gestiona sincronizarea cu Google Calendar",
-    "invoiceCreated": "Factură creată cu succes",
-    "invoiceCreateError": "Eroare la crearea facturii",
-    "clientRequired": "Client necesar",
-    "amountPositive": "Suma trebuie să fie pozitivă",
-    "dateRequired": "Dată necesară",
-    "dueDateRequired": "Dată scadentă necesară",
-    "invalidEmail": "Email invalid",
-    "subjectRequired": "Subiect necesar",
-    "emailSent": "Email trimis cu succes",
-    "emailSentTo": "Factură trimisă către",
-    "emailSendError": "Eroare la trimiterea emailului",
-    "checkEmailSettings": "Verifică setările de email",
-    "statusUpdated": "Status actualizat",
-    "markedAs": "Factură marcată ca:",
-    "paid": "Plătită",
-    "unpaid": "Neplătită",
-    "statusUpdateError": "Eroare la actualizarea statusului",
-    "promotionalPackages": "Pachete Promoționale",
-    "newPackage": "Pachet Nou",
-    "createNewPackage": "Crează Pachet Promoțional Nou",
-    "packageName": "Nume Pachet",
-    "descriptionOptional": "Descriere (opțional)",
-    "numberOfSessions": "Număr Ședințe",
-    "totalPrice": "Preț Total",
-    "validityDays": "Valabilitate (zile, opțional)",
-    "includedServices": "Servicii Incluse",
-    "addService": "Adaugă serviciu...",
-    "templateCreated": "Șablon creat",
-    "packageCreatedDesc": "Pachet promoțional creat cu succes",
-    "cannotCreateTemplate": "Nu se poate crea șablonul",
-    "packageSold": "Pachet vândut",
-    "packageAssigned": "Pachet atribuit clientului",
-    "cannotSellPackage": "Nu se poate vinde pachetul",
-    "templateDeleted": "Șablon șters",
-    "templateDeletedDesc": "Șablon șters cu succes",
-    "cannotDeleteTemplate": "Nu se poate șterge șablonul",
-    "inventory": "Stoc",
     "categoryRequired": "Nume categorie necesar",
     "productRequired": "Nume produs necesar",
     "pricePositive": "Prețul trebuie să fie pozitiv",
@@ -177,50 +123,10 @@
     "maxImageSize": "Imaginea trebuie să fie maxim 5MB",
     "productCreatedImageError": "Produs creat, dar eroare la încărcarea imaginii",
     "canAddImageLater": "Poți edita produsul pentru a adăuga imaginea",
-    "productCreated": "Produs creat cu succes",
     "productCreateError": "Eroare la crearea produsului",
-    "productUpdated": "Produs actualizat cu succes",
     "productUpdateError": "Eroare la actualizarea produsului",
-    "productDeleted": "Produs șters cu succes",
     "productDeleteError": "Eroare la ștergerea produsului",
-    "unknownError": "Eroare necunoscută",
-    "reports": "Rapoarte",
-    "statisticalReports": "Rapoarte Statistice",
-    "reportsAvailablePro": "Rapoartele detaliate de activitate sunt disponibile de la planul Pro.",
-    "downloadPdf": "Descarcă PDF",
-    "weekly": "Săptămânal",
-    "monthly": "Lunar",
-    "yearly": "Anual",
-    "week": "Săptămână",
-    "totalAppointments": "Total Programări",
-    "totalRevenue": "Venituri Totale",
-    "dailyAverage": "Medie Zilnică",
-    "appointmentDetails": "Detalii Programări",
-    "day": "Zi",
-    "date": "Dată",
-    "month": "Lună",
-    "numberOfAppointments": "Număr Programări",
-    "revenue": "Venituri",
-    "serviceDetails": "Detalii Servicii",
-    "service": "Serviciu",
-    "generatedOn": "Generat pe"
-  },
-  "paymentPages": {
-    "popular": "Popular",
-    "error": "Eroare",
-    "unableToLoadDashboard": "Nu se pot încărca datele tabloului de bord",
-    "dataRefresh": "Actualizare date",
-    "dataRefreshInProgress": "Actualizare date în curs...",
-    "settingsSaved": "Setări salvate",
-    "bankingSettingsUpdated": "Setările bancare au fost actualizate cu succes",
-    "cannotSaveBankingSettings": "Nu se pot salva setările bancare",
-    "testCompleted": "Test finalizat",
-    "paymentSystemConfigured": "Sistemul de plată este configurat corect",
-    "testFailed": "Test eșuat",
-    "verifyBankingConfig": "Verifică configurația datelor bancare",
-    "trialExtended": "Perioadă de probă extinsă",
-    "cannotExtendTrial": "Nu se poate extinde perioada de probă",
-    "dateUpdated": "Dată actualizată"
+    "unknownError": "Eroare necunoscută"
   },
   "services": {
     "title": "Gestionare Servicii",
@@ -263,7 +169,6 @@
     "enableAllOnline": "Activează toate",
     "allOnlineEnabled": "Toate serviciile sunt rezervabile online",
     "allOnlineDisabled": "Rezervarea online dezactivată pentru toate serviciile",
-    "online": "Online",
     "onlineHeader": "Rezervări Online"
   },
   "settingsPage": {
@@ -306,14 +211,8 @@
     "advancedConfig": "Configurare avansată (metoda QR)",
     "whatsappNotifications": "Notificări WhatsApp",
     "whatsappInfo": "Informații despre notificările WhatsApp:",
-    "whatsappInfoList": [
-      "Mesajele WhatsApp sunt gratuite și mai fiabile decât SMS-urile",
-      "Verificați că numerele de telefon sunt corecte cu prefix internațional (ex. +40712345678)",
-      "Toate mesajele generează un link WhatsApp care se deschide automat"
-    ],
     "error": "Eroare",
     "messageTemplates": "Șabloane Mesaje",
-    "messageTemplatesDesc": "Personalizați șabloanele de mesaje memento",
     "noAppointmentSelected": "Nicio programare selectată",
     "selectAppointmentForNotifications": "Selectați cel puțin o programare pentru a trimite notificări",
     "selectAppointmentForSMS": "Selectați cel puțin o programare pentru a trimite SMS",
@@ -327,12 +226,7 @@
     "twilioLimitationsDesc": "Contul dvs. Twilio are limitări și poate să nu livreze SMS-uri la toate numerele.",
     "smsError": "Eroare trimitere SMS",
     "recipient": "destinatar",
-    "recipients": "destinatari",
-    "loadingError": "Eroare de încărcare:",
-    "cannotLoadAppointments": "Nu se pot încărca programările:",
-    "cannotLoadHistory": "Nu se poate încărca istoricul:",
-    "cannotLoadSmsHistory": "Nu se poate încărca istoricul SMS:",
-    "unknownError": "Eroare necunoscută"
+    "recipients": "destinatari"
   },
   "bookingRequests": {
     "title": "Cereri de Rezervare",
@@ -413,30 +307,6 @@
     "select": "Selectați limba"
   },
   "home": {
-    "calendar": {
-      "title": "Calendar",
-      "description": "Vizualizați și gestionați toate programările",
-      "content": "Vizualizați programările în modul zilnic, săptămânal sau lunar și creați cu ușurință programări noi.",
-      "button": "Accesați Calendarul"
-    },
-    "clients": {
-      "title": "Clienți",
-      "description": "Gestionați informațiile clienților",
-      "content": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale.",
-      "button": "Gestionați Clienții"
-    },
-    "invoices": {
-      "title": "Facturi",
-      "description": "Gestionați facturi și plăți",
-      "content": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real.",
-      "button": "Gestionați Facturile"
-    },
-    "reports": {
-      "title": "Rapoarte",
-      "description": "Analizați performanța afacerii",
-      "content": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii.",
-      "button": "Vizualizați Rapoartele"
-    },
     "manual": {
       "title": "Manual",
       "description": "Ghid complet de utilizare",
@@ -451,35 +321,11 @@
     "monthly": "Lunar",
     "addAppointment": "Programare Nouă",
     "today": "Astăzi",
-    "days": {
-      "monday": "Luni",
-      "tuesday": "Marți",
-      "wednesday": "Miercuri",
-      "thursday": "Joi",
-      "friday": "Vineri",
-      "saturday": "Sâmbătă",
-      "sunday": "Duminică"
-    },
-    "months": {
-      "january": "Ianuarie",
-      "february": "Februarie",
-      "march": "Martie",
-      "april": "Aprilie",
-      "may": "Mai",
-      "june": "Iunie",
-      "july": "Iulie",
-      "august": "August",
-      "september": "Septembrie",
-      "october": "Octombrie",
-      "november": "Noiembrie",
-      "december": "Decembrie"
-    },
     "description": "Vizualizează și gestionează toate programările",
     "subDescription": "Vizualizează programările în mod zilnic, săptămânal sau lunar și creează ușor programări noi",
     "goTo": "Mergi la Calendar",
     "weekView": "Vizualizare săptămânală",
     "monthView": "Vizualizare lunară",
-    "selectNewAppointment": "Selectează programare nouă",
     "selectTimeNewAppointment": "Selectează ora pentru programarea nouă",
     "confirmAndAssociateClient": "Confirmă și asociază clientul",
     "searchResults": "Rezultatele căutării",
@@ -490,8 +336,6 @@
     "customDuration": "Durată personalizată",
     "incrementBy15Min": "Crește cu 15 min",
     "decrementBy15Min": "Scade cu 15 min",
-    "selected": "Selectat",
-    "select": "Selectează",
     "noServicesAvailable": "Niciun serviciu disponibil",
     "goToSettingsToCreateService": "Mergi la Setări pentru a crea un serviciu",
     "noServicesFound": "Niciun serviciu găsit"
@@ -502,41 +346,13 @@
     "subDescription": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale",
     "goTo": "Gestionați Clienții",
     "addClient": "Client Nou",
-    "newClient": "Client Nou",
     "addFirstClient": "Adăugați primul client",
-    "search": {
-      "placeholder": "Căutare clienți după nume, telefon sau email...",
-      "minLength": "Introduceți cel puțin 2 caractere pentru a căuta"
-    },
     "filter": {
-      "all": "Toți",
-      "frequent": "Frecvenți",
       "noConsent": "Fără Consimțământ"
     },
-    "noClientsFound": "Nu s-au găsit clienți",
-    "noClientsInSystem": "Nu există clienți înregistrați în sistem",
-    "noResultsMatch": "Niciun client nu corespunde criteriilor de căutare \"{{query}}\"",
-    "refreshSuccess": "Datele clienților au fost actualizate",
-    "lastUpdate": "Ultima actualizare",
-    "autoUpdate": "Actualizare automată la fiecare oră și la 23:59",
-    "stats": {
-      "total": "Număr total de clienți",
-      "frequent": "Clienți frecvenți",
-      "noConsent": "Fără consimțământ"
-    },
-    "table": {
-      "name": "Prenume",
-      "surname": "Nume",
-      "email": "Email",
-      "phone": "Telefon",
-      "actions": "Acțiuni"
-    },
     "details": {
-      "title": "Detalii Client",
       "personalInfo": "Informații Personale",
-      "medicalInfo": "Informații Medicale",
       "appointments": "Programări",
-      "notes": "Note",
       "consents": "Consimțăminte",
       "clientDataConsent": "Date client/consimțământ",
       "clientFile": "Dosar Client",
@@ -574,29 +390,10 @@
     },
     "form": {
       "firstName": "Prenume",
-      "lastName": "Nume",
-      "email": "Email",
-      "phone": "Telefon",
-      "birthDate": "Data Nașterii",
-      "address": "Adresă",
-      "city": "Oraș",
-      "zipCode": "Cod Poștal",
-      "notes": "Note",
-      "save": "Salvare",
-      "cancel": "Anulare"
+      "lastName": "Nume"
     },
-    "loading": "Se încarcă clienții...",
-    "loadingAccessStatus": "Se verifică accesul clientului...",
-    "showDetails": "Detalii",
-    "showAppointments": "Programări",
-    "clientAccess": "Acces Client",
-    "qrGenerated": "QR generat",
-    "qrNotGenerated": "QR negenerat",
-    "generateQR": "Generează QR",
-    "manageClient": "Gestionează Clientul",
     "accesses": {
       "loading": "Caricamento...",
-      "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
@@ -630,18 +427,12 @@
     "date": "Data",
     "dueDate": "Dată Scadență",
     "amount": "Sumă",
-    "status": "Status",
     "paid": "Plătită",
     "unpaid": "Neplătită",
     "sentToClient": "Trimisă clientului",
     "preview": "Previzualizare",
     "print": "Tipărește",
-    "sendEmail": "Trimite Email",
-    "sendMultichannel": "Trimite Factura",
-    "markAsPaid": "Marchează ca Plătită",
-    "markAsUnpaid": "Marchează ca Neplătită",
     "deleteInvoice": "Șterge factura",
-    "confirmDelete": "Ești sigur că vrei să ștergi această factură?",
     "irreversibleAction": "Această acțiune este ireversibilă!",
     "form": {
       "clientRequired": "Client necesar",
@@ -652,18 +443,7 @@
       "selectClient": "Selectează client",
       "amountManualPh": "Introduceți suma manual"
     },
-    "email": {
-      "title": "Trimite Factura prin Email",
-      "recipient": "Email destinatar",
-      "subject": "Subiect",
-      "message": "Mesaj",
-      "invalidEmail": "Email invalid",
-      "subjectRequired": "Subiect necesar"
-    },
     "channels": {
-      "pwa": "App Client",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
       "noChannelSelected": "Selectează cel puțin un canal de trimitere",
       "noChannelSelectedTitle": "Niciun canal selectat"
     },
@@ -709,19 +489,10 @@
     "chronologicalKept": "✓ Ordine cronologică păstrată",
     "doCleanup": "Curăță numerotarea",
     "previewTitle": "👁️ Previzualizare factură",
-    "previewDesc": "Previzualizare a modului în care va arăta factura {{number}} înainte de trimitere sau tipărire",
-    "generatingPreview": "Se generează previzualizarea...",
-    "noPreviewAvailable": "Nicio previzualizare disponibilă",
-    "closePreview": "Închide previzualizarea",
     "printing": "Se tipărește...",
     "printInvoice": "Imprimă factura",
-    "sendByEmailBtn": "Trimite prin email",
-    "deleteConfirmText": "Sigur vrei să ștergi factura {{number}}?\n\nAceastă acțiune este ireversibilă!",
     "resendTitle": "⚠️ Confirmă retrimiterea facturii",
-    "alreadySentVia": "Această factură a fost deja trimisă prin următoarele canale:",
-    "sentOnDate": "Trimisă pe {{date}}",
     "resendQuestion": "Vrei într-adevăr să retrimiți factura către canalele selectate?",
-    "confirmResend": "Confirmă retrimiterea",
     "recipientPlaceholder": "client@exemplu.ro",
     "currentFormatValue": "Mixt (06/2025/001, 09/2025/002, etc.)",
     "afterFormatValue": "Legal NNN/AAAA (001/2025, 002/2025, etc.)",
@@ -792,28 +563,9 @@
   },
   "reports": {
     "title": "Rapoarte și Statistici",
-    "subtitle": "Analizează performanța afacerii tale",
-    "period": "Perioadă",
-    "today": "Astăzi",
-    "thisWeek": "Săptămâna aceasta",
-    "thisMonth": "Luna aceasta",
-    "thisYear": "Anul acesta",
-    "custom": "Personalizat",
-    "from": "De la",
-    "to": "Până la",
     "revenue": "Venituri",
     "appointments": "Programări",
-    "clients": "Clienți",
-    "newClients": "Clienți noi",
-    "averageTicket": "Bon mediu",
-    "mostPopularTreatments": "Cele mai populare tratamente",
-    "revenueByProfessional": "Venituri per profesionist",
-    "appointmentsByDay": "Programări pe zi",
-    "export": "Exportă",
     "exportPdf": "Exportă PDF",
-    "exportCsv": "Exportă CSV",
-    "noData": "Nu există date disponibile pentru această perioadă",
-    "loading": "Se încarcă rapoartele...",
     "weekly": "Săptămânal",
     "monthly": "Lunar",
     "yearly": "Anual",
@@ -847,19 +599,10 @@
   "settings": {
     "title": "Setări",
     "general": "Generale",
-    "profile": "Profil",
     "appearance": "Aspect",
-    "notifications": "Notificări",
-    "language": "Limbă",
-    "theme": "Temă",
-    "save": "Salvare Setări",
-    "googleCalendar": "Google calendar",
     "contacts": "Contacte & Program",
-    "saving": "Se salvează...",
     "contactsTitle": "Informații de Contact",
     "contactsDesc": "Gestionați informațiile de contact care vor fi afișate în subsolul aplicației pentru clienți",
-    "appName": "Nume Aplicație",
-    "appIcon": "Pictogramă Aplicație",
     "integrations": "Integrări",
     "appearanceTitle": "Identitate Corporativă",
     "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți.",
@@ -883,16 +626,13 @@
     "loading": "Se încarcă...",
     "scrollDown": "Derulează în jos",
     "cancel": "Anulează",
-    "confirm": "Confirmă",
     "delete": "Ștergeți",
     "edit": "Editați",
     "save": "Salvează",
-    "send": "Trimite",
     "close": "Închide",
     "error": "Eroare",
     "success": "Succes",
     "warning": "Atenție",
-    "saving": "Salvare...",
     "back": "Înapoi",
     "backToHomeBilingual": "Înapoi la pagina principală",
     "email": "E-mail",
@@ -900,12 +640,8 @@
     "test": "Test",
     "actions": "Acțiuni",
     "search": "Caută",
-    "required": "Obligatoriu",
     "notes": "Note",
-    "add": "Adaugă",
-    "update": "Actualizează",
     "create": "Creează",
-    "confirmDelete": "Sigur doriți să ștergeți?",
     "copy": "Copiați",
     "errorWithMessage": "A apărut o eroare: {{message}}",
     "saved": "Salvat",
@@ -918,12 +654,7 @@
     "demoLabel": "Demo"
   },
   "notifications": {
-    "success": "Operațiune finalizată cu succes",
-    "error": "A apărut o eroare",
-    "warning": "Avertisment",
-    "info": "Informație",
-    "clientDeleted": "Client șters",
-    "clientDeletedSuccess": "Clientul a fost șters cu succes"
+    "clientDeleted": "Client șters"
   },
   "whatsappNotifications": {
     "title": "Notificări clienți",
@@ -942,13 +673,7 @@
       "calendar": "Google Calendar"
     },
     "howItWorks": {
-      "title": "Cum funcționează notificările WhatsApp",
-      "steps": [
-        "Selectați programările pentru care doriți să trimiteți un memento",
-        "Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri",
-        "Se vor genera link-uri care deschid WhatsApp cu texte precompletate",
-        "Puteți personaliza textul standard înainte de trimitere"
-      ]
+      "title": "Cum funcționează notificările WhatsApp"
     },
     "customMessage": {
       "title": "Mesaj personalizat (opțional)",
@@ -967,7 +692,6 @@
       "service": "Serviciu",
       "time": "Ora",
       "actions": "Acțiuni",
-      "send": "Trimite",
       "selectAll": "Selectează tot"
     },
     "buttons": {
@@ -994,56 +718,17 @@
         "failed": "Fallito",
         "unknown": "Sconosciuto"
       }
-    },
-    "appointmentList": {
-      "selectAll": "Selectează tot",
-      "actions": "Acțiuni",
-      "sendButton": "Generare notificări WhatsApp",
-      "sending": "Se generează notificările..."
-    },
-    "errors": {
-      "loadingAppointments": "Nu s-au putut încărca programările",
-      "loadingHistory": "Nu s-a putut încărca istoricul",
-      "noneSelected": "Selectați cel puțin o programare pentru a trimite notificări",
-      "sendingFailed": "Nu s-au putut trimite memento-urile"
-    },
-    "success": {
-      "remindersSent": "Memento-urile au fost generate cu succes"
-    },
-    "whatsappLink": "Deschide WhatsApp"
+    }
   },
   "notificationSettings": {
     "title": "Setări notificări",
-    "enableEmailNotifications": "Activare notificări prin e-mail",
-    "emailSetup": {
-      "title": "Configurare rapidă e-mail",
-      "email": "E-mail",
-      "emailPlaceholder": "Introduceți adresa dvs. de e-mail",
-      "password": "Parolă",
-      "passwordPlaceholder": "Introduceți parola dvs. de e-mail",
-      "description": "Această configurație setează contul dvs. de e-mail pentru trimiterea notificărilor.",
-      "autoDetect": "Detectare automată a setărilor",
-      "emailRequired": "Introduceți adresa dvs. de e-mail pentru a detecta setările"
-    },
-    "errors": {
-      "loadingSettings": "Nu s-au putut încărca setările de notificare",
-      "savingSettings": "Nu s-au putut salva setările",
-      "testEmailMissing": "Introduceți o adresă de e-mail pentru testare"
-    },
-    "success": {
-      "settingsSaved": "Setările notificărilor au fost salvate cu succes",
-      "testEmailSent": "E-mail de test trimis cu succes",
-      "remindersProcessed": "Memento-urile au fost procesate cu succes"
-    },
     "tabs": {
       "email": "E-mail",
       "whatsapp": "WhatsApp",
       "general": "Setări generale"
     },
     "email": {
-      "enable": "Activează notificările prin e-mail",
-      "placeholderEmail": "Introduceți adresa de e-mail",
-      "placeholderPassword": "Introduceți parola de e-mail"
+      "enable": "Activează notificările prin e-mail"
     },
     "whatsapp": {
       "enable": "Activează notificările WhatsApp"
@@ -1112,7 +797,6 @@
     "quickEmailSetup": "Configurare rapidă email",
     "signatureLabel": "Semnătură email",
     "whatsappNumberLabel": "Număr WhatsApp pentru notificări",
-    "enterEmail": "Introduceți emailul",
     "testEmailSettings": "Testează setările de email",
     "whatsappNotificationsTitle": "Notificări WhatsApp",
     "phoneForNotifications": "Număr de telefon pentru notificări",
@@ -1139,29 +823,13 @@
     "defaultSignature": "Cu stimă,"
   },
   "googleCalendar": {
-    "title": "Google Calendar",
-    "setupInstructions": "Configurare integrare Google Calendar",
-    "emailLabel": "Cont Gmail",
-    "emailPlaceholder": "adresa.ta@gmail.com",
-    "emailDescription": "Contul Google pe care doriți să-l utilizați pentru calendar",
-    "connected": "Conectat",
-    "notConnected": "Neconectat",
-    "clientIdLabel": "ID Client",
-    "clientIdPlaceholder": "ID-ul tău Google Client",
-    "clientIdDescription": "Obțineți această valoare din consola Google Cloud",
-    "clientSecretLabel": "Client Secret",
-    "clientSecretPlaceholder": "Client Secret-ul tău Google",
-    "clientSecretDescription": "Obțineți această valoare din consola Google Cloud",
-    "configHelp": "Ajutor pentru configurare",
     "errors": {
-      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare",
       "emailRequired": "Introduceți email-ul Google pe care doriți să îl sincronizați",
       "popupBlocked": "Popup-ul a fost blocat. Dezactivați blocarea popup-urilor pentru acest site.",
       "authError": "Eroare în timpul autorizării"
     },
     "success": {
       "settingsSaved": "Setările de sincronizare au fost salvate cu succes",
-      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes",
       "connected": "Google Calendar conectat cu succes"
     },
     "setup": {
@@ -1194,27 +862,16 @@
       "proOnlyMessage": "Această funcție este disponibilă doar cu planul PRO.",
       "upgradeToPro": "Treci la PRO",
       "backToDashboard": "Înapoi la Dashboard",
-      "syncingNow": "Se sincronizează...",
-      "syncNow": "Sincronizează acum",
-      "syncStatus": "Stare sincronizare",
-      "lastSync": "Ultima sincronizare: {{date}}",
-      "syncedEvents": "Evenimente sincronizate: {{count}}",
-      "contactsSyncTitle": "Sincronizare Contacte Google",
-      "contactsSyncDesc": "Importă contacte din agenda Google ca clienți",
-      "testFeatureTitle": "🧪 Funcție în fază de testare",
-      "testFeatureDesc": "Importul contactelor Google este momentan disponibil doar pentru utilizatorii testeri autorizați. Dacă nu ești tester, poți vedea o eroare \"Acces blocat\" de la Google.",
       "reconnectNeeded": "Este necesară reconectarea",
       "reconnectDesc": "Pentru a accesa contactele trebuie să reconectezi contul Google cu noile permisiuni.",
       "reconnectButton": "Reconectează Google",
       "loadingContacts": "Se încarcă contactele...",
       "loadContacts": "Încarcă contactele din Google",
       "contactsFound": "S-au găsit {{count}} contacte în agenda Google",
-      "selectOrImportAll": "Selectează contactele de importat sau folosește \"Importă toate\"",
       "deselectAll": "Deselectează tot",
       "selectAll": "Selectează tot",
       "importAll": "Importă tot ({{count}})",
       "importSelected": "Importă selectate ({{count}})",
-      "unnamed": "Fără nume",
       "reloadContacts": "Reîncarcă contactele",
       "contactsNote1": "• Contactele existente (același email sau telefon) vor fi omise",
       "contactsNote2": "• Contactele importate vor avea nota \"Importat din Google Contacts\"",
@@ -1244,41 +901,10 @@
       "csvFormatTitle": "📋 Format de fișier necesar",
       "csvFormatDesc": "Fișierul CSV trebuie să aibă coloanele: <strong>Nume</strong>, <strong>Email</strong>, <strong>Telefon</strong>",
       "csvUpload": "Apasă pentru a încărca un fișier CSV",
-      "csvSelectedForImport": "{{count}} selectate pentru import",
       "csvImporting": "Se importă...",
       "csvImportButton": "Importă {{count}} contacte",
       "csvNote1": "• Formate acceptate: CSV (separator virgulă sau punct și virgulă)",
       "csvNote2": "• Contactele existente vor fi omise automat",
-      "toastSyncStarted": "Sincronizare finalizată",
-      "toastSyncDetails": "Importate: {{imported}}, Exportate: {{exported}}",
-      "toastSyncError": "Eroare sincronizare",
-      "toastSyncDefaultError": "Eroare în timpul sincronizării",
-      "toastSyncDefaultSuccess": "Sincronizare finalizată!",
-      "toastSessionExpired": "Sesiune expirată. Reautentifică-te.",
-      "toastConnectionError": "Eroare de conexiune",
-      "toastReconnectError": "Nu se poate începe reconectarea",
-      "toastContactsLoaded": "Contacte încărcate",
-      "toastContactsLoadedDesc": "Au fost găsite {{count}} contacte în agenda Google",
-      "toastReconnectGoogle": "Reconectează Google",
-      "toastReconnectGoogleDesc": "Trebuie să reconectezi contul Google pentru a accesa contactele.",
-      "toastContactsLoadError": "Eroare la încărcarea contactelor",
-      "toastImportComplete": "Import finalizat",
-      "toastImportedCount": "Importate {{count}} contacte",
-      "toastImportError": "Eroare la import",
-      "toastImportContactsError": "Eroare la importul contactelor",
-      "toastEmptyFile": "Fișier gol",
-      "toastEmptyFileDesc": "Fișierul CSV nu conține date",
-      "toastInvalidFormat": "Format invalid",
-      "toastInvalidFormatDesc": "Fișierul trebuie să conțină coloanele: nume, email sau telefon",
-      "toastFileLoaded": "Fișier încărcat",
-      "toastFileLoadedDesc": "Au fost găsite {{count}} contacte în fișier",
-      "toastFileReadError": "Eroare la citirea fișierului",
-      "toastFileReadErrorDesc": "Nu se poate citi fișierul CSV",
-      "toastNoSelected": "Niciun contact selectat",
-      "toastNoSelectedDesc": "Selectează cel puțin un contact pentru import",
-      "csvImportedFromCsv": "Importat din fișier CSV",
-      "csvImportedCount": "{{imported}} contacte importate{{skipped}}",
-      "csvSkippedSuffix": ", {{skipped}} existau deja",
       "connError": "Nu se poate iniția reconectarea",
       "connErrorGeneric": "Eroare de conexiune",
       "sessionExpired": "Sesiunea a expirat. Conectează-te din nou.",
@@ -1314,38 +940,18 @@
       "contactsCardDesc": "Importă contactele din agenda Google ca clienți",
       "testFeatureLong": "🧪 Funcție în testare",
       "testFeatureLongDesc": "Importul contactelor Google este momentan disponibil doar pentru utilizatorii tester autorizați. Dacă nu ești tester, poți vedea o eroare \"Acces blocat\" de la Google.",
-      "reconnectNeededDesc": "Pentru a accesa contactele trebuie să reconectezi contul Google cu noile permisiuni.",
-      "loadContactsButton": "Încarcă contacte din Google",
       "contactsCountFound": "S-au găsit {{count}} contacte",
       "contactsHint": "Selectează contactele de importat sau folosește \"Importă tot\"",
       "noName": "Fără nume",
-      "csvCardTitle": "Importă din fișier (CSV/vCard)",
-      "csvCardDesc": "Pentru cei care nu folosesc Gmail: importă contactele din telefon sau alte servicii",
-      "csvHowToTitle": "Cum exporți contactele din telefon",
-      "csvUploadHint": "Apasă pentru a încărca un fișier CSV",
       "csvSelectedN": "{{count}} selectate pentru import",
       "syncStatusTitle": "Stare sincronizare",
       "lastSyncDate": "Ultima sincronizare: {{date}}",
       "syncedEventsN": "Evenimente sincronizate: {{count}}"
     },
-    "connect": "Conectează Google Calendar",
-    "disconnect": "Deconectează Google Calendar",
-    "sync": "Sincronizează",
-    "syncing": "Se sincronizează...",
     "settings": {
-      "title": "Sincronizare Google Calendar",
-      "description": "Sincronizează programările cu calendarul Google",
       "loadError": "Eroare la încărcarea setărilor de sincronizare",
-      "enableSync": "Activează sincronizarea cu Google Calendar",
-      "enableSyncDesc": "Când este activă, programările vor fi sincronizate automat cu calendarul Google specificat",
-      "gmailAddress": "Adresă Gmail",
-      "gmailHelp": "Introdu adresa Gmail a calendarului cu care dorești să sincronizezi programările:",
       "gmailHint": "Introdu adresa Gmail a calendarului cu care vrei să sincronizezi programările:",
-      "alreadyAuthorized": "Contul Google a fost deja autorizat",
-      "notAuthorized": "Cont Google neautorizat",
-      "notAuthorizedDesc": "Pentru a finaliza configurarea, trebuie să autorizezi accesul la contul Google.",
       "clientIdLabel": "Google Client ID",
-      "clientIdHelpTitle": "Cum obții Google Client ID:",
       "clientIdSteps": [
         "Deschide Google Cloud Console",
         "Selectează sau creează un proiect nou",
@@ -1356,9 +962,7 @@
         "Client ID va fi afișat după ce apeși \"Creează\""
       ],
       "clientIdPlaceholder": "Client ID-ul tău Google",
-      "getFromConsole": "Obține din Google Cloud Console",
       "clientSecretLabel": "Google Client Secret",
-      "clientSecretHelpTitle": "Cum obții Google Client Secret:",
       "clientSecretSteps": [
         "Urmează aceeași procedură ca pentru Client ID",
         "După crearea ID-ului client OAuth, pagina va afișa atât Client ID, cât și Client Secret",
@@ -1368,81 +972,15 @@
       ],
       "clientSecretPlaceholder": "Client Secret-ul tău Google",
       "startAuth": "Începe procesul de autorizare",
-      "configHelp": "Ajutor pentru configurare",
-      "stepGuideTitle": "Ghid pas cu pas pentru configurare",
-      "guide1Title": "1. Crearea proiectului Google Cloud",
-      "guide1Steps": [
-        "Mergi la Google Cloud Console",
-        "Creează un proiect nou (ex. \"App Programări\")"
-      ],
-      "guide2Title": "2. Activează Google Calendar API",
-      "guide2Steps": [
-        "În meniul lateral, mergi la \"API-uri și servicii\" → \"Bibliotecă\"",
-        "Caută \"Google Calendar API\" și selecteaz-o",
-        "Apasă \"Activează\""
-      ],
-      "guide3Title": "3. Configurează consimțământul OAuth",
-      "guide3Steps": [
-        "În meniul lateral, mergi la \"API-uri și servicii\" → \"Ecran consimțământ OAuth\"",
-        "Selectează \"Extern\" și apasă \"Creează\"",
-        "Completează câmpurile obligatorii (nume app, email suport)",
-        "La \"Domenii autorizate\" adaugă domeniul aplicației",
-        "Pentru scope-uri, adaugă \"./auth/calendar\" și \"./auth/calendar.events\"",
-        "Adaugă adresa de email ca utilizator de test"
-      ],
-      "guide4Title": "4. Creează acreditările OAuth",
-      "guide4Steps": [
-        "În meniul lateral, mergi la \"API-uri și servicii\" → \"Acreditări\"",
-        "Apasă \"Creează acreditări\" → \"ID client OAuth\"",
-        "Selectează \"Aplicație web\" ca tip",
-        "Adaugă un nume (ex. \"App Web Programări\")",
-        "La \"URI-uri de redirecționare autorizate\" adaugă URL-ul complet al paginii de setări (inclusiv \"https://\")",
-        "Apasă \"Creează\" și copiază Client ID și Client Secret"
-      ],
       "instructionsTitle": "Instrucțiuni de configurare:",
-      "instructionStep1": "Creează un proiect pe Google Cloud",
-      "instructionStep1Sub1": "Mergi la Google Cloud Console",
-      "instructionStep1Sub2": "Creează un proiect nou sau selectează unul existent",
-      "instructionStep2": "Activează API-urile Google Calendar",
-      "instructionStep2Sub1": "Mergi la API Library",
-      "instructionStep2Sub2": "Caută \"Google Calendar API\" și activeaz-o",
-      "instructionStep3": "Configurează acreditările OAuth",
-      "instructionStep3Sub1": "Mergi la Credentials",
-      "instructionStep3Sub2": "Apasă \"Creează acreditări\" și selectează \"ID Client OAuth\"",
-      "instructionStep3Sub3": "Configurează ecranul de consimțământ OAuth (obligatoriu)",
-      "instructionStep3Sub4": "Adaugă URL-ul aplicației ca \"URI de redirecționare autorizat\"",
-      "instructionStep3Sub5": "Copiază Client ID și Client Secret în aplicație",
-      "instructionStep4": "Finalizează autorizarea",
-      "instructionStep4Sub1": "Apasă \"Începe procesul de autorizare\"",
-      "instructionStep4Sub2": "Urmează instrucțiunile din dialog",
-      "note": "Notă:",
       "noteText": "Programările vor fi sincronizate doar dacă opțiunea este activă, autorizarea este finalizată și adresa Gmail este corectă.",
       "savingButton": "Se salvează...",
       "saveButton": "Salvează setările",
-      "authDialogTitle": "Autorizează Google Calendar",
-      "authDialogDesc": "Pentru a sincroniza programările trebuie să autorizezi accesul la contul Google Calendar",
-      "openLinkAndAuth": "Deschide linkul următor și urmează instrucțiunile pentru a autoriza accesul la Google Calendar:",
-      "openGoogleAuthPage": "Deschide pagina de autorizare Google",
-      "authCode": "Cod de autorizare",
-      "authCodePlaceholder": "Lipește aici codul furnizat de Google",
-      "cancel": "Anulează",
       "verifying": "Se verifică...",
-      "verifyCode": "Verifică codul",
-      "selectCalendar": "Selectează un calendar",
-      "selectCalendarDesc": "Alege calendarul Google pentru sincronizare",
-      "mainCalendar": "Calendar principal",
-      "noCalendarsFound": "Nu s-au găsit calendare în contul Google",
-      "toastSettingsSaved": "Setări salvate",
-      "toastSaveSuccess": "Setările de sincronizare au fost salvate",
       "toastSaveError": "Nu s-au putut salva setările. Încearcă din nou mai târziu.",
-      "toastAuthComplete": "Autorizare finalizată",
-      "toastAuthCompleteDesc": "Contul Google a fost conectat cu succes",
       "toastAuthError": "Eroare de autorizare",
       "toastAuthErrorDesc": "Contul Google nu a putut fi autorizat. Verifică codul introdus.",
       "toastAuthErrorGeneric": "A apărut o eroare în timpul autorizării Google",
-      "toastCodeMissing": "Cod lipsă",
-      "toastCodeMissingDesc": "Introdu codul de autorizare furnizat de Google",
-      "toastAuthUrlError": "Nu s-a putut genera URL-ul de autorizare",
       "toastSavedTitle": "Setări salvate",
       "toastAuthCompleted": "Autorizare finalizată",
       "toastMissingCode": "Cod lipsă",
@@ -1580,7 +1118,6 @@
         "Pentru conturile Google, trebuie să folosești o \"parolă pentru aplicație\" specifică",
         "Verifică dacă contul Google a fost autorizat corect"
       ],
-      "createAppPassword": "Creează o parolă pentru aplicație",
       "goToEmailSettings": "Mergi la setările email",
       "restartAuth": "Repornește autorizarea",
       "restartAuthDesc": "În unele cazuri trebuie să repornești complet procesul de autorizare Google. Acest lucru poate rezolva probleme cu tokenuri expirate sau revocate.",
@@ -1609,7 +1146,6 @@
       "restartAuthorization": "Repornește autorizarea",
       "toastAuthDone": "Autorizare finalizată",
       "toastAuthDoneDesc": "Contul Google a fost autorizat cu succes",
-      "toastAuthErrorTitle": "Eroare",
       "toastCannotStart": "Nu s-a putut porni autorizarea Google",
       "toastAuthErrorDesc": "A apărut o eroare în timpul autorizării Google",
       "statusAccountAuthorized": "Cont autorizat",
@@ -1620,17 +1156,11 @@
     }
   },
   "errors": {
-    "genericError": "A apărut o eroare: {{error}}",
-    "qrCodeFetchError": "Eroare la obținerea codului QR existent:"
+    "genericError": "A apărut o eroare: {{error}}"
   },
   "auth": {
     "login": "Autentificare",
-    "logout": "Deconectare",
-    "username": "Nume utilizator",
-    "password": "Parola",
-    "rememberMe": "Ține-mă minte",
-    "forgotPassword": "Ați uitat parola?",
-    "loginButton": "Autentificare"
+    "logout": "Deconectare"
   },
   "clientArea": {
     "installApp": "Instalează aplicația",
@@ -1641,8 +1171,6 @@
     "newRequest": "Solicitare nouă",
     "pushNotifDesc": "Primește o notificare când programarea ta este confirmată",
     "selectService": "Selectează serviciul",
-    "noServicesAvailable": "Niciun serviciu disponibil în acest moment.",
-    "contactCenter": "Contactează centrul pentru mai multe informații.",
     "chooseService": "Alege un serviciu...",
     "preferredStaff": "Professional preferat (opțional)",
     "chooseStaff": "Alege profesionalul...",
@@ -1763,8 +1291,6 @@
     "updateContactPro": "Pentru a actualiza datele, contactează profesionistul tău",
     "appointmentsTitle": "Programări",
     "loadingAppointments": "Se încarcă programările...",
-    "futureAppointmentsCount_one": "Ai {{count}} programare viitoare",
-    "futureAppointmentsCount_other": "Ai {{count}} programări viitoare",
     "noFutureAppointments": "Nicio programare viitoare planificată",
     "viewAll": "Vezi toate",
     "consentsTitle": "Consimțăminte",
@@ -1801,16 +1327,14 @@
     "reservedToProClients": "Această zonă este rezervată clienților profesioniștilor",
     "cannotVerifyAuth": "Nu se poate verifica autentificarea",
     "errorLoadingAppointments": "Nu se pot încărca programările",
-    "errorGeneric": "Eroare"
+    "errorGeneric": "Eroare",
+    "futureAppointmentsCount_one": "Ai {{count}} programare viitoare",
+    "futureAppointmentsCount_other": "Ai {{count}} programări viitoare"
   },
   "contacts": {
     "accessOurContacts": "Accesați contactele noastre"
   },
   "appointment": {
-    "selectTimeSlots": "Selectați ora pentru programarea nouă",
-    "confirmAndAssociateClient": "Confirmați și asociați clientul",
-    "selected": "Selectat",
-    "selectSlots": "Selectați intervalele orare",
     "confirmDelete": "Ești sigur că vrei să ștergi această programare?",
     "confirmDeleteTitle": "Șterge programarea",
     "confirmDeleteDescription": "Sigur doriți să ștergeți această programare? Această acțiune nu poate fi anulată.",
@@ -1827,149 +1351,25 @@
     "home": "Acasă",
     "notifications": "Notificări",
     "referral": "Recomandare",
-    "aiSetup": "Configurare AI",
-    "aiSettings": "Setări AI",
     "aiAssistant": "Asistent AI",
     "staff": "Personal",
     "payments": "Plăți",
     "requests": "Cereri"
-  },
-  "sidebar": {
-    "clients": "Clienți",
-    "calendar": "Calendar",
-    "invoices": "Facturi",
-    "reports": "Rapoarte",
-    "settings": "Setări"
   },
   "trial": {
     "days": "zile",
     "expired": "Expirat",
     "upgradeMessage": "Descoperiți planurile premium"
   },
-  "banking": {
-    "title": "Configurare Plăți",
-    "subtitle": "Gestionați detaliile bancare pentru plățile automate de comisioane de recomandare",
-    "bankName": "Nume Bancă",
-    "bankNamePlaceholder": "ex. Banca Transilvania",
-    "accountHolder": "Titular Cont",
-    "accountHolderPlaceholder": "Nume complet / Denumire firmă",
-    "iban": "IBAN",
-    "ibanPlaceholder": "RO49 AAAA 1B31 0075 9384 0000",
-    "bic": "BIC/SWIFT",
-    "bicPlaceholder": "ex. BTRLRO22",
-    "address": "Adresă",
-    "addressPlaceholder": "Adresă completă de facturare",
-    "autoPayEnabled": "Plată Automată Comisioane",
-    "paymentDelay": "Întârziere Plată (zile)",
-    "paymentDelayPlaceholder": "30",
-    "minimumAmount": "Sumă Minimă (€)",
-    "minimumAmountPlaceholder": "1.00",
-    "description": "Descriere",
-    "descriptionPlaceholder": "Descriere pentru transferuri",
-    "showIban": "Afișare IBAN",
-    "hideIban": "Ascundere IBAN",
-    "testPayment": "Testare Plată",
-    "saveSettings": "Salvare Setări",
-    "configured": "Configurat",
-    "notConfigured": "Neconfigurat",
-    "status": {
-      "configured": "Detaliile bancare sunt configurate corect",
-      "notConfigured": "Configurați detaliile bancare pentru a activa plățile de comisioane"
-    },
-    "alerts": {
-      "security": "Detaliile bancare sunt protejate și criptate. Doar administratorii le pot vizualiza.",
-      "paymentInfo": "Comisioanele vor fi plătite automat când soldul depășește suma minimă configurată."
-    },
-    "success": {
-      "saved": "Setări salvate",
-      "savedDescription": "Setările bancare au fost actualizate cu succes",
-      "testComplete": "Test finalizat",
-      "testSuccess": "Sistemul de plată este configurat corect"
-    },
-    "errors": {
-      "saveFailed": "Nu s-au putut salva setările bancare",
-      "testFailed": "Verificați configurarea detaliilor bancare"
-    }
-  },
   "payments": {
-    "title": "Administrare Plăți",
-    "subtitle": "Gestionați abonamente, tranzacții și comisioane",
-    "tabs": {
-      "overview": "Prezentare",
-      "transactions": "Tranzacții",
-      "methods": "Metode de Plată",
-      "settings": "Setări"
-    },
-    "demo": "DEMO",
-    "realData": "Date Reale",
-    "testTransaction": "Tranzacție test",
-    "filterByLicense": "Filtrare după licență",
-    "allLicenses": "Toate licențele",
-    "stats": {
-      "totalRevenue": "Venit Total",
-      "activeSubscriptions": "Abonamente Active",
-      "pendingCommissions": "Comisioane în Așteptare"
-    },
-    "table": {
-      "date": "Dată",
-      "user": "Utilizator",
-      "license": "Licență",
-      "amount": "Sumă",
-      "method": "Metodă",
-      "status": "Status",
-      "actions": "Acțiuni"
-    },
-    "status": {
-      "completed": "Finalizat",
-      "pending": "În așteptare",
-      "failed": "Eșuat",
-      "cancelled": "Anulat"
-    },
-    "methods": {
-      "stripe": "Stripe",
-      "paypal": "PayPal",
-      "bankTransfer": "Transfer Bancar",
-      "wise": "Wise"
-    }
+    "title": "Administrare Plăți"
   },
   "referral": {
     "title": "Program de recomandare",
-    "subtitle": "Câștigați comisioane invitând clienți noi",
     "adminOnly": "Doar administratorii pot gestiona recomandările, coordona și verifica abonamentele sponsorizate de personal pentru a procesa plățile",
-    "yourCode": "Codul tău",
-    "copyCode": "Copiază codul",
     "shareCode": "Distribuie codul tău de recomandare",
     "copyToClipboard": "Copiază în clipboard",
-    "share": "Partajare",
-    "earnings": {
-      "title": "Câștigurile Dvs.",
-      "total": "Total Câștigat",
-      "pending": "În așteptare",
-      "paid": "Plătit"
-    },
-    "iban": {
-      "title": "IBAN pentru Plăți",
-      "placeholder": "RO49 AAAA 1B31 0075 9384 0000",
-      "description": "Introduceți IBAN-ul pentru a primi comisioane",
-      "save": "Salvare IBAN",
-      "saved": "IBAN salvat cu succes"
-    },
-    "commissions": {
-      "title": "Comisioane",
-      "customer": "Client",
-      "license": "Licență",
-      "amount": "Sumă",
-      "status": "Status",
-      "date": "Dată",
-      "noCommissions": "Încă nu există comisioane",
-      "pending": "În așteptare",
-      "paid": "Plătit"
-    },
     "howItWorks": "Cum funcționează programul",
-    "shareLink": "Distribuie linkul",
-    "invitations": "Invitații",
-    "rewards": "Recompense",
-    "copied": "Cod copiat!",
     "payout": {
       "dialogTitle": "Metode de plată comisioane",
       "dialogDesc": "Configurează modul în care vrei să primești comisioanele de recomandare.",
@@ -1989,7 +1389,6 @@
       "save": "Salvează"
     },
     "upgradeToAccess": "Actualizează planul pentru a accesa",
-    "registrationAndSub": "Înregistrare și abonament:",
     "paymentMethods": "Metode de plată:",
     "noActiveSubTitle": "Niciun abonament activ",
     "noActiveSubDesc": "Utilizatorii trebuie să activeze un abonament cu plată pentru a genera comisioane",
@@ -2004,7 +1403,6 @@
     "configSaved": "Configurație salvată",
     "bankSaveError": "Nu se pot salva datele bancare: {{msg}}",
     "codeCopiedTitle": "Cod copiat!",
-    "shareError": "Eroare la partajare:",
     "textCopiedTitle": "Text copiat!",
     "codeGenTitle": "Cod generat",
     "yourReferralCode": "Codul tău personal de recomandare",
@@ -2094,193 +1492,7 @@
   },
   "manual": {
     "pwa": {
-      "title": "Solicitări Programări PWA Client",
-      "sections": [
-        {
-          "key": "client-flow",
-          "title": "Cum funcționează pentru client",
-          "badge": {
-            "text": "Cum funcționează pentru client",
-            "color": "purple"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Acces PWA",
-                  "text": "Clientul deschide aplicația PWA personalizată (instalată prin cod QR)"
-                },
-                {
-                  "title": "Meniu Programări",
-                  "text": "Apasă pe \"Solicită Programare\" din meniul principal"
-                },
-                {
-                  "title": "Selectare Serviciu",
-                  "text": "Alege tratamentul dorit din listă"
-                },
-                {
-                  "title": "Preferință Colaborator",
-                  "text": "OPȚIONAL",
-                  "items": [
-                    "Poate alege un colaborator preferat din meniul drop-down",
-                    "Sau poate lăsa \"Nicio preferință\" pentru alocare automată"
-                  ]
-                },
-                {
-                  "title": "Dată și Oră",
-                  "text": "Selectează data și intervalul orar dorit"
-                },
-                {
-                  "title": "Trimitere Solicitare",
-                  "text": "Apasă \"Trimite Solicitare\" - solicitarea ajunge în secțiunea dumneavoastră \"Solicitări Rezervare\""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "admin-management",
-          "title": "Gestionare solicitări (Admin)",
-          "badge": {
-            "text": "Gestionare solicitări (Admin)",
-            "color": "blue"
-          },
-          "blocks": [
-            {
-              "type": "text",
-              "content": "Percurs: Meniu principal → Solicitări Rezervare"
-            },
-            {
-              "type": "list",
-              "items": [
-                {
-                  "title": "Primiți notificarea",
-                  "text": "Vizualizați solicitarea cu toate detaliile (client, serviciu, dată, oră, preferință colaborator)"
-                },
-                {
-                  "title": "Confirmare Automată",
-                  "items": [
-                    "Apăsați \"Aprobare\" pentru confirmare rapidă",
-                    "Sistemul alocă automat colaboratorul preferat (dacă este disponibil) sau unul liber",
-                    "Alocă automat prima cameră liberă"
-                  ]
-                },
-                {
-                  "title": "Confirmare Manuală",
-                  "items": [
-                    "Se deschide un dialog cu opțiuni de selectare",
-                    "Puteți alege manual colaboratorul și camera",
-                    "Util pentru optimizarea organizării sau gestionarea preferințelor speciale"
-                  ]
-                },
-                {
-                  "title": "Notificare Client",
-                  "text": "Clientul primește confirmarea programării cu detalii complete (colaborator și cameră alocate)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "key": "other-features",
-          "title": "Alte Funcționalități PWA Client",
-          "badge": {
-            "text": "Alte Funcționalități PWA Client",
-            "color": "teal"
-          },
-          "blocks": [
-            {
-              "type": "nestedList",
-              "items": [
-                {
-                  "title": "📅 Vizualizare Programări",
-                  "items": [
-                    "Lista completă a tuturor programărilor (trecute și viitoare)",
-                    "Detalii: dată, oră, serviciu, colaborator alocat, cameră",
-                    "Stare programare (confirmată, finalizată, anulată)",
-                    "Actualizare în timp real"
-                  ]
-                },
-                {
-                  "title": "📄 Documente și Facturi",
-                  "items": [
-                    "Acces la toate facturile emise",
-                    "Descărcare PDF direct din aplicație",
-                    "Istoric complet al plăților"
-                  ]
-                },
-                {
-                  "title": "📞 Contacte Directe",
-                  "items": [
-                    "📧 Email: Apăsați pentru a deschide clientul de email cu adresa precompletată",
-                    "📱 Telefon: Apăsați pentru a apela direct cabinetul",
-                    "🌐 Site Web: Legătură directă către site-ul dumneavoastră",
-                    "📷 Instagram: Deschidere profil Instagram",
-                    "👍 Facebook: Legătură către pagina Facebook"
-                  ]
-                },
-                {
-                  "title": "🔔 Notificări Push",
-                  "items": [
-                    "Mementouri automate pentru programări",
-                    "Confirmări rezervări",
-                    "Actualizări importante de la cabinet"
-                  ]
-                },
-                {
-                  "title": "📱 Funcționează Offline",
-                  "items": [
-                    "Acces la date chiar și fără conexiune",
-                    "Sincronizare automată când revine online"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "benefits": {
-        "title": "✨ Avantajele Aplicației PWA pentru Clienți",
-        "items": [
-          {
-            "title": "Fără Descărcare din Store",
-            "text": "Instalare instantanee prin cod QR, fără a trece prin App Store sau Google Play"
-          },
-          {
-            "title": "Întotdeauna Actualizată",
-            "text": "Actualizări automate fără necesitatea instalării de noi versiuni"
-          },
-          {
-            "title": "Personalizată",
-            "text": "Fiecare client vede doar datele sale (programări, facturi, documente)"
-          },
-          {
-            "title": "Pictogramă Personalizată",
-            "text": "Aplicația afișează logo-ul cabinetului dumneavoastră pe ecranul telefonului"
-          },
-          {
-            "title": "Acces Rapid",
-            "text": "O apăsare pe pictogramă și clientul intră în zona sa rezervată"
-          },
-          {
-            "title": "Multi-Platformă",
-            "text": "Funcționează pe iPhone, Android, tabletă și desktop"
-          },
-          {
-            "title": "Sigură",
-            "text": "Autentificare prin token unic, fără parolă de reținut"
-          },
-          {
-            "title": "Contact Direct",
-            "text": "Email, telefon și rețele sociale la o apăsare distanță"
-          }
-        ]
-      },
-      "tips": {
-        "proTip": "Arătați clienților cum să instaleze aplicația în timpul primei vizite. Vor vedea imediat valoarea adăugată și se vor simți mai implicați în relația cu cabinetul dumneavoastră!",
-        "retention": "Aplicația PWA personalizată creează o legătură mai strânsă cu clienții, crescând loialitatea și reducând absențele neconfirmate datorită mementourilor automate și experienței premium pentru utilizatori."
-      }
+      "title": "Solicitări Programări PWA Client"
     },
     "page": {
       "header": {
@@ -2580,12 +1792,8 @@
   },
   "packages": {
     "title": "Gestionare Pachete Promoționale",
-    "subtitle": "Creează și gestionează pachete de tratamente pentru clienții tăi",
     "newPackage": "Pachet Nou",
     "newShort": "Nou",
-    "noPackages": "Nu s-au găsit pachete",
-    "startCreating": "Începe prin crearea primului tău pachet promoțional",
-    "createFirst": "Creează Primul Pachet",
     "noPackagesCreated": "Niciun pachet promoțional creat",
     "createFirstPackage": "Creează primul tău pachet",
     "noPackagesSold": "Niciun pachet vândut încă",
@@ -2593,23 +1801,12 @@
     "inactive": "Inactiv",
     "completed": "Finalizat",
     "expired": "Expirat",
-    "soldTo": "Vândut către",
-    "used": "Folosite",
-    "of": "din",
-    "sessions": "ședințe",
     "sessionsLabel": "Ședințe",
-    "remaining": "Rămase",
-    "valid": "Valid",
-    "until": "până la",
     "validity": "Valabilitate",
     "days": "zile",
     "price": "Preț",
-    "originalPrice": "Preț original",
-    "discount": "Reducere",
     "services": "Servicii",
-    "edit": "Editează",
     "delete": "Șterge",
-    "confirmDelete": "Ești sigur că vrei să ștergi acest pachet?",
     "confirmDeleteTitle": "Confirmă ștergerea",
     "confirmDeleteDesc": "Ești sigur că vrei să ștergi acest șablon? Această acțiune nu poate fi anulată.",
     "tabs": {
@@ -2633,18 +1830,13 @@
     "form": {
       "name": "Nume pachet",
       "namePlaceholder": "ex. 10 Tratamente Faciale Premium",
-      "description": "Descriere",
       "descriptionOptional": "Descriere (opțional)",
       "descriptionPlaceholder": "Descrierea pachetului...",
       "totalSessions": "Număr Ședințe",
       "totalPrice": "Preț Total",
-      "price": "Preț redus",
-      "originalPrice": "Preț original",
       "validDays": "Valabilitate (zile, opțional)",
       "includedServices": "Servicii Incluse",
       "addService": "Adaugă serviciu...",
-      "selectClient": "Selectează client",
-      "selectTreatment": "Selectează tratament",
       "cancel": "Anulează",
       "creating": "Creare...",
       "createPackage": "Creează Pachet",
@@ -2653,12 +1845,10 @@
     "toast": {
       "created": "Pachet creat cu succes",
       "createdDesc": "Pachetul promoțional a fost creat cu succes",
-      "updated": "Pachet actualizat",
       "deleted": "Pachet șters",
       "deletedDesc": "Șablonul a fost șters cu succes",
       "sold": "Pachet vândut",
       "soldDesc": "Pachetul a fost atribuit clientului",
-      "error": "Eroare operațiune pachet",
       "cannotCreate": "Nu se poate crea șablonul",
       "cannotSell": "Nu se poate vinde pachetul",
       "cannotDelete": "Nu se poate șterge șablonul"
@@ -2666,19 +1856,12 @@
   },
   "inventory": {
     "title": "Gestionare Stoc",
-    "subtitle": "Gestionează produsele și stocul tău",
     "newProduct": "Produs Nou",
     "addNewProduct": "Adaugă Produs Nou",
     "editProduct": "Editează Produs",
-    "noProducts": "Nu s-au găsit produse",
-    "startCreating": "Începe prin adăugarea primului tău produs",
-    "createFirst": "Adaugă Primul Produs",
     "available": "Disponibil",
-    "inStock": "În stoc",
     "lowStock": "Stoc scăzut",
     "outOfStock": "Epuizat",
-    "quantity": "Cantitate",
-    "minStock": "Stoc minim",
     "price": "Preț",
     "cost": "Cost",
     "min": "Min",
@@ -2689,22 +1872,17 @@
       "registerSale": "Înregistrează Vânzare",
       "unitPrice": "Preț Unitar",
       "reference": "Referință (Factură, etc.)",
-      "registering": "Înregistrare...",
       "registerLoad": "Înregistrează Intrare",
       "registerSaleBtn": "Înregistrează Vânzare"
     },
     "sku": "Cod SKU",
     "barcode": "Cod de bare",
-    "category": "Categorie",
     "edit": "Editează",
     "delete": "Șterge",
     "confirmDelete": "Confirmă ștergerea",
     "confirmDeleteDesc": "Ești sigur că vrei să ștergi produsul",
     "cannotUndo": "Această acțiune nu poate fi anulată.",
     "cancel": "Anulează",
-    "adjustStock": "Ajustează Stocul",
-    "addStock": "Adaugă",
-    "removeStock": "Elimină",
     "tabs": {
       "products": "Produse",
       "movements": "Mișcări",
@@ -2727,7 +1905,6 @@
     "form": {
       "name": "Nume Produs",
       "description": "Descriere",
-      "sku": "Cod SKU",
       "category": "Categorie",
       "selectCategory": "Selectează categorie",
       "noCategories": "Nicio categorie disponibilă",
@@ -2735,11 +1912,7 @@
       "price": "Preț vânzare",
       "costPrice": "Cost Achiziție",
       "quantity": "Cantitate disponibilă",
-      "minStock": "Stoc minim",
-      "maxStock": "Stoc maxim",
-      "unit": "Unitate",
       "supplier": "Furnizor",
-      "supplierContact": "Contact furnizor",
       "location": "Locație depozit",
       "image": "Imagine Produs (opțional)",
       "changeImage": "Schimbă Imaginea",
@@ -2751,13 +1924,7 @@
       "discount": "Reducere (%)"
     },
     "movements": {
-      "title": "Mișcări Recente Depozit",
-      "noMovements": "Nicio mișcare recentă",
-      "in": "Intrare",
-      "out": "Ieșire",
-      "sale": "Vânzare",
-      "adjustment": "Ajustare",
-      "waste": "Pierdere"
+      "title": "Mișcări Recente Depozit"
     },
     "sales": {
       "title": "Vânzări Produse",
@@ -2768,10 +1935,7 @@
       "newCategory": "Categorie Nouă",
       "addNewCategory": "Adaugă Categorie Nouă",
       "name": "Nume Categorie",
-      "description": "Descriere",
       "color": "Culoare",
-      "products": "produse",
-      "creating": "Creare...",
       "create": "Creează Categorie"
     },
     "saving": "Salvare...",
@@ -2991,23 +2155,6 @@
     "workingHoursStep": {
       "title": "Program de lucru",
       "description": "Am setat deja un program implicit de deschidere. Îl poți modifica oricând din Setări, unde găsești calendarul complet cu toate zilele și pauzele.",
-      "presets": "Șabloane rapide",
-      "presetMonFri": "Lun–Vin 9:00–18:00",
-      "presetMonSat": "Lun–Sâm 9:00–19:00",
-      "presetTueSat": "Mar–Sâm 10:00–20:00",
-      "daysLabel": "Zile de deschidere",
-      "startLabel": "Deschidere",
-      "endLabel": "Închidere",
-      "invalidHint": "Alege cel puțin o zi și verifică ca deschiderea să fie înainte de închidere.",
-      "days": {
-        "monday": "Lun",
-        "tuesday": "Mar",
-        "wednesday": "Mie",
-        "thursday": "Joi",
-        "friday": "Vin",
-        "saturday": "Sâm",
-        "sunday": "Dum"
-      },
       "defaultsLabel": "Program implicit activ",
       "defaultsValue": "Luni – Sâmbătă, 08:00 – 22:00",
       "editHint": "Pentru a ajusta zilele, intervalele sau pauzele, deschide Setări într-o filă nouă — turul rămâne așa cum este.",
@@ -3093,16 +2240,14 @@
       "summary": {
         "business": "Afacerea ta",
         "services": "{{count}} serviciu creat",
-        "services_other": "{{count}} servicii create",
-        "hours": "Program de lucru"
+        "services_other": "{{count}} servicii create"
       }
     },
     "appliedToast": {
       "business": "Date afacere salvate",
       "services": "{{count}} serviciu creat",
-      "services_other": "{{count}} servicii create",
-      "hours": "Program salvat",
-      "preferences": "Preferințe salvate"
+      "preferences": "Preferințe salvate",
+      "services_other": "{{count}} servicii create"
     }
   },
   "serviceManagerSimple": {
@@ -3630,16 +2775,6 @@
         }
       ],
       "plansHeading": "3. Planuri de Abonament",
-      "plansLabels": {
-        "monthly": "Lunar",
-        "annual": "Anual",
-        "savings": "economisiți",
-        "clientLimit": "Limită clienți",
-        "unlimited": "Nelimitat",
-        "featuresIncluded": "Funcții incluse",
-        "featuresIncludedExtra": "Funcții incluse (în plus față de Planul de Bază)",
-        "featuresIncludedAll": "Funcții incluse (toate funcțiile)"
-      },
       "plans": [
         {
           "id": "base",
@@ -3701,27 +2836,14 @@
             "Campanii de Marketing cu IA"
           ]
         }
-      ],
-      "footer": {
-        "version": "Gestionale Appuntamenti v2.1.0",
-        "copyright": "© 2025 Zambelli Development - Toate drepturile rezervate"
-      }
+      ]
     },
     "lastUpdated": "Ultima actualizare"
   },
   "emailSettings": {
     "title": "Configurare Email",
-    "smtpServer": "Server SMTP",
-    "smtpPort": "Port SMTP",
-    "testConnection": "Testează conexiunea",
-    "saveSuccess": "Setările de e-mail au fost salvate",
     "invalidEmail": "Introdu o adresă de email validă",
     "passwordRequired": "Parola este obligatorie dacă emailul este activat",
-    "config": "Configurare Email",
-    "enable": "Activează trimiterea email",
-    "enableDesc": "Activează trimiterea emailurilor de notificare către clienți",
-    "address": "Adresă Email",
-    "password": "Parolă sau Cheie aplicație",
     "gmailWarning": "📧 Pentru Gmail: NU folosi parola normală a contului",
     "gmailSteps": "Trebuie să generezi o Parolă pentru aplicație. Urmează acești pași:",
     "step1": "Activează verificarea în doi pași:",
@@ -3743,7 +2865,6 @@
     "sendTest": "Trimite testul",
     "toastSaved": "Setări salvate",
     "toastSavedDesc": "Setările email au fost actualizate cu succes",
-    "toastError": "Eroare",
     "toastSaveError": "A apărut o eroare la salvare",
     "toastTestEmailMissing": "Introdu o adresă de email pentru test",
     "toastTestSent": "Email trimis",
@@ -3816,9 +2937,6 @@
   },
   "userSettings": {
     "title": "Setări utilizator",
-    "profile": "Profil",
-    "account": "Cont",
-    "preferences": "Preferințe",
     "subtitle": "Personalizează experiența și configurează brandingul contului",
     "loading": "Se încarcă setările...",
     "roles": {
@@ -3912,31 +3030,16 @@
     }
   },
   "staff": {
-    "title": "Gestionare personal",
-    "addMember": "Adaugă membru",
-    "role": "Rol",
-    "permissions": "Permisiuni",
-    "active": "Activ",
-    "inactive": "Inactiv"
+    "title": "Gestionare personal"
   },
   "appointmentForm": {
-    "title": "Programare nouă",
     "editTitle": "Editați programarea",
     "client": "Client",
     "service": "Serviciu",
-    "date": "Data",
-    "time": "Ora",
-    "duration": "Durată",
-    "notes": "Note",
     "save": "Salvează programarea",
-    "saved": "Programare salvată",
-    "selectClient": "Selectează clientul",
-    "selectService": "Selectează serviciul",
     "newTitle": "Programare nouă",
     "fields": {
-      "client": "Client",
       "clientPlaceholder": "Căutați client...",
-      "service": "Serviciu",
       "servicePlaceholder": "Căutați serviciu...",
       "staff": "Profesionist",
       "staffPlaceholder": "Selectați un profesionist...",
@@ -3944,7 +3047,6 @@
       "room": "Cameră/Cabină (opțional)",
       "roomPlaceholder": "Selectați camera...",
       "noRoom": "Nicio cameră",
-      "notes": "Note",
       "notesPlaceholder": "Adăugați note despre programare"
     },
     "loadingClient": "Se încarcă datele clientului...",
@@ -3955,7 +3057,6 @@
       "after": "\" ca client nou"
     },
     "warnings": {
-      "otherAccount": "<0>Atenție:</0> Creați o programare pentru un client al unui alt cont ({{firstName}} {{lastName}}). Verificați permisiunile necesare.",
       "otherAccountClient": "Creezi o programare pentru un client care aparține altui cont ({{firstName}} {{lastName}}). Asigură-te că ai permisiunile necesare înainte de a continua."
     },
     "notifications": {
@@ -4005,11 +3106,7 @@
       "title": "Conflict de disponibilitate",
       "intro": "Au fost detectate conflicte pentru programarea selectată:",
       "staffHeading": "Conflicte cu personalul:",
-      "staffLine": "<0>{{name}}</0> are deja o programare la {{time}}",
-      "staffWith": " cu {{firstName}} {{lastName}}",
       "roomHeading": "Conflicte de săli:",
-      "roomLine": "<0>{{name}}</0> este deja ocupată la {{time}}",
-      "roomBy": " de {{firstName}} {{lastName}}",
       "askProceed": "Doriți să continuați oricum?",
       "proceed": "Continuă oricum",
       "staffLineSuffix": "are deja o programare la",
@@ -4022,12 +3119,6 @@
     "durationLabel": "Durată: {{minutes}} min"
   },
   "clientNotes": {
-    "title": "Note client",
-    "addNote": "Adaugă notă",
-    "placeholder": "Scrie nota aici...",
-    "empty": "Nicio notă disponibilă",
-    "saved": "Notă salvată",
-    "deleted": "Notă ștearsă",
     "headerTitle": "Note client",
     "newNote": "Notă nouă",
     "addButton": "Adaugă",
@@ -4091,11 +3182,6 @@
     "photoAlt": "Foto {{n}}",
     "scrollNext": "Derulează pentru a vedea notele următoare →",
     "createDialogTrigger": "Creează o notă nouă"
-  },
-  "manuale": {
-    "title": "Manual utilizator",
-    "search": "Caută în manual...",
-    "tableOfContents": "Cuprins"
   },
   "whatsappConfigHelper": {
     "title": "Configurare WhatsApp",
@@ -4453,87 +3539,12 @@
       "create": "Eroare la crearea serviciului",
       "update": "Eroare la actualizarea serviciului",
       "delete": "Eroare la ștergerea serviciului",
-      "loadingTitle": "Eroare",
       "loadingDesc": "Eroare la încărcarea serviciilor: {{message}}",
       "unknown": "Eroare necunoscută",
       "httpStatus": "Eroare {{status}}: {{statusText}}"
     },
     "confirmDelete": "Sigur doriți să ștergeți acest serviciu?",
     "savingButton": "Se salvează..."
-  },
-  "clientLegacyNotes": {
-    "dialog": {
-      "editTitle": "Editați nota",
-      "createTitle": "Creați notă nouă"
-    },
-    "fields": {
-      "titleLabel": "Titlu",
-      "titlePlaceholder": "Titlul notei",
-      "contentLabel": "Conținut",
-      "contentPlaceholder": "Conținutul notei"
-    },
-    "titles": {
-      "editLabel": "Editați titlul",
-      "resetLabel": "Resetați la titlul original",
-      "duplicateLast": "Duplicați ultima notă",
-      "noNoteToDuplicate": "Nicio notă de duplicat",
-      "addPhoto": "Adăugați foto",
-      "createNote": "Creați notă nouă",
-      "noNoteToDelete": "Nicio notă de șters"
-    },
-    "empty": "Nu există note. Faceți clic pe „Adăugați\" pentru a crea una.",
-    "imageAlt": "Foto {{idx}}",
-    "confirm": {
-      "deleteNote": "Sigur doriți să ștergeți această notă?",
-      "deletePhoto": "Ștergeți această fotografie?"
-    },
-    "toast": {
-      "created": {
-        "title": "Notă creată",
-        "desc": "Nota a fost salvată cu succes"
-      },
-      "updated": {
-        "title": "Notă actualizată",
-        "desc": "Nota a fost actualizată cu succes"
-      },
-      "deleted": {
-        "title": "Notă ștearsă",
-        "desc": "Nota a fost ștearsă cu succes"
-      },
-      "duplicated": {
-        "title": "Notă duplicată",
-        "desc": "Nota a fost duplicată cu succes"
-      },
-      "duplicateSuffix": " (copie)",
-      "imageUploaded": {
-        "title": "Fotografie încărcată",
-        "desc": "Fotografia a fost adăugată cu succes"
-      },
-      "imageDeleted": {
-        "title": "Fotografie ștearsă",
-        "desc": "Fotografia a fost eliminată cu succes"
-      },
-      "titleUpdated": {
-        "title": "Titlu actualizat",
-        "desc": "Titlul secțiunii a fost actualizat cu succes"
-      },
-      "titleReset": {
-        "title": "Titlu resetat",
-        "desc": "Titlul secțiunii a fost resetat la valoarea originală"
-      },
-      "missingFields": {
-        "title": "Date lipsă",
-        "desc": "Introduceți titlul și conținutul notei"
-      }
-    },
-    "errors": {
-      "create": "Imposibil de creat nota: {{message}}",
-      "update": "Imposibil de actualizat nota: {{message}}",
-      "delete": "Imposibil de șters nota: {{message}}",
-      "duplicate": "Imposibil de duplicat nota: {{message}}",
-      "uploadImage": "Imposibil de încărcat fotografia: {{message}}",
-      "deleteImage": "Imposibil de șters fotografia: {{message}}"
-    }
   },
   "staffManagement": {
     "subtitle": "Vizualizați și gestionați membrii personalului",
@@ -4629,16 +3640,9 @@
     "adminBadge": "Admin",
     "customerProBadge": "Customer PRO",
     "staffBadge": "Personal",
-    "pageSubtitle": "Vizualizează și gestionează membrii personalului tău",
-    "addStaffButton": "Adaugă personal",
     "usernameInputPlaceholder": "username.staff",
     "emailInputPlaceholder": "staff@example.com",
     "cancelButton": "Anulează",
-    "actionsLabel": "Acțiuni",
-    "registeredLabel": "Înregistrat: {{date}}",
-    "proAccessLabel": "✓ Acces PRO",
-    "bankingDataButton": "Date bancare",
-    "noResultsFound": "Niciun rezultat găsit.",
     "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456"
   },
   "passwordChange": {
@@ -4742,18 +3746,12 @@
     "ibanPh": "IT60 X054 2811 1010 0000 0123 456"
   },
   "pwaInstall": {
-    "alreadyInstalled": "Aplicație deja instalată",
-    "alreadyInstalledDesc": "Folosești deja versiunea instalată a aplicației",
     "installing": "Instalare în curs",
     "installingDesc": "Confirmă instalarea în browser",
     "installed": "Aplicație instalată",
     "installedDesc": "Aplicația a fost instalată cu succes!",
-    "installCancelled": "Instalare anulată",
-    "installCancelledDesc": "Poți instala aplicația oricând",
     "errorTitle": "Eroare",
     "installError": "A apărut o eroare în timpul instalării",
-    "browserNotSupported": "Browser neacceptat",
-    "browserNotSupportedDesc": "Browserul tău nu acceptă instalarea automată. Urmează instrucțiunile manuale.",
     "installButton": "Instalează aplicația",
     "selectBrowser": "Selectează browserul",
     "selectBrowserDesc": "Alege browserul pe care îl folosești pentru a vedea instrucțiunile corecte de instalare",
@@ -4866,60 +3864,15 @@
     "trialExpiredSafe": "💾 Nu-ți face griji: toate datele tale (clienți, programări, setări) sunt în siguranță și vor fi restaurate imediat ce te abonezi la un plan.",
     "for40Days": "Pentru 40 de zile",
     "annualSub": "Abonament anual",
-    "appointmentReq": "Cerere de programare client",
     "invalidActivation": "Introdu un cod de activare valid",
     "licenseActivated": "Licență activată",
     "licenseActivatedDesc": "Licența ta a fost activată cu succes.",
     "genericError": "A apărut o eroare în timpul operațiunii",
     "redirectingPaypal": "Vei fi redirecționat către pagina de plată PayPal",
     "paypalError": "Eroare PayPal",
-    "paypalCantStart": "Procesul de plată PayPal nu a putut fi inițiat",
-    "redirectingStripe": "Vei fi redirecționat către pagina de plată securizată",
     "stripeError": "Eroare Stripe",
-    "stripeCantStart": "Procesul de plată cu cardul nu a putut fi inițiat",
-    "trial40Free": "Încearcă gratuit timp de 40 de zile",
-    "baseMonthly": "Bază lunară",
-    "baseMonthlyDesc": "Plan de bază: facturare lunară",
-    "proMonthly": "Pro lunar",
-    "proMonthlyDesc": "Plan profesional: facturare lunară",
-    "businessMonthly": "Business lunar",
-    "businessMonthlyDesc": "Plan business: facturare lunară",
-    "trialIncluded": "Toate planurile includ o perioadă de probă gratuită de 40 de zile. Nu este necesar un card de credit pentru a începe.",
-    "subActive": "Abonament activ",
-    "trialActiveUntil": "Perioada ta de probă este activă până la",
-    "alreadyActive": "Deja activ",
-    "faqCancelQ": "Pot anula abonamentul?",
-    "faqCancelA": "Da, poți anula abonamentul oricând. Accesul va rămâne activ până la sfârșitul perioadei deja plătite.",
-    "faqTrialQ": "Cum funcționează perioada de probă?",
-    "faqTrialA": "Perioada de probă de 40 de zile include toate funcțiile de bază. Nu este necesar un card de credit pentru a începe.",
-    "faqUpgradeA": "Da, poți trece la un plan superior oricând. Diferența de preț va fi calculată proporțional.",
     "activateCode": "Activează codul tău",
-    "activateCodeDesc": "Introdu codul de activare primit după plată.",
-    "activationCode": "Cod de activare",
-    "bankTransferTitle": "Plată prin transfer bancar",
-    "bankTransferDesc": "Urmează instrucțiunile pentru a finaliza plata prin transfer bancar.",
-    "subPlanName": "Abonament {{plan}}",
-    "feat": {
-      "customerMgmt": "Gestionarea clienților",
-      "qrPwa": "Aplicație QR/PWA pentru clienți",
-      "notifyClients": "Notificări pentru clienți"
-    },
-    "paypalErrorMutation": "Eroare de mutație PayPal: {{msg}}",
-    "subWithPaypal": "abonament cu PayPal",
-    "stripeErrorMutation": "Eroare de mutație Stripe: {{msg}}",
-    "subWithStripe": "abonament cu Stripe",
-    "parseFeatError": "Eroare la parsarea funcțiilor planului: {{msg}}",
-    "calendarDesc": "Organizează cu ușurință calendarul și programările cu clienții.",
-    "customerMgmt": "Gestionarea clienților",
-    "customerMgmtDesc": "Păstrează toate datele clienților într-un loc sigur.",
-    "remindersDesc": "Trimite mementouri automate clienților pentru a reduce anulările.",
-    "reportsDesc": "Analizează-ți afacerea cu rapoarte și statistici complete.",
-    "choosePlan": "Alege planul perfect pentru afacerea ta",
     "currentPlan": "Plan curent",
-    "faqUpgradeQ": "Pot schimba planul mai târziu?",
-    "processing": "Se procesează...",
-    "bankDetailsCopied": "Detalii transfer bancar copiate în clipboard",
-    "copyDetails": "Copiază detaliile",
     "missingCode": "Cod lipsă",
     "redirectingPaypalTitle": "Redirecționare către PayPal...",
     "redirectingStripeTitle": "Redirecționare către Stripe...",
@@ -6012,8 +4965,7 @@
       "description": "Descriere",
       "plan": "Plan",
       "start": "Început",
-      "expiry": "Expirare",
-      "actions": "Acțiuni"
+      "expiry": "Expirare"
     },
     "subs": {
       "title": "Abonamente",
@@ -6066,7 +5018,6 @@
       "bankNamePlaceholder": "ex. Intesa Sanpaolo",
       "holder": "Titular cont",
       "holderPlaceholder": "Nume și prenume / Denumire companie",
-      "iban": "IBAN",
       "hide": "Ascunde",
       "show": "Arată",
       "ibanNotConfigured": "IBAN neconfigurat",
@@ -6570,7 +5521,6 @@
     "clientCard": {
       "incompleteData": "Date client de completat",
       "deletionUnlocked": "Ștergere deblocată",
-      "unlockDeletionAction": "Deblochează ștergerea",
       "cannotUnlock": "Nu se poate debloca ștergerea",
       "cannotMarkDeleted": "Nu se poate simula ștergerea",
       "clientRemoved": "Client eliminat din sistem"
@@ -6855,9 +5805,6 @@
     "reminderTemplateManager": {
       "emailLabel": "Email"
     },
-    "homePage": {
-      "loadingName": "Se încarcă numele..."
-    },
     "promotionPageExtra": {
       "loading": "Se încarcă...",
       "specialPromotionTitle": "Promotie speciala"
@@ -6928,14 +5875,8 @@
       "title": "Configurează-ți spațiul de lucru",
       "subtitle": "{{completed}} din {{total}} pași completați. Datele demonstrative sunt eliminate automat când adaugi propriile tale.",
       "dismiss": "Ascunde acest ghid",
-      "takeTour": "Pornește turul ghidat cu AI",
-      "takeTourDesc": "Proces asistat: răspunde la câteva întrebări și AI sugerează servicii și setări",
-      "optionManualLabel": "Opțiunea 1 — Completează singur",
-      "optionAILabel": "Opțiunea 2 — Lasă AI să facă",
-      "or": "SAU",
       "allDone": "Totul gata, închide",
       "stepDone": "Finalizat",
-      "hideUntilRestartHint": "Ascunde până la următoarea repornire a aplicației",
       "finishDialog": {
         "title": "Configurare finalizată!",
         "description": "Ai finalizat toți pașii de configurare inițială. Vrei să ascunzi aceste sugestii? Le poți elimina definitiv sau doar le ascunzi până la următoarea pornire a aplicației.",
