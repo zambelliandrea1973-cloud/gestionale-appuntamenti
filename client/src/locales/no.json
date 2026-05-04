@@ -6943,5 +6943,8 @@
         "session": "Skjul til neste omstart"
       }
     }
+  },
+  "fab": {
+    "dragging": "Flytter..."
   }
 }

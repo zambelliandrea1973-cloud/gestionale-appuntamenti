@@ -228,7 +228,7 @@ export function FloatingActionButton({
         style={{ pointerEvents: 'none' }}
       >
         {isDraggingUI ? <Move className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
-        {isDraggingUI ? 'Sposta...' : text}
+        {isDraggingUI ? t('fab.dragging') : text}
       </Button>
       {onCancel && !isDraggingUI && (
         <button

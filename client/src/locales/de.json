@@ -6943,5 +6943,8 @@
         "session": "Bis zum nächsten Neustart ausblenden"
       }
     }
+  },
+  "fab": {
+    "dragging": "Bewegen..."
   }
 }

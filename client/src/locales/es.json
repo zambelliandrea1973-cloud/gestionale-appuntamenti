@@ -6943,5 +6943,8 @@
         "session": "Ocultar hasta el próximo reinicio"
       }
     }
+  },
+  "fab": {
+    "dragging": "Moviendo..."
   }
 }
