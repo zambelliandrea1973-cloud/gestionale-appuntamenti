@@ -36,10 +36,10 @@ export default function ClientFooterContactIcons() {
       if (response.ok) {
         const data = await response.json();
         setContactInfo(data);
-        console.log('📞 [CLIENT FOOTER] Informazioni contatto caricate:', data);
+        console.log('📞 [CLIENT FOOTER] Contact information loaded:', data);
       }
     } catch (error) {
-      console.error('❌ [CLIENT FOOTER] Errore caricamento contatti:', error);
+      console.error('❌ [CLIENT FOOTER] Error loading contacts:', error);
     }
   };
 

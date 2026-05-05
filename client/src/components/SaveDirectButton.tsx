@@ -23,7 +23,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
   const [isSaving, setIsSaving] = useState(false);
 
   const saveAppointmentDirectly = async () => {
-    console.log("=== [DIRECT-BUTTON] INIZIO SALVATAGGIO DIRETTO APPUNTAMENTO ===");
+    console.log("=== [DIRECT-BUTTON] STARTING DIRECT APPOINTMENT SAVE ===");
     setIsSaving(true);
     
     try {
@@ -35,7 +35,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
         throw new Error(t('appointments.noDataAvailable', 'No appointment data available'));
       }
       
-      console.log("[DIRECT-BUTTON] Dati del form:", formValues);
+      console.log("[DIRECT-BUTTON] Form data:", formValues);
       
       const { clientId, serviceId, date, startTime, notes } = formValues;
       
@@ -53,7 +53,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
           serviceDuration = service.duration;
         }
       } catch (e) {
-        console.warn("[DIRECT-BUTTON] Impossibile determinare la durata del servizio, uso default:", e);
+        console.warn("[DIRECT-BUTTON] Unable to determine service duration, using default:", e);
       }
       
       // Calcoliamo l'ora di fine in base alla durata del servizio
@@ -82,13 +82,13 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
         status: "scheduled"
       };
       
-      console.log("[DIRECT-BUTTON] Dati formattati per API:", appointmentData);
+      console.log("[DIRECT-BUTTON] Formatted data for API:", appointmentData);
       
       // Invio diretto all'API
       const response = await apiRequest("POST", "/api/appointments", appointmentData);
       
       const result = await response.json();
-      console.log("[DIRECT-BUTTON] Risposta ricevuta:", result);
+      console.log("[DIRECT-BUTTON] Response received:", result);
       
       // Notifica successo
       toast({
@@ -120,7 +120,7 @@ export default function SaveDirectButton({ onSaveSuccess }: SaveDirectButtonProp
       }
       
     } catch (error: any) {
-      console.error("[DIRECT-BUTTON] ERRORE durante il salvataggio:", error);
+      console.error("[DIRECT-BUTTON] ERROR during save:", error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : t('common.error'),

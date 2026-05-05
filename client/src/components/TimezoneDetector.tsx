@@ -29,7 +29,7 @@ export const TimezoneDetector = () => {
         const timezoneName = dateFormatter.formatToParts(now)
           .find(part => part.type === 'timeZoneName')?.value || timezone;
           
-        console.log(`Fuso orario rilevato: ${timezone} (${timezoneName}), Offset: UTC${offsetHours >= 0 ? '+' : ''}${offsetHours}`);
+        console.log(`Detected timezone: ${timezone} (${timezoneName}), Offset: UTC${offsetHours >= 0 ? '+' : ''}${offsetHours}`);
         
         // Verifica se il fuso orario è già impostato nel server
         const response = await fetch('/api/timezone-settings');
@@ -40,7 +40,7 @@ export const TimezoneDetector = () => {
             serverTimezone.timezone !== timezone || 
             serverTimezone.offset !== offsetHours) {
           
-          console.log('Fuso orario diverso da quello salvato, aggiornamento...');
+          console.log('Timezone differs from saved, updating...');
           
           // Salva il nuovo fuso orario
           const saveResponse = await fetch('/api/timezone-settings', {
@@ -56,18 +56,18 @@ export const TimezoneDetector = () => {
           });
           
           if (saveResponse.ok) {
-            console.log('Fuso orario aggiornato con successo');
+            console.log('Timezone updated successfully');
           } else {
-            console.error('Errore nell\'aggiornamento del fuso orario');
+            console.error('Error updating timezone');
           }
         } else {
-          console.log('Fuso orario già correttamente impostato');
+          console.log('Timezone already correctly set');
         }
       } catch (error) {
-        console.error('Errore nel rilevamento del fuso orario:', error);
+        console.error('Error detecting timezone:', error);
         
-        // Log errore invece di toast per evitare crash mobile
-        console.error("Non è stato possibile rilevare o salvare il fuso orario. L'applicazione utilizzerà il fuso orario predefinito (Europa/Roma).");
+        // Log error instead of toast to avoid mobile crash
+        console.error("Could not detect or save timezone. The application will use the default timezone (Europe/Rome).");
       } finally {
         setInitialized(true);
       }

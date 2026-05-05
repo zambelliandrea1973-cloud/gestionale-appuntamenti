@@ -11,7 +11,7 @@ export default function TimeSlot({ time, onAddAppointment }: TimeSlotProps) {
   const handleNewAppointmentClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(`NEW_TimeSlot - Cliccato per creare appuntamento alle ${time}`);
+    console.log(`NEW_TimeSlot - Clicked to create appointment at ${time}`);
     onAddAppointment(time);
   };
 

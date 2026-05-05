@@ -25,10 +25,10 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     // Carica SEMPRE dall'API per garantire dati freschi dell'utente corrente
     try {
       const apiInfo = await loadContactInfoFromAPI(targetUserId);
-      console.log(`✅ Informazioni di contatto caricate da API per utente ${targetUserId}:`, apiInfo);
+      console.log(`✅ Contact information loaded from API for user ${targetUserId}:`, apiInfo);
       setContactInfo(apiInfo);
     } catch (error) {
-      console.error("❌ Errore durante il caricamento delle informazioni di contatto dall'API:", error);
+      console.error("❌ Error loading contact information from API:", error);
       // Solo in caso di errore API, usa localStorage come fallback
       const savedInfo = loadContactInfo(targetUserId);
       setContactInfo(savedInfo);
@@ -55,7 +55,7 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     
     // Ascolta l'evento personalizzato dall'editor di contatti
     const handleContactInfoUpdated = (e: any) => {
-      console.log("Evento contactInfoUpdated ricevuto:", e.detail);
+      console.log("contactInfoUpdated event received:", e.detail);
       const targetUserId = ownerId || user?.id;
       // Verifica che l'evento sia per l'utente corrente
       if (e.detail && e.detail.userId === targetUserId) {
@@ -81,7 +81,7 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
 
   if (!contactInfo.email && !contactInfo.phone1 && !contactInfo.phone2 && 
       !contactInfo.website && !contactInfo.facebook && !contactInfo.instagram) {
-    console.log("Nessuna informazione di contatto disponibile");
+    console.log("No contact information available");
     return null; // Non mostrare nulla se non ci sono informazioni di contatto
   }
 

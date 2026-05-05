@@ -20,13 +20,13 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
           (window.navigator as any).standalone || 
           document.referrer.includes('android-app://');
         
-        console.log("PwaSessionManager - Verifica sessione, isPWA:", isPWA);
+        console.log("PwaSessionManager - Checking session, isPWA:", isPWA);
         
         const token = localStorage.getItem('clientAccessToken');
         const clientId = localStorage.getItem('clientId');
         
         if (!token || !clientId) {
-          console.log("PwaSessionManager - Nessun token o clientId trovato");
+          console.log("PwaSessionManager - No token or clientId found");
           setIsAuthenticated(false);
           setIsLoading(false);
           if (isPWA) {
@@ -42,17 +42,17 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
           return;
         }
         
-        console.log("PwaSessionManager - Verifica token");
+        console.log("PwaSessionManager - Verifying token");
         const response = await apiRequest('POST', '/api/verify-token', { 
           token, 
           clientId: parseInt(clientId, 10) 
         });
         
         if (response.ok) {
-          console.log("PwaSessionManager - Token valido");
+          console.log("PwaSessionManager - Token valid");
           setIsAuthenticated(true);
         } else {
-          console.log("PwaSessionManager - Token non valido, sessione scaduta");
+          console.log("PwaSessionManager - Token invalid, session expired");
           setIsAuthenticated(false);
           
           if (isPWA) {
@@ -67,7 +67,7 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
           }
         }
       } catch (error) {
-        console.error("PwaSessionManager - Errore verifica sessione:", error);
+        console.error("PwaSessionManager - Session verification error:", error);
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);

@@ -19,20 +19,20 @@ export default function FooterContent() {
   return (
     <div className="flex space-x-4">
       <Button variant="link" onClick={() => setShowSupportDialog(true)} className="text-primary hover:text-primary-dark text-sm">
-        {t('common.support', 'Supporto')}
+        {t('common.support', 'Support')}
       </Button>
       <Button variant="link" onClick={() => navigate('/privacy')} className="text-primary hover:text-primary-dark text-sm">
         {t('i18nFinale.footerContent.privacyPolicy')}
       </Button>
       <Button variant="link" onClick={() => navigate('/terms')} className="text-primary hover:text-primary-dark text-sm">
-        {t('common.terms', 'Termini di Servizio')}
+        {t('common.terms', 'Terms of Service')}
       </Button>
 
       {/* Support Dialog */}
       <Dialog open={showSupportDialog} onOpenChange={setShowSupportDialog}>
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>{t('common.support', 'Supporto')}</DialogTitle>
+            <DialogTitle>{t('common.support', 'Support')}</DialogTitle>
             <DialogDescription>
               {/* Description can be empty */}
             </DialogDescription>

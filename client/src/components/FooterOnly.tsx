@@ -23,7 +23,7 @@ const FooterOnly: React.FC = () => {
                 onClick={() => window.location.href = 'mailto:support@gestionale-appuntamenti.it'}
                 data-testid="button-support"
               >
-                {t('common.support', 'Supporto')}
+                {t('common.support', 'Support')}
               </Button>
               <Button 
                 variant="link" 
@@ -39,7 +39,7 @@ const FooterOnly: React.FC = () => {
                 onClick={() => navigate('/terms')}
                 data-testid="button-terms-service"
               >
-                {t('common.terms', 'Termini di Servizio')}
+                {t('common.terms', 'Terms of Service')}
               </Button>
             </div>
           </div>

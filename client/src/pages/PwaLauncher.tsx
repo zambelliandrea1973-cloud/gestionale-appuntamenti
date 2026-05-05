@@ -54,7 +54,7 @@ export default function PwaLauncher() {
       
       // Caso 1: Abbiamo credenziali E token - perfetto per login diretto e automatico
       if (hasCredentials && hasToken) {
-        console.log("Credenziali e token disponibili, reindirizzamento all'area client");
+        console.log("Credentials and token available, redirecting to client area");
         
         // Rinforzare salvando nuovamente il token (per prevenire la perdita)
         // A volte localStorage può non salvare correttamente o essere pulito
@@ -70,12 +70,12 @@ export default function PwaLauncher() {
         // Creiamo un URL con il token come parametro per massimizzare la compatibilità
         const targetUrl = `/client-area?token=${encodeURIComponent(storedData.clientAccessToken)}&clientId=${storedData.clientId}`;
         
-        console.log("Accesso diretto all'area client con token esplicito:", targetUrl);
+        console.log("Direct access to client area with explicit token:", targetUrl);
         setLocation(targetUrl);
       }
       // Caso 2: Abbiamo credenziali ma non token - probabile login standard
       else if (hasCredentials) {
-        console.log("Utente già configurato, reindirizzamento alla pagina di login");
+        console.log("User already configured, redirecting to login page");
         
         toast({
           title: t('i18nFinale.pwaLauncher.loginRequiredTitle'),
@@ -88,7 +88,7 @@ export default function PwaLauncher() {
       }
       // Caso 3: Non abbiamo credenziali - necessaria attivazione 
       else {
-        console.log("Utente non configurato, reindirizzamento alla pagina di attivazione QR");
+        console.log("User not configured, redirecting to QR activation page");
         
         toast({
           title: t('i18nFinale.pwaLauncher.configRequiredTitle'),

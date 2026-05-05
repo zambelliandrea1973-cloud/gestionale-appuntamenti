@@ -209,7 +209,7 @@ const WhatsAppCenterPage: React.FC = () => {
   useEffect(() => {
     if (contactSettingsData?.success && contactSettingsData?.settings) {
       const settings = contactSettingsData.settings;
-      console.log('🔧 CENTRO WHATSAPP: Sincronizzazione settings:', settings);
+      console.log('🔧 WHATSAPP CENTER: Syncing settings:', settings);
       
       // Aggiorna i form fields
       setPhoneNumber(settings.phone || '');
@@ -218,7 +218,7 @@ const WhatsAppCenterPage: React.FC = () => {
       
       // Aggiorna lo stato WhatsApp
       const newStatus = settings.phone ? WhatsAppStatus.CONFIGURED : WhatsAppStatus.NOT_CONFIGURED;
-      console.log('📞 CENTRO WHATSAPP: Telefono configurato?', settings.phone, 'Status:', newStatus);
+      console.log('📞 WHATSAPP CENTER: Phone configured?', settings.phone, 'Status:', newStatus);
       setWhatsappStatus(newStatus);
       
       // Aggiorna last updated
@@ -232,12 +232,12 @@ const WhatsAppCenterPage: React.FC = () => {
       try {
         const emailResponse = await fetch('/api/email-calendar-settings');
         const emailData = await emailResponse.json();
-        console.log('📧 Email configurata caricata:', emailData.emailAddress);
+        console.log('📧 Configured email loaded:', emailData.emailAddress);
         if (emailData.emailAddress) {
           setConfiguredEmail(emailData.emailAddress);
         }
       } catch (emailError) {
-        console.error('Errore caricamento email configurata:', emailError);
+        console.error('Error loading configured email:', emailError);
         setConfiguredEmail('zambelli.andrea.1973@gmail.com');
       }
     };
@@ -262,12 +262,12 @@ const WhatsAppCenterPage: React.FC = () => {
       const response = await fetch('/api/notifications/upcoming-appointments');
       const data = await response.json();
       
-      console.log('🔍 CENTRO WHATSAPP: Dati ricevuti dall\'API:', JSON.stringify(data, null, 2));
+      console.log('🔍 WHATSAPP CENTER: Data received from API:', JSON.stringify(data, null, 2));
       
       if (data.success) {
         const appointments = data.appointments || [];
-        console.log('📅 CENTRO WHATSAPP: Appuntamenti elaborati:', appointments.length);
-        console.log('📋 CENTRO WHATSAPP: Primo appuntamento di esempio:', appointments[0]);
+        console.log('📅 WHATSAPP CENTER: Appointments processed:', appointments.length);
+        console.log('📋 WHATSAPP CENTER: First sample appointment:', appointments[0]);
         
         setAppointments(appointments);
         
@@ -281,13 +281,13 @@ const WhatsAppCenterPage: React.FC = () => {
           return groups;
         }, {});
         
-        console.log('🗂️ CENTRO WHATSAPP: Appuntamenti raggruppati:', Object.keys(grouped).map(date => `${date}: ${grouped[date].length} app`));
+        console.log('🗂️ WHATSAPP CENTER: Grouped appointments:', Object.keys(grouped).map(date => `${date}: ${grouped[date].length} app`));
         setGroupedAppointments(grouped);
       } else {
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
-      console.error('❌ CENTRO WHATSAPP: Errore nel caricamento appuntamenti:', error);
+      console.error('❌ WHATSAPP CENTER: Error loading appointments:', error);
       toast({
         title: t('whatsappCenter.sendNotifications.error'),
         description: t('whatsappCenter.toast.loadError'),
@@ -305,16 +305,16 @@ const WhatsAppCenterPage: React.FC = () => {
       const response = await fetch('/api/campaigns/pending-messages');
       const data = await response.json();
       
-      console.log('📱 MARKETING: Messaggi ricevuti:', data);
+      console.log('📱 MARKETING: Messages received:', data);
       
       if (data.success) {
         setMarketingMessages(data.messages || []);
-        console.log(`📱 MARKETING: ${data.messages?.length || 0} messaggi pendenti caricati`);
+        console.log(`📱 MARKETING: ${data.messages?.length || 0} pending messages loaded`);
       } else {
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
-      console.error('❌ MARKETING: Errore nel caricamento:', error);
+      console.error('❌ MARKETING: Error loading:', error);
       toast({
         title: t('whatsappCenter.sendNotifications.error'),
         description: t('whatsappCenter.toast.loadMarketingError'),
@@ -372,7 +372,7 @@ const WhatsAppCenterPage: React.FC = () => {
     setIsSendingAll(true);
     
     try {
-      console.log('🚀 FRONTEND: Avviando invio automatico per domani...');
+      console.log('🚀 FRONTEND: Starting automatic send for tomorrow...');
       
       const response = await apiRequest('POST', '/api/notifications/send-all-tomorrow');
       
@@ -381,7 +381,7 @@ const WhatsAppCenterPage: React.FC = () => {
       if (data.success) {
         const { results, summary } = data;
         
-        console.log('✅ FRONTEND: Invio automatico completato:', summary);
+        console.log('✅ FRONTEND: Automatic send completed:', summary);
         
         // Mostra risultato all'utente
         toast({
@@ -424,7 +424,7 @@ const WhatsAppCenterPage: React.FC = () => {
       }
       
     } catch (error: any) {
-      console.error('❌ FRONTEND: Errore invio automatico:', error);
+      console.error('❌ FRONTEND: Error sending automatic message:', error);
       toast({
         title: `❌ ${t('whatsappCenter.toast.autoSendError')}`,
         description: error.message || t('whatsappCenter.toast.autoSendErrorDescription'),
@@ -507,7 +507,7 @@ const WhatsAppCenterPage: React.FC = () => {
         await processSequentialLink(links, 0);
       }
     } catch (error) {
-      console.error('Errore nella generazione dei link WhatsApp', error);
+      console.error('Error generating WhatsApp links', error);
       toast({
         title: t('whatsappCenter.sendNotifications.error'),
         description: t('whatsappCenter.sendNotifications.cannotGenerateLinks'),
@@ -550,7 +550,7 @@ const WhatsAppCenterPage: React.FC = () => {
         setAppointments(updatedAppointments);
       }
     } catch (error) {
-      console.error('Errore nell\'aggiornamento dello stato', error);
+      console.error('Error updating status', error);
     }
     
     // Aggiorniamo l'indice corrente e lo stato di avanzamento
@@ -648,7 +648,7 @@ const WhatsAppCenterPage: React.FC = () => {
         throw new Error(data.error || 'Unknown error generating links');
       }
     } catch (error) {
-      console.error('Errore nella generazione dei link', error);
+      console.error('Error generating links', error);
       
       toast({
         title: t('whatsappCenter.sendNotifications.error'),
@@ -1236,7 +1236,7 @@ const WhatsAppCenterPage: React.FC = () => {
                                       setAppointments([...appointments]);
                                     }
                                   } catch (error) {
-                                    console.error('Errore nell\'aggiornamento dello stato', error);
+                                    console.error('Error updating status', error);
                                   }
                                   
                                   // Poi apriamo WhatsApp in un popup

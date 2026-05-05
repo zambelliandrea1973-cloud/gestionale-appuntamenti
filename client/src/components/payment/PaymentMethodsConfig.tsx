@@ -112,7 +112,7 @@ export default function PaymentMethodsConfig() {
         }
       }
     } catch (error) {
-      console.error("Errore nel caricamento dei metodi di pagamento:", error);
+      console.error("Error loading payment methods:", error);
       toast({
         title: t('common.error'),
         description: t('paymentMethodsConfig.toast.loadError'),
@@ -144,7 +144,7 @@ export default function PaymentMethodsConfig() {
         throw new Error(t('paymentMethodsConfig.toast.saveError'));
       }
     } catch (error) {
-      console.error("Errore nel salvataggio dei metodi di pagamento:", error);
+      console.error("Error saving payment methods:", error);
       toast({
         title: t('common.error'),
         description: t('paymentMethodsConfig.toast.saveError'),
@@ -204,7 +204,7 @@ export default function PaymentMethodsConfig() {
         throw new Error(data.message || t('paymentMethodsConfig.toast.testError'));
       }
     } catch (error: any) {
-      console.error(`Errore nel test di ${id}:`, error);
+      console.error(`Error testing ${id}:`, error);
       toast({
         title: t('paymentMethodsConfig.toast.testFailedTitle'),
         description: t('paymentMethodsConfig.toast.testFailed', { id, message: error.message }),
@@ -248,7 +248,7 @@ export default function PaymentMethodsConfig() {
         throw new Error(errorData.message || t('paymentMethodsConfig.toast.wiseAutoConfigError'));
       }
     } catch (error: any) {
-      console.error("Errore nell'auto-configurazione Wise:", error);
+      console.error("Error in Wise auto-configuration:", error);
       toast({
         title: t('paymentMethodsConfig.toast.wiseErrorTitle'),
         description: error.message || t('paymentMethodsConfig.toast.wiseFetchError'),

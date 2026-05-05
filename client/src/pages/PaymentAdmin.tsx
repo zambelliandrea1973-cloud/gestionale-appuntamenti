@@ -95,7 +95,7 @@ export default function PaymentAdmin() {
         setAccessStats(data.stats);
       }
     } catch (error) {
-      console.error('Errore caricamento statistiche accessi:', error);
+      console.error('Error loading access statistics:', error);
     }
   };
 
@@ -127,7 +127,7 @@ export default function PaymentAdmin() {
       setLicenses(licensesData);
       
     } catch (error) {
-      console.error('Errore durante il recupero dei dati:', error);
+      console.error('Error fetching data:', error);
       toast({
         title: t('paymentAdmin.toast.error'),
         description: t('paymentAdmin.toast.loadError'),
@@ -145,7 +145,7 @@ export default function PaymentAdmin() {
       const data = await response.json();
       setBankingSettings(data);
     } catch (error) {
-      console.error('Errore durante il recupero della configurazione bancaria:', error);
+      console.error('Error fetching banking configuration:', error);
     }
   };
 
@@ -301,8 +301,8 @@ export default function PaymentAdmin() {
 
   // Handler per salvare configurazione bancaria (primo form)
   const handleSaveSettings = (formData: FormData) => {
-    console.log('🏦 [PAYMENT ADMIN] handleSaveSettings chiamato');
-    console.log('🏦 [PAYMENT ADMIN] FormData ricevuto:', formData);
+    console.log('🏦 [PAYMENT ADMIN] handleSaveSettings called');
+    console.log('🏦 [PAYMENT ADMIN] FormData received:', formData);
     const settings = {
       bankName: formData.get('bankName') as string,
       accountHolder: formData.get('accountHolder') as string,
@@ -321,7 +321,7 @@ export default function PaymentAdmin() {
 
   // Handler per salvare SOLO configurazione pagamenti automatici (secondo form)
   const handleSavePaymentSettings = (formData: FormData) => {
-    console.log('💳 [PAYMENT ADMIN] handleSavePaymentSettings chiamato');
+    console.log('💳 [PAYMENT ADMIN] handleSavePaymentSettings called');
     
     // Prendiamo i dati bancari esistenti e aggiorniamo solo le impostazioni di pagamento
     const settings = {
@@ -332,7 +332,7 @@ export default function PaymentAdmin() {
       description: formData.get('description') as string || 'Referral commission',
     };
     
-    console.log('💳 [PAYMENT ADMIN] Settings aggiornati:', settings);
+    console.log('💳 [PAYMENT ADMIN] Settings updated:', settings);
     updateBankingMutation.mutate(settings);
   };
 

@@ -21,10 +21,10 @@ export default function InstallAppPrompt() {
         .then(async registration => {
           // Forza update immediato a v2 (corretto)
           await registration.update();
-          console.log('Service Worker v2 registrato:', registration);
+          console.log('Service Worker v2 registered:', registration);
         })
         .catch(error => {
-          console.error('Errore durante la registrazione del Service Worker:', error);
+          console.error('Error registering Service Worker:', error);
         });
     }
 
@@ -38,7 +38,7 @@ export default function InstallAppPrompt() {
       const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
                             (window.navigator as any).standalone === true;
       if (isAppInstalled) {
-        console.log('App già installata, modalità standalone rilevata');
+        console.log('App already installed, standalone mode detected');
         setIsInstalled(true);
         setShowPrompt(false);
       }
@@ -51,7 +51,7 @@ export default function InstallAppPrompt() {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later
-      console.log('Event beforeinstallprompt catturato', e);
+      console.log('beforeinstallprompt event captured', e);
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       // Show the prompt to the user
       setShowPrompt(true);
@@ -61,7 +61,7 @@ export default function InstallAppPrompt() {
 
     // Rileva l'installazione dell'app durante la sessione corrente
     const handleAppInstalled = () => {
-      console.log('App installata con successo!');
+      console.log('App installed successfully!');
       setIsInstalled(true);
       setShowPrompt(false);
       setDeferredPrompt(null);
@@ -73,7 +73,7 @@ export default function InstallAppPrompt() {
     const mediaQueryList = window.matchMedia('(display-mode: standalone)');
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        console.log('App ora in modalità standalone');
+        console.log('App now in standalone mode');
         setIsInstalled(true);
       }
     };

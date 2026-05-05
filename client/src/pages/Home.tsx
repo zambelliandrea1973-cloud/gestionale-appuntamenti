@@ -34,11 +34,11 @@ function AppIcon() {
     const fetchIconInfo = async () => {
       try {
         setLoading(true);
-        console.log('🏠 HOME AppIcon: Inizio caricamento icona');
+        console.log('🏠 HOME AppIcon: Starting icon load');
         const response = await apiRequest("GET", "/api/client-app-info");
-        console.log('🏠 HOME AppIcon: Risposta ricevuta, status:', response.status);
+        console.log('🏠 HOME AppIcon: Response received, status:', response.status);
         const data = await response.json();
-        console.log('🏠 HOME AppIcon: Dati parsati:', { 
+        console.log('🏠 HOME AppIcon: Parsed data:', { 
           hasIcon: !!data.icon,
           iconLength: data.icon?.length,
           url: data.icon?.substring(0, 50) + '...'
@@ -47,12 +47,12 @@ function AppIcon() {
         // STESSA LOGICA NOME AZIENDALE - usa direttamente l'icona dal server
         if (data.icon) {
           setIconUrl(data.icon);
-          console.log('✅ HOME AppIcon: Icona impostata correttamente');
+          console.log('✅ HOME AppIcon: Icon set correctly');
         } else {
-          console.log('❌ HOME AppIcon: Nessuna icona nella risposta');
+          console.log('❌ HOME AppIcon: No icon in response');
         }
       } catch (error) {
-        console.error("❌ HOME AppIcon: Errore nel recuperare le informazioni dell'icona:", error);
+        console.error("❌ HOME AppIcon: Error fetching icon information:", error);
       } finally {
         setLoading(false);
       }
@@ -99,29 +99,29 @@ function CompanyName() {
   useEffect(() => {
     const fetchCompanyNameSettings = async () => {
       if (!user?.id) {
-        console.log("⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento");
+        console.log("⏭️ FRONTEND CompanyName: User not available, skipping load");
         setLoading(false);
         return;
       }
       
       try {
         setLoading(true);
-        console.log(`🏢 FRONTEND CompanyName: Caricamento impostazioni per utente ${user.id}`);
+        console.log(`🏢 FRONTEND CompanyName: Loading settings for user ${user.id}`);
         const response = await apiRequest("GET", "/api/company-name-settings");
-        console.log(`🏢 FRONTEND CompanyName: Risposta API status: ${response.status}`);
+        console.log(`🏢 FRONTEND CompanyName: API response status: ${response.status}`);
         
         if (response.ok) {
           const data = await response.json();
-          console.log(`✅ FRONTEND CompanyName: Impostazioni caricate:`, data);
+          console.log(`✅ FRONTEND CompanyName: Settings loaded:`, data);
           setSettings(data);
         } else if (response.status === 404) {
-          console.log(`ℹ️ FRONTEND CompanyName: Nessuna impostazione trovata per utente ${user.id}`);
+          console.log(`ℹ️ FRONTEND CompanyName: No settings found for user ${user.id}`);
           setSettings(null);
         } else {
-          console.log(`❌ FRONTEND CompanyName: Errore API status ${response.status}`);
+          console.log(`❌ FRONTEND CompanyName: API error status ${response.status}`);
         }
       } catch (error) {
-        console.error("❌ FRONTEND CompanyName: Errore nel caricamento:", error);
+        console.error("❌ FRONTEND CompanyName: Error loading:", error);
       } finally {
         setLoading(false);
       }

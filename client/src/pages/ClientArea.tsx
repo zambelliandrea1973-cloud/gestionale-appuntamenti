@@ -59,7 +59,7 @@ export default function ClientArea() {
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
-    console.log(`🔴 [TRACK ACCESS] CHIAMATA trackClientAccess per cliente ${clientId}`);
+    console.log(`🔴 [TRACK ACCESS] Calling trackClientAccess for client ${clientId}`);
     try {
       // Aggiungi informazioni per distinguere tra accessi PWA e browser
       const accessInfo = {
@@ -69,17 +69,17 @@ export default function ClientArea() {
         accessType: window.matchMedia('(display-mode: standalone)').matches ? 'pwa' : 'browser'
       };
       
-      console.log(`📱 [PWA ACCESS] Tracking accesso cliente ${clientId}:`, accessInfo);
+      console.log(`📱 [PWA ACCESS] Tracking client access ${clientId}:`, accessInfo);
       
       const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, accessInfo);
-      console.log(`🔴 [TRACK ACCESS] Risposta tracking:`, response.status, response.ok);
+      console.log(`🔴 [TRACK ACCESS] Tracking response:`, response.status, response.ok);
       if (response.ok) {
         const result = await response.json();
-        console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount} (${accessInfo.accessType})`);
+        console.log(`📱 [PWA ACCESS TRACKED] Client ${clientId} - Access registered: ${result.accessCount} (${accessInfo.accessType})`);
         setAccessTracked(true);
       }
     } catch (error) {
-      console.error('Errore nel tracking accesso PWA:', error);
+      console.error('Error tracking PWA access:', error);
       // Non blocchiamo l'accesso per errori di tracking
     }
   };
@@ -92,7 +92,7 @@ export default function ClientArea() {
       if (response.ok) {
         const data = await response.json();
         if (data.clientId && data.isValid) {
-          console.log(`📱 PWA: Recuperato ultimo accesso valido per cliente ${data.clientId}`);
+          console.log(`📱 PWA: Retrieved last valid access for client ${data.clientId}`);
           localStorage.setItem('clientAccessToken', data.token);
           localStorage.setItem('clientId', data.clientId.toString());
           setToken(data.token);
@@ -101,7 +101,7 @@ export default function ClientArea() {
         }
       }
     } catch (error) {
-      console.error('Errore nel recupero ultimo accesso:', error);
+      console.error('Error fetching last access:', error);
     }
     setRecoveryLoading(false);
     setPwaAccessMessage(true);
@@ -118,13 +118,13 @@ export default function ClientArea() {
     const clientCodeFromPath = clientPathMatch ? clientPathMatch[1] : null;
     const clientIdFromQuery = urlParams.get('clientId');
     
-    console.log("🔍 [CLIENT AREA] Path:", currentPath, "Codice cliente da path:", clientCodeFromPath, "Token:", tokenFromQuery);
+    console.log("🔍 [CLIENT AREA] Path:", currentPath, "Client code from path:", clientCodeFromPath, "Token:", tokenFromQuery);
     
     if (tokenFromQuery && (clientCodeFromPath || clientIdFromQuery)) {
       // Accesso diretto tramite QR con percorso dedicato basato su codice univoco
       const finalClientId = clientIdFromQuery; // Manteniamo l'ID numerico per le API
       const clientCode = clientCodeFromPath;
-      console.log("🎯 [CLIENT AREA] Accesso a percorso dedicato con codice:", clientCode, "ID:", finalClientId);
+      console.log("🎯 [CLIENT AREA] Accessing dedicated path with code:", clientCode, "ID:", finalClientId);
       
       localStorage.setItem('clientAccessToken', tokenFromQuery);
       localStorage.setItem('clientId', finalClientId || '');
@@ -141,7 +141,7 @@ export default function ClientArea() {
       
       if (savedToken && savedClientId) {
         const savedClientCode = localStorage.getItem('clientCode');
-        console.log("📱 [PWA] Token recuperato per cliente:", savedClientId, "Codice:", savedClientCode);
+        console.log("📱 [PWA] Token retrieved for client:", savedClientId, "Code:", savedClientCode);
         
         // Aggiorna URL per riflettere il percorso dedicato basato su codice univoco
         if (!clientCodeFromPath && savedClientCode) {
@@ -162,13 +162,13 @@ export default function ClientArea() {
           
           // Se è admin/staff, reindirizza alla dashboard
           if (userData.type === "admin" || userData.type === "staff") {
-            console.log("🚫 Admin/Staff rilevato - Reindirizzamento a dashboard");
+            console.log("🚫 Admin/Staff detected - Redirecting to dashboard");
             setLocation("/dashboard");
             return true;
           }
         }
       } catch (error) {
-        console.log("Verifica admin fallita, procedo con autenticazione tradizionale");
+        console.log("Admin check failed, proceeding with traditional authentication");
       }
       return false;
     };
@@ -177,7 +177,7 @@ export default function ClientArea() {
     checkAdminAccess().then((isAdminAuthenticated) => {
       if (!isAdminAuthenticated) {
         // Fallback: verifica autenticazione tradizionale
-        console.log("🔍 Nessun token QR - Verifica autenticazione tradizionale");
+        console.log("🔍 No QR token - Checking traditional authentication");
         fetchCurrentUser();
       }
     });
@@ -200,10 +200,10 @@ export default function ClientArea() {
           const data = await response.json();
           setProfessionalIcon(data.icon || "");
           setProfessionalName(data.professionalName || "");
-          console.log(`🏠 CLIENT: Icona del professionista ${ownerId} caricata, nome: ${data.professionalName || 'N/A'}`);
+          console.log(`🏠 CLIENT: Professional icon for ${ownerId} loaded, name: ${data.professionalName || 'N/A'}`);
         }
       } catch (error) {
-        console.error("Errore nel caricamento dell'icona del professionista:", error);
+        console.error("Error loading professional icon:", error);
       }
     };
 
@@ -212,13 +212,13 @@ export default function ClientArea() {
     // Il manifest viene ora creato dinamicamente in index.html con i parametri corretti dall'inizio
     // Questo log serve solo per debugging
     if (ownerId) {
-      console.log(`📱 [PWA] Owner ID ${ownerId} - Manifest già configurato in index.html`);
+      console.log(`📱 [PWA] Owner ID ${ownerId} - Manifest already configured in index.html`);
     }
   }, [ownerId]);
 
   const verifyQRToken = async (token: string, clientId: string) => {
-    console.log(`🔐 Verifica token QR per cliente ${clientId}`);
-    console.log(`🔐 Token ricevuto: ${token}`);
+    console.log(`🔐 Verifying QR token for client ${clientId}`);
+    console.log(`🔐 Token received: ${token}`);
     setLoading(true);
     
     try {
@@ -233,16 +233,16 @@ export default function ClientArea() {
       
       if (!response.ok) {
         const errorData = await response.text();
-        console.error(`❌ Errore verifica token: ${response.status} - ${errorData}`);
+        console.error(`❌ Token verification error: ${response.status} - ${errorData}`);
         throw new Error(t("clientArea.tokenInvalid"));
       }
       
       const clientData = await response.json();
-      console.log(`✅ Token QR valido - Cliente autenticato: ${clientData.client.firstName} ${clientData.client.lastName}`);
+      console.log(`✅ Valid QR token - Client authenticated: ${clientData.client.firstName} ${clientData.client.lastName}`);
       
       // USA SEMPRE l'ID del cliente dalla risposta del server (più affidabile)
       const actualClientId = clientData.client.id.toString();
-      console.log(`🆔 [CLIENT ID] ID cliente dalla risposta server: ${actualClientId}`);
+      console.log(`🆔 [CLIENT ID] Client ID from server response: ${actualClientId}`);
       
       // Estrai owner ID dal token gerarchico per user ID
       const ownerMatch = token.match(/^PROF_(\d{2,3})_/);
@@ -252,7 +252,7 @@ export default function ClientArea() {
       localStorage.setItem('ownerId', extractedOwnerId.toString());
       localStorage.setItem('client_qr_token', token);
       localStorage.setItem('client_id', actualClientId);
-      console.log("💾 [PWA SAVE] Tutti i dati salvati per PWA installata");
+      console.log("💾 [PWA SAVE] All data saved for installed PWA");
       
       setOwnerId(extractedOwnerId);
       
@@ -265,7 +265,7 @@ export default function ClientArea() {
       });
       
       // Registra l'accesso per il tracking (sia per PWA che browser) - USA actualClientId
-      console.log(`🔴 [TRACKING] Chiamata trackClientAccess con ID: ${actualClientId}`);
+      console.log(`🔴 [TRACKING] Calling trackClientAccess with ID: ${actualClientId}`);
       trackClientAccess(actualClientId);
       
       // Traccia nuovamente quando la PWA torna in primo piano
@@ -286,7 +286,7 @@ export default function ClientArea() {
       setLoading(false);
       
     } catch (error) {
-      console.error("Errore verifica token QR:", error);
+      console.error("QR token verification error:", error);
       toast({
         title: t("clientArea.tokenInvalid"),
         description: t("clientArea.tokenExpiredDesc"),
@@ -308,9 +308,9 @@ export default function ClientArea() {
 
       // Se abbiamo token/clientId salvati nel localStorage, usiamoli per PWA
       if (storedToken && storedClientId) {
-        console.log("📱 PWA: Tentativo auto-login con token localStorage");
-        console.log(`Token salvato: ${storedToken}`);
-        console.log(`Client ID salvato: ${storedClientId}`);
+        console.log("📱 PWA: Attempting auto-login with localStorage token");
+        console.log(`Stored token: ${storedToken}`);
+        console.log(`Stored client ID: ${storedClientId}`);
         
         try {
           const tokenResponse = await apiRequest('POST', '/api/client-access/verify-token', { 
@@ -320,7 +320,7 @@ export default function ClientArea() {
           
           if (tokenResponse.ok) {
             const clientData = await tokenResponse.json();
-            console.log("✅ PWA Auto-login riuscito con token localStorage");
+            console.log("✅ PWA Auto-login successful with localStorage token");
             
             // Estrai owner ID dal token per user ID  
             const ownerMatch = storedToken.match(/^PROF_(\d{2,3})_/);
@@ -344,13 +344,13 @@ export default function ClientArea() {
             setLoading(false);
             return;
           } else {
-            console.log("❌ PWA Auto-login fallito - token localStorage non valido");
+            console.log("❌ PWA Auto-login failed - invalid localStorage token");
             // Pulisci localStorage e procedi con autenticazione normale
             localStorage.removeItem('clientAccessToken');
             localStorage.removeItem('clientId');
           }
         } catch (tokenError) {
-          console.error("Errore durante PWA auto-login:", tokenError);
+          console.error("Error during PWA auto-login:", tokenError);
           // Pulisci localStorage in caso di errore
           localStorage.removeItem('clientAccessToken');
           localStorage.removeItem('clientId');
@@ -376,7 +376,7 @@ export default function ClientArea() {
         }
         
         // Log per aiutare il debug
-        console.log(`Utente client autorizzato ad accedere all'area clienti - clientId: ${userData.client?.id}`);
+        console.log(`Client user authorized to access client area - clientId: ${userData.client?.id}`);
         
         // Se è un cliente valido, salviamo l'ID nel localStorage per supporto PWA
         if (userData.client?.id) {
@@ -386,11 +386,11 @@ export default function ClientArea() {
         setUser(userData);
       } else {
         // Se non autenticato, reindirizza alla pagina di login con parametro di sessione scaduta
-        console.log("Sessione non valida o scaduta, redirezione a login con parametro expired=true");
+        console.log("Session invalid or expired, redirecting to login with expired=true parameter");
         setLocation("/client-login?expired=true");
       }
     } catch (error) {
-      console.error("Errore nel caricamento dell'utente corrente:", error);
+      console.error("Error loading current user:", error);
       toast({
         title: t("common.connectionError"),
         description: t("clientArea.cannotVerifyAuth"),
@@ -430,7 +430,7 @@ export default function ClientArea() {
         setFutureAppointments(onlyFutureAppointments);
       }
     } catch (error) {
-      console.error("Errore nel caricamento degli appuntamenti:", error);
+      console.error("Error loading appointments:", error);
       toast({
         title: t("clientArea.errorGeneric"),
         description: t("clientArea.errorLoadingAppointments"),
@@ -463,7 +463,7 @@ export default function ClientArea() {
         throw new Error(t("clientArea.errorReminderResponse"));
       }
     } catch (error) {
-      console.error("Errore nella conferma del promemoria:", error);
+      console.error("Error confirming reminder:", error);
       toast({
         title: t("clientArea.errorGeneric"),
         description: t("clientArea.errorConfirmReminder"),

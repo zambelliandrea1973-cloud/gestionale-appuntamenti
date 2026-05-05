@@ -371,7 +371,7 @@ export default function GoogleCalendarSettingsComponent() {
                             setShowAuthDialog(true);
                           }
                         } catch (error) {
-                          console.error('Errore nel recupero URL auth:', error);
+                          console.error('Error fetching auth URL:', error);
                           toast({
                             title: t('common.error'),
                             description: t('googleCalendar.settings.toastAuthErrorGeneric'),

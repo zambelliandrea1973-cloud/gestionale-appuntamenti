@@ -40,7 +40,7 @@ export function DirectLinkAccess({ token, clientId }: DirectLinkAccessProps) {
 
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error("Errore nella copia del link:", error);
+      console.error("Error copying link:", error);
       toast({
         title: t('common.error'),
         description: t('directLinkAccess.copyErrorDescription'),

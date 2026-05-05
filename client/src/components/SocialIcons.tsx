@@ -28,7 +28,7 @@ export default function SocialIcons() {
         const data = await response.json();
         setSocialData(data);
       } catch (error) {
-        console.error("Errore caricamento dati social:", error);
+        console.error("Error loading social data:", error);
       } finally {
         setLoading(false);
       }

@@ -39,7 +39,7 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
   // Monitoriamo lo stato di salvataggio dell'appuntamento
   useEffect(() => {
     if (appointmentSaved) {
-      console.log("Appuntamento salvato, chiusura modale in corso...");
+      console.log("Appointment saved, closing modal...");
       
       // Invalidazione forzata di tutte le query relative agli appuntamenti
       queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
@@ -75,8 +75,8 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
   // Funzione direttamente nel modale per salvare l'appuntamento 
   // Questa verrà passata all'AppointmentForm per essere richiamata da un pulsante personalizzato
   const saveAppointmentDirectly = async (formData: any) => {
-    console.log("=== [MODAL] INIZIO SALVATAGGIO DIRETTO APPUNTAMENTO ===");
-    console.log("[MODAL] Dati del form:", formData);
+    console.log("=== [MODAL] STARTING DIRECT APPOINTMENT SAVE ===");
+    console.log("[MODAL] Form data:", formData);
     
     try {
       // Verifica che ci sia una data, altrimenti lascia che sia il form a gestire l'errore
@@ -110,14 +110,14 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
         status: "scheduled"
       };
       
-      console.log("[MODAL] Dati formattati per API:", appointmentData);
+      console.log("[MODAL] Formatted data for API:", appointmentData);
       
       // Invio diretto all'API
-      console.log("[MODAL] Invio diretto a /api/appointments");
+      console.log("[MODAL] Direct send to /api/appointments");
       const response = await apiRequest("POST", "/api/appointments", appointmentData);
       
       const result = await response.json();
-      console.log("[MODAL] Risposta ricevuta:", result);
+      console.log("[MODAL] Response received:", result);
       
       // Notifica successo
       toast({
@@ -128,7 +128,7 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
       // Notifica al sistema che l'appuntamento è stato salvato
       setAppointmentSaved(true);
     } catch (error: any) {
-      console.error("[MODAL] ERRORE durante la richiesta:", error);
+      console.error("[MODAL] ERROR during request:", error);
       toast({
         title: t('common.error'),
         description: t('common.errorWithMessage', { message: error.message }),
@@ -144,14 +144,14 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     const dateText = dateElement?.textContent?.trim();
     let date = new Date();
     
-    console.log("[MODAL] Testo data trovato:", dateText);
+    console.log("[MODAL] Date text found:", dateText);
     
     // Verifica che il testo contenga almeno una cifra (numero del giorno)
     // — placeholder localizzati come "Seleziona data" non hanno numeri
     if (dateText && /\d/.test(dateText)) {
       // Tenta di estrarre la data in formato italiano
       const parts = dateText.split(' ');
-      console.log("[MODAL] Parti della data:", parts);
+      console.log("[MODAL] Date parts:", parts);
       
       if (parts.length >= 3) {
         const day = parseInt(parts[0]);
@@ -172,11 +172,11 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
         }
         
         const year = parseInt(parts[2]);
-        console.log("[MODAL] Data estratta:", day, month, year);
+        console.log("[MODAL] Extracted date:", day, month, year);
         
         if (!isNaN(day) && !isNaN(year)) {
           date = new Date(year, month, day);
-          console.log("[MODAL] Data convertita:", date);
+          console.log("[MODAL] Converted date:", date);
         }
       }
     }
@@ -221,11 +221,11 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
         <AppointmentForm 
           clientId={clientId}
           onClose={() => {
-            console.log("Richiesta chiusura AppointmentForm (callback onClose)");
+            console.log("Closing AppointmentForm requested (callback onClose)");
             setAppointmentSaved(true);
           }}
           onAppointmentSaved={() => {
-            console.log("Callback onAppointmentSaved chiamata");
+            console.log("Callback onAppointmentSaved called");
             setAppointmentSaved(true);
           }}
         />
@@ -236,14 +236,14 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
             id="saveAppointmentDirectButton"
             onClick={() => {
               // Questo verrà chiamato manualmente
-              console.log("[MODAL] Pulsante di salvataggio diretto cliccato");
+              console.log("[MODAL] Direct save button clicked");
               
               try {
                 // Controlliamo se abbiamo valori salvati dall'AppointmentForm
                 // @ts-ignore - window.lastFormValues è definito a runtime ma TypeScript non lo riconosce
                 if (window.lastFormValues) {
                   // @ts-ignore
-                  console.log("[MODAL] Valori recuperati da window.lastFormValues:", window.lastFormValues);
+                  console.log("[MODAL] Values retrieved from window.lastFormValues:", window.lastFormValues);
                   
                   // Estrai i valori dai dati del form
                   // @ts-ignore
@@ -258,13 +258,13 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
                   });
                 } else {
                   // Fallback con raccolta dati dal DOM
-                  console.log("[MODAL] Nessun valore salvato, raccolta dal DOM");
+                  console.log("[MODAL] No saved value, collecting from DOM");
                   const formData = collectFormData();
-                  console.log("[MODAL] Dati raccolti dal DOM:", formData);
+                  console.log("[MODAL] Data collected from DOM:", formData);
                   saveAppointmentDirectly(formData);
                 }
               } catch (error) {
-                console.error("[MODAL] Errore durante la raccolta dei dati:", error);
+                console.error("[MODAL] Error collecting data:", error);
                 
                 // Fallback con dati di default
                 saveAppointmentDirectly({

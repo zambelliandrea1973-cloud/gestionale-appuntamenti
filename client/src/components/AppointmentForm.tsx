@@ -271,7 +271,7 @@ export default function AppointmentForm({
     if (client) {
       const clientOwnerId = client.ownerId || client.originalOwnerId;
       const isOther = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
-      console.log(`🔍 [APPOINTMENT FORM] Cliente selezionato ${client.firstName} ${client.lastName}:`, {
+      console.log(`🔍 [APPOINTMENT FORM] Client selected ${client.firstName} ${client.lastName}:`, {
         clientId: client.id,
         ownerId: client.ownerId,
         originalOwnerId: client.originalOwnerId,
@@ -307,12 +307,12 @@ export default function AppointmentForm({
   // Create or update appointment mutation
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
-      console.log("=== MUTATION FUNCTION INIZIATA ===");
-      console.log("Tentativo di salvataggio appuntamento con dati:", data);
+      console.log("=== MUTATION FUNCTION STARTED ===");
+      console.log("Attempting to save appointment with data:", data);
       
       // Controlli preliminari
       if (!data.clientId || !data.serviceId || !data.date || !data.startTime) {
-        console.error("ERRORE: Dati incompleti per l'appuntamento", {
+        console.error("ERROR: Incomplete appointment data", {
           clientId: data.clientId,
           serviceId: data.serviceId,
           date: data.date,
@@ -351,7 +351,7 @@ export default function AppointmentForm({
         status: "scheduled"
       };
       
-      console.log("Dati formattati per API:", appointmentData);
+      console.log("Formatted data for API:", appointmentData);
       
       // Esegui la chiamata API
       const url = appointmentId 
@@ -361,12 +361,12 @@ export default function AppointmentForm({
       const method = appointmentId ? "PUT" : "POST";
       
       // Utilizziamo apiRequest al posto di fetch diretto
-      console.log(`Invio richiesta ${method} a ${url} con dati:`, appointmentData);
+      console.log(`Sending ${method} request to ${url} with data:`, appointmentData);
       
       try {
         const response = await apiRequest(method, url, appointmentData);
         const responseData = await response.json();
-        console.log("Risposta server ricevuta:", responseData);
+        console.log("Server response received:", responseData);
         return responseData;
       } catch (error) {
         console.error("API request failed:", error);
@@ -375,7 +375,7 @@ export default function AppointmentForm({
     },
     
     onSuccess: async (data) => {
-      console.log("Appuntamento salvato con successo:", data);
+      console.log("Appointment saved successfully:", data);
       
       toast({
         title: appointmentId
@@ -387,7 +387,7 @@ export default function AppointmentForm({
       });
       
       // Invalidate all related queries
-      console.log("🔄 Sistema multi-tenant: invalidazione cache appuntamenti...");
+      console.log("🔄 Multi-tenant system: invalidating appointment cache...");
       
       // Invalidate general appointments list
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
@@ -427,11 +427,11 @@ export default function AppointmentForm({
         type: 'all'
       });
       
-      console.log("✅ Sistema multi-tenant: cache invalidata con successo");
+      console.log("✅ Multi-tenant system: cache successfully invalidated");
       
       // Notifica che l'appuntamento è stato salvato
       if (onAppointmentSaved) {
-        console.log("Chiamata callback onAppointmentSaved");
+        console.log("Calling onAppointmentSaved callback");
         onAppointmentSaved();
       } else {
         // Se non c'è il callback specifico, chiudi la form dopo un breve ritardo
@@ -454,10 +454,10 @@ export default function AppointmentForm({
   // Funzione per salvare l'appuntamento (senza controllo conflitti)
   const saveAppointment = async (data: FormData) => {
     try {
-      console.log("Invio dati alla mutation...");
+      console.log("Sending data to mutation...");
       
       // WORKAROUND: Bypass the mutation and make a direct API call
-      console.log("TENTATIVO DIRETTO: Bypassing the mutation system");
+      console.log("DIRECT ATTEMPT: Bypassing the mutation system");
       
       const selectedService = services.find((s: any) => s.id === data.serviceId);
       
@@ -486,7 +486,7 @@ export default function AppointmentForm({
         status: "scheduled"
       };
       
-      console.log("Dati formattati per API DIRETTA:", appointmentData);
+      console.log("Formatted data for DIRECT API:", appointmentData);
       
       // Esegui la chiamata diretta
       const url = appointmentId 
@@ -495,7 +495,7 @@ export default function AppointmentForm({
       
       const method = appointmentId ? "PUT" : "POST";
       
-      console.log(`Invio richiesta DIRETTA ${method} a ${url} con dati:`, appointmentData);
+      console.log(`Sending DIRECT ${method} request to ${url} with data:`, appointmentData);
       
       const response = await apiRequest(method, url, appointmentData);
       
@@ -504,10 +504,10 @@ export default function AppointmentForm({
       }
       
       const result = await response.json();
-      console.log("RISPOSTA DIRETTA RICEVUTA:", result);
+      console.log("DIRECT RESPONSE RECEIVED:", result);
       
       // Invalida tutte le query relative agli appuntamenti
-      console.log("Invalidazione diretta delle query");
+      console.log("Direct query invalidation");
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       
       // Invalida la data specifica dell'appuntamento + ±2 giorni (timezone-safe)
@@ -540,15 +540,15 @@ export default function AppointmentForm({
       });
       
       // Chiudi la form
-      console.log("Chiusura form dopo successo richiesta diretta");
+      console.log("Closing form after successful direct request");
       
       // Notifica che l'appuntamento è stato salvato
       if (onAppointmentSaved) {
-        console.log("Chiamata callback onAppointmentSaved (dopo richiesta diretta)");
+        console.log("Calling onAppointmentSaved callback (after direct request)");
         onAppointmentSaved();
       } else {
         // Se non c'è il callback specifico, chiudi la form
-        console.log("Chiusura form senza callback specifico");
+        console.log("Closing form without specific callback");
         onClose();
       }
     } catch (error: any) {
@@ -569,7 +569,7 @@ export default function AppointmentForm({
   const handleConflictConfirm = async () => {
     if (!pendingAppointmentData) return;
     
-    console.log("✅ Utente ha confermato di procedere nonostante i conflitti");
+    console.log("✅ User confirmed to proceed despite conflicts");
     // Marca questa chiusura come "proceed": onOpenChange NON deve sbloccare il submit,
     // la lock resterà attiva fino al finally di saveAppointment.
     proceedingFromConflictRef.current = true;
@@ -657,13 +657,13 @@ export default function AppointmentForm({
   const onSubmit = async (data: FormData) => {
     // 🛡️ Guard sincrono contro doppi click: se è già in corso, ignora il submit.
     if (submittingRef.current) {
-      console.log("⏭️ Submit ignorato: salvataggio già in corso");
+      console.log("⏭️ Submit ignored: save already in progress");
       return;
     }
     beginSubmitting();
     try {
-      console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
-      console.log("Dati form:", data);
+      console.log("=== STARTING APPOINTMENT SAVE PROCESS ===");
+      console.log("Form data:", data);
       
       // Controllo se il cliente è di un altro account e chiedi conferma
       const client = clients.find((c: any) => c.id === data.clientId);
@@ -677,27 +677,27 @@ export default function AppointmentForm({
         );
         
         if (!confirmed) {
-          console.log("Salvataggio annullato dall'utente");
+          console.log("Save cancelled by user");
           endSubmitting();
           return;
         }
       }
       
       // 🚨 DEBUG CRITICO: Verifica dei valori del form
-      console.log("🔍 [SUBMIT DEBUG] staffId dal form:", data.staffId, typeof data.staffId);
-      console.log("🔍 [SUBMIT DEBUG] roomId dal form:", data.roomId, typeof data.roomId);
+      console.log("🔍 [SUBMIT DEBUG] staffId from form:", data.staffId, typeof data.staffId);
+      console.log("🔍 [SUBMIT DEBUG] roomId from form:", data.roomId, typeof data.roomId);
       
       // Verifica anche i valori direttamente dal form state
       const formValues = form.getValues();
       console.log("🔍 [FORM STATE] staffId:", formValues.staffId, typeof formValues.staffId);
       console.log("🔍 [FORM STATE] roomId:", formValues.roomId, typeof formValues.roomId);
-      console.log("🔍 [FORM STATE] tutti i valori:", formValues);
+      console.log("🔍 [FORM STATE] all values:", formValues);
       console.log(`Client ID: ${data.clientId}, Service ID: ${data.serviceId}`);
-      console.log(`Data: ${data.date}, Ora: ${data.startTime}`);
+      console.log(`Date: ${data.date}, Time: ${data.startTime}`);
       
       // Controlli di validità
       if (!data.clientId || data.clientId === 0) {
-        console.error("Cliente non selezionato!");
+        console.error("No client selected!");
         toast({
           title: t("common.error"),
           description: t('appointmentForm.errors.requiredClient'),
@@ -708,7 +708,7 @@ export default function AppointmentForm({
       }
       
       if (!data.serviceId || data.serviceId === 0) {
-        console.error("Servizio non selezionato!");
+        console.error("No service selected!");
         toast({
           title: t("common.error"),
           description: t('appointmentForm.errors.requiredService'),
@@ -731,17 +731,17 @@ export default function AppointmentForm({
       }
       
       // Log client e service
-      console.log("Cliente selezionato:", selectedClient);
+      console.log("Selected client:", selectedClient);
       const selectedService = services.find((s: any) => s.id === data.serviceId);
-      console.log("Servizio selezionato:", selectedService);
+      console.log("Selected service:", selectedService);
       
       // Controllo conflitti di orario (professionista/stanza)
-      console.log("🔍 Controllo conflitti di orario...");
+      console.log("🔍 Checking time slot conflicts...");
       const conflicts = await checkConflicts(data);
       
       if (conflicts.staffConflicts.length > 0 || conflicts.roomConflicts.length > 0) {
         // Ci sono conflitti - mostra dialog di conferma
-        console.log("⚠️ Conflitti trovati:", conflicts);
+        console.log("⚠️ Conflicts found:", conflicts);
         setConflictDetails(conflicts);
         setPendingAppointmentData(data);
         setConflictDialogOpen(true);
@@ -749,7 +749,7 @@ export default function AppointmentForm({
       }
       
       // Nessun conflitto - salva direttamente
-      console.log("✅ Nessun conflitto rilevato - procedo con salvataggio");
+      console.log("✅ No conflicts detected - proceeding with save");
       await saveAppointment(data);
       
     } catch (error: any) {
@@ -855,7 +855,7 @@ export default function AppointmentForm({
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            console.error("❌ [APPOINTMENT FORM] Errori validazione:", JSON.stringify(errors, null, 2));
+            console.error("❌ [APPOINTMENT FORM] Validation errors:", JSON.stringify(errors, null, 2));
             const errorFields = Object.keys(errors);
             toast({
               title: t('appointmentForm.toast.validationTitle'),
@@ -1117,7 +1117,7 @@ export default function AppointmentForm({
                                     // Imposta packagePurchaseId se è un servizio del pacchetto
                                     if (packageForService) {
                                       form.setValue('packagePurchaseId', packageForService.id);
-                                      console.log("📦 Servizio da pacchetto selezionato, packagePurchaseId:", packageForService.id);
+                                      console.log("📦 Service from package selected, packagePurchaseId:", packageForService.id);
                                     } else {
                                       form.setValue('packagePurchaseId', undefined);
                                     }
@@ -1206,12 +1206,12 @@ export default function AppointmentForm({
                         <Select
                           value={field.value?.toString() || "none"}
                           onValueChange={(value) => {
-                            console.log('🎯 COLLABORATORE SELEZIONATO:', value);
-                            console.log('🎯 [STAFFID DEBUG] Value ricevuto:', value, typeof value);
+                            console.log('🎯 COLLABORATOR SELECTED:', value);
+                            console.log('🎯 [STAFFID DEBUG] Value received:', value, typeof value);
                             const staffIdValue = value !== "none" ? parseInt(value) : undefined;
-                            console.log('🎯 [STAFFID DEBUG] Valore convertito:', staffIdValue, typeof staffIdValue);
+                            console.log('🎯 [STAFFID DEBUG] Converted value:', staffIdValue, typeof staffIdValue);
                             field.onChange(staffIdValue);
-                            console.log('🎯 [STAFFID DEBUG] field.onChange chiamato con:', staffIdValue);
+                            console.log('🎯 [STAFFID DEBUG] field.onChange called with:', staffIdValue);
                             
                             // Verifica immediata del form state
                             setTimeout(() => {
@@ -1297,7 +1297,7 @@ export default function AppointmentForm({
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((room: any) => room.isActive)
                               .map((room: any) => {
-                                console.log('🏗️ RENDERING STANZA:', room);
+                                console.log('🏗️ RENDERING ROOM:', room);
                                 return (
                                   <SelectItem key={room.id} value={room.id.toString()}>
                                     <div className="flex items-center gap-2">

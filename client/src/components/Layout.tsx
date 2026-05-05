@@ -69,7 +69,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   
   // Debug per verificare sincronizzazione
   if (isMobile && syncData) {
-    console.log(`📱 [LAYOUT] Mobile sincronizzato: ${clientsCount} clienti, settings:`, syncData.companySettings);
+    console.log(`📱 [LAYOUT] Mobile synced: ${clientsCount} clients, settings:`, syncData.companySettings);
   }
   
   const isActive = (path: string) => location === path;

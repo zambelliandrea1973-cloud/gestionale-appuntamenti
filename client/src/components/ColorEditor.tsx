@@ -33,14 +33,14 @@ export default function ColorEditor() {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('🎨 COLORI CARICATI:', data.primaryColor, data.secondaryColor);
+        console.log('🎨 COLORS LOADED:', data.primaryColor, data.secondaryColor);
         setSettings({
           primaryColor: data.primaryColor || '#3f51b5',
           secondaryColor: data.secondaryColor || '#ffffff'
         });
       }
     } catch (error) {
-      console.error('Errore caricamento colori:', error);
+      console.error('Error loading colors:', error);
     }
   };
 
@@ -56,7 +56,7 @@ export default function ColorEditor() {
       
       if (response.ok) {
         const result = await response.json();
-        console.log(`✅ COLORE SALVATO SEPARATAMENTE: "${settings.primaryColor}" per utente ${result.userId}`);
+        console.log(`✅ COLOR SAVED SEPARATELY: "${settings.primaryColor}" for user ${result.userId}`);
         setSaveSuccess(true);
         
         // 🔄 REFRESH DELLA PAGINA per mostrare immediatamente il nuovo colore
@@ -71,7 +71,7 @@ export default function ColorEditor() {
         });
       } else {
         const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
+        console.error('Server response error:', errorText);
         throw new Error(t('colorEditor.saveError', 'Failed to save color settings ({{status}})', { status: response.status }));
       }
     } catch (error: any) {

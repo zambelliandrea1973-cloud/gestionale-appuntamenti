@@ -153,9 +153,9 @@ export default function EmailSettings() {
       try {
         // Tentiamo di interpretarlo come JSON
         data = JSON.parse(responseText);
-        console.log('Risposta dal server (parsata):', data);
+        console.log('Server response (parsed):', data);
       } catch (e) {
-        console.error('Errore nel parsing della risposta JSON', e);
+        console.error('Error parsing JSON response', e);
         toast({
           title: t("common.error"),
           description: t("emailSettings.toast.invalidServerResponse"),
@@ -178,7 +178,7 @@ export default function EmailSettings() {
         });
       }
     } catch (error) {
-      console.error('Errore nel recupero della password:', error);
+      console.error('Error retrieving password:', error);
       toast({
         title: t("common.error"),
         description: t("emailSettings.toast.passwordFetchError"),
@@ -259,7 +259,7 @@ export default function EmailSettings() {
           });
         }
       } catch (error) {
-        console.error('Errore nel caricamento delle impostazioni email:', error);
+        console.error('Error loading email settings:', error);
       }
     };
     
@@ -355,7 +355,7 @@ export default function EmailSettings() {
         throw new Error(error.message || t('emailSettings.toast.saveError'));
       }
     } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni:', error);
+      console.error('Error saving settings:', error);
       toast({
         title: t("common.error"),
         description: error instanceof Error ? error.message : t("emailSettings.toast.saveError"),
@@ -450,7 +450,7 @@ export default function EmailSettings() {
         throw new Error(errorMessage + helpText);
       }
     } catch (error) {
-      console.error('Errore nell\'invio dell\'email di test:', error);
+      console.error('Error sending test email:', error);
       toast({
         title: t("common.error"),
         description: error instanceof Error ? error.message : t("emailSettings.toast.sendError"),

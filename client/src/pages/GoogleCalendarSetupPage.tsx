@@ -183,7 +183,7 @@ export default function GoogleCalendarSetupPage() {
   const handleReconnectGoogle = async () => {
     try {
       // Prima revoca il token esistente per forzare nuovi scope
-      console.log("🔄 Revoca token esistente prima della riconnessione...");
+      console.log("🔄 Revoking existing token before reconnecting...");
       await fetch('/api/google-auth/revoke', { method: 'POST' });
       
       // Poi avvia la nuova autorizzazione

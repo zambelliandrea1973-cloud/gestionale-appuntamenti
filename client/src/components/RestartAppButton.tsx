@@ -76,7 +76,7 @@ export function RestartAppButton({ variant = 'default', size = 'default', classN
         duration: 5000,
       });
     } catch (error: any) {
-      console.error('Errore durante il riavvio:', error);
+      console.error('Error during restart:', error);
       
       toast({
         title: t('i18nFinale.restartApp.errorTitle'),

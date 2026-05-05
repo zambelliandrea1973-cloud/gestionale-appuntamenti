@@ -86,7 +86,7 @@ const NotificationTester: React.FC = () => {
         });
       }
     } catch (err: any) {
-      console.error('Errore nell\'invio del messaggio:', err);
+      console.error('Error sending message:', err);
       setError(err.message || t('notificationTester.unknownError'));
 
       toast({

@@ -25,11 +25,11 @@ export default function PwaRedirector() {
           (window.navigator as any).standalone || 
           document.referrer.includes('android-app://');
         
-        console.log("PwaRedirector - Verifica modalità PWA:", isPWA);
+        console.log("PwaRedirector - Checking PWA mode:", isPWA);
         
         // Se non siamo in PWA, reindirizza alla home
         if (!isPWA) {
-          console.log("PwaRedirector - Non in modalità PWA, reindirizzamento a /");
+          console.log("PwaRedirector - Not in PWA mode, redirecting to /");
           setLocation("/");
           return;
         }
@@ -37,7 +37,7 @@ export default function PwaRedirector() {
         // Verifichiamo se abbiamo un link QR salvato
         const qrLink = localStorage.getItem('qrLink');
         if (qrLink) {
-          console.log("PwaRedirector - Link QR trovato, reindirizzamento a:", qrLink);
+          console.log("PwaRedirector - QR link found, redirecting to:", qrLink);
           
           // Se il link è relativo, aggiungi l'URL base
           if (qrLink.startsWith('/')) {
@@ -51,17 +51,17 @@ export default function PwaRedirector() {
         // Verifichiamo se abbiamo dati QR salvati
         const qrData = localStorage.getItem('qrData');
         if (qrData) {
-          console.log("PwaRedirector - Dati QR trovati, reindirizzamento a /activate");
+          console.log("PwaRedirector - QR data found, redirecting to /activate");
           setLocation(`/activate?data=${encodeURIComponent(qrData)}`);
           return;
         }
         
         // Non abbiamo informazioni salvate, reindirizza al login cliente
-        console.log("PwaRedirector - Nessuna informazione salvata, reindirizzamento al login cliente");
+        console.log("PwaRedirector - No saved information, redirecting to client login");
         setLocation("/client-login");
         
       } catch (error) {
-        console.error("PwaRedirector - Errore durante il reindirizzamento:", error);
+        console.error("PwaRedirector - Error during redirection:", error);
         toast({
           title: t('common.error'),
           description: t('i18nFinale.pwaRedirector.appStartError'),

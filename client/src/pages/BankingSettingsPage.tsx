@@ -30,7 +30,7 @@ interface BankingSettings {
 }
 
 export default function BankingSettingsPage() {
-  console.log('✅ ✅ ✅ NUOVO CODICE BANKING CARICATO! V3.0 - BUG FIXED ✅ ✅ ✅');
+  console.log('✅ ✅ ✅ NEW BANKING CODE LOADED! V3.0 - BUG FIXED ✅ ✅ ✅');
   
   const { t } = useTranslation();
   const { toast } = useToast();
@@ -50,13 +50,13 @@ export default function BankingSettingsPage() {
 
   const updateBankingMutation = useMutation({
     mutationFn: async (settings: Partial<BankingSettings>) => {
-      console.log('🏦 [MUTATION] Invio POST a /api/admin/banking-settings');
-      console.log('🏦 [MUTATION] Dati:', settings);
+      console.log('🏦 [MUTATION] Sending POST to /api/admin/banking-settings');
+      console.log('🏦 [MUTATION] Data:', settings);
       const response = await apiRequest("POST", "/api/admin/banking-settings", settings);
       return response.json();
     },
     onSuccess: () => {
-      console.log('🏦 [MUTATION] Salvataggio completato con successo!');
+      console.log('🏦 [MUTATION] Save completed successfully!');
       toast({
         title: t("common.saved"),
         description: t("bankingSettings.savedDesc"),
@@ -64,7 +64,7 @@ export default function BankingSettingsPage() {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/banking-settings'] });
     },
     onError: (error) => {
-      console.error('🏦 [MUTATION] Errore salvataggio:', error);
+      console.error('🏦 [MUTATION] Save error:', error);
       toast({
         title: t("common.error"),
         description: t("bankingSettings.errorSave"),
@@ -100,11 +100,11 @@ export default function BankingSettingsPage() {
 
   // Salva tutte le impostazioni
   const handleSaveSettings = () => {
-    console.log('🏦 [BANKING] Salvataggio chiamato!');
-    console.log('🏦 [BANKING] Dati da salvare:', settings);
+    console.log('🏦 [BANKING] Save called!');
+    console.log('🏦 [BANKING] Data to save:', settings);
     
     if (!settings) {
-      console.error('❌ [BANKING] Nessun dato da salvare');
+      console.error('❌ [BANKING] No data to save');
       return;
     }
 

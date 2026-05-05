@@ -163,28 +163,28 @@ export default function ClientForm({
   // Create or update client mutation
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
-      console.log("🚀 Mutation inizio - Dati da inviare:", data);
+      console.log("🚀 Mutation start - Data to send:", data);
       
       if (clientId) {
-        console.log("✏️ Aggiornamento cliente esistente:", clientId);
+        console.log("✏️ Updating existing client:", clientId);
         return apiRequest("PUT", `/api/clients/${clientId}`, data);
       } else {
-        console.log("➕ Creazione nuovo cliente");
+        console.log("➕ Creating new client");
         const response = await apiRequest("POST", "/api/clients", data);
-        console.log("📡 Risposta server ricevuta:", response.status);
+        console.log("📡 Server response received:", response.status);
         return response;
       }
     },
     onSuccess: async (response) => {
-      console.log("✅ onSuccess chiamato, tipo response:", typeof response);
+      console.log("✅ onSuccess called, response type:", typeof response);
       
       // Parse response JSON - do this first to get the client ID
       let responseData;
       try {
         responseData = await response.clone().json();
-        console.log("✅ Response data parsato:", responseData);
+        console.log("✅ Response data parsed:", responseData);
       } catch (e) {
-        console.error("❌ Errore parsing response:", e);
+        console.error("❌ Error parsing response:", e);
       }
       
       toast({
@@ -297,7 +297,7 @@ export default function ClientForm({
         return;
       }
     } catch (error) {
-      console.error("Errore controllo duplicati:", error);
+      console.error("Duplicate check error:", error);
     } finally {
       setIsCheckingDuplicates(false);
     }

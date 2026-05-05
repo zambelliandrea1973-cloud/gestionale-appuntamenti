@@ -64,7 +64,7 @@ export default function PaymentSuccess() {
           }
         }
       } catch (error) {
-        console.error('Errore durante la conferma del pagamento:', error);
+        console.error('Error during payment confirmation:', error);
       }
     };
     
@@ -83,7 +83,7 @@ export default function PaymentSuccess() {
         
         setSuccess(hasActiveSubscription || hasNonTrialLicense);
       } catch (error) {
-        console.error('Errore durante il controllo della licenza:', error);
+        console.error('Error during license check:', error);
         setSuccess(false);
       } finally {
         if (!isLoadingLicense && !isLoadingSubscription) {

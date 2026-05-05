@@ -36,7 +36,7 @@ export default function PromotionPage() {
           setError(true);
         }
       } catch (err) {
-        console.error('Errore caricamento promozione:', err);
+        console.error('Error loading promotion:', err);
         setError(true);
       } finally {
         setLoading(false);

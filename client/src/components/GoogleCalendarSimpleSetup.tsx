@@ -56,7 +56,7 @@ export default function GoogleCalendarSimpleSetup() {
         const data = await response.json();
         if (data.authUrl) {
           console.log("Auth URL:", data.authUrl);
-          console.log("Auth debug info:", data.debug || "Non disponibile");
+          console.log("Auth debug info:", data.debug || "Not available");
           
           // Apre l'URL di autorizzazione in una nuova finestra
           const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
@@ -90,7 +90,7 @@ export default function GoogleCalendarSimpleSetup() {
                 }
               }
             } catch (error) {
-              console.error('Errore durante il controllo dell\'autorizzazione:', error);
+              console.error('Error checking authorization:', error);
             } finally {
               // In ogni caso, termina lo stato di autenticazione dopo 5 secondi
               // per evitare che l'interfaccia rimanga bloccata in stato di caricamento
@@ -110,7 +110,7 @@ export default function GoogleCalendarSimpleSetup() {
         throw new Error(t('google.startAuthError', 'Unable to start Google authorization'));
       }
     } catch (error) {
-      console.error('Errore nell\'autorizzazione Google:', error);
+      console.error('Error in Google authorization:', error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : 
@@ -169,7 +169,7 @@ export default function GoogleCalendarSimpleSetup() {
         throw new Error(t('google.revokeError', 'An error occurred while revoking authorization'));
       }
     } catch (error) {
-      console.error('Errore nella revoca dell\'autorizzazione:', error);
+      console.error('Error revoking authorization:', error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : 
@@ -214,7 +214,7 @@ export default function GoogleCalendarSimpleSetup() {
         throw new Error(t('google.syncError', 'Sync error'));
       }
     } catch (error) {
-      console.error('Errore sincronizzazione:', error);
+      console.error('Sync error:', error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : t('google.syncFailedError', 'Sync failed'),

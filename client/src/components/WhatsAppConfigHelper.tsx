@@ -33,7 +33,7 @@ const WhatsAppConfigHelper: React.FC = () => {
       const data = await response.json();
       setConfigStatus(data);
     } catch (error) {
-      console.error('Errore nel recupero dello stato di configurazione:', error);
+      console.error('Error fetching configuration status:', error);
       toast({
         variant: "destructive",
         title: t('common.error'),
@@ -80,7 +80,7 @@ const WhatsAppConfigHelper: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Errore durante il test:', error);
+      console.error('Error during test:', error);
       setTestResult({
         success: false,
         message: t('whatsappConfigHelper.errors.connectionTest')

@@ -178,7 +178,7 @@ export default function ReferralPage() {
           text: text,
           url: window.location.origin
         }).catch((error) => {
-          console.error('Errore nella condivisione:', error);
+          console.error('Error sharing:', error);
         });
       } else {
         navigator.clipboard.writeText(text);

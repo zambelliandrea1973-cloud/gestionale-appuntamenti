@@ -51,7 +51,7 @@ export default function StripeCheckoutButton({
       // Reindirizza alla pagina di checkout di Stripe
       window.location.href = data.url;
     } catch (error) {
-      console.error('Errore durante il processo di pagamento:', error);
+      console.error('Error during payment process:', error);
       
       toast({
         title: t('i18nFinale.stripeCheckout.paymentError'),

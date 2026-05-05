@@ -518,8 +518,8 @@ export default function Inventory() {
               </DialogHeader>
               <Form {...productForm}>
                 <form onSubmit={productForm.handleSubmit((data) => {
-                  console.log("Dati form prima della pulizia:", data);
-                  console.log("categoryId nel form:", data.categoryId, "tipo:", typeof data.categoryId);
+                  console.log("Form data before cleanup:", data);
+                  console.log("categoryId in form:", data.categoryId, "type:", typeof data.categoryId);
                   // Pulisci i dati rimuovendo solo campi undefined, null o stringhe vuote
                   // Mantieni i numeri anche se sono 0
                   const cleanData = Object.fromEntries(
@@ -528,8 +528,8 @@ export default function Inventory() {
                       return v !== undefined && v !== null && v !== "";
                     })
                   );
-                  console.log("Dati form dopo la pulizia:", cleanData);
-                  console.log("categoryId dopo pulizia:", cleanData.categoryId);
+                  console.log("Form data after cleanup:", cleanData);
+                  console.log("categoryId after cleanup:", cleanData.categoryId);
                   createProductMutation.mutate(cleanData);
                 })} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">

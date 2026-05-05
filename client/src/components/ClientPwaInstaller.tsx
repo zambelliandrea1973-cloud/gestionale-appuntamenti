@@ -34,10 +34,10 @@ export function ClientPwaInstaller() {
         .then(async registration => {
           // Forza update immediato a v2 (corretto)
           await registration.update();
-          console.log('Service Worker v2 registrato:', registration);
+          console.log('Service Worker v2 registered:', registration);
         })
         .catch(error => {
-          console.error('Errore durante la registrazione del Service Worker:', error);
+          console.error('Error registering Service Worker:', error);
         });
     }
     
@@ -54,7 +54,7 @@ export function ClientPwaInstaller() {
     // Per dispositivi non-iOS, cattura l'evento beforeinstallprompt
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      console.log('ClientPwaInstaller: beforeinstallprompt catturato');
+      console.log('ClientPwaInstaller: beforeinstallprompt captured');
       const promptEvent = e as BeforeInstallPromptEvent;
       setInstallPrompt(promptEvent);
       // Salva anche nella window per condivisione tra componenti
@@ -65,7 +65,7 @@ export function ClientPwaInstaller() {
     
     // Rileva se l'app è stata installata durante la sessione corrente
     const handleAppInstalled = () => {
-      console.log('App Installata!');
+      console.log('App Installed!');
       setIsInstalled(true);
       setInstallPrompt(null);
     };
@@ -96,7 +96,7 @@ export function ClientPwaInstaller() {
   // Funzione per installare l'app su Android
   const handleAndroidInstall = async () => {
     if (!installPrompt) {
-      console.log('Nessun prompt di installazione disponibile');
+      console.log('No installation prompt available');
       return;
     }
     
@@ -108,17 +108,17 @@ export function ClientPwaInstaller() {
       const choiceResult = await installPrompt.userChoice;
       
       if (choiceResult.outcome === 'accepted') {
-        console.log('Utente ha accettato l\'installazione');
+        console.log('User accepted installation');
         setIsInstalled(true);
       } else {
-        console.log('Utente ha rifiutato l\'installazione');
+        console.log('User declined installation');
       }
       
       // Resetta il prompt indipendentemente dall'esito
       setInstallPrompt(null);
       (window as any).__installPromptEvent = null;
     } catch (error) {
-      console.error('Errore durante l\'installazione:', error);
+      console.error('Error during installation:', error);
     }
   };
   

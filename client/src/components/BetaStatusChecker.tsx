@@ -60,7 +60,7 @@ export function BetaStatusChecker() {
           }
         }
       } catch (error) {
-        console.error('Errore durante la verifica del codice beta:', error);
+        console.error('Error verifying beta code:', error);
       } finally {
         setIsChecking(false);
       }

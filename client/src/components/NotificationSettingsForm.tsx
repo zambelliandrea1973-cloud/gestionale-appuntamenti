@@ -115,7 +115,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
           });
         }
       } catch (error) {
-        console.error("Errore durante il caricamento delle impostazioni:", error);
+        console.error("Error loading settings:", error);
         toast({
           title: t("common.error"),
           description: t('notificationSettings.toast.loadProblem'),
@@ -165,7 +165,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         });
       }
     } catch (error) {
-      console.error("Errore durante il salvataggio delle impostazioni:", error);
+      console.error("Error saving settings:", error);
       toast({
         title: t("common.error"),
         description: t('notificationSettings.toast.saveProblem'),
@@ -215,7 +215,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         });
       }
     } catch (error) {
-      console.error("Errore durante l'invio dell'email di test:", error);
+      console.error("Error sending test email:", error);
       toast({
         title: t("common.error"),
         description: t('notificationSettings.toast.testEmailProblem'),
@@ -270,7 +270,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         });
       }
     } catch (error) {
-      console.error("Errore durante il test WhatsApp:", error);
+      console.error("Error during WhatsApp test:", error);
       toast({
         title: t("common.error"),
         description: t('notificationSettings.toast.whatsappTestProblem'),
@@ -309,7 +309,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
         });
       }
     } catch (error) {
-      console.error("Errore durante l'elaborazione dei promemoria:", error);
+      console.error("Error processing reminders:", error);
       toast({
         title: t("common.error"),
         description: t('notificationSettings.toast.remindersProblem'),
@@ -477,7 +477,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                   });
                                 }
                               } catch (error) {
-                                console.error("Errore durante il rilevamento SMTP:", error);
+                                console.error("Error during SMTP detection:", error);
                                 toast({
                                   title: t("common.error"),
                                   description: t('notificationSettings.toast.smtpDetectProblem'),

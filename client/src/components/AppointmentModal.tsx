@@ -35,7 +35,7 @@ export default function AppointmentModal({
   
   // Callback per gestire il salvataggio appuntamento
   const handleAppointmentSaved = () => {
-    console.log("AppointmentModal: Appuntamento salvato - aggiornamento vista...");
+    console.log("AppointmentModal: Appointment saved - updating view...");
     
     // Forza invalidazione e refetch immediato
     queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
@@ -71,8 +71,8 @@ export default function AppointmentModal({
       const endTime = formatTime(addMinutes(lastTime, 15));
       setCalculatedEndTime(endTime);
       
-      console.log("Slots selezionati:", sortedSlots);
-      console.log("Ora di fine calcolata:", endTime);
+      console.log("Selected slots:", sortedSlots);
+      console.log("Calculated end time:", endTime);
     } else {
       setCalculatedEndTime(null);
     }
@@ -96,7 +96,7 @@ export default function AppointmentModal({
         // @ts-ignore
         window.allServices = services;
       } catch (error) {
-        console.error("Errore durante il recupero dei servizi:", error);
+        console.error("Error fetching services:", error);
       }
     };
 
@@ -107,7 +107,7 @@ export default function AppointmentModal({
   
   // Funzione per gestire il salvataggio diretto
   const handleSaveSuccess = () => {
-    console.log("Appuntamento salvato con successo!");
+    console.log("Appointment saved successfully!");
     // Invalidare tutte le query relative agli appuntamenti
     queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
     

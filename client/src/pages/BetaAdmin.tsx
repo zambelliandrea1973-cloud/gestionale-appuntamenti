@@ -445,7 +445,7 @@ export default function BetaAdmin() {
         });
       }
     } catch (error) {
-      console.error('Errore durante il login:', error);
+      console.error('Error during login:', error);
       toast({
         title: t('betaAdmin.toast.loginError'),
         description: t('betaAdmin.toast.loginErrorDesc'),
@@ -480,7 +480,7 @@ export default function BetaAdmin() {
     // Aggiorna anche il valore nella variabile di stato per mantenerlo sincronizzato
     setAdminPassword(newPassword);
     
-    console.log('Password amministrativa aggiornata');
+    console.log('Administrative password updated');
     
     toast({
       title: t('betaAdmin.toast.passwordUpdated'),
@@ -496,7 +496,7 @@ export default function BetaAdmin() {
   
   // Controlla se l'utente è già autenticato all'avvio e imposta la password memorizzata
   useEffect(() => {
-    console.log('Verifica autenticazione BetaAdmin all\'avvio');
+    console.log('Verifying BetaAdmin authentication on startup');
     try {
       const isAuthenticatedFromSession = sessionStorage.getItem('betaAdminAuthenticated') === 'true';
       
@@ -509,13 +509,13 @@ export default function BetaAdmin() {
         setIsAuthenticated(true);
         document.documentElement.setAttribute('data-beta-admin-auth', 'true');
       } else {
-        console.log('Nessuna autenticazione trovata, necessario login');
+        console.log('No authentication found, login required');
         
         // Pulisci qualsiasi residuo di autenticazione precedente
         document.documentElement.removeAttribute('data-beta-admin-auth');
       }
     } catch (error) {
-      console.error('Errore durante la verifica dell\'autenticazione:', error);
+      console.error('Error verifying authentication:', error);
       // In caso di errore, ripristina lo stato pulito
       setIsAuthenticated(false);
     }

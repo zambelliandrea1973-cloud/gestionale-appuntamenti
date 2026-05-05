@@ -31,7 +31,7 @@ export default function UnifiedLogin() {
         queryClient.invalidateQueries({ queryKey: ['/api/contact-info'] });
         queryClient.invalidateQueries({ queryKey: ['/api/company-name-settings'] });
       } catch (error) {
-        console.log('Sessione precedente non presente');
+        console.log('No previous session found');
       }
     };
     clearSession();

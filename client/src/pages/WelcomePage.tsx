@@ -60,7 +60,7 @@ export default function WelcomePage() {
   useEffect(() => {
     if (isPWA) {
       const hasStoredToken = !!localStorage.getItem("clientAccessToken");
-      console.log("Welcome page caricata in modalità PWA", { hasStoredToken });
+      console.log("Welcome page loaded in PWA mode", { hasStoredToken });
     }
   }, [isPWA]);
 

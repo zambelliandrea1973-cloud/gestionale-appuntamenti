@@ -930,7 +930,7 @@ const NotificationsPage: React.FC = () => {
                                   metadata = JSON.parse(notification.metadata);
                                 }
                               } catch (e) {
-                                console.error("Errore nel parsing dei metadata:", e);
+                                console.error("Error parsing metadata:", e);
                               }
                               
                               return (

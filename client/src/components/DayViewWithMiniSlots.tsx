@@ -385,7 +385,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     const totalOffsetMinutes = (hourOffset * 60) + startMinute;
     const top = (totalOffsetMinutes / 15) * 12; // Ogni 15 minuti sono 12px
     
-    console.log(`Appuntamento: ${appointment.client?.lastName}, Orario: ${startHour}:${startMinute}, Top: ${top}px`);
+    console.log(`Appointment: ${appointment.client?.lastName}, Time: ${startHour}:${startMinute}, Top: ${top}px`);
     
     return { height, top };
   };

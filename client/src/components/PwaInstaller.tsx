@@ -30,9 +30,9 @@ export function PwaInstaller() {
           // Forza controllo immediato per aggiornamenti
           await registration.update();
           
-          console.log('Service Worker v2 registrato:', registration);
+          console.log('Service Worker v2 registered:', registration);
         } catch (error) {
-          console.error('Errore registrazione Service Worker:', error);
+          console.error('Service Worker registration error:', error);
         }
       });
     }
@@ -50,7 +50,7 @@ export function PwaInstaller() {
     // Rileva se l'app è già installata
     window.addEventListener('appinstalled', () => {
       // L'app è stata installata
-      console.log('App Installata!');
+      console.log('App Installed!');
       // Nasconde il banner di installazione
       setShowBanner(false);
       // Resetta il prompt
@@ -71,9 +71,9 @@ export function PwaInstaller() {
     const choiceResult = await installPrompt.userChoice;
     
     if (choiceResult.outcome === 'accepted') {
-      console.log('Utente ha accettato l\'installazione');
+      console.log('User accepted installation');
     } else {
-      console.log('Utente ha rifiutato l\'installazione');
+      console.log('User declined installation');
     }
     
     // Resetta il riferimento al prompt

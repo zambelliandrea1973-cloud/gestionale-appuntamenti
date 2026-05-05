@@ -51,7 +51,7 @@ export default function SimpleServiceManager() {
   });
   const { toast } = useToast();
 
-  console.log(`🔧 SIMPLE: ServiceManager per utente ${user?.id}`);
+  console.log(`🔧 SIMPLE: ServiceManager for user ${user?.id}`);
 
   // Query per caricare i servizi con React Query (persistenza automatica)
   const { data: services = [], isLoading: loading, error } = useQuery<any>({
@@ -65,7 +65,7 @@ export default function SimpleServiceManager() {
   useEffect(() => {
     if (services.length > 0) {
       setLastUpdate(new Date());
-      console.log('🔧 REACT QUERY: Servizi caricati e persistiti:', services);
+      console.log('🔧 REACT QUERY: Services loaded and persisted:', services);
     }
   }, [services]);
 
@@ -76,7 +76,7 @@ export default function SimpleServiceManager() {
       return await response.json();
     },
     onSuccess: (newService) => {
-      console.log(`✅ REACT QUERY: Servizio creato per utente ${user?.id}:`, newService);
+      console.log(`✅ REACT QUERY: Service created for user ${user?.id}:`, newService);
       
       // Invalida e ricarica automaticamente la cache dei servizi
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
@@ -91,7 +91,7 @@ export default function SimpleServiceManager() {
       toast({ title: t('services.serviceCreated') });
     },
     onError: (error: any) => {
-      console.error('Errore creazione:', error);
+      console.error('Creation error:', error);
       toast({ title: t('services.createError'), variant: "destructive" });
     }
   });
@@ -121,7 +121,7 @@ export default function SimpleServiceManager() {
       return response;
     },
     onSuccess: (_, deletedId) => {
-      console.log(`🗑️ REACT QUERY: Servizio eliminato per utente ${user?.id}:`, deletedId);
+      console.log(`🗑️ REACT QUERY: Service deleted for user ${user?.id}:`, deletedId);
       
       // Invalida e ricarica automaticamente la cache dei servizi
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
@@ -130,7 +130,7 @@ export default function SimpleServiceManager() {
       toast({ title: t('services.serviceDeleted') });
     },
     onError: (error: any) => {
-      console.error('Errore eliminazione:', error);
+      console.error('Deletion error:', error);
       toast({ title: t('services.deleteError'), variant: "destructive" });
     }
   });
@@ -144,7 +144,7 @@ export default function SimpleServiceManager() {
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
     },
     onError: (error: any) => {
-      console.error('Errore toggle online booking:', error);
+      console.error('Online booking toggle error:', error);
       toast({ title: t('common.error'), variant: "destructive" });
     }
   });
@@ -180,7 +180,7 @@ export default function SimpleServiceManager() {
       return response;
     },
     onSuccess: (_, updatedService) => {
-      console.log(`✏️ REACT QUERY: Servizio aggiornato per utente ${user?.id}:`, updatedService);
+      console.log(`✏️ REACT QUERY: Service updated for user ${user?.id}:`, updatedService);
       
       // Invalida e ricarica automaticamente la cache dei servizi
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
@@ -191,7 +191,7 @@ export default function SimpleServiceManager() {
       toast({ title: t('services.serviceUpdated') });
     },
     onError: (error: any) => {
-      console.error('Errore aggiornamento:', error);
+      console.error('Update error:', error);
       toast({ title: t('services.updateError'), variant: "destructive" });
     }
   });
@@ -337,7 +337,7 @@ export default function SimpleServiceManager() {
                   <TableHead>{t('services.price')}</TableHead>
                   <TableHead>{t('services.color')}</TableHead>
                   <TableHead>{t('services.actions')}</TableHead>
-                  <TableHead className="text-center">{t('services.onlineHeader', 'Prenotazioni Online')}</TableHead>
+                  <TableHead className="text-center">{t('services.onlineHeader', 'Online Bookings')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

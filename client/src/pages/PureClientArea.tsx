@@ -508,7 +508,7 @@ export default function PureClientArea() {
   const loadContactInfo = async (ownerId?: number) => {
     try {
       if (!ownerId) {
-        console.log('📞 [CLIENT FOOTER] Nessun ownerId fornito');
+        console.log('📞 [CLIENT FOOTER] No ownerId provided');
         return;
       }
       
@@ -520,12 +520,12 @@ export default function PureClientArea() {
       if (response.ok) {
         const data = await response.json();
         setContactInfo(data);
-        console.log('📞 [CLIENT FOOTER] Informazioni contatto caricate per owner:', ownerId, data);
+        console.log('📞 [CLIENT FOOTER] Contact information loaded for owner:', ownerId, data);
       } else {
-        console.error('📞 [CLIENT FOOTER] Errore response:', response.status);
+        console.error('📞 [CLIENT FOOTER] Response error:', response.status);
       }
     } catch (error) {
-      console.error('❌ [CLIENT FOOTER] Errore caricamento contatti:', error);
+      console.error('❌ [CLIENT FOOTER] Error loading contact info:', error);
     }
   };
 
@@ -539,14 +539,14 @@ export default function PureClientArea() {
           return;
         }
 
-        console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
+        console.log('🏠 [PURE CLIENT] Initializing client area:', clientCode);
         
         // Aggiorna il manifest PWA per preservare il percorso del cliente
         const manifestLink = document.querySelector('link[rel="manifest"]');
         if (manifestLink) {
           const newHref = `/manifest.json?clientToken=${clientCode}`;
           manifestLink.setAttribute('href', newHref);
-          console.log(`📱 PWA: Manifest aggiornato per cliente: ${newHref}`);
+          console.log(`📱 PWA: Manifest updated for client: ${newHref}`);
           
           // Forza il refresh del manifest per dispositivi PWA
           const link = manifestLink.cloneNode(true);
@@ -573,15 +573,15 @@ export default function PureClientArea() {
             const accessData = await accessResponse.json();
             if (accessData.token) {
               localStorage.setItem('clientToken', accessData.token);
-              console.log('✅ Accesso PWA registrato e token salvato per cliente:', clientCode);
+              console.log('✅ PWA access registered and token saved for client:', clientCode);
             }
           }
         } catch (error) {
-          console.warn('Errore registrazione accesso PWA:', error);
+          console.warn('Error registering PWA access:', error);
         }
         
         // Carica dati cliente con autenticazione basata su codice
-        console.log('🏠 [PURE CLIENT] Richiesta API per codice:', clientCode);
+        console.log('🏠 [PURE CLIENT] API request for code:', clientCode);
         const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
           method: 'GET',
           headers: {
@@ -590,19 +590,19 @@ export default function PureClientArea() {
           }
         });
         
-        console.log('🏠 [PURE CLIENT] Risposta API status:', clientResponse.status, clientResponse.statusText);
+        console.log('🏠 [PURE CLIENT] API response status:', clientResponse.status, clientResponse.statusText);
 
         if (!clientResponse.ok) {
-          console.error('🏠 [PURE CLIENT] Errore API:', clientResponse.status, clientResponse.statusText);
+          console.error('🏠 [PURE CLIENT] API error:', clientResponse.status, clientResponse.statusText);
           const errorText = await clientResponse.text();
-          console.error('🏠 [PURE CLIENT] Dettagli errore:', errorText);
+          console.error('🏠 [PURE CLIENT] Error details:', errorText);
           setError(`${t('clientArea.unauthorizedAccess')} (${clientResponse.status})`);
           setLoading(false);
           return;
         }
 
         const clientData = await clientResponse.json();
-        console.log('🏠 [PURE CLIENT] Cliente caricato:', clientData.firstName, clientData.lastName);
+        console.log('🏠 [PURE CLIENT] Client loaded:', clientData.firstName, clientData.lastName);
         setClient(clientData);
 
         // Carica appuntamenti del cliente
@@ -617,7 +617,7 @@ export default function PureClientArea() {
 
 
       } catch (error) {
-        console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);
+        console.error('❌ [PURE CLIENT] Initialization error:', error);
         setError(t('clientArea.connectionError'));
       } finally {
         setLoading(false);
@@ -629,7 +629,7 @@ export default function PureClientArea() {
 
   const loadClientAppointments = async (clientId: number, ownerId: number) => {
     try {
-      console.log('📅 [PURE CLIENT] Caricamento appuntamenti per cliente:', clientId);
+      console.log('📅 [PURE CLIENT] Loading appointments for client:', clientId);
       
       // Usa il clientCode (uniqueCode) invece di clientId
       const clientCode = client?.uniqueCode || params.clientCode;
@@ -653,18 +653,18 @@ export default function PureClientArea() {
           return dateB.getTime() - dateA.getTime();
         });
         setAppointments(sortedAppointments);
-        console.log('📅 [PURE CLIENT] Appuntamenti caricati:', sortedAppointments.length);
+        console.log('📅 [PURE CLIENT] Appointments loaded:', sortedAppointments.length);
       } else {
-        console.error('❌ [PURE CLIENT] Errore response:', response.status);
+        console.error('❌ [PURE CLIENT] Response error:', response.status);
       }
     } catch (error) {
-      console.error('❌ [PURE CLIENT] Errore caricamento appuntamenti:', error);
+      console.error('❌ [PURE CLIENT] Error loading appointments:', error);
     }
   };
 
   const loadClientInvoices = async (clientCode: string) => {
     try {
-      console.log('📄 [PURE CLIENT] Caricamento fatture per cliente:', clientCode);
+      console.log('📄 [PURE CLIENT] Loading invoices for client:', clientCode);
       
       const token = localStorage.getItem('clientToken') || '';
       
@@ -698,12 +698,12 @@ export default function PureClientArea() {
           return numB.num - numA.num;
         });
         setInvoices(sortedInvoices);
-        console.log('📄 [PURE CLIENT] Fatture caricate:', sortedInvoices.length);
+        console.log('📄 [PURE CLIENT] Invoices loaded:', sortedInvoices.length);
       } else {
-        console.error('❌ [PURE CLIENT] Errore response fatture:', response.status);
+        console.error('❌ [PURE CLIENT] Invoice response error:', response.status);
       }
     } catch (error) {
-      console.error('❌ [PURE CLIENT] Errore caricamento fatture:', error);
+      console.error('❌ [PURE CLIENT] Error loading invoices:', error);
     }
   };
 
@@ -948,7 +948,7 @@ export default function PureClientArea() {
                                     });
                                     
                                     if (!response.ok) {
-                                      console.error('Errore download PDF:', response.status);
+                                      console.error('PDF download error:', response.status);
                                       return;
                                     }
                                     
@@ -963,7 +963,7 @@ export default function PureClientArea() {
                                     window.URL.revokeObjectURL(url);
                                     document.body.removeChild(a);
                                   } catch (error) {
-                                    console.error('Errore download fattura:', error);
+                                    console.error('Invoice download error:', error);
                                   }
                                 }}
                                 data-testid={`download-invoice-${invoice.id}`}

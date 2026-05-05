@@ -28,7 +28,7 @@ export default function AutoLogin() {
 
     const attemptAutoLogin = async () => {
       try {
-        console.log("Tentativo di auto-login dalla pagina AutoLogin");
+        console.log("Attempting auto-login from AutoLogin page");
         
         // Recupera parametri URL (per attivazione QR)
         const urlParams = new URLSearchParams(window.location.search);
@@ -46,16 +46,16 @@ export default function AutoLogin() {
         const token = urlToken || localStorage.getItem('clientAccessToken');
         const clientId = urlClientId || localStorage.getItem('clientId');
         
-        console.log(`Auto-login - Dati disponibili: 
+        console.log(`Auto-login - Available data: 
           isPWA: ${isPWA}, 
           isDuckDuckGo: ${isDuckDuckGo}, 
-          token: ${token ? 'sì' : 'no'}, 
-          clientId: ${clientId ? 'sì' : 'no'}`);
+          token: ${token ? 'yes' : 'no'}, 
+          clientId: ${clientId ? 'yes' : 'no'}`);
         
         // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR
         if (token && clientId) {
           try {
-            console.log("Tentativo di verifica token QR automatico:", { token: token.substring(0, 10) + '...', clientId });
+            console.log("Attempting automatic QR token verification:", { token: token.substring(0, 10) + '...', clientId });
             const tokenResponse = await apiRequest('POST', '/api/client-access/verify-token', { 
               token, 
               clientId: parseInt(clientId, 10) 
@@ -93,7 +93,7 @@ export default function AutoLogin() {
               return;
             }
           } catch (error) {
-            console.error("Errore durante verifica token QR:", error);
+            console.error("Error verifying QR token:", error);
             setStatus("error");
             setMessage(t("autoLogin.connectionErrorTitle"));
             setError(t("autoLogin.connectionErrorDesc"));
@@ -106,7 +106,7 @@ export default function AutoLogin() {
         setMessage(t("autoLogin.unavailableTitle"));
         setError(t("autoLogin.unavailableDesc"));
       } catch (error) {
-        console.error("Errore durante auto-login:", error);
+        console.error("Error during auto-login:", error);
         setStatus("error");
         setMessage(t("autoLogin.unexpectedErrorTitle"));
         setError(t("autoLogin.unexpectedErrorDesc"));

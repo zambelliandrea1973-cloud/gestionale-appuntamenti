@@ -46,7 +46,7 @@ export default function GoogleTroubleshootingPage() {
         });
       }
     } catch (error) {
-      console.error("Errore nel controllo dell'autorizzazione Google:", error);
+      console.error("Error checking Google authorization:", error);
     }
   };
 
@@ -63,7 +63,7 @@ export default function GoogleTroubleshootingPage() {
       const data = await response.json();
       setTestResult(data);
     } catch (error: any) {
-      console.error("Errore nel test di configurazione:", error);
+      console.error("Error in configuration test:", error);
       setTestResult({
         success: false,
         message: t('googleCalendar.troubleshooting.connError', { error: error?.message || t('googleCalendar.troubleshooting.unknownError') })
@@ -95,7 +95,7 @@ export default function GoogleTroubleshootingPage() {
         });
       }
     } catch (error: any) {
-      console.error("Errore nel test email:", error);
+      console.error("Error in email test:", error);
       setEmailTestResult({
         success: false,
         message: t('googleCalendar.troubleshooting.connError', { error: error?.message || t('googleCalendar.troubleshooting.unknownError') })
@@ -138,7 +138,7 @@ export default function GoogleTroubleshootingPage() {
                 clearInterval(checkInterval);
               }
             } catch (error: any) {
-              console.error('Errore durante il controllo dell\'autorizzazione:', error);
+              console.error('Error checking authorization:', error);
             }
           }, 3000);
           
@@ -156,7 +156,7 @@ export default function GoogleTroubleshootingPage() {
         });
       }
     } catch (error: any) {
-      console.error('Errore nell\'autorizzazione Google:', error);
+      console.error('Error in Google authorization:', error);
       toast({
         title: t('common.error'),
         description: t('googleCalendar.troubleshooting.toastAuthErrorDesc'),

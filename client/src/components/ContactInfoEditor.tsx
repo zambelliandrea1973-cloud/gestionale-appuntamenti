@@ -35,14 +35,14 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       
       if (response.ok) {
         const data = await response.json();
-        console.log('📞 Informazioni contatto caricate:', data);
+        console.log('📞 Contact info loaded:', data);
         setContactInfo(data);
       } else {
-        console.log('Nessuna informazione contatto trovata, uso predefinite');
+        console.log('No contact information found, using defaults');
         setContactInfo({});
       }
     } catch (error) {
-      console.error('Errore durante il recupero delle informazioni di contatto:', error);
+      console.error('Error fetching contact information:', error);
       setContactInfo({});
     }
   };
@@ -97,7 +97,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     setSaveError(null);
     
     try {
-      console.log('📞 Salvataggio informazioni contatto:', contactInfo);
+      console.log('📞 Saving contact information:', contactInfo);
       
       // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
       const response = await apiRequest('POST', '/api/contact-info', contactInfo);
@@ -107,7 +107,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       }
       
       const result = await response.json();
-      console.log('📞 Informazioni contatto salvate:', result);
+      console.log('📞 Contact information saved:', result);
       
       setSaveSuccess(true);
       toast({
@@ -120,7 +120,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
         onSuccess();
       }
     } catch (error: any) {
-      console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
+      console.error('Error saving contact information:', error);
       setSaveError(error.message || t('settings.contactInfo.saveError', 'An error occurred while saving'));
       toast({
         title: t('settings.contactInfo.saveErrorTitle', 'Save error'),
@@ -179,7 +179,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   <p className="text-xs text-red-500">{validationErrors.email}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.emailDesc', 'Indirizzo email di contatto pubblico')}
+                  {t('settings.contactInfo.emailDesc', 'Public contact email address')}
                 </p>
               </div>
 
@@ -205,7 +205,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
               <div className="space-y-2">
                 <Label htmlFor="phone2" className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
-                  {t('settings.contactInfo.phone2', 'Telefono secondario')}
+                  {t('settings.contactInfo.phone2', 'Secondary phone')}
                 </Label>
                 <Input
                   id="phone2"
@@ -223,7 +223,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
               <div className="space-y-2">
                 <Label htmlFor="website" className="flex items-center">
                   <Globe className="h-4 w-4 mr-2" />
-                  {t('settings.contactInfo.website', 'Sito Web')}
+                  {t('settings.contactInfo.website', 'Website')}
                 </Label>
                 <Input
                   id="website"
@@ -257,7 +257,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   <p className="text-xs text-red-500">{validationErrors.facebook}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.facebookDesc', 'Nome pagina o URL completo di Facebook')}
+                  {t('settings.contactInfo.facebookDesc', 'Page name or full Facebook URL')}
                 </p>
               </div>
 
@@ -278,7 +278,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                   <p className="text-xs text-red-500">{validationErrors.instagram}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.instagramDesc', 'Nome utente o URL completo di Instagram')}
+                  {t('settings.contactInfo.instagramDesc', 'Username or full Instagram URL')}
                 </p>
               </div>
             </div>

@@ -58,10 +58,10 @@ export default function CompanyBusinessDataEditor() {
         if (response.ok) {
           const data = await response.json();
           setBusinessData(prev => ({ ...prev, ...data }));
-          console.log('🏢 BUSINESS DATA: Dati aziendali caricati:', data);
+          console.log('🏢 BUSINESS DATA: Business data loaded:', data);
         }
       } catch (error) {
-        console.error('❌ Errore caricamento dati aziendali:', error);
+        console.error('❌ Error loading business data:', error);
         toastRef.current({
           title: tRef.current('common.error'),
           description: tRef.current('companyBusinessData.loadErrorDescription'),
@@ -91,12 +91,12 @@ export default function CompanyBusinessDataEditor() {
           title: t('companyBusinessData.saveSuccessTitle'),
           description: t('companyBusinessData.saveSuccessDescription'),
         });
-        console.log('✅ BUSINESS DATA: Dati salvati:', businessData);
+        console.log('✅ BUSINESS DATA: Data saved:', businessData);
       } else {
         throw new Error('save error');
       }
     } catch (error) {
-      console.error('❌ Errore salvataggio dati aziendali:', error);
+      console.error('❌ Error saving business data:', error);
       toast({
         title: t('common.error'),
         description: t('companyBusinessData.saveErrorDescription'),

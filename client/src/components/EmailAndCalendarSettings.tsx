@@ -79,7 +79,7 @@ export default function EmailAndCalendarSettings() {
           });
         }
       } catch (error) {
-        console.error('Errore nel caricamento delle impostazioni email:', error);
+        console.error('Error loading email settings:', error);
       }
     };
     
@@ -115,7 +115,7 @@ export default function EmailAndCalendarSettings() {
         throw new Error(error.message || t('emailSettings.toastSaveError'));
       }
     } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni:', error);
+      console.error('Error saving settings:', error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : t('emailSettings.toastSaveError'),
@@ -158,7 +158,7 @@ export default function EmailAndCalendarSettings() {
         throw new Error(data.error || t('emailSettings.toastTestSendError'));
       }
     } catch (error) {
-      console.error('Errore nell\'invio dell\'email di test:', error);
+      console.error('Error sending test email:', error);
       toast({
         title: t('common.error'),
         description: error instanceof Error ? error.message : t('emailSettings.toastTestSendError'),

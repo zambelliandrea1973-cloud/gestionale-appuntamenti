@@ -255,7 +255,7 @@ export default function ReminderTemplateManager() {
                       <h4 className="font-medium">{template.name}</h4>
                       {template.isDefault && (
                         <span className="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
-                          {t('settings.reminderTemplates.default', 'Predefinito')}
+                          {t('settings.reminderTemplates.default', 'Default')}
                         </span>
                       )}
                       {template.type && template.type.split(',').map((typePart, index) => (

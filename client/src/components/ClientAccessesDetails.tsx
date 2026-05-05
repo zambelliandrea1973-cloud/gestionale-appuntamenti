@@ -139,14 +139,14 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("date")}>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.date', 'Data')}
+                    {t('clients.accesses.date', 'Date')}
                     {renderSortIcon("date")}
                   </div>
                 </TableHead>
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("time")}>
                   <div className="flex items-center">
                     <Clock className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.time', 'Ora')}
+                    {t('clients.accesses.time', 'Time')}
                     {renderSortIcon("time")}
                   </div>
                 </TableHead>

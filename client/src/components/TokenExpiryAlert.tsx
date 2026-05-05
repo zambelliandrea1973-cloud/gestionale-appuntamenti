@@ -49,7 +49,7 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
         }
       }
     } catch (error) {
-      console.error('Errore nel controllo della scadenza del token:', error);
+      console.error('Error checking token expiry:', error);
     }
   };
 
@@ -77,7 +77,7 @@ export function TokenExpiryAlert({ token, clientId }: TokenExpiryAlertProps) {
         throw new Error('Failed to regenerate token');
       }
     } catch (error) {
-      console.error('Errore nella rigenerazione del token:', error);
+      console.error('Error regenerating token:', error);
       toast({
         title: t('common.error'),
         description: t('i18nFinale.tokenExpiry.cannotRegenerate'),

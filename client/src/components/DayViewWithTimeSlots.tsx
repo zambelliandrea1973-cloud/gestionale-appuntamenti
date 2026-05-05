@@ -100,9 +100,9 @@ export default function DayViewWithTimeSlots({
     // Timer per chiudere automaticamente l'appuntamento espanso dopo 5 secondi (solo mobile)
     // Lo manteniamo come backup, ma la chiusura principale avverrà tramite un secondo tocco
     if (isMobile) {
-      console.log("Mobile: impostato timer di 5 secondi per chiusura automatica appuntamento"); // Debug
+      console.log("Mobile: set 5-second timer for automatic appointment close"); // Debug
       autoCloseTimerRef.current = setTimeout(() => {
-        console.log("Mobile: chiusura automatica appuntamento dopo 5 secondi"); // Debug
+        console.log("Mobile: automatic appointment close after 5 seconds"); // Debug
         setExpandedAppointment(null);
       }, 5000); // 5 secondi invece di 2 per dare più tempo all'utente
     }
@@ -155,7 +155,7 @@ export default function DayViewWithTimeSlots({
     return appointments.find(appointment => {
       // Protezione per dati incompleti
       if (!appointment.startTime || !appointment.endTime) {
-        console.warn('Appuntamento senza startTime/endTime:', appointment);
+        console.warn('Appointment without startTime/endTime:', appointment);
         return false;
       }
       const appointmentStart = appointment.startTime.substring(0, 5);
@@ -582,11 +582,11 @@ export default function DayViewWithTimeSlots({
                   
                   // Se stiamo cliccando lo stesso appuntamento già espanso, lo chiudiamo
                   if (expandedAppointment === appointment.id) {
-                    console.log("Mobile: Chiusura appuntamento al secondo tocco, ID:", appointment.id);
+                    console.log("Mobile: Closing appointment on second tap, ID:", appointment.id);
                     setExpandedAppointment(null);
                   } else {
                     // Altrimenti espandiamo questo appuntamento
-                    console.log("Mobile: Appuntamento espanso al primo tocco, ID:", appointment.id);
+                    console.log("Mobile: Appointment expanded on first tap, ID:", appointment.id);
                     
                     // Aggiunge un indicatore visivo all'appuntamento espanso
                     // per suggerire all'utente di toccare nuovamente per chiudere

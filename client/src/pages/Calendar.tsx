@@ -46,23 +46,23 @@ export default function Calendar() {
     let cancelled = false;
     
     const autoSync = async () => {
-      console.log('🔄 [AUTO-SYNC] Pagina calendario aperta, avvio sincronizzazione...');
+      console.log('🔄 [AUTO-SYNC] Calendar page opened, starting sync...');
       try {
         // Verifica se Google Calendar è abilitato
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
         if (!statusRes.ok || cancelled) {
-          console.log('🔄 [AUTO-SYNC] Status check fallito o cancellato');
+          console.log('🔄 [AUTO-SYNC] Status check failed or cancelled');
           return;
         }
         
         const status = await statusRes.json();
         console.log('🔄 [AUTO-SYNC] Status:', status);
         if (!status.authorized || !status.calendarEnabled || cancelled) {
-          console.log('🔄 [AUTO-SYNC] Google Calendar non autorizzato o non abilitato');
+          console.log('🔄 [AUTO-SYNC] Google Calendar not authorized or not enabled');
           return;
         }
         
-        console.log('🔄 [AUTO-SYNC] Esecuzione sincronizzazione...');
+        console.log('🔄 [AUTO-SYNC] Executing sync...');
         // Esegui la sincronizzazione direttamente (stesso endpoint del pulsante)
         const syncRes = await fetch('/api/google-calendar/sync-now', {
           method: 'POST',
@@ -71,14 +71,14 @@ export default function Calendar() {
         });
         
         if (syncRes.ok && !cancelled) {
-          console.log('🔄 [AUTO-SYNC] Sincronizzazione completata con successo!');
+          console.log('🔄 [AUTO-SYNC] Sync completed successfully!');
           // Aggiorna la cache degli appuntamenti
           queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
         } else {
-          console.log('🔄 [AUTO-SYNC] Sincronizzazione fallita:', syncRes.status);
+          console.log('🔄 [AUTO-SYNC] Sync failed:', syncRes.status);
         }
       } catch (e) {
-        console.log('🔄 [AUTO-SYNC] Errore:', e);
+        console.log('🔄 [AUTO-SYNC] Error:', e);
       }
     };
     
@@ -99,7 +99,7 @@ export default function Calendar() {
           setTimezoneInfo(data);
         }
       } catch (error) {
-        console.error('Errore nel recupero delle informazioni sul fuso orario:', error);
+        console.error('Error fetching timezone information:', error);
       }
     };
     
@@ -224,7 +224,7 @@ export default function Calendar() {
 
   // Callback specifico per quando viene salvato un appuntamento
   const handleAppointmentSaved = async () => {
-    console.log("Appuntamento salvato - aggiornamento calendario...");
+    console.log("Appointment saved - updating calendar...");
     
     try {
       // Invalida tutto il cache degli appuntamenti
@@ -264,9 +264,9 @@ export default function Calendar() {
         await refetchDayAppointments();
       }
       
-      console.log("Calendario aggiornato dopo salvataggio appuntamento");
+      console.log("Calendar updated after appointment save");
     } catch (error) {
-      console.error("Errore durante l'aggiornamento del calendario:", error);
+      console.error("Error updating calendar:", error);
     }
   };
   

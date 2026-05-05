@@ -37,7 +37,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
         setIsSubscribed(data.subscribed);
       }
     } catch (error) {
-      console.error('[PUSH] Errore verifica stato:', error);
+      console.error('[PUSH] Status check error:', error);
     }
 
     setIsLoading(false);
@@ -104,7 +104,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
         throw new Error('Error saving subscription');
       }
     } catch (error) {
-      console.error('[PUSH] Errore attivazione:', error);
+      console.error('[PUSH] Activation error:', error);
       toast({
         title: t('common.error'),
         description: t('i18nFinale.pushNotifications.subscribeError'),
@@ -138,7 +138,7 @@ export function PushNotificationToggle({ clientId, ownerId }: PushNotificationTo
         description: t('i18nFinale.pushNotifications.unsubscribed')
       });
     } catch (error) {
-      console.error('[PUSH] Errore disattivazione:', error);
+      console.error('[PUSH] Deactivation error:', error);
       toast({
         title: t('common.error'),
         description: t('i18nFinale.pushNotifications.unsubscribeError'),

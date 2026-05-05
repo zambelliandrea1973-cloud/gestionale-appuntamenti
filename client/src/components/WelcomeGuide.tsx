@@ -86,7 +86,7 @@ export default function WelcomeGuide({ open, onClose }: WelcomeGuideProps) {
       try {
         await apiRequest('POST', '/api/hide-welcome-guide', { hide: true });
       } catch (error) {
-        console.error('Errore nel nascondere la guida:', error);
+        console.error('Error hiding the guide:', error);
       }
     }
     onClose();

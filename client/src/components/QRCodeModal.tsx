@@ -35,7 +35,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
   const generateTokenMutation = useMutation({
     mutationFn: async () => {
       setIsGenerating(true);
-      console.log("🔍 [FRONTEND] Richiesta QR per cliente:", clientName, `(ID: ${clientId})`);
+      console.log("🔍 [FRONTEND] QR request for client:", clientName, `(ID: ${clientId})`);
       const response = await apiRequest("GET", `/api/clients/${clientId}/activation-token`);
       return response.json();
     },
@@ -55,14 +55,14 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
       });
 
       const timer = setTimeout(() => {
-        console.log("Chiusura automatica del dialog dopo generazione QR");
+        console.log("Auto-closing dialog after QR generation");
         onClose();
       }, 1500);
 
       setAutoCloseTimer(timer);
     },
     onError: (error: any) => {
-      console.error("Errore nella generazione del QR code:", error);
+      console.error("Error generating QR code:", error);
       setIsGenerating(false);
       toast({
         title: t('common.error'),
@@ -74,13 +74,13 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
 
   useEffect(() => {
     if (open && !qrCode && !isGenerating && !generateTokenMutation.isPending) {
-      console.log("Avvio generazione QR code...");
+      console.log("Starting QR code generation...");
       generateTokenMutation.mutate();
     }
 
     return () => {
       if (autoCloseTimer) {
-        console.log("Pulizia timer di chiusura automatica");
+        console.log("Cleaning up auto-close timer");
         clearTimeout(autoCloseTimer);
       }
     };

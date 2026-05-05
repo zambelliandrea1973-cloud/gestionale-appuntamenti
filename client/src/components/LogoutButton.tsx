@@ -35,7 +35,7 @@ export default function LogoutButton({
       localStorage.clear();
       if (savedLang) localStorage.setItem('i18nextLng', savedLang);
       sessionStorage.clear();
-      console.log('🧹 Cache completamente pulita al logout');
+      console.log('🧹 Cache fully cleared on logout');
       
       // Esegui la richiesta di logout
       const response = await apiRequest("POST", "/api/logout");
@@ -61,7 +61,7 @@ export default function LogoutButton({
         });
       }
     } catch (error) {
-      console.error("Errore durante il logout:", error);
+      console.error("Error during logout:", error);
       
       toast({
         title: t("auth.logoutError", "Logout error"),
@@ -82,7 +82,7 @@ export default function LogoutButton({
   );
 
   const iconClass = "h-4 w-4";
-  const labelText = isLoggingOut ? t("auth.loggingOut", "Uscita...") : t("auth.logout", "Esci");
+  const labelText = isLoggingOut ? t("auth.loggingOut", "Logging out...") : t("auth.logout", "Logout");
 
   return (
     <Button

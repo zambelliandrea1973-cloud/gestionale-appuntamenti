@@ -147,10 +147,10 @@ export default function SubscribePage() {
       return await res.json();
     },
     onSuccess: (data) => {
-      console.log('📱 PAYPAL: Risposta ricevuta:', data);
+      console.log('📱 PAYPAL: Response received:', data);
       
       if (data.success && data.url) {
-        console.log('✅ PAYPAL: Reindirizzamento a:', data.url);
+        console.log('✅ PAYPAL: Redirecting to:', data.url);
         
         // Mostra un toast prima del redirect
         toast({
@@ -163,7 +163,7 @@ export default function SubscribePage() {
           window.location.href = data.url;
         }, 500);
       } else {
-        console.error('❌ PAYPAL: URL mancante nella risposta:', data);
+        console.error('❌ PAYPAL: URL missing in response:', data);
         toast({
           title: t('subscribe.paypalError'),
           description: data.message || t('subscribe.paypalStartFailed'),
@@ -188,11 +188,11 @@ export default function SubscribePage() {
       return await res.json();
     },
     onSuccess: (data) => {
-      console.log('💳 STRIPE: Risposta ricevuta:', data);
+      console.log('💳 STRIPE: Response received:', data);
       
       if (data.success && data.url) {
-        console.log('✅ STRIPE: URL ricevuto:', data.url);
-        console.log('✅ STRIPE: Lunghezza URL:', data.url.length);
+        console.log('✅ STRIPE: URL received:', data.url);
+        console.log('✅ STRIPE: URL length:', data.url.length);
         
         // Mostra un toast prima del redirect
         toast({
@@ -203,16 +203,16 @@ export default function SubscribePage() {
         // DEBUG: Verifica che l'URL sia valido
         try {
           new URL(data.url);
-          console.log('✅ STRIPE: URL valido, eseguendo redirect...');
+          console.log('✅ STRIPE: Valid URL, executing redirect...');
         } catch (e) {
-          console.error('❌ STRIPE: URL non valido!', e);
+          console.error('❌ STRIPE: Invalid URL!', e);
         }
         
         // Redirect diretto alla pagina di checkout Stripe
-        console.log('🚀 STRIPE: Reindirizzamento diretto a checkout...');
+        console.log('🚀 STRIPE: Direct redirect to checkout...');
         window.location.href = data.url;
       } else {
-        console.error('❌ STRIPE: URL mancante nella risposta:', data);
+        console.error('❌ STRIPE: URL missing in response:', data);
         toast({
           title: t('subscribe.stripeError'),
           description: data.message || t('subscribe.stripeStartFailed'),

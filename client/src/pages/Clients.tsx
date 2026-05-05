@@ -123,7 +123,7 @@ export default function Clients() {
         description: t("clientsPageNotifications.refreshSuccessDesc").replace("{count}", clientCount),
       });
     } catch (error) {
-      console.error("Errore durante refresh:", error);
+      console.error("Error during refresh:", error);
       toast({
         title: t("clientsPageNotifications.refreshError"),
         description: t("clientsPageNotifications.refreshErrorDesc"),
@@ -145,7 +145,7 @@ export default function Clients() {
         description: t("clients.clientCreatedDescription"),
       });
     } catch (error) {
-      console.error("Errore durante il refresh dopo creazione cliente:", error);
+      console.error("Error during refresh after client creation:", error);
       toast({
         title: t('common.error'),
         description: t('i18nFinale.clientsPage.updateError'),

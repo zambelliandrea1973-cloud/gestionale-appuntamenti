@@ -54,13 +54,13 @@ export default function CompanyNameEditor() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('🏢 Impostazioni nome aziendale caricate:', data);
+        console.log('🏢 Company name settings loaded:', data);
         setSettings(prev => ({ ...prev, ...data }));
       } else {
-        console.log('Nessuna impostazione nome aziendale trovata, uso predefinite');
+        console.log('No company name settings found, using defaults');
       }
     } catch (error) {
-      console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
+      console.error('Error fetching company name settings:', error);
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +71,7 @@ export default function CompanyNameEditor() {
     setSaveError(null);
 
     try {
-      console.log('🏢 Salvataggio impostazioni nome aziendale:', settings);
+      console.log('🏢 Saving company name settings:', settings);
 
       const response = await apiRequest('POST', '/api/company-name-settings', settings);
 
@@ -80,7 +80,7 @@ export default function CompanyNameEditor() {
       }
 
       const result = await response.json();
-      console.log('🏢 Impostazioni nome aziendale salvate:', result);
+      console.log('🏢 Company name settings saved:', result);
 
       setSaveSuccess(true);
       toast({
@@ -89,7 +89,7 @@ export default function CompanyNameEditor() {
         variant: "default",
       });
     } catch (error: any) {
-      console.error('Errore nel salvataggio impostazioni nome aziendale:', error);
+      console.error('Error saving company name settings:', error);
       setSaveError(error.message || t('companyNameEditor.saveErrorGeneric'));
       toast({
         title: t('companyNameEditor.saveErrorTitle'),

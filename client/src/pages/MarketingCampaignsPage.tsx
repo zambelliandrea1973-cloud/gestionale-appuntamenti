@@ -135,7 +135,7 @@ export default function MarketingCampaignsPage() {
         setTotalClients(clients.length);
       }
     } catch (error) {
-      console.error('Errore caricamento clienti:', error);
+      console.error('Error loading clients:', error);
     }
   };
   
@@ -189,10 +189,10 @@ export default function MarketingCampaignsPage() {
 
 
   const handleSendMessage = async () => {
-    console.log('🚀 handleSendMessage chiamata, userInput:', userInput);
+    console.log('🚀 handleSendMessage called, userInput:', userInput);
     
     if (!userInput.trim()) {
-      console.log('⚠️ userInput vuoto, interrompo');
+      console.log('⚠️ userInput is empty, stopping');
       return;
     }
 
@@ -206,10 +206,10 @@ export default function MarketingCampaignsPage() {
     setUserInput('');
     setIsGenerating(true);
     
-    console.log('📤 Invio richiesta API a /api/ai/generate-campaign');
+    console.log('📤 Sending API request to /api/ai/generate-campaign');
 
     try {
-      console.log('📤 Chiamata fetch diretta a /api/ai/generate-campaign');
+      console.log('📤 Direct fetch call to /api/ai/generate-campaign');
       const response = await fetch('/api/ai/generate-campaign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -220,11 +220,11 @@ export default function MarketingCampaignsPage() {
         })
       });
       
-      console.log('📥 Risposta API ricevuta, status:', response.status, 'ok:', response.ok);
+      console.log('📥 API response received, status:', response.status, 'ok:', response.ok);
 
       if (response.ok) {
         const data = await response.json();
-        console.log('✅ Dati parsati:', data);
+        console.log('✅ Parsed data:', data);
         
         const aiMessage: ChatMessage = {
           role: 'assistant',
@@ -235,17 +235,17 @@ export default function MarketingCampaignsPage() {
         setChatMessages(prev => [...prev, aiMessage]);
 
         if (data.campaign) {
-          console.log('💾 Salvataggio campagna:', data.campaign);
+          console.log('💾 Saving campaign:', data.campaign);
           setGeneratedCampaign({
             title: data.campaign.title || t('marketingCampaigns.newCampaign'),
             message: data.campaign.message
           });
         } else {
-          console.warn('⚠️ Nessuna campagna nell\'oggetto data');
+          console.warn('⚠️ No campaign in data object');
         }
       } else {
         const errorText = await response.text();
-        console.error('❌ Errore API:', response.status, errorText);
+        console.error('❌ API error:', response.status, errorText);
         toast({
           title: t('common.error'),
           description: t('marketingCampaigns.toast.serverError', { status: response.status, error: errorText.substring(0, 100) }),
@@ -253,7 +253,7 @@ export default function MarketingCampaignsPage() {
         });
       }
     } catch (error: any) {
-      console.error('❌ Eccezione catturata:', error);
+      console.error('❌ Exception caught:', error);
       toast({
         title: t('common.error'),
         description: t('marketingCampaigns.toast.generateError', { message: error?.message || t('marketingCampaigns.tryAgain') }),
@@ -261,7 +261,7 @@ export default function MarketingCampaignsPage() {
       });
     } finally {
       setIsGenerating(false);
-      console.log('🏁 handleSendMessage completata');
+      console.log('🏁 handleSendMessage completed');
     }
   };
 

@@ -57,7 +57,7 @@ export default function ConsentPage() {
         setLocation("/client-login");
       }
     } catch (error) {
-      console.error("Errore nel caricamento dell'utente corrente:", error);
+      console.error("Error loading current user:", error);
       toast({
         title: t('i18nFinale.consentPage.connectionError'),
         description: t('i18nFinale.consentPage.verifyAuthFailed'),
@@ -99,7 +99,7 @@ export default function ConsentPage() {
           setTimeout(() => setLocation("/client-area"), 1500);
         }
       } catch (error) {
-        console.error("Errore nell'aggiornamento dello stato del consenso:", error);
+        console.error("Error updating consent status:", error);
       }
     }
   };

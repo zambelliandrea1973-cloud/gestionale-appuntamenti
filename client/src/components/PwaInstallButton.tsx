@@ -281,7 +281,7 @@ export function PwaInstallButton() {
   const handleInstallClick = async () => {
     // Controlliamo esplicitamente se siamo su DuckDuckGo e forziamo le istruzioni specifiche
     if (/DuckDuckGo/.test(navigator.userAgent)) {
-      console.log("DuckDuckGo rilevato, mostrando istruzioni specifiche");
+      console.log("DuckDuckGo detected, showing specific instructions");
       setDialogInstructions({
         title: t("pwaInstall.steps.androidDuckDuckGo.title"),
         browser: "duckduckgo",

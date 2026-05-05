@@ -55,7 +55,7 @@ export default function SimpleLoginButton({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // aumentiamo il timeout a 15s per reti lente
       
-      console.log("Tentativo di login semplificato via GET:", {
+      console.log("Simple login attempt via GET:", {
         url: loginUrl.replace(token, "TOKEN-HIDDEN"),
         isPwa,
         browser: navigator.userAgent.substring(0, 50),
@@ -93,7 +93,7 @@ export default function SimpleLoginButton({
         setLocation('/client-area');
       } else {
         // Gestisce errori (anche quelli 401)
-        console.error('Errore login semplificato:', data);
+        console.error('Simple login error:', data);
         toast({
           title: t('simpleLoginButton.loginErrorTitle'),
           description: data.message || t('simpleLoginButton.loginErrorDescription'),
@@ -101,7 +101,7 @@ export default function SimpleLoginButton({
         });
       }
     } catch (error) {
-      console.error('Errore durante il login semplificato:', error);
+      console.error('Error during simple login:', error);
       toast({
         title: t('simpleLoginButton.connectionErrorTitle'),
         description: t('simpleLoginButton.connectionErrorDescription'),

@@ -112,14 +112,14 @@ export default function ServiceManager() {
 
   const loadServices = useCallback(async () => {
     if (!user?.id) {
-      console.log("🔄 FRONTEND ServiceManager: Nessun utente autenticato, skip caricamento servizi");
+      console.log("🔄 FRONTEND ServiceManager: No authenticated user, skipping service load");
       setServices([]);
       setIsLoading(false);
       return;
     }
     
     try {
-      console.log(`🔄 FRONTEND ServiceManager: Caricamento servizi per utente ${user.id}`);
+      console.log(`🔄 FRONTEND ServiceManager: Loading services for user ${user.id}`);
       setIsLoading(true);
       setError(null);
       
@@ -127,7 +127,7 @@ export default function ServiceManager() {
       
       if (!response.ok) {
         if (response.status === 401) {
-          console.log("🔄 FRONTEND ServiceManager: Utente non autenticato, servizi vuoti");
+          console.log("🔄 FRONTEND ServiceManager: User not authenticated, empty services");
           setServices([]);
           return;
         }
@@ -135,11 +135,11 @@ export default function ServiceManager() {
       }
       
       const data = await response.json();
-      console.log(`✅ FRONTEND ServiceManager: ${data.length} servizi caricati per utente ${user.id}`);
+      console.log(`✅ FRONTEND ServiceManager: ${data.length} services loaded for user ${user.id}`);
       setServices(data);
       
     } catch (err) {
-      console.error("❌ FRONTEND ServiceManager: Errore caricamento servizi:", err);
+      console.error("❌ FRONTEND ServiceManager: Error loading services:", err);
       setError(err instanceof Error ? err : new Error(t('serviceManager.errors.unknown')));
       setServices([]);
     } finally {
@@ -149,7 +149,7 @@ export default function ServiceManager() {
 
   // Carica servizi al mount del componente e al cambio utente
   useEffect(() => {
-    console.log("🔄 FRONTEND: useEffect chiamato - caricamento iniziale servizi");
+    console.log("🔄 FRONTEND: useEffect called - initial services load");
     
     // Pulisci tutti i dati di cache esistenti quando cambia utente
     if (user?.id) {
@@ -158,13 +158,13 @@ export default function ServiceManager() {
       allKeys.forEach(key => {
         if (key.startsWith('services_cache_user_') && !key.includes(`user_${user.id}`)) {
           localStorage.removeItem(key);
-          console.log(`🧹 FRONTEND: Rimossa cache di altro utente: ${key}`);
+          console.log(`🧹 FRONTEND: Removed cache for another user: ${key}`);
         }
       });
       
       // Invalida completamente React Query cache
       queryClient.clear();
-      console.log("🧹 FRONTEND: Cache React Query completamente invalidata");
+      console.log("🧹 FRONTEND: React Query cache fully invalidated");
       
       loadServices();
     }
@@ -176,23 +176,23 @@ export default function ServiceManager() {
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
     mutationFn: async (data: ServiceFormData) => {
-      console.log("🚀 FRONTEND: Inizio creazione servizio:", data);
+      console.log("🚀 FRONTEND: Starting service creation:", data);
       const response = await apiRequest("POST", "/api/services", data);
-      console.log("📡 FRONTEND: Risposta backend ricevuta:", response.status);
+      console.log("📡 FRONTEND: Backend response received:", response.status);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("❌ FRONTEND: Errore dal backend:", errorData);
+        console.error("❌ FRONTEND: Error from backend:", errorData);
         throw new Error(errorData.message || t('serviceManager.errors.create'));
       }
       
       const newService = await response.json();
-      console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
+      console.log("📦 FRONTEND: Service data from backend:", newService);
       
       // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
       setServices(prev => {
         const updated = [...prev, newService];
-        console.log("📝 FRONTEND: AGGIORNAMENTO DIRETTO nella mutationFn:", updated);
+        console.log("📝 FRONTEND: DIRECT UPDATE in mutationFn:", updated);
         return updated;
       });
       
@@ -202,12 +202,12 @@ export default function ServiceManager() {
       return newService;
     },
     onSuccess: (newService) => {
-      console.log(`🎉 FRONTEND: onSuccess chiamato per utente ${user?.id}:`, newService);
+      console.log(`🎉 FRONTEND: onSuccess called for user ${user?.id}:`, newService);
       
       // FORZA aggiornamento immediato - BYPASS di qualsiasi cache
       setServices(currentServices => {
         const updatedServices = [...currentServices, newService];
-        console.log(`📝 FRONTEND: AGGIORNAMENTO FORZATO per utente ${user?.id}:`, updatedServices);
+        console.log(`📝 FRONTEND: FORCED UPDATE for user ${user?.id}:`, updatedServices);
         return updatedServices;
       });
       
@@ -223,7 +223,7 @@ export default function ServiceManager() {
       
       // Ricarica IMMEDIATA dal backend
       setTimeout(() => {
-        console.log("🔄 FRONTEND: Ricarica forzata dal backend");
+        console.log("🔄 FRONTEND: Forced reload from backend");
         loadServices();
       }, 50);
     },
@@ -247,14 +247,14 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async (updatedService) => {
-      console.log("✅ FRONTEND: Servizio aggiornato con successo:", updatedService);
+      console.log("✅ FRONTEND: Service updated successfully:", updatedService);
       
       // Aggiornamento diretto dello state - IMMEDIATO
       setServices(prev => prev.map(s => s.id === updatedService.id ? updatedService : s));
       
       // Ricarica anche dal backend per sicurezza
       await loadServices();
-      console.log("✅ FRONTEND: Lista servizi aggiornata dopo modifica");
+      console.log("✅ FRONTEND: Service list updated after edit");
       
       resetForm();
       setIsDialogOpen(false);
@@ -275,9 +275,9 @@ export default function ServiceManager() {
   // Mutation per eliminare un servizio
   const deleteServiceMutation = useMutation({
     mutationFn: async (id: number) => {
-      console.log("🗑️ FRONTEND: Inizio eliminazione servizio ID:", id);
+      console.log("🗑️ FRONTEND: Starting service deletion ID:", id);
       const response = await apiRequest("DELETE", `/api/services/${id}`);
-      console.log("📡 FRONTEND: Risposta eliminazione:", response.status);
+      console.log("📡 FRONTEND: Deletion response:", response.status);
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -287,7 +287,7 @@ export default function ServiceManager() {
       // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
       setServices(prev => {
         const updated = prev.filter(s => s.id !== id);
-        console.log("📝 FRONTEND: ELIMINAZIONE DIRETTA nella mutationFn:", updated);
+        console.log("📝 FRONTEND: DIRECT DELETION in mutationFn:", updated);
         return updated;
       });
       
@@ -297,14 +297,14 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: async (_, deletedId) => {
-      console.log("✅ FRONTEND: Servizio eliminato con successo, ID:", deletedId);
+      console.log("✅ FRONTEND: Service deleted successfully, ID:", deletedId);
       
       // Aggiornamento diretto dello state - IMMEDIATO
       setServices(prev => prev.filter(s => s.id !== deletedId));
       
       // Ricarica anche dal backend per sicurezza
       await loadServices();
-      console.log("✅ FRONTEND: Lista servizi aggiornata dopo eliminazione");
+      console.log("✅ FRONTEND: Service list updated after deletion");
       
       toast({
         title: t('serviceManager.toast.deleted.title'),
@@ -430,7 +430,7 @@ export default function ServiceManager() {
   }
 
   if (error && !isLoading && services.length === 0) {
-    console.log("❌ FRONTEND: Errore critico nel caricamento servizi:", error);
+    console.log("❌ FRONTEND: Critical error loading services:", error);
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />

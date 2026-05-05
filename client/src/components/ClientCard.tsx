@@ -178,7 +178,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       }
     },
     onError: async (error: any) => {
-      console.error(`❌ Errore eliminazione cliente ${client.id}:`, error);
+      console.error(`❌ Error deleting client ${client.id}:`, error);
       
       // Anche in caso di errore, rimuovi dalla cache se è 404
       if (error.message?.includes("Client not found") || error.message?.includes("404")) {

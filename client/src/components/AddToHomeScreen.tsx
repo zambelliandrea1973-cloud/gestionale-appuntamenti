@@ -31,7 +31,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
                            (window.navigator as any).standalone === true;
     
     if (isAppInstalled) {
-      console.log('App già installata in modalità standalone');
+      console.log('App already installed in standalone mode');
       setIsInstalled(true);
     }
     
@@ -40,7 +40,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
     }
     
     const handleInstallPrompt = (e: Event) => {
-      console.log('Evento beforeinstallprompt catturato', e);
+      console.log('beforeinstallprompt event captured', e);
       e.preventDefault();
       const promptEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(promptEvent);
@@ -100,7 +100,7 @@ export function AddToHomeScreen({ minimal = false }: AddToHomeScreenProps) {
         
         setDeferredPrompt(null);
       } catch (error) {
-        console.error("Errore durante l'installazione:", error);
+        console.error("Error during installation:", error);
       }
     } else {
       if (isAndroid) {

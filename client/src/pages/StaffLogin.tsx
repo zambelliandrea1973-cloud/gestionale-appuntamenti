@@ -31,15 +31,15 @@ export default function StaffLogin() {
       try {
         // 1. Pulisci sessione server (questo invaliderà automaticamente i dati utente)
         await apiRequest('POST', '/api/logout');
-        console.log('🧹 Sessione server pulita all\'arrivo su StaffLogin');
+        console.log('🧹 Server session cleaned on StaffLogin arrival');
         
         // 2. Invalida query di autenticazione per forzare ricaricamento
         queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
         queryClient.invalidateQueries({ queryKey: ['/api/contact-info'] });
         queryClient.invalidateQueries({ queryKey: ['/api/company-name-settings'] });
-        console.log('🧹 Query di autenticazione invalidate');
+        console.log('🧹 Authentication queries invalidated');
       } catch (error) {
-        console.log('⚠️ Errore pulizia sessione (normale se non c\'era sessione):', error);
+        console.log('⚠️ Session cleanup error (normal if no session existed):', error);
       }
     };
     clearSession();
@@ -89,14 +89,14 @@ export default function StaffLogin() {
       
       // 3. Pulisci sessione server (questo cancellerà anche il cookie)
       await apiRequest('POST', '/api/logout');
-      console.log('🧹 PULIZIA MANUALE: Logout completato');
+      console.log('🧹 MANUAL CLEANUP: Logout completed');
       
       // 4. CRITICO: Redirect a pagina vuota e poi torna a login
       // Questo forza il browser a fare una richiesta completamente nuova senza cookie cached
       window.location.href = '/staff-login?cleared=1';
       
     } catch (error) {
-      console.error('❌ Errore durante la pulizia:', error);
+      console.error('❌ Error during cleanup:', error);
       // Anche in caso di errore, forza il redirect per pulire
       window.location.href = '/staff-login?cleared=1';
     }
@@ -113,7 +113,7 @@ export default function StaffLogin() {
       return response.json();
     },
     onSuccess: async (userData) => {
-      console.log("Login riuscito, dati utente:", userData);
+      console.log("Login successful, user data:", userData);
       
       // CRITICO: Pulisci TUTTI i dati localStorage di altri utenti per evitare contaminazione
       const keysToKeep = ['staffUsername']; // Solo credenziali memorizzate
@@ -127,7 +127,7 @@ export default function StaffLogin() {
       
       // Forza la ripultura COMPLETA della cache per ottenere i dati utente aggiornati
       queryClient.clear(); // PULISCE TUTTA LA CACHE per evitare contaminazione cross-utente
-      console.log('🧹 Cache React Query completamente pulita al login');
+      console.log('🧹 React Query cache fully cleared on login');
       
       // CRITICO: DE-REGISTRA Service Worker e pulisci tutte le cache
       try {
@@ -135,7 +135,7 @@ export default function StaffLogin() {
           const registrations = await navigator.serviceWorker.getRegistrations();
           for (const registration of registrations) {
             await registration.unregister();
-            console.log('🧹 Service Worker de-registrato');
+            console.log('🧹 Service Worker unregistered');
           }
         }
         
@@ -144,21 +144,21 @@ export default function StaffLogin() {
           const cacheNames = await caches.keys();
           for (const cacheName of cacheNames) {
             await caches.delete(cacheName);
-            console.log(`🧹 Cache eliminata: ${cacheName}`);
+            console.log(`🧹 Cache cleared: ${cacheName}`);
           }
         }
       } catch (error) {
-        console.error('⚠️ Errore pulizia Service Worker/cache:', error);
+        console.error('⚠️ Service Worker/cache cleanup error:', error);
       }
       
       // CRITICO: Forza RELOAD COMPLETO invece di semplice redirect
       // Questo garantisce che TUTTE le cache browser/React siano pulite
-      console.log(`✅ Login completato per ${userData.username} (ID: ${userData.id}), redirect con reload completo...`);
+      console.log(`✅ Login completed for ${userData.username} (ID: ${userData.id}), redirecting with full reload...`);
       
       // Controlla se c'è un redirect salvato (es. da email trial)
       const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
       if (redirectUrl) {
-        console.log(`🔗 Redirect salvato trovato: ${redirectUrl}`);
+        console.log(`🔗 Saved redirect found: ${redirectUrl}`);
         sessionStorage.removeItem('redirectAfterLogin');
       }
       

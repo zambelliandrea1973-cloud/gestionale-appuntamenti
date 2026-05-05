@@ -68,7 +68,7 @@ export default function GoogleSetupInstructionsPage() {
         throw new Error('Unable to start Google authorization');
       }
     } catch (error) {
-      console.error('Errore nell\'autorizzazione Google:', error);
+      console.error('Error in Google authorization:', error);
       toast({
         title: t('google.authError', 'Authorization error'),
         description: error instanceof Error ? error.message : t('google.genericError', 'An error occurred while starting authorization'),

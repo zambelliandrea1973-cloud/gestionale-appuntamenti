@@ -42,7 +42,7 @@ export default function CustomerLogin() {
       return response.json();
     },
     onSuccess: (userData) => {
-      console.log("Login customer riuscito, dati utente:", userData);
+      console.log("Customer login successful, user data:", userData);
       
       // Forza la ripultura della cache per ottenere i dati utente aggiornati
       queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
@@ -58,13 +58,13 @@ export default function CustomerLogin() {
       // Controlla se c'è un redirect salvato (es. da email trial)
       const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
       if (redirectUrl) {
-        console.log(`🔗 Redirect salvato trovato: ${redirectUrl}`);
+        console.log(`🔗 Saved redirect found: ${redirectUrl}`);
         sessionStorage.removeItem('redirectAfterLogin');
       }
       
       // Reindirizza alla dashboard o all'URL salvato
       setTimeout(() => {
-        console.log(`Reindirizzamento per customer a: ${redirectUrl || "/dashboard"}`);
+        console.log(`Redirecting customer to: ${redirectUrl || "/dashboard"}`);
         window.location.href = redirectUrl || "/dashboard";
       }, 100);
     },

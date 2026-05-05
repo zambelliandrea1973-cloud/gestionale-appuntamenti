@@ -42,7 +42,7 @@ export function DirectLinkGenerator({ token, clientId, clientName }: DirectLinkG
         setIsCopied(false);
       }, 2000);
     } catch (err) {
-      console.error("Errore durante la copia del link:", err);
+      console.error("Error copying link:", err);
       toast({
         title: t('common.error'),
         description: t('i18nFinale.directLinkGenerator.copyFailed'),

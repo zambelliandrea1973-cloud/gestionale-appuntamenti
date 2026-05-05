@@ -13,12 +13,12 @@ interface StaffUser {
 
 export default function StaffManagementPageSimple() {
   const { t } = useTranslation();
-  console.log("🔥 SIMPLE PAGE: Componente caricato!");
+  console.log("🔥 SIMPLE PAGE: Component loaded!");
   
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
     queryFn: async () => {
-      console.log("🔥 SIMPLE PAGE: Chiamata API");
+      console.log("🔥 SIMPLE PAGE: API call");
       const response = await fetch('/api/staff/users', {
         credentials: 'include',
         headers: {
@@ -31,7 +31,7 @@ export default function StaffManagementPageSimple() {
       }
       
       const data = await response.json();
-      console.log("🔥 SIMPLE PAGE: Dati ricevuti:", data);
+      console.log("🔥 SIMPLE PAGE: Data received:", data);
       return data;
     },
   });

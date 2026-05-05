@@ -34,7 +34,7 @@ export default function SessionManager() {
       if (token && clientId) {
         // Verifica che il token sia valido
         try {
-          console.log("Verifica token da URL:", { token, clientId });
+          console.log("Verifying token from URL:", { token, clientId });
           const response = await apiRequest('POST', '/api/verify-token', { token, clientId });
           
           if (response.ok) {
@@ -44,37 +44,37 @@ export default function SessionManager() {
             if (data.username) {
               localStorageClient.storeCredentials(data.username, clientId, token);
               setTokenRestored(true);
-              console.log("Token e credenziali salvate da URL");
+              console.log("Token and credentials saved from URL");
             } else {
-              console.warn("Token valido ma manca username");
+              console.warn("Valid token but username missing");
             }
           } else {
-            console.error("Token nell'URL non valido");
+            console.error("Invalid token in URL");
           }
         } catch (error) {
-          console.error("Errore nella verifica del token:", error);
+          console.error("Error verifying token:", error);
         }
       }
       
       // Prova a ripristinare la sessione da localStorage
       if (localStorageClient.hasStoredCredentials() && !tokenRestored) {
-        console.log("Tentativo di ripristino sessione da localStorage");
+        console.log("Attempting to restore session from localStorage");
         
         try {
           const restored = await localStorageClient.restoreClientSession();
           
           if (restored) {
-            console.log("Sessione ripristinata con successo");
+            console.log("Session restored successfully");
             
             // Navigate to client area
             setTimeout(() => {
               setLocation('/client-area');
             }, 100);
           } else {
-            console.warn("Impossibile ripristinare la sessione");
+            console.warn("Unable to restore session");
           }
         } catch (error) {
-          console.error("Errore durante il ripristino della sessione:", error);
+          console.error("Error restoring session:", error);
         }
       }
     };
