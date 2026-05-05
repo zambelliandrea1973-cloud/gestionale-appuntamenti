@@ -344,7 +344,15 @@
     "noServicesAvailable": "Geen diensten beschikbaar",
     "goToSettingsToCreateService": "Ga naar Instellingen om een dienst aan te maken",
     "noServicesFound": "Geen diensten gevonden",
-    "selectNewAppointment": "Nieuwe afspraak"
+    "selectNewAppointment": "Nieuwe afspraak",
+    "modeGlobal": "Globaal",
+    "modeFilter": "Filter",
+    "modeColumns": "Kolommen",
+    "filterAll": "Alle",
+    "noAssigned": "Niet toegewezen",
+    "noCollaboratorsForColumns": "Voeg medewerkers toe in instellingen om de kolomweergave te gebruiken.",
+    "noCollaboratorsForFilter": "Voeg medewerkers of kamers toe in instellingen om het filter te gebruiken.",
+    "columnsOnlyInDayView": "De kolomweergave is alleen beschikbaar in de dagweergave."
   },
   "clients": {
     "title": "Klanten",

@@ -366,7 +366,15 @@
     "noServicesAvailable": "No services available",
     "goToSettingsToCreateService": "Go to Settings to create a service",
     "noServicesFound": "No services found",
-    "selectNewAppointment": "New appointment"
+    "selectNewAppointment": "New appointment",
+    "modeGlobal": "Global",
+    "modeFilter": "Filter",
+    "modeColumns": "Columns",
+    "filterAll": "All",
+    "noAssigned": "Unassigned",
+    "noCollaboratorsForColumns": "Add collaborators in settings to use the column view.",
+    "noCollaboratorsForFilter": "Add collaborators or rooms in settings to use the filter.",
+    "columnsOnlyInDayView": "Column view is only available in Day view."
   },
   "clients": {
     "title": "Clients",

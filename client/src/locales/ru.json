@@ -353,7 +353,15 @@
     "noServicesAvailable": "Нет доступных услуг",
     "goToSettingsToCreateService": "Перейдите в Настройки, чтобы создать услугу",
     "noServicesFound": "Услуги не найдены",
-    "selectNewAppointment": "Новая запись"
+    "selectNewAppointment": "Новая запись",
+    "modeGlobal": "Глобально",
+    "modeFilter": "Фильтр",
+    "modeColumns": "Колонки",
+    "filterAll": "Все",
+    "noAssigned": "Не назначено",
+    "noCollaboratorsForColumns": "Добавьте сотрудников в настройках, чтобы использовать вид по колонкам.",
+    "noCollaboratorsForFilter": "Добавьте сотрудников или кабинеты в настройках для использования фильтра.",
+    "columnsOnlyInDayView": "Вид по колонкам доступен только в режиме День."
   },
   "clients": {
     "title": "Клиенты",

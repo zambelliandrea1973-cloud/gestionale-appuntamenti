@@ -344,7 +344,15 @@
     "noServicesAvailable": "Niciun serviciu disponibil",
     "goToSettingsToCreateService": "Mergi la Setări pentru a crea un serviciu",
     "noServicesFound": "Niciun serviciu găsit",
-    "selectNewAppointment": "Programare nouă"
+    "selectNewAppointment": "Programare nouă",
+    "modeGlobal": "Global",
+    "modeFilter": "Filtru",
+    "modeColumns": "Coloane",
+    "filterAll": "Toți",
+    "noAssigned": "Neatribuit",
+    "noCollaboratorsForColumns": "Adaugă colaboratori în setări pentru a folosi vizualizarea pe coloane.",
+    "noCollaboratorsForFilter": "Adaugă colaboratori sau camere în setări pentru a folosi filtrul.",
+    "columnsOnlyInDayView": "Vizualizarea pe coloane este disponibilă doar în modul Zi."
   },
   "clients": {
     "title": "Clienți",

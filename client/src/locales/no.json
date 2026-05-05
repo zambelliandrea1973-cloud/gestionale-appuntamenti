@@ -344,7 +344,15 @@
     "noServicesAvailable": "Ingen tjenester tilgjengelige",
     "goToSettingsToCreateService": "Gå til Innstillinger for å opprette en tjeneste",
     "noServicesFound": "Ingen tjenester funnet",
-    "selectNewAppointment": "Ny avtale"
+    "selectNewAppointment": "Ny avtale",
+    "modeGlobal": "Global",
+    "modeFilter": "Filter",
+    "modeColumns": "Kolonner",
+    "filterAll": "Alle",
+    "noAssigned": "Ikke tildelt",
+    "noCollaboratorsForColumns": "Legg til samarbeidspartnere i innstillinger for å bruke kolonnevisning.",
+    "noCollaboratorsForFilter": "Legg til samarbeidspartnere eller rom i innstillinger for å bruke filteret.",
+    "columnsOnlyInDayView": "Kolonnevisning er bare tilgjengelig i dagsvisning."
   },
   "clients": {
     "title": "Kunder",

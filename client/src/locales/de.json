@@ -353,7 +353,15 @@
     "noServicesAvailable": "Keine Dienste verfügbar",
     "goToSettingsToCreateService": "Gehen Sie zu den Einstellungen, um einen Dienst zu erstellen",
     "noServicesFound": "Keine Dienste gefunden",
-    "selectNewAppointment": "Neuer Termin"
+    "selectNewAppointment": "Neuer Termin",
+    "modeGlobal": "Global",
+    "modeFilter": "Filter",
+    "modeColumns": "Spalten",
+    "filterAll": "Alle",
+    "noAssigned": "Nicht zugewiesen",
+    "noCollaboratorsForColumns": "Füge Mitarbeiter in den Einstellungen hinzu, um die Spaltenansicht zu nutzen.",
+    "noCollaboratorsForFilter": "Füge Mitarbeiter oder Räume in den Einstellungen hinzu, um den Filter zu nutzen.",
+    "columnsOnlyInDayView": "Die Spaltenansicht ist nur in der Tagesansicht verfügbar."
   },
   "clients": {
     "title": "Kunden",

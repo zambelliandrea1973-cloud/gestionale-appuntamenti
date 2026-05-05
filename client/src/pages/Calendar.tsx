@@ -3,30 +3,22 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from 'react-i18next';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
-  CalendarDays, 
-  Search,
-  Clock,
-  Calendar as CalendarIcon,
-  LayoutGrid,
-  Plus,
-  Globe
+  ChevronLeft, ChevronRight, CalendarDays, Search, Clock,
+  Calendar as CalendarIcon, LayoutGrid, Globe, Filter, LayoutDashboard, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  formatMonthYear, 
-  formatDateForApi,
-  getBrowserLocale
-} from "@/lib/utils/date";
+import { formatMonthYear, formatDateForApi, getBrowserLocale } from "@/lib/utils/date";
 import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
 import { SyncGoogleButton } from "@/components/SyncGoogleButton";
+
+const STORAGE_KEY_MODE = 'calendar-mode-v1';
+
+const STAFF_PALETTE = ['#4a7c59','#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf6','#f97316','#ec4899'];
+const getStaffColor = (id: number) => STAFF_PALETTE[Math.abs(id) % STAFF_PALETTE.length];
 
 export default function Calendar() {
   const { t, i18n } = useTranslation();
@@ -35,284 +27,166 @@ export default function Calendar() {
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
   const [timezoneInfo, setTimezoneInfo] = useState<{
-    timezone: string;
-    offset: number;
-    name: string;
+    timezone: string; offset: number; name: string;
   } | null>(null);
   const clockRef = useRef<HTMLSpanElement>(null);
-  
-  // 🔄 AUTO-SYNC: Sincronizzazione automatica OGNI volta che si apre la pagina calendario
+
+  // ── Modalità calendario ────────────────────────────────────────────────────
+  const [calendarMode, setCalendarMode] = useState<'global'|'filter'|'columns'>(() => {
+    const s = localStorage.getItem(STORAGE_KEY_MODE);
+    return (s === 'global' || s === 'filter' || s === 'columns') ? s : 'global';
+  });
+  const [activeFilter, setActiveFilter] = useState<{ type: 'staff'|'room'; id: number } | null>(null);
+
+  const updateCalendarMode = (mode: 'global'|'filter'|'columns') => {
+    setCalendarMode(mode);
+    localStorage.setItem(STORAGE_KEY_MODE, mode);
+    if (mode !== 'filter') setActiveFilter(null);
+  };
+
+  const handleFilterChip = (type: 'staff'|'room', id: number) => {
+    setActiveFilter(prev => (prev?.type === type && prev?.id === id) ? null : { type, id });
+  };
+
+  // ── Auto-sync Google Calendar ──────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
-    
     const autoSync = async () => {
-      console.log('🔄 [AUTO-SYNC] Calendar page opened, starting sync...');
       try {
-        // Verifica se Google Calendar è abilitato
         const statusRes = await fetch('/api/google-auth/status', { credentials: 'include' });
-        if (!statusRes.ok || cancelled) {
-          console.log('🔄 [AUTO-SYNC] Status check failed or cancelled');
-          return;
-        }
-        
+        if (!statusRes.ok || cancelled) return;
         const status = await statusRes.json();
-        console.log('🔄 [AUTO-SYNC] Status:', status);
-        if (!status.authorized || !status.calendarEnabled || cancelled) {
-          console.log('🔄 [AUTO-SYNC] Google Calendar not authorized or not enabled');
-          return;
-        }
-        
-        console.log('🔄 [AUTO-SYNC] Executing sync...');
-        // Esegui la sincronizzazione direttamente (stesso endpoint del pulsante)
+        if (!status.authorized || !status.calendarEnabled || cancelled) return;
         const syncRes = await fetch('/api/google-calendar/sync-now', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
         });
-        
         if (syncRes.ok && !cancelled) {
-          console.log('🔄 [AUTO-SYNC] Sync completed successfully!');
-          // Aggiorna la cache degli appuntamenti
           queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
-        } else {
-          console.log('🔄 [AUTO-SYNC] Sync failed:', syncRes.status);
         }
-      } catch (e) {
-        console.log('🔄 [AUTO-SYNC] Error:', e);
-      }
+      } catch {}
     };
-    
-    // Esegui subito dopo il mount
     autoSync();
-    
-    // Cleanup se il componente viene smontato prima del completamento
     return () => { cancelled = true; };
   }, [queryClient]);
-  
-  // Recupera le informazioni sul fuso orario
+
+  // Fuso orario
   useEffect(() => {
-    const fetchTimezoneInfo = async () => {
-      try {
-        const response = await fetch('/api/timezone-settings');
-        if (response.ok) {
-          const data = await response.json();
-          setTimezoneInfo(data);
-        }
-      } catch (error) {
-        console.error('Error fetching timezone information:', error);
-      }
-    };
-    
-    fetchTimezoneInfo();
+    fetch('/api/timezone-settings').then(r => r.ok ? r.json() : null).then(d => d && setTimezoneInfo(d)).catch(() => {});
   }, []);
-  
+
+  // Orologio
   useEffect(() => {
-    const updateClock = () => {
-      if (clockRef.current) {
-        clockRef.current.textContent = new Date().toLocaleTimeString();
-      }
-    };
-    updateClock();
-    const timer = setInterval(updateClock, 1000);
-    return () => clearInterval(timer);
+    const upd = () => { if (clockRef.current) clockRef.current.textContent = new Date().toLocaleTimeString(); };
+    upd();
+    const t = setInterval(upd, 1000);
+    return () => clearInterval(t);
   }, []);
-  
-  // Per la ricerca di tutti gli appuntamenti
-  const { data: allAppointments = [], refetch: refetchAppointments } = useQuery<any>({
-    queryKey: ['/api/appointments'],
-  });
-  
-  // Per la vista giornaliera - appuntamenti di un giorno specifico
+
+  // ── Queries ────────────────────────────────────────────────────────────────
+  const { data: allAppointments = [], refetch: refetchAppointments } = useQuery<any>({ queryKey: ['/api/appointments'] });
   const { data: dayAppointments = [], isLoading: isLoadingAppointments, refetch: refetchDayAppointments } = useQuery<any>({
     queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`],
     enabled: view === "day",
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
-    staleTime: 0, // Forza sempre il refetch per i dati più aggiornati
+    refetchOnWindowFocus: true, refetchOnMount: true, staleTime: 0,
   });
-  
-  // Servizi per colorare gli appuntamenti
-  const { data: services = [], isLoading: isLoadingServices } = useQuery<any>({
-    queryKey: ['/api/services'],
-  });
+  const { data: services = [], isLoading: isLoadingServices } = useQuery<any>({ queryKey: ['/api/services'] });
+  const { data: collaborators = [] } = useQuery<any[]>({ queryKey: ['/api/collaborators'] });
+  const { data: treatmentRooms = [] } = useQuery<any[]>({ queryKey: ['/api/treatment-rooms'] });
+  const { data: clients = [] } = useQuery<any[]>({ queryKey: ['/api/clients'] });
 
-  // Collaboratori per mostrare i nomi negli appuntamenti
-  const { data: collaborators = [] } = useQuery<any[]>({
-    queryKey: ['/api/collaborators'],
-  });
-
-  // Stanze per mostrare i colori negli appuntamenti
-  const { data: treatmentRooms = [] } = useQuery<any[]>({
-    queryKey: ['/api/treatment-rooms'],
-  });
-  
-  const { data: clients = [] } = useQuery<any[]>({
-    queryKey: ['/api/clients'],
-  });
-  
-  // Filter appointments based on search query
+  // ── Ricerca ────────────────────────────────────────────────────────────────
   const filteredAppointments = searchQuery && Array.isArray(allAppointments)
-    ? allAppointments.filter((appointment: any) => {
-        const clientName = `${appointment.client?.firstName || ''} ${appointment.client?.lastName || ''}`.toLowerCase();
-        const serviceName = appointment.service?.name?.toLowerCase() || '';
-        const dateStr = appointment.date || '';
-        const query = searchQuery.toLowerCase();
-        
-        return clientName.includes(query) || 
-               serviceName.includes(query) || 
-               dateStr.includes(query);
+    ? allAppointments.filter((a: any) => {
+        const name = `${a.client?.firstName||''} ${a.client?.lastName||''}`.toLowerCase();
+        const svc = a.service?.name?.toLowerCase() || '';
+        const q = searchQuery.toLowerCase();
+        return name.includes(q) || svc.includes(q) || (a.date||'').includes(q);
       })
     : [];
-  
-  const goToToday = useCallback(() => {
-    setSelectedDate(new Date());
-  }, []);
-  
+
+  // ── Navigazione ────────────────────────────────────────────────────────────
+  const goToToday = useCallback(() => setSelectedDate(new Date()), []);
   const goToPrevious = useCallback(() => {
-    setSelectedDate(prevDate => {
-      const newDate = new Date(prevDate.getTime());
-      if (view === "day") {
-        newDate.setDate(newDate.getDate() - 1);
-      } else if (view === "week") {
-        newDate.setDate(newDate.getDate() - 7);
-      } else {
-        newDate.setMonth(newDate.getMonth() - 1);
-      }
-      return newDate;
+    setSelectedDate(prev => {
+      const d = new Date(prev); 
+      if (view==='day') d.setDate(d.getDate()-1);
+      else if (view==='week') d.setDate(d.getDate()-7);
+      else d.setMonth(d.getMonth()-1);
+      return d;
     });
   }, [view]);
-  
   const goToNext = useCallback(() => {
-    setSelectedDate(prevDate => {
-      const newDate = new Date(prevDate.getTime());
-      if (view === "day") {
-        newDate.setDate(newDate.getDate() + 1);
-      } else if (view === "week") {
-        newDate.setDate(newDate.getDate() + 7);
-      } else {
-        newDate.setMonth(newDate.getMonth() + 1);
-      }
-      return newDate;
+    setSelectedDate(prev => {
+      const d = new Date(prev);
+      if (view==='day') d.setDate(d.getDate()+1);
+      else if (view==='week') d.setDate(d.getDate()+7);
+      else d.setMonth(d.getMonth()+1);
+      return d;
     });
   }, [view]);
-  
-  // Handle refresh of data
+
+  // ── Refresh ────────────────────────────────────────────────────────────────
   const handleRefresh = () => {
-    console.log("Refreshing calendar data...");
-    // Refresh appointments list
     refetchAppointments();
-    
-    // Refresh also date-specific appointments for current view
     if (view === "day") {
-      // Solo giorno corrente
-      const dateString = formatDateForApi(selectedDate);
-      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      refetchDayAppointments(); // Forza il refetch immediato
+      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] });
+      refetchDayAppointments();
     } else if (view === "week") {
-      // Intera settimana
       for (let i = 0; i < 7; i++) {
-        const date = new Date(selectedDate);
-        date.setDate(date.getDate() + i);
-        const dateString = formatDateForApi(date);
-        queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+        const d = new Date(selectedDate); d.setDate(d.getDate()+i);
+        queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(d)}`] });
       }
     }
-    
-    // Refresh also ranges
     queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
   };
 
-  // Callback specifico per quando viene salvato un appuntamento
   const handleAppointmentSaved = async () => {
-    console.log("Appointment saved - updating calendar...");
-    
-    try {
-      // Invalida tutto il cache degli appuntamenti
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      
-      // Invalida specificamente la data corrente
-      const dateString = formatDateForApi(selectedDate);
-      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      
-      // Invalida tutte le date vicine per sicurezza
-      for (let i = -3; i <= 3; i++) {
-        const date = new Date(selectedDate);
-        date.setDate(date.getDate() + i);
-        const ds = formatDateForApi(date);
-        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${ds}`] });
-      }
-      
-      // Aspetta un momento per assicurarsi che le invalidazioni siano complete
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Forza il refetch di tutti i dati
-      await queryClient.refetchQueries({ 
-        queryKey: ['/api/appointments'],
-        type: 'active'
-      });
-      
-      if (view === "day") {
-        await queryClient.refetchQueries({ 
-          queryKey: [`/api/appointments/date/${dateString}`],
-          type: 'active'
-        });
-      }
-      
-      // Trigger manuale del refetch delle funzioni hook
-      await refetchAppointments();
-      if (view === "day") {
-        await refetchDayAppointments();
-      }
-      
-      console.log("Calendar updated after appointment save");
-    } catch (error) {
-      console.error("Error updating calendar:", error);
+    await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+    const ds = formatDateForApi(selectedDate);
+    await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${ds}`] });
+    for (let i = -3; i <= 3; i++) {
+      const d = new Date(selectedDate); d.setDate(d.getDate()+i);
+      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(d)}`] });
     }
+    await new Promise(r => setTimeout(r, 100));
+    await queryClient.refetchQueries({ queryKey: ['/api/appointments'], type: 'active' });
+    if (view==='day') await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${ds}`], type: 'active' });
+    await refetchAppointments();
+    if (view==='day') await refetchDayAppointments();
   };
-  
+
+  // ── Chip chips colore collaboratore ───────────────────────────────────────
+  const activeCollaborators = (collaborators as any[]).filter(c => c.isActive !== false);
+  const hasCollaboratorsOrRooms = activeCollaborators.length > 0 || (treatmentRooms as any[]).length > 0;
+  const columnModeAvailable = calendarMode === 'columns' && view === 'day' && activeCollaborators.length > 0;
+
   return (
     <div className="space-y-6">
-      {/* Header with navigation and controls */}
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="bg-white shadow-md rounded-lg p-4 mb-6">
+        
+        {/* Riga 1: data + ricerca */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-2">
             <h2 className="text-2xl font-bold text-primary min-w-[200px]">
-              {view === "month" 
+              {view === "month"
                 ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate, i18n.language)}`
-                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
-                    month: 'long', 
-                    year: 'numeric' 
-                  })}`
+                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { month: 'long', year: 'numeric' })}`
               }
             </h2>
             <div className="flex space-x-1 ml-2">
-              <Button 
-                variant="outline" 
-                size="icon"
-                onClick={goToPrevious}
-                className="rounded-full"
-              >
+              <Button variant="outline" size="icon" onClick={goToPrevious} className="rounded-full">
                 <ChevronLeft className="h-5 w-5" />
               </Button>
-              <Button 
-                variant="outline" 
-                size="icon"
-                onClick={goToNext}
-                className="rounded-full"
-              >
+              <Button variant="outline" size="icon" onClick={goToNext} className="rounded-full">
                 <ChevronRight className="h-5 w-5" />
               </Button>
             </div>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={goToToday}
-              className="ml-4"
-            >
+            <Button variant="outline" size="sm" onClick={goToToday} className="ml-4">
               {t('calendar.today')}
             </Button>
           </div>
-          
+
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             <div className="relative flex-grow md:flex-grow-0">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -320,25 +194,23 @@ export default function Calendar() {
               </div>
               <Input
                 type="text"
-                placeholder={t('common.search') + " " + t('calendar.title').toLowerCase() + "..."}
+                placeholder={`${t('common.search')} ${t('calendar.title').toLowerCase()}...`}
                 className="pl-10 w-full md:w-[250px]"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
-            
-            {/* Rimosso il pulsante "Nuovo Appuntamento" come richiesto */}
           </div>
         </div>
-        
-        {/* Indicatore del fuso orario */}
+
+        {/* Riga 2: fuso orario */}
         <div className="mt-2 flex items-center justify-center px-3 py-1.5 bg-green-50 border border-green-200 rounded-md shadow-sm">
           <Globe className="h-4 w-4 text-primary mr-2" />
           <span className="text-sm font-medium flex items-center">
-            <span ref={clockRef} className="text-green-700 font-mono"></span>
+            <span ref={clockRef} className="text-green-700 font-mono" />
             <span className="mx-1 text-gray-400">|</span>
             <span className="text-gray-700">
-              {timezoneInfo?.name || 'UTC'} 
+              {timezoneInfo?.name || 'UTC'}
               {timezoneInfo?.offset !== undefined && (
                 <span className="text-gray-500 ml-1">
                   (UTC{timezoneInfo.offset > 0 ? '+' : ''}{timezoneInfo.offset})
@@ -348,104 +220,215 @@ export default function Calendar() {
           </span>
         </div>
 
-        <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          {/* Bottoni di visualizzazione */}
+        {/* Riga 3: bottoni vista + modalità + sync */}
+        <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          {/* Vista giorno/settimana/mese */}
           <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border w-full sm:w-auto">
             <Button
-              variant={view === "day" ? "default" : "ghost"}
-              size="sm"
+              variant={view==="day" ? "default" : "ghost"} size="sm"
               onClick={() => setView("day")}
-              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "day" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view==="day" ? "bg-primary text-white" : ""}`}
             >
-              <Clock className="h-4 w-4 mr-1 sm:mr-2" />
-              {t('calendar.daily')}
+              <Clock className="h-4 w-4 mr-1 sm:mr-2" />{t('calendar.daily')}
             </Button>
             <Button
-              variant={view === "week" ? "default" : "ghost"}
-              size="sm"
+              variant={view==="week" ? "default" : "ghost"} size="sm"
               onClick={() => setView("week")}
-              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "week" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view==="week" ? "bg-primary text-white" : ""}`}
             >
-              <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />
-              {t('calendar.weekly')}
+              <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />{t('calendar.weekly')}
             </Button>
             <Button
-              variant={view === "month" ? "default" : "ghost"}
-              size="sm"
+              variant={view==="month" ? "default" : "ghost"} size="sm"
               onClick={() => setView("month")}
-              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "month" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view==="month" ? "bg-primary text-white" : ""}`}
             >
-              <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
-              {t('calendar.monthly')}
+              <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />{t('calendar.monthly')}
             </Button>
           </div>
 
-          {/* Google Calendar Sync Button */}
-          <div className="w-full sm:w-auto flex gap-2">
-            <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
+          {/* Modalità calendario */}
+          <div className="flex rounded-md overflow-hidden shadow-sm border w-full sm:w-auto shrink-0">
+            <Button
+              variant={calendarMode==='global' ? "default" : "ghost"} size="sm"
+              onClick={() => updateCalendarMode('global')}
+              className={`rounded-none px-3 flex-1 sm:flex-initial gap-1.5 ${calendarMode==='global' ? 'bg-primary text-white' : ''}`}
+              title={t('calendar.modeGlobal')}
+            >
+              <Globe className="h-4 w-4" />
+              <span className="hidden sm:inline">{t('calendar.modeGlobal')}</span>
+            </Button>
+            <Button
+              variant={calendarMode==='filter' ? "default" : "ghost"} size="sm"
+              onClick={() => updateCalendarMode('filter')}
+              className={`rounded-none px-3 flex-1 sm:flex-initial gap-1.5 ${calendarMode==='filter' ? 'bg-primary text-white' : ''}`}
+              title={t('calendar.modeFilter')}
+            >
+              <Filter className="h-4 w-4" />
+              <span className="hidden sm:inline">{t('calendar.modeFilter')}</span>
+            </Button>
+            <Button
+              variant={calendarMode==='columns' ? "default" : "ghost"} size="sm"
+              onClick={() => updateCalendarMode('columns')}
+              className={`rounded-none px-3 flex-1 sm:flex-initial gap-1.5 ${calendarMode==='columns' ? 'bg-primary text-white' : ''}`}
+              title={t('calendar.modeColumns')}
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              <span className="hidden sm:inline">{t('calendar.modeColumns')}</span>
+            </Button>
           </div>
-          
-          <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
-            {/* Mostriamo la data attuale con numero e giorno in tutte le viste */}
-            {view === "day" ? (
-              <div className="text-green-600 font-semibold">
-                {selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), { 
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric' 
-                })}
-              </div>
-            ) : (
-              <>
-                {view === "week" && t('calendar.weekView')}
-                {view === "month" && t('calendar.monthView')}
-              </>
-            )}
+
+          {/* Google sync + data */}
+          <div className="w-full sm:w-auto flex gap-2 items-center">
+            <SyncGoogleButton size="sm" variant="outline" showLabel={true} />
+            <div className="text-sm text-gray-500 hidden sm:block text-right">
+              {view==="day" ? (
+                <div className="text-green-600 font-semibold">
+                  {selectedDate.toLocaleDateString(getBrowserLocale(i18n.language), {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                  })}
+                </div>
+              ) : (
+                <>
+                  {view==="week" && t('calendar.weekView')}
+                  {view==="month" && t('calendar.monthView')}
+                </>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Riga 4: chip filtro (solo se modalità = filter) */}
+        {calendarMode === 'filter' && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            {!hasCollaboratorsOrRooms ? (
+              <p className="text-sm text-muted-foreground text-center py-1">
+                {t('calendar.noCollaboratorsForFilter', 'Aggiungi collaboratori o stanze nelle impostazioni per usare il filtro.')}
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-2 items-center">
+                {/* Chip "Tutti" */}
+                <button
+                  onClick={() => setActiveFilter(null)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
+                    !activeFilter
+                      ? 'bg-primary text-white border-primary'
+                      : 'bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary'
+                  }`}
+                >
+                  {t('calendar.filterAll', 'Tutti')}
+                </button>
+
+                {/* Collaboratori */}
+                {activeCollaborators.map((c: any) => {
+                  const isActive = activeFilter?.type === 'staff' && activeFilter?.id === c.id;
+                  const color = getStaffColor(c.id);
+                  return (
+                    <button
+                      key={`staff-${c.id}`}
+                      onClick={() => handleFilterChip('staff', c.id)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
+                        isActive
+                          ? 'text-white border-transparent'
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary'
+                      }`}
+                      style={isActive ? { backgroundColor: color, borderColor: color } : {}}
+                    >
+                      <span
+                        className="h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                        style={{ backgroundColor: isActive ? 'rgba(255,255,255,0.3)' : color }}
+                      >
+                        {`${c.firstName?.[0]??''}${c.lastName?.[0]??''}`.toUpperCase()}
+                      </span>
+                      {c.firstName} {c.lastName}
+                    </button>
+                  );
+                })}
+
+                {/* Stanze */}
+                {(treatmentRooms as any[]).map((r: any) => {
+                  const isActive = activeFilter?.type === 'room' && activeFilter?.id === r.id;
+                  return (
+                    <button
+                      key={`room-${r.id}`}
+                      onClick={() => handleFilterChip('room', r.id)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
+                        isActive
+                          ? 'text-white border-transparent'
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary'
+                      }`}
+                      style={isActive ? { backgroundColor: r.color||'#3f51b5', borderColor: r.color||'#3f51b5' } : {}}
+                    >
+                      <span
+                        className="h-3 w-3 rounded-full shrink-0"
+                        style={{ backgroundColor: r.color || '#3f51b5' }}
+                      />
+                      {r.name}
+                    </button>
+                  );
+                })}
+
+                {/* Mostra il filtro attivo */}
+                {activeFilter && (
+                  <button
+                    onClick={() => setActiveFilter(null)}
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 ml-1"
+                  >
+                    <X className="h-3 w-3" />
+                    {t('common.reset', 'Reset')}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Avviso vista colonne in week/month */}
+        {calendarMode === 'columns' && view !== 'day' && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <p className="text-sm text-amber-600 text-center py-1 bg-amber-50 rounded-md px-3">
+              {t('calendar.columnsOnlyInDayView', 'La vista colonne è disponibile solo nella visualizzazione Giorno.')}
+            </p>
+          </div>
+        )}
+
+        {/* Avviso colonne senza collaboratori */}
+        {calendarMode === 'columns' && view === 'day' && activeCollaborators.length === 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <p className="text-sm text-muted-foreground text-center py-1">
+              {t('calendar.noCollaboratorsForColumns', 'Aggiungi collaboratori nelle impostazioni per usare la vista colonne.')}
+            </p>
+          </div>
+        )}
       </div>
-      
-      {/* Search results */}
+
+      {/* ── Risultati ricerca ──────────────────────────────────────────────── */}
       {searchQuery && (
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
           <h3 className="text-lg font-medium mb-4">{t('calendar.searchResults')}: {filteredAppointments.length}</h3>
-          
           {filteredAppointments.length === 0 ? (
             <p className="text-gray-500">{t('calendar.noAppointmentsFound')} "{searchQuery}"</p>
           ) : (
             <div className="space-y-3 max-h-[300px] overflow-y-auto">
-              {filteredAppointments.map((appointment: any) => (
-                <div 
-                  key={appointment.id} 
-                  className="p-3 border rounded-md flex justify-between hover:bg-gray-50"
+              {filteredAppointments.map((a: any) => (
+                <div
+                  key={a.id}
+                  className="p-3 border rounded-md flex justify-between hover:bg-gray-50 cursor-pointer"
                   onClick={() => {
-                    // Convert to Date object and navigate to that day
-                    const appointmentDate = new Date(appointment.date);
-                    setSelectedDate(appointmentDate);
-                    setView("day");
-                    setSearchQuery("");
+                    setSelectedDate(new Date(a.date));
+                    setView("day"); setSearchQuery("");
                   }}
                 >
                   <div>
-                    <div className="font-medium">
-                      {appointment.client?.firstName || ''} {appointment.client?.lastName || ''}
-                    </div>
+                    <div className="font-medium">{a.client?.firstName||''} {a.client?.lastName||''}</div>
                     <div className="text-sm text-gray-600">
-                      {appointment.service?.name || ''} - {new Date(appointment.date).toLocaleDateString(i18n.language)} {appointment.startTime?.substring(0, 5) || ''}
+                      {a.service?.name||''} — {new Date(a.date).toLocaleDateString(i18n.language)} {a.startTime?.substring(0,5)||''}
                     </div>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const appointmentDate = new Date(appointment.date);
-                      setSelectedDate(appointmentDate);
-                      setView("day");
-                      setSearchQuery("");
-                    }}
-                  >
+                  <Button variant="ghost" size="sm" onClick={e => {
+                    e.stopPropagation();
+                    setSelectedDate(new Date(a.date)); setView("day"); setSearchQuery("");
+                  }}>
                     {t('calendar.goToDay')}
                   </Button>
                 </div>
@@ -454,51 +437,49 @@ export default function Calendar() {
           )}
         </div>
       )}
-      
-      {/* Calendar views */}
+
+      {/* ── Viste calendario ───────────────────────────────────────────────── */}
       {!searchQuery && (
         <>
           {view === "day" && (
-            <DayViewWithTimeSlots 
+            <DayViewWithTimeSlots
               selectedDate={selectedDate}
               isLoading={isLoadingAppointments || isLoadingServices}
               appointments={dayAppointments as any[]}
               services={services as any[]}
               collaborators={collaborators as any[]}
               treatmentRooms={treatmentRooms as any[]}
+              calendarMode={calendarMode}
+              activeFilter={activeFilter}
               onAppointmentUpdated={handleAppointmentSaved}
-              onAppointmentDeleted={(id) => {
-                // Invalidate queries after deletion
+              onAppointmentDeleted={() => {
                 queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-                queryClient.invalidateQueries({ 
-                  queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] 
-                });
+                queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] });
                 handleAppointmentSaved();
               }}
             />
           )}
-          
+
           {view === "week" && (
             <WeekView
               selectedDate={selectedDate}
               services={services as any[]}
               collaborators={collaborators as any[]}
               treatmentRooms={treatmentRooms as any[]}
+              activeFilter={calendarMode === 'filter' ? activeFilter : null}
               onRefresh={handleRefresh}
             />
           )}
-          
+
           {view === "month" && (
             <MonthView
               selectedDate={selectedDate}
               services={services as any[]}
               collaborators={collaborators as any[]}
               treatmentRooms={treatmentRooms as any[]}
+              activeFilter={calendarMode === 'filter' ? activeFilter : null}
               onRefresh={handleRefresh}
-              onDateSelect={(date) => {
-                setSelectedDate(date);
-                setView("day");
-              }}
+              onDateSelect={date => { setSelectedDate(date); setView("day"); }}
             />
           )}
         </>

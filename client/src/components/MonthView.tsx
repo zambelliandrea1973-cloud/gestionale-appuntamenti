@@ -15,11 +15,15 @@ import { FloatingActionButton } from "./FloatingActionButton";
 
 interface MonthViewProps {
   selectedDate: Date;
+  services?: any[];
+  collaborators?: any[];
+  treatmentRooms?: any[];
+  activeFilter?: { type: 'staff' | 'room'; id: number } | null;
   onRefresh?: () => void;
   onDateSelect: (date: Date) => void;
 }
 
-export default function MonthView({ selectedDate, onRefresh, onDateSelect }: MonthViewProps) {
+export default function MonthView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], activeFilter = null, onRefresh, onDateSelect }: MonthViewProps) {
   const { t } = useTranslation();
   const [calendar, setCalendar] = useState<Date[][]>([]);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
@@ -102,9 +106,15 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
-    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
     const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-    return appointments.filter((appointment: any) => appointment.date === dateStr);
+    return appointments.filter((appointment: any) => {
+      if (appointment.date !== dateStr) return false;
+      if (activeFilter) {
+        if (activeFilter.type === 'staff') return appointment.staffId === activeFilter.id;
+        if (activeFilter.type === 'room') return appointment.roomId === activeFilter.id;
+      }
+      return true;
+    });
   };
   
   // Weekday headers

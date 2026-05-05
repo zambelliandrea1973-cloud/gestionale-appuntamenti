@@ -353,7 +353,15 @@
     "noServicesAvailable": "Ningún servicio disponible",
     "goToSettingsToCreateService": "Ve a Configuración para crear un servicio",
     "noServicesFound": "Ningún servicio encontrado",
-    "selectNewAppointment": "Nueva cita"
+    "selectNewAppointment": "Nueva cita",
+    "modeGlobal": "Global",
+    "modeFilter": "Filtro",
+    "modeColumns": "Columnas",
+    "filterAll": "Todos",
+    "noAssigned": "Sin asignar",
+    "noCollaboratorsForColumns": "Añade colaboradores en ajustes para usar la vista de columnas.",
+    "noCollaboratorsForFilter": "Añade colaboradores o salas en ajustes para usar el filtro.",
+    "columnsOnlyInDayView": "La vista de columnas solo está disponible en la vista Día."
   },
   "clients": {
     "title": "Clientes",

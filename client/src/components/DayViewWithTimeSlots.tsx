@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -20,9 +20,14 @@ interface DayViewWithTimeSlotsProps {
   services: Service[];
   collaborators?: any[];
   treatmentRooms?: any[];
+  calendarMode?: 'global' | 'filter' | 'columns';
+  activeFilter?: { type: 'staff' | 'room'; id: number } | null;
   onAppointmentUpdated: () => void;
   onAppointmentDeleted: (id: number) => void;
 }
+
+const STAFF_PALETTE = ['#4a7c59','#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf6','#f97316','#ec4899'];
+const getStaffColor = (id: number) => STAFF_PALETTE[Math.abs(id) % STAFF_PALETTE.length];
 
 export default function DayViewWithTimeSlots({
   selectedDate,
@@ -31,6 +36,8 @@ export default function DayViewWithTimeSlots({
   services,
   collaborators = [],
   treatmentRooms = [],
+  calendarMode = 'global',
+  activeFilter = null,
   onAppointmentUpdated,
   onAppointmentDeleted
 }: DayViewWithTimeSlotsProps) {
@@ -51,7 +58,67 @@ export default function DayViewWithTimeSlots({
   const [appointmentToDelete, setAppointmentToDelete] = useState<number | null>(null);
   const calendarBodyRef = useRef<HTMLDivElement>(null); // Ref per misurare il container
   const [containerWidth, setContainerWidth] = useState(350); // Larghezza del container del calendario
-  
+
+  // ── Appuntamenti filtrati (modalità filtro) ────────────────────────────────
+  const displayAppointments = useMemo(() => {
+    if (calendarMode === 'filter' && activeFilter) {
+      if (activeFilter.type === 'staff') {
+        return appointments.filter((a: any) => a.staffId === activeFilter.id);
+      }
+      return appointments.filter((a: any) => a.roomId === activeFilter.id);
+    }
+    return appointments;
+  }, [appointments, calendarMode, activeFilter]);
+
+  // ── Helpers per la vista colonne ───────────────────────────────────────────
+  const columnDefs = useMemo(() => {
+    if (calendarMode !== 'columns') return [];
+    const hasUnassigned = appointments.some((a: any) => !a.staffId);
+    const cols: { id: number; label: string; color: string; initials: string }[] = [];
+    if (hasUnassigned) {
+      cols.push({ id: 0, label: t('calendar.noAssigned', 'Non assegnato'), color: '#9ca3af', initials: '?' });
+    }
+    collaborators
+      .filter((c: any) => c.isActive !== false)
+      .forEach((c: any) => {
+        cols.push({
+          id: c.id,
+          label: `${c.firstName} ${c.lastName}`,
+          color: getStaffColor(c.id),
+          initials: `${c.firstName?.[0] ?? ''}${c.lastName?.[0] ?? ''}`.toUpperCase(),
+        });
+      });
+    return cols;
+  }, [calendarMode, collaborators, appointments, t]);
+
+  const getColumnAppointments = useCallback((colId: number) => {
+    if (colId === 0) return appointments.filter((a: any) => !a.staffId);
+    return appointments.filter((a: any) => a.staffId === colId);
+  }, [appointments]);
+
+  const calcColTop = (appt: any) => {
+    const [h, m] = (appt.startTime ?? '08:00').substring(0, 5).split(':').map(Number);
+    return Math.max(0, ((h - 8) * 60 + m) / 15 * 40);
+  };
+  const calcColHeight = (appt: any) => {
+    const [sh, sm] = (appt.startTime ?? '08:00').substring(0, 5).split(':').map(Number);
+    const [eh, em] = (appt.endTime ?? '08:30').substring(0, 5).split(':').map(Number);
+    return Math.max(40, ((eh * 60 + em) - (sh * 60 + sm)) / 15 * 40);
+  };
+  const getColOverlap = useCallback((appt: any, colAppts: any[]) => {
+    const as = (appt.startTime ?? '').substring(0, 5);
+    const ae = (appt.endTime ?? '').substring(0, 5);
+    const overlapping = [appt, ...colAppts.filter(a => {
+      if (a.id === appt.id) return false;
+      const bs = (a.startTime ?? '').substring(0, 5);
+      const be = (a.endTime ?? '').substring(0, 5);
+      return bs < ae && be > as;
+    })].sort((a, b) => a.id - b.id);
+    const idx = overlapping.findIndex(a => a.id === appt.id);
+    const pct = 100 / overlapping.length;
+    return { widthPct: pct, leftPct: idx * pct };
+  }, []);
+
   // Query per ottenere clienti e servizi
   const { data: clients = [] } = useQuery<Client[]>({
     queryKey: ["/api/clients"],
@@ -152,7 +219,7 @@ export default function DayViewWithTimeSlots({
 
   // Controlla se uno slot è occupato da un appuntamento
   const isSlotOccupied = (slotTime: string): AppointmentWithDetails | undefined => {
-    return appointments.find(appointment => {
+    return displayAppointments.find(appointment => {
       // Protezione per dati incompleti
       if (!appointment.startTime || !appointment.endTime) {
         console.warn('Appointment without startTime/endTime:', appointment);
@@ -171,14 +238,14 @@ export default function DayViewWithTimeSlots({
 
   // Controlla se uno slot è l'inizio di un appuntamento
   const isAppointmentStart = (slotTime: string): boolean => {
-    return appointments.some(appointment => {
+    return displayAppointments.some(appointment => {
       return appointment.startTime.substring(0, 5) === slotTime;
     });
   };
 
   // Ottiene l'appuntamento che inizia a un orario specifico
   const getAppointmentAtTime = (slotTime: string): AppointmentWithDetails | undefined => {
-    return appointments.find(appointment => {
+    return displayAppointments.find(appointment => {
       return appointment.startTime.substring(0, 5) === slotTime;
     });
   };
@@ -248,7 +315,7 @@ export default function DayViewWithTimeSlots({
     }
     
     // Raggruppa appuntamenti che si sovrappongono nello stesso orario
-    const sameTimeAppointments = appointments.filter(app => 
+    const sameTimeAppointments = displayAppointments.filter(app => 
       app.id !== appointment.id && 
       app.startTime.substring(0, 5) === startTime
     );
@@ -441,6 +508,200 @@ export default function DayViewWithTimeSlots({
     );
   }
 
+  // ── Vista Colonne ──────────────────────────────────────────────────────────
+  if (calendarMode === 'columns' && columnDefs.length > 0) {
+    const SLOT_H = 40;
+    const GRID_H = timeSlots.length * SLOT_H; // 60 × 40 = 2400px
+    const COL_MIN_W = 160;
+
+    return (
+      <Card className="p-2 sm:p-4">
+        <div className="overflow-x-auto">
+          <div style={{ minWidth: 70 + columnDefs.length * COL_MIN_W }}>
+            {/* Intestazioni colonne */}
+            <div className="flex sticky top-0 bg-white z-20 border-b shadow-sm">
+              <div className="w-[70px] shrink-0" />
+              {columnDefs.map(col => (
+                <div
+                  key={col.id}
+                  className="flex-1 min-w-[160px] flex items-center gap-2 px-3 py-2 border-l"
+                >
+                  <div
+                    className="h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
+                    style={{ backgroundColor: col.color }}
+                  >
+                    {col.initials}
+                  </div>
+                  <span className="text-sm font-medium truncate">{col.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Corpo: time column + colonne staff */}
+            <div className="flex" style={{ height: GRID_H }}>
+              {/* Colonna orari */}
+              <div className="w-[70px] shrink-0 relative">
+                {timeSlots.map((slotTime, i) => {
+                  const showFull = slotTime.endsWith('00');
+                  return (
+                    <div
+                      key={slotTime}
+                      className={`absolute left-0 right-0 flex items-center px-2 border-t ${
+                        showFull ? 'border-gray-300' : 'border-gray-100'
+                      }`}
+                      style={{ top: i * SLOT_H, height: SLOT_H }}
+                    >
+                      {showFull ? (
+                        <span className="text-xs font-medium text-gray-600">{slotTime}</span>
+                      ) : (
+                        <span className="text-[10px] text-gray-400">{slotTime.substring(3)}</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Colonne per staff */}
+              {columnDefs.map(col => {
+                const colAppts = getColumnAppointments(col.id);
+                return (
+                  <div
+                    key={col.id}
+                    className="flex-1 min-w-[160px] relative border-l"
+                    style={{ height: GRID_H }}
+                  >
+                    {/* Sfondo righe */}
+                    {timeSlots.map((slotTime, i) => (
+                      <div
+                        key={slotTime}
+                        className={`absolute left-0 right-0 border-t hover:bg-blue-50/30 transition-colors ${
+                          slotTime.endsWith('00') ? 'border-gray-300' : 'border-gray-100'
+                        }`}
+                        style={{ top: i * SLOT_H, height: SLOT_H }}
+                        onClick={() => {
+                          setIsAppointmentModalOpen(true);
+                          setSelectedAppointmentId(null);
+                        }}
+                      />
+                    ))}
+
+                    {/* Appuntamenti posizionati assolutamente */}
+                    {colAppts.map((appt: any) => {
+                      const top = calcColTop(appt);
+                      const height = calcColHeight(appt);
+                      const { widthPct, leftPct } = getColOverlap(appt, colAppts);
+                      const svcColor = appt.service?.color || '#4299e1';
+                      return (
+                        <div
+                          key={appt.id}
+                          className="absolute rounded shadow-sm overflow-hidden cursor-pointer group z-10"
+                          style={{
+                            top,
+                            height,
+                            left: `${leftPct}%`,
+                            width: `${widthPct}%`,
+                            borderLeft: `5px solid ${svcColor}`,
+                            backgroundColor: `${svcColor}18`,
+                            border: `1px solid ${svcColor}40`,
+                            borderLeftWidth: 5,
+                            borderLeftColor: svcColor,
+                          }}
+                          onClick={e => { e.stopPropagation(); editAppointment(appt); }}
+                        >
+                          <div className="p-1 h-full flex flex-col overflow-hidden">
+                            <div className="font-semibold text-[11px] truncate text-gray-800 leading-tight">
+                              {appt.client?.firstName} {appt.client?.lastName}
+                            </div>
+                            {height >= 56 && (
+                              <div className="text-[10px] text-gray-600 truncate leading-tight">
+                                {appt.startTime?.substring(0, 5)} · {appt.service?.name}
+                              </div>
+                            )}
+                            {height >= 80 && appt.room && (
+                              <div className="text-[10px] text-purple-500 truncate">
+                                🏠 {appt.room.name}
+                              </div>
+                            )}
+                            {/* Azioni al hover */}
+                            <div className="absolute top-0.5 right-0.5 hidden group-hover:flex gap-0.5">
+                              <button
+                                className="h-5 w-5 bg-white/90 rounded flex items-center justify-center shadow-sm hover:bg-blue-50"
+                                onClick={e => { e.stopPropagation(); editAppointment(appt); }}
+                              >
+                                <Edit className="h-3 w-3 text-blue-600" />
+                              </button>
+                              <button
+                                className="h-5 w-5 bg-white/90 rounded flex items-center justify-center shadow-sm hover:bg-red-50"
+                                onClick={e => { e.stopPropagation(); confirmDeleteAppointment(appt.id); }}
+                              >
+                                <Trash2 className="h-3 w-3 text-red-500" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Modali condivisi */}
+        <AppointmentModal
+          isOpen={isAppointmentModalOpen}
+          onClose={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); }}
+          onSave={() => { setIsAppointmentModalOpen(false); setSelectedAppointmentId(null); onAppointmentUpdated(); }}
+          defaultDate={selectedDate}
+          defaultTime="08:00"
+          appointmentId={selectedAppointmentId}
+          selectedSlots={[]}
+        />
+
+        {showDeleteConfirm && (() => {
+          const apptData = appointments.find(a => a.id === appointmentToDelete);
+          const isGoogleImported = (apptData as any)?.importedFromGoogle === true;
+          return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+                {isGoogleImported ? (
+                  <>
+                    <h3 className="text-lg font-bold mb-2">{t('google.calendarEvent', 'Google Calendar Event')}</h3>
+                    <p className="mb-4 text-gray-600">{t('google.cannotDeleteImported', 'Evento importato da Google, eliminalo direttamente da Google Calendar.')}</p>
+                    <div className="flex justify-end">
+                      <Button variant="outline" onClick={() => { setShowDeleteConfirm(false); setAppointmentToDelete(null); }}>{t('i18nFinale.dayViewWithTimeSlots.closeTitle')}</Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-lg font-bold mb-2">{t("appointment.confirmDeleteTitle")}</h3>
+                    <p className="mb-4">{t("appointment.confirmDelete")}</p>
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" onClick={() => { setShowDeleteConfirm(false); setAppointmentToDelete(null); }}>{t("common.cancel")}</Button>
+                      <Button variant="destructive" onClick={() => {
+                        if (appointmentToDelete !== null) {
+                          deleteMutation.mutate(appointmentToDelete);
+                          setShowDeleteConfirm(false); setAppointmentToDelete(null);
+                        }
+                      }}>{t("common.delete")}</Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
+        <FloatingActionButton
+          onClick={() => { setIsAppointmentModalOpen(true); setSelectedAppointmentId(null); }}
+          text={t('calendar.selectTimeNewAppointment')}
+          storageKey="fab-col-position"
+        />
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-4">
       {/* Sezione rimossa - interfaccia slot selezione eliminata come richiesto */}
@@ -496,7 +757,7 @@ export default function DayViewWithTimeSlots({
         })}
         
         {/* Appuntamenti visualizzati sovrapposti agli slot */}
-        {appointments.map(appointment => {
+        {displayAppointments.map(appointment => {
           const styles = calculateAppointmentPosition(appointment);
           const isExpanded = expandedAppointment === appointment.id;
           

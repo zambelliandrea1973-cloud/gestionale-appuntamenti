@@ -25,6 +25,7 @@ interface WeekViewProps {
   services?: any[];
   collaborators?: any[];
   treatmentRooms?: any[];
+  activeFilter?: { type: 'staff' | 'room'; id: number } | null;
   onRefresh?: () => void;
   onDateSelect?: (date: Date) => void;
 }
@@ -38,7 +39,7 @@ const generateTimeSlots = () => {
   return slots;
 };
 
-export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], onRefresh, onDateSelect }: WeekViewProps) {
+export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], activeFilter = null, onRefresh, onDateSelect }: WeekViewProps) {
   const { t } = useTranslation();
   const [viewDate, setViewDate] = useState(selectedDate);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
@@ -111,7 +112,12 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
     return appointments.filter((appointment: any) => {
       if (appointment.date !== dateStr) return false;
       const appointmentHour = parseInt(appointment.startTime.split(':')[0]);
-      return appointmentHour === slotHour;
+      if (appointmentHour !== slotHour) return false;
+      if (activeFilter) {
+        if (activeFilter.type === 'staff') return appointment.staffId === activeFilter.id;
+        if (activeFilter.type === 'room') return appointment.roomId === activeFilter.id;
+      }
+      return true;
     });
   };
   

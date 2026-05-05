@@ -353,7 +353,15 @@
     "noServicesAvailable": "Aucun service disponible",
     "goToSettingsToCreateService": "Allez dans Paramètres pour créer un service",
     "noServicesFound": "Aucun service trouvé",
-    "selectNewAppointment": "Nouveau rendez-vous"
+    "selectNewAppointment": "Nouveau rendez-vous",
+    "modeGlobal": "Global",
+    "modeFilter": "Filtre",
+    "modeColumns": "Colonnes",
+    "filterAll": "Tous",
+    "noAssigned": "Non assigné",
+    "noCollaboratorsForColumns": "Ajoutez des collaborateurs dans les paramètres pour utiliser la vue colonnes.",
+    "noCollaboratorsForFilter": "Ajoutez des collaborateurs ou des salles dans les paramètres pour utiliser le filtre.",
+    "columnsOnlyInDayView": "La vue colonnes est disponible uniquement en vue Jour."
   },
   "clients": {
     "title": "Clients",
