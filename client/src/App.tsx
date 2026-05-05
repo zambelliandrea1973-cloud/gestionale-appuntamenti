@@ -42,6 +42,7 @@ import CustomerLogin from "./pages/CustomerLogin";
 import UnifiedLogin from "./pages/UnifiedLogin";
 import NotificationsPage from "./pages/NotificationsPage";
 import LandingBicom from "./pages/LandingBicom";
+import ProfessionistiLandingPage from "./pages/ProfessionistiLandingPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
@@ -124,7 +125,8 @@ function AppRoutes() {
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
       '/login', '/staff-login', '/customer-login', '/register', '/client-area', 
-      '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/'
+      '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/',
+      '/professionisti'
     ];
     
     // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
@@ -278,6 +280,11 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
+      {/* Landing page per professionisti con P.IVA (target Google Ads) */}
+      <Route path="/professionisti">
+        <ProfessionistiLandingPage />
+      </Route>
+
       {/* Pagina iniziale (Welcome) con layout specifico della pagina */}
       <Route path="/">
         <WelcomePage />
