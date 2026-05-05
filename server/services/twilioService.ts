@@ -1,10 +1,10 @@
 /**
- * Servizio per l'invio di SMS tramite Twilio
+ * Service for sending SMS via Twilio
  */
 
 import twilio from 'twilio';
 
-// Inizializza il client Twilio se sono presenti le credenziali
+// Initialize the Twilio client if credentials are present
 let twilioClient: twilio.Twilio | null = null;
 
 if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
@@ -13,12 +13,12 @@ if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
     );
-    console.log('Client Twilio inizializzato con successo');
+    console.log('Twilio client initialized successfully');
   } catch (error) {
-    console.error('Errore nell\'inizializzazione del client Twilio:', error);
+    console.error('Error initializing Twilio client:', error);
   }
 } else {
-  console.log('Credenziali Twilio non configurate, invio SMS disabilitato');
+  console.log('Twilio credentials not configured, SMS sending disabled');
 }
 
 export { twilioClient };

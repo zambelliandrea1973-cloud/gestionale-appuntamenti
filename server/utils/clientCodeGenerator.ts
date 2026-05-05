@@ -3,14 +3,14 @@ import { clients, users } from '../../shared/schema';
 import { eq, and } from 'drizzle-orm';
 
 /**
- * Genera il prossimo codice cliente univoco nel formato CODICE-XXX
+ * Generate the next unique client code in format CODICE-XXX
  * Es: BUS1422-001, BUS1422-002, etc.
  * 
- * Gestisce race conditions con locking transazionale
+ * Handle race conditions with transactional locking
  * 
- * @param ownerId - ID del professionista proprietario
- * @param maxRetries - Numero massimo di tentativi (default: 5)
- * @returns Codice cliente formattato (es: "BUS1422-001")
+ * @param ownerId - ID of the professional owner
+ * @param maxRetries - Number massimo dthe attempts (default: 5)
+ * @returns Code client formattato (es: "BUS1422-001")
  */
 export async function generateClientCode(ownerId: number, maxRetries: number = 5): Promise<string> {
   const user = await db.select({ assignmentCode: users.assignmentCode })
@@ -19,7 +19,7 @@ export async function generateClientCode(ownerId: number, maxRetries: number = 5
     .limit(1);
   
   if (!user || user.length === 0 || !user[0].assignmentCode) {
-    throw new Error(`Codice professionista non trovato per ownerId ${ownerId}`);
+    throw new Error(`Professional code not found for ownerId ${ownerId}`);
   }
   
   const professionalCode = user[0].assignmentCode;
@@ -52,13 +52,13 @@ export async function generateClientCode(ownerId: number, maxRetries: number = 5
       const paddedSequence = nextSequence.toString().padStart(3, '0');
       const clientCode = `${professionalCode}-${paddedSequence}`;
       
-      console.log(`👤 [CLIENT-CODE] Generato: ${clientCode} (ownerId: ${ownerId}, max: ${maxSequence}, attempt: ${attempt})`);
+      console.log(`👤 [CLIENT-CODE] Generated: ${clientCode} (ownerId: ${ownerId}, max: ${maxSequence}, attempt: ${attempt})`);
       
       return clientCode;
       
     } catch (error: any) {
       if (error.code === '23505' && attempt < maxRetries) {
-        console.log(`⚠️  [CLIENT-CODE] Duplicato rilevato, retry ${attempt}/${maxRetries}...`);
+        console.log(`⚠️  [CLIENT-CODE] Duplicate detected, retry ${attempt}/${maxRetries}...`);
         await new Promise(resolve => setTimeout(resolve, 50 * attempt));
         continue;
       }
@@ -66,14 +66,14 @@ export async function generateClientCode(ownerId: number, maxRetries: number = 5
     }
   }
   
-  throw new Error(`Impossibile generare codice cliente dopo ${maxRetries} tentativi`);
+  throw new Error(`Unable to generate client code dopo ${maxRetries} tentativi`);
 }
 
 /**
- * Parsifica un codice cliente nel formato CODICE-XXX
+ * Parse a client code in the format CODICE-XXX
  * 
- * @param clientCode - Codice cliente (es: "BUS1422-001")
- * @returns Oggetto con codice e sequenza
+ * @param clientCode - Code client (es: "BUS1422-001")
+ * @returns Object con code e sequenza
  */
 export function parseClientCode(clientCode: string): { code: string; sequence: number } | null {
   const pattern = /^([A-Z0-9]+)-(\d+)$/;

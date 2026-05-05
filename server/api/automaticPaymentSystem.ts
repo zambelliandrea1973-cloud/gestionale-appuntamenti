@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 import { storage } from "../storage";
 
 /**
- * SISTEMA DI PAGAMENTO AUTOMATICO COMMISSIONI REFERRAL
- * Processa pagamenti automatici dopo 30 giorni dall'abbonamento sponsorizzato
+ * AUTOMATIC REFERRAL COMMISSION PAYMENT SYSTEM
+ * Processes automatic payments 30 days after sponsored subscription
  */
 
 interface BankingInfo {
@@ -19,29 +19,29 @@ interface CommissionPayment {
   staffId: number;
   sponsoredUserId: number;
   subscriptionDate: Date;
-  commissionAmount: number; // in centesimi
+  commissionAmount: number; // in cents
   dueDate: Date;
   status: 'pending' | 'processing' | 'paid' | 'failed';
   bankingInfo: BankingInfo;
 }
 
 /**
- * Salva le informazioni bancarie per uno staff
+ * Save the bank details for a staff member
  */
 export async function saveBankingInfo(req: Request, res: Response) {
   try {
     const { staffId } = req.params;
     const bankingData = req.body;
     
-    console.log(`💳 SALVATAGGIO DATI BANCARI: Staff ID ${staffId}`);
+    console.log(`💳 Saving banking data: Staff ID ${staffId}`);
     
-    // Verifica che lo staff esista
+    // Verify that the staff member exists
     const staff = await storage.getUser(parseInt(staffId));
     if (!staff) {
-      return res.status(404).json({ error: 'Staff non trovato' });
+      return res.status(404).json({ error: 'Staff not found' });
     }
     
-    // Salva le informazioni bancarie nel database
+    // Save the bank details in the database
     await storage.saveBankingInfoForStaff(parseInt(staffId), {
       hasIban: true,
       iban: bankingData.iban,
@@ -50,25 +50,25 @@ export async function saveBankingInfo(req: Request, res: Response) {
       swift: bankingData.swift || null
     });
     
-    console.log(`✅ DATI BANCARI SALVATI per staff ${staff.username}`);
+    console.log(`✅ Banking data SAVED for staff ${staff.username}`);
     
     res.json({
       success: true,
-      message: 'Informazioni bancarie salvate con successo',
+      message: 'Banking information saved successfully',
       staffId: parseInt(staffId)
     });
     
   } catch (error: any) {
-    console.error('❌ ERRORE SALVATAGGIO DATI BANCARI:', error);
+    console.error('❌ ERROR SAVING BANKING DATA:', error);
     res.status(500).json({ 
-      error: 'Errore nel salvataggio delle informazioni bancarie',
-      details: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: 'Error saving banking information',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
 
 /**
- * Programma un pagamento automatico quando viene registrato un nuovo abbonamento sponsorizzato
+ * Schedule an automatic payment when a new sponsored subscription is registered
  */
 export async function scheduleCommissionPayment(
   sponsorStaffId: number, 
@@ -76,24 +76,24 @@ export async function scheduleCommissionPayment(
   subscriptionAmount: number
 ) {
   try {
-    console.log(`📅 PROGRAMMAZIONE PAGAMENTO: Staff ${sponsorStaffId} → Utente ${sponsoredUserId}`);
+    console.log(`📅 SCHEDULING payment: Staff ${sponsorStaffId} → user ${sponsoredUserId}`);
     
-    // Calcola la commissione (€1 = 100 centesimi)
-    const commissionAmount = 100; // €1 fisso per sponsorizzazione
+    // Calculate the commission (€1 = 100 cents)
+    const commissionAmount = 100; // Fixed €1 per sponsorship
     
-    // Calcola la data di scadenza (30 giorni da oggi)
+    // Calculate the expiry date (30 days from today)
     const subscriptionDate = new Date();
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 30);
     
-    // Recupera informazioni bancarie dello staff
+    // Retrieve staff banking information
     const bankingInfo = await storage.getBankingInfoForStaff(sponsorStaffId) || {
       hasIban: false,
       bankName: null,
       accountHolder: null
     };
     
-    // Crea record di pagamento programmato
+    // Create scheduled payment record
     const paymentRecord: CommissionPayment = {
       staffId: sponsorStaffId,
       sponsoredUserId: sponsoredUserId,
@@ -104,10 +104,10 @@ export async function scheduleCommissionPayment(
       bankingInfo: bankingInfo
     };
     
-    // Salva nel database (da implementare in storage)
+    // Save in database (to be implemented in storage)
     // await storage.saveCommissionPayment(paymentRecord);
     
-    console.log(`✅ PAGAMENTO PROGRAMMATO per ${dueDate.toLocaleDateString()}`);
+    console.log(`✅ PAYMENT SCHEDULED for ${dueDate.toLocaleDateString()}`);
     
     return {
       success: true,
@@ -117,22 +117,22 @@ export async function scheduleCommissionPayment(
     };
     
   } catch (error: any) {
-    console.error('❌ ERRORE PROGRAMMAZIONE PAGAMENTO:', error);
+    console.error('❌ PAYMENT SCHEDULING ERROR:', error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
 
 /**
- * Elabora i pagamenti in scadenza (da eseguire quotidianamente)
+ * Process expiring payments (to run daily)
  */
 export async function processScheduledPayments(req: Request, res: Response) {
   try {
-    console.log(`⚡ ELABORAZIONE PAGAMENTI PROGRAMMATI: ${new Date().toISOString()}`);
+    console.log(`⚡ PROCESSING SCHEDULED PAYMENTS: ${new Date().toISOString()}`);
     
-    // Recupera tutti i pagamenti in scadenza oggi
+    // Retrieve all payments expiring today
     const today = new Date();
     const pendingPayments = []; // await storage.getPendingCommissionPayments(today);
     
@@ -141,21 +141,21 @@ export async function processScheduledPayments(req: Request, res: Response) {
     
     for (const payment of pendingPayments) {
       try {
-        // Verifica che lo staff abbia ancora le informazioni bancarie valide
+        // Verify that the staff still has valid bank details
         if (!payment.bankingInfo.hasIban || !payment.bankingInfo.iban) {
-          console.log(`❌ PAGAMENTO FALLITO: Staff ${payment.staffId} senza IBAN valido`);
+          console.log(`❌ PAYMENT FAILED: Staff ${payment.staffId} without valid IBAN`);
           failedPayments.push({
             ...payment,
-            reason: 'IBAN mancante o non valido'
+            reason: 'IBAN missing or invalid'
           });
           continue;
         }
         
-        // Simula l'elaborazione del pagamento bancario
+        // Simulate the processing of the bank payment
         const paymentResult = await processPayment(payment);
         
         if (paymentResult.success) {
-          console.log(`✅ PAGAMENTO COMPLETATO: €${payment.commissionAmount/100} allo staff ${payment.staffId}`);
+          console.log(`✅ payment completed: €${payment.commissionAmount/100} for staff ${payment.staffId}`);
           processedPayments.push({
             ...payment,
             status: 'paid',
@@ -163,7 +163,7 @@ export async function processScheduledPayments(req: Request, res: Response) {
             transactionId: paymentResult.transactionId
           });
         } else {
-          console.log(`❌ PAGAMENTO FALLITO: Staff ${payment.staffId} - ${paymentResult.error}`);
+          console.log(`❌ PAYMENT FAILED: Staff ${payment.staffId} - ${paymentResult.error}`);
           failedPayments.push({
             ...payment,
             reason: paymentResult.error
@@ -171,10 +171,10 @@ export async function processScheduledPayments(req: Request, res: Response) {
         }
         
       } catch (error: any) {
-        console.error(`❌ ERRORE ELABORAZIONE PAGAMENTO Staff ${payment.staffId}:`, error);
+        console.error(`❌ ERROR PROCESSING PAYMENT for Staff ${payment.staffId}:`, error);
         failedPayments.push({
           ...payment,
-          reason: error instanceof Error ? error.message : 'Errore sconosciuto'
+          reason: error instanceof Error ? error.message : 'Unknown error'
         });
       }
     }
@@ -189,16 +189,16 @@ export async function processScheduledPayments(req: Request, res: Response) {
     });
     
   } catch (error: any) {
-    console.error('❌ ERRORE ELABORAZIONE PAGAMENTI:', error);
+    console.error('❌ PAYMENT PROCESSING ERROR:', error);
     res.status(500).json({ 
-      error: 'Errore nell\'elaborazione dei pagamenti programmati',
-      details: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: 'Error processing scheduled payments',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
 
 /**
- * Simula l'elaborazione di un pagamento bancario
+ * Simulate the processing of a bank payment
  */
 async function processPayment(payment: CommissionPayment): Promise<{
   success: boolean;
@@ -206,15 +206,15 @@ async function processPayment(payment: CommissionPayment): Promise<{
   error?: string;
 }> {
   try {
-    // Qui si integrerebbe con il sistema bancario reale
-    // Per ora simula un pagamento di successo
+    // Here we would integrate with the real banking system
+    // For now simulate a successful payment
     
-    console.log(`💸 ELABORAZIONE PAGAMENTO: €${payment.commissionAmount/100} → ${payment.bankingInfo.iban}`);
+    console.log(`💸 PROCESSING PAYMENT: €${payment.commissionAmount/100} → ${payment.bankingInfo.iban}`);
     
-    // Simula delay del sistema bancario
+    // Simulate bank system delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Simula successo (95% di successo)
+    // Simulate successo (95% di successo)
     const isSuccess = Math.random() > 0.05;
     
     if (isSuccess) {
@@ -225,30 +225,30 @@ async function processPayment(payment: CommissionPayment): Promise<{
     } else {
       return {
         success: false,
-        error: 'Rifiuto da parte della banca'
+        error: 'Bank rejection'
       };
     }
     
   } catch (error: any) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Errore durante l\'elaborazione'
+      error: error instanceof Error ? error.message : 'Error during processing'
     };
   }
 }
 
 /**
- * Ottieni lo stato dei pagamenti per uno staff
+ * Get the status of the payments for a staff member
  */
 export async function getStaffPaymentStatus(req: Request, res: Response) {
   try {
     const { staffId } = req.params;
     
-    // Recupera tutti i pagamenti per questo staff
+    // Retrieve all payments for this staff
     // const payments = await storage.getCommissionPaymentsByStaff(parseInt(staffId));
     const payments = []; // Placeholder per ora
     
-    // Calcola statistiche
+    // Calculate statistics
     const totalPending = payments.filter((p: any) => p.status === 'pending').length;
     const totalPaid = payments.filter((p: any) => p.status === 'paid').length;
     const totalAmount = payments.reduce((sum: number, p: any) => sum + (p.status === 'paid' ? p.commissionAmount : 0), 0);
@@ -265,10 +265,10 @@ export async function getStaffPaymentStatus(req: Request, res: Response) {
     });
     
   } catch (error: any) {
-    console.error('❌ ERRORE RECUPERO STATO PAGAMENTI:', error);
+    console.error('❌ ERROR RETRIEVING PAYMENT STATUS:', error);
     res.status(500).json({ 
-      error: 'Errore nel recupero dello stato dei pagamenti',
-      details: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: 'Error retrieving payment status',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }

@@ -4,7 +4,7 @@ import { db } from '../db';
 import { pushSubscriptions, clients } from '../../shared/schema';
 import { eq, and } from 'drizzle-orm';
 
-// Configura VAPID keys
+// Configure VAPID keys
 const VAPID_PUBLIC_KEY = (process.env.VITE_VAPID_PUBLIC_KEY || '').trim();
 const VAPID_PRIVATE_KEY = (process.env.VAPID_PRIVATE_KEY || '').trim();
 let vapidConfigured = false;
@@ -17,12 +17,12 @@ if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
       VAPID_PRIVATE_KEY
     );
     vapidConfigured = true;
-    console.log('🔔 [PUSH] VAPID keys configurate correttamente');
+    console.log('🔔 [PUSH] VAPID keys configured correctly');
   } catch (error: any) {
-    console.warn('⚠️ [PUSH] Errore configurazione VAPID keys - push notifications disabilitate:', error);
+    console.warn('⚠️ [PUSH] Error configuring VAPID keys - push notifications disabled:', error);
   }
 } else {
-  console.warn('⚠️ [PUSH] VAPID keys non configurate - push notifications disabilitate');
+  console.warn('⚠️ [PUSH] VAPID keys not configured - push notifications disabled');
 }
 
 interface PushPayload {
@@ -35,13 +35,13 @@ interface PushPayload {
 }
 
 export const pushNotificationService = {
-  // Salva una nuova subscription
+  // Save a new subscription
   async saveSubscription(clientId: number, ownerId: number, subscription: {
     endpoint: string;
     keys: { p256dh: string; auth: string };
   }): Promise<boolean> {
     try {
-      // Rimuovi subscription esistenti per questo client (evita duplicati)
+      // Remove existing subscriptions for this client (avoids duplicates)
       await db.delete(pushSubscriptions)
         .where(eq(pushSubscriptions.clientId, clientId));
       
@@ -54,10 +54,10 @@ export const pushNotificationService = {
         auth: subscription.keys.auth,
       });
       
-      console.log(`🔔 [PUSH] Subscription salvata per cliente ${clientId}`);
+      console.log(`🔔 [PUSH] Subscription saved for client ${clientId}`);
       return true;
     } catch (error: any) {
-      console.error('❌ [PUSH] Errore salvataggio subscription:', error);
+      console.error('❌ [PUSH] Error saving subscription:', error);
       return false;
     }
   },
@@ -68,15 +68,15 @@ export const pushNotificationService = {
       await db.delete(pushSubscriptions)
         .where(eq(pushSubscriptions.clientId, clientId));
       
-      console.log(`🔔 [PUSH] Subscription rimossa per cliente ${clientId}`);
+      console.log(`🔔 [PUSH] Subscription removed for client ${clientId}`);
       return true;
     } catch (error: any) {
-      console.error('❌ [PUSH] Errore rimozione subscription:', error);
+      console.error('❌ [PUSH] Error removing subscription:', error);
       return false;
     }
   },
 
-  // Invia notifica push a un cliente specifico
+  // Send push notification to a specific client
   async sendToClient(clientId: number, payload: PushPayload): Promise<boolean> {
     try {
       const subscriptions = await db.select()
@@ -84,7 +84,7 @@ export const pushNotificationService = {
         .where(eq(pushSubscriptions.clientId, clientId));
       
       if (subscriptions.length === 0) {
-        console.log(`🔔 [PUSH] Nessuna subscription trovata per cliente ${clientId}`);
+        console.log(`🔔 [PUSH] No subscription found for client ${clientId}`);
         return false;
       }
       
@@ -101,16 +101,16 @@ export const pushNotificationService = {
               },
               JSON.stringify(payload)
             );
-            console.log(`🔔 [PUSH] Notifica inviata a cliente ${clientId}`);
+            console.log(`🔔 [PUSH] Notification sent to client ${clientId}`);
             return true;
           } catch (error: any) {
-            // Se subscription scaduta o invalida, rimuovila
+            // If subscription expired or invalid, remove it
             if (error.statusCode === 410 || error.statusCode === 404) {
-              console.log(`🔔 [PUSH] Subscription scaduta, rimozione...`);
+              console.log(`🔔 [PUSH] Subscription expired, removing...`);
               await db.delete(pushSubscriptions)
                 .where(eq(pushSubscriptions.id, sub.id));
             } else {
-              console.error(`❌ [PUSH] Errore invio a ${sub.endpoint}:`, error.message);
+              console.error(`❌ [PUSH] Error sending to ${sub.endpoint}:`, error.message);
             }
             return false;
           }
@@ -119,20 +119,20 @@ export const pushNotificationService = {
       
       return results.some(r => r);
     } catch (error: any) {
-      console.error('❌ [PUSH] Errore invio notifica:', error);
+      console.error('❌ [PUSH] Error sending notification:', error);
       return false;
     }
   },
 
-  // Invia notifica di appuntamento confermato
+  // Send notifica di appointment confermato
   async sendAppointmentConfirmed(clientId: number, appointmentDetails: {
     serviceName: string;
     date: string;
     time: string;
   }): Promise<boolean> {
     const payload: PushPayload = {
-      title: '✅ Appuntamento Confermato!',
-      body: `Il tuo appuntamento per ${appointmentDetails.serviceName} il ${appointmentDetails.date} alle ${appointmentDetails.time} è stato confermato.`,
+      title: '✅ Appointment Confirmed!',
+      body: `Your appointment for ${appointmentDetails.serviceName} on ${appointmentDetails.date} at ${appointmentDetails.time} has been confirmed.`,
       icon: '/icons/icon-192.png',
       badge: '/icons/icon-72.png',
       url: '/client',
@@ -144,7 +144,7 @@ export const pushNotificationService = {
     return this.sendToClient(clientId, payload);
   },
 
-  // Verifica se un client ha una subscription attiva
+  // Check if a client has an active subscription
   async hasActiveSubscription(clientId: number): Promise<boolean> {
     try {
       const subscriptions = await db.select()
@@ -153,7 +153,7 @@ export const pushNotificationService = {
       
       return subscriptions.length > 0;
     } catch (error: any) {
-      console.error('❌ [PUSH] Errore verifica subscription:', error);
+      console.error('❌ [PUSH] Error verifying subscription:', error);
       return false;
     }
   },

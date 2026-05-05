@@ -9,29 +9,29 @@ import { licenses } from '../../shared/schema';
 import { eq, and } from 'drizzle-orm';
 import crypto from 'crypto';
 
-// Tipo per le licenze: 'base', 'pro', 'business', 'trial', 'passepartout'
+// Type for licenses: 'base', 'pro', 'business', 'trial', 'passepartout'
 type LicenseTypeValue = 'base' | 'pro' | 'business' | 'trial' | 'passepartout';
 
 /**
- * Determina il tipo di licenza in base al nome del piano
- * IMPORTANTE: L'ordine dei controlli è cruciale!
- * - "base" deve essere controllato PRIMA di "pro" perché "promo" contiene "pro"
- * - Usiamo word boundaries per evitare falsi positivi
+ * Determine the license type based on the plan name
+ * IMPORTANT: The order of checks is crucial!
+ * - "base" must be checked BEFORE "pro" because "promo" contains "pro"
+ * - We use word boundaries to avoid false positives
  */
 function getLicenseTypeFromPlanName(planName: string): LicenseTypeValue {
   const lowerName = planName.toLowerCase();
   
-  // Controlla prima "business" (il più specifico)
+  // Check "business" first (the most specific)
   if (lowerName.includes('business')) {
     return 'business';
   }
   
-  // Controlla "base" PRIMA di "pro" per evitare che "promo" sia interpretato come "pro"
+  // Check "base" PRIMA di "pro" per evitare che "promo" sia interpretato come "pro"
   if (lowerName.includes('base')) {
     return 'base';
   }
   
-  // Controlla "pro" solo come parola intera (non "promo", "professionale", etc.)
+  // Check "pro" only as a whole word (not "promo", "professionale", etc.)
   // Usa regex per word boundary
   const proRegex = /\bpro\b/i;
   if (proRegex.test(planName)) {
@@ -43,7 +43,7 @@ function getLicenseTypeFromPlanName(planName: string): LicenseTypeValue {
 }
 
 /**
- * Crea o aggiorna la licenza dell'utente in base alla subscription
+ * Create or update the user's license based on the subscription
  */
 async function createOrUpdateLicense(
   userId: number,
@@ -51,14 +51,14 @@ async function createOrUpdateLicense(
   expiresAt: Date
 ): Promise<void> {
   try {
-    // Cerca licenza esistente per l'utente
+    // Find existing license for user
     const [existingLicense] = await db.select()
       .from(licenses)
       .where(eq(licenses.userId, userId))
       .limit(1);
     
     if (existingLicense) {
-      // Aggiorna la licenza esistente
+      // Update the existing license
       await db.update(licenses)
         .set({
           type: licenseType,
@@ -67,9 +67,9 @@ async function createOrUpdateLicense(
         })
         .where(eq(licenses.id, existingLicense.id));
       
-      console.log(`📜 Licenza ${existingLicense.id} aggiornata a ${licenseType} per utente ${userId}`);
+      console.log(`📜 License ${existingLicense.id} updated to ${licenseType} for user ${userId}`);
     } else {
-      // Crea nuova licenza
+      // Create new license
       const licenseCode = `PAY-${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
       await db.insert(licenses).values({
         code: licenseCode,
@@ -81,30 +81,30 @@ async function createOrUpdateLicense(
         userId
       });
       
-      console.log(`📜 Nuova licenza ${licenseType} creata per utente ${userId}`);
+      console.log(`📜 new license ${licenseType} created for user ${userId}`);
     }
   } catch (error) {
-    console.error('📜 Errore nella creazione/aggiornamento licenza:', error);
+    console.error('📜 Error creating/updating license:', error);
   }
 }
 
-// Configurazione dell'ambiente Stripe
+// Stripe environment configuration
 const getStripeClient = async () => {
-  // Leggi credenziali dal database
+  // Read credentials from the database
   const paymentMethods = await storage.getPaymentMethods();
   const stripeConfig = paymentMethods.find(m => m.id === 'stripe');
   
   if (!stripeConfig || !stripeConfig.config.secretKey) {
-    // Fallback ai Secrets se non configurato nel database
-    // FORZA MODALITÀ LIVE per controllo autonomo
+    // Fallback to Secrets if configured in the database
+    // FORCE LIVE MODE for autonomous control
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY_LIVE || process.env.STRIPE_SECRET_KEY;
     
     if (!stripeSecretKey) {
-      throw new Error('Manca la chiave segreta di Stripe. Configurarla nella pagina Metodi di Pagamento.');
+      throw new Error('Stripe secret key is missing. Configure it on the Payment Methods page.');
     }
     
     const isLive = stripeSecretKey.startsWith('sk_live_');
-    logger.debug(`🔐 Stripe: usando chiave LIVE da Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
+    logger.debug(`🔐 Stripe: using LIVE key from Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
     return new Stripe(stripeSecretKey);
   }
   
@@ -113,15 +113,15 @@ const getStripeClient = async () => {
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
   
-  logger.debug(`🔐 Stripe: usando chiave dal DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
+  logger.debug(`🔐 Stripe: using key from DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUCTION (LIVE) 💰' : 'UNKNOWN ⚠️')}`);
   console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
   
   return new Stripe(stripeSecretKey);
 };
 
-// Configurazione dell'ambiente PayPal (sandbox per test, live per produzione)
+// PayPal environment configuration (sandbox for testing, live for production)
 const getPayPalClient = async () => {
-  // Leggi credenziali dal database
+  // Read credentials from the database
   const paymentMethods = await storage.getPaymentMethods();
   const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
   
@@ -130,11 +130,11 @@ const getPayPalClient = async () => {
   let mode: 'sandbox' | 'live' = 'sandbox';
   
   if (paypalConfig && paypalConfig.config.clientId && paypalConfig.config.clientSecret) {
-    // Usa credenziali dal database
+    // Use credentials from the database
     clientId = paypalConfig.config.clientId;
     clientSecret = paypalConfig.config.clientSecret;
     mode = paypalConfig.config.mode || 'sandbox';
-    logger.debug(`🔐 PayPal: usando credenziali dal DATABASE (${mode.toUpperCase()})`);
+    logger.debug(`🔐 PayPal: using credentials from DATABASE (${mode.toUpperCase()})`);
   } else {
     // Fallback ai Secrets
     const isProduction = process.env.PAYMENT_MODE === 'production';
@@ -145,11 +145,11 @@ const getPayPalClient = async () => {
       ? process.env.PAYPAL_CLIENT_SECRET_LIVE 
       : process.env.PAYPAL_CLIENT_SECRET;
     mode = isProduction ? 'live' : 'sandbox';
-    logger.debug(`🔐 PayPal: usando credenziali da Secrets (fallback) - ${mode.toUpperCase()}`);
+    logger.debug(`🔐 PayPal: using credentials from Secrets (fallback) - ${mode.toUpperCase()}`);
   }
   
   if (!clientId || !clientSecret) {
-    throw new Error('Mancano le credenziali PayPal. Configurarle nella pagina Metodi di Pagamento.');
+    throw new Error('PayPal credentials are missing. Configure them on the Payment Methods page.');
   }
   
   try {
@@ -161,17 +161,17 @@ const getPayPalClient = async () => {
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
-    console.error('Errore nella creazione del client PayPal:', error);
+    console.error('Error creating PayPal client:', error);
     throw error;
   }
 };
 
 /**
- * Servizio per la gestione dei pagamenti e abbonamenti
+ * Service for managing payments and subscriptions
  */
 export class PaymentService {
   /**
-   * Crea un nuovo piano di abbonamento
+   * Create a new subscription plan
    */
   static async createSubscriptionPlan(planData: {
     name: string;
@@ -201,28 +201,28 @@ export class PaymentService {
         plan: createdPlan
       };
     } catch (error) {
-      console.error('Errore durante la creazione del piano di abbonamento:', error);
+      console.error('Error creating subscription plan:', error);
       return {
         success: false,
-        message: 'Errore durante la creazione del piano di abbonamento'
+        message: 'Error creating subscription plan'
       };
     }
   }
 
   /**
-   * Ottiene tutti i piani di abbonamento attivi
+   * Get all active subscription plans
    */
   static async getActivePlans() {
     try {
       return await storage.getActiveSubscriptionPlans();
     } catch (error) {
-      console.error('Errore durante il recupero dei piani di abbonamento:', error);
+      console.error('Error retrieving subscription plans:', error);
       return [];
     }
   }
 
   /**
-   * Crea un nuovo abbonamento con PayPal
+   * Create a new subscription with PayPal
    */
   static async createPayPalSubscription(
     userId: number,
@@ -231,20 +231,20 @@ export class PaymentService {
     cancelUrl: string
   ): Promise<{success: boolean, url?: string, subscriptionId?: string, message?: string}> {
     try {
-      console.log('createPayPalSubscription iniziato con:', { userId, planId, returnUrl, cancelUrl });
+      console.log('createPayPalSubscription started with:', { userId, planId, returnUrl, cancelUrl });
       
-      // Ottieni le informazioni sul piano
+      // Get plan information
       const plan = await storage.getSubscriptionPlan(planId);
       if (!plan) {
         return {
           success: false,
-          message: 'Piano di abbonamento non trovato'
+          message: 'Subscription plan not found'
         };
       }
       
-      console.log('Piano trovato:', plan);
+      console.log('Piano found:', plan);
       
-      // Calcola il prezzo in euro
+      // Calculate the price in euros
       const priceInEuro = (plan.price / 100).toFixed(2);
       
       console.log('PayPal Config:', {
@@ -255,8 +255,8 @@ export class PaymentService {
         planName: plan.name
       });
       
-      // Utilizza API di PayPal per un ordine singolo (più semplice per l'integrazione)
-      // In un'implementazione completa dovremmo usare l'API Subscriptions di PayPal
+      // Use PayPal API for a single order (simpler for integration)
+      // In a complete implementation we should use the PayPal Subscriptions API
       const request = new paypal.orders.OrdersCreateRequest();
       request.prefer('return=representation');
       request.requestBody({
@@ -266,7 +266,7 @@ export class PaymentService {
             currency_code: 'EUR',
             value: priceInEuro
           },
-          description: `Abbonamento: ${plan.name} (1 anno)`
+          description: `Subscription: ${plan.name} (1 anno)`
         }],
         application_context: {
           return_url: returnUrl,
@@ -278,9 +278,9 @@ export class PaymentService {
         }
       });
       
-      console.log('Invio richiesta a PayPal...');
+      console.log('Sending request to PayPal...');
       
-      // Invia la richiesta a PayPal
+      // Send the request to PayPal
       const client = await getPayPalClient();
       const response = await client.execute(request);
       
@@ -293,28 +293,28 @@ export class PaymentService {
       if (response.statusCode !== 201) {
         return {
           success: false,
-          message: 'Errore nella creazione dell\'ordine PayPal'
+          message: 'Error creating PayPal order'
         };
       }
       
-      // Trova l'URL di approvazione
+      // Find l'URL di approvazione
       const approvalLink = response.result.links.find((link: any) => link.rel === 'approve');
       if (!approvalLink) {
-        console.error('Links disponibili:', response.result.links);
+        console.error('Available links:', response.result.links);
         return {
           success: false,
-          message: 'URL di approvazione PayPal non trovato'
+          message: 'PayPal approval URL not found'
         };
       }
       
-      console.log('URL approvazione trovato:', approvalLink.href);
+      console.log('URL approvazione found:', approvalLink.href);
       
-      // Controlla se esiste già un abbonamento per questo utente
+      // Check if a subscription already exists for this user
       const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
       
-      // Calcola la data di scadenza in base all'intervallo del piano
+      // Calculate the expiry date based on the plan interval
       if (plan.interval === 'month') {
         endDate.setMonth(endDate.getMonth() + 1);
       } else {
@@ -322,8 +322,8 @@ export class PaymentService {
       }
       
       if (existingSubscription) {
-        // Se esiste già un abbonamento, aggiornalo invece di crearne uno nuovo
-        console.log(`Abbonamento esistente trovato (ID: ${existingSubscription.id}), lo aggiorno invece di crearne uno nuovo`);
+        // If a subscription already exists, update it instead of creating a new one
+        console.log(`Existing subscription found (ID: ${existingSubscription.id}), updating instead of creating a new one`);
         await storage.updateSubscription(existingSubscription.id, {
           planId,
           status: 'pending',
@@ -334,7 +334,7 @@ export class PaymentService {
           paymentMethod: 'paypal'
         });
       } else {
-        // Crea una nuova pre-sottoscrizione nel database
+        // Create a new pre-subscription in the database
         const subscriptionData: InsertSubscription = {
           userId,
           planId,
@@ -355,24 +355,24 @@ export class PaymentService {
         subscriptionId: response.result.id
       };
     } catch (error) {
-      // Log dettagliato dell'errore per il debug
-      console.error('Errore durante la creazione dell\'abbonamento PayPal:');
+      // Detailed error log for debugging
+      console.error('Error creating PayPal subscription:');
       
       if (error instanceof Error) {
-        console.error('Messaggio:', error.message);
+        console.error('Message:', error.message);
         console.error('Stack:', error.stack);
       } else {
-        console.error('Errore non standard:', error);
+        console.error('Non-standard error:', error);
       }
       
-      // Verifica il tipo di errore e fornisci un messaggio più specifico
-      let errorMessage = 'Errore durante la creazione dell\'abbonamento PayPal';
+      // Verify the error type and provide a more specific message
+      let errorMessage = 'Error creating PayPal subscription';
       
       if (error instanceof Error) {
         errorMessage += ': ' + error.message;
       }
       
-      // Verifica le credenziali PayPal
+      // Verify the credentials PayPal
       const clientId = process.env.PAYPAL_CLIENT_ID;
       const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
       
@@ -388,23 +388,23 @@ export class PaymentService {
   }
 
   /**
-   * Finalizza un abbonamento PayPal dopo l'approvazione dell'utente
+   * Finalize a PayPal subscription after user approval
    */
   static async finalizePayPalSubscription(
     orderId: string,
     userId: number
   ): Promise<{success: boolean, message?: string}> {
     try {
-      // Trova l'abbonamento nel database
+      // Find the subscription in the database
       const subscription = await storage.getSubscriptionByUserId(userId);
       if (!subscription) {
         return {
           success: false,
-          message: 'Abbonamento non trovato'
+          message: 'Subscription not found'
         };
       }
       
-      // Effettua la cattura del pagamento PayPal
+      // Capture the PayPal payment
       const client = await getPayPalClient();
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -414,19 +414,19 @@ export class PaymentService {
       if (response.statusCode !== 201) {
         return {
           success: false,
-          message: 'Errore nella finalizzazione del pagamento PayPal'
+          message: 'Error finalizing PayPal payment'
         };
       }
       
-      // Aggiorna lo stato dell'abbonamento
+      // Update the subscription status
       await storage.updateSubscription(subscription.id, {
         status: 'active'
       });
       
-      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
       await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
       
-      // Registra la transazione
+      // Register the transaction
       const transactionData: InsertPaymentTransaction = {
         userId,
         subscriptionId: subscription.id,
@@ -435,7 +435,7 @@ export class PaymentService {
         status: 'completed',
         paymentMethod: 'paypal',
         transactionId: response.result.id,
-        description: `Pagamento per abbonamento ${subscription.plan.name}`
+        description: `Payment for subscription ${subscription.plan.name}`
       };
       
       await storage.createPaymentTransaction(transactionData);
@@ -444,78 +444,78 @@ export class PaymentService {
         success: true
       };
     } catch (error) {
-      console.error('Errore durante la finalizzazione dell\'abbonamento PayPal:', error);
+      console.error('Error finalizing PayPal subscription:', error);
       return {
         success: false,
-        message: 'Errore durante la finalizzazione dell\'abbonamento PayPal'
+        message: 'Error finalizing PayPal subscription'
       };
     }
   }
 
   /**
-   * Finalizza un abbonamento PayPal usando solo il token (endpoint pubblico)
-   * Trova l'abbonamento tramite paypal_subscription_id nel database
+   * Finalize a PayPal subscription using only the token (public endpoint)
+   * Find the subscription via paypal_subscription_id in the database
    */
   static async finalizePayPalSubscriptionByToken(
     orderId: string
   ): Promise<{success: boolean, message?: string, userId?: number}> {
     try {
-      logger.debug(`📦 [PAYPAL PUBLIC] Finalizzazione abbonamento con token: ${orderId}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Finalizing subscription with token: ${orderId}`);
       
-      // Trova l'abbonamento nel database tramite PayPal Order ID
+      // Find the subscription in the database via PayPal Order ID
       const subscription = await storage.getSubscriptionByPayPalOrderId(orderId);
       if (!subscription) {
-        logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento non trovato per token: ${orderId}`);
+        logger.debug(`📦 [PAYPAL PUBLIC] Subscription not found for token: ${orderId}`);
         return {
           success: false,
-          message: 'Abbonamento non trovato per questo ordine PayPal'
+          message: 'Subscription not found for this PayPal order'
         };
       }
       
       const userId = subscription.userId;
-      logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento trovato: ID ${subscription.id}, User ${userId}, Status: ${subscription.status}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] subscription found: ID ${subscription.id}, User ${userId}, Status: ${subscription.status}`);
       
-      // Se già attivo, non fare nulla
+      // If already active, do nothing
       if (subscription.status === 'active') {
-        logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento già attivo, ritorno successo`);
+        logger.debug(`📦 [PAYPAL PUBLIC] subscription already active, ritorno successo`);
         return {
           success: true,
           userId
         };
       }
       
-      // Effettua la cattura del pagamento PayPal
+      // Capture the PayPal payment
       const client = await getPayPalClient();
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
       
-      logger.debug(`📦 [PAYPAL PUBLIC] Invio richiesta di cattura a PayPal...`);
+      logger.debug(`📦 [PAYPAL PUBLIC] Sending capture request to PayPal...`);
       const response = await client.execute(request);
       logger.debug(`📦 [PAYPAL PUBLIC] Risposta PayPal: ${response.statusCode}`);
       
       if (response.statusCode !== 201) {
         return {
           success: false,
-          message: 'Errore nella finalizzazione del pagamento PayPal'
+          message: 'Error finalizing PayPal payment'
         };
       }
       
-      // Aggiorna lo stato dell'abbonamento
+      // Update the subscription status
       await storage.updateSubscription(subscription.id, {
         status: 'active'
       });
       
-      logger.debug(`📦 [PAYPAL PUBLIC] Abbonamento ${subscription.id} attivato con successo`);
+      logger.debug(`📦 [PAYPAL PUBLIC] subscription ${subscription.id} activated successfully`);
       
-      // Crea/aggiorna la licenza dell'utente in base al piano pagato
+      // Create/update the user's license based on the paid plan
       const licenseType = getLicenseTypeFromPlanName(subscription.plan.name);
       const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
       await createOrUpdateLicense(userId, licenseType, licenseExpiry);
       
-      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
       await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
       
-      // Registra la transazione
+      // Register the transaction
       const transactionData: InsertPaymentTransaction = {
         userId,
         subscriptionId: subscription.id,
@@ -524,51 +524,51 @@ export class PaymentService {
         status: 'completed',
         paymentMethod: 'paypal',
         transactionId: response.result.id,
-        description: `Pagamento per abbonamento ${subscription.plan.name}`
+        description: `Payment for subscription ${subscription.plan.name}`
       };
       
       await storage.createPaymentTransaction(transactionData);
       
-      logger.debug(`📦 [PAYPAL PUBLIC] Transazione registrata per utente ${userId}`);
+      logger.debug(`📦 [PAYPAL PUBLIC] transaction registered for user ${userId}`);
       
       return {
         success: true,
         userId
       };
     } catch (error) {
-      console.error('📦 [PAYPAL PUBLIC] Errore:', error);
+      console.error('📦 [PAYPAL PUBLIC] Error:', error);
       return {
         success: false,
-        message: 'Errore durante la finalizzazione dell\'abbonamento PayPal'
+        message: 'Error finalizing PayPal subscription'
       };
     }
   }
 
   /**
-   * Cancella un abbonamento
+   * Cancel a subscription
    */
   static async cancelSubscription(
     userId: number,
     immediate: boolean = false
   ): Promise<{success: boolean, message?: string}> {
     try {
-      // Trova l'abbonamento nel database
+      // Find the subscription in the database
       const subscription = await storage.getSubscriptionByUserId(userId);
       if (!subscription) {
         return {
           success: false,
-          message: 'Abbonamento non trovato'
+          message: 'Subscription not found'
         };
       }
       
-      // Aggiorna l'abbonamento nel database
+      // Update the subscription in the database
       if (immediate) {
         // Cancellazione immediata
         await storage.updateSubscription(subscription.id, {
           status: 'canceled'
         });
       } else {
-        // Cancellazione alla fine del periodo corrente
+        // Cancellation at the end of the current period
         await storage.cancelSubscription(subscription.id, true);
       }
       
@@ -576,53 +576,53 @@ export class PaymentService {
         success: true
       };
     } catch (error) {
-      console.error('Errore durante la cancellazione dell\'abbonamento:', error);
+      console.error('Error cancelling subscription:', error);
       return {
         success: false,
-        message: 'Errore durante la cancellazione dell\'abbonamento'
+        message: 'Error cancelling subscription'
       };
     }
   }
 
   /**
-   * Ottiene lo stato dell'abbonamento di un utente
+   * Get the subscription status for a user
    */
   static async getUserSubscription(userId: number) {
     try {
       return await storage.getSubscriptionByUserId(userId);
     } catch (error) {
-      console.error('Errore durante il recupero dell\'abbonamento dell\'utente:', error);
+      console.error('Error retrieving user subscription:', error);
       return null;
     }
   }
 
   /**
-   * Verifica se un utente ha un abbonamento attivo
+   * Check if a user has an active subscription
    */
   static async hasActiveSubscription(userId: number): Promise<boolean> {
     try {
       const subscription = await storage.getSubscriptionByUserId(userId);
       return subscription?.status === 'active';
     } catch (error) {
-      console.error('Errore durante la verifica dell\'abbonamento attivo:', error);
+      console.error('Error verifying active subscription:', error);
       return false;
     }
   }
 
   /**
-   * Ottiene la cronologia delle transazioni di un utente
+   * Get the transaction history of a user
    */
   static async getUserTransactions(userId: number) {
     try {
       return await storage.getPaymentTransactionsByUser(userId);
     } catch (error) {
-      console.error('Errore durante il recupero delle transazioni dell\'utente:', error);
+      console.error('Error retrieving user transactions:', error);
       return [];
     }
   }
 
   /**
-   * Crea una sessione di checkout di Stripe per un abbonamento
+   * Create a Stripe checkout session for a subscription
    */
   static async createStripeCheckoutSession(
     userId: number,
@@ -631,25 +631,25 @@ export class PaymentService {
     cancelUrl: string
   ): Promise<{success: boolean, url?: string, sessionId?: string, message?: string}> {
     try {
-      // Ottieni le informazioni sul piano
+      // Get plan information
       const plan = await storage.getSubscriptionPlan(planId);
       if (!plan) {
         return {
           success: false,
-          message: 'Piano di abbonamento non trovato'
+          message: 'Subscription plan not found'
         };
       }
       
-      // Ottieni il cliente
+      // Get the client
       const user = await storage.getUser(userId);
       if (!user) {
         return {
           success: false,
-          message: 'Utente non trovato'
+          message: 'User not found'
         };
       }
 
-      // Crea una sessione di checkout
+      // Create a checkout session
       const stripe = await getStripeClient();
       
       console.log('🔗 STRIPE URLs configurati:', {
@@ -670,7 +670,7 @@ export class PaymentService {
                 name: `Abbonamento ${plan.name}`,
                 description: plan.description || undefined,
               },
-              unit_amount: plan.price, // Prezzo già in centesimi dal database
+              unit_amount: plan.price, // Price already in cents from the database
             },
             quantity: 1,
           },
@@ -685,7 +685,7 @@ export class PaymentService {
         cancel_url: cancelUrl,
       });
       
-      console.log('Stripe session creata:', {
+      console.log('Stripe session created:', {
         id: session.id,
         url: session.url,
         hasUrl: !!session.url,
@@ -693,15 +693,15 @@ export class PaymentService {
         status: session.status
       });
       
-      // Controlla se esiste già un abbonamento per questo utente
+      // Check if a subscription already exists for this user
       const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + (plan.interval === 'month' ? 1 : 12));
       
       if (existingSubscription) {
-        // Se esiste già un abbonamento, aggiornalo invece di crearne uno nuovo
-        console.log(`Abbonamento esistente trovato (ID: ${existingSubscription.id}), lo aggiorno invece di crearne uno nuovo`);
+        // If a subscription already exists, update it instead of creating a new one
+        console.log(`Existing subscription found (ID: ${existingSubscription.id}), updating instead of creating a new one`);
         await storage.updateSubscription(existingSubscription.id, {
           planId,
           status: 'pending',
@@ -712,7 +712,7 @@ export class PaymentService {
           paymentMethod: 'stripe'
         });
       } else {
-        // Crea una nuova pre-sottoscrizione nel database
+        // Create a new pre-subscription in the database
         const subscriptionData: InsertSubscription = {
           userId,
           planId,
@@ -733,17 +733,17 @@ export class PaymentService {
         sessionId: session.id
       };
     } catch (error) {
-      console.error('Errore durante la creazione della sessione di checkout Stripe:', error);
+      console.error('Error creating Stripe checkout session:', error);
       return {
         success: false,
-        message: 'Errore durante la creazione della sessione di checkout Stripe'
+        message: 'Error creating Stripe checkout session'
       };
     }
   }
 
   /**
-   * Conferma una sessione di checkout Stripe dopo il pagamento
-   * Verifica lo stato della sessione e attiva la licenza se il pagamento è completato
+   * Confirm a Stripe checkout session after payment
+   * Verify the session status and activate the license if payment is completed
    */
   static async confirmStripeSession(
     sessionId: string,
@@ -752,69 +752,69 @@ export class PaymentService {
     try {
       const stripe = await getStripeClient();
       
-      // Recupera la sessione da Stripe
+      // Retrieve the session da Stripe
       const session = await stripe.checkout.sessions.retrieve(sessionId);
       
-      console.log('💳 Sessione Stripe recuperata:', {
+      console.log('💳 Stripe session retrieved:', {
         id: session.id,
         status: session.status,
         paymentStatus: session.payment_status,
         userId: session.metadata?.userId
       });
       
-      // Verifica che il pagamento sia completato
+      // Verify that the payment is completed
       if (session.payment_status !== 'paid') {
         return {
           success: false,
-          message: 'Pagamento non ancora completato'
+          message: 'Payment not yet completed'
         };
       }
       
-      // Verifica che l'utente corrisponda
+      // Verify che l'user corrisponda
       const sessionUserId = session.metadata?.userId ? parseInt(session.metadata.userId) : null;
       if (sessionUserId && sessionUserId !== userId) {
-        console.warn(`⚠️ Mismatch utente: sessione ${sessionUserId}, richiesta ${userId}`);
+        console.warn(`⚠️ User mismatch: session ${sessionUserId}, request ${userId}`);
       }
       
-      // Trova l'abbonamento dell'utente
+      // Find l'subscription of the user
       const subscription = await storage.getSubscriptionByUserId(userId);
       if (!subscription) {
         return {
           success: false,
-          message: 'Abbonamento non trovato'
+          message: 'Subscription not found'
         };
       }
       
-      // Se l'abbonamento è già attivo, ritorna successo
+      // If the subscription is already active, return success
       if (subscription.status === 'active') {
         return {
           success: true,
-          message: 'Abbonamento già attivo'
+          message: 'Subscription already active'
         };
       }
       
-      // Attiva l'abbonamento
+      // Activate the subscription
       await storage.updateSubscription(subscription.id, {
         status: 'active',
         stripeCustomerId: typeof session.customer === 'string' ? session.customer : null
       });
       
-      // Ottieni il piano per determinare il tipo di licenza
+      // Get the plan to determine the license type
       const planId = session.metadata?.planId ? parseInt(session.metadata.planId) : subscription.planId;
       const plan = await storage.getSubscriptionPlan(planId);
       if (plan) {
         const licenseType = getLicenseTypeFromPlanName(plan.name);
         const licenseExpiry = subscription.currentPeriodEnd || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
         await createOrUpdateLicense(userId, licenseType, licenseExpiry);
-        logger.debug(`✅ Licenza ${licenseType} attivata per utente ${userId}`);
+        logger.debug(`✅ license ${licenseType} activated for user ${userId}`);
       }
       
-      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
       if (session.amount_total) {
         await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
       }
       
-      // Registra la transazione se non esiste già
+      // Register the transaction If esiste already
       if (session.payment_intent) {
         const transactionData: InsertPaymentTransaction = {
           userId,
@@ -824,7 +824,7 @@ export class PaymentService {
           status: 'completed',
           paymentMethod: 'stripe',
           transactionId: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent.id,
-          description: `Pagamento per abbonamento ${plan?.name || 'sconosciuto'}`
+          description: `Payment for subscription ${plan?.name || 'unknown'}`
         };
         
         await storage.createPaymentTransaction(transactionData);
@@ -832,19 +832,19 @@ export class PaymentService {
       
       return {
         success: true,
-        message: 'Abbonamento attivato con successo'
+        message: 'Subscription activated successfully'
       };
     } catch (error) {
-      console.error('Errore durante la conferma della sessione Stripe:', error);
+      console.error('Error confirming Stripe session:', error);
       return {
         success: false,
-        message: 'Errore durante la conferma della sessione Stripe'
+        message: 'Error confirming Stripe session'
       };
     }
   }
 
   /**
-   * Gestisce il webhook di Stripe per completare un pagamento
+   * Handle the Stripe webhook to complete a payment
    */
   static async handleStripeWebhook(
     event: any
@@ -852,30 +852,30 @@ export class PaymentService {
     try {
       const { type, data } = event;
       
-      // Gestisci gli eventi di Stripe in base al tipo
+      // Handle Stripe events based on type
       if (type === 'checkout.session.completed') {
         const session = data.object;
         
-        // Ottieni i dati dai metadati
+        // Get data from metadata
         const userId = parseInt(session.metadata.userId);
         const planId = parseInt(session.metadata.planId);
         
-        // Trova l'abbonamento nel database
+        // Find the subscription in the database
         const subscription = await storage.getSubscriptionByUserId(userId);
         if (!subscription) {
           return {
             success: false,
-            message: 'Abbonamento non trovato'
+            message: 'Subscription not found'
           };
         }
         
-        // Aggiorna lo stato dell'abbonamento
+        // Update the subscription status
         await storage.updateSubscription(subscription.id, {
           status: 'active',
           stripeCustomerId: session.customer || null
         });
         
-        // Ottieni il piano per determinare il tipo di licenza
+        // Get the plan to determine the license type
         const plan = await storage.getSubscriptionPlan(planId);
         if (plan) {
           const licenseType = getLicenseTypeFromPlanName(plan.name);
@@ -883,19 +883,19 @@ export class PaymentService {
           await createOrUpdateLicense(userId, licenseType, licenseExpiry);
         }
         
-        // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+        // AUTOMATIC REFERRAL SYSTEM: Create commission if the user was sponsored
         await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
         
-        // Registra la transazione
+        // Register the transaction
         const transactionData: InsertPaymentTransaction = {
           userId,
           subscriptionId: subscription.id,
-          amount: session.amount_total / 100, // Converte da centesimi
+          amount: session.amount_total / 100, // Convert from cents
           currency: session.currency.toUpperCase(),
           status: 'completed',
           paymentMethod: 'stripe',
           transactionId: session.payment_intent,
-          description: `Pagamento per abbonamento ${session.metadata.planType}`
+          description: `Payment for subscription ${session.metadata.planType}`
         };
         
         await storage.createPaymentTransaction(transactionData);
@@ -910,27 +910,27 @@ export class PaymentService {
         message: `Evento Stripe non gestito: ${type}`
       };
     } catch (error) {
-      console.error('Errore durante la gestione del webhook di Stripe:', error);
+      console.error('Error handling Stripe webhook:', error);
       return {
         success: false,
-        message: 'Errore durante la gestione del webhook di Stripe'
+        message: 'Error handling Stripe webhook'
       };
     }
   }
 
   /**
-   * Sistema automatico referral: Crea commissione quando un abbonamento diventa attivo
+   * Automatic referral system: Create commission when a subscription becomes active
    * 
-   * LOGICA COMMISSIONI (Opzione B - Una tantum vs Ricorrenti):
-   * - Piano ANNUALE: Commissione 25% pagata UNA SOLA VOLTA dopo 30 giorni
-   * - Piano MENSILE: Commissione 25% pagata OGNI MESE (ricorrente)
+   * COMMISSION LOGIC (Option B - One-time vs Recurring):
+   * - ANNUAL Plan: Commission 25% paid ONCE after 30 days
+   * - MONTHLY plan: 25% commission paid EVERY MONTH (recurring)
    * 
-   * Il campo `monthlyAmount` contiene sempre il 25% del prezzo totale.
-   * Il tipo di pagamento dipende dall'interval del piano (year/month).
+   * The `monthlyAmount` field always contains 25% of the total price.
+   * The payment type depends on the plan interval (year/month).
    * 
-   * @param userId ID dell'utente che ha fatto l'abbonamento
-   * @param subscriptionId ID dell'abbonamento
-   * @param planPrice Prezzo del piano in centesimi
+   * @param userId ID of the user che ha fatto l'subscription
+   * @param subscriptionId Subscription ID
+   * @param planPrice Plan price in cents
    */
   private static async handleReferralCommission(
     userId: number,
@@ -938,54 +938,54 @@ export class PaymentService {
     planPrice: number
   ): Promise<void> {
     try {
-      // Verifica se l'utente è stato sponsorizzato da qualcuno
+      // Check if the user was sponsored by someone
       const user = await storage.getUser(userId);
       if (!user || !user.referredBy) {
-        logger.debug(`ℹ️ Utente ${userId} non ha uno sponsor - nessuna commissione da creare`);
+        logger.debug(`ℹ️ user ${userId} has no sponsor - no commission to create`);
         return;
       }
 
-      // Verifica se esiste già una commissione per questo abbonamento
+      // Check if a commission already exists for this subscription
       const existingCommission = await storage.getReferralCommissionsByReferred(userId);
       if (existingCommission) {
-        logger.debug(`⚠️ Commissione già esistente per utente ${userId} - skip`);
+        logger.debug(`⚠️ commission already exists for user ${userId} - skip`);
         return;
       }
 
-      // Ottieni info piano per determinare se è annuale o mensile
+      // Get plan info to determine if it is annual or monthly
       const subscription = await storage.getSubscription(subscriptionId);
       if (!subscription) {
-        logger.debug(`⚠️ Sottoscrizione ${subscriptionId} non trovata - commissione non creata`);
+        logger.debug(`⚠️ subscription ${subscriptionId} not found - commission not created`);
         return;
       }
       
       const plan = await storage.getSubscriptionPlan(subscription.planId);
       if (!plan) {
-        logger.debug(`⚠️ Piano ${subscription.planId} non trovato - commissione non creata`);
+        logger.debug(`⚠️ plan ${subscription.planId} not found - commission not created`);
         return;
       }
 
-      // Calcola commissione al 25% del prezzo del piano
+      // Calculate commission at 25% of plan price
       const commissionAmount = Math.round(planPrice * 0.25);
       const isRecurring = plan.interval === 'month';
       
-      // Ottieni info sponsor
+      // Get info sponsor
       const sponsor = await storage.getUser(user.referredBy);
       if (!sponsor) {
-        logger.debug(`⚠️ Sponsor ID ${user.referredBy} non trovato - commissione non creata`);
+        logger.debug(`⚠️ Sponsor ID ${user.referredBy} not found - commission not created`);
         return;
       }
 
-      // Calcola data payout (30 giorni dopo startDate)
+      // Calculate payout date (30 days after startDate)
       const payoutDate = new Date();
       payoutDate.setDate(payoutDate.getDate() + 30);
       
-      // Crea la commissione automaticamente
+      // Create the commission automatically
       const commissionData = {
         referrerId: user.referredBy,
         referredId: userId,
         subscriptionId: subscriptionId,
-        monthlyAmount: commissionAmount, // Contiene il 25% del prezzo totale
+        monthlyAmount: commissionAmount, // Contains 25% of the total price
         status: 'active',
         startDate: new Date(),
         endDate: null,
@@ -995,16 +995,16 @@ export class PaymentService {
 
       await storage.createReferralCommission(commissionData);
       
-      const paymentType = isRecurring ? 'mensile ricorrente' : 'una tantum';
-      console.log(`🎉 COMMISSIONE AUTOMATICA CREATA!`);
+      const paymentType = isRecurring ? 'monthly recurring' : 'one-time';
+      console.log(`🎉 commission AUTOMATICA created!`);
       console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
-      console.log(`   Cliente: ${user.username} (ID: ${user.id})`);
+      console.log(`   Client: ${user.username} (ID: ${user.id})`);
       console.log(`   Piano: ${plan.name} (${plan.interval === 'year' ? 'Annuale' : 'Mensile'})`);
-      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)} ${paymentType} (25% di €${(planPrice/100).toFixed(2)})`);
-      console.log(`   📅 Payout programmato per: ${payoutDate.toLocaleDateString('it-IT')} (30gg)`);
+      console.log(`   commission: €${(commissionAmount/100).toFixed(2)} ${paymentType} (25% of €${(planPrice/100).toFixed(2)})`);
+      console.log(`   📅 Payout scheduled for: ${payoutDate.toLocaleDateString('en-US')} (30d)`);
     } catch (error) {
-      console.error('Errore durante la creazione della commissione referral:', error);
-      // Non blocchiamo il pagamento se c'è un errore nella commissione
+      console.error('Error creating referral commission:', error);
+      // Don't block the payment if there is an error in the commission
     }
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Script semplice per testare la generazione di link WhatsApp
+ * Script semplice per testare la generazione di WhatsApp link
  * usando il nuovo parametro preferredContactPhone
  */
 
@@ -17,9 +17,9 @@ directNotificationService.getNotificationPhone()
       message
     );
     
-    console.log('Link WhatsApp generato:', link);
-    console.log('Puoi fare clic su questo link per aprire WhatsApp e inviare il messaggio');
+    console.log('WhatsApp link generated:', link);
+    console.log('You can click this link to open WhatsApp and send the message');
   })
   .catch(error => {
-    console.error('Errore durante il test:', error);
+    console.error('Error during test:', error);
   });

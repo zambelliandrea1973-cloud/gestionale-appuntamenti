@@ -22,7 +22,7 @@ export interface BusinessAnalysis {
   personalizedTips: string[];
 }
 
-// Mappa codice lingua → istruzione esplicita per Gemini
+// Map code lingua → istruzione esplicita per Gemini
 const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   it: 'Italian (Italiano)',
   en: 'English',
@@ -35,7 +35,7 @@ const LANGUAGE_INSTRUCTIONS: Record<string, string> = {
   ru: 'Russian (Русский)',
 };
 
-// Fallback localizzati per quando Gemini fallisce o la chiave manca
+// Fallback localizzati per quando Gemini fallisce o la key manca
 const FALLBACK_BY_LANG: Record<string, BusinessAnalysis> = {
   it: {
     suggestedBusinessType: 'consulting',

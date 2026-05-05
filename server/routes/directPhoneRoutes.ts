@@ -1,5 +1,5 @@
 /**
- * API per la gestione diretta dei telefoni
+ * API for direct phone management
  */
 
 import { Router } from 'express';
@@ -9,8 +9,8 @@ import { isAuthenticated, isStaff } from '../auth';
 const router = Router();
 
 /**
- * Ottiene lo stato del telefono configurato
- * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
+ * Get the status of the configured phone
+ * Note: This endpoint is public to allow configuration without authentication
  */
 router.get('/direct-status', async (req, res) => {
   try {
@@ -21,18 +21,18 @@ router.get('/direct-status', async (req, res) => {
       phoneInfo
     });
   } catch (error: any) {
-    console.error('Errore nel recupero dello stato del telefono:', error);
+    console.error('Error retrieving phone status:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nel recupero dello stato del telefono'
+      error: error.message || 'Error retrieving phone status'
     });
   }
 });
 
 /**
- * Registra un nuovo numero di telefono
- * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
+ * Register a new phone number
+ * Note: This endpoint is public to allow configuration without authentication
  */
 router.post('/register-direct', async (req, res) => {
   try {
@@ -41,7 +41,7 @@ router.post('/register-direct', async (req, res) => {
     if (!phoneNumber) {
       return res.status(400).json({
         success: false,
-        error: 'Numero di telefono non specificato'
+        error: 'Phone number not specified'
       });
     }
     
@@ -49,21 +49,21 @@ router.post('/register-direct', async (req, res) => {
     
     res.json({
       success: true,
-      message: 'Telefono registrato con successo'
+      message: 'Phone registered successfully'
     });
   } catch (error: any) {
-    console.error('Errore nella registrazione del telefono:', error);
+    console.error('Error registering phone:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nella registrazione del telefono'
+      error: error.message || 'Error registering phone'
     });
   }
 });
 
 /**
- * Verifica un codice ricevuto via SMS
- * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
+ * Verify a code received via SMS
+ * Note: This endpoint is public to allow configuration without authentication
  */
 router.post('/verify-direct', async (req, res) => {
   try {
@@ -72,7 +72,7 @@ router.post('/verify-direct', async (req, res) => {
     if (!phoneNumber || !verificationCode) {
       return res.status(400).json({
         success: false,
-        error: 'Numero di telefono o codice di verifica non specificato'
+        error: 'Phone number or verification code not specified'
       });
     }
     
@@ -80,21 +80,21 @@ router.post('/verify-direct', async (req, res) => {
     
     res.json({
       success: true,
-      message: 'Telefono verificato con successo'
+      message: 'Phone verified successfully'
     });
   } catch (error: any) {
-    console.error('Errore nella verifica del telefono:', error);
+    console.error('Error verifying phone:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nella verifica del telefono'
+      error: error.message || 'Error verifying phone'
     });
   }
 });
 
 /**
- * Disconnette un telefono
- * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
+ * Disconnect a phone
+ * Note: This endpoint is public to allow configuration without authentication
  */
 router.post('/disconnect-direct', async (req, res) => {
   try {
@@ -102,21 +102,21 @@ router.post('/disconnect-direct', async (req, res) => {
     
     res.json({
       success: true,
-      message: 'Telefono disconnesso con successo'
+      message: 'Telefono disconnesso successfully'
     });
   } catch (error: any) {
-    console.error('Errore nella disconnessione del telefono:', error);
+    console.error('Error disconnecting phone:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nella disconnessione del telefono'
+      error: error.message || 'Error disconnecting phone'
     });
   }
 });
 
 /**
- * Genera un link WhatsApp per un messaggio di test
- * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
+ * Generate a WhatsApp link for a test message
+ * Note: This endpoint is public to allow configuration without authentication
  */
 router.post('/send-test-direct', async (req, res) => {
   try {
@@ -124,15 +124,15 @@ router.post('/send-test-direct', async (req, res) => {
     
     res.json({
       success: true,
-      message: 'Link WhatsApp generato con successo',
+      message: 'Link WhatsApp generato successfully',
       whatsappLink: result.whatsappLink
     });
   } catch (error: any) {
-    console.error('Errore nella generazione del link WhatsApp:', error);
+    console.error('Error generating WhatsApp link:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nella generazione del link WhatsApp'
+      error: error.message || 'Error generating WhatsApp link'
     });
   }
 });

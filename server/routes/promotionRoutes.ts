@@ -13,7 +13,7 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }
 });
 
-// Genera codice univoco
+// Generate code univoco
 function generateUniqueCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
@@ -21,14 +21,14 @@ function generateUniqueCode(): string {
 router.post('/api/promotions/create', upload.array('files', 10), async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const { title, message } = req.body;
     const files = req.files as Express.Multer.File[];
 
     if (!title || !message) {
-      return res.status(400).json({ error: 'Titolo e messaggio obbligatori' });
+      return res.status(400).json({ error: 'Title and message are required' });
     }
 
     const validTypes = [
@@ -81,9 +81,9 @@ router.post('/api/promotions/create', upload.array('files', 10), async (req, res
       filesCount: attachmentPaths.length
     });
   } catch (error: any) {
-    console.error('❌ Errore creazione promozione:', error);
+    console.error('❌ Error creating promotion:', error);
     return res.status(500).json({ 
-      error: 'Errore durante la creazione della promozione' 
+      error: 'Error creating promotion' 
     });
   }
 });
@@ -93,7 +93,7 @@ router.get('/api/promotions/:code', async (req, res) => {
     const { code } = req.params;
     
     if (!code) {
-      return res.status(400).json({ error: 'Codice promozione mancante' });
+      return res.status(400).json({ error: 'Codice promozione missing' });
     }
       const campaigns = await db
         .select()
@@ -102,7 +102,7 @@ router.get('/api/promotions/:code', async (req, res) => {
         .limit(1);
 
       if (campaigns.length === 0) {
-        return res.status(404).json({ error: 'Promozione non trovata' });
+        return res.status(404).json({ error: 'Promozione not found' });
       }
 
       const campaign = campaigns[0];
@@ -119,9 +119,9 @@ router.get('/api/promotions/:code', async (req, res) => {
         }
       });
   } catch (error: any) {
-    console.error('❌ Errore caricamento promozione:', error);
+    console.error('❌ Error loading promotion:', error);
     return res.status(500).json({ 
-      error: 'Errore durante il caricamento della promozione' 
+      error: 'Error loading promotion' 
     });
   }
 });

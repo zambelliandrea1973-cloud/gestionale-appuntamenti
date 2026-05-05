@@ -3,36 +3,36 @@ import { invoices, users } from '../../shared/schema';
 import { eq, and, sql } from 'drizzle-orm';
 
 /**
- * Genera il prossimo numero fattura nel formato CODICE-XXX/ANNO
+ * Generate the next invoice number in format CODICE-XXX/YEAR
  * Es: BUS14-001/2025, BUS14-002/2025, etc.
  * 
- * Gestisce race conditions con unique index + retry logic
+ * Handle race conditions con unique index + retry logic
  * 
- * @param userId - ID del professionista
- * @param invoiceDate - Data fattura in formato YYYY-MM-DD
- * @param maxRetries - Numero massimo di tentativi (default: 5)
- * @returns Numero fattura formattato (es: "BUS14-001/2025")
+ * @param userId - Professional ID
+ * @param invoiceDate - Data invoice in format YYYY-MM-DD
+ * @param maxRetries - Number massimo dthe attempts (default: 5)
+ * @returns Number invoice formattato (es: "BUS14-001/2025")
  */
 export async function generateInvoiceNumber(userId: number, invoiceDate: string, maxRetries: number = 5): Promise<string> {
-  // 1. Recupera il codice univoco del professionista (cache questo per performance)
+  // 1. Retrieve the unique professional code (cache this for performance)
   const user = await db.select({ assignmentCode: users.assignmentCode })
     .from(users)
     .where(eq(users.id, userId))
     .limit(1);
   
   if (!user || user.length === 0 || !user[0].assignmentCode) {
-    throw new Error(`Codice professionista non trovato per userId ${userId}`);
+    throw new Error(`Professional code not found for userId ${userId}`);
   }
   
   const professionalCode = user[0].assignmentCode;
   
-  // 2. Estrai l'anno dalla data fattura
+  // 2. Extract the year from the invoice date
   const year = invoiceDate.split('-')[0];
   
-  // 3. Loop con retry logic per gestire race conditions
+  // 3. Loop with retry logic to handle race conditions
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      // Trova il numero sequenziale massimo con locking transazionale
+      // Find the maximum sequential number with transactional locking
       const existingInvoices = await db.select({ invoiceNumber: invoices.invoiceNumber })
         .from(invoices)
         .where(and(
@@ -41,7 +41,7 @@ export async function generateInvoiceNumber(userId: number, invoiceDate: string,
         ))
         .for('update'); // LOCK FOR UPDATE: previene letture concorrenti
       
-      // Estrai i numeri sequenziali ed trova il massimo
+      // Extract the sequential numbers and find the maximum
       let maxSequence = 0;
       const pattern = new RegExp(`^${professionalCode}-(\\d+)/${year}$`);
       
@@ -60,31 +60,31 @@ export async function generateInvoiceNumber(userId: number, invoiceDate: string,
       const paddedSequence = nextSequence.toString().padStart(3, '0');
       const invoiceNumber = `${professionalCode}-${paddedSequence}/${year}`;
       
-      console.log(`📊 [INVOICE-NUMBER] Generato: ${invoiceNumber} (userId: ${userId}, anno: ${year}, max: ${maxSequence}, attempt: ${attempt})`);
+      console.log(`📊 [INVOICE-NUMBER] Generated: ${invoiceNumber} (userId: ${userId}, year: ${year}, max: ${maxSequence}, attempt: ${attempt})`);
       
       return invoiceNumber;
       
     } catch (error: any) {
-      // Se errore di duplicato (unique constraint), ritenta
+      // If error di duplicato (unique constraint), ritenta
       if (error.code === '23505' && attempt < maxRetries) {
-        console.log(`⚠️  [INVOICE-NUMBER] Duplicato rilevato, retry ${attempt}/${maxRetries}...`);
-        // Attendi un po' prima di ritentare (backoff esponenziale)
+        console.log(`⚠️  [INVOICE-NUMBER] Duplicate detected, retry ${attempt}/${maxRetries}...`);
+        // Wait a bit before retrying (exponential backoff)
         await new Promise(resolve => setTimeout(resolve, 50 * attempt));
         continue;
       }
-      // Altri errori o max retries raggiunti
+      // Altri errors o max retries raggiunti
       throw error;
     }
   }
   
-  throw new Error(`Impossibile generare numero fattura dopo ${maxRetries} tentativi`);
+  throw new Error(`Unable to generate invoice number dopo ${maxRetries} tentativi`);
 }
 
 /**
- * Parsifica un numero fattura nel formato CODICE-XXX/ANNO
+ * Parse an invoice number in the format CODICE-XXX/YEAR
  * 
- * @param invoiceNumber - Numero fattura (es: "BUS14-001/2025")
- * @returns Oggetto con codice, sequenza e anno
+ * @param invoiceNumber - Number invoice (es: "BUS14-001/2025")
+ * @returns Object with code, sequence and year
  */
 export function parseInvoiceNumber(invoiceNumber: string): { code: string; sequence: number; year: string } | null {
   const pattern = /^([A-Z0-9]+)-(\d+)\/(\d{4})$/;

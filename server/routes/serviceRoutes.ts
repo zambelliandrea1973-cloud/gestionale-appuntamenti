@@ -4,7 +4,7 @@ import { storage } from '../storage';
 const router = Router();
 
 router.get("/api/services", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const userAgent = req.headers['user-agent'] || '';
   const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
@@ -18,7 +18,7 @@ router.get("/api/services", async (req, res) => {
       'ETag': `mobile-services-${Date.now()}`,
       'Last-Modified': new Date().toUTCString()
     });
-    console.log(`🔄 [${deviceType}] Anti-cache applicato per servizi mobile`);
+    console.log(`🔄 [${deviceType}] Anti-cache applied for mobile services`);
   }
   
   try {
@@ -33,21 +33,21 @@ router.get("/api/services", async (req, res) => {
         price: 0,
         color: "#9e9e9e"
       });
-      console.log(`🆕 [/api/services] Servizio default "Consulenza" creato per nuovo utente ${user.id}`);
+      console.log(`🆕 [/api/services] service default "Consulenza" created per new user ${user.id}`);
       userServices = [{ ...defaultService, isDefault: true }];
     }
     
-    console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi da PostgreSQL per utente ${user.id}`);
+    console.log(`🔧 [/api/services] [${deviceType}] Loaded ${userServices.length} services from PostgreSQL for user ${user.id}`);
     res.json(userServices);
     
   } catch (error) {
-    console.error("❌ [/api/services] Errore caricamento servizi da PostgreSQL:", error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error("❌ [/api/services] Error loading services from PostgreSQL:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.post("/api/services", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   try {
@@ -58,75 +58,75 @@ router.post("/api/services", async (req, res) => {
       duration: typeof duration === 'string' ? parseInt(duration) : duration,
       price: typeof price === 'string' ? Math.round(parseFloat(price)) : (typeof price === 'number' ? Math.round(price) : 0),
       color: color || '#3f51b5',
-      isDemo: false, // 🔒 Solo l'onboardingDemoService può creare record demo
+      isDemo: false, // 🔒 Only the onboardingDemoService can create demo records
     };
     
     const newService = await storage.createService(serviceData);
 
-    // Auto-cleanup: rimuovi servizi demo se l'utente ne ha appena creato uno reale
+    // Auto-cleanup: remove demo services if the user just created a real one
     if (newService && !newService.isDemo) {
       try {
         const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
         await cleanupDemoDataIfNeeded(user.id, 'services');
       } catch (cleanupErr) {
-        console.error(`⚠️ [/api/services] Errore cleanup demo:`, cleanupErr);
+        console.error(`⚠️ [/api/services] Error cleaning up demo:`, cleanupErr);
       }
     }
     
-    console.log(`✅ [/api/services] Servizio "${newService.name}" creato in PostgreSQL per utente ${user.id} (ID: ${newService.id})`);
+    console.log(`✅ [/api/services] service "${newService.name}" created in PostgreSQL for user ${user.id} (ID: ${newService.id})`);
     res.status(201).json(newService);
   } catch (error) {
-    console.error(`❌ [/api/services] Errore creazione servizio:`, error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error(`❌ [/api/services] Error creating service:`, error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.put("/api/services/:id", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const serviceId = parseInt(req.params.id);
   
-  console.log(`✏️ [/api/services] PUT richiesta per servizio ID ${serviceId} da utente ${user.id}`);
+  console.log(`✏️ [/api/services] PUT request for service ID ${serviceId} from user ${user.id}`);
   
   try {
     const updatedService = await storage.updateService(serviceId, req.body);
     
     if (!updatedService) {
-      return res.status(404).json({ message: "Servizio non trovato" });
+      return res.status(404).json({ message: "Service not found" });
     }
     
     if (updatedService.userId !== user.id) {
-      return res.status(403).json({ message: "Accesso negato" });
+      return res.status(403).json({ message: "Access denied" });
     }
     
-    console.log(`✅ [/api/services] Servizio ID ${serviceId} aggiornato in PostgreSQL per utente ${user.id}`);
+    console.log(`✅ [/api/services] service ID ${serviceId} updated in PostgreSQL for user ${user.id}`);
     res.json(updatedService);
   } catch (error) {
-    console.error(`❌ [/api/services] Errore aggiornamento servizio:`, error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error(`❌ [/api/services] Error updating service:`, error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.delete("/api/services/:id", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const serviceId = parseInt(req.params.id);
   
-  console.log(`🗑️ [DELETE] Tentativo eliminazione servizio ID ${serviceId} per utente ${user.id}`);
+  console.log(`🗑️ [DELETE] Attempting to delete service ID ${serviceId} for user ${user.id}`);
   
   try {
     const deleted = await storage.deleteService(serviceId);
     
     if (!deleted) {
-      console.log(`❌ [DELETE] Servizio ID ${serviceId} non trovato`);
-      return res.status(404).json({ message: "Servizio non trovato" });
+      console.log(`❌ [DELETE] Servizio ID ${serviceId} not found`);
+      return res.status(404).json({ message: "Service not found" });
     }
     
-    console.log(`✅ [DELETE] Servizio ID ${serviceId} eliminato da PostgreSQL per utente ${user.id}`);
-    res.json({ success: true, message: "Servizio eliminato con successo" });
+    console.log(`✅ [DELETE] service ID ${serviceId} deleted from PostgreSQL for user ${user.id}`);
+    res.json({ success: true, message: "Service deleted successfully" });
   } catch (error) {
-    console.error(`❌ [DELETE] Errore eliminazione servizio:`, error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error(`❌ [DELETE] Error deleting service:`, error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

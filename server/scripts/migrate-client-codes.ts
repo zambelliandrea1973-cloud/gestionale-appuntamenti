@@ -1,12 +1,12 @@
 /**
- * Script di migrazione automatica per uniformare i codici cliente
+ * Script di migrazione automatica per uniformare i codici client
  * 
- * Trova tutti i clienti con vecchio formato lungo (uniqueCode) ma senza nuovo formato corto (newUniqueCode)
- * e genera automaticamente i nuovi codici mantenendo i vecchi QR funzionanti.
+ * Find all clients with old long format (uniqueCode) but without new short format (newUniqueCode)
+ * and automatically generates new codes while keeping old QR codes working.
  * 
  * SICUREZZA:
  * - Lascia uniqueCode invariato → vecchi QR continuano a funzionare
- * - Genera solo newUniqueCode → uniforma la visualizzazione
+ * - Generate only newUniqueCode → standardizes the display
  */
 
 import { db } from '../db';
@@ -31,7 +31,7 @@ interface MigrationStats {
 }
 
 async function migrateClientCodes(): Promise<MigrationStats> {
-  console.log('🚀 [MIGRAZIONE] Inizio migrazione codici clienti...\n');
+  console.log('🚀 [MIGRATION] Starting client code migration...\n');
   
   const stats: MigrationStats = {
     total: 0,
@@ -42,7 +42,7 @@ async function migrateClientCodes(): Promise<MigrationStats> {
   };
 
   try {
-    // Trova tutti i clienti che NON hanno newUniqueCode e hanno un ownerId valido
+    // Find all clients that do NOT have newUniqueCode and have a valid ownerId
     const clientsToMigrate = await db.select({
       id: clients.id,
       firstName: clients.firstName,
@@ -60,15 +60,15 @@ async function migrateClientCodes(): Promise<MigrationStats> {
     );
 
     stats.total = clientsToMigrate.length;
-    console.log(`📊 [MIGRAZIONE] Trovati ${stats.total} clienti da processare\n`);
+    console.log(`📊 [MIGRATION] Found ${stats.total} clients to process\n`);
 
     for (const client of clientsToMigrate) {
       const clientName = `${client.firstName} ${client.lastName}`;
       
       try {
-        // Verifica se il cliente ha un owner valido
+        // Check if the client has a valid owner
         if (!client.ownerId) {
-          console.log(`⚠️  [SKIP] Cliente ${client.id} (${clientName}) - Nessun ownerId`);
+          console.log(`⚠️  [SKIP] Client ${client.id} (${clientName}) - No ownerId`);
           stats.skipped++;
           stats.details.push({
             id: client.id,
@@ -82,14 +82,14 @@ async function migrateClientCodes(): Promise<MigrationStats> {
           continue;
         }
 
-        // Verifica che il professionista abbia un assignmentCode
+        // Verify that the professional has an assignmentCode
         const owner = await db.select({ assignmentCode: users.assignmentCode })
           .from(users)
           .where(eq(users.id, client.ownerId))
           .limit(1);
 
         if (!owner || owner.length === 0 || !owner[0].assignmentCode) {
-          console.log(`⚠️  [SKIP] Cliente ${client.id} (${clientName}) - Professionista ${client.ownerId} senza assignmentCode`);
+          console.log(`⚠️  [SKIP] Client ${client.id} (${clientName}) - Professional ${client.ownerId} without assignmentCode`);
           stats.skipped++;
           stats.details.push({
             id: client.id,
@@ -98,21 +98,21 @@ async function migrateClientCodes(): Promise<MigrationStats> {
             oldCode: client.uniqueCode,
             newCode: null,
             status: 'skipped',
-            reason: 'Professionista senza assignmentCode'
+            reason: 'Professional without assignmentCode'
           });
           continue;
         }
 
-        // Genera nuovo codice corto
+        // Generate new short code
         const newCode = await generateClientCode(client.ownerId);
         
-        // Aggiorna SOLO il newUniqueCode, lascia uniqueCode invariato
+        // Update ONLY the newUniqueCode, leave uniqueCode unchanged
         await db.update(clients)
           .set({ newUniqueCode: newCode })
           .where(eq(clients.id, client.id));
 
-        console.log(`✅ [MIGRATO] Cliente ${client.id} (${clientName})`);
-        console.log(`   Vecchio: ${client.uniqueCode || 'N/A'} (QR ancora valido)`);
+        console.log(`✅ [MIGRATED] Client ${client.id} (${clientName})`);
+        console.log(`   Old: ${client.uniqueCode || 'N/A'} (QR still valid)`);
         console.log(`   Nuovo:   ${newCode}\n`);
 
         stats.migrated++;
@@ -126,7 +126,7 @@ async function migrateClientCodes(): Promise<MigrationStats> {
         });
 
       } catch (error: any) {
-        console.error(`❌ [ERRORE] Cliente ${client.id} (${clientName}): ${error.message}\n`);
+        console.error(`❌ [ERROR] Client ${client.id} (${clientName}): ${error.message}\n`);
         stats.errors++;
         stats.details.push({
           id: client.id,
@@ -144,8 +144,8 @@ async function migrateClientCodes(): Promise<MigrationStats> {
     console.log('\n' + '='.repeat(60));
     console.log('📈 [RIEPILOGO MIGRAZIONE]');
     console.log('='.repeat(60));
-    console.log(`Totale clienti processati: ${stats.total}`);
-    console.log(`✅ Migrati con successo:  ${stats.migrated}`);
+    console.log(`Total clients processed: ${stats.total}`);
+    console.log(`✅ Migrati successfully:  ${stats.migrated}`);
     console.log(`⚠️  Saltati:              ${stats.skipped}`);
     console.log(`❌ Errori:                ${stats.errors}`);
     console.log('='.repeat(60) + '\n');
@@ -173,7 +173,7 @@ async function migrateClientCodes(): Promise<MigrationStats> {
     return stats;
 
   } catch (error) {
-    console.error('❌ [ERRORE FATALE] Migrazione fallita:', error);
+    console.error('❌ [FATAL ERROR] Migration failed:', error);
     throw error;
   }
 }

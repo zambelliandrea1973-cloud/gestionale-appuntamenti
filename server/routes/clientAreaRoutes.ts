@@ -13,55 +13,55 @@ const router = Router();
 
   // === AREA CLIENTI - ROTTE PER QR CODE ACCESS ===
   
-  // Validazione token QR - AGGIORNATA PER POSTGRESQL
+  // QR token validation - UPDATED FOR POSTGRESQL
   async function validateQRToken(clientCode: string, token: string) {
-    // 🔄 USA POSTGRESQL: Cerca cliente per uniqueCode nel database condiviso
+    // 🔄 USE POSTGRESQL: Find client by uniqueCode in the shared database
     const clientResults = await db.select()
       .from(clientsTable)
       .where(eq(clientsTable.uniqueCode, clientCode))
       .limit(1);
     
     if (!clientResults || clientResults.length === 0) {
-      logger.debug(`🔍 [QR-AUTH] Cliente non trovato per codice: ${clientCode}`);
+      logger.debug(`🔍 [QR-AUTH] Client not found for code: ${clientCode}`);
       return null;
     }
     
     const client = clientResults[0];
     
-    // Verifica che il token sia valido
+    // Verify that the token is valid
     const expectedTokenPrefix = `${clientCode}_`;
     if (!token.startsWith(expectedTokenPrefix)) {
-      logger.debug(`🔍 [QR-AUTH] Token non valido per cliente ${clientCode}: ${token}`);
+      logger.debug(`🔍 [QR-AUTH] Invalid token for client ${clientCode}: ${token}`);
       return null;
     }
     
-    // Estrai legacy client ID dal uniqueCode (formato: PROF_014_9C1F_CLIENT_14003_816C)
+    // Extract legacy client ID from uniqueCode (format: PROF_014_9C1F_CLIENT_14003_816C)
     let legacyClientId: number | null = null;
     const legacyIdMatch = clientCode.match(/_CLIENT_(\d+)_/);
     if (legacyIdMatch) {
       legacyClientId = parseInt(legacyIdMatch[1]);
     }
     
-    logger.debug(`✅ [QR-AUTH] Token valido per cliente ${client.firstName} ${client.lastName} (${clientCode}), legacyId: ${legacyClientId}`);
+    logger.debug(`✅ [QR-AUTH] Valid token for client ${client.firstName} ${client.lastName} (${clientCode}), legacyId: ${legacyClientId}`);
     return { clientId: client.id, client, legacyClientId };
   }
 
-  // API: Recupera dati cliente tramite QR code
+  // API: Retrieve client data via QR code
 router.get('/api/simple/client/:clientCode', async (req, res) => {
     try {
       const { clientCode } = req.params;
       const token = req.headers.authorization?.replace('Bearer ', '') || '';
       
-      logger.debug(`🔍 [CLIENT-API] Richiesta dati per cliente: ${clientCode}, token: ${token ? 'presente' : 'assente'}`);
+      logger.debug(`🔍 [CLIENT-API] Data request for client: ${clientCode}, token: ${token ? 'present' : 'absent'}`);
       
       const validation = await validateQRToken(clientCode, token);
       if (!validation) {
-        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+        return res.status(401).json({ error: 'Invalid token or client not found' });
       }
       
       const { client } = validation;
       
-      // Restituisci solo i dati necessari del cliente
+      // Return only the necessary client data
       const clientData = {
         id: client.id,
         firstName: client.firstName,
@@ -71,16 +71,16 @@ router.get('/api/simple/client/:clientCode', async (req, res) => {
         uniqueCode: client.uniqueCode
       };
       
-      logger.debug(`✅ [CLIENT-API] Dati cliente inviati: ${client.firstName} ${client.lastName}`);
+      logger.debug(`✅ [CLIENT-API] Client data sent: ${client.firstName} ${client.lastName}`);
       res.json(clientData);
       
     } catch (error: any) {
-      console.error('❌ [CLIENT-API] Errore nel recupero dati cliente:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('❌ [CLIENT-API] Error retrieving client data:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // API: Recupera appuntamenti cliente tramite QR code
+  // API: Retrieve client appointments via QR code
 router.get('/api/simple/client/:clientCode/appointments', async (req, res) => {
     try {
       const { clientCode } = req.params;
@@ -88,20 +88,20 @@ router.get('/api/simple/client/:clientCode/appointments', async (req, res) => {
       
       const validation = await validateQRToken(clientCode, token);
       if (!validation) {
-        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+        return res.status(401).json({ error: 'Invalid token or client not found' });
       }
       
       const { clientId, client } = validation;
       
-      // 📊 TRACKING AUTOMATICO: Registra l'accesso solo se non già tracciato negli ultimi 2 minuti
-      // Usa un lock in memoria per prevenire race condition dalle chiamate parallele
+      // 📊 AUTOMATIC TRACKING: Register access only if already tracked in the last 2 minutes
+      // Use an in-memory lock to prevent race conditions from parallel calls
       try {
         const now = Date.now();
         const lastAccessTime = clientAccessLocks.get(clientId) || 0;
         const twoMinutesInMs = 2 * 60 * 1000;
         
         if (now - lastAccessTime > twoMinutesInMs) {
-          // Imposta il lock PRIMA di fare qualsiasi operazione
+          // Set the lock BEFORE performing any operation
           clientAccessLocks.set(clientId, now);
           
           const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
@@ -112,44 +112,44 @@ router.get('/api/simple/client/:clientCode/appointments', async (req, res) => {
             ipAddress: ip,
             userAgent: userAgent.substring(0, 500)
           });
-          logger.debug(`📊 [AUTO-TRACKING] Accesso registrato per cliente ${clientId} (${client.firstName} ${client.lastName})`);
+          logger.debug(`📊 [AUTO-TRACKING] Access registered for client ${clientId} (${client.firstName} ${client.lastName})`);
         } else {
-          logger.debug(`📊 [AUTO-TRACKING] Accesso già registrato negli ultimi 2 min per cliente ${clientId}, skip (lock in memoria)`);
+          logger.debug(`📊 [AUTO-TRACKING] Access already registered in the last 2 min for client ${clientId}, skip (memory lock)`);
         }
       } catch (trackError) {
-        console.error(`⚠️ [AUTO-TRACKING] Errore tracking (non bloccante):`, trackError);
+        console.error(`⚠️ [AUTO-TRACKING] Error tracking (non-blocking):`, trackError);
       }
       
-      // 🔄 USA POSTGRESQL: Recupera appuntamenti del cliente dal database
+      // 🔄 USE POSTGRESQL: Retrieve client appointments from the database
       const clientAppointments = await storage.getAppointmentsByClient(clientId);
       
-      // 🔄 USA POSTGRESQL: Recupera servizi del proprietario
+      // 🔄 USE POSTGRESQL: Retrieve owner services
       const ownerId = client.ownerId;
       const ownerServices = ownerId ? await storage.getServices(ownerId) : [];
       
-      // Mappa gli appuntamenti con i nomi dei servizi
+      // Map appointments with service names
       const mappedAppointments = clientAppointments.map(apt => {
         const service = ownerServices.find(s => s.id === apt.serviceId);
         return {
           id: apt.id,
           date: apt.date,
-          time: apt.startTime, // startTime è il campo PostgreSQL
-          service: service?.name || 'Servizio sconosciuto',
+          time: apt.startTime, // startTime is the PostgreSQL field
+          service: service?.name || 'Unknown service',
           status: apt.status || 'scheduled',
           notes: apt.notes || ''
         };
       });
       
-      console.log(`📅 [CLIENT-API] ${mappedAppointments.length} appuntamenti trovati per cliente ${clientCode}`);
+      console.log(`📅 [CLIENT-API] ${mappedAppointments.length} appointments found for client ${clientCode}`);
       res.json(mappedAppointments);
       
     } catch (error: any) {
-      console.error('❌ [CLIENT-API] Errore nel recupero appuntamenti:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('❌ [CLIENT-API] Error retrieving appointments:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // API: Recupera informazioni di contatto del professionista
+  // API: Retrieve professional contact information
 router.get('/api/simple/client/:clientCode/contact-info', async (req, res) => {
     try {
       const { clientCode } = req.params;
@@ -157,35 +157,35 @@ router.get('/api/simple/client/:clientCode/contact-info', async (req, res) => {
       
       const validation = await validateQRToken(clientCode, token);
       if (!validation) {
-        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+        return res.status(401).json({ error: 'Invalid token or client not found' });
       }
       
       const { client } = validation;
       
-      // 🔄 USA POSTGRESQL: Recupera info contatto del proprietario
+      // 🔄 USE POSTGRESQL: Retrieve owner contact info
       const ownerId = client.ownerId;
       const contactInfo = ownerId ? await storage.getContactInfo(ownerId) : {};
       
-      logger.debug(`📞 [CLIENT-API] Info contatto inviate per proprietario ${ownerId}`);
+      logger.debug(`📞 [CLIENT-API] Contact info sent for owner ${ownerId}`);
       res.json(contactInfo);
       
     } catch (error: any) {
-      console.error('❌ [CLIENT-API] Errore nel recupero info contatto:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('❌ [CLIENT-API] Error retrieving contact info:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // API: Recupera fatture del cliente
+  // API: Retrieve client invoices
 router.get('/api/simple/client/:clientCode/invoices', async (req, res) => {
     try {
       const { clientCode } = req.params;
       const token = req.headers.authorization?.replace('Bearer ', '') || '';
       
-      logger.debug(`📄 [CLIENT-INVOICES] Richiesta fatture per cliente: ${clientCode}`);
+      logger.debug(`📄 [CLIENT-INVOICES] Invoice request for client: ${clientCode}`);
       
       const validation = await validateQRToken(clientCode, token);
       if (!validation) {
-        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+        return res.status(401).json({ error: 'Invalid token or client not found' });
       }
       
       const { client, legacyClientId } = validation;
@@ -214,45 +214,45 @@ router.get('/api/simple/client/:clientCode/invoices', async (req, res) => {
         ))
         .orderBy(desc(invoicesTable.date));
       
-      // FILTRO: Solo fatture con flag publishedToPwa attivo (PostgreSQL)
+      // FILTER: Only invoices with publishedToPwa flag active (PostgreSQL)
       const sentInvoices = allClientInvoices.filter(inv => {
         const isPublished = inv.publishedToPwa === true;
-        logger.debug(`🔍 [PWA-FILTER] Fattura ${inv.id} (${inv.invoiceNumber}): publishedToPwa=${inv.publishedToPwa}, result=${isPublished}`);
+        logger.debug(`🔍 [PWA-FILTER] invoice ${inv.id} (${inv.invoiceNumber}): publishedToPwa=${inv.publishedToPwa}, result=${isPublished}`);
         return isPublished;
       });
       
-      // Gli importi sono già in euro (non centesimi), non serve divisione
+      // Amounts are already in euros (not cents), no division needed
       const formattedInvoices = sentInvoices.map(inv => ({
         ...inv,
         totalAmount: inv.totalAmount,
         tax: inv.tax || 0
       }));
       
-      logger.debug(`✅ [CLIENT-INVOICES] ${formattedInvoices.length}/${allClientInvoices.length} fatture inviate trovate per cliente ${clientCode}`);
+      logger.debug(`✅ [CLIENT-INVOICES] ${formattedInvoices.length}/${allClientInvoices.length} sent invoices found for client ${clientCode}`);
       res.json(formattedInvoices);
       
     } catch (error: any) {
-      console.error('❌ [CLIENT-INVOICES] Errore nel recupero fatture:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('❌ [CLIENT-INVOICES] Error retrieving invoices:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // API: Download PDF fattura del cliente
+  // API: Download client invoice PDF
 router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req, res) => {
     try {
       const { clientCode, invoiceId } = req.params;
       const token = req.headers.authorization?.replace('Bearer ', '') || '';
       
-      console.log(`📥 [CLIENT-INVOICE-PDF] Richiesta PDF fattura ${invoiceId} per cliente ${clientCode}`);
+      console.log(`📥 [CLIENT-INVOICE-PDF] PDF invoice request ${invoiceId} for client ${clientCode}`);
       
       const validation = await validateQRToken(clientCode, token);
       if (!validation) {
-        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+        return res.status(401).json({ error: 'Invalid token or client not found' });
       }
       
       const { client, legacyClientId } = validation;
       
-      // Verifica che la fattura appartenga al cliente e al suo proprietario (multi-tenant)
+      // Verify that the invoice belongs to the client and their owner (multi-tenant)
       const invoice = await db
         .select()
         .from(invoicesTable)
@@ -266,18 +266,18 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         ))
         .limit(1);
       
-      // SECURITY CHECK: Verifica che la fattura sia stata pubblicata sulla PWA (PostgreSQL)
+      // SECURITY CHECK: Verify that the invoice has been published on the PWA (PostgreSQL)
       if (!invoice[0] || invoice[0].publishedToPwa !== true) {
-        console.error(`❌ [CLIENT-INVOICE-PDF] Fattura ${invoiceId} non pubblicata sulla PWA (publishedToPwa: ${invoice[0]?.publishedToPwa})`);
-        return res.status(403).json({ error: 'Fattura non disponibile' });
+        console.error(`❌ [CLIENT-INVOICE-PDF] invoice ${invoiceId} not published to PWA (publishedToPwa: ${invoice[0]?.publishedToPwa})`);
+        return res.status(403).json({ error: 'Invoice not available' });
       }
       
       if (!invoice || invoice.length === 0) {
-        console.error(`❌ [CLIENT-INVOICE-PDF] Fattura ${invoiceId} non trovata o non autorizzata per cliente ${clientCode}`);
-        return res.status(404).json({ error: 'Fattura non trovata' });
+        console.error(`❌ [CLIENT-INVOICE-PDF] invoice ${invoiceId} not found or not authorized for client ${clientCode}`);
+        return res.status(404).json({ error: 'Invoice not found' });
       }
       
-      logger.debug(`✅ [CLIENT-INVOICE-PDF] Fattura ${invoice[0].invoiceNumber} validata per cliente ${clientCode}`);
+      logger.debug(`✅ [CLIENT-INVOICE-PDF] invoice ${invoice[0].invoiceNumber} validated for client ${clientCode}`);
       
       const invoiceData = invoice[0];
       
@@ -287,11 +287,11 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         .from(invoiceItems)
         .where(eq(invoiceItems.invoiceId, invoiceData.id));
       
-      // Carica logo personalizzato
+      // Load logo personalizzato
       const { loadUserLogo, buildInvoiceHtml, generatePdfBuffer } = await import('./utils/invoicePdf');
       const logoBase64 = await loadUserLogo(client.userId);
       
-      // Carica dati aziendali
+      // Load company data
       let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
@@ -320,14 +320,14 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
           }
         }
       } catch (error: any) {
-        console.log('⚠️ [PDF PWA] Errore caricamento dati aziendali:', error);
+        console.log('⚠️ [PDF PWA] Error loading company data:', error);
       }
       
-      // Recupera la valuta dell'utente
+      // Retrieve the user's currency
       const userCurrency = await getCurrencyForUser(storage, client.userId);
       const currencySymbol = userCurrency.symbol;
       
-      // Costruisci context per il template
+      // Build context for the template
       const context = {
         invoiceNumber: invoiceData.invoiceNumber,
         date: new Date(invoiceData.date).toLocaleDateString('it-IT'),
@@ -365,10 +365,10 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         currencySymbol
       };
       
-      // Genera HTML professionale con logo e grafica
+      // Generate HTML professionale con logo e grafica
       const htmlContent = buildInvoiceHtml(context);
       
-      // Usa Puppeteer per generare PDF vero, con fallback HTML se fallisce
+      // Usa Puppeteer per generare PDF vero, con fallback HTML If fallisce
       try {
         const pdfBuffer = await generatePdfBuffer(htmlContent);
         
@@ -376,37 +376,37 @@ router.get('/api/simple/client/:clientCode/invoices/:invoiceId/pdf', async (req,
         res.setHeader('Content-Disposition', `attachment; filename="Fattura_${invoiceData.invoiceNumber}.pdf"`);
         res.send(pdfBuffer);
         
-        logger.debug(`✅ [CLIENT-INVOICE-PDF] PDF professionale generato per cliente ${clientCode}`);
+        logger.debug(`✅ [CLIENT-INVOICE-PDF] Professional PDF generated for client ${clientCode}`);
       } catch (pdfError) {
-        console.error('❌ [CLIENT-INVOICE-PDF] Errore Puppeteer, fallback HTML professionale:', pdfError);
+        console.error('❌ [CLIENT-INVOICE-PDF] Puppeteer error, falling back to professional HTML:', pdfError);
         
-        // Fallback: invia HTML professionale (stesso template, ma non PDF)
+        // Fallback: send professional HTML (same template, but not PDF)
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Content-Disposition', `inline; filename="Fattura_${invoiceData.invoiceNumber}.html"`);
         res.send(htmlContent);
         
-        logger.debug(`📄 [CLIENT-INVOICE-PDF] HTML professionale inviato come fallback per cliente ${clientCode}`);
+        logger.debug(`📄 [CLIENT-INVOICE-PDF] Professional HTML sent as fallback for client ${clientCode}`);
       }
       
     } catch (error: any) {
-      console.error('❌ [CLIENT-INVOICE-PDF] Errore nel download PDF:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('❌ [CLIENT-INVOICE-PDF] Error downloading PDF:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // API per sbloccare la cancellazione di clienti importati eliminati alla fonte
+  // API to unblock deletion of imported clients deleted at source
 router.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, res) => {
     try {
       const { clientId } = req.params;
       const user = req.user!;
       
-      logger.debug(`🔓 [/api/unlock-client-deletion] Admin ${user.id} richiede sblocco per cliente ${clientId}`);
+      logger.debug(`🔓 [/api/unlock-client-deletion] Admin ${user.id} requests unblock for client ${clientId}`);
       
-      // Solo admin possono sbloccare cancellazioni
+      // Only admins can unblock cancellations
       if (user.type !== 'admin') {
         return res.status(403).json({ 
           success: false, 
-          message: 'Solo gli amministratori possono sbloccare le cancellazioni' 
+          message: 'Only administrators can unblock deletions' 
         });
       }
       
@@ -416,29 +416,29 @@ router.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, re
       if (!clientEntry) {
         return res.status(404).json({ 
           success: false, 
-          message: 'Cliente non trovato' 
+          message: 'Client not found' 
         });
       }
       
       const [id, client] = clientEntry;
       
-      // Verifica che sia un cliente importato
+      // Verify that it is an imported client
       if (!client.originalOwnerId) {
         return res.status(400).json({ 
           success: false, 
-          message: 'Solo i clienti importati possono essere sbloccati' 
+          message: 'Only imported clients can be unblocked' 
         });
       }
       
-      // Sblocca la cancellazione
+      // Unlock the deletion
       client.deletionUnlocked = true;
       saveStorageData(storageData);
       
-      logger.debug(`✅ [SBLOCCO] Cliente ${client.firstName} ${client.lastName} (${clientId}) sbloccato per cancellazione dall'admin ${user.id}`);
+      logger.debug(`✅ [UNBLOCK] Client ${client.firstName} ${client.lastName} (${clientId}) unblocked for deletion by admin ${user.id}`);
       
       res.json({
         success: true,
-        message: 'Cancellazione sbloccata con successo',
+        message: 'Cancellazione sbloccata successfully',
         client: {
           id: client.id,
           firstName: client.firstName,
@@ -448,27 +448,27 @@ router.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, re
       });
       
     } catch (error: any) {
-      console.error('❌ [ERRORE SBLOCCO]:', error);
+      console.error('❌ [UNBLOCK ERROR]:', error);
       res.status(500).json({ 
         success: false, 
-        message: 'Errore durante lo sblocco della cancellazione' 
+        message: 'Error unblocking deletion' 
       });
     }
   });
 
-  // API per simulare eliminazione dal sistema originale (per test)
+  // API for simulating deletion from the original system (for testing)
 router.post('/api/mark-client-deleted-at-source/:clientId', requireAuth, async (req, res) => {
     try {
       const { clientId } = req.params;
       const user = req.user!;
       
-      logger.debug(`⚠️ [/api/mark-client-deleted-at-source] Admin ${user.id} marca cliente ${clientId} come eliminato alla fonte`);
+      logger.debug(`⚠️ [/api/mark-client-deleted-at-source] Admin ${user.id} marking client ${clientId} as deleted at source`);
       
-      // Solo admin possono simulare eliminazioni
+      // Only admins can simulate deletions
       if (user.type !== 'admin') {
         return res.status(403).json({ 
           success: false, 
-          message: 'Solo gli amministratori possono simulare eliminazioni' 
+          message: 'Only administrators can simulate deletions' 
         });
       }
       
@@ -478,29 +478,29 @@ router.post('/api/mark-client-deleted-at-source/:clientId', requireAuth, async (
       if (!clientEntry) {
         return res.status(404).json({ 
           success: false, 
-          message: 'Cliente non trovato' 
+          message: 'Client not found' 
         });
       }
       
       const [id, client] = clientEntry;
       
-      // Verifica che sia un cliente importato
+      // Verify that it is an imported client
       if (!client.originalOwnerId) {
         return res.status(400).json({ 
           success: false, 
-          message: 'Solo i clienti importati possono essere marcati come eliminati alla fonte' 
+          message: 'Only imported clients can be marked as deleted at source' 
         });
       }
       
-      // Marca come eliminato alla fonte
+      // Mark as deleted at the source
       client.deletedAtSource = true;
       saveStorageData(storageData);
       
-      console.log(`🚨 [NOTIFICA ELIMINAZIONE] Cliente ${client.firstName} ${client.lastName} (${clientId}) eliminato alla fonte - notifica admin`);
+      console.log(`🚨 [notification Deleting] client ${client.firstName} ${client.lastName} (${clientId}) deleted at source - notifying admin`);
       
       res.json({
         success: true,
-        message: 'Cliente marcato come eliminato alla fonte',
+        message: 'Client marked as deleted at source',
         client: {
           id: client.id,
           firstName: client.firstName,
@@ -510,10 +510,10 @@ router.post('/api/mark-client-deleted-at-source/:clientId', requireAuth, async (
       });
       
     } catch (error: any) {
-      console.error('❌ [ERRORE NOTIFICA ELIMINAZIONE]:', error);
+      console.error('❌ [error notification Deleting]:', error);
       res.status(500).json({ 
         success: false, 
-        message: 'Errore durante la notifica di eliminazione' 
+        message: 'Error sending deletion notification' 
       });
     }
   });

@@ -2,15 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * Servizio per la registrazione degli accessi ai dati personali
- * Conforme alle normative GDPR per la tracciabilità degli accessi
+ * Service for logging personal data access
+ * Compliant with GDPR regulations for access traceability
  */
 export class DataAccessLogger {
   private static logDir = path.join(process.cwd(), 'logs');
   private static logFile = path.join(DataAccessLogger.logDir, 'data-access.log');
 
   /**
-   * Inizializza il sistema di logging creando la directory dei log se non esiste
+   * Initialize the logging system creating the log directory if it exists
    */
   static initialize(): void {
     if (!fs.existsSync(DataAccessLogger.logDir)) {
@@ -19,12 +19,12 @@ export class DataAccessLogger {
   }
 
   /**
-   * Registra un accesso ai dati personali
-   * @param userId ID dell'utente che ha effettuato l'accesso
+   * Register a personal data access
+   * @param userId ID of the user who performed the access
    * @param action Azione eseguita (read, create, update, delete)
-   * @param resource Risorsa a cui si è acceduto (client, appointment, ecc.)
-   * @param resourceId ID della risorsa
-   * @param details Dettagli aggiuntivi sull'accesso
+   * @param resource Resource that was accessed (client, appointment, etc.)
+   * @param resourceId Resource ID
+   * @param details Additional details about the access
    */
   static logAccess(
     userId: number | string,
@@ -42,21 +42,21 @@ export class DataAccessLogger {
         resource,
         resourceId,
         details,
-        ipAddress: 'unknown' // In un'implementazione reale, dovresti catturare l'IP del client
+        ipAddress: 'unknown' // In a real implementation, you should capture the client IP
       });
 
-      // Aggiungi l'accesso al file di log
+      // Add the access to the log file
       fs.appendFileSync(DataAccessLogger.logFile, logEntry + '\n');
     } catch (error) {
-      console.error('Errore durante la registrazione dell\'accesso ai dati:', error);
+      console.error('Error registering data access:', error);
     }
   }
 
   /**
-   * Ottiene i log di accesso per una risorsa specifica
-   * @param resource Nome della risorsa
-   * @param resourceId ID della risorsa
-   * @returns Array di log di accesso
+   * Get access logs for a specific resource
+   * @param resource Resource name
+   * @param resourceId Resource ID
+   * @returns Array of access logs
    */
   static getAccessLogs(resource: string, resourceId: number | string): any[] {
     try {
@@ -72,15 +72,15 @@ export class DataAccessLogger {
 
       return logs;
     } catch (error) {
-      console.error('Errore durante la lettura dei log di accesso:', error);
+      console.error('Error reading access logs:', error);
       return [];
     }
   }
 
   /**
-   * Esporta i log di accesso per un utente specifico (utile per le richieste GDPR)
-   * @param userId ID dell'utente
-   * @returns Array di log di accesso
+   * Export access logs for a specific user (useful for GDPR requests)
+   * @param userId ID of the user
+   * @returns Array of access logs
    */
   static getUserDataAccessLogs(userId: number | string): any[] {
     try {
@@ -96,7 +96,7 @@ export class DataAccessLogger {
 
       return logs;
     } catch (error) {
-      console.error('Errore durante la lettura dei log di accesso:', error);
+      console.error('Error reading access logs:', error);
       return [];
     }
   }

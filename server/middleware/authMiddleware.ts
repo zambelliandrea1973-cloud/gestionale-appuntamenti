@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   if (!req.isAuthenticated()) {
-    return res.status(401).json({ message: "Non autenticato" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
   next();
 }
@@ -11,7 +11,7 @@ export function isAdminOrStaff(req: Request, res: Response, next: NextFunction) 
   if (!req.isAuthenticated()) {
     return res.status(401).json({
       success: false,
-      message: 'Non sei autenticato'
+      message: 'You are not authenticated'
     });
   }
 

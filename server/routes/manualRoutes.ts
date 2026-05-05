@@ -8,20 +8,20 @@ import { fileStorageService } from '../services/fileStorageService';
 
 const router = Router();
 
-// Cache per il tenant condiviso del manuale
+// Cache per the tenant condiviso del manuale
 let sharedManualTenantId: number | null = null;
 
 // Helper per risolvere tenantId condiviso per il manuale
-// IMPORTANTE: Il manuale è condiviso tra TUTTI gli account dello stesso studio
-// (admin, staff, customer) - usano tutti lo stesso tenantId
+// IMPORTANT: The manual is shared among ALL accounts of the same practice
+// (admin, staff, customer) - usano all lo stesso tenantId
 async function getTenantId(user: any): Promise<number> {
-  // Se abbiamo già il tenantId cached, ritornalo
+  // If abbiamo already the tenantId cached, ritornalo
   if (sharedManualTenantId !== null) {
     return sharedManualTenantId;
   }
 
   try {
-    // Trova il primo admin nel database (ordinato per ID)
+    // Find the first admin in the database (ordered by ID)
     const [firstAdmin] = await db
       .select({ id: users.id })
       .from(users)
@@ -31,16 +31,16 @@ async function getTenantId(user: any): Promise<number> {
 
     if (firstAdmin) {
       sharedManualTenantId = firstAdmin.id;
-      console.log(`📚 [MANUAL-TENANT] TenantId condiviso per manuale: ${sharedManualTenantId}`);
+      console.log(`📚 [MANUAL-TENANT] TenantId condiviso per manual: ${sharedManualTenantId}`);
       return sharedManualTenantId;
     }
 
-    // Fallback: se non ci sono admin, usa l'ID dell'utente corrente
-    console.warn(`⚠️ [MANUAL-TENANT] Nessun admin trovato, uso user.id: ${user.id}`);
+    // Fallback: If there are admins, use the current user's ID
+    console.warn(`⚠️ [MANUAL-TENANT] No admin found, using user.id: ${user.id}`);
     sharedManualTenantId = user.id;
     return sharedManualTenantId;
   } catch (error: any) {
-    console.error('❌ [MANUAL-TENANT] Errore nel recupero tenantId:', error);
+    console.error('❌ [MANUAL-TENANT] Error retrieving tenantId:', error);
     // Fallback sicuro
     return user.id;
   }
@@ -116,7 +116,7 @@ Configura le sale disponibili nella tua struttura:
 Configura l'invio automatico di email per notifiche e promemoria:
 
 • Server SMTP: Indirizzo del server email (es. smtp.gmail.com)
-• Porta: Di solito 587 o 465
+• Port: Di solito 587 o 465
 • Username: Il tuo indirizzo email
 • Password: Password dell'account email (usa password applicazione per Gmail)
 • Email mittente: L'indirizzo che apparirà come mittente
@@ -215,10 +215,10 @@ Inviare la fattura al cliente
 3. La fattura verrà anche resa disponibile nell'area cliente
 
 Stati della fattura
-- Bozza: Fattura non ancora inviata
-- Inviata: Fattura inviata ma non pagata
+- Draft: Fattura non ancora inviata
+- Sent: Fattura inviata ma non pagata
 - Pagata: Pagamento ricevuto
-- Scaduta: Fattura non pagata oltre la scadenza
+- Overdue: Fattura non pagata oltre la scadenza
 
 Dati visualizzati nella fattura
 - Dati aziendali e logo (dalle Impostazioni)
@@ -430,7 +430,7 @@ Su Android (Chrome)
 5. L'app sarà disponibile come tutte le altre app`
   },
   'section-4-4': {
-    title: 'Personalizzare l\'Aspetto dell\'Area Cliente',
+    title: 'Customize the Appearance of the Client Area',
     content: `L'area cliente riflette automaticamente il tuo brand:
 
 - Logo/Icona: Il logo caricato nelle Impostazioni → Aspetto
@@ -468,19 +468,19 @@ const upload = multer({
 router.post('/api/manual/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
-        error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
+        error: 'Permission denied: only administrators can modify the manual' 
       });
     }
 
     const file = req.file;
 
     if (!file) {
-      return res.status(400).json({ error: 'Nessun file caricato' });
+      return res.status(400).json({ error: 'No file uploaded' });
     }
 
     const fileType = file.mimetype.startsWith('image/') ? 'image' : 'video';
@@ -501,18 +501,18 @@ router.post('/api/manual/upload', upload.single('file'), async (req, res) => {
       }
     });
   } catch (error: any) {
-    console.error('❌ Errore upload file manuale:', error);
+    console.error('❌ Error uploading manual file:', error);
     return res.status(500).json({ 
-      error: 'Errore durante l\'upload del file' 
+      error: 'Error uploading file' 
     });
   }
 });
 
-// GET: Ottieni contenuto manuale per sezione e locale
+// GET: Get contenuto manuale per sezione e locale
 router.get('/api/manual/content/:section/:locale', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const { section, locale } = req.params;
@@ -532,10 +532,10 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
       .limit(1);
 
     if (content.length === 0) {
-      // AUTO-PROVISIONING: Crea sezione dal template se non esiste
-      // ⚠️ PERMESSI: Solo admin può creare nuove sezioni
+      // AUTO-PROVISIONING: Create sezione dal template If esiste
+      // ⚠️ PERMESSI: Only admin può creare nuove sezioni
       if (req.user.type !== 'admin') {
-        // Per professionisti, ritorna template vuoto senza salvare nel DB
+        // For professionals, return empty template without saving to DB
         const template = MANUAL_TEMPLATES[section];
         return res.json({
           id: null,
@@ -556,7 +556,7 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
       const template = MANUAL_TEMPLATES[section];
       
       if (!template) {
-        // Template non trovato, restituisci placeholder vuoto
+        // Template not found, restituisci placeholder vuoto
         return res.json({
           id: null,
           userId: req.user.id,
@@ -567,7 +567,7 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
         });
       }
       
-      // Crea step con didascalia dal template
+      // Create step con didascalia dal template
       const steps = [{
         stepNumber: 1,
         title: template.title,
@@ -575,7 +575,7 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
         mediaFiles: []
       }];
       
-      // Salva nel database (auto-provisioning SOLO per admin)
+      // Save to database (auto-provisioning ONLY for admins)
       const now = new Date();
       const [newSection] = await db
         .insert(manualContent)
@@ -601,26 +601,26 @@ router.get('/api/manual/content/:section/:locale', async (req, res) => {
           updatedAt: manualContent.updatedAt
         });
       
-      console.log(`✨ Auto-provisioning sezione ${section}/${locale} per ADMIN ${req.user.id}`);
-      console.log(`✅ Record creato con ID:`, newSection.id);
+      console.log(`✨ Auto-provisioning section ${section}/${locale} for ADMIN ${req.user.id}`);
+      console.log(`✅ Record created with ID:`, newSection.id);
       
       return res.json(newSection);
     }
 
     return res.json(content[0]);
   } catch (error: any) {
-    console.error('❌ Errore recupero contenuto manuale:', error);
+    console.error('❌ Error retrieving manual content:', error);
     return res.status(500).json({ 
-      error: 'Errore durante il recupero del contenuto' 
+      error: 'Error retrieving content' 
     });
   }
 });
 
-// GET: Ottieni tutte le sezioni per un locale
+// GET: Get all sections for a locale
 router.get('/api/manual/sections/:locale', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const { locale } = req.params;
@@ -639,24 +639,24 @@ router.get('/api/manual/sections/:locale', async (req, res) => {
 
     return res.json(sections);
   } catch (error: any) {
-    console.error('❌ Errore recupero sezioni manuale:', error);
+    console.error('❌ Error retrieving manual sections:', error);
     return res.status(500).json({ 
-      error: 'Errore durante il recupero delle sezioni' 
+      error: 'Error retrieving sections' 
     });
   }
 });
 
-// POST: Crea o aggiorna contenuto manuale (UPSERT - SOLO ADMIN)
+// POST: Create o aggiorna contenuto manuale (UPSERT - SOLO ADMIN)
 router.post('/api/manual/content', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Solo admin può creare/modificare contenuti del manuale
+    // ⚠️ PERMESSI: Only admin può creare/modificare contenuti del manuale
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
-        error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
+        error: 'Permission denied: only administrators can modify the manual' 
       });
     }
 
@@ -665,11 +665,11 @@ router.post('/api/manual/content', async (req, res) => {
 
     if (!section || !locale || !title || !steps) {
       return res.status(400).json({ 
-        error: 'Campi obbligatori: section, locale, title, steps' 
+        error: 'Required fields: section, locale, title, steps' 
       });
     }
 
-    // Verifica se esiste già
+    // Check if esiste already
     const existing = await db
       .select()
       .from(manualContent)
@@ -703,9 +703,9 @@ router.post('/api/manual/content', async (req, res) => {
         .returning();
 
       result = updated;
-      console.log(`✅ Contenuto manuale aggiornato: sezione ${section}, locale ${locale}, tenantId: ${tenantId}`);
+      console.log(`✅ Contenuto manual updated: section ${section}, locale ${locale}, tenantId: ${tenantId}`);
     } else {
-      // INSERT: nuovo contenuto
+      // INSERT: new content
       const [created] = await db.insert(manualContent).values({
         userId: req.user.id,
         ownerId: tenantId,
@@ -718,7 +718,7 @@ router.post('/api/manual/content', async (req, res) => {
       }).returning();
 
       result = created;
-      console.log(`✅ Contenuto manuale creato: sezione ${section}, locale ${locale}, tenantId: ${tenantId}`);
+      console.log(`✅ Contenuto manual created: section ${section}, locale ${locale}, tenantId: ${tenantId}`);
     }
 
     return res.json({
@@ -726,24 +726,24 @@ router.post('/api/manual/content', async (req, res) => {
       content: result
     });
   } catch (error: any) {
-    console.error('❌ Errore salvataggio contenuto manuale:', error);
+    console.error('❌ Error saving manual content:', error);
     return res.status(500).json({ 
-      error: 'Errore durante il salvataggio del contenuto' 
+      error: 'Error saving content' 
     });
   }
 });
 
-// PUT: Aggiorna contenuto manuale esistente (SOLO ADMIN)
+// PUT: Update contenuto manuale esistente (SOLO ADMIN)
 router.put('/api/manual/content/:id', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Solo admin può modificare contenuti del manuale
+    // ⚠️ PERMESSI: Only admin può modificare contenuti del manuale
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
-        error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
+        error: 'Permission denied: only administrators can modify the manual' 
       });
     }
 
@@ -777,42 +777,42 @@ router.put('/api/manual/content/:id', async (req, res) => {
 
     if (!updated) {
       return res.status(404).json({ 
-        error: 'Contenuto non trovato o permessi insufficienti' 
+        error: 'Contenuto not found o permessi insufficienti' 
       });
     }
 
-    console.log(`✅ Contenuto manuale aggiornato: ID ${id}`);
+    console.log(`✅ Contenuto manual updated: ID ${id}`);
 
     return res.json({
       success: true,
       content: updated
     });
   } catch (error: any) {
-    console.error('❌ Errore aggiornamento contenuto manuale:', error);
+    console.error('❌ Error updating manual content:', error);
     return res.status(500).json({ 
-      error: 'Errore durante l\'aggiornamento del contenuto' 
+      error: 'Error updating content' 
     });
   }
 });
 
-// DELETE: Elimina contenuto manuale (SOLO ADMIN)
+// DELETE: Delete contenuto manuale (SOLO ADMIN)
 router.delete('/api/manual/content/:id', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Solo admin può eliminare contenuti del manuale
+    // ⚠️ PERMESSI: Only admin può eliminare contenuti del manuale
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
-        error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
+        error: 'Permission denied: only administrators can modify the manual' 
       });
     }
 
     const { id } = req.params;
     const tenantId = await getTenantId(req.user);
 
-    // Recupera il contenuto per eliminare i file associati
+    // Retrieve il contenuto per eliminare i file associati
     const [content] = await db
       .select()
       .from(manualContent)
@@ -826,7 +826,7 @@ router.delete('/api/manual/content/:id', async (req, res) => {
 
     if (!content) {
       return res.status(404).json({ 
-        error: 'Contenuto non trovato o permessi insufficienti' 
+        error: 'Contenuto not found o permessi insufficienti' 
       });
     }
 
@@ -845,10 +845,10 @@ router.delete('/api/manual/content/:id', async (req, res) => {
         }
       }
     } catch (err) {
-      console.warn('⚠️ Errore eliminazione file associati:', err);
+      console.warn('⚠️ Error deleting associated files:', err);
     }
 
-    // Elimina il record dal database
+    // Delete the record dal database
     await db
       .delete(manualContent)
       .where(
@@ -858,38 +858,38 @@ router.delete('/api/manual/content/:id', async (req, res) => {
         )
       );
 
-    console.log(`✅ Contenuto manuale eliminato: ID ${id}`);
+    console.log(`✅ Contenuto manual deleted: ID ${id}`);
 
     return res.json({
       success: true,
-      message: 'Contenuto eliminato con successo'
+      message: 'Contenuto deleted successfully'
     });
   } catch (error: any) {
-    console.error('❌ Errore eliminazione contenuto manuale:', error);
+    console.error('❌ Error deleting manual content:', error);
     return res.status(500).json({ 
-      error: 'Errore durante l\'eliminazione del contenuto' 
+      error: 'Error deleting content' 
     });
   }
 });
 
-// DELETE: Elimina singolo file (SOLO ADMIN)
+// DELETE: Delete singolo file (SOLO ADMIN)
 router.delete('/api/manual/file', async (req, res) => {
   try {
     if (!req.user?.id) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    // ⚠️ PERMESSI: Solo admin può eliminare file dal manuale
+    // ⚠️ PERMESSI: Only admin può eliminare file dal manuale
     if (req.user.type !== 'admin') {
       return res.status(403).json({ 
-        error: 'Permesso negato: solo gli amministratori possono modificare il manuale' 
+        error: 'Permission denied: only administrators can modify the manual' 
       });
     }
 
     const { fileUrl } = req.body;
 
     if (!fileUrl) {
-      return res.status(400).json({ error: 'URL file non valido' });
+      return res.status(400).json({ error: 'URL file invalid' });
     }
 
     const fileIdMatch = fileUrl.match(/\/api\/files\/(\d+)\//);
@@ -899,12 +899,12 @@ router.delete('/api/manual/file', async (req, res) => {
 
     return res.json({
       success: true,
-      message: 'File eliminato con successo'
+      message: 'File deleted successfully'
     });
   } catch (error: any) {
-    console.error('❌ Errore eliminazione file:', error);
+    console.error('❌ Error deleting file:', error);
     return res.status(500).json({ 
-      error: 'Errore durante l\'eliminazione del file' 
+      error: 'Error deleting file' 
     });
   }
 });

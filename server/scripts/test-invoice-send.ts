@@ -1,17 +1,17 @@
 #!/usr/bin/env tsx
 
 /**
- * Script di test per verificare l'invio fatture PWA
+ * Test script to verify PWA invoice sending
  */
 
 async function testInvoiceSend() {
   try {
-    console.log('\n🧪 TEST INVIO FATTURA PWA\n');
+    console.log('\n🧪 TEST Sending invoice PWA\n');
     
     const baseUrl = 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev';
     
-    // Prima fai login per ottenere il cookie di sessione
-    console.log('1️⃣ Login come busnari.silvia@libero.it...');
+    // First login to get the session cookie
+    console.log('1️⃣ Logging in as busnari.silvia@libero.it...');
     
     const loginResponse = await fetch(`${baseUrl}/api/staff/login`, {
       method: 'POST',
@@ -24,15 +24,15 @@ async function testInvoiceSend() {
     });
     
     if (!loginResponse.ok) {
-      throw new Error(`Login fallito: ${loginResponse.status}`);
+      throw new Error(`Login failed: ${loginResponse.status}`);
     }
     
-    // Estrai cookie di sessione
+    // Estrai cookie di session
     const cookies = loginResponse.headers.get('set-cookie');
-    console.log('✅ Login OK, cookie ricevuto');
+    console.log('✅ Login OK, cookie received');
     
-    // Ora invia la fattura 11 via PWA
-    console.log('\n2️⃣ Invio fattura 11 via PWA...');
+    // Time to send invoice 11 via PWA
+    console.log('\n2️⃣ Sending invoice 11 via PWA...');
     
     const sendResponse = await fetch(`${baseUrl}/api/invoices/11/send`, {
       method: 'POST',
@@ -51,17 +51,17 @@ async function testInvoiceSend() {
     });
     
     const result = await sendResponse.json();
-    console.log('📤 Risposta invio:', result);
+    console.log('📤 Send response:', result);
     
     if (result.success) {
-      console.log('\n✅ TEST PASSATO! Fattura inviata con successo via PWA');
+      console.log('\n✅ TEST PASSED! Invoice sent successfully via PWA');
       console.log(`   Canali: ${JSON.stringify(result.results)}`);
     } else {
-      console.log('\n❌ TEST FALLITO:', result.message);
+      console.log('\n❌ TEST FAILED:', result.message);
     }
     
   } catch (error) {
-    console.error('\n❌ Errore durante il test:', error);
+    console.error('\n❌ Error during test:', error);
     process.exit(1);
   }
 }

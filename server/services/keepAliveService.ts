@@ -1,6 +1,6 @@
 /**
- * Servizio per mantenere l'applicazione attiva
- * Implementa un meccanismo di auto-ping per evitare che l'applicazione vada in sospensione
+ * Service per mantenere l'applicazione attiva
+ * Implements an auto-ping mechanism to prevent the application from going to sleep
  */
 
 import axios from 'axios';
@@ -8,39 +8,39 @@ import http from 'http';
 
 class KeepAliveService {
   private interval: NodeJS.Timeout | null = null;
-  private pingInterval = 5 * 60 * 1000; // 5 minuti in millisecondi
+  private pingInterval = 5 * 60 * 1000; // 5 minutes in milliseconds
   private appUrl: string = '';
   private isActive: boolean = false;
 
   /**
-   * Inizializza il servizio con l'URL dell'applicazione
+   * Initialize the service with the application URL
    */
   initialize(server: http.Server) {
     if (this.isActive) {
-      console.log('Il servizio keep-alive è già attivo');
+      console.log('The keep-alive service is already active');
       return;
     }
 
-    // Ritardiamo l'inizializzazione per assicurarci che il server sia completamente avviato
-    console.log('Pianificazione inizializzazione servizio keep-alive tra 5 secondi...');
+    // Delay initialization to ensure the server is fully started
+    console.log('Scheduling keep-alive service initialization in 5 seconds...');
     
     setTimeout(() => {
-      // Determina l'URL dell'applicazione
+      // Determine the application URL
       const address = server.address();
       if (address && typeof address !== 'string') {
         const port = address.port;
         this.appUrl = `http://localhost:${port}`;
         
-        console.log(`Servizio keep-alive inizializzato con URL: ${this.appUrl}`);
+        console.log(`Keep-alive service initialized with URL: ${this.appUrl}`);
         this.startPinging();
       } else {
-        console.error('Impossibile determinare l\'indirizzo del server per il servizio keep-alive dopo il ritardo');
+        console.error('Cannot determine server address for keep-alive service after delay');
       }
-    }, 5000); // Ritardo di 5 secondi
+    }, 5000); // 5 second delay
   }
 
   /**
-   * Avvia il processo di ping automatico
+   * Start the processo di ping automatico
    */
   private startPinging() {
     if (this.interval) {
@@ -48,42 +48,42 @@ class KeepAliveService {
     }
 
     this.isActive = true;
-    console.log(`Avvio del processo di ping ogni ${this.pingInterval / 1000} secondi`);
+    console.log(`Starting ping process every ${this.pingInterval / 1000} seconds`);
     
-    // Esegui immediatamente il primo ping
+    // Execute immediatamente the first ping
     this.pingHealthCheck();
 
-    // Pianifica ping regolari
+    // Schedule regular pings
     this.interval = setInterval(() => {
       this.pingHealthCheck();
     }, this.pingInterval);
   }
 
   /**
-   * Esegue un ping all'endpoint di health check
+   * Executes a ping to the health check endpoint
    */
   private async pingHealthCheck() {
     try {
       const response = await axios.get(`${this.appUrl}/api/health`);
       if (response.status === 200) {
-        console.log(`[${new Date().toISOString()}] Health check riuscito: l'applicazione è attiva`);
+        console.log(`[${new Date().toISOString()}] Health check successful: the application is active`);
       } else {
         console.warn(`Health check ha risposto con status: ${response.status}`);
       }
     } catch (error) {
-      console.error('Errore durante il ping di health check:', error);
+      console.error('Error during health check ping:', error);
     }
   }
 
   /**
-   * Ferma il processo di ping automatico
+   * Stop the process di ping automatico
    */
   stop() {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
       this.isActive = false;
-      console.log('Servizio keep-alive fermato');
+      console.log('Keep-alive service stopped');
     }
   }
 }

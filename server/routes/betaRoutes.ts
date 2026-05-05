@@ -11,47 +11,47 @@ const DEFAULT_BETA_ADMIN_PASSWORD = process.env.BETA_ADMIN_PASSWORD || (isProduc
 // Middleware per l'autenticazione personalizzata per l'area beta
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Controlla tutti i possibili header di autenticazione
+    // Check all possible authentication headers
     const adminToken = req.headers['x-beta-admin-token'] as string | undefined;
     const authHeader = req.headers['authorization'] as string | undefined;
-    // Estrae il token dall'header Authorization se presente
+    // Estrae the token dall'header Authorization If presente
     let bearerToken: string | undefined;
     if (authHeader && authHeader.startsWith('Bearer ')) {
-      bearerToken = authHeader.substring(7); // Rimuove "Bearer " dall'inizio
+      bearerToken = authHeader.substring(7); // Remove "Bearer " from the beginning
     }
     
     
-    // Verifica se uno dei token è presente
+    // Check if any token is present
     if (!adminToken && !bearerToken) {
-      console.log('Accesso negato: nessun token di autenticazione fornito');
-      return res.status(401).json({ success: false, message: 'Accesso non autorizzato: token mancante' });
+      console.log('Access denied: no authentication token provided');
+      return res.status(401).json({ success: false, message: 'Unauthorized access: missing token' });
     }
     
-    // Verifica se uno dei token corrisponde a una password valida
-    // Aggiunge supporto per password memorizzate nel localStorage
+    // Check if one of the tokens matches a valid password
+    // Adds support for passwords stored in localStorage
     const secondaryPassword = process.env.BETA_ADMIN_PASSWORD_2 || (isProduction ? '' : '');
     const validToken = 
       (DEFAULT_BETA_ADMIN_PASSWORD && (adminToken === DEFAULT_BETA_ADMIN_PASSWORD || bearerToken === DEFAULT_BETA_ADMIN_PASSWORD)) ||
       (secondaryPassword && (adminToken === secondaryPassword || bearerToken === secondaryPassword));
     
     if (validToken) {
-      console.log('Autenticazione admin beta riuscita con token standard');
+      console.log('Beta admin authentication successful with standard token');
       return next();
     }
     
-    // Se arriviamo qui, il token non è valido
-    console.log('Autenticazione admin beta fallita: token non valido', { adminToken, bearerToken });
-    return res.status(401).json({ success: false, message: 'Accesso non autorizzato: token non valido' });
+    // If we get here, the token is not valid
+    console.log('Beta admin authentication failed: invalid token', { adminToken, bearerToken });
+    return res.status(401).json({ success: false, message: 'Unauthorized access: invalid token' });
   } catch (error) {
-    console.error('Errore durante autenticazione beta admin:', error);
-    return res.status(500).json({ success: false, message: 'Errore di autenticazione' });
+    console.error('Error during beta admin authentication:', error);
+    return res.status(500).json({ success: false, message: 'Authentication error' });
   }
 };
 
 /**
- * Endpoint per la creazione di un nuovo invito beta
+ * Endpoint for creating a new beta invitation
  * POST /api/beta/invitations
- * Accesso: beta admin (utilizza autenticazione con token)
+ * Access: beta admin (uses token authentication)
  */
 router.post('/invitations', isBetaAdmin, async (req, res) => {
   try {
@@ -60,7 +60,7 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
     if (!email) {
       return res.status(400).json({
         success: false,
-        message: 'L\'email è obbligatoria'
+        message: 'Email is required'
       });
     }
     
@@ -72,36 +72,36 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
     
     return res.status(201).json(result);
   } catch (error) {
-    console.error('Errore durante la creazione dell\'invito beta:', error);
+    console.error('Error creating beta invitation:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Endpoint per ottenere tutti gli inviti beta
+ * Endpoint per ottenere all inviti beta
  * GET /api/beta/invitations
- * Accesso: beta admin (utilizza autenticazione con token)
+ * Access: beta admin (uses token authentication)
  */
 router.get('/invitations', isBetaAdmin, async (req, res) => {
   try {
-    console.log('Recupero inviti beta...');
+    console.log('Retrieving beta invitations...');
     const invitations = await storage.getBetaInvitations();
-    console.log('Inviti beta trovati:', invitations.length);
+    console.log('Inviti beta found:', invitations.length);
     return res.json(invitations);
   } catch (error) {
-    console.error('Errore durante il recupero degli inviti beta:', error);
+    console.error('Error retrieving beta invitations:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Endpoint per verificare un codice di invito
+ * Endpoint for verifying an invitation code
  * GET /api/beta/verify/:code
  * Accesso: pubblico
  */
@@ -113,18 +113,18 @@ router.get('/verify/:code', async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la verifica del codice di invito:', error);
+    console.error('Error verifying invitation code:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per l'invio di feedback da parte di un beta tester
+ * Endpoint for beta tester feedback submission
  * POST /api/beta/feedback
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/feedback', isAuthenticated, async (req, res) => {
   try {
@@ -134,7 +134,7 @@ router.post('/feedback', isAuthenticated, async (req, res) => {
     if (!content) {
       return res.status(400).json({
         success: false,
-        message: 'Il contenuto del feedback è obbligatorio'
+        message: 'Feedback content is required'
       });
     }
     
@@ -151,36 +151,36 @@ router.post('/feedback', isAuthenticated, async (req, res) => {
     
     return res.status(201).json(result);
   } catch (error) {
-    console.error('Errore durante l\'invio del feedback:', error);
+    console.error('Error sending feedback:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per ottenere tutti i feedback
+ * Endpoint per ottenere all feedback
  * GET /api/beta/feedback
- * Accesso: beta admin (utilizza autenticazione con token)
+ * Access: beta admin (uses token authentication)
  */
 router.get('/feedback', isBetaAdmin, async (req, res) => {
   try {
     const feedback = await BetaService.getAllFeedbacks();
     return res.json(feedback);
   } catch (error) {
-    console.error('Errore durante il recupero dei feedback:', error);
+    console.error('Error retrieving feedback:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per aggiornare lo stato di un feedback
+ * Endpoint for updating the status of a feedback
  * PUT /api/beta/feedback/:id
- * Accesso: beta admin (utilizza autenticazione con token)
+ * Access: beta admin (uses token authentication)
  */
 router.put('/feedback/:id', isBetaAdmin, async (req, res) => {
   try {
@@ -191,16 +191,16 @@ router.put('/feedback/:id', isBetaAdmin, async (req, res) => {
     if (!status) {
       return res.status(400).json({
         success: false,
-        message: 'Lo stato è obbligatorio'
+        message: 'Status is required'
       });
     }
     
-    // Verifica che lo stato sia valido
+    // Verify that the status is valid
     const validStatuses = ['pending', 'reviewed', 'implemented', 'rejected'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({
         success: false,
-        message: 'Stato non valido. Gli stati validi sono: ' + validStatuses.join(', ')
+        message: 'Invalid status. Valid statuses are: ' + validStatuses.join(', ')
       });
     }
     
@@ -210,62 +210,62 @@ router.put('/feedback/:id', isBetaAdmin, async (req, res) => {
       success: result
     });
   } catch (error) {
-    console.error('Errore durante l\'aggiornamento dello stato del feedback:', error);
+    console.error('Error updating feedback status:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per utilizzare un codice di invito durante la registrazione
+ * Endpoint for using an invitation code during registration
  * POST /api/beta/use/:code
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/use/:code', isAuthenticated, async (req, res) => {
   try {
     const { code } = req.params;
     const userId = req.user!.id;
     
-    // Verifica prima il codice
+    // Verify the code first
     const verifyResult = await BetaService.verifyInvitationCode(code);
     
     if (!verifyResult.valid) {
       return res.status(400).json(verifyResult);
     }
     
-    // Marca il codice come utilizzato
+    // Mark the code as used
     const success = await BetaService.markInvitationAsUsed(code, userId);
     
     return res.json({
       success,
-      message: success ? 'Codice di invito utilizzato con successo' : 'Errore durante l\'utilizzo del codice di invito'
+      message: success ? 'Invitation code used successfully' : 'Error using invitation code'
     });
   } catch (error) {
-    console.error('Errore durante l\'utilizzo del codice di invito:', error);
+    console.error('Error using invitation code:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per la dashboard dei beta tester
+ * Endpoint for the beta testers dashboard
  * GET /api/beta/dashboard
- * Accesso: beta admin (utilizza autenticazione con token)
+ * Access: beta admin (uses token authentication)
  */
 router.get('/dashboard', isBetaAdmin, async (req, res) => {
   try {
-    // Recupera statistiche per la dashboard
-    console.log('Recupero dashboard beta...');
+    // Retrieve statistics for the dashboard
+    console.log('Retrieving beta dashboard...');
     const invitations = await storage.getBetaInvitations();
     const feedback = await BetaService.getAllFeedbacks();
     
-    console.log(`Trovati ${invitations.length} inviti e ${feedback.length} feedback`);
+    console.log(`Found ${invitations.length} inviti e ${feedback.length} feedback`);
     
-    // Calcola alcune statistiche
+    // Calculate alcune statistiche
     const usedInvitations = invitations.filter(invite => invite.isUsed).length;
     const unusedInvitations = invitations.length - usedInvitations;
     
@@ -297,10 +297,10 @@ router.get('/dashboard', isBetaAdmin, async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Errore durante il recupero della dashboard beta:', error);
+    console.error('Error retrieving beta dashboard:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });

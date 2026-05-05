@@ -1,6 +1,6 @@
 /**
  * 📧 AUTO-DETECTION PROVIDER EMAIL
- * Rileva automaticamente le configurazioni SMTP da un indirizzo email
+ * Automatically detect SMTP configurations from an email address
  */
 
 export interface EmailProviderConfig {
@@ -11,7 +11,7 @@ export interface EmailProviderConfig {
 }
 
 /**
- * Rileva il provider email e restituisce le configurazioni SMTP corrette
+ * Detect the email provider and return the correct SMTP configurations
  */
 export function detectEmailProvider(email: string): EmailProviderConfig | null {
   if (!email || !email.includes('@')) return null;
@@ -20,7 +20,7 @@ export function detectEmailProvider(email: string): EmailProviderConfig | null {
 
   // 📋 DATABASE PROVIDER EMAIL ITALIANI E INTERNAZIONALI
   const providers: Record<string, EmailProviderConfig> = {
-    // GMAIL (richiede App Password se 2FA attiva)
+    // GMAIL (requires App Password if 2FA is active)
     'gmail.com': {
       smtp_server: 'smtp.gmail.com',
       smtp_port: 587,
@@ -217,7 +217,7 @@ export function detectEmailProvider(email: string): EmailProviderConfig | null {
       providerName: 'MSN'
     },
 
-    // YAHOO FRANCE (per utenti cross-border)
+    // YAHOO FRANCE (per users cross-border)
     'yahoo.fr': {
       smtp_server: 'smtp.mail.yahoo.com',
       smtp_port: 587,
@@ -231,7 +231,7 @@ export function detectEmailProvider(email: string): EmailProviderConfig | null {
       providerName: 'Infostrada'
     },
 
-    // WIND (ora WindTre)
+    // WIND (time WindTre)
     'windtre.it': {
       smtp_server: 'smtp.windtre.it',
       smtp_port: 587,
@@ -260,14 +260,14 @@ export function detectEmailProvider(email: string): EmailProviderConfig | null {
 }
 
 /**
- * Ottiene le configurazioni SMTP finali con fallback automatico
+ * Get the final SMTP configurations with automatic fallback
  */
 export function getSmtpConfig(
   email: string,
   providedServer?: string,
   providedPort?: number
 ): EmailProviderConfig {
-  // Se sono già forniti server e porta, usali
+  // If server and port are already provided, use them
   if (providedServer && providedPort) {
     return {
       smtp_server: providedServer,
@@ -275,7 +275,7 @@ export function getSmtpConfig(
     };
   }
 
-  // Altrimenti, prova auto-detection
+  // otherwise, prova auto-detection
   const detected = detectEmailProvider(email);
   if (detected) {
     return detected;

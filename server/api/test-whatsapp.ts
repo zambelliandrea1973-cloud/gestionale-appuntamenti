@@ -4,47 +4,47 @@ import { directNotificationService } from '../services/directNotificationService
 
 export async function testWhatsApp(req: Request, res: Response) {
   try {
-    // Otteniamo il numero di telefono configurato per le notifiche
+    // Get the phone number configured for notifications
     const notificationPhone = await directNotificationService.getNotificationPhone();
-    console.log('Numero di telefono utilizzato per notifiche:', notificationPhone);
+    console.log('Phone number used for notifications:', notificationPhone);
     
-    // Recuperiamo le informazioni di contatto per vedere i numeri disponibili
+    // Retrieve contact information to see available numbers
     const contactService = await import('../services/contactService');
     const contactInfo = contactService.contactService.getContactInfo();
     
-    // Creiamo un messaggio di test
-    const message = "Questo è un messaggio di test per WhatsApp";
+    // Create a test message
+    const message = "This is a test message for WhatsApp";
     
-    // Creiamo un link WhatsApp per un numero specifico
-    const clientNumber = '+393472550110'; // Numero di telefono del cliente Zambelli
+    // Create a WhatsApp link for a specific number
+    const clientNumber = '+393472550110'; // Phone number for client Zambelli
     const whatsappLink = directNotificationService.generateWhatsAppLink(clientNumber, message);
     
-    // Rispondiamo con tutte le informazioni utili per il debug
+    // Respond with all useful information for debugging
     res.json({
       success: true,
-      message: 'Test completato con successo',
+      message: 'Test completed successfully',
       data: {
-        // Informazioni sul mittente (professionista)
-        settingsPreferredContactPhone: 'secondary', // Come configurato nelle impostazioni
+        // Sender information (professional)
+        settingsPreferredContactPhone: 'secondary', // As configured in settings
         contactInfo: {
           phone1: contactInfo.phone1,
           phone2: contactInfo.phone2
         },
         notificationPhoneUsed: notificationPhone,
         
-        // Informazioni sul destinatario (cliente)
+        // Recipient information (client)
         clientNumber,
         
-        // Link generato
+        // Link generated
         whatsappLink,
         whatsappMessage: message
       }
     });
   } catch (error: any) {
-    console.error('Errore durante il test:', error);
+    console.error('Error during test:', error);
     res.status(500).json({
       success: false,
-      message: 'Si è verificato un errore durante il test'
+      message: 'An error occurred during the test'
     });
   }
 }

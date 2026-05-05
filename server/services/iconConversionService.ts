@@ -14,14 +14,14 @@ export class IconConversionService {
   private publicIconsPath = path.join(process.cwd(), 'public', 'icons');
 
   constructor() {
-    // Assicurati che la directory icons esista
+    // Ensure the icons directory exists
     if (!fs.existsSync(this.publicIconsPath)) {
       fs.mkdirSync(this.publicIconsPath, { recursive: true });
     }
   }
 
   /**
-   * Converte un'immagine in icone PNG di diverse dimensioni per PWA
+   * Convert an image to PNG icons of various sizes for PWA
    */
   async convertImageToIcons(imageBuffer: Buffer, baseName: string = 'icon'): Promise<IconSizes> {
     const iconPaths: IconSizes = {
@@ -35,7 +35,7 @@ export class IconConversionService {
         const fileName = `${baseName}-${size}x${size}.png`;
         const filePath = path.join(this.publicIconsPath, fileName);
         
-        // Converti e ridimensiona l'immagine usando Sharp
+        // Convert and resize the image using Sharp
         await sharp(imageBuffer)
           .resize(size, size, {
             fit: 'cover',
@@ -50,44 +50,44 @@ export class IconConversionService {
         iconPaths[`${size}x${size}` as keyof IconSizes] = `/icons/${fileName}`;
       }
 
-      console.log(`✅ Icone PWA generate con successo per ${baseName}`);
+      console.log(`✅ PWA icons generated successfully for ${baseName}`);
       return iconPaths;
     } catch (error: any) {
-      console.error('❌ Errore durante la conversione delle icone:', error);
-      throw new Error(`Errore durante la conversione delle icone: ${error.message}`);
+      console.error('❌ Error converting icons:', error);
+      throw new Error(`Error converting icons: ${error.message}`);
     }
   }
 
   /**
-   * Converte un file caricato dall'utente
+   * Convert a file uploaded by the user
    */
   async convertUploadedFile(filePath: string, baseName: string = 'custom-icon'): Promise<IconSizes> {
     try {
       const imageBuffer = fs.readFileSync(filePath);
       return await this.convertImageToIcons(imageBuffer, baseName);
     } catch (error: any) {
-      console.error('❌ Errore durante la lettura del file:', error);
-      throw new Error(`Errore durante la lettura del file: ${error.message}`);
+      console.error('❌ Error reading file:', error);
+      throw new Error(`Error reading file: ${error.message}`);
     }
   }
 
   /**
-   * Converte un'immagine da base64
+   * Convert an image from base64
    */
   async convertBase64Image(base64Data: string, baseName: string = 'custom-icon'): Promise<IconSizes> {
     try {
-      // Rimuovi il prefisso data:image/...;base64, se presente
+      // Remove the date:image/...;base64, prefix if present
       const base64Clean = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
       const imageBuffer = Buffer.from(base64Clean, 'base64');
       return await this.convertImageToIcons(imageBuffer, baseName);
     } catch (error: any) {
-      console.error('❌ Errore durante la conversione da base64:', error);
-      throw new Error(`Errore durante la conversione da base64: ${error.message}`);
+      console.error('❌ Error converting from base64:', error);
+      throw new Error(`Error converting from base64: ${error.message}`);
     }
   }
 
   /**
-   * Aggiorna il manifest.json con le nuove icone
+   * Update manifest.json with the new icons
    */
   async updateManifestIcons(iconPaths: IconSizes): Promise<void> {
     const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
@@ -96,7 +96,7 @@ export class IconConversionService {
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       const manifest = JSON.parse(manifestContent);
 
-      // Aggiorna le icone nel manifest
+      // Update the icons in the manifest
       manifest.icons = [
         {
           src: iconPaths['96x96'],
@@ -118,7 +118,7 @@ export class IconConversionService {
         }
       ];
 
-      // Aggiorna anche gli shortcuts se esistono
+      // Update shortcuts as well if they exist
       if (manifest.shortcuts && manifest.shortcuts.length > 0) {
         manifest.shortcuts[0].icons = [
           {
@@ -129,17 +129,17 @@ export class IconConversionService {
         ];
       }
 
-      // Salva il manifest aggiornato
+      // Save the updated manifest
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-      console.log('✅ Manifest.json aggiornato con le nuove icone');
+      console.log('✅ Manifest.json updated with new icons');
     } catch (error: any) {
-      console.error('❌ Errore durante l\'aggiornamento del manifest:', error);
-      throw new Error(`Errore durante l'aggiornamento del manifest: ${error.message}`);
+      console.error('❌ Error updating manifest:', error);
+      throw new Error(`Error updating manifest: ${error.message}`);
     }
   }
 
   /**
-   * Aggiorna l'HTML con le nuove icone Apple Touch
+   * Update the HTML with the new Apple Touch icons
    */
   async updateHTMLIcons(iconPaths: IconSizes): Promise<void> {
     const htmlPath = path.join(process.cwd(), 'client', 'index.html');
@@ -147,13 +147,13 @@ export class IconConversionService {
     try {
       let htmlContent = fs.readFileSync(htmlPath, 'utf8');
       
-      // Sostituisci le icone Apple Touch con la nuova icona 192x192
+      // Replace Apple Touch icons with the new 192x192 icon
       const appleIconRegex = /<link rel="apple-touch-icon"[^>]*href="[^"]*"[^>]*>/g;
       const newAppleIcon = `<link rel="apple-touch-icon" href="${iconPaths['192x192']}">`;
       
       htmlContent = htmlContent.replace(appleIconRegex, newAppleIcon);
       
-      // Sostituisci anche le icone con dimensioni specifiche
+      // Also replace icons with specific dimensions
       const appleSizeIconRegex = /<link rel="apple-touch-icon" sizes="[^"]*"[^>]*href="[^"]*"[^>]*>/g;
       htmlContent = htmlContent.replace(appleSizeIconRegex, (match) => {
         const sizeMatch = match.match(/sizes="([^"]*)"/);
@@ -164,41 +164,41 @@ export class IconConversionService {
       });
 
       fs.writeFileSync(htmlPath, htmlContent);
-      console.log('✅ HTML aggiornato con le nuove icone');
+      console.log('✅ HTML updated with new icons');
     } catch (error: any) {
-      console.error('❌ Errore durante l\'aggiornamento dell\'HTML:', error);
-      throw new Error(`Errore durante l'aggiornamento dell'HTML: ${error.message}`);
+      console.error('❌ Error updating HTML:', error);
+      throw new Error(`Error updating HTML: ${error.message}`);
     }
   }
 
   /**
-   * Processo completo: converte immagine e aggiorna tutti i file necessari
+   * Complete process: convert image and update all necessary files
    */
   async processCustomIcon(imageData: string | Buffer, baseName: string = 'custom-icon'): Promise<IconSizes> {
     try {
       let iconPaths: IconSizes;
 
       if (typeof imageData === 'string') {
-        // È una stringa base64
+        // It is a base64 string
         iconPaths = await this.convertBase64Image(imageData, baseName);
       } else {
-        // È un Buffer
+        // It is a Buffer
         iconPaths = await this.convertImageToIcons(imageData, baseName);
       }
 
-      // Aggiorna manifest e HTML
+      // Update manifest e HTML
       await this.updateManifestIcons(iconPaths);
       await this.updateHTMLIcons(iconPaths);
 
       return iconPaths;
     } catch (error: any) {
-      console.error('❌ Errore durante il processo completo delle icone:', error);
+      console.error('❌ Error during full icon processing:', error);
       throw error;
     }
   }
 
   /**
-   * Ripristina le icone predefinite (Fleur de Vie)
+   * Restore the default icons (Fleur de Vie)
    */
   async restoreDefaultIcons(): Promise<IconSizes> {
     const defaultImagePath = path.join(process.cwd(), 'public', 'fleur-de-vie.jpg');
@@ -207,8 +207,8 @@ export class IconConversionService {
       const imageBuffer = fs.readFileSync(defaultImagePath);
       return await this.processCustomIcon(imageBuffer, 'icon');
     } catch (error: any) {
-      console.error('❌ Errore durante il ripristino delle icone predefinite:', error);
-      throw new Error(`Errore durante il ripristino delle icone predefinite: ${error.message}`);
+      console.error('❌ Error restoring default icons:', error);
+      throw new Error(`Error restoring default icons: ${error.message}`);
     }
   }
 }

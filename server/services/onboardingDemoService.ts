@@ -8,14 +8,14 @@ const DEMO_CLIENTS = [
     lastName: 'Rossi',
     phone: '+39 333 1234567',
     email: 'mario.rossi.demo@example.com',
-    notes: 'Cliente di esempio - puoi modificarlo o eliminarlo in qualsiasi momento.',
+    notes: 'Sample client - you can edit or delete it at any time.',
   },
   {
     firstName: '[DEMO] Giulia',
     lastName: 'Bianchi',
     phone: '+39 333 7654321',
     email: 'giulia.bianchi.demo@example.com',
-    notes: 'Cliente di esempio - puoi modificarlo o eliminarlo in qualsiasi momento.',
+    notes: 'Sample client - you can edit or delete it at any time.',
   },
 ];
 
@@ -50,9 +50,9 @@ export async function seedDemoData(userId: number): Promise<void> {
       }))
     );
 
-    console.log(`🌱 [onboardingDemoService] Demo data creata per utente ${userId}`);
+    console.log(`🌱 [onboardingDemoService] Demo data created for user ${userId}`);
   } catch (err) {
-    console.error(`⚠️ [onboardingDemoService] Errore seeding demo data per utente ${userId}:`, err);
+    console.error(`⚠️ [onboardingDemoService] Error seeding demo data for user ${userId}:`, err);
   }
 }
 
@@ -77,7 +77,7 @@ export async function cleanupDemoDataIfNeeded(
           .where(and(eq(clients.ownerId, userId), eq(clients.isDemo, true)))
           .returning({ id: clients.id });
         if (deleted.length > 0) {
-          console.log(`🧹 [onboardingDemoService] Rimossi ${deleted.length} clienti demo per utente ${userId}`);
+          console.log(`🧹 [onboardingDemoService] Rimossi ${deleted.length} clients demo for user ${userId}`);
         }
       }
     } else {
@@ -92,11 +92,11 @@ export async function cleanupDemoDataIfNeeded(
           .where(and(eq(services.userId, userId), eq(services.isDemo, true)))
           .returning({ id: services.id });
         if (deleted.length > 0) {
-          console.log(`🧹 [onboardingDemoService] Rimossi ${deleted.length} servizi demo per utente ${userId}`);
+          console.log(`🧹 [onboardingDemoService] Rimossi ${deleted.length} services demo for user ${userId}`);
         }
       }
     }
   } catch (err) {
-    console.error(`⚠️ [onboardingDemoService] Errore cleanup ${kind} per utente ${userId}:`, err);
+    console.error(`⚠️ [onboardingDemoService] Error cleaning up ${kind} for user ${userId}:`, err);
   }
 }

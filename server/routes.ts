@@ -34,7 +34,7 @@ export function registerRoutes(app: Express): Server {
     res.sendFile(iconPath);
   });
 
-  // Android App Links - Digital Asset Links per verifica dominio Google Play
+  // Android App Links - Digital Asset Links for Google Play domain verification
   app.get('/.well-known/assetlinks.json', (req, res) => {
     const assetLinks = [
       {
@@ -67,45 +67,45 @@ export function registerRoutes(app: Express): Server {
     res.json(assetLinks);
   });
 
-  // Route proxy per icone PWA ottimizzate per Android
+  // Route proxy per icons PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
   // Route per manifest STATICO Google Play Store (per PWABuilder/TWA)
   app.get('/manifest-playstore.json', servePlayStoreManifest);
   
-  // Route per il manifest ADMIN (gestionale professionista) - DINAMICO con autenticazione
+  // Route for the ADMIN manifest (professional management system) - DYNAMIC with authentication
   app.get('/manifest-admin.json', serveAdminManifest);
   
-  // Route per il manifest dinamico PWA (clienti)
+  // Route for the dynamic PWA manifest (clients)
   app.get('/manifest.json', serveDynamicManifest);
   
   // LEGACY: Manifest handler inline (RIMOSSO - sostituito con dynamic-manifest.ts)
   app.get('/manifest-legacy.json', (req, res) => {
-    console.log('🔍 ROUTES MANIFEST: Handler dinamico chiamato');
+    console.log('🔍 ROUTES MANIFEST: Dynamic handler called');
     console.log('🔍 ROUTES MANIFEST: URL:', req.url);
     console.log('🔍 ROUTES MANIFEST: Query:', req.query);
     
-    // Determina start_url basato su token cliente
+    // Determine start_url basato su token client
     let startUrl = "/client";
     const clientToken = req.query.clientToken;
     const referer = req.get('referer') || '';
     
     if (clientToken) {
       startUrl = `/client/${clientToken}`;
-      console.log(`📱 MANIFEST: Start URL da query token: ${startUrl}`);
+      console.log(`📱 MANIFEST: Start URL from query token: ${startUrl}`);
     } else if (referer.includes('/client/')) {
       const clientPathMatch = referer.match(/(\/client\/[^?#\s]+)/);
       if (clientPathMatch) {
         startUrl = clientPathMatch[1];
-        console.log(`📱 MANIFEST: Start URL da referer: ${startUrl}`);
+        console.log(`📱 MANIFEST: Start URL from referer: ${startUrl}`);
       }
     } else {
-      // Default per Bruna (utente principale)
+      // Default per Bruna (user principale)
       startUrl = "/client/PROF_014_9C1F_CLIENT_1750163505034_340F";
       console.log(`📱 MANIFEST: Start URL default per Bruna: ${startUrl}`);
     }
     
-    // Determina il proprietario dal percorso per icona dinamica
+    // Determine the owner from the path for dynamic icon
     let ownerUserId = 14; // Default Silvia
     if (startUrl.includes('CLIENT_')) {
       const ownerMatch = startUrl.match(/PROF_(\d+)_/);
@@ -115,8 +115,8 @@ export function registerRoutes(app: Express): Server {
     }
     
     const manifest = {
-      "name": "Silvia Busnari - Area Cliente",
-      "short_name": "Area Cliente",
+      "name": "Silvia Busnari - Client Area",
+      "short_name": "Client Area",
       "description": "Gestione consensi e servizi medici",
       "start_url": startUrl,
       "display": "standalone",
@@ -146,7 +146,7 @@ export function registerRoutes(app: Express): Server {
       'Cache-Control': 'no-cache, no-store, must-revalidate'
     });
     
-    console.log(`📱 MANIFEST LEGACY: Servendo con start_url: ${startUrl}`);
+    console.log(`📱 MANIFEST LEGACY: Serving with start_url: ${startUrl}`);
     res.json(manifest);
   });
 

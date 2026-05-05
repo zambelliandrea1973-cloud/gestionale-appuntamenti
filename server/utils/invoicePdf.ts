@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 // Logo default Fleur de Vie (PNG base64)
 const defaultIconBase64 = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAAP7klEQVR4nO2dbWxcxRWGn5mdXe/a3viTOHacEEIaCCRpRKEpUikQqaJUqqo2/EBVqaK2Uqv+QP1RqVL/VPTHr/6hqlSpqmpVqQVVlEIRpQQhQSEQkpCQQEJiJ3Zsxxt/7Hp3d+/t3J2xd7y7a+/unZm7M3fuzPNLkWzv3pk5c955z5kzZ85cEQRBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEASfSewuQKg42r9/P+3t7b2qPwFUAWgBl0fVvxLdC1QD1cg+gP5YXd+V+k0P0K9+g8AIMAZ8CLwL/AO4DJwDzg+Pj6+z+J1BmKKysrLu4QsXjLvmzwfoAXASeB24rH73AV86XcCQUAU8DmwA8MwfNAHBo1RWVlL4rW+x/tFHgS5gLbAR2AMcAz4FTgNHgQ+Ak8AZoN+hIgeBzcCDwC8o1s/YsWOexeRcDCIcnv/Xv4Kzs7PlW25RA3obMKj6YALYBrwGPCX5BhECDpfUzCJyPgBdXV0MDw+Djnd/lhMnKPT28tLwMEMdHc4VLiCsR/aUWGAhsBcJCEEIWHw9pHi/3xkZ4djAAOt27IDNm50okTfRfSQ7TASBoNuS5hU1SDbLsrw8T6xcaXdRPIf0kJhAmiBnJ9/1ByOTwbPL1qxh5bp1bN6+nUwm41wBPYI6gI9KD4lBMn1vdXU179+9u3RbTR+VUF+2VV/VVxkz5DeSAWYw/uH/AbgBXAP+a8jTjwKHXPrMINCNGBf+EEpuB4aoq6vj1Wkz9R3AJ0D9PPf+yImnTODXwD+Rs0gwSABfLl68+Gbg1+3tzTh0BdgK/MeQNrFj/noC+DHCIPGhGngbaPLEtmSH3+HMHLgOeNGCvANPgwBbgYMsVEE3A7+0u/A+Q7fxbgbtwNoiVBPeGUQBbgF+a2flBZY2YDeBvH/PuSABbBXB4jNE3ncaOWkJ8hXcYg7PBKlEJumCQPANGSxBINBt+qgZv8c9jC8MogN1sd0FCAANbmJ8EREEAPa4gfFFQBAAFruf8UVAECCa7BfGFwGhwDTbEm2wtkJHMmYnySGb9PdbWYgIiuv4F2Cb1HHbpIguwL2OFcSDwnoKeTq0EzjkdiFrEc+Hzti97RokILGDvdWZPAUO5cnnywD+hSwPsVYQMAB8HngM+dqqJ6y9S/WRxW4pbR9YvA58H3ga2e62JhAlHkl0IOe+P0T+/q//p6//T4/sN6jSW5hvFe5nMG6pfRHwnCr7p8Xpl3Ks/8BI2h+RHXI70l5S+zGCrqsFbAOeBF4BBpQsPyjS7j5S//e/f0rlO+l5fqTkPIEy6+PsA9XAGZX3S6p+J5Wsx6rXL5SsI6u5FS7zupXd+xP1fKs4c+CgyrsDeBfYjuTxlRPKZfvQWTt/gVT0vkW+Q+UPE6i+qEXqf79a0t5W7ZIBD+SpO0D9vYSsu8e68oPXZhtYuQJ4lPsZl01/p95JkG/+JvW7Cvs+Ul3BLuBJ5M/lNqvJdx3k/1FZS9R7JoBX5y+kw+yZ4tRFgXfNvYvq3I8Bf5srf7/xR5X+a/NdKGGjAAAAAElFTkSuQmCC`;
 
-// Interfaccia per il contesto di rendering fattura
+// Interface for invoice rendering context
 export interface InvoiceRenderContext {
   invoiceNumber: string;
   date: string;
@@ -16,7 +16,7 @@ export interface InvoiceRenderContext {
   tax: number;
   notes?: string;
   
-  // Dati cliente
+  // Dati client
   clientName: string;
   clientAddress?: string;
   clientPhone?: string;
@@ -25,7 +25,7 @@ export interface InvoiceRenderContext {
   clientVatNumber?: string;
   clientBirthday?: string;
   
-  // Dati aziendali
+  // Business data
   businessHeader: string;
   businessAddress?: string;
   businessCity?: string;
@@ -35,7 +35,7 @@ export interface InvoiceRenderContext {
   businessVatNumber?: string;
   businessFiscalCode?: string;
   
-  // Items fattura
+  // Items invoice
   items: Array<{
     description: string;
     quantity: number;
@@ -51,7 +51,7 @@ export interface InvoiceRenderContext {
 }
 
 /**
- * Carica il logo personalizzato dal database (o usa default)
+ * Load the custom logo from the database (or use default)
  */
 export async function loadUserLogo(userId: number): Promise<string> {
   try {
@@ -62,19 +62,19 @@ export async function loadUserLogo(userId: number): Promise<string> {
       .limit(1);
     
     if (iconRow.length > 0 && iconRow[0].iconBase64) {
-      console.log(`🖼️ [PDF] Logo personalizzato caricato per utente ${userId}`);
+      console.log(`🖼️ [PDF] Custom logo loaded for user ${userId}`);
       return iconRow[0].iconBase64;
     }
   } catch (error: any) {
-    console.log('⚠️ [PDF] Errore caricamento logo, uso default:', error);
+    console.log('⚠️ [PDF] Error loading logo, using default:', error);
   }
   
-  console.log(`🖼️ [PDF] Uso logo default per utente ${userId}`);
+  console.log(`🖼️ [PDF] Using default logo for user ${userId}`);
   return defaultIconBase64;
 }
 
 /**
- * Genera HTML professionale per fattura (template condiviso)
+ * Generate HTML professionale per invoice (template condiviso)
  */
 export function buildInvoiceHtml(context: InvoiceRenderContext): string {
   const {
@@ -229,7 +229,7 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
           <h3>Dati Cliente</h3>
           <p><strong>Nome:</strong> ${clientName}</p>
           ${clientAddress ? `<p><strong>Indirizzo:</strong> ${clientAddress}</p>` : ''}
-          ${clientPhone ? `<p><strong>Telefono:</strong> ${clientPhone}</p>` : ''}
+          ${clientPhone ? `<p><strong>Phone:</strong> ${clientPhone}</p>` : ''}
           ${clientEmail ? `<p><strong>Email:</strong> ${clientEmail}</p>` : ''}
           ${clientTaxCode ? `<p><strong>Codice Fiscale:</strong> ${clientTaxCode}</p>` : ''}
           ${clientVatNumber ? `<p><strong>Partita IVA:</strong> ${clientVatNumber}</p>` : ''}
@@ -241,8 +241,8 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
           <p><strong>Scadenza:</strong> ${dueDate}</p>
           <p><strong>Stato:</strong> ${
             status === 'paid' ? 'Pagata' :
-            status === 'sent' ? 'Inviata' :
-            status === 'overdue' ? 'Scaduta' : 'Bozza'
+            status === 'sent' ? 'Sent' :
+            status === 'overdue' ? 'Overdue' : 'Draft'
           }</p>
         </div>
       </div>
@@ -266,7 +266,7 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
             </tr>
           `).join('')}
           <tr class="total-row">
-            <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTALE:</strong></td>
+            <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTAL:</strong></td>
             <td style="text-align: right; padding: 15px;"><strong>${currencySymbol}${totalAmount.toFixed(2)}</strong></td>
           </tr>
         </tbody>
@@ -289,26 +289,26 @@ export function buildInvoiceHtml(context: InvoiceRenderContext): string {
 }
 
 /**
- * Genera PDF Buffer usando Puppeteer (lancia eccezione se fallisce)
+ * Generate PDF Buffer usando Puppeteer (lancia eccezione If fallisce)
  */
 export async function generatePdfBuffer(html: string): Promise<Buffer> {
   const puppeteer = await import('puppeteer');
   const { execSync } = await import('child_process');
   
-  // Trova Chromium installato via Nix
+  // Find Chromium installato via Nix
   let executablePath: string | undefined;
   try {
     executablePath = execSync('which chromium-browser || which chromium', { encoding: 'utf-8' }).trim();
     console.log(`🌐 [PDF] Usando Chromium: ${executablePath}`);
   } catch (e) {
-    console.log('⚠️ [PDF] Chromium non trovato, uso default Puppeteer');
+    console.log('⚠️ [PDF] Chromium not found, uso default Puppeteer');
   }
   
   let browser = null;
   try {
     browser = await puppeteer.default.launch({ 
       headless: true,
-      executablePath, // Usa Chromium se trovato
+      executablePath, // Usa Chromium se found
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
     
@@ -322,11 +322,11 @@ export async function generatePdfBuffer(html: string): Promise<Buffer> {
       margin: { top: '10mm', right: '10mm', bottom: '10mm', left: '10mm' }
     });
     
-    console.log(`✅ [PDF] PDF generato con Puppeteer: ${pdfBuffer.length} bytes`);
+    console.log(`✅ [PDF] PDF generated with Puppeteer: ${pdfBuffer.length} bytes`);
     return pdfBuffer;
     
   } finally {
-    // CRITICO: Chiudi sempre il browser, anche in caso di errore
+    // CRITICAL: Always close the browser, also in case of error
     if (browser) {
       await browser.close();
     }

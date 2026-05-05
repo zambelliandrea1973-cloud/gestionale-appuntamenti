@@ -1,9 +1,9 @@
 /**
- * Servizio per il rilevamento automatico delle configurazioni SMTP
- * in base all'indirizzo email dell'utente
+ * Service for automatic SMTP configuration detection
+ * based on the user's email address
  */
 
-// Configurazioni SMTP per i provider di posta elettronica più comuni
+// SMTP configurations for the most common email providers
 const smtpConfigurations: Record<string, {
   smtpServer: string;
   smtpPort: number;
@@ -14,7 +14,7 @@ const smtpConfigurations: Record<string, {
     smtpServer: 'smtp.gmail.com',
     smtpPort: 587,
     secureConnection: false,
-    instructions: 'Per Gmail è necessario creare una "password per app" nelle impostazioni di sicurezza Google. Vai su https://myaccount.google.com/apppasswords per crearla.'
+    instructions: 'For Gmail you need to create an "app password" in Google security settings. Go to https://myaccount.google.com/apppasswords per crearla.'
   },
   'outlook.com': {
     smtpServer: 'smtp-mail.outlook.com',
@@ -100,9 +100,9 @@ const smtpConfigurations: Record<string, {
 };
 
 /**
- * Estrae il dominio da un indirizzo email
- * @param email Indirizzo email
- * @returns Dominio dell'email
+ * Extract the domain from an email address
+ * @param email Address email
+ * @returns Email domain
  */
 const getEmailDomain = (email: string): string => {
   if (!email || !email.includes('@')) return '';
@@ -110,9 +110,9 @@ const getEmailDomain = (email: string): string => {
 };
 
 /**
- * Rileva le configurazioni SMTP in base all'indirizzo email
- * @param email Indirizzo email da analizzare
- * @returns Configurazione SMTP se trovata, altrimenti null
+ * Detect SMTP configurations based on the email address
+ * @param email Address email da analizzare
+ * @returns SMTP configuration if found, otherwise null
  */
 export const detectSmtpConfig = (email: string) => {
   if (!email) return null;
@@ -120,23 +120,23 @@ export const detectSmtpConfig = (email: string) => {
   const domain = getEmailDomain(email);
   if (!domain) return null;
   
-  // Cerca una corrispondenza esatta nel nostro database di provider
+  // Find an exact match in our provider database
   if (smtpConfigurations[domain]) {
     return {
       ...smtpConfigurations[domain],
-      smtpUsername: email, // L'username è solitamente l'indirizzo email completo
+      smtpUsername: email, // The username is usually the full email address
       senderEmail: email
     };
   }
   
-  // Gestione di domini personalizzati o hosting email (configurazione generica)
+  // Handling of custom domains or email hosting (generic configuration)
   return {
     smtpServer: `mail.${domain}`,
     smtpPort: 587,
     secureConnection: false,
     smtpUsername: email,
     senderEmail: email,
-    instructions: 'Queste sono impostazioni generiche. Contatta il tuo provider email se non funzionano.'
+    instructions: 'These are generic settings. Contact your email provider if they don't work.'
   };
 };
 

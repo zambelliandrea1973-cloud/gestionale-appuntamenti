@@ -1,16 +1,16 @@
 /**
  * Manifest statico per Google Play Store (TWA/PWABuilder)
- * Questo manifest è generico e non cambia per diversi utenti
+ * This manifest is generic and does not change for different users
  */
 import { Request, Response } from 'express';
 
 export function servePlayStoreManifest(req: Request, res: Response) {
-  console.log('📱 PLAY STORE MANIFEST: Richiesta ricevuta da PWABuilder');
+  console.log('📱 PLAY STORE MANIFEST: Request received from PWABuilder');
   
   const manifest = {
     "name": "Gestionale Appuntamenti",
-    "short_name": "Area Cliente",
-    "description": "Accedi alla tua area personale. Prenota appuntamenti, visualizza documenti e rimani in contatto con il tuo professionista di fiducia.",
+    "short_name": "Client Area",
+    "description": "Access your personal area. Book appointments, view documents, and stay in touch with your trusted professional.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -54,7 +54,7 @@ export function servePlayStoreManifest(req: Request, res: Response) {
         "sizes": "512x512",
         "type": "image/png",
         "form_factor": "narrow",
-        "label": "Dashboard area cliente"
+        "label": "Client area dashboard"
       }
     ]
   };

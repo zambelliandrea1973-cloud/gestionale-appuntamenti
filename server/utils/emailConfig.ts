@@ -19,21 +19,21 @@ export interface EmailConfig {
   };
 }
 
-const DEFAULT_TEMPLATE = "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale";
-const DEFAULT_SUBJECT = "Promemoria appuntamento del {{data}}";
+const DEFAULT_TEMPLATE = "Dear {{nome}} {{cognome}},\n\nThis is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.\n\nFor any changes or cancellations, please contact us.\n\nBest regards,\nProfessional Studio";
+const DEFAULT_SUBJECT = "Appointment reminder for {{data}}";
 
 export async function getEmailConfig(userId: number): Promise<EmailConfig | null> {
   try {
     const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, userId)).limit(1);
     
     if (settings?.smtpEnabled && settings?.smtpEmail && settings?.smtpPasswordEncrypted) {
-      console.log(`✅ [EMAIL CONFIG] Usando credenziali DB per utente ${userId}`);
+      console.log(`✅ [EMAIL CONFIG] Using DB credentials for user ${userId}`);
       
       let password: string;
       try {
         password = decryptPassword(settings.smtpPasswordEncrypted);
       } catch (error) {
-        console.error('❌ [EMAIL CONFIG] Errore decrypt password, fallback a ENV/JSON');
+        console.error('❌ [EMAIL CONFIG] Error decrypting password, falling back to ENV/JSON');
         return await getFallbackEmailConfig();
       }
       
@@ -51,18 +51,18 @@ export async function getEmailConfig(userId: number): Promise<EmailConfig | null
       };
     }
     
-    console.log(`⚠️ [EMAIL CONFIG] Nessuna config SMTP in DB per utente ${userId}, fallback a ENV/JSON`);
+    console.log(`⚠️ [EMAIL CONFIG] No SMTP config in DB for user ${userId}, fallback a ENV/JSON`);
     return await getFallbackEmailConfig();
     
   } catch (error) {
-    console.error('❌ [EMAIL CONFIG] Errore nel caricamento configurazione DB:', error);
+    console.error('❌ [EMAIL CONFIG] Error loading DB configuration:', error);
     return await getFallbackEmailConfig();
   }
 }
 
 async function getFallbackEmailConfig(): Promise<EmailConfig | null> {
   if (process.env.EMAIL_ADDRESS && process.env.EMAIL_PASSWORD) {
-    console.log('✅ [EMAIL CONFIG] Usando credenziali da variabili d\'ambiente');
+    console.log('✅ [EMAIL CONFIG] Using credentials from environment variables');
     return {
       emailEnabled: process.env.EMAIL_ENABLED !== 'false',
       emailAddress: process.env.EMAIL_ADDRESS,
@@ -78,7 +78,7 @@ async function getFallbackEmailConfig(): Promise<EmailConfig | null> {
   }
   
   if (fs.existsSync('email_settings.json')) {
-    console.log('✅ [EMAIL CONFIG] Usando credenziali da email_settings.json (retrocompatibilità)');
+    console.log('✅ [EMAIL CONFIG] Using credentials from email_settings.json (backwards compatibility)');
     const fileContent = fs.readFileSync('email_settings.json', 'utf8');
     const jsonConfig = JSON.parse(fileContent);
     return {
@@ -95,6 +95,6 @@ async function getFallbackEmailConfig(): Promise<EmailConfig | null> {
     };
   }
   
-  console.warn('⚠️ [EMAIL CONFIG] Nessuna configurazione email trovata (DB, ENV, né JSON)');
+  console.warn('⚠️ [EMAIL CONFIG] No email configuration found (DB, ENV, or JSON)');
   return null;
 }

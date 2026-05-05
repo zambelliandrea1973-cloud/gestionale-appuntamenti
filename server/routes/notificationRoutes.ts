@@ -15,7 +15,7 @@ import { eq, and, gte, lte, or, isNull } from 'drizzle-orm';
 const router = Router();
 
 /**
- * Ottiene tutti gli appuntamenti del mese corrente
+ * Get all appointments for the current month
  * 🔄 USA POSTGRESQL per sincronizzazione Replit ↔ Sliplane
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
@@ -25,11 +25,11 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         success: false,
-        error: 'Non autorizzato'
+        error: 'Unauthorized'
       });
     }
 
-    // Calcola ultimi 10 giorni fino a domani (storico + imminenti, NO futuro lontano)
+    // Calculate last 10 days up to tomorrow (historical + upcoming, NO distant future)
     const now = new Date();
     const tenDaysAgo = new Date(now);
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
@@ -39,10 +39,10 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
     const endDate = format(tomorrow, 'yyyy-MM-dd');
     
-    console.log(`🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: ${startDate} - ${endDate}`);
+    console.log(`🔍 [NOTIFICATIONS PG] Looking for appointments from last 10 days to tomorrow: ${startDate} - ${endDate}`);
     
-    // 🔄 USA POSTGRESQL: Query con JOIN per client e service
-    // ✅ MULTI-TENANT: Filtra per userId (ogni staff vede solo i suoi)
+    // 🔄 USA POSTGRESQL: Query with JOIN per client e service
+    // ✅ MULTI-TENANT: Filter per userId (each staff vede only i suoi)
     const appointmentsData = await db
       .select({
         id: appointments.id,
@@ -59,12 +59,12 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         reminderStatus: appointments.reminderStatus,
         reminderSent: appointments.reminderSent,
         createdAt: appointments.createdAt,
-        // Client data
+        // Client date
         clientFirstName: clients.firstName,
         clientLastName: clients.lastName,
         clientPhone: clients.phone,
         clientEmail: clients.email,
-        // Service data
+        // Service date
         serviceName: services.name,
       })
       .from(appointments)
@@ -75,7 +75,7 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
           eq(appointments.userId, userId), // ✅ MULTI-TENANT ISOLATION
           gte(appointments.date, startDate),
           lte(appointments.date, endDate),
-          // ✅ ESCLUDI appuntamenti importati da Google Calendar (non sono veri clienti)
+          // ✅ EXCLUDE appointments imported from Google Calendar (they are not real clients)
           or(
             eq(appointments.importedFromGoogle, false),
             isNull(appointments.importedFromGoogle)
@@ -83,9 +83,9 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         )
       );
     
-    console.log(`📅 [NOTIFICHE PG] Trovati ${appointmentsData.length} appuntamenti da ${startDate} a ${endDate}`);
+    console.log(`📅 [NOTIFICATIONS PG] Found ${appointmentsData.length} appointments from ${startDate} to ${endDate}`);
     
-    // Mappa i risultati nel formato atteso dal frontend
+    // Map results to the format expected by the frontend
     const appointmentsList = appointmentsData.map((row) => ({
       id: row.id,
       clientId: row.clientId,
@@ -114,14 +114,14 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       } : null,
     }));
     
-    console.log(`✅ [NOTIFICHE PG] Processati ${appointmentsList.length} appuntamenti per notifiche WhatsApp`);
+    console.log(`✅ [NOTIFICATIONS PG] Processed ${appointmentsList.length} appointments for WhatsApp notifications`);
     
     res.json({
       success: true,
       appointments: appointmentsList
     });
   } catch (error: any) {
-    console.error('❌ [NOTIFICHE PG] Errore nel recupero appuntamenti imminenti:', error);
+    console.error('❌ [NOTIFICATIONS PG] Error retrieving upcoming appointments:', error);
     res.status(500).json({
       success: false,
       error: error.message
@@ -130,7 +130,7 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
 });
 
 /**
- * Invia notifiche WhatsApp in batch per gli appuntamenti selezionati
+ * Send WhatsApp notifications in batch for selected appointments
  */
 router.post('/send-batch', async (req: Request, res: Response) => {
   try {
@@ -139,7 +139,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
     if (!appointmentIds || !Array.isArray(appointmentIds)) {
       return res.status(400).json({
         success: false,
-        error: 'IDs appuntamenti mancanti'
+        error: 'Appointment IDs missing'
       });
     }
 
@@ -147,16 +147,16 @@ router.post('/send-batch', async (req: Request, res: Response) => {
     const notificationSettings = {
       twilioEnabled: false,
       emailEnabled: false,
-      whatsappEnabled: true // Impostiamo WhatsApp come sempre abilitato di default
+      whatsappEnabled: true // Set WhatsApp as always enabled by default
     };
     
     // Sistema ottimizzato per WhatsApp only
     
-    // WhatsApp è ora il sistema predefinito per l'invio di notifiche
+    // WhatsApp is the default system for sending notifications
     
     const results = [];
     
-    // 🔄 USA POSTGRESQL: Carica tutti gli appointments in batch con JOIN
+    // 🔄 USA POSTGRESQL: Load all appointments in batch with JOIN
     const appointmentsData = await db
       .select({
         id: appointments.id,
@@ -176,7 +176,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
       .where(
         and(
           eq(appointments.userId, (req as any).user?.id), // ✅ MULTI-TENANT
-          // ✅ ESCLUDI appuntamenti importati da Google Calendar
+          // ✅ EXCLUDE appointments imported from Google Calendar
           or(
             eq(appointments.importedFromGoogle, false),
             isNull(appointments.importedFromGoogle)
@@ -184,7 +184,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
         )
       );
     
-    // Filtra solo gli appointments richiesti
+    // Filter only the appointments richiesti
     const appointmentsMap = new Map(
       appointmentsData
         .filter(appt => appointmentIds.includes(appt.id))
@@ -199,7 +199,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           results.push({
             id: appointmentId,
             success: false,
-            error: 'Appuntamento non trovato'
+            error: 'Appointment not found'
           });
           continue;
         }
@@ -208,7 +208,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           results.push({
             id: appointmentId,
             success: false,
-            error: 'Cliente non trovato'
+            error: 'Client not found'
           });
           continue;
         }
@@ -217,12 +217,12 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           results.push({
             id: appointmentId,
             success: false,
-            error: 'Servizio non trovato'
+            error: 'Servizio not found'
           });
           continue;
         }
         
-        // Usa i dati da PostgreSQL
+        // Usa the data da PostgreSQL
         const appointment = { date: appointmentData.date, startTime: appointmentData.startTime };
         const client = {
           firstName: appointmentData.clientFirstName,
@@ -232,33 +232,33 @@ router.post('/send-batch', async (req: Request, res: Response) => {
         };
         const service = { name: appointmentData.serviceName };
         
-        // Dati per il messaggio
+        // Data for the message
         const appointmentDate = format(parseISO(appointment.date), 'dd/MM/yyyy', { locale: it });
         const appointmentTime = appointment.startTime.substring(0, 5);
         const clientName = `${client.firstName} ${client.lastName}`;
         
-        // Messaggio WhatsApp ottimizzato
-        const message = `Gentile ${client.firstName}. Le ricordiamo il Suo appuntamento di ${service.name} per ${appointmentDate} alle ore ${appointmentTime}.`
+        // Optimized WhatsApp message
+        const message = `Dear ${client.firstName}. This is a reminder for your ${service.name} appointment on ${appointmentDate} at ${appointmentTime}.`
           .replace(/{clientName}/g, clientName)
           .replace(/{serviceName}/g, service.name)
           .replace(/{appointmentDate}/g, appointmentDate)
           .replace(/{appointmentTime}/g, appointmentTime);
         
-        // Logica di invio specifica per il tipo di notifica
+        // Send logic specific to the notification type
         if (type === 'whatsapp') {
-          // Prepara il numero di telefono (rimuovi spazi e + iniziale per WhatsApp)
+          // Prepare phone number (remove spaces and leading + for WhatsApp)
           const phoneNumber = client.phone.replace(/\s+/g, '').replace(/^\+/, '');
           
-          // Genera l'URL di WhatsApp
+          // Generate l'URL di WhatsApp
           const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
           
-          // Aggiungi link cliccabile al messaggio
+          // Add clickable link to the message
           const messageWithLink = `${message}\n\n[Apri WhatsApp](${whatsappUrl})`;
           
-          // SKIP DATABASE SAVE - Solo logga l'invio (evita errori PostgreSQL con ID grandi)
-          console.log(`📲 WhatsApp generato per appuntamento ${appointmentId} - Cliente: ${client.firstName} ${client.lastName}`);
+          // SKIP DATABASE SAVE - Only log the send (avoids PostgreSQL errors with large IDs)
+          console.log(`📲 WhatsApp message generated for appointment ${appointmentId} - client: ${client.firstName} ${client.lastName}`);
           
-          // SKIP REMINDER STATUS UPDATE - Evita operazioni PostgreSQL pesanti
+          // SKIP REMINDER STATUS UPDATE - Avoid heavy PostgreSQL operations
           
           results.push({
             id: appointmentId,
@@ -279,19 +279,19 @@ router.post('/send-batch', async (req: Request, res: Response) => {
               results.push({
                 id: appointmentId,
                 success: false,
-                error: 'Email cliente non disponibile'
+                error: 'Client email not available'
               });
               continue;
             }
 
             const emailSubject = `Promemoria appuntamento - ${service.name}`;
-            const emailMessage = `Gentile ${client.firstName},\n\nLe ricordiamo il Suo appuntamento di ${service.name} per il giorno ${appointmentDate} alle ore ${appointmentTime}.\n\nCordiali saluti`;
+            const emailMessage = `Dear ${client.firstName},\n\nThis is a reminder for your ${service.name} appointment on ${appointmentDate} at ${appointmentTime}.\n\nBest regards`;
             
-            console.log(`📧 Tentativo invio email a ${client.email} per appuntamento ${appointmentId}`);
+            console.log(`📧 Attempting to send email to ${client.email} for appointment ${appointmentId}`);
             const emailSent = await directNotificationService.sendEmail(client.email, emailSubject, emailMessage);
             
             if (emailSent) {
-              console.log(`✅ Email inviata per appuntamento ${appointmentId} - Cliente: ${client.firstName} ${client.lastName}`);
+              console.log(`✅ Email sent per appointment ${appointmentId} - client: ${client.firstName} ${client.lastName}`);
               results.push({
                 id: appointmentId,
                 success: true,
@@ -306,27 +306,27 @@ router.post('/send-batch', async (req: Request, res: Response) => {
               results.push({
                 id: appointmentId,
                 success: false,
-                error: 'Errore invio email'
+                error: 'Error sending email'
               });
             }
           } catch (emailError: any) {
-            console.error(`❌ Errore email per appuntamento ${appointmentId}:`, emailError);
+            console.error(`❌ Error sending email for appointment ${appointmentId}:`, emailError);
             results.push({
               id: appointmentId,
               success: false,
-              error: `Errore email: ${emailError.message}`
+              error: `Email error: ${emailError.message}`
             });
           }
         } else {
           results.push({
             id: appointmentId,
             success: false,
-            error: 'Tipo di notifica non supportato'
+            error: 'Notification type not supported'
           });
         }
         
       } catch (appointmentError: any) {
-        console.error(`Errore per appuntamento ${appointmentId}:`, appointmentError);
+        console.error(`Error for appointment ${appointmentId}:`, appointmentError);
         results.push({
           id: appointmentId,
           success: false,
@@ -340,7 +340,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
       results
     });
   } catch (error: any) {
-    console.error('Errore nell\'invio notifiche batch:', error);
+    console.error('Error sending batch notifications:', error);
     res.status(500).json({
       success: false,
       error: error.message
@@ -349,17 +349,17 @@ router.post('/send-batch', async (req: Request, res: Response) => {
 });
 
 /**
- * Ottiene lo storico delle notifiche WhatsApp inviate
+ * Get the storico delthe notifications WhatsApp inviate
  */
 router.get('/whatsapp-history', async (req: Request, res: Response) => {
   try {
-    // Sistema semplificato - restituisce array vuoto per ora
+    // Simplified system - returns empty array for time
     res.json({
       success: true,
       notifications: []
     });
   } catch (error: any) {
-    console.error('Errore nel recupero storico WhatsApp:', error);
+    console.error('Error retrieving WhatsApp history:', error);
     res.status(500).json({
       success: false,
       error: error.message
@@ -368,7 +368,7 @@ router.get('/whatsapp-history', async (req: Request, res: Response) => {
 });
 
 /**
- * Marca un appuntamento come "messaggio WhatsApp inviato"
+ * Mark an appointment as "WhatsApp message sent"
  * 🔄 USA POSTGRESQL con multi-tenant isolation
  */
 router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => {
@@ -379,18 +379,18 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
     if (!userId) {
       return res.status(401).json({
         success: false,
-        error: 'Non autorizzato'
+        error: 'Unauthorized'
       });
     }
     
     if (!appointmentId) {
       return res.status(400).json({
         success: false,
-        error: 'ID appuntamento mancante'
+        error: 'Appointment ID missing'
       });
     }
     
-    // 🔄 USA POSTGRESQL: Trova appuntamento con multi-tenant isolation
+    // 🔄 USA POSTGRESQL: Find appointment con multi-tenant isolation
     const [appointment] = await db
       .select()
       .from(appointments)
@@ -405,11 +405,11 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        error: 'Appuntamento non trovato o non autorizzato'
+        error: 'Appointment not found or unauthorized'
       });
     }
     
-    // Aggiorna reminderStatus e aggiungi timestamp
+    // Update reminderStatus e aggiungi timestamp
     let reminderStatus = appointment.reminderStatus || '';
     if (!reminderStatus.includes('whatsapp_generated')) {
       reminderStatus = reminderStatus 
@@ -419,29 +419,29 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
     
     const whatsappSentAt = new Date().toISOString();
     
-    // 🔄 AGGIORNA IN POSTGRESQL
+    // 🔄 UPDATE IN POSTGRESQL
     await db
       .update(appointments)
       .set({
         reminderStatus,
-        reminderSent: whatsappSentAt // Usa campo esistente per timestamp
+        reminderSent: whatsappSentAt // Use existing field for timestamp
       })
       .where(
         and(
           eq(appointments.id, parseInt(appointmentId)),
-          eq(appointments.userId, userId) // ✅ MULTI-TENANT ISOLATION anche in update
+          eq(appointments.userId, userId) // ✅ MULTI-TENANT ISOLATION also in update
         )
       );
     
-    console.log(`✅ [PG] Appuntamento ${appointmentId} marcato come "WhatsApp inviato" - timestamp: ${whatsappSentAt}`);
+    console.log(`✅ [PG] appointment ${appointmentId} marked as "WhatsApp sent" - timestamp: ${whatsappSentAt}`);
     
     res.json({
       success: true,
-      message: 'Appuntamento marcato come "WhatsApp inviato"',
+      message: 'Appointment marked as "WhatsApp sent"',
       whatsappSentAt
     });
   } catch (error: any) {
-    console.error('❌ [PG] Errore nel marcare appuntamento come inviato:', error);
+    console.error('❌ [PG] Error marking appointment as sent:', error);
     res.status(500).json({
       success: false,
       error: error.message

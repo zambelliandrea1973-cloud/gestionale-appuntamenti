@@ -7,7 +7,7 @@ import { appointments, clients, googleCalendarEvents, services } from '../../sha
 import { eq } from 'drizzle-orm';
 import { authInfo } from '../routes/googleAuthRoutes';
 
-// Interfaccia per il token OAuth
+// Interfaccia per the token OAuth
 interface OAuth2Token {
   access_token: string;
   refresh_token: string;
@@ -16,7 +16,7 @@ interface OAuth2Token {
   expiry_date: number;
 }
 
-// Interfaccia per la configurazione salvata
+// Interface for the saved configuration
 interface GoogleCalendarConfig {
   enabled: boolean;
   apiKey: string;
@@ -24,55 +24,55 @@ interface GoogleCalendarConfig {
   clientSecret?: string;
   redirectUri?: string;
   token?: OAuth2Token;
-  calendarId?: string; // ID del calendario specifico da utilizzare
+  calendarId?: string; // ID of the specific calendar to use
 }
 
-// Cache della configurazione
+// Configuration cache
 let cachedConfig: GoogleCalendarConfig | null = null;
 
 /**
- * Carica la configurazione da localStorage (nel client) o da file (nel server)
+ * Load configuration from localStorage (in the client) or from file (in the server)
  */
 async function loadConfig(): Promise<GoogleCalendarConfig | null> {
   try {
-    // Nel server, dovremmo caricare da un file o database
-    // Per ora, impostiamo solo una struttura base
+    // In the server, we should load from a file or database
+    // For now, we only set a base structure base
     return cachedConfig;
   } catch (error) {
-    console.error('Errore nel caricamento della configurazione Google Calendar:', error);
+    console.error('Error loading Google Calendar configuration:', error);
     return null;
   }
 }
 
 /**
- * Salva la configurazione di Google Calendar
+ * Save the Google Calendar configuration
  */
 export async function saveConfig(config: GoogleCalendarConfig): Promise<boolean> {
   try {
-    // Salva in cache
+    // Save in cache
     cachedConfig = config;
     
-    // In una implementazione completa, salveremmo su file/database
+    // In a complete implementation, we would save to file/database
     return true;
   } catch (error) {
-    console.error('Errore nel salvataggio della configurazione Google Calendar:', error);
+    console.error('Error saving Google Calendar configuration:', error);
     return false;
   }
 }
 
 /**
- * Crea un'istanza autenticata del client Google Calendar
+ * Create an authenticated Google Calendar client instance
  */
 async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
   try {
-    // Verifica se abbiamo un'autorizzazione attiva in authInfo
+    // Check if we have an active authorization in authInfo
     if (!authInfo.authorized || !authInfo.tokens) {
-      console.log('Nessuna autorizzazione Google attiva in authInfo:', authInfo);
+      console.log('No active Google authorization in authInfo:', authInfo);
       
-      // Fallback al metodo precedente con cachedConfig
+      // Fallback to the previous method with cachedConfig
       const config = await loadConfig();
       if (!config || !config.enabled) {
-        console.log('Google Calendar non è configurato o abilitato');
+        console.log('Google Calendar is not configured or enabled');
         return null;
       }
       
@@ -86,12 +86,12 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
         redirectUri
       });
       
-      // Se abbiamo un token salvato in config, lo impostiamo
+      // If we have a token saved in config, we set it
       if (config.token) {
         auth.setCredentials(config.token);
       } else {
-        // Senza token non possiamo procedere
-        console.log('Token OAuth non disponibile per Google Calendar, né in authInfo né in cachedConfig');
+        // Without token we cannot proceed
+        console.log('OAuth token not available for Google Calendar, neither in authInfo nor in cachedConfig');
         return null;
       }
       
@@ -99,7 +99,7 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
     }
     
     // Usa i token di authInfo
-    console.log('Utilizzo token da authInfo per Google Calendar');
+    console.log('Using token from authInfo for Google Calendar');
     const redirectUri = process.env.PRODUCTION_DOMAIN 
       ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
       : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
@@ -113,13 +113,13 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
     auth.setCredentials(authInfo.tokens);
     return google.calendar({ version: 'v3', auth });
   } catch (error) {
-    console.error('Errore nella creazione del client Google Calendar:', error);
+    console.error('Error creating Google Calendar client:', error);
     return null;
   }
 }
 
 /**
- * Aggiunge un appuntamento a Google Calendar
+ * Add an appointment to Google Calendar
  */
 export async function addAppointmentToGoogleCalendar(appointmentId: number): Promise<string | null> {
   try {
@@ -128,79 +128,79 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
       return null;
     }
     
-    // Ottieni i dettagli dell'appuntamento
+    // Get appointment details
     const appointment = await storage.getAppointment(appointmentId);
     if (!appointment) {
-      console.error(`Appuntamento con ID ${appointmentId} non trovato`);
+      console.error(`Appointment with ID ${appointmentId} not found`);
       return null;
     }
     
-    // IMPORTANTE: Non esportare eventi IMPORTATI da Google Calendar!
-    // Questi eventi hanno origine esterna e non devono essere ri-sincronizzati
+    // IMPORTANTE: Not esportare eventi IMPORTATI da Google Calendar!
+    // These events have external origin and must not be re-synchronized
     if (appointment.importedFromGoogle) {
-      console.log(`⏭️ [GOOGLE CALENDAR] Skip export per appuntamento ${appointmentId} - importato da Google Calendar`);
+      console.log(`⏭️ [GOOGLE CALENDAR] Skip export for appointment ${appointmentId} - imported from Google Calendar`);
       return null;
     }
     
-    // Ottieni dettagli cliente e servizio
+    // Get dettagli client e service
     const client = await storage.getClient(appointment.clientId);
     const service = appointment.serviceId 
       ? await storage.getService(appointment.serviceId) 
       : null;
       
     if (!client) {
-      console.error(`Cliente con ID ${appointment.clientId} non trovato`);
+      console.error(`Client with ID ${appointment.clientId} not found`);
       return null;
     }
     
-    // Crea evento Google Calendar
+    // Create evento Google Calendar
     const event = createGoogleCalendarEvent(appointment, client, service || null);
     
-    // Carica la configurazione per ottenere l'ID del calendario scelto
+    // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
     const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
     
-    // Inserisci evento nel calendario
+    // Insert event into calendar
     const response = await calendar.events.insert({
       calendarId: calendarId,
       requestBody: event
     });
     
-    console.log('Evento creato con successo in Google Calendar:', response.data.htmlLink);
+    console.log('Evento created successfully in Google Calendar:', response.data.htmlLink);
     return response.data.id || null;
     
   } catch (error) {
-    console.error('Errore nell\'aggiunta dell\'appuntamento a Google Calendar:', error);
+    console.error('Error adding appointment to Google Calendar:', error);
     return null;
   }
 }
 
 /**
- * Crea un oggetto evento di Google Calendar dai dati dell'appuntamento
+ * Create a Google Calendar event object from appointment data
  */
 function createGoogleCalendarEvent(
   appointment: Appointment, 
   client: Client, 
   service: ServiceType | null
 ): calendar_v3.Schema$Event {
-  // Prepara data e ora - USA formato ISO SENZA Z per rispettare il fuso orario locale
-  // Gestisci sia formato HH:MM che HH:MM:SS
+  // Prepare date and time - USE ISO format WITHOUT Z to respect local timezone
+  // Handle sia format HH:MM che HH:MM:SS
   const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
   const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
   const startDateTimeStr = `${appointment.date}T${startTime}`;
   const endDateTimeStr = `${appointment.date}T${endTime}`;
   
-  // Titolo dell'evento
+  // Event title
   const summary = service 
     ? `${client.firstName} ${client.lastName} - ${service.name}`
     : `Appuntamento con ${client.firstName} ${client.lastName}`;
     
-  // Descrizione dell'evento
+  // Event description
   const description = appointment.notes 
-    ? `Note: ${appointment.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`
-    : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`;
+    ? `Note: ${appointment.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
+    : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
   
-  // Crea l'evento
+  // Create l'evento
   return {
     summary,
     description,
@@ -223,7 +223,7 @@ function createGoogleCalendarEvent(
 }
 
 /**
- * Aggiorna un appuntamento esistente in Google Calendar
+ * Update an existing appointment in Google Calendar
  */
 export async function updateAppointmentInGoogleCalendar(
   appointmentId: number, 
@@ -235,56 +235,56 @@ export async function updateAppointmentInGoogleCalendar(
       return false;
     }
     
-    // Ottieni i dettagli dell'appuntamento
+    // Get appointment details
     const appointment = await storage.getAppointment(appointmentId);
     if (!appointment) {
-      console.error(`Appuntamento con ID ${appointmentId} non trovato`);
+      console.error(`Appointment with ID ${appointmentId} not found`);
       return false;
     }
     
-    // IMPORTANTE: Non aggiornare eventi IMPORTATI da Google Calendar!
-    // Questi eventi hanno origine esterna e non devono essere modificati dal gestionale
+    // IMPORTANT: Do not update events IMPORTED from Google Calendar!
+    // These events have an external origin and must not be modified by the scheduler
     if (appointment.importedFromGoogle) {
-      console.log(`⏭️ [GOOGLE CALENDAR] Skip update per appuntamento ${appointmentId} - importato da Google Calendar`);
+      console.log(`⏭️ [GOOGLE CALENDAR] Skipping update for appointment ${appointmentId} - imported from Google Calendar`);
       return false;
     }
     
-    // Ottieni dettagli cliente e servizio
+    // Get dettagli client e service
     const client = await storage.getClient(appointment.clientId);
     const service = appointment.serviceId 
       ? await storage.getService(appointment.serviceId) 
       : null;
       
     if (!client) {
-      console.error(`Cliente con ID ${appointment.clientId} non trovato`);
+      console.error(`Client with ID ${appointment.clientId} not found`);
       return false;
     }
     
-    // Crea evento Google Calendar aggiornato
+    // Create updated Google Calendar event
     const event = createGoogleCalendarEvent(appointment, client, service || null);
     
-    // Carica la configurazione per ottenere l'ID del calendario scelto
+    // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
     const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
     
-    // Aggiorna evento nel calendario
+    // Update event in calendar
     await calendar.events.update({
       calendarId: calendarId,
       eventId: googleEventId,
       requestBody: event
     });
     
-    console.log('Evento aggiornato con successo in Google Calendar');
+    console.log('Evento updated successfully in Google Calendar');
     return true;
     
   } catch (error) {
-    console.error('Errore nell\'aggiornamento dell\'appuntamento in Google Calendar:', error);
+    console.error('Error updating appointment in Google Calendar:', error);
     return false;
   }
 }
 
 /**
- * Elimina un appuntamento da Google Calendar
+ * Delete an appointment from Google Calendar
  */
 export async function deleteAppointmentFromGoogleCalendar(googleEventId: string): Promise<boolean> {
   try {
@@ -293,47 +293,47 @@ export async function deleteAppointmentFromGoogleCalendar(googleEventId: string)
       return false;
     }
     
-    // Carica la configurazione per ottenere l'ID del calendario scelto
+    // Load the configuration to get the ID of the selected calendar
     const config = await loadConfig();
     const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
     
-    // Elimina evento dal calendario
+    // Delete event from calendar
     await calendar.events.delete({
       calendarId: calendarId,
       eventId: googleEventId
     });
     
-    console.log('Evento eliminato con successo da Google Calendar');
+    console.log('Event deleted successfully from Google Calendar');
     return true;
     
   } catch (error) {
-    console.error('Errore nell\'eliminazione dell\'appuntamento da Google Calendar:', error);
+    console.error('Error deleting appointment from Google Calendar:', error);
     return false;
   }
 }
 
 /**
- * Verifica se Google Calendar è configurato e abilitato
+ * Check if Google Calendar is configured and enabled
  */
 export async function isGoogleCalendarEnabled(): Promise<boolean> {
-  // Controlla prima se abbiamo un'autorizzazione attiva in authInfo
+  // Check first if we have an active authorization in authInfo
   if (authInfo.authorized && authInfo.tokens) {
-    console.log('Google Calendar abilitato tramite authInfo');
+    console.log('Google Calendar enabled via authInfo');
     return true;
   }
   
-  // Fallback al vecchio metodo
+  // Fallback to the old method
   const config = await loadConfig();
   return !!config && config.enabled && !!config.apiKey && !!config.clientId;
 }
 
 /**
- * Genera l'URL di autorizzazione OAuth
+ * Generate l'URL di autorizzazione OAuth
  */
 export function getAuthUrl(clientId: string, redirectUri: string): string {
   const oauth2Client = new google.auth.OAuth2(
     clientId,
-    '', // clientSecret non necessario per generare l'URL
+    '', // clientSecret not needed to generate the URL
     redirectUri
   );
   
@@ -350,7 +350,7 @@ export function getAuthUrl(clientId: string, redirectUri: string): string {
 }
 
 /**
- * Scambia il codice di autorizzazione con un token di accesso
+ * Exchange the authorization code for an access token
  */
 export async function exchangeCodeForToken(
   code: string, 
@@ -367,18 +367,18 @@ export async function exchangeCodeForToken(
     
     const { tokens } = await oauth2Client.getToken(code);
     if (!tokens || !tokens.access_token) {
-      throw new Error('Token non valido');
+      throw new Error('Invalid token');
     }
     
     return tokens as OAuth2Token;
   } catch (error) {
-    console.error('Errore nello scambio del codice per il token:', error);
+    console.error('Error exchanging code for token:', error);
     return null;
   }
 }
 
 /**
- * Recupera la lista dei calendari disponibili per l'account autenticato
+ * Retrieve the list of available calendars for the authenticated account
  */
 export async function getAvailableCalendars(): Promise<calendar_v3.Schema$CalendarListEntry[]> {
   try {
@@ -387,24 +387,24 @@ export async function getAvailableCalendars(): Promise<calendar_v3.Schema$Calend
       return [];
     }
     
-    // Ottieni la lista dei calendari
+    // Get the list of calendars
     const response = await calendar.calendarList.list();
     return response.data.items || [];
   } catch (error) {
-    console.error('Errore nel recupero dei calendari disponibili:', error);
+    console.error('Error retrieving available calendars:', error);
     return [];
   }
 }
 
 /**
- * Recupera tutti gli eventi sincronizzati da Google Calendar
+ * Retrieve all eventi sincronizzati da Google Calendar
  */
 async function getAllEvents() {
   try {
-    // Otteniamo tutti gli eventi sincronizzati tramite query più semplice
+    // Get all synchronized events via simpler query
     const calendarEvents = await db.select().from(googleCalendarEvents);
     
-    // Per ogni evento, recuperiamo i dettagli dell'appuntamento
+    // For each event, retrieve the appointment details
     const eventsWithDetails = await Promise.all(
       calendarEvents.map(async (event) => {
         const appointment = await storage.getAppointment(event.appointmentId);
@@ -416,7 +416,7 @@ async function getAllEvents() {
           };
         }
         
-        // Recupera anche informazioni su cliente e servizio
+        // Retrieve also informazioni su client e service
         const client = await storage.getClient(appointment.clientId);
         const service = appointment.serviceId 
           ? await storage.getService(appointment.serviceId) 
@@ -435,12 +435,12 @@ async function getAllEvents() {
     
     return eventsWithDetails;
   } catch (error) {
-    console.error('Errore nel recupero degli eventi sincronizzati con Google Calendar:', error);
+    console.error('Error retrieving events synced with Google Calendar:', error);
     return [];
   }
 }
 
-// Esporta il servizio
+// Export the service
 export const googleCalendarService = {
   saveConfig,
   addAppointmentToGoogleCalendar,

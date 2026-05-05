@@ -11,25 +11,25 @@ router.post('/theme', ensureAuthenticated, async (req: Request, res: Response) =
     const userId = req.user!.id;
     const { theme } = req.body;
     
-    console.log(`🎯 TEMA per User ID: ${userId}, Valore: "${theme}"`);
+    console.log(`🎯 Theme for User ID: ${userId}, Value: "${theme}"`);
     
     const userDb = createUnifiedUserDatabase(userId);
     const success = await userDb.setField(UNIFIED_FIELD_CODES.THEME, theme);
     
     if (success) {
-      console.log(`✅ TEMA SALVATO SEPARATAMENTE: "${theme}" per utente ${userId}`);
+      console.log(`✅ Theme saved separately: "${theme}" for user ${userId}`);
       res.json({ 
         success: true, 
-        message: 'Tema salvato con successo', 
+        message: 'Theme saved successfully', 
         userId, 
         theme 
       });
     } else {
-      res.status(500).json({ success: false, message: 'Errore durante il salvataggio del tema' });
+      res.status(500).json({ success: false, message: 'Error saving theme' });
     }
   } catch (error: any) {
-    console.error('Errore durante il salvataggio del tema:', error);
-    res.status(500).json({ success: false, message: 'Errore durante il salvataggio del tema' });
+    console.error('Error saving theme:', error);
+    res.status(500).json({ success: false, message: 'Error saving theme' });
   }
 });
 

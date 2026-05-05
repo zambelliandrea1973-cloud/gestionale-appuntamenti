@@ -15,11 +15,11 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
   try {
     const admins = await db.select().from(users).where(eq(users.type, 'admin'));
     if (!admins.length) {
-      console.log('📧 [SYSTEM EMAIL] Nessun utente admin trovato nel database');
+      console.log('📧 [SYSTEM EMAIL] No admin user found in database');
       return null;
     }
 
-    logger.debug(`📧 [SYSTEM EMAIL] Trovati ${admins.length} admin, cercando quello con SMTP configurato...`);
+    logger.debug(`📧 [SYSTEM EMAIL] Found ${admins.length} admin, looking for one with SMTP configured...`);
 
     const { userSettings } = await import('../../shared/schema');
 
@@ -29,7 +29,7 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
       const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, admin.id)).limit(1);
 
       if (settings?.smtpEnabled && settings?.smtpEmail && settings?.smtpPasswordEncrypted) {
-        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} ha SMTP configurato nel DB`);
+        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} has SMTP configured in DB`);
         const config = await getEmailConfig(admin.id);
         if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
           logger.debug(`📧 [SYSTEM EMAIL] Usando config admin ID ${admin.id}: ${config.emailAddress}`);
@@ -45,11 +45,11 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
           return { transporter, senderEmail: config.emailAddress };
         }
       } else {
-        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} NON ha SMTP nel DB, salto`);
+        logger.debug(`📧 [SYSTEM EMAIL] Admin ID ${admin.id} does NOT have SMTP in DB, skipping`);
       }
     }
 
-    logger.debug(`📧 [SYSTEM EMAIL] Nessun admin con SMTP nel DB, provo fallback...`);
+    logger.debug(`📧 [SYSTEM EMAIL] No admin with SMTP in DB, trying fallback...`);
     const config = await getEmailConfig(admins[0].id);
     if (config && config.emailEnabled && config.emailAddress && config.emailPassword) {
       logger.debug(`📧 [SYSTEM EMAIL] Fallback config primo admin: ${config.emailAddress}`);
@@ -81,10 +81,10 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
       return { transporter, senderEmail: systemEmail };
     }
 
-    console.log('📧 [SYSTEM EMAIL] Nessuna configurazione email disponibile');
+    console.log('📧 [SYSTEM EMAIL] No email configuration available');
     return null;
   } catch (error) {
-    console.error('📧 [SYSTEM EMAIL] Errore caricamento config:', error);
+    console.error('📧 [SYSTEM EMAIL] Error loading config:', error);
     return null;
   }
 }
@@ -92,7 +92,7 @@ export async function getSystemTransporter(): Promise<{ transporter: nodemailer.
 export async function sendSystemEmail(to: string, subject: string, html: string, text?: string): Promise<SystemEmailResult> {
   const system = await getSystemTransporter();
   if (!system) {
-    return { success: false, senderEmail: '', error: 'Configurazione email non disponibile' };
+    return { success: false, senderEmail: '', error: 'Email configuration not available' };
   }
 
   try {
@@ -103,10 +103,10 @@ export async function sendSystemEmail(to: string, subject: string, html: string,
       html,
       ...(text ? { text } : {}),
     });
-    logger.debug(`📧 [SYSTEM EMAIL] Email inviata a ${to} da ${system.senderEmail}`);
+    logger.debug(`📧 [SYSTEM EMAIL] Email sent to ${to} from ${system.senderEmail}`);
     return { success: true, senderEmail: system.senderEmail };
   } catch (error: any) {
-    console.error(`📧 [SYSTEM EMAIL] Errore invio a ${to}:`, error.message);
+    console.error(`📧 [SYSTEM EMAIL] Error sending to ${to}:`, error.message);
     return { success: false, senderEmail: system.senderEmail, error: error.message };
   }
 }

@@ -2,12 +2,12 @@ import { EncryptionService } from './encryption';
 import { DataAccessLogger } from './data-access-logger';
 
 /**
- * Classe per la gestione della conformità GDPR dell'applicazione
+ * Class for managing GDPR compliance of the application
  */
 export class GDPRCompliance {
   private static instance: GDPRCompliance;
-  private dataRetentionPeriodDays = 730; // 2 anni di default
-  private databaseRegion = 'EU'; // Impostazione predefinita
+  private dataRetentionPeriodDays = 730; // 2 years by default
+  private databaseRegion = 'EU'; // Default setting
   private isEncryptionEnabled = true;
   private isLoggingEnabled = true;
 
@@ -16,66 +16,66 @@ export class GDPRCompliance {
   }
 
   /**
-   * Ottiene l'istanza singleton del servizio GDPR
+   * Get the istanza singleton of the service GDPR
    */
   public static getInstance(): GDPRCompliance {
     if (!GDPRCompliance.instance) {
       GDPRCompliance.instance = new GDPRCompliance();
-      // Inizializza il sistema di logging
+      // Initialize the logging system
       DataAccessLogger.initialize();
     }
     return GDPRCompliance.instance;
   }
 
   /**
-   * Imposta la regione del database
-   * @param region La regione del database (deve essere 'EU' per conformità GDPR)
+   * Set the database region
+   * @param region The database region (must be 'EU' for GDPR compliance)
    */
   public setDatabaseRegion(region: string): void {
     this.databaseRegion = region;
-    console.log(`Regione database impostata su: ${region}`);
+    console.log(`Database region set to: ${region}`);
   }
 
   /**
-   * Controlla se il database è configurato per essere nell'UE
+   * Check if the database is configured to be in the EU
    */
   public isDatabaseInEU(): boolean {
     return this.databaseRegion === 'EU';
   }
 
   /**
-   * Abilita o disabilita la crittografia dei dati
+   * Enable or disable data encryption
    */
   public setEncryptionEnabled(enabled: boolean): void {
     this.isEncryptionEnabled = enabled;
-    console.log(`Crittografia dati ${enabled ? 'abilitata' : 'disabilitata'}`);
+    console.log(`Data encryption ${enabled ? 'enabled' : 'disabled'}`);
   }
 
   /**
-   * Abilita o disabilita il logging degli accessi
+   * Enable or disable access logging
    */
   public setLoggingEnabled(enabled: boolean): void {
     this.isLoggingEnabled = enabled;
-    console.log(`Logging accessi ai dati ${enabled ? 'abilitato' : 'disabilitato'}`);
+    console.log(`Data access logging ${enabled ? 'enabled' : 'disabled'}`);
   }
 
   /**
-   * Imposta il periodo di conservazione dei dati in giorni
+   * Set the data retention period in days
    */
   public setDataRetentionPeriod(days: number): void {
     this.dataRetentionPeriodDays = days;
-    console.log(`Periodo di conservazione dati impostato a ${days} giorni`);
+    console.log(`Data retention period set to ${days} days`);
   }
 
   /**
-   * Cripta un campo di dati sensibili se la crittografia è abilitata
+   * Encrypt a sensitive data field if encryption is enabled
    */
   public encryptSensitiveData(data: string): string {
     if (!this.isEncryptionEnabled || !data) {
       return data;
     }
     
-    // Evita di criptare dati già criptati
+    // Avoid encrypting data that is already encrypted
     if (EncryptionService.isEncrypted(data)) {
       return data;
     }
@@ -84,14 +84,14 @@ export class GDPRCompliance {
   }
 
   /**
-   * Decripta un campo di dati sensibili criptati
+   * Decrypt a sensitive encrypted data field
    */
   public decryptSensitiveData(encryptedData: string): string {
     if (!this.isEncryptionEnabled || !encryptedData) {
       return encryptedData;
     }
     
-    // Se non sembra criptato, restituisci i dati originali
+    // If sembra criptato, restituisci the data originali
     if (!EncryptionService.isEncrypted(encryptedData)) {
       return encryptedData;
     }
@@ -100,7 +100,7 @@ export class GDPRCompliance {
   }
 
   /**
-   * Registra l'accesso ai dati se il logging è abilitato
+   * Register data access if logging is enabled
    */
   public logDataAccess(
     userId: number | string,
@@ -115,16 +115,16 @@ export class GDPRCompliance {
   }
 
   /**
-   * Anonimizza i dati personali per la cancellazione (diritto all'oblio)
-   * @param data Oggetto contenente dati personali
-   * @returns Oggetto con i dati personali anonimizzati
+   * Anonymize personal data for deletion (right to be forgotten)
+   * @param date Object containing personal data
+   * @returns Object con the data personali anonimizzati
    */
   public anonymizePersonalData(data: any): any {
     if (!data) return data;
     
     const anonymized = { ...data };
     
-    // Anonimizza campi comuni di dati personali
+    // Anonymize common personal data fields
     if (anonymized.firstName) anonymized.firstName = '[ELIMINATO]';
     if (anonymized.lastName) anonymized.lastName = '[ELIMINATO]';
     if (anonymized.email) anonymized.email = `deleted-${Date.now()}@anonymous.com`;
@@ -139,7 +139,7 @@ export class GDPRCompliance {
   }
 
   /**
-   * Controlla se i dati devono essere eliminati in base alla politica di conservazione
+   * Check if data should be deleted based on the retention policy
    */
   public shouldDataBeDeleted(creationDate: Date): boolean {
     const now = new Date();
@@ -150,7 +150,7 @@ export class GDPRCompliance {
   }
 
   /**
-   * Genera un report sulla conformità GDPR
+   * Generate a GDPR compliance report
    */
   public generateComplianceReport(): any {
     return {
@@ -164,7 +164,7 @@ export class GDPRCompliance {
   }
 
   /**
-   * Genera raccomandazioni per migliorare la conformità GDPR
+   * Generate recommendations for improving GDPR compliance
    */
   private generateRecommendations(): string[] {
     const recommendations = [];
@@ -174,15 +174,15 @@ export class GDPRCompliance {
     }
     
     if (!this.isEncryptionEnabled) {
-      recommendations.push('La crittografia dei dati sensibili dovrebbe essere abilitata');
+      recommendations.push('Sensitive data encryption should be enabled');
     }
     
     if (!this.isLoggingEnabled) {
-      recommendations.push('Il logging degli accessi ai dati personali dovrebbe essere abilitato');
+      recommendations.push('Personal data access logging should be enabled');
     }
     
     if (this.dataRetentionPeriodDays > 730) {
-      recommendations.push('Il periodo di conservazione dei dati supera i 2 anni, considerare una riduzione');
+      recommendations.push('Data retention period exceeds 2 years, consider reducing it');
     }
     
     return recommendations;

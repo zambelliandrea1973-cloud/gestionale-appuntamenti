@@ -5,58 +5,58 @@ import { hashPassword } from '../auth';
 import { ActivationToken } from '../../shared/schema';
 
 /**
- * Servizio per la gestione dei token di attivazione
+ * Service for managing activation tokens
  */
 export const tokenService = {
   /**
-   * Genera un nuovo token di attivazione per un cliente
-   * @param clientId ID del cliente per cui generare il token
-   * @param expiresInDays Numero di giorni di validità del token
-   * @returns Il token generato
+   * Generate a new activation token for a client
+   * @param clientId Client ID for which to generate the token
+   * @param expiresInDays Number of days of token validity
+   * @returns the generated token
    */
   async generateActivationToken(clientId: number, expiresInDays: number = 365): Promise<string> {
     try {
-      // Prima verifichiamo se esiste già un token valido per questo cliente
+      // First check if a valid token already exists for this client
       const existingTokens = await storage.getActivationTokensByClientId(clientId);
       let validToken = existingTokens.find(t => !t.used && new Date(t.expiresAt) > new Date());
       
-      // Se troviamo un token valido esistente, lo restituiamo
+      // If we find an existing valid token, we return it
       if (validToken) {
-        console.log('Riutilizzo token esistente per il cliente:', clientId);
+        console.log('Reusing existing token for client:', clientId);
         return validToken.token;
       }
       
-      // Se non esiste un token valido, verifichiamo se esiste un token con lo stesso ID cliente
-      // Per farlo, generiamo il token deterministico
+      // If a valid token exists, check if there is a token with the same client ID
+      // For farlo, generiamo the token deterministico
       const clientIdString = clientId.toString();
-      const secretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString; // Segretino univoco per cliente
+      const secretKey = 'FIXED_CLIENT_SECRET_' + clientIdString; // Unique secret key per client
       const token = crypto.createHash('sha256').update(secretKey).digest('hex');
       
-      // Verifica se il token esiste già nel database
+      // Check if the token already exists in the database
       const existingToken = await storage.getActivationToken(token);
       
-      // Se il token esiste già ma appartiene a questo cliente, lo aggiorniamo e lo restituiamo
+      // if the token already exists and belongs to this client, update and return it
       if (existingToken && existingToken.clientId === clientId) {
-        console.log('Aggiornamento token esistente per il cliente:', clientId);
+        console.log('Updating existing token for client:', clientId);
         
-        // Calcola la nuova data di scadenza
+        // Calculate the new expiry date
         const expiresAt = addDays(new Date(), expiresInDays);
         
-        // Aggiorna la data di scadenza del token
+        // Update the token expiry date
         await storage.updateActivationTokenExpiry(existingToken.id, expiresAt);
         
         return token;
       }
       
-      // Se il token esiste già ma appartiene a un altro cliente o non esiste,
-      // generiamo un token unico aggiungendo un timestamp
-      const uniqueSecretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString + '_' + Date.now();
+      // if the token already exists but belongs to another client or does not exist,
+      // generate a unique token by adding a timestamp
+      const uniqueSecretKey = 'FIXED_CLIENT_SECRET_' + clientIdString + '_' + Date.now();
       const uniqueToken = crypto.createHash('sha256').update(uniqueSecretKey).digest('hex');
       
-      // Calcola la data di scadenza (impostata a 365 giorni di default per renderlo persistente)
+      // Calculate the expiry date (set to 365 days by default to make it persistent)
       const expiresAt = addDays(new Date(), expiresInDays);
       
-      // Salva il token nel database
+      // Save the token to the database
       await storage.createActivationToken({
         token: uniqueToken,
         clientId,
@@ -66,131 +66,131 @@ export const tokenService = {
       
       return uniqueToken;
     } catch (error) {
-      console.error('Errore nella generazione del token di attivazione:', error);
-      throw new Error('Impossibile generare il token di attivazione');
+      console.error('Error generating activation token:', error);
+      throw new Error('Unable to generate activation token');
     }
   },
   
   /**
-   * Verifica la validità di un token di attivazione
-   * @param token Il token da verificare
-   * @param invalidate Se true, invalida il token dopo la verifica (predefinito: false)
-   * @returns ID del cliente associato al token se valido, null altrimenti
+   * Verify the validity of an activation token
+   * @param token The token to verify
+   * @param invalidate If true, invalidate the token after verification (default: false)
+   * @returns Client ID associated with the token if valid, null otherwise
    */
   async verifyActivationToken(token: string, invalidate: boolean = false): Promise<number | null> {
     try {
-      // Trova il token nel database
+      // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Verifica se il token esiste
+      // Check if the token esiste
       if (!activationToken) {
-        console.log('Token non trovato:', token);
+        console.log('Token not found:', token);
         return null;
       }
       
-      // Verifica se il token è scaduto
+      // Check if the token has expired
       if (new Date() > new Date(activationToken.expiresAt)) {
-        console.log('Token scaduto:', token);
+        console.log('Token expired:', token);
         
-        // MODIFICA: Rinnoviamo automaticamente il token scaduto per 365 giorni
+        // CHANGE: Automatically renew the expired token for 365 days
         const newExpiresAt = addDays(new Date(), 365);
         await storage.updateActivationTokenExpiry(activationToken.id, newExpiresAt);
-        console.log('Token rinnovato automaticamente fino a:', newExpiresAt);
+        console.log('Token automatically renewed until:', newExpiresAt);
         
-        // Continuiamo con la verifica considerando il token valido
+        // Continue with verification treating the token as valid
       }
       
-      // Non controlliamo più se il token è stato utilizzato, in modo che possa essere usato più volte
-      // Se un token esiste ed è valido, restituisce sempre l'ID del cliente
+      // We no longer check if the token has been used, so that it can be used multiple times
+      // If a token exists and is valid, always returns the client ID
       
-      // Se richiesto, invalida il token dopo l'uso
+      // If required, invalidate the token after use
       if (invalidate) {
         await this.markTokenAsUsed(token);
       }
       
       return activationToken.clientId;
     } catch (error) {
-      console.error('Errore nella verifica del token di attivazione:', error);
+      console.error('Error verifying activation token:', error);
       return null;
     }
   },
   
   /**
-   * Marca un token come utilizzato
-   * @param token Il token da marcare come utilizzato
-   * @returns true se l'operazione è riuscita, false altrimenti
+   * Mark a token as used
+   * @param token the token da marcare come utilizzato
+   * @returns true if the operation succeeded, false otherwise
    */
   async markTokenAsUsed(token: string): Promise<boolean> {
     try {
-      // Trova il token nel database
+      // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Verifica se il token esiste
+      // Check if the token esiste
       if (!activationToken) {
         return false;
       }
       
-      // Non marchiamo mai il token come utilizzato, in modo che possa essere riutilizzato
-      // Non modifichiamo il token nel database in modo che rimanga utilizzabile
+      // We never mark the token as used, so it can be reused
+      // We do not modify the token in the database so that it remains usable
       
       return true;
     } catch (error) {
-      console.error('Errore nell\'aggiornamento del token di attivazione:', error);
+      console.error('Error updating activation token:', error);
       return false;
     }
   },
   
   /**
-   * Verifica se un token sta per scadere entro il numero di giorni specificato
-   * @param token Il token da verificare
-   * @param daysBeforeExpiry Numero di giorni prima della scadenza per considerare il token in scadenza
-   * @returns true se il token sta per scadere, false altrimenti
+   * Check if a token is about to expire within the specified number of days
+   * @param token The token to verify
+   * @param daysBeforeExpiry Number of days before expiry to consider the token expiring
+   * @returns true if the token sta per scadere, false otherwise
    */
   async isTokenExpiringSoon(token: string, daysBeforeExpiry: number = 1): Promise<boolean> {
     try {
-      // Trova il token nel database
+      // Find the token in the database
       const activationToken = await storage.getActivationToken(token);
       
-      // Verifica se il token esiste
+      // Check if the token esiste
       if (!activationToken) {
         return false;
       }
       
-      // Calcola la data di scadenza imminente (oggi + giorni di preavviso)
+      // Calculate the upcoming expiry date (today + days of advance notice)
       const expiryWarningDate = addDays(new Date(), daysBeforeExpiry);
       
-      // Verifica se la data di scadenza del token è prima della data di scadenza imminente
-      // e dopo la data odierna (cioè, sta per scadere ma non è ancora scaduto)
+      // Check if the token expiry date is before the imminent expiry date
+      // and after today's date (i.e., about to expire but not yet expired)
       const tokenExpiryDate = new Date(activationToken.expiresAt);
       const today = new Date();
       
       return tokenExpiryDate <= expiryWarningDate && tokenExpiryDate > today;
     } catch (error) {
-      console.error('Errore nella verifica della scadenza imminente del token:', error);
+      console.error('Error verifying token expiration:', error);
       return false;
     }
   },
   
   /**
-   * Genera un nuovo token per un cliente, invalidando eventuali token esistenti
-   * @param clientId ID del cliente per cui generare un nuovo token
-   * @param expiresInDays Numero di giorni di validità del token
-   * @returns Il nuovo token generato
+   * Generate a new token for a client, invalidating any existing tokens
+   * @param clientId Client ID for which to generate a new token
+   * @param expiresInDays Number of days of token validity
+   * @returns The newly generated token
    */
   async regenerateToken(clientId: number, expiresInDays: number = 365): Promise<string> {
     try {
-      // Trova eventuali token esistenti per questo cliente
+      // Find any existing tokens for this client
       const existingTokens = await storage.getActivationTokensByClientId(clientId);
       
-      // Genera il nuovo token usando il generatore deterministico
+      // Generate the new token using the deterministic generator
       const clientIdString = clientId.toString();
-      const secretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString + '_' + Date.now(); // Aggiungiamo timestamp per renderlo unico
+      const secretKey = 'FIXED_CLIENT_SECRET_' + clientIdString + '_' + Date.now(); // Aggiungiamo timestamp per renderlo unico
       const newToken = crypto.createHash('sha256').update(secretKey).digest('hex');
       
-      // Calcola la data di scadenza
+      // Calculate the expiry date
       const expiresAt = addDays(new Date(), expiresInDays);
       
-      // Salva il nuovo token nel database
+      // Save the new token to the database
       await storage.createActivationToken({
         token: newToken,
         clientId,
@@ -198,45 +198,45 @@ export const tokenService = {
         used: false
       });
       
-      console.log(`Nuovo token generato per il cliente ${clientId} con scadenza ${expiresAt}`);
+      console.log(`New token generated for client ${clientId} with expiry ${expiresAt}`);
       
       return newToken;
     } catch (error) {
-      console.error('Errore nella rigenerazione del token:', error);
-      throw new Error('Impossibile rigenerare il token');
+      console.error('Error regenerating token:', error);
+      throw new Error('Unable to regenerate token');
     }
   },
   
   /**
-   * Attiva un account cliente utilizzando un token di attivazione
-   * @param token Il token di attivazione
+   * Activate a client account using an activation token
+   * @param token the token activation
    * @param username Username scelto per l'account
    * @param password Password scelta per l'account
-   * @returns true se l'attivazione è riuscita, false altrimenti
+   * @returns true if activation succeeded, false otherwise
    */
   async activateAccount(token: string, username: string, password: string): Promise<boolean> {
     try {
-      // Verifica che il token sia valido
+      // Verify that the token is valid
       const clientId = await this.verifyActivationToken(token);
       
       if (clientId === null) {
-        console.log('Token non valido per l\'attivazione:', token);
+        console.log('Invalid token for activation:', token);
         return false;
       }
       
-      // Verifica se l'account esiste già
+      // Check if l'account esiste already
       const existingAccount = await storage.getClientAccountByClientId(clientId);
       
       if (existingAccount) {
-        // Se l'account esiste già, aggiorniamo username e password anziché fallire
-        console.log('Aggiornamento account esistente per il cliente:', clientId);
+        // If the account already exists, update username and password instead of failing
+        console.log('Updating existing account for client:', clientId);
         await storage.updateClientAccount(existingAccount.id, {
           username,
           password: await hashPassword(password),
           isActive: true
         });
       } else {
-        // Crea un nuovo account
+        // Create a new account
         await storage.createClientAccount({
           clientId,
           username,
@@ -245,12 +245,12 @@ export const tokenService = {
         });
       }
       
-      // Marca il token come utilizzato
+      // Marca the token come utilizzato
       await this.markTokenAsUsed(token);
       
       return true;
     } catch (error) {
-      console.error('Errore nell\'attivazione dell\'account:', error);
+      console.error('Error activating account:', error);
       return false;
     }
   }

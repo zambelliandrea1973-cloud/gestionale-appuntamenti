@@ -3,55 +3,55 @@ import { storage } from '../storage';
 import { InsertBetaInvitation, InsertBetaFeedback } from '../../shared/schema';
 
 /**
- * Servizio per la gestione dei beta tester
+ * Service for managing beta testers
  */
 export class BetaService {
   /**
-   * Genera un codice di invito univoco
+   * Generate a unique invitation code
    */
   static generateInvitationCode(): string {
     return randomBytes(16).toString('hex');
   }
 
   /**
-   * Crea un nuovo invito per beta tester
+   * Create a new invitation for beta testers
    */
   static async createInvitation(email: string, notes?: string, maxUses: number = 1, expiryDays: number = 30): Promise<{success: boolean, code?: string, message?: string}> {
     try {
-      console.log('Creazione invito beta per:', { email, maxUses, expiryDays });
+      console.log('Creating beta invitation for:', { email, maxUses, expiryDays });
       
-      // Validazione dei parametri
+      // Parameter validation
       if (!email || email.trim() === '') {
-        console.error('Errore: Email mancante nella creazione invito');
+        console.error('Error: Email missing when creating invitation');
         return {
           success: false,
-          message: 'Email obbligatoria per la creazione dell\'invito'
+          message: 'Email required to create invitation'
         };
       }
       
       if (maxUses < 1) {
-        console.error('Errore: Numero utilizzi non valido:', maxUses);
+        console.error('Error: Numero utilizzi invalid:', maxUses);
         return {
           success: false,
-          message: 'Il numero massimo di utilizzi deve essere almeno 1'
+          message: 'The maximum number of uses must be at least 1'
         };
       }
       
-      // Genera il codice di invito
+      // Generate the invitation code
       const invitationCode = this.generateInvitationCode();
       
-      // Imposta la scadenza dell'invito in base ai giorni specificati
+      // Set the invitation expiration based on the specified days
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + expiryDays);
       
-      console.log('Preparazione dati invito:', { 
+      console.log('Preparing invitation data:', { 
         email, 
         invitationCode,
         expiryDays,
         expirationDate: expirationDate.toISOString()
       });
       
-      // Crea l'invito
+      // Create the invitation
       const invitation: InsertBetaInvitation = {
         email,
         invitationCode,
@@ -64,23 +64,23 @@ export class BetaService {
       };
       
       const newInvitation = await storage.createBetaInvitation(invitation);
-      console.log('Invito creato con successo:', { id: newInvitation.id, code: newInvitation.invitationCode });
+      console.log('Invito created successfully:', { id: newInvitation.id, code: newInvitation.invitationCode });
       
       return {
         success: true,
         code: newInvitation.invitationCode
       };
     } catch (error) {
-      console.error('Errore durante la creazione dell\'invito beta:', error);
+      console.error('Error creating beta invitation:', error);
       return {
         success: false,
-        message: 'Errore durante la creazione dell\'invito beta: ' + (error instanceof Error ? error.message : String(error))
+        message: 'Error creating beta invitation: ' + (error instanceof Error ? error.message : String(error))
       };
     }
   }
 
   /**
-   * Verifica la validità di un codice di invito
+   * Verify the validity of an invitation code
    */
   static async verifyInvitationCode(code: string): Promise<{valid: boolean, message?: string, invitation?: any}> {
     try {
@@ -89,21 +89,21 @@ export class BetaService {
       if (!invitation) {
         return {
           valid: false,
-          message: 'Codice di invito non trovato'
+          message: 'Invitation code not found'
         };
       }
       
       if (invitation.isUsed) {
         return {
           valid: false,
-          message: 'Questo codice di invito è già stato utilizzato'
+          message: 'This invitation code has already been used'
         };
       }
       
       if (invitation.expiresAt && new Date(invitation.expiresAt) < new Date()) {
         return {
           valid: false,
-          message: 'Questo codice di invito è scaduto'
+          message: 'This invitation code has expired'
         };
       }
       
@@ -112,29 +112,29 @@ export class BetaService {
         invitation
       };
     } catch (error) {
-      console.error('Errore durante la verifica del codice di invito:', error);
+      console.error('Error verifying invitation code:', error);
       return {
         valid: false,
-        message: 'Errore durante la verifica del codice di invito'
+        message: 'Error verifying invitation code'
       };
     }
   }
 
   /**
-   * Segna un codice di invito come utilizzato
+   * Mark an invitation code as used
    */
   static async markInvitationAsUsed(code: string, userId: number): Promise<boolean> {
     try {
       const updatedInvitation = await storage.markBetaInvitationAsUsed(code, userId);
       return !!updatedInvitation;
     } catch (error) {
-      console.error('Errore durante il contrassegno del codice di invito come utilizzato:', error);
+      console.error('Error marking invitation code as used:', error);
       return false;
     }
   }
 
   /**
-   * Invia feedback da parte di un beta tester
+   * Send feedback from a beta tester
    */
   static async submitFeedback(userId: number, feedback: {
     feedbackType: string;
@@ -158,28 +158,28 @@ export class BetaService {
         success: true
       };
     } catch (error) {
-      console.error('Errore durante l\'invio del feedback:', error);
+      console.error('Error sending feedback:', error);
       return {
         success: false,
-        message: 'Errore durante l\'invio del feedback'
+        message: 'Error sending feedback'
       };
     }
   }
 
   /**
-   * Ottiene tutti i feedback con i dettagli dell'utente
+   * Get all feedback with details of the user
    */
   static async getAllFeedbacks() {
     try {
       return await storage.getAllBetaFeedback();
     } catch (error) {
-      console.error('Errore durante il recupero dei feedback:', error);
+      console.error('Error retrieving feedback:', error);
       return [];
     }
   }
 
   /**
-   * Aggiorna lo stato di un feedback
+   * Update the status of a feedback entry
    */
   static async updateFeedbackStatus(id: number, status: string, reviewedBy: number): Promise<boolean> {
     try {
@@ -190,7 +190,7 @@ export class BetaService {
       });
       return !!feedback;
     } catch (error) {
-      console.error('Errore durante l\'aggiornamento dello stato del feedback:', error);
+      console.error('Error updating feedback status:', error);
       return false;
     }
   }

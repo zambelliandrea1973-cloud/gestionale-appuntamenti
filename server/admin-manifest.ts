@@ -1,60 +1,60 @@
 /**
- * Manifest.json dinamico per area amministrazione
- * Serve l'icona personalizzata del professionista loggato
+ * Dynamic manifest.json for administration area
+ * Serves the custom icon for the logged-in professional
  */
 import { Request, Response } from 'express';
 
 export async function serveAdminManifest(req: Request, res: Response) {
   try {
-    console.log('🔍 ADMIN MANIFEST: Richiesta manifest area professionale');
-    console.log('🔍 ADMIN MANIFEST: User loggato:', req.user ? `ID ${(req.user as any).id}` : 'NESSUNO');
+    console.log('🔍 ADMIN MANIFEST: Admin area manifest requested');
+    console.log('🔍 ADMIN MANIFEST: Logged user:', req.user ? `ID ${(req.user as any).id}` : 'NONE');
     console.log('🔍 ADMIN MANIFEST: Query params:', req.query);
     
-    // STRATEGIA MULTI-LAYER per identificare l'utente:
-    // 1. Query param userId (priorità ALTA - usato durante installazione PWA senza cookie)
-    // 2. Sessione req.user (fallback se c'è sessione attiva)
-    // 3. Default (se nessuno dei precedenti)
+    // MULTI-LAYER STRATEGY to identify the user:
+    // 1. Query param userId (HIGH priority - used during PWA installation without cookie)
+    // 2. req.user session (fallback if there is an active session)
+    // 3. Default (if none of the above)
     
     let userId: number | string = 'default';
     let userName = 'Gestionale Appuntamenti';
     
-    // Priorità 1: Query parameter userId
+    // Priority 1: Query parameter userId
     if (req.query.userId) {
       userId = parseInt(req.query.userId as string);
-      // Carica nome utente dal database se necessario (opzionale per ora)
-      userName = 'Professionista';
-      console.log(`📱 ADMIN MANIFEST: UserId da query param: ${userId}`);
+      // Load username from database if needed (optional for now)
+      userName = 'Professional';
+      console.log(`📱 ADMIN MANIFEST: UserId from query param: ${userId}`);
     }
-    // Priorità 2: Sessione attiva
+    // Priority 2: Active session
     else if (req.user) {
       userId = (req.user as any).id;
-      userName = (req.user as any).businessName || (req.user as any).name || 'Professionista';
-      console.log(`📱 ADMIN MANIFEST: Generando manifest per ${userName} (ID: ${userId})`);
+      userName = (req.user as any).businessName || (req.user as any).name || 'Professional';
+      console.log(`📱 ADMIN MANIFEST: Generating manifest for ${userName} (ID: ${userId})`);
     } 
-    // Priorità 3: Default
+    // Priority 3: Default
     else {
-      console.log(`📱 ADMIN MANIFEST: Nessun userId, servendo manifest con icona default`);
+      console.log(`📱 ADMIN MANIFEST: No userId, serving manifest with default icon`);
     }
     
-    // Versione manifest basata su userId + timestamp per cache busting
+    // Manifest version based on userId + timestamp for cache busting
     const manifestVersion = `${userId}-${Date.now()}`;
     
-    // Costruisci URL icone con proxy dinamico
+    // Build icon URLs with dynamic proxy
     const iconTimestamp = Date.now() + Math.random();
     const iconBaseUrl = `/pwa-icon`;
     const iconParams = `?owner=${userId}&v=${iconTimestamp}&admin=1`;
     
-    // ID dinamico solo se loggato, altrimenti generico
+    // Dynamic ID only if logged in, otherwise generic
     const manifestId = req.user 
       ? `gestionale-appuntamenti-admin-${userId}`
       : `gestionale-appuntamenti-admin-generic`;
     
     const manifest = {
       "name": req.user 
-        ? `${userName} - Dashboard Professionale` 
-        : "Gestionale Appuntamenti - Dashboard Professionale",
+        ? `${userName} - Professional Dashboard` 
+        : "Gestionale Appuntamenti - Professional Dashboard",
       "short_name": "Gestionale",
-      "description": `Dashboard completa per gestione clienti, appuntamenti e servizi medici${req.user ? ' - ' + userName : ''}`,
+      "description": `Complete dashboard for client, appointment, and medical service management${req.user ? ' - ' + userName : ''}`,
       "start_url": "/",
       "display": "standalone",
       "background_color": "#ffffff",
@@ -89,9 +89,9 @@ export async function serveAdminManifest(req: Request, res: Response) {
       ],
       "shortcuts": [
         {
-          "name": "Calendario",
+          "name": "Calendar",
           "url": "/calendario",
-          "description": "Visualizza appuntamenti nel calendario",
+          "description": "View appointments in the calendar",
           "icons": [
             {
               "src": `${iconBaseUrl}/96x96${iconParams}`,
@@ -127,7 +127,7 @@ export async function serveAdminManifest(req: Request, res: Response) {
       ]
     };
     
-    // Headers anti-cache per forzare aggiornamento
+    // Anti-cache headers to force update
     res.set({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
@@ -137,17 +137,17 @@ export async function serveAdminManifest(req: Request, res: Response) {
       'X-Manifest-Version': manifestVersion
     });
     
-    console.log(`✅ ADMIN MANIFEST: Servendo manifest per ${userName} (ID: ${userId})`);
+    console.log(`✅ ADMIN MANIFEST: Serving manifest for ${userName} (ID: ${userId})`);
     console.log(`📱 ADMIN MANIFEST ID: ${manifest.id}`);
-    console.log(`📱 ADMIN MANIFEST ICONE: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
+    console.log(`📱 ADMIN MANIFEST ICONS: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
     
     res.json(manifest);
     
   } catch (error) {
-    console.error('❌ ADMIN MANIFEST: Errore durante generazione:', error);
+    console.error('❌ ADMIN MANIFEST: Error during generation:', error);
     res.status(500).json({ 
-      error: 'Errore interno server',
-      message: 'Impossibile generare il manifest della PWA' 
+      error: 'Internal server error',
+      message: 'Unable to generate PWA manifest' 
     });
   }
 }

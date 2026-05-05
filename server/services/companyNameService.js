@@ -60,7 +60,7 @@ export const companyNameService = {
       companyNameService.saveSettings(defaultSettings);
       return defaultSettings;
     } catch (error) {
-      console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
+      console.error('Error retrieving company name settings:', error);
       return defaultSettings;
     }
   },
@@ -81,7 +81,7 @@ export const companyNameService = {
       
       return true;
     } catch (error) {
-      console.error('Errore durante il salvataggio delle impostazioni del nome aziendale:', error);
+      console.error('Error saving company name settings:', error);
       return false;
     }
   },

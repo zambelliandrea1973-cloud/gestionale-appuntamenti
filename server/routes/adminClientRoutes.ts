@@ -8,14 +8,14 @@ import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 const router = Router();
 
 router.get("/api/admin/clients-summary", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Accesso riservato agli amministratori" });
+    return res.status(403).json({ message: "Access reserved for administrators" });
   }
   
-  console.log(`📊 [ADMIN-SUMMARY] Richiesta riepilogo clienti per admin ${user.id}`);
+  console.log(`📊 [ADMIN-SUMMARY] Client summary request from admin ${user.id}`);
   
   try {
     const summary = await db.select({
@@ -30,7 +30,7 @@ router.get("/api/admin/clients-summary", async (req, res) => {
     .groupBy(clients.ownerId);
     
     const enrichedSummary = await Promise.all(summary.map(async (item) => {
-      if (!item.ownerId) return { ...item, ownerName: 'Sconosciuto', ownerEmail: null };
+      if (!item.ownerId) return { ...item, ownerName: 'Unknown', ownerEmail: null };
       
       const [owner] = await db.select({
         id: users.id,
@@ -38,7 +38,7 @@ router.get("/api/admin/clients-summary", async (req, res) => {
         username: users.username
       }).from(users).where(eq(users.id, item.ownerId));
       
-      let ownerName = owner?.email || owner?.username || 'Sconosciuto';
+      let ownerName = owner?.email || owner?.username || 'Unknown';
       
       if (owner) {
         const [settings] = await db.select({
@@ -65,28 +65,28 @@ router.get("/api/admin/clients-summary", async (req, res) => {
       return b.clientCount - a.clientCount;
     });
     
-    console.log(`📊 [ADMIN-SUMMARY] Trovati ${enrichedSummary.length} professionisti con clienti`);
+    console.log(`📊 [ADMIN-SUMMARY] Found ${enrichedSummary.length} professionals with clients`);
     res.json(enrichedSummary);
   } catch (error: any) {
-    console.error(`❌ [ADMIN-SUMMARY] Errore:`, error);
-    res.status(500).json({ message: "Errore nel recupero riepilogo" });
+    console.error(`❌ [ADMIN-SUMMARY] Error:`, error);
+    res.status(500).json({ message: "Error retrieving summary" });
   }
 });
 
 router.get("/api/admin/clients-by-owner/:ownerId", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Accesso riservato agli amministratori" });
+    return res.status(403).json({ message: "Access reserved for administrators" });
   }
   
   const ownerId = parseInt(req.params.ownerId, 10);
   if (isNaN(ownerId)) {
-    return res.status(400).json({ message: "ownerId non valido" });
+    return res.status(400).json({ message: "Invalid ownerId" });
   }
   
-  console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Admin ${user.id} richiede clienti di ownerId ${ownerId}`);
+  console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Admin ${user.id} requesting clients of ownerId ${ownerId}`);
   
   try {
     const ownerClients = await db.select().from(clients)
@@ -112,20 +112,20 @@ router.get("/api/admin/clients-by-owner/:ownerId", async (req, res) => {
       accessCount: ownerAccessMap[client.id] || 0
     }));
     
-    console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Caricati ${clientsWithAccessCount.length} clienti per ownerId ${ownerId}`);
+    console.log(`📦 [ADMIN-CLIENTS-BY-OWNER] Loaded ${clientsWithAccessCount.length} clients for ownerId ${ownerId}`);
     res.json(clientsWithAccessCount);
   } catch (error: any) {
-    console.error(`❌ [ADMIN-CLIENTS-BY-OWNER] Errore:`, error);
-    res.status(500).json({ message: "Errore nel caricamento clienti" });
+    console.error(`❌ [ADMIN-CLIENTS-BY-OWNER] Error:`, error);
+    res.status(500).json({ message: "Error loading clients" });
   }
 });
 
 router.get("/api/admin/notifications", (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Accesso negato" });
+    return res.status(403).json({ message: "Access denied" });
   }
   
   const storageData = loadStorageData();
@@ -139,11 +139,11 @@ router.get("/api/admin/notifications", (req, res) => {
 });
 
 router.post("/api/admin/notifications/:id/read", (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Accesso negato" });
+    return res.status(403).json({ message: "Access denied" });
   }
   
   const notificationId = parseInt(req.params.id);
@@ -156,10 +156,10 @@ router.post("/api/admin/notifications/:id/read", (req, res) => {
       saveStorageData(storageData);
       res.json({ success: true });
     } else {
-      res.status(404).json({ message: "Notifica non trovata" });
+      res.status(404).json({ message: "Notification not found" });
     }
   } else {
-    res.status(404).json({ message: "Notifica non trovata" });
+    res.status(404).json({ message: "Notification not found" });
   }
 });
 

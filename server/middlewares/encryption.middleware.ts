@@ -4,8 +4,8 @@ import { isSensitiveField } from '@shared/sensitive-fields';
 import { GDPRCompliance } from '../services/gdpr-compliance';
 
 /**
- * Middleware per criptare automaticamente i dati sensibili nelle richieste
- * Deve essere applicato alle rotte POST e PUT che gestiscono dati sensibili
+ * Middleware for automatically encrypting sensitive data in requests
+ * Must be applied to POST and PUT routes that handle sensitive data
  */
 export function encryptSensitiveData(resourceType: string) {
   const gdprService = GDPRCompliance.getInstance();
@@ -15,7 +15,7 @@ export function encryptSensitiveData(resourceType: string) {
       return next();
     }
     
-    // Per ogni campo nel body, verifica se è sensibile e cripta se necessario
+    // For each field in the body, check if it is sensitive and encrypt if needed
     Object.keys(req.body).forEach(key => {
       if (typeof req.body[key] === 'string' && isSensitiveField(resourceType, key)) {
         req.body[key] = gdprService.encryptSensitiveData(req.body[key]);
@@ -27,30 +27,30 @@ export function encryptSensitiveData(resourceType: string) {
 }
 
 /**
- * Middleware per decriptare automaticamente i dati sensibili nelle risposte
- * Deve essere applicato a tutte le rotte GET che restituiscono dati sensibili
+ * Middleware for automatically decrypting sensitive data in responses
+ * Must be applied to all GET routes that return sensitive data
  */
 export function decryptSensitiveData(resourceType: string) {
   const gdprService = GDPRCompliance.getInstance();
   
   return (req: Request, res: Response, next: NextFunction) => {
-    // Salva il metodo originale res.json
+    // Save the metodo originale res.json
     const originalJson = res.json;
     
-    // Sostituisci res.json con una versione personalizzata che decrittografa i dati sensibili
+    // Replace res.json with a custom version that decrypts sensitive data
     res.json = function(body: any) {
-      // Funzione ricorsiva per processare oggetti annidati
+      // Recursive function for processing nested objects
       function processObject(obj: any): any {
         if (!obj || typeof obj !== 'object') {
           return obj;
         }
         
-        // Se è un array, processa ogni elemento
+        // If it is an array, process each element
         if (Array.isArray(obj)) {
           return obj.map(item => processObject(item));
         }
         
-        // Altrimenti è un oggetto, processa ogni proprietà
+        // otherwise it is an object, process each property
         const result: any = { ...obj };
         Object.keys(result).forEach(key => {
           if (typeof result[key] === 'string' && isSensitiveField(resourceType, key)) {
@@ -63,10 +63,10 @@ export function decryptSensitiveData(resourceType: string) {
         return result;
       }
       
-      // Processa l'intero body
+      // Process l'intero body
       const processedBody = processObject(body);
       
-      // Chiama il metodo json originale con i dati decriptati
+      // Call the original json method with the decrypted data
       return originalJson.call(this, processedBody);
     };
     

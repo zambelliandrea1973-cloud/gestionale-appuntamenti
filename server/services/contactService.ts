@@ -2,7 +2,7 @@ import { db } from '../db';
 import { contactInfo } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
-// Tipo per le informazioni di contatto
+// Type per the information di contatto
 export interface ContactInfo {
   email?: string;
   phone1?: string;
@@ -13,11 +13,11 @@ export interface ContactInfo {
 }
 
 /**
- * Servizio per la gestione delle informazioni di contatto su PostgreSQL
+ * Service for managing contact information on PostgreSQL
  */
 class ContactService {
   /**
-   * Carica le informazioni di contatto dall'utente (per multi-tenant)
+   * Load the information di contatto dall'user (per multi-tenant)
    */
   async getContactInfo(userId?: number): Promise<ContactInfo> {
     try {
@@ -42,18 +42,18 @@ class ContactService {
         instagram: contact.instagram || undefined,
       };
     } catch (error) {
-      console.error('Errore recupero informazioni contatto:', error);
+      console.error('Error retrieving contact information:', error);
       return {};
     }
   }
 
   /**
-   * Salva le informazioni di contatto nel database
+   * Save the contact information in the database
    */
   async saveContactInfo(userId: number, contactInfoData: ContactInfo): Promise<boolean> {
     try {
       if (!userId) {
-        console.error('userId mancante per saveContactInfo');
+        console.error('userId missing for saveContactInfo');
         return false;
       }
 
@@ -70,14 +70,14 @@ class ContactService {
           .values({ userId, ...contactInfoData });
       }
 
-      console.log('Informazioni di contatto salvate con successo per utente', userId, contactInfoData);
+      console.log('Contact information saved successfully for user', userId, contactInfoData);
       return true;
     } catch (error) {
-      console.error('Errore salvataggio informazioni contatto:', error);
+      console.error('Error saving contact information:', error);
       return false;
     }
   }
 }
 
-// Esporta istanza singleton
+// Export istanza singleton
 export const contactService = new ContactService();

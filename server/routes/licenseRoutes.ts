@@ -1,5 +1,5 @@
 /**
- * API per la gestione delle licenze
+ * API for managing licenses
  */
 import { Router } from 'express';
 import { licenseService } from '../services/licenseService';
@@ -10,33 +10,33 @@ import { LicenseType } from '../services/licenseService';
 
 const router = Router();
 
-// Verifica lo stato della licenza corrente
+// Verify the status of the current license
 router.get('/license-info', async (req, res) => {
   try {
-    // Se l'utente è autenticato, ottieni le informazioni della licenza dell'utente
+    // If the user is authenticated, get the user's license information
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       if (user.id) {
-        console.log(`Ottenendo licenza specifica per utente ${user.id} (${user.username})`);
+        console.log(`Getting specific license for user ${user.id} (${user.username})`);
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         return res.json(licenseInfo);
       }
     }
     
-    // Altrimenti ottieni la licenza di sistema predefinita
-    console.log('Ottenendo licenza di sistema (utente non autenticato o senza ID)');
+    // otherwise get the default system license
+    console.log('Getting system license (user not authenticated or without ID)');
     const licenseInfo = await licenseService.getCurrentLicenseInfo();
     res.json(licenseInfo);
   } catch (error) {
-    console.error('Errore nel recupero delle informazioni sulla licenza:', error);
+    console.error('Error retrieving license information:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero delle informazioni sulla licenza'
+      message: 'Error retrieving license information'
     });
   }
 });
 
-// Attiva una licenza con un codice
+// Activate a license with a code
 router.post('/activate-license', async (req, res) => {
   try {
     const { activationCode } = req.body;
@@ -44,89 +44,89 @@ router.post('/activate-license', async (req, res) => {
     if (!activationCode) {
       return res.status(400).json({
         success: false,
-        message: 'Codice di attivazione mancante'
+        message: 'Activation code missing'
       });
     }
     
     const result = await licenseService.activateLicense(activationCode);
     res.json(result);
   } catch (error) {
-    console.error('Errore nell\'attivazione della licenza:', error);
+    console.error('Error activating license:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nell\'attivazione della licenza'
+      message: 'Error activating license'
     });
   }
 });
 
-// Endpoint per verificare se l'utente ha accesso PRO
+// Endpoint for verifying if the user has PRO access
 router.get('/has-pro-access', async (req, res) => {
   try {
-    // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
+    // If the user is authenticated, explicitly check the user type
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Admin e staff hanno sempre accesso PRO (accesso completo automatico)
+      // Admin and staff always have PRO access (full automatic access)
       if (user.type === 'admin' || user.type === 'staff') {
         return res.json(true);
       }
       
-      // Customer con licenza Pro, Business, Passepartout o TRIAL ATTIVO hanno accesso PRO
+      // Customers with Pro, Business, Passepartout or ACTIVE TRIAL license have PRO access
       if (user.type === 'customer' && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.PRO || 
             licenseInfo.type === LicenseType.BUSINESS || 
             licenseInfo.type === LicenseType.PASSEPARTOUT ||
-            licenseInfo.type === LicenseType.TRIAL  // TRIAL COMPLETO: accesso PRO per 40 giorni
+            licenseInfo.type === LicenseType.TRIAL  // FULL TRIAL: PRO access for 40 days
         )) {
           return res.json(true);
         }
       }
     }
     
-    // Per casi standard, restituiamo false per utenti non autorizzati
+    // For standard cases, return false for unauthorized users
     res.json(false);
   } catch (error) {
-    console.error('Errore nella verifica dell\'accesso PRO:', error);
+    console.error('Error verifying PRO access:', error);
     res.status(500).json(false);
   }
 });
 
-// Endpoint per verificare se l'utente ha accesso BUSINESS
+// Endpoint for verifying if the user has BUSINESS access
 router.get('/has-business-access', async (req, res) => {
   try {
-    // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
+    // If the user is authenticated, explicitly check the user type
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Admin e staff hanno sempre accesso Business (accesso completo automatico)
+      // Admin and staff always have Business access (full automatic access)
       if (user.type === 'admin' || user.type === 'staff') {
         return res.json(true);
       }
       
-      // Customer con licenza Business, Passepartout o TRIAL ATTIVO hanno accesso Business
+      // Customers with Business, Passepartout or ACTIVE TRIAL license have Business access
       if (user.type === 'customer' && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.BUSINESS || 
             licenseInfo.type === LicenseType.PASSEPARTOUT ||
-            licenseInfo.type === LicenseType.TRIAL  // TRIAL COMPLETO: accesso Business per 40 giorni
+            licenseInfo.type === LicenseType.TRIAL  // FULL TRIAL: Business access for 40 days
         )) {
           return res.json(true);
         }
       }
     }
     
-    // Per casi standard, restituiamo false per utenti non autorizzati
+    // For standard cases, return false for unauthorized users
     res.json(false);
   } catch (error) {
-    console.error('Errore nella verifica dell\'accesso BUSINESS:', error);
+    console.error('Error verifying BUSINESS access:', error);
     res.status(500).json(false);
   }
 });
 
-// Endpoint per generare un codice (solo per sviluppo/test)
+// Endpoint for generating a code (development/test only)
 router.post('/generate-code', isAuthenticated, async (req, res) => {
   try {
     const { licenseType } = req.body;
@@ -134,15 +134,15 @@ router.post('/generate-code', isAuthenticated, async (req, res) => {
     if (!licenseType) {
       return res.status(400).json({
         success: false,
-        message: 'Tipo di licenza mancante'
+        message: 'License type missing'
       });
     }
     
-    // Verifica che il tipo di licenza sia valido
+    // Verify that the license type is valid
     if (!Object.values(LicenseType).includes(licenseType)) {
       return res.status(400).json({
         success: false,
-        message: 'Tipo di licenza non valido'
+        message: 'Invalid license type'
       });
     }
     
@@ -152,40 +152,40 @@ router.post('/generate-code', isAuthenticated, async (req, res) => {
       activationCode
     });
   } catch (error) {
-    console.error('Errore nella generazione del codice:', error);
+    console.error('Error generating code:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella generazione del codice'
+      message: 'Error generating code'
     });
   }
 });
 
-// Endpoint per ottenere il titolo dell'applicazione
+// Endpoint to get the application title
 router.get('/application-title', async (req, res) => {
   try {
-    // Se l'utente è autenticato, personalizza il titolo in base al tipo di utente
+    // If the user is authenticated, customize the title based on the user type
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       console.log('User in application-title:', user);
       
-      // Verifica se l'utente è admin basandosi sul ruolo
+      // Check if the user is admin based on role
       if (user.role === 'admin') {
         console.log('Admin user detected, returning clean title');
-        return res.json({ title: "Gestione Appuntamenti" }); // Titolo senza "Prova" per admin
+        return res.json({ title: "Gestione Appuntamenti" }); // Title without "Trial" for admin
       }
       
-      // Verifica se l'utente è staff basandosi sul tipo
+      // Check if the user is staff based on type
       if (user.type === 'staff') {
         console.log('Staff user detected, returning PRO title');
         return res.json({ title: "Gestione Appuntamenti PRO" }); // Titolo per staff
       }
       
-      // Per utenti customer, verifica la licenza specifica
+      // For customer users, verify the specific license
       if (user.type === 'customer' && user.id) {
         console.log(`Customer user detected (ID: ${user.id}), checking license`);
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         
-        // Genera un titolo personalizzato in base alla licenza dell'utente
+        // Generate a custom title based on the user's license
         let title;
         switch(licenseInfo.type) {
           case 'trial':
@@ -209,20 +209,20 @@ router.get('/application-title', async (req, res) => {
       }
     }
     
-    // Altrimenti, usiamo la logica standard del servizio licenza
+    // otherwise, use the standard service license logic
     console.log('No special user type, using license service logic');
     const title = await licenseService.getApplicationTitle();
     res.json({ title });
   } catch (error) {
-    console.error('Errore nel recupero del titolo dell\'applicazione:', error);
+    console.error('Error retrieving application title:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero del titolo dell\'applicazione'
+      message: 'Error retrieving application title'
     });
   }
 });
 
-// Endpoint per creare un codice di attivazione permanente
+// Endpoint for creating a permanent activation code
 router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
   try {
     const { code, licenseType, password } = req.body;
@@ -232,22 +232,22 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
     if (isProduction || !devAdminPw || password !== devAdminPw) {
       return res.status(401).json({
         success: false,
-        message: 'Password amministratore non valida'
+        message: 'Invalid administrator password'
       });
     }
     
-    // Verifica del tipo di licenza
+    // Verify the license type
     if (!licenseType || !Object.values(LicenseType).includes(licenseType)) {
       return res.status(400).json({
         success: false,
-        message: 'Tipo di licenza non valido o non specificato'
+        message: 'Invalid or unspecified license type'
       });
     }
     
-    // Formatta il codice rimuovendo spazi e convertendo in maiuscolo
+    // Format the code by removing spaces and converting to uppercase
     const formattedCode = code.replace(/\s/g, '').toUpperCase();
     
-    // Controlla se il codice esiste già
+    // Check if the code esiste already
     const existingLicense = await db.query.licenses.findFirst({
       where: (licenses, { eq }) => eq(licenses.code, formattedCode)
     });
@@ -255,39 +255,39 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
     if (existingLicense) {
       return res.status(400).json({
         success: false,
-        message: 'Questo codice esiste già nel sistema'
+        message: 'This code already exists in the system'
       });
     }
     
-    // Inserisci la nuova licenza permanente (senza data di scadenza)
+    // Insert the new permanent license (without expiration date)
     await db.insert(licenses).values({
       code: formattedCode,
       type: licenseType,
-      isActive: true,         // Già attivo
+      isActive: true,         // Already active
       createdAt: new Date(),
-      activatedAt: new Date(), // Già attivato
-      expiresAt: null         // Nessuna scadenza (permanente)
+      activatedAt: new Date(), // Already activated
+      expiresAt: null         // No expiry (permanent)
     });
     
-    // Formatta il codice per la visualizzazione
+    // Format the code for display
     const displayCode = `${formattedCode.substring(0, 4)} ${formattedCode.substring(4, 8)} ${formattedCode.substring(8, 12)} ${formattedCode.substring(12, 16)}`;
     
     res.json({
       success: true,
-      message: 'Codice di attivazione permanente creato con successo',
+      message: 'Permanent activation code created successfully',
       code: displayCode,
       type: licenseType
     });
   } catch (error) {
-    console.error('Errore nella creazione del codice permanente:', error);
+    console.error('Error creating permanent code:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella creazione del codice permanente'
+      message: 'Error creating permanent code'
     });
   }
 });
 
-// Middleware per verificare la password admin senza autenticazione
+// Middleware to verify admin password without authentication
 function verifyAdminPassword(req: any, res: any, next: any) {
   const { password } = req.body;
   const devAdminPw = process.env.DEV_ADMIN_PASSWORD;
@@ -295,21 +295,21 @@ function verifyAdminPassword(req: any, res: any, next: any) {
   if (isProd || !devAdminPw || password !== devAdminPw) {
     return res.status(401).json({
       success: false,
-      message: 'Password amministratore non valida'
+      message: 'Invalid administrator password'
     });
   }
   
   next();
 }
 
-// Endpoint specifico per creare il codice passepartout richiesto
+// Endpoint specifico per creare il code passepartout required
 router.post('/create-passepartout', verifyAdminPassword, async (req, res) => {
   try {
     
-    // Codice passepartout richiesto (senza spazi)
+    // Code passepartout required (senza spazi)
     const rawCode = '0103197320091979';
     
-    // Controlla se il codice esiste già
+    // Check if the code esiste already
     const existingLicense = await db.query.licenses.findFirst({
       where: (licenses, { eq }) => eq(licenses.code, rawCode)
     });
@@ -317,34 +317,34 @@ router.post('/create-passepartout', verifyAdminPassword, async (req, res) => {
     if (existingLicense) {
       return res.status(400).json({
         success: false,
-        message: 'Il codice passepartout esiste già nel sistema'
+        message: 'The passepartout code already exists in the system'
       });
     }
     
-    // Inserisci la nuova licenza passepartout permanente
+    // Inserisci la nuova license passepartout permanente
     await db.insert(licenses).values({
       code: rawCode,
-      type: LicenseType.PASSEPARTOUT,  // Licenza con accesso a tutte le funzionalità
-      isActive: true,                 // Già attivo
+      type: LicenseType.PASSEPARTOUT,  // License with access to all features
+      isActive: true,                 // Already active
       createdAt: new Date(),
-      activatedAt: new Date(),        // Già attivato
-      expiresAt: null                 // Nessuna scadenza (permanente)
+      activatedAt: new Date(),        // Already activated
+      expiresAt: null                 // No expiry (permanent)
     });
     
-    // Formatta il codice per la visualizzazione
+    // Format the code for display
     const displayCode = `${rawCode.substring(0, 4)} ${rawCode.substring(4, 8)} ${rawCode.substring(8, 12)} ${rawCode.substring(12, 16)}`;
     
     res.json({
       success: true,
-      message: 'Codice passepartout creato con successo',
+      message: 'Codice passepartout created successfully',
       code: displayCode,
       type: LicenseType.PASSEPARTOUT
     });
   } catch (error) {
-    console.error('Errore nella creazione del codice passepartout:', error);
+    console.error('Error creating passepartout code:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella creazione del codice passepartout'
+      message: 'Error creating passepartout code'
     });
   }
 });

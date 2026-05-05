@@ -9,7 +9,7 @@ import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 const messagesPendingDelivery = new Map<string, boolean>();
 
 /**
- * Definizione dell'interfaccia per il modulo phoneDeviceService
+ * Interface definition for the phoneDeviceService module
  * per evitare problemi di import circolare
  */
 interface PhoneDeviceInterface {
@@ -18,37 +18,37 @@ interface PhoneDeviceInterface {
 }
 
 /**
- * Servizio per l'invio di notifiche e promemoria attraverso metodi diretti
- * senza dipendere da servizi esterni come Twilio
+ * Service for sending notifications and reminders via direct methods
+ * without depending on external services like Twilio
  */
 export const directNotificationService = {
   /**
-   * Verifica le impostazioni di notifica
-   * @returns Le impostazioni di notifica, o null se non sono state configurate
+   * Verify the notification settings
+   * @returns The notification settings, or null if they have been configured
    */
   async getNotificationSettings() {
     try {
       return await notificationSettingsService.getSettings();
     } catch (error) {
-      console.error('Errore nel recupero delle impostazioni di notifica:', error);
+      console.error('Error retrieving notification settings:', error);
       return null;
     }
   },
 
   /**
-   * Ottiene il numero di telefono da utilizzare per le notifiche
-   * @returns Il numero di telefono da utilizzare per le notifiche, o null se non configurato
+   * Get the phone number da utilizzare per the notifications
+   * @returns The phone number to use for notifications, or null if configured
    */
   async getNotificationPhone(): Promise<string | null> {
     try {
       const settings = await this.getNotificationSettings();
       
-      // Se è configurato per usare un numero di telefono dedicato e questo è impostato
+      // If it is configured to use a dedicated phone number and it is set
       if (settings && !settings.useContactPhoneForNotifications && settings.notificationPhone) {
         return settings.notificationPhone;
       }
       
-      // Altrimenti, recupera il numero di telefono dai contatti in base alla preferenza
+      // otherwise, retrieve the phone number from contacts based on preference
       const contactService = await import('./contactService');
       const contactInfo = await contactService.contactService.getContactInfo();
       
@@ -58,19 +58,19 @@ export const directNotificationService = {
         return contactInfo.phone1 || contactInfo.phone2 || null;
       }
     } catch (error) {
-      console.error('Errore nel recupero del numero di telefono per notifiche:', error);
+      console.error('Error retrieving phone number for notifications:', error);
       return null;
     }
   },
 
   /**
-   * Genera un link diretto a WhatsApp
-   * @param to Numero di telefono del destinatario in formato internazionale (es. +39123456789)
-   * @param message Testo del messaggio da inviare
-   * @returns URL per aprire WhatsApp con il messaggio precompilato
+   * Generate a link diretto a WhatsApp
+   * @param to Recipient phone number in international format (e.g. +39123456789)
+   * @param message Message text to send
+   * @returns URL per aprire WhatsApp con the message precompilato
    */
   generateWhatsAppLink(to: string, message: string): string {
-    // Formatta il numero se non inizia con "+"
+    // Format the number if it starts with "+"
     const formattedTo = to.startsWith('+') ? to.substring(1) : to;
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(message);
@@ -79,12 +79,12 @@ export const directNotificationService = {
   },
   
   /**
-   * Genera un link WhatsApp e invia una notifica al centro notifiche
-   * @param client Dati del cliente
-   * @param message Testo del messaggio
-   * @param appointmentId ID dell'appuntamento
-   * @param appointmentDate Data dell'appuntamento formattata
-   * @returns true se l'operazione è riuscita
+   * Generate a WhatsApp link and add a notification to the notification center
+   * @param client Client data
+   * @param message Message text
+   * @param appointmentId Appointment ID
+   * @param appointmentDate Formatted appointment date
+   * @returns true if the operation succeeded
    */
   async generateWhatsAppLinkAndNotify(
     client: any, 
@@ -98,52 +98,52 @@ export const directNotificationService = {
       const whatsappLink = this.generateWhatsAppLink(client.phone, message);
       
       await this.addToNotificationCenter(
-        0, // ID speciale per il professionista 
-        `📱 Invia promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}. [Apri WhatsApp](${whatsappLink})`,
+        0, // Special ID for the professional 
+        `📱 WhatsApp reminder sent to client ${client.firstName} ${client.lastName} for appointment on ${appointmentDate}. [Open WhatsApp](${whatsappLink})`,
         'staff_reminder',
         appointmentId
       );
       
-      console.log(`Generato link WhatsApp per l'appuntamento ${appointmentId}: ${whatsappLink}`);
+      console.log(`Generated WhatsApp link for appointment ${appointmentId}: ${whatsappLink}`);
       return true;
     } catch (error) {
-      console.error('Errore nella generazione del link WhatsApp:', error);
+      console.error('Error generating WhatsApp link:', error);
       return false;
     }
   },
 
   /**
-   * Invia un messaggio email utilizzando SMTP
-   * @param to Indirizzo email del destinatario
-   * @param subject Oggetto dell'email
-   * @param message Testo dell'email
-   * @returns Promise che risolve a true se l'invio è riuscito
-   * @throws Error se si verifica un problema durante l'invio
+   * Send an email message using SMTP
+   * @param to Recipient email address
+   * @param subject Email subject
+   * @param message Email body text
+   * @returns Promise that resolves to true if sending succeeded
+   * @throws Error If a problem occurs during sending
    */
   async sendEmail(to: string, subject: string, message: string): Promise<boolean> {
     try {
       const settings = await this.getNotificationSettings();
       
       if (!settings) {
-        console.error('Configurazione email non trovata');
-        throw new Error('Configurazione email non trovata. Salva prima le impostazioni.');
+        console.error('Email configuration not found');
+        throw new Error('Email configuration not found. Save your settings first.');
       }
       
       if (!settings.emailEnabled) {
-        console.error('Notifiche email non abilitate');
-        throw new Error('Le notifiche email non sono abilitate.');
+        console.error('Email notifications not enabled');
+        throw new Error('Email notifications are not enabled.');
       }
       
       if (!settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
-        console.error('Configurazione SMTP incompleta', {
+        console.error('Incomplete SMTP configuration', {
           server: !!settings.smtpServer, 
           username: !!settings.smtpUsername, 
           password: !!settings.smtpPassword
         });
-        throw new Error('Configurazione SMTP incompleta. Verifica tutti i campi obbligatori.');
+        throw new Error('Incomplete SMTP configuration. Verify all required fields.');
       }
       
-      // Crea trasportatore SMTP con gestione debug
+      // Create SMTP transporter with debug handling
       const transporter = nodemailer.createTransport({
         host: settings.smtpServer,
         port: settings.smtpPort || 587,
@@ -152,17 +152,17 @@ export const directNotificationService = {
           user: settings.smtpUsername,
           pass: settings.smtpPassword,
         },
-        // Attiva debug per dettagli di connessione
+        // Enable debug for connection details
         debug: true,
         logger: true
       });
       
-      // Verifica la connessione prima di inviare
+      // Verify the connection before sending
       try {
         await transporter.verify();
-        console.log('Connessione SMTP verificata con successo');
+        console.log('SMTP connection verified successfully');
       } catch (verifyError) {
-        console.error('Errore nella verifica della connessione SMTP:', verifyError);
+        console.error('Error verifying SMTP connection:', verifyError);
         throw verifyError; // Propagare l'errore per gestirlo nell'handler principale
       }
       
@@ -174,26 +174,26 @@ export const directNotificationService = {
         html: message.replace(/\n/g, '<br>'),
       };
       
-      console.log(`Tentativo di invio email a ${to} usando ${settings.smtpServer}:${settings.smtpPort}`);
+      console.log(`Attempting to send email to ${to} using ${settings.smtpServer}:${settings.smtpPort}`);
       
       const info = await transporter.sendMail(mailOptions);
-      console.log(`Email inviata con successo: ${info.messageId}`);
+      console.log(`Email sent successfully: ${info.messageId}`);
       return true;
     } catch (error: any) {
-      console.error('Errore nell\'invio dell\'email:', error);
+      console.error('Error sending email:', error);
       
-      // Propaga l'errore completo per permettere all'endpoint di gestirlo in modo specifico
+      // Propagate the full error to allow the endpoint to handle it specifically
       throw error;
     }
   },
 
   /**
-   * Aggiunge una notifica al centro notifiche
-   * @param clientId ID del cliente
-   * @param appointmentId ID dell'appuntamento (opzionale)
-   * @param message Testo della notifica
-   * @param type Tipo di notifica
-   * @returns Promise che risolve a true se la notifica è stata creata
+   * Add a notification to the notification center
+   * @param clientId Client ID
+   * @param appointmentId Appointment ID (opzionale)
+   * @param message Notification text
+   * @param type Notification type
+   * @returns Promise che risolve a true if the notification was created
    */
   async addToNotificationCenter(
     clientId: number, 
@@ -203,7 +203,7 @@ export const directNotificationService = {
     scheduledFor?: Date
   ): Promise<boolean> {
     try {
-      // MIGRATO A JSON: Salva su adminNotifications invece di PostgreSQL
+      // MIGRATED TO JSON: Save to adminNotifications instead of PostgreSQL
       const storageData = loadStorageData();
       
       if (!storageData.adminNotifications) {
@@ -222,60 +222,60 @@ export const directNotificationService = {
       });
       
       saveStorageData(storageData);
-      logger.debug(`✅ Notifica aggiunta al centro notifiche JSON per il cliente ${clientId}`);
+      logger.debug(`✅ Notification added to JSON notification center for client ${clientId}`);
       return true;
     } catch (error) {
-      console.error('Errore nell\'aggiunta della notifica al centro notifiche:', error);
+      console.error('Error adding notification to notification center:', error);
       return false;
     }
   },
 
   /**
-   * Invia un promemoria per un appuntamento utilizzando i metodi configurati
-   * @param appointment L'appuntamento per cui inviare il promemoria
-   * @returns true se il promemoria è stato inviato o aggiunto al centro notifiche
+   * Send a reminder for an appointment using configured methods
+   * @param appointment The appointment for which to send the reminder
+   * @returns true if the reminder was sent or added to the notification center
    */
   async sendAppointmentReminder(appointment: Appointment): Promise<boolean> {
     try {
-      // Verifica che l'appuntamento abbia un tipo di promemoria specificato e un clientId
+      // Verify that the appointment has a specified reminder type and a clientId
       if (!appointment.reminderType || !appointment.clientId) {
-        console.error(`Impossibile inviare promemoria: dati mancanti nell'appuntamento`, appointment);
+        console.error(`Unable to send reminder: missing appointment data`, appointment);
         return false;
       }
       
-      // Recupera i dati del cliente
+      // Retrieve client date
       const client = await storage.getClient(appointment.clientId);
       if (!client) {
-        console.error(`Cliente non trovato per l'appuntamento ${appointment.id}`);
+        console.error(`Client not found for appointment ${appointment.id}`);
         return false;
       }
       
-      // Recupera le impostazioni di notifica
+      // Retrieve the notification settings
       const settings = await this.getNotificationSettings();
       
-      // Recupera i dati del servizio
+      // Retrieve the data of the service
       const service = appointment.serviceId ? await storage.getService(appointment.serviceId) : null;
       
-      // Formatta la data e l'ora dell'appuntamento
+      // Format the appointment date and time
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
-      const startTime = appointment.startTime.substring(0, 5); // Estrae solo HH:MM
+      const startTime = appointment.startTime.substring(0, 5); // Extract HH:MM only
       
-      // Prova a recuperare un template personalizzato
+      // Try to retrieve a custom template
       let reminderTemplate = null;
       if (appointment.serviceId) {
-        // Prima cerca un template specifico per questo servizio
+        // First look for a specific template for this service
         reminderTemplate = await storage.getReminderTemplateByService(appointment.serviceId);
       }
       
-      // Se non trova un template specifico, usa quello predefinito
+      // If a specific template is found, use the default one
       if (!reminderTemplate) {
         reminderTemplate = await storage.getDefaultReminderTemplate();
       }
       
-      // Prepara il messaggio - se esiste un template lo usa, altrimenti usa un messaggio predefinito
+      // Prepare the message - if a template exists use it, otherwise use a default message
       let message = '';
       if (reminderTemplate) {
-        // Sostituisci i placeholder nel template con i dati reali
+        // Replace placeholders in the template with actual data
         message = reminderTemplate.template
           .replace('{{nome}}', client.firstName)
           .replace('{{cognome}}', client.lastName)
@@ -283,27 +283,27 @@ export const directNotificationService = {
           .replace('{{data}}', appointmentDate)
           .replace('{{ora}}', startTime);
       } else {
-        // Messaggio predefinito con data e ora incluse
-        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento ${service ? `di ${service.name}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
+        // Default message with date and time included
+        message = `Dear ${client.firstName}, this is a reminder for your appointment${service ? ` for ${service.name}` : ''} on ${appointmentDate} at ${startTime}. For changes or cancellations, please contact us.`;
       }
       
-      // Genera un ID univoco per questo messaggio
+      // Generate a unique ID for this message
       const messageId = `${appointment.id}-${appointment.date}-${appointment.startTime}`;
       
-      // Verifica se il messaggio è già in attesa di invio per evitare duplicati
+      // Check if the message is already pending sending to avoid duplicates
       if (messagesPendingDelivery.get(messageId)) {
-        console.log(`Messaggio già in attesa di invio per l'appuntamento ${appointment.id}`);
+        console.log(`Message already pending for appointment ${appointment.id}`);
         return false;
       }
       
-      // Imposta il flag per evitare invii duplicati
+      // Set the flag to avoid duplicate sends
       messagesPendingDelivery.set(messageId, true);
       
-      // Aggiungi sempre la notifica al centro notifiche (se abilitato)
+      // Always add the notification to the notification center (if enabled)
       let successCount = 0;
       
       try {
-        // Verifica se il centro notifiche è abilitato (default: true)
+        // Check if the notification center is enabled (default: true)
         if (!settings || settings.notificationCenterEnabled !== false) {
           const added = await this.addToNotificationCenter(
             client.id, 
@@ -314,24 +314,24 @@ export const directNotificationService = {
           
           if (added) {
             successCount++;
-            console.log(`Notifica aggiunta al centro notifiche per l'appuntamento ${appointment.id}`);
+            console.log(`Notification added to notification center for appointment ${appointment.id}`);
           }
         }
         
-        // Invia email se abilitato e configurato
+        // Send email if enabled and configured
         if (settings?.emailEnabled && client.email) {
-          const emailSubject = `Promemoria Appuntamento del ${appointmentDate}`;
+          const emailSubject = `Appointment Reminder for ${appointmentDate}`;
           const sent = await this.sendEmail(client.email, emailSubject, message);
           if (sent) {
             successCount++;
-            console.log(`Email inviata con successo per l'appuntamento ${appointment.id}`);
+            console.log(`Email sent successfully for appointment ${appointment.id}`);
           }
         }
         
-        // Per SMS e WhatsApp utilizziamo il phoneDeviceService se è disponibile,
-        // altrimenti generiamo i link come fallback
+        // For SMS and WhatsApp, use phoneDeviceService if available,
+        // otherwise generiamo i link come fallback
         
-        // Verifica se il dispositivo è accoppiato e connesso
+        // Check if the device is paired and connected
         let phoneDevice = null;
         let deviceConnected = false;
         
@@ -343,160 +343,160 @@ export const directNotificationService = {
           const status = phoneDevice.getStatus();
           deviceConnected = status.status === phoneDeviceModule.DeviceStatus.CONNECTED;
         } catch (error) {
-          console.warn('Servizio phoneDevice non disponibile:', error);
+          console.warn('phoneDevice service not available:', error);
         }
         
-        // Gestione messaggi WhatsApp
+        // WhatsApp message handling
         if (client.phone && settings?.whatsappEnabled) {
           if (deviceConnected && phoneDevice) {
             try {
-              // Invia il messaggio direttamente tramite il dispositivo
+              // Send the message directly via the device
               const result = await phoneDevice.sendWhatsAppMessage(client.phone, message);
               
               if (result.success) {
-                console.log(`WhatsApp inviato automaticamente per l'appuntamento ${appointment.id} tramite dispositivo accoppiato`);
+                console.log(`WhatsApp sent automatically for appointment ${appointment.id} via paired device`);
                 successCount++;
                 
-                // Aggiungi anche una notifica nel centro notifiche
+                // Also add a notification to the notification center
                 await this.addToNotificationCenter(
-                  0, // ID speciale per il professionista 
-                  `✅ Inviato automaticamente promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}.`,
+                  0, // Special ID for the professional 
+                  `✅ WhatsApp reminder automatically sent to client ${client.firstName} ${client.lastName} for appointment on ${appointmentDate}.`,
                   'staff_reminder',
                   appointment.id
                 );
               } else {
-                console.error(`Errore nell'invio automatico di WhatsApp: ${result.error}`);
+                console.error(`Error sending automatic WhatsApp: ${result.error}`);
                 
-                // Fallback: genera link WhatsApp tradizionale
+                // Fallback: generate traditional WhatsApp link
                 this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
                 successCount++;
               }
             } catch (error) {
-              console.error(`Errore nel tentativo di invio WhatsApp diretto:`, error);
+              console.error(`Error attempting direct WhatsApp send:`, error);
               
-              // Fallback: genera link WhatsApp tradizionale
+              // Fallback: generate traditional WhatsApp link
               this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
               successCount++;
             }
           } else {
-            // Dispositivo non disponibile, genera link WhatsApp tradizionale
+            // Device not available, generate traditional WhatsApp link
             this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
             successCount++;
           }
         }
         
-        // Aggiorna lo stato del promemoria
+        // Update the reminder status
         if (successCount > 0) {
           await storage.updateAppointment(appointment.id, { reminderStatus: 'sent' });
-          console.log(`Promemoria inviato/generato con successo per l'appuntamento ${appointment.id}`);
+          console.log(`Reminder sent/generated successfully for appointment ${appointment.id}`);
         } else {
           await storage.updateAppointment(appointment.id, { reminderStatus: 'pending' });
-          console.error(`Promemoria in attesa per l'appuntamento ${appointment.id}`);
+          console.error(`Reminder pending for appointment ${appointment.id}`);
         }
       } finally {
-        // Rimuovi il flag anche in caso di errore
+        // Remove the flag also in case of error
         messagesPendingDelivery.delete(messageId);
       }
       
       return successCount > 0;
     } catch (error) {
-      console.error(`Errore nell'invio del promemoria per l'appuntamento ${appointment.id}:`, error);
+      console.error(`Error sending reminder for appointment ${appointment.id}:`, error);
       return false;
     }
   },
 
   /**
-   * Verifica gli appuntamenti per cui è necessario inviare un promemoria
-   * @returns Il numero di promemoria inviati con successo
+   * Check appointments that need a reminder
+   * @returns Il number di promemoria inviati successfully
    */
   async processReminders(): Promise<number> {
     try {
-      // Tenta di ottenere il fuso orario dalle impostazioni dell'app
-      let TIMEZONE_OFFSET_HOURS = 2; // Valore predefinito per l'Italia (CEST, UTC+2)
+      // Attempt to get the timezone from app settings
+      let TIMEZONE_OFFSET_HOURS = 2; // Default value for Italy (CEST, UTC+2)
       let timezoneName = "Europe/Rome";
       
       try {
-        // Ottieni le impostazioni del fuso orario dalla configurazione dell'app
+        // Get the timezone settings from the app configuration
         const timezoneSetting = await storage.getSetting('timezone');
         if (timezoneSetting) {
           const timezoneData = JSON.parse(timezoneSetting.value);
           TIMEZONE_OFFSET_HOURS = timezoneData.offset || 2;
           timezoneName = timezoneData.timezone || "Europe/Rome";
-          console.log(`Utilizzando fuso orario da configurazione: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
+          console.log(`Using timezone from configuration: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
         } else {
-          console.log(`Nessuna configurazione di fuso orario trovata, utilizzo predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
+          console.log(`No timezone configuration found, using default: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
         }
       } catch (error) {
-        console.error('Errore nel recupero delle impostazioni del fuso orario:', error);
-        console.log(`Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
+        console.error('Error retrieving timezone settings:', error);
+        console.log(`Using default timezone: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
       }
       
-      // Ottieni le impostazioni di notifica
+      // Get the notification settings
       const settings = await this.getNotificationSettings();
       
-      // Se impostato, usa il tempo di promemoria personalizzato (in ore prima dell'appuntamento)
+      // If set, use the custom reminder time (in hours before the appointment)
       const reminderHoursBefore = settings?.defaultReminderTime || 24;
       
-      // Otteniamo la data attuale
+      // Get the current date
       const now = new Date();
       
-      // Creazione delle date per il controllo dei promemoria
+      // Creating dates for reminder check
       const nowPlusReminderHours = new Date(now.getTime() + reminderHoursBefore * 60 * 60 * 1000);
-      const reminderWindowStart = reminderHoursBefore - 1; // 1 ora prima del tempo di promemoria
-      const reminderWindowEnd = reminderHoursBefore + 1; // 1 ora dopo il tempo di promemoria
+      const reminderWindowStart = reminderHoursBefore - 1; // 1 hour before the reminder time
+      const reminderWindowEnd = reminderHoursBefore + 1; // 1 hour after the reminder time
       
-      // Ottieni le date nel formato yyyy-MM-dd per oggi e domani
+      // Get the date in yyyy-MM-dd format for today and tomorrow
       const todayStr = format(now, 'yyyy-MM-dd');
       const tomorrowStr = format(addDays(now, 1), 'yyyy-MM-dd');
       
-      console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlusReminderHours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
+      console.log(`Processing reminders for appointments between ${now.toISOString()} and ${nowPlusReminderHours.toISOString()}`);
+      console.log(`Server time: ${now.toLocaleTimeString('it-IT')}, using direct time without offset`);
       
-      // Recupera tutti gli appuntamenti di oggi e domani
+      // Retrieve all appointments di oggi e domani
       let appointments = [];
       
-      // Recupera appuntamenti di oggi
+      // Retrieve appointments di oggi
       const todayAppointments = await storage.getAppointmentsByDate(todayStr);
-      // Recupera appuntamenti di domani
+      // Retrieve appointments di domani
       const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrowStr);
       
-      // Combina gli appuntamenti
+      // Combine the appointments
       appointments = [...todayAppointments, ...tomorrowAppointments];
       
-      console.log(`Trovati ${appointments.length} appuntamenti potenziali (${todayAppointments.length} oggi, ${tomorrowAppointments.length} domani)`);
+      console.log(`Found ${appointments.length} potential appointments (${todayAppointments.length} today, ${tomorrowAppointments.length} tomorrow)`);
       
       let remindersSent = 0;
       const apptsToRemind = [];
       
-      // Filtra gli appuntamenti
+      // Filter the appointments
       for (const appointment of appointments) {
-        // Salta gli appuntamenti senza tipo di promemoria o con promemoria già inviato
+        // Skip appointments without reminder type or with reminder already sent
         if (!appointment.reminderType || appointment.reminderStatus === 'sent') {
           continue;
         }
         
-        // Crea un oggetto Date per l'appuntamento
+        // Create a Date object for the appointment
         const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
         
-        // Calcoliamo semplicemente la differenza oraria in ore senza complicare con offset
-        // Utilizziamo direttamente il timestamp come riferimento assoluto
+        // Simply calculate the hourly difference in hours without complicating with offsets
+        // We directly use the timestamp as an absolute reference
         const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
         
-        // Logghiamo informazioni utili per il debug
-        console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
+        // Log useful information for debugging
+        console.log(`appointment ID ${appointment.id} on ${appointment.date} at ${appointment.startTime}: ` +
                     `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
         
-        // Verifica se l'appuntamento è nel periodo di invio promemoria
-        // Usiamo reminderWindowStart invece di 24 per dare un po' di margine
+        // Check if the appointment is in the reminder sending period
+        // Use reminderWindowStart instead of 24 to allow some margin
         if (hoursDiff >= reminderWindowStart && hoursDiff <= reminderWindowEnd) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
+          console.log(`Appointment ID ${appointment.id} is in ${hoursDiff.toFixed(1)} hours, sending reminder...`);
           apptsToRemind.push(appointment);
         }
       }
       
-      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime ${reminderWindowStart}-${reminderWindowEnd} ore`);
+      console.log(`Found ${apptsToRemind.length} appointments needing reminders in the next ${reminderWindowStart}-${reminderWindowEnd} hours`);
       
-      // Invia i promemoria
+      // Send i promemoria
       for (const appointment of apptsToRemind) {
         const success = await this.sendAppointmentReminder(appointment);
         
@@ -505,11 +505,11 @@ export const directNotificationService = {
         }
       }
       
-      console.log(`Inviati ${remindersSent}/${apptsToRemind.length} promemoria`);
+      console.log(`Sent ${remindersSent}/${apptsToRemind.length} reminders`);
       
       return remindersSent;
     } catch (error) {
-      console.error("Errore nell'elaborazione dei promemoria:", error);
+      console.error("Error processing reminders:", error);
       throw error;
     }
   }

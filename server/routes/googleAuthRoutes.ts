@@ -18,44 +18,44 @@ const contactsImportSchema = z.object({
 
 const router = Router();
 
-// Configura l'OAuth client
-// L'URL qui DEVE corrispondere esattamente a quello configurato nella console Google Cloud
-// Utilizziamo un URL FISSO che corrisponde esattamente a quello nella console Google Cloud
+// Configure l'OAuth client
+// This URL MUST match exactly what is configured in the Google Cloud Console
+// We use a FIXED URL that matches exactly what is in the Google Cloud Console
 
-// IMPORTANTE: Questo URL deve corrispondere ESATTAMENTE a quello configurato in Google Cloud Console
-// Utilizziamo il dominio effettivo dell'applicazione, basato su REPL_SLUG e REPL_OWNER
+// IMPORTANT: This URL must match EXACTLY what is configured in the Google Cloud Console
+// We use the actual application domain, based on REPL_SLUG and REPL_OWNER
 // Vecchio redirect URI fisso
 //const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
 
-// Aggiungiamo la possibilità di sovrascrivere il redirectUri per testing locale
+// Add the ability to override redirectUri for local testing
 // Controllo migliorato per l'ambiente di sviluppo locale
-// Impostare la variabile d'ambiente GOOGLE_LOCAL_DEVELOPMENT=true per abilitare l'ambiente locale
-// L'ambiente locale può anche essere dedotto dalle richieste provenienti da localhost
+// Set the GOOGLE_LOCAL_DEVELOPMENT=true environment variable to enable the local environment
+// The local environment can also be inferred from requests coming from localhost
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
-// Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
-// IMPORTANTE: Usare SEMPRE un dominio STABILE registrato nella Google Cloud Console
-// I domini webview (.worf.replit.dev) NON sono registrati e causano errore "invalid_client"
+// Set a production URL as default, this is the URL that must be configured in the Google Console
+// IMPORTANT: ALWAYS use a STABLE domain registered in the Google Cloud Console
+// Webview domains (.worf.replit.dev) are NOT registered and cause "invalid_client" error
 function getRedirectUri(requestHost?: string): string {
-  // PRIORITÀ 1: Se siamo su Sliplane (dominio di produzione)
+  // PRIORITY 1: If we are on Sliplane (production domain)
   if (process.env.PRODUCTION_DOMAIN) {
     return `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`;
   }
   
-  // PRIORITÀ 2: Se la richiesta viene dal dominio pubblico Replit registrato
+  // PRIORITY 2: If the request comes from the registered Replit public domain
   if (requestHost && requestHost.includes('wife-scheduler-zambelliandrea1.replit.app')) {
     return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
   }
   
-  // DEFAULT: Dominio Replit pubblico (registrato in Google Cloud Console)
-  // NON usare .worf.replit.dev perché NON è registrato e causa "invalid_client"
+  // DEFAULT: Public Replit domain (registered in Google Cloud Console)
+  // DO NOT use .worf.replit.dev because it is NOT registered and causes "invalid_client"
   return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
 }
 
-// URI di default per il client OAuth (usato all'avvio)
+// Default URI for the OAuth client (used at startup)
 const redirectUri = getRedirectUri();
 
-// Stampa informazioni di debug aggiuntive
+// Print additional debug information
 console.log('Debug OAuth URL:', {
   redirectUri
 });
@@ -72,18 +72,18 @@ const oauth2Client = new google.auth.OAuth2(
   redirectUri
 );
 
-// Scopes base per Calendar e Gmail (autorizzazione principale)
+// Base scopes for Calendar and Gmail (main authorization)
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-// Scope separato per Contatti (autorizzazione separata, richiede verifica Google)
+// Separate scope for Contacts (separate authorization, requires Google verification)
 const CONTACTS_SCOPES = [
   'https://www.googleapis.com/auth/contacts.readonly',
 ];
 
-// Esportiamo authInfo per permettere ad altre parti dell'app di accedervi
+// We export authInfo to allow other parts of the app to access it
 export let authInfo: {
   authorized: boolean;
   tokens?: any;
@@ -91,17 +91,17 @@ export let authInfo: {
   authorized: false,
 };
 
-// Endpoint per revocare/cancellare il token esistente (necessario per riautenticazione con nuovi scope)
+// Endpoint to revoke/delete the existing token (needed for re-authentication with new scopes)
 router.post('/revoke', isAuthenticated, async (req, res) => {
   try {
     const userId = (req.user as any)?.id;
     if (!userId) {
-      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
     
-    logger.debug(`🔄 [REVOKE] Revoca token Google per utente ${userId}`);
+    logger.debug(`🔄 [REVOKE] Revoking Google token for user ${userId}`);
     
-    // Recupera il token esistente
+    // Retrieve the existing token
     const [user] = await db.select({ googleAuthToken: users.googleAuthToken })
       .from(users)
       .where(eq(users.id, userId))
@@ -109,11 +109,11 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
     
     if (user?.googleAuthToken) {
       try {
-        // Decodifica il token
+        // Decodifica the token
         const decryptedToken = EncryptionService.decrypt(user.googleAuthToken);
         const tokens = JSON.parse(decryptedToken);
         
-        // Prova a revocare il token su Google (opzionale, potrebbe fallire)
+        // Prova a revocare the token su Google (opzionale, potrebbe fallire)
         if (tokens.access_token) {
           try {
             await fetch(`https://oauth2.googleapis.com/revoke`, {
@@ -121,17 +121,17 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: `token=${tokens.access_token}`
             });
-            logger.debug(`✅ [REVOKE] Token revocato su Google per utente ${userId}`);
+            logger.debug(`✅ [REVOKE] Token revoked on Google for user ${userId}`);
           } catch (revokeError) {
-            logger.debug(`⚠️ [REVOKE] Impossibile revocare su Google (normale se token scaduto):`, revokeError);
+            logger.debug(`⚠️ [REVOKE] Unable to revoke on Google (normal if token expired):`, revokeError);
           }
         }
       } catch (decryptError) {
-        logger.debug(`⚠️ [REVOKE] Token non decodificabile, procedo con cancellazione`);
+        logger.debug(`⚠️ [REVOKE] Token not decodable, proceeding with deletion`);
       }
     }
     
-    // Cancella il token dal database
+    // Delete the token from the database
     await db.update(users)
       .set({ 
         googleAuthToken: null,
@@ -140,28 +140,28 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
       })
       .where(eq(users.id, userId));
     
-    logger.debug(`✅ [REVOKE] Token cancellato dal database per utente ${userId}`);
+    logger.debug(`✅ [REVOKE] Token deleted from database for user ${userId}`);
     
-    res.json({ success: true, message: 'Token revocato con successo' });
+    res.json({ success: true, message: 'Token revoked successfully' });
   } catch (error) {
-    console.error('❌ [REVOKE] Errore nella revoca del token:', error);
-    res.status(500).json({ success: false, error: 'Errore nella revoca del token' });
+    console.error('❌ [REVOKE] Error revoking token:', error);
+    res.status(500).json({ success: false, error: 'Error revoking token' });
   }
 });
 
-// Inizia il processo di autorizzazione
+// Start the authorization process
 router.get('/start', (req, res) => {
   try {
-    // Verifica che l'utente sia autenticato
+    // Verify che l'user sia autenticato
     const userId = (req as any).session?.passport?.user;
     if (!userId) {
-      console.error("ERRORE: Utente non autenticato per Google OAuth");
-      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+      console.error("ERROR: User not authenticated for Google OAuth");
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
     
-    console.log("Google OAuth start per utente:", userId);
+    console.log("Google OAuth start for user:", userId);
     
-    // Ottieni il dominio della richiesta per supportare webview di sviluppo
+    // Get the request domain to support dev webviews
     const requestHost = req.get('host');
     const dynamicRedirectUri = getRedirectUri(requestHost);
     
@@ -169,18 +169,18 @@ router.get('/start', (req, res) => {
     console.log("Request Host:", requestHost);
     console.log("Redirect URI dinamico:", dynamicRedirectUri);
     
-    // Costruisci manualmente l'URL di autenticazione
+    // Build manualmente l'URL di autenticazione
     const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
     const encodedRedirectUri = encodeURIComponent(dynamicRedirectUri);
     const encodedScopes = encodeURIComponent(SCOPES.join(' '));
     
-    // State contiene l'userId E il redirectUri per il callback
+    // State contains the userId AND the redirectUri for the callback
     const state = Buffer.from(JSON.stringify({ 
       userId, 
       redirectUri: dynamicRedirectUri 
     })).toString('base64');
     
-    // Parametri obbligatori nell'ordine corretto
+    // Required parameters in the correct order
     const params = [
       `client_id=${clientId}`,
       `redirect_uri=${encodedRedirectUri}`,
@@ -191,12 +191,12 @@ router.get('/start', (req, res) => {
       `state=${encodeURIComponent(state)}`
     ];
     
-    // Generiamo l'URL senza usare la libreria per evitare parametri extra
+    // Generate the URL without using the library to avoid extra parameters
     const manualAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.join('&')}`;
     
-    console.log("Auth URL generato:", manualAuthUrl);
+    console.log("Auth URL generated:", manualAuthUrl);
     
-    // Restituisci l'URL generato
+    // Return the generated URL
     res.json({ 
       success: true, 
       authUrl: manualAuthUrl,
@@ -208,60 +208,60 @@ router.get('/start', (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Errore nella generazione URL di auth:', error);
+    console.error('Error generating auth URL:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Errore nella generazione dell\'URL di autorizzazione' 
+      error: 'Error generating authorization URL' 
     });
   }
 });
 
-// Variabile globale per salvare l'ultimo errore del callback (per debug)
+// Global variable to save the last callback error (for debugging)
 let lastCallbackError: { timestamp: string; error: any; stack?: string; query?: any } | null = null;
 
-// Endpoint per vedere l'ultimo errore del callback (per debug)
+// Endpoint to view the last callback error (for debugging)
 router.get('/last-error', (req, res) => {
   res.json({
     success: true,
     lastError: lastCallbackError,
-    message: lastCallbackError ? 'Ultimo errore del callback' : 'Nessun errore registrato'
+    message: lastCallbackError ? 'Last callback error' : 'No errors recorded'
   });
 });
 
-// Callback che riceve il codice di autorizzazione
+// Callback that receives the authorization code
 router.get('/callback', async (req, res) => {
   console.log("=== GOOGLE AUTH CALLBACK ===");
-  console.log("Callback ricevuto con parametri:", req.query);
+  console.log("Callback received with parameters:", req.query);
   console.log("Headers:", req.headers);
   console.log("Host:", req.get('host'));
   console.log("Origin:", req.get('origin'));
   console.log("Referer:", req.get('referer'));
   
-  // Salva i parametri per debug
+  // Save i parametri per debug
   lastCallbackError = {
     timestamp: new Date().toISOString(),
     error: 'Callback ricevuto - in elaborazione',
     query: req.query
   };
   
-  // Log dell'errore, se presente
+  // Log of the error, If presente
   if (req.query.error) {
-    console.error("ERRORE AUTH GOOGLE:", {
+    console.error("GOOGLE AUTH ERROR:", {
       error: req.query.error,
       error_description: req.query.error_description,
       state: req.query.state
     });
-    return res.status(400).send(`Errore di autorizzazione: ${req.query.error}<br>Descrizione: ${req.query.error_description || 'Nessuna descrizione'}`);
+    return res.status(400).send(`Authorization error: ${req.query.error}<br>Description: ${req.query.error_description || 'No description'}`);
   }
   
   const { code, state } = req.query;
   
   if (!code) {
-    console.error("ERRORE: Codice di autorizzazione mancante");
-    return res.status(400).send('Codice di autorizzazione mancante');
+    console.error("ERROR: Authorization code missing");
+    return res.status(400).send('Authorization code missing');
   }
   
-  // Recupera l'userId e redirectUri dallo state
+  // Retrieve userId and redirectUri from the state
   let userId: number | null = null;
   let stateRedirectUri: string = redirectUri; // Fallback al default
   
@@ -270,65 +270,65 @@ router.get('/callback', async (req, res) => {
       const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
       console.log("State data parsed:", stateData);
       
-      // Recupera il redirectUri dallo state (se presente)
+      // Retrieve the redirectUri from state (if present)
       if (stateData.redirectUri) {
         stateRedirectUri = stateData.redirectUri;
-        console.log("Redirect URI recuperato dallo state:", stateRedirectUri);
+        console.log("Redirect URI retrieved from state:", stateRedirectUri);
       }
       
-      // L'userId può essere una stringa come "admin:3" o un numero
+      // The userId can be a string like "admin:3" or a number
       const rawUserId = stateData.userId;
       if (typeof rawUserId === 'string' && rawUserId.includes(':')) {
-        // Formato "admin:3" o "customer:5" - estrai il numero dopo i due punti
+        // Format "admin:3" or "customer:5" - extract the number after the colon
         const parts = rawUserId.split(':');
         userId = parseInt(parts[1], 10);
-        console.log("UserId estratto da formato 'tipo:id':", userId);
+        console.log("UserId extracted from 'type:id' format:", userId);
       } else if (typeof rawUserId === 'number') {
         userId = rawUserId;
-        console.log("UserId già numerico:", userId);
+        console.log("UserId already numerico:", userId);
       } else {
         userId = parseInt(rawUserId, 10);
-        console.log("UserId convertito da stringa:", userId);
+        console.log("UserId converted from string:", userId);
       }
     } catch (e) {
-      console.error("Errore nel parsing dello state:", e);
+      console.error("Error parsing state:", e);
       lastCallbackError = {
         timestamp: new Date().toISOString(),
-        error: 'Errore nel parsing dello state: ' + String(e),
+        error: 'Error parsing state: ' + String(e),
         query: req.query
       };
     }
   }
   
   if (!userId || isNaN(userId)) {
-    console.error("ERRORE: UserId non trovato o non valido nello state");
+    console.error("ERROR: UserId not found or invalid in state");
     lastCallbackError = {
       timestamp: new Date().toISOString(),
-      error: 'UserId non trovato o non valido',
+      error: 'UserId not found o invalid',
       query: req.query
     };
-    return res.status(400).send('Sessione non valida. Riprova l\'autorizzazione.');
+    return res.status(400).send('Invalid session. Please try authorization again.');
   }
   
   try {
-    console.log("Scambio del codice di autorizzazione per utente:", userId);
-    console.log("Redirect URI per scambio token:", stateRedirectUri);
+    console.log("Exchanging authorization code for user:", userId);
+    console.log("Redirect URI for token exchange:", stateRedirectUri);
     
-    // Crea un nuovo OAuth client con il redirect URI corretto (quello usato per la richiesta originale)
+    // Create a new OAuth client with the correct redirect URI (the one used for the original request)
     const callbackOauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
       stateRedirectUri
     );
     
-    // Scambia il codice con i token usando il redirect URI corretto
+    // Exchange the code for tokens using the correct redirect URI
     console.log("Attempting to exchange code for token...");
     const { tokens } = await callbackOauth2Client.getToken(code as string);
-    console.log("Token ottenuti con successo per utente:", userId);
+    console.log("Tokens obtained successfully for user:", userId);
     
     oauth2Client.setCredentials(tokens);
     
-    // SALVA I TOKEN NEL DATABASE DELL'UTENTE (crittografati)
+    // SAVE TOKENS IN THE USER DATABASE (encrypted)
     try {
       const tokenJson = JSON.stringify(tokens);
       const encryptedCalendarToken = EncryptionService.encrypt(tokenJson);
@@ -341,50 +341,50 @@ router.get('/callback', async (req, res) => {
         })
         .where(eq(users.id, userId));
       
-      console.log("✅ Token Google salvato nel database per utente:", userId);
+      console.log("✅ Google token saved in database for user:", userId);
     } catch (dbError) {
-      console.error("❌ Errore nel salvataggio del token nel database:", dbError);
-      // Continua comunque per mostrare la pagina di successo
+      console.error("❌ Error saving token to database:", dbError);
+      // Continue anyway to show the success page
     }
     
-    // Mantieni anche in memoria per retrocompatibilità
+    // Also keep in memory for backwards compatibility
     authInfo = {
       authorized: true,
       tokens
     };
     
-    // Chiude la finestra popup se è stata aperta come popup
+    // Close the popup window if it was opened as a popup
     res.send(`
       <html>
         <head>
           <title>Autorizzazione completata</title>
           <script>
             window.onload = function() {
-              // Invia esplicitamente un messaggio all'opener per segnalare il successo
+              // Explicitly send a message to the opener to signal success
               if (window.opener) {
-                // Tentativo 1: Invia il messaggio direttamente
+                // Tentativo 1: Send the message direttamente
                 try {
                   window.opener.postMessage('google-auth-success', '*');
-                  console.log('Messaggio inviato direttamente a opener');
+                  console.log('Message sent directly to opener');
                 } catch (e) {
-                  console.error('Errore nell\'invio diretto del messaggio:', e);
+                  console.error('Error sending message directly:', e);
                 }
                 
-                // Tentativo 2: Utilizza un timeout per assicurarsi che l'evento venga inviato
+                // Attempt 2: Use a timeout to ensure the event is sent
                 setTimeout(function() {
                   try {
                     window.opener.postMessage('google-auth-success', '*');
-                    console.log('Messaggio inviato a opener con timeout');
+                    console.log('Message sent to opener with timeout');
                   } catch (e) {
-                    console.error('Errore nell\'invio del messaggio con timeout:', e);
+                    console.error('Error sending message with timeout:', e);
                   }
                 }, 500);
               } else {
-                // Se non c'è una finestra opener, reindirizza alla pagina delle impostazioni
+                // If there is an opener window, redirect to the settings page
                 window.location.href = '/settings';
               }
               
-              // Chiudi la finestra dopo 2 secondi per dare tempo al messaggio di essere processato
+              // Close the window after 2 seconds to give the message time to be processed
               setTimeout(function() {
                 window.close();
               }, 2000);
@@ -418,16 +418,16 @@ router.get('/callback', async (req, res) => {
         <body>
           <div class="card">
             <h1>✅ Autorizzazione completata!</h1>
-            <p>L'account Google è stato autorizzato con successo.</p>
+            <p>The Google account has been authorized successfully.</p>
             <p>Questa finestra si chiuderà automaticamente tra pochi secondi...</p>
           </div>
         </body>
       </html>
     `);
   } catch (error: any) {
-    console.error('Errore nello scambio del codice di autorizzazione:', error);
+    console.error('Error exchanging authorization code:', error);
     
-    // Salva l'errore per debug
+    // Save l'error per debug
     lastCallbackError = {
       timestamp: new Date().toISOString(),
       error: error?.message || String(error),
@@ -438,7 +438,7 @@ router.get('/callback', async (req, res) => {
     res.status(500).send(`
       <html>
         <head>
-          <title>Errore di autorizzazione</title>
+          <title>Authorization error</title>
           <style>
             body {
               font-family: Arial, sans-serif;
@@ -466,9 +466,9 @@ router.get('/callback', async (req, res) => {
         </head>
         <body>
           <div class="card">
-            <h1>⚠️ Errore di autorizzazione</h1>
-            <p>Si è verificato un errore durante l'autorizzazione dell'account Google.</p>
-            <p>Per favore chiudi questa finestra e riprova.</p>
+            <h1>⚠️ Authorization error</h1>
+            <p>An error occurred while authorizing the Google account.</p>
+            <p>Please close this window and try again.</p>
           </div>
         </body>
       </html>
@@ -476,14 +476,14 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-// Controlla lo stato dell'autorizzazione - LEGGE DAL DATABASE per persistenza
+// Check authorization status - READS FROM DATABASE for persistence
 router.get('/status', async (req, res) => {
-  console.log("🔐 [GOOGLE AUTH STATUS] Controllo stato autorizzazione...");
+  console.log("🔐 [GOOGLE AUTH STATUS] Controlthe status autorizzazione...");
   
-  // Se l'utente è autenticato, controlla il token nel database
+  // If the user is authenticated, check the token in the database
   if (req.isAuthenticated() && req.user) {
     const userId = (req.user as any).id;
-    console.log("🔐 [GOOGLE AUTH STATUS] Utente autenticato ID:", userId);
+    console.log("🔐 [GOOGLE AUTH STATUS] user authenticated ID:", userId);
     
     try {
       const [user] = await db.select({
@@ -494,9 +494,9 @@ router.get('/status', async (req, res) => {
       }).from(users).where(eq(users.id, userId)).limit(1);
       
       if (user && user.googleAuthToken) {
-        console.log("✅ [GOOGLE AUTH STATUS] Token trovato nel database per utente", userId);
+        console.log("✅ [GOOGLE AUTH STATUS] token found in database for user", userId);
         
-        // Ripristina anche authInfo in memoria per retrocompatibilità
+        // Also restore authInfo in memory for backwards compatibility
         const decryptedTokenStr = EncryptionService.decryptToken(user.googleAuthToken);
         const tokens = JSON.parse(decryptedTokenStr);
         authInfo = {
@@ -504,29 +504,29 @@ router.get('/status', async (req, res) => {
           tokens
         };
         
-        // Reimposta le credenziali sul client OAuth
+        // Reset the credentials on the OAuth client
         oauth2Client.setCredentials(tokens);
         
-        // Estrai email dal token JWT (id_token contiene l'email reale)
+        // Extract email from JWT token (id_token contains the real email)
         let googleEmail: string | null = null;
         
-        // Prima prova a estrarre l'email dal token JWT
+        // First try to extract the email from the JWT token
         if (tokens.id_token) {
           try {
             const payload = JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString());
             googleEmail = payload.email;
-            console.log("✅ [GOOGLE AUTH STATUS] Email estratta dal token:", googleEmail);
+            console.log("✅ [GOOGLE AUTH STATUS] Email extracted from token:", googleEmail);
           } catch (e) {
-            console.log("⚠️ [GOOGLE AUTH STATUS] Impossibile estrarre email dal token");
+            console.log("⚠️ [GOOGLE AUTH STATUS] Unable to extract email from token");
           }
         }
         
-        // Fallback: usa googleCalendarId solo se non è "primary"
+        // Fallback: use googleCalendarId only if it is "primary"
         if (!googleEmail && user.googleCalendarId && user.googleCalendarId !== 'primary') {
           googleEmail = user.googleCalendarId;
         }
         
-        // Ultimo fallback: email dell'utente
+        // Ultimo fallback: email of the user
         if (!googleEmail) {
           googleEmail = user.email;
         }
@@ -538,49 +538,49 @@ router.get('/status', async (req, res) => {
           email: googleEmail
         });
       }
-      console.log("⚠️ [GOOGLE AUTH STATUS] Nessun token nel database per utente", userId);
+      console.log("⚠️ [GOOGLE AUTH STATUS] No token in database for user", userId);
     } catch (error) {
-      console.error("❌ [GOOGLE AUTH STATUS] Errore lettura database:", error);
+      console.error("❌ [GOOGLE AUTH STATUS] Error reading database:", error);
     }
   } else {
-    console.log("⚠️ [GOOGLE AUTH STATUS] Utente non autenticato");
+    console.log("⚠️ [GOOGLE AUTH STATUS] User not authenticated");
   }
   
-  // Se non c'è token nel database per questo utente, NON è autorizzato
-  // (il vecchio fallback usava una variabile globale che causava bug di sicurezza)
-  console.log("🔐 [GOOGLE AUTH STATUS] Nessun token trovato, utente non autorizzato");
+  // If there is a token in the database for this user, they are NOT authorized
+  // (the old fallback used a global variable that caused security bugs)
+  console.log("🔐 [GOOGLE AUTH STATUS] No token found, user unauthorized");
   res.json({ 
     success: true, 
     authorized: false 
   });
 });
 
-// Endpoint per testare la configurazione di Google OAuth
+// Endpoint for testing Google OAuth configuration
 router.get('/test-configuration', (req, res) => {
   try {
-    // Verifica la presenza delle credenziali
+    // Verify the presence of credentials
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       return res.status(400).json({
         success: false,
-        message: "Credenziali Google mancanti"
+        message: "Missing Google credentials"
       });
     }
     
-    // Verifica l'URL di callback
-    console.log("Test configurazione: URL di callback configurato:", redirectUri);
+    // Verify l'URL di callback
+    console.log("Configuration test: callback URL configured:", redirectUri);
     
-    // Genera un URL di autorizzazione per test
+    // Generate an authorization URL for testing
     const testAuthUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPES,
       redirect_uri: redirectUri
     });
     
-    console.log("Test configurazione: URL di autorizzazione generato con successo");
+    console.log("Test configuration: authorization URL generated successfully");
     
     res.json({
       success: true,
-      message: "Configurazione di base corretta",
+      message: "Basic configuration correct",
       clientIdPresente: !!process.env.GOOGLE_CLIENT_ID,
       clientSecretPresente: !!process.env.GOOGLE_CLIENT_SECRET,
       redirectUri: redirectUri,
@@ -588,23 +588,23 @@ router.get('/test-configuration', (req, res) => {
       scopeValidi: SCOPES
     });
   } catch (error: any) {
-    console.error("Errore nel test di configurazione Google:", error);
+    console.error("Error testing Google configuration:", error);
     res.status(500).json({
       success: false,
-      message: `Errore di configurazione: ${error?.message || 'Errore sconosciuto'}`,
+      message: `Configuration error: ${error?.message || 'Unknown error'}`,
       error: error
     });
   }
 });
 
-// Aggiungiamo un endpoint di debug per determinare il percorso esatto
+// Adding a debug endpoint to determine the exact path
 router.get('/debug-url', (req, res) => {
   const host = req.get('host') || 'unknown';
   const protocol = req.protocol || 'https';
   const path = req.originalUrl || '/api/google-auth/debug-url';
   const fullUrl = `${protocol}://${host}${path}`;
   
-  // Generiamo un URL di test per verificare i parametri
+  // Generate a test URL to verify the parameters
   const testAuthUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     response_type: 'code',
@@ -613,7 +613,7 @@ router.get('/debug-url', (req, res) => {
     include_granted_scopes: true
   });
   
-  // Mostriamo l'URL completo, le intestazioni HTTP e l'URL di autorizzazione di test
+  // Show the full URL, HTTP headers, and test authorization URL
   res.json({
     success: true,
     debug: {
@@ -628,17 +628,17 @@ router.get('/debug-url', (req, res) => {
   });
 });
 
-// Aggiunto endpoint per visualizzare il confronto degli URL di autorizzazione
+// Added endpoint to display comparison of authorization URLs
 router.get('/compare-auth-urls', (req, res) => {
-  // Costruisci manualmente l'URL di autenticazione di base
+  // Build manualmente l'URL di autenticazione di base
   const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
   const encodedRedirectUri = encodeURIComponent(redirectUri);
   const encodedScopes = encodeURIComponent(SCOPES.join(' '));
   
-  // Generiamo l'URL senza usare la libreria per evitare parametri extra
+  // Generate the URL without using the library to avoid extra parameters
   const manualAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodedRedirectUri}&response_type=code&scope=${encodedScopes}&access_type=offline&prompt=consent`;
   
-  // Generiamo anche l'URL con la libreria ufficiale
+  // Also generate the URL with the official library
   const libraryAuthUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     response_type: 'code',
@@ -650,7 +650,7 @@ router.get('/compare-auth-urls', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Confronto URL di autorizzazione Google</title>
+        <title>Google Authorization URL Comparison</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -750,16 +750,16 @@ router.get('/compare-auth-urls', (req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>Confronto URL di autorizzazione Google</h1>
+          <h1>Google Authorization URL Comparison</h1>
           
           <div class="note">
             <p><strong>Nota:</strong> Questa pagina confronta due metodi per generare l'URL di autorizzazione Google OAuth. L'URL generato manualmente non contiene parametri aggiuntivi che possono causare problemi di mismatch.</p>
           </div>
           
-          <h2>URL generato manualmente (senza parametri extra)</h2>
+          <h2>Manually generated URL (without extra parameters)</h2>
           <div class="url-box manual">${manualAuthUrl}</div>
           
-          <h2>URL generato dalla libreria ufficiale</h2>
+          <h2>URL generated by the official library</h2>
           <div class="url-box library">${libraryAuthUrl}</div>
           
           <h2>Differenze tra i due URL</h2>
@@ -792,8 +792,8 @@ router.get('/compare-auth-urls', (req, res) => {
             </tr>
           </table>
           
-          <h2>Test di autorizzazione</h2>
-          <p>Seleziona uno dei metodi per provare l'autorizzazione:</p>
+          <h2>Authorization test</h2>
+          <p>Select one of the methods to test the authorization:</p>
           
           <a href="${manualAuthUrl}" class="button" target="_blank">Test con URL manuale</a>
           <a href="${libraryAuthUrl}" class="button" style="margin-left: 10px;" target="_blank">Test con URL libreria</a>
@@ -810,7 +810,7 @@ router.get('/compare-auth-urls', (req, res) => {
   `);
 });
 
-// Endpoint per la risoluzione dell'errore 400 e della configurazione Google Calendar
+// Endpoint for resolving error 400 and Google Calendar configuration
 router.get('/fix-error-400', (req, res) => {
   const redirectUriProduction = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
   
@@ -943,18 +943,18 @@ router.get('/fix-error-400', (req, res) => {
           <h1>Risolvere l'Errore 400 (redirect_uri_mismatch) di Google OAuth</h1>
           
           <div class="error">
-            <strong>Problema:</strong> Impossibile completare l'autenticazione Google OAuth a causa dell'errore 
+            <strong>Problem:</strong> Unable to complete Google OAuth authentication due to error 
             <span class="code">redirect_uri_mismatch</span> con <span class="code">flowName=GeneralOAuthFlow</span>.
           </div>
           
           <div class="section">
             <h2>Spiegazione del problema</h2>
-            <p>Questo errore significa che l'URL di callback che l'applicazione sta inviando a Google non corrisponde esattamente a quello configurato nella console Google Cloud. Anche una piccola differenza (come uno slash finale, un carattere maiuscolo o minuscolo diverso) può causare questo errore.</p>
+            <p>This error means that the callback URL the application is sending to Google does not match exactly what is configured in the Google Cloud Console. Even a small difference (like a trailing slash or different uppercase/lowercase) can cause this error.</p>
             
             <p>L'app sta utilizzando il seguente URL di callback:</p>
             <div class="highlight">${redirectUriProduction}</div>
             
-            <p>Questo URL deve corrispondere <strong>ESATTAMENTE</strong> a uno degli URI di reindirizzamento autorizzati configurati nella console Google Cloud.</p>
+            <p>This URL must match <strong>EXACTLY</strong> one of the authorized redirect URIs configured in the Google Cloud Console.</p>
           </div>
           
           <div class="section">
@@ -967,16 +967,16 @@ router.get('/fix-error-400', (req, res) => {
             
             <div class="step">
               <h3>Trova le credenziali OAuth corrette</h3>
-              <p>Nella sezione "Credenziali", trova l'ID client OAuth 2.0 che stai utilizzando per questa applicazione.</p>
+              <p>In the "Credentials" section, find the OAuth 2.0 client ID you are using for this application.</p>
               <p>Il tuo ID client dovrebbe essere: <span class="code">${process.env.GOOGLE_CLIENT_ID}</span></p>
             </div>
             
             <div class="step">
               <h3>Verifica o aggiungi l'URI di reindirizzamento</h3>
-              <p>Fai clic sull'ID client per modificarlo. Nella sezione "URI di reindirizzamento autorizzati", verifica se è presente esattamente l'URL seguente:</p>
+              <p>Click the client ID to edit it. In the "Authorized redirect URIs" section, verify that exactly the following URL is present:</p>
               <div class="highlight">${redirectUriProduction}</div>
               
-              <p>Se non è presente o è diverso (anche per un singolo carattere):</p>
+              <p>If it is not present or is different (even by a single character):</p>
               <ol>
                 <li>Aggiungi esattamente questo URL come URI di reindirizzamento autorizzato</li>
                 <li>Assicurati che non ci siano spazi o caratteri extra</li>
@@ -985,12 +985,12 @@ router.get('/fix-error-400', (req, res) => {
             </div>
             
             <div class="warning">
-              <p><strong>Importante:</strong> Dopo aver aggiornato gli URI di reindirizzamento nella console Google Cloud, potrebbe essere necessario attendere fino a 5-10 minuti prima che le modifiche diventino effettive. Google memorizza nella cache queste configurazioni e potrebbero non essere immediatamente aggiornate.</p>
+              <p><strong>Important:</strong> After updating the redirect URIs in the Google Cloud Console, you may need to wait up to 5-10 minutes for the changes to take effect. Google caches these configurations and they may not be immediately updated.</p>
             </div>
             
             <div class="step">
-              <h3>Effettua un nuovo tentativo</h3>
-              <p>Dopo aver aggiornato la configurazione e atteso qualche minuto, ritorna alla pagina delle impostazioni nell'applicazione e riprova a collegare Google Calendar.</p>
+              <h3>Make a new attempt</h3>
+              <p>After updating the configuration and waiting a few minutes, return to the settings page in the application and try connecting Google Calendar again.</p>
             </div>
           </div>
           
@@ -1001,22 +1001,22 @@ router.get('/fix-error-400', (req, res) => {
               <h3>Se l'errore 400 persiste:</h3>
               <ul>
                 <li>Verifica che stai utilizzando lo stesso account Google per accedere alla console e per autorizzare l'applicazione</li>
-                <li>Prova a rimuovere tutti gli URI di reindirizzamento esistenti e aggiungi solo quello corretto</li>
-                <li>Assicurati che le API necessarie (Google Calendar API, Gmail API) siano abilitate nel progetto</li>
-                <li>Controlla che il client ID e client secret siano corretti nell'applicazione</li>
-                <li>Se stai testando in locale, configura sia l'URL locale che quello di produzione nella console Google Cloud</li>
+                <li>Try removing all existing redirect URIs and add only the correct one</li>
+                <li>Make sure the required APIs (Google Calendar API, Gmail API) are enabled in the project</li>
+                <li>Check that the client ID and client secret are correct in the application</li>
+                <li>If testing locally, configure both the local URL and production URL in the Google Cloud Console</li>
               </ul>
             </div>
           </div>
           
           <div class="section">
-            <h2>Verifica dello stato attuale</h2>
-            <p>Stato dell'autorizzazione Google nell'applicazione:</p>
+            <h2>Verify current status</h2>
+            <p>Google authorization status in the application:</p>
             <div id="auth-status">Verifica in corso...</div>
             <button class="button" onclick="checkAuthStatus()">Aggiorna stato</button>
             
             <div class="warning" style="margin-top: 20px;">
-              <p><strong>Nota:</strong> Se il sito è inaccessibile pubblicamente (<span class="code">DNS_PROBE_FINISHED_NXDOMAIN</span>), l'integrazione con Google Calendar funzionerà solo quando l'app sarà nuovamente accessibile pubblicamente. Questo perché Google deve poter raggiungere l'URL di callback per completare il processo di autorizzazione.</p>
+              <p><strong>Nota:</strong> If the site is publicly inaccessible (<span class="code">DNS_PROBE_FINISHED_NXDOMAIN</span>), the Google Calendar integration will only work when the app is publicly accessible again. This is because Google must be able to reach the callback URL to complete the authorization process.</p>
             </div>
           </div>
           
@@ -1027,19 +1027,19 @@ router.get('/fix-error-400', (req, res) => {
                 .then(data => {
                   const statusElement = document.getElementById('auth-status');
                   if (data.authorized) {
-                    statusElement.innerHTML = '<div class="success"><strong>✅ Autorizzato</strong> - L\'integrazione con Google Calendar è attiva.</div>';
+                    statusElement.innerHTML = '<div class="success"><strong>✅ Authorized</strong> - Google Calendar integration is active.</div>';
                   } else {
-                    statusElement.innerHTML = '<div class="error"><strong>❌ Non autorizzato</strong> - L\'integrazione con Google Calendar non è stata configurata.</div>';
+                    statusElement.innerHTML = '<div class="error"><strong>❌ Unauthorized</strong> - Google Calendar integration has not been configured.</div>';
                   }
                 })
                 .catch(error => {
-                  console.error('Errore nel controllo dello stato:', error);
+                  console.error('Error checking status:', error);
                   document.getElementById('auth-status').innerHTML = 
-                    '<div class="error"><strong>⚠️ Errore</strong> - Impossibile verificare lo stato dell\'autorizzazione.</div>';
+                    '<div class="error"><strong>⚠️ Error</strong> - Unable to verify authorization status.</div>';
                 });
             }
             
-            // Controlla lo stato all'avvio
+            // Check the status at startup
             checkAuthStatus();
           </script>
         </div>
@@ -1048,7 +1048,7 @@ router.get('/fix-error-400', (req, res) => {
   `);
 });
 
-// Nuovo endpoint di test locale per l'integrazione con Google Calendar
+// Nuovo endpoint test locale per l'integrazione con Google Calendar
 router.get('/local-test', (req, res) => {
   const localRedirectUri = 'http://localhost:5000/api/google-auth/callback';
   const productionRedirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
@@ -1114,26 +1114,26 @@ router.get('/local-test', (req, res) => {
           <h1>Configurazione Locale per Google Calendar</h1>
           
           <div class="step">
-            <h2>1. Aggiungi questo URL di reindirizzamento alla tua Console Google Cloud</h2>
-            <p>Per effettuare il test locale, aggiungi il seguente URL ai tuoi URI di reindirizzamento autorizzati nella <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Console Google Cloud</a>:</p>
+            <h2>1. Add this redirect URL to your Google Cloud Console</h2>
+            <p>To perform local testing, add the following URL to your authorized redirect URIs in the <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a>:</p>
             <div class="highlight">${localRedirectUri}</div>
-            <p>Nota: Dovrai mantenere anche l'URL di produzione:</p>
+            <p>Note: You will also need to keep the production URL:</p>
             <div class="highlight">${productionRedirectUri}</div>
           </div>
           
           <div class="note">
-            <p><strong>Importante:</strong> Dopo aver aggiunto l'URL di reindirizzamento alla console Google Cloud, potrebbe essere necessario attendere alcuni minuti prima che le modifiche diventino attive.</p>
+            <p><strong>Important:</strong> After adding the redirect URL to the Google Cloud Console, you may need to wait a few minutes for the changes to become active.</p>
           </div>
           
           <div class="step">
             <h2>2. Testa l'integrazione locale</h2>
-            <p>Una volta aggiunto l'URL di reindirizzamento, puoi testare l'integrazione facendo clic sul pulsante qui sotto:</p>
+            <p>Once the redirect URL is added, you can test the integration by clicking the button below:</p>
             <button class="button" onclick="window.open('/api/google-auth/start')">Testa Autorizzazione Google</button>
           </div>
           
           <div class="step">
-            <h2>3. Verifica lo stato dell'autorizzazione</h2>
-            <p>Controlla lo stato attuale dell'autorizzazione:</p>
+            <h2>3. Verify authorization status</h2>
+            <p>Check the current authorization status:</p>
             <div id="auth-status">Verifica in corso...</div>
             <button class="button" onclick="checkAuthStatus()">Aggiorna Stato</button>
           </div>
@@ -1148,20 +1148,20 @@ router.get('/local-test', (req, res) => {
                 if (data.authorized) {
                   statusElement.innerHTML = '<span style="color: #4CAF50; font-weight: bold;">✅ Autorizzato</span>';
                 } else {
-                  statusElement.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ Non autorizzato</span>';
+                  statusElement.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ Unauthorized</span>';
                 }
               })
               .catch(error => {
-                console.error('Errore nel controllo dello stato:', error);
+                console.error('Error checking status:', error);
                 document.getElementById('auth-status').innerHTML = 
-                  '<span style="color: #f44336;">Errore nel controllo dello stato</span>';
+                  '<span style="color: #f44336;">Error checking status</span>';
               });
           }
           
-          // Controlla lo stato all'avvio
+          // Check the status at startup
           checkAuthStatus();
           
-          // Controlla periodicamente
+          // Check periodicamente
           setInterval(checkAuthStatus, 5000);
         </script>
       </body>
@@ -1169,9 +1169,9 @@ router.get('/local-test', (req, res) => {
   `);
 });
 
-// Endpoint per verificare direttamente l'URL sulla console di Google Cloud
+// Endpoint to directly verify the URL on the Google Cloud console
 router.get('/verify-redirect', (req, res) => {
-  // Genera un QR code che punta alla console di Google Cloud
+  // Generate a QR code pointing to the Google Cloud console
   const consoleUrl = 'https://console.cloud.google.com/apis/credentials';
   
   res.send(`
@@ -1220,27 +1220,27 @@ router.get('/verify-redirect', (req, res) => {
           <h1>Verifica configurazione OAuth di Google</h1>
           
           <div class="step">
-            <h2>1. URL di callback configurato</h2>
-            <p>Il seguente URL di callback deve essere configurato nella console di Google Cloud:</p>
+            <h2>1. Configured callback URL</h2>
+            <p>The following callback URL must be configured in the Google Cloud Console:</p>
             <div class="highlight">${redirectUri}</div>
           </div>
           
           <div class="step">
-            <h2>2. Verifica nella console Google Cloud</h2>
+            <h2>2. Verify in the Google Cloud Console</h2>
             <p>Apri la <a href="${consoleUrl}" target="_blank">console Google Cloud</a> e verifica che:</p>
             <ul>
               <li>L'ID client sia <code>${process.env.GOOGLE_CLIENT_ID}</code></li>
-              <li>Negli "URI di reindirizzamento autorizzati" sia presente esattamente: <code>${redirectUri}</code></li>
+              <li>The following is present in "Authorized redirect URIs" exactly: <code>${redirectUri}</code></li>
             </ul>
           </div>
           
           <div class="note">
-            <p><strong>Nota importante:</strong> Se hai modificato recentemente gli URI di reindirizzamento nella console di Google Cloud, potrebbe essere necessario attendere alcuni minuti (fino a 5-10 minuti) prima che le modifiche diventino effettive.</p>
+            <p><strong>Important note:</strong> If you have recently modified the redirect URIs in the Google Cloud Console, you may need to wait a few minutes (up to 5-10 minutes) for the changes to take effect.</p>
           </div>
           
           <div class="step">
             <h2>3. Errore 400 (redirect_uri_mismatch)</h2>
-            <p>Se continui a ricevere questo errore:</p>
+            <p>If you continue to receive this error:</p>
             <ul>
               <li>Assicurati che l'URI sia ESATTAMENTE uguale a quello mostrato sopra (anche un singolo carattere di differenza causerà l'errore)</li>
               <li>Verifica che non ci siano spazi o caratteri speciali nell'URI</li>
@@ -1251,8 +1251,8 @@ router.get('/verify-redirect', (req, res) => {
           
           <div class="step">
             <h2>4. Verifica diretta</h2>
-            <p>Per effettuare un test diretto dell'autorizzazione OAuth, fai clic sul bottone seguente:</p>
-            <button onclick="window.open('/api/google-auth/start')">Testa autorizzazione Google</button>
+            <p>To perform a direct OAuth authorization test, click the button below:</p>
+            <button onclick="window.open('/api/google-auth/start')">Test Google authorization</button>
           </div>
         </div>
       </body>
@@ -1260,10 +1260,10 @@ router.get('/verify-redirect', (req, res) => {
   `);
 });
 
-// Test della configurazione
+// Configuration test
 router.get('/test-configuration', async (req, res) => {
   try {
-    // Verifica la presenza dei segreti necessari
+    // Verify the presence of the required secrets
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       return res.status(400).json({
         success: false,
@@ -1271,22 +1271,22 @@ router.get('/test-configuration', async (req, res) => {
       });
     }
     
-    // Verifica se l'URL di callback è configurato correttamente
-    console.log("Test configurazione: URL di callback configurato:", redirectUri);
+    // Check if the callback URL is configured correctly
+    console.log("Configuration test: callback URL configured:", redirectUri);
     
-    // Tenta di generare un URL di autorizzazione (questo verificherà se le credenziali sono formattate correttamente)
+    // Attempt to generate an authorization URL (this will verify if credentials are correctly formatted)
     try {
       const authUrl = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
       });
       
-      console.log("Test configurazione: URL di autorizzazione generato con successo");
+      console.log("Test configuration: authorization URL generated successfully");
       
-      // Se arriviamo qui, le credenziali sono almeno formattate correttamente
+      // If we get here, the credentials are at least correctly formatted
       res.json({
         success: true,
-        message: 'Configurazione di base OK. Per completare la verifica, prova ad autorizzare l\'app.',
+        message: 'Basic configuration OK. To complete verification, try authorizing the app.',
         configStatus: {
           clientIdPresent: true,
           clientSecretPresent: true,
@@ -1296,42 +1296,42 @@ router.get('/test-configuration', async (req, res) => {
         }
       });
     } catch (error) {
-      console.error("Errore nella generazione dell'URL di autorizzazione:", error);
+      console.error("Error generating authorization URL:", error);
       return res.status(400).json({
         success: false,
-        error: 'Errore nella generazione dell\'URL di autorizzazione. Le credenziali potrebbero essere invalide.'
+        error: 'Error generating authorization URL. Credentials may be invalid.'
       });
     }
   } catch (error) {
-    console.error("Errore nel test della configurazione:", error);
+    console.error("Error testing configuration:", error);
     res.status(500).json({
       success: false,
-      error: 'Errore durante il test della configurazione.'
+      error: 'Error during configuration test.'
     });
   }
 });
 
-// Revoca l'autorizzazione
+// Revoke authorization
 router.post('/revoke', isAuthenticated, async (req, res) => {
   if (!authInfo.authorized || !authInfo.tokens) {
-    return res.json({ success: true, message: 'Nessuna autorizzazione attiva' });
+    return res.json({ success: true, message: 'No active authorization' });
   }
   
   try {
     // Revoca i token
     await oauth2Client.revokeToken(authInfo.tokens.access_token);
     
-    // Resetta lo stato di autorizzazione
+    // Reset the authorization status
     authInfo = {
       authorized: false
     };
     
-    res.json({ success: true, message: 'Autorizzazione revocata con successo' });
+    res.json({ success: true, message: 'Authorization revoked successfully' });
   } catch (error) {
-    console.error('Errore nella revoca del token:', error);
+    console.error('Error revoking token:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Errore nella revoca dell\'autorizzazione' 
+      error: 'Error revoking authorization' 
     });
   }
 });
@@ -1339,7 +1339,7 @@ router.post('/revoke', isAuthenticated, async (req, res) => {
 // ================ GOOGLE CONTACTS API ================
 
 /**
- * Verifica se l'utente ha autorizzato l'accesso ai contatti Google
+ * Check if the user has authorized access to Google contacts
  * GET /api/google-auth/contacts/status
  */
 router.get('/contacts/status', isAuthenticated, async (req, res) => {
@@ -1355,23 +1355,23 @@ router.get('/contacts/status', isAuthenticated, async (req, res) => {
     res.json({ 
       success: true, 
       authorized: hasContactsAuth,
-      message: hasContactsAuth ? 'Contatti Google autorizzati' : 'Autorizzazione contatti Google richiesta'
+      message: hasContactsAuth ? 'Contatti Google autorizzati' : 'Autorizzazione contatti Google required'
     });
   } catch (error) {
-    console.error('📇 [CONTACTS STATUS] Errore:', error);
+    console.error('📇 [CONTACTS STATUS] Error:', error);
     res.status(500).json({ success: false, authorized: false });
   }
 });
 
 /**
- * Genera URL per autorizzare l'accesso ai contatti Google (separato da Calendar/Gmail)
+ * Generate URL per autorizzare l'accesso ai contatti Google (separato da Calendar/Gmail)
  * GET /api/google-auth/contacts/authorize
  */
 router.get('/contacts/authorize', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
     if (!userId) {
-      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
 
     const contactsAuthUrl = oauth2Client.generateAuthUrl({
@@ -1381,16 +1381,16 @@ router.get('/contacts/authorize', isAuthenticated, async (req, res) => {
       prompt: 'consent',
     });
 
-    console.log(`📇 [CONTACTS AUTH] URL generato per utente ${userId}`);
+    console.log(`📇 [CONTACTS AUTH] URL generated for user ${userId}`);
     res.json({ success: true, authUrl: contactsAuthUrl });
   } catch (error) {
-    console.error('📇 [CONTACTS AUTH] Errore generazione URL:', error);
-    res.status(500).json({ success: false, error: 'Errore nella generazione dell\'URL di autorizzazione' });
+    console.error('📇 [CONTACTS AUTH] Error generating URL:', error);
+    res.status(500).json({ success: false, error: 'Error generating authorization URL' });
   }
 });
 
 /**
- * Callback per l'autorizzazione contatti Google
+ * Callback for Google contacts authorization
  * GET /api/google-auth/contacts/callback
  */
 router.get('/contacts/callback', async (req, res) => {
@@ -1398,12 +1398,12 @@ router.get('/contacts/callback', async (req, res) => {
     const { code, state } = req.query;
     
     if (!code || !state || !String(state).startsWith('contacts_')) {
-      return res.status(400).send('Parametri mancanti o non validi');
+      return res.status(400).send('Parametri mancanti o invalid');
     }
 
     const userId = parseInt(String(state).replace('contacts_', ''));
     if (!userId) {
-      return res.status(400).send('ID utente non valido');
+      return res.status(400).send('Invalid user ID');
     }
 
     const callbackOauth2Client = new google.auth.OAuth2(
@@ -1414,15 +1414,15 @@ router.get('/contacts/callback', async (req, res) => {
 
     const { tokens } = await callbackOauth2Client.getToken(code as string);
     
-    // Salva il token dei contatti separatamente
+    // Save the contacts token separately
     const encryptedToken = EncryptionService.encrypt(JSON.stringify(tokens));
     await db.update(users)
       .set({ googleContactsToken: encryptedToken })
       .where(eq(users.id, userId));
 
-    logger.debug(`✅ [CONTACTS AUTH] Token contatti salvato per utente ${userId}`);
+    logger.debug(`✅ [CONTACTS AUTH] Contacts token saved for user ${userId}`);
 
-    // Redirect alla pagina clienti con messaggio di successo
+    // Redirect to the clients page with success message
     res.send(`
       <html>
         <head><title>Autorizzazione Contatti Completata</title></head>
@@ -1444,36 +1444,36 @@ router.get('/contacts/callback', async (req, res) => {
       </html>
     `);
   } catch (error) {
-    console.error('📇 [CONTACTS CALLBACK] Errore:', error);
-    res.status(500).send('Errore durante l\'autorizzazione dei contatti Google');
+    console.error('📇 [CONTACTS CALLBACK] Error:', error);
+    res.status(500).send('Error during Google contacts authorization');
   }
 });
 
 /**
- * Recupera i contatti dalla rubrica Google dell'utente
+ * Retrieve contacts from the user's Google address book
  * GET /api/google-auth/contacts
  */
 router.get('/contacts', isAuthenticated, async (req, res) => {
-  console.log('📇 [CONTACTS] Richiesta GET /api/google-auth/contacts');
+  console.log('📇 [CONTACTS] GET /api/google-auth/contacts request');
   try {
     const userId = (req as any).user?.id;
     console.log('📇 [CONTACTS] userId:', userId);
     if (!userId) {
-      console.log('📇 [CONTACTS] Utente non autenticato');
-      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+      console.log('📇 [CONTACTS] User not authenticated');
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
 
-    // Recupera i token dell'utente dal database - usa token CONTATTI separato
+    // Retrieve user tokens from the database - uses separate CONTACTS token
     const user = await storage.getUser(userId);
     if (!user?.googleContactsToken) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Autorizzazione contatti Google non presente. Clicca su "Autorizza Contatti Google" per abilitare l\'importazione.',
+        error: 'Google Contacts authorization not found. Click on "Authorize Google Contacts" to enable import.',
         needsContactsAuth: true
       });
     }
 
-    // Decifra il token se necessario
+    // Decrypt the token if needed
     let tokenString = user.googleContactsToken;
     if (EncryptionService.isEncrypted(tokenString)) {
       tokenString = EncryptionService.decrypt(tokenString);
@@ -1485,12 +1485,12 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     } catch (parseError) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Token Google non valido. Riconnetti il tuo account.',
+        error: 'Token Google invalid. Riconnetti il tuo account.',
         needsReauth: true
       });
     }
     
-    // Configura il client OAuth con i token dell'utente
+    // Configure the OAuth client with the user's tokens
     const userOAuth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
@@ -1498,10 +1498,10 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     );
     userOAuth2Client.setCredentials(tokens);
 
-    // Inizializza People API
+    // Initialize People API
     const people = google.people({ version: 'v1', auth: userOAuth2Client });
 
-    // Recupera TUTTI i contatti con paginazione
+    // Retrieve ALL contacts with pagination
     let allConnections: any[] = [];
     let nextPageToken: string | undefined = undefined;
     
@@ -1518,12 +1518,12 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
       allConnections = allConnections.concat(connections);
       nextPageToken = response.data.nextPageToken || undefined;
       
-      console.log(`📇 [CONTACTS] Pagina caricata: ${connections.length} contatti (totale finora: ${allConnections.length})`);
+      console.log(`📇 [CONTACTS] Page loaded: ${connections.length} contacts (total so far: ${allConnections.length})`);
     } while (nextPageToken);
 
     const connections = allConnections;
     
-    // Trasforma i dati in un formato più semplice
+    // Transform the data into a simpler format
     const contacts = connections.map((person: any) => {
       const name = person.names?.[0]?.displayName || '';
       const firstName = person.names?.[0]?.givenName || '';
@@ -1541,9 +1541,9 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
         phone,
         address
       };
-    }).filter((c: any) => c.name || c.email || c.phone); // Filtra contatti vuoti
+    }).filter((c: any) => c.name || c.email || c.phone); // Filter empty contacts
 
-    console.log(`📇 Recuperati ${contacts.length} contatti Google per utente ${userId}`);
+    console.log(`📇 Retrieved ${contacts.length} Google contacts for user ${userId}`);
 
     res.json({ 
       success: true, 
@@ -1552,57 +1552,57 @@ router.get('/contacts', isAuthenticated, async (req, res) => {
     });
 
   } catch (error: any) {
-    console.error('📇 [CONTACTS] Errore nel recupero contatti Google:', error.message);
+    console.error('📇 [CONTACTS] Error retrieving Google contacts:', error.message);
     console.error('📇 [CONTACTS] Error code:', error.code);
     console.error('📇 [CONTACTS] Full error:', JSON.stringify(error, null, 2));
     
-    // Se il token è scaduto o non valido
+    // if the token has expired or is invalid
     if (error.code === 401 || error.message?.includes('invalid_grant')) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Sessione Google scaduta. Riconnetti il tuo account.',
+        error: 'Google session expired. Please reconnect your account.',
         needsReauth: true
       });
     }
     
-    // Se manca lo scope per i contatti (cattura vari formati di errore Google)
+    // If the contacts scope is missing (catches various Google error formats)
     if (error.message?.includes('Request had insufficient authentication scopes') ||
         error.message?.includes('Insufficient Permission') ||
         error.code === 403) {
       return res.status(403).json({ 
         success: false, 
-        error: 'Permessi insufficienti. Riconnetti il tuo account Google per abilitare l\'accesso ai contatti.',
+        error: 'Insufficient permissions. Reconnect your Google account to enable contacts access.',
         needsReauth: true
       });
     }
     
     res.status(500).json({ 
       success: false, 
-      error: 'Errore nel recupero dei contatti Google' 
+      error: 'Error retrieving Google contacts' 
     });
   }
 });
 
 /**
- * Importa i contatti selezionati come clienti
+ * Import i contatti selezionati come clients
  * POST /api/google-auth/contacts/import
  * 
- * SICUREZZA: Accetta solo resourceNames (ID) e importAll flag
- * I dati dei contatti vengono sempre recuperati lato server da Google
+ * SICUREZZA: Accetta only resourceNames (ID) e importAll flag
+ * contact data is always retrieved server-side from Google
  */
 router.post('/contacts/import', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
     if (!userId) {
-      return res.status(401).json({ success: false, error: 'Utente non autenticato' });
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
     }
 
-    // Validazione input con Zod - rifiuta campi non previsti
+    // Input validation with Zod - reject unexpected fields
     const validationResult = contactsImportSchema.safeParse(req.body);
     if (!validationResult.success) {
       return res.status(400).json({ 
         success: false, 
-        error: 'Formato dati non valido',
+        error: 'Invalid data format',
         details: validationResult.error.errors 
       });
     }
@@ -1612,21 +1612,21 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
     if (!importAll && (!resourceNames || resourceNames.length === 0)) {
       return res.status(400).json({ 
         success: false, 
-        error: 'Nessun contatto selezionato per l\'importazione' 
+        error: 'No contacts selected for import' 
       });
     }
 
-    // Recupera i token CONTATTI dell'utente (separato da Calendar/Gmail)
+    // Retrieve i token CONTATTI of the user (separato da Calendar/Gmail)
     const user = await storage.getUser(userId);
     if (!user?.googleContactsToken) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Autorizzazione contatti Google non presente. Clicca su "Autorizza Contatti Google" per abilitare l\'importazione.',
+        error: 'Google Contacts authorization not found. Click on "Authorize Google Contacts" to enable import.',
         needsContactsAuth: true
       });
     }
 
-    // Decifra il token contatti se necessario
+    // Decrypt the contact token if needed
     let tokenString = user.googleContactsToken;
     if (EncryptionService.isEncrypted(tokenString)) {
       tokenString = EncryptionService.decrypt(tokenString);
@@ -1638,7 +1638,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
     } catch (parseError) {
       return res.status(401).json({ 
         success: false, 
-        error: 'Token Google non valido',
+        error: 'Token Google invalid',
         needsReauth: true
       });
     }
@@ -1652,11 +1652,11 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
     const people = google.people({ version: 'v1', auth: userOAuth2Client });
 
-    // Recupera i contatti da Google (sempre lato server per sicurezza)
+    // Retrieve contacts from Google (always server-side for security)
     let contactsToImport: Array<{firstName: string, lastName: string, email: string, phone: string, address: string}> = [];
 
     if (importAll) {
-      // Recupera TUTTI i contatti con paginazione
+      // Retrieve ALL contacts with pagination
       let allConnections: any[] = [];
       let nextPageToken: string | undefined = undefined;
       
@@ -1673,7 +1673,7 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         allConnections = allConnections.concat(connections);
         nextPageToken = response.data.nextPageToken || undefined;
         
-        console.log(`📇 [IMPORT] Pagina caricata: ${connections.length} contatti (totale finora: ${allConnections.length})`);
+        console.log(`📇 [IMPORT] Page loaded: ${connections.length} contacts (total so far: ${allConnections.length})`);
       } while (nextPageToken);
 
       contactsToImport = allConnections.map((person: any) => ({
@@ -1684,9 +1684,9 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         address: person.addresses?.[0]?.formattedValue || ''
       })).filter((c: any) => (c.firstName || c.lastName) || c.email || c.phone);
       
-      console.log(`📇 [IMPORT] Totale contatti da importare: ${contactsToImport.length}`);
+      console.log(`📇 [IMPORT] Total contacts to import: ${contactsToImport.length}`);
     } else if (resourceNames && resourceNames.length > 0) {
-      // Recupera solo i contatti selezionati tramite i loro resourceNames
+      // Retrieve only the selected contacts via their resourceNames
       // Usa batchGet per efficienza
       const batchSize = 50;
       for (let i = 0; i < resourceNames.length; i += batchSize) {
@@ -1711,15 +1711,15 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
             }
           }
         } catch (batchError) {
-          console.error('Errore batch get contatti:', batchError);
+          console.error('Error batch getting contacts:', batchError);
         }
       }
     }
 
-    // Recupera i clienti esistenti per evitare duplicati
+    // Retrieve i clients esistenti per evitare duplicati
     const existingClients = await storage.getVisibleClientsForUser(userId, 'admin');
     
-    // Crea set per verifica duplicati: priorità a nome+telefono, poi email
+    // Create set for duplicate checking: priority to name+phone, then email
     const existingNamePhone = new Set(existingClients.map((c: any) => {
       const name = `${c.firstName || ''} ${c.lastName || ''}`.toLowerCase().trim();
       const phone = c.phone?.replace(/\s+/g, '') || '';
@@ -1735,31 +1735,31 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
     for (const contact of contactsToImport) {
       try {
-        // Normalizza i dati del contatto
+        // Normalize the contact data
         const nameNormalized = `${contact.firstName || ''} ${contact.lastName || ''}`.toLowerCase().trim();
         const phoneNormalized = contact.phone?.replace(/\s+/g, '') || '';
         const emailNormalized = contact.email?.toLowerCase() || '';
         const namePhoneKey = phoneNormalized ? `${nameNormalized}|${phoneNormalized}` : null;
 
-        // Priorità 1: Verifica duplicati per nome+telefono (criterio principale)
+        // Priority 1: Check for duplicates by name+phone (main criterion)
         if (namePhoneKey && existingNamePhone.has(namePhoneKey)) {
           skipped++;
           continue;
         }
         
-        // Priorità 2: Verifica duplicati per solo telefono (se presente)
+        // Priority 2: Check for duplicates by phone only (if present)
         if (phoneNormalized && existingPhones.has(phoneNormalized)) {
           skipped++;
           continue;
         }
         
-        // Priorità 3: Verifica duplicati per email (se presente e non vuota)
+        // Priority 3: Check for duplicates by email (if present and not empty)
         if (emailNormalized && existingEmails.has(emailNormalized)) {
           skipped++;
           continue;
         }
 
-        // Crea il cliente con i campi obbligatori firstName, lastName, phone
+        // Create the client with required fields firstName, lastName, phone
         const clientData = {
           userId,
           firstName: contact.firstName || 'Senza',
@@ -1773,22 +1773,22 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
 
         const newClient = await storage.createClient(clientData);
         
-        // Genera i codici cliente (stessa logica di POST /api/clients)
+        // Generate codici client (stessa logica di POST /api/clients)
         let newUniqueCode = null;
         try {
           newUniqueCode = await generateClientCode(userId);
         } catch (error: any) {
-          if (error.message && error.message.includes('Codice professionista non trovato')) {
-            logger.debug(`⚠️ Contatto importato senza newUniqueCode (professionista senza assignmentCode)`);
+          if (error.message && error.message.includes('Codice professionista not found')) {
+            logger.debug(`⚠️ contact imported without newUniqueCode (professional without assignmentCode)`);
           } else {
             throw error;
           }
         }
         
-        // Genera il legacy uniqueCode (formato PROF_XXX_CXXXXX)
+        // Generate the legacy uniqueCode (format PROF_XXX_CXXXXX)
         const legacyUniqueCode = `PROF_${userId.toString().padStart(3, '0')}_C${newClient.id.toString().padStart(5, '0')}`;
         
-        // Aggiorna il cliente con i codici generati
+        // Update the client with the generated codes
         const updateData: any = { uniqueCode: legacyUniqueCode };
         if (newUniqueCode) {
           updateData.newUniqueCode = newUniqueCode;
@@ -1796,36 +1796,36 @@ router.post('/contacts/import', isAuthenticated, async (req, res) => {
         
         await storage.updateClient(newClient.id, updateData);
         
-        logger.debug(`✅ Contatto importato: ${contact.firstName} ${contact.lastName} - Codice: ${newUniqueCode || legacyUniqueCode}`);
+        logger.debug(`✅ contact imported: ${contact.firstName} ${contact.lastName} - code: ${newUniqueCode || legacyUniqueCode}`);
         imported++;
 
-        // Aggiungi alle liste per evitare duplicati nel batch corrente
+        // Add to lists to avoid duplicates in the current batch
         if (namePhoneKey) existingNamePhone.add(namePhoneKey);
         if (phoneNormalized) existingPhones.add(phoneNormalized);
         if (emailNormalized) existingEmails.add(emailNormalized);
 
       } catch (err: any) {
         const contactName = `${contact.firstName} ${contact.lastName}`.trim() || 'Contatto';
-        console.error(`Errore importazione contatto ${contactName}:`, err);
+        console.error(`Error importing contact ${contactName}:`, err);
         errors.push(`${contactName}: ${err.message}`);
       }
     }
 
-    console.log(`📇 Importazione contatti completata per utente ${userId}: ${imported} importati, ${skipped} saltati (duplicati)`);
+    console.log(`📇 Contacts import completed for user ${userId}: ${imported} imported, ${skipped} skipped (duplicates)`);
 
     res.json({ 
       success: true, 
       imported,
       skipped,
       errors: errors.length > 0 ? errors : undefined,
-      message: `Importati ${imported} contatti${skipped > 0 ? `, ${skipped} saltati (già esistenti)` : ''}`
+      message: `Imported ${imported} contatti${skipped > 0 ? `, ${skipped} saltati (already existing)` : ''}`
     });
 
   } catch (error) {
-    console.error('Errore nell\'importazione contatti:', error);
+    console.error('Error importing contacts:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Errore durante l\'importazione dei contatti' 
+      error: 'Error importing contacts' 
     });
   }
 });

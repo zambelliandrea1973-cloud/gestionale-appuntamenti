@@ -22,9 +22,9 @@ function createOAuth2ClientWithAutoSave(userId: number, tokens: any) {
       const merged = { ...tokens, ...newTokens };
       const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
       await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
-      logger.debug(`🔄 [OAUTH] Token refreshato e salvato per utente ${userId}`);
+      logger.debug(`🔄 [OAUTH] Token refreshed and saved for user ${userId}`);
     } catch (err) {
-      console.error(`❌ [OAUTH] Errore salvataggio token refreshato per utente ${userId}:`, err);
+      console.error(`❌ [OAUTH] Error saving refreshed token for user ${userId}:`, err);
     }
   });
   
@@ -40,18 +40,18 @@ interface SyncConflict {
 }
 
 /**
- * Importa gli eventi da Google Calendar e crea appuntamenti se non esistono
- * @param userId - ID dell'utente
- * @param timeZone - Fuso orario dell'utente (es. 'Europe/Rome', 'Australia/Sydney')
+ * Import events from Google Calendar and create appointments if they exist
+ * @param userId - ID of the user
+ * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
 export async function importGoogleCalendarEvents(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ imported: number; conflicts: SyncConflict[]; errors: string[] }> {
   const result = { imported: 0, conflicts: [] as SyncConflict[], errors: [] as string[] };
   
   try {
-    // Ottieni il token OAuth dell'utente
+    // Get the token OAuth of the user
     const user = await db.select().from(users).where(eq(users.id, userId));
     if (!user.length || !user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
-      result.errors.push('Google Calendar non è abilitato per questo utente');
+      result.errors.push('Google Calendar is not enabled for this user');
       return result;
     }
 
@@ -62,24 +62,24 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
-    // Range temporale: 30 giorni nel passato + 365 giorni nel futuro
+    // Time range: 30 days in the past + 365 days in the future
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const oneYearAhead = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
     
     
-    // NUOVO: Ottieni TUTTI i calendari dell'utente (primario + secondari)
+    // NEW: Get ALL user calendars (primary + secondary)
     const calendarListResponse = await calendar.calendarList.list();
     const allCalendars = calendarListResponse.data.items || [];
     
-    // Filtra solo calendari con accesso in lettura (owner, writer, reader)
+    // Filter only calendars with read access (owner, writer, reader)
     const accessibleCalendars = allCalendars.filter(cal => 
       cal.id && cal.accessRole && ['owner', 'writer', 'reader'].includes(cal.accessRole)
     );
     
-    console.log(`📅 [IMPORT] Trovati ${allCalendars.length} calendari totali, ${accessibleCalendars.length} accessibili`);
+    console.log(`📅 [IMPORT] Found ${allCalendars.length} total calendars, ${accessibleCalendars.length} accessible`);
     
     // ========== SINCRONIZZAZIONE INCREMENTALE CON SYNC TOKEN ==========
-    // Carica i syncToken salvati per questo utente
+    // Load saved syncToken for this user
     const savedSyncTokens = await db.select()
       .from(googleCalendarSyncTokens)
       .where(eq(googleCalendarSyncTokens.userId, userId));
@@ -93,7 +93,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     let allEvents: EventWithCalendar[] = [];
     let isIncrementalSync = false;
     
-    // Itera su ogni calendario usando syncToken se disponibile
+    // Iterate over each calendar using syncToken if available
     for (const cal of accessibleCalendars) {
       if (!cal.id) continue;
       
@@ -103,7 +103,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       let pageToken: string | undefined = undefined;
       let newSyncToken: string | undefined = undefined;
       
-      // Prova prima sync incrementale, poi fallback a full sync
+      // First try incremental sync, then fallback to full sync
       let needsFullSync = !useSyncToken;
       
       if (useSyncToken) {
@@ -111,7 +111,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         isIncrementalSync = true;
         
         try {
-          // Sync incrementale - recupera solo modifiche
+          // Sync incrementale - recupera only modifiche
           const eventsResponse = await calendar.events.list({
             calendarId: cal.id,
             syncToken: useSyncToken,
@@ -131,7 +131,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           
           newSyncToken = eventsResponse.data.nextSyncToken || undefined;
           
-          // Gestisci paginazione se presente
+          // Handle paginazione If presente
           pageToken = eventsResponse.data.nextPageToken || undefined;
           while (pageToken) {
             const nextPage = await calendar.events.list({
@@ -156,22 +156,22 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             newSyncToken = nextPage.data.nextSyncToken || newSyncToken;
           }
           
-          console.log(`   ✓ ${calendarEventCount} modifiche trovate`);
+          console.log(`   ✓ ${calendarEventCount} changes found`);
           
         } catch (syncError: any) {
-          // Token invalido (410) - necessario full sync
+          // Invalid token (410) - full sync required
           if (syncError?.code === 410 || syncError?.response?.status === 410) {
-            logger.debug(`🔄 [IMPORT] SyncToken invalido per "${cal.summary}", eseguo full sync...`);
+            logger.debug(`🔄 [IMPORT] Invalid SyncToken for "${cal.summary}", performing full sync...`);
             needsFullSync = true;
           } else {
-            console.error(`❌ [IMPORT] Errore sync calendario ${cal.summary}:`, syncError);
-            result.errors.push(`Errore sync calendario ${cal.summary}: ${String(syncError)}`);
+            console.error(`❌ [IMPORT] Error syncing calendar ${cal.summary}:`, syncError);
+            result.errors.push(`Error syncing calendar ${cal.summary}: ${String(syncError)}`);
             continue;
           }
         }
       }
       
-      // Full sync se necessario (primo sync o token invalido)
+      // Full sync if needed (primo sync o token invalido)
       if (needsFullSync) {
         console.log(`📆 [IMPORT] Full sync per "${cal.summary}"`);
         calendarEventCount = 0;
@@ -205,16 +205,16 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             
           } while (pageToken);
           
-          console.log(`   ✓ ${calendarEventCount} eventi caricati`);
+          console.log(`   ✓ ${calendarEventCount} events loaded`);
           
         } catch (calError) {
-          console.error(`❌ [IMPORT] Errore full sync ${cal.summary}:`, calError);
-          result.errors.push(`Errore lettura calendario ${cal.summary}: ${String(calError)}`);
+          console.error(`❌ [IMPORT] Error full sync ${cal.summary}:`, calError);
+          result.errors.push(`Error reading calendar ${cal.summary}: ${String(calError)}`);
           continue;
         }
       }
       
-      // Salva il nuovo syncToken per prossime sync incrementali
+      // Save the new syncToken for future incremental syncs
       if (newSyncToken && cal.id) {
         try {
           if (savedToken) {
@@ -238,29 +238,29 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             });
           }
         } catch (tokenError) {
-          console.error(`⚠️ [IMPORT] Errore salvataggio syncToken:`, tokenError);
+          console.error(`⚠️ [IMPORT] Error saving syncToken:`, tokenError);
         }
       }
     }
     
-    // Log tipo di sync eseguita
+    // Log type di sync eseguita
     if (isIncrementalSync) {
-      logger.debug(`⚡ [IMPORT] Sync incrementale completata: ${allEvents.length} modifiche da processare`);
+      logger.debug(`⚡ [IMPORT] Incremental sync completed: ${allEvents.length} changes to process`);
     } else {
-      logger.debug(`📋 [IMPORT] Full sync completata: ${allEvents.length} eventi da processare`);
+      logger.debug(`📋 [IMPORT] Full sync completed: ${allEvents.length} events to process`);
     }
 
     if (allEvents.length === 0) {
-      console.log(`📭 [IMPORT] Nessun evento trovato nei calendari`);
+      console.log(`📭 [IMPORT] No events found in calendars`);
       return result;
     }
 
-    logger.debug(`📋 [IMPORT] Trovati ${allEvents.length} eventi totali da processare`);
+    logger.debug(`📋 [IMPORT] Found ${allEvents.length} total events to process`);
 
     // ========== OTTIMIZZAZIONE: PRECARICAMENTO DATI IN MEMORIA ==========
     const preloadStart = Date.now();
     
-    // 1. Precarica TUTTI i tracking esistenti per questo utente (usando appointment_id per join)
+    // 1. Preload ALL existing tracking records for this user (using appointment_id for join)
     const allUserAppointmentIds = await db.select({ id: appointments.id })
       .from(appointments)
       .where(eq(appointments.userId, userId));
@@ -269,26 +269,26 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     const allTrackingRecords = await db.select()
       .from(googleCalendarEvents);
     
-    // Filtra solo i tracking che appartengono a questo utente
+    // Filter only tracking entries belonging to this user
     const userTrackingRecords = allTrackingRecords.filter(t => appointmentIdSet.has(t.appointmentId));
     
-    // Mappa: googleEventId -> tracking record
+    // Map: googleEventId -> tracking record
     const trackingByGoogleId = new Map(userTrackingRecords.map(t => [t.googleEventId, t]));
-    // Mappa: appointmentId -> tracking record
+    // Map: appointmentId -> tracking record
     const trackingByAppointmentId = new Map(userTrackingRecords.map(t => [t.appointmentId, t]));
     
-    // 2. Precarica TUTTI gli appuntamenti dell'utente
+    // 2. Preload ALL appointments of the user
     const allUserAppointments = await db.select()
       .from(appointments)
       .where(eq(appointments.userId, userId));
     
-    // Mappa: googleEventId -> appointment
+    // Map: googleEventId -> appointment
     const appointmentsByGoogleId = new Map(
       allUserAppointments.filter(a => a.googleEventId).map(a => [a.googleEventId!, a])
     );
-    // Mappa: id -> appointment
+    // Map: id -> appointment
     const appointmentsById = new Map(allUserAppointments.map(a => [a.id, a]));
-    // Mappa: "date|startTime" -> appointment[]
+    // Map: "date|startTime" -> appointment[]
     const appointmentsByDateSlot = new Map<string, typeof allUserAppointments>();
     for (const appt of allUserAppointments) {
       const key = `${appt.date}|${appt.startTime}`;
@@ -298,21 +298,21 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       appointmentsByDateSlot.get(key)!.push(appt);
     }
     
-    // 3. Precarica TUTTI i clienti dell'utente
+    // 3. Preload ALL clients of the user
     const allUserClients = await db.select()
       .from(clients)
       .where(eq(clients.userId, userId));
     
-    // Mappa: email -> client
+    // Map: email -> client
     const clientsByEmail = new Map(
       allUserClients.filter(c => c.email).map(c => [c.email!, c])
     );
-    // Mappa: "firstName|lastName" -> client
+    // Map: "firstName|lastName" -> client
     const clientsByName = new Map(
       allUserClients.map(c => [`${c.firstName}|${c.lastName}`, c])
     );
     
-    // 4. Precarica/Trova il servizio "Promemoria Google Calendar"
+    // 4. Preload/Find the "Google Calendar Reminder" service
     let promemoriaServiceId: number | null = null;
     const promemoriaService = await db.select()
       .from(services)
@@ -325,7 +325,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
     if (promemoriaService.length > 0) {
       promemoriaServiceId = promemoriaService[0].id;
     } else {
-      // Crea il servizio una sola volta
+      // Create the service only once
       const newService = await db.insert(services).values({
         userId,
         name: 'Promemoria Google Calendar',
@@ -338,13 +338,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       }
     }
     
-    // Fallback se creazione fallisce
+    // Fallback if creation fails
     if (!promemoriaServiceId) {
       const defaultService = await db.select().from(services).where(eq(services.userId, userId)).limit(1);
       promemoriaServiceId = defaultService.length > 0 ? defaultService[0].id : 1;
     }
     
-    // 5. Crea formatter una sola volta (invece di uno per evento)
+    // 5. Create formatter only once (instead of one per event)
     const userFormatter = new Intl.DateTimeFormat('sv-SE', { 
       timeZone,
       year: 'numeric', month: '2-digit', day: '2-digit',
@@ -352,18 +352,18 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       hour12: false
     });
     
-    logger.debug(`⚡ [IMPORT] Precaricamento completato in ${Date.now() - preloadStart}ms`);
-    console.log(`   - Tracking: ${trackingByGoogleId.size}, Appuntamenti: ${allUserAppointments.length}, Clienti: ${allUserClients.length}`);
+    logger.debug(`⚡ [IMPORT] Precaricamento completed in ${Date.now() - preloadStart}ms`);
+    console.log(`   - Tracking: ${trackingByGoogleId.size}, Appointments: ${allUserAppointments.length}, Clients: ${allUserClients.length}`);
     
     // ========== FINE PRECARICAMENTO ==========
 
-    // Processa ogni evento Google (ora con lookup O(1) invece di query DB)
+    // Process each Google event (now with O(1) lookup instead of DB query)
     for (const googleEvent of allEvents) {
       if (!googleEvent.id) continue;
       
       const eventInfo = `"${googleEvent.summary || 'Senza titolo'}"`;
       
-      // GESTIONE EVENTI CANCELLATI
+      // HANDLING CANCELLED EVENTS
       if (googleEvent.status === 'cancelled') {
         try {
           const trackedEvent = trackingByGoogleId.get(googleEvent.id);
@@ -377,7 +377,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             await db.delete(appointments)
               .where(eq(appointments.id, appointmentId));
             
-            // Aggiorna cache locale
+            // Update cache locale
             trackingByGoogleId.delete(googleEvent.id);
             appointmentsById.delete(appointmentId);
             
@@ -396,7 +396,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             }
           }
         } catch (deleteError) {
-          result.errors.push(`Errore eliminazione evento ${googleEvent.id}: ${String(deleteError)}`);
+          result.errors.push(`Error deleting event ${googleEvent.id}: ${String(deleteError)}`);
         }
         continue;
       }
@@ -404,7 +404,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
       if (!googleEvent.start?.dateTime) continue;
       
       try {
-        // Lookup O(1) invece di query DB
+        // O(1) lookup instead of DB query
         const existingTracking = trackingByGoogleId.get(googleEvent.id);
         
         if (existingTracking) {
@@ -416,7 +416,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               .where(eq(googleCalendarEvents.id, existingTracking.id));
             trackingByGoogleId.delete(googleEvent.id);
           } else {
-            // Aggiorna se necessario
+            // Update if needed
             const googleStartDateTime = googleEvent.start.dateTime;
             const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
             
@@ -435,13 +435,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
                                    linkedAppointment.endTime !== newEndTime;
             
             if (hasTimeChanges) {
-              // Controllo conflitti usando la mappa
+              // Controllo conflitti usando the map
               const slotKey = `${newDate}|${newStartTime}`;
               const existingAtSlot = appointmentsByDateSlot.get(slotKey) || [];
               const hasConflict = existingAtSlot.some(a => a.id !== linkedAppointment.id);
               
               if (hasConflict) {
-                result.errors.push(`Conflitto orario: ${newDate} ${newStartTime}`);
+                result.errors.push(`Time conflict: ${newDate} ${newStartTime}`);
                 await db.update(googleCalendarEvents)
                   .set({ syncStatus: 'conflict', updatedAt: new Date() })
                   .where(eq(googleCalendarEvents.id, existingTracking.id));
@@ -461,10 +461,10 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           }
         }
         
-        // Controlla duplicato per googleEventId (O(1))
+        // Check duplicato per googleEventId (O(1))
         if (appointmentsByGoogleId.has(googleEvent.id)) continue;
         
-        // Converti datetime
+        // Convert datetime
         const googleStartDateTime = googleEvent.start.dateTime;
         const googleEndDateTime = googleEvent.end?.dateTime || googleStartDateTime;
         
@@ -484,12 +484,12 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           continue;
         }
         
-        // USA UN SINGOLO CLIENTE PLACEHOLDER PER TUTTI GLI EVENTI GOOGLE
-        // Non creiamo clienti fittizi per ogni evento - usiamo un unico placeholder
+        // USE A SINGLE CLIENT PLACEHOLDER FOR ALL GOOGLE EVENTS
+        // We do not create fake clients for each event - we use a single placeholder
         let clientId: number | null = null;
         const originalEventTitle = googleEvent.summary || 'Evento Google';
         
-        // Prima cerca se esiste già un cliente con email dell'attendee
+        // First check if a client with the attendee email already exists
         if (googleEvent.attendees && googleEvent.attendees.length > 0) {
           const attendeeEmail = googleEvent.attendees[0].email;
           if (attendeeEmail) {
@@ -498,14 +498,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           }
         }
         
-        // Se non trova un cliente reale, usa il placeholder "Google Calendar"
+        // If a real client is found, use the placeholder "Google Calendar"
         if (!clientId) {
           const placeholderKey = `📅 Eventi Calendario|Google Calendar`;
           const existingPlaceholder = clientsByName.get(placeholderKey);
           if (existingPlaceholder) {
             clientId = existingPlaceholder.id;
           } else {
-            // Cerca nel database se esiste già il placeholder
+            // Check in the database if the placeholder already exists
             const [dbPlaceholder] = await db.select().from(clients)
               .where(and(
                 eq(clients.userId, userId),
@@ -518,14 +518,14 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
               clientId = dbPlaceholder.id;
               clientsByName.set(placeholderKey, dbPlaceholder);
             } else {
-              // Crea UN SOLO placeholder per utente
+              // Create UN SOLO placeholder per user
               const newClient = await db.insert(clients).values({
                 userId,
                 firstName: '📅 Eventi Calendario',
                 lastName: 'Google Calendar',
                 email: `google-calendar-${userId}@imported.local`,
                 phone: '',
-                notes: 'Cliente sistema per eventi importati da Google Calendar. Non riceve notifiche.'
+                notes: 'System client for events imported from Google Calendar. Does not receive notifications.'
               }).returning();
               
               if (newClient.length > 0) {
@@ -542,13 +542,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
         const serviceId = promemoriaServiceId!;
         
 
-        // Determina se siamo l'organizzatore dell'evento
-        // Se l'organizzatore è diverso dal nostro account, siamo invitati
+        // Determine if we are the organizer of the event
+        // If the organizer is different from our account, we are invited
         const isOrganizerSelf: boolean = !googleEvent.organizer?.email || 
           googleEvent.organizer?.self === true ||
           Boolean(user[0].email && googleEvent.organizer?.email === user[0].email);
         
-        // Crea l'appuntamento usando storage per rispettare lo schema
+        // Create the appointment using storage to respect the schema
         const newAppointmentData = {
           userId,
           clientId,
@@ -561,13 +561,13 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           importedFromGoogle: true,
           googleEventId: googleEvent.id,
           googleOrganizerSelf: isOrganizerSelf,
-          googleEventTitle: eventTitle // Salva il titolo originale per la visualizzazione
+          googleEventTitle: eventTitle // Save the original title for display
         };
         
         const newAppointment = await db.insert(appointments).values(newAppointmentData).returning();
 
-        // Registra il collegamento (usa upsert per evitare duplicati)
-        // Usa il calendarId sorgente dell'evento per poterlo aggiornare/eliminare correttamente
+        // Register the link (use upsert to avoid duplicates)
+        // Use the source calendarId of the event to be able to update/delete it correctly
         const sourceCalendarId = (googleEvent as any)._sourceCalendarId || 'primary';
         const sourceCalendarName = (googleEvent as any)._sourceCalendarName || '';
         
@@ -590,7 +590,7 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
             }
           });
           
-          // IMPORTANTE: Aggiorna le cache per evitare duplicati nel loop
+          // IMPORTANT: Update the cache to avoid duplicates in the loop
           appointmentsByGoogleId.set(googleEvent.id, newAppointment[0]);
           appointmentsById.set(newAppointment[0].id, newAppointment[0]);
           if (!appointmentsByDateSlot.has(slotKey)) {
@@ -601,25 +601,25 @@ export async function importGoogleCalendarEvents(userId: number, timeZone: strin
           result.imported++;
         }
       } catch (error) {
-        result.errors.push(`Errore importazione evento ${googleEvent.id}: ${String(error)}`);
+        result.errors.push(`Error importing event ${googleEvent.id}: ${String(error)}`);
       }
     }
 
-    // Aggiorna lastGoogleSyncAt
+    // Update lastGoogleSyncAt
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
     
     return result;
   } catch (error) {
-    result.errors.push(`Errore generale importazione: ${String(error)}`);
-    console.error('❌ Errore importazione Google Calendar:', error);
+    result.errors.push(`General import error: ${String(error)}`);
+    console.error('❌ Error importing Google Calendar:', error);
     return result;
   }
 }
 
 /**
- * Sincronizzazione bidirezionale: esporta nuovi appuntamenti e importa nuovi eventi Google
- * @param userId - ID dell'utente
- * @param timeZone - Fuso orario dell'utente (es. 'Europe/Rome', 'Australia/Sydney')
+ * Bidirectional sync: export new appointments and import new Google events
+ * @param userId - ID of the user
+ * @param timeZone - User timezone (e.g. 'Europe/Rome', 'Australia/Sydney')
  */
 export async function syncBidirectional(userId: number, timeZone: string = 'Europe/Rome'): Promise<{ success: boolean; message: string; details: any }> {
   const details = {
@@ -630,7 +630,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
 
   try {
     
-    // 1. IMPORTA eventi da Google Calendar
+    // 1. IMPORT events from Google Calendar
     try {
       const importResult = await importGoogleCalendarEvents(userId, timeZone);
       details.imported = importResult.imported;
@@ -639,58 +639,58 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       }
     } catch (importError: any) {
       const errMsg = String(importError);
-      console.error(`❌ [SYNC] Errore importazione:`, errMsg);
-      details.errors.push(`Errore importazione: ${errMsg}`);
+      console.error(`❌ [SYNC] Error importing:`, errMsg);
+      details.errors.push(`Error importing: ${errMsg}`);
       
       if (errMsg.includes('invalid_grant') || errMsg.includes('Token has been expired') || errMsg.includes('Token has been revoked')) {
-        console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - disabilito sync ma CONSERVO il token per retry`);
+        console.warn(`🛑 [SYNC] OAuth token expired/revoked for user ${userId} - disabling sync but KEEPING token for retry`);
         try {
           await db.update(users).set({ 
             googleCalendarEnabled: false
           }).where(eq(users.id, userId));
-          console.log(`⚠️ [SYNC] Google Calendar disabilitato per utente ${userId} - token conservato per riconnessione`);
+          console.log(`⚠️ [SYNC] Google Calendar disabled for user ${userId} - token kept for reconnection`);
         } catch (dbError) {
-          console.error(`❌ [SYNC] Errore disabilitazione Google Calendar:`, dbError);
+          console.error(`❌ [SYNC] Error disabling Google Calendar:`, dbError);
         }
-        return { success: false, message: `Token OAuth scaduto per utente ${userId} - Google Calendar disabilitato (ricollegare dalle impostazioni)`, details };
+        return { success: false, message: `OAuth token expired for user ${userId} - Google Calendar disabled (reconnect from settings)`, details };
       }
     }
 
-    // 2. ESPORTA appuntamenti nuovi verso Google
+    // 2. EXPORT new appointments to Google
     let newAppointments: any[] = [];
     try {
-      // Query SEMPLICE: seleziona solo appuntamenti dell'utente
+      // SIMPLE query: select only appointments of the user
       const allAppointments = await db.select()
         .from(appointments)
         .where(eq(appointments.userId, userId));
       
       
-      // Filtra manualmente gli appuntamenti non sincronizzati
-      // synced dovrebbe essere false o NULL per gli appuntamenti nuovi
-      // IMPORTANTE: Escludi gli appuntamenti IMPORTATI da Google - non devono essere ri-esportati!
+      // Filter manually the unsynchronized appointments
+      // synced should be false or NULL for new appointments
+      // IMPORTANT: Exclude appointments IMPORTED from Google - they must not be re-exported!
       newAppointments = allAppointments.filter(a => !a.synced && !a.importedFromGoogle);
     } catch (queryError) {
-      console.error(`❌ [SYNC] Errore query appuntamenti:`, queryError);
-      details.errors.push(`Errore query appuntamenti: ${String(queryError)}`);
+      console.error(`❌ [SYNC] Error querying appointments:`, queryError);
+      details.errors.push(`Error querying appointments: ${String(queryError)}`);
       newAppointments = [];
     }
 
     for (const appointment of newAppointments) {
       try {
         
-        // CONTROLLO DUPLICATI: verifica se l'appuntamento è già stato esportato
+        // DUPLICATE CHECK: verify if the appointment has already been exported
         const existingExport = await db.select()
           .from(googleCalendarEvents)
           .where(eq(googleCalendarEvents.appointmentId, appointment.id))
           .limit(1);
         
         if (existingExport.length > 0) {
-          // Assicurati che il flag synced sia impostato
+          // Ensure the synced flag is set
           await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
           continue;
         }
         
-        // Crea direttamente l'evento in Google Calendar usando il token dell'utente
+        // Create direttamente l'evento in Google Calendar usando the token of the user
         const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
         if (!user.length || !user[0].googleAuthToken) {
           continue;
@@ -700,7 +700,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
         const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
         
-        // Ottieni dati appuntamento
+        // Get appointment data
         const clientData = await db.select().from(clients).where(eq(clients.id, appointment.clientId)).limit(1);
         const serviceData = appointment.serviceId 
           ? await db.select().from(services).where(eq(services.id, appointment.serviceId)).limit(1)
@@ -713,16 +713,16 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         const client = clientData[0];
         const service = serviceData.length ? serviceData[0] : null;
         
-        // Crea l'evento - CONVERSIONE A UTC per Google Calendar
-        // Gestisci sia formato HH:MM che HH:MM:SS
+        // Create l'evento - CONVERSIONE A UTC per Google Calendar
+        // Handle sia format HH:MM che HH:MM:SS
         const startTime = appointment.startTime.length === 5 ? `${appointment.startTime}:00` : appointment.startTime;
         const endTime = appointment.endTime.length === 5 ? `${appointment.endTime}:00` : appointment.endTime;
         
-        // IMPORTANTE: Convertire da ora locale a UTC prima di inviare a Google Calendar
-        // Il database memorizza "09:00" come ora locale (Italy)
-        // Google Calendar API richiede UTC, quindi calcoliamo l'offset usando Intl
+        // IMPORTANT: Convert from local time to UTC before sending to Google Calendar
+        // the database memorizza "09:00" come time locale (Italy)
+        // Google Calendar API requires UTC, so we calculate the offset using Intl
         
-        // Funzione helper per calcolare l'offset di un timezone
+        // Helper function to calculate the offset of a timezone
         const getTimezoneOffset = (date: Date, tz: string): number => {
           const formatter = new Intl.DateTimeFormat('en-US', {
             year: 'numeric',
@@ -747,10 +747,10 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             parseInt(partsMap.second)
           );
           
-          return (localDate.getTime() - date.getTime()) / (1000 * 60); // Offset in minuti
+          return (localDate.getTime() - date.getTime()) / (1000 * 60); // Offset in minutes
         };
         
-        // Creare date locali (il browser le interpreta come UTC, ma noi le vediamo come locali)
+        // Create local dates (the browser interprets them as UTC, but we see them as local)
         const refDate = new Date(`${appointment.date}T12:00:00`); // Una data di riferimento
         const offsetMinutes = getTimezoneOffset(refDate, timeZone);
         
@@ -770,10 +770,10 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           : `Appuntamento con ${client.firstName} ${client.lastName}`;
         
         const description = appointment.notes 
-          ? `Note: ${appointment.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`
-          : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'Non disponibile'}\nEmail: ${client.email || 'Non disponibile'}`;
+          ? `Note: ${appointment.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
+          : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
         
-        // Usa il calendarId dell'utente, fallback a 'primary' se non configurato
+        // Use the user's calendarId, fallback to 'primary' if configured
         const targetCalendarId = user[0].googleCalendarId || 'primary';
         
         const response = await calendar.events.insert({
@@ -796,7 +796,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         const googleEventId = response.data.id;
         
         if (googleEventId) {
-          // Registra il collegamento (usa upsert per evitare duplicati)
+          // Register the link (use upsert to avoid duplicates)
           await db.insert(googleCalendarEvents).values({
             appointmentId: appointment.id,
             googleEventId,
@@ -815,25 +815,25 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             }
           });
           
-          // Marca appuntamento come sincronizzato
+          // Mark appointment as synchronized
           await db.update(appointments).set({ synced: true }).where(eq(appointments.id, appointment.id));
           
           details.exported++;
         }
       } catch (error: any) {
         const errorMsg = String(error);
-        console.error(`❌ [SYNC] Errore esportazione appuntamento ${appointment.id}:`, errorMsg);
-        details.errors.push(`Errore esportazione appuntamento ${appointment.id}: ${errorMsg}`);
+        console.error(`❌ [SYNC] Error exporting appointment ${appointment.id}:`, errorMsg);
+        details.errors.push(`Error exporting appointment ${appointment.id}: ${errorMsg}`);
         
         if (errorMsg.includes('invalid_grant') || errorMsg.includes('Token has been expired') || errorMsg.includes('Token has been revoked')) {
-          console.warn(`🛑 [SYNC] Token OAuth scaduto/revocato per utente ${userId} - disabilito sync ma CONSERVO token`);
+          console.warn(`🛑 [SYNC] OAuth token expired/revoked for user ${userId} - disabling sync but KEEPING token`);
           try {
             await db.update(users).set({ 
               googleCalendarEnabled: false
             }).where(eq(users.id, userId));
-            console.log(`⚠️ [SYNC] Google Calendar disabilitato per utente ${userId} - token conservato`);
+            console.log(`⚠️ [SYNC] Google Calendar disabled for user ${userId} - token kept`);
           } catch (dbError) {
-            console.error(`❌ [SYNC] Errore disabilitazione Google Calendar:`, dbError);
+            console.error(`❌ [SYNC] Error disabling Google Calendar:`, dbError);
           }
           details.errors.push(`Token OAuth scaduto - Google Calendar disabilitato per utente ${userId}`);
           break;
@@ -841,7 +841,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       }
     }
 
-    // 3. PRIMA rileva eventi eliminati su Google (per evitare loop di ricreazione)
+    // 3. FIRST detect events deleted from Google (to avoid recreation loops)
     let deleted = 0;
     try {
       const deleteResult = await syncDeletedEvents(userId);
@@ -850,14 +850,14 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         details.errors.push(...deleteResult.errors);
       }
     } catch (deleteError) {
-      console.error(`❌ [SYNC] Errore rilevamento eliminazioni:`, deleteError);
-      details.errors.push(`Errore rilevamento eliminazioni: ${String(deleteError)}`);
+      console.error(`❌ [SYNC] Error detecting deletions:`, deleteError);
+      details.errors.push(`Error detecting deletions: ${String(deleteError)}`);
     }
 
-    // 4. AGGIORNA eventi Google con modifiche da Replit (DOPO aver gestito le eliminazioni)
+    // 4. UPDATE Google events with changes from Replit (AFTER handling deletions)
     let updated = 0;
     try {
-      // Ottieni tutti gli appuntamenti sincronizzati (includi calendarId per usare il calendario corretto)
+      // Get all appointments sincronizzati (include calendarId to use the calendar corretto)
       const syncedAppointments = await db.select({
         mappingId: googleCalendarEvents.id,
         appointmentId: googleCalendarEvents.appointmentId,
@@ -869,7 +869,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
       .innerJoin(appointments, eq(appointments.id, googleCalendarEvents.appointmentId))
       .where(eq(appointments.userId, userId));
       
-      // Per ogni appuntamento sincronizzato, aggiorna Google se necessario
+      // For each synchronized appointment, update Google if needed
       for (const syncedAppt of syncedAppointments) {
         try {
           const appointment = await db.select()
@@ -880,9 +880,9 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           if (!appointment.length) continue;
           const appt = appointment[0];
           
-          // IMPORTANTE: NON aggiornare eventi IMPORTATI da Google Calendar
-          // Questi eventi sono gestiti dall'utente direttamente su Google
-          // Aggiornare li riscriverebbe con titoli errati ("Evento Google Calendar...")
+          // IMPORTANT: DO NOT update events IMPORTED from Google Calendar
+          // These events are managed by the user directly on Google
+          // Update li riscriverebbe con titoli errati ("Evento Google Calendar...")
           const importedValue = appt.importedFromGoogle as any;
           const isImported = importedValue === true || 
                             String(importedValue) === 't' || 
@@ -890,14 +890,14 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
                             String(importedValue) === '1' ||
                             Boolean(importedValue);
           
-          console.log(`🔍 [SYNC DEBUG] Appuntamento ${appt.id}: importedFromGoogle = "${importedValue}" (type: ${typeof importedValue}) → isImported: ${isImported}`);
+          console.log(`🔍 [SYNC DEBUG] appointment ${appt.id}: importedFromGoogle = "${importedValue}" (type: ${typeof importedValue}) → isImported: ${isImported}`);
           
           if (isImported) {
-            console.log(`⏭️ [SYNC] Skip update per appuntamento ${appt.id} - importato da Google Calendar`);
+            console.log(`⏭️ [SYNC] Skip update for appointment ${appt.id} - imported from Google Calendar`);
             continue;
           }
           
-          // Ottieni client e service
+          // Get client e service
           const clientData = await db.select().from(clients).where(eq(clients.id, appt.clientId)).limit(1);
           const serviceData = appt.serviceId 
             ? await db.select().from(services).where(eq(services.id, appt.serviceId)).limit(1)
@@ -907,7 +907,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const client = clientData[0];
           const service = serviceData.length ? serviceData[0] : null;
           
-          // Prepara dati per Google
+          // Prepare data for Google
           const startTime = appt.startTime.length === 5 ? `${appt.startTime}:00` : appt.startTime;
           const endTime = appt.endTime.length === 5 ? `${appt.endTime}:00` : appt.endTime;
           
@@ -937,15 +937,15 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const startDateTimeStr = utcStartDateTime.toISOString();
           const endDateTimeStr = utcEndDateTime.toISOString();
           
-          // FALLBACK: Se il client è "Evento Google Calendar" (placeholder vecchio),
-          // estrai il titolo originale dalle note (formato: 📅 TitoloOriginale)
+          // FALLBACK: if the client is "Google Calendar Event" (old placeholder),
+          // extract the original title from notes (format: 📅 OriginalTitle)
           let summary: string;
           if (client.firstName === 'Evento' && client.lastName === 'Google Calendar') {
-            // Estrai titolo dalle note
+            // Extract title from notes
             const notesMatch = appt.notes?.match(/📅\s*([^\n]+)/);
             const originalTitle = notesMatch ? notesMatch[1].trim() : 'Evento Google';
             summary = originalTitle;
-            console.log(`📌 [SYNC] Usando titolo originale dalle note: "${originalTitle}"`);
+            console.log(`📌 [SYNC] Using original title from notes: "${originalTitle}"`);
           } else {
             summary = service 
               ? `${client.firstName} ${client.lastName} - ${service.name}`
@@ -953,10 +953,10 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           }
           
           const description = appt.notes 
-            ? `Note: ${appt.notes}\nCliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
-            : `Cliente: ${client.firstName} ${client.lastName}\nTelefono: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
+            ? `Note: ${appt.notes}\nClient: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`
+            : `Client: ${client.firstName} ${client.lastName}\nPhone: ${client.phone || 'N/A'}\nEmail: ${client.email || 'N/A'}`;
           
-          // Aggiorna evento su Google
+          // Update evento su Google
           const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
           if (!user.length || !user[0].googleAuthToken) continue;
           
@@ -964,7 +964,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
           const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
           const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
           
-          // Usa il calendarId salvato nel tracking, fallback a 'primary' se non presente
+          // Use the calendarId saved in tracking, fallback to 'primary' if present
           const targetCalendarId = syncedAppt.calendarId || 'primary';
           
           await calendar.events.update({
@@ -978,7 +978,7 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
             }
           });
           
-          // Aggiorna timestamp sync
+          // Update timestamp sync
           await db.update(googleCalendarEvents)
             .set({ lastSyncAt: new Date(), updatedAt: new Date() })
             .where(eq(googleCalendarEvents.appointmentId, syncedAppt.appointmentId));
@@ -987,45 +987,45 @@ export async function syncBidirectional(userId: number, timeZone: string = 'Euro
         } catch (updateError: any) {
           const errorCode = updateError?.code || updateError?.response?.status;
           
-          // Se evento non esiste più su Google (404/410), elimina appuntamento locale
+          // If event no longer exists on Google (404/410), delete local appointment
           if (errorCode === 404 || errorCode === 410) {
             try {
               await db.delete(appointments).where(eq(appointments.id, syncedAppt.appointmentId));
               await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, syncedAppt.mappingId));
               deleted++;
             } catch (delError) {
-              console.error(`❌ [SYNC] Errore eliminazione appuntamento ${syncedAppt.appointmentId}:`, delError);
+              console.error(`❌ [SYNC] Error deleting appointment ${syncedAppt.appointmentId}:`, delError);
             }
           } else {
           }
         }
       }
     } catch (step4Error) {
-      console.error(`❌ [SYNC] Errore Step 4:`, step4Error);
+      console.error(`❌ [SYNC] Error in Step 4:`, step4Error);
     }
 
-    // 5. Aggiorna timestamp sync
+    // 5. Update timestamp sync
     await db.update(users).set({ lastGoogleSyncAt: new Date() }).where(eq(users.id, userId));
 
-    const message = `Sincronizzazione completata: ${details.imported || 0} eventi importati, ${details.exported} appuntamenti esportati, ${deleted} eliminati`;
+    const message = `Sync completed: ${details.imported || 0} events imported, ${details.exported} appointments exported, ${deleted} deleted`;
     
     return { success: true, message, details };
   } catch (error) {
-    const message = `Errore sincronizzazione: ${String(error)}`;
+    const message = `Error synchronizing: ${String(error)}`;
     console.error(`❌ ${message}`, error);
     return { success: false, message, details };
   }
 }
 
 /**
- * Rileva eventi eliminati da Google Calendar e rimuove gli appuntamenti corrispondenti
- * NUOVO APPROCCIO: Verifica diretta di ogni evento con chiamata GET
+ * Detect events deleted from Google Calendar and remove the corresponding appointments
+ * NUOVO APPROCCIO: Verify diretta di each evento con chiamata GET
  */
 export async function syncDeletedEvents(userId: number): Promise<{ deleted: number; errors: string[] }> {
   const result = { deleted: 0, errors: [] as string[] };
   
   try {
-    // Ottieni il token OAuth dell'utente
+    // Get the token OAuth of the user
     const user = await db.select().from(users).where(eq(users.id, userId));
     if (!user.length || !user[0].googleAuthToken || !user[0].googleCalendarEnabled) {
       return result;
@@ -1039,8 +1039,8 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     const oauth2Client = createOAuth2ClientWithAutoSave(userId, tokens);
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     
-    // Ottieni tutti gli appuntamenti sincronizzati con Google per questo utente (con JOIN)
-    // IMPORTANTE: include calendarId per verificare nel calendario corretto (primario o secondario)
+    // Get all appointments synced with Google for this user (with JOIN)
+    // IMPORTANT: include calendarId to verify in the correct calendar (primary or secondary)
     const syncedAppointments = await db.select({
       mappingId: googleCalendarEvents.id,
       appointmentId: googleCalendarEvents.appointmentId,
@@ -1056,14 +1056,14 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
     }
     
     
-    // NUOVO APPROCCIO: Verifica OGNI evento direttamente con GET
-    // Questo intercetta sia eventi cancellati che eventi non più esistenti
+    // NUOVO APPROCCIO: Verify OGNI evento direttamente con GET
+    // This intercepts both cancelled events and events that no longer exist
     for (const synced of syncedAppointments) {
       if (!synced.googleEventId) continue;
       
       try {
         // Prova a ottenere l'evento direttamente da Google
-        // Usa il calendarId specifico salvato nel mapping (supporta calendari secondari)
+        // Use the specific calendarId saved in the mapping (supports secondary calendars)
         const eventCalendarId = synced.calendarId || calendarId;
         const eventResponse = await calendar.events.get({
           calendarId: eventCalendarId,
@@ -1074,20 +1074,20 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
         const eventStatus = eventResponse.data.status;
         const eventSummary = eventResponse.data.summary || 'no-summary';
         
-        // Se l'evento esiste, controlla lo status
+        // If the event exists, check the status
         if (eventResponse.data.status === 'cancelled') {
           
           await db.delete(appointments).where(eq(appointments.id, synced.appointmentId));
           await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
           result.deleted++;
         }
-        // Se status è 'confirmed' o altro, l'evento esiste ancora - non fare nulla
+        // If status is 'confirmed' or other, the event still exists - do nothing
         
       } catch (getError: any) {
         const errorCode = getError?.code || getError?.response?.status;
         
-        // Errore 404 = evento non esiste più su Google
-        // Errore 410 = evento ricorrente cancellato (Gone)
+        // Error 404 = event no longer exists on Google
+        // Error 410 = recurring event cancelled (Gone)
         if (errorCode === 404 || errorCode === 410) {
           
           try {
@@ -1095,18 +1095,18 @@ export async function syncDeletedEvents(userId: number): Promise<{ deleted: numb
             await db.delete(googleCalendarEvents).where(eq(googleCalendarEvents.id, synced.mappingId));
             result.deleted++;
           } catch (deleteError) {
-            result.errors.push(`Errore eliminazione appuntamento ${synced.appointmentId}: ${String(deleteError)}`);
+            result.errors.push(`Error deleting appointment ${synced.appointmentId}: ${String(deleteError)}`);
           }
         } else {
-          // Altri errori - log dettagliato per debug
+          // Altri errors - log dettagliato per debug
         }
       }
     }
     
     return result;
   } catch (error) {
-    result.errors.push(`Errore generale sync delete: ${String(error)}`);
-    console.error('❌ [SYNC DELETE] Errore:', error);
+    result.errors.push(`General sync delete error: ${String(error)}`);
+    console.error('❌ [SYNC DELETE] Error:', error);
     return result;
   }
 }

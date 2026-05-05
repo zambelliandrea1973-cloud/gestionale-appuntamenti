@@ -7,13 +7,13 @@ import { storage, ensureSessionTable } from "./storage";
 import path from "path";
 import { scalabilityMonitorService } from "./services/scalabilityMonitorService";
 
-// Impedisce al processo di terminare quando Replit invia SIGHUP per la gestione del container
+// Prevents the process from terminating when Replit sends SIGHUP for container management
 process.on('SIGHUP', () => {
-  console.log('🛡️ SIGHUP ricevuto - ignorato per stabilità del server');
+  console.log('🛡️ SIGHUP received - ignored for server stability');
 });
 
-// In sviluppo, intercetta process.exit(1) causato da errori esbuild/Vite
-// quando il processo riceve segnali di sistema
+// In sviluppo, intercetta process.exit(1) causato da errors esbuild/Vite
+// when the process receives system signals
 if (process.env.NODE_ENV !== 'production') {
   const _originalExit = process.exit;
   process.exit = ((code?: number | string) => {
@@ -27,12 +27,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
-// Configura Express per fidarsi del proxy (Replit) - necessario per HTTPS corretto
+// Configure Express to trust the proxy (Replit) - required for correct HTTPS
 app.set('trust proxy', 1);
 
-// Inizializza storage in app.locals per accesso globale dalle routes
+// Initialize storage in app.locals for global access from routes
 app.locals.storage = storage;
-console.log('✅ Storage inizializzato in app.locals:', typeof app.locals.storage, 'metodi disponibili:', Object.keys(app.locals.storage).slice(0, 5).join(', '));
+console.log('✅ Storage initialized in app.locals:', typeof app.locals.storage, 'available methods:', Object.keys(app.locals.storage).slice(0, 5).join(', '));
 
 app.use(helmet({
   contentSecurityPolicy: false,
@@ -60,28 +60,28 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Garantisce che la tabella user_sessions esista nel DB prima di qualsiasi richiesta
+  // Ensures the user_sessions table exists in the DB before any required operation
   await ensureSessionTable();
 
-  // Inizializza il servizio di setup iniziale
+  // Initialize the service di setup iniziale
   try {
     await initialSetupService.initialize();
   } catch (error) {
-    console.error('Errore durante l\'inizializzazione del servizio di setup:', error);
+    console.error('Error during setup service initialization:', error);
   }
 
-  // Avvia il monitoraggio scalabilità (controlla ogni 120 ore = 5 giorni)
-  // NOTA: Da rimuovere dopo implementazione paginazione
+  // Start scalability monitoring (checks every 120 hours = 5 days)
+  // NOTE: To be removed after pagination implementation
   scalabilityMonitorService.startMonitoring(120);
   
   const server = await registerRoutes(app);
 
-  // GLOBAL ERROR HANDLER - Cattura TUTTI gli errori e logga dettagli
+  // GLOBAL ERROR HANDLER - Captures ALL errors and logs details
   app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     
-    // Log dettagliato dell'errore per debug
+    // Log dettagliato of the error per debug
     console.error('🔴 [GLOBAL ERROR HANDLER] ==================');
     console.error(`🔴 [GLOBAL ERROR] ${req.method} ${req.path}`);
     console.error('🔴 [GLOBAL ERROR] Message:', message);

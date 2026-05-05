@@ -1,17 +1,17 @@
 import QRCode from 'qrcode';
 
 /**
- * Servizio per la generazione di codici QR
+ * Service for generating QR codes
  */
 export const qrCodeService = {
   /**
-   * Genera un codice QR a partire da una stringa
-   * @param text Il testo da codificare nel QR code
-   * @returns Una Promise che risolve in una stringa base64 contenente l'immagine del QR code
+   * Generate a QR code from a string
+   * @param text The text to encode in the QR code
+   * @returns A Promise that resolves to a base64 string containing the QR code image
    */
   async generateQRCode(text: string): Promise<string> {
     try {
-      // Definisci le opzioni per il QR code
+      // Define the options for the QR code
       const qrOptions = {
         errorCorrectionLevel: 'M' as const,
         type: 'image/png' as const,
@@ -23,27 +23,27 @@ export const qrCodeService = {
         }
       };
       
-      // Genera il QR code come stringa base64
+      // Generate the QR code come stringa base64
       return await QRCode.toDataURL(text, qrOptions);
     } catch (error) {
-      console.error('Errore nella generazione del QR code:', error);
-      throw new Error('Impossibile generare il QR code');
+      console.error('Error generating QR code:', error);
+      throw new Error('Unable to generate QR code');
     }
   },
   
   /**
-   * Genera un URL di attivazione a partire da un token
-   * @param token Il token di attivazione
+   * Generate an activation URL from a token
+   * @param token the token activation
    * @returns L'URL completo per l'attivazione
    */
   generateActivationUrl(token: string): string {
-    // Ottieni l'host dell'applicazione dalle variabili di ambiente o utilizza l'URL di Replit
+    // Get the application host from environment variables or use the Replit URL
     const host = process.env.REPLIT_SLUG || process.env.REPL_SLUG;
     
-    // Costruisci l'URL base dell'applicazione
+    // Build the application base URL
     let baseUrl = process.env.BASE_URL;
     
-    // Se non è specificato un URL di base, usa l'URL di Replit o localhost come fallback
+    // If a base URL is specified, use the Replit URL or localhost as fallback
     if (!baseUrl) {
       if (host) {
         baseUrl = `https://${host}.replit.app`;
@@ -52,7 +52,7 @@ export const qrCodeService = {
       }
     }
     
-    // Costruisci l'URL completo
+    // Build the complete URL
     return `${baseUrl}/activate?token=${token}`;
   }
 };

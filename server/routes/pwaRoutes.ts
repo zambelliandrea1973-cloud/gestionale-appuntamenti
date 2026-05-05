@@ -20,31 +20,31 @@ async function generateClientCode(ownerId: number, clientId: number): Promise<st
 }
 
 
-  // Endpoint per recuperare l'ultimo accesso valido di un proprietario
+  // Endpoint for retrieving the last valid access by an owner
 router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       const storageData = loadStorageData();
       
-      logger.debug(`📱 PWA RECOVERY: Ricerca ultimo accesso per proprietario ${ownerId}`);
+      logger.debug(`📱 PWA RECOVERY: Looking for last access for owner ${ownerId}`);
       
-      // Trova l'ultimo cliente con accesso valido per questo proprietario
+      // Find the last client with valid access for this owner
       const ownerClients = Object.values(storageData.clients).filter((client: any) => 
         client.originalOwnerId === ownerId
       );
       
       if (ownerClients.length === 0) {
-        return res.status(404).json({ error: 'Nessun cliente trovato per questo proprietario' });
+        return res.status(404).json({ error: 'No client found for this owner' });
       }
       
-      // Trova il cliente con l'accesso più recente
+      // Find the client with the most recent access
       let lastAccessClient: any = null;
       let lastAccessTime = 0;
       
       for (const client of ownerClients as any[]) {
         const accessCount = (storageData as any).clientAccessCounts?.[client.id] || 0;
         if (accessCount > 0) {
-          // Per ora usiamo l'ID più alto come proxy per l'accesso più recente
+          // For now use the highest ID as a proxy for the most recent access
           if (client.id > lastAccessTime) {
             lastAccessTime = client.id;
             lastAccessClient = client;
@@ -53,13 +53,13 @@ router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
       }
       
       if (!lastAccessClient) {
-        return res.status(404).json({ error: 'Nessun accesso recente trovato' });
+        return res.status(404).json({ error: 'No recent access found' });
       }
       
-      // Genera un nuovo token per questo cliente
+      // Generate a new token for this client
       const newToken = await generateClientCode(ownerId, lastAccessClient.id);
       
-      logger.debug(`📱 PWA RECOVERY: Token generato per cliente ${lastAccessClient.id}`);
+      logger.debug(`📱 PWA RECOVERY: Token generated for client ${lastAccessClient.id}`);
       
       res.json({
         clientId: lastAccessClient.id,
@@ -69,18 +69,18 @@ router.get('/api/client-access/last-access/:ownerId', async (req, res) => {
       });
       
     } catch (error: any) {
-      console.error('Errore nel recupero ultimo accesso:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error retrieving last access:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // Endpoint pubblico per informazioni di contatto complete (per area clienti)
+  // Public endpoint for complete contact information (for client area)
 router.get('/api/public/contact-info', (req, res) => {
     try {
       const storageData = loadStorageData();
       const { contactInfo = {}, contactSettings = {} } = storageData;
       
-      // Restituisce le informazioni di contatto con tutte le impostazioni per replicare il layout della home
+      // Returns contact information with all settings to replicate the home layout
       const publicContactInfo = {
         // Dati di contatto
         businessName: contactInfo.businessName || 'Studio Professionale',
@@ -90,47 +90,47 @@ router.get('/api/public/contact-info', (req, res) => {
         website: contactInfo.website,
         instagram: contactInfo.instagram,
         
-        // Impostazioni di visibilità (per mostrare solo quello che il professionista ha abilitato)
+        // Visibility settings (to show only what the professional has enabled)
         showEmail: contactSettings.showEmail !== false,
         showPhone: contactSettings.showPhone !== false,
         showPhone1: contactSettings.showPhone1 !== false,
         showWebsite: contactSettings.showWebsite !== false,
         showInstagram: contactSettings.showInstagram !== false,
         
-        // Impostazioni di layout se presenti
+        // Settings di layout If presenti
         contactLayout: contactSettings.layout || 'default'
       };
       
       res.json(publicContactInfo);
     } catch (error: any) {
-      console.error('Errore nel caricamento informazioni contatto pubbliche:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error loading public contact information:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // Endpoint per registrare accesso PWA tramite codice cliente (senza autenticazione)
+  // Endpoint to register PWA access via client code (without authentication)
 router.post('/api/client-access/:clientCode', async (req, res) => {
     try {
       const clientCode = req.params.clientCode;
       
-      // 🔄 USA POSTGRESQL: Cerca cliente per uniqueCode nel database
+      // 🔄 USE POSTGRESQL: Search client by uniqueCode in database
       const clientResults = await db.select()
         .from(clientsTable)
         .where(eq(clientsTable.uniqueCode, clientCode))
         .limit(1);
       
       if (!clientResults || clientResults.length === 0) {
-        console.log(`❌ [CLIENT ACCESS] Cliente non trovato per codice: ${clientCode}`);
-        return res.status(404).json({ message: "Cliente non trovato" });
+        console.log(`❌ [CLIENT ACCESS] Client not found for code: ${clientCode}`);
+        return res.status(404).json({ message: "Client not found" });
       }
       
       const client = clientResults[0];
       const now = new Date();
       
-      // Genera token di accesso per il cliente
+      // Generate token di accesso for client
       const token = `${clientCode}_${now.getTime()}`;
       
-      // BACKWARD COMPATIBILITY: Aggiorna contatori JSON storage se cliente presente
+      // BACKWARD COMPATIBILITY: Update contatori JSON storage If client presente
       const storageData = loadStorageData();
       const clientData = storageData.clients?.find(([id, c]: any) => c.uniqueCode === clientCode);
       if (clientData) {
@@ -141,7 +141,7 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
         storageData.clients[clientIndex][1].accessCount = (jsonClient.accessCount || 0) + 1;
         storageData.clients[clientIndex][1].lastAccess = now.toISOString();
         
-        // Aggiorna info accesso PWA
+        // Update info accesso PWA
         if (req.body.source === 'pwa') {
           storageData.clients[clientIndex][1].lastPwaAccess = now.toISOString();
           storageData.clients[clientIndex][1].pwaAccessCount = (jsonClient.pwaAccessCount || 0) + 1;
@@ -151,7 +151,7 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
         logger.debug(`✅ [PWA ACCESS] Contatori JSON aggiornati per ${client.firstName} ${client.lastName}`);
       }
       
-      logger.debug(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientCode}) - Accesso registrato, token generato`);
+      logger.debug(`✅ [PWA ACCESS] Client ${client.firstName} ${client.lastName} (${clientCode}) - Access registered, token generated`);
       
       res.json({
         success: true,
@@ -159,27 +159,27 @@ router.post('/api/client-access/:clientCode', async (req, res) => {
         token: token
       });
     } catch (error: any) {
-      console.error('Errore nella registrazione accesso cliente:', error);
-      res.status(500).json({ message: "Errore interno" });
+      console.error('Error registering client access:', error);
+      res.status(500).json({ message: "Internal error" });
     }
   });
 
-  // Endpoint per registrare accesso PWA del cliente tramite ID (senza autenticazione)
+  // Endpoint to register client PWA access via ID (without authentication)
 router.post('/api/client-access/track/:clientId', async (req, res) => {
     try {
       const clientId = parseInt(req.params.clientId);
       
-      // Verifica che il cliente esista in PostgreSQL
+      // Verify that the client exists in PostgreSQL
       const [clientRecord] = await db.select()
         .from(clientsTable)
         .where(eq(clientsTable.id, clientId))
         .limit(1);
       
       if (!clientRecord) {
-        return res.status(404).json({ message: "Cliente non trovato" });
+        return res.status(404).json({ message: "Client not found" });
       }
       
-      // Registra l'accesso nella tabella clientAccesses (PostgreSQL)
+      // Register access nelthe table clientAccesses (PostgreSQL)
       const ipAddress = req.ip || req.connection.remoteAddress || '';
       const userAgent = req.headers['user-agent'] || '';
       
@@ -189,16 +189,16 @@ router.post('/api/client-access/track/:clientId', async (req, res) => {
         userAgent: userAgent
       });
       
-      // Conta gli accessi totali per questo cliente
+      // Count the total accesses for this client
       const [accessResult] = await db.select({ count: count() })
         .from(clientAccesses)
         .where(eq(clientAccesses.clientId, clientId));
       
       const accessCount = accessResult?.count || 0;
       
-      logger.debug(`✅ [PWA ACCESS] Cliente ${clientRecord.firstName} ${clientRecord.lastName} (${clientId}) - Accesso registrato in PostgreSQL: ${accessCount} (${req.body.accessType || 'standard'})`);
+      logger.debug(`✅ [PWA ACCESS] Client ${clientRecord.firstName} ${clientRecord.lastName} (${clientId}) - Access recorded in PostgreSQL: ${accessCount} (${req.body.accessType || 'standard'})`);
       
-      // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
+      // Prevent caching to ensure counts are always up to date
       res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.set('Pragma', 'no-cache');
       res.set('Expires', '0');
@@ -206,30 +206,30 @@ router.post('/api/client-access/track/:clientId', async (req, res) => {
       res.json({
         success: true,
         accessCount: accessCount,
-        message: 'Accesso registrato'
+        message: 'Access recorded'
       });
       
     } catch (error: any) {
-      console.error('Errore nel tracking accesso PWA:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error tracking PWA access:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // Endpoint per icone specifiche del proprietario
+  // Endpoint for owner-specific icons
 router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       const size = req.params.size;
       const storageData = loadStorageData();
       
-      logger.debug(`🔍 PWA ICON OWNER: Richiesta icona per proprietario ${ownerId}, dimensione ${size}`);
+      logger.debug(`🔍 PWA ICON OWNER: Icon request for owner ${ownerId}, size ${size}`);
       
-      // Recupera l'icona del professionista specifico dal database
+      // Retrieve the specific professional icon from the database
       const dbIcon = await storage.getUserIcon(ownerId);
       const userIcon = dbIcon || storageData.userIcons[ownerId];
       
       if (userIcon) {
-        logger.debug(`✅ PWA ICON OWNER: Trovata icona per proprietario ${ownerId}`);
+        logger.debug(`✅ PWA ICON OWNER: Found icon for owner ${ownerId}`);
         const buffer = Buffer.from(userIcon, 'base64');
         res.set('Content-Type', 'image/png');
         res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -237,25 +237,25 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
         res.set('Expires', '0');
         return res.send(buffer);
       } else {
-        console.log(`❌ PWA ICON OWNER: Nessuna icona trovata per proprietario ${ownerId}`);
+        console.log(`❌ PWA ICON OWNER: No icon found for owner ${ownerId}`);
         return res.redirect('/icons/icon-' + size + '.png');
       }
     } catch (error: any) {
-      console.error('Errore nel servire icona proprietario:', error);
+      console.error('Error serving owner icon:', error);
       return res.redirect('/icons/icon-' + req.params.size + '.png');
     }
   });
 
-  // Endpoint per servire icone PWA dinamiche basate sul proprietario del cliente (da token QR)
+  // Endpoint to serve dynamic PWA icons based on the client owner (from QR token)
 router.get('/icons/custom-icon-:size.png', async (req, res) => {
     try {
       const size = req.params.size; // es: 96x96, 192x192, 512x512
       const storageData = loadStorageData();
       
-      // Controlla se c'è un token QR negli headers o referer per identificare il proprietario
+      // Check if there is a QR token in the headers or referer to identify the owner
       let ownerUserId = null;
       
-      // 1. Controlla il referer per token QR
+      // 1. Check the referer for QR token
       const referer = req.get('referer') || '';
       const tokenMatch = referer.match(/token=([^&]+)/);
       
@@ -264,15 +264,15 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         const tokenParts = token.split('_');
         if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
           ownerUserId = parseInt(tokenParts[1]); // Seconda parte = userId proprietario
-          logger.debug(`📱 PWA ICON: Trovato ownerId ${ownerUserId} da token QR nel referer`);
+          logger.debug(`📱 PWA ICON: Found ownerId ${ownerUserId} from QR token in referer`);
         }
       }
       
-      // 2. Controlla il localStorage per ownerId salvato
+      // 2. Check localStorage for saved ownerId
       if (!ownerUserId) {
-        // Cerca nelle sessioni attive o nel database per determinare l'owner
+        // Search in active sessions or database to determine the owner
         const sessions = req.sessionStore;
-        // Per ora, usa un fallback intelligente: se c'è solo un utente con icone, usa quello
+        // For now, use an intelligent fallback: If there is only one user with icons, use that one
         const usersWithIcons = Object.keys(storageData.userIcons || {});
         if (usersWithIcons.length === 1) {
           ownerUserId = parseInt(usersWithIcons[0]);
@@ -280,50 +280,50 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
         }
       }
       
-      // Non serve duplicare la logica del token qui
+      // No need to duplicate the token logic here
       if (ownerUserId) {
-        logger.debug(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR o fallback`);
+        logger.debug(`🔍 PWA ICON: Identified owner ${ownerUserId} from QR token or fallback`);
       }
       
-      // Se non trovato da token QR, controlla header custom per ownerId dalla PWA
+      // If not found from QR token, check custom header for ownerId from PWA
       if (!ownerUserId) {
         const ownerIdHeader = req.get('x-owner-id');
         if (ownerIdHeader) {
           ownerUserId = parseInt(ownerIdHeader);
-          logger.debug(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da header PWA`);
+          logger.debug(`🔍 PWA ICON: Identified owner ${ownerUserId} from PWA header`);
         }
       }
       
-      // Se non trovato, usa sessione attiva (admin)
+      // If not found, use active session (admin)
       if (!ownerUserId && req.session && (req.session as any).passport && (req.session as any).passport.user) {
         const serializedUser = (req.session as any).passport.user;
         if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
           ownerUserId = parseInt(serializedUser.split(':')[1]);
-          logger.debug(`🔍 PWA ICON: Usando utente sessione attiva ${ownerUserId}`);
+          logger.debug(`🔍 PWA ICON: Using active session user ${ownerUserId}`);
         }
       }
       
       // NESSUN FALLBACK - Mantieni gerarchia client-proprietario
       if (!ownerUserId) {
-        console.log(`❌ PWA ICON: Nessun proprietario identificato - uso icona default`);
+        console.log(`❌ PWA ICON: No owner identified - using default icon`);
         return res.redirect('/icons/icon-' + size + '.png');
       }
       
-      // Recupera l'icona del professionista dal database
+      // Retrieve the professional icon from the database
       const dbIcon = ownerUserId ? await storage.getUserIcon(ownerUserId) : null;
       const userIcon = dbIcon || (ownerUserId ? storageData.userIcons[ownerUserId] : null);
       
       if (!userIcon) {
-        logger.debug(`🔄 Nessuna icona personalizzata trovata per utente ${ownerUserId}, uso default`);
+        logger.debug(`🔄 No custom icon found for user ${ownerUserId}, using default`);
         return res.redirect('/icons/icon-' + size + '.png');
       }
       
-      // Se l'icona è in formato base64, convertila e servila
+      // If the icon is in base64 format, convert and serve it
       if (userIcon && userIcon.startsWith('data:image/')) {
         const base64Data = userIcon.split(',')[1];
         const buffer = Buffer.from(base64Data, 'base64');
         
-        // Determina il tipo di immagine dal data URL
+        // Determine the image type from the data URL
         let contentType = 'image/png';
         if (userIcon.includes('data:image/jpeg')) contentType = 'image/jpeg';
         else if (userIcon.includes('data:image/jpg')) contentType = 'image/jpeg';
@@ -336,42 +336,42 @@ router.get('/icons/custom-icon-:size.png', async (req, res) => {
           'Content-Length': buffer.length
         });
         
-        logger.debug(`📱 Servendo icona PWA personalizzata ${size} per proprietario ${ownerUserId}`);
+        logger.debug(`📱 Serving custom PWA icon ${size} for owner ${ownerUserId}`);
         return res.send(buffer);
       }
       
-      // Se è un percorso file, serve quello
+      // If it is a file path, serve it
       if (userIcon && userIcon.length > 0 && !userIcon.startsWith('data:')) {
-        console.log(`📁 Reindirizzando a icona file: ${userIcon}`);
+        console.log(`📁 Redirecting to icon file: ${userIcon}`);
         return res.redirect(userIcon);
       }
       
     } catch (error: any) {
-      console.error('Errore nel servire icona PWA personalizzata:', error);
-      // Fallback all'icona predefinita
+      console.error('Error serving custom PWA icon:', error);
+      // Fallback to default icon
       res.redirect('/icons/icon-' + req.params.size + '.png');
     }
   });
 
-  // Endpoint per servire icone PWA dinamiche per proprietari specifici
+  // Endpoint to serve dynamic PWA icons for specific owners
 router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       const size = req.params.size;
       const storageData = loadStorageData();
       
-      logger.debug(`📱 PWA ICON: Richiesta icona ${size}x${size} per proprietario ${ownerId}`);
+      logger.debug(`📱 PWA ICON: Icon request ${size}x${size} for owner ${ownerId}`);
       
-      // Per Silvia Busnari (ID 14), usa la sua foto professionale
+      // For Silvia Busnari (ID 14), use her professional photo
       if (ownerId === 14) {
         const silviaImagePath = path.join(process.cwd(), 'attached_assets', 'IMG_20250416_170748.jpg');
         if (fs.existsSync(silviaImagePath)) {
-          logger.debug(`✅ PWA ICON: Servendo icona di Silvia Busnari da ${silviaImagePath}`);
+          logger.debug(`✅ PWA ICON: Serving Silvia Busnari icon from ${silviaImagePath}`);
           return res.sendFile(silviaImagePath);
         }
       }
       
-      // Recupera l'icona del professionista dal database
+      // Retrieve the professional icon from the database
       const dbIconOwner = await storage.getUserIcon(ownerId);
       const userIcon = dbIconOwner || storageData.userIcons[ownerId];
       
@@ -391,44 +391,44 @@ router.get('/icons/owner-:ownerId-icon-:size.png', async (req, res) => {
           'Content-Length': buffer.length
         });
         
-        logger.debug(`✅ PWA ICON: Servendo icona personalizzata per proprietario ${ownerId}`);
+        logger.debug(`✅ PWA ICON: Serving custom icon for owner ${ownerId}`);
         return res.send(buffer);
       }
       
-      // Fallback all'icona standard
-      logger.debug(`🔄 PWA ICON: Nessuna icona personalizzata per proprietario ${ownerId}, uso standard`);
+      // Fallback to standard icon
+      logger.debug(`🔄 PWA ICON: No custom icon for owner ${ownerId}, using standard`);
       res.redirect('/icons/icon-' + size + '.png');
       
     } catch (error: any) {
-      console.error('Errore nel servire icona proprietario:', error);
+      console.error('Error serving owner icon:', error);
       res.redirect('/icons/icon-' + req.params.size + '.png');
     }
   });
 
 
 
-  // Endpoint per recuperare dettagli accessi di un cliente (richiesto da ClientAccessesDetails)
+  // Endpoint to retrieve client access details (requested by ClientAccessesDetails)
 router.get('/api/client-access/:clientId', requireAuth, (req, res) => {
     try {
       const clientId = parseInt(req.params.clientId);
       const storageData = loadStorageData();
       
-      // Trova il cliente
+      // Find the client
       const clientData = storageData.clients?.find(([id, client]: any) => id === clientId);
       if (!clientData) {
-        return res.status(404).json({ message: "Cliente non trovato" });
+        return res.status(404).json({ message: "Client not found" });
       }
       
       const [id, client] = clientData;
       
-      // Genera accessi fittizi basati sui dati disponibili
+      // Generate mock access records based on available data
       const accesses = [];
       if (client.lastAccess && (client.accessCount || 0) > 0) {
         const lastAccessDate = new Date(client.lastAccess);
         
-        // Genera gli ultimi 10 accessi distribuiti negli ultimi giorni
+        // Generate the last 10 accesses distributed over recent days
         for (let i = 0; i < Math.min(client.accessCount || 0, 10); i++) {
-          const daysBack = Math.floor(i / 2); // 2 accessi per giorno
+          const daysBack = Math.floor(i / 2); // 2 accesses per day
           const accessDate = new Date(lastAccessDate);
           accessDate.setDate(accessDate.getDate() - daysBack);
           accessDate.setHours(9 + (i % 12), Math.floor(Math.random() * 60), 0, 0);
@@ -442,43 +442,43 @@ router.get('/api/client-access/:clientId', requireAuth, (req, res) => {
         }
       }
       
-      // Ordina per data decrescente (più recenti prima)
+      // Sort by date descending (most recent first)
       accesses.sort((a, b) => new Date(b.accessDate).getTime() - new Date(a.accessDate).getTime());
       
       res.json(accesses);
       
     } catch (error: any) {
-      console.error('Errore nel recupero dettagli accessi:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error retrieving access details:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // Endpoint per testare e aggiornare lo stato dei promemoria
+  // Endpoint for testing and updating reminder status
 router.post('/api/test-reminder-flags', requireAuth, (req, res) => {
     try {
       const { appointmentId, reminderStatus } = req.body;
       const storageData = loadStorageData();
       
-      // Trova l'appuntamento e aggiorna lo stato
+      // Find the appointment and update the status
       const appointmentIndex = storageData.appointments?.findIndex((apt: any) => apt.id === appointmentId);
       if (appointmentIndex !== -1) {
         storageData.appointments[appointmentIndex].reminderStatus = reminderStatus;
-        storageData.appointments[appointmentIndex].reminderType = 'email'; // Assicura che abbia un tipo
+        storageData.appointments[appointmentIndex].reminderType = 'email'; // Ensure it has a type
         
-        // Salva i dati aggiornati
+        // Save the data aggiornati
         saveStorageData(storageData);
         
         res.json({
           success: true,
-          message: `Stato promemoria aggiornato a: ${reminderStatus}`,
+          message: `Reminder status updated to: ${reminderStatus}`,
           appointment: storageData.appointments[appointmentIndex]
         });
       } else {
-        res.status(404).json({ error: 'Appuntamento non trovato' });
+        res.status(404).json({ error: 'Appointment not found' });
       }
     } catch (error: any) {
-      console.error('Errore nell\'aggiornamento dello stato promemoria:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error updating reminder status:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
@@ -491,13 +491,13 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
       const tomorrow = new Date(now);
       tomorrow.setDate(tomorrow.getDate() + 1);
       
-      // Filtra appuntamenti per domani
+      // Filter appointments per domani
       const tomorrowAppointments = appointments.filter((apt: any) => {
         const aptDate = new Date(apt.date);
         return aptDate.toDateString() === tomorrow.toDateString();
       });
       
-      // Trova l'appuntamento di Marco Berto specifico
+      // Find the specific Marco Berto appointment
       const marcoBertoAppointment = tomorrowAppointments.find((apt: any) => {
         const client = storageData.clients?.find(([id, clientData]: any) => 
           clientData.id === apt.clientId && 
@@ -525,19 +525,19 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
         systemStatus: 'Operativo'
       });
     } catch (error: any) {
-      console.error('Errore controllo promemoria:', error);
-      res.status(500).json({ error: 'Errore sistema promemoria' });
+      console.error('Error checking reminders:', error);
+      res.status(500).json({ error: 'Reminder system error' });
     }
   });
 
-  // Configurazione multer per upload immagini
+  // Multer configuration for image upload
   const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
       fileSize: 10 * 1024 * 1024 // 10MB limite
     },
     fileFilter: (req, file, cb) => {
-      // Accetta solo immagini
+      // Accept images only
       if (file.mimetype.startsWith('image/')) {
         cb(null, true);
       } else {
@@ -546,39 +546,39 @@ router.get('/api/email/reminders/status', requireAuth, (req, res) => {
     }
   });
 
-  // API per caricare icona personalizzata PWA
+  // API to upload custom PWA icon
 router.post('/api/upload-custom-icon', requireAuth, upload.single('icon'), async (req: any, res: any) => {
     try {
       if (!req.file) {
-        return res.status(400).json({ error: 'Nessun file caricato' });
+        return res.status(400).json({ error: 'No file uploaded' });
       }
 
-      logger.debug(`🎨 [ICON UPLOAD] Utente ${req.user?.username} sta caricando icona personalizzata`);
-      logger.debug(`📎 File ricevuto: ${req.file.originalname}, size: ${req.file.size} bytes`);
+      logger.debug(`🎨 [ICON UPLOAD] User ${req.user?.username} is uploading custom icon`);
+      logger.debug(`📎 File received: ${req.file.originalname}, size: ${req.file.size} bytes`);
 
-      // Converti l'immagine caricata in icone PWA
+      // Convert the uploaded image to PWA icons
       const iconPaths = await iconConversionService.processCustomIcon(
         req.file.buffer,
         'custom-icon'
       );
 
-      logger.debug(`✅ [ICON UPLOAD] Icone PWA generate:`, iconPaths);
+      logger.debug(`✅ [ICON UPLOAD] PWA icons generated:`, iconPaths);
 
       res.json({
         success: true,
-        message: 'Icona personalizzata caricata e convertita con successo',
+        message: 'Icona personalizzata caricata e convertita successfully',
         iconPaths: iconPaths
       });
     } catch (error: any) {
-      console.error('❌ [ICON UPLOAD] Errore:', error);
+      console.error('❌ [ICON UPLOAD] Error:', error);
       res.status(500).json({ 
-        error: 'Errore durante la conversione dell\'icona',
+        error: 'Error converting icon',
         details: error.message 
       });
     }
   });
 
-  // API per caricare icona via base64
+  // API to upload icon via base64
 router.post('/api/upload-icon-base64', requireAuth, async (req: any, res: any) => {
     try {
       const { imageData, iconName } = req.body;
@@ -587,55 +587,55 @@ router.post('/api/upload-icon-base64', requireAuth, async (req: any, res: any) =
         return res.status(400).json({ error: 'Dati immagine mancanti' });
       }
 
-      logger.debug(`🎨 [ICON BASE64] Utente ${req.user?.username} sta caricando icona via base64`);
+      logger.debug(`🎨 [ICON BASE64] User ${req.user?.username} is uploading icon via base64`);
 
-      // Converti l'immagine base64 in icone PWA
+      // Convert base64 image to PWA icons
       const iconPaths = await iconConversionService.processCustomIcon(
         imageData,
         iconName || 'custom-icon'
       );
 
-      logger.debug(`✅ [ICON BASE64] Icone PWA generate:`, iconPaths);
+      logger.debug(`✅ [ICON BASE64] PWA icons generated:`, iconPaths);
 
       res.json({
         success: true,
-        message: 'Icona caricata e convertita con successo',
+        message: 'Icona caricata e convertita successfully',
         iconPaths: iconPaths
       });
     } catch (error: any) {
-      console.error('❌ [ICON BASE64] Errore:', error);
+      console.error('❌ [ICON BASE64] Error:', error);
       res.status(500).json({ 
-        error: 'Errore durante la conversione dell\'icona',
+        error: 'Error converting icon',
         details: error.message 
       });
     }
   });
 
-  // API per ripristinare icona predefinita
+  // API to restore default icon
 router.post('/api/restore-default-icon', requireAuth, async (req: any, res: any) => {
     try {
-      logger.debug(`🔄 [ICON RESTORE] Utente ${req.user?.username} sta ripristinando icona predefinita`);
+      logger.debug(`🔄 [ICON RESTORE] User ${req.user?.username} is restoring default icon`);
 
-      // Ripristina le icone predefinite (Fleur de Vie)
+      // Restore the default icons (Fleur de Vie)
       const iconPaths = await iconConversionService.restoreDefaultIcons();
 
-      logger.debug(`✅ [ICON RESTORE] Icone predefinite ripristinate:`, iconPaths);
+      logger.debug(`✅ [ICON RESTORE] Default icons restored:`, iconPaths);
 
       res.json({
         success: true,
-        message: 'Icona predefinita ripristinata con successo',
+        message: 'Icona predefinita ripristinata successfully',
         iconPaths: iconPaths
       });
     } catch (error: any) {
-      console.error('❌ [ICON RESTORE] Errore:', error);
+      console.error('❌ [ICON RESTORE] Error:', error);
       res.status(500).json({ 
-        error: 'Errore durante il ripristino dell\'icona predefinita',
+        error: 'Error restoring default icon',
         details: error.message 
       });
     }
   });
 
-  // API per ottenere info sulle icone attuali
+  // API for getting info about current icons
 router.get('/api/current-icon-info', requireAuth, async (req: any, res: any) => {
     try {
       const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
@@ -648,9 +648,9 @@ router.get('/api/current-icon-info', requireAuth, async (req: any, res: any) => 
         manifestPath: '/manifest.json'
       });
     } catch (error: any) {
-      console.error('❌ [ICON INFO] Errore:', error);
+      console.error('❌ [ICON INFO] Error:', error);
       res.status(500).json({ 
-        error: 'Errore durante la lettura delle informazioni icone',
+        error: 'Error reading icon information',
         details: error.message 
       });
     }

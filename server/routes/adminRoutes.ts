@@ -1,6 +1,6 @@
 // @ts-nocheck
 /**
- * Rotte per le funzioni amministrative
+ * Routes for administrative functions
  */
 import { Router, Request, Response } from 'express';
 import { generateRestartToken, isValidRestartToken, restartApplication } from '../services/restartService';
@@ -30,11 +30,11 @@ function isAdmin(req: Request, res: Response, next: Function) {
     }
   }
   
-  return res.status(401).json({ success: false, message: 'Non autorizzato' });
+  return res.status(401).json({ success: false, message: 'Unauthorized' });
 }
 
 /**
- * Endpoint per ottenere un token di riavvio
+ * Endpoint for getting a restart token
  * Richiede autenticazione come admin
  */
 adminRouter.get('/restart-token', isAdmin, (req: Request, res: Response) => {
@@ -42,17 +42,17 @@ adminRouter.get('/restart-token', isAdmin, (req: Request, res: Response) => {
     const token = generateRestartToken();
     res.json({ success: true, token });
   } catch (error: any) {
-    console.error('Errore nella generazione del token di riavvio:', error);
+    console.error('Error generating restart token:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore nella generazione del token' 
+      message: 'Error generating token' 
     });
   }
 });
 
 /**
- * Endpoint per avviare il riavvio dell'applicazione
- * Richiede un token valido generato in precedenza
+ * Endpoint to initiate application restart
+ * Requires a valid previously generated token
  */
 adminRouter.post('/restart', async (req: Request, res: Response) => {
   try {
@@ -61,34 +61,34 @@ adminRouter.post('/restart', async (req: Request, res: Response) => {
     if (!token) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Token mancante' 
+        message: 'Token missing' 
       });
     }
     
     if (!isValidRestartToken(token)) {
       return res.status(401).json({ 
         success: false, 
-        message: 'Token non valido o scaduto' 
+        message: 'Invalid or expired token' 
       });
     }
     
     const result = await restartApplication(token);
     res.json(result);
   } catch (error: any) {
-    console.error('Errore durante il riavvio:', error);
+    console.error('Error during restart:', error);
     res.status(500).json({ 
       success: false, 
-      message: `Errore durante il riavvio: ${error}` 
+      message: `Error during restart: ${error}` 
     });
   }
 });
 
 /**
- * Endpoint pubblico per il riavvio d'emergenza
- * Può essere chiamato anche quando l'applicazione è quasi offline
- * Richiede una chiave di sicurezza fissa nel parametro "key"
+ * Endpoint pubblico per the restart d'emergenza
+ * Can be called even when the application is nearly offline
+ * Requires a fixed security key in the "key" parameter
  * 
- * Questo endpoint può essere chiamato con una chiave configurata via env var EMERGENCY_RESTART_KEY
+ * This endpoint can be called with a key configured via env var EMERGENCY_RESTART_KEY
  */
 adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
   try {
@@ -98,13 +98,13 @@ adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
     if (!EMERGENCY_RESTART_KEY || !key || key !== EMERGENCY_RESTART_KEY) {
       return res.status(401).json({ 
         success: false, 
-        message: 'Chiave di riavvio d\'emergenza non valida' 
+        message: 'Emergency restart key invalid' 
       });
     }
     
-    console.log('🚨 RIAVVIO DI EMERGENZA AVVIATO');
+    console.log('🚨 EMERGENCY RESTART INITIATED');
     
-    // Genera un token temporaneo per il riavvio
+    // Generate a token temporaneo per the restart
     const token = generateRestartToken();
     
     const result = await restartApplication(token);
@@ -113,10 +113,10 @@ adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
       mode: 'emergency'
     });
   } catch (error: any) {
-    console.error('Errore durante il riavvio di emergenza:', error);
+    console.error('Error during emergency restart:', error);
     res.status(500).json({ 
       success: false, 
-      message: `Errore durante il riavvio di emergenza: ${error}` 
+      message: `Error during emergency restart: ${error}` 
     });
   }
 });

@@ -1,10 +1,10 @@
 /**
- * PersistenceService - Servizio avanzato per mantenere l'applicazione attiva su Replit
- * Questo servizio implementa diverse tecniche per evitare che l'applicazione venga sospesa
+ * PersistenceService - Advanced service to keep the application alive on Replit
+ * This service implementa diverse tecniche per evitare che l'applicazione venga sospesa
  * 
- * 1. Mantiene attività costante con operazioni leggere di background
- * 2. Si collega ad un servizio di ping esterno (UptimeRobot)
- * 3. Evita la sospensione dell'applicazione usando tecniche specifiche per Replit
+ * 1. Maintains constant activity with lightweight background operations
+ * 2. Connects to an external ping service (UptimeRobot)
+ * 3. Avoids application suspension using Replit-specific techniques
  */
 
 import axios from 'axios';
@@ -14,15 +14,15 @@ import { exec } from 'child_process';
 
 interface PersistenceOptions {
   pingInterval: number;          // Intervallo tra i ping in millisecondi
-  activityInterval: number;      // Intervallo tra le attività in millisecondi
-  maxRetries: number;            // Numero massimo di tentativi di riconnessione
-  retryBackoffFactor: number;    // Fattore di backoff per i tentativi (es. 1.5 = aumenta del 50% ad ogni tentativo)
-  debugLog: boolean;             // Attiva i log dettagliati
+  activityInterval: number;      // Interval between activities in milliseconds
+  maxRetries: number;            // Maximum number of reconnection attempts
+  retryBackoffFactor: number;    // Backoff factor for retries (e.g. 1.5 = increases by 50% each attempt)
+  debugLog: boolean;             // Enable detailed logs
 }
 
 const DEFAULT_OPTIONS: PersistenceOptions = {
-  pingInterval: 30 * 1000,       // 30 secondi
-  activityInterval: 60 * 1000,   // 1 minuto
+  pingInterval: 30 * 1000,       // 30 seconds
+  activityInterval: 60 * 1000,   // 1 minute
   maxRetries: 5,
   retryBackoffFactor: 2,
   debugLog: true
@@ -42,38 +42,38 @@ class PersistenceService {
   constructor(options: Partial<PersistenceOptions> = {}) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
     
-    // Avvia il timer per l'uptime
+    // Start the timer per l'uptime
     setInterval(() => {
       if (this.isActive) {
         this.uptimeMinutes++;
         if (this.uptimeMinutes % 60 === 0) {
-          this.log(`Servizio persistence attivo da ${this.uptimeMinutes / 60} ore`);
+          this.log(`Persistence service active for ${this.uptimeMinutes / 60} ore`);
         }
       }
     }, 60 * 1000);
     
-    this.log('Servizio persistence inizializzato');
+    this.log('Persistence service initialized');
   }
   
   /**
-   * Avvia il servizio con tutte le sue componenti
+   * Start the service with all sue componenti
    */
   start(healthEndpoint: string = '/api/health'): void {
     this.isActive = true;
     this.healthEndpoint = healthEndpoint;
     
-    // Determina l'URL di healthcheck basato su Replit
+    // Determine l'URL di healthcheck basato su Replit
     this.determineApplicationUrl().then(baseUrl => {
       this.healthcheckUrl = baseUrl + this.healthEndpoint;
       this.log(`URL di healthcheck configurato: ${this.healthcheckUrl}`);
       
-      // Avvia i ping regolari
+      // Start i ping regolari
       this.startRegularPings();
       
-      // Avvia le attività di background
+      // Start background activities
       this.startBackgroundActivity();
       
-      // Registra alla chiusura dell'applicazione
+      // Register on application shutdown
       process.on('SIGTERM', () => this.stop());
       process.on('SIGINT', () => this.stop());
     }).catch(error => {
@@ -82,7 +82,7 @@ class PersistenceService {
   }
   
   /**
-   * Ferma il servizio
+   * Stop the service
    */
   stop(): void {
     this.isActive = false;
@@ -101,7 +101,7 @@ class PersistenceService {
   }
   
   /**
-   * Avvia i ping regolari
+   * Start i ping regolari
    */
   private startRegularPings(): void {
     if (this.pingTimer) {
@@ -112,7 +112,7 @@ class PersistenceService {
       try {
         await this.performHealthCheck();
       } catch (error) {
-        this.logError('Errore durante il ping di salute:', error);
+        this.logError('Error during health ping:', error);
         this.handlePingFailure();
       }
     }, this.options.pingInterval);
@@ -121,7 +121,7 @@ class PersistenceService {
   }
   
   /**
-   * Esegue un controllo di salute attraverso il ping
+   * Performs a health check via ping
    */
   private async performHealthCheck(): Promise<void> {
     try {
@@ -141,10 +141,10 @@ class PersistenceService {
         this.pingFailureCount = 0;
         
         if (this.options.debugLog) {
-          this.log('Ping di salute completato con successo');
+          this.log('Ping di salute completato successfully');
         }
         
-        // Opzionalmente scrivi anche su file per avere uno storico
+        // Optionally write also to file to keep a history
         this.appendToLog('ping_success', {
           timestamp,
           uptime: this.uptimeMinutes
@@ -154,57 +154,57 @@ class PersistenceService {
         this.handlePingFailure();
       }
     } catch (error) {
-      this.logError('Errore durante il ping di salute:', error);
+      this.logError('Error during health ping:', error);
       this.handlePingFailure();
     }
   }
   
   /**
-   * Gestisce un fallimento del ping
+   * Handle a ping failure
    */
   private handlePingFailure(): void {
     this.pingFailureCount++;
     this.log(`Ping fallito (${this.pingFailureCount}/${this.options.maxRetries})`);
     
-    // Se il numero di fallimenti consecutivi supera la soglia, prova a riattivare
+    // if the number of consecutive failures exceeds the threshold, try to reactivate
     if (this.pingFailureCount >= this.options.maxRetries) {
       this.log('Troppi fallimenti consecutivi, tentativo di riattivazione dell\'applicazione...');
       this.attemptWakeup();
-      this.pingFailureCount = 0; // Reset del contatore dopo il tentativo
+      this.pingFailureCount = 0; // Reset the counter after the attempt
     }
   }
   
   /**
-   * Tenta di riattivare l'applicazione se non risponde
+   * Attempt di riattivare l'applicazione If risponde
    */
   private async attemptWakeup(): Promise<void> {
     this.log('Tentativo di riattivazione dell\'applicazione...');
     
-    // Salva lo stato corrente prima del tentativo
+    // Save the current state before the attempt
     this.appendToLog('wakeup_attempt', {
       timestamp: new Date().toISOString(),
       uptime: this.uptimeMinutes,
       pingFailures: this.pingFailureCount
     });
     
-    // Esegue un ping su un endpoint esterno per mantenere il processo attivo
+    // Execute a ping on an external endpoint to keep the process alive
     try {
       await axios.get('https://www.google.com', { timeout: 5000 });
       this.log('Connessione a Internet attiva');
     } catch (error) {
-      this.logError('Errore nella verifica di connettività a Internet:', error);
+      this.logError('Error verifying internet connectivity:', error);
     }
     
-    // Esegue una scrittura su file per "risvegliare" il filesystem
+    // Execute a file write to "wake up" the filesystem
     try {
       const wakeupFile = path.join(process.cwd(), '.wakeup');
       fs.writeFileSync(wakeupFile, new Date().toISOString());
-      this.log('File di wakeup scritto con successo');
+      this.log('File di wakeup scritto successfully');
     } catch (error) {
-      this.logError('Errore nella scrittura del file di wakeup:', error);
+      this.logError('Error writing wakeup file:', error);
     }
     
-    // Esegue una piccola operazione di CPU per "risvegliare" il processore
+    // Execute a small CPU operation to "wake up" the processor
     const startTime = Date.now();
     let counter = 0;
     for (let i = 0; i < 1000000; i++) {
@@ -215,23 +215,23 @@ class PersistenceService {
   }
   
   /**
-   * Avvia attività di background per mantenere l'applicazione attiva
+   * Start background activities to keep the application alive
    */
   private startBackgroundActivity(): void {
     if (this.activityTimer) {
       clearInterval(this.activityTimer);
     }
     
-    // Attività leggere in background per mantenere l'applicazione attiva
+    // Light background activities to keep the application alive
     this.activityTimer = setInterval(() => {
       try {
         const timestamp = new Date().toISOString();
         
-        // Esegue una piccola operazione di I/O
+        // Execute a small I/O operation
         const activityFile = path.join(process.cwd(), '.activity');
         fs.writeFileSync(activityFile, timestamp);
         
-        // Esegue una piccola operazione di memoria
+        // Execute a small memory operation
         const buffer = Buffer.allocUnsafe(1024); // 1KB
         buffer.fill(0);
         
@@ -239,18 +239,18 @@ class PersistenceService {
           this.log('Attività di background completata');
         }
       } catch (error) {
-        this.logError('Errore nell\'attività di background:', error);
+        this.logError('Error in background activity:', error);
       }
     }, this.options.activityInterval);
     
-    this.log(`Avviate attività di background ogni ${this.options.activityInterval / 1000} secondi`);
+    this.log(`Background activities started every ${this.options.activityInterval / 1000} seconds`);
   }
   
   /**
-   * Determina l'URL dell'applicazione in base all'ambiente Replit
+   * Determine the application URL based on the Replit environment
    */
   private async determineApplicationUrl(): Promise<string> {
-    // Prova prima ad ottenere l'URL da Replit
+    // First try to get the URL from Replit
     const replitHostname = process.env.REPL_SLUG;
     const replitOwner = process.env.REPL_OWNER;
     
@@ -258,47 +258,47 @@ class PersistenceService {
       return `https://${replitHostname}.${replitOwner}.repl.co`;
     }
     
-    // Altrimenti utilizza localhost
+    // otherwise utilizza localhost
     return 'http://localhost:5000';
   }
   
   /**
-   * Scrive una voce nel log del servizio
+   * Write an entry to the service log
    */
   private log(message: string): void {
     console.log(`[PersistenceService] ${message}`);
   }
   
   /**
-   * Scrive un errore nel log del servizio
+   * Write an error to the service log
    */
   private logError(message: string, error?: any): void {
     console.error(`[PersistenceService] ${message}`, error || '');
   }
   
   /**
-   * Aggiunge una voce al file di log
+   * Add an entry to the log file
    */
   private appendToLog(type: string, data: any): void {
     try {
       const logDir = path.join(process.cwd(), 'logs');
       const logFile = path.join(logDir, `persistence_${type}.log`);
       
-      // Crea la directory se non esiste
+      // Create the directory if it exists
       if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir, { recursive: true });
       }
       
-      // Scrive nel file di log
+      // Write to the log file
       const logEntry = `${new Date().toISOString()}\t${JSON.stringify(data)}\n`;
       fs.appendFileSync(logFile, logEntry);
     } catch (error) {
-      this.logError(`Errore nella scrittura del log di ${type}:`, error);
+      this.logError(`Error writing log for ${type}:`, error);
     }
   }
   
   /**
-   * Ottiene lo stato attuale del servizio
+   * Get the current status of the service
    */
   getStatus(): any {
     return {
@@ -311,5 +311,5 @@ class PersistenceService {
   }
 }
 
-// Esporta un'istanza singleton
+// Export a singleton instance
 export const persistenceService = new PersistenceService();

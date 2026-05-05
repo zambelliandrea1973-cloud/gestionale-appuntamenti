@@ -5,18 +5,18 @@ import type { ContactSettings, InsertContactSettings } from '../../shared/schema
 export class ContactSettingsService {
   
   /**
-   * Recupera le impostazioni di contatto per un tenant (utilizzando tenantId dall'autenticazione)
+   * Retrieve contact settings for a tenant (using tenantId from authentication)
    */
   async getContactSettings(tenantId: number): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Recupero impostazioni per tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Retrieving settings for tenant ${tenantId}`);
     return await storage.getContactSettings(tenantId);
   }
 
   /**
-   * Crea nuove impostazioni di contatto per un tenant
+   * Create new contact settings for a tenant
    */
   async createContactSettings(tenantId: number, phone: string, email: string, whatsappOptIn: boolean = false): Promise<ContactSettings> {
-    logger.debug(`🔧 ContactSettingsService: Creazione impostazioni per tenant ${tenantId}`, {
+    logger.debug(`🔧 ContactSettingsService: Creating settings for tenant ${tenantId}`, {
       phone,
       email,
       whatsappOptIn
@@ -33,32 +33,32 @@ export class ContactSettingsService {
   }
 
   /**
-   * Aggiorna le impostazioni di contatto esistenti
+   * Update existing contact settings
    */
   async updateContactSettings(tenantId: number, updates: Partial<Pick<InsertContactSettings, 'phone' | 'email' | 'whatsappOptIn'>>): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Aggiornamento impostazioni per tenant ${tenantId}`, updates);
+    logger.debug(`🔧 ContactSettingsService: Updating settings for tenant ${tenantId}`, updates);
     return await storage.updateContactSettings(tenantId, updates);
   }
 
   /**
-   * Elimina le impostazioni di contatto per un tenant
+   * Delete contact settings for a tenant
    */
   async deleteContactSettings(tenantId: number): Promise<boolean> {
-    logger.debug(`🔧 ContactSettingsService: Eliminazione impostazioni per tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Deleting settings for tenant ${tenantId}`);
     return await storage.deleteContactSettings(tenantId);
   }
 
   /**
-   * Ottiene o crea le impostazioni di contatto per un tenant
-   * Se non esistono, le crea con valori di default
+   * Get or create contact settings for a tenant
+   * If they exist, create them with default values
    */
   async getOrCreateContactSettings(tenantId: number, defaultPhone?: string, defaultEmail?: string): Promise<ContactSettings> {
-    logger.debug(`🔧 ContactSettingsService: Recupero o creazione impostazioni per tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Retrieving o Creating settings for tenant ${tenantId}`);
     
     let settings = await this.getContactSettings(tenantId);
     
     if (!settings) {
-      logger.debug(`📞 Impostazioni non trovate per tenant ${tenantId}, creazione con valori default`);
+      logger.debug(`📞 Settings not found for tenant ${tenantId}, creating with default values`);
       settings = await this.createContactSettings(
         tenantId,
         defaultPhone || '',
@@ -71,20 +71,20 @@ export class ContactSettingsService {
   }
 
   /**
-   * Verifica se WhatsApp è configurato e attivo per un tenant
+   * Check if WhatsApp is configured and active for a tenant
    */
   async isWhatsAppConfigured(tenantId: number): Promise<boolean> {
-    logger.debug(`🔧 ContactSettingsService: Verifica configurazione WhatsApp per tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Verify WhatsApp configuration for tenant ${tenantId}`);
     
     const settings = await this.getContactSettings(tenantId);
     
     if (!settings) {
-      console.log(`⚠️ Nessuna impostazione trovata per tenant ${tenantId}`);
+      console.log(`⚠️ No settings found for tenant ${tenantId}`);
       return false;
     }
 
     const isConfigured = !!(settings.whatsappOptIn && settings.phone && settings.phone.trim() !== '');
-    logger.debug(`📱 WhatsApp configurato per tenant ${tenantId}: ${isConfigured}`, {
+    logger.debug(`📱 WhatsApp configured for tenant ${tenantId}: ${isConfigured}`, {
       phone: settings.phone,
       whatsappOptIn: settings.whatsappOptIn
     });
@@ -93,10 +93,10 @@ export class ContactSettingsService {
   }
 
   /**
-   * Abilitazione rapida di WhatsApp per un tenant con numero di telefono
+   * Quick WhatsApp activation for a tenant with a phone number
    */
   async enableWhatsApp(tenantId: number, phone: string): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Abilitazione WhatsApp per tenant ${tenantId} con telefono ${phone}`);
+    logger.debug(`🔧 ContactSettingsService: Abilitazione WhatsApp for tenant ${tenantId} con telefono ${phone}`);
     
     return await this.updateContactSettings(tenantId, {
       phone,
@@ -105,10 +105,10 @@ export class ContactSettingsService {
   }
 
   /**
-   * Disabilitazione WhatsApp per un tenant
+   * WhatsApp deactivation for a tenant
    */
   async disableWhatsApp(tenantId: number): Promise<ContactSettings | undefined> {
-    logger.debug(`🔧 ContactSettingsService: Disabilitazione WhatsApp per tenant ${tenantId}`);
+    logger.debug(`🔧 ContactSettingsService: Disabilitazione WhatsApp for tenant ${tenantId}`);
     
     return await this.updateContactSettings(tenantId, {
       whatsappOptIn: false

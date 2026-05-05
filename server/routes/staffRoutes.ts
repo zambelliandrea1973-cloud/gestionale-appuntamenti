@@ -5,23 +5,23 @@ import { isAdmin } from "../auth";
 import { loadStorageData } from "../utils/jsonStorage";
 
 /**
- * Configura le route per la gestione degli utenti staff
+ * Configure routes for staff user management
  */
 export default function setupStaffRoutes(app: Express) {
-  // Ottieni la lista di tutti gli utenti staff (solo per admin) - endpoint alternativo
+  // Get the lista di all users staff (only per admin) - endpoint alternativo
   app.get("/api/staff/users", isAdmin, async (req: Request, res: Response) => {
     try {
-      console.log("🔵 [/api/staff/users] INIZIO - Recupero staff dal database PostgreSQL");
+      console.log("🔵 [/api/staff/users] START - Retrieving staff from PostgreSQL database");
       
-      // Recupera tutti gli utenti staff dal database
+      // Retrieve all staff users from the database
       const staffUsers = await storage.getAllStaffUsers();
-      console.log(`🔵 [/api/staff/users] Trovati ${staffUsers.length} utenti staff dal database`);
+      console.log(`🔵 [/api/staff/users] Found ${staffUsers.length} staff users from the database`);
       
-      // Rimuovi le password e aggiungi i codici referral
+      // Remove passwords and add referral codes
       const safeUsers = staffUsers.map(user => {
         const { password, ...userWithoutPassword } = user;
         
-        // Genera il codice referral per ogni staff
+        // Generate the code referral per each staff
         const referralCode = user.id === 14 ? "BUS14" : 
                            user.id === 16 ? "FAV16" : 
                            user.id === 8 ? "ZAM08" : 
@@ -33,26 +33,26 @@ export default function setupStaffRoutes(app: Express) {
         };
       });
       
-      console.log(`📋 STAFF USERS CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
-      console.log(`🔵 [/api/staff/users] Invio risposta JSON con ${safeUsers.length} utenti`);
+      console.log(`📋 STAFF USERS WITH REFERRAL CODES: ${safeUsers.length} accounts prepared`);
+      console.log(`🔵 [/api/staff/users] Sending JSON response with ${safeUsers.length} users`);
       res.json(safeUsers);
     } catch (error) {
-      console.error("❌ [/api/staff/users] Errore durante il recupero degli utenti staff:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante il recupero degli utenti staff" });
+      console.error("❌ [/api/staff/users] Error retrieving users staff:", error);
+      res.status(500).json({ message: "An error occurred retrieving staff users" });
     }
   });
 
-  // Ottieni la lista di tutti gli utenti staff (solo per admin)
+  // Get the lista di all users staff (only per admin)
   app.get("/api/staff/list", isAdmin, async (req: Request, res: Response) => {
     try {
-      // Recupera tutti gli utenti staff dal database
+      // Retrieve all staff users from the database
       const staffUsers = await storage.getAllStaffUsers();
       
-      // Rimuovi le password e aggiungi i codici referral
+      // Remove passwords and add referral codes
       const safeUsers = staffUsers.map(user => {
         const { password, ...userWithoutPassword } = user;
         
-        // Genera il codice referral per ogni staff
+        // Generate the code referral per each staff
         const referralCode = user.id === 14 ? "BUS14" : 
                            user.id === 16 ? "FAV16" : 
                            user.id === 8 ? "ZAM08" : 
@@ -64,34 +64,34 @@ export default function setupStaffRoutes(app: Express) {
         };
       });
       
-      console.log(`📋 STAFF LIST CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
+      console.log(`📋 STAFF LIST WITH REFERRAL CODES: ${safeUsers.length} accounts prepared`);
       res.json(safeUsers);
     } catch (error) {
-      console.error("Errore durante il recupero degli utenti staff:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante il recupero degli utenti staff" });
+      console.error("Error retrieving users staff:", error);
+      res.status(500).json({ message: "An error occurred retrieving staff users" });
     }
   });
 
-  // Crea un nuovo utente staff (solo per admin)
+  // Create a new staff user (admin only)
   app.post("/api/staff/register", isAdmin, async (req: Request, res: Response) => {
     try {
       const { username, password, email, role } = req.body;
       
-      // Verifica che username e password siano presenti
+      // Verify che username e password siano presenti
       if (!username || !password) {
-        return res.status(400).json({ message: "Username e password sono obbligatori" });
+        return res.status(400).json({ message: "Username and password are required" });
       }
       
-      // Verifica se l'username è già in uso
+      // Check if the username is already in use
       const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
-        return res.status(400).json({ message: "Username già in uso" });
+        return res.status(400).json({ message: "Username already in use" });
       }
       
-      // Crea l'hash della password
+      // Create the password hash
       const hashedPassword = await hashPassword(password);
       
-      // Imposta il ruolo e il type
+      // Set the role and type
       let userRole = 'staff';
       let userType = 'staff';
       
@@ -106,7 +106,7 @@ export default function setupStaffRoutes(app: Express) {
         userType = 'staff';
       }
       
-      // Crea il nuovo utente
+      // Create the new user
       const newUser = await storage.createUser({
         username,
         password: hashedPassword,
@@ -116,76 +116,76 @@ export default function setupStaffRoutes(app: Express) {
         clientId: null
       });
       
-      console.log(`Nuovo utente staff creato: ${username} (${email || 'senza email'}) con ruolo ${userRole}`);
+      console.log(`new user staff created: ${username} (${email || 'no email'}) with role ${userRole}`);
       
-      // Restituisci il nuovo utente (senza la password)
+      // Return the new user (without the password)
       const { password: _, ...userWithoutPassword } = newUser;
       res.status(201).json(userWithoutPassword);
     } catch (error) {
-      console.error("Errore durante la creazione dell'utente staff:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante la creazione dell'utente staff" });
+      console.error("Error creating staff user:", error);
+      res.status(500).json({ message: "An error occurred creating the staff user" });
     }
   });
 
-  // Aggiorna un utente staff (solo per admin)
+  // Update a staff user (admin only)
   app.patch("/api/staff/:id", isAdmin, async (req: Request, res: Response) => {
     try {
       const userId = parseInt(req.params.id);
       
-      // Verifica che l'ID sia valido
+      // Verify that the ID is valid
       if (isNaN(userId)) {
-        return res.status(400).json({ message: "ID utente non valido" });
+        return res.status(400).json({ message: "Invalid user ID" });
       }
       
-      // Verifica che l'utente esista
+      // Verify che l'user esista
       const user = await storage.getUser(userId);
       if (!user) {
-        return res.status(404).json({ message: "Utente non trovato" });
+        return res.status(404).json({ message: "User not found" });
       }
       
-      // Verifica che l'utente sia uno staff (non un cliente)
+      // Verify that the user is a staff member (not a client)
       if (user.clientId) {
-        return res.status(400).json({ message: "Non è possibile modificare un utente cliente da questa API" });
+        return res.status(400).json({ message: "Cannot modify a client user from this API" });
       }
       
-      // Dati da aggiornare
+      // Data to update
       const updateData: any = {};
       const { username, email, password, role } = req.body;
       
-      // Controlla se l'username è stato fornito e se è cambiato
+      // Check if username was provided and if it has changed
       if (username && username !== user.username) {
-        // Verifica se l'username è già in uso da un altro utente
+        // Check if the username is already in use by another user
         const existingUser = await storage.getUserByUsername(username);
         if (existingUser && existingUser.id !== userId) {
-          return res.status(400).json({ message: "Username già in uso da un altro utente" });
+          return res.status(400).json({ message: "Username already in use by another user" });
         }
         updateData.username = username;
       }
       
-      // Aggiorna l'email se fornita
+      // Update l'email If fornita
       if (email !== undefined) {
         updateData.email = email || null; // Consenti di rimuovere l'email impostando null
       }
       
-      // Aggiorna la password se fornita
+      // Update the password If fornita
       if (password) {
         updateData.password = await hashPassword(password);
       }
       
-      // Aggiorna il ruolo se fornito (solo admin può modificare ruoli)
+      // Update the role if provided (only admin can modify roles)
       if (role !== undefined && (role === 'admin' || role === 'staff' || role === 'user')) {
         updateData.role = role;
         
-        // Se il ruolo è 'user', cambia anche il type a 'customer'
+        // if the role is 'user', also change the type to 'customer'
         if (role === 'user') {
           updateData.type = 'customer';
         } else {
-          // Staff e Admin hanno type uguale al role
+          // Staff and Admin have type equal to role
           updateData.type = role;
         }
 
-        // Se si promuove a staff e l'utente non ha ancora un assignmentCode,
-        // generane uno automaticamente (necessario per la visibilità dei clienti)
+        // If promoted to staff and the user does not yet have an assignmentCode,
+        // generate one automatically (required for client visibility)
         if (role === 'staff' && !user.assignmentCode) {
           const alphanumUsername = (user.username || '').replace(/[^a-zA-Z0-9]/g, '');
           const prefix = alphanumUsername.substring(0, 3).toUpperCase().padEnd(3, 'X');
@@ -194,71 +194,71 @@ export default function setupStaffRoutes(app: Express) {
         }
       }
       
-      // Verifica che ci sia almeno un campo da aggiornare
+      // Verify that there is at least one field to update
       if (Object.keys(updateData).length === 0) {
-        return res.status(400).json({ message: "Nessun dato da aggiornare fornito" });
+        return res.status(400).json({ message: "No data to update provided" });
       }
       
-      // Aggiorna l'utente
+      // Update l'user
       const updatedUser = await storage.updateUser(userId, updateData);
       
       if (updatedUser) {
-        // Rimuovi la password dalla risposta
+        // Remove the password from the response
         const { password: _, ...userWithoutPassword } = updatedUser;
         res.json(userWithoutPassword);
       } else {
-        res.status(500).json({ message: "Impossibile aggiornare l'utente" });
+        res.status(500).json({ message: "Unable to update user" });
       }
     } catch (error) {
-      console.error("Errore durante l'aggiornamento dell'utente staff:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante l'aggiornamento dell'utente staff" });
+      console.error("Error updating staff user:", error);
+      res.status(500).json({ message: "An error occurred updating the staff user" });
     }
   });
 
-  // Elimina un utente staff (solo per admin)
+  // Delete a staff user (admin only)
   app.delete("/api/staff/:id", isAdmin, async (req: Request, res: Response) => {
     try {
       const userId = parseInt(req.params.id);
       
-      // Verifica che l'ID sia valido
+      // Verify that the ID is valid
       if (isNaN(userId)) {
-        return res.status(400).json({ message: "ID utente non valido" });
+        return res.status(400).json({ message: "Invalid user ID" });
       }
       
-      // Verifica che l'utente esista
+      // Verify che l'user esista
       const user = await storage.getUser(userId);
       if (!user) {
-        return res.status(404).json({ message: "Utente non trovato" });
+        return res.status(404).json({ message: "User not found" });
       }
       
-      // Verifica che l'utente sia uno staff (non un cliente)
+      // Verify that the user is a staff member (not a client)
       if (user.clientId) {
-        return res.status(400).json({ message: "Non è possibile eliminare un utente cliente da questa API" });
+        return res.status(400).json({ message: "Cannot delete a client user from this API" });
       }
       
-      // Impedisci l'eliminazione dell'account admin principale
+      // Prevent deletion of the main admin account
       if (user.role === 'admin' && user.username === 'zambelli.andrea.1973@gmail.com') {
-        return res.status(403).json({ message: "Non è possibile eliminare l'account amministratore principale" });
+        return res.status(403).json({ message: "Cannot delete the main administrator account" });
       }
       
-      // PROTEZIONE CROSS-STORE: Verifica se user ha dati in JSON prima di cancellare
+      // CROSS-STORE PROTECTION: Check if user has data in JSON before deleting
       const storageData = loadStorageData();
       
-      // Normalizza struttura JSON (supporta sia [id, obj] che obj)
+      // Normalize struttura JSON (supporta sia [id, obj] che obj)
       const clients = (storageData.clients || []).map((it: any) => Array.isArray(it) ? it[1] : it);
       const appointments = (storageData.appointments || []).map((it: any) => Array.isArray(it) ? it[1] : it);
       
       const userClients = clients.filter((client: any) => client.ownerId === userId);
       const userAppointments = appointments.filter((appt: any) => {
-        // Trova il client dell'appuntamento e verifica se appartiene a questo user
+        // Find the appointment client and verify if it belongs to this user
         const apptClient = clients.find((c: any) => c.id === appt.clientId);
         return apptClient && apptClient.ownerId === userId;
       });
       
       if (userClients.length > 0 || userAppointments.length > 0) {
-        console.error(`❌ [PROTEZIONE] Impossibile eliminare utente ${userId}: ha ${userClients.length} clienti e ${userAppointments.length} appuntamenti in JSON`);
+        console.error(`❌ [PROTECTION] Cannot delete user ${userId}: has ${userClients.length} clients and ${userAppointments.length} appointments in JSON`);
         return res.status(409).json({ 
-          message: `Impossibile eliminare: l'utente ha ${userClients.length} clienti e ${userAppointments.length} appuntamenti associati`,
+          message: `Cannot delete: the user has ${userClients.length} clients and ${userAppointments.length} associated appointments`,
           error: "HAS_RELATED_DATA",
           details: {
             clients: userClients.length,
@@ -267,19 +267,19 @@ export default function setupStaffRoutes(app: Express) {
         });
       }
       
-      console.log(`✅ [PROTEZIONE] Utente ${userId} non ha dati in JSON, eliminazione sicura`);
+      console.log(`✅ [PROTEZIONE] user ${userId} not ha data in JSON, Deleting sicura`);
       
-      // Elimina l'utente
+      // Delete l'user
       const deleted = await storage.deleteUser(userId);
       
       if (deleted) {
-        res.json({ message: "Utente eliminato con successo" });
+        res.json({ message: "User deleted successfully" });
       } else {
-        res.status(500).json({ message: "Impossibile eliminare l'utente" });
+        res.status(500).json({ message: "Unable to delete user" });
       }
     } catch (error) {
-      console.error("Errore durante l'eliminazione dell'utente staff:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante l'eliminazione dell'utente staff" });
+      console.error("Error deleting staff user:", error);
+      res.status(500).json({ message: "An error occurred deleting the staff user" });
     }
   });
 }

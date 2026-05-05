@@ -5,8 +5,8 @@ import { loadStorageData } from './utils/jsonStorage';
 import { eq, and } from 'drizzle-orm';
 
 /**
- * Fix per gli appuntamenti con serviceId troppo grande
- * Crea mapping serviceId JSON → serviceId PostgreSQL
+ * Fix per the appointments con serviceId troppo grande
+ * Create serviceId JSON → serviceId PostgreSQL mapping
  */
 
 async function fixAppointmentsServiceId() {
@@ -17,7 +17,7 @@ async function fixAppointmentsServiceId() {
   const jsonClients = jsonData.clients || [];
   const jsonUsers = jsonData.users || [];
   
-  // Step 1: Crea mapping user JSON → PostgreSQL
+  // Step 1: Create user JSON → PostgreSQL mapping
   const userMapping = new Map<number, number>();
   for (const [jsonId, user] of jsonUsers) {
     const pgUser = await db.select().from(users).where(eq(users.username, user.username)).limit(1);
@@ -26,7 +26,7 @@ async function fixAppointmentsServiceId() {
     }
   }
   
-  // Step 2: Crea mapping client JSON → PostgreSQL  
+  // Step 2: Create client JSON → PostgreSQL mapping  
   const clientMapping = new Map<number, number>();
   for (const [jsonId, client] of jsonClients) {
     if (client.uniqueCode) {
@@ -37,7 +37,7 @@ async function fixAppointmentsServiceId() {
     }
   }
   
-  // Step 3: Per ogni utente, crea mapping serviceId JSON → PostgreSQL
+  // Step 3: For each user, create serviceId JSON → PostgreSQL mapping
   const serviceMapping = new Map<string, number>(); // key = "userId-jsonServiceId"
   
   const userServices = jsonData.userServices || {};
@@ -45,11 +45,11 @@ async function fixAppointmentsServiceId() {
     const pgUserId = userMapping.get(Number(userJsonId));
     if (!pgUserId) continue;
     
-    // Ottieni servizi PostgreSQL per questo utente
+    // Get PostgreSQL services for this user
     const pgServices = await db.select().from(services).where(eq(services.userId, pgUserId));
     
     for (const jsonService of servicesList as any[]) {
-      // Trova servizio corrispondente in PostgreSQL (by name + userId)
+      // Find service corrispondente in PostgreSQL (by name + userId)
       const pgService = pgServices.find(s => s.name === jsonService.name);
       
       if (pgService) {
@@ -60,25 +60,25 @@ async function fixAppointmentsServiceId() {
     }
   }
   
-  console.log(`\n📊 Mapping creato: ${serviceMapping.size} servizi mappati\n`);
+  console.log(`\n📊 Mapping created: ${serviceMapping.size} services mapped\n`);
   
-  // Step 4: Migra appuntamenti con serviceId rimappato
+  // Step 4: Migrate appointments with remapped serviceId
   let migrated = 0;
   let skipped = 0;
   let errors = 0;
   
-  console.log('📅 Migrazione appuntamenti con serviceId corretto...\n');
+  console.log('📅 Migrating appointments with correct serviceId...\n');
   
   for (const [jsonId, appointment] of jsonAppointments) {
     try {
-      // Trova client PostgreSQL
+      // Find client PostgreSQL
       const pgClientId = clientMapping.get(appointment.clientId);
       if (!pgClientId) {
         skipped++;
         continue;
       }
       
-      // Trova owner
+      // Find owner
       const clientData = jsonClients.find(([id]) => Number(id) === appointment.clientId)?.[1];
       if (!clientData) {
         skipped++;
@@ -96,12 +96,12 @@ async function fixAppointmentsServiceId() {
       const pgServiceId = serviceMapping.get(serviceKey);
       
       if (!pgServiceId) {
-        console.log(`  ⚠️  Service ${appointment.serviceId} non trovato per user ${pgUserId}, skip`);
+        console.log(`  ⚠️  Service ${appointment.serviceId} not found per user ${pgUserId}, skip`);
         skipped++;
         continue;
       }
       
-      // Verifica duplicati
+      // Verify duplicati
       const existing = await db.select().from(appointments)
         .where(and(
           eq(appointments.clientId, pgClientId),
@@ -136,13 +136,13 @@ async function fixAppointmentsServiceId() {
       console.log(`  ✅ Appointment migrato: ${appointment.date} ${appointment.startTime} (service: ${pgServiceId})`);
       
     } catch (error: any) {
-      console.error(`  ❌ Errore appointment ${jsonId}:`, error.message);
+      console.error(`  ❌ Error processing appointment ${jsonId}:`, error.message);
       errors++;
     }
   }
   
   console.log(`\n${'='.repeat(60)}`);
-  console.log('📊 FIX COMPLETATO');
+  console.log('📊 FIX completed');
   console.log(`${'='.repeat(60)}`);
   console.log(`
 ✅ Migrati:  ${migrated}
@@ -150,21 +150,21 @@ async function fixAppointmentsServiceId() {
 ❌ Errori:   ${errors}
 `);
   
-  // Verifica finale per Silvia
+  // Verify finale per Silvia
   const silviaUser = await db.select().from(users).where(eq(users.username, 'busnari.silvia@libero.it')).limit(1);
   if (silviaUser.length > 0) {
     const silviaAppts = await db.select().from(appointments).where(eq(appointments.userId, silviaUser[0].id));
-    console.log(`📋 Silvia Busnari ha ora ${silviaAppts.length} appuntamenti in PostgreSQL\n`);
+    console.log(`📋 Silvia Busnari now has ${silviaAppts.length} appointments in PostgreSQL\n`);
   }
 }
 
-// Esegui fix
+// Execute fix
 fixAppointmentsServiceId()
   .then(() => {
-    console.log('✨ Fix completato con successo');
+    console.log('✨ Fix completed successfully');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('💥 Errore durante il fix:', error);
+    console.error('💥 Error during fix:', error);
     process.exit(1);
   });

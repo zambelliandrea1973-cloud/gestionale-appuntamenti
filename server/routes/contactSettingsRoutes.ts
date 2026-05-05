@@ -5,26 +5,26 @@ import { z } from 'zod';
 
 const router = express.Router();
 
-// Middleware per verificare autenticazione
+// Middleware to verify authentication
 const requireAuth = (req: any, res: any, next: any) => {
   if (!req.user) {
-    return res.status(401).json({ success: false, message: 'Non autenticato' });
+    return res.status(401).json({ success: false, message: 'Not authenticated' });
   }
   next();
 };
 
 /**
- * GET /api/contact-settings - Recupera le impostazioni di contatto per il tenant corrente
+ * GET /api/contact-settings - Retrieve contact settings for the current tenant
  */
 router.get('/', requireAuth, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
-    console.log(`📞 GET /api/contact-settings per utente ${userId}`);
+    console.log(`📞 GET /api/contact-settings for user ${userId}`);
     
     const settings = await contactSettingsService.getOrCreateContactSettings(
       userId, 
-      '', // defaultPhone vuoto
-      '' // defaultEmail vuoto
+      '', // empty defaultPhone
+      '' // empty defaultEmail
     );
     
     res.json({
@@ -37,45 +37,45 @@ router.get('/', requireAuth, async (req: any, res: any) => {
       }
     });
   } catch (error) {
-    console.error('Errore nel recupero impostazioni contatto:', error);
+    console.error('Error retrieving contact settings:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore interno del server',
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });
 
 /**
- * POST /api/contact-settings - Crea o aggiorna le impostazioni di contatto
+ * POST /api/contact-settings - Create or update contact settings
  */
 router.post('/', requireAuth, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
-    console.log(`📞 POST /api/contact-settings per utente ${userId}`, req.body);
+    console.log(`📞 POST /api/contact-settings for user ${userId}`, req.body);
     
     // Validazione con schema Zod
     const updateSchema = z.object({
-      phone: z.string().min(1, 'Il telefono è obbligatorio'),
-      email: z.string().email('Email non valida').optional().or(z.literal('')),
+      phone: z.string().min(1, 'Phone is required'),
+      email: z.string().email('Email invalid').optional().or(z.literal('')),
       whatsappOptIn: z.boolean().optional().default(false)
     });
     
     const validatedData = updateSchema.parse(req.body);
     
-    // Verifica se esistono già impostazioni
+    // Check if esistono already settings
     const existingSettings = await contactSettingsService.getContactSettings(userId);
     
     let settings;
     if (existingSettings) {
-      // Aggiorna impostazioni esistenti
+      // Update settings esistenti
       settings = await contactSettingsService.updateContactSettings(userId, {
         phone: validatedData.phone,
         email: validatedData.email || '',
         whatsappOptIn: validatedData.whatsappOptIn
       });
     } else {
-      // Crea nuove impostazioni
+      // Create new settings
       settings = await contactSettingsService.createContactSettings(
         userId,
         validatedData.phone,
@@ -85,12 +85,12 @@ router.post('/', requireAuth, async (req: any, res: any) => {
     }
     
     if (!settings) {
-      throw new Error('Impossibile salvare le impostazioni');
+      throw new Error('Unable to save settings');
     }
     
     res.json({
       success: true,
-      message: 'Impostazioni salvate con successo',
+      message: 'Settings saved successfully',
       settings: {
         phone: settings.phone,
         email: settings.email,
@@ -99,38 +99,38 @@ router.post('/', requireAuth, async (req: any, res: any) => {
       }
     });
   } catch (error) {
-    console.error('Errore nel salvataggio impostazioni contatto:', error);
+    console.error('Error saving contact settings:', error);
     
     if (error instanceof z.ZodError) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Dati non validi',
+        message: 'Invalid data',
         errors: error.errors.map(e => e.message)
       });
     }
     
     res.status(500).json({ 
       success: false, 
-      message: 'Errore interno del server',
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });
 
 /**
- * PUT /api/contact-settings/whatsapp - Abilita/disabilita WhatsApp
+ * PUT /api/contact-settings/whatsapp - Enable/disabilita WhatsApp
  */
 router.put('/whatsapp', requireAuth, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
     const { enabled, phone } = req.body;
     
-    console.log(`📞 PUT /api/contact-settings/whatsapp per utente ${userId}`, { enabled, phone });
+    console.log(`📞 PUT /api/contact-settings/whatsapp for user ${userId}`, { enabled, phone });
     
     if (enabled && !phone) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Il numero di telefono è obbligatorio per abilitare WhatsApp'
+        message: 'Phone number is required to enable WhatsApp'
       });
     }
     
@@ -142,12 +142,12 @@ router.put('/whatsapp', requireAuth, async (req: any, res: any) => {
     }
     
     if (!settings) {
-      throw new Error('Impossibile aggiornare le impostazioni WhatsApp');
+      throw new Error('Unable to update WhatsApp settings');
     }
     
     res.json({
       success: true,
-      message: enabled ? 'WhatsApp abilitato' : 'WhatsApp disabilitato',
+      message: enabled ? 'WhatsApp enabled' : 'WhatsApp disabled',
       settings: {
         phone: settings.phone,
         email: settings.email,
@@ -156,22 +156,22 @@ router.put('/whatsapp', requireAuth, async (req: any, res: any) => {
       }
     });
   } catch (error) {
-    console.error('Errore nell\'aggiornamento WhatsApp:', error);
+    console.error('Error updating WhatsApp:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore interno del server',
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });
 
 /**
- * GET /api/contact-settings/status - Verifica se WhatsApp è configurato
+ * GET /api/contact-settings/status - Check if WhatsApp is configured
  */
 router.get('/status', requireAuth, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
-    console.log(`📞 GET /api/contact-settings/status per utente ${userId}`);
+    console.log(`📞 GET /api/contact-settings/status for user ${userId}`);
     
     const isConfigured = await contactSettingsService.isWhatsAppConfigured(userId);
     const settings = await contactSettingsService.getContactSettings(userId);
@@ -188,42 +188,42 @@ router.get('/status', requireAuth, async (req: any, res: any) => {
       } : null
     });
   } catch (error) {
-    console.error('Errore nella verifica stato contatto:', error);
+    console.error('Error verifying contact status:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore interno del server',
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });
 
 /**
- * DELETE /api/contact-settings - Elimina le impostazioni di contatto
+ * DELETE /api/contact-settings - Delete contact settings
  */
 router.delete('/', requireAuth, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
-    console.log(`📞 DELETE /api/contact-settings per utente ${userId}`);
+    console.log(`📞 DELETE /api/contact-settings for user ${userId}`);
     
     const deleted = await contactSettingsService.deleteContactSettings(userId);
     
     if (!deleted) {
       return res.status(404).json({ 
         success: false, 
-        message: 'Nessuna impostazione trovata da eliminare'
+        message: 'No settings found to delete'
       });
     }
     
     res.json({
       success: true,
-      message: 'Impostazioni eliminate con successo'
+      message: 'Settings deleted successfully'
     });
   } catch (error) {
-    console.error('Errore nell\'eliminazione impostazioni contatto:', error);
+    console.error('Error deleting contact settings:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore interno del server',
-      error: error instanceof Error ? error.message : 'Errore sconosciuto'
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });

@@ -4,12 +4,12 @@ import { storage } from '../storage';
 import axios from 'axios';
 
 /**
- * Servizio per gestire i payout PayPal alle commissioni staff
+ * Service to manage PayPal payouts for staff commissions
  */
 export class PayPalPayoutService {
   private static async getAccessToken(): Promise<string> {
     try {
-      // Ottieni credenziali PayPal dal database o env
+      // Get PayPal credentials from database or env
       const paymentMethods = await storage.getPaymentMethods();
       const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
       
@@ -39,10 +39,10 @@ export class PayPalPayoutService {
       }
       
       if (!clientId || !clientSecret) {
-        throw new Error('Credenziali PayPal mancanti');
+        throw new Error('Missing PayPal credentials');
       }
       
-      // Ottieni access token
+      // Get access token
       const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
       const response = await axios.post(
         `${baseUrl}/v1/oauth2/token`,
@@ -57,13 +57,13 @@ export class PayPalPayoutService {
       
       return response.data.access_token;
     } catch (error: any) {
-      console.error('❌ Errore ottenimento access token PayPal:', error);
+      console.error('❌ Error obtaining PayPal access token:', error);
       throw error;
     }
   }
   
   /**
-   * Valida un indirizzo email PayPal
+   * Validate a PayPal email address
    */
   static validatePayPalEmail(email: string | null | undefined): boolean {
     if (!email) return false;
@@ -72,11 +72,11 @@ export class PayPalPayoutService {
   }
   
   /**
-   * Invia un payout PayPal a un singolo beneficiario
+   * Send a PayPal payout to a single beneficiary
    * 
-   * ⚠️ NOTA: Questo metodo restituisce success=true quando PayPal accetta il batch (201),
-   * ma il payout potrebbe ancora fallire. Per un sistema robusto, implementare polling
-   * di GET /payouts/{batch_id} per verificare lo stato finale.
+   * ⚠️ NOTE: This method returns success=true when PayPal accepts the batch (201),
+   * but the payout could still fail. For a robust system, implement polling
+   * of GET /payouts/{batch_id} to verify the final status.
    */
   static async sendPayout(
     recipientEmail: string,
@@ -85,18 +85,18 @@ export class PayPalPayoutService {
     staffName: string
   ): Promise<{ success: boolean; transactionId?: string; error?: string }> {
     try {
-      // Validazione email PayPal
+      // PayPal email validation
       if (!this.validatePayPalEmail(recipientEmail)) {
-        console.error(`❌ Email PayPal non valida: ${recipientEmail}`);
+        console.error(`❌ Invalid PayPal email: ${recipientEmail}`);
         return {
           success: false,
-          error: 'Email PayPal non valida o mancante'
+          error: 'PayPal email invalid or missing'
         };
       }
       
       const accessToken = await this.getAccessToken();
       
-      // Determina base URL (sandbox o live)
+      // Determine base URL (sandbox or live)
       const paymentMethods = await storage.getPaymentMethods();
       const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
       const mode = paypalConfig?.config?.mode || (process.env.PAYMENT_MODE === 'production' ? 'live' : 'sandbox');
@@ -109,8 +109,8 @@ export class PayPalPayoutService {
       const payoutRequest = {
         sender_batch_header: {
           sender_batch_id: `COMM_${commissionId}_${Date.now()}`,
-          email_subject: 'Hai ricevuto una commissione referral!',
-          email_message: `Congratulazioni! La tua commissione referral di €${amountInEuro} è stata elaborata.`
+          email_subject: 'You have received a referral commission!',
+          email_message: `Congratulations! Your referral commission of €${amountInEuro} has been processed.`
         },
         items: [{
           recipient_type: 'EMAIL',
@@ -119,7 +119,7 @@ export class PayPalPayoutService {
             currency: 'EUR'
           },
           receiver: recipientEmail,
-          note: `Commissione referral - ${staffName}`,
+          note: `Referral commission - ${staffName}`,
           sender_item_id: `COMM_${commissionId}`
         }]
       };
@@ -137,7 +137,7 @@ export class PayPalPayoutService {
       
       const batchId = response.data.batch_header.payout_batch_id;
       
-      logger.debug(`✅ Payout PayPal inviato con successo!`);
+      logger.debug(`✅ PayPal payout sent successfully!`);
       console.log(`   Email: ${recipientEmail}`);
       console.log(`   Importo: €${amountInEuro}`);
       console.log(`   Batch ID: ${batchId}`);
@@ -147,7 +147,7 @@ export class PayPalPayoutService {
         transactionId: batchId
       };
     } catch (error: any) {
-      console.error('❌ Errore invio payout PayPal:', error.response?.data || error.message);
+      console.error('❌ Error sending PayPal payout:', error.response?.data || error.message);
       return {
         success: false,
         error: error.response?.data?.message || error.message
@@ -156,13 +156,13 @@ export class PayPalPayoutService {
   }
   
   /**
-   * Processa tutte le commissioni pronte per il payout
+   * Process all commissions ready for payout
    */
   static async processScheduledPayouts(): Promise<{ processed: number; failed: number }> {
     try {
-      console.log('🔍 Controllo commissioni pronte per il payout...');
+      console.log('🔍 Checking commissions ready for payout...');
       
-      // Trova tutte le commissioni scheduled con data <= oggi
+      // Find all scheduled commissions with date <= today
       const today = new Date();
       const commissions = await storage.getReferralCommissions();
       
@@ -173,28 +173,28 @@ export class PayPalPayoutService {
       );
       
       if (readyForPayout.length === 0) {
-        console.log('✅ Nessuna commissione pronta per il payout');
+        console.log('✅ No commissions ready for payout');
         return { processed: 0, failed: 0 };
       }
       
-      logger.debug(`📋 Trovate ${readyForPayout.length} commissioni da processare`);
+      logger.debug(`📋 Found ${readyForPayout.length} commissions to process`);
       
       let processed = 0;
       let failed = 0;
       
       for (const commission of readyForPayout) {
         try {
-          // Ottieni info staff sponsor
+          // Get info staff sponsor
           const staff = await storage.getUser(commission.referrerId);
           if (!staff) {
-            console.log(`⚠️ Staff ${commission.referrerId} non trovato - skip`);
+            console.log(`⚠️ Staff ${commission.referrerId} not found - skip`);
             failed++;
             continue;
           }
           
-          // Verifica se ha payout automatico abilitato e email PayPal
+          // Check if automatic payout is enabled and PayPal email
           if (!staff.autoPayoutEnabled) {
-            logger.debug(`📝 Staff ${staff.username}: payout automatico disabilitato - segnato come 'manual'`);
+            logger.debug(`📝 Staff ${staff.username}: automatic payout disabled - marked as 'manual'`);
             await storage.updateReferralCommission(commission.id, {
               payoutStatus: 'manual',
               payoutMethod: 'bank_transfer'
@@ -204,7 +204,7 @@ export class PayPalPayoutService {
           }
           
           if (!this.validatePayPalEmail(staff.paypalEmail)) {
-            console.log(`⚠️ Staff ${staff.username}: email PayPal mancante o non valida - segnato come 'manual'`);
+            console.log(`⚠️ Staff ${staff.username}: PayPal email missing or invalid - marked as 'manual'`);
             await storage.updateReferralCommission(commission.id, {
               payoutStatus: 'manual',
               payoutMethod: 'bank_transfer'
@@ -213,7 +213,7 @@ export class PayPalPayoutService {
             continue;
           }
           
-          // Invia payout PayPal
+          // Send payout PayPal
           const result = await this.sendPayout(
             staff.paypalEmail,
             commission.monthlyAmount,
@@ -230,7 +230,7 @@ export class PayPalPayoutService {
             });
             processed++;
           } else {
-            console.error(`❌ Payout fallito per commissione ${commission.id}: ${result.error}`);
+            console.error(`❌ Payout failed for commission ${commission.id}: ${result.error}`);
             await storage.updateReferralCommission(commission.id, {
               payoutStatus: 'failed',
               payoutMethod: 'paypal'
@@ -238,15 +238,15 @@ export class PayPalPayoutService {
             failed++;
           }
         } catch (error: any) {
-          console.error(`❌ Errore processing commissione ${commission.id}:`, error);
+          console.error(`❌ Error processing commission ${commission.id}:`, error);
           failed++;
         }
       }
       
-      logger.debug(`✅ Payout processati: ${processed} successo, ${failed} falliti`);
+      logger.debug(`✅ Payouts processed: ${processed} succeeded, ${failed} failed`);
       return { processed, failed };
     } catch (error: any) {
-      console.error('❌ Errore generale processing payouts:', error);
+      console.error('❌ General error processing payouts:', error);
       return { processed: 0, failed: 0 };
     }
   }

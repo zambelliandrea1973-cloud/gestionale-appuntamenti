@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { DataAccessLogger } from '../services/data-access-logger';
 
 /**
- * Middleware per registrare automaticamente gli accessi ai dati personali
- * Può essere applicato a rotte specifiche che gestiscono dati sensibili
+ * Middleware for automatically logging personal data access
+ * Can be applied to specific routes that handle sensitive data
  */
 export function logDataAccess(resourceType: string) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -26,13 +26,13 @@ export function logDataAccess(resourceType: string) {
         action = 'read';
     }
 
-    // Ottieni l'ID della risorsa, se disponibile
+    // Get the resource ID, if available
     const resourceId = req.params.id || 'multiple';
 
-    // Ottieni l'ID dell'utente dalla sessione
+    // Get the user ID from the session
     const userId = req.user?.id || 'anonymous';
 
-    // Registra l'accesso prima di procedere
+    // Register access prima di procedere
     DataAccessLogger.logAccess(
       userId,
       action,

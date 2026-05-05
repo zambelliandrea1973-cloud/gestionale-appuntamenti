@@ -11,7 +11,7 @@ const router = Router();
 const passwordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: { error: "Troppi tentativi. Riprova tra 15 minuti." },
+  message: { error: "Too many attempts. Please try again in 15 minutes." },
   standardHeaders: true,
   legacyHeaders: false,
   validate: { xForwardedForHeader: false },
@@ -21,10 +21,10 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return res.status(400).json({ error: "Email richiesta" });
+      return res.status(400).json({ error: "Email required" });
     }
 
-    logger.debug(`📧 [FORGOT-PASSWORD] Richiesta reset per: ${email}`);
+    logger.debug(`📧 [FORGOT-PASSWORD] Reset request for: ${email}`);
 
     const [userRecord] = await db.select().from(users).where(eq(users.email, email));
     const [staffRecord] = await db.select().from(staff).where(eq(staff.email, email));
@@ -33,18 +33,18 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
     const foundUser = userRecord || staffRecord;
 
     if (!foundUser) {
-      logger.debug(`📧 [FORGOT-PASSWORD] Email non trovata: ${email}`);
-      return res.status(200).json({ message: "Se l'email esiste, riceverai un link di reset" });
+      logger.debug(`📧 [FORGOT-PASSWORD] Email not found: ${email}`);
+      return res.status(200).json({ message: "If the email exists, you will receive a reset link" });
     }
 
-    logger.debug(`📧 [FORGOT-PASSWORD] Utente trovato: ID ${foundUser.id}, tabella: ${isStaff ? 'staff' : 'users'}`);
+    logger.debug(`📧 [FORGOT-PASSWORD] user found: ID ${foundUser.id}, table: ${isStaff ? 'staff' : 'users'}`);
 
     const crypto = await import('crypto');
     const resetToken = crypto.randomBytes(32).toString('hex');
     const tokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
 
     try {
-      logger.debug(`📝 [FORGOT-PASSWORD] Salvataggio token per ${isStaff ? 'staff' : 'user'} ID ${foundUser.id}`);
+      logger.debug(`📝 [FORGOT-PASSWORD] Saving token for ${isStaff ? 'staff' : 'user'} ID ${foundUser.id}`);
       if (isStaff) {
         await db.update(staff)
           .set({ resetToken, resetTokenExpiry: tokenExpiry })
@@ -54,10 +54,10 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
           .set({ resetToken, resetTokenExpiry: tokenExpiry })
           .where(eq(users.id, foundUser.id));
       }
-      logger.debug(`✅ [FORGOT-PASSWORD] Token salvato con successo`);
+      logger.debug(`✅ [FORGOT-PASSWORD] Token saved successfully`);
     } catch (updateError) {
-      console.error('❌ [FORGOT-PASSWORD] Errore nel salvataggio del token:', updateError);
-      return res.status(500).json({ error: "Errore nel salvataggio della richiesta di reset" });
+      console.error('❌ [FORGOT-PASSWORD] Error saving token:', updateError);
+      return res.status(500).json({ error: "Error saving reset request" });
     }
 
     const baseUrl = req.get('origin') || process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
@@ -65,12 +65,12 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
     
     const emailHtml = `
       <h2>Recupero Password</h2>
-      <p>Hai richiesto di resettare la tua password. Clicca il link sotto:</p>
+      <p>Hai required di resettare la tua password. Clicca il link sotto:</p>
       <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
         Reimposta Password
       </a>
       <p>Il link scadrà tra 1 ora.</p>
-      <p>Se non hai richiesto questo reset, ignora questa email.</p>
+      <p>Se non hai required questo reset, ignora questa email.</p>
     `;
 
     try {
@@ -82,19 +82,19 @@ router.post("/api/forgot-password", passwordResetLimiter, async (req, res) => {
       );
 
       if (result.success) {
-        logger.debug(`✅ Email di reset password inviata a ${email} da ${result.senderEmail}`);
-        return res.status(200).json({ message: "Email di reset inviata. Controlla la tua casella di posta." });
+        logger.debug(`✅ Password reset email sent to ${email} from ${result.senderEmail}`);
+        return res.status(200).json({ message: "Password reset email sent. Check your inbox." });
       } else {
-        console.error(`❌ Email di reset password fallita: ${result.error}`);
-        return res.status(500).json({ error: `Errore nell'invio dell'email: ${result.error}` });
+        console.error(`❌ Password reset email failed: ${result.error}`);
+        return res.status(500).json({ error: `Error sending email: ${result.error}` });
       }
     } catch (emailError: any) {
-      console.error('❌ Errore nell\'invio email reset-password:', emailError);
-      return res.status(500).json({ error: `Errore nell'invio dell'email: ${emailError.message}` });
+      console.error('❌ Error sending password reset email:', emailError);
+      return res.status(500).json({ error: `Error sending email: ${emailError.message}` });
     }
   } catch (error: any) {
-    console.error('❌ Errore forgot-password:', error);
-    res.status(500).json({ error: "Errore server" });
+    console.error('❌ Error in forgot-password:', error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -102,7 +102,7 @@ router.post("/api/verify-reset-token", async (req, res) => {
   try {
     const { token } = req.body;
     if (!token) {
-      return res.status(400).send("Token richiesto");
+      return res.status(400).send("Token required");
     }
 
     logger.debug(`🔍 [DEBUG] Verifying reset token: ${token.substring(0, 10)}...`);
@@ -139,10 +139,10 @@ router.post("/api/verify-reset-token", async (req, res) => {
     }
 
     console.log(`❌ [DEBUG] Token not found or expired`);
-    res.status(400).send("Token scaduto o non valido");
+    res.status(400).send("Token expired or invalid");
   } catch (error: any) {
-    console.error('❌ Errore verify-reset-token:', error);
-    res.status(500).send("Errore server");
+    console.error('❌ Error in verify-reset-token:', error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -150,7 +150,7 @@ router.post("/api/reset-password", passwordResetLimiter, async (req, res) => {
   try {
     const { token, newPassword } = req.body;
     if (!token || !newPassword) {
-      return res.status(400).send("Token e nuova password richiesti");
+      return res.status(400).send("Token and new password required");
     }
 
     if (newPassword.length < 6) {
@@ -184,8 +184,8 @@ router.post("/api/reset-password", passwordResetLimiter, async (req, res) => {
         })
         .where(eq(users.id, user.id));
       
-      logger.debug(`✅ Password resettata per utente ${user.email}`);
-      return res.status(200).json({ message: "Password resettata con successo" });
+      logger.debug(`✅ Password reset for user ${user.email}`);
+      return res.status(200).json({ message: "Password reset successfully" });
     }
 
     const foundStaff = await db.select()
@@ -209,15 +209,15 @@ router.post("/api/reset-password", passwordResetLimiter, async (req, res) => {
         })
         .where(eq(staff.id, staffMember.id));
       
-      logger.debug(`✅ Password resettata per staff ${staffMember.email}`);
-      return res.status(200).json({ message: "Password resettata con successo" });
+      logger.debug(`✅ Password reset for staff ${staffMember.email}`);
+      return res.status(200).json({ message: "Password reset successfully" });
     }
 
     console.log(`❌ [DEBUG] Token not found or expired`);
-    res.status(400).send("Token scaduto o non valido");
+    res.status(400).send("Token expired or invalid");
   } catch (error: any) {
-    console.error('❌ Errore reset-password:', error);
-    res.status(500).send("Errore server");
+    console.error('❌ Error in reset-password:', error);
+    res.status(500).send("Server error");
   }
 });
 

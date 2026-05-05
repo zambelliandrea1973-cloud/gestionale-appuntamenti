@@ -11,7 +11,7 @@ const router = Router();
 
 /**
  * GET /api/google-calendar/check-event/:eventId
- * Verifica se un evento esiste su Google Calendar
+ * Check if an event exists on Google Calendar
  */
 router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
   try {
@@ -19,12 +19,12 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
     const eventId = req.params.eventId;
     
     if (!userId) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
     
     const user = await db.select().from(users).where(eq(users.id, userId));
     if (!user.length || !user[0].googleAuthToken) {
-      return res.json({ exists: false, error: 'Token Google non disponibile' });
+      return res.json({ exists: false, error: 'Google token not available' });
     }
     
     const decryptedTokenStr = EncryptionService.decryptToken(user[0].googleAuthToken);
@@ -41,7 +41,7 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
         const encrypted = EncryptionService.encrypt(JSON.stringify(merged));
         await db.update(users).set({ googleAuthToken: encrypted }).where(eq(users.id, userId));
       } catch (err) {
-        console.error(`❌ [CALENDAR-API] Errore salvataggio token refreshato:`, err);
+        console.error(`❌ [CALENDAR-API] Error saving refreshed token:`, err);
       }
     });
     
@@ -72,23 +72,23 @@ router.get('/check-event/:eventId', isAuthenticated, async (req, res) => {
   }
 });
 
-// NOTA: L'endpoint POST /sync è stato spostato in simple-routes.ts
+// NOTE: The POST /sync endpoint has been moved to simple-routes.ts
 // per evitare conflitti di routing
 
 /**
  * GET /api/google-calendar/status
- * Ottieni stato sincronizzazione
+ * Get stato sincronizzazione
  */
 router.get('/status', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const user = await db.select().from(users).where(eq(users.id, userId));
     if (!user.length) {
-      return res.status(404).json({ error: 'Utente non trovato' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     // Conta eventi sincronizzati
@@ -101,8 +101,8 @@ router.get('/status', isAuthenticated, async (req, res) => {
       totalSyncedEvents: syncedEvents.length
     });
   } catch (error) {
-    console.error('Errore status Google Calendar:', error);
-    res.status(500).json({ error: 'Errore lettura stato' });
+    console.error('Error getting Google Calendar status:', error);
+    res.status(500).json({ error: 'Error reading status' });
   }
 });
 

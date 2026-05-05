@@ -1,8 +1,8 @@
 import { logger } from '../utils/logger';
 /**
- * AutoRestartService - Servizio avanzato per il riavvio automatico dell'applicazione
- * Monitora l'applicazione e la riavvia automaticamente se rileva problemi
- * come blocchi, utilizzo elevato della memoria o timeout nelle richieste
+ * AutoRestartService - Advanced service for automatic application restart
+ * Monitors the application and automatically restarts it if issues are detected
+ * such as blocks, high memory usage, or request timeouts
  */
 
 import axios from 'axios';
@@ -20,11 +20,11 @@ interface RestartLogEntry {
 }
 
 class AutoRestartService {
-  private readonly CHECK_INTERVAL = 5 * 60 * 1000; // 5 minuti
-  private readonly MEMORY_THRESHOLD = 0.85; // 85% della memoria disponibile
+  private readonly CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
+  private readonly MEMORY_THRESHOLD = 0.85; // 85% of available memory
   private readonly CPU_THRESHOLD = 0.9; // 90% di carico CPU
-  private readonly RESPONSE_TIMEOUT = 10000; // 10 secondi di timeout per le risposte
-  private readonly RESTART_COOLDOWN = 15 * 60 * 1000; // 15 minuti di cooldown tra riavvii
+  private readonly RESPONSE_TIMEOUT = 10000; // 10 seconds timeout for responses
+  private readonly RESTART_COOLDOWN = 15 * 60 * 1000; // 15 minutes of cooldown between restarts
   
   private checkTimer: NodeJS.Timeout | null = null;
   private lastRestartTime: number = 0;
@@ -36,11 +36,11 @@ class AutoRestartService {
   constructor() {
     this.logFile = path.join(process.cwd(), 'restart_logs.json');
     this.loadLogs();
-    console.log('Servizio di riavvio automatico inizializzato');
+    console.log('Auto-restart service initialized');
   }
   
   /**
-   * Avvia il monitoraggio dell'applicazione
+   * Start application monitoring
    */
   start(): void {
     if (this.checkTimer) {
@@ -48,11 +48,11 @@ class AutoRestartService {
     }
     
     this.checkTimer = setInterval(() => this.performHealthCheck(), this.CHECK_INTERVAL);
-    console.log(`Monitoraggio applicazione avviato, verifica ogni ${this.CHECK_INTERVAL / 60000} minuti`);
+    console.log(`Application monitoring started, check every ${this.CHECK_INTERVAL / 60000} minutes`);
   }
   
   /**
-   * Ferma il monitoraggio dell'applicazione
+   * Stop application monitoring
    */
   stop(): void {
     if (this.checkTimer) {
@@ -60,15 +60,15 @@ class AutoRestartService {
       this.checkTimer = null;
     }
     
-    console.log('Monitoraggio applicazione fermato');
+    console.log('Application monitoring stopped');
   }
   
   /**
-   * Abilita o disabilita il riavvio automatico
+   * Enable or disable the automatic restart
    */
   setEnabled(enabled: boolean): void {
     this.enabled = enabled;
-    console.log(`Riavvio automatico ${enabled ? 'abilitato' : 'disabilitato'}`);
+    console.log(`Auto-restart ${enabled ? 'enabled' : 'disabled'}`);
     
     if (enabled && !this.checkTimer) {
       this.start();
@@ -78,26 +78,26 @@ class AutoRestartService {
   }
   
   /**
-   * Esegue un controllo di salute completo dell'applicazione
+   * Performs a complete health check of the application
    */
   private async performHealthCheck(): Promise<void> {
-    console.log('Esecuzione controllo di salute completo...');
+    console.log('Running full health check...');
     
     try {
-      // 1. Verifica lo stato dell'API
+      // 1. Verify the API status
       const apiHealthy = await this.checkApiHealth();
       
-      // 2. Verifica l'utilizzo delle risorse
+      // 2. Verify resource usage
       const resourcesHealthy = this.checkResourceUsage();
       
-      // Se entrambi i controlli passano, tutto ok
+      // If both checks pass, all good
       if (apiHealthy && resourcesHealthy) {
-        console.log('Controllo di salute completato: sistema in buono stato');
+        console.log('Health check completed: system in good state');
         
-        // Resetta i tentativi di riavvio dopo un certo periodo di stabilità
+        // Reset restart attempts after a period of stability
         if (Date.now() - this.lastRestartTime > this.RESTART_COOLDOWN * 2) {
           if (this.restartAttempts > 0) {
-            console.log(`Reset dei tentativi di riavvio da ${this.restartAttempts} a 0 dopo un periodo di stabilità`);
+            console.log(`Restart attempts reset from ${this.restartAttempts} to 0 after a stability period`);
             this.restartAttempts = 0;
           }
         }
@@ -105,20 +105,20 @@ class AutoRestartService {
         return;
       }
       
-      // Se fallisce uno dei controlli, considera il riavvio
+      // If one of the checks fails, consider the restart
       const reason = !apiHealthy 
         ? 'API non risponde' 
         : 'Utilizzo risorse eccessivo';
       
       this.considerRestart(reason);
     } catch (error) {
-      console.error('Errore durante il controllo di salute:', error);
-      this.considerRestart('Errore nel controllo di salute');
+      console.error('Error during health check:', error);
+      this.considerRestart('Health check error');
     }
   }
   
   /**
-   * Verifica la salute dell'API
+   * Verify API health
    */
   private async checkApiHealth(): Promise<boolean> {
     try {
@@ -132,22 +132,22 @@ class AutoRestartService {
       
       return response.status === 200 && response.data.status === 'OK';
     } catch (error) {
-      console.error('Errore nella verifica dell\'API:', error);
+      console.error('Error verifying API:', error);
       return false;
     }
   }
   
   /**
-   * Verifica l'utilizzo delle risorse del sistema
+   * Verify system resource usage
    */
   private checkResourceUsage(): boolean {
     try {
-      // Verifica l'utilizzo della memoria
+      // Verify memory usage
       const totalMem = os.totalmem();
       const freeMem = os.freemem();
       const memUsage = (totalMem - freeMem) / totalMem;
       
-      // Verifica il carico della CPU
+      // Verify CPU load
       const cpuLoad = os.loadavg()[0] / os.cpus().length;
       
       const memoryOk = memUsage < this.MEMORY_THRESHOLD;
@@ -163,49 +163,49 @@ class AutoRestartService {
       
       return memoryOk && cpuOk;
     } catch (error) {
-      console.error('Errore nella verifica dell\'utilizzo delle risorse:', error);
-      return false; // In caso di errore, considera il sistema non in salute
+      console.error('Error verifying resource usage:', error);
+      return false; // In case of error, consider the system unhealthy
     }
   }
   
   /**
-   * Valuta se riavviare l'applicazione in base allo stato corrente
+   * Evaluate whether to restart the application based on current state
    */
   private considerRestart(reason: string): void {
     if (!this.enabled) {
-      console.log(`Riavvio necessario per: ${reason}, ma il riavvio automatico è disabilitato`);
+      console.log(`Restart needed for: ${reason}, but auto-restart is disabled`);
       return;
     }
     
     const now = Date.now();
     const timeSinceLastRestart = now - this.lastRestartTime;
     
-    // Verifica se siamo nel periodo di cooldown
+    // Check if we are in the cooldown period
     if (timeSinceLastRestart < this.RESTART_COOLDOWN) {
-      console.log(`Riavvio necessario, ma siamo nel periodo di cooldown (${Math.round(timeSinceLastRestart / 60000)}/${Math.round(this.RESTART_COOLDOWN / 60000)} minuti)`);
+      console.log(`Restart needed, but we are in cooldown period (${Math.round(timeSinceLastRestart / 60000)}/${Math.round(this.RESTART_COOLDOWN / 60000)} minutes)`);
       return;
     }
     
-    // Limita il numero massimo di tentativi di riavvio
+    // Limit the maximum number of restart attempts
     if (this.restartAttempts >= 3 && timeSinceLastRestart < this.RESTART_COOLDOWN * 3) {
-      console.log(`Troppi tentativi di riavvio (${this.restartAttempts}), sistema potenzialmente instabile. Attendi intervento manuale.`);
+      console.log(`Too many restart attempts (${this.restartAttempts}), system potentially unstable. Manual intervention required.`);
       return;
     }
     
-    console.log(`Riavvio automatico in corso... Motivo: ${reason}`);
+    console.log(`Auto-restart in progress... Reason: ${reason}`);
     this.restartApplication(reason);
   }
   
   /**
-   * Riavvia l'applicazione
+   * Restart l'applicazione
    */
   private restartApplication(reason: string): void {
     try {
-      // Aggiorna lo stato
+      // Update the status
       this.lastRestartTime = Date.now();
       this.restartAttempts++;
       
-      // Registra il riavvio
+      // Register the restart
       const logEntry: RestartLogEntry = {
         timestamp: new Date().toISOString(),
         reason,
@@ -217,22 +217,22 @@ class AutoRestartService {
       this.restartLogs.push(logEntry);
       this.saveLogs();
       
-      // Esegui il riavvio effettivo
-      console.log(`Esecuzione riavvio, tentativo #${this.restartAttempts}...`);
+      // Execute the restart effettivo
+      console.log(`Executing restart, attempt #${this.restartAttempts}...`);
       
-      // In Replit, terminare il processo è sufficiente
-      // Il sistema riavvierà automaticamente l'applicazione
-      console.log('Terminazione processo per riavvio...');
+      // In Replit, terminating the process is sufficient
+      // The system will automatically restart the application
+      console.log('Terminating process for restart...');
       setTimeout(() => {
         process.exit(0);
       }, 1000);
     } catch (error) {
-      console.error('Errore durante il riavvio dell\'applicazione:', error);
+      console.error('Error during application restart:', error);
     }
   }
   
   /**
-   * Carica i log dei riavvii precedenti
+   * Load previous restart logs
    */
   private loadLogs(): void {
     try {
@@ -240,51 +240,51 @@ class AutoRestartService {
         const data = fs.readFileSync(this.logFile, 'utf8');
         this.restartLogs = JSON.parse(data);
         
-        // Carica l'ultimo timestamp di riavvio
+        // Load l'ultimo timestamp restart
         if (this.restartLogs.length > 0) {
           const lastLog = this.restartLogs[this.restartLogs.length - 1];
           this.lastRestartTime = new Date(lastLog.timestamp).getTime();
         }
         
-        console.log(`Caricati ${this.restartLogs.length} log di riavvio`);
+        console.log(`Loaded ${this.restartLogs.length} restart logs`);
       }
     } catch (error) {
-      console.error('Errore nel caricamento dei log di riavvio:', error);
+      console.error('Error loading restart logs:', error);
       this.restartLogs = [];
     }
   }
   
   /**
-   * Salva i log dei riavvii
+   * Save restart logs
    */
   private saveLogs(): void {
     try {
-      // Mantieni solo gli ultimi 50 log per evitare file troppo grandi
+      // Keep only the last 50 logs to avoid files becoming too large
       if (this.restartLogs.length > 50) {
         this.restartLogs = this.restartLogs.slice(-50);
       }
       
       fs.writeFileSync(this.logFile, JSON.stringify(this.restartLogs, null, 2));
     } catch (error) {
-      console.error('Errore nel salvataggio dei log di riavvio:', error);
+      console.error('Error saving restart logs:', error);
     }
   }
   
   /**
-   * Ottiene i log dei riavvii
+   * Get restart logs
    */
   getRestartLogs(): RestartLogEntry[] {
     return [...this.restartLogs];
   }
   
   /**
-   * Forza un riavvio manuale
+   * Force a manual restart
    */
   forceRestart(reason: string = 'Riavvio manuale'): void {
-    console.log(`Riavvio manuale forzato: ${reason}`);
+    console.log(`Forced manual restart: ${reason}`);
     this.restartApplication(reason);
   }
 }
 
-// Esporta un'istanza singleton
+// Export a singleton instance
 export const autoRestartService = new AutoRestartService();

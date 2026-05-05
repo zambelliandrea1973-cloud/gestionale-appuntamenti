@@ -3,13 +3,13 @@ import { db } from '../db';
 import { appointments, treatmentRooms } from '../../shared/schema';
 import { and, eq, gte, lte, or, lt, gt } from 'drizzle-orm';
 
-// Helper: Converte orario HH:MM in minuti dalla mezzanotte
+// Helper: Convert HH:MM time to minutes from midnight
 function toMinutes(timeStr: string): number {
   const [hours, minutes] = timeStr.split(':').map(Number);
   return hours * 60 + minutes;
 }
 
-// Helper: Converte minuti dalla mezzanotte in formato HH:MM
+// Helper: Convert minutes from midnight to HH:MM format
 function toTime(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -21,8 +21,8 @@ interface AvailabilityParams {
   date: string; // YYYY-MM-DD
   timeStart: string; // HH:MM
   timeEnd: string; // HH:MM
-  duration: number; // minuti
-  staffId?: number; // NUOVO: Se specificato, verifica solo disponibilità di questo professionista
+  duration: number; // minutes
+  staffId?: number; // NEW: If specified, check availability for this specific professional only
 }
 
 interface TimeSlot {
@@ -33,10 +33,10 @@ interface TimeSlot {
 }
 
 /**
- * Calcola slot disponibili per prenotazione appuntamento
- * Logica multi-stanza: slot disponibile se appuntamenti contemporanei < stanze totali
- * Logica preferenza staff: se staffId specificato, verifica solo disponibilità di quel professionista
- * @returns Array di max 5 slot liberi di 15 minuti ciascuno
+ * Calculate available slots for appointment booking
+ * Multi-room logic: slot available if concurrent appointments < total rooms
+ * Staff preference logic: if staffId specified, verify only that professional's availability
+ * @returns Array of max 5 free slots of 15 minutes each
  */
 export async function calculateAvailableSlots(
   params: AvailabilityParams
@@ -45,23 +45,23 @@ export async function calculateAvailableSlots(
   
   console.log(`🔍 [AVAILABILITY] Calcolo slot per userId=${userId}, data=${date}, fascia=${timeStart}-${timeEnd}, durata=${duration}min${staffId ? `, staffId=${staffId}` : ''}`);
   
-  // Validazione input
+  // Input validation
   if (!timeStart || !timeEnd || !timeStart.match(/^\d{2}:\d{2}$/) || !timeEnd.match(/^\d{2}:\d{2}$/)) {
-    console.error(`❌ [AVAILABILITY] Formato orario non valido: ${timeStart} - ${timeEnd}`);
+    console.error(`❌ [AVAILABILITY] Invalid time format: ${timeStart} - ${timeEnd}`);
     return [];
   }
   
   const windowStart = toMinutes(timeStart);
   const windowEnd = toMinutes(timeEnd);
   
-  // Verifica che la finestra sia sufficiente per la durata del servizio
+  // Verify that the window is sufficient for the service duration
   if (windowEnd - windowStart < duration) {
     console.log(`⚠️ [AVAILABILITY] Finestra troppo piccola: ${windowEnd - windowStart}min < ${duration}min richiesti`);
     return [];
   }
   
   try {
-    // Carica stanze attive per calcolare capacità parallela
+    // Load active rooms to calculate parallel capacity
     const activeRooms = await db
       .select()
       .from(treatmentRooms)
@@ -71,12 +71,12 @@ export async function calculateAvailableSlots(
       ));
     
     const totalRooms = activeRooms.length;
-    console.log(`🏢 [AVAILABILITY] Trovate ${totalRooms} stanze attive`);
+    console.log(`🏢 [AVAILABILITY] Found ${totalRooms} active rooms`);
     
-    // Se nessuna stanza configurata, fallback a logica semplice (1 stanza virtuale)
+    // If no room configured, fallback to simple logic (1 virtual room)
     const roomCapacity = totalRooms > 0 ? totalRooms : 1;
     
-    // Recupera appuntamenti esistenti per quella data e userId
+    // Retrieve existing appointments for that date and userId
     const existingAppointments = await db
       .select({
         start: appointments.startTime,
@@ -90,35 +90,35 @@ export async function calculateAvailableSlots(
           eq(appointments.userId, userId),
           eq(appointments.date, date),
           or(
-            // Appuntamento inizia nella finestra
+            // Appointment starts in the window
             and(gte(appointments.startTime, timeStart), lt(appointments.startTime, timeEnd)),
-            // Appuntamento finisce nella finestra
+            // Appointment ends in the window
             and(gt(appointments.endTime, timeStart), lte(appointments.endTime, timeEnd)),
-            // Appuntamento copre l'intera finestra
+            // Appointment copre l'intera finestra
             and(lte(appointments.startTime, timeStart), gte(appointments.endTime, timeEnd))
           )
         )
       )
       .orderBy(appointments.startTime);
     
-    console.log(`📅 [AVAILABILITY] Trovati ${existingAppointments.length} appuntamenti esistenti nella finestra`);
+    console.log(`📅 [AVAILABILITY] Found ${existingAppointments.length} existing appointments in the window`);
     
-    // Genera candidati slot (incrementi di 15 minuti)
+    // Generate candidate slots (15-minute increments)
     const candidates: TimeSlot[] = [];
     
     for (let start = windowStart; start + duration <= windowEnd; start += 15) {
       const end = start + duration;
       
-      // Filtra appuntamenti che si sovrappongono con questo slot
+      // Filter appointments that overlap with this slot
       const overlappingAppointments = existingAppointments.filter(apt => {
         const aptStart = toMinutes(apt.start);
         const aptEnd = toMinutes(apt.end);
         return aptStart < end && aptEnd > start;
       });
       
-      // Calcola quante stanze FISICHE sono effettivamente occupate
-      // - Appuntamenti con roomId → contano verso quella stanza specifica
-      // - Appuntamenti senza roomId → considerati come stanze separate (pessimistic approach)
+      // Calculate how many PHYSICAL rooms are effectively occupied
+      // - Appointments with roomId → count towards that specific room
+      // - Appointments without roomId → treated as separate rooms (pessimistic approach)
       const occupiedRoomIds = new Set<number>();
       let unassignedRoomCount = 0;
       
@@ -126,7 +126,7 @@ export async function calculateAvailableSlots(
         if (apt.roomId !== null && apt.roomId !== undefined) {
           occupiedRoomIds.add(apt.roomId);
         } else {
-          // Appuntamento legacy senza stanza assegnata → conta come stanza virtuale
+          // Legacy appointment without assigned room → counts as virtual room
           unassignedRoomCount++;
         }
       });
@@ -137,23 +137,23 @@ export async function calculateAvailableSlots(
       let slotAvailable = false;
       
       if (staffId) {
-        // MODALITÀ PREFERENZA STAFF: verifica che il professionista sia libero E che ci sia capacità stanze
+        // STAFF PREFERENCE MODE: verify that the professional is free AND that there is room capacity
         const staffBusy = overlappingAppointments.some(apt => apt.staffId === staffId);
         slotAvailable = !staffBusy && hasRoomCapacity;
         
         if (!staffBusy && !hasRoomCapacity) {
-          console.log(`⚠️ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: staff ${staffId} libero ma tutte le stanze occupate (${totalOccupiedRooms}/${roomCapacity})`);
+          console.log(`⚠️ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: staff ${staffId} free but all rooms occupied (${totalOccupiedRooms}/${roomCapacity})`);
         } else if (slotAvailable && overlappingAppointments.length > 0) {
-          console.log(`✓ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: staff ${staffId} libero, ${totalOccupiedRooms}/${roomCapacity} stanze occupate - DISPONIBILE`);
+          console.log(`✓ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: staff ${staffId} free, ${totalOccupiedRooms}/${roomCapacity} rooms occupied - AVAILABLE`);
         }
       } else {
-        // MODALITÀ MULTI-STANZA: slot disponibile se stanze occupate < capacità totale
+        // MULTI-ROOM MODE: slot available if occupied rooms < total capacity
         slotAvailable = hasRoomCapacity;
         
         if (slotAvailable && overlappingAppointments.length > 0) {
-          console.log(`✓ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: ${totalOccupiedRooms}/${roomCapacity} stanze occupate (${occupiedRoomIds.size} assegnate + ${unassignedRoomCount} non assegnate) - DISPONIBILE`);
+          console.log(`✓ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: ${totalOccupiedRooms}/${roomCapacity} rooms occupied (${occupiedRoomIds.size} assigned + ${unassignedRoomCount} unassigned) - AVAILABLE`);
         } else if (!slotAvailable) {
-          console.log(`❌ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: tutte le stanze occupate (${totalOccupiedRooms}/${roomCapacity})`);
+          console.log(`❌ [AVAILABILITY] Slot ${toTime(start)}-${toTime(end)}: all rooms occupied (${totalOccupiedRooms}/${roomCapacity})`);
         }
       }
       
@@ -163,19 +163,19 @@ export async function calculateAvailableSlots(
           end: toTime(end)
         });
         
-        // Limita a 5 slot per non sovraccaricare la UI
+        // Limit to 5 slots to avoid overloading the UI
         if (candidates.length === 5) {
-          logger.debug(`✅ [AVAILABILITY] Trovati 5 slot, fermata ricerca`);
+          logger.debug(`✅ [AVAILABILITY] Found 5 slot, fermata ricerca`);
           break;
         }
       }
     }
     
-    logger.debug(`✅ [AVAILABILITY] ${candidates.length} slot disponibili trovati`);
+    logger.debug(`✅ [AVAILABILITY] ${candidates.length} available slots found`);
     return candidates;
     
   } catch (error) {
-    console.error(`❌ [AVAILABILITY] Errore nel calcolo slot:`, error);
+    console.error(`❌ [AVAILABILITY] Error calculating slots:`, error);
     return [];
   }
 }

@@ -1,9 +1,9 @@
 /**
- * SISTEMA DATABASE PERSONALIZZATO PER OGNI UTENTE
- * Implementazione del sistema con codici univoci come da schema fornito
+ * CUSTOM DATABASE SYSTEM FOR EACH USER
+ * System implementation with unique codes as per provided schema
  */
 
-// Mappa dei codici univoci per ogni campo personalizzabile
+// Map of unique codes for each customizable field
 export const FIELD_CODES = {
   // Branding (COD_001 - COD_006)
   BUSINESS_NAME: 'COD_001',      // Nome Aziendale
@@ -25,27 +25,27 @@ export const FIELD_CODES = {
   FACEBOOK: 'COD_012',           // Pagina Facebook
   LINKEDIN: 'COD_013',           // Profilo LinkedIn
   
-  // Configurazioni Email (COD_014 - COD_018)
+  // Email configurations (COD_014 - COD_018)
   EMAIL_PROVIDER: 'COD_014',     // Provider Email
   EMAIL_API_KEY: 'COD_015',      // Chiave API Email
   EMAIL_FROM_NAME: 'COD_016',    // Nome Mittente
   EMAIL_FROM_ADDRESS: 'COD_017', // Indirizzo Mittente
   EMAIL_SIGNATURE: 'COD_018',    // Firma Email
   
-  // Orari e Appuntamenti (COD_019 - COD_024)
+  // Orari e Appointments (COD_019 - COD_024)
   WORKING_HOURS_START: 'COD_019', // Orario Inizio
   WORKING_HOURS_END: 'COD_020',   // Orario Fine
   WORKING_DAYS: 'COD_021',        // Giorni Lavorativi
   TIME_SLOT_DURATION: 'COD_022',  // Durata Slot
   
   // Fatturazione (COD_023 - COD_025)
-  INVOICE_PREFIX: 'COD_023',      // Prefisso Fattura
+  INVOICE_PREFIX: 'COD_023',      // Invoice Prefix
   TAX_RATE: 'COD_024',           // Aliquota IVA
   CURRENCY: 'COD_025'            // Valuta
 } as const;
 
 /**
- * Classe per gestire il database personalizzato di ogni utente
+ * Class to manage each user's custom database
  */
 export class UserDatabaseSystem {
   private userId: number;
@@ -55,28 +55,28 @@ export class UserDatabaseSystem {
   }
   
   /**
-   * Recupera un valore dal database dell'utente usando il codice univoco
+   * Retrieve a value from the user's database using the unique code
    */
   async getValue(fieldCode: string): Promise<string | null> {
-    // Implementazione che recupera dal database dell'utente specifico
+    // Implementation that retrieves from the specific user's database
     return this.getUserFieldValue(fieldCode);
   }
   
   /**
-   * Imposta un valore nel database dell'utente usando il codice univoco
+   * Set a value in the user database using the unique code
    */
   async setValue(fieldCode: string, value: string): Promise<boolean> {
-    // Implementazione che salva nel database dell'utente specifico
+    // Implementation that saves to the specific user's database
     return this.setUserFieldValue(fieldCode, value);
   }
   
   /**
-   * Recupera TUTTI i valori del database dell'utente al login
+   * Retrieve ALL values from the user's database at login
    */
   async getAllUserData(): Promise<Record<string, string | null>> {
     const userData: Record<string, string | null> = {};
     
-    // Carica tutti i valori usando i codici univoci
+    // Load all values usando i codici univoci
     for (const [key, code] of Object.entries(FIELD_CODES)) {
       userData[code] = await this.getValue(code);
     }
@@ -85,19 +85,19 @@ export class UserDatabaseSystem {
   }
   
   /**
-   * Inizializza il database dell'utente con valori predefiniti PERSONALIZZATI
+   * Initialize the database of the user con values predefiniti PERSONALIZZATI
    */
   async initializeUserDatabase(): Promise<void> {
-    console.log(`🎯 INIZIALIZZAZIONE DATABASE SEPARATO per User ID: ${this.userId}`);
+    console.log(`🎯 SEPARATE DATABASE INITIALIZATION for User ID: ${this.userId}`);
     
-    // Valori predefiniti PERSONALIZZATI per ogni utente - COME NEL TUO SCHEMA
+    // CUSTOM default values for each user - AS IN YOUR SCHEMA
     const defaultValues = {
-      [FIELD_CODES.BUSINESS_NAME]: `Attività ${this.userId}`,
+      [FIELD_CODES.BUSINESS_NAME]: `Activity ${this.userId}`,
       [FIELD_CODES.TEXT_SIZE]: "16px", 
       [FIELD_CODES.FONT_TYPE]: "Arial",
       [FIELD_CODES.TEXT_STYLE]: "normal",
       [FIELD_CODES.PRIMARY_COLOR]: `#${(0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6)}`, // Colore primario casuale
-      [FIELD_CODES.SECONDARY_COLOR]: "#ffffff", // Colore secondario bianco
+      [FIELD_CODES.SECONDARY_COLOR]: "#ffffff", // White secondary color
       [FIELD_CODES.WORKING_HOURS_START]: "09:00",
       [FIELD_CODES.WORKING_HOURS_END]: "18:00", 
       [FIELD_CODES.TIME_SLOT_DURATION]: "30",
@@ -106,15 +106,15 @@ export class UserDatabaseSystem {
       [FIELD_CODES.CURRENCY]: "EUR"
     };
     
-    // Forza l'inizializzazione con valori personalizzati per ogni utente
+    // Force initialization with custom values for each user
     for (const [code, value] of Object.entries(defaultValues)) {
       const existing = await this.getValue(code);
       if (!existing || existing === "La tua Attività" || existing === "INV") {
-        // Forza il salvataggio di valori personalizzati
+        // Force saving of custom values
         const success = await this.setValue(code, value);
-        console.log(`🎯 INIZIALIZZATO ${code}="${value}" per User ID ${this.userId}: ${success ? 'OK' : 'ERRORE'}`);
+        console.log(`🎯 INITIALIZED ${code}="${value}" for User ID ${this.userId}: ${success ? 'OK' : 'ERROR'}`);
       } else {
-        console.log(`🎯 GIÀ ESISTENTE ${code}="${existing}" per User ID ${this.userId}`);
+        console.log(`🎯 already EXISTS ${code}="${existing}" for User ID ${this.userId}`);
       }
     }
   }
@@ -135,15 +135,15 @@ export class UserDatabaseSystem {
       
       if (result.length > 0) {
         const value = result[0].value as string;
-        console.log(`✅ CODICE ${fieldCode}: Recuperato "${value}" per User ID ${this.userId}`);
+        console.log(`✅ CODE ${fieldCode}: Retrieved "${value}" for User ID ${this.userId}`);
         return value;
       } else {
-        console.log(`🔍 CODICE ${fieldCode}: Nessuna impostazione trovata per User ID ${this.userId}`);
+        console.log(`🔍 CODE ${fieldCode}: No settings found for User ID ${this.userId}`);
         return null;
       }
       
     } catch (error) {
-      console.error(`❌ Errore recupero ${fieldCode} per User ID ${this.userId}:`, error);
+      console.error(`❌ Error retrieving ${fieldCode} for User ID ${this.userId}:`, error);
       return null;
     }
   }
@@ -164,18 +164,18 @@ export class UserDatabaseSystem {
       
       await sql.end();
       
-      console.log(`✅ CODICE ${fieldCode}: Salvato "${value}" per User ID ${this.userId} in database separato`);
+      console.log(`✅ CODE ${fieldCode}: Saved "${value}" for User ID ${this.userId} in separate database`);
       return true;
       
     } catch (error) {
-      console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${this.userId}:`, error);
+      console.error(`❌ Error saving ${fieldCode} for User ID ${this.userId}:`, error);
       return false;
     }
   }
 }
 
 /**
- * Factory per creare un'istanza del database per un utente specifico
+ * Factory to create a database instance for a specific user
  */
 export function createUserDatabase(userId: number): UserDatabaseSystem {
   return new UserDatabaseSystem(userId);

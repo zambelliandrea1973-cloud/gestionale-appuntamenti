@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
 /**
- * Middleware per garantire l'isolamento completo dei tenant
- * Ogni utente vede solo i propri dati, tranne l'admin che gestisce tutto
+ * Middleware to ensure complete tenant isolation
+ * Each user sees only their own data, except the admin who manages everything
  */
 
 export interface TenantUser {
@@ -13,27 +13,27 @@ export interface TenantUser {
 }
 
 /**
- * Middleware per verificare che l'utente acceda solo ai propri dati
+ * Middleware to verify that the user accesses only their own data
  */
 export function enforceDataIsolation(req: Request, res: Response, next: NextFunction) {
   const user = req.user as TenantUser;
   
   if (!user) {
-    return res.status(401).json({ message: 'Non autenticato' });
+    return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  // L'admin può accedere a tutto per gestire pagamenti e account
+  // Admin can access everything to manage payments and accounts
   if (user.type === 'admin') {
-    console.log(`🔒 ADMIN ACCESS: ${user.username} (ID: ${user.id}) - accesso completo garantito`);
+    console.log(`🔒 ADMIN ACCESS: ${user.username} (ID: ${user.id}) - full access granted`);
     next();
     return;
   }
 
-  // Per tutti gli altri utenti, aggiungi automaticamente il filtro userId
+  // For all other users, automatically add the userId filter
   const originalPath = req.path;
   console.log(`🔒 TENANT ISOLATION: ${user.username} (ID: ${user.id}, type: ${user.type}) - accesso isolato a ${originalPath}`);
   
-  // Aggiungi userId ai parametri per garantire isolamento
+  // Add userId to parameters to ensure isolation
   req.tenantUserId = user.id;
   req.tenantUserType = user.type;
   
@@ -41,44 +41,44 @@ export function enforceDataIsolation(req: Request, res: Response, next: NextFunc
 }
 
 /**
- * Middleware specifico per le operazioni sui clienti
- * Solo admin può gestire tutti i clienti, gli altri vedono solo i propri
+ * Middleware specific to client operations
+ * Only admin can manage all clients, others see only their own
  */
 export function enforceClientAccess(req: Request, res: Response, next: NextFunction) {
   const user = req.user as TenantUser;
   
   if (!user) {
-    return res.status(401).json({ message: 'Non autenticato' });
+    return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  // Solo admin e customer possono gestire clienti
+  // Only admin and customer can manage clients
   if (user.type !== 'admin' && user.type !== 'customer') {
-    return res.status(403).json({ message: 'Accesso negato: solo admin e customer possono gestire clienti' });
+    return res.status(403).json({ message: 'Access denied: only admin and customer can manage clients' });
   }
 
   next();
 }
 
 /**
- * Middleware specifico per le funzioni admin
- * Solo admin può gestire pagamenti, abbonamenti e referral
+ * Middleware specific to admin functions
+ * Only admin can manage payments, subscriptions and referrals
  */
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const user = req.user as TenantUser;
   
   if (!user) {
-    return res.status(401).json({ message: 'Non autenticato' });
+    return res.status(401).json({ message: 'Not authenticated' });
   }
 
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: 'Accesso negato: funzione riservata agli amministratori' });
+    return res.status(403).json({ message: 'Access denied: function reserved for administrators' });
   }
 
   console.log(`🔐 ADMIN FUNCTION: ${user.username} (ID: ${user.id}) - accesso funzione amministrativa`);
   next();
 }
 
-// Estendi l'interfaccia Request per includere i dati del tenant
+// Extend the Request interface to include tenant data
 declare global {
   namespace Express {
     interface Request {

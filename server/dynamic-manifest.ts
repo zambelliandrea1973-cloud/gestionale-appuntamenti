@@ -1,5 +1,5 @@
 /**
- * Manifest.json dinamico che si adatta al proprietario del cliente
+ * Dynamic manifest.json that adapts to the client owner
  */
 import { Request, Response } from 'express';
 import path from 'path';
@@ -11,62 +11,62 @@ import { servePlayStoreManifest } from './manifest-playstore';
 
 export function serveDynamicManifest(req: Request, res: Response) {
   try {
-    console.log('🔍 PWA MANIFEST: Richiesta manifest dinamico');
-    console.log('🔍 PWA MANIFEST: URL completo:', req.url);
+    console.log('🔍 PWA MANIFEST: Dynamic manifest requested');
+    console.log('🔍 PWA MANIFEST: Full URL:', req.url);
     console.log('🔍 PWA MANIFEST: Query params:', req.query);
     console.log('🔍 PWA MANIFEST: Headers referer:', req.get('referer'));
     
-    // Rileva PWABuilder e altri tool di analisi PWA - servi manifest statico
+    // Detect PWABuilder e altri tool di analisi PWA - servi manifest statico
     const userAgent = req.get('user-agent') || '';
     if (userAgent.toLowerCase().includes('pwabuilder') || 
         userAgent.toLowerCase().includes('lighthouse') ||
         req.query.playstore === '1') {
-      console.log('📱 PWA MANIFEST: Rilevato tool PWA (PWABuilder/Lighthouse) - servendo manifest statico');
+      console.log('📱 PWA MANIFEST: PWA tool detected (PWABuilder/Lighthouse) - serving static manifest');
       return servePlayStoreManifest(req, res);
     }
     
     // FORZA DEBUG PER IDENTIFICARE IL PROBLEMA
-    console.error('📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA');
+    console.error('📱 DEBUG MANIFEST FORCED: CALL RECEIVED');
     
     let ownerUserId = null;
     
-    // Metodo 1: Query parameter ownerId (priorità massima)
+    // Method 1: Query parameter ownerId (highest priority)
     const ownerIdQuery = req.query.ownerId;
     if (ownerIdQuery) {
       ownerUserId = parseInt(ownerIdQuery as string);
-      console.log(`📱 PWA MANIFEST: Owner ID da query param: ${ownerUserId}`);
+      console.log(`📱 PWA MANIFEST: Owner ID from query param: ${ownerUserId}`);
     }
     
-    // Metodo 1b: Estrai ownerId dal clientToken nei query params (PROF_XXX_...)
+    // Method 1b: Extract ownerId from clientToken in query params (PROF_XXX_...)
     if (!ownerUserId && req.query.clientToken) {
       const clientToken = req.query.clientToken as string;
       const tokenMatch = clientToken.match(/^PROF_(\d{2,3})_/);
       if (tokenMatch) {
         ownerUserId = parseInt(tokenMatch[1]);
-        console.log(`📱 PWA MANIFEST: Owner ID estratto da clientToken: ${ownerUserId}`);
+        console.log(`📱 PWA MANIFEST: Owner ID extracted from clientToken: ${ownerUserId}`);
       }
     }
     
-    // Metodo 2: Analizza referer per token QR
+    // Method 2: Analyze referer for QR token
     if (!ownerUserId) {
       const referer = req.get('referer') || '';
       console.log(`🔍 PWA MANIFEST: Referer: ${referer}`);
       
-      // Cerca pattern /client/PROF_XXX_... nel referer (supporta TUTTI i formati)
-      // Formato NUOVO: PROF_042_C00166
-      // Formato VECCHIO: PROF_014_9C1F_CLIENT_1750163505034_340F
+      // Search for /client/PROF_XXX_... pattern in referer (supports ALL formats)
+      // NEW format: PROF_042_C00166
+      // Format VECCHIO: PROF_014_9C1F_CLIENT_1750163505034_340F
       const pathTokenMatch = referer.match(/\/client\/(PROF_\d{2,3}_[^/?#\s]+)/);
       if (pathTokenMatch) {
         const token = pathTokenMatch[1];
-        // Estrai ownerId dal token (primi 2-3 digit dopo PROF_)
+        // Extract ownerId from token (first 2-3 digits after PROF_)
         const ownerIdMatch = token.match(/^PROF_(\d{2,3})_/);
         if (ownerIdMatch) {
           ownerUserId = parseInt(ownerIdMatch[1]);
-          console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token nel path: ${token}`);
+          console.log(`📱 PWA MANIFEST: Found ownerId ${ownerUserId} from token in path: ${token}`);
         }
       }
       
-      // Fallback: cerca token nei query params del referer
+      // Fallback: search for token in referer query params
       if (!ownerUserId) {
         const tokenMatch = referer.match(/token=([^&]+)/);
         if (tokenMatch) {
@@ -74,7 +74,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
           const ownerIdMatch = token.match(/^PROF_(\d{2,3})_/);
           if (ownerIdMatch) {
             ownerUserId = parseInt(ownerIdMatch[1]);
-            console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token QR nei params`);
+            console.log(`📱 PWA MANIFEST: Found ownerId ${ownerUserId} from QR token in params`);
           }
         }
       }
@@ -85,38 +85,38 @@ export function serveDynamicManifest(req: Request, res: Response) {
       const ownerIdHeader = req.get('x-owner-id');
       if (ownerIdHeader) {
         ownerUserId = parseInt(ownerIdHeader);
-        console.log(`📱 PWA MANIFEST: Owner ID da header: ${ownerUserId}`);
+        console.log(`📱 PWA MANIFEST: Owner ID from header: ${ownerUserId}`);
       }
     }
     
-    // Metodo 4: Sessione utente loggato (ADMIN che installa PWA)
+    // Method 4: Logged-in user session (ADMIN installing PWA)
     if (!ownerUserId && req.user) {
       ownerUserId = (req.user as any).id;
-      console.log(`📱 PWA MANIFEST: Owner ID da sessione utente loggato: ${ownerUserId}`);
+      console.log(`📱 PWA MANIFEST: Owner ID from logged-in user session: ${ownerUserId}`);
     }
     
-    // Metodo 5: Query param userId (usato dal ManifestInjector)
+    // Method 5: Query param userId (used by ManifestInjector)
     if (!ownerUserId && req.query.userId) {
       ownerUserId = parseInt(req.query.userId as string);
-      console.log(`📱 PWA MANIFEST: Owner ID da query userId: ${ownerUserId}`);
+      console.log(`📱 PWA MANIFEST: Owner ID from query userId: ${ownerUserId}`);
     }
     
-    // Crea manifest dinamico con start_url che preserva il contesto del cliente
+    // Create dynamic manifest with start_url that preserves client context
     const storageData = loadStorageData();
     const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Gestionale Appuntamenti';
     
-    // Forza aggiornamento completo del manifest per Android PWA
+    // Force complete manifest update for Android PWA
     const manifestVersion = `${Date.now()}-${ownerUserId || 'default'}`;
-    console.log(`🔄 MANIFEST: Versione aggiornata: ${manifestVersion}`);
+    console.log(`🔄 MANIFEST: Version updated: ${manifestVersion}`);
     
-    // Determina se siamo in area admin o area cliente
+    // Determine if we are in admin area or client area
     const referer = req.get('referer') || '';
     const isClientArea = referer.includes('/client/') || !!req.query.clientToken;
     const isAdminArea = req.user && !isClientArea;
     
     console.log(`🔍 PWA MANIFEST: Referer: ${referer}, isClientArea: ${isClientArea}, isAdminArea: ${isAdminArea}`);
     
-    // Determina start_url in base al contesto
+    // Determine start_url in base al contesto
     let startUrl = "/";
     
     if (isClientArea) {
@@ -128,7 +128,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
           startUrl = clientPathMatch[1];
         }
       }
-      console.log(`📱 PWA MANIFEST: Start URL area cliente: ${startUrl}`);
+      console.log(`📱 PWA MANIFEST: Start URL client area: ${startUrl}`);
     } else if (isAdminArea) {
       startUrl = "/";
       console.log(`📱 PWA MANIFEST: Start URL area admin: ${startUrl}`);
@@ -139,9 +139,9 @@ export function serveDynamicManifest(req: Request, res: Response) {
     let baseManifest;
     if (isAdminArea) {
       baseManifest = {
-        "name": `${professionalName} - Dashboard Professionale`,
+        "name": `${professionalName} - Professional Dashboard`,
         "short_name": professionalName,
-        "description": `Dashboard completa per gestione clienti, appuntamenti e servizi - ${professionalName}`,
+        "description": `Complete dashboard for client, appointment, and service management - ${professionalName}`,
         "start_url": "/",
         "display": "standalone",
         "background_color": "#ffffff",
@@ -157,9 +157,9 @@ export function serveDynamicManifest(req: Request, res: Response) {
       };
     } else {
       baseManifest = {
-        "name": `${professionalName} - Area Cliente`,
+        "name": `${professionalName} - Client Area`,
         "short_name": `${professionalName}`, 
-        "description": `Accedi alla tua area personale - ${professionalName}`,
+        "description": `Access your personal area - ${professionalName}`,
         "start_url": startUrl,
         "display": "standalone",
         "background_color": "#ffffff",
@@ -170,16 +170,16 @@ export function serveDynamicManifest(req: Request, res: Response) {
         "dir": "ltr",
         "prefer_related_applications": false,
         "scope": "/client/",
-        "id": ownerUserId ? `area-cliente-${ownerUserId}` : `area-cliente-generic`,
+        "id": ownerUserId ? `client-area-${ownerUserId}` : `client-area-generic`,
         "version": manifestVersion
       };
     }
     
-    // SOLUZIONE: Se non abbiamo un owner specifico, NON includere icone nel manifest
-    // Questo impedisce a Chrome di memorizzare icone default nel prompt "Apri nell'app"
-    // Il ManifestInjector aggiungerà il manifest corretto con le icone personalizzate
+    // SOLUTION: If we have a specific owner, do NOT include icons in the manifest
+    // This prevents Chrome from storing default icons in the "Open in app" prompt
+    // The ManifestInjector will add the correct manifest with custom icons
     if (!ownerUserId) {
-      console.log('📱 MANIFEST DINAMICO: Nessun owner rilevato, servendo manifest SENZA icone (ManifestInjector gestirà)');
+      console.log('📱 DYNAMIC MANIFEST: No owner detected, serving manifest WITHOUT icons (ManifestInjector will handle)');
       const minimalManifest = {
         ...baseManifest,
         "icons": []
@@ -221,9 +221,9 @@ export function serveDynamicManifest(req: Request, res: Response) {
       ],
       "shortcuts": [
         {
-          "name": "Area Cliente",
+          "name": "Client Area",
           "url": "/client-area",
-          "description": "Accedi alla tua area personale",
+          "description": "Access your personal area",
           "icons": [
             {
               "src": `${iconBaseUrl}/96x96${iconParams}`,
@@ -250,20 +250,20 @@ export function serveDynamicManifest(req: Request, res: Response) {
       'Expires': '0'
     });
     
-    console.log(`📱 MANIFEST DINAMICO: Servendo manifest per ${professionalName} (owner ${ownerUserId || 'default'})`);
-    console.log(`📱 MANIFEST ICONE: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
+    console.log(`📱 DYNAMIC MANIFEST: Serving manifest for ${professionalName} (owner ${ownerUserId || 'default'})`);
+    console.log(`📱 MANIFEST ICONS: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
     console.log(`📱 MANIFEST ID: ${manifest.id}`);
     console.log(`📱 MANIFEST NAME: ${manifest.name}`);
     res.json(manifest);
     
   } catch (error) {
-    console.error('Errore nel servire manifest dinamico:', error);
+    console.error('Error serving dynamic manifest:', error);
     // Fallback al manifest statico
     const staticManifestPath = path.join(process.cwd(), 'public', 'manifest.json');
     if (fs.existsSync(staticManifestPath)) {
       res.sendFile(staticManifestPath);
     } else {
-      res.status(500).json({ error: 'Manifest non disponibile' });
+      res.status(500).json({ error: 'Manifest not available' });
     }
   }
 }

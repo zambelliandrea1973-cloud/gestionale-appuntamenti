@@ -4,7 +4,7 @@ import { storage } from '../storage';
 import { InsertPaymentTransaction } from '../../shared/schema';
 
 /**
- * Servizio per l'integrazione con Wise (precedentemente TransferWise)
+ * Service for integration with Wise (formerly TransferWise)
  */
 export class WiseService {
   private static BASE_URL = process.env.NODE_ENV === 'production'
@@ -16,14 +16,14 @@ export class WiseService {
   private static PROFILE_ID = process.env.WISE_PROFILE_ID;
   
   /**
-   * Verifica se la configurazione di Wise è completa
+   * Check if the Wise configuration is complete
    */
   static isConfigured(): boolean {
     return !!(this.API_KEY && this.PROFILE_ID);
   }
   
   /**
-   * Ritorna gli headers per le richieste API
+   * Return the headers for API requests
    */
   private static getHeaders() {
     return {
@@ -33,7 +33,7 @@ export class WiseService {
   }
   
   /**
-   * Crea un quote per un bonifico
+   * Create a quote for a transfer
    */
   static async createQuote(
     targetCurrency: string = 'EUR',
@@ -43,7 +43,7 @@ export class WiseService {
   ) {
     try {
       if (!this.isConfigured()) {
-        throw new Error('Wise non è configurato correttamente. Mancano API_KEY o PROFILE_ID.');
+        throw new Error('Wise is not configured correctly. API_KEY or PROFILE_ID missing.');
       }
       
       const quoteData: any = {
@@ -59,7 +59,7 @@ export class WiseService {
       } else if (targetAmount) {
         quoteData.targetAmount = targetAmount;
       } else {
-        throw new Error('È necessario specificare sourceAmount o targetAmount');
+        throw new Error('Either sourceAmount or targetAmount must be specified');
       }
       
       const response = await axios.post(
@@ -70,18 +70,18 @@ export class WiseService {
       
       return response.data;
     } catch (error: any) {
-      console.error('Errore durante la creazione di un quote Wise:', error);
+      console.error('Error creating Wise quote:', error);
       throw error;
     }
   }
   
   /**
-   * Crea un payment per un quote
+   * Create a payment for a quote
    */
   static async createPayment(quoteId: string, reference: string) {
     try {
       if (!this.isConfigured()) {
-        throw new Error('Wise non è configurato correttamente. Mancano API_KEY o PROFILE_ID.');
+        throw new Error('Wise is not configured correctly. API_KEY or PROFILE_ID missing.');
       }
       
       const paymentData = {
@@ -99,18 +99,18 @@ export class WiseService {
       
       return response.data;
     } catch (error: any) {
-      console.error('Errore durante la creazione di un payment Wise:', error);
+      console.error('Error creating Wise payment:', error);
       throw error;
     }
   }
   
   /**
-   * Ottiene i dettagli di un pagamento
+   * Get the details of a payment
    */
   static async getPaymentDetails(transferId: string) {
     try {
       if (!this.isConfigured()) {
-        throw new Error('Wise non è configurato correttamente. Mancano API_KEY o PROFILE_ID.');
+        throw new Error('Wise is not configured correctly. API_KEY or PROFILE_ID missing.');
       }
       
       const response = await axios.get(
@@ -120,36 +120,36 @@ export class WiseService {
       
       return response.data;
     } catch (error: any) {
-      console.error('Errore durante il recupero dei dettagli di un pagamento Wise:', error);
+      console.error('Error retrieving Wise payment details:', error);
       throw error;
     }
   }
   
   /**
-   * Gestisce una notifica webhook da Wise
-   * @param webhookEvent L'evento ricevuto dal webhook di Wise
+   * Handle a webhook notification from Wise
+   * @param webhookEvent The event received from the Wise webhook
    */
   static async handleWebhookEvent(webhookEvent: any) {
     try {
-      // Verifica il tipo di evento
+      // Verify the event type
       if (webhookEvent.event_type !== 'transfer-state-change') {
         console.log('Evento Wise ignorato:', webhookEvent.event_type);
         return { success: true, action: 'ignored' };
       }
       
-      // Ottieni l'ID del trasferimento e lo stato
+      // Get the transfer ID and status
       const transferId = webhookEvent.data.resource.id;
       const transferStatus = webhookEvent.data.current_state;
       
-      // Verifica se abbiamo una transazione associata a questo transferId
+      // Check if we have a transaction associated with this transferId
       const transactions = await storage.getPaymentTransactionsByWiseId(transferId);
       
       if (transactions.length === 0) {
-        console.log('Nessuna transazione trovata per il trasferimento Wise:', transferId);
+        console.log('No transactions found for Wise transfer:', transferId);
         return { success: true, action: 'no_transaction_found' };
       }
       
-      // Aggiorna lo stato della transazione
+      // Update the transaction status
       for (const transaction of transactions) {
         let newStatus = 'pending';
         
@@ -171,12 +171,12 @@ export class WiseService {
             newStatus = 'pending';
         }
         
-        // Aggiorna la transazione nel database
+        // Update the transaction in the database
         await storage.updatePaymentTransaction(transaction.id, { status: newStatus });
         
-        // Se la transazione è associata a un abbonamento e il pagamento è completato
+        // if the transaction is associated with a subscription and the payment is completed
         if (transaction.subscriptionId && newStatus === 'completed') {
-          // Aggiorna lo stato dell'abbonamento
+          // Update the subscription status
           const subscription = await storage.getSubscription(transaction.subscriptionId);
           if (subscription && subscription.status !== 'active') {
             await storage.updateSubscription(subscription.id, { status: 'active' });
@@ -186,13 +186,13 @@ export class WiseService {
       
       return { success: true, action: 'updated' };
     } catch (error: any) {
-      console.error('Errore durante la gestione dell\'evento webhook Wise:', error);
-      return { success: false, error: 'Errore interno del server' };
+      console.error('Error handling Wise webhook event:', error);
+      return { success: false, error: 'Internal server error' };
     }
   }
   
   /**
-   * Crea un pagamento di abbonamento con Wise
+   * Create a Wise subscription payment
    */
   static async createSubscriptionPayment(
     userId: number,
@@ -201,22 +201,22 @@ export class WiseService {
     ) {
     try {
       if (!this.isConfigured()) {
-        throw new Error('Wise non è configurato correttamente. Mancano API_KEY o PROFILE_ID.');
+        throw new Error('Wise is not configured correctly. API_KEY or PROFILE_ID missing.');
       }
       
-      // Converti l'importo da centesimi a euro
+      // Convert the amount from cents to euros
       const amountInEuro = amount / 100;
       
-      // Crea un quote
+      // Create a quote
       const quote = await this.createQuote('EUR', amountInEuro);
       
-      // Crea un payment
+      // Create a payment
       const payment = await this.createPayment(
         quote.id,
-        `Abbonamento #${subscriptionId}`
+        `Subscription #${subscriptionId}`
       );
       
-      // Registra la transazione
+      // Register the transaction
       const transactionData: InsertPaymentTransaction = {
         userId,
         subscriptionId,
@@ -225,7 +225,7 @@ export class WiseService {
         status: 'pending',
         paymentMethod: 'wise',
         transactionId: payment.id,
-        description: `Pagamento per abbonamento #${subscriptionId} via Wise`
+        description: `Payment for subscription #${subscriptionId} via Wise`
       };
       
       await storage.createPaymentTransaction(transactionData);
@@ -236,10 +236,10 @@ export class WiseService {
         paymentUrl: payment.redirectUrl
       };
     } catch (error: any) {
-      console.error('Errore durante la creazione del pagamento Wise:', error);
+      console.error('Error creating Wise payment:', error);
       return {
         success: false,
-        message: 'Errore durante la creazione del pagamento Wise'
+        message: 'Error creating Wise payment'
       };
     }
   }

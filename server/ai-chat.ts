@@ -106,9 +106,9 @@ Per suggerimenti generali, fornisci consigli pratici e applicabili.`;
 
 export async function processChatMessage(request: ChatRequest): Promise<AIResponse> {
   if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ [AI CHAT] GEMINI_API_KEY non configurata');
+    console.error('❌ [AI CHAT] GEMINI_API_KEY not configured');
     return {
-      message: 'Il servizio AI non è configurato. Contatta l\'amministratore.',
+      message: 'The AI service is not configured. Contact the administrator.',
       intent: 'general'
     };
   }
@@ -116,18 +116,18 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
   const queueSize = requestQueue.length;
   if (queueSize > 50) {
     return {
-      message: 'Il servizio AI è molto richiesto in questo momento. Riprova tra qualche minuto.',
+      message: 'The AI service is very busy right now. Please try again in a few minutes.',
       intent: 'general'
     };
   }
 
   if (queueSize > 0) {
-    console.log(`⏳ [AI CHAT] Richiesta in coda (posizione ${queueSize + 1})`);
+    console.log(`⏳ [AI CHAT] Request queued (position ${queueSize + 1})`);
   }
 
   return enqueueRequest(async () => {
     try {
-      console.log('🤖 [AI CHAT] Processando messaggio con', request.messages.length, 'messaggi nella storia');
+      console.log('🤖 [AI CHAT] Processing message with', request.messages.length, 'messages in history');
 
       const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
 
@@ -140,7 +140,7 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
 
       const lastUserMessage = chatHistory.pop();
       if (!lastUserMessage) {
-        return { message: 'Nessun messaggio da processare.', intent: 'general' } as AIResponse;
+        return { message: 'No messages to process.', intent: 'general' } as AIResponse;
       }
 
       const chat = model.startChat({
@@ -156,9 +156,9 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
         : lastUserMessage.parts[0].text;
 
       const result = await chat.sendMessage(prompt);
-      const aiMessage = result.response.text() || 'Mi dispiace, non sono riuscito a processare la richiesta.';
+      const aiMessage = result.response.text() || "I'm sorry, I was unable to process the request.";
 
-      console.log('✅ [AI CHAT] Risposta ricevuta da Gemini');
+      console.log('✅ [AI CHAT] Response received from Gemini');
 
       const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
       const preview = extractMessagePreview(aiMessage);
@@ -171,7 +171,7 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
       } as AIResponse;
 
     } catch (error: any) {
-      console.error('❌ [AI CHAT] Errore:', error.message);
+      console.error('❌ [AI CHAT] Error:', error.message);
 
       if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('RATE_LIMIT') || error.message?.includes('RESOURCE_EXHAUSTED')) {
         console.log('⏳ [AI CHAT] Rate limit, riprovo tra 5 secondi...');
@@ -191,13 +191,13 @@ export async function processChatMessage(request: ChatRequest): Promise<AIRespon
           console.error('❌ [AI CHAT] Anche il retry ha fallito:', retryError.message);
         }
         return {
-          message: 'Il servizio è momentaneamente sovraccarico. Riprova tra 30 secondi.',
+          message: 'The service is temporarily overloaded. Please try again in 30 seconds.',
           intent: 'general'
         } as AIResponse;
       }
 
       return {
-        message: 'Mi dispiace, si è verificato un errore. Riprova tra poco.',
+        message: 'Sorry, an error occurred. Please try again shortly.',
         intent: 'general'
       } as AIResponse;
     }
@@ -254,16 +254,16 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
 
 export async function generateMarketingCampaign(userPrompt: string): Promise<{ title: string; message: string }> {
   if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ [AI CAMPAIGN] GEMINI_API_KEY non configurata');
+    console.error('❌ [AI CAMPAIGN] GEMINI_API_KEY not configured');
     return {
-      title: 'Servizio AI non configurato',
-      message: 'Contatta l\'amministratore per configurare il servizio AI.'
+      title: 'AI service not configured',
+      message: 'Contact the administrator to configure the AI service.'
     };
   }
 
   try {
-    console.log('📧 [AI CAMPAIGN] Generando campagna marketing per:', userPrompt.substring(0, 100));
-    console.log('📧 [AI CAMPAIGN] API Key presente:', !!process.env.GEMINI_API_KEY);
+    console.log('📧 [AI CAMPAIGN] Generating marketing campaign for:', userPrompt.substring(0, 100));
+    console.log('📧 [AI CAMPAIGN] API Key present:', !!process.env.GEMINI_API_KEY);
 
     const model = getGeminiClient().getGenerativeModel({ model: 'gemini-2.5-flash' });
 
@@ -292,7 +292,7 @@ ${userPrompt}`;
 
     const result = await model.generateContent(prompt);
     const aiResponse = result.response.text() || '';
-    console.log('✅ [AI CAMPAIGN] Risposta ricevuta da Gemini:', aiResponse.substring(0, 200));
+    console.log('✅ [AI CAMPAIGN] Response received from Gemini:', aiResponse.substring(0, 200));
 
     const jsonMatch = aiResponse.match(/\{[\s\S]*"title"[\s\S]*"message"[\s\S]*\}/);
     if (jsonMatch) {
@@ -309,20 +309,20 @@ ${userPrompt}`;
     };
 
   } catch (error: any) {
-    console.error('❌ [AI CAMPAIGN] Errore completo:', error);
-    console.error('❌ [AI CAMPAIGN] Errore messaggio:', error?.message);
-    console.error('❌ [AI CAMPAIGN] Errore status:', error?.status);
+    console.error('❌ [AI CAMPAIGN] Full error:', error);
+    console.error('❌ [AI CAMPAIGN] Error message:', error?.message);
+    console.error('❌ [AI CAMPAIGN] Error status:', error?.status);
 
     return {
-      title: 'Nuova Campagna Marketing',
-      message: `Messaggio personalizzato: ${userPrompt.substring(0, 300)}`
+      title: 'New Marketing Campaign',
+      message: `Custom message: ${userPrompt.substring(0, 300)}`
     };
   }
 }
 
 export async function searchOnlineInfo(query: string): Promise<string> {
   if (!process.env.GEMINI_API_KEY) {
-    return 'Il servizio AI non è configurato.';
+    return 'The AI service is not configured.';
   }
 
   return enqueueRequest(async () => {
@@ -333,10 +333,10 @@ export async function searchOnlineInfo(query: string): Promise<string> {
         `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
       );
 
-      return result.response.text() || 'Nessuna informazione trovata.';
+      return result.response.text() || 'No information found.';
     } catch (error) {
-      console.error('❌ [AI SEARCH] Errore ricerca:', error);
-      return 'Mi dispiace, non sono riuscito a trovare informazioni al momento.';
+      console.error('❌ [AI SEARCH] Search error:', error);
+      return "I'm sorry, I was unable to find information at this time.";
     }
   });
 }

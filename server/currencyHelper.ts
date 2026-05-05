@@ -6,8 +6,8 @@ export interface UserCurrency {
 }
 
 /**
- * Recupera la valuta configurata per un utente.
- * Se non trovata, ritorna EUR come default.
+ * Retrieve the configured currency for a user.
+ * If not found, returns EUR as default.
  */
 export async function getCurrencyForUser(storage: { getCurrencySettings: (userId: number) => Promise<any> }, userId: number): Promise<UserCurrency> {
   try {
@@ -20,13 +20,13 @@ export async function getCurrencyForUser(storage: { getCurrencySettings: (userId
       };
     }
     
-    // Fallback a EUR se non configurato
+    // Fallback to EUR if configured
     return {
       currency: 'EUR',
       symbol: '€'
     };
   } catch (error) {
-    console.error(`Errore nel recupero valuta per utente ${userId}:`, error);
+    console.error(`Error retrieving currency for user ${userId}:`, error);
     return {
       currency: 'EUR',
       symbol: '€'
@@ -35,7 +35,7 @@ export async function getCurrencyForUser(storage: { getCurrencySettings: (userId
 }
 
 /**
- * Formatta un prezzo con la valuta dell'utente
+ * Format a price with the user's currency
  */
 export function formatPriceWithCurrency(amount: number, currency: UserCurrency): string {
   return `${currency.symbol}${amount.toFixed(2)}`;

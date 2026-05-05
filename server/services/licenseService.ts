@@ -1,12 +1,12 @@
 // @ts-nocheck
 /**
- * Servizio per la gestione delle licenze
+ * Service for managing licenses
  * 
- * Questo servizio gestisce:
- * - Verifica dello stato della licenza (trial, base, pro)
- * - Generazione di codici di attivazione
- * - Attivazione delle licenze
- * - Verifica della scadenza dei periodi di prova
+ * This service gestisce:
+ * - Verify the license status (trial, base, pro)
+ * - Generazione di codici activation
+ * - License activation
+ * - Verify trial period expiration
  */
 
 import * as crypto from 'crypto';
@@ -15,24 +15,24 @@ import { eq, lt, and } from 'drizzle-orm';
 import { licenses, users } from '../../shared/schema';
 import { SQL } from 'drizzle-orm';
 
-// Enumerazione dei tipi di licenza
+// Enumeration of license types
 export enum LicenseType {
   TRIAL = 'trial',
   BASE = 'base',
   PRO = 'pro',
   BUSINESS = 'business',
-  STAFF_FREE = 'staff_free', // Licenza gratuita di 10 anni per lo staff
-  PASSEPARTOUT = 'passepartout'  // Accesso completo a tutte le funzionalità senza limitazioni
+  STAFF_FREE = 'staff_free', // Free 10-year license for staff
+  PASSEPARTOUT = 'passepartout'  // Full access to all features without limitations
 }
 
-// Durata in giorni dei periodi
+// Duration in days of the periods
 const LICENSE_DURATIONS = {
-  [LicenseType.TRIAL]: 40, // 40 giorni di prova
-  [LicenseType.BASE]: 365, // Abbonamento base di 1 anno
-  [LicenseType.PRO]: 365, // Abbonamento pro di 1 anno
-  [LicenseType.BUSINESS]: 365, // Abbonamento business di 1 anno
-  [LicenseType.STAFF_FREE]: 365 * 10, // 10 anni di licenza per lo staff
-  [LicenseType.PASSEPARTOUT]: null, // Abbonamento passepartout permanente senza scadenza
+  [LicenseType.TRIAL]: 40, // 40-day trial
+  [LicenseType.BASE]: 365, // Base 1-year subscription
+  [LicenseType.PRO]: 365, // Pro 1-year subscription
+  [LicenseType.BUSINESS]: 365, // Business 1-year subscription
+  [LicenseType.STAFF_FREE]: 365 * 10, // 10-year license for staff
+  [LicenseType.PASSEPARTOUT]: null, // Permanent passepartout subscription without expiration
 };
 
 export interface LicenseInfo {
@@ -47,21 +47,21 @@ const LICENSE_CACHE_TTL = 60_000;
 
 class LicenseService {
   /**
-   * Genera un codice di attivazione per una licenza
+   * Generate a code activation for a license
    */
   async generateActivationCode(licenseType: LicenseType): Promise<string> {
-    // Generiamo un codice univoco di 16 caratteri
+    // Generate a code univoco di 16 caratteri
     const randomBytes = crypto.randomBytes(8);
     const activationCode = randomBytes.toString('hex').toUpperCase();
     
-    // Calcoliamo la data di scadenza (se applicabile)
+    // Calculate the expiry date (if applicable)
     let expiresAt = null;
     if (LICENSE_DURATIONS[licenseType] !== null) {
       expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + LICENSE_DURATIONS[licenseType]);
     }
     
-    // Inseriamo il codice nel database
+    // Insert the code into the database
     await db.insert(licenses).values({
       code: activationCode,
       type: licenseType,
@@ -75,25 +75,25 @@ class LicenseService {
   }
   
   /**
-   * Attiva una licenza con un codice di attivazione
+   * Activate a license with an activation code
    */
   async activateLicense(activationCode: string): Promise<{ success: boolean, message: string }> {
-    // Normalizza il codice (rimuovi spazi e converti a maiuscolo)
+    // Normalize the code (remove spaces and convert to uppercase)
     const normalizedCode = activationCode.replace(/\s/g, '').toUpperCase();
     
-    // Cerca la licenza nel database
+    // Find the license in the database
     const [license] = await db.select().from(licenses).where(eq(licenses.code, normalizedCode));
     
     if (!license) {
-      return { success: false, message: 'Codice di attivazione non valido' };
+      return { success: false, message: 'Invalid activation code' };
     }
     
-    // I codici passepartout sono sempre utilizzabili, anche se già attivati
+    // Passepartout codes are always usable, even if already activated
     if (license.type !== LicenseType.PASSEPARTOUT && license.isActive) {
-      return { success: false, message: 'Questo codice è già stato attivato' };
+      return { success: false, message: 'This code has already been activated' };
     }
     
-    // Se non è già attivo o è un passepartout, aggiorniamo lo stato
+    // If it is already active or is a passepartout, update the status
     if (!license.isActive) {
       await db.update(licenses)
         .set({ 
@@ -103,41 +103,41 @@ class LicenseService {
         .where(eq(licenses.code, normalizedCode));
     }
     
-    // Impostiamo questa licenza come quella corrente
+    // Set this license as the current one
     await this.setCurrentLicense(normalizedCode);
     
     licenseCache.clear();
     
     return { 
       success: true, 
-      message: `Licenza ${license.type} attivata con successo` 
+      message: `License ${license.type} activated successfully` 
     };
   }
   
   /**
-   * Imposta una licenza come quella corrente nel sistema
+   * Set a license as the current one in the system
    */
   async setCurrentLicense(activationCode: string): Promise<void> {
-    // In un'implementazione reale, dovresti avere una tabella o una chiave di configurazione
-    // che memorizza l'ID della licenza attuale. Per semplicità, usiamo un file JSON temporaneo.
+    // In a real implementation, you should have a table or a configuration key
+    // that stores the current license ID. For simplicity, we use a temporary JSON file.
     const normalizedCode = activationCode.replace(/\s/g, '').toUpperCase();
     
-    // Cerca la licenza nel database
+    // Find the license in the database
     const [license] = await db.select().from(licenses).where(eq(licenses.code, normalizedCode));
     
     if (!license) {
-      throw new Error('Licenza non trovata');
+      throw new Error('License not found');
     }
     
-    // Qui impostiamo questa licenza come quella corrente
-    // Per ora, impostiamo una variabile di ambiente o una configurazione globale
+    // Here we set this license as the current one
+    // For now, set an environment variable or a global configuration
     process.env.CURRENT_LICENSE_CODE = normalizedCode;
     process.env.CURRENT_LICENSE_TYPE = license.type;
   }
   
   /**
-   * Ottiene informazioni sulla licenza corrente
-   * Se userId è fornito, cerca licenze specifiche di quell'utente
+   * Get information about the current license
+   * If userId is provided, look for licenses specific to that user
    */
   clearLicenseCache(userId?: number) {
     if (userId) {
@@ -178,28 +178,28 @@ class LicenseService {
           return info;
         }
       } catch (error) {
-        console.error('Errore durante il recupero licenza utente:', error);
+        console.error('Error retrieving user license:', error);
       }
     }
     
-    // Procedi con il metodo normale se non c'è userId o se non sono state trovate licenze
-    // Prova a caricare la licenza attuale
+    // Proceed with the normal method if there is a userId or if licenses were found
+    // Try to load the current license
     const currentLicenseCode = process.env.CURRENT_LICENSE_CODE;
     
-    // Se non c'è una licenza corrente, consideriamo che siamo in prova
+    // If there is a current license, we consider the user to be in trial
     if (!currentLicenseCode) {
-      // Controlla se esiste una licenza di prova
+      // Check if a trial license exists
       const [trialLicense] = await db.select()
         .from(licenses)
         .where(eq(licenses.type, LicenseType.TRIAL));
       
-      // Se non esiste, crea una nuova licenza di prova
+      // If it exists, create a new trial license
       if (!trialLicense) {
-        // Crea una nuova licenza di prova
+        // Create a new trial license
         const trialCode = await this.generateActivationCode(LicenseType.TRIAL);
-        // Attiva immediatamente la licenza di prova
+        // Immediately activate the trial license
         await this.activateLicense(trialCode);
-        // Ricarica la licenza
+        // Ricarica the license
         const [newTrialLicense] = await db.select()
           .from(licenses)
           .where(eq(licenses.code, trialCode));
@@ -214,7 +214,7 @@ class LicenseService {
           };
         }
       } else {
-        // Usa la licenza di prova esistente
+        // Use the existing trial license
         const daysLeft = this.calculateDaysLeft(trialLicense.expiresAt);
         return {
           type: LicenseType.TRIAL,
@@ -225,13 +225,13 @@ class LicenseService {
       }
     }
     
-    // Carica la licenza dal database
+    // Load the license from the database
     const [license] = await db.select()
       .from(licenses)
       .where(eq(licenses.code, currentLicenseCode as string));
     
     if (!license) {
-      // Fallback a TRIAL se la licenza non esiste
+      // Fallback to TRIAL if the license does not exist
       return {
         type: LicenseType.TRIAL,
         expiresAt: null,
@@ -251,7 +251,7 @@ class LicenseService {
   }
   
   /**
-   * Verifica se la licenza corrente è scaduta
+   * Check if the current license has expired
    */
   async isCurrentLicenseExpired(): Promise<boolean> {
     const licenseInfo = await this.getCurrentLicenseInfo();
@@ -264,24 +264,24 @@ class LicenseService {
   }
   
   /**
-   * Verifica se l'utente ha accesso alle funzionalità PRO
+   * Check if the user has access to PRO features
    */
   async hasProAccess(): Promise<boolean> {
-    // Ottieni l'utente corrente dalla richiesta (se disponibile)
+    // Get the current user from the request (if available)
     if (global.currentRequest && global.currentRequest.user) {
-      // Se l'utente è di tipo staff o admin, ha automaticamente accesso PRO
+      // If the user is of type staff or admin, they automatically have PRO access
       if (global.currentRequest.user.type === 'staff' || global.currentRequest.user.type === 'admin') {
         return true;
       }
     }
     
-    // Se non è staff o admin, verifichiamo il tipo di licenza
+    // If it is staff or admin, verify the license type
     const licenseInfo = await this.getCurrentLicenseInfo();
     
-    // Verificiamo che la licenza sia attiva e non scaduta
+    // Verify that the license is active and not expired
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
     
-    // Accesso consentito per licenze PRO, BUSINESS, STAFF_FREE e PASSEPARTOUT
+    // Accesso consentito per licenses PRO, BUSINESS, STAFF_FREE e PASSEPARTOUT
     if (isActive && (
         licenseInfo.type === LicenseType.PRO || 
         licenseInfo.type === LicenseType.BUSINESS || 
@@ -295,24 +295,24 @@ class LicenseService {
   }
   
   /**
-   * Verifica se l'utente ha accesso alle funzionalità BUSINESS
+   * Check if the user has access to BUSINESS features
    */
   async hasBusinessAccess(): Promise<boolean> {
-    // Ottieni l'utente corrente dalla richiesta (se disponibile)
+    // Get the current user from the request (if available)
     if (global.currentRequest && global.currentRequest.user) {
-      // Se l'utente è di tipo staff o admin, ha automaticamente accesso BUSINESS
+      // If the user is of type staff or admin, they automatically have BUSINESS access
       if (global.currentRequest.user.type === 'staff' || global.currentRequest.user.type === 'admin') {
         return true;
       }
     }
     
-    // Se non è staff o admin, verifichiamo il tipo di licenza
+    // If it is staff or admin, verify the license type
     const licenseInfo = await this.getCurrentLicenseInfo();
     
-    // Verificiamo che la licenza sia attiva e non scaduta
+    // Verify that the license is active and not expired
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
     
-    // Accesso consentito per licenze BUSINESS e PASSEPARTOUT
+    // Accesso consentito per licenses BUSINESS e PASSEPARTOUT
     if (isActive && (
         licenseInfo.type === LicenseType.BUSINESS || 
         licenseInfo.type === LicenseType.PASSEPARTOUT
@@ -324,7 +324,7 @@ class LicenseService {
   }
   
   /**
-   * Calcola i giorni rimanenti prima della scadenza
+   * Calculate the remaining days before expiration
    */
   private calculateDaysLeft(expiresAt: Date | null): number | null {
     if (!expiresAt) return null;
@@ -337,7 +337,7 @@ class LicenseService {
   }
   
   /**
-   * Ottiene il titolo dell'applicazione in base al tipo di licenza
+   * Get the application title based on the license type
    */
   async getApplicationTitle(): Promise<string> {
     const licenseInfo = await this.getCurrentLicenseInfo();
@@ -359,36 +359,36 @@ class LicenseService {
   }
   
   /**
-   * Crea una licenza di prova per un utente
+   * Create a trial license for a user
    */
   async createTrialLicense(userId: number, expiresAt: Date): Promise<void> {
     try {
-      // Genera un codice univoco per la licenza di prova
+      // Generate a code univoco per the license trial
       const randomBytes = crypto.randomBytes(8);
       const trialCode = `TRIAL-${randomBytes.toString('hex').toUpperCase()}`;
       
-      // Controlla se l'utente è un amministratore
+      // Check if the user is an administrator
       const [user] = await db.select().from(users).where(eq(users.id, userId));
       
-      // Se l'utente è un amministratore, creiamo una licenza passepartout permanente
+      // If the user is an administrator, create a permanent passepartout license
       if (user && user.role === 'admin') {
         await db.insert(licenses).values({
           code: '0103 1973 2009 1979', // Codice fisso per amministratori
           type: LicenseType.PASSEPARTOUT,
           isActive: true,
           createdAt: new Date(),
-          expiresAt: null, // Nessuna scadenza
+          expiresAt: null, // No expiration
           activatedAt: new Date(),
           userId
         });
         
-        console.log(`Licenza PASSEPARTOUT permanente creata per l'amministratore ${userId}`);
+        console.log(`Permanent PASSEPARTOUT license created for administrator ${userId}`);
         
-        // Imposta questa licenza come quella corrente per l'utente
+        // Set this license as the current one for user
         process.env.CURRENT_LICENSE_CODE = '0103 1973 2009 1979';
         process.env.CURRENT_LICENSE_TYPE = LicenseType.PASSEPARTOUT;
       } else {
-        // Per utenti normali, crea una licenza di prova con scadenza
+        // For regular users, create a trial license with expiry
         await db.insert(licenses).values({
           code: trialCode,
           type: LicenseType.TRIAL,
@@ -396,58 +396,58 @@ class LicenseService {
           createdAt: new Date(),
           expiresAt,
           activatedAt: new Date(),
-          userId // Associamo la licenza all'utente
+          userId // Associamo the license to the user
         });
         
-        console.log(`Licenza di prova creata con codice ${trialCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
+        console.log(`Trial license created with code ${trialCode} for user ${userId}, expiry: ${expiresAt.toISOString()}`);
         
-        // Imposta questa licenza come quella corrente per l'utente
+        // Set this license as the current one for user
         process.env.CURRENT_LICENSE_CODE = trialCode;
         process.env.CURRENT_LICENSE_TYPE = LicenseType.TRIAL;
       }
     } catch (error) {
-      console.error('Errore durante la creazione della licenza di prova:', error);
+      console.error('Error creating trial license:', error);
       throw error;
     }
   }
 
   /**
-   * Genera una licenza di 10 anni per un membro dello staff
-   * Solo l'amministratore può generare queste licenze speciali
+   * Generate a 10-year license for a staff member
+   * Only the administrator can generate these special licenses
    */
   async generateStaffLicense(userId: number, licenseType: LicenseType, expiresAt: Date): Promise<string> {
     try {
-      // Genera un codice univoco con prefisso STAFF-
+      // Generate a code univoco con prefisso STAFF-
       const randomBytes = crypto.randomBytes(6);
       const staffCode = `STAFF-${randomBytes.toString('hex').toUpperCase()}`;
       
-      // Inserisci la licenza nel database
+      // Insert the license into the database
       await db.insert(licenses).values({
         code: staffCode,
         type: licenseType,
         isActive: true,
         createdAt: new Date(),
-        expiresAt, // Scadenza a 10 anni
+        expiresAt, // 10-year expiry
         activatedAt: new Date(),
         userId
       });
       
-      console.log(`Licenza staff di 10 anni creata con codice ${staffCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
+      console.log(`10-year staff license created with code ${staffCode} for user ${userId}, expiry: ${expiresAt.toISOString()}`);
       
       return staffCode;
     } catch (error) {
-      console.error('Errore durante la creazione della licenza staff:', error);
+      console.error('Error creating staff license:', error);
       throw error;
     }
   }
 
   /**
-   * Estende il periodo di prova di 40 giorni
-   * Solo gli amministratori possono utilizzare questa funzione
+   * Extends the trial period by 40 days
+   * Only administrators can use this function
    */
   async extendTrial(userId: number): Promise<{ success: boolean, message: string, newExpiresAt?: Date }> {
     try {
-      // Trova la licenza più recente dell'utente (qualsiasi tipo)
+      // Find the most recent license of the user (any type)
       const [userLicense] = await db.select()
         .from(licenses)
         .where(eq(licenses.userId, userId))
@@ -457,61 +457,61 @@ class LicenseService {
       if (!userLicense) {
         return {
           success: false,
-          message: 'Nessuna licenza trovata per questo utente'
+          message: 'No license found for this user'
         };
       }
 
-      // Calcola la nuova data di scadenza: 40 giorni AGGIUNTI alla scadenza attuale o oggi se già scaduto
-      // Questo permette estensioni cumulative (ogni click aggiunge realmente 40 giorni)
+      // Calculate the new expiry date: 40 days ADDED to the current expiry or today if already expired
+      // This allows cumulative extensions (each click actually adds 40 days)
       const now = new Date();
       const currentExpiry = userLicense.expiresAt ? new Date(userLicense.expiresAt) : now;
       
-      // Usa la data più recente tra scadenza esistente e oggi come base
+      // Use the most recent date between existing expiry and today as base
       const baseDate = currentExpiry > now ? currentExpiry : now;
       
-      // Aggiungi 40 giorni alla base
+      // Add 40 days to the base
       const newExpiresAt = new Date(baseDate);
       newExpiresAt.setDate(newExpiresAt.getDate() + 40);
 
-      // Aggiorna la licenza
+      // Update the license
       await db.update(licenses)
         .set({
           expiresAt: newExpiresAt,
-          isActive: true // Riattiva anche se era disattivata
+          isActive: true // Reactivate even if it was disabled
         })
         .where(eq(licenses.id, userLicense.id));
 
-      console.log(`✅ Trial esteso per utente ${userId}: nuova scadenza ${newExpiresAt.toISOString()}`);
+      console.log(`✅ Trial extended for user ${userId}: new expiry ${newExpiresAt.toISOString()}`);
 
       return {
         success: true,
-        message: `Trial esteso di 40 giorni. Nuova scadenza: ${newExpiresAt.toLocaleDateString()}`,
+        message: `Trial extended by 40 days. New expiry: ${newExpiresAt.toLocaleDateString()}`,
         newExpiresAt
       };
     } catch (error) {
-      console.error('Errore durante l\'estensione del trial:', error);
+      console.error('Error extending trial:', error);
       return {
         success: false,
-        message: 'Errore durante l\'estensione del trial'
+        message: 'Error extending trial'
       };
     }
   }
 
   /**
-   * Revoca una licenza esistente
+   * Revoke an existing license
    */
   async revokeLicense(licenseId: number): Promise<void> {
     try {
-      // Disattiva la licenza senza eliminarla dal database (per mantenere la storia)
+      // Deactivate the license without deleting it from the database (to maintain history)
       await db.update(licenses)
         .set({ 
           isActive: false
         })
         .where(eq(licenses.id, licenseId));
       
-      console.log(`Licenza ${licenseId} revocata`);
+      console.log(`license ${licenseId} revoked`);
     } catch (error) {
-      console.error('Errore durante la revoca della licenza:', error);
+      console.error('Error revoking license:', error);
       throw error;
     }
   }

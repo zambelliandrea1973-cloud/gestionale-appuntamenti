@@ -16,26 +16,26 @@ import nodemailer from 'nodemailer';
 
 const router = Router();
 
-  // Endpoint di test per forzare l'esecuzione del sistema di promemoria
+  // Test endpoint to force execution of the reminder system
 router.post("/api/test-reminder-system", requireAuth, async (req, res) => {
     try {
-      console.log('🔧 Test manuale del sistema di promemoria richiesto');
+      console.log('🔧 Manual test of reminder system requested');
       
-      // Importa e esegue il servizio di promemoria
+      // Import e esegue the service di promemoria
       const { notificationService } = await import('../services/notificationService');
       
-      console.log('📨 Avvio test del processore di promemoria...');
+      console.log('📨 Starting reminder processor test...');
       const remindersSent = await notificationService.processReminders();
       
       res.json({
         success: true,
-        message: `Test completato: ${remindersSent} promemoria elaborati`,
+        message: `Test completed: ${remindersSent} reminders processed`,
         remindersSent,
         timestamp: new Date().toISOString()
       });
       
     } catch (error: any) {
-      console.error('❌ Errore nel test del sistema di promemoria:', error);
+      console.error('❌ Error testing reminder system:', error);
       res.status(500).json({
         success: false,
         error: error.message,
@@ -44,7 +44,7 @@ router.post("/api/test-reminder-system", requireAuth, async (req, res) => {
     }
   });
 
-  // Endpoint di test diretto per l'invio email - DEBUG
+  // Direct test endpoint for email sending - DEBUG
 router.post("/api/test-email-direct", requireAuth, async (req, res) => {
     try {
       console.log('🔧 TEST DIRETTO EMAIL - Inizio debug');
@@ -53,23 +53,23 @@ router.post("/api/test-email-direct", requireAuth, async (req, res) => {
       const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
       
       if (!fs.existsSync(emailConfigPath)) {
-        throw new Error('File email_settings.json non trovato');
+        throw new Error('File email_settings.json not found');
       }
       
       const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
-      console.log('📧 Configurazione email caricata:', {
+      console.log('📧 Email configuration loaded:', {
         enabled: emailConfig.emailEnabled,
         address: emailConfig.emailAddress,
         hasPassword: !!emailConfig.emailPassword
       });
       
       if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
-        throw new Error('Configurazione email incompleta');
+        throw new Error('Email configuration incomplete');
       }
       
-      // Test email semplice
+      // Simple test email
       const testEmail = req.body.testEmail || 'zambelli.andrea.1973@gmail.com';
-      console.log(`🧪 Invio email di test a: ${testEmail}`);
+      console.log(`🧪 Sending test email to: ${testEmail}`);
       
       const emailSent = await notificationService.sendEmailDirect(
         testEmail,
@@ -80,13 +80,13 @@ router.post("/api/test-email-direct", requireAuth, async (req, res) => {
       
       res.json({
         success: emailSent,
-        message: emailSent ? 'Email di test inviata con successo!' : 'Errore nell\'invio dell\'email',
+        message: emailSent ? 'Test email sent successfully!' : 'Error sending email',
         testEmail,
         timestamp: new Date().toISOString()
       });
       
     } catch (error: any) {
-      console.error('❌ Errore nel test email diretto:', error);
+      console.error('❌ Error in direct email test:', error);
       res.status(500).json({
         success: false,
         error: error.message,
@@ -98,13 +98,13 @@ router.post("/api/test-email-direct", requireAuth, async (req, res) => {
 
   // ========== ONBOARDING AI ENDPOINTS ==========
 
-  // GET /api/onboarding/progress - Recupera il progresso dell'onboarding dell'utente
+  // GET /api/onboarding/progress - Retrieve the user's onboarding progress
 router.get('/api/onboarding/progress', requireAuth, (req, res) => {
     try {
       const user = req.user as any;
       const storageData = loadStorageData();
       
-      // Cerca il progresso onboarding dell'utente
+      // Search for user onboarding progress
       const onboardingKey = `onboarding_${user.id}`;
       const progress = storageData[onboardingKey] || {
         userId: user.id,
@@ -115,12 +115,12 @@ router.get('/api/onboarding/progress', requireAuth, (req, res) => {
       
       res.json(progress);
     } catch (error: any) {
-      console.error('❌ Errore caricamento progresso onboarding:', error);
-      res.status(500).json({ message: 'Errore nel caricamento del progresso' });
+      console.error('❌ Error loading onboarding progress:', error);
+      res.status(500).json({ message: 'Error loading progress' });
     }
   });
 
-  // POST /api/onboarding/update-step - Aggiorna lo step corrente dell'onboarding
+  // POST /api/onboarding/update-step - Update the current onboarding step
 router.post('/api/onboarding/update-step', requireAuth, (req, res) => {
     try {
       const user = req.user as any;
@@ -129,7 +129,7 @@ router.post('/api/onboarding/update-step', requireAuth, (req, res) => {
       const storageData = loadStorageData();
       const onboardingKey = `onboarding_${user.id}`;
       
-      // Aggiorna o crea il progresso
+      // Update or create the progress
       const progress = storageData[onboardingKey] || { userId: user.id };
       storageData[onboardingKey] = {
         ...progress,
@@ -142,22 +142,22 @@ router.post('/api/onboarding/update-step', requireAuth, (req, res) => {
       saveStorageData(storageData);
       res.json(storageData[onboardingKey]);
     } catch (error: any) {
-      console.error('❌ Errore aggiornamento step onboarding:', error);
-      res.status(500).json({ message: 'Errore nell\'aggiornamento dello step' });
+      console.error('❌ Error updating onboarding step:', error);
+      res.status(500).json({ message: 'Error updating step' });
     }
   });
 
-  // POST /api/onboarding/analyze - Analizza i dati business con AI nella lingua dell'utente
+  // POST /api/onboarding/analyze - Analyze business data with AI in the user's language
 router.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
     try {
       const { businessName, businessType, description, language } = req.body;
-      // Lingua dal body (i18n del client) o dall'header Accept-Language come fallback
+      // Language from the body (client i18n) or from the Accept-Language header as fallback
       const lang = (language || (req.headers['accept-language'] || 'en').toString().split(',')[0] || 'en')
         .toLowerCase().split('-')[0];
 
-      console.log('🤖 [AI ONBOARDING] Richiesta analisi per:', businessName, '- lingua:', lang);
+      console.log('🤖 [AI ONBOARDING] Analysis request for:', businessName, '- language:', lang);
 
-      // Chiama il servizio AI per analizzare il business nella lingua corretta
+      // Call the AI service to analyze the business in the correct language
       const analysis = await analyzeBusinessNeeds({
         businessName,
         businessDescription: description,
@@ -165,12 +165,12 @@ router.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
         language: lang,
       });
 
-      console.log('✅ [AI ONBOARDING] Analisi completata');
+      console.log('✅ [AI ONBOARDING] Analysis completed');
       res.json(analysis);
     } catch (error: any) {
-      console.error('❌ Errore analisi AI:', error);
-      // Il fallback localizzato è già gestito dentro analyzeBusinessNeeds, ma in caso di
-      // errore prima della chiamata, ritorniamo il fallback inglese minimale
+      console.error('❌ Error in AI analysis:', error);
+      // The localized fallback is already handled inside analyzeBusinessNeeds, but in case of
+      // error before the call, return the minimal English fallback
       res.json({
         suggestedBusinessType: 'consulting',
         recommendedServices: ['Consultation', 'Follow-up', 'Initial visit'],
@@ -187,7 +187,7 @@ router.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
     }
   });
 
-  // POST /api/onboarding/complete - Applica i dati raccolti nel wizard alle entità reali
+  // POST /api/onboarding/complete - Apply the data collected in the wizard to real entities
 router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
@@ -195,11 +195,11 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
       const storageData = loadStorageData();
       const onboardingKey = `onboarding_${userId}`;
 
-      // Recupera i dati raccolti durante il wizard (dal body o dallo storage)
+      // Retrieve the data collected during the wizard (from body or storage)
       const stored = storageData[onboardingKey] || {};
       const rawStepData = (req.body && req.body.stepData) || stored;
 
-      // Whitelist dei campi accettati dal wizard per evitare over-posting nel JSON storage
+      // Whitelist of fields accepted by the wizard to avoid over-posting in JSON storage
       const ALLOWED_FIELDS = [
         'businessName', 'businessType', 'description',
         'primaryServices', 'appointmentDuration',
@@ -219,7 +219,7 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
         preferences: false,
       };
 
-      // 1) Dati aziendali → userSettings
+      // 1) Business data → userSettings
       if (stepData.businessName || stepData.businessType) {
         try {
           const currentSettings = await storage.getUserSettings(userId);
@@ -237,7 +237,7 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
               },
             },
           });
-          // Aggiorna anche lo storage JSON usato da GET /api/company-business-data
+          // Also update the JSON storage used by GET /api/company-business-date
           if (!storageData.userBusinessData) storageData.userBusinessData = {};
           storageData.userBusinessData[userId] = {
             ...(storageData.userBusinessData[userId] || {}),
@@ -246,11 +246,11 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
           };
           created.businessData = true;
         } catch (e) {
-          console.error('⚠️ [ONBOARDING] Errore salvataggio dati aziendali:', e);
+          console.error('⚠️ [ONBOARDING] Error saving company data:', e);
         }
       }
 
-      // 2) Servizi selezionati → tabella services (solo quelli non ancora presenti)
+      // 2) Selected services → services table (only those not yet present)
       if (Array.isArray(stepData.primaryServices) && stepData.primaryServices.length > 0) {
         try {
           const existingServices = await storage.getServices(userId);
@@ -277,25 +277,25 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
             colorIdx++;
             created.services++;
           }
-          // Pulisci i dati demo se ora ci sono servizi reali
+          // Clean up demo data if there are real services
           if (created.services > 0) {
             try {
               const { cleanupDemoDataIfNeeded } = await import('../services/onboardingDemoService');
               await cleanupDemoDataIfNeeded(userId, 'services');
             } catch (e) {
-              console.error('⚠️ [ONBOARDING] Cleanup demo services fallito:', e);
+              console.error('⚠️ [ONBOARDING] Demo services cleanup failed:', e);
             }
           }
         } catch (e) {
-          console.error('⚠️ [ONBOARDING] Errore creazione servizi:', e);
+          console.error('⚠️ [ONBOARDING] Error creating services:', e);
         }
       }
 
-      // 3) Orari di lavoro → userSettings
+      // 3) Working hours → userSettings
       if (stepData.workingDays || stepData.workingHoursStart || stepData.workingHoursEnd || stepData.dailySchedule) {
         try {
           const settingsUpdate: any = {};
-          // Regex più stretta: HH:MM con HH 00-23 e MM 00-59
+          // Stricter regex: HH:MM with HH 00-23 and MM 00-59
           const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
           const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
           if (stepData.workingHoursStart && timeRegex.test(stepData.workingHoursStart)) {
@@ -316,11 +316,11 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
             created.workingHours = true;
           }
         } catch (e) {
-          console.error('⚠️ [ONBOARDING] Errore salvataggio orari:', e);
+          console.error('⚠️ [ONBOARDING] Error saving working hours:', e);
         }
       }
 
-      // 4) Preferenze comunicazione/integrazioni/clienti → preferences.onboarding
+      // 4) Communication preferences/integrations/clients → preferences.onboarding
       if (
         Array.isArray(stepData.communicationPreferences) ||
         Array.isArray(stepData.integrationGoals) ||
@@ -342,11 +342,11 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
           });
           created.preferences = true;
         } catch (e) {
-          console.error('⚠️ [ONBOARDING] Errore salvataggio preferenze:', e);
+          console.error('⚠️ [ONBOARDING] Error saving preferenze:', e);
         }
       }
 
-      // Aggiorna lo storage JSON con tutti i dati raccolti + flag completato
+      // Update JSON storage with all collected data + completion flag
       storageData[onboardingKey] = {
         ...stored,
         ...stepData,
@@ -356,17 +356,17 @@ router.post('/api/onboarding/complete', requireAuth, async (req, res) => {
       };
       saveStorageData(storageData);
 
-      console.log('✅ [AI ONBOARDING] Onboarding applicato per utente', userId, '-', created);
+      console.log('✅ [AI ONBOARDING] Onboarding applied for user', userId, '-', created);
 
       res.json({
         success: true,
         isCompleted: true,
         applied: created,
-        welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.',
+        welcomeMessage: 'Your configuration has been completed successfully! You are ready to start.',
       });
     } catch (error: any) {
-      console.error('❌ Errore completamento onboarding:', error);
-      res.status(500).json({ message: 'Errore nel completamento dell\'onboarding' });
+      console.error('❌ Error completing onboarding:', error);
+      res.status(500).json({ message: 'Error completing onboarding' });
     }
   });
 
@@ -377,21 +377,21 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       const { messages, includeContext } = req.body;
       
       if (!messages || !Array.isArray(messages)) {
-        return res.status(400).json({ message: 'Messaggi non validi' });
+        return res.status(400).json({ message: 'Messaggi invalid' });
       }
       
-      console.log('💬 [AI CHAT] Nuova richiesta da utente', user.id);
+      console.log('💬 [AI CHAT] New request from user', user.id);
       
-      // Prepara il contesto se richiesto
+      // Prepare the context if required
       let context: any = {};
       if (includeContext) {
         const storageData = loadStorageData();
         
-        // Carica dati clienti per suggerimenti personalizzati
+        // Load client datas per suggerimenti personalizzati
         const clients = storageData.clients || [];
         const userClients = clients.filter((c: any) => c.ownerId === user.id);
         
-        // Carica preferenze onboarding
+        // Load preferenze onboarding
         const onboardingKey = `onboarding_${user.id}`;
         const onboardingData = storageData[onboardingKey];
         
@@ -401,7 +401,7 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
         };
       }
       
-      // Processa il messaggio con AI
+      // Process the message con AI
       const response = await processChatMessage({
         messages,
         context
@@ -409,20 +409,20 @@ router.post('/api/ai-chat', requireAuth, async (req, res) => {
       
       res.json(response);
     } catch (error: any) {
-      console.error('❌ [AI CHAT] Errore:', error);
+      console.error('❌ [AI CHAT] Error:', error);
       res.status(500).json({ 
-        message: 'Errore nella comunicazione con l\'AI',
+        message: 'Error communicating with AI',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });
 
-  // POST /api/ai/generate-campaign - Genera campagna marketing con AI (Solo Pro+)
+  // POST /api/ai/generate-campaign - Generate campagna marketing con AI (Only Pro+)
 router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       
-      // Verifica che l'utente abbia una licenza Pro o superiore
+      // Verify that the user has a Pro or higher license
       const userLicenses = await db.select().from(licenses).where(eq(licenses.userId, user.id));
       const activeLicense = userLicenses.find(l => l.isActive);
       const licenseType = activeLicense?.type || 'trial';
@@ -430,7 +430,7 @@ router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
       const allowedTypes = ['trial', 'pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
       if (!allowedTypes.includes(licenseType)) {
         return res.status(403).json({ 
-          message: 'Funzionalità disponibile solo per utenti Pro o superiori',
+          message: 'This feature is available only for Pro or higher users',
           requiredPlan: 'Pro'
         });
       }
@@ -438,45 +438,45 @@ router.post('/api/ai/generate-campaign', requireAuth, async (req, res) => {
       const { prompt } = req.body;
       
       if (!prompt || typeof prompt !== 'string') {
-        return res.status(400).json({ message: 'Prompt non valido' });
+        return res.status(400).json({ message: 'Prompt invalid' });
       }
       
-      console.log('📧 [CAMPAIGN API] Generazione campagna per utente', user.id, '- Licenza:', licenseType);
-      logger.debug('📧 [CAMPAIGN API] GEMINI_API_KEY presente:', !!process.env.GEMINI_API_KEY);
+      console.log('📧 [CAMPAIGN API] Generating campaign for user', user.id, '- License:', licenseType);
+      logger.debug('📧 [CAMPAIGN API] GEMINI_API_KEY present:', !!process.env.GEMINI_API_KEY);
       
       let campaign;
       try {
         campaign = await generateMarketingCampaign(prompt);
       } catch (aiError: any) {
-        console.error('❌ [CAMPAIGN API] Errore AI generazione:', aiError?.message || aiError);
+        console.error('❌ [CAMPAIGN API] Error generating AI content:', aiError?.message || aiError);
         campaign = {
-          title: 'Nuova Campagna Marketing',
+          title: 'New Marketing Campaign',
           message: `Messaggio personalizzato: ${prompt.substring(0, 300)}`
         };
       }
       
       res.json({
-        message: `✅ Ho creato la tua campagna: "${campaign.title}"!\n\nPuoi modificare il messaggio se vuoi, oppure clicca sui pulsanti qui sotto per inviarla ai tuoi clienti.`,
+        message: `✅ I created your campaign: "${campaign.title}"!\n\nYou can modify the message if you want, or click the buttons below to send it to your clients.`,
         campaign: {
           title: campaign.title,
           message: campaign.message
         }
       });
     } catch (error: any) {
-      console.error('❌ [CAMPAIGN API] Errore generale:', error);
+      console.error('❌ [CAMPAIGN API] General error:', error);
       res.status(500).json({ 
-        message: 'Errore nella generazione della campagna',
+        message: 'Error generating campaign',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });
 
-  // GET /api/campaigns - Recupera storico campagne dal database
+  // GET /api/campaigns - Retrieve campaign history from database
 router.get('/api/campaigns', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       
-      // Carica campagne dell'utente dal database
+      // Load user campaigns from the database
       const userCampaigns = await db
         .select()
         .from(marketingCampaigns)
@@ -485,25 +485,25 @@ router.get('/api/campaigns', requireAuth, async (req, res) => {
       
       res.json(userCampaigns);
     } catch (error: any) {
-      console.error('❌ [CAMPAIGNS] Errore caricamento campagne:', error);
+      console.error('❌ [CAMPAIGNS] Error loading campaigns:', error);
       res.status(500).json({ 
-        message: 'Errore nel caricamento delle campagne',
+        message: 'Error loading campaigns',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });
 
-  // DELETE /api/campaigns/:id - Elimina una campagna dal database
+  // DELETE /api/campaigns/:id - Delete a campaign from the database
 router.delete('/api/campaigns/:id', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       const campaignId = parseInt(req.params.id);
       
       if (isNaN(campaignId)) {
-        return res.status(400).json({ message: 'ID campagna non valido' });
+        return res.status(400).json({ message: 'Invalid campaign ID' });
       }
       
-      // Verifica che la campagna appartenga all'utente
+      // Verify that the campaign belongs to the user
       const campaign = await db
         .select()
         .from(marketingCampaigns)
@@ -511,34 +511,34 @@ router.delete('/api/campaigns/:id', requireAuth, async (req, res) => {
         .limit(1);
       
       if (campaign.length === 0) {
-        return res.status(404).json({ message: 'Campagna non trovata' });
+        return res.status(404).json({ message: 'Campagna not found' });
       }
       
       if (campaign[0].userId !== user.id) {
-        return res.status(403).json({ message: 'Non autorizzato' });
+        return res.status(403).json({ message: 'Unauthorized' });
       }
       
-      // Elimina la campagna
+      // Delete the campaign
       await db
         .delete(marketingCampaigns)
         .where(eq(marketingCampaigns.id, campaignId));
       
-      res.json({ success: true, message: 'Campagna eliminata con successo' });
+      res.json({ success: true, message: 'Campaign deleted successfully' });
     } catch (error: any) {
-      console.error('❌ [CAMPAIGNS] Errore eliminazione campagna:', error);
+      console.error('❌ [CAMPAIGNS] Error deleting campaign:', error);
       res.status(500).json({ 
-        message: 'Errore nell\'eliminazione della campagna',
+        message: 'Error deleting campaign',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });
 
-  // POST /api/campaigns/send-batch - Invia campagna a tutti i clienti
+  // POST /api/campaigns/send-batch - Send campagna a all clients
   const uploadCampaign = multer({ 
     storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
     fileFilter: (req, file, cb) => {
-      // Accetta solo immagini e video
+      // Accept images and video only
       const allowedMimes = [
         'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
         'video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'video/webm'
@@ -559,7 +559,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
     try {
       const user = req.user as any;
       
-      // Verifica licenza Pro o superiore
+      // Verify license Pro o superiore
       const userLicenses = await db.select().from(licenses).where(eq(licenses.userId, user.id));
       const activeLicense = userLicenses.find(l => l.isActive);
       const licenseType = activeLicense?.type || 'trial';
@@ -567,7 +567,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
       const allowedTypes = ['trial', 'pro', 'business', 'staff_free', 'staff_free_10years', 'passepartout'];
       if (!allowedTypes.includes(licenseType)) {
         return res.status(403).json({ 
-          message: 'Funzionalità disponibile solo per utenti Pro o superiori',
+          message: 'This feature is available only for Pro or higher users',
           requiredPlan: 'Pro'
         });
       }
@@ -575,15 +575,15 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
       const { title, message, channel } = req.body;
       const attachments = (req.files as Express.Multer.File[]) || [];
       
-      console.log('📤 [CAMPAIGN NEW] Richiesta invio campagna:', title, '- Canale:', channel);
+      console.log('📤 [CAMPAIGN NEW] Campaign send request:', title, '- Channel:', channel);
       
-      // 🔐 STEP 1: GENERA CHIAVE IDEMPOTENZA CON DATA (userId + titolo + messaggio + data)
-      // Include la data corrente (YYYY-MM-DD) così la stessa campagna può essere inviata in giorni diversi
+      // 🔐 STEP 1: GENERA CHIAVE IDEMPOTENZA CON DATA (userId + titolo + messaggio + date)
+      // Include the current date (YYYY-MM-DD) so the same campaign can be sent on different days
       const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
       const idempotencyData = `${user.id}-${title}-${message}-${currentDate}`;
       const idempotencyKey = crypto.createHash('sha256').update(idempotencyData).digest('hex');
       
-      // 🔒 STEP 2: BLOCCO - Verifica se la campagna è già stata inviata o è in corso
+      // 🔒 STEP 2: BLOCK - Check if the campaign has already been sent or is in progress
       const existingCampaign = await db
         .select()
         .from(marketingCampaigns)
@@ -598,29 +598,29 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
       
       if (existingCampaign.length > 0) {
         if (existingCampaign[0].status === 'locked') {
-          console.log('🔒 [CAMPAIGN IN PROGRESS] Campagna già in fase di invio:', title);
+          console.log('🔒 [CAMPAIGN IN PROGRESS] Campaign already being sent:', title);
           return res.status(400).json({ 
             success: false,
             alreadySent: true,
-            message: `⚠️ Questa campagna è in fase di invio. Attendi il completamento.`
+            message: `⚠️ This campaign is being sent. Please wait for it to complete.`
           });
         }
         const sentTime = new Date(existingCampaign[0].createdAt!).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
-        console.log('🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi:', title);
+        console.log('🚫 [CAMPAIGN BLOCKED] Campaign already sent today:', title);
         return res.status(400).json({ 
           success: false,
           alreadySent: true,
-          message: `⚠️ Questa campagna è già stata inviata oggi alle ${sentTime}. Potrai inviarla di nuovo domani.`,
+          message: `⚠️ This campaign was already sent today at ${sentTime}. You can send it again tomorrow.`,
           sentDate: existingCampaign[0].createdAt,
           sentTo: existingCampaign[0].sentTo
         });
       }
       
-      // Carica clienti
+      // Load clients
       const userClients = await storage.getVisibleClientsForUser(user.id, user.type, user.assignmentCode);
       
       if (userClients.length === 0) {
-        return res.json({ sent: 0, message: 'Nessun cliente trovato' });
+        return res.json({ sent: 0, message: 'No clients found' });
       }
       
       // 💾 STEP 3: CREA RECORD CAMPAGNA CON STATUS='LOCKED' (PRIMA DI INVIARE!)
@@ -631,7 +631,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         message: message,
         uniqueCode: uniqueCode,
         sentTo: 0,
-        status: 'locked', // BLOCCATA durante invio
+        status: 'locked', // BLOCKED during send
         idempotencyKey: idempotencyKey,
         attachmentPaths: [],
         attachmentTypes: [],
@@ -643,7 +643,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         success: true,
         campaignId: campaignId,
         total: userClients.length,
-        message: `Invio in corso a ${userClients.length} clienti...`,
+        message: `Sending in corso a ${userClients.length} clients...`,
         campaignSaved: true
       });
       
@@ -664,7 +664,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
           const { getEmailConfig } = await import('../utils/emailConfig');
           emailConfig = await getEmailConfig(bgUserId);
         } catch (error: any) {
-          console.error('❌ Errore caricamento config email:', error);
+          console.error('❌ Error loading email configuration:', error);
         }
       }
       
@@ -679,7 +679,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
           phoneDevice = phoneDeviceModule.phoneDeviceService;
           deviceConnected = phoneDevice.getStatus().status === 'connected';
         } catch (error: any) {
-          console.warn('⚠️ WhatsApp Web non disponibile');
+          console.warn('⚠️ WhatsApp Web not available');
         }
         
         for (const client of bgUserClients) {
@@ -771,7 +771,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
         })
         .where(eq(marketingCampaigns.id, bgCampaignId));
       
-      logger.debug(`✅ [CAMPAIGN SENT] Campagna ID=${bgCampaignId} completata: ${sentCount} messaggi inviati`);
+      logger.debug(`✅ [CAMPAIGN SENT] Campaign ID=${bgCampaignId} completed: ${sentCount} messages sent`);
       
         } catch (bgError) {
           console.error('❌ [CAMPAIGN BG ERROR]:', bgError);
@@ -781,7 +781,7 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
                 .set({ status: 'failed' })
                 .where(eq(marketingCampaigns.id, bgCampaignId));
             } catch (updateError) {
-              console.error('❌ Errore aggiornamento status failed:', updateError);
+              console.error('❌ Error updating status to failed:', updateError);
             }
           }
         }
@@ -796,30 +796,30 @@ router.post('/api/campaigns/send-batch', requireAuth, uploadCampaign.array('atta
             .set({ status: 'failed' })
             .where(eq(marketingCampaigns.id, campaignId));
         } catch (updateError) {
-          console.error('❌ Errore aggiornamento status failed:', updateError);
+          console.error('❌ Error updating status to failed:', updateError);
         }
       }
       
       if (!res.headersSent) {
         res.status(500).json({ 
           success: false,
-          message: 'Errore nell\'invio della campagna',
+          message: 'Error sending campaign',
           error: error instanceof Error ? error.message : 'Unknown error'
         });
       }
     }
   });
 
-  // GET /api/campaigns/pending-messages - Carica messaggi marketing WhatsApp pendenti
+  // GET /api/campaigns/pending-messages - Load messaggi marketing WhatsApp pendenti
 router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       
       if (!user || !user.id) {
-        return res.status(401).json({ success: false, error: 'Non autenticato' });
+        return res.status(401).json({ success: false, error: 'Not authenticated' });
       }
       
-      // Carica messaggi marketing pendenti con informazioni cliente (JOIN)
+      // Load messaggi marketing pendenti con informazioni client (JOIN)
       const pendingMessages = await db
         .select({
           id: marketingMessages.id,
@@ -855,10 +855,10 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
       });
       
     } catch (error: any) {
-      console.error('❌ [MARKETING MESSAGES] Errore caricamento:', error);
+      console.error('❌ [MARKETING MESSAGES] Error loading:', error);
       res.status(500).json({
         success: false,
-        error: 'Errore nel caricamento dei messaggi marketing'
+        error: 'Error loading marketing messages'
       });
     }
   });
@@ -869,6 +869,6 @@ router.get('/api/campaigns/pending-messages', requireAuth, async (req, res) => {
 
   // NOTE: forgot-password, verify-reset-token, reset-password moved to server/routes/passwordResetRoutes.ts
 
-  // TEST ENDPOINT - Non richiede auth per debug
+  // TEST ENDPOINT - Not richiede auth per debug
 
 export default router;

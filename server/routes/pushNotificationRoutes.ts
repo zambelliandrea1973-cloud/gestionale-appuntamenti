@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 
 const router = Router();
 
-// Salva subscription per push notifications
+// Save subscription per push notifications
 router.post('/subscribe', async (req: Request, res: Response) => {
   try {
     const { clientId, ownerId, subscription } = req.body;
@@ -18,7 +18,7 @@ router.post('/subscribe', async (req: Request, res: Response) => {
       });
     }
     
-    // Verifica che il cliente esista
+    // Verify that the client exists
     const client = await db.select()
       .from(clients)
       .where(eq(clients.id, clientId))
@@ -27,7 +27,7 @@ router.post('/subscribe', async (req: Request, res: Response) => {
     if (client.length === 0) {
       return res.status(404).json({ 
         success: false, 
-        error: 'Cliente non trovato' 
+        error: 'Client not found' 
       });
     }
     
@@ -40,11 +40,11 @@ router.post('/subscribe', async (req: Request, res: Response) => {
     if (saved) {
       res.json({ success: true, message: 'Notifiche push attivate' });
     } else {
-      res.status(500).json({ success: false, error: 'Errore salvataggio subscription' });
+      res.status(500).json({ success: false, error: 'Error saving subscription' });
     }
   } catch (error) {
-    console.error('❌ [PUSH API] Errore subscribe:', error);
-    res.status(500).json({ success: false, error: 'Errore interno' });
+    console.error('❌ [PUSH API] Error in subscribe:', error);
+    res.status(500).json({ success: false, error: 'Internal error' });
   }
 });
 
@@ -56,7 +56,7 @@ router.post('/unsubscribe', async (req: Request, res: Response) => {
     if (!clientId) {
       return res.status(400).json({ 
         success: false, 
-        error: 'ClientId mancante' 
+        error: 'ClientId missing' 
       });
     }
     
@@ -65,15 +65,15 @@ router.post('/unsubscribe', async (req: Request, res: Response) => {
     if (removed) {
       res.json({ success: true, message: 'Notifiche push disattivate' });
     } else {
-      res.status(500).json({ success: false, error: 'Errore rimozione subscription' });
+      res.status(500).json({ success: false, error: 'Error removing subscription' });
     }
   } catch (error) {
-    console.error('❌ [PUSH API] Errore unsubscribe:', error);
-    res.status(500).json({ success: false, error: 'Errore interno' });
+    console.error('❌ [PUSH API] Error in unsubscribe:', error);
+    res.status(500).json({ success: false, error: 'Internal error' });
   }
 });
 
-// Verifica stato subscription
+// Verify stato subscription
 router.get('/status/:clientId', async (req: Request, res: Response) => {
   try {
     const clientId = parseInt(req.params.clientId, 10);
@@ -81,7 +81,7 @@ router.get('/status/:clientId', async (req: Request, res: Response) => {
     if (isNaN(clientId)) {
       return res.status(400).json({ 
         success: false, 
-        error: 'ClientId non valido' 
+        error: 'ClientId invalid' 
       });
     }
     
@@ -92,19 +92,19 @@ router.get('/status/:clientId', async (req: Request, res: Response) => {
       subscribed: hasSubscription 
     });
   } catch (error) {
-    console.error('❌ [PUSH API] Errore status:', error);
-    res.status(500).json({ success: false, error: 'Errore interno' });
+    console.error('❌ [PUSH API] Error status:', error);
+    res.status(500).json({ success: false, error: 'Internal error' });
   }
 });
 
-// Ottieni VAPID public key per il frontend
+// Get VAPID public key for the frontend
 router.get('/vapid-public-key', (req: Request, res: Response) => {
   const publicKey = process.env.VITE_VAPID_PUBLIC_KEY || '';
   
   if (!publicKey) {
     return res.status(500).json({ 
       success: false, 
-      error: 'VAPID key non configurata' 
+      error: 'VAPID key not configured' 
     });
   }
   
@@ -114,7 +114,7 @@ router.get('/vapid-public-key', (req: Request, res: Response) => {
   });
 });
 
-// Test notifica (solo per debug)
+// Test notifica (only per debug)
 router.post('/test/:clientId', async (req: Request, res: Response) => {
   try {
     const clientId = parseInt(req.params.clientId, 10);
@@ -122,23 +122,23 @@ router.post('/test/:clientId', async (req: Request, res: Response) => {
     if (isNaN(clientId)) {
       return res.status(400).json({ 
         success: false, 
-        error: 'ClientId non valido' 
+        error: 'ClientId invalid' 
       });
     }
     
     const sent = await pushNotificationService.sendToClient(clientId, {
       title: 'Test Notifica',
-      body: 'Questa è una notifica di test!',
+      body: 'This is a test notification!',
       url: '/client'
     });
     
     res.json({ 
       success: sent, 
-      message: sent ? 'Notifica inviata' : 'Nessuna subscription attiva'
+      message: sent ? 'Notification sent' : 'No active subscription'
     });
   } catch (error) {
-    console.error('❌ [PUSH API] Errore test:', error);
-    res.status(500).json({ success: false, error: 'Errore interno' });
+    console.error('❌ [PUSH API] Error in test:', error);
+    res.status(500).json({ success: false, error: 'Internal error' });
   }
 });
 

@@ -1,7 +1,7 @@
 import { logger } from '../utils/logger';
 /**
- * Servizio per la gestione diretta dei numeri di telefono per l'invio di SMS
- * Questo approccio sostituisce l'accoppiamento tramite QR code
+ * Service for direct management of phone numbers for SMS sending
+ * This approach replaces QR code pairing
  */
 
 import { db } from '../db';
@@ -9,7 +9,7 @@ import { eq } from 'drizzle-orm';
 import { phones } from '../../shared/schema';
 import { twilioClient } from './twilioService';
 
-// Stati del dispositivo
+// Device states
 enum PhoneStatus {
   DISCONNECTED = 'disconnected',
   VERIFICATION_PENDING = 'verification_pending',
@@ -17,7 +17,7 @@ enum PhoneStatus {
   CONNECTED = 'connected'
 }
 
-// Interfaccia per le informazioni sul telefono
+// Interface for phone information
 interface PhoneInfo {
   status: PhoneStatus;
   phoneNumber: string | null;
@@ -30,11 +30,11 @@ class DirectPhoneService {
   
   constructor() {
     this.loadSavedPhone();
-    console.log('Servizio gestione telefono diretto inizializzato');
+    console.log('Direct phone service initialized');
   }
   
   /**
-   * Carica il telefono salvato dal database
+   * Load the saved phone from the database
    */
   private async loadSavedPhone() {
     try {
@@ -49,45 +49,45 @@ class DirectPhoneService {
           lastUpdated: phone.updatedAt
         };
         
-        console.log(`Telefono caricato dal database: ${phone.phoneNumber}`);
+        console.log(`Phone number loaded from database: ${phone.phoneNumber}`);
       } else {
         this.activePhone = null;
-        console.log('Nessun telefono attivo trovato nel database');
+        console.log('No active phone found in database');
       }
     } catch (error) {
-      console.error('Errore nel caricamento del telefono dal database:', error);
+      console.error('Error loading phone from database:', error);
       this.activePhone = null;
     }
   }
   
   /**
-   * Registra un nuovo numero di telefono
-   * @param phoneNumber Numero di telefono da registrare
-   * @returns Vero se la registrazione è riuscita
+   * Register a new phone number
+   * @param phoneNumber Number di phone da registrare
+   * @returns True if registration succeeded
    */
   public async registerPhone(phoneNumber: string): Promise<boolean> {
     try {
-      // Controlliamo che il numero sia formattato correttamente
+      // Check that the number is formatted correctly
       if (!phoneNumber.startsWith('+')) {
-        throw new Error('Il numero di telefono deve iniziare con il prefisso internazionale (+)');
+        throw new Error('Phone number must start with international prefix (+)');
       }
       
-      // Generiamo un codice di verifica (6 cifre casuali)
+      // Generate a verification code (6 random digits)
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
       this.verificationCodes.set(phoneNumber, verificationCode);
       
-      // In un'implementazione reale, inviamo l'SMS con il codice di verifica
-      // In questa versione demo, lo simuliamo semplicemente
-      console.log(`Codice di verifica per ${phoneNumber}: ${verificationCode}`);
+      // In a real implementation, we send the SMS with the verification code
+      // In this demo version, we simply simulate it
+      console.log(`Verification code for ${phoneNumber}: ${verificationCode}`);
       
-      // Invio immediato del codice via email usando il sistema configurato
-      logger.debug(`📧 Tentativo invio email codice di verifica per ${phoneNumber}: ${verificationCode}`);
+      // Immediate code delivery via email using the configured system
+      logger.debug(`📧 Attempting to send verification code email for ${phoneNumber}: ${verificationCode}`);
       
       try {
         const nodemailer = await import('nodemailer');
         const fs = await import('fs/promises');
         
-        // Leggiamo direttamente dalle impostazioni email configurate
+        // Read directly from the configured email settings
         const data = await fs.readFile('email_settings.json', 'utf8');
         const emailSettings = JSON.parse(data);
         
@@ -111,7 +111,7 @@ class DirectPhoneService {
               </div>
               
               <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="margin: 0 0 15px 0; color: #555;">Il tuo codice di verifica per configurare WhatsApp è:</p>
+                <p style="margin: 0 0 15px 0; color: #555;">Your verification code to set up WhatsApp is:</p>
                 <div style="background: #25d366; color: white; padding: 15px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; border-radius: 8px; margin: 15px 0;">
                   ${verificationCode}
                 </div>
@@ -119,23 +119,23 @@ class DirectPhoneService {
               </div>
               
               <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <p style="margin: 0; color: #856404; font-size: 14px;">⏰ Questo codice è valido per 10 minuti</p>
+                <p style="margin: 0; color: #856404; font-size: 14px;">⏰ This code is valid for 10 minutes</p>
               </div>
             </div>
           `
         });
         
-        logger.debug(`📧 Email di verifica WhatsApp inviata con successo per ${phoneNumber}`);
+        logger.debug(`📧 WhatsApp verification email sent successfully for ${phoneNumber}`);
         
       } catch (emailError) {
-        console.error('❌ Errore invio email di verifica WhatsApp:', emailError);
-        console.log(`⚠️ Codice di backup disponibile nei log: ${verificationCode}`);
+        console.error('❌ Error sending WhatsApp verification email:', emailError);
+        console.log(`⚠️ Backup code available in logs: ${verificationCode}`);
       }
       
-      // Prima disattiviamo eventuali telefoni esistenti
+      // First disattiviamo eventuali telefoni esistenti
       await db.update(phones).set({ isActive: false }).where(eq(phones.isActive, true));
       
-      // Poi inseriamo il nuovo telefono
+      // Then insert the new phone
       await db.insert(phones).values({
         phoneNumber,
         isVerified: false,
@@ -144,7 +144,7 @@ class DirectPhoneService {
         updatedAt: new Date()
       });
       
-      // Aggiorniamo lo stato
+      // Update the status
       this.activePhone = {
         status: PhoneStatus.VERIFICATION_PENDING,
         phoneNumber,
@@ -153,30 +153,30 @@ class DirectPhoneService {
       
       return true;
     } catch (error) {
-      console.error('Errore nella registrazione del telefono:', error);
+      console.error('Error registering phone:', error);
       throw error;
     }
   }
   
   /**
-   * Verifica il codice ricevuto via SMS
-   * @param phoneNumber Numero di telefono da verificare
-   * @param code Codice di verifica
-   * @returns Vero se la verifica è riuscita
+   * Verify the code received via SMS
+   * @param phoneNumber Phone number to verify
+   * @param code Verification code
+   * @returns True if verification succeeded
    */
   public async verifyPhone(phoneNumber: string, code: string): Promise<boolean> {
     try {
       const savedCode = this.verificationCodes.get(phoneNumber);
       
       if (!savedCode) {
-        throw new Error('Nessun codice di verifica trovato per questo numero');
+        throw new Error('No verification code found for this number');
       }
       
       if (savedCode !== code) {
-        throw new Error('Codice di verifica non valido');
+        throw new Error('Invalid verification code');
       }
       
-      // Codice valido, aggiorniamo il database
+      // Code is valid, update the database
       await db.update(phones)
         .set({ 
           isVerified: true,
@@ -184,26 +184,26 @@ class DirectPhoneService {
         })
         .where(eq(phones.phoneNumber, phoneNumber));
       
-      // Aggiorniamo lo stato
+      // Update the status
       this.activePhone = {
         status: PhoneStatus.VERIFIED,
         phoneNumber,
         lastUpdated: new Date()
       };
       
-      // Rimuoviamo il codice dalla mappa
+      // Remove the code from the map
       this.verificationCodes.delete(phoneNumber);
       
       return true;
     } catch (error) {
-      console.error('Errore nella verifica del telefono:', error);
+      console.error('Error verifying phone:', error);
       throw error;
     }
   }
   
   /**
-   * Rimuove un telefono attivo
-   * @returns Vero se la rimozione è riuscita
+   * Remove an active phone
+   * @returns True if removal succeeded
    */
   public async disconnectPhone(): Promise<boolean> {
     try {
@@ -214,53 +214,53 @@ class DirectPhoneService {
         })
         .where(eq(phones.isActive, true));
       
-      // Resetta lo stato
+      // Resetta the status
       this.activePhone = null;
       
       return true;
     } catch (error) {
-      console.error('Errore nella rimozione del telefono:', error);
+      console.error('Error removing phone:', error);
       throw error;
     }
   }
   
   /**
-   * Invia un WhatsApp di test al telefono attivo
-   * @returns Vero se l'invio è riuscito
+   * Send a test WhatsApp to the active phone
+   * @returns True if sending succeeded
    */
   public async sendTestSms(): Promise<{ success: boolean; whatsappLink?: string }> {
     try {
       if (!this.activePhone || !this.activePhone.phoneNumber) {
-        throw new Error('Nessun telefono attivo configurato');
+        throw new Error('No active phone configured');
       }
       
       const phoneNumber = this.activePhone.phoneNumber;
       
-      const messageText = `Gestionale Appuntamenti: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`;
-      console.log(`Generazione link WhatsApp per ${phoneNumber}...`);
+      const messageText = `Gestionale Appuntamenti: Dear patient, we confirm your appointment tomorrow at 10:00. Best regards.`;
+      console.log(`Generating WhatsApp link for ${phoneNumber}...`);
       
-      // Creiamo un link WhatsApp
+      // Create a WhatsApp link
       const whatsappLink = encodeURI(`https://wa.me/${phoneNumber.replace('+', '')}?text=${messageText}`);
       
-      console.log(`Link WhatsApp generato: ${whatsappLink}`);
-      console.log(`WhatsApp di test preparato per ${phoneNumber}`);
+      console.log(`WhatsApp link generated: ${whatsappLink}`);
+      console.log(`Test WhatsApp prepared for ${phoneNumber}`);
       
-      // Notifichiamo che l'utente deve utilizzare il link
-      console.log('NOTA: Per completare l\'invio, aprire il link WhatsApp manualmente');
+      // Notify that the user must use the link
+      console.log('NOTE: To complete the send, open the WhatsApp link manually');
       
       return {
         success: true,
         whatsappLink: whatsappLink
       };
     } catch (error) {
-      console.error('Errore nella preparazione del messaggio WhatsApp di test:', error);
+      console.error('Error preparing test WhatsApp message:', error);
       throw error;
     }
   }
   
   /**
-   * Ottiene le informazioni sul telefono attivo
-   * @returns Informazioni sul telefono
+   * Get information about the active phone
+   * @returns Phone information
    */
   public getPhoneInfo(): PhoneInfo {
     return this.activePhone || {

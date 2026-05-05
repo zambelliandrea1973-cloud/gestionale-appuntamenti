@@ -7,10 +7,10 @@ const router = Router();
 router.get('/api/files/:id/:filename', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ error: 'ID non valido' });
+    if (isNaN(id)) return res.status(400).json({ error: 'Invalid ID' });
 
     const file = await fileStorageService.getFile(id);
-    if (!file) return res.status(404).json({ error: 'File non trovato' });
+    if (!file) return res.status(404).json({ error: 'File not found' });
 
     res.set({
       'Content-Type': file.mimeType,
@@ -20,8 +20,8 @@ router.get('/api/files/:id/:filename', async (req, res) => {
     });
     res.send(file.data);
   } catch (error: any) {
-    console.error('[FILE] Errore nel servire file:', error);
-    res.status(500).json({ error: 'Errore nel recupero del file' });
+    console.error('[FILE] Error serving file:', error);
+    res.status(500).json({ error: 'Error retrieving file' });
   }
 });
 

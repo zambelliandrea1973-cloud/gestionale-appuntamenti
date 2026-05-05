@@ -1,7 +1,7 @@
 /**
- * Servizio per gestire il ping esterno dell'applicazione
- * Questo servizio consente di configurare servizi esterni come UptimeRobot o Pingdom
- * per mantenere l'applicazione attiva ed evitare sospensioni dovute a inattività
+ * Service for managing external application pings
+ * This service allows configuring external services like UptimeRobot or Pingdom
+ * to keep the application alive and avoid suspensions due to inactivity
  */
 
 import axios from 'axios';
@@ -32,7 +32,7 @@ class ExternalPingService {
   constructor() {
     this.statsFilePath = path.join(process.cwd(), 'ping_stats.json');
     
-    // Inizializza le statistiche
+    // Initialize the statistics
     this.pingStats = {
       lastPingTime: new Date().toISOString(),
       pingCount: 0,
@@ -41,42 +41,42 @@ class ExternalPingService {
       externalPings: []
     };
     
-    // Carica le statistiche esistenti se presenti
+    // Load the statistics esistenti If presenti
     this.loadStats();
     
-    // Aggiorna l'uptime
+    // Update l'uptime
     this.pingStats.uptime = process.uptime();
     this.pingStats.startTime = new Date(Date.now() - (process.uptime() * 1000)).toISOString();
     
-    // Salva le statistiche aggiornate
+    // Save the statistiche aggiornate
     this.saveStats();
     
-    // Inizia il processo di salvataggio periodico delle statistiche
+    // Start the periodic statistics saving process
     setInterval(() => {
       this.pingStats.uptime = process.uptime();
       this.saveStats();
-    }, 60000); // Ogni minuto
+    }, 60000); // Every minute
     
-    console.log('Servizio ping esterno inizializzato');
-    console.log(`Chiave segreta per riavvio generata: ${this.secretRestartKey}`);
+    console.log('External ping service initialized');
+    console.log(`Restart secret key generated: ${this.secretRestartKey}`);
   }
 
   /**
-   * Registra un router Express con tutti gli endpoint del servizio
+   * Register a router Express with all endpoint of the service
    */
   registerRoutes(router: Router): void {
-    // Endpoint per il ping standard (monitora la salute dell'app)
+    // Endpoint for standard ping (monitors app health)
     router.get('/ping', (req: Request, res: Response) => {
       this.recordPing(req);
       res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),
-        message: 'Applicazione attiva e funzionante',
+        message: 'Application active and running',
         uptime: this.formatUptime(process.uptime())
       });
     });
     
-    // Endpoint con payload per verifica completa (usato da UptimeRobot/Pingdom)
+    // Endpoint with payload for full verification (used by UptimeRobot/Pingdom)
     router.get('/ping/extended', (req: Request, res: Response) => {
       this.recordPing(req);
       const systemInfo = this.getSystemInfo();
@@ -84,7 +84,7 @@ class ExternalPingService {
       res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),
-        message: 'Verifica estesa completata con successo',
+        message: 'Extended verification completed successfully',
         uptime: this.formatUptime(process.uptime()),
         stats: {
           pingCount: this.pingStats.pingCount,
@@ -94,64 +94,64 @@ class ExternalPingService {
       });
     });
     
-    // Endpoint speciale per forzare riavvio (richiede chiave segreta)
+    // Endpoint speciale per forzare riavvio (richiede key segreta)
     router.post('/ping/restart', (req: Request, res: Response) => {
       const { restartKey } = req.body;
       
       if (!restartKey || restartKey !== this.secretRestartKey) {
         return res.status(403).json({
           status: 'ERROR',
-          message: 'Chiave di riavvio non valida o mancante'
+          message: 'Restart key invalid or missing'
         });
       }
       
-      // Registra il comando di riavvio
-      console.log(`Riavvio dell'applicazione richiesto dall'esterno alle ${new Date().toISOString()}`);
+      // Register the restart command
+      console.log(`Application restart triggered externally at ${new Date().toISOString()}`);
       
-      // Comunica l'intenzione di riavviare prima di farlo
+      // Communicate the intention to restart before doing it
       res.status(200).json({
         status: 'OK',
         message: 'Riavvio in corso...',
         timestamp: new Date().toISOString()
       });
       
-      // Riavvia l'applicazione dopo un breve ritardo
+      // Restart the application after a brief delay
       setTimeout(() => {
         this.restartApplication();
       }, 1000);
     });
     
-    // Endpoint per ottenere la chiave di riavvio (solo per uso interno)
+    // Endpoint to get the restart key (internal use only)
     router.get('/ping/key', (req: Request, res: Response) => {
-      // Verifica se la richiesta proviene da localhost
+      // Check if the request comes from localhost
       const ip = req.ip || req.connection.remoteAddress;
       if (ip === '127.0.0.1' || ip === '::1' || ip === 'localhost') {
         res.status(200).json({
           restartKey: this.secretRestartKey
         });
       } else {
-        // Se non è una richiesta locale, non rivelare la chiave
+        // If it is a local request, do not reveal the key
         res.status(403).json({
-          message: 'Accesso negato: questo endpoint è accessibile solo da localhost'
+          message: 'Access denied: this endpoint is only accessible from localhost'
         });
       }
     });
     
-    // Endpoint diagnostico per visualizzare le statistiche di ping
+    // Endpoint diagnostico per visualizzare the statistics di ping
     router.get('/ping/stats', (req: Request, res: Response) => {
-      // Aggiorna l'uptime prima di inviare le statistiche
+      // Update l'uptime prima di inviare the statistics
       this.pingStats.uptime = process.uptime();
       
       res.status(200).json({
         ...this.pingStats,
         formattedUptime: this.formatUptime(this.pingStats.uptime),
-        recentPings: this.pingStats.externalPings.slice(-10) // Mostra solo gli ultimi 10 ping
+        recentPings: this.pingStats.externalPings.slice(-10) // Show only the last 10 pings
       });
     });
   }
   
   /**
-   * Registra un ping ricevuto
+   * Register a received ping
    */
   private recordPing(req: Request): void {
     const now = new Date();
@@ -159,25 +159,25 @@ class ExternalPingService {
     this.pingStats.pingCount++;
     this.pingStats.uptime = process.uptime();
     
-    // Registra informazioni sul ping
+    // Register ping information
     const pingInfo = {
       timestamp: now.toISOString(),
       source: req.ip || 'unknown',
       userAgent: req.headers['user-agent'] || 'unknown'
     };
     
-    // Mantieni solo gli ultimi 100 ping per evitare che il file diventi troppo grande
+    // Keep only the last 100 pings to avoid the file becoming too large
     this.pingStats.externalPings.push(pingInfo);
     if (this.pingStats.externalPings.length > 100) {
       this.pingStats.externalPings.shift();
     }
     
-    // Non salvare le statistiche ad ogni ping per evitare sovraccarico di I/O
-    // Le statistiche verranno salvate periodicamente dall'intervallo
+    // Not salvare the statistics ad each ping per evitare sovraccarico di I/O
+    // the statistics verranno salvate periodicamente dall'intervallo
   }
   
   /**
-   * Carica le statistiche da file se esistono
+   * Load the statistics da file If esistono
    */
   private loadStats(): void {
     try {
@@ -187,28 +187,28 @@ class ExternalPingService {
         this.pingStats = {
           ...this.pingStats,
           ...loadedStats,
-          // Non sovrascrivere l'uptime e startTime perché vengono aggiornati con il processo corrente
+          // Do not overwrite uptime and startTime because they are updated with the current process
         };
-        console.log('Statistiche di ping caricate da file');
+        console.log('Ping statistics loaded from file');
       }
     } catch (error) {
-      console.error('Errore nel caricamento delle statistiche di ping:', error);
+      console.error('Error loading ping statistics:', error);
     }
   }
   
   /**
-   * Salva le statistiche su file
+   * Save the statistiche to file
    */
   private saveStats(): void {
     try {
       fs.writeFileSync(this.statsFilePath, JSON.stringify(this.pingStats, null, 2));
     } catch (error) {
-      console.error('Errore nel salvataggio delle statistiche di ping:', error);
+      console.error('Error saving ping statistics:', error);
     }
   }
   
   /**
-   * Ottiene informazioni di sistema
+   * Get system information
    */
   private getSystemInfo(): any {
     try {
@@ -224,28 +224,28 @@ class ExternalPingService {
         node: process.version
       };
     } catch (error) {
-      console.error('Errore nel recupero delle informazioni di sistema:', error);
+      console.error('Error retrieving system information:', error);
       return { error: 'Unable to retrieve system information' };
     }
   }
   
   /**
-   * Riavvia l'applicazione (può variare in base all'ambiente di hosting)
+   * Restart the application (may vary based on the hosting environment)
    */
   private restartApplication(): void {
     try {
-      console.log('Tentativo di riavvio dell\'applicazione...');
+      console.log('Attempting application restart...');
       
-      // In Replit, simuliamo un riavvio terminando il processo
-      // Il sistema Replit riavvierà automaticamente il processo
+      // In Replit, simulate a restart by terminating the process
+      // The Replit system will automatically restart the process
       process.exit(0);
     } catch (error) {
-      console.error('Errore durante il tentativo di riavvio:', error);
+      console.error('Error during restart attempt:', error);
     }
   }
   
   /**
-   * Formatta il tempo di uptime in un formato leggibile
+   * Format the uptime in a readable format
    */
   private formatUptime(seconds: number): string {
     const days = Math.floor(seconds / 86400);
@@ -263,7 +263,7 @@ class ExternalPingService {
   }
   
   /**
-   * Genera una chiave segreta casuale per il riavvio
+   * Generate a key segreta casuale per the restart
    */
   private generateSecretKey(): string {
     return Math.random().toString(36).substring(2, 15) + 
@@ -271,7 +271,7 @@ class ExternalPingService {
   }
   
   /**
-   * Ottiene l'URL dell'applicazione per la configurazione di UptimeRobot
+   * Get the application URL for UptimeRobot configuration
    */
   getUptimeRobotSetupInfo(baseUrl: string): any {
     return {

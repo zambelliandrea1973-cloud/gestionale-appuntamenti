@@ -6,18 +6,18 @@ import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 const router = Router();
 
 router.get("/api/staff/users", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può accedere alla gestione staff" });
+    return res.status(403).json({ message: "Only admin can access staff management" });
   }
   
   try {
-    console.log("🔵 [/api/staff/users] SIMPLE-ROUTES - Recupero staff da PostgreSQL");
+    console.log("🔵 [/api/staff/users] SIMPLE-ROUTES - Retrieving staff from PostgreSQL");
     
     const staffUsers = await storage.getAllStaffUsers();
-    console.log(`🔵 [/api/staff/users] Trovati ${staffUsers.length} utenti dal database`);
+    console.log(`🔵 [/api/staff/users] Found ${staffUsers.length} users from the database`);
     
     const safeUsers = staffUsers.map(staffUser => {
       const { password, ...userWithoutPassword } = staffUser;
@@ -33,27 +33,27 @@ router.get("/api/staff/users", async (req, res) => {
       };
     });
     
-    console.log(`✅ [/api/staff/users] Invio ${safeUsers.length} utenti staff`);
+    console.log(`✅ [/api/staff/users] Sending ${safeUsers.length} staff users`);
     res.json(safeUsers);
   } catch (error: any) {
-    console.error("❌ [/api/staff/users] Errore:", error);
-    res.status(500).json({ message: "Errore nel caricamento staff" });
+    console.error("❌ [/api/staff/users] Error:", error);
+    res.status(500).json({ message: "Error loading staff" });
   }
 });
 
 router.patch("/api/staff/:userId/banking", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può modificare i dati bancari staff" });
+    return res.status(403).json({ message: "Only admin can modify staff banking data" });
   }
   
   try {
     const userId = parseInt(req.params.userId);
     const { iban, bic, bankName, accountHolder } = req.body;
     
-    console.log(`💳 [BANKING] Aggiornamento dati bancari per staff ${userId}:`, { iban, bic, bankName, accountHolder });
+    console.log(`💳 [BANKING] Updating banking data for staff ${userId}:`, { iban, bic, bankName, accountHolder });
     
     const updated = await storage.updateStaffBanking(userId, {
       iban,
@@ -63,23 +63,23 @@ router.patch("/api/staff/:userId/banking", async (req, res) => {
     });
     
     if (!updated) {
-      return res.status(404).json({ message: "Staff non trovato" });
+      return res.status(404).json({ message: "Staff not found" });
     }
     
-    console.log(`✅ [BANKING] Dati bancari aggiornati per staff ${userId}`);
-    res.json({ success: true, message: "Dati bancari aggiornati con successo" });
+    console.log(`✅ [BANKING] Banking data updated for staff ${userId}`);
+    res.json({ success: true, message: "Banking data updated successfully" });
   } catch (error: any) {
-    console.error("❌ [BANKING] Errore:", error);
-    res.status(500).json({ message: "Errore nel salvataggio dati bancari" });
+    console.error("❌ [BANKING] Error:", error);
+    res.status(500).json({ message: "Error saving banking data" });
   }
 });
 
 router.get("/api/referral/codes", (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin' && user.type !== 'business') {
-    return res.status(403).json({ message: "Solo admin e business possono accedere ai referral" });
+    return res.status(403).json({ message: "Only admin and business users can access referrals" });
   }
   
   const referralCodes = loadStorageData().referralCodes || [];
@@ -95,11 +95,11 @@ router.get("/api/referral/codes", (req, res) => {
 });
 
 router.get("/api/referral-overview", (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può accedere alla panoramica referral" });
+    return res.status(403).json({ message: "Only admin can access the referral overview" });
   }
   
   try {
@@ -160,17 +160,17 @@ router.get("/api/referral-overview", (req, res) => {
     
     res.json(response);
   } catch (error: any) {
-    console.error('Errore nel caricamento panoramica referral:', error);
-    res.status(500).json({ message: "Errore nel caricamento dei dati referral" });
+    console.error('Error loading referral overview:', error);
+    res.status(500).json({ message: "Error loading referral data" });
   }
 });
 
 router.get("/api/staff-commissions/all", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    return res.status(403).json({ message: "Only admin can access staff commissions" });
   }
   
   try {
@@ -193,7 +193,7 @@ router.get("/api/staff-commissions/all", async (req, res) => {
           notes: commission.notes || null,
           licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
           licenseType: subscription?.licenseType || 'business',
-          customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com',
+          customerEmail: referredUser?.email || referredUser?.username || 'client@email.com',
           staffName: `${staffUser?.firstName || ''} ${staffUser?.lastName || ''}`.trim() || staffUser?.username || 'Staff',
           staffEmail: staffUser?.email || staffUser?.username || 'staff@email.com'
         };
@@ -202,17 +202,17 @@ router.get("/api/staff-commissions/all", async (req, res) => {
     
     res.json(allCommissions);
   } catch (error: any) {
-    console.error('Errore nel caricamento di tutte le commissioni:', error);
-    res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    console.error('Error loading all commissions:', error);
+    res.status(500).json({ message: "Error loading commissions" });
   }
 });
 
 router.get("/api/staff-commissions/:staffId", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    return res.status(403).json({ message: "Only admin can access staff commissions" });
   }
   
   try {
@@ -236,24 +236,24 @@ router.get("/api/staff-commissions/:staffId", async (req, res) => {
             notes: commission.notes || null,
             licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
             licenseType: subscription?.licenseType || 'business',
-            customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com'
+            customerEmail: referredUser?.email || referredUser?.username || 'client@email.com'
           };
         })
     );
     
     res.json(staffCommissions);
   } catch (error: any) {
-    console.error('Errore nel caricamento commissioni staff:', error);
-    res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    console.error('Error loading staff commissions:', error);
+    res.status(500).json({ message: "Error loading commissions" });
   }
 });
 
 router.post("/api/staff-commissions/:commissionId/mark-paid", (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può aggiornare le commissioni" });
+    return res.status(403).json({ message: "Only admin can update commissions" });
   }
   
   try {
@@ -265,7 +265,7 @@ router.post("/api/staff-commissions/:commissionId/mark-paid", (req, res) => {
     
     const commissionIndex = referralCommissions.findIndex(c => c.id === commissionId);
     if (commissionIndex === -1) {
-      return res.status(404).json({ message: "Commissione non trovata" });
+      return res.status(404).json({ message: "Commission not found" });
     }
     
     referralCommissions[commissionIndex] = {
@@ -278,10 +278,10 @@ router.post("/api/staff-commissions/:commissionId/mark-paid", (req, res) => {
     storageData.referralCommissions = referralCommissions;
     saveStorageData(storageData);
     
-    res.json({ success: true, message: "Commissione segnata come pagata" });
+    res.json({ success: true, message: "Commission marked as paid" });
   } catch (error: any) {
-    console.error('Errore nell\'aggiornamento commissione:', error);
-    res.status(500).json({ message: "Errore nell'aggiornamento della commissione" });
+    console.error('Error updating commission:', error);
+    res.status(500).json({ message: "Error updating commission" });
   }
 });
 

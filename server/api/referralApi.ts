@@ -4,13 +4,13 @@ import { db } from "../db";
 import { referralCommissions, licenses, users, staffCommissions } from "../../shared/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 
-// Ottieni le statistiche referral per uno staff specifico
+// Get the statistiche referral for a specific staff member
 export async function getStaffReferralStats(req: Request, res: Response) {
   try {
     const staffId = parseInt(req.params.staffId);
-    console.log(`🎯 REFERRAL STAFF: Richiesta statistiche per staff ID: ${staffId}`);
+    console.log(`🎯 REFERRAL STAFF: Statistics request for staff ID: ${staffId}`);
     
-    // Conta abbonamenti sponsorizzati
+    // Count sponsored subscriptions
     const [sponsoredCount] = await db
       .select({ count: sql<number>`count(*)` })
       .from(licenses)
@@ -19,19 +19,19 @@ export async function getStaffReferralStats(req: Request, res: Response) {
         eq(licenses.isActive, true)
       ));
 
-    // Commissioni totali - Query semplificata usando referralCommissions
+    // Total commissions - Simplified query using referralCommissions
     const allCommissions = await db
       .select()
       .from(referralCommissions)
       .where(eq(referralCommissions.referrerId, staffId));
 
     const totalCommissions = {
-      total: allCommissions.reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100, // Converti da centesimi a euro
+      total: allCommissions.reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100, // Convert from cents to euros
       paid: allCommissions.filter(comm => comm.status === 'active').reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100,
       pending: allCommissions.filter(comm => comm.status !== 'active').reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100
     };
 
-    // Lista commissioni recenti usando referralCommissions
+    // Lista commissions recenti usando referralCommissions
     const recentCommissions = await db
       .select({
         id: referralCommissions.id,
@@ -48,7 +48,7 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       .orderBy(desc(referralCommissions.createdAt))
       .limit(10);
 
-    // Ottieni i dati dell'utente e il suo codice referral
+    // Get the user data and their referral code
     const [userData] = await db
       .select({
         id: users.id,
@@ -78,27 +78,27 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       totalCommissions: totalCommissions.total || 0,
       paidCommissions: totalCommissions.paid || 0,
       pendingCommissions: totalCommissions.pending || 0,
-      commissionRate: 100, // 1€ in centesimi
-      minSponsorshipForCommission: 3 // Dal 3° abbonamento
+      commissionRate: 100, // 1€ in cents
+      minSponsorshipForCommission: 3 // From the 3rd subscription
     };
     
-    console.log(`🎯 REFERRAL STAFF: Dati restituiti per staff ${staffId}:`, JSON.stringify(responseData, null, 2));
+    console.log(`🎯 REFERRAL STAFF: Data returned for staff ${staffId}:`, JSON.stringify(responseData, null, 2));
     res.json(responseData);
 
   } catch (error) {
-    console.error("Errore nel recupero statistiche referral:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("Error retrieving referral statistics:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-// Ottieni panoramica generale referral (solo admin)
+// Get panoramica generale referral (only admin)
 export async function getReferralOverview(req: Request, res: Response) {
   try {
     if (!req.user || req.user.role !== 'admin') {
-      return res.status(403).json({ error: "Accesso negato" });
+      return res.status(403).json({ error: "Access denied" });
     }
 
-    // Statistiche per ogni staff
+    // Statistiche per each staff
     const staffStats = await db
       .select({
         staffId: users.id,
@@ -134,46 +134,46 @@ export async function getReferralOverview(req: Request, res: Response) {
     res.json({
       staffStats,
       totals,
-      commissionRate: 100, // 1€ in centesimi
+      commissionRate: 100, // 1€ in cents
       minSponsorshipForCommission: 3
     });
 
   } catch (error) {
-    console.error("Errore nel recupero panoramica referral:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("Error retrieving referral overview:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-// Assegna sponsorizzazione a una licenza
+// Assign sponsorship to a license
 export async function assignSponsorship(req: Request, res: Response) {
   try {
     if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'staff')) {
-      return res.status(403).json({ error: "Accesso negato" });
+      return res.status(403).json({ error: "Access denied" });
     }
 
     const { licenseId, staffId } = req.body;
 
-    // Verifica che la licenza esista e non sia già sponsorizzata
+    // Verify that the license exists and is not already sponsored
     const [license] = await db
       .select()
       .from(licenses)
       .where(eq(licenses.id, licenseId));
 
     if (!license) {
-      return res.status(404).json({ error: "Licenza non trovata" });
+      return res.status(404).json({ error: "License not found" });
     }
 
     if (license.sponsoredBy) {
-      return res.status(400).json({ error: "Licenza già sponsorizzata" });
+      return res.status(400).json({ error: "License already sponsored" });
     }
 
-    // Aggiorna la licenza con lo sponsor
+    // Update the license with the sponsor
     await db
       .update(licenses)
       .set({ sponsoredBy: staffId })
       .where(eq(licenses.id, licenseId));
 
-    // Conta quante licenze ha già sponsorizzato questo staff
+    // Count how many licenses this staff member has already sponsored
     const [sponsoredCount] = await db
       .select({ count: sql<number>`count(*)` })
       .from(licenses)
@@ -182,12 +182,12 @@ export async function assignSponsorship(req: Request, res: Response) {
         eq(licenses.isActive, true)
       ));
 
-    // Se ha sponsorizzato 3 o più, crea commissione
+    // If sponsored 3 or more, create commission
     if (sponsoredCount.count >= 3) {
       await db.insert(staffCommissions).values({
         staffId,
         licenseId,
-        commissionAmount: 100, // 1€ in centesimi
+        commissionAmount: 100, // 1€ in cents
         isPaid: false,
         notes: `Commissione per sponsorizzazione #${sponsoredCount.count}`
       });
@@ -201,16 +201,16 @@ export async function assignSponsorship(req: Request, res: Response) {
     });
 
   } catch (error) {
-    console.error("Errore nell'assegnazione sponsorizzazione:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("Error assigning sponsorship:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-// Segna commissione come pagata (solo admin)
+// Segna commission come pagata (only admin)
 export async function markCommissionPaid(req: Request, res: Response) {
   try {
     if (!req.user || req.user.role !== 'admin') {
-      return res.status(403).json({ error: "Accesso negato" });
+      return res.status(403).json({ error: "Access denied" });
     }
 
     const commissionId = parseInt(req.params.commissionId);
@@ -225,10 +225,10 @@ export async function markCommissionPaid(req: Request, res: Response) {
       })
       .where(eq(staffCommissions.id, commissionId));
 
-    res.json({ success: true, message: "Commissione segnata come pagata" });
+    res.json({ success: true, message: "Commission marked as paid" });
 
   } catch (error) {
-    console.error("Errore nel segnare commissione come pagata:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("Error marking commission as paid:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }

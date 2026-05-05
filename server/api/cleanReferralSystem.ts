@@ -2,28 +2,28 @@ import { Request, Response } from "express";
 import { storage } from "../storage";
 
 /**
- * SISTEMA REFERRAL PULITO - RICOSTRUITO DA ZERO
- * Collegamento diretto al database senza sovrapposizioni
+ * CLEAN REFERRAL SYSTEM - REBUILT FROM SCRATCH
+ * Direct database connection without overlaps
  */
 
 export async function getCleanReferralOverview(req: Request, res: Response) {
   try {
-    console.log(`🆕 SISTEMA PULITO: Richiesta overview da ${req.user!.username}`);
+    console.log(`🆕 CLEAN SYSTEM: Overview requested by ${req.user!.username}`);
     
-    // PASSO 1: Recupera TUTTI gli account staff dal database
+    // STEP 1: Retrieve ALL staff accounts from database
     const allStaffUsers = await storage.getAllStaffUsers();
-    console.log(`👥 ACCOUNT RECUPERATI DAL DATABASE: ${allStaffUsers.length} utenti totali`);
+    console.log(`👥 ACCOUNTS RETRIEVED FROM DATABASE: ${allStaffUsers.length} total users`);
     
-    // Debug dettagliato di ogni account
+    // Detailed debug for each account
     allStaffUsers.forEach((user, index) => {
       console.log(`📋 Account ${index + 1}: ID=${user.id}, username=${user.username}, role=${user.role}`);
     });
     
-    // PASSO 2: Per ogni staff, crea i dati referral puliti
+    // STEP 2: For each staff, create clean referral date
     const staffReferralData = [];
     
     for (const user of allStaffUsers) {
-      // Codici referral autentici per ogni staff
+      // Authentic referral codes for each staff
       const referralCode = user.id === 3 ? "REF3" :     // zambelli.andrea.1973@gmail.com
                           user.id === 8 ? "ZAM08" :     // zambelli.andrea.19732@gmail.com
                           user.id === 13 ? "REF13" :    // test@example.com
@@ -34,15 +34,15 @@ export async function getCleanReferralOverview(req: Request, res: Response) {
                           user.id === 22 ? "REF22" :    // 3professionista.test@example.com
                           `REF${user.id}`;
       
-      // Recupera sponsorizzazioni reali (per ora 0, ma struttura pronta)
+      // Retrieve real sponsorships (currently 0, but structure is ready)
       const sponsorships = await storage.getReferralsByStaffId(user.id) || [];
       const sponsoredCount = sponsorships.length;
       
-      // Calcola commissioni (€1 per sponsorizzazione dal 3° in poi)
+      // Calculate commissions (€1 per sponsorship from the 3rd onward)
       const commissionableSponsors = Math.max(0, sponsoredCount - 2);
-      const totalCommissions = commissionableSponsors * 100; // in centesimi
+      const totalCommissions = commissionableSponsors * 100; // in cents
       
-      // Per ora tutti i pagamenti sono pending
+      // For now all payments are pending
       const paidCommissions = 0;
       const pendingCommissions = totalCommissions;
       
@@ -58,16 +58,16 @@ export async function getCleanReferralOverview(req: Request, res: Response) {
         canReceivePayment: totalCommissions > 0,
         bankingInfo: {
           hasIban: sponsoredCount >= 3,
-          bankName: sponsoredCount >= 3 ? "Banca Esempio" : null,
+          bankName: sponsoredCount >= 3 ? "Sample Bank" : null,
           accountHolder: sponsoredCount >= 3 ? user.username.split('@')[0] : null
         }
       };
       
       staffReferralData.push(staffData);
-      console.log(`✅ Staff ${user.id} processato: ${referralCode}, ${sponsoredCount} sponsorizzazioni`);
+      console.log(`✅ Staff ${user.id} processed: ${referralCode}, ${sponsoredCount} sponsorships`);
     }
     
-    // PASSO 3: Calcola i totali globali
+    // STEP 3: Calculate global totals
     const totals = {
       totalStaff: allStaffUsers.length,
       totalSponsored: staffReferralData.reduce((sum, staff) => sum + staff.sponsoredCount, 0),
@@ -76,57 +76,57 @@ export async function getCleanReferralOverview(req: Request, res: Response) {
       totalPending: staffReferralData.reduce((sum, staff) => sum + staff.pendingCommissions, 0)
     };
     
-    // PASSO 4: Prepara risposta pulita
+    // STEP 4: Prepare clean response
     const cleanResponse = {
       staffData: staffReferralData,
-      staffStats: staffReferralData, // Alias per compatibilità frontend
+      staffStats: staffReferralData, // Alias for frontend compatibility
       totals: totals,
-      statsData: totals, // Alias per compatibilità frontend
-      commissionRate: 100, // €1 = 100 centesimi
+      statsData: totals, // Alias for frontend compatibility
+      commissionRate: 100, // €1 = 100 cents
       minimumSponsorsForCommission: 3
     };
     
-    console.log(`🎉 SISTEMA PULITO COMPLETATO: ${totals.totalStaff} staff, ${totals.totalSponsored} sponsorizzazioni totali`);
+    console.log(`🎉 CLEAN SYSTEM COMPLETED: ${totals.totalStaff} staff, ${totals.totalSponsored} total sponsorships`);
     
     res.json(cleanResponse);
     
   } catch (error) {
-    console.error('❌ ERRORE SISTEMA PULITO:', error);
+    console.error('❌ CLEAN SYSTEM ERROR:', error);
     res.status(500).json({ 
-      error: 'Errore nel sistema referral pulito',
-      details: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: 'Error in referral system',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
 
 /**
- * Paga le commissioni per uno staff specifico
+ * Pay commissions for a specific staff member
  */
 export async function payStaffCommissionsClean(req: Request, res: Response) {
   try {
     const { staffId } = req.params;
     const staffIdNum = parseInt(staffId);
     
-    console.log(`💰 PAGAMENTO PULITO: Staff ID ${staffIdNum}`);
+    console.log(`💰 CLEAN PAYMENT: Staff ID ${staffIdNum}`);
     
-    // Recupera i dati dello staff
+    // Retrieve staff data
     const staffUser = await storage.getUser(staffIdNum);
     if (!staffUser) {
-      return res.status(404).json({ error: 'Staff non trovato' });
+      return res.status(404).json({ error: 'Staff not found' });
     }
     
-    // Calcola commissioni da pagare
+    // Calculate commissions to pay
     const sponsorships = await storage.getReferralsByStaffId(staffIdNum) || [];
     const sponsoredCount = sponsorships.length;
     const commissionableSponsors = Math.max(0, sponsoredCount - 2);
     const totalCommissions = commissionableSponsors * 100;
     
     if (totalCommissions <= 0) {
-      return res.status(400).json({ error: 'Nessuna commissione da pagare' });
+      return res.status(400).json({ error: 'No commissions to pay' });
     }
     
-    // TODO: Implementare logica di pagamento reale
-    console.log(`✅ COMMISSIONI PAGATE: €${totalCommissions/100} allo staff ${staffUser.username}`);
+    // TODO: Implement real payment logic
+    console.log(`✅ commissions PAID: €${totalCommissions/100} to staff ${staffUser.username}`);
     
     res.json({
       success: true,
@@ -134,14 +134,14 @@ export async function payStaffCommissionsClean(req: Request, res: Response) {
       staffName: staffUser.username,
       paidAmount: totalCommissions,
       paidAt: new Date().toISOString(),
-      message: `Commissioni di €${totalCommissions/100} pagate con successo`
+      message: `Commissions of €${totalCommissions/100} paid successfully`
     });
     
   } catch (error) {
-    console.error('❌ ERRORE PAGAMENTO PULITO:', error);
+    console.error('❌ CLEAN PAYMENT ERROR:', error);
     res.status(500).json({ 
-      error: 'Errore nel pagamento commissioni',
-      details: error instanceof Error ? error.message : 'Errore sconosciuto'
+      error: 'Error paying commissions',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }

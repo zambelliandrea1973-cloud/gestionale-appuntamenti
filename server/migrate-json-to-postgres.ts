@@ -8,8 +8,8 @@ import crypto from 'crypto';
 /**
  * Script di migrazione da JSON a PostgreSQL
  * GARANZIE:
- * - Multi-tenant isolation (ogni professionista vede solo i suoi dati)
- * - Admin vede tutti i clienti MA solo le sue configurazioni
+ * - Multi-tenant isolation (each professional sees only their own date)
+ * - Admin sees all clients BUT only their own configurations
  * - Sincronizzazione Replit ↔ Sliplane via PostgreSQL condiviso
  */
 
@@ -35,12 +35,12 @@ async function migrateJsonToPostgres() {
   };
 
   try {
-    // Carica dati JSON
+    // Load JSON date
     const jsonData = loadStorageData();
-    console.log('📁 Dati JSON caricati\n');
+    console.log('📁 JSON data loaded\n');
 
     // ============================================
-    // 1. MIGRAZIONE USERS
+    // 1. USERS MIGRATION
     // ============================================
     console.log('👥 Migrazione USERS...');
     const jsonUsers = jsonData.users || [];
@@ -48,16 +48,16 @@ async function migrateJsonToPostgres() {
 
     for (const [jsonId, user] of jsonUsers) {
       try {
-        // Verifica se utente esiste già (by username)
+        // Check if user already exists (by username)
         const existing = await db.select().from(users).where(eq(users.username, user.username)).limit(1);
         
         if (existing.length > 0) {
-          console.log(`  ⏭️  User già esistente: ${user.username} (ID: ${existing[0].id})`);
+          console.log(`  ⏭️  User already exists: ${user.username} (ID: ${existing[0].id})`);
           stats.users.skipped++;
           continue;
         }
 
-        // Inserisci nuovo utente
+        // Insert new user
         await db.insert(users).values({
           username: user.username,
           password: user.password,
@@ -71,11 +71,11 @@ async function migrateJsonToPostgres() {
         console.log(`  ✅ User migrato: ${user.username}`);
         stats.users.migrated++;
       } catch (error: any) {
-        console.error(`  ❌ Errore user ${user.username}:`, error.message);
+        console.error(`  ❌ Error with user ${user.username}:`, error.message);
       }
     }
 
-    // Ottieni mapping ID: JSON ID → PostgreSQL ID
+    // Get mapping ID: JSON ID → PostgreSQL ID
     const userMapping = new Map<number, number>();
     for (const [jsonId, user] of jsonUsers) {
       const pgUser = await db.select().from(users).where(eq(users.username, user.username)).limit(1);
@@ -83,7 +83,7 @@ async function migrateJsonToPostgres() {
         userMapping.set(Number(jsonId), pgUser[0].id);
       }
     }
-    console.log(`  📊 Mapping users: ${userMapping.size} utenti mappati\n`);
+    console.log(`  📊 Mapping users: ${userMapping.size} users mapped\n`);
 
     // ============================================
     // 2. MIGRAZIONE SERVICES
@@ -94,7 +94,7 @@ async function migrateJsonToPostgres() {
     for (const [userJsonId, servicesList] of Object.entries(userServices)) {
       const pgUserId = userMapping.get(Number(userJsonId));
       if (!pgUserId) {
-        console.log(`  ⚠️  User ${userJsonId} non trovato in PostgreSQL, skip services`);
+        console.log(`  ⚠️  User ${userJsonId} not found in PostgreSQL, skip services`);
         continue;
       }
 
@@ -102,7 +102,7 @@ async function migrateJsonToPostgres() {
         try {
           stats.services.total++;
 
-          // Verifica se servizio esiste già
+          // Check if service already exists
           const existing = await db.select().from(services)
             .where(and(
               eq(services.userId, pgUserId),
@@ -125,14 +125,14 @@ async function migrateJsonToPostgres() {
 
           stats.services.migrated++;
         } catch (error: any) {
-          console.error(`  ❌ Errore service ${service.name}:`, error.message);
+          console.error(`  ❌ Error with service ${service.name}:`, error.message);
         }
       }
     }
     console.log(`  ✅ Services: ${stats.services.migrated} migrati, ${stats.services.skipped} skipped\n`);
 
     // ============================================
-    // 3. MIGRAZIONE CLIENTS
+    // 3. CLIENTS MIGRATION
     // ============================================
     console.log('👤 Migrazione CLIENTS...');
     const jsonClients = jsonData.clients || [];
@@ -144,12 +144,12 @@ async function migrateJsonToPostgres() {
       try {
         const pgOwnerId = userMapping.get(client.ownerId);
         if (!pgOwnerId) {
-          console.log(`  ⚠️  Owner ${client.ownerId} non trovato per client ${client.firstName} ${client.lastName}`);
+          console.log(`  ⚠️  Owner ${client.ownerId} not found per client ${client.firstName} ${client.lastName}`);
           stats.clients.skipped++;
           continue;
         }
 
-        // Verifica se cliente esiste già (by uniqueCode)
+        // Check if client already exists (by uniqueCode)
         if (client.uniqueCode) {
           const existing = await db.select().from(clients).where(eq(clients.uniqueCode, client.uniqueCode)).limit(1);
           if (existing.length > 0) {
@@ -161,7 +161,7 @@ async function migrateJsonToPostgres() {
 
         const [inserted] = await db.insert(clients).values({
           userId: pgOwnerId, // ✅ MULTI-TENANT: userId = ownerId
-          ownerId: pgOwnerId, // ✅ MULTI-TENANT: ogni cliente ha il suo owner
+          ownerId: pgOwnerId, // ✅ MULTI-TENANT: each client has their own owner
           firstName: client.firstName,
           lastName: client.lastName,
           phone: client.phone || '',
@@ -181,13 +181,13 @@ async function migrateJsonToPostgres() {
         clientMapping.set(Number(jsonId), inserted.id);
         stats.clients.migrated++;
       } catch (error: any) {
-        console.error(`  ❌ Errore client ${client.firstName} ${client.lastName}:`, error.message);
+        console.error(`  ❌ Error for client ${client.firstName} ${client.lastName}:`, error.message);
       }
     }
     console.log(`  ✅ Clients: ${stats.clients.migrated} migrati, ${stats.clients.skipped} skipped\n`);
 
     // ============================================
-    // 4. MIGRAZIONE APPOINTMENTS
+    // 4. APPOINTMENTS MIGRATION
     // ============================================
     console.log('📅 Migrazione APPOINTMENTS...');
     const jsonAppointments = jsonData.appointments || [];
@@ -195,25 +195,25 @@ async function migrateJsonToPostgres() {
 
     for (const [jsonId, appointment] of jsonAppointments) {
       try {
-        // Trova client in PostgreSQL
+        // Find client in PostgreSQL
         const pgClientId = clientMapping.get(appointment.clientId);
         if (!pgClientId) {
-          console.log(`  ⚠️  Client ${appointment.clientId} non trovato, skip appointment`);
+          console.log(`  ⚠️  Client ${appointment.clientId} not found, skip appointment`);
           stats.appointments.skipped++;
           continue;
         }
 
-        // Trova l'owner del cliente (per userId dell'appointment)
+        // Find the client owner (for appointment userId)
         const clientData = jsonClients.find(([id]) => Number(id) === appointment.clientId)?.[1];
         const pgUserId = userMapping.get(clientData?.ownerId);
         
         if (!pgUserId) {
-          console.log(`  ⚠️  Owner non trovato per appointment ${jsonId}`);
+          console.log(`  ⚠️  Owner not found per appointment ${jsonId}`);
           stats.appointments.skipped++;
           continue;
         }
 
-        // Verifica duplicati
+        // Verify duplicati
         const existing = await db.select().from(appointments)
           .where(and(
             eq(appointments.clientId, pgClientId),
@@ -228,7 +228,7 @@ async function migrateJsonToPostgres() {
         }
 
         await db.insert(appointments).values({
-          userId: pgUserId, // ✅ MULTI-TENANT: userId del proprietario
+          userId: pgUserId, // ✅ MULTI-TENANT: owner userId
           clientId: pgClientId,
           serviceId: appointment.serviceId || 1,
           staffId: appointment.staffId,
@@ -245,7 +245,7 @@ async function migrateJsonToPostgres() {
 
         stats.appointments.migrated++;
       } catch (error: any) {
-        console.error(`  ❌ Errore appointment ${jsonId}:`, error.message);
+        console.error(`  ❌ Error processing appointment ${jsonId}:`, error.message);
       }
     }
     console.log(`  ✅ Appointments: ${stats.appointments.migrated} migrati, ${stats.appointments.skipped} skipped\n`);
@@ -254,7 +254,7 @@ async function migrateJsonToPostgres() {
     // REPORT FINALE
     // ============================================
     console.log('\n' + '='.repeat(60));
-    console.log('📊 MIGRAZIONE COMPLETATA - STATISTICHE FINALI');
+    console.log('📊 MIGRATION COMPLETED - FINAL STATISTICS');
     console.log('='.repeat(60));
     console.log(`
 👥 USERS:
@@ -278,31 +278,31 @@ async function migrateJsonToPostgres() {
    Skipped:  ${stats.services.skipped}
 `);
     console.log('='.repeat(60));
-    console.log('✅ Migrazione completata con successo!\n');
+    console.log('✅ Migration completed successfully!\n');
 
-    // Verifica multi-tenant isolation
-    console.log('🔒 VERIFICA MULTI-TENANT ISOLATION...');
+    // Verify multi-tenant isolation
+    console.log('🔒 VERIFYING MULTI-TENANT ISOLATION...');
     const allClients = await db.select().from(clients);
     const clientsWithOwner = allClients.filter(c => c.ownerId !== null);
-    console.log(`   ✅ ${clientsWithOwner.length}/${allClients.length} clienti hanno ownerId (isolation OK)`);
+    console.log(`   ✅ ${clientsWithOwner.length}/${allClients.length} clients have ownerId (isolation OK)`);
 
     const allAppointments = await db.select().from(appointments);
     const apptWithUser = allAppointments.filter(a => a.userId !== null);
-    console.log(`   ✅ ${apptWithUser.length}/${allAppointments.length} appuntamenti hanno userId (isolation OK)\n`);
+    console.log(`   ✅ ${apptWithUser.length}/${allAppointments.length} appointments have userId (isolation OK)\n`);
 
   } catch (error: any) {
-    console.error('❌ ERRORE DURANTE LA MIGRAZIONE:', error);
+    console.error('❌ ERROR DURING MIGRATION:', error);
     process.exit(1);
   }
 }
 
-// Esegui migrazione
+// Execute migrazione
 migrateJsonToPostgres()
   .then(() => {
-    console.log('✨ Script terminato con successo');
+    console.log('✨ Script completed successfully');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('💥 Script terminato con errore:', error);
+    console.error('💥 Script terminated with error:', error);
     process.exit(1);
   });

@@ -41,7 +41,7 @@ router.get("/api/contact-info", requireAuth, async (req, res) => {
       // Sorgente primaria: userSettings (PostgreSQL)
       const settings = await storage.getUserSettings(user.id);
 
-      // Fallback 1: tabella contact_settings (popolata da onboarding/profilo)
+      // Fallback 1: contact_settings table (populated by onboarding/profile)
       let contactRow: any = undefined;
       try {
         const [row] = await db
@@ -76,7 +76,7 @@ router.get("/api/contact-info", requireAuth, async (req, res) => {
 
       res.json(userContactInfo);
     } catch (error: any) {
-      console.error('Errore caricamento contact-info:', error);
+      console.error('Error loading contact info:', error);
       res.json({
         email: '',
         phone: '',
@@ -89,14 +89,14 @@ router.get("/api/contact-info", requireAuth, async (req, res) => {
     }
   });
 
-  // Endpoint per caricare informazioni di contatto tramite ownerId (per clienti)
+  // Endpoint to load contact information via ownerId (for clients)
 router.get("/api/contact-info/:ownerId", async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
-      console.log(`Caricamento informazioni di contatto per professionista ${ownerId} (richiesta client)`);
+      console.log(`Loading contact information for professional ${ownerId} (client request)`);
 
       if (!ownerId || isNaN(ownerId)) {
-        return res.status(400).json({ error: "ID professionista non valido" });
+        return res.status(400).json({ error: "Invalid professional ID" });
       }
 
       const settings = await storage.getUserSettings(ownerId);
@@ -134,23 +134,23 @@ router.get("/api/contact-info/:ownerId", async (req, res) => {
 
       res.json(contactInfo);
     } catch (error: any) {
-      console.error('Errore nel caricamento informazioni di contatto:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('Error loading contact information:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
-  // API per recuperare informazioni di contatto di un professionista specifico (per PWA clienti)
+  // API to retrieve contact information for a specific professional (for PWA clients)
 router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       if (!ownerId) {
-        return res.status(400).json({ error: 'ID proprietario non valido' });
+        return res.status(400).json({ error: 'Invalid owner ID' });
       }
       
-      // 🔄 USA POSTGRESQL: Carica da userSettings (sorgente primaria)
+      // 🔄 USA POSTGRESQL: Load da userSettings (sorgente primaria)
       const settings = await storage.getUserSettings(ownerId);
 
-      // 🔄 FALLBACK 1: tabella contact_settings (popolata in onboarding/profilo)
+      // 🔄 FALLBACK 1: contact_settings table (populated in onboarding/profile)
       let contactRow: any = undefined;
       try {
         const [row] = await db
@@ -162,7 +162,7 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
         contactRow = undefined;
       }
 
-      // 🔄 FALLBACK 2: legacy key/value storage per dati storici non migrati
+      // 🔄 FALLBACK 2: legacy key/value storage for non-migrated historical data
       let legacy: any = undefined;
       try {
         legacy = await storage.getContactInfo(ownerId);
@@ -201,30 +201,30 @@ router.get('/api/owner-contact-info/:ownerId', async (req, res) => {
         facebook: settings?.facebookPage || ''
       };
 
-      logger.debug(`🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista ${ownerId}:`, contactInfo);
+      logger.debug(`🏥 [PWA CONTACTS] Contact information requested for professional ${ownerId}:`, contactInfo);
       res.json(contactInfo);
     } catch (error: any) {
-      console.error('Errore nel recupero informazioni contatto professionista:', error);
-      res.status(500).json({ error: 'Errore interno del server' });
+      console.error('Error retrieving professional contact information:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-  // Endpoint POST per salvare le informazioni di contatto
+  // Endpoint POST per salvare the information di contatto
 router.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
       const contactInfo = req.body;
       
-      logger.debug(`📞 [CONTACT INFO] Salvataggio informazioni per utente ${user.id}:`, contactInfo);
+      logger.debug(`📞 [CONTACT INFO] Saving contact info for user ${user.id}:`, contactInfo);
       
-      // Validazione base dei dati
+      // Basic validation of the data
       if (!contactInfo || typeof contactInfo !== 'object') {
         return res.status(400).json({ 
-          error: 'Dati di contatto non validi' 
+          error: 'Invalid contact data' 
         });
       }
       
-      // 🔄 USA POSTGRESQL: Prepara dati per userSettings
+      // 🔄 USE POSTGRESQL: Prepare data for userSettings
       const settingsUpdate: any = {};
       if (contactInfo.email !== undefined) settingsUpdate.contactEmail = contactInfo.email;
       if (contactInfo.phone !== undefined) settingsUpdate.contactPhone = contactInfo.phone;
@@ -234,10 +234,10 @@ router.post("/api/contact-info", requireAuth, async (req, res) => {
       if (contactInfo.instagram !== undefined) settingsUpdate.instagramHandle = contactInfo.instagram;
       if (contactInfo.facebook !== undefined) settingsUpdate.facebookPage = contactInfo.facebook;
       
-      // 🔄 USA POSTGRESQL: Aggiorna o crea userSettings
+      // 🔄 USA POSTGRESQL: Update o crea userSettings
       const updatedSettings = await storage.updateUserSettings(user.id, settingsUpdate);
       
-      // Riconverti formato PostgreSQL → JSON per compatibilità frontend
+      // Reconvert PostgreSQL → JSON format for frontend compatibility
       const responseContactInfo = {
         email: updatedSettings?.contactEmail || '',
         phone: updatedSettings?.contactPhone || '',
@@ -248,18 +248,18 @@ router.post("/api/contact-info", requireAuth, async (req, res) => {
         facebook: updatedSettings?.facebookPage || ''
       };
       
-      logger.debug(`✅ [CONTACT INFO] Informazioni salvate in PostgreSQL per utente ${user.id}`);
+      logger.debug(`✅ [CONTACT INFO] Information saved in PostgreSQL for user ${user.id}`);
       
       res.json({ 
         success: true, 
-        message: 'Informazioni di contatto salvate con successo',
+        message: 'Contact information saved successfully',
         contactInfo: responseContactInfo
       });
       
     } catch (error: any) {
-      console.error('❌ [ERRORE CONTACT INFO]:', error);
+      console.error('❌ [CONTACT INFO ERROR]:', error);
       res.status(500).json({ 
-        error: 'Errore durante il salvataggio delle informazioni di contatto' 
+        error: 'Error saving contact information' 
       });
     }
   });
@@ -280,8 +280,8 @@ router.get("/api/working-hours", requireAuth, async (req, res) => {
         holidaysCountry: (settings as any)?.holidaysCountry || "IT",
       });
     } catch (error: any) {
-      console.error('Errore caricamento orari di lavoro:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('Error loading working hours:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
@@ -306,14 +306,14 @@ router.post("/api/working-hours", requireAuth, async (req, res) => {
       if (dailySchedule !== undefined && typeof dailySchedule === 'object') settingsUpdate.dailySchedule = dailySchedule;
 
       if (Object.keys(settingsUpdate).length === 0) {
-        return res.status(400).json({ error: 'Nessun dato valido fornito' });
+        return res.status(400).json({ error: 'No valid data provided' });
       }
 
       await storage.updateUserSettings(user.id, settingsUpdate);
-      res.json({ success: true, message: 'Orari di lavoro salvati con successo' });
+      res.json({ success: true, message: 'Working hours saved successfully' });
     } catch (error: any) {
-      console.error('Errore salvataggio orari di lavoro:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('Error saving working hours:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
@@ -324,8 +324,8 @@ router.post("/api/hide-welcome-guide", requireAuth, async (req, res) => {
       await db.update(users).set({ hideWelcomeGuide: hide !== false }).where(eq(users.id, user.id));
       res.json({ success: true });
     } catch (error: any) {
-      console.error('Errore aggiornamento welcome guide:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('Error updating welcome guide:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
@@ -333,7 +333,7 @@ router.post("/api/hide-welcome-guide", requireAuth, async (req, res) => {
 
   // Contesto tenant
 router.get("/api/tenant-context", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
     res.json({
       userId: user.id,
@@ -342,17 +342,17 @@ router.get("/api/tenant-context", (req, res) => {
     });
   });
 
-  // Utente con licenza - SINCRONIZZAZIONE COMPLETA MOBILE/DESKTOP
+  // User with license - FULL MOBILE/DESKTOP SYNCHRONIZATION
 router.get("/api/user-with-license", async (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
     const userAgent = req.headers['user-agent'] || '';
     const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
-    logger.debug(`🔐 [${deviceType}] /api/user-with-license per utente ${user.id} (${user.username})`);
+    logger.debug(`🔐 [${deviceType}] /api/user-with-license for user ${user.id} (${user.username})`);
     
-    // 📊 TRACKING SESSIONE: Registra accesso ogni 30 minuti per utenti staff/admin
+    // 📊 SESSION TRACKING: Register access every 30 minutes for staff/admin users
     try {
       const now = Date.now();
       const lastAccess = userAccessLocks.get(user.id) || 0;
@@ -367,18 +367,18 @@ router.get("/api/user-with-license", async (req, res) => {
           ipAddress: ip.substring(0, 45),
           userAgent: ua.substring(0, 500)
         });
-        logger.debug(`📊 [SESSION-TRACKING] Accesso registrato per utente ${user.id} (${user.username}) - pausa >30min`);
+        logger.debug(`📊 [SESSION-TRACKING] Accesso registered for user ${user.id} (${user.username}) - pausa >30min`);
       }
     } catch (trackErr) {
-      console.error(`⚠️ [SESSION-TRACKING] Errore (non bloccante):`, trackErr);
+      console.error(`⚠️ [SESSION-TRACKING] Error (non-blocking):`, trackErr);
     }
     
-    // Carica dati completi dal storage per nome/cognome aggiornati
+    // Load complete data from storage for updated name/surname
     const storageData = loadStorageData();
     let firstName = user.firstName || null;
     let lastName = user.lastName || null;
     
-    // Per TUTTI gli utenti, carica nome/cognome dalle impostazioni aziendali uniformemente
+    // For ALL users, load name/surname from company settings uniformly
     if (storageData.companyNameSettings?.[user.id]) {
       const settings = storageData.companyNameSettings[user.id];
       if (settings.name) {
@@ -388,28 +388,28 @@ router.get("/api/user-with-license", async (req, res) => {
       }
     }
     
-    // Recupera codice professionista NUOVO (assignment_code) e VECCHIO (legacy) per staff e admin
+    // Retrieve code professional NUOVO (assignment_code) e VECCHIO (legacy) per staff e admin
     let assignmentCode = null;
     let legacyProfessionistCode = null;
     
     if (user.type === 'staff' || user.type === 'admin') {
       try {
-        // PRIORITÀ: Leggi assignment_code dal database (nuovo formato BUS1422)
+        // PRIORITY: Read assignment_code from database (new format BUS1422)
         const dbUser = await req.app.locals.storage.getUser(user.id);
         if (dbUser && dbUser.assignmentCode) {
           assignmentCode = dbUser.assignmentCode;
-          logger.debug(`🏷️ [${deviceType}] Assignment code per utente ${user.id}: ${assignmentCode}`);
+          logger.debug(`🏷️ [${deviceType}] Assignment code for user ${user.id}: ${assignmentCode}`);
         }
         
-        // FALLBACK: Genera/recupera vecchio formato (PROF_014_9C1F) per retrocompatibilità
+        // FALLBACK: Generate/retrieve old format (PROF_014_9C1F) for backwards compatibility
         legacyProfessionistCode = await getProfessionistCode(user.id);
-        logger.debug(`🏷️ [${deviceType}] Legacy code per utente ${user.id}: ${legacyProfessionistCode}`);
+        logger.debug(`🏷️ [${deviceType}] Legacy code for user ${user.id}: ${legacyProfessionistCode}`);
       } catch (error: any) {
-        console.error(`❌ [${deviceType}] Errore generazione codice professionista per utente ${user.id}:`, error);
+        console.error(`❌ [${deviceType}] Error generating professional code for user ${user.id}:`, error);
       }
     }
     
-    // Leggi licenza REALE dal database invece di hardcodare
+    // Read REAL license from database instead of hardcoding
     let licenseType = 'trial'; // Default
     let expiresAt = null;
     let daysLeft = null;
@@ -432,7 +432,7 @@ router.get("/api/user-with-license", async (req, res) => {
           }
         }
       } catch (error: any) {
-        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+        console.error(`❌ Error reading license for user ${user.id}:`, error);
       }
     }
     
@@ -453,7 +453,7 @@ router.get("/api/user-with-license", async (req, res) => {
       assignmentCode: assignmentCode,
       legacyProfessionistCode: legacyProfessionistCode,
       professionistCode: assignmentCode || legacyProfessionistCode,
-      licenseType: licenseType,  // Campo aggiunto per il badge
+      licenseType: licenseType,  // Field added for the badge
       licenseInfo: {
         type: licenseType,
         expiresAt: expiresAt,
@@ -476,7 +476,7 @@ router.get("/api/user-with-license", async (req, res) => {
       }
     };
     
-    logger.debug(`📱💻 [${deviceType}] Dati utente unificati:`, { 
+    logger.debug(`📱💻 [${deviceType}] data user unificati:`, { 
       id: response.id, 
       username: response.username, 
       firstName: response.firstName, 
@@ -489,10 +489,10 @@ router.get("/api/user-with-license", async (req, res) => {
 
   // Fuso orario
 router.get("/api/timezone-settings", (req, res) => {
-    // Calcola dinamicamente l'offset per Europe/Rome
+    // Calculate dinamicamente l'offset per Europe/Rome
     const date = new Date();
     
-    // Ottieni la data formattata in Roma
+    // Get the date formattata in Roma
     const formatter = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Europe/Rome',
       year: 'numeric',
@@ -507,7 +507,7 @@ router.get("/api/timezone-settings", (req, res) => {
     const parts = formatter.formatToParts(date);
     const partsMap = Object.fromEntries(parts.map(p => [p.type, p.value]));
     
-    // Crea una data come se fosse UTC (ma contiene i valori di Roma)
+    // Create a date as if it were UTC (but contains Rome values)
     const romaAsUTC = new Date(
       parseInt(partsMap.year),
       parseInt(partsMap.month) - 1,
@@ -517,11 +517,11 @@ router.get("/api/timezone-settings", (req, res) => {
       parseInt(partsMap.second)
     );
     
-    // La differenza tra il vero UTC e la data Roma-interpretata-come-UTC è l'offset
+    // The difference between real UTC and the Rome-date-interpreted-as-UTC is the offset
     // offset = (romaAsUTC - date) / (60 * 60 * 1000) in ore
     const offsetMS = romaAsUTC.getTime() - date.getTime();
     const offsetHours = offsetMS / (1000 * 60 * 60);
-    const offset = -Math.round(offsetHours); // Negativo perché il calcolo è invertito
+    const offset = -Math.round(offsetHours); // Negative because the calculation is inverted
     
     res.json({ timezone: "Europe/Rome", offset, name: "Europe/Rome" });
   });
@@ -530,13 +530,13 @@ router.post("/api/timezone-settings", (req, res) => {
     res.json({ success: true, timezone: req.body.timezone, offset: req.body.offset });
   });
 
-  // Licenze
+  // Licenses
 router.get("/api/license/license-info", async (req, res) => {
     if (!req.isAuthenticated()) return res.json({ hasLicense: false, type: "none" });
     
     const user = req.user as any;
     
-    // Leggi licenza REALE dal database invece di hardcodare
+    // Read REAL license from database instead of hardcoding
     let licenseType = 'trial';
     
     if (user.type === 'admin') {
@@ -551,7 +551,7 @@ router.get("/api/license/license-info", async (req, res) => {
           licenseType = activeLicense.type;
         }
       } catch (error: any) {
-        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+        console.error(`❌ Error reading license for user ${user.id}:`, error);
       }
     }
     
@@ -568,12 +568,12 @@ router.get("/api/license/license-info", async (req, res) => {
     });
   });
 
-  // Endpoint per verificare accesso PRO - rispetta la logica dei piani:
+  // Endpoint for verifying PRO access - respects the plans logic:
   // - BASE: NO accesso PRO
   // - PRO/BUSINESS/TRIAL/PASSEPARTOUT: SI accesso PRO
   // - Admin/Staff: SI accesso completo
 router.get("/api/license/has-pro-access", async (req, res) => {
-    // Log dettagliato per debug sessione su Sliplane
+    // Log dettagliato per debug session su Sliplane
     console.log('🔐 [has-pro-access] ====== DEBUG SESSION ======');
     console.log('🔐 [has-pro-access] Session ID:', req.sessionID);
     console.log('🔐 [has-pro-access] isAuthenticated:', req.isAuthenticated());
@@ -582,40 +582,40 @@ router.get("/api/license/has-pro-access", async (req, res) => {
     console.log('🔐 [has-pro-access] ============================');
     
     if (!req.isAuthenticated()) {
-      console.log('🔐 [has-pro-access] Utente NON autenticato - return false');
+      console.log('🔐 [has-pro-access] user not authenticated - return false');
       return res.json(false);
     }
     const user = req.user as any;
     
-    // Admin e staff hanno sempre accesso PRO
+    // Admin and staff always have PRO access
     if (user.type === 'admin' || user.type === 'staff') {
-      logger.debug(`🔐 [has-pro-access] Utente ${user.id} (${user.type}) - admin/staff = true`);
+      logger.debug(`🔐 [has-pro-access] user ${user.id} (${user.type}) - admin/staff = true`);
       return res.json(true);
     }
     
-    // Per customer, controlliamo il tipo di licenza
+    // For customer, check the license type
     if (user.type === 'customer' && user.id) {
       try {
         const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
         const activeLicense = userLicenses.find((lic: any) => lic.isActive);
         
         if (activeLicense) {
-          // PRO, BUSINESS, PASSEPARTOUT, TRIAL hanno accesso PRO
+          // PRO, BUSINESS, PASSEPARTOUT, TRIAL have PRO access
           const proLicenseTypes = ['pro', 'business', 'passepartout', 'trial'];
           const hasAccess = proLicenseTypes.includes(activeLicense.type);
-          logger.debug(`🔐 [has-pro-access] Utente ${user.id} licenza ${activeLicense.type} - hasAccess: ${hasAccess}`);
+          logger.debug(`🔐 [has-pro-access] user ${user.id} license ${activeLicense.type} - hasAccess: ${hasAccess}`);
           return res.json(hasAccess);
         }
       } catch (error: any) {
-        console.error(`❌ [has-pro-access] Errore lettura licenza per utente ${user.id}:`, error);
+        console.error(`❌ [has-pro-access] Error reading license for user ${user.id}:`, error);
       }
     }
     
-    logger.debug(`🔐 [has-pro-access] Utente ${user.id} - nessuna licenza PRO attiva = false`);
+    logger.debug(`🔐 [has-pro-access] user ${user.id} - no active PRO license = false`);
     res.json(false);
   });
 
-  // Endpoint per verificare accesso BUSINESS - rispetta la logica dei piani:
+  // Endpoint for verifying BUSINESS access - respects the plans logic:
   // - BASE/PRO: NO accesso BUSINESS
   // - BUSINESS/TRIAL/PASSEPARTOUT: SI accesso BUSINESS
   // - Admin/Staff: SI accesso completo
@@ -623,25 +623,25 @@ router.get("/api/license/has-business-access", async (req, res) => {
     if (!req.isAuthenticated()) return res.json(false);
     const user = req.user as any;
     
-    // Admin e staff hanno sempre accesso BUSINESS
+    // Admin and staff always have BUSINESS access
     if (user.type === 'admin' || user.type === 'staff') {
       return res.json(true);
     }
     
-    // Per customer, controlliamo il tipo di licenza
+    // For customer, check the license type
     if (user.type === 'customer' && user.id) {
       try {
         const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
         const activeLicense = userLicenses.find((lic: any) => lic.isActive);
         
         if (activeLicense) {
-          // Solo BUSINESS, PASSEPARTOUT, TRIAL hanno accesso BUSINESS
+          // Only BUSINESS, PASSEPARTOUT, TRIAL have BUSINESS access
           const businessLicenseTypes = ['business', 'passepartout', 'trial'];
           const hasAccess = businessLicenseTypes.includes(activeLicense.type);
           return res.json(hasAccess);
         }
       } catch (error: any) {
-        console.error(`❌ [has-business-access] Errore lettura licenza per utente ${user.id}:`, error);
+        console.error(`❌ [has-business-access] Error reading license for user ${user.id}:`, error);
       }
     }
     
@@ -652,24 +652,24 @@ router.get("/api/license/application-title", (req, res) => {
     res.json({ title: "Gestionale Appuntamenti" });
   });
 
-  // 📁 Sistema permanente icone PER UTENTE con persistenza (usa utils centralizzate)
+  // 📁 Sistema permanente icons PER UTENTE con persistenza (usa utils centralizzate)
 
-  // Genera codice professionista univoco SEMPLIFICATO
+  // Generate code professional univoco SEMPLIFICATO
   async function generateProfessionistCode(userId: number): Promise<string> {
-    // Codice semplice senza hash MD5 visibile
+    // Simple code without visible MD5 hash
     return `PROF_${userId.toString().padStart(3, '0')}`;
   }
 
-  // Recupera o genera il codice professionista
+  // Retrieve or generate the professional code
   async function getProfessionistCode(userId: number): Promise<string> {
     const storageData = loadStorageData();
     
-    // Cerca se l'utente ha già un codice professionista
+    // Check if the user already has a professional code
     if (storageData.professionistCodes && storageData.professionistCodes[userId]) {
       return storageData.professionistCodes[userId];
     }
     
-    // Genera nuovo codice e lo salva
+    // Generate new code and save it
     const newCode = await generateProfessionistCode(userId);
     
     if (!storageData.professionistCodes) {
@@ -679,49 +679,49 @@ router.get("/api/license/application-title", (req, res) => {
     storageData.professionistCodes[userId] = newCode;
     saveStorageData(storageData);
     
-    logger.debug(`✅ Nuovo codice professionista generato per utente ${userId}: ${newCode}`);
+    logger.debug(`✅ New professional code generated for user ${userId}: ${newCode}`);
     return newCode;
   }
 
-  // Genera codice cliente SEMPLIFICATO - max 99999 clienti per studio
+  // Generate code client SEMPLIFICATO - max 99999 clients per studio
   async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
     const profCode = await getProfessionistCode(ownerId);
-    // Codice semplice: PROF_003_C00001 (max 99999 clienti)
+    // Simple code: PROF_003_C00001 (max 99999 clients)
     const clientNumber = clientId.toString().padStart(5, '0');
     return `${profCode}_C${clientNumber}`;
   }
 
-  // Valida ownership attraverso codice gerarchico
+  // Validate ownership through hierarchical code
   async function validateClientOwnership(clientCode: string, expectedOwnerId: number): Promise<boolean> {
     if (!clientCode || typeof clientCode !== 'string') return false;
     const profCode = await getProfessionistCode(expectedOwnerId);
     return clientCode.startsWith(profCode);
   }
 
-  // Estrae owner ID da codice cliente (supporta entrambi i formati)
+  // Estrae owner ID da code client (supporta entrambi i formati)
   function extractOwnerFromClientCode(clientCode: string): number | null {
-    // Supporta formato nuovo: PROF_003_C00001 e vecchio: PROF_003_0003_CLIENT_1_0001
+    // Supports new format: PROF_003_C00001 and old: PROF_003_0003_CLIENT_1_0001
     const match = clientCode.match(/^PROF_(\d{3})_/);
     return match ? parseInt(match[1], 10) : null;
   }
 
   function generateDefaultClientsForUser(userId, userEmail) {
-    const baseId = userId * 1000; // Evita conflitti ID usando range per utente
+    const baseId = userId * 1000; // Avoid ID conflicts using range per user
     const userPrefix = userEmail.split('@')[0].substring(0, 2).toUpperCase();
     
     return [
       {
         id: baseId + 1,
-        firstName: "Cliente",
+        firstName: "Client",
         lastName: "Trial",
-        email: `cliente.trial.${userId}@example.com`,
+        email: `client.trial.${userId}@example.com`,
         phone: "+39 123 456 7890",
         birthDate: "1990-01-15",
         fiscalCode: `CLNTTL90A15${userPrefix}1X`,
         uniqueCode: `CT${baseId + 1}`,
         ownerId: userId,
         createdAt: new Date().toISOString(),
-        notes: "Cliente di prova generato automaticamente"
+        notes: "Automatically generated trial client"
       },
       {
         id: baseId + 2,
@@ -745,7 +745,7 @@ router.get("/api/license/application-title", (req, res) => {
       const backupFiles = files.filter(f => f.startsWith('storage_data_backup_'));
       
       if (backupFiles.length > 10) {
-        // Mantieni solo gli ultimi 10 backup
+        // Keep only the last 10 backups
         const sortedBackups = backupFiles
           .map(f => ({ name: f, time: parseInt(f.split('_')[3].split('.')[0]) }))
           .sort((a, b) => b.time - a.time);
@@ -753,11 +753,11 @@ router.get("/api/license/application-title", (req, res) => {
         const toDelete = sortedBackups.slice(10);
         toDelete.forEach(backup => {
           fs.unlinkSync(backup.name);
-          logger.debug(`🗑️ Backup vecchio rimosso: ${backup.name}`);
+          logger.debug(`🗑️ Old backup removed: ${backup.name}`);
         });
       }
     } catch (error: any) {
-      console.error('Errore pulizia backup:', error);
+      console.error('Error cleaning up backups:', error);
     }
   }
 
@@ -769,66 +769,66 @@ router.get("/api/license/application-title", (req, res) => {
         ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
         : {};
       
-      // Sistema di protezione dati avanzato
+      // Advanced data protection system
       dataProtectionService.createAutoBackup('before_critical_save');
       
-      // Verifica integrità prima di procedere
+      // Verify integrity before proceeding
       if (!dataProtectionService.verifyDataIntegrity()) {
-        console.error('❌ Integrità dati compromessa, operazione bloccata');
-        throw new Error('Dati corrotti rilevati, salvataggio annullato per sicurezza');
+        console.error('❌ Data integrity compromised, operation blocked');
+        throw new Error('Corrupted data detected, save cancelled for safety');
       }
       
-      // Merge più specifico per preservare gli array di appuntamenti
+      // More specific merge to preserve appointment arrays
       const mergedData = {
         ...currentData,
         ...updatedData,
         appointments: updatedData.appointments || currentData.appointments || []
       };
       
-      // Salvataggio atomico: prima in un file temporaneo, poi rinomina
+      // Atomic save: first to a temporary file, then rename
       const tempFile = 'storage_data_temp.json';
       fs.writeFileSync(tempFile, JSON.stringify(mergedData, null, 2));
       fs.renameSync(tempFile, storageFile);
       
-      logger.debug(`💾 Dati salvati persistentemente - ${mergedData.appointments?.length || 0} appuntamenti totali`);
+      logger.debug(`💾 Data saved persistently - ${mergedData.appointments?.length || 0} total appointments`);
       
-      // Verifica immediata del salvataggio
+      // Immediate save verification
       const verified = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
       if (verified.appointments?.length !== mergedData.appointments?.length) {
-        console.error('⚠️ ERRORE CRITICO: Verifica salvataggio fallita!');
-        throw new Error('Salvataggio non verificato');
+        console.error('⚠️ CRITICAL error: Save verification failed!');
+        throw new Error('Save not verified');
       }
-      logger.debug(`✅ Salvataggio verificato correttamente`);
+      logger.debug(`✅ Save verified correctly`);
       
     } catch (error: any) {
-      console.error('❌ Errore critico salvataggio storage:', error);
+      console.error('❌ Critical error saving to storage:', error);
       throw error; // Rilancia l'errore per far fallire l'operazione
     }
   }
   
-  // Controllo integrità all'avvio
+  // Integrity check at startup
   function verifyDataIntegrity() {
     try {
       const data = loadStorageData();
       const appointmentsCount = data.appointments?.length || 0;
       const clientsCount = data.clients?.length || 0;
       
-      logger.debug(`🔍 Controllo integrità all'avvio:`);
-      console.log(`   📅 Appuntamenti caricati: ${appointmentsCount}`);
-      console.log(`   👥 Clienti caricati: ${clientsCount}`);
+      logger.debug(`🔍 Data integrity check on startup:`);
+      console.log(`   📅 Appointments loaded: ${appointmentsCount}`);
+      console.log(`   👥 Clients loaded: ${clientsCount}`);
       
       if (appointmentsCount > 0) {
         const recentAppointments = data.appointments.slice(0, 3);
-        console.log(`   🔍 Primi 3 appuntamenti:`, recentAppointments.map(item => {
+        console.log(`   🔍 First 3 appointments:`, recentAppointments.map(item => {
           const apt = Array.isArray(item) ? item[1] : item;
           return { id: apt?.id, date: apt?.date, client: apt?.clientId };
         }));
       }
       
-      logger.debug(`✅ Controllo integrità completato`);
+      logger.debug(`✅ Data integrity check completed`);
       return data;
     } catch (error: any) {
-      console.error(`❌ ERRORE INTEGRITÀ DATI:`, error);
+      console.error(`❌ DATA INTEGRITY ERROR:`, error);
       return { appointments: [], clients: [], userServices: {} };
     }
   }
@@ -836,7 +836,7 @@ router.get("/api/license/application-title", (req, res) => {
   let storageData = verifyDataIntegrity();
 
 
-  // Endpoint per ottenere sempre l'icona predefinita (per anteprima)
+  // Endpoint to always get the default icon (for preview)
 router.get("/api/default-app-icon", (req, res) => {
     res.json({ 
       appName: "Gestionale Appuntamenti", 
@@ -845,15 +845,15 @@ router.get("/api/default-app-icon", (req, res) => {
     });
   });
 
-  // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
+  // Endpoint to get the app icon - PER-USER SEPARATION
 router.get("/api/client-app-info", async (req, res) => {
     let targetUserId = null;
     
-    // Se autenticato, usa l'utente corrente
+    // If authenticated, use the current user
     if (req.isAuthenticated()) {
       targetUserId = req.user.id;
     } else {
-      // Se non autenticato, controlla se c'è un token di attivazione per determinare il tenant
+      // If not authenticated, check if there is an activation token to determine the tenant
       const { token, clientId } = req.query;
       
       if (token && typeof token === 'string') {
@@ -863,7 +863,7 @@ router.get("/api/client-app-info", async (req, res) => {
           targetUserId = parseInt(userId);
         }
       } else if (clientId) {
-        // Cerca il proprietario del cliente dal clientId
+        // Find the client owner from clientId
         const storageData = loadStorageData();
         const clients = storageData.clients || [];
         const clientData = clients.find(([id]) => id.toString() === clientId.toString());
@@ -889,7 +889,7 @@ router.get("/api/client-app-info", async (req, res) => {
     await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
     
     const deviceType = req.headers['x-device-type'] || 'unknown';
-    logger.debug(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}, custom: ${hasCustom}`);
+    logger.debug(`✅ [${deviceType}] PWA icons for user ${targetUserId}, icon length: ${userIcon?.length || 0}, custom: ${hasCustom}`);
     
     res.json({ 
       appName: "Gestionale Appuntamenti", 
@@ -898,14 +898,14 @@ router.get("/api/client-app-info", async (req, res) => {
     });
   });
 
-  // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
+  // Endpoint to retrieve app icons via ownerId (for clients)
 router.get("/api/client-app-info/:ownerId", async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
-      console.log(`Caricamento icona app per professionista ${ownerId} (richiesta client)`);
+      console.log(`Loading app icon for professional ${ownerId} (client request)`);
       
       if (!ownerId || isNaN(ownerId)) {
-        return res.status(400).json({ error: "ID professionista non valido" });
+        return res.status(400).json({ error: "Invalid professional ID" });
       }
 
       const dbIcon = await storage.getUserIcon(ownerId);
@@ -927,7 +927,7 @@ router.get("/api/client-app-info/:ownerId", async (req, res) => {
           }
         }
       } catch (e) {
-        console.error('Errore caricamento nome professionista:', e);
+        console.error('Error loading professional name:', e);
       }
       
       res.json({ 
@@ -937,15 +937,15 @@ router.get("/api/client-app-info/:ownerId", async (req, res) => {
         professionalName
       });
     } catch (error: any) {
-      console.error('Errore nel caricamento icona app:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('Error loading app icon:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
-  // Endpoint per caricare una nuova icona - SEPARAZIONE PER UTENTE
+  // Endpoint to upload a new icon - PER-USER SEPARATION
 router.post("/api/upload-app-icon", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Non autenticato" });
+      return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     try {
@@ -953,71 +953,71 @@ router.post("/api/upload-app-icon", async (req, res) => {
       const userId = req.user.id;
       
       if (iconData !== undefined) {
-        // 🚀 SOLUZIONE SLIPLANE: Salva icona nel database PostgreSQL (persiste su container Docker)
+        // 🚀 SLIPLANE SOLUTION: Save icon to PostgreSQL database (persists on Docker container)
         await storage.saveUserIcon(userId, iconData);
-        logger.debug(`✅ Icona salvata nel database PostgreSQL per utente ${userId} (${iconData.length} bytes)`);
+        logger.debug(`✅ Icon saved in PostgreSQL database for user ${userId} (${iconData.length} bytes)`);
         
         // Invalidate server-side icon cache so next request regenerates with Sharp
         invalidateIconCache(userId);
         
-        // Backward compatibility: salva anche in JSON per sistemi legacy
+        // Backward compatibility: also save in JSON for legacy systems
         storageData.userIcons[userId] = iconData;
         saveStorageData(storageData);
       }
       
       res.json({ 
         success: true, 
-        message: "Icona aggiornata con successo", 
+        message: "Icon updated successfully", 
         appName: "Gestionale Appuntamenti", 
         icon: iconData 
       });
     } catch (error: any) {
-      res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
+      res.status(500).json({ success: false, message: "Error loading icon" });
     }
   });
 
-  // Endpoint per ripristinare l'icona di default - SEPARAZIONE PER UTENTE
+  // Endpoint to restore the default icon - PER-USER SEPARATION
 router.post("/api/reset-app-icon", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Non autenticato" });
+      return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     const userId = req.user.id;
     
-    // 🚀 SOLUZIONE SLIPLANE: Salva icona default nel database PostgreSQL
+    // 🚀 SLIPLANE SOLUTION: Save default icon to PostgreSQL database
     await storage.saveUserIcon(userId, defaultIconBase64);
-    logger.debug(`✅ Reset icona a Fleur de Vie nel database PostgreSQL per utente ${userId}`);
+    logger.debug(`✅ Icon reset to Fleur de Vie in PostgreSQL database for user ${userId}`);
     
     // Invalidate server-side icon cache so next request regenerates with Sharp
     invalidateIconCache(userId);
     
-    // Backward compatibility: salva anche in JSON
+    // Backward compatibility: also save in JSON
     storageData.userIcons[userId] = defaultIconBase64;
     saveStorageData(storageData);
     
     res.json({ 
       success: true, 
-      message: "Icona ripristinata al default", 
+      message: "Icon restored to default", 
       appName: "Gestionale Appuntamenti", 
       icon: defaultIconBase64 
     });
   });
 
-  // Funzione per aggiornare le icone PWA dal logo aziendale
+  // Function for updating PWA icons from the company logo
   async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
     try {
       if (!iconBase64 || !iconBase64.startsWith('data:image/')) {
-        logger.debug(`⚠️ Icona non valida per utente ${userId}, uso fallback`);
+        logger.debug(`⚠️ Invalid icon for user ${userId}, uso fallback`);
         iconBase64 = defaultIconBase64;
       }
 
       const sharp = await import('sharp').then(m => m.default);
       
-      // Rimuovi il prefisso data:image
+      // Remove the date:image prefix
       const base64Data = iconBase64.split(',')[1];
       const imageBuffer = Buffer.from(base64Data, 'base64');
       
-      // Genera le diverse dimensioni per PWA - sia generiche che specifiche per utente
+      // Generate the different sizes for PWA - both generic and user-specific
       const sizes = [
         { size: 96, name: 'icon-96x96.png' },
         { size: 192, name: 'icon-192x192.png' },
@@ -1040,17 +1040,17 @@ router.post("/api/reset-app-icon", async (req, res) => {
         fs.writeFileSync(iconPath, resizedBuffer);
       }
       
-      logger.debug(`✅ Icone PWA aggiornate per utente ${userId} con logo aziendale`);
+      logger.debug(`✅ PWA icons updated for user ${userId} with company logo`);
       
     } catch (error: any) {
-      console.error(`❌ Errore aggiornamento icone PWA per utente ${userId}:`, error);
+      console.error(`❌ Error updating PWA icons for user ${userId}:`, error);
     }
   }
 
-  // Endpoint per sincronizzare icone PWA con logo aziendale
+  // Endpoint to sync PWA icons with company logo
 router.post("/api/sync-pwa-icons", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Non autenticato" });
+      return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     const userId = req.user.id;
@@ -1061,11 +1061,11 @@ router.post("/api/sync-pwa-icons", async (req, res) => {
     
     res.json({ 
       success: true, 
-      message: "Icone PWA sincronizzate con logo aziendale" 
+      message: "PWA icons synchronized with company logo" 
     });
   });
 
-  // Endpoint per ottenere le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
+  // Endpoint for getting company name settings - UNIFIED FOR ALL USERS
 router.get("/api/company-name-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({ businessName: "Gestionale Appuntamenti", showBusinessName: true });
@@ -1077,7 +1077,7 @@ router.get("/api/company-name-settings", async (req, res) => {
     const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
-    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId} (${userType})`);
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET for user ${userId} (${userType})`);
     
     // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
     if (isMobile) {
@@ -1091,14 +1091,14 @@ router.get("/api/company-name-settings", async (req, res) => {
         'X-Accel-Expires': '0',
         'Surrogate-Control': 'no-store'
       });
-      logger.debug(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per impostazioni aziendali mobile`);
+      logger.debug(`🔄 [${deviceType}] Anti-cache AGGRESSIVO Applied per settings business mobile`);
     }
     
-    // 🔄 CORRETTO: Leggi da PostgreSQL invece che da JSON
+    // 🔄 FIXED: Read from PostgreSQL instead of JSON
     const currentSettings = await storage.getUserSettings(userId);
     const companyNameSettings = (currentSettings?.preferences as any)?.companyName || {};
     
-    // Valori di default se non esistono impostazioni
+    // Values by default If esistono settings
     const userSettings = {
       businessName: companyNameSettings.businessName || "Gestionale Appuntamenti",
       showBusinessName: companyNameSettings.showBusinessName !== undefined ? companyNameSettings.showBusinessName : true,
@@ -1110,11 +1110,11 @@ router.get("/api/company-name-settings", async (req, res) => {
       enabled: companyNameSettings.enabled !== undefined ? companyNameSettings.enabled : true
     };
     
-    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId} (${userType}):`, userSettings);
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings for user ${userId} (${userType}):`, userSettings);
     res.json(userSettings);
   });
 
-  // Endpoint per ottenere i dati aziendali completi del professionista
+  // Endpoint to get the complete professional business data
 router.get("/api/company-business-data", (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({
@@ -1130,14 +1130,14 @@ router.get("/api/company-business-data", (req, res) => {
     }
 
     const userId = req.user.id;
-    console.log(`🏢 [/api/company-business-data] GET per utente ${userId}`);
+    console.log(`🏢 [/api/company-business-data] GET for user ${userId}`);
     
     const currentStorageData = loadStorageData();
     if (!currentStorageData.userBusinessData) {
       currentStorageData.userBusinessData = {};
     }
     
-    // Inizializza dati vuoti se non esistono
+    // Initialize empty data if it exists
     if (!currentStorageData.userBusinessData[userId]) {
       currentStorageData.userBusinessData[userId] = {
         companyName: '',
@@ -1153,23 +1153,23 @@ router.get("/api/company-business-data", (req, res) => {
     }
     
     const userBusinessData = currentStorageData.userBusinessData[userId];
-    console.log(`🏢 [/api/company-business-data] Dati per utente ${userId}:`, userBusinessData);
+    console.log(`🏢 [/api/company-business-data] data for user ${userId}:`, userBusinessData);
     res.json(userBusinessData);
   });
 
-  // Endpoint per salvare i dati aziendali completi del professionista
+  // Endpoint to save the complete professional business data
 router.post("/api/company-business-data", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Non autenticato" });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     try {
       const { companyName, address, city, postalCode, vatNumber, fiscalCode, phone, email } = req.body;
       const userId = req.user.id;
       
-      console.log(`🏢 [POST] Salvando dati aziendali completi per utente ${userId}:`, req.body);
+      console.log(`🏢 [POST] Salvando data business completi for user ${userId}:`, req.body);
       
-      // 🔄 USA POSTGRESQL: Aggiorna userSettings con dati aziendali
+      // 🔄 USE POSTGRESQL: Update userSettings with company data
       const currentSettings = await storage.getUserSettings(userId);
       const currentPrefs = (currentSettings?.preferences as any) || {};
       
@@ -1194,18 +1194,18 @@ router.post("/api/company-business-data", async (req, res) => {
         }
       });
       
-      logger.debug(`✅ [POST] Dati aziendali salvati in PostgreSQL per utente ${userId}`);
-      res.json({ success: true, message: "Dati aziendali salvati con successo" });
+      logger.debug(`✅ [POST] business data saved in PostgreSQL for user ${userId}`);
+      res.json({ success: true, message: "Business data saved successfully" });
     } catch (error: any) {
-      console.error('❌ Errore salvataggio dati aziendali:', error);
-      res.status(500).json({ error: "Errore interno del server" });
+      console.error('❌ Error saving company data:', error);
+      res.status(500).json({ error: "Internal server error" });
     }
   });
 
-  // Endpoint per salvare le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
+  // Endpoint for saving company name settings - UNIFIED FOR ALL USERS
 router.post("/api/company-name-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Non autenticato" });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     try {
@@ -1213,13 +1213,13 @@ router.post("/api/company-name-settings", async (req, res) => {
       const userId = req.user.id;
       const userType = req.user.type;
       
-      console.log(`🏢 [POST] Salvando impostazioni complete per utente ${userId} (${userType}):`, req.body);
+      console.log(`🏢 [POST] Salvando settings complete for user ${userId} (${userType}):`, req.body);
       
-      // 🔄 USA POSTGRESQL: Carica impostazioni correnti
+      // 🔄 USA POSTGRESQL: Load settings correnti
       const currentSettings = await storage.getUserSettings(userId);
       const currentPrefs = (currentSettings?.preferences as any) || {};
       
-      // Prepara preferenze nome azienda
+      // Prepare preferenze nome azienda
       const companyNameSettings = currentPrefs.companyName || {};
       if (businessName !== undefined) companyNameSettings.businessName = businessName;
       if (showBusinessName !== undefined) companyNameSettings.showBusinessName = showBusinessName;
@@ -1230,7 +1230,7 @@ router.post("/api/company-name-settings", async (req, res) => {
       if (color !== undefined) companyNameSettings.color = color;
       if (enabled !== undefined) companyNameSettings.enabled = enabled;
       
-      // Aggiorna userSettings con preferences aggiornate
+      // Update userSettings con preferences aggiornate
       await storage.updateUserSettings(userId, {
         businessName: businessName,
         preferences: {
@@ -1239,20 +1239,20 @@ router.post("/api/company-name-settings", async (req, res) => {
         }
       });
       
-      logger.debug(`✅ [POST] Impostazioni salvate in PostgreSQL per utente ${userId}`);
+      logger.debug(`✅ [POST] Settings saved in PostgreSQL for user ${userId}`);
       
       res.json({ 
         success: true, 
-        message: "Impostazioni salvate con successo", 
+        message: "Settings saved successfully", 
         ...companyNameSettings 
       });
     } catch (error: any) {
-      console.error(`❌ [POST] Errore salvataggio impostazioni per utente ${req.user?.id}:`, error);
-      res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
+      console.error(`❌ [POST] Error saving settings for user ${req.user?.id}:`, error);
+      res.status(500).json({ success: false, message: "Error during save" });
     }
   });
 
-  // Endpoint per ottenere le impostazioni valuta
+  // Endpoint to get currency settings
 router.get("/api/currency-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({ currency: "EUR", symbol: "€" });
@@ -1260,7 +1260,7 @@ router.get("/api/currency-settings", async (req, res) => {
 
     const userId = req.user.id;
     
-    logger.debug(`💰 [GET] Recupero impostazioni valuta per utente ${userId}`);
+    logger.debug(`💰 [GET] Retrieving currency settings for user ${userId}`);
     
     try {
       const settings = await storage.getCurrencySettings(userId);
@@ -1275,63 +1275,63 @@ router.get("/api/currency-settings", async (req, res) => {
         res.json({ currency: "EUR", symbol: "€" });
       }
     } catch (error: any) {
-      console.error(`❌ [GET] Errore recupero impostazioni valuta per utente ${userId}:`, error);
-      res.status(500).json({ error: "Errore interno del server" });
+      console.error(`❌ [GET] Error retrieving currency settings for user ${userId}:`, error);
+      res.status(500).json({ error: "Internal server error" });
     }
   });
 
-  // Endpoint per salvare le impostazioni valuta
+  // Endpoint to save currency settings
 router.post("/api/currency-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Non autenticato" });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     try {
       const { currency, symbol } = req.body;
       const userId = req.user.id;
       
-      logger.debug(`💰 [POST] Salvataggio impostazioni valuta per utente ${userId}:`, { currency, symbol });
+      logger.debug(`💰 [POST] Saving currency settings for user ${userId}:`, { currency, symbol });
       
       if (!currency || !symbol) {
-        return res.status(400).json({ error: "Valuta e simbolo richiesti" });
+        return res.status(400).json({ error: "currency e simbolo richiesti" });
       }
       
       const settings = await storage.saveCurrencySettings(userId, currency, symbol);
       
-      logger.debug(`✅ [POST] Impostazioni valuta salvate per utente ${userId}`);
+      logger.debug(`✅ [POST] Currency settings saved for user ${userId}`);
       
       res.json({ 
         success: true, 
-        message: "Impostazioni valuta salvate con successo",
+        message: "Currency settings saved successfully",
         currency: settings.currency,
         symbol: settings.symbol
       });
     } catch (error: any) {
-      console.error(`❌ [POST] Errore salvataggio impostazioni valuta per utente ${req.user?.id}:`, error);
-      res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
+      console.error(`❌ [POST] Error saving currency settings for user ${req.user?.id}:`, error);
+      res.status(500).json({ success: false, message: "Error during save" });
     }
   });
 
-// Endpoint per aggiornare il codice identificativo del professionista (assignmentCode)
+// Endpoint to update the professional identifier code (assignmentCode)
 router.patch("/api/user/assignment-code", async (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(401).json({ error: "Non autenticato" });
+    return res.status(401).json({ error: "Not authenticated" });
   }
 
   const user = req.user as any;
 
   if (user.type !== 'staff' && user.type !== 'admin') {
-    return res.status(403).json({ error: "Accesso consentito solo a staff e admin" });
+    return res.status(403).json({ error: "Access permitted to staff and admin only" });
   }
 
   const { assignmentCode } = req.body;
 
   if (!assignmentCode) {
-    return res.status(400).json({ error: "Codice identificativo richiesto" });
+    return res.status(400).json({ error: "Codice identificativo required" });
   }
 
   if (!/^[a-zA-Z0-9]{4,10}$/.test(assignmentCode)) {
-    return res.status(400).json({ error: "Il codice deve contenere solo caratteri alfanumerici (4-10 caratteri)" });
+    return res.status(400).json({ error: "Code must contain only alphanumeric characters (4-10 characters)" });
   }
 
   const upperCode = assignmentCode.toUpperCase();
@@ -1339,22 +1339,22 @@ router.patch("/api/user/assignment-code", async (req, res) => {
   try {
     const existing = await storage.getUserByAssignmentCode(upperCode);
     if (existing && existing.id !== user.id) {
-      return res.status(409).json({ error: "Codice già in uso da un altro professionista" });
+      return res.status(409).json({ error: "Code already in use by another professional" });
     }
 
     const updated = await storage.updateUser(user.id, { assignmentCode: upperCode });
     if (!updated) {
-      return res.status(500).json({ error: "Impossibile aggiornare il codice" });
+      return res.status(500).json({ error: "Unable to update code" });
     }
 
-    logger.debug(`✅ [PATCH /api/user/assignment-code] Codice aggiornato per utente ${user.id}: ${upperCode}`);
+    logger.debug(`✅ [PATCH /api/user/assignment-code] code updated for user ${user.id}: ${upperCode}`);
     res.json({ success: true, assignmentCode: upperCode });
   } catch (error: any) {
     if (error?.code === '23505') {
-      return res.status(409).json({ error: "Codice già in uso da un altro professionista" });
+      return res.status(409).json({ error: "Code already in use by another professional" });
     }
-    console.error(`❌ [PATCH /api/user/assignment-code] Errore:`, error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error(`❌ [PATCH /api/user/assignment-code] Error:`, error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

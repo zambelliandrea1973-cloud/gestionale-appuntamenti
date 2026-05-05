@@ -35,16 +35,16 @@ const router = Router();
     );
     
     if (!invoiceEntry) {
-      throw new Error('Fattura non trovata');
+      throw new Error('Invoice not found');
     }
     
     const [_, invoice] = invoiceEntry;
     
-    // Recupera la valuta dell'utente
+    // Retrieve the user's currency
     const userCurrency = await getCurrencyForUser(storage, user.id);
     const currencySymbol = userCurrency.symbol;
     
-    // Carica dati aziendali completi (stesso codice della stampa)
+    // Load complete company data (same code as print)
     let businessHeader = 'Gestionale Appuntamenti';
     let businessData = {
       companyName: '', address: '', city: '', postalCode: '', 
@@ -67,10 +67,10 @@ const router = Router();
         }
       }
     } catch (error) {
-      console.log('⚠️ Impossibile caricare dati aziendali per PDF allegato:', error);
+      console.log('⚠️ Unable to load company data for attached PDF:', error);
     }
     
-    // Carica dati cliente
+    // Load client data
     let clientDetails = null;
     try {
       const currentStorageData = loadStorageData();
@@ -83,10 +83,10 @@ const router = Router();
         }
       }
     } catch (error) {
-      console.log('⚠️ Errore recupero dati cliente per PDF:', error);
+      console.log('⚠️ Error retrieving client data for PDF:', error);
     }
     
-    // Genera HTML completo per PDF
+    // Generate HTML completo per PDF
     const htmlContent = `<!DOCTYPE html>
 <html>
 <head>
@@ -118,9 +118,9 @@ const router = Router();
   <div class="invoice-info">
     <div class="client-info">
       <h3>Cliente:</h3>
-      <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+      <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</strong></p>
       ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
-      ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+      ${clientDetails?.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
       ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
       ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
       ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
@@ -131,7 +131,7 @@ const router = Router();
       <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
       <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
       <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
-      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : 'Scaduta'}</p>
+      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Pagata' : 'Overdue'}</p>
     </div>
   </div>
   
@@ -173,17 +173,17 @@ const router = Router();
     return Buffer.from(htmlContent, 'utf-8');
   }
 
-  // Endpoint per le fatture
+  // Endpoint for invoices
 router.get('/api/invoices', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        console.log('📄 [/api/invoices] Utente non autenticato');
-        return res.status(401).json({ message: "Non autenticato" });
+        console.log('📄 [/api/invoices] User not authenticated');
+        return res.status(401).json({ message: "Not authenticated" });
       }
-      console.log('📄 [/api/invoices] Richiesta fatture per utente:', user.id);
+      console.log('📄 [/api/invoices] Invoices request for user:', user.id);
       
-      // Carica fatture da PostgreSQL
+      // Load invoices da PostgreSQL
       const pgInvoices = await db
         .select({
           id: invoicesTable.id,
@@ -196,14 +196,14 @@ router.get('/api/invoices', async (req, res) => {
           status: invoicesTable.status,
           notes: invoicesTable.notes,
           createdAt: invoicesTable.createdAt,
-          // Campi invio multicanale
+          // Multi-channel send fields
           publishedToPwa: invoicesTable.publishedToPwa,
           pwaPublishedAt: invoicesTable.pwaPublishedAt,
           sentViaEmail: invoicesTable.sentViaEmail,
           emailSentAt: invoicesTable.emailSentAt,
           sentViaWhatsapp: invoicesTable.sentViaWhatsapp,
           whatsappSentAt: invoicesTable.whatsappSentAt,
-          // Dati cliente
+          // Dati client
           clientFirstName: clientsTable.firstName,
           clientLastName: clientsTable.lastName,
           clientEmail: clientsTable.email,
@@ -217,7 +217,7 @@ router.get('/api/invoices', async (req, res) => {
         .where(eq(invoicesTable.userId, user.id))
         .orderBy(desc(invoicesTable.createdAt));
       
-      // Trasforma in formato legacy per compatibilità frontend
+      // Transform to legacy format for frontend compatibility
       const userInvoices = pgInvoices.map(inv => ({
         id: inv.id,
         invoiceNumber: inv.invoiceNumber,
@@ -231,7 +231,7 @@ router.get('/api/invoices', async (req, res) => {
         notes: inv.notes,
         createdAt: inv.createdAt?.toISOString() || new Date().toISOString(),
         ownerId: user.id,
-        // Campi invio multicanale - CRITICI per pulsante verde->grigio
+        // Multi-channel send fields - CRITICI per pulsante verde->grigio
         publishedToPwa: inv.publishedToPwa || false,
         pwaPublishedAt: inv.pwaPublishedAt?.toISOString() || null,
         sentViaEmail: inv.sentViaEmail || false,
@@ -250,9 +250,9 @@ router.get('/api/invoices', async (req, res) => {
         } : null
       }));
       
-      logger.debug(`📄 [/api/invoices] Restituisco ${userInvoices.length} fatture per utente ${user.id}`);
+      logger.debug(`📄 [/api/invoices] Restituisco ${userInvoices.length} invoices for user ${user.id}`);
       
-      // Header anti-cache per evitare 304 Not Modified dopo mutation
+      // Anti-cache header to avoid 304 Not Modified after mutation
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
@@ -264,22 +264,22 @@ router.get('/api/invoices', async (req, res) => {
     }
   });
 
-  // Funzione per generare numero fattura automatico - FORMATO LEGALE
+  // Funzione per generare number invoice automatico - FORMATO LEGALE
   async function generateInvoiceNumber(ownerId: number): Promise<string> {
     const currentYear = new Date().getFullYear();
     
-    // Carica fatture esistenti per questo owner per l'anno corrente da PostgreSQL
+    // Load existing invoices for this owner for the current year from PostgreSQL
     const ownerInvoicesThisYear = await db
       .select({ invoiceNumber: invoicesTable.invoiceNumber })
       .from(invoicesTable)
       .where(eq(invoicesTable.userId, ownerId));
     
-    // Filtra solo quelle dell'anno corrente
+    // Filter only those from the current year
     const invoiceNumbersThisYear = ownerInvoicesThisYear
       .map(inv => inv.invoiceNumber)
       .filter(num => num && num.endsWith(`/${currentYear}`)); // Formato NNN/YYYY
     
-    // Trova il numero progressivo più alto per questo anno
+    // Find the highest sequential number for this year
     let maxNumber = 0;
     invoiceNumbersThisYear.forEach(invoiceNumber => {
       const parts = invoiceNumber.split('/');
@@ -296,7 +296,7 @@ router.get('/api/invoices', async (req, res) => {
     return `${nextNumber}/${currentYear}`;
   }
 
-  // Endpoint per ottenere il prossimo numero fattura
+  // Endpoint to get the next invoice number
 router.get('/api/invoices/next-number', async (req, res) => {
     try {
       if (!req.user) {
@@ -309,12 +309,12 @@ router.get('/api/invoices/next-number', async (req, res) => {
       
       res.json({ nextInvoiceNumber: nextNumber });
     } catch (error) {
-      console.error('❌ Errore generazione prossimo numero:', error);
-      res.status(500).json({ message: 'Errore nella generazione del numero' });
+      console.error('❌ Error generating next number:', error);
+      res.status(500).json({ message: 'Error generating number' });
     }
   });
 
-  // Endpoint per suggerimenti fatturazione
+  // Endpoint for billing suggestions
 router.get('/api/invoices/suggestions', async (req, res) => {
     try {
       if (!req.user) {
@@ -324,7 +324,7 @@ router.get('/api/invoices/suggestions', async (req, res) => {
       const user = req.user as any;
       const storageData = loadStorageData();
       
-      // Carica clienti del professionista
+      // Load professional's clients
       const allClients = storageData.clients || [];
       const userClients = allClients
         .filter(([_, client]: any) => client.ownerId === user.id)
@@ -340,13 +340,13 @@ router.get('/api/invoices/suggestions', async (req, res) => {
         }))
         .filter((client: any) => client.name.length > 0);
 
-      // Carica fatture esistenti per analizzare importi comuni
+      // Load invoices esistenti per analizzare importi comuni
       const allInvoices = storageData.invoices || [];
       const userInvoices = allInvoices
         .filter(([_, invoice]: any) => invoice.ownerId === user.id)
         .map(([_, invoice]: any) => invoice);
 
-      // Estrai importi più comuni
+      // Extract most common amounts
       const amountCounts: Record<string, number> = {};
       userInvoices.forEach((invoice: any) => {
         const amount = invoice.totalAmount;
@@ -355,18 +355,18 @@ router.get('/api/invoices/suggestions', async (req, res) => {
         }
       });
 
-      // Ordina importi per frequenza
+      // Sort importi per frequenza
       const commonAmounts = Object.entries(amountCounts)
         .sort(([,a]: any, [,b]: any) => b - a)
         .slice(0, 10)
         .map(([amount]) => parseFloat(amount));
 
-      // Aggiungi alcuni importi standard se la lista è vuota
+      // Add some standard amounts if the list is empty
       if (commonAmounts.length === 0) {
         commonAmounts.push(50, 70, 100, 150, 200);
       }
 
-      // Estrai descrizioni più comuni
+      // Extract most common descriptions
       const descriptionCounts: Record<string, number> = {};
       userInvoices.forEach((invoice: any) => {
         if (invoice.description && invoice.description.trim().length > 0) {
@@ -380,7 +380,7 @@ router.get('/api/invoices/suggestions', async (req, res) => {
         .slice(0, 10)
         .map(([desc]) => desc);
 
-      // Aggiungi descrizioni standard se la lista è vuota
+      // Add standard descriptions if the list is empty
       if (commonDescriptions.length === 0) {
         commonDescriptions.push('visita medica', 'consulenza', 'controllo', 'terapia', 'esame');
       }
@@ -392,12 +392,12 @@ router.get('/api/invoices/suggestions', async (req, res) => {
       });
       
     } catch (error) {
-      console.error('❌ Errore caricamento suggerimenti:', error);
-      res.status(500).json({ message: 'Errore nel caricamento dei suggerimenti' });
+      console.error('❌ Error loading suggestions:', error);
+      res.status(500).json({ message: 'Error loading suggestions' });
     }
   });
 
-  // Endpoint per aggiornare fatture esistenti con clientId (migrazione dati)
+  // Endpoint for updating existing invoices with clientId (data migration)
 router.post('/api/invoices/migrate-client-ids', async (req, res) => {
     try {
       if (!req.user) {
@@ -411,7 +411,7 @@ router.post('/api/invoices/migrate-client-ids', async (req, res) => {
       
       let updatedCount = 0;
       
-      logger.debug(`🔄 [MIGRATE] Avvio migrazione clientId per utente ${user.id}`);
+      logger.debug(`🔄 [MIGRATE] Avvio migrazione clientId for user ${user.id}`);
       
       for (const [invoiceKey, invoice] of invoices as any[]) {
         if (invoice.ownerId === user.id && !invoice.clientId && invoice.clientName) {
@@ -427,30 +427,30 @@ router.post('/api/invoices/migrate-client-ids', async (req, res) => {
             const [_, clientData]: any = matchingClient;
             invoice.clientId = clientData.id;
             updatedCount++;
-            logger.debug(`✅ [MIGRATE] Fattura ${invoice.invoiceNumber}: "${invoice.clientName}" → cliente ID ${clientData.id}`);
+            logger.debug(`✅ [MIGRATE] invoice ${invoice.invoiceNumber}: "${invoice.clientName}" → client ID ${clientData.id}`);
           } else {
-            logger.debug(`⚠️ [MIGRATE] Cliente non trovato per fattura ${invoice.invoiceNumber}: "${invoice.clientName}"`);
+            logger.debug(`⚠️ [MIGRATE] Client not found for invoice ${invoice.invoiceNumber}: "${invoice.clientName}"`);
           }
         }
       }
       
       if (updatedCount > 0) {
         saveStorageData(storageData);
-        logger.debug(`💾 [MIGRATE] Salvate ${updatedCount} fatture con clientId aggiornato`);
+        logger.debug(`💾 [MIGRATE] Saved ${updatedCount} invoices with updated clientId`);
       }
       
       res.json({
-        message: `Migrazione completata: ${updatedCount} fatture aggiornate`,
+        message: `Migration completed: ${updatedCount} invoices updated`,
         updatedCount
       });
       
     } catch (error) {
-      console.error('❌ Errore migrazione clientId:', error);
-      res.status(500).json({ message: 'Errore durante la migrazione' });
+      console.error('❌ Error migrating clientId:', error);
+      res.status(500).json({ message: 'Error during migration' });
     }
   });
 
-  // PULIZIA FATTURE - Rinumera tutte le fatture con formato legale NNN/YYYY
+  // PULIZIA FATTURE - Rinumera all invoices con format legale NNN/YYYY
 router.post('/api/invoices/cleanup-numbering', async (req, res) => {
     try {
       if (!req.user) {
@@ -458,26 +458,26 @@ router.post('/api/invoices/cleanup-numbering', async (req, res) => {
       }
       
       const user = req.user as any;
-      console.log(`🧹 [/api/invoices/cleanup-numbering] Pulizia numerazione fatture per utente ${user.id}`);
+      console.log(`🧹 [/api/invoices/cleanup-numbering] Pulizia numerazione invoices for user ${user.id}`);
       
       const storageData = loadStorageData();
       const allInvoices = storageData.invoices || [];
       
-      // Filtra solo le fatture dell'utente corrente
+      // Filter only the current user's invoices
       const userInvoices = allInvoices.filter(([_, invoice]: any) => invoice.ownerId === user.id);
       
       if (userInvoices.length === 0) {
-        return res.json({ message: 'Nessuna fattura da pulire', cleaned: 0 });
+        return res.json({ message: 'No invoices to clean up', cleaned: 0 });
       }
       
-      console.log(`🧹 Trovate ${userInvoices.length} fatture dell'utente da rinumerare`);
+      console.log(`🧹 Found ${userInvoices.length} user invoices to renumber`);
       
-      // Ordina le fatture per data (dalla più vecchia alla più recente)
+      // Sort invoices by date (from oldest to most recent)
       userInvoices.sort(([_, a]: any, [__, b]: any) => new Date(a.date || a.createdAt).getTime() - new Date(b.date || b.createdAt).getTime());
       
       let cleanedCount = 0;
       
-      // Rinumera tutte le fatture nell'ordine cronologico corretto
+      // Renumber all invoices in the correct chronological order
       userInvoices.forEach(([invoiceId, invoice]: any, index: any) => {
         const newNumber = String(index + 1).padStart(3, '0') + '/2025';
         const oldNumber = invoice.invoiceNumber;
@@ -490,25 +490,25 @@ router.post('/api/invoices/cleanup-numbering', async (req, res) => {
         }
       });
       
-      // Salva i dati aggiornati
+      // Save the data aggiornati
       if (cleanedCount > 0) {
         saveStorageData(storageData);
-        logger.debug(`✅ [/api/invoices/cleanup-numbering] Pulizia completata: ${cleanedCount} fatture rinumerate`);
+        logger.debug(`✅ [/api/invoices/cleanup-numbering] Pulizia completed: ${cleanedCount} invoices rinumerate`);
       }
       
       res.json({
-        message: `Pulizia completata: ${cleanedCount} fatture rinumerate in formato legale NNN/YYYY`,
+        message: `Cleanup completed: ${cleanedCount} invoices renumbered in legal format NNN/YYYY`,
         cleaned: cleanedCount,
         total: userInvoices.length
       });
       
     } catch (error) {
-      console.error('❌ Errore pulizia numerazione fatture:', error);
-      res.status(500).json({ message: 'Errore durante la pulizia' });
+      console.error('❌ Error cleaning up invoice numbering:', error);
+      res.status(500).json({ message: 'Error during cleanup' });
     }
   });
 
-  // ELIMINAZIONE FATTURA con doppia sicurezza (PostgreSQL)
+  // INVOICE DELETION with double security (PostgreSQL)
 router.delete('/api/invoices/:id', async (req, res) => {
     try {
       if (!req.user) {
@@ -519,17 +519,17 @@ router.delete('/api/invoices/:id', async (req, res) => {
       const invoiceId = parseInt(req.params.id);
       const { confirmation } = req.body;
       
-      logger.debug(`🗑️ [/api/invoices/${invoiceId}] Richiesta eliminazione per utente ${user.id}`);
+      logger.debug(`🗑️ [/api/invoices/${invoiceId}] Delete request for user ${user.id}`);
       
       // Controllo doppia sicurezza - richiede confirmation: true
       if (!confirmation) {
         return res.status(400).json({ 
-          message: 'Conferma di sicurezza richiesta',
+          message: 'Security confirmation required',
           requiresConfirmation: true 
         });
       }
       
-      // Carica la fattura da PostgreSQL per ottenere i dettagli
+      // Load the invoice from PostgreSQL to get details
       const [invoiceToDelete] = await db
         .select()
         .from(invoicesTable)
@@ -540,15 +540,15 @@ router.delete('/api/invoices/:id', async (req, res) => {
         .limit(1);
       
       if (!invoiceToDelete) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
-      // Elimina prima gli items della fattura
+      // First delete the invoice items
       await db
         .delete(invoiceItems)
         .where(eq(invoiceItems.invoiceId, invoiceId));
       
-      // Poi elimina la fattura stessa
+      // Then delete the invoice itself
       await db
         .delete(invoicesTable)
         .where(and(
@@ -556,10 +556,10 @@ router.delete('/api/invoices/:id', async (req, res) => {
           eq(invoicesTable.userId, user.id)
         ));
       
-      logger.debug(`✅ [/api/invoices/${invoiceId}] Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo da PostgreSQL`);
+      logger.debug(`✅ [/api/invoices/${invoiceId}] Invoice ${invoiceToDelete.invoiceNumber} deleted successfully from PostgreSQL`);
       
       res.json({
-        message: `Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo`,
+        message: `Invoice ${invoiceToDelete.invoiceNumber} deleted successfully`,
         deletedInvoice: {
           invoiceNumber: invoiceToDelete.invoiceNumber,
           date: invoiceToDelete.date,
@@ -568,19 +568,19 @@ router.delete('/api/invoices/:id', async (req, res) => {
       });
       
     } catch (error) {
-      console.error('❌ Errore eliminazione fattura:', error);
-      res.status(500).json({ message: 'Errore durante l\'eliminazione' });
+      console.error('❌ Error deleting invoice:', error);
+      res.status(500).json({ message: 'Error during deletion' });
     }
   });
 
-  // ===== PACKAGES (PACCHETTI PROMOZIONALI) - FUNZIONALITÀ PRO =====
+  // ===== PACKAGES (PROMOTIONAL PACKAGES) - PRO FEATURES =====
   
   // GET /api/packages/templates - Lista modelli pacchetti
 router.get('/api/packages/templates', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
@@ -598,18 +598,18 @@ router.get('/api/packages/templates', async (req, res) => {
     }
   });
   
-  // POST /api/packages/templates - Crea modello pacchetto
+  // POST /api/packages/templates - Create package template
 router.post('/api/packages/templates', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const { name, description, serviceIds, totalSessions, price, expirationDays } = req.body;
       
-      // Validazione: verifica che i servizi appartengano all'utente
+      // Validation: verify that services belong to the user
       if (serviceIds && serviceIds.length > 0) {
         const userServices = await db
           .select({ id: servicesTable.id })
@@ -621,7 +621,7 @@ router.post('/api/packages/templates', async (req, res) => {
         
         if (invalidServiceIds.length > 0) {
           return res.status(400).json({ 
-            message: 'Servizi non validi o non autorizzati',
+            message: 'Servizi invalid o non autorizzati',
             invalidIds: invalidServiceIds 
           });
         }
@@ -646,19 +646,19 @@ router.post('/api/packages/templates', async (req, res) => {
     }
   });
   
-  // PUT /api/packages/templates/:id - Aggiorna modello pacchetto
+  // PUT /api/packages/templates/:id - Update package template
 router.put('/api/packages/templates/:id', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const templateId = parseInt(req.params.id);
       const { name, description, serviceIds, totalSessions, price, expirationDays, isActive } = req.body;
       
-      // Validazione: verifica che i servizi appartengano all'utente
+      // Validation: verify that services belong to the user
       if (serviceIds && serviceIds.length > 0) {
         const userServices = await db
           .select({ id: servicesTable.id })
@@ -670,7 +670,7 @@ router.put('/api/packages/templates/:id', async (req, res) => {
         
         if (invalidServiceIds.length > 0) {
           return res.status(400).json({ 
-            message: 'Servizi non validi o non autorizzati',
+            message: 'Servizi invalid o non autorizzati',
             invalidIds: invalidServiceIds 
           });
         }
@@ -695,7 +695,7 @@ router.put('/api/packages/templates/:id', async (req, res) => {
         .returning();
       
       if (!updatedTemplate) {
-        return res.status(404).json({ message: 'Template non trovato' });
+        return res.status(404).json({ message: 'Template not found' });
       }
       
       res.json(updatedTemplate);
@@ -705,18 +705,18 @@ router.put('/api/packages/templates/:id', async (req, res) => {
     }
   });
   
-  // DELETE /api/packages/templates/:id - Elimina modello pacchetto
+  // DELETE /api/packages/templates/:id - Delete package template
 router.delete('/api/packages/templates/:id', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const templateId = parseInt(req.params.id);
       
-      // Verifica se ci sono pacchetti attivi basati su questo template
+      // Check if there are active packages based on this template
       const activePurchases = await db
         .select({ id: packagePurchases.id })
         .from(packagePurchases)
@@ -729,7 +729,7 @@ router.delete('/api/packages/templates/:id', async (req, res) => {
       
       if (activePurchases.length > 0) {
         return res.status(400).json({ 
-          message: 'Impossibile eliminare: ci sono pacchetti attivi basati su questo template' 
+          message: 'Cannot delete: there are active packages based on this template' 
         });
       }
       
@@ -740,7 +740,7 @@ router.delete('/api/packages/templates/:id', async (req, res) => {
           eq(packageTemplates.userId, tenantId)
         ));
       
-      res.json({ message: 'Template eliminato con successo' });
+      res.json({ message: 'Template deleted successfully' });
     } catch (error) {
       console.error('❌ Error deleting package template:', error);
       res.status(500).json({ message: 'Error deleting package template' });
@@ -752,7 +752,7 @@ router.get('/api/packages/purchases', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
@@ -799,18 +799,18 @@ router.get('/api/packages/purchases', async (req, res) => {
     }
   });
   
-  // POST /api/packages/purchases - Vendi pacchetto a cliente
+  // POST /api/packages/purchases - Vendi pacchetto a client
 router.post('/api/packages/purchases', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const { templateId, clientId, invoiceId, purchaseDate, notes } = req.body;
       
-      // Verifica che il template esista e appartenga all'utente
+      // Verify that the template exists and belongs to the user
       const [template] = await db
         .select()
         .from(packageTemplates)
@@ -821,10 +821,10 @@ router.post('/api/packages/purchases', async (req, res) => {
         .limit(1);
       
       if (!template) {
-        return res.status(404).json({ message: 'Template non trovato' });
+        return res.status(404).json({ message: 'Template not found' });
       }
       
-      // Verifica che il cliente esista e appartenga all'utente
+      // Verify that the client exists and belongs to the user
       const [client] = await db
         .select()
         .from(clientsTable)
@@ -835,10 +835,10 @@ router.post('/api/packages/purchases', async (req, res) => {
         .limit(1);
       
       if (!client) {
-        return res.status(404).json({ message: 'Cliente non trovato' });
+        return res.status(404).json({ message: 'Client not found' });
       }
       
-      // Calcola data scadenza se specificata nel template
+      // Calculate expiration date if specified in the template
       let expiresAt = null;
       if (template.expirationDays) {
         const purchaseDateObj = new Date(purchaseDate);
@@ -847,7 +847,7 @@ router.post('/api/packages/purchases', async (req, res) => {
         expiresAt = expiresAtObj.toISOString().split('T')[0];
       }
       
-      // Crea il pacchetto venduto
+      // Create the sold package
       const [newPurchase] = await db.insert(packagePurchases).values({
         userId: tenantId,
         templateId,
@@ -873,13 +873,13 @@ router.post('/api/packages/redeem', async (req, res) => {
     try {
       const user = req.user as any;
       if (!user || !user.id) {
-        return res.status(401).json({ message: "Non autenticato" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
       
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const { purchaseId, appointmentId, performedBy, notes } = req.body;
       
-      // Verifica che il pacchetto esista, appartenga all'utente e abbia sedute rimanenti
+      // Verify that the package exists, belongs to the user and has remaining sessions
       const [purchase] = await db
         .select()
         .from(packagePurchases)
@@ -890,32 +890,32 @@ router.post('/api/packages/redeem', async (req, res) => {
         .limit(1);
       
       if (!purchase) {
-        return res.status(404).json({ message: 'Pacchetto non trovato' });
+        return res.status(404).json({ message: 'Package not found' });
       }
       
       if (purchase.status !== 'active') {
-        return res.status(400).json({ message: 'Pacchetto non attivo' });
+        return res.status(400).json({ message: 'Package not active' });
       }
       
       if (purchase.sessionsRemaining <= 0) {
-        return res.status(400).json({ message: 'Nessuna seduta rimanente' });
+        return res.status(400).json({ message: 'No remaining sessions' });
       }
       
-      // Verifica scadenza
+      // Verify expiry
       if (purchase.expiresAt) {
         const today = new Date().toISOString().split('T')[0];
         if (today > purchase.expiresAt) {
-          // Aggiorna stato a expired
+          // Update stato a expired
           await db
             .update(packagePurchases)
             .set({ status: 'expired' })
             .where(eq(packagePurchases.id, purchaseId));
           
-          return res.status(400).json({ message: 'Pacchetto scaduto' });
+          return res.status(400).json({ message: 'Package expired' });
         }
       }
       
-      // Calcola numero seduta progressivo
+      // Calculate number seduta progressivo
       const existingRedemptions = await db
         .select({ sessionNumber: packageRedemptions.sessionNumber })
         .from(packageRedemptions)
@@ -927,7 +927,7 @@ router.post('/api/packages/redeem', async (req, res) => {
         ? existingRedemptions[0].sessionNumber + 1 
         : 1;
       
-      // Crea il riscatto
+      // Create the redemption
       const [redemption] = await db.insert(packageRedemptions).values({
         userId: tenantId,
         purchaseId,
@@ -937,13 +937,13 @@ router.post('/api/packages/redeem', async (req, res) => {
         notes: notes || null
       }).returning();
       
-      // Decrementa sedute rimanenti
+      // Decrement remaining sessions
       const newSessionsRemaining = purchase.sessionsRemaining - 1;
       const updateData: any = {
         sessionsRemaining: newSessionsRemaining
       };
       
-      // Se è l'ultima seduta, marca come completato
+      // If it is the last session, mark as completed
       if (newSessionsRemaining === 0) {
         updateData.status = 'completed';
         updateData.completedAt = new Date();
@@ -954,7 +954,7 @@ router.post('/api/packages/redeem', async (req, res) => {
         .set(updateData)
         .where(eq(packagePurchases.id, purchaseId));
       
-      // Aggiorna anche l'appuntamento per collegarlo al pacchetto
+      // Update also l'appointment per collegarlo al pacchetto
       if (appointmentId) {
         await db
           .update(appointmentsTable)
@@ -976,37 +976,37 @@ router.post('/api/packages/redeem', async (req, res) => {
     }
   });
 
-  // DOWNLOAD ZIP GESTIONALE - Endpoint per scaricare il gestionale completo
+  // DOWNLOAD ZIP - Endpoint to download the complete management system
 router.get('/download-gestionale-zip', (req, res) => {
     try {
       const zipPath = path.join(__dirname, '../../gestionale-sanitario-completo-20250910-061135.zip');
       
-      // Verifica che il file esista
+      // Verify che the file esista
       if (!fs.existsSync(zipPath)) {
-        return res.status(404).json({ error: 'File ZIP non trovato' });
+        return res.status(404).json({ error: 'File ZIP not found' });
       }
       
-      // Imposta headers per il download
+      // Set headers for download
       res.setHeader('Content-Type', 'application/zip');
-      res.setHeader('Content-Disposition', 'attachment; filename="gestionale-sanitario-completo.zip"');
+      res.setHeader('Content-Disposition', 'attachment; filename="scheduler-complete.zip"');
       
-      // Invia il file
+      // Send the file
       res.sendFile(zipPath, (err) => {
         if (err) {
-          console.error('❌ Errore invio file ZIP:', err);
-          res.status(500).json({ error: 'Errore durante il download' });
+          console.error('❌ Error sending ZIP file:', err);
+          res.status(500).json({ error: 'Error during download' });
         } else {
-          console.log('✅ Download ZIP gestionale completato con successo');
+          console.log('✅ Download ZIP completed successfully');
         }
       });
       
     } catch (error) {
-      console.error('❌ Errore endpoint download ZIP:', error);
-      res.status(500).json({ error: 'Errore del server' });
+      console.error('❌ Error in ZIP download endpoint:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   });
 
-  // Crea una nuova fattura
+  // Create a new invoice
 router.post('/api/invoices', async (req, res) => {
     try {
       if (!req.user) {
@@ -1016,12 +1016,12 @@ router.post('/api/invoices', async (req, res) => {
       const user = req.user as any;
       const invoiceData = req.body;
       
-      console.log('📄 [/api/invoices] Creazione fattura per utente:', user.id, invoiceData);
+      console.log('📄 [/api/invoices] Creating invoice for user:', user.id, invoiceData);
       
-      // Genera numero fattura automatico con codice professionista (formato: BUS1422-001/2025)
+      // Generate number invoice automatico con code professional (format: BUS1422-001/2025)
       const invoiceNumber = await generateProfessionalInvoiceNumber(user.id, invoiceData.date || new Date().toISOString().split('T')[0]);
       
-      // Salva in PostgreSQL
+      // Save in PostgreSQL
       const [newInvoice] = await db.insert(invoicesTable).values({
         userId: user.id,
         invoiceNumber,
@@ -1034,7 +1034,7 @@ router.post('/api/invoices', async (req, res) => {
         notes: invoiceData.notes || null
       }).returning();
       
-      // Salva invoice items se presenti
+      // Save invoice items If presenti
       if (invoiceData.items && Array.isArray(invoiceData.items)) {
         for (const item of invoiceData.items) {
           await db.insert(invoiceItems).values({
@@ -1047,7 +1047,7 @@ router.post('/api/invoices', async (req, res) => {
         }
       }
       
-      // FALLBACK: salva anche in JSON storage per compatibilità
+      // FALLBACK: also save in JSON storage for compatibility
       const storageData = loadStorageData();
       if (!storageData.invoices) {
         storageData.invoices = [];
@@ -1062,7 +1062,7 @@ router.post('/api/invoices', async (req, res) => {
       }]);
       saveStorageData(storageData);
       
-      logger.debug(`✅ [/api/invoices] Fattura ${invoiceNumber} salvata in PostgreSQL + JSON (ID: ${newInvoice.id})`);
+      logger.debug(`✅ [/api/invoices] invoice ${invoiceNumber} saved in PostgreSQL + JSON (ID: ${newInvoice.id})`);
       res.status(201).json(newInvoice);
     } catch (error) {
       console.error('❌ Error creating invoice:', error);
@@ -1070,7 +1070,7 @@ router.post('/api/invoices', async (req, res) => {
     }
   });
 
-  // Aggiorna stato fattura - SOLO POSTGRESQL
+  // Update stato invoice - SOLO POSTGRESQL
 router.patch('/api/invoices/:id/status', async (req, res) => {
     try {
       if (!req.user) {
@@ -1081,15 +1081,15 @@ router.patch('/api/invoices/:id/status', async (req, res) => {
       const invoiceId = parseInt(req.params.id);
       const { status } = req.body;
       
-      logger.debug(`📄 [/api/invoices/${invoiceId}/status] Aggiornamento stato per utente ${user.id}: ${status}`);
+      logger.debug(`📄 [/api/invoices/${invoiceId}/status] Updating status for user ${user.id}: ${status}`);
       
-      // Valida status
+      // Validate status
       const validStatuses = ['unpaid', 'paid', 'overdue', 'cancelled'];
       if (!validStatuses.includes(status)) {
-        return res.status(400).json({ message: 'Stato non valido' });
+        return res.status(400).json({ message: 'Stato invalid' });
       }
       
-      // Verifica fattura esiste e appartiene all'utente
+      // Verify invoice exists and belongs to the user
       const existingInvoice = await db.select()
         .from(invoicesTable)
         .where(and(
@@ -1099,23 +1099,23 @@ router.patch('/api/invoices/:id/status', async (req, res) => {
         .limit(1);
       
       if (!existingInvoice || existingInvoice.length === 0) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
-      // Prepara dati aggiornamento
+      // Prepare update data
       const updateData: any = { status };
       
-      // Aggiungi timestamp per stato pagata
+      // Add timestamp for paid status
       if (status === 'paid') {
         updateData.paidAt = new Date();
       }
       
-      // Aggiorna in PostgreSQL
+      // Update in PostgreSQL
       await db.update(invoicesTable)
         .set(updateData)
         .where(eq(invoicesTable.id, invoiceId));
       
-      logger.debug(`✅ [/api/invoices/${invoiceId}/status] Stato aggiornato in PostgreSQL: ${status}`);
+      logger.debug(`✅ [/api/invoices/${invoiceId}/status] Status updated in PostgreSQL: ${status}`);
       res.json({ 
         success: true, 
         status,
@@ -1124,11 +1124,11 @@ router.patch('/api/invoices/:id/status', async (req, res) => {
       
     } catch (error) {
       console.error('❌ Error updating invoice status:', error);
-      res.status(500).json({ message: 'Errore aggiornamento stato' });
+      res.status(500).json({ message: 'Error updating status' });
     }
   });
 
-  // Genera PDF per stampa
+  // Generate PDF per stampa
 router.get('/api/invoices/:id/pdf', async (req, res) => {
     try {
       if (!req.user) {
@@ -1138,24 +1138,24 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
       const user = req.user as any;
       const invoiceId = parseInt(req.params.id);
       
-      logger.debug(`📄 [/api/invoices/${invoiceId}/pdf] Generazione PDF per utente ${user.id}`);
+      logger.debug(`📄 [/api/invoices/${invoiceId}/pdf] Generation PDF for user ${user.id}`);
       
-      // Carica dati
+      // Load data
       const storageData = loadStorageData();
       const invoices = storageData.invoices || [];
       
-      // Trova la fattura
+      // Find the invoice
       const invoiceEntry = invoices.find(([id, invoice]: any) => 
         id === invoiceId && invoice.ownerId === user.id
       );
       
       if (!invoiceEntry) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
       const [_, invoice] = invoiceEntry;
       
-      // Recupera logo personalizzato dal database
+      // Retrieve custom logo from the database
       let userLogo = defaultIconBase64;
       try {
         const iconRow = await db
@@ -1166,15 +1166,15 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
         
         if (iconRow.length > 0 && iconRow[0].iconBase64) {
           userLogo = iconRow[0].iconBase64;
-          console.log(`🖼️ [PDF] Logo personalizzato caricato per utente ${user.id}`);
+          console.log(`🖼️ [PDF] Custom logo loaded for user ${user.id}`);
         } else {
-          console.log(`🖼️ [PDF] Uso logo default per utente ${user.id}`);
+          console.log(`🖼️ [PDF] Using default logo for user ${user.id}`);
         }
       } catch (error) {
-        console.log('⚠️ [PDF] Errore caricamento logo, uso default:', error);
+        console.log('⚠️ [PDF] Error loading logo, using default:', error);
       }
       
-      // Carica dati aziendali completi per intestazione fattura
+      // Load company data completi per intestazione invoice
       let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
@@ -1192,12 +1192,12 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
         const userBusinessData = currentStorageData.userBusinessData?.[user.id];
         
-        // Usa il nome personalizzato se disponibile
+        // Use the custom name if available
         if (userBusinessSettings?.enabled && userBusinessSettings.name) {
           businessHeader = userBusinessSettings.name;
         }
         
-        // Carica tutti i dati aziendali se disponibili
+        // Load all company data if available
         if (userBusinessData) {
           businessData = { ...businessData, ...userBusinessData };
           if (userBusinessData.companyName) {
@@ -1205,7 +1205,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           }
         }
         
-        logger.debug(`📄 [PDF] Dati aziendali per utente ${user.id}:`, {
+        logger.debug(`📄 [PDF] data business for user ${user.id}:`, {
           nome: businessHeader,
           indirizzo: businessData.address,
           citta: businessData.city,
@@ -1216,10 +1216,10 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           email: businessData.email
         });
       } catch (error) {
-        console.log('⚠️ Impossibile caricare dati aziendali, uso default:', error);
+        console.log('⚠️ Unable to load business data, using default:', error);
       }
       
-      // Recupera dati completi del cliente dal database usando SEMPRE clientId
+      // Retrieve full client data from the database always using clientId
       let clientDetails = null;
       try {
         const currentStorageData = loadStorageData();
@@ -1229,7 +1229,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           const clientEntry = clients.find(([id, client]: any) => id === invoice.clientId);
           if (clientEntry) {
             clientDetails = clientEntry[1];
-            logger.debug(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            logger.debug(`📄 [PDF] Client data found via ID ${invoice.clientId}:`, {
               nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
               email: clientDetails.email,
               telefono: clientDetails.phone,
@@ -1238,12 +1238,12 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
               partitaIva: clientDetails.vatNumber
             });
           } else {
-            logger.debug(`📄 [PDF] Cliente non trovato per ID: ${invoice.clientId}`);
+            logger.debug(`📄 [PDF] Client not found for ID: ${invoice.clientId}`);
           }
         } else {
-          logger.debug(`⚠️ [PDF] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          logger.debug(`⚠️ [PDF] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
           
-          // Solo come fallback per fatture vecchie
+          // Only come fallback per invoices vecchie
           if (invoice.clientName) {
             const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
             const clientEntry = clients.find(([_, client]: any) => {
@@ -1254,19 +1254,19 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
             
             if (clientEntry) {
               clientDetails = clientEntry[1];
-              logger.debug(`📄 [PDF] FALLBACK: Dati trovati per nome "${invoice.clientName}"`);
+              logger.debug(`📄 [PDF] FALLBACK: Dati found per nome "${invoice.clientName}"`);
             }
           }
         }
       } catch (error) {
-        console.log('⚠️ Errore recupero dati cliente:', error);
+        console.log('⚠️ Error retrieving client data:', error);
       }
       
-      // Recupera la valuta dell'utente
+      // Retrieve the user's currency
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
       
-      // Genera HTML per PDF con logo e layout migliorato
+      // Generate HTML per PDF con logo e layout migliorato
       const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -1389,9 +1389,9 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
           <div class="invoice-info">
             <div class="client-info">
               <h3>Dati Cliente</h3>
-              <p><strong>Nome:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</p>
+              <p><strong>Nome:</strong> ${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Client'}</p>
               ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
-              ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+              ${clientDetails?.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
               ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
               ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
               ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
@@ -1403,8 +1403,8 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
               <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
               <p><strong>Stato:</strong> ${
                 invoice.status === 'paid' ? 'Pagata' :
-                invoice.status === 'sent' ? 'Inviata' :
-                invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'
+                invoice.status === 'sent' ? 'Sent' :
+                invoice.status === 'overdue' ? 'Overdue' : 'Draft'
               }</p>
             </div>
           </div>
@@ -1435,7 +1435,7 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
                 </tr>
               `}
               <tr class="total-row">
-                <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTALE:</strong></td>
+                <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTAL:</strong></td>
                 <td style="text-align: right; padding: 15px;"><strong>${currencySymbol}${invoice.totalAmount.toFixed(2)}</strong></td>
               </tr>
             </tbody>
@@ -1476,25 +1476,25 @@ router.get('/api/invoices/:id/pdf', async (req, res) => {
         await browser.close();
         
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `inline; filename="fattura-${invoice.invoiceNumber}.pdf"`);
+        res.setHeader('Content-Disposition', `inline; filename="invoice-${invoice.invoiceNumber}.pdf"`);
         res.send(pdfBuffer);
         
-        logger.debug(`✅ [/api/invoices/${invoiceId}/pdf] PDF generato (Puppeteer, portrait) per fattura ${invoice.invoiceNumber}`);
+        logger.debug(`✅ [/api/invoices/${invoiceId}/pdf] PDF generated (Puppeteer, portrait) for invoice ${invoice.invoiceNumber}`);
       } catch (puppeteerError) {
-        console.log('⚠️ Puppeteer non disponibile, uso HTML:', puppeteerError);
+        console.log('⚠️ Puppeteer not available, using HTML:', puppeteerError);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Content-Disposition', `inline; filename="fattura-${invoice.invoiceNumber}.html"`);
+        res.setHeader('Content-Disposition', `inline; filename="invoice-${invoice.invoiceNumber}.html"`);
         res.send(htmlContent);
-        logger.debug(`✅ [/api/invoices/${invoiceId}/pdf] HTML generato per fattura ${invoice.invoiceNumber}`);
+        logger.debug(`✅ [/api/invoices/${invoiceId}/pdf] HTML generated for invoice ${invoice.invoiceNumber}`);
       }
       
     } catch (error) {
       console.error('❌ Error generating PDF:', error);
-      res.status(500).json({ message: 'Errore generazione PDF' });
+      res.status(500).json({ message: 'Error generating PDF' });
     }
   });
 
-  // Genera anteprima HTML per fattura (stessa logica del PDF ma senza download)
+  // Generate HTML preview for invoice (same logic as PDF but without download)
 router.get('/api/invoices/:id/preview', async (req, res) => {
     try {
       if (!req.user) {
@@ -1504,28 +1504,28 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
       const user = req.user as any;
       const invoiceId = parseInt(req.params.id);
       
-      console.log(`👁️ [/api/invoices/${invoiceId}/preview] Generazione anteprima per utente ${user.id}`);
+      console.log(`👁️ [/api/invoices/${invoiceId}/preview] Generating preview for user ${user.id}`);
       
-      // Carica dati
+      // Load data
       const storageData = loadStorageData();
       const invoices = storageData.invoices || [];
       
-      // Trova la fattura
+      // Find the invoice
       const invoiceEntry = invoices.find(([id, invoice]: any) => 
         id === invoiceId && invoice.ownerId === user.id
       );
       
       if (!invoiceEntry) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
       const [_, invoice] = invoiceEntry;
       
-      // Recupera la valuta dell'utente
+      // Retrieve the user's currency
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
       
-      // Carica dati aziendali completi per intestazione fattura
+      // Load company data completi per intestazione invoice
       let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
@@ -1543,12 +1543,12 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
         const userBusinessData = currentStorageData.userBusinessData?.[user.id];
         
-        // Usa il nome personalizzato se disponibile
+        // Use the custom name if available
         if (userBusinessSettings?.enabled && userBusinessSettings.name) {
           businessHeader = userBusinessSettings.name;
         }
         
-        // Carica tutti i dati aziendali se disponibili
+        // Load all company data if available
         if (userBusinessData) {
           businessData = { ...businessData, ...userBusinessData };
           if (userBusinessData.companyName) {
@@ -1556,16 +1556,16 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           }
         }
         
-        console.log(`👁️ [PREVIEW] Dati aziendali per utente ${user.id}:`, {
+        console.log(`👁️ [PREVIEW] data business for user ${user.id}:`, {
           nome: businessHeader,
           indirizzo: businessData.address,
           email: businessData.email
         });
       } catch (error) {
-        console.log('⚠️ Impossibile caricare dati aziendali per preview, uso default:', error);
+        console.log('⚠️ Unable to load business data for preview, using default:', error);
       }
       
-      // Recupera dati completi del cliente dal database usando SEMPRE clientId
+      // Retrieve full client data from the database always using clientId
       let clientDetails = null;
       try {
         const currentStorageData = loadStorageData();
@@ -1575,17 +1575,17 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           const clientEntry = clients.find(([id, client]: any) => id === invoice.clientId);
           if (clientEntry) {
             clientDetails = clientEntry[1];
-            console.log(`👁️ [PREVIEW] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            console.log(`👁️ [PREVIEW] Client data found via ID ${invoice.clientId}:`, {
               nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
               email: clientDetails.email
             });
           } else {
-            console.log(`👁️ [PREVIEW] Cliente non trovato per ID: ${invoice.clientId}`);
+            console.log(`👁️ [PREVIEW] Client not found for ID: ${invoice.clientId}`);
           }
         } else {
-          logger.debug(`⚠️ [PREVIEW] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          logger.debug(`⚠️ [PREVIEW] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
           
-          // Solo come fallback per fatture vecchie
+          // Only come fallback per invoices vecchie
           if (invoice.clientName) {
             const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
             const clientEntry = clients.find(([_, client]: any) => {
@@ -1596,7 +1596,7 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
             
             if (clientEntry) {
               clientDetails = clientEntry[1];
-              console.log(`👁️ [PREVIEW] Cliente trovato tramite nome "${invoiceClientName}":`, {
+              console.log(`👁️ [PREVIEW] Client found via name "${invoiceClientName}":`, {
                 nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
                 email: clientDetails.email
               });
@@ -1604,10 +1604,10 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           }
         }
       } catch (error) {
-        console.log('⚠️ Errore caricamento dati cliente per preview:', error);
+        console.log('⚠️ Error loading client data for preview:', error);
       }
       
-      // Recupera descrizione del servizio
+      // Retrieve descrizione of the service
       let serviceDescription = invoice.description || 'Servizio';
       try {
         const currentStorageData = loadStorageData();
@@ -1617,16 +1617,16 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
           const serviceEntry = services.find(([id, service]: any) => id === invoice.serviceId);
           if (serviceEntry) {
             serviceDescription = serviceEntry[1].name;
-            console.log(`👁️ [PREVIEW] Servizio trovato per ID ${invoice.serviceId}: ${serviceDescription}`);
+            console.log(`👁️ [PREVIEW] Servizio found per ID ${invoice.serviceId}: ${serviceDescription}`);
           }
         } else {
-          logger.debug(`⚠️ [PREVIEW] FATTURA SENZA SERVICEID! Usando description: ${serviceDescription}`);
+          logger.debug(`⚠️ [PREVIEW] invoice SENZA SERVICEID! Using description: ${serviceDescription}`);
         }
       } catch (error) {
-        console.log('⚠️ Errore caricamento dati servizio per preview:', error);
+        console.log('⚠️ Error loading service data for preview:', error);
       }
       
-      // Genera HTML per anteprima (stessa logica del PDF)
+      // Generate HTML for preview (same logic as PDF)
       const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -1664,7 +1664,7 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
               <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
               <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
               <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
-              <p><strong>Stato:</strong> ${invoice.status === 'paid' ? 'Pagata' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'}</p>
+              <p><strong>Stato:</strong> ${invoice.status === 'paid' ? 'Pagata' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'overdue' ? 'Overdue' : 'Draft'}</p>
             </div>
             <div class="clear"></div>
           </div>
@@ -1679,7 +1679,7 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
               ${clientDetails.taxCode ? `<p>Codice Fiscale: ${clientDetails.taxCode}</p>` : ''}
               ${clientDetails.vatNumber ? `<p>P.IVA: ${clientDetails.vatNumber}</p>` : ''}
             ` : `
-              <p><strong>${invoice.clientName || 'Cliente'}</strong></p>
+              <p><strong>${invoice.clientName || 'Client'}</strong></p>
             `}
           </div>
           
@@ -1716,19 +1716,19 @@ router.get('/api/invoices/:id/preview', async (req, res) => {
         </html>
       `;
       
-      // Restituisce HTML puro per anteprima (senza header di download)
+      // Returns plain HTML for preview (without download headers)
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.send(htmlContent);
       
-      logger.debug(`✅ [/api/invoices/${invoiceId}/preview] Anteprima generata per fattura ${invoice.invoiceNumber}`);
+      logger.debug(`✅ [/api/invoices/${invoiceId}/preview] Preview generated for invoice ${invoice.invoiceNumber}`);
       
     } catch (error) {
       console.error('❌ Error generating preview:', error);
-      res.status(500).json({ message: 'Errore generazione anteprima' });
+      res.status(500).json({ message: 'Error generating preview' });
     }
   });
 
-  // Ottieni dati suggeriti per invio email fattura
+  // Get suggested data for invoice email sending
 router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
     try {
       if (!req.user) {
@@ -1738,27 +1738,27 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
       const user = req.user as any;
       const invoiceId = parseInt(req.params.id);
       
-      // Carica dati
+      // Load data
       const storageData = loadStorageData();
       const invoices = storageData.invoices || [];
       const clients = storageData.clients || [];
       
-      // Trova la fattura
+      // Find the invoice
       const invoiceEntry = invoices.find(([id, invoice]: any) => 
         id === invoiceId && invoice.ownerId === user.id
       );
       
       if (!invoiceEntry) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
       const [_, invoice] = invoiceEntry;
       
-      // Recupera la valuta dell'utente
+      // Retrieve the user's currency
       const userCurrency = await getCurrencyForUser(storage, user.id);
       const currencySymbol = userCurrency.symbol;
       
-      // Carica le impostazioni nome aziendale dell'utente
+      // Load the user's company name settings
       let businessName = 'Gestionale Appuntamenti';
       try {
         const currentStorageData = loadStorageData();
@@ -1768,10 +1768,10 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
           businessName = userBusinessSettings.name;
         }
       } catch (error) {
-        console.log('⚠️ Impossibile caricare nome aziendale per email:', error);
+        console.log('⚠️ Unable to load business name for email:', error);
       }
       
-      // Cerca email del cliente usando SEMPRE clientId (metodo corretto)
+      // Find client email always using clientId (correct method)
       let clientEmail = '';
       let clientData = null;
       
@@ -1781,18 +1781,18 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
           const [_, client] = clientEntry;
           clientEmail = client.email || '';
           clientData = client;
-          logger.debug(`📧 [EMAIL SUGGESTIONS] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+          logger.debug(`📧 [EMAIL SUGGESTIONS] Client data found via ID ${invoice.clientId}:`, {
             nome: `${client.firstName} ${client.lastName}`,
             email: client.email,
             telefono: client.phone
           });
         } else {
-          logger.debug(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per ID: ${invoice.clientId}`);
+          logger.debug(`📧 [EMAIL SUGGESTIONS] Client not found for ID: ${invoice.clientId}`);
         }
       } else {
-        logger.debug(`⚠️ [EMAIL SUGGESTIONS] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+        logger.debug(`⚠️ [EMAIL SUGGESTIONS] invoice SENZA CLIENTID! invoice ${invoice.invoiceNumber} usa clientName obsoleto`);
         
-        // Solo come fallback per fatture vecchie senza clientId
+        // Only as fallback for old invoices without clientId
         if (invoice.clientName) {
           const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
           const clientEntry = clients.find(([_, client]: any) => {
@@ -1805,20 +1805,20 @@ router.get('/api/invoices/:id/email-suggestions', async (req, res) => {
             const [_, client] = clientEntry;
             clientEmail = client.email || '';
             clientData = client;
-            logger.debug(`📧 [EMAIL SUGGESTIONS] FALLBACK: Email trovata per nome "${invoice.clientName}": ${clientEmail}`);
+            logger.debug(`📧 [EMAIL SUGGESTIONS] FALLBACK: Email found per nome "${invoice.clientName}": ${clientEmail}`);
           }
         }
       }
       
-      // Crea oggetto e messaggio personalizzati
-      const subject = `Fattura ${invoice.invoiceNumber} - ${businessName}`;
-      const message = `Gentile ${invoice.clientName || 'Cliente'},
+      // Create custom subject and message
+      const subject = `Invoice ${invoice.invoiceNumber} - ${businessName}`;
+      const message = `Dear ${invoice.clientName || 'Client'},
 
-In allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.issueDate).toLocaleDateString('it-IT')}.
+Please find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.issueDate).toLocaleDateString('it-IT')}.
 
-Importo totale: ${currencySymbol}${invoice.totalAmount.toFixed(2)}
+Total amount: ${currencySymbol}${invoice.totalAmount.toFixed(2)}
 
-Cordiali saluti,
+Best regards,
 ${businessName}`;
       
       res.json({
@@ -1830,15 +1830,15 @@ ${businessName}`;
       
     } catch (error) {
       console.error('❌ Error getting email suggestions:', error);
-      res.status(500).json({ message: 'Errore caricamento suggerimenti email' });
+      res.status(500).json({ message: 'Error loading email suggestions' });
     }
   });
 
   // Funzione per generare PDF identico al pulsante stampa
   async function generateInvoicePDFForEmail(invoiceId: number, user: any, req: any): Promise<Buffer> {
-    console.log('📄 [INVOICE EMAIL] Uso direttamente la stessa logica dell\'endpoint PDF...');
+    console.log('📄 [INVOICE EMAIL] Using the same logic as the PDF endpoint directly...');
     
-    // Usa esattamente la stessa logica dell'endpoint /pdf senza chiamate HTTP
+    // Use exactly the same logic as the /pdf endpoint without HTTP calls
     const storageData = loadStorageData();
     const invoices = storageData.invoices || [];
     
@@ -1847,16 +1847,16 @@ ${businessName}`;
     );
     
     if (!invoiceEntry) {
-      throw new Error('Fattura non trovata per email');
+      throw new Error('Invoice not found per email');
     }
     
     const [_, invoice] = invoiceEntry;
     
-    // Recupera la valuta dell'utente
+    // Retrieve the user's currency
     const userCurrency = await getCurrencyForUser(storage, user.id);
     const currencySymbol = userCurrency.symbol;
     
-    // Recupera logo personalizzato dal database
+    // Retrieve custom logo from the database
     let userLogo = defaultIconBase64;
     try {
       const iconRow = await db
@@ -1867,15 +1867,15 @@ ${businessName}`;
       
       if (iconRow.length > 0 && iconRow[0].iconBase64) {
         userLogo = iconRow[0].iconBase64;
-        console.log(`🖼️ [PDF] Logo personalizzato caricato per utente ${user.id}`);
+        console.log(`🖼️ [PDF] Custom logo loaded for user ${user.id}`);
       } else {
-        console.log(`🖼️ [PDF] Uso logo default per utente ${user.id}`);
+        console.log(`🖼️ [PDF] Using default logo for user ${user.id}`);
       }
     } catch (error) {
-      console.log('⚠️ [PDF] Errore caricamento logo, uso default:', error);
+      console.log('⚠️ [PDF] Error loading logo, using default:', error);
     }
     
-    // Stessa logica dell'endpoint /pdf per dati aziendali
+    // Same logic as the /pdf endpoint for company data
     let businessInfo = {
       nome: 'busnari silvia',
       indirizzo: 'via largo caduti nassiria 17', 
@@ -1893,12 +1893,12 @@ ${businessName}`;
       if (userBusinessData) {
         businessInfo = { ...businessInfo, ...userBusinessData };
       }
-      logger.debug(`📄 [PDF] Dati aziendali per utente ${user.id}:`, businessInfo);
+      logger.debug(`📄 [PDF] data business for user ${user.id}:`, businessInfo);
     } catch (error) {
-      console.log('⚠️ Uso dati aziendali default per PDF email:', error);
+      console.log('⚠️ Using default company data for email PDF:', error);
     }
     
-    // Stessa logica dell'endpoint /pdf per dati cliente
+    // Same logic as the /pdf endpoint for client data
     let clientData = null;
     try {
       const currentStorageData = loadStorageData();
@@ -1908,7 +1908,7 @@ ${businessName}`;
         const clientEntry = clients.find(([id, client]: any) => id === invoice.clientId);
         if (clientEntry) {
           clientData = clientEntry[1];
-          logger.debug(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+          logger.debug(`📄 [PDF] Client data found via ID ${invoice.clientId}:`, {
             nome: clientData.firstName + ' ' + clientData.lastName,
             email: clientData.email,
             telefono: clientData.phone,
@@ -1919,10 +1919,10 @@ ${businessName}`;
         }
       }
     } catch (error) {
-      console.log('⚠️ Errore dati cliente per PDF email:', error);
+      console.log('⚠️ Error loading client data for PDF email:', error);
     }
     
-    // Stessa logica HTML dell'endpoint /pdf CON COLORI E LAYOUT MODERNO
+    // Same HTML logic as the /pdf endpoint WITH MODERN COLORS AND LAYOUT
     const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -2045,9 +2045,9 @@ ${businessName}`;
           <div class="invoice-info">
             <div class="client-info">
               <h3>Dati Cliente</h3>
-              <p><strong>Nome:</strong> ${clientData ? `${clientData.firstName} ${clientData.lastName}` : invoice.clientName || 'Cliente'}</p>
+              <p><strong>Nome:</strong> ${clientData ? `${clientData.firstName} ${clientData.lastName}` : invoice.clientName || 'Client'}</p>
               ${clientData?.address ? `<p><strong>Indirizzo:</strong> ${clientData.address}</p>` : ''}
-              ${clientData?.phone ? `<p><strong>Telefono:</strong> ${clientData.phone}</p>` : ''}
+              ${clientData?.phone ? `<p><strong>Phone:</strong> ${clientData.phone}</p>` : ''}
               ${clientData?.email ? `<p><strong>Email:</strong> ${clientData.email}</p>` : ''}
               ${clientData?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientData.taxCode}</p>` : ''}
               ${clientData?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientData.vatNumber}</p>` : ''}
@@ -2059,8 +2059,8 @@ ${businessName}`;
               ${invoice.dueDate ? `<p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>` : ''}
               <p><strong>Stato:</strong> ${
                 invoice.status === 'paid' ? 'Pagata' :
-                invoice.status === 'sent' ? 'Inviata' :
-                invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'
+                invoice.status === 'sent' ? 'Sent' :
+                invoice.status === 'overdue' ? 'Overdue' : 'Draft'
               }</p>
             </div>
           </div>
@@ -2092,7 +2092,7 @@ ${businessName}`;
                 `).join('')
               }
               <tr class="total-row">
-                <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTALE:</strong></td>
+                <td colspan="3" style="text-align: right; padding: 15px;"><strong>TOTAL:</strong></td>
                 <td style="text-align: right; padding: 15px;"><strong>${currencySymbol}${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong></td>
               </tr>
             </tbody>
@@ -2112,9 +2112,9 @@ ${businessName}`;
         </body>
         </html>`;
 
-    logger.debug(`✅ [INVOICE EMAIL] HTML generato, conversione in PDF reale con Puppeteer...`);
+    logger.debug(`✅ [INVOICE EMAIL] HTML generated, converting to real PDF with Puppeteer...`);
     
-    // Usa Puppeteer per convertire HTML in PDF reale
+    // Use Puppeteer to convert HTML to real PDF
     try {
       const puppeteer = await import('puppeteer');
       
@@ -2140,7 +2140,7 @@ ${businessName}`;
       
       await browser.close();
       
-      logger.debug(`✅ [INVOICE EMAIL] PDF reale generato con successo: ${(pdfBuffer as Buffer).length} bytes`);
+      logger.debug(`✅ [INVOICE EMAIL] Real PDF generated successfully: ${(pdfBuffer as Buffer).length} bytes`);
       return pdfBuffer as Buffer;
       
     } catch (puppeteerError: any) {
@@ -2158,16 +2158,16 @@ ${businessName}`;
     );
     
     if (!invoiceEntry) {
-      throw new Error('Fattura non trovata per email');
+      throw new Error('Invoice not found per email');
     }
     
     const [_, invoice] = invoiceEntry;
     
-    // Recupera la valuta dell'utente
+    // Retrieve the user's currency
     const userCurrency = await getCurrencyForUser(storage, user.id);
     const currencySymbol = userCurrency.symbol;
     
-    // Recupera logo personalizzato dal database (come funzione principale)
+    // Retrieve custom logo from the database (come funzione principale)
     let userLogo = defaultIconBase64;
     try {
       const iconRow = await db
@@ -2178,15 +2178,15 @@ ${businessName}`;
       
       if (iconRow.length > 0 && iconRow[0].iconBase64) {
         userLogo = iconRow[0].iconBase64;
-        console.log(`🖼️ [FALLBACK] Logo personalizzato caricato per utente ${user.id}`);
+        console.log(`🖼️ [FALLBACK] Custom logo loaded for user ${user.id}`);
       } else {
-        console.log(`🖼️ [FALLBACK] Uso logo default per utente ${user.id}`);
+        console.log(`🖼️ [FALLBACK] Using default logo for user ${user.id}`);
       }
     } catch (error) {
-      console.log('⚠️ [FALLBACK] Errore caricamento logo, uso default:', error);
+      console.log('⚠️ [FALLBACK] Error loading logo, using default:', error);
     }
     
-    // Stessa logica dati aziendali dell'endpoint /pdf
+    // Same company data logic as the /pdf endpoint
     let businessHeader = 'Gestionale Appuntamenti';
     let businessData = {
       companyName: '', address: '', city: '', postalCode: '', 
@@ -2209,10 +2209,10 @@ ${businessName}`;
         }
       }
     } catch (error) {
-      console.log('⚠️ Dati aziendali per PDF email, uso default:', error);
+      console.log('⚠️ Business data for PDF email, using default:', error);
     }
     
-    // Stessa logica cliente dell'endpoint /pdf
+    // Same client logic as the /pdf endpoint
     let clientDetails = null;
     try {
       const currentStorageData = loadStorageData();
@@ -2225,10 +2225,10 @@ ${businessName}`;
         }
       }
     } catch (error) {
-      console.log('⚠️ Errore dati cliente per PDF email:', error);
+      console.log('⚠️ Error loading client data for PDF email:', error);
     }
     
-    // HTML semplificato per evitare errori di escape
+    // HTML semplificato per evitare errors di escape
     const itemsHtml = (!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) 
       ? `<tr><td>Servizi professionali - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>`
       : invoice.items.map((item: any) => `<tr><td>${item.description || 'Servizio professionale'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">${currencySymbol} ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">${currencySymbol} ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('');
@@ -2267,12 +2267,12 @@ ${businessName}`;
       ${clientDetails ? `
         <p><strong>Nome:</strong> ${clientDetails.firstName} ${clientDetails.lastName}</p>
         ${clientDetails.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
-        ${clientDetails.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+        ${clientDetails.phone ? `<p><strong>Phone:</strong> ${clientDetails.phone}</p>` : ''}
         ${clientDetails.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
         ${clientDetails.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
         ${clientDetails.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
       ` : `
-        <p><strong>Nome:</strong> ${invoice.clientName || 'Cliente'}</p>
+        <p><strong>Nome:</strong> ${invoice.clientName || 'Client'}</p>
       `}
     </div>
     
@@ -2280,7 +2280,7 @@ ${businessName}`;
       <h3>Dettagli Fattura</h3>
       <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
       <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
-      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Draft' : invoice.status === 'sent' ? 'Sent' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
     </div>
   </div>
   
@@ -2308,7 +2308,7 @@ ${businessName}`;
 </body>
 </html>`;
     
-    // Usa pdfmake invece di Puppeteer (più affidabile su Replit)
+    // Use pdfmake instead of Puppeteer (more reliable on Replit)
     const pdfMake: any = await import('pdfmake/build/pdfmake');
     const pdfFonts: any = await import('pdfmake/build/vfs_fonts');
     if (pdfMake.default) {
@@ -2317,7 +2317,7 @@ ${businessName}`;
 
     const docDefinition = {
       content: [
-        // Logo aziendale
+        // Company logo
         {
           image: userLogo,
           width: 120,
@@ -2325,7 +2325,7 @@ ${businessName}`;
           margin: [0, 0, 0, 15]
         },
         
-        // Header aziendale completo (identico al PDF stampato)
+        // Full company header (identical to the printed PDF)
         { 
           columns: [
             {
@@ -2354,9 +2354,9 @@ ${businessName}`;
           margin: [0, 0, 0, 30]
         },
         
-        // Dati Cliente completi
+        // Dati Client completi
         { 
-          text: 'Dati Cliente:', 
+          text: 'Client Details:', 
           style: 'sectionHeader',
           margin: [0, 0, 0, 10]
         },
@@ -2366,7 +2366,7 @@ ${businessName}`;
             `${clientDetails ? clientDetails.firstName + ' ' + clientDetails.lastName : invoice.clientName}\n`,
             { text: 'Email: ', bold: true },
             `${clientDetails?.email || 'N/A'}\n`,
-            { text: 'Telefono: ', bold: true },
+            { text: 'Phone: ', bold: true },
             `${clientDetails?.phone || 'N/A'}\n`,
             { text: 'Indirizzo: ', bold: true },
             `${clientDetails?.address || 'N/A'}\n`,
@@ -2382,7 +2382,7 @@ ${businessName}`;
           margin: [0, 0, 0, 20]
         },
         
-        // Tabella servizi identica
+        // Tabella services identica
         {
           table: {
             headerRows: 1,
@@ -2390,7 +2390,7 @@ ${businessName}`;
             body: [
               [
                 { text: 'Descrizione', style: 'tableHeader' },
-                { text: 'Quantità', style: 'tableHeader' },
+                { text: 'Quantity', style: 'tableHeader' },
                 { text: 'Prezzo Unit.', style: 'tableHeader' },
                 { text: 'Totale', style: 'tableHeader' }
               ],
@@ -2411,14 +2411,14 @@ ${businessName}`;
         // Totale finale
         {
           text: [
-            { text: 'TOTALE: ', bold: true, fontSize: 16 },
+            { text: 'TOTAL: ', bold: true, fontSize: 16 },
             { text: `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, bold: true, fontSize: 16 }
           ],
           alignment: 'right',
           margin: [0, 10, 0, 30]
         },
         
-        // Footer identico al PDF stampato
+        // Footer identical to the printed PDF
         {
           text: [
             `Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}\n`,
@@ -2450,7 +2450,7 @@ ${businessName}`;
     return pdfBuffer as Buffer;
   }
 
-  // Invia fattura via email
+  // Send invoice via email
 router.post('/api/invoices/:id/send-email', async (req, res) => {
     try {
       if (!req.user) {
@@ -2461,29 +2461,29 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
       const invoiceId = parseInt(req.params.id);
       const { recipientEmail, subject, message } = req.body;
       
-      logger.debug(`📄 [/api/invoices/${invoiceId}/send-email] Invio email per utente ${user.id} a ${recipientEmail}`);
+      logger.debug(`📄 [/api/invoices/${invoiceId}/send-email] Sending email for user ${user.id} to ${recipientEmail}`);
       
-      // Validazione input
+      // Input validation
       if (!recipientEmail || !subject) {
-        return res.status(400).json({ message: 'Email e oggetto sono obbligatori' });
+        return res.status(400).json({ message: 'Email and subject are required' });
       }
       
-      // Carica dati
+      // Load data
       const storageData = loadStorageData();
       const invoices = storageData.invoices || [];
       
-      // Trova la fattura
+      // Find the invoice
       const invoiceEntry = invoices.find(([id, invoice]: any) => 
         id === invoiceId && invoice.ownerId === user.id
       );
       
       if (!invoiceEntry) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
       const [_, invoice] = invoiceEntry;
       
-      // Carica nome aziendale personalizzato per mittente
+      // Load custom company name for sender
       let businessName = 'Gestionale Appuntamenti';
       try {
         const currentStorageData = loadStorageData();
@@ -2493,94 +2493,94 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
           businessName = userBusinessSettings.name;
         }
       } catch (error) {
-        console.log('⚠️ Impossibile caricare nome aziendale per invio email:', error);
+        console.log('⚠️ Unable to load business name for email send:', error);
       }
       
-      // Invio email reale utilizzando il sistema collaudato dei promemoria
+      // Send real email using the proven reminder system
       try {
         const { notificationService } = await import('../services/notificationService');
         const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
         
         if (!fs.existsSync(emailConfigPath)) {
-          console.log('⚠️ [EMAIL] Configurazione email non trovata, simulazione invio');
-          logger.debug(`📧 SIMULAZIONE INVIO EMAIL:
+          console.log('⚠️ [EMAIL] Email configuration not found, simulating send');
+          logger.debug(`📧 SIMULAZIONE Sending EMAIL:
             Da: ${businessName} <noreply@biomedicinaintegrata.it>
             A: ${recipientEmail}
             Oggetto: ${subject}
-            Messaggio: ${message || 'Fattura in allegato'}
+            Message: ${message || 'Invoice attached'}
             Allegato: fattura-${invoice.invoiceNumber}.pdf
           `);
         } else {
           const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
           
           if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
-            console.log('⚠️ [EMAIL] Email non configurata, simulazione invio');
-            logger.debug(`📧 SIMULAZIONE INVIO EMAIL:
+            console.log('⚠️ [EMAIL] Email not configured, simulating send');
+            logger.debug(`📧 SIMULAZIONE Sending EMAIL:
               Da: ${businessName} <noreply@biomedicinaintegrata.it>
               A: ${recipientEmail}
               Oggetto: ${subject}
-              Messaggio: ${message || 'Fattura in allegato'}
+              Message: ${message || 'Invoice attached'}
               Allegato: fattura-${invoice.invoiceNumber}.pdf
             `);
           } else {
-            logger.debug(`📧 [INVOICE EMAIL] Invio fattura via email utilizzando sistema collaudato`);
+            logger.debug(`📧 [INVOICE EMAIL] Sending invoice via email using tested system`);
             logger.debug(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             logger.debug(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF identico al pulsante stampa per allegato email
+            // Generate PDF identico al pulsante stampa per allegato email
             let pdfBuffer = null;
             let filename = null;
             
             try {
-              logger.debug(`📄 [INVOICE EMAIL] Uso stessa logica del pulsante stampa...`);
+              logger.debug(`📄 [INVOICE EMAIL] Using same logic as print button...`);
               
-              // Chiama la funzione esistente che genera il PDF per la stampa
+              // Call the existing function that generates the PDF for printing
               pdfBuffer = await generateInvoicePDFForEmail(invoiceId, user, req);
               
               if (pdfBuffer && pdfBuffer.length > 0) {
-                filename = `fattura-${invoice.invoiceNumber}.pdf`;
-                logger.debug(`📎 [INVOICE EMAIL] PDF identico a stampa generato: ${filename} (${pdfBuffer.length} bytes)`);
+                filename = `invoice-${invoice.invoiceNumber}.pdf`;
+                logger.debug(`📎 [INVOICE EMAIL] Print-identical PDF generated: ${filename} (${pdfBuffer.length} bytes`);
               } else {
                 throw new Error('PDF Buffer vuoto');
               }
 
             } catch (pdfError: any) {
-              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF stampa:`, pdfError?.message);
+              console.error(`❌ [INVOICE EMAIL] Error generating print PDF:`, pdfError?.message);
               pdfBuffer = null;
               filename = null;
             }
             
-            // Usa la funzione specifica per fatture
+            // Use the specific function for invoices
             const emailSent = await notificationService.sendInvoiceEmail(
               recipientEmail,
               subject,
-              message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nDettagli fattura:\n- Numero: ${invoice.invoiceNumber}\n- Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Importo: €${invoice.total?.toFixed(2) || '0.00'}\n\nCordiali saluti,\n${businessName}`.replace(/invalid date/gi, ''),
+              message || `Dear Client,\n\nPlease find attached invoice no. ${invoice.invoiceNumber} dated ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nInvoice details:\n- Number: ${invoice.invoiceNumber}\n- Date: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Amount: €${invoice.total?.toFixed(2) || '0.00'}\n\nBest regards,\n${businessName}`.replace(/invalid date/gi, ''),
               emailConfig,
               pdfBuffer || undefined,
               filename
             );
             
             if (emailSent) {
-              logger.debug(`✅ [INVOICE EMAIL] Email fattura inviata con successo${pdfBuffer ? ' con allegato PDF' : ' (solo testo)'}`);
+              logger.debug(`✅ [INVOICE EMAIL] Invoice email sent successfully${pdfBuffer ? ' with PDF attachment' : ' (text only)'}`);
             } else {
-              throw new Error('Errore invio email dal sistema notificationService');
+              throw new Error('Error sending email via notificationService');
             }
           }
         }
       } catch (emailError) {
-        console.error('❌ [EMAIL] Errore invio email reale, fallback a simulazione:', emailError);
-        logger.debug(`📧 SIMULAZIONE INVIO EMAIL:
+        console.error('❌ [EMAIL] Error sending real email, falling back to simulation:', emailError);
+        logger.debug(`📧 SIMULAZIONE Sending EMAIL:
           Da: ${businessName} <noreply@biomedicinaintegrata.it>
           A: ${recipientEmail}
           Oggetto: ${subject}
-          Messaggio: ${message || 'Fattura in allegato'}
+          Message: ${message || 'Invoice attached'}
           Allegato: fattura-${invoice.invoiceNumber}.pdf
         `);
       }
       
-      logger.debug(`📧 [EMAIL] Nome aziendale utilizzato per invio: "${businessName}"`);
+      logger.debug(`📧 [EMAIL] Business name used for send: "${businessName}"`);
       
-      // Aggiorna stato fattura a "inviata" se era in bozza
+      // Update stato invoice a "inviata" If era in bozza
       if (invoice.status === 'draft') {
         const invoiceIndex = invoices.findIndex(([id]: any) => id === invoiceId);
         if (invoiceIndex !== -1) {
@@ -2590,7 +2590,7 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
         }
       }
       
-      // Salva log invio
+      // Save send log
       if (!invoice.emailHistory) {
         invoice.emailHistory = [];
       }
@@ -2604,21 +2604,21 @@ router.post('/api/invoices/:id/send-email', async (req, res) => {
       
       saveStorageData(storageData);
       
-      logger.debug(`✅ [/api/invoices/${invoiceId}/send-email] Email inviata con successo`);
+      logger.debug(`✅ [/api/invoices/${invoiceId}/send-email] Email sent successfully`);
       res.json({ 
         success: true,
         recipientEmail,
         sentAt: new Date().toISOString(),
-        message: 'Email inviata con successo'
+        message: 'Email sent successfully'
       });
       
     } catch (error) {
       console.error('❌ Error sending email:', error);
-      res.status(500).json({ message: 'Errore invio email' });
+      res.status(500).json({ message: 'Error sending email' });
     }
   });
 
-  // Endpoint multicanale: invio fattura via PWA, Email, WhatsApp - SOLO POSTGRESQL
+  // Multi-channel endpoint: send invoice via PWA, Email, WhatsApp - POSTGRESQL ONLY
 router.post('/api/invoices/:id/send', async (req, res) => {
     try {
       if (!req.user) {
@@ -2629,14 +2629,14 @@ router.post('/api/invoices/:id/send', async (req, res) => {
       const invoiceId = parseInt(req.params.id);
       const { channels } = req.body; // { pwa: boolean, email: boolean, whatsapp: boolean }
       
-      console.log(`📤 [/api/invoices/${invoiceId}/send] Invio multicanale per utente ${user.id}:`, channels);
+      console.log(`📤 [/api/invoices/${invoiceId}/send] Multi-channel send for user ${user.id}:`, channels);
       
-      // Validazione: almeno un canale
+      // Validation: at least one channel
       if (!channels || (!channels.pwa && !channels.email && !channels.whatsapp)) {
-        return res.status(400).json({ message: 'Seleziona almeno un canale di invio' });
+        return res.status(400).json({ message: 'Select at least one send channel' });
       }
       
-      // Carica fattura da PostgreSQL
+      // Load invoice da PostgreSQL
       const invoiceResults = await db.select()
         .from(invoicesTable)
         .where(and(
@@ -2646,41 +2646,41 @@ router.post('/api/invoices/:id/send', async (req, res) => {
         .limit(1);
       
       if (!invoiceResults || invoiceResults.length === 0) {
-        return res.status(404).json({ message: 'Fattura non trovata' });
+        return res.status(404).json({ message: 'Invoice not found' });
       }
       
       const invoice = invoiceResults[0];
       
-      // Carica dati cliente da PostgreSQL
+      // Load client data da PostgreSQL
       const clientResults = await db.select()
         .from(clientsTable)
         .where(eq(clientsTable.id, invoice.clientId))
         .limit(1);
       
       if (!clientResults || clientResults.length === 0) {
-        return res.status(404).json({ message: 'Cliente non trovato' });
+        return res.status(404).json({ message: 'Client not found' });
       }
       
       const client = clientResults[0];
       const results = { pwa: false, email: false, whatsapp: false };
       const now = new Date();
       
-      // Prepara oggetto per aggiornamento
+      // Prepare update object
       const updateData: any = {};
       
-      // 1. PWA: marca fattura come disponibile nell'area clienti
+      // 1. PWA: mark invoice as available in the clients area
       if (channels.pwa) {
-        console.log(`📱 [PWA] Fattura ${invoice.invoiceNumber} resa disponibile nell'area clienti`);
+        console.log(`📱 [PWA] invoice ${invoice.invoiceNumber} made available in the clients area`);
         updateData.publishedToPwa = true;
         updateData.pwaPublishedAt = now;
         results.pwa = true;
       }
       
-      // 2. Email: carica dati cliente e invia
+      // 2. Email: load client data and send
       if (channels.email) {
         try {
           if (!client.email) {
-            logger.debug(`⚠️ [EMAIL] Cliente senza email, skip invio`);
+            logger.debug(`⚠️ [EMAIL] Client has no email, skipping send`);
           } else {
             const { notificationService } = await import('../services/notificationService');
             const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
@@ -2689,18 +2689,18 @@ router.post('/api/invoices/:id/send', async (req, res) => {
               const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
               
               if (emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
-                // === GENERA PDF USANDO LOGICA PWA (logo + colori) ===
+                // === GENERATE PDF USING PWA LOGIC (logo + colors) ===
                 
-                // Carica items fattura
+                // Load items invoice
                 const items = await db.select()
                   .from(invoiceItems)
                   .where(eq(invoiceItems.invoiceId, invoice.id));
                 
-                // Carica logo personalizzato (usa invoice.userId = professionista owner, NON user.id = admin)
+                // Load logo personalizzato (usa invoice.userId = professional owner, NON user.id = admin)
                 const { loadUserLogo, buildInvoiceHtml, generatePdfBuffer } = await import('../utils/invoicePdf');
                 const logoBase64 = await loadUserLogo(invoice.userId);
                 
-                // Carica dati aziendali (usa invoice.userId = professionista owner)
+                // Load company data (usa invoice.userId = professional owner)
                 let businessHeader = 'Gestionale Appuntamenti';
                 let businessData = {
                   companyName: '',
@@ -2729,14 +2729,14 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                     }
                   }
                 } catch (error) {
-                  console.log('⚠️ [EMAIL PDF] Errore caricamento dati aziendali:', error);
+                  console.log('⚠️ [EMAIL PDF] Error loading company data:', error);
                 }
                 
-                // Recupera la valuta dell'utente (usa invoice.userId = professionista owner)
+                // Retrieve the user's currency (use invoice.userId = professional owner)
                 const userCurrency = await getCurrencyForUser(storage, invoice.userId);
                 const currencySymbol = userCurrency.symbol;
                 
-                // Costruisci context per il template
+                // Build context for the template
                 const context = {
                   invoiceNumber: invoice.invoiceNumber,
                   date: new Date(invoice.date).toLocaleDateString('it-IT'),
@@ -2774,22 +2774,22 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   currencySymbol
                 };
                 
-                // Genera HTML professionale con logo e grafica
+                // Generate HTML professionale con logo e grafica
                 const htmlContent = buildInvoiceHtml(context);
                 
-                // Genera PDF con Puppeteer (con fallback silenzioso)
+                // Generate PDF con Puppeteer (con fallback silenzioso)
                 let pdfBuffer: Buffer;
                 try {
                   pdfBuffer = await generatePdfBuffer(htmlContent);
-                  logger.debug(`✅ [EMAIL PDF] PDF professionale generato con Puppeteer (${pdfBuffer.length} bytes)`);
+                  logger.debug(`✅ [EMAIL PDF] Professional PDF generated with Puppeteer (${pdfBuffer.length} bytes)`);
                 } catch (pdfError) {
-                  console.error('❌ [EMAIL PDF] Puppeteer fallito, uso HTML come fallback:', pdfError);
-                  // Fallback: converti HTML in buffer UTF-8
+                  console.error('❌ [EMAIL PDF] Puppeteer failed, using HTML as fallback:', pdfError);
+                  // Fallback: convert HTML to UTF-8 buffer
                   pdfBuffer = Buffer.from(htmlContent, 'utf-8');
                 }
                 
-                const subject = `Fattura ${invoice.invoiceNumber}`;
-                const message = `Gentile ${client.firstName} ${client.lastName},\n\nIn allegato la fattura n. ${invoice.invoiceNumber}.\n\nCordiali saluti`;
+                const subject = `Invoice ${invoice.invoiceNumber}`;
+                const message = `Dear ${client.firstName} ${client.lastName},\n\nPlease find attached invoice no. ${invoice.invoiceNumber}.\n\nBest regards`;
                 
                 await notificationService.sendInvoiceEmail(
                   client.email,
@@ -2800,49 +2800,49 @@ router.post('/api/invoices/:id/send', async (req, res) => {
                   `fattura-${invoice.invoiceNumber}.pdf`
                 );
                 
-                logger.debug(`✅ [EMAIL] Fattura inviata a ${client.email} con PDF professionale allegato`);
+                logger.debug(`✅ [EMAIL] Invoice sent to ${client.email} with professional PDF attachment`);
                 updateData.sentViaEmail = true;
                 updateData.emailSentAt = now;
                 results.email = true;
               } else {
-                logger.debug(`⚠️ [EMAIL] Email non configurata`);
+                logger.debug(`⚠️ [EMAIL] Email not configured`);
               }
             } else {
-              logger.debug(`⚠️ [EMAIL] Configurazione email non trovata`);
+              logger.debug(`⚠️ [EMAIL] Email configuration not found`);
             }
           }
         } catch (emailError) {
-          console.error(`❌ [EMAIL] Errore invio:`, emailError);
+          console.error(`❌ [EMAIL] Error sending:`, emailError);
         }
       }
       
-      // 3. WhatsApp: genera link o invia messaggio
+      // 3. WhatsApp: generate link or send message
       if (channels.whatsapp) {
         try {
           if (!client.phone) {
-            logger.debug(`⚠️ [WHATSAPP] Cliente senza telefono, skip invio`);
+            logger.debug(`⚠️ [WHATSAPP] Client has no phone, skipping send`);
           } else {
             const { notificationService } = await import('../services/notificationService');
-            const message = `Gentile ${client.firstName}, la fattura n. ${invoice.invoiceNumber} è disponibile nell'area clienti.`;
+            const message = `Dear ${client.firstName}, invoice no. ${invoice.invoiceNumber} is available in the client portal.`;
             const whatsappLink = notificationService.generateWhatsAppLink(client.phone, message);
             
-            logger.debug(`📲 [WHATSAPP] Link generato: ${whatsappLink}`);
+            logger.debug(`📲 [WHATSAPP] Link generated: ${whatsappLink}`);
             updateData.sentViaWhatsapp = true;
             updateData.whatsappSentAt = now;
             results.whatsapp = true;
           }
         } catch (whatsappError) {
-          console.error(`❌ [WHATSAPP] Errore:`, whatsappError);
+          console.error(`❌ [WHATSAPP] Error:`, whatsappError);
         }
       }
       
-      // Aggiorna fattura in PostgreSQL
+      // Update invoice in PostgreSQL
       if (Object.keys(updateData).length > 0) {
         await db.update(invoicesTable)
           .set(updateData)
           .where(eq(invoicesTable.id, invoiceId));
         
-        logger.debug(`💾 [/api/invoices/${invoiceId}/send] Fattura aggiornata in PostgreSQL:`, updateData);
+        logger.debug(`💾 [/api/invoices/${invoiceId}/send] Invoice updated in PostgreSQL:`, updateData);
       }
       
       const successChannels = Object.entries(results)
@@ -2850,17 +2850,17 @@ router.post('/api/invoices/:id/send', async (req, res) => {
         .map(([channel]) => channel.toUpperCase())
         .join(', ');
       
-      logger.debug(`✅ [/api/invoices/${invoiceId}/send] Invio completato: ${successChannels}`);
+      logger.debug(`✅ [/api/invoices/${invoiceId}/send] Send completed: ${successChannels}`);
       
       res.json({ 
         success: true,
-        message: `Fattura inviata con successo${successChannels ? ` via ${successChannels}` : ''}`,
+        message: `Invoice sent successfully${successChannels ? ` via ${successChannels}` : ''}`,
         results
       });
       
     } catch (error) {
       console.error('❌ Error sending invoice:', error);
-      res.status(500).json({ message: 'Errore invio fattura' });
+      res.status(500).json({ message: 'Error sending invoice' });
     }
   });
 

@@ -8,20 +8,20 @@ import fs from 'fs';
 
 const router = Router();
 
-  // API per gestire le impostazioni email e calendario - USA CAMPI SMTP CRIPTATI
+  // API to manage email and calendar settings - USES ENCRYPTED SMTP FIELDS
 router.get('/api/email-calendar-settings', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      logger.debug(`📧 [GET EMAIL SETTINGS] Richiesta per utente ${user.id}`);
+      logger.debug(`📧 [GET EMAIL SETTINGS] Request for user ${user.id}`);
       
-      const defaultTemplate = `Gentile {{nome}} {{cognome}},
+      const defaultTemplate = `Dear {{nome}} {{cognome}},
 
-Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+This is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.
 
-Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+For any changes or cancellations, please contact us.
 
-Cordiali saluti,
-Studio Professionale`;
+Best regards,
+Professional Studio`;
 
       const settings = await storage.getUserSettings(user.id);
       
@@ -30,7 +30,7 @@ Studio Professionale`;
         emailAddress: settings?.smtpEmail || '',
         emailPassword: settings?.smtpPasswordEncrypted ? '••••••••••' : '',
         emailTemplate: settings?.emailTemplate || defaultTemplate,
-        emailSubject: settings?.emailSubject || "Promemoria appuntamento del {{data}}",
+        emailSubject: settings?.emailSubject || "Appointment reminder for {{data}}",
         hasPasswordSaved: !!settings?.smtpPasswordEncrypted,
         smtpServer: settings?.smtpServer || 'smtp.gmail.com',
         smtpPort: settings?.smtpPort || 587,
@@ -39,13 +39,13 @@ Studio Professionale`;
         googleAuthStatus: { authorized: false }
       };
       
-      logger.debug(`✅ [EMAIL SETTINGS] Caricate per utente ${user.id} - Email: ${response.emailAddress}`);
+      logger.debug(`✅ [EMAIL SETTINGS] Loaded for user ${user.id} - Email: ${response.emailAddress}`);
       res.json(response);
     } catch (error) {
-      console.error('❌ [ERRORE EMAIL SETTINGS]:', error);
+      console.error('❌ [EMAIL SETTINGS ERROR]:', error);
       res.status(500).json({ 
         success: false, 
-        error: 'Errore durante il caricamento delle impostazioni email' 
+        error: 'Error loading email settings' 
       });
     }
   });
@@ -55,7 +55,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
       const user = req.user!;
       const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId, smtpServer, smtpPort } = req.body;
       
-      logger.debug(`📧 [POST EMAIL SETTINGS] Aggiornamento per utente ${user.id}`, {
+      logger.debug(`📧 [POST EMAIL SETTINGS] Updating for user ${user.id}`, {
         emailEnabled,
         emailAddress,
         hasPassword: !!emailPassword,
@@ -78,7 +78,7 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
       if (calendarEnabled !== undefined) updateData.calendarIntegrationEnabled = calendarEnabled;
       if (calendarId !== undefined) updateData.defaultCalendarId = calendarId;
       
-      // 🚀 AUTO-DETECTION SMTP: Se emailAddress fornito MA smtpServer/smtpPort NON forniti
+      // 🚀 AUTO-DETECTION SMTP: If emailAddress fornito MA smtpServer/smtpPort NON forniti
       if (emailAddress && !smtpServer && !smtpPort) {
         const detected = detectEmailProvider(emailAddress);
         if (detected) {
@@ -86,46 +86,46 @@ router.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
           updateData.smtpPort = detected.smtp_port;
           console.log(`✨ [AUTO-DETECTION] Provider rilevato: ${detected.providerName || detected.smtp_server} (${detected.smtp_server}:${detected.smtp_port})`);
           
-          // Se provider richiede App Password (Gmail, iCloud), logga avviso
+          // If provider richiede App Password (Gmail, iCloud), logga avviso
           if (detected.requiresAppPassword) {
-            logger.debug(`⚠️ [AUTO-DETECTION] ${detected.providerName} richiede App Password - sarà verificato al test`);
+            logger.debug(`⚠️ [AUTO-DETECTION] ${detected.providerName} requires App Password - will be verified on test`);
           }
         } else {
           // Fallback generico: smtp.domain:587
           const domain = emailAddress.split('@')[1];
           updateData.smtpServer = `smtp.${domain}`;
           updateData.smtpPort = 587;
-          logger.debug(`⚠️ [AUTO-DETECTION] Provider sconosciuto, fallback generico: smtp.${domain}:587`);
+          logger.debug(`⚠️ [AUTO-DETECTION] Unknown provider, using generic fallback: smtp.${domain}:587`);
         }
       } else if (smtpServer !== undefined || smtpPort !== undefined) {
-        // Configurazione manuale fornita dall'utente (override)
+        // Manual configuration provided by user (override)
         if (smtpServer !== undefined) updateData.smtpServer = smtpServer;
         if (smtpPort !== undefined) updateData.smtpPort = smtpPort;
-        logger.debug(`🔧 [MANUAL CONFIG] SMTP configurato manualmente: ${smtpServer || 'default'}:${smtpPort || 'default'}`);
+        logger.debug(`🔧 [MANUAL CONFIG] SMTP manually configured: ${smtpServer || 'default'}:${smtpPort || 'default'}`);
       }
       
       await storage.updateUserSettings(user.id, updateData);
-      logger.debug(`✅ [EMAIL SETTINGS] Salvate per utente ${user.id} - Email: ${emailAddress || 'non modificata'}`);
+      logger.debug(`✅ [EMAIL SETTINGS] Saved for user ${user.id} - Email: ${emailAddress || 'not modified'}`);
       
       res.json({
         success: true,
-        message: 'Impostazioni email aggiornate con successo',
+        message: 'Email settings updated successfully',
         autoDetected: emailAddress && !smtpServer && !smtpPort
       });
     } catch (error) {
-      console.error('❌ [ERRORE SAVE EMAIL SETTINGS]:', error);
+      console.error('❌ [SAVE EMAIL SETTINGS ERROR]:', error);
       res.status(500).json({ 
         success: false, 
-        error: error instanceof Error ? error.message : 'Errore durante il salvataggio delle impostazioni email' 
+        error: error instanceof Error ? error.message : 'Error saving settings email' 
       });
     }
   });
 
-  // API per mostrare password email in chiaro (solo per utente autenticato)
+  // API to show email password in plain text (only for authenticated user)
 router.get('/api/email-calendar-settings/show-password', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      logger.debug(`🔓 [SHOW PASSWORD] Richiesta per utente ${user.id}`);
+      logger.debug(`🔓 [SHOW PASSWORD] Request for user ${user.id}`);
       
       const { getEmailConfig } = await import('../utils/emailConfig');
       const emailConfig = await getEmailConfig(user.id);
@@ -133,21 +133,21 @@ router.get('/api/email-calendar-settings/show-password', requireAuth, async (req
       if (!emailConfig || !emailConfig.emailPassword) {
         return res.status(404).json({
           success: false,
-          error: 'Nessuna password salvata'
+          error: 'No password saved'
         });
       }
       
-      // Restituisci la password decriptata
+      // Restituisci the password decriptata
       res.json({
         success: true,
-        emailPassword: emailConfig.emailPassword // getEmailConfig già decripta automaticamente
+        emailPassword: emailConfig.emailPassword // getEmailConfig already decrypts automatically
       });
       
     } catch (error) {
-      console.error('❌ [ERRORE SHOW PASSWORD]:', error);
+      console.error('❌ [SHOW PASSWORD ERROR]:', error);
       res.status(500).json({
         success: false,
-        error: 'Errore durante il recupero della password'
+        error: 'Error retrieving password'
       });
     }
   });
@@ -156,12 +156,12 @@ router.post('/api/test-system-email', requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       if (user.type !== 'admin') {
-        return res.status(403).json({ success: false, error: 'Solo admin' });
+        return res.status(403).json({ success: false, error: 'Admin access only' });
       }
       
       const { email } = req.body;
       if (!email) {
-        return res.status(400).json({ success: false, error: 'Indirizzo email richiesto' });
+        return res.status(400).json({ success: false, error: 'Indirizzo email required' });
       }
       
       const { sendSystemEmail } = await import('../services/systemEmailService');
@@ -169,36 +169,36 @@ router.post('/api/test-system-email', requireAuth, async (req, res) => {
         email,
         'Test Email Sistema - Verifica Funzionamento',
         `<h2>Test Email di Sistema</h2>
-         <p>Questa email conferma che il sistema di invio email funziona correttamente.</p>
+         <p>This email confirms that the email sending system is working correctly.</p>
          <p><strong>Server:</strong> ${process.env.PRODUCTION_DOMAIN || 'Replit development'}</p>
          <p><strong>Data:</strong> ${new Date().toLocaleString('it-IT')}</p>`
       );
       
       if (result.success) {
-        logger.debug(`✅ [SYSTEM EMAIL TEST] Email inviata a ${email} da ${result.senderEmail}`);
+        logger.debug(`✅ [SYSTEM EMAIL TEST] Email sent to ${email} from ${result.senderEmail}`);
         res.json({ success: true, senderEmail: result.senderEmail });
       } else {
-        console.error(`❌ [SYSTEM EMAIL TEST] Errore: ${result.error}`);
+        console.error(`❌ [SYSTEM EMAIL TEST] Error: ${result.error}`);
         res.status(500).json({ success: false, error: result.error });
       }
     } catch (error: any) {
-      console.error(`❌ [SYSTEM EMAIL TEST] Errore:`, error);
+      console.error(`❌ [SYSTEM EMAIL TEST] Error:`, error);
       res.status(500).json({ success: false, error: error.message });
     }
   });
 
-  // API per inviare email di test - USA CREDENZIALI UTENTE
+  // API to send test email - USES USER CREDENTIALS
 router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (req, res) => {
     try {
       const { email } = req.body;
       const user = req.user!;
       
-      logger.debug(`📧 [TEST EMAIL] Richiesta per utente ${user.id} → ${email}`);
+      logger.debug(`📧 [TEST EMAIL] Request for user ${user.id} → ${email}`);
       
       if (!email) {
         return res.status(400).json({ 
           success: false, 
-          error: 'Indirizzo email richiesto' 
+          error: 'Indirizzo email required' 
         });
       }
       
@@ -208,7 +208,7 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
         return res.status(400).json({
           success: false,
-          error: 'Configurazione email non trovata. Configura prima le credenziali SMTP.'
+          error: 'Email configuration not found. Please configure SMTP credentials first.'
         });
       }
       
@@ -230,35 +230,35 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
         subject: 'Test Email - Sistema Gestione Appuntamenti',
         html: `
           <h2>✅ Test Email Configurazione</h2>
-          <p>Questa è un'email di test dal sistema di gestione appuntamenti.</p>
-          <p><strong>Data invio:</strong> ${new Date().toLocaleString('it-IT')}</p>
+          <p>This is a test email from the appointment management system.</p>
+          <p><strong>Date sent:</strong> ${new Date().toLocaleString('en-US')}</p>
           <p><strong>Da:</strong> ${emailConfig.emailAddress}</p>
-          <p>Se ricevi questa email, la configurazione è corretta!</p>
+          <p>If you receive this email, the configuration is correct!</p>
         `
       });
       
-      logger.debug(`✅ [TEST EMAIL] Inviata con successo a ${email}`);
+      logger.debug(`✅ [TEST EMAIL] Sent successfully a ${email}`);
       
       res.json({
         success: true,
-        message: `Email di test inviata con successo a ${email}`
+        message: `Test email sent successfully to ${email}`
       });
       
     } catch (error: any) {
-      console.error('❌ [ERRORE TEST EMAIL]:', error);
+      console.error('❌ [TEST EMAIL ERROR]:', error);
       
       const { detectEmailProvider } = await import('../utils/emailProviderDetection');
       const user = req.user!;
       const { getEmailConfig } = await import('../utils/emailConfig');
       const emailConfig = await getEmailConfig(user.id);
       
-      // Rileva provider per messaggi specifici
+      // Detect provider for specific messages
       const detected = emailConfig?.emailAddress ? detectEmailProvider(emailConfig.emailAddress) : null;
       const domain = emailConfig?.emailAddress ? emailConfig.emailAddress.split('@')[1] : '';
       const providerName = detected?.providerName || domain || 'Provider email';
       
       // 🔍 MAPPA ERRORI SMTP A MESSAGGI USER-FRIENDLY
-      let userMessage = 'Errore durante l\'invio dell\'email di test';
+      let userMessage = 'Error sending test email';
       let helpUrl: string | null = null;
       let errorCode = 'UNKNOWN';
       
@@ -300,13 +300,13 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       else if (error.code === 'ECONNREFUSED') {
         errorCode = 'CONN_REFUSED';
         userMessage = `❌ Impossibile connettersi al server SMTP di ${providerName}.\n\n` +
-                     `Server: ${emailConfig?.smtpServer || 'non configurato'}\n` +
-                     `Porta: ${emailConfig?.smtpPort || 'non configurata'}\n\n` +
+                     `Server: ${emailConfig?.smtpServer || 'not configured'}\n` +
+                     `Port: ${emailConfig?.smtpPort || 'not configured'}\n\n` +
                      `Possibili cause:\n` +
-                     `• Il server SMTP è errato\n` +
-                     `• La porta è bloccata dal firewall`;
+                     `• The SMTP server is incorrect\n` +
+                     `• The port is blocked by the firewall`;
       }
-      // ⏱️ TIMEOUT CONNESSIONE
+      // ⏱️ CONNECTION TIMEOUT
       else if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKET') {
         errorCode = 'TIMEOUT';
         userMessage = `⏱️ Timeout durante la connessione a ${providerName}.\n\n` +
@@ -315,24 +315,24 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
       // 🔍 SERVER NON TROVATO
       else if (error.code === 'ENOTFOUND') {
         errorCode = 'NOT_FOUND';
-        userMessage = `❌ Server SMTP non trovato: ${emailConfig?.smtpServer}\n\n` +
+        userMessage = `❌ Server SMTP not found: ${emailConfig?.smtpServer}\n\n` +
                      `Verifica che il server sia corretto per ${providerName}.`;
       }
       // 🚫 POLICY / SPAM (Libero, Virgilio, ISP italiani)
       else if ((error.responseCode === 550 || error.responseCode === 554) && 
                (error.message?.includes('policy') || error.message?.includes('spam'))) {
         errorCode = 'POLICY_REJECT';
-        userMessage = `🚫 Il provider ${providerName} ha bloccato l'invio.\n\n` +
+        userMessage = `🚫 The provider ${providerName} has blocked sending.\n\n` +
                      `Possibili cause:\n` +
                      `• Limite di invii giornalieri raggiunto\n` +
                      `• Email classificata come spam\n` +
-                     `• Connessione da IP non autorizzato\n\n` +
-                     `Contatta l'assistenza di ${providerName} per maggiori dettagli.`;
+                     `• Connessione da IP unauthorized\n\n` +
+                     `Contact ${providerName} support for more details.`;
       }
       // ⚠️ ERRORE GENERICO
       else {
-        userMessage = `Errore durante l'invio dell'email di test.\n\n` +
-                     `Dettagli tecnici: ${error.message || 'Errore sconosciuto'}`;
+        userMessage = `Error sending test email.\n\n` +
+                     `Dettagli tecnici: ${error.message || 'Unknown error'}`;
       }
       
       console.error(`❌ [TEST EMAIL ERROR] Code: ${errorCode}, Provider: ${providerName}, Domain: ${domain}`);
@@ -349,7 +349,7 @@ router.post('/api/email-calendar-settings/send-test-email', requireAuth, async (
     }
   });
 
-  // Servire file statici da attached_assets per icone
+  // Servire file statici da attached_assets per icons
   router.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
     res.sendFile(filePath, (err) => {

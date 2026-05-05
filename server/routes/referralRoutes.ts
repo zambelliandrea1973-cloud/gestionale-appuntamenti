@@ -10,7 +10,7 @@ import { storage } from '../storage';
 const router = express.Router();
 
 /**
- * Ottiene statistiche e dettagli sui referral dell'utente corrente
+ * Get statistics and details on the current user's referrals
  * GET /api/referral/stats
  */
 router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
@@ -18,7 +18,7 @@ router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
 
@@ -26,16 +26,16 @@ router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
     
     res.json(referralDetails);
   } catch (error: any) {
-    console.error('Errore nel recupero statistiche referral:', error);
+    console.error('Error retrieving referral statistics:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero delle statistiche di referral'
+      message: 'Error retrieving referral statistics'
     });
   }
 });
 
 /**
- * Genera un nuovo codice referral per l'utente
+ * Generate a new referral code for user
  * POST /api/referral/generate-code
  */
 router.post('/generate-code', isAuthenticated, async (req: Request, res: Response) => {
@@ -43,7 +43,7 @@ router.post('/generate-code', isAuthenticated, async (req: Request, res: Respons
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
 
@@ -54,16 +54,16 @@ router.post('/generate-code', isAuthenticated, async (req: Request, res: Respons
       code
     });
   } catch (error: any) {
-    console.error('Errore nella generazione codice referral:', error);
+    console.error('Error generating referral code:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella generazione del codice referral'
+      message: 'Error generating referral code'
     });
   }
 });
 
 /**
- * Salva il conto bancario dell'utente
+ * Save the user's bank account
  * POST /api/referral/bank-account
  */
 router.post('/bank-account', isAuthenticated, async (req: Request, res: Response) => {
@@ -71,7 +71,7 @@ router.post('/bank-account', isAuthenticated, async (req: Request, res: Response
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
 
@@ -82,19 +82,19 @@ router.post('/bank-account', isAuthenticated, async (req: Request, res: Response
       bankAccount
     });
   } catch (error: any) {
-    console.error('Errore nel salvataggio conto bancario:', error);
+    console.error('Error saving bank account:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel salvataggio del conto bancario'
+      message: 'Error saving bank account'
     });
   }
 });
 
 /**
- * Registra un nuovo referral
+ * Register a new referral
  * POST /api/referral/register
- * Richiede il codice di referral e l'ID del nuovo utente
- * Utilizzata internamente dal processo di registrazione
+ * Requires the referral code and the ID of the new user
+ * Used internally by the registration process
  */
 router.post('/register', async (req: Request, res: Response) => {
   try {
@@ -112,20 +112,20 @@ router.post('/register', async (req: Request, res: Response) => {
     res.json({
       success: result,
       message: result 
-        ? 'Referral registrato con successo' 
-        : 'Impossibile registrare il referral (codice non valido)'
+        ? 'Referral registered successfully' 
+        : 'Impossibile registrare il referral (codice invalid)'
     });
   } catch (error: any) {
-    console.error('Errore nella registrazione referral:', error);
+    console.error('Error registering referral:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella registrazione del referral'
+      message: 'Error registering referral'
     });
   }
 });
 
 /**
- * Ottiene statistiche referral per lo staff corrente
+ * Get referral statistics for the current staff
  * GET /api/referral/staff
  */
 router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
@@ -133,76 +133,76 @@ router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
 
-    console.log(`🚀 ROUTER REFERRAL: Richiesta staff referral per utente ID: ${req.user.id}, email: ${req.user.email}`);
+    console.log(`🚀 ROUTER REFERRAL: Staff referral request for user ID: ${req.user.id}, email: ${req.user.email}`);
     
-    // Chiama la funzione esistente passando l'ID dello staff come parametro
+    // Call the existing function passing the staff ID as a parameter
     req.params.staffId = req.user.id.toString();
     await getIndividualStaffReferral(req, res);
   } catch (error: any) {
-    console.error('Errore nel recupero statistiche staff:', error);
+    console.error('Error retrieving staff statistics:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero delle statistiche staff'
+      message: 'Error retrieving staff statistics'
     });
   }
 });
 
-// Rotte amministrative (solo per admin)
+// Rotte amministrative (only per admin)
 
 /**
- * Ottiene la panoramica referral per admin
+ * Get the panoramica referral per admin
  * GET /api/referral/overview
  */
 router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
   try {
-    console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.email}`);
+    console.log(`🚀 ADMIN REFERRAL: Overview request from ${req.user!.email}`);
     await getWorkingReferralOverview(req, res);
   } catch (error: any) {
-    console.error('Errore nella panoramica admin:', error);
+    console.error('Error in admin overview:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel caricamento panoramica referral'
+      message: 'Error loading referral overview'
     });
   }
 });
 
-// Rotte amministrative (solo per admin)
+// Rotte amministrative (only per admin)
 
 /**
- * Paga le commissioni di uno staff specifico
+ * Pay commissions for a specific staff member
  * POST /api/referral/staff/:staffId/pay-commissions
  */
 router.post('/staff/:staffId/pay-commissions', isAuthenticated, async (req: Request, res: Response) => {
   try {
-    // Verifica che sia un admin
+    // Verify that it is an admin
     if (!req.user || req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
-        message: 'Solo gli admin possono pagare le commissioni'
+        message: 'Only admins can pay commissions'
       });
     }
 
     await payStaffCommissions(req, res);
   } catch (error: any) {
-    console.error('Errore nel pagamento commissioni:', error);
+    console.error('Error processing commissions:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel pagamento delle commissioni'
+      message: 'Error processing commission payment'
     });
   }
 });
 
 /**
- * Ottiene tutti i pagamenti di referral in sospeso
+ * Get all payments di referral in sospeso
  * GET /api/referral/admin/pending-payments
  */
 router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res: Response) => {
   try {
-    // Ottieni i pagamenti in sospeso dal database
+    // Get pending payments from the database
     const pendingPayments = await simplifiedReferralService.getPendingPayments();
     
     res.json({
@@ -210,16 +210,16 @@ router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res:
       pendingPayments
     });
   } catch (error: any) {
-    console.error('Errore nel recupero pagamenti in sospeso:', error);
+    console.error('Error retrieving pending payments:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero dei pagamenti in sospeso'
+      message: 'Error retrieving pending payments'
     });
   }
 });
 
 /**
- * Genera pagamenti per tutti gli utenti per il periodo corrente
+ * Generate payments for all users for the current period
  * POST /api/referral/admin/generate-payments
  */
 router.post('/admin/generate-payments', isAuthenticated, async (req: Request, res: Response) => {
@@ -233,16 +233,16 @@ router.post('/admin/generate-payments', isAuthenticated, async (req: Request, re
       payments: result
     });
   } catch (error: any) {
-    console.error('Errore nella generazione dei pagamenti:', error);
+    console.error('Error generating payments:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nella generazione dei pagamenti'
+      message: 'Error generating payments'
     });
   }
 });
 
 /**
- * Aggiorna lo stato di un pagamento
+ * Update the status of a payment
  * PUT /api/referral/admin/payment/:id
  */
 router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Response) => {
@@ -264,16 +264,16 @@ router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Resp
       payment
     });
   } catch (error: any) {
-    console.error('Errore nell\'aggiornamento del pagamento:', error);
+    console.error('Error updating payment:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nell\'aggiornamento del pagamento'
+      message: 'Error updating payment'
     });
   }
 });
 
 /**
- * Ottiene panoramica aggregata per admin (NUOVO!)
+ * Get aggregated overview for admin (NEW!)
  * GET /api/referral/overview
  */
 router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
@@ -281,14 +281,14 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
 
     if (req.user.role !== 'admin') {
       return res.status(403).json({ 
         success: false,
-        error: 'Accesso negato: solo admin' 
+        error: 'Access denied: admin only' 
       });
     }
     
@@ -296,10 +296,10 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
     const { getCleanReferralOverview } = await import("../api/cleanReferralSystem");
     return getCleanReferralOverview(req, res);
   } catch (error: any) {
-    console.error('Errore nel recupero overview admin:', error);
+    console.error('Error retrieving admin overview:', error);
     res.status(500).json({
       success: false,
-      error: 'Errore nel recupero della panoramica referral'
+      error: 'Error retrieving referral overview'
     });
   }
 });

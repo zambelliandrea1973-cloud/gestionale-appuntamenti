@@ -5,8 +5,8 @@ import path from 'path';
 import { loadStorageData } from '../utils/jsonStorage';
 
 /**
- * Sincronizza le icone utente dal JSON storage ai file PNG fisici
- * Eseguito all'avvio del server per garantire che le icone PWA siano sempre disponibili
+ * Synchronize user icons from JSON storage to physical PNG files
+ * Executed at server startup to ensure PWA icons are always available
  */
 export async function syncUserIconsFromJSON() {
   try {
@@ -25,18 +25,18 @@ export async function syncUserIconsFromJSON() {
       if (!iconBase64) continue;
       
       try {
-        // Verifica se le icone esistono già
+        // Check if the icons already exist
         const iconExists = iconSizes.every(size => {
           const filePath = path.join(publicIconsPath, `owner-${userId}-icon-${size}x${size}.png`);
           return fs.existsSync(filePath);
         });
         
         if (iconExists) {
-          console.log(`✅ [ICON SYNC] Icone per utente ${userId} già presenti`);
+          console.log(`✅ [ICON SYNC] Icons for user ${userId} already present`);
           continue;
         }
         
-        // Converti icona base64 in PNG
+        // Convert base64 icon to PNG
         const base64Clean = iconBase64.replace(/^data:image\/[a-z]+;base64,/, '');
         const imageBuffer = Buffer.from(base64Clean, 'base64');
         
@@ -56,19 +56,19 @@ export async function syncUserIconsFromJSON() {
             .toFile(filePath);
         }
         
-        console.log(`✅ [ICON SYNC] Icone create per utente ${userId}`);
+        console.log(`✅ [ICON SYNC] Icons created for user ${userId}`);
         convertedCount++;
       } catch (error: any) {
-        console.error(`❌ [ICON SYNC] Errore conversione icona utente ${userId}:`, error);
+        console.error(`❌ [ICON SYNC] Error converting icon for user ${userId}:`, error);
       }
     }
     
     if (convertedCount > 0) {
-      console.log(`✅ [ICON SYNC] Sincronizzate ${convertedCount} icone utente`);
+      console.log(`✅ [ICON SYNC] Synchronized ${convertedCount} user icons`);
     } else {
-      console.log(`✅ [ICON SYNC] Tutte le icone già sincronizzate`);
+      console.log(`✅ [ICON SYNC] All icons already synchronized`);
     }
   } catch (error: any) {
-    console.error('❌ [ICON SYNC] Errore durante la sincronizzazione icone:', error);
+    console.error('❌ [ICON SYNC] Error during icon synchronization:', error);
   }
 }

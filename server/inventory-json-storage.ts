@@ -37,7 +37,7 @@ export class InventoryJsonStorage {
       
       if (!data.productCategories) data.productCategories = [];
       
-      // Inizializza contatore: trova max ID valido o parte da 1
+      // Initialize counter: find valid max ID or start from 1
       if (!data.categoryNextId) {
         const validIds = data.productCategories
           .map(([id]: any) => id)
@@ -45,7 +45,7 @@ export class InventoryJsonStorage {
         data.categoryNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
-      // Semplice contatore auto-incrementale
+      // Simple auto-increment counter
       const newId = data.categoryNextId;
       data.categoryNextId = newId + 1;
       
@@ -144,7 +144,7 @@ export class InventoryJsonStorage {
       
       if (!data.products) data.products = [];
       
-      // Inizializza contatore: trova max ID valido o parte da 1
+      // Initialize counter: find valid max ID or start from 1
       if (!data.productNextId) {
         const validIds = data.products
           .map(([id]: any) => id)
@@ -152,7 +152,7 @@ export class InventoryJsonStorage {
         data.productNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
-      // Semplice contatore auto-incrementale
+      // Simple auto-increment counter
       const newId = data.productNextId;
       data.productNextId = newId + 1;
       
@@ -263,7 +263,7 @@ export class InventoryJsonStorage {
       if (!data.stockMovements) data.stockMovements = [];
       if (!data.products) data.products = [];
       
-      // Inizializza contatore: trova max ID valido o parte da 1
+      // Initialize counter: find valid max ID or start from 1
       if (!data.movementNextId) {
         const validIds = data.stockMovements
           .map(([id]: any) => id)
@@ -271,7 +271,7 @@ export class InventoryJsonStorage {
         data.movementNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
-      // Semplice contatore auto-incrementale
+      // Simple auto-increment counter
       const newId = data.movementNextId;
       data.movementNextId = newId + 1;
       
@@ -352,7 +352,7 @@ export class InventoryJsonStorage {
       
       if (!data.productSales) data.productSales = [];
       
-      // Inizializza contatore: trova max ID valido o parte da 1
+      // Initialize counter: find valid max ID or start from 1
       if (!data.saleNextId) {
         const validIds = data.productSales
           .map(([id]: any) => id)
@@ -360,7 +360,7 @@ export class InventoryJsonStorage {
         data.saleNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
       }
       
-      // Semplice contatore auto-incrementale
+      // Simple auto-increment counter
       const newId = data.saleNextId;
       data.saleNextId = newId + 1;
       
@@ -379,8 +379,8 @@ export class InventoryJsonStorage {
         movementType: 'SALE',
         quantity: sale.quantity,
         unitPrice: sale.unitPrice,
-        reason: 'Vendita prodotto',
-        reference: `Vendita #${newId}`,
+        reason: 'Product sale',
+        reference: `Sale #${newId}`,
         staffMember: sale.staffMember,
         notes: sale.notes
       });

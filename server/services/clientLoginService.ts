@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { logger } from '../utils/logger';
 /**
- * ClientLoginService - Servizio centralizzato per gestire l'autenticazione dei client
- * Fornisce funzionalità avanzate, supporto per autenticazione basata su token
+ * ClientLoginService - Centralized service for managing client authentication
+ * Provides advanced functionality, support for token-based authentication
  * e metodi alternativi per adattarsi a dispositivi mobili e PWA.
  */
 
@@ -12,7 +12,7 @@ import { tokenService } from "./tokenService";
 
 class ClientLoginService {
   /**
-   * Verifica le credenziali del cliente tramite diversi metodi possibili
+   * Verify client credentials via different possible methods
    */
   async verifyCredentials(
     username: string,
@@ -22,8 +22,8 @@ class ClientLoginService {
     bypassAuth = false
   ) {
     try {
-      // Log completo per tracciare i tentativi
-      console.log("Verificando credenziali:", {
+      // Log completo per tracciare the attempts
+      console.log("Verifying credentials:", {
         username,
         hasPassword: !!password,
         hasToken: !!token,
@@ -31,80 +31,80 @@ class ClientLoginService {
         bypassAuth
       });
       
-      // Cerca l'utente basandosi sullo username
+      // Find the user based on the username
       const user = await storage.getUserByUsername(username);
       
       if (!user) {
-        console.warn(`Utente non trovato: ${username}`);
+        console.warn(`User not found: ${username}`);
         return null;
       }
       
-      // Verifica che sia un utente di tipo client
+      // Verify that it is a user of type client
       if (user.type !== "client") {
-        console.warn(`Tipo utente non valido: ${user.type}`);
+        console.warn(`Invalid user type: ${user.type}`);
         return null;
       }
       
-      // Ottieni il cliente associato all'utente
+      // Get the client associated with the user
       const client = await storage.getClient(user.clientId);
       
       if (!client) {
-        console.warn(`Cliente non trovato per l'utente: ${username}`);
+        console.warn(`Client not found for user: ${username}`);
         return null;
       }
       
-      // Se bypassAuth è true e abbiamo un token valido, ignora la verifica della password
+      // If bypassAuth is true and we have a valid token, skip password verification
       if (bypassAuth && token) {
-        // Verifica direttamente il token e il clientId
+        // Verify the token and clientId directly
         const isValid = await this.verifyToken(token, user.clientId);
         
         if (isValid) {
-          console.log(`Token verificato correttamente per: ${username}`);
+          console.log(`Token verified correctly for: ${username}`);
           return { ...user, client };
         } else {
-          console.warn(`Token non valido per: ${username}`);
+          console.warn(`Invalid token for: ${username}`);
           return null;
         }
       }
       
-      // Se abbiamo una password, verifichiamola
+      // If we have a password, verify it
       if (password) {
         const isPasswordValid = await comparePasswords(password, user.password);
         
         if (!isPasswordValid) {
-          console.warn(`Password non valida per: ${username}`);
+          console.warn(`Password invalid per: ${username}`);
           return null;
         }
       }
-      // Se non abbiamo né password né bypass con token, fallisci
+      // If we have neither password nor token bypass, fail
       else if (!bypassAuth || !token) {
-        console.warn("Nessun metodo di autenticazione fornito");
+        console.warn("No authentication method provided");
         return null;
       }
       
-      console.log(`Autenticazione completata con successo per: ${username}`);
+      console.log(`Authentication completed successfully for: ${username}`);
       return { ...user, client };
     } catch (error: any) {
-      console.error("Errore durante la verifica delle credenziali:", error);
+      console.error("Error verifying credentials:", error);
       return null;
     }
   }
   
   /**
-   * Verifica un token per un cliente specifico
+   * Verify a token for a specific client
    */
   async verifyToken(token: string, clientId: number) {
     try {
       return await tokenService.verifyClientToken(token, clientId);
     } catch (error: any) {
-      console.error(`Errore durante la verifica del token per clientId ${clientId}:`, error);
+      console.error(`Error verifying token for clientId ${clientId}:`, error);
       return false;
     }
   }
   
   /**
-   * Metodo speciale per autenticazione via GET (senza body JSON)
-   * Utile per browser mobili con problemi nelle richieste POST
+   * Special method for authentication via GET (without JSON body)
+   * Useful for mobile browsers with issues in POST requests
    */
   async authenticateViaGet(
     username: string, 
@@ -113,11 +113,11 @@ class ClientLoginService {
     isPwa: boolean
   ) {
     try {
-      // Converti clientId in numero
+      // Convert clientId to number
       const clientId = parseInt(clientIdStr, 10);
       
       if (isNaN(clientId)) {
-        console.warn("ClientId non valido:", clientIdStr);
+        console.warn("Invalid clientId:", clientIdStr);
         return null;
       }
       
@@ -129,40 +129,40 @@ class ClientLoginService {
         tokenLength: token.length
       });
       
-      // Cerca l'utente basandosi sullo username
+      // Find the user based on the username
       let user = await storage.getUserByUsername(username);
       
-      // Se non troviamo l'utente, proviamo a cercarlo basandoci sul clientId
+      // If we find the user, try to find them based on clientId
       if (!user && clientId) {
-        console.log(`Utente '${username}' non trovato direttamente, tentativo basato su clientId: ${clientId}`);
+        console.log(`User '${username}' not found directly, attempting lookup by clientId: ${clientId}`);
         
-        // Cercate se esiste già un utente collegato a questo clientId
+        // Check if a user already linked to this clientId exists
         const existingUser = await storage.getUserByClientId(clientId);
         
         if (existingUser) {
-          console.log(`Trovato utente esistente per clientId ${clientId}: ${existingUser.username}`);
+          console.log(`Found existing user for clientId ${clientId}: ${existingUser.username}`);
           
-          // Se le credenziali sembrano valide (c'è un token), usiamo questo utente
+          // If credentials seem valid (there is a token), use this user
           if (token && token.length > 10) {
-            console.log(`Usando utente esistente ${existingUser.username} per login con token`);
+            console.log(`Using existing user ${existingUser.username} for token login`);
             user = existingUser;
           }
         } else {
-          // Se siamo in un ambiente mobile o PWA, possiamo creare automaticamente un utente
-          // per migliorare l'usabilità dell'applicazione
-          console.log(`Tentativo di creazione automatica utente per cliente ${clientId} con username ${username}`);
+          // If we are in a mobile or PWA environment, we can automatically create a user
+          // to improve application usability
+          console.log(`Automatic user creation attempt for client ${clientId} with username ${username}`);
           
           try {
-            // Verifichiamo che il cliente esista effettivamente
+            // Verify that the client exists effettivamente
             const client = await storage.getClient(clientId);
             
             if (client) {
-              // Generiamo una password casuale che comunque non verrà usata
-              // poiché l'autenticazione avverrà tramite token
+              // Generate a random password that will not be used anyway
+              // since authentication will happen via token
               const randomPassword = Math.random().toString(36).substring(2, 15);
               const hashedPassword = await hashPassword(randomPassword);
               
-              // Creiamo l'utente
+              // Create l'user
               const newUser = await storage.createUser({
                 username,
                 password: hashedPassword,
@@ -171,58 +171,58 @@ class ClientLoginService {
               });
               
               if (newUser) {
-                console.log(`Utente ${username} creato automaticamente per cliente ID ${clientId}`);
+                console.log(`User ${username} created automatically for client ID ${clientId}`);
                 user = newUser;
               }
             }
           } catch (error: any) {
-            console.error(`Errore nella creazione automatica dell'utente:`, error);
+            console.error(`Error automatically creating user:`, error);
           }
         }
       }
       
       if (!user) {
-        console.warn(`Utente non trovato via GET: ${username}`);
+        console.warn(`User not found via GET: ${username}`);
         return null;
       }
       
-      // Verifica che sia un utente di tipo client
+      // Verify that it is a user of type client
       if (user.type !== "client") {
-        console.warn(`Tipo utente non valido via GET: ${user.type}`);
+        console.warn(`Invalid user type via GET: ${user.type}`);
         return null;
       }
       
-      // Verifica che l'ID del cliente corrisponda
+      // Verify that the client ID matches
       if (user.clientId !== clientId) {
-        console.warn(`ClientId non corrispondente: atteso ${user.clientId}, ricevuto ${clientId}`);
+        console.warn(`ClientId mismatch: expected ${user.clientId}, received ${clientId}`);
         return null;
       }
       
-      // Ottieni il cliente associato all'utente
+      // Get the client associated with the user
       const client = await storage.getClient(user.clientId);
       
       if (!client) {
-        console.warn(`Cliente non trovato per l'utente via GET: ${username}`);
+        console.warn(`Client not found for user via GET: ${username}`);
         return null;
       }
       
-      // Verifica il token
+      // Verify the token
       const isValid = await this.verifyToken(token, clientId);
       
       if (isValid) {
-        console.log(`Token verificato correttamente via GET per: ${username}`);
+        console.log(`Token verified correctly via GET for: ${username}`);
         
-        // Log dell'accesso riuscito
-        console.log(`Accesso riuscito per clientId: ${clientId}, tipo: ${isPwa ? 'PWA' : 'Browser'}`);
-        // Non tentiamo più di registrare l'accesso nel database perché quella funzione non esiste
+        // Log of successful access
+        console.log(`Access successful for clientId: ${clientId}, type: ${isPwa ? 'PWA' : 'Browser'}`);
+        // We no longer try to register access in the database because that function does not exist
         
         return { ...user, client };
       } else {
-        console.warn(`Token non valido via GET per: ${username}`);
+        console.warn(`Invalid token via GET for: ${username}`);
         return null;
       }
     } catch (error: any) {
-      console.error("Errore durante l'autenticazione via GET:", error);
+      console.error("Error during GET authentication:", error);
       return null;
     }
   }

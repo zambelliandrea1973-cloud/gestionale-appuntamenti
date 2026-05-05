@@ -27,12 +27,12 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({ error: 'Non autorizzato' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const user = await storage.getUser(userId);
     if (!user) {
-      return res.status(401).json({ error: 'Utente non trovato' });
+      return res.status(401).json({ error: 'User not found' });
     }
     
     // Staff and admin always have access
@@ -59,11 +59,11 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
       return next();
     }
     
-    return res.status(403).json({ error: 'Funzionalità disponibile solo con abbonamento PRO o superiore' });
+    return res.status(403).json({ error: 'Feature available only with PRO subscription or higher' });
     
   } catch (error) {
     console.error('❌ [INVENTORY ACCESS] Error checking access:', error);
-    res.status(500).json({ error: 'Errore del server' });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -71,7 +71,7 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
 router.get('/categories', requireProAccess, async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autorizzato' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
     const userId = req.user!.id;
     console.log(`📦 [CATEGORIES] GET request for user ${userId}`);
@@ -99,14 +99,14 @@ router.get('/categories', requireProAccess, async (req, res) => {
     res.json(categories);
   } catch (error) {
     console.error('❌ [CATEGORIES] Error:', error);
-    res.status(500).json({ error: 'Errore nel recupero delle categorie' });
+    res.status(500).json({ error: 'Error retrieving categories' });
   }
 });
 
 router.post('/categories', requireProAccess, async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autorizzato' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
     const userId = req.user!.id;
     console.log(`📦 [CATEGORIES] POST request for user ${userId}`, req.body);
@@ -115,10 +115,10 @@ router.post('/categories', requireProAccess, async (req, res) => {
     res.status(201).json(category);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('Error creating category:', error);
-    res.status(500).json({ error: 'Errore nella creazione della categoria' });
+    res.status(500).json({ error: 'Error creating category' });
   }
 });
 
@@ -130,16 +130,16 @@ router.put('/categories/:id', requireProAccess, async (req, res) => {
     const category = await storage.updateProductCategory(id, userId, categoryData);
     
     if (!category) {
-      return res.status(404).json({ error: 'Categoria non trovata' });
+      return res.status(404).json({ error: 'Category not found' });
     }
     
     res.json(category);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('Error updating category:', error);
-    res.status(500).json({ error: 'Errore nell\'aggiornamento della categoria' });
+    res.status(500).json({ error: 'Error updating category' });
   }
 });
 
@@ -150,13 +150,13 @@ router.delete('/categories/:id', requireProAccess, async (req, res) => {
     const deleted = await storage.deleteProductCategory(id, userId);
     
     if (!deleted) {
-      return res.status(404).json({ error: 'Categoria non trovata' });
+      return res.status(404).json({ error: 'Category not found' });
     }
     
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting category:', error);
-    res.status(500).json({ error: 'Errore nell\'eliminazione della categoria' });
+    res.status(500).json({ error: 'Error deleting category' });
   }
 });
 
@@ -168,7 +168,7 @@ router.get('/products', requireProAccess, async (req, res) => {
     res.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'Errore nel recupero dei prodotti' });
+    res.status(500).json({ error: 'Error retrieving products' });
   }
 });
 
@@ -179,20 +179,20 @@ router.get('/products/:id', requireProAccess, async (req, res) => {
     const product = await storage.getProduct(id, userId);
     
     if (!product) {
-      return res.status(404).json({ error: 'Prodotto non trovato' });
+      return res.status(404).json({ error: 'Product not found' });
     }
     
     res.json(product);
   } catch (error) {
     console.error('Error fetching product:', error);
-    res.status(500).json({ error: 'Errore nel recupero del prodotto' });
+    res.status(500).json({ error: 'Error retrieving product' });
   }
 });
 
 router.post('/products', requireProAccess, async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autorizzato' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
     const userId = req.user!.id;
     console.log(`📦 [PRODUCTS] POST request for user ${userId}`);
@@ -208,10 +208,10 @@ router.post('/products', requireProAccess, async (req, res) => {
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error('❌ [PRODUCTS] Validation error:', error.errors);
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('❌ [PRODUCTS] Error creating product:', error);
-    res.status(500).json({ error: 'Errore nella creazione del prodotto' });
+    res.status(500).json({ error: 'Error creating product' });
   }
 });
 
@@ -223,16 +223,16 @@ router.put('/products/:id', requireProAccess, async (req, res) => {
     const product = await storage.updateProduct(id, userId, productData);
     
     if (!product) {
-      return res.status(404).json({ error: 'Prodotto non trovato' });
+      return res.status(404).json({ error: 'Product not found' });
     }
     
     res.json(product);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('Error updating product:', error);
-    res.status(500).json({ error: 'Errore nell\'aggiornamento del prodotto' });
+    res.status(500).json({ error: 'Error updating product' });
   }
 });
 
@@ -253,13 +253,13 @@ router.delete('/products/:id', requireProAccess, async (req, res) => {
     const deleted = await storage.deleteProduct(id, userId);
     
     if (!deleted) {
-      return res.status(404).json({ error: 'Prodotto non trovato' });
+      return res.status(404).json({ error: 'Product not found' });
     }
     
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting product:', error);
-    res.status(500).json({ error: 'Errore nell\'eliminazione del prodotto' });
+    res.status(500).json({ error: 'Error deleting product' });
   }
 });
 
@@ -271,12 +271,12 @@ router.post('/products/:id/upload-image', requireProAccess, uploadProductImage.s
     const file = req.file;
     
     if (!file) {
-      return res.status(400).json({ error: 'Nessuna immagine fornita' });
+      return res.status(400).json({ error: 'No image provided' });
     }
     
     const product = await storage.getProduct(id, userId);
     if (!product) {
-      return res.status(404).json({ error: 'Prodotto non trovato' });
+      return res.status(404).json({ error: 'Product not found' });
     }
     
     if (product.imagePath) {
@@ -302,7 +302,7 @@ router.post('/products/:id/upload-image', requireProAccess, uploadProductImage.s
     });
   } catch (error) {
     console.error('Error uploading product image:', error);
-    res.status(500).json({ error: 'Errore durante il caricamento dell\'immagine' });
+    res.status(500).json({ error: 'Error uploading image' });
   }
 });
 
@@ -313,11 +313,11 @@ router.delete('/products/:id/delete-image', requireProAccess, async (req, res) =
     
     const product = await storage.getProduct(id, userId);
     if (!product) {
-      return res.status(404).json({ error: 'Prodotto non trovato' });
+      return res.status(404).json({ error: 'Product not found' });
     }
     
     if (!product.imagePath) {
-      return res.status(400).json({ error: 'Nessuna immagine da eliminare' });
+      return res.status(400).json({ error: 'No image to delete' });
     }
     
     const fileIdMatch = product.imagePath.match(/\/api\/files\/(\d+)\//);
@@ -333,7 +333,7 @@ router.delete('/products/:id/delete-image', requireProAccess, async (req, res) =
     });
   } catch (error) {
     console.error('Error deleting product image:', error);
-    res.status(500).json({ error: 'Errore durante l\'eliminazione dell\'immagine' });
+    res.status(500).json({ error: 'Error deleting image' });
   }
 });
 
@@ -344,7 +344,7 @@ router.get('/low-stock', requireProAccess, async (req, res) => {
     res.json(products);
   } catch (error) {
     console.error('Error fetching low stock products:', error);
-    res.status(500).json({ error: 'Errore nel recupero dei prodotti con scorte basse' });
+    res.status(500).json({ error: 'Error retrieving low stock products' });
   }
 });
 
@@ -357,7 +357,7 @@ router.get('/movements', requireProAccess, async (req, res) => {
     res.json(movements);
   } catch (error) {
     console.error('Error fetching stock movements:', error);
-    res.status(500).json({ error: 'Errore nel recupero dei movimenti di magazzino' });
+    res.status(500).json({ error: 'Error retrieving inventory movements' });
   }
 });
 
@@ -369,10 +369,10 @@ router.post('/movements', requireProAccess, async (req, res) => {
     res.status(201).json(movement);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('Error creating stock movement:', error);
-    res.status(500).json({ error: 'Errore nella creazione del movimento di magazzino' });
+    res.status(500).json({ error: 'Error creating inventory movement' });
   }
 });
 
@@ -384,7 +384,7 @@ router.get('/products/:id/movements', requireProAccess, async (req, res) => {
     res.json(movements);
   } catch (error) {
     console.error('Error fetching product stock history:', error);
-    res.status(500).json({ error: 'Errore nel recupero dello storico del prodotto' });
+    res.status(500).json({ error: 'Error retrieving product history' });
   }
 });
 
@@ -397,7 +397,7 @@ router.get('/sales', requireProAccess, async (req, res) => {
     res.json(sales);
   } catch (error) {
     console.error('Error fetching sales:', error);
-    res.status(500).json({ error: 'Errore nel recupero delle vendite' });
+    res.status(500).json({ error: 'Error retrieving sales' });
   }
 });
 
@@ -409,10 +409,10 @@ router.post('/sales', requireProAccess, async (req, res) => {
     res.status(201).json(sale);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Dati non validi', details: error.errors });
+      return res.status(400).json({ error: 'Invalid data', details: error.errors });
     }
     console.error('Error creating sale:', error);
-    res.status(500).json({ error: 'Errore nella registrazione della vendita' });
+    res.status(500).json({ error: 'Error registering sale' });
   }
 });
 
@@ -424,7 +424,7 @@ router.get('/products/:id/sales', requireProAccess, async (req, res) => {
     res.json(sales);
   } catch (error) {
     console.error('Error fetching product sales history:', error);
-    res.status(500).json({ error: 'Errore nel recupero dello storico vendite del prodotto' });
+    res.status(500).json({ error: 'Error retrieving product sales history' });
   }
 });
 

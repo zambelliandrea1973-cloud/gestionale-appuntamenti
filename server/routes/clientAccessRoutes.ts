@@ -63,7 +63,7 @@ async function validateClientOwnership(clientCode: string, expectedOwnerId: numb
 async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
   try {
     if (!iconBase64 || !iconBase64.startsWith('data:image/')) {
-      logger.debug(`⚠️ Icona non valida per utente ${userId}, uso fallback`);
+      logger.debug(`⚠️ Invalid icon for user ${userId}, uso fallback`);
       iconBase64 = defaultIconBase64;
     }
 
@@ -94,50 +94,50 @@ async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
       fs.writeFileSync(iconPath, resizedBuffer);
     }
     
-    logger.debug(`✅ Icone PWA aggiornate per utente ${userId} con logo aziendale`);
+    logger.debug(`✅ PWA icons updated for user ${userId} with company logo`);
     
   } catch (error: any) {
-    console.error(`❌ Errore aggiornamento icone PWA per utente ${userId}:`, error);
+    console.error(`❌ Error updating PWA icons for user ${userId}:`, error);
   }
 }
 
 router.delete("/api/clients/:id", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const clientId = parseInt(req.params.id);
   
-  logger.debug(`🗑️ [DELETE PG] Richiesta eliminazione cliente ID ${clientId} da utente ${user.id} (${user.email})`);
+  logger.debug(`🗑️ [DELETE PG] Delete client request ID ${clientId} from user ${user.id} (${user.email})`);
   
   if (isNaN(clientId)) {
-    return res.status(400).json({ message: "ID cliente non valido" });
+    return res.status(400).json({ message: "Invalid client ID" });
   }
   
   try {
     const client = await storage.getClient(clientId);
     
     if (!client) {
-      console.log(`❌ [DELETE PG] Cliente con ID ${clientId} non trovato`);
-      return res.status(404).json({ message: "Cliente non trovato" });
+      console.log(`❌ [DELETE PG] Client with ID ${clientId} not found`);
+      return res.status(404).json({ message: "Client not found" });
     }
     
     if (user.type !== 'admin' && client.ownerId !== user.id) {
-      console.log(`❌ [DELETE PG] Accesso negato - utente ${user.id} non è proprietario del cliente ${clientId} (proprietario: ${client.ownerId})`);
-      return res.status(403).json({ message: "Non sei autorizzato a eliminare questo cliente" });
+      console.log(`❌ [DELETE PG] Access denied - user ${user.id} is not owner of client ${clientId} (owner: ${client.ownerId})`);
+      return res.status(403).json({ message: "You are not authorized to delete this client" });
     }
     
-    logger.debug(`🗑️ [DELETE PG] Eliminazione autorizzata - utente ${user.id} è ${user.type === 'admin' ? 'admin' : 'proprietario'} del cliente ${clientId}`);
+    logger.debug(`🗑️ [DELETE PG] Deletion authorized - user ${user.id} is ${user.type === 'admin' ? 'admin' : 'owner'} of client ${clientId}`);
     
     const deleted = await storage.deleteClient(clientId);
     
     if (!deleted) {
-      console.log(`❌ [DELETE PG] Errore eliminazione cliente ${clientId}`);
-      return res.status(500).json({ message: "Errore durante l'eliminazione" });
+      console.log(`❌ [DELETE PG] Error deleting client ${clientId}`);
+      return res.status(500).json({ message: "Error during deletion" });
     }
     
-    logger.debug(`✅ [DELETE PG] Cliente ID ${clientId} "${client.firstName} ${client.lastName}" eliminato da PostgreSQL`);
+    logger.debug(`✅ [DELETE PG] client ID ${clientId} "${client.firstName} ${client.lastName}" deleted from PostgreSQL`);
     
     res.status(200).json({ 
-      message: "Cliente eliminato con successo",
+      message: "Client deleted successfully",
       deletedClient: {
         id: clientId,
         firstName: client.firstName,
@@ -145,41 +145,41 @@ router.delete("/api/clients/:id", async (req, res) => {
       }
     });
   } catch (error: any) {
-    console.error(`❌ [DELETE PG] Errore eliminazione cliente:`, error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error(`❌ [DELETE PG] Error deleting client:`, error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.get("/api/clients/:id/activation-token", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const clientId = parseInt(req.params.id);
   
-  logger.debug(`🔍 [QR-INTERFACE] Richiesta QR per cliente ID: ${clientId} da utente: ${user.id} (${user.email})`);
+  logger.debug(`🔍 [QR-INTERFACE] QR request for client ID: ${clientId} from user: ${user.id} (${user.email})`);
   
   if (isNaN(clientId)) {
-    return res.status(400).json({ message: "ID cliente non valido" });
+    return res.status(400).json({ message: "Invalid client ID" });
   }
   
   const client = await storage.getClient(clientId);
   
   if (!client) {
-    console.log(`❌ [QR-INTERFACE] Cliente ${clientId} NON TROVATO nel sistema`);
-    return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    console.log(`❌ [QR-INTERFACE] client ${clientId} not found in system`);
+    return res.status(404).json({ message: "Client not found in the system" });
   }
   
-  logger.debug(`🔍 [QR-INTERFACE] Cliente trovato: ${client.firstName} ${client.lastName} (ID: ${clientId}, Owner: ${client.ownerId})`);
+  logger.debug(`🔍 [QR-INTERFACE] Client found: ${client.firstName} ${client.lastName} (ID: ${clientId}, Owner: ${client.ownerId})`);
   
   if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
-    console.log(`❌ [QR-INTERFACE] Accesso negato - utente ${user.id} non autorizzato per cliente del proprietario ${client.ownerId}`);
-    return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    console.log(`❌ [QR-INTERFACE] Access denied - user ${user.id} unauthorized for client of owner ${client.ownerId}`);
+    return res.status(403).json({ message: "Unauthorized to access this client" });
   }
   
   const ownerUserId = client.ownerId || user.id;
   
   let clientCode = client.uniqueCode;
   if (!clientCode || !clientCode.startsWith('PROF_') || !(await validateClientOwnership(clientCode, ownerUserId))) {
-    logger.debug(`🔧 [AUTO-FIX] Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
+    logger.debug(`🔧 [AUTO-FIX] Generating hierarchical code for client ${clientId}, owner ${ownerUserId}`);
     clientCode = await generateClientCode(ownerUserId, clientId);
     
     const profCode = await getProfessionistCode(ownerUserId);
@@ -188,7 +188,7 @@ router.get("/api/clients/:id/activation-token", async (req, res) => {
       professionistCode: profCode,
       ownerId: ownerUserId
     });
-    logger.debug(`✅ [AUTO-FIX] Cliente ${clientId} aggiornato con codice: ${clientCode}`);
+    logger.debug(`✅ [AUTO-FIX] Client ${clientId} updated with code: ${clientCode}`);
   }
   
   const crypto = await import('crypto');
@@ -206,8 +206,8 @@ router.get("/api/clients/:id/activation-token", async (req, res) => {
       const qrModule = await import('qrcode');
       QRCode = qrModule.default || qrModule;
     } catch (importError) {
-      console.error('Errore import QRCode:', importError);
-      throw new Error('Libreria QR code non disponibile');
+      console.error('Error importing QRCode:', importError);
+      throw new Error('QR code library not available');
     }
     
     const qrCode = await QRCode.toDataURL(activationUrl, {
@@ -224,13 +224,13 @@ router.get("/api/clients/:id/activation-token", async (req, res) => {
     const storageData = loadStorageData();
     const dbOwnerIcon = await (req.app.locals as any).storage.getUserIcon(ownerUserId);
     const ownerIcon = dbOwnerIcon || storageData.userIcons[ownerUserId] || defaultIconBase64;
-    logger.debug(`🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente ${clientId} con icona del proprietario ${ownerUserId}`);
+    logger.debug(`🔧 [QR-PWA-SYNC] Syncing PWA icons for client ${clientId} with owner ${ownerUserId} icon`);
     
     try {
       await updatePWAIconsFromCompanyLogo(ownerUserId, ownerIcon);
-      logger.debug(`✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario ${ownerUserId}`);
+      logger.debug(`✅ [QR-PWA-SYNC] PWA icons synced successfully for owner ${ownerUserId}`);
     } catch (syncError) {
-      console.error(`❌ [QR-PWA-SYNC] Errore sincronizzazione icone PWA:`, syncError);
+      console.error(`❌ [QR-PWA-SYNC] Error synchronizing PWA icons:`, syncError);
     }
     
     const responseData = {
@@ -240,15 +240,15 @@ router.get("/api/clients/:id/activation-token", async (req, res) => {
       clientName: `${client.firstName} ${client.lastName}`
     };
     
-    logger.debug(`✅ [QR-INTERFACE] Risposta inviata al frontend:`);
-    console.log(`   - Cliente: ${responseData.clientName}`);
+    logger.debug(`✅ [QR-INTERFACE] Response sent to frontend:`);
+    console.log(`   - Client: ${responseData.clientName}`);
     console.log(`   - Token: ${responseData.token}`);
     console.log(`   - URL: ${responseData.activationUrl}`);
     
     res.json(responseData);
   } catch (error: any) {
-    console.error('Errore generazione QR:', error);
-    res.status(500).json({ message: "Errore nella generazione del QR code" });
+    console.error('Error generating QR code:', error);
+    res.status(500).json({ message: "Error generating QR code" });
   }
 });
 
@@ -256,14 +256,14 @@ router.post("/api/client-access/verify-token", async (req, res) => {
   const { token, clientId } = req.body;
   
   if (!token || !clientId) {
-    return res.status(400).json({ message: "Token e clientId richiesti" });
+    return res.status(400).json({ message: "Token and clientId required" });
   }
   
   const crypto = await import('crypto');
   
   const lastUnderscoreIndex = token.lastIndexOf('_');
   if (lastUnderscoreIndex === -1) {
-    return res.status(400).json({ message: "Formato token non valido" });
+    return res.status(400).json({ message: "Invalid token format" });
   }
   
   const clientCode = token.substring(0, lastUnderscoreIndex);
@@ -275,7 +275,7 @@ router.post("/api/client-access/verify-token", async (req, res) => {
       const [userId, tokenClientId, timestamp] = tokenParts;
       
       if (parseInt(tokenClientId, 10) !== parseInt(clientId, 10)) {
-        return res.status(400).json({ message: "Token non corrisponde al cliente" });
+        return res.status(400).json({ message: "Token does not match the client" });
       }
       
       const storageData = loadStorageData();
@@ -290,7 +290,7 @@ router.post("/api/client-access/verify-token", async (req, res) => {
       }
       
       if (!clientFound) {
-        return res.status(404).json({ message: "Cliente non trovato" });
+        return res.status(404).json({ message: "Client not found" });
       }
       
       return res.json({
@@ -308,12 +308,12 @@ router.post("/api/client-access/verify-token", async (req, res) => {
       });
     }
     
-    return res.status(400).json({ message: "Codice cliente non valido" });
+    return res.status(400).json({ message: "Invalid client code" });
   }
   
   const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
   if (!ownerMatch) {
-    return res.status(400).json({ message: "Impossibile identificare proprietario dal codice" });
+    return res.status(400).json({ message: "Unable to identify owner from code" });
   }
   
   const ownerId = parseInt(ownerMatch[1], 10);
@@ -322,7 +322,7 @@ router.post("/api/client-access/verify-token", async (req, res) => {
   const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
   
   if (providedHash !== expectedHash) {
-    return res.status(401).json({ message: "Token non autorizzato" });
+    return res.status(401).json({ message: "Token unauthorized" });
   }
   
   const storageData = loadStorageData();
@@ -331,23 +331,23 @@ router.post("/api/client-access/verify-token", async (req, res) => {
   const clientData = allClients.find(([id]) => id.toString() === clientId.toString());
   
   if (!clientData) {
-    return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    return res.status(404).json({ message: "Client not found in the system" });
   }
   
   const client = clientData[1];
   
   const clientOwnerId = client.ownerId;
   if (!clientOwnerId || clientOwnerId !== ownerId) {
-    console.error(`🚨 VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
-    return res.status(403).json({ message: "Token non autorizzato per questo cliente" });
+    console.error(`🚨 SECURITY VIOLATION: Client ${clientId} belongs to ${clientOwnerId} but token for owner ${ownerId}`);
+    return res.status(403).json({ message: "Token unauthorized for this client" });
   }
   
   if (client.uniqueCode && !(await validateClientOwnership(client.uniqueCode, ownerId))) {
-    console.error(`🚨 VIOLAZIONE SICUREZZA: Codice cliente ${client.uniqueCode} non valido per proprietario ${ownerId}`);
-    return res.status(403).json({ message: "Codice cliente non valido per questo proprietario" });
+    console.error(`🚨 SECURITY VIOLATION: Client code ${client.uniqueCode} invalid for owner ${ownerId}`);
+    return res.status(403).json({ message: "Invalid client code for this owner" });
   }
   
-  logger.debug(`✅ Token QR verificato con successo per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
+  logger.debug(`✅ QR token verified successfully for client ${clientId} (${client.firstName} ${client.lastName}) of owner ${ownerId}`);
   
   res.json({
     client: {
@@ -362,18 +362,18 @@ router.post("/api/client-access/verify-token", async (req, res) => {
 });
 
 router.get("/api/client-access/count/:clientId", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
   const user = req.user as any;
   const clientIdParam = req.params.clientId;
   
   const client = await storage.getClient(parseInt(clientIdParam, 10));
   
   if (!client) {
-    return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    return res.status(404).json({ message: "Client not found in the system" });
   }
   
   if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
-    return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    return res.status(403).json({ message: "Unauthorized to access this client" });
   }
   
   const accessCountResult = await db
@@ -383,7 +383,7 @@ router.get("/api/client-access/count/:clientId", async (req, res) => {
   
   const displayCount = accessCountResult[0]?.count || 0;
   
-  console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessi: ${displayCount}`);
+  console.log(`[DEBUG COUNT] Client ${clientIdParam} (${client.firstName} ${client.lastName}) - accesses: ${displayCount}`);
   
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -394,14 +394,14 @@ router.get("/api/client-access/count/:clientId", async (req, res) => {
 
 router.get("/api/clients/:id", async (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(401).json({ message: "Non autenticato" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
 
   const { id } = req.params;
   const user = req.user;
   
   if (user.type !== 'admin' && user.type !== 'staff' && user.type !== 'customer') {
-    return res.status(403).json({ message: "Accesso negato" });
+    return res.status(403).json({ message: "Access denied" });
   }
 
   const tenantId = user.ownerId ?? user.tenantId ?? user.id;
@@ -409,13 +409,13 @@ router.get("/api/clients/:id", async (req, res) => {
   const clientFound = await storage.getClient(parseInt(id, 10));
 
   if (!clientFound) {
-    return res.status(404).json({ message: "Cliente non trovato" });
+    return res.status(404).json({ message: "Client not found" });
   }
 
   if (user.type !== 'admin') {
     if (clientFound.userId !== tenantId) {
-      console.log(`🚫 [GET /api/clients/:id] User ${user.id} (tenant ${tenantId}) tentato accesso a cliente ${id} di tenant ${clientFound.userId}`);
-      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+      console.log(`🚫 [GET /api/clients/:id] User ${user.id} (tenant ${tenantId}) attempted access to client ${id} of tenant ${clientFound.userId}`);
+      return res.status(403).json({ message: "Unauthorized to access this client" });
     }
   }
 
@@ -442,19 +442,19 @@ router.get("/api/appointments/client/:clientId", async (req, res) => {
   const user = req.user as any;
   
   if (!clientId) {
-    return res.status(400).json({ message: "ClientId richiesto" });
+    return res.status(400).json({ message: "ClientId required" });
   }
   
   try {
     const client = await storage.getClient(parseInt(clientId));
     
     if (!client) {
-      return res.status(404).json({ message: "Cliente non trovato" });
+      return res.status(404).json({ message: "Client not found" });
     }
     
     if (user && user.type !== 'admin' && client.ownerId !== user.id) {
-      console.log(`🚫 [SECURITY] User ${user.id} tentato accesso a cliente ${clientId} di proprietà di ${client.ownerId}`);
-      return res.status(403).json({ message: "Accesso negato" });
+      console.log(`🚫 [SECURITY] User ${user.id} attempted access to client ${clientId} owned by ${client.ownerId}`);
+      return res.status(403).json({ message: "Access denied" });
     }
     
     const clientAppointments = await storage.getAppointmentsByClient(parseInt(clientId));
@@ -472,8 +472,8 @@ router.get("/api/appointments/client/:clientId", async (req, res) => {
     
     res.json(formattedAppointments);
   } catch (error: any) {
-    console.error(`❌ [/api/appointments/client] Errore caricamento da PostgreSQL:`, error);
-    res.status(500).json({ message: "Errore interno del server" });
+    console.error(`❌ [/api/appointments/client] Error loading from PostgreSQL:`, error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -489,25 +489,25 @@ router.get("/activate", async (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-          <h1 style="color: #EF4444;">❌ Token Mancante</h1>
+          <h1 style="color: #EF4444;">❌ Token Missing</h1>
           <p>Token di attivazione non fornito. Scansiona nuovamente il QR code.</p>
         </body>
       </html>
     `);
   }
   
-  logger.debug(`🔍 [ACTIVATE] Tentativo di attivazione con token: ${token}`);
+  logger.debug(`🔍 [ACTIVATE] Activation attempt with token: ${token}`);
   
   const crypto = await import('crypto');
   
   const lastUnderscoreIndex = token.lastIndexOf('_');
   if (lastUnderscoreIndex === -1) {
-    console.log(`❌ [ACTIVATE] Token senza hash: ${token}`);
+    console.log(`❌ [ACTIVATE] Token without hash: ${token}`);
     return res.status(400).send(`
       <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Formato token non valido. Richiedi un nuovo QR code.</p>
+        <p>Formato invalid token. Richiedi un nuovo QR code.</p>
       </body></html>
     `);
   }
@@ -515,28 +515,28 @@ router.get("/activate", async (req, res) => {
   const clientCode = token.substring(0, lastUnderscoreIndex);
   const providedHash = token.substring(lastUnderscoreIndex + 1);
   
-  logger.debug(`🔍 [ACTIVATE] Codice cliente: ${clientCode}, Hash: ${providedHash}`);
+  logger.debug(`🔍 [ACTIVATE] Client code: ${clientCode}, Hash: ${providedHash}`);
   
   if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
-    console.log(`❌ [ACTIVATE] Codice cliente non gerarchico: ${clientCode}`);
+    console.log(`❌ [ACTIVATE] Non-hierarchical client code: ${clientCode}`);
     console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XX_XXXX_CLIENT_NNNNN_XXXX o PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
     return res.status(400).send(`
       <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Formato token non valido. Richiedi un nuovo QR code.</p>
+        <p>Formato invalid token. Richiedi un nuovo QR code.</p>
       </body></html>
     `);
   }
   
   const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
   if (!ownerMatch) {
-    console.log(`❌ [ACTIVATE] Impossibile estrarre proprietario da: ${clientCode}`);
+    console.log(`❌ [ACTIVATE] Unable to extract owner from: ${clientCode}`);
     return res.status(400).send(`
       <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
-        <p>Impossibile identificare proprietario dal codice. Richiedi un nuovo QR code.</p>
+        <p>Unable to identify owner from code. Richiedi un nuovo QR code.</p>
       </body></html>
     `);
   }
@@ -554,14 +554,14 @@ router.get("/activate", async (req, res) => {
       <html><head><title>Token Non Autorizzato</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">🔒 Token Non Autorizzato</h1>
-        <p>Il token non è valido per questo cliente. Richiedi un nuovo QR code.</p>
+        <p>The token is not valid for this client. Please request a new QR code.</p>
       </body></html>
     `);
   }
   
   const clientMatch = clientCode.match(/CLIENT_(\d+)_/);
   if (!clientMatch) {
-    console.log(`❌ [ACTIVATE] Impossibile estrarre client ID da: ${clientCode}`);
+    console.log(`❌ [ACTIVATE] Unable to extract client ID from: ${clientCode}`);
     return res.status(400).send(`
       <html><head><title>Errore Attivazione</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
@@ -579,11 +579,11 @@ router.get("/activate", async (req, res) => {
   const clientData = clientsList.find(([id]) => id === clientId);
   
   if (!clientData) {
-    console.log(`❌ [ACTIVATE] Cliente ${clientId} non trovato nel sistema`);
+    console.log(`❌ [ACTIVATE] Client ${clientId} not found in system`);
     return res.status(404).send(`
-      <html><head><title>Cliente Non Trovato</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+      <html><head><title>Client Not Found</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #EF4444;">👤 Cliente Non Trovato</h1>
+        <h1 style="color: #EF4444;">👤 Client Not Found</h1>
         <p>Il cliente non esiste nel sistema. Verifica il QR code.</p>
       </body></html>
     `);
@@ -593,23 +593,23 @@ router.get("/activate", async (req, res) => {
   
   const clientOwnerId = client.ownerId;
   if (!clientOwnerId || clientOwnerId !== ownerId) {
-    console.error(`🚨 [ACTIVATE] VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
+    console.error(`🚨 [ACTIVATE] SECURITY VIOLATION: Client ${clientId} belongs to ${clientOwnerId} but token for owner ${ownerId}`);
     return res.status(403).send(`
       <html><head><title>Accesso Negato</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
       <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
         <h1 style="color: #EF4444;">🔒 Accesso Negato</h1>
-        <p>Non sei autorizzato ad accedere a questo cliente. Contatta il tuo professionista.</p>
+        <p>You are not authorized to access this client. Contact your professional.</p>
       </body></html>
     `);
   }
   
-  logger.debug(`✅ [ACTIVATE] Token valido per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
+  logger.debug(`✅ [ACTIVATE] Valid token for client ${clientId} (${client.firstName} ${client.lastName}) of owner ${ownerId}`);
   
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   const clientAreaUrl = `${protocol}://${host}/client-area?token=${token}&clientId=${clientId}&autoLogin=true`;
   
-  logger.debug(`🔄 [ACTIVATE] Reindirizzamento diretto alla client area: ${clientAreaUrl}`);
+  logger.debug(`🔄 [ACTIVATE] Direct redirect to client area: ${clientAreaUrl}`);
   
   res.redirect(clientAreaUrl);
 });
@@ -617,7 +617,7 @@ router.get("/activate", async (req, res) => {
 router.get("/api/client-by-code/:clientCode", async (req, res) => {
   try {
     const { clientCode } = req.params;
-    console.log('🏠 [CLIENT ACCESS PG] Accesso diretto per codice:', clientCode);
+    console.log('🏠 [CLIENT ACCESS PG] Direct access by code:', clientCode);
     
     const foundClients = await db
       .select()
@@ -626,12 +626,12 @@ router.get("/api/client-by-code/:clientCode", async (req, res) => {
       .limit(1);
     
     if (!foundClients || foundClients.length === 0) {
-      console.log('❌ [CLIENT ACCESS PG] Cliente non trovato per codice:', clientCode);
-      return res.status(404).json({ error: 'Accesso non autorizzato' });
+      console.log('❌ [CLIENT ACCESS PG] Client not found for code:', clientCode);
+      return res.status(404).json({ error: 'Unauthorized access' });
     }
     
     const foundClient = foundClients[0];
-    console.log('🏠 [CLIENT ACCESS PG] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
+    console.log('🏠 [CLIENT ACCESS PG] Client authenticated:', foundClient.firstName, foundClient.lastName);
     
     const pureClientData = {
       id: foundClient.id,
@@ -646,8 +646,8 @@ router.get("/api/client-by-code/:clientCode", async (req, res) => {
     res.json(pureClientData);
     
   } catch (error: any) {
-    console.error('❌ [CLIENT ACCESS PG] Errore sistema:', error);
-    res.status(500).json({ error: 'Errore del sistema' });
+    console.error('❌ [CLIENT ACCESS PG] System error:', error);
+    res.status(500).json({ error: 'System error' });
   }
 });
 
@@ -656,7 +656,7 @@ router.get("/api/client-appointments/:clientId", async (req, res) => {
     const { clientId } = req.params;
     const { ownerId } = req.query;
     
-    console.log('📅 [CLIENT APPOINTMENTS PG] Caricamento per cliente:', clientId, 'Owner:', ownerId);
+    console.log('📅 [CLIENT APPOINTMENTS PG] Loading for client:', clientId, 'Owner:', ownerId);
     
     const clientIdNum = parseInt(clientId, 10);
     const ownerIdNum = parseInt(ownerId as string, 10);
@@ -689,12 +689,12 @@ router.get("/api/client-appointments/:clientId", async (req, res) => {
       notes: apt.notes || ''
     }));
     
-    console.log(`📅 [CLIENT APPOINTMENTS PG] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
+    console.log(`📅 [CLIENT APPOINTMENTS PG] Found ${clientAppointments.length} appointments for client ${clientId}`);
     res.json(clientAppointments);
     
   } catch (error: any) {
-    console.error('❌ [CLIENT APPOINTMENTS PG] Errore:', error);
-    res.status(500).json({ error: 'Errore del sistema' });
+    console.error('❌ [CLIENT APPOINTMENTS PG] Error:', error);
+    res.status(500).json({ error: 'System error' });
   }
 });
 

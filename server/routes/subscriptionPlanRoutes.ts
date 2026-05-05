@@ -9,30 +9,30 @@ router.get("/api/subscription-plans", async (req, res) => {
     const plans = await storage.getActiveSubscriptionPlans();
     res.json(plans);
   } catch (error) {
-    console.error('Errore nel caricamento piani abbonamento:', error);
-    res.status(500).json({ message: "Errore nel caricamento dei piani" });
+    console.error('Error loading subscription plans:', error);
+    res.status(500).json({ message: "Error loading plans" });
   }
 });
 
 router.post("/api/subscription-plans", requireAuth, async (req, res) => {
   const user = req.user as any;
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può creare piani" });
+    return res.status(403).json({ message: "Only admin can create plans" });
   }
 
   try {
     const newPlan = await storage.createSubscriptionPlan(req.body);
     res.json(newPlan);
   } catch (error) {
-    console.error('Errore nella creazione piano:', error);
-    res.status(500).json({ message: "Errore nella creazione del piano" });
+    console.error('Error creating plan:', error);
+    res.status(500).json({ message: "Error creating plan" });
   }
 });
 
 router.put("/api/subscription-plans/:id", requireAuth, async (req, res) => {
   const user = req.user as any;
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può modificare piani" });
+    return res.status(403).json({ message: "Only admin can modify plans" });
   }
 
   try {
@@ -40,24 +40,24 @@ router.put("/api/subscription-plans/:id", requireAuth, async (req, res) => {
     const updatedPlan = await storage.updateSubscriptionPlan(planId, req.body);
     res.json(updatedPlan);
   } catch (error) {
-    console.error('Errore nell\'aggiornamento piano:', error);
-    res.status(500).json({ message: "Errore nell'aggiornamento del piano" });
+    console.error('Error updating plan:', error);
+    res.status(500).json({ message: "Error updating plan" });
   }
 });
 
 router.delete("/api/subscription-plans/:id", requireAuth, async (req, res) => {
   const user = req.user as any;
   if (user.type !== 'admin') {
-    return res.status(403).json({ message: "Solo admin può eliminare piani" });
+    return res.status(403).json({ message: "Only admin can delete plans" });
   }
 
   try {
     const planId = parseInt(req.params.id);
     await storage.updateSubscriptionPlan(planId, { isActive: false });
-    res.json({ message: "Piano disattivato con successo" });
+    res.json({ message: "Piano disattivato successfully" });
   } catch (error) {
-    console.error('Errore nell\'eliminazione piano:', error);
-    res.status(500).json({ message: "Errore nell'eliminazione del piano" });
+    console.error('Error deleting plan:', error);
+    res.status(500).json({ message: "Error deleting plan" });
   }
 });
 

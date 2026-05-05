@@ -36,7 +36,7 @@ export const welcomeEmailService = {
     </div>
     <div class="content">
       <p>Ciao <strong>${displayName}</strong>,</p>
-      <p>La tua registrazione è stata completata con successo! Ora puoi accedere alla piattaforma per gestire i tuoi appuntamenti in modo semplice e professionale.</p>
+      <p>Your registration has been completed successfully! You can now access the platform to manage your appointments easily and professionally.</p>
       
       <div class="credentials">
         <h3>Le tue credenziali di accesso</h3>
@@ -71,7 +71,7 @@ Benvenuto in Gestionale Appuntamenti!
 
 Ciao ${displayName},
 
-La tua registrazione è stata completata con successo!
+Your registration has been completed successfully!
 
 Le tue credenziali di accesso:
 - Username: ${username}
@@ -94,13 +94,13 @@ Grazie per aver scelto Gestionale Appuntamenti!
       );
 
       if (result.success) {
-        console.log(`📧 [WELCOME EMAIL] Email di benvenuto inviata a ${recipientEmail}`);
+        console.log(`📧 [WELCOME EMAIL] Welcome email sent to ${recipientEmail}`);
       } else {
-        console.log(`📧 [WELCOME EMAIL] Email di benvenuto NON inviata a ${recipientEmail}: ${result.error}`);
+        console.log(`📧 [WELCOME EMAIL] Welcome email NOT sent to ${recipientEmail}: ${result.error}`);
       }
       return result.success;
     } catch (error: any) {
-      console.error('📧 [WELCOME EMAIL] Errore invio email di benvenuto:', error.message);
+      console.error('📧 [WELCOME EMAIL] Error sending welcome email:', error.message);
       return false;
     }
   }

@@ -4,19 +4,19 @@ import { eq, and, isNull, count, sum, sql } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
 
 /**
- * Servizio per la gestione del sistema di referral (versione semplificata)
+ * Service for managing the referral system (versione semplificata)
  */
 export class SimplifiedReferralService {
   /**
-   * Genera un codice di referral unico per un utente
-   * @param userId - ID dell'utente
-   * @returns Il nuovo codice di referral
+   * Generate a unique referral code for a user
+   * @param userId - ID of the user
+   * @returns The new referral code
    */
   async generateReferralCode(userId: number): Promise<string> {
-    // Genera un codice casuale di 8 caratteri
+    // Generate a code casuale di 8 caratteri
     const code = randomBytes(4).toString('hex').toUpperCase();
     
-    // Aggiorna l'utente con il nuovo codice
+    // Update the user with the new code
     await db.update(users)
       .set({ referralCode: code })
       .where(eq(users.id, userId));
@@ -25,12 +25,12 @@ export class SimplifiedReferralService {
   }
 
   /**
-   * Ottiene le statistiche sui referral di un utente
-   * @param userId - ID dell'utente
-   * @returns Statistiche sui referral
+   * Get referral statistics for a user
+   * @param userId - ID of the user
+   * @returns Referral statistics
    */
   async getReferralStats(userId: number) {
-    // Calcola il numero di commissioni attive
+    // Calculate the number of active commissions
     const [commissionCountResult] = await db
       .select({ count: count() })
       .from(referralCommissions)
@@ -43,7 +43,7 @@ export class SimplifiedReferralService {
       
     const totalActiveCommissions = commissionCountResult?.count || 0;
     
-    // Calcola l'importo del mese corrente (semplificato)
+    // Calculate the current month amount (semplificato)
     const [currentMonthSum] = await db
       .select({ sum: sum(referralCommissions.monthlyAmount) })
       .from(referralCommissions)
@@ -56,10 +56,10 @@ export class SimplifiedReferralService {
       
     const currentMonthAmount = currentMonthSum?.sum || 0;
     
-    // Calcola l'importo del mese precedente (semplificato, usiamo lo stesso valore)
+    // Calculate the previous month amount (simplified, we use the same value)
     const lastMonthAmount = currentMonthAmount;
     
-    // Verifica se l'utente ha un conto bancario (controlla campo iban nella tabella users)
+    // Check if the user has a bank account (check iban field in users table)
     const [user] = await db
       .select({ iban: users.iban })
       .from(users)
@@ -76,13 +76,13 @@ export class SimplifiedReferralService {
   }
 
   /**
-   * Ottiene i dettagli del referral di un utente
-   * @param userId - ID dell'utente
-   * @returns Dettagli completi del referral
+   * Get the referral details of a user
+   * @param userId - ID of the user
+   * @returns Complete referral details
    */
   async getReferralDetails(userId: number) {
     try {
-      // Ottieni l'utente con il suo codice di referral
+      // Get the user with their referral code
       const [userData] = await db
         .select({
           id: users.id,
@@ -96,13 +96,13 @@ export class SimplifiedReferralService {
         .from(users)
         .where(eq(users.id, userId));
         
-      // Ottieni le commissioni attive
+      // Get the commissions attive
       const commissionsData = await db
         .select()
         .from(referralCommissions)
         .where(eq(referralCommissions.referrerId, userId));
         
-      // Ottieni il conto bancario dalla tabella users
+      // Get the bank account from the users table
       const [bankData] = await db
         .select({
           bankName: users.bankName,
@@ -113,7 +113,7 @@ export class SimplifiedReferralService {
         .from(users)
         .where(eq(users.id, userId));
         
-      // Ottieni le statistiche
+      // Get the statistiche
       const statsData = await this.getReferralStats(userId);
       
       return {
@@ -123,9 +123,9 @@ export class SimplifiedReferralService {
         statsData
       };
     } catch (error) {
-      console.error('Errore nel recupero dati referral:', error);
+      console.error('Error retrieving referral data:', error);
       
-      // Restituisci un oggetto vuoto ma valido per evitare errori
+      // Return an empty but valid object to avoid errors
       return {
         userData: { id: userId, username: '', email: '', referralCode: null, referredBy: null, paypalEmail: null, autoPayoutEnabled: false },
         commissionsData: [],
@@ -141,23 +141,23 @@ export class SimplifiedReferralService {
   }
 
   /**
-   * Salva un conto bancario per un utente
-   * @param userId - ID dell'utente
-   * @param bankData - Dati del conto bancario
-   * @returns Il conto bancario aggiornato
+   * Save a bank account for a user
+   * @param userId - ID of the user
+   * @param bankData - Bank account data
+   * @returns The updated bank account
    */
   async saveBankAccount(userId: number, bankData: any) {
     try {
-      console.log(`💳 [REFERRAL] Salvataggio dati bancari per utente ${userId}:`, bankData);
+      console.log(`💳 [REFERRAL] Saving bank data for user ${userId}:`, bankData);
       
-      // Aggiorna i dati bancari e PayPal direttamente nella tabella users
+      // Update bank data and PayPal directly in the users table
       const [updatedUser] = await db
         .update(users)
         .set({
           bankName: bankData.bankName || null,
           accountHolder: bankData.accountHolder || null,
           iban: bankData.iban || null,
-          bic: bankData.swift || null, // swift viene mappato a bic
+          bic: bankData.swift || null, // swift is mapped to bic
           paypalEmail: bankData.paypalEmail || null,
           autoPayoutEnabled: bankData.autoPayoutEnabled || false,
         })
@@ -172,23 +172,23 @@ export class SimplifiedReferralService {
           autoPayoutEnabled: users.autoPayoutEnabled
         });
         
-      console.log(`✅ [REFERRAL] Dati bancari aggiornati per utente ${userId}`);
+      console.log(`✅ [REFERRAL] Banking data updated for user ${userId}`);
       return updatedUser;
     } catch (error) {
-      console.error('❌ [REFERRAL] Errore nel salvataggio conto bancario:', error);
+      console.error('❌ [REFERRAL] Error saving bank account:', error);
       throw error;
     }
   }
 
   /**
-   * Registra un nuovo referral quando un utente usa un codice di invito
-   * @param referralCode - Codice di referral
-   * @param newUserId - ID del nuovo utente
-   * @returns true se il referral è stato registrato con successo
+   * Register a new referral when a user uses an invite code
+   * @param referralCode - Code di referral
+   * @param newUserId - ID of the new user
+   * @returns true if the referral was registered successfully
    */
   async registerReferral(referralCode: string, newUserId: number) {
     try {
-      // Trova l'utente che ha generato il codice
+      // Find the user who generated the code
       const [referrer] = await db
         .select()
         .from(users)
@@ -198,13 +198,13 @@ export class SimplifiedReferralService {
         return false;
       }
       
-      // Aggiorna il nuovo utente con il riferimento al referrer
+      // Update the new user with the referrer reference
       await db
         .update(users)
         .set({ referredBy: referrer.id })
         .where(eq(users.id, newUserId));
         
-      // Trova l'abbonamento del nuovo utente
+      // Find the new user's subscription
       const [subscription] = await db
         .select()
         .from(subscriptions)
@@ -217,16 +217,16 @@ export class SimplifiedReferralService {
           .from(users)
           .where(eq(users.referredBy, referrer.id));
           
-        // Le commissioni iniziano dopo almeno 3 referral
+        // Commissions start after at least 3 referrals
         if (referralCount >= 3) {
-          // Crea una commissione
+          // Create a commission
           await db
             .insert(referralCommissions)
             .values({
               referrerId: referrer.id,
               referredId: newUserId,
               subscriptionId: subscription.id,
-              monthlyAmount: 100, // €1 al mese (in centesimi)
+              monthlyAmount: 100, // €1 per month (in cents)
               startDate: new Date(),
               status: 'active'
             });
@@ -235,14 +235,14 @@ export class SimplifiedReferralService {
       
       return true;
     } catch (error) {
-      console.error('Errore nella registrazione referral:', error);
+      console.error('Error registering referral:', error);
       return false;
     }
   }
 
   /**
-   * Ottiene tutti i pagamenti in sospeso (per amministratori)
-   * @returns Lista dei pagamenti in sospeso
+   * Get all payments in sospeso (per amministratori)
+   * @returns Lista of the payments in sospeso
    */
   async getPendingPayments() {
     try {
@@ -253,19 +253,19 @@ export class SimplifiedReferralService {
         
       return payments;
     } catch (error) {
-      console.error('Errore nel recupero pagamenti in sospeso:', error);
+      console.error('Error retrieving pending payments:', error);
       return [];
     }
   }
 
   /**
-   * Genera pagamenti per tutti gli utenti per un periodo specifico
-   * @param period - Periodo nel formato YYYY-MM
-   * @returns I nuovi pagamenti generati
+   * Generate payments for all users for a specific period
+   * @param period - Period in YYYY-MM format
+   * @returns The newly generated payments
    */
   async generatePaymentsForAllUsers(period: string) {
     try {
-      // Ottieni tutti gli utenti con commissioni attive
+      // Get all users con commissions attive
       const usersWithCommissions = await db
         .select({
           userId: referralCommissions.referrerId,
@@ -275,11 +275,11 @@ export class SimplifiedReferralService {
         .where(eq(referralCommissions.status, 'active'))
         .groupBy(referralCommissions.referrerId);
         
-      // Crea pagamenti per ogni utente
+      // Create payments per each user
       const payments = [];
       
       for (const user of usersWithCommissions) {
-        // Crea un nuovo pagamento
+        // Create a new payment
         const [payment] = await db
           .insert(referralPayments)
           .values({
@@ -295,17 +295,17 @@ export class SimplifiedReferralService {
       
       return payments;
     } catch (error) {
-      console.error('Errore nella generazione pagamenti:', error);
+      console.error('Error generating payments:', error);
       return [];
     }
   }
 
   /**
-   * Aggiorna lo stato di un pagamento
-   * @param paymentId - ID del pagamento
+   * Update the status of a payment
+   * @param paymentId - Payment ID
    * @param status - Nuovo stato
-   * @param processingNote - Note sul pagamento
-   * @returns Il pagamento aggiornato
+   * @param processingNote - Processing note
+   * @returns The updated payment
    */
   async updatePaymentStatus(paymentId: number, status: string, processingNote?: string) {
     try {
@@ -321,11 +321,11 @@ export class SimplifiedReferralService {
         
       return payment;
     } catch (error) {
-      console.error('Errore nell\'aggiornamento pagamento:', error);
+      console.error('Error updating payment:', error);
       throw error;
     }
   }
 }
 
-// Esporta un'istanza del servizio
+// Export a singleton instance of the service
 export const simplifiedReferralService = new SimplifiedReferralService();

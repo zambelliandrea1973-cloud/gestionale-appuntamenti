@@ -1,10 +1,10 @@
 /**
  * SISTEMA UNIFICATO DATABASE SEPARATI - RISCRITTURA COMPLETA
  * 
- * Gestisce TUTTI i campi personalizzabili per ogni account in modo armonico:
- * - Nome aziendale, colori, contatti, social media, orari, fatturazione
- * - Schema unico di lettura/scrittura per tutti i campi
- * - Completa indipendenza dal database condiviso eliminato
+ * Manages ALL customizable fields for each account in a harmonized way:
+ * - Company name, colors, contacts, social media, hours, billing
+ * - Schema unico di lettura/scrittura per all fields
+ * - Full independence from the removed shared database
  */
 
 import postgres from 'postgres';
@@ -54,7 +54,7 @@ export const UNIFIED_FIELD_CODES = {
   ADVANCE_BOOKING_DAYS: 'COD_028',
   CANCELLATION_HOURS: 'COD_029',
   
-  // ===== FATTURAZIONE E PAGAMENTI =====
+  // ===== BILLING AND PAYMENTS =====
   INVOICE_PREFIX: 'COD_030',
   TAX_RATE: 'COD_031',
   CURRENCY: 'COD_032',
@@ -90,7 +90,7 @@ export const UNIFIED_FIELD_CODES = {
   WHATSAPP_NOTIFICATIONS: 'COD_054',
   REMINDER_TIMING: 'COD_055',
   
-  // ===== FUSO ORARIO E LOCALITÀ =====
+  // ===== TIMEZONE AND LOCATION =====
   TIMEZONE: 'COD_056',
   LANGUAGE: 'COD_057',
   DATE_FORMAT: 'COD_058',
@@ -161,7 +161,7 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * Inizializza la connessione database
+   * Initialize the database connection
    */
   private async initConnection() {
     if (!this.sql) {
@@ -171,7 +171,7 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * Chiude la connessione database
+   * Close the database connection
    */
   private async closeConnection() {
     if (this.sql) {
@@ -181,7 +181,7 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * LETTURA SINGOLO CAMPO - Metodo unificato per tutti i campi
+   * LETTURA SINGOLO CAMPO - Metodo unificato per all fields
    */
   async getField(fieldCode: string): Promise<string | null> {
     try {
@@ -198,19 +198,19 @@ export class UnifiedUserDatabase {
         console.log(`✅ UNIFIED GET ${fieldCode}: "${result[0].value}" per User ID ${this.userId}`);
         return result[0].value;
       } else {
-        console.log(`🔍 UNIFIED GET ${fieldCode}: Nessun valore per User ID ${this.userId}`);
+        console.log(`🔍 UNIFIED GET ${fieldCode}: No value for User ID ${this.userId}`);
         return null;
       }
       
     } catch (error) {
-      console.error(`❌ UNIFIED GET ${fieldCode} per User ID ${this.userId}:`, error);
+      console.error(`❌ UNIFIED GET ${fieldCode} for User ID ${this.userId}:`, error);
       await this.closeConnection();
       return null;
     }
   }
 
   /**
-   * SCRITTURA SINGOLO CAMPO - Metodo unificato per tutti i campi
+   * SCRITTURA SINGOLO CAMPO - Metodo unificato per all fields
    */
   async setField(fieldCode: string, value: string): Promise<boolean> {
     try {
@@ -225,18 +225,18 @@ export class UnifiedUserDatabase {
       
       await this.closeConnection();
       
-      console.log(`✅ UNIFIED SET ${fieldCode}: Salvato "${value}" per User ID ${this.userId}`);
+      console.log(`✅ UNIFIED SET ${fieldCode}: Saved "${value}" for User ID ${this.userId}`);
       return true;
       
     } catch (error) {
-      console.error(`❌ UNIFIED SET ${fieldCode} per User ID ${this.userId}:`, error);
+      console.error(`❌ UNIFIED SET ${fieldCode} for User ID ${this.userId}:`, error);
       await this.closeConnection();
       return false;
     }
   }
 
   /**
-   * LETTURA MULTIPLA - Recupera tutti i campi dell'account in una sola query
+   * MULTIPLE READ - Retrieve all account fields in a single query
    */
   async getAllFields(): Promise<Record<string, string | null>> {
     try {
@@ -254,27 +254,27 @@ export class UnifiedUserDatabase {
         data[row.field_code] = row.value;
       });
       
-      console.log(`✅ UNIFIED GET ALL: Caricati ${result.length} campi per User ID ${this.userId}`);
+      console.log(`✅ UNIFIED GET ALL: Loaded ${result.length} fields for User ID ${this.userId}`);
       return data;
       
     } catch (error) {
-      console.error(`❌ UNIFIED GET ALL per User ID ${this.userId}:`, error);
+      console.error(`❌ UNIFIED GET ALL for User ID ${this.userId}:`, error);
       await this.closeConnection();
       return {};
     }
   }
 
   /**
-   * FUNZIONE ELIMINATA - Causava sovrascrittura dei dati salvati
-   * Ora si usa solo setField() per salvare singoli campi
+   * FUNCTION REMOVED - Was causing overwrite of saved date
+   * Time si usa only setField() per salvare singoli fields
    */
 
   /**
-   * INIZIALIZZAZIONE DISABILITATA - Non sovrascrive mai i dati
+   * INIZIALIZZAZIONE DISABILITATA - Not sovrascrive mai the data
    */
   async initializeAccount(): Promise<boolean> {
-    // COMPLETAMENTE DISABILITATA per evitare sovrascrittura dati
-    console.log(`🚫 INIT DISABILITATA per User ID ${this.userId} - preservo dati esistenti`);
+    // COMPLETELY DISABLED to avoid data overwrite
+    console.log(`🚫 INIT DISABLED for User ID ${this.userId} - preserving existing data`);
     return true;
   }
 }
@@ -287,7 +287,7 @@ export function createUnifiedUserDatabase(userId: number): UnifiedUserDatabase {
 }
 
 /**
- * Helper per mappare nomi campi ai codici univoci - SISTEMA COMPLETO
+ * Helper per mappare nomi fields ai codici univoci - SISTEMA COMPLETO
  */
 export const FIELD_MAPPING = {
   // ===== BRANDING E UI =====
@@ -327,7 +327,7 @@ export const FIELD_MAPPING = {
   'advanceBookingDays': UNIFIED_FIELD_CODES.ADVANCE_BOOKING_DAYS,
   'cancellationHours': UNIFIED_FIELD_CODES.CANCELLATION_HOURS,
   
-  // ===== FATTURAZIONE E PAGAMENTI =====
+  // ===== BILLING AND PAYMENTS =====
   'invoicePrefix': UNIFIED_FIELD_CODES.INVOICE_PREFIX,
   'taxRate': UNIFIED_FIELD_CODES.TAX_RATE,
   'currency': UNIFIED_FIELD_CODES.CURRENCY,
@@ -363,7 +363,7 @@ export const FIELD_MAPPING = {
   'whatsappNotifications': UNIFIED_FIELD_CODES.WHATSAPP_NOTIFICATIONS,
   'reminderTiming': UNIFIED_FIELD_CODES.REMINDER_TIMING,
   
-  // ===== FUSO ORARIO E LOCALITÀ =====
+  // ===== TIMEZONE AND LOCATION =====
   'timezone': UNIFIED_FIELD_CODES.TIMEZONE,
   'language': UNIFIED_FIELD_CODES.LANGUAGE,
   'dateFormat': UNIFIED_FIELD_CODES.DATE_FORMAT,

@@ -2,7 +2,7 @@ import { db } from '../db';
 import { companyNameSettings } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
-// Valori predefiniti
+// Default values
 const defaultSettings = {
   name: '',
   fontSize: 24,
@@ -14,7 +14,7 @@ const defaultSettings = {
   enabled: true
 };
 
-// Carica le impostazioni dal database
+// Load settings from the database
 export const loadSettings = async (userId: number) => {
   try {
     let settings = await db.query.companyNameSettings.findFirst({
@@ -30,12 +30,12 @@ export const loadSettings = async (userId: number) => {
 
     return settings;
   } catch (error) {
-    console.error('Errore caricamento company name settings:', error);
+    console.error('Error loading company name settings:', error);
     return defaultSettings;
   }
 };
 
-// Salva le impostazioni nel database
+// Save the settings in the database
 export const saveSettings = async (userId: number, settings: any): Promise<boolean> => {
   try {
     const validatedSettings = validateSettings(settings);
@@ -55,12 +55,12 @@ export const saveSettings = async (userId: number, settings: any): Promise<boole
 
     return true;
   } catch (error) {
-    console.error('Errore salvataggio company name settings:', error);
+    console.error('Error saving company name settings:', error);
     return false;
   }
 };
 
-// Valida le impostazioni
+// Validate the settings
 const validateSettings = (settings: any) => {
   return {
     name: settings.name !== undefined ? settings.name : defaultSettings.name,
@@ -84,7 +84,7 @@ const validateSettings = (settings: any) => {
   };
 };
 
-// Verifica se personalizzato
+// Check if personalizzato
 export const isCustomized = async (userId: number): Promise<boolean> => {
   const settings = await loadSettings(userId);
   if (!settings) return false;
@@ -93,7 +93,7 @@ export const isCustomized = async (userId: number): Promise<boolean> => {
   });
 };
 
-// Ripristina valori predefiniti
+// Restore default values
 export const resetToDefault = async (userId: number): Promise<boolean> => {
   return saveSettings(userId, defaultSettings);
 };

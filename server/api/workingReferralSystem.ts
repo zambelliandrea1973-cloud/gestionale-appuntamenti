@@ -1,36 +1,36 @@
 import { Request, Response } from "express";
 import { storage } from "../storage";
 
-// Sistema referral che funziona con dati reali dal database
+// Referral system working with real date from database
 export async function getWorkingReferralOverview(req: Request, res: Response) {
   try {
-    console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.username}`);
-    console.log(`🎯 ADMIN REFERRAL: Panoramica per admin ${req.user!.username}`);
+    console.log(`🚀 ADMIN REFERRAL: Overview request from ${req.user!.username}`);
+    console.log(`🎯 ADMIN REFERRAL: Overview for admin ${req.user!.username}`);
 
-    // Recupera TUTTI gli account staff reali dal database
+    // Retrieve ALL real staff accounts from database
     const allUsers = await storage.getAllStaffUsers();
-    console.log(`👥 TUTTI GLI ACCOUNT DAL DATABASE: ${allUsers.length} account totali`);
+    console.log(`👥 ALL ACCOUNTS FROM DATABASE: ${allUsers.length} total accounts`);
 
-    // Per ogni staff, recupera il suo codice referral reale e le sponsorizzazioni autentiche
+    // For each staff, retrieve their real referral code and authentic sponsorships
     const staffData = await Promise.all(allUsers.map(async (user) => {
-      // Recupera il codice referral reale per questo staff
+      // Retrieve the real referral code for this staff
       const referralCode = await storage.getReferralCodeForUser(user.id) || 
                           (user.id === 14 ? "BUS14" : 
                            user.id === 16 ? "FAV16" : 
                            user.id === 8 ? "ZAM08" : 
                            `REF${user.id}`);
 
-      // Recupera le sponsorizzazioni reali per questo staff
+      // Retrieve real sponsorships for this staff
       const sponsorships = await storage.getReferralsByStaffId(user.id) || [];
       const sponsoredCount = sponsorships.length;
       const hasReachedMinimum = sponsoredCount >= 3;
       
-      // Calcola commissioni basate sui dati reali
+      // Calculate commissions based on real date
       const totalCommissions = hasReachedMinimum ? sponsoredCount * 100 : 0;
       const paidCommissions = hasReachedMinimum ? Math.floor(totalCommissions * 0.4) : 0;
       const pendingCommissions = totalCommissions - paidCommissions;
 
-      // Recupera informazioni bancarie reali
+      // Retrieve real banking information
       const bankingInfo = await storage.getBankingInfoForStaff(user.id) || {
         hasIban: false,
         bankName: null,
@@ -50,13 +50,13 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
       };
     }));
 
-    // Calcola i totali reali
+    // Calculate real totals
     const totalSponsored = staffData.reduce((sum, staff) => sum + staff.sponsoredCount, 0);
     const totalCommissions = staffData.reduce((sum, staff) => sum + staff.totalCommissions, 0);
     const totalPaid = staffData.reduce((sum, staff) => sum + staff.paidCommissions, 0);
     const totalPending = staffData.reduce((sum, staff) => sum + staff.pendingCommissions, 0);
 
-    // Dati strutturati correttamente per visualizzare staff e bottoni
+    // Correctly structured data to display staff and buttons
     const overviewData = {
       statsData: {
         totalStaff: allUsers.length,
@@ -75,39 +75,39 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
       staffStats: staffData
     };
 
-    console.log(`📊 DATI ADMIN PREPARATI: ${overviewData.statsData.totalStaff} staff totali`);
-    console.log(`📋 STAFF INCLUSI: ${overviewData.staffData.length} staff nel staffData`);
+    console.log(`📊 ADMIN DATA PREPARED: ${overviewData.statsData.totalStaff} total staff`);
+    console.log(`📋 STAFF INCLUDED: ${overviewData.staffData.length} staff in staffData`);
     
     res.json(overviewData);
   } catch (error) {
-    console.error('Errore nel recupero panoramica admin:', error);
+    console.error('Error retrieving admin overview:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel recupero della panoramica amministrativa'
+      message: 'Error retrieving admin overview'
     });
   }
 }
 
-// Funzione per pagare le commissioni dello staff
+// Function to pay staff commissions
 export async function payWorkingStaffCommissions(req: Request, res: Response) {
   try {
     const { staffId } = req.params;
     const { amount } = req.body;
 
-    console.log(`💰 PAGAMENTO COMMISSIONI: Staff ${staffId}, Importo ${amount}€`);
+    console.log(`💰 COMMISSION PAYMENT: Staff ${staffId}, Amount ${amount}€`);
     
-    // Simula il pagamento delle commissioni
+    // Simulate commission payment
     res.json({
       success: true,
-      message: `Commissioni di ${amount}€ pagate con successo allo staff ${staffId}`,
+      message: `Commissions of ${amount}€ paid successfully to staff ${staffId}`,
       paidAmount: amount,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Errore nel pagamento commissioni:', error);
+    console.error('Error processing commissions:', error);
     res.status(500).json({
       success: false,
-      message: 'Errore nel pagamento delle commissioni'
+      message: 'Error processing commission payment'
     });
   }
 }

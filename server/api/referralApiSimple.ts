@@ -3,13 +3,13 @@ import { db } from "../db";
 import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 
-// Versione semplificata che funziona per lo staff
+// Versione semplificata che funziona per the staff
 export async function getStaffReferralStatsSimple(req: Request, res: Response) {
   try {
     const staffId = parseInt(req.params.staffId);
-    console.log(`🎯 REFERRAL STAFF SIMPLE: Richiesta per staff ID: ${staffId}`);
+    console.log(`🎯 REFERRAL STAFF SIMPLE: Request for staff ID: ${staffId}`);
 
-    // Ottieni solo i dati base dello staff
+    // Get only the base staff data
     const staffUser = await db
       .select({
         id: users.id,
@@ -21,13 +21,13 @@ export async function getStaffReferralStatsSimple(req: Request, res: Response) {
       .limit(1);
 
     if (!staffUser || staffUser.length === 0) {
-      return res.status(404).json({ error: "Staff non trovato" });
+      return res.status(404).json({ error: "Staff not found" });
     }
 
     const staff = staffUser[0];
-    console.log(`✅ STAFF TROVATO: ${staff.email}, Codice: ${staff.referralCode}`);
+    console.log(`✅ STAFF found: ${staff.email}, code: ${staff.referralCode}`);
 
-    // Per ora restituiamo dati di base - funziona sempre
+    // For now return basic data - always works
     const responseData = {
       stats: {
         totalCommissions: 0,
@@ -38,7 +38,7 @@ export async function getStaffReferralStatsSimple(req: Request, res: Response) {
       commissions: [],
       userInfo: {
         email: staff.email,
-        referralCode: staff.referralCode || `ELI${staffId}` // Fallback se non c'è codice
+        referralCode: staff.referralCode || `ELI${staffId}` // Fallback if there is no code
       }
     };
 
@@ -46,7 +46,7 @@ export async function getStaffReferralStatsSimple(req: Request, res: Response) {
     
     res.json(responseData);
   } catch (error) {
-    console.error("❌ Errore nell'API referral semplificata:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("❌ Error in simplified referral API:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }

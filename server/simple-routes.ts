@@ -70,9 +70,9 @@ import { storage } from './storage';
 // Import booking availability calculator
 import { calculateAvailableSlots } from './services/bookingAvailability';
 
-// Lock per prevenire race condition nel tracking accessi client
+// Lock to prevent race condition in client access tracking
 const clientAccessLocks = new Map<number, number>();
-// Lock per prevenire duplicati nel tracking accessi utenti (30 minuti tra un accesso e l'altro)
+// Lock to prevent duplicate user access tracking (30 minutes between each access)
 const userAccessLocks = new Map<number, number>();
 
 // Import centralizzato per JSON storage
@@ -87,7 +87,7 @@ import { generateClientCode as generateNewClientCode } from './utils/clientCodeG
 // Import invoice number generator with professional code prefix
 import { generateInvoiceNumber as generateProfessionalInvoiceNumber } from './utils/invoiceNumberGenerator';
 
-// Import script di migrazione codici clienti
+// Import script di migrazione codici clients
 import { migrateClientCodes } from './scripts/migrate-client-codes';
 
 // Import PostgreSQL database e Drizzle ORM
@@ -95,7 +95,7 @@ import { db } from './db';
 import { appointments, services, clients, licenses, marketingMessages, marketingCampaigns, bookingRequests, staff, users, treatmentRooms, invoices, invoiceItems, userIcons, packageTemplates, packagePurchases, packageRedemptions, googleCalendarEvents, clientAccesses, consents as consentsTable, userSettings as userSettingsTable, userLogins, companyNameSettings } from '../shared/schema';
 import { eq, and, asc, desc, gte, lte, or, lt, gt, not, like, innerJoin, sql, count } from 'drizzle-orm';
 
-// TYPE INTERFACES - Define common data structures
+// TYPE INTERFACES - Define common date structures
 interface Client {
   id: number;
   firstName: string;
@@ -121,17 +121,17 @@ interface Invoice {
   [key: string]: any;
 }
 
-// 📁 LE FUNZIONI STORAGE SONO ORA CENTRALIZZATE IN utils/jsonStorage.ts
+// 📁 STORAGE FUNCTIONS ARE NOW CENTRALIZED IN utils/jsonStorage.ts
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
   if (!req.isAuthenticated()) {
-    return res.status(401).json({ message: "Non autenticato" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
   next();
 }
 
-// Carico l'icona Fleur de Vie dal backup15 all'avvio del modulo
+// Load the Fleur de Vie icon from backup15 at module startup
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -140,21 +140,21 @@ try {
   const iconPath = path.join(__dirname, '../public/fleur-de-vie.jpg');
   const iconBuffer = fs.readFileSync(iconPath);
   defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
-  console.log('✅ Icona Fleur de Vie caricata:', iconBuffer.length, 'bytes');
+  console.log('✅ Fleur de Vie icon loaded:', iconBuffer.length, 'bytes');
 } catch (error) {
-  console.log('⚠️ Icona Fleur de Vie non trovata nel percorso principale, provo percorso alternativo');
+  console.log('⚠️ Fleur de Vie icon not found at primary path, trying alternate path');
   try {
     const iconPathAlt = path.join(__dirname, '../public/images/Fleur de Vie multicolore.jpg');
     const iconBuffer = fs.readFileSync(iconPathAlt);
     defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
-    console.log('✅ Icona Fleur de Vie caricata da percorso alternativo:', iconBuffer.length, 'bytes');
+    console.log('✅ Fleur de Vie icon loaded from alternative path:', iconBuffer.length, 'bytes');
   } catch (error2) {
-    console.log('⚠️ Icona Fleur de Vie non trovata, uso fallback');
+    console.log('⚠️ Fleur de Vie icon not found, using fallback');
     defaultIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+';
   }
 }
 
-// Dati semplici in memoria - recuperati dal backup15
+// Simple in-memory data - retrieved from backup15
 const userData = {
   9: {
     id: 9,
@@ -178,7 +178,7 @@ const userData = {
       showBusinessName: true
     }
   },
-  // Dati per utente admin (ID 3) - copia completa backup15
+  // Data for admin user (ID 3) - complete backup15 copy
   3: {
     id: 3,
     username: "zambelli.andrea.1973@gmail.com",
@@ -235,13 +235,13 @@ const userData = {
 export function registerSimpleRoutes(app: Express): Server {
   setupAuth(app);
   
-  // Router per gestione manuale (upload foto/video, contenuti multilingua)
-  // IMPORTANTE: Montato dopo setupAuth per avere accesso a req.user
+  // Router for manual management (photo/video upload, multilingual content)
+  // IMPORTANT: Mounted after setupAuth to have access to req.user
   app.use(manualRoutes);
   
-  // Middleware globale per bloccare l'accesso se il trial è scaduto
-  // IMPORTANTE: Questo middleware viene eseguito dopo l'autenticazione
-  // e blocca l'accesso alle funzionalità se la licenza trial è scaduta
+  // Global middleware to block access if the trial has expired
+  // IMPORTANT: This middleware runs after authentication
+  // and blocks access to features if the trial license has expired
   app.use(checkTrialExpired);
   
   app.use(collaboratorRoutes);
@@ -263,21 +263,21 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use(pwaRoutes);
   app.use(campaignRoutes);
   
-  // Route di registrazione nuovi utenti
+  // New user registration routes
   app.post("/api/register", async (req, res) => {
-    console.log('📝 [REGISTER] Richiesta di registrazione ricevuta:', req.body.email);
+    console.log('📝 [REGISTER] Registration request received:', req.body.email);
     try {
       let { name, email, username, password, referralCode } = req.body;
       
-      // Verifica minima: solo email e password sono richiesti
+      // Minimum validation: only email and password are required
       if (!email || !password) {
-        return res.status(400).json({ message: "Email e password sono obbligatori" });
+        return res.status(400).json({ message: "Email and password are required" });
       }
       
-      // Genera automaticamente username e nome se non forniti (UX semplificata)
+      // Generate automaticamente username e nome If forniti (UX semplificata)
       const emailPrefix = String(email).split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '');
       if (!username || username.trim() === '') {
-        // Username unico basato sul prefisso email + timestamp se necessario
+        // Unique username based on email prefix + timestamp if needed
         let candidate = emailPrefix.toLowerCase();
         let suffix = 0;
         while (await storage.getUserByUsername(suffix === 0 ? candidate : `${candidate}${suffix}`)) {
@@ -289,24 +289,24 @@ export function registerSimpleRoutes(app: Express): Server {
         name = emailPrefix;
       }
       
-      // Verifica codice referral se fornito
+      // Verify code referral If fornito
       let referrerStaff = null;
       if (referralCode && referralCode.trim() !== '') {
         referrerStaff = await storage.getUserByReferralCode(referralCode.trim());
         if (!referrerStaff) {
-          console.log(`⚠️ Codice referral non valido: ${referralCode}`);
+          console.log(`⚠️ Codice referral invalid: ${referralCode}`);
         } else {
-          console.log(`✅ Codice referral valido! Sponsor: ${referrerStaff.username} (${referrerStaff.id})`);
+          console.log(`✅ Valid referral code! Sponsor: ${referrerStaff.username} (${referrerStaff.id})`);
         }
       }
       
-      // Verifica se l'username è già in uso (safety check)
+      // Check if the username is already in use (safety check)
       const existingUserByUsername = await storage.getUserByUsername(username);
       if (existingUserByUsername) {
-        return res.status(400).json({ message: "Username già in uso" });
+        return res.status(400).json({ message: "Username already in use" });
       }
       
-      // Verifica se l'email è già in uso
+      // Check if the email is already in use
       const { users } = await import('../shared/schema');
       const { eq } = await import('drizzle-orm');
       const { hashPassword } = await import('./auth');
@@ -317,13 +317,13 @@ export function registerSimpleRoutes(app: Express): Server {
                                              .from(users)
                                              .where(eq(users.email, email));
       if (existingUserByEmail) {
-        return res.status(400).json({ message: "Email già in uso" });
+        return res.status(400).json({ message: "Email already in use" });
       }
       
-      // Crea l'hash della password
+      // Create the password hash
       const hashedPassword = await hashPassword(password);
       
-      // Crea il nuovo utente (con referral se presente)
+      // Create the new user (with referral if present)
       const newUser = await storage.createUser({
         username,
         email,
@@ -334,74 +334,74 @@ export function registerSimpleRoutes(app: Express): Server {
       });
       
       if (referrerStaff) {
-        console.log(`🎉 REFERRAL TRACCIATO: ${newUser.username} sponsorizzato da ${referrerStaff.username}`);
+        console.log(`🎉 REFERRAL TRACKED: ${newUser.username} sponsored by ${referrerStaff.username}`);
       }
       
-      console.log(`✅ Nuovo utente registrato: ${username} (${email}) - Termini accettati: ${new Date().toISOString()}`);
+      console.log(`✅ New user registered: ${username} (${email}) - Terms accepted: ${new Date().toISOString()}`);
       
-      // Crea una licenza di prova per l'utente
+      // Create a trial license for user
       try {
         const trialExpiresAt = addDays(new Date(), 40);
         await licenseService.createTrialLicense(newUser.id, trialExpiresAt);
-        console.log(`Licenza di prova creata per l'utente ${username} con scadenza ${trialExpiresAt.toISOString()}`);
+        console.log(`Trial license created for user ${username} with expiry ${trialExpiresAt.toISOString()}`);
       } catch (licenseError) {
-        console.error(`Errore durante la creazione della licenza di prova per l'utente ${username}:`, licenseError);
+        console.error(`Error creating trial license for user ${username}:`, licenseError);
       }
 
-      // Seed demo data (2 clienti + 3 servizi marcati isDemo) per la prima esperienza
+      // Seed demo data (2 clients + 3 services marked isDemo) for the first experience
       try {
         const { seedDemoData } = await import('./services/onboardingDemoService');
         await seedDemoData(newUser.id);
       } catch (demoError) {
-        console.error(`Errore durante il seeding demo per l'utente ${username}:`, demoError);
+        console.error(`Error during demo seeding for user ${username}:`, demoError);
       }
       
-      // Invia email di benvenuto con le credenziali (asincrono, non blocca la risposta)
-      console.log(`📧 [WELCOME] Avvio invio email di benvenuto a ${email}...`);
+      // Send welcome email with credentials (asynchronous, does not block the response)
+      console.log(`📧 [WELCOME] Starting welcome email send to ${email}...`);
       const { welcomeEmailService } = await import('./services/welcomeEmailService');
       welcomeEmailService.sendWelcomeEmail(email, username, password, name)
         .then(sent => {
           if (sent) {
-            console.log(`📧 [WELCOME] Email di benvenuto INVIATA a ${email}`);
+            console.log(`📧 [WELCOME] Welcome email SENT to ${email}`);
           } else {
-            console.log(`📧 [WELCOME] Email di benvenuto NON inviata a ${email} (configurazione mancante o disabilitata)`);
+            console.log(`📧 [WELCOME] Welcome email NOT sent to ${email} (configuration missing or disabled)`);
           }
         })
         .catch(err => {
-          console.error(`📧 [WELCOME] ERRORE invio email di benvenuto a ${email}:`, err);
+          console.error(`📧 [WELCOME] ERROR sending welcome email to ${email}:`, err);
         });
       
-      // Auto-login: l'utente è subito dentro senza dover fare login manuale
+      // Auto-login: the user is immediately in without having to do manual login
       const { password: _, ...userWithoutPassword } = newUser;
       req.login(newUser, (loginErr) => {
         if (loginErr) {
-          console.error(`⚠️ [REGISTER] Auto-login fallito per ${username}:`, loginErr);
+          console.error(`⚠️ [REGISTER] Auto-login failed for ${username}:`, loginErr);
           return res.status(201).json({
             ...userWithoutPassword,
-            message: "Registrazione completata, effettua il login",
+            message: "Registration completed, please log in",
             autoLogin: false
           });
         }
         console.log(`✅ [REGISTER] Auto-login OK per ${username}`);
         res.status(201).json({
           ...userWithoutPassword,
-          message: "Registrazione completata con successo",
+          message: "Registration completed successfully",
           autoLogin: true
         });
       });
     } catch (error) {
-      console.error("Errore durante la registrazione:", error);
-      res.status(500).json({ message: "Si è verificato un errore durante la registrazione" });
+      console.error("Error during registration:", error);
+      res.status(500).json({ message: "An error occurred during registration" });
     }
   });
   
-  // Inizializza gli scheduler per i promemoria automatici
+  // Initialize schedulers for automatic reminders
   initializeSchedulers();
   
-  // Sincronizza icone utente dal JSON storage ai file PNG fisici (per PWA)
-  // Eseguito in background senza bloccare l'avvio del server
+  // Synchronize user icons from JSON storage to physical PNG files (for PWA)
+  // Executed in background without blocking server startup
   syncUserIconsFromJSON().catch(err => {
-    console.error('❌ Errore sincronizzazione icone:', err);
+    console.error('❌ Error synchronizing icons:', err);
   });
 
   // Connect WhatsApp and notification routes
@@ -416,18 +416,18 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/payments', paymentRoutes);
   app.use('/api/payments', paymentMethodRoutes);
   setupBankingRoutes(app);
-  app.use(promotionRoutes); // Promozioni pubbliche (senza prefisso perché già in /api)
-  app.use(manualRoutes); // Gestione manuale con upload media (già in /api)
+  app.use(promotionRoutes); // Public promotions (no prefix because already in /api)
+  app.use(manualRoutes); // Manual management with media upload (already in /api)
 
   // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA - USA POSTGRESQL
   app.get("/api/mobile-sync", async (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
     const user = req.user as any;
     
-    console.log(`📱 [MOBILE-SYNC PG] Sincronizzazione forzata per utente ID:${user.id}, tipo:${user.type}`);
+    console.log(`📱 [MOBILE-SYNC PG] Forced sync for user ID:${user.id}, type:${user.type}`);
     
     try {
-      // 🔄 USA POSTGRESQL: Carica dati dal database condiviso
+      // 🔄 USE POSTGRESQL: Load date from shared database
       const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
       const userSettings = await storage.getUserSettings(user.id);
       const userServices = await storage.getServicesForUser(user.id);
@@ -442,7 +442,7 @@ export function registerSimpleRoutes(app: Express): Server {
         syncedAt: new Date().toISOString()
       };
       
-      // INTESTAZIONI ANTI-CACHE MASSIME
+      // MAXIMUM ANTI-CACHE HEADERS
       res.set({
         'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
         'Pragma': 'no-cache',
@@ -455,11 +455,11 @@ export function registerSimpleRoutes(app: Express): Server {
         'X-Sync-Type': 'mobile-force'
       });
       
-      console.log(`📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per utente ${user.id}: ${userClients.length} clienti, ${userServices.length} servizi`);
+      console.log(`📱 [MOBILE-SYNC PG] PostgreSQL data synced for user ${user.id}: ${userClients.length} clients, ${userServices.length} services`);
       res.json(syncData);
     } catch (error) {
-      console.error(`❌ [MOBILE-SYNC PG] Errore sincronizzazione:`, error);
-      res.status(500).json({ message: "Errore interno del server" });
+      console.error(`❌ [MOBILE-SYNC PG] Error synchronizing:`, error);
+      res.status(500).json({ message: "Internal server error" });
     }
   });
 
@@ -473,12 +473,12 @@ export function registerSimpleRoutes(app: Express): Server {
   // NOTE: PWA/icons/client-access routes moved to server/routes/pwaRoutes.ts
   // NOTE: campaigns/onboarding/AI/test routes moved to server/routes/campaignRoutes.ts
 
-  // TEST ENDPOINT - Non richiede auth per debug
+  // TEST ENDPOINT - Not richiede auth per debug
   app.get('/api/google-calendar/test-sync', (req, res) => {
     res.json({ success: true, message: 'Test endpoint funziona!' });
   });
 
-  // DEBUG: Endpoint per testare sync senza autenticazione (SOLO DEV)
+  // DEBUG: Endpoint to test sync without authentication (DEV ONLY)
   app.get('/api/google-calendar/debug-sync/:userId', async (req, res) => {
     const userId = parseInt(req.params.userId);
     
@@ -486,22 +486,22 @@ export function registerSimpleRoutes(app: Express): Server {
       const result = await syncBidirectional(userId, 'Europe/Rome');
       res.json(result);
     } catch (error) {
-      console.error(`🔧 [DEBUG-SYNC] Errore:`, error);
+      console.error(`🔧 [DEBUG-SYNC] Error:`, error);
       res.status(500).json({ error: String(error) });
     }
   });
 
-  // DEBUG: Endpoint per diagnosticare calendario e cercare evento specifico
+  // DEBUG: Endpoint to diagnose calendar and find specific event
   app.get('/api/google-calendar/debug-calendars/:userId', async (req, res) => {
     const userId = parseInt(req.params.userId);
     const eventIdToFind = req.query.eventId as string || '74q66c336hij4b9i6goj0b9kcgqj2bb16co3gb9kcdj30d9j65h3cp1o68';
-    console.log(`🔧 [DEBUG-CALENDARS] Analisi calendari per utente ${userId}, cercando evento: ${eventIdToFind}`);
+    console.log(`🔧 [DEBUG-CALENDARS] Calendar analysis for user ${userId}, searching event: ${eventIdToFind}`);
     
     try {
-      // Ottieni token OAuth
+      // Get token OAuth
       const userRows = await db.select().from(users).where(eq(users.id, userId));
       if (!userRows.length || !userRows[0].googleAuthToken) {
-        return res.status(400).json({ error: 'Utente non ha token Google' });
+        return res.status(400).json({ error: 'User does not have a Google token' });
       }
       
       const tokenData = JSON.parse(EncryptionService.decryptToken(userRows[0].googleAuthToken));
@@ -512,11 +512,11 @@ export function registerSimpleRoutes(app: Express): Server {
       oauth2Client.setCredentials(tokenData);
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
       
-      // 1. Lista tutti i calendari dell'utente
+      // 1. List all user calendars
       const calendarList = await calendar.calendarList.list();
       const calendars = calendarList.data.items || [];
       
-      console.log(`📅 [DEBUG] Trovati ${calendars.length} calendari`);
+      console.log(`📅 [DEBUG] Found ${calendars.length} calendari`);
       
       const results: any[] = [];
       
@@ -530,7 +530,7 @@ export function registerSimpleRoutes(app: Express): Server {
           eventStatus: null
         };
         
-        // Cerca l'evento specifico in questo calendario
+        // Find the specific event in this calendar
         try {
           const eventResponse = await calendar.events.get({
             calendarId: cal.id!,
@@ -540,12 +540,12 @@ export function registerSimpleRoutes(app: Express): Server {
           calInfo.eventStatus = eventResponse.data.status;
           calInfo.eventSummary = eventResponse.data.summary;
           calInfo.eventStart = eventResponse.data.start;
-          console.log(`✅ [DEBUG] Evento TROVATO in calendario "${cal.summary}" con status=${eventResponse.data.status}`);
+          console.log(`✅ [DEBUG] event found in calendar "${cal.summary}" con status=${eventResponse.data.status}`);
         } catch (e: any) {
           if (e.code === 404 || e.response?.status === 404) {
             calInfo.eventFound = false;
             calInfo.eventStatus = 'NOT_FOUND';
-            console.log(`❌ [DEBUG] Evento NON trovato in calendario "${cal.summary}"`);
+            console.log(`❌ [DEBUG] Evento NON found in calendario "${cal.summary}"`);
           } else {
             calInfo.eventFound = 'error';
             calInfo.eventStatus = `ERROR: ${e.message}`;
@@ -555,7 +555,7 @@ export function registerSimpleRoutes(app: Express): Server {
         results.push(calInfo);
       }
       
-      // Info sul calendario configurato
+      // Info about the configured calendar
       const configuredCalendarId = userRows[0].googleCalendarId || 'primary';
       
       res.json({
@@ -566,7 +566,7 @@ export function registerSimpleRoutes(app: Express): Server {
         calendars: results
       });
     } catch (error) {
-      console.error(`🔧 [DEBUG-CALENDARS] Errore:`, error);
+      console.error(`🔧 [DEBUG-CALENDARS] Error:`, error);
       res.status(500).json({ error: String(error) });
     }
   });
@@ -575,34 +575,34 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post('/api/google-calendar/sync-now', async (req, res) => {
     
     try {
-      // Verifica autenticazione
+      // Verify autenticazione
       if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ success: false, message: 'Non autenticato' });
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
       }
       
       const userId = (req.user as any).id;
-      const timeZone = req.body?.timeZone || 'Europe/Rome'; // Rileva fuso orario dal client o usa default
+      const timeZone = req.body?.timeZone || 'Europe/Rome'; // Detect timezone from client or use default
       
-      // Chiama la vera funzione di sincronizzazione bidirezionale
+      // Call the actual bidirectional sync function
       const result = await syncBidirectional(userId, timeZone);
       
       res.json(result);
     } catch (error) {
-      console.error('❌ [SYNC-NOW] Errore:', error);
+      console.error('❌ [SYNC-NOW] Error:', error);
       res.status(500).json({ 
         success: false, 
-        message: 'Errore durante la sincronizzazione',
+        message: 'Error during synchronization',
         details: { imported: 0, exported: 0, errors: [String(error)] }
       });
     }
   });
 
-  // LEGACY: Endpoint /sync (senza -now) per catturare richieste da bundle vecchi
+  // LEGACY: Endpoint /sync (without -now) to capture requests from old bundles
   app.post('/api/google-calendar/sync', async (req, res) => {
     
     try {
       if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ success: false, message: 'Non autenticato' });
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
       }
       
       const userId = (req.user as any).id;
@@ -611,17 +611,17 @@ export function registerSimpleRoutes(app: Express): Server {
       const result = await syncBidirectional(userId, timeZone);
       res.json(result);
     } catch (error) {
-      console.error('❌ [SYNC] Errore:', error);
-      res.status(500).json({ success: false, message: 'Errore durante la sincronizzazione', error: String(error) });
+      console.error('❌ [SYNC] Error:', error);
+      res.status(500).json({ success: false, message: 'Error during synchronization', error: String(error) });
     }
   });
 
-  // Registra le route Google Calendar API
+  // Register Google Calendar API routes
   app.use('/api/google-calendar', googleCalendarApi);
   
-  // NOTA: Fallback rimosso - intercettava endpoint validi
+  // NOTE: Fallback removed - was intercepting valid endpoints
   
-  // Registra le route Google Auth
+  // Register Google Auth routes
   app.use('/api/google-auth', googleAuthRoutes);
   app.use('/api/push', pushNotificationRoutes);
   app.use(fileRoutes);

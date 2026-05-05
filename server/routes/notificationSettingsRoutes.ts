@@ -7,12 +7,12 @@ import { eq } from 'drizzle-orm';
 const router = Router();
 
 /**
- * 📱 GET /api/notification-settings - Carica impostazioni di notifica
+ * 📱 GET /api/notification-settings - Load notification settings
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ success: false, error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ success: false, error: 'Unauthorized' });
 
     let settings = await db.query.notificationSettings.findFirst({
       where: eq((notificationSettings as any).userId, userId),
@@ -27,21 +27,21 @@ router.get('/', async (req: Request, res: Response) => {
       }).returning().then(r => r[0]);
     }
 
-    console.log(`✅ [NOTIFICATION SETTINGS] Impostazioni caricate per utente ${userId}`);
+    console.log(`✅ [NOTIFICATION SETTINGS] Settings loaded for user ${userId}`);
     res.json({ success: true, data: settings });
   } catch (error: any) {
-    console.error('❌ [NOTIFICATION SETTINGS] Errore caricamento:', error);
+    console.error('❌ [NOTIFICATION SETTINGS] Error loading:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
 /**
- * 📱 POST /api/notification-settings - Salva impostazioni di notifica
+ * 📱 POST /api/notification-settings - Save notification settings
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ success: false, error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ success: false, error: 'Unauthorized' });
 
     const settingsData = { ...req.body, updatedAt: new Date() };
     const existing = await db.query.notificationSettings.findFirst({
@@ -57,10 +57,10 @@ router.post('/', async (req: Request, res: Response) => {
         .values({ userId, ...settingsData });
     }
 
-    console.log(`✅ [NOTIFICATION SETTINGS] Impostazioni salvate per utente ${userId}`);
-    res.json({ success: true, data: settingsData, message: 'Impostazioni salvate con successo' });
+    console.log(`✅ [NOTIFICATION SETTINGS] Settings saved for user ${userId}`);
+    res.json({ success: true, data: settingsData, message: 'Settings saved successfully' });
   } catch (error: any) {
-    console.error('❌ [NOTIFICATION SETTINGS] Errore salvataggio:', error);
+    console.error('❌ [NOTIFICATION SETTINGS] Error saving:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

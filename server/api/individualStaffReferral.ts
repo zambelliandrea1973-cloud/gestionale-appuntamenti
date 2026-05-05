@@ -1,27 +1,27 @@
 import { Request, Response } from "express";
 import { storage } from "../storage";
 
-// Sistema referral autonomo per ogni singolo staff
-// Ogni staff gestisce i propri referral indipendentemente
+// Autonomous referral system for each individual staff member
+// Each staff member manages their own referrals independently
 export async function getIndividualStaffReferral(req: Request, res: Response) {
   try {
     const staffUser = req.user!;
-    console.log(`🎯 STAFF REFERRAL INDIVIDUALE: ${staffUser.email} (ID: ${staffUser.id})`);
+    console.log(`🎯 INDIVIDUAL STAFF REFERRAL: ${staffUser.email} (ID: ${staffUser.id})`);
 
-    // Genera codice referral unico basato su dati staff
+    // Generate unique referral code based on staff data
     const emailPrefix = staffUser.email.substring(0, 3).toUpperCase();
     const idSuffix = staffUser.id.toString().padStart(2, '0');
     const myReferralCode = `${emailPrefix}${idSuffix}`;
 
-    // Ottieni commissioni reali dal database
+    // Get real commissions from the database
     const commissionsData = await storage.getReferralCommissionsByReferrer(staffUser.id);
-    console.log(`📊 COMMISSIONI TROVATE per ${staffUser.email}:`, commissionsData);
+    console.log(`📊 COMMISSIONS FOUND for ${staffUser.email}:`, commissionsData);
 
-    // Calcola statistiche reali
+    // Calculate real statistics
     const activeCommissions = commissionsData.filter(c => c.status === 'active');
     const totalEarned = activeCommissions.reduce((sum, c) => sum + (c.monthlyAmount / 100), 0);
 
-    // Ottieni dati dettagliati per ogni commissione
+    // Get detailed data for each commission
     const commissionsWithDetails = await Promise.all(
       activeCommissions.map(async (commission) => {
         const referredUser = await storage.getUser(commission.referredId);
@@ -30,20 +30,20 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         
         return {
           id: commission.id,
-          referredUserEmail: referredUser?.username || 'Utente sconosciuto',
-          planName: plan?.name || 'Piano sconosciuto',
-          monthlyAmount: commission.monthlyAmount / 100, // Converti in euro
+          referredUserEmail: referredUser?.username || 'Unknown user',
+          planName: plan?.name || 'Unknown plan',
+          monthlyAmount: commission.monthlyAmount / 100, // Convert to euros
           status: commission.status,
           startDate: commission.startDate
         };
       })
     );
 
-    // Ottieni TUTTI gli utenti sponsorizzati (non solo quelli con commissioni attive)
+    // Get ALL sponsored users (not only those with active commissions)
     const allReferredUsers = await storage.getUsersByReferrer(staffUser.id);
-    console.log(`👥 UTENTI SPONSORIZZATI TOTALI per ${staffUser.email}:`, allReferredUsers.length);
+    console.log(`👥 TOTAL SPONSORED USERS for ${staffUser.email}:`, allReferredUsers.length);
 
-    // Per ogni utente sponsorizzato, verifica se ha un abbonamento attivo
+    // For each sponsored user, verify if they have an active subscription
     const referredUsersWithStatus = await Promise.all(
       allReferredUsers.map(async (user) => {
         const subscription = await storage.getSubscriptionByUserId(user.id);
@@ -79,7 +79,7 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
       },
       stats: {
         myReferralCode: myReferralCode,
-        totalReferrals: allReferredUsers.length, // TUTTI gli utenti sponsorizzati
+        totalReferrals: allReferredUsers.length, // ALL sponsored users
         activeCommissions: activeCommissions.length,
         paidCommissions: 0, // TODO: contare da referral_payments
         pendingCommissions: activeCommissions.length,
@@ -94,16 +94,16 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         hasBankAccount: !!(staffUser.iban || staffUser.paypalEmail)
       },
       recentCommissions: commissionsWithDetails,
-      referredUsers: referredUsersWithStatus, // TUTTI gli utenti sponsorizzati con stato
+      referredUsers: referredUsersWithStatus, // ALL sponsored users with status
       referralGuide: {
-        howItWorks: "Condividi il tuo codice con nuovi clienti durante la registrazione",
-        commission: "25% del prezzo dell'abbonamento per ogni cliente referenziato",
+        howItWorks: "Share your code with new users during registration",
+        commission: "25% of the subscription price for each referred client",
         minimumPayout: 3,
-        paymentMethod: "Bonifico bancario mensile"
+        paymentMethod: "Monthly bank transfer"
       },
       recentActivity: commissionsWithDetails.map(c => ({
         type: 'new_referral',
-        message: `Nuovo cliente: ${c.referredUserEmail} - ${c.planName}`,
+        message: `New client: ${c.referredUserEmail} - ${c.planName}`,
         date: c.startDate,
         amount: c.monthlyAmount
       })),
@@ -116,35 +116,35 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
       }
     };
 
-    console.log(`✅ DATI REALI CARICATI per ${staffUser.email}: ${myReferralSystem.stats.totalReferrals} referral, €${totalEarned}/mese`);
+    console.log(`✅ REAL DATA LOADED for ${staffUser.email}: ${myReferralSystem.stats.totalReferrals} referrals, €${totalEarned}/month`);
     
     res.json(myReferralSystem);
   } catch (error) {
-    console.error("❌ Errore nel sistema referral individuale:", error);
-    res.status(500).json({ error: "Errore nel caricamento dati referral" });
+    console.error("❌ Error in individual referral system:", error);
+    res.status(500).json({ error: "Error loading referral data" });
   }
 }
 
-// Funzione per registrare un nuovo referral per questo staff
+// Function to register a new referral for this staff member
 export async function registerMyReferral(req: Request, res: Response) {
   try {
     const staffUser = req.user!;
     const { newClientEmail, subscriptionType } = req.body;
     
-    console.log(`📝 NUOVO REFERRAL per ${staffUser.email}: Cliente ${newClientEmail}`);
+    console.log(`📝 NEW REFERRAL for ${staffUser.email}: Client ${newClientEmail}`);
     
-    // In futuro qui salveremo nella tabella referral specifica dello staff
-    // Per ora confermiamo solo la registrazione
+    // In the future we will save to the staff-specific referral table here
+    // For now confirm only the registration
     
     res.json({
       success: true,
-      message: "Referral registrato con successo",
+      message: "Referral registered successfully",
       staffEmail: staffUser.email,
       clientEmail: newClientEmail,
-      commissionAmount: "1€" // A partire dal 3° referral
+      commissionAmount: "1€" // Starting from the 3rd referral
     });
   } catch (error) {
-    console.error("❌ Errore registrazione referral:", error);
-    res.status(500).json({ error: "Errore nella registrazione referral" });
+    console.error("❌ Error registering referral:", error);
+    res.status(500).json({ error: "Error registering referral" });
   }
 }

@@ -11,25 +11,25 @@ router.post('/primary-color', ensureAuthenticated, async (req: Request, res: Res
     const userId = req.user!.id;
     const { primaryColor } = req.body;
     
-    console.log(`🎯 COLORE PRIMARIO per User ID: ${userId}, Valore: "${primaryColor}"`);
+    console.log(`🎯 PRIMARY COLOR for User ID: ${userId}, Value: "${primaryColor}"`);
     
     const userDb = createUnifiedUserDatabase(userId);
     const success = await userDb.setField(UNIFIED_FIELD_CODES.PRIMARY_COLOR, primaryColor);
     
     if (success) {
-      console.log(`✅ COLORE SALVATO SEPARATAMENTE: "${primaryColor}" per utente ${userId}`);
+      console.log(`✅ COLOR SAVED: "${primaryColor}" for user ${userId}`);
       res.json({ 
         success: true, 
-        message: 'Colore primario salvato con successo', 
+        message: 'Primary color saved successfully', 
         userId, 
         primaryColor 
       });
     } else {
-      res.status(500).json({ success: false, message: 'Errore durante il salvataggio del colore primario' });
+      res.status(500).json({ success: false, message: 'Error saving primary color' });
     }
   } catch (error: any) {
-    console.error('Errore durante il salvataggio del colore primario:', error);
-    res.status(500).json({ success: false, message: 'Errore durante il salvataggio del colore primario' });
+    console.error('Error saving primary color:', error);
+    res.status(500).json({ success: false, message: 'Error saving primary color' });
   }
 });
 

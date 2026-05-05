@@ -1,7 +1,7 @@
 // @ts-nocheck
 /**
- * Routes per la gestione delle licenze da parte dell'amministratore
- * Queste route sono accessibili solo dall'utente con ruolo admin
+ * Routes for license management by the administrator
+ * These routes are accessible only by the user with admin role
  */
 
 import express from 'express';
@@ -13,16 +13,16 @@ import { eq, desc, sql, gte, and, count, ne, notInArray, inArray } from 'drizzle
 
 const router = express.Router();
 
-// Middleware di protezione: solo admin può accedere
+// Protection middleware: only admin can access
 router.use(isAdmin);
 
 /**
- * Ottieni tutti gli utenti con i loro stati di licenza e abbonamento
- * Ritorna dati completi per la pagina admin users management
+ * Get all users with their license and subscription states
+ * Returns complete data for the admin users management page
  */
 router.get('/all-users', async (req, res) => {
   try {
-    // Ottieni tutti gli utenti dal database
+    // Get all users from the database
     const allUsers = await db.select({
       id: users.id,
       username: users.username,
@@ -35,18 +35,18 @@ router.get('/all-users', async (req, res) => {
     .from(users)
     .orderBy(desc(users.createdAt));
 
-    // Per ogni utente, ottieni le info di licenza e abbonamento
+    // For each user, get the license and subscription info
     const usersWithStatus = await Promise.all(
       allUsers.map(async (user) => {
         try {
-          // Ottieni licenza
+          // Get license
           const [license] = await db.select()
             .from(licenses)
             .where(eq(licenses.userId, user.id))
             .orderBy(desc(licenses.createdAt))
             .limit(1);
 
-          // Ottieni abbonamento attivo
+          // Get active subscription
           const [subscription] = await db.select({
             subscription: subscriptions,
             plan: subscriptionPlans
@@ -57,7 +57,7 @@ router.get('/all-users', async (req, res) => {
           .orderBy(desc(subscriptions.createdAt))
           .limit(1);
 
-          // Calcola giorni rimanenti
+          // Calculate remaining days
           let daysLeft = null;
           let licenseStatus = 'unknown';
           let expiresAt = null;
@@ -70,19 +70,19 @@ router.get('/all-users', async (req, res) => {
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             daysLeft = Math.max(0, diffDays);
 
-            // Determina status
+            // Determine status
             if (diffDays > 0) {
               licenseStatus = 'active';
             } else {
               licenseStatus = 'expired';
             }
           } else if (license && !license.expiresAt) {
-            // Licenza permanente (passepartout o staff)
+            // License permanente (passepartout o staff)
             licenseStatus = 'permanent';
             daysLeft = null;
           }
 
-          // Se ha abbonamento attivo, override status
+          // If active subscription, override status
           if (subscription && subscription.subscription.status === 'active') {
             licenseStatus = 'subscribed';
             if (subscription.subscription.currentPeriodEnd) {
@@ -118,7 +118,7 @@ router.get('/all-users', async (req, res) => {
             }
           };
         } catch (error: any) {
-          console.error(`Errore nel recupero dati per utente ${user.id}:`, error);
+          console.error(`Error retrieving data for user ${user.id}:`, error);
           return {
             ...user,
             license: null,
@@ -139,56 +139,56 @@ router.get('/all-users', async (req, res) => {
       total: usersWithStatus.length
     });
   } catch (error: any) {
-    console.error('Errore nel recupero di tutti gli utenti:', error);
+    console.error('Error retrieving all users:', error);
     res.status(500).json({ 
       success: false,
-      message: error.message || 'Errore durante il recupero degli utenti' 
+      message: error.message || 'Error retrieving users' 
     });
   }
 });
 
-// Genera una nuova licenza gratuita di lunga durata (10 anni) per un membro dello staff
+// Generate a new long-duration free license (10 years) for a staff member
 router.post('/generate-staff-license', async (req, res) => {
   try {
     const { userId, licenseType = LicenseType.PRO } = req.body;
     
     if (!userId) {
-      return res.status(400).json({ message: 'ID utente richiesto' });
+      return res.status(400).json({ message: 'User ID required' });
     }
     
-    // Verifica che l'utente esista e sia di tipo staff
+    // Verify che l'user esista e sia di type staff
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     
     if (!user) {
-      return res.status(404).json({ message: 'Utente non trovato' });
+      return res.status(404).json({ message: 'User not found' });
     }
     
     if (user.type !== 'staff') {
-      return res.status(400).json({ message: 'La licenza gratuita può essere assegnata solo a membri dello staff' });
+      return res.status(400).json({ message: 'The free license can only be assigned to staff members' });
     }
     
-    // Calcola la data di scadenza (10 anni da oggi)
+    // Calculate the expiry date (10 years from today)
     const expiresAt = new Date();
     expiresAt.setFullYear(expiresAt.getFullYear() + 10);
     
-    // Genera un codice di licenza speciale
+    // Generate a code di license speciale
     const licenseCode = await licenseService.generateStaffLicense(userId, licenseType, expiresAt);
     
     res.status(201).json({ 
       success: true, 
-      message: `Licenza gratuita di 10 anni di tipo ${licenseType} generata con successo per l'utente ${user.username}`,
+      message: `Free 10-year license of type ${licenseType} generated successfully for user ${user.username}`,
       licenseCode
     });
   } catch (error: any) {
-    console.error('Errore nella generazione della licenza staff:', error);
-    res.status(500).json({ message: error.message || 'Errore durante la generazione della licenza' });
+    console.error('Error generating staff license:', error);
+    res.status(500).json({ message: error.message || 'Error generating license' });
   }
 });
 
-// Ottieni tutte le licenze attualmente generate
+// Get all licenses attualmente generate
 router.get('/licenses', async (req, res) => {
   try {
-    // Ottiene tutte le licenze e le associazioni con gli utenti
+    // Get all licenses and their associations with users
     const licensesList = await db.select({
       license: licenses,
       username: users.username,
@@ -200,33 +200,33 @@ router.get('/licenses', async (req, res) => {
     
     res.json(licensesList);
   } catch (error: any) {
-    console.error('Errore nel recupero delle licenze:', error);
-    res.status(500).json({ message: error.message || 'Errore durante il recupero delle licenze' });
+    console.error('Error retrieving licenses:', error);
+    res.status(500).json({ message: error.message || 'Error retrieving licenses' });
   }
 });
 
-// Revoca una licenza esistente
+// Revoke an existing license
 router.post('/revoke-license', async (req, res) => {
   try {
     const { licenseId } = req.body;
     
     if (!licenseId) {
-      return res.status(400).json({ message: 'ID licenza richiesto' });
+      return res.status(400).json({ message: 'License ID required' });
     }
     
     await licenseService.revokeLicense(licenseId);
     
     res.json({ 
       success: true, 
-      message: 'Licenza revocata con successo'
+      message: 'License revoked successfully'
     });
   } catch (error: any) {
-    console.error('Errore nella revoca della licenza:', error);
-    res.status(500).json({ message: error.message || 'Errore durante la revoca della licenza' });
+    console.error('Error revoking license:', error);
+    res.status(500).json({ message: error.message || 'Error revoking license' });
   }
 });
 
-// Ottieni la lista degli utenti staff che possono ricevere una licenza
+// Get the list of staff users who can receive a license
 router.get('/staff-users', async (req, res) => {
   try {
     const allNonAdminUsers = await db.select({
@@ -243,14 +243,14 @@ router.get('/staff-users', async (req, res) => {
     
     res.json(allNonAdminUsers);
   } catch (error: any) {
-    console.error('Errore nel recupero degli utenti staff:', error);
-    res.status(500).json({ message: error.message || 'Errore durante il recupero degli utenti staff' });
+    console.error('Error retrieving staff users:', error);
+    res.status(500).json({ message: error.message || 'Error retrieving staff users' });
   }
 });
 
 /**
- * Modifica manualmente la data di creazione o scadenza di una licenza
- * Solo admin può eseguire questa operazione
+ * Manually modify the creation or expiry date of a license
+ * Only admin can perform this operation
  */
 router.post('/update-expiry-date', async (req, res) => {
   try {
@@ -259,11 +259,11 @@ router.post('/update-expiry-date', async (req, res) => {
     if (!userId || !newExpiryDate) {
       return res.status(400).json({
         success: false,
-        message: 'userId e newExpiryDate sono obbligatori'
+        message: 'userId and newExpiryDate are required'
       });
     }
 
-    // Trova la licenza dell'utente
+    // Find the license of the user
     const [userLicense] = await db.select()
       .from(licenses)
       .where(eq(licenses.userId, userId))
@@ -273,20 +273,20 @@ router.post('/update-expiry-date', async (req, res) => {
     if (!userLicense) {
       return res.status(404).json({
         success: false,
-        message: 'Nessuna licenza trovata per questo utente'
+        message: 'No license found for this user'
       });
     }
 
-    // Valida la data
+    // Validate the date
     const newDate = new Date(newExpiryDate);
     if (isNaN(newDate.getTime())) {
       return res.status(400).json({
         success: false,
-        message: 'Data non valida'
+        message: 'Data invalid'
       });
     }
 
-    // Prepara l'oggetto di aggiornamento basato sul campo da modificare
+    // Prepare the update object based on the field to modify
     const updateData: any = {};
     let fieldLabel = '';
     
@@ -295,34 +295,34 @@ router.post('/update-expiry-date', async (req, res) => {
       fieldLabel = 'Data di creazione';
     } else {
       updateData.expiresAt = newDate;
-      updateData.isActive = true; // Riattiva se modifico scadenza
+      updateData.isActive = true; // Reactivate if expiry is modified
       fieldLabel = 'Data di scadenza';
     }
 
-    // Aggiorna la licenza
+    // Update the license
     await db.update(licenses)
       .set(updateData)
       .where(eq(licenses.id, userLicense.id));
 
-    console.log(`✅ ${fieldLabel} modificata per utente ${userId}: ${newDate.toISOString()}`);
+    console.log(`✅ ${fieldLabel} modified for user ${userId}: ${newDate.toISOString()}`);
 
     res.json({
       success: true,
-      message: `${fieldLabel} aggiornata al ${newDate.toLocaleDateString()}`,
+      message: `${fieldLabel} updated to ${newDate.toLocaleDateString()}`,
       newDate: newDate
     });
   } catch (error: any) {
-    console.error('Errore durante la modifica della data:', error);
+    console.error('Error modifying date:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Errore durante la modifica della data'
+      message: error.message || 'Error modifying date'
     });
   }
 });
 
 /**
- * Estende il trial di 40 giorni per un utente specifico
- * Solo admin può eseguire questa operazione
+ * Extend the trial by 40 days for a specific user
+ * Only admin can perform this operation
  */
 router.post('/extend-trial', async (req, res) => {
   try {
@@ -331,21 +331,21 @@ router.post('/extend-trial', async (req, res) => {
     if (!userId) {
       return res.status(400).json({ 
         success: false,
-        message: 'ID utente richiesto' 
+        message: 'User ID required' 
       });
     }
     
-    // Verifica che l'utente esista
+    // Verify che l'user esista
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     
     if (!user) {
       return res.status(404).json({ 
         success: false,
-        message: 'Utente non trovato' 
+        message: 'User not found' 
       });
     }
     
-    // Estendi il trial
+    // Extend the trial
     const result = await licenseService.extendTrial(userId);
     
     if (result.success) {
@@ -359,17 +359,17 @@ router.post('/extend-trial', async (req, res) => {
       res.status(400).json(result);
     }
   } catch (error: any) {
-    console.error('Errore nell\'estensione del trial:', error);
+    console.error('Error extending trial:', error);
     res.status(500).json({ 
       success: false,
-      message: error.message || 'Errore durante l\'estensione del trial' 
+      message: error.message || 'Error extending trial' 
     });
   }
 });
 
 /**
- * Promuove un utente a Staff (licenza gratuita di 10 anni)
- * Solo admin può eseguire questa operazione
+ * Promote a user to Staff (free 10-year license)
+ * Only admin can perform this operation
  */
 router.post('/upgrade-to-staff', async (req, res) => {
   try {
@@ -378,7 +378,7 @@ router.post('/upgrade-to-staff', async (req, res) => {
     if (!userId) {
       return res.status(400).json({
         success: false,
-        message: 'ID utente richiesto'
+        message: 'User ID required'
       });
     }
 
@@ -386,20 +386,20 @@ router.post('/upgrade-to-staff', async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'Utente non trovato'
+        message: 'User not found'
       });
     }
 
-    // 10 anni a partire da oggi
+    // 10 years from today
     const expiresAt = new Date();
     expiresAt.setFullYear(expiresAt.getFullYear() + 10);
 
-    // Disattiva tutte le licenze esistenti dell'utente
+    // Deactivate all existing licenses of the user
     await db.update(licenses)
       .set({ isActive: false })
       .where(eq(licenses.userId, userId));
 
-    // Crea la nuova licenza STAFF_FREE con codice nel formato consistente STAFF-{userId}-{timestamp}
+    // Create the new STAFF_FREE license with code in consistent format STAFF-{userId}-{timestamp}
     const code = `STAFF-${userId}-${Math.floor(Date.now() / 1000)}`;
 
     await db.insert(licenses).values({
@@ -412,8 +412,8 @@ router.post('/upgrade-to-staff', async (req, res) => {
       expiresAt
     });
 
-    // Genera assignmentCode se l'utente non ne ha già uno.
-    // Senza questo codice il filtro clienti restituisce sempre [] per gli staff.
+    // Generate assignmentCode if the user does not already have one.
+    // Without this code the client filter always returns [] for staff.
     let assignmentCode = user.assignmentCode || null;
     if (!assignmentCode) {
       const alphanumUsername = (user.username || '').replace(/[^a-zA-Z0-9]/g, '');
@@ -422,30 +422,30 @@ router.post('/upgrade-to-staff', async (req, res) => {
       assignmentCode = `${prefix}${paddedId}`;
     }
 
-    // Aggiorna users.type, users.role e (se mancante) users.assignmentCode
+    // Update users.type, users.role e (If missing) users.assignmentCode
     await db.update(users)
       .set({ type: 'staff', role: 'staff', assignmentCode })
       .where(eq(users.id, userId));
 
     res.json({
       success: true,
-      message: `Utente ${user.username} promosso a Staff (accesso gratuito per 10 anni)`,
+      message: `User ${user.username} promoted to Staff (free access for 10 years)`,
       username: user.username,
       expiresAt,
       assignmentCode
     });
   } catch (error: any) {
-    console.error("Errore nell'upgrade a Staff:", error);
+    console.error("Error upgrading to Staff:", error);
     res.status(500).json({
       success: false,
-      message: error.message || "Errore durante l'upgrade a Staff"
+      message: error.message || "Error upgrading to Staff"
     });
   }
 });
 
 /**
- * Statistiche accessi utenti - oggi, ultimi 7gg, totali
- * Solo admin può accedere
+ * User access statistics - today, last 7 days, total
+ * Only admin can access
  */
 router.get('/access-stats', async (req, res) => {
   try {
@@ -455,18 +455,18 @@ router.get('/access-stats', async (req, res) => {
     const todayStart = new Date(now);
     todayStart.setHours(0, 0, 0, 0);
     
-    // 7 giorni fa
+    // 7 days ago
     const weekAgo = new Date(now);
     weekAgo.setDate(weekAgo.getDate() - 7);
     weekAgo.setHours(0, 0, 0, 0);
     
-    // Trova tutti gli utenti admin per escluderli dalle statistiche globali
+    // Find all admin users to exclude them from global statistics
     const adminUsers = await db.select({ id: users.id })
       .from(users)
       .where(eq(users.role, 'admin'));
     const adminIds = adminUsers.map(u => u.id);
     
-    // Condizione per escludere admin (se ci sono admin)
+    // Condition to exclude admins (if any admins exist)
     const excludeAdminCondition = adminIds.length > 0 
       ? notInArray(userLogins.userId, adminIds)
       : sql`1=1`;
@@ -476,24 +476,24 @@ router.get('/access-stats', async (req, res) => {
       .from(userLogins)
       .where(and(gte(userLogins.loginAt, todayStart), excludeAdminCondition));
     
-    // Accessi ultimi 7 giorni (esclusi admin)
+    // Accesses last 7 days (excluding admins)
     const [weekResult] = await db.select({ count: count() })
       .from(userLogins)
       .where(and(gte(userLogins.loginAt, weekAgo), excludeAdminCondition));
     
-    // Accessi totali (esclusi admin)
+    // Total accesses (excluding admins)
     const [totalResult] = await db.select({ count: count() })
       .from(userLogins)
       .where(excludeAdminCondition);
     
-    // Utenti unici oggi (esclusi admin)
+    // Users unici oggi (esclusi admin)
     const [uniqueTodayResult] = await db.select({ 
       count: sql<number>`count(distinct ${userLogins.userId})` 
     })
       .from(userLogins)
       .where(and(gte(userLogins.loginAt, todayStart), excludeAdminCondition));
     
-    // Utenti unici ultimi 7 giorni (esclusi admin)
+    // Unique users last 7 days (excluding admins)
     const [uniqueWeekResult] = await db.select({ 
       count: sql<number>`count(distinct ${userLogins.userId})` 
     })
@@ -511,18 +511,18 @@ router.get('/access-stats', async (req, res) => {
       }
     });
   } catch (error: any) {
-    console.error('Errore nel recupero statistiche accessi:', error);
+    console.error('Error retrieving access statistics:', error);
     res.status(500).json({ 
       success: false,
-      message: error.message || 'Errore durante il recupero delle statistiche' 
+      message: error.message || 'Error retrieving statistics' 
     });
   }
 });
 
 /**
- * Elimina un account utente e tutti i dati associati
- * Solo admin può eseguire questa operazione
- * L'admin non può eliminare se stesso
+ * Delete a user account and all associated data
+ * Only admin can perform this operation
+ * Admin cannot delete themselves
  */
 router.delete('/delete-user/:userId', async (req, res) => {
   try {
@@ -530,23 +530,23 @@ router.delete('/delete-user/:userId', async (req, res) => {
     const adminUser = req.user as any;
     
     if (isNaN(userId)) {
-      return res.status(400).json({ success: false, message: 'ID utente non valido' });
+      return res.status(400).json({ success: false, message: 'Invalid user ID' });
     }
     
     if (userId === adminUser.id) {
-      return res.status(400).json({ success: false, message: 'Non puoi eliminare il tuo stesso account' });
+      return res.status(400).json({ success: false, message: 'You cannot delete your own account' });
     }
     
     const [targetUser] = await db.select().from(users).where(eq(users.id, userId));
     if (!targetUser) {
-      return res.status(404).json({ success: false, message: 'Utente non trovato' });
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
     
     if (targetUser.role === 'admin') {
-      return res.status(400).json({ success: false, message: 'Non puoi eliminare un account admin' });
+      return res.status(400).json({ success: false, message: 'You cannot delete an admin account' });
     }
     
-    console.log(`🗑️ [ADMIN] Eliminazione account utente ID ${userId} (${targetUser.username}) richiesta da admin ID ${adminUser.id}`);
+    console.log(`🗑️ [ADMIN] Deleting user account ID ${userId} (${targetUser.username}) requested by admin ID ${adminUser.id}`);
     
     const {
       onboardingProgress, clients, services, appointments, bookingRequests,
@@ -565,7 +565,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
     } = await import('../../shared/schema');
     
     await db.transaction(async (tx) => {
-      // Elimina tabelle figlie che referenziano altre tabelle dell'utente
+      // Delete tabelle figlie che referenziano altre tabelle of the user
       const userClients = await tx.select({ id: clients.id }).from(clients).where(eq(clients.userId, userId));
       const clientIds = userClients.map(c => c.id);
       
@@ -584,7 +584,7 @@ router.delete('/delete-user/:userId', async (req, res) => {
         await tx.delete(invoiceItems).where(inArray(invoiceItems.invoiceId, invoiceIds));
       }
 
-      // Elimina prodotti correlati (stockMovements e productSales referenziano products)
+      // Delete prodotti correlati (stockMovements e productSales referenziano products)
       const userProducts = await tx.select({ id: products.id }).from(products).where(eq(products.userId, userId));
       const productIds = userProducts.map(p => p.id);
       if (productIds.length > 0) {
@@ -647,27 +647,27 @@ router.delete('/delete-user/:userId', async (req, res) => {
           try {
             await tx.delete(table).where(eq(col, userId));
           } catch (e) {
-            console.log(`⚠️ [ADMIN] Skip tabella durante eliminazione: ${e}`);
+            console.log(`⚠️ [ADMIN] Skip table during deletion: ${e}`);
           }
         }
       }
       
-      // Infine elimina l'utente
+      // Finally delete the user
       await tx.delete(users).where(eq(users.id, userId));
     });
     
-    console.log(`✅ [ADMIN] Account utente ${targetUser.username} (${targetUser.email}) eliminato con successo`);
+    console.log(`✅ [ADMIN] Account user ${targetUser.username} (${targetUser.email}) deleted successfully`);
     
     res.json({ 
       success: true, 
-      message: `Account ${targetUser.username} eliminato con successo`,
+      message: `Account ${targetUser.username} deleted successfully`,
       deletedUser: { id: targetUser.id, username: targetUser.username, email: targetUser.email }
     });
   } catch (error: any) {
-    console.error('❌ [ADMIN] Errore eliminazione account:', error);
+    console.error('❌ [ADMIN] Error deleting account:', error);
     res.status(500).json({ 
       success: false, 
-      message: error.message || 'Errore durante l\'eliminazione dell\'account' 
+      message: error.message || 'Error deleting account' 
     });
   }
 });

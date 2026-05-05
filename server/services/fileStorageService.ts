@@ -22,9 +22,9 @@ if (r2Enabled) {
       secretAccessKey: R2_SECRET_ACCESS_KEY!,
     },
   });
-  logger.info('[FILE] Cloudflare R2 object storage configurato');
+  logger.info('[FILE] Cloudflare R2 object storage configured');
 } else {
-  logger.warn('[FILE] R2 non configurato — fallback a base64 in PostgreSQL');
+  logger.warn('[FILE] R2 not configured — falling back to base64 in PostgreSQL');
 }
 
 class FileStorageService {
@@ -104,7 +104,7 @@ class FileStorageService {
           Key: r2Key,
         }));
       } catch (err) {
-        logger.warn(`[FILE] Errore eliminazione da R2: ${r2Key}`, err);
+        logger.warn(`[FILE] Error deleting from R2: ${r2Key}`, err);
       }
     }
 

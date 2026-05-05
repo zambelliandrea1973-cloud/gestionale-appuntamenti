@@ -10,14 +10,14 @@ export async function getMyReferralData(req: Request, res: Response) {
     const staffId = staffUser.id;
     console.log(`🎯 STAFF REFERRAL AUTONOMO: ${staffUser.email} (ID: ${staffId})`);
 
-    // Genera codice referral basato sui dati utente esistenti
+    // Generate referral code based on existing user data
     const emailPrefix = staffUser.email.substring(0, 3).toUpperCase();
     const idSuffix = staffId.toString().padStart(2, '0');
     const referralCode = `${emailPrefix}${idSuffix}`;
     
-    console.log(`✅ CODICE REFERRAL GENERATO: ${referralCode}`);
+    console.log(`✅ REFERRAL CODE GENERATED: ${referralCode}`);
 
-    // Crea i dati referral usando solo informazioni disponibili
+    // Create referral data using only available information
     const myReferralData = {
       stats: {
         totalCommissions: 0,
@@ -29,7 +29,7 @@ export async function getMyReferralData(req: Request, res: Response) {
       commissions: [],
       referralInfo: {
         myCode: referralCode,
-        howItWorks: "Condividi il tuo codice referral con nuovi utenti. Riceverai 1€ per ogni abbonamento a partire dal terzo utente sponsorizzato.",
+        howItWorks: "Share your referral code with new users. You will receive €1 for each subscription starting from the third sponsored user.",
         minimumPayout: 3,
         commissionPerUser: "1€"
       }
@@ -39,19 +39,19 @@ export async function getMyReferralData(req: Request, res: Response) {
     
     res.json(myReferralData);
   } catch (error) {
-    console.error("❌ Errore nel sistema referral staff:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("❌ Error in staff referral system:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-// Crea un nuovo referral quando qualcuno usa il codice dello staff
+// Create a new referral when someone uses the staff code
 export async function createReferral(req: Request, res: Response) {
   try {
     const { referralCode, newUserId } = req.body;
     
-    console.log(`🎯 CREAZIONE REFERRAL: Codice ${referralCode}, Nuovo utente ${newUserId}`);
+    console.log(`🎯 Creating REFERRAL: code ${referralCode}, new user ${newUserId}`);
     
-    // Trova lo staff proprietario del codice
+    // Find the staff owner of the code
     const [staffOwner] = await db
       .select({ id: users.id, email: users.email })
       .from(users)
@@ -59,37 +59,37 @@ export async function createReferral(req: Request, res: Response) {
       .limit(1);
 
     if (!staffOwner) {
-      return res.status(404).json({ error: "Codice referral non valido" });
+      return res.status(404).json({ error: "Invalid referral code" });
     }
 
-    console.log(`✅ REFERRAL REGISTRATO: Staff ${staffOwner.email} ha sponsorizzato utente ${newUserId}`);
+    console.log(`✅ REFERRAL registered: Staff ${staffOwner.email} sponsored user ${newUserId}`);
     
-    // Per ora restituiamo success - in futuro salveremo in una tabella dedicata
+    // For now return success - in future we will save to a dedicated table
     res.json({ 
       success: true, 
-      message: "Referral registrato con successo",
+      message: "Referral registered successfully",
       staffOwner: staffOwner.email
     });
   } catch (error) {
-    console.error("❌ Errore nella creazione referral:", error);
-    res.status(500).json({ error: "Errore interno del server" });
+    console.error("❌ Error creating referral:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-// Invia i dati staff all'admin per la panoramica generale
+// Send staff data to admin for the general overview
 export async function sendDataToAdmin(staffId: number) {
   try {
-    console.log(`📤 INVIO DATI STAFF ${staffId} ALL'ADMIN`);
+    console.log(`📤 Sending STAFF ${staffId} data TO ADMIN`);
     
-    // In futuro questo invierà i dati dell'account staff all'admin
-    // Per ora è solo un placeholder
+    // In the future this will send the staff accounts data to the admin
+    // For now it is just a placeholder
     
     return {
       success: true,
-      message: "Dati inviati all'admin"
+      message: "Data sent to admin"
     };
   } catch (error) {
-    console.error("❌ Errore nell'invio dati all'admin:", error);
+    console.error("❌ Error sending data to admin:", error);
     return { success: false, error: error };
   }
 }

@@ -76,25 +76,25 @@ export const scalabilityMonitorService = {
       );
 
       if (result.success) {
-        console.log(`📧 [MONITOR] Warning email inviata: ${subject}`);
+        console.log(`📧 [MONITOR] Warning email sent: ${subject}`);
       } else {
-        console.error(`❌ [MONITOR] Errore invio email warning: ${result.error}`);
+        console.error(`❌ [MONITOR] Error sending warning email: ${result.error}`);
       }
       return result.success;
     } catch (error: any) {
-      console.error(`❌ [MONITOR] Errore invio email warning:`, error);
+      console.error(`❌ [MONITOR] Error sending warning email:`, error);
       return false;
     }
   },
 
   async checkAndNotify(): Promise<void> {
-    console.log('🔍 [MONITOR] Controllo soglie scalabilità...');
+    console.log('🔍 [MONITOR] Checking scalability thresholds...');
     
     try {
       const stats = await this.getStats();
       const warnings: string[] = [];
       
-      console.log(`📊 [MONITOR] Stats: ${stats.totalUsers} utenti, ${stats.totalClients} clienti, ${stats.totalAppointments} appuntamenti, max ${stats.maxClientsPerUser} clienti/utente`);
+      console.log(`📊 [MONITOR] Stats: ${stats.totalUsers} users, ${stats.totalClients} clients, ${stats.totalAppointments} appointments, max ${stats.maxClientsPerUser} clients/user`);
 
       if (stats.totalUsers >= THRESHOLDS.TOTAL_USERS_CRITICAL && this.canSendWarning('users_critical')) {
         warnings.push(`🚨 CRITICO: ${stats.totalUsers} utenti registrati (soglia: ${THRESHOLDS.TOTAL_USERS_CRITICAL})`);
@@ -154,15 +154,15 @@ export const scalabilityMonitorService = {
 
         await this.sendWarningEmail('Soglie scalabilità raggiunte', htmlContent);
       } else {
-        console.log('✅ [MONITOR] Nessuna soglia critica raggiunta');
+        console.log('✅ [MONITOR] No critical threshold reached');
       }
     } catch (error: any) {
-      console.error('❌ [MONITOR] Errore nel controllo soglie:', error);
+      console.error('❌ [MONITOR] Error checking thresholds:', error);
     }
   },
 
   startMonitoring(intervalHours: number = 6): void {
-    console.log(`🚀 [MONITOR] Avvio monitoraggio scalabilità (ogni ${intervalHours} ore)`);
+    console.log(`🚀 [MONITOR] Starting scalability monitoring (every ${intervalHours} hours)`);
     
     setTimeout(() => this.checkAndNotify(), 10000);
     

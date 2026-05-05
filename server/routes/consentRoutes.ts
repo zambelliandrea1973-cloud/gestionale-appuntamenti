@@ -9,12 +9,12 @@ router.get("/api/consents/client", async (req, res) => {
   try {
     const allConsents = await db.select().from(consentsTable);
     
-    console.log(`📋 [GET CONSENTS DB] Richiesta lista consensi - trovati ${allConsents.length} consensi`);
+    console.log(`📋 [GET CONSENTS DB] Consent list request - found ${allConsents.length} consents`);
     
     res.json(allConsents);
   } catch (error) {
-    console.error('❌ [ERRORE GET CONSENTS]:', error);
-    res.status(500).json({ error: 'Errore durante il caricamento dei consensi' });
+    console.error('❌ [GET CONSENTS ERROR]:', error);
+    res.status(500).json({ error: 'Error loading consents' });
   }
 });
 
@@ -23,10 +23,10 @@ router.post("/api/consents", async (req, res) => {
     const { clientId, consentText, consentProvided, signature } = req.body;
     const user = (req as any).user;
     
-    console.log(`📋 [POST CONSENT DB] Registrazione consenso per cliente ${clientId}, user: ${user?.id}`);
+    console.log(`📋 [POST CONSENT DB] Registering consent for client ${clientId}, user: ${user?.id}`);
     
     if (!clientId) {
-      return res.status(400).json({ error: 'ClientId è richiesto' });
+      return res.status(400).json({ error: 'ClientId is required' });
     }
     
     const parsedClientId = parseInt(clientId);
@@ -40,17 +40,17 @@ router.post("/api/consents", async (req, res) => {
       signature: signature || `Consenso digitale - ${new Date().toLocaleString()}`,
     });
     
-    console.log(`✅ [CONSENT DB SUCCESS] Consenso ID ${newConsent.id} registrato per cliente ${parsedClientId} e hasConsent aggiornato nel database`);
+    console.log(`✅ [CONSENT DB SUCCESS] Consent ID ${newConsent.id} registered for client ${parsedClientId} and hasConsent updated in database`);
     
     res.json({ 
       success: true, 
-      message: 'Consenso registrato con successo',
+      message: 'Consenso registered successfully',
       consent: newConsent
     });
     
   } catch (error: any) {
-    console.error('❌ [ERRORE POST CONSENT]:', error);
-    res.status(500).json({ error: 'Errore durante la registrazione del consenso' });
+    console.error('❌ [POST CONSENT ERROR]:', error);
+    res.status(500).json({ error: 'Error registering consent' });
   }
 });
 

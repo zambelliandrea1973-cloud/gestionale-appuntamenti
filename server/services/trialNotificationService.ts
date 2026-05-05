@@ -5,16 +5,16 @@ import { getEmailConfig } from '../utils/emailConfig';
 import nodemailer from 'nodemailer';
 
 /**
- * Determina l'URL base dell'applicazione
- * Usa APP_URL se impostato (produzione), altrimenti usa REPLIT_DOMAINS (sviluppo)
+ * Determine the base application URL
+ * Usa APP_URL If impostato (produzione), otherwise usa REPLIT_DOMAINS (sviluppo)
  */
 function getAppBaseUrl(): string {
-  // Priorità 1: Variabile d'ambiente APP_URL (produzione Sliplane)
+  // Priority 1: APP_URL environment variable (Sliplane production)
   if (process.env.APP_URL) {
     return process.env.APP_URL.replace(/\/$/, ''); // Rimuovi trailing slash
   }
   
-  // Priorità 2: REPLIT_DOMAINS (sviluppo su Replit)
+  // Priority 2: REPLIT_DOMAINS (development on Replit)
   if (process.env.REPLIT_DOMAINS) {
     return `https://${process.env.REPLIT_DOMAINS}`;
   }
@@ -24,13 +24,13 @@ function getAppBaseUrl(): string {
 }
 
 /**
- * Servizio per l'invio di notifiche trial in scadenza
- * Invia email 10 giorni prima della scadenza (giorno 30 del trial di 40 giorni)
+ * Service for sending expiring trial notifications
+ * Send email 10 days before expiry (day 30 of the 40-day trial)
  */
 export const trialNotificationService = {
   /**
-   * Trova tutti gli utenti trial che devono ricevere la notifica
-   * Criteri: trial attivo, scade tra 9-11 giorni, notifica non ancora inviata
+   * Find all trial users that should receive the notification
+   * Criteria: active trial, expires in 9-11 days, notification not yet sent
    */
   async findTrialUsersToNotify() {
     try {
@@ -44,7 +44,7 @@ export const trialNotificationService = {
       const elevenDaysFromNow = new Date(now);
       elevenDaysFromNow.setDate(elevenDaysFromNow.getDate() + 11);
       
-      // Query licenze trial attive che scadono tra 9-11 giorni e non hanno ricevuto notifica
+      // Query active trial licenses expiring in 9-11 days that have not received notification
       const trialLicenses = await db
         .select({
           licenseId: licenses.id,
@@ -65,16 +65,16 @@ export const trialNotificationService = {
           )
         );
       
-      console.log(`📧 Trovati ${trialLicenses.length} utenti trial da notificare (scadenza tra 9-11 giorni)`);
+      console.log(`📧 Found ${trialLicenses.length} trial users to notify (expiring in 9-11 days)`);
       return trialLicenses;
     } catch (error) {
-      console.error('❌ Errore nel trovare utenti trial da notificare:', error);
+      console.error('❌ Error finding trial users to notify:', error);
       return [];
     }
   },
 
   /**
-   * Genera il template HTML dell'email con comparazione piani
+   * Generate the email HTML template with plan comparison
    */
   generateTrialExpiryEmailHTML(username: string, expiryDate: Date): string {
     const formattedDate = expiryDate.toLocaleDateString('it-IT', {
@@ -120,7 +120,7 @@ export const trialNotificationService = {
     
     <div class="warning-box">
       <strong>Il tuo periodo di prova terminerà il ${formattedDate}.</strong><br>
-      Dopo questa data, l'accesso sarà sospeso fino alla scelta di un piano di abbonamento.
+      After this date, access will be suspended until a subscription plan is chosen.
     </div>
     
     <p>Per continuare a utilizzare il nostro sistema di gestione, scegli il piano più adatto alle tue esigenze:</p>
@@ -137,7 +137,7 @@ export const trialNotificationService = {
         <li>Calendario appuntamenti</li>
         <li>Gestione clienti</li>
         <li>App QR/PWA per clienti</li>
-        <li>Richiesta appuntamenti cliente</li>
+        <li>Client appointment requests</li>
         <li>Notifiche clienti</li>
         <li>Emissione fatture</li>
         <li class="disabled">Sincronizzazione Google Calendar</li>
@@ -200,13 +200,13 @@ export const trialNotificationService = {
     </div>
 
     <p style="margin-top:30px; color:#666;">
-      <strong>Nota:</strong> I tuoi dati rimarranno al sicuro e saranno disponibili non appena attiverai un abbonamento.
+      <strong>Note:</strong> Your data will remain safe and will be available as soon as you activate a subscription.
     </p>
   </div>
 
   <div class="footer">
     <p>Hai domande? Contattaci rispondendo a questa email.</p>
-    <p style="color:#999; font-size:12px;">Questa è una notifica automatica del sistema.</p>
+    <p style="color:#999; font-size:12px;">This is an automated system notification.</p>
   </div>
 </body>
 </html>
@@ -214,23 +214,23 @@ export const trialNotificationService = {
   },
 
   /**
-   * Invia email di notifica trial in scadenza
+   * Send email di notifica trial expiring
    */
   async sendTrialExpiryEmail(userEmail: string, username: string, expiryDate: Date, userId: number): Promise<boolean> {
     try {
-      // Recupera configurazione email per l'utente
+      // Retrieve email configuration for user
       const emailConfig = await getEmailConfig(userId);
       
       if (!emailConfig || !emailConfig.emailEnabled) {
-        console.warn(`⚠️ Configurazione email non disponibile per utente ${userId}, uso fallback ambiente`);
-        // Fallback su configurazione globale se disponibile
+        console.warn(`⚠️ Email configuration not available for user ${userId}, using environment fallback`);
+        // Fallback to global configuration if available
         if (!process.env.EMAIL_ADDRESS || !process.env.EMAIL_PASSWORD) {
-          console.error('❌ Nessuna configurazione email disponibile (né utente né globale)');
+          console.error('❌ No email configuration available (neither user nor global)');
           return false;
         }
       }
 
-      // Crea trasportatore SMTP
+      // Create trasportatore SMTP
       const transporter = nodemailer.createTransport({
         host: emailConfig?.smtpServer || process.env.SMTP_SERVER || 'smtp.gmail.com',
         port: emailConfig?.smtpPort || parseInt(process.env.SMTP_PORT || '587'),
@@ -250,23 +250,23 @@ export const trialNotificationService = {
         html: htmlContent,
       };
 
-      console.log(`📧 Invio email trial expiry a ${userEmail}...`);
+      console.log(`📧 Sending trial expiry email to ${userEmail}...`);
       await transporter.sendMail(mailOptions);
-      console.log(`✅ Email trial expiry inviata con successo a ${userEmail}`);
+      console.log(`✅ Trial expiry email sent successfully to ${userEmail}`);
       
       return true;
     } catch (error: any) {
-      console.error(`❌ Errore invio email trial expiry a ${userEmail}:`, error.message);
+      console.error(`❌ Error sending trial expiry email to ${userEmail}:`, error.message);
       return false;
     }
   },
 
   /**
-   * Processa tutte le notifiche trial in scadenza
-   * Chiamato dallo scheduler giornaliero
+   * Process all notifiche trial expiring
+   * Called by the daily scheduler
    */
   async processTrialNotifications(): Promise<{ sent: number; failed: number }> {
-    console.log('📧 Inizio elaborazione notifiche trial in scadenza...');
+    console.log('📧 Starting processing of expiring trial notifications...');
     
     const usersToNotify = await this.findTrialUsersToNotify();
     let sentCount = 0;
@@ -282,7 +282,7 @@ export const trialNotificationService = {
         );
 
         if (success) {
-          // Aggiorna flag notifica inviata
+          // Update flag notifica inviata
           await db
             .update(licenses)
             .set({
@@ -292,18 +292,18 @@ export const trialNotificationService = {
             .where(eq(licenses.id, user.licenseId));
           
           sentCount++;
-          console.log(`✅ Notifica trial inviata a ${user.username} (${user.userEmail})`);
+          console.log(`✅ Trial notification sent to ${user.username} (${user.userEmail})`);
         } else {
           failedCount++;
-          console.error(`❌ Fallito invio notifica trial a ${user.username}`);
+          console.error(`❌ Failed to send trial notification to ${user.username}`);
         }
       } catch (error) {
         failedCount++;
-        console.error(`❌ Errore elaborazione notifica per ${user.username}:`, error);
+        console.error(`❌ Error processing notification for ${user.username}:`, error);
       }
     }
 
-    console.log(`📊 Elaborazione notifiche trial completata: ${sentCount} inviate, ${failedCount} fallite`);
+    console.log(`📊 Trial notifications processing completed: ${sentCount} sent, ${failedCount} failed`);
     return { sent: sentCount, failed: failedCount };
   },
 };

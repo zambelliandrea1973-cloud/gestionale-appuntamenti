@@ -1,6 +1,6 @@
 /**
- * Proxy per servire icone PWA generate on-the-fly dal database PostgreSQL
- * SOLUZIONE per Sliplane: non usa file system, genera icone al volo
+ * Proxy to serve PWA icons generated on-the-fly from PostgreSQL database
+ * SOLUTION for Sliplane: does not use file system, generates icons on the fly
  */
 import { Request, Response } from 'express';
 import path from 'path';
@@ -43,11 +43,11 @@ export async function serveCustomIcon(req: Request, res: Response) {
   try {
     const { size } = req.params;
 
-    // Determina dimensione numerica (supporta sia "192" che "192x192")
+    // Determine dimensione numerica (supporta sia "192" che "192x192")
     const sizeNum = parseInt(size.split('x')[0]);
     if (!sizeNum || ![16, 32, 48, 64, 96, 128, 144, 152, 192, 384, 512].includes(sizeNum)) {
-      console.log(`❌ ICON PROXY DB: Dimensione non valida: ${size} → ${sizeNum}`);
-      return res.status(400).send('Dimensione icona non valida');
+      console.log(`❌ ICON PROXY DB: Invalid size: ${size} → ${sizeNum}`);
+      return res.status(400).send('Invalid icon size');
     }
 
     // Derive owner identity strictly from `owner` param (never from `bust`,
@@ -73,31 +73,31 @@ export async function serveCustomIcon(req: Request, res: Response) {
       return res.send(cached);
     }
     
-    console.log(`🖼️ ICON PROXY DB: Richiesta icona ${size} per owner ${ownerId ?? 'default'}`);
+    console.log(`🖼️ ICON PROXY DB: Icon ${size} requested for owner ${ownerId ?? 'default'}`);
 
-    // Carica icona dal database PostgreSQL
+    // Load icon from database PostgreSQL
     let iconBase64: string | undefined;
     
     if (ownerId) {
       try {
         iconBase64 = await storage.getUserIcon(ownerId);
       } catch (error) {
-        console.log(`⚠️ ICON PROXY DB: Errore caricamento user ${ownerId}:`, error);
+        console.log(`⚠️ ICON PROXY DB: Error loading user ${ownerId}:`, error);
       }
     }
     
-    // Fallback a icona default da file
+    // Fallback a icon default da file
     if (!iconBase64) {
       const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app_icon.jpg');
       if (fs.existsSync(defaultIconPath)) {
         const defaultBuffer = fs.readFileSync(defaultIconPath);
         iconBase64 = `data:image/jpeg;base64,${defaultBuffer.toString('base64')}`;
       } else {
-        return res.status(404).send('Icona default non trovata');
+        return res.status(404).send('Default icon not found');
       }
     }
     
-    // Genera icona della dimensione richiesta usando Sharp
+    // Generate icon of the required size using Sharp
     try {
       const sharp = await import('sharp').then(m => m.default);
       
@@ -117,7 +117,7 @@ export async function serveCustomIcon(req: Request, res: Response) {
       // Store in server-side cache (only for authenticated owners, not defaults)
       if (cacheKey) {
         setCached(cacheKey, resizedBuffer);
-        console.log(`💾 ICON CACHE STORE: Icona ${size} per owner ${ownerId} salvata nel cache`);
+        console.log(`💾 ICON CACHE STORE: Icon ${size} for owner ${ownerId} saved to cache`);
       }
       
       res.set({
@@ -131,24 +131,24 @@ export async function serveCustomIcon(req: Request, res: Response) {
         'Access-Control-Allow-Origin': '*'
       });
       
-      console.log(`✅ ICON PROXY DB: Servendo icona ${size} per owner ${ownerId ?? 'default'}, dimensione: ${resizedBuffer.length} bytes`);
+      console.log(`✅ ICON PROXY DB: Serving icon ${size} for owner ${ownerId ?? 'default'}, size: ${resizedBuffer.length} bytes`);
       
       res.send(resizedBuffer);
       
     } catch (error) {
-      console.error('❌ ICON PROXY DB: Errore generazione icona:', error);
+      console.error('❌ ICON PROXY DB: Error generating icon:', error);
       
-      // Fallback a icona statica se generazione fallisce
+      // Fallback a icon statica If generazione fallisce
       const staticIconPath = path.join(process.cwd(), 'public', 'icons', `icon-${size}.png`);
       if (fs.existsSync(staticIconPath)) {
         res.sendFile(staticIconPath);
       } else {
-        res.status(500).send('Errore generazione icona');
+        res.status(500).send('Error generating icon');
       }
     }
     
   } catch (error) {
-    console.error('❌ ICON PROXY DB: Errore generale:', error);
-    res.status(500).send('Errore server icona');
+    console.error('❌ ICON PROXY DB: General error:', error);
+    res.status(500).send('Icon server error');
   }
 }

@@ -7,24 +7,24 @@ import { eq } from 'drizzle-orm';
 
 const router = Router();
 
-// Template predefinito per l'email
-const DEFAULT_EMAIL_TEMPLATE = `Gentile {{nome}} {{cognome}},
+// Default email template
+const DEFAULT_EMAIL_TEMPLATE = `Dear {{nome}} {{cognome}},
 
-Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+This is a reminder for your {{servizio}} appointment scheduled for {{data}} at {{ora}}.
 
-Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+For any changes or cancellations, please contact us.
 
-Cordiali saluti,
-Studio Professionale`;
+Best regards,
+Professional Studio`;
 
-// Oggetto predefinito per l'email
-const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
+// Default email subject
+const DEFAULT_EMAIL_SUBJECT = "Appointment reminder for {{data}}";
 
-// Ottieni le impostazioni email e calendario
+// Get email and calendar settings
 router.get('/', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     let settings = await db.query.emailCalendarSettings.findFirst({
       where: eq(emailCalendarSettings.userId, userId),
@@ -47,37 +47,37 @@ router.get('/', isAuthenticated, async (req, res) => {
     
     res.json(settingsToSend);
   } catch (error: any) {
-    console.error('Errore caricamento impostazioni email:', error);
-    res.status(500).json({ error: 'Errore caricamento impostazioni' });
+    console.error('Error loading email settings:', error);
+    res.status(500).json({ error: 'Error loading settings' });
   }
 });
 
-// Endpoint per ottenere la password in chiaro
+// Endpoint per ottenere the password in chiaro
 router.get('/show-password', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     const settings = await db.query.emailCalendarSettings.findFirst({
       where: eq(emailCalendarSettings.userId, userId),
     });
 
     if (!settings?.emailPassword) {
-      return res.status(404).json({ success: false, error: 'Nessuna password salvata' });
+      return res.status(404).json({ success: false, error: 'No password saved' });
     }
 
     res.json({ success: true, emailPassword: settings.emailPassword });
   } catch (error: any) {
-    console.error('Errore lettura password:', error);
-    res.status(500).json({ error: 'Errore lettura password' });
+    console.error('Error reading password:', error);
+    res.status(500).json({ error: 'Error reading password' });
   }
 });
 
-// Aggiorna le impostazioni email e calendario
+// Update email and calendar settings
 router.post('/', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     const updateData = { ...req.body, updatedAt: new Date() };
     
@@ -94,29 +94,29 @@ router.post('/', isAuthenticated, async (req, res) => {
         .values({ userId, ...updateData });
     }
     
-    res.json({ success: true, message: 'Impostazioni aggiornate con successo' });
+    res.json({ success: true, message: 'Settings updated successfully' });
   } catch (error: any) {
-    console.error('Errore salvataggio impostazioni:', error);
-    res.status(500).json({ success: false, error: 'Errore salvataggio' });
+    console.error('Error saving settings:', error);
+    res.status(500).json({ success: false, error: 'Error saving' });
   }
 });
 
-// Invia un'email di test
+// Send a test email
 router.post('/send-test-email', isAuthenticated, async (req, res) => {
   try {
     const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ error: 'Non autorizzato' });
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     const settings = await db.query.emailCalendarSettings.findFirst({
       where: eq(emailCalendarSettings.userId, userId),
     });
 
     if (!settings?.emailEnabled || !settings?.emailAddress || !settings?.emailPassword) {
-      return res.status(400).json({ success: false, error: 'Credenziali email mancanti' });
+      return res.status(400).json({ success: false, error: 'Missing email credentials' });
     }
     
     const { email } = req.body;
-    if (!email) return res.status(400).json({ success: false, error: 'Email mancante' });
+    if (!email) return res.status(400).json({ success: false, error: 'Email missing' });
     
     let testSubject = settings.emailSubject || DEFAULT_EMAIL_SUBJECT;
     let testMessage = settings.emailTemplate || DEFAULT_EMAIL_TEMPLATE;
@@ -147,10 +147,10 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
       html: testMessage.replace(/\n/g, '<br>'),
     });
     
-    res.json({ success: true, message: 'Email di test inviata con successo' });
+    res.json({ success: true, message: 'Test email sent successfully' });
   } catch (error: any) {
-    console.error('Errore invio email test:', error);
-    res.status(500).json({ success: false, error: 'Errore invio email test' });
+    console.error('Error sending test email:', error);
+    res.status(500).json({ success: false, error: 'Error sending test email' });
   }
 });
 

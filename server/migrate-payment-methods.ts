@@ -5,17 +5,17 @@ import * as fs from 'fs';
 
 async function migratePaymentMethods() {
   try {
-    console.log('🔄 Inizio migrazione metodi di pagamento dal JSON al database PostgreSQL...');
+    console.log('🔄 Starting migration of payment methods from JSON to PostgreSQL database...');
     
-    // Leggi il file JSON
+    // Read the file JSON
     const jsonPath = './payment_methods.json';
     const fileContent = fs.readFileSync(jsonPath, 'utf8');
     const methods = JSON.parse(fileContent);
     
-    console.log(`📦 Trovati ${methods.length} metodi nel file JSON`);
+    console.log(`📦 Found ${methods.length} methods in JSON file`);
     
     for (const method of methods) {
-      // Controlla se già esiste
+      // Check if it already exists
       const existing = await db
         .select()
         .from(paymentMethodsConfig)
@@ -23,7 +23,7 @@ async function migratePaymentMethods() {
         .limit(1);
       
       if (existing.length === 0) {
-        // Inserisce nuovo
+        // Insert new
         await db.insert(paymentMethodsConfig).values({
           methodId: method.id,
           name: method.name,
@@ -32,14 +32,14 @@ async function migratePaymentMethods() {
         });
         console.log(`✅ Migrato: ${method.name}`);
       } else {
-        console.log(`⏭️  Saltato: ${method.name} (già presente)`);
+        console.log(`⏭️  Skipped: ${method.name} (already present)`);
       }
     }
     
-    console.log('✅ MIGRAZIONE COMPLETATA! Tutte le credenziali sono salvate in PostgreSQL');
+    console.log('✅ MIGRATION COMPLETED! All credentials saved in PostgreSQL');
     process.exit(0);
   } catch (error: any) {
-    console.error('❌ Errore migrazione:', error);
+    console.error('❌ Migration error:', error);
     process.exit(1);
   }
 }

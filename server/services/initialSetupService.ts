@@ -6,20 +6,20 @@ import { count, eq } from "drizzle-orm";
 import { addDays } from "date-fns";
 
 /**
- * Servizio per l'inizializzazione dell'applicazione
- * Si occupa di creare un account amministratore predefinito se non esiste già.
+ * Service for application initialization
+ * Handles creating a default administrator account if one does not already exist.
  */
 export class InitialSetupService {
   /**
-   * Verifica se esistono utenti nel sistema
+   * Check if users exist in the system
    */
   async hasAnyUsers(): Promise<boolean> {
     try {
       const [result] = await db.select({ count: count() }).from(users);
       return result.count > 0;
     } catch (error) {
-      // Fallback al JSON storage quando il database non è disponibile
-      console.log('Database non disponibile, controllo utenti da JSON storage');
+      // Fallback to JSON storage when the database is not available
+      console.log('Database not available, checking users from JSON storage');
       const fs = await import('fs');
       const path = await import('path');
       const storageFile = path.join(process.cwd(), 'storage_data.json');
@@ -27,7 +27,7 @@ export class InitialSetupService {
       if (fs.existsSync(storageFile)) {
         const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
         const userCount = data.users ? data.users.length : 0;
-        console.log(`Trovati ${userCount} utenti nel JSON storage`);
+        console.log(`Found ${userCount} users in JSON storage`);
         return userCount > 0;
       }
       
@@ -36,7 +36,7 @@ export class InitialSetupService {
   }
 
   /**
-   * Verifica se esiste un amministratore predefinito
+   * Check if a default administrator exists
    */
   async hasDefaultAdmin(): Promise<boolean> {
     const user = await storage.getUserByUsername('admin@gestoreprofessionisti.it');
@@ -44,24 +44,24 @@ export class InitialSetupService {
   }
 
   /**
-   * Crea l'account amministratore predefinito
+   * Create the default administrator account
    */
   async createDefaultAdmin(email: string, password: string): Promise<void> {
-    console.log('Creazione account amministratore iniziale...');
+    console.log('Creating initial administrator account...');
     
     try {
-      // Se l'account esiste già, non faccio nulla
+      // If the account already exists, do nothing
       const existingUser = await storage.getUserByUsername(email);
       if (existingUser) {
-        console.log(`L'account amministratore ${email} esiste già`);
+        console.log(`Administrator account ${email} already exists`);
         return;
       }
       
       // Creo l'account amministratore
       const hashedPassword = await hashPassword(password);
       
-      // Data di scadenza prova gratuita (40 giorni)
-      // Data di scadenza prova gratuita (40 giorni) - da implementare in licenseService
+      // Free trial expiry date (40 days)
+      // Free trial expiry date (40 days) - da implementare in licenseService
       
       const admin = await storage.createUser({
         username: email,
@@ -71,33 +71,33 @@ export class InitialSetupService {
         type: 'staff'
       });
       
-      console.log(`Account amministratore creato con successo: ${email}`);
+      console.log(`Account amministratore created successfully: ${email}`);
     } catch (error) {
-      console.error('Errore durante la creazione dell\'account amministratore:', error);
+      console.error('Error creating administrator account:', error);
       throw error;
     }
   }
 
   /**
-   * Esegue l'inizializzazione dell'applicazione
+   * Performs application initialization
    */
   async initialize(): Promise<void> {
     try {
-      // Verifico se ci sono utenti nel sistema
+      // Check if there are users in the system
       const hasUsers = await this.hasAnyUsers();
       
-      // Se non ci sono utenti, creo l'account amministratore predefinito
+      // If there are users, create the default administrator account
       if (!hasUsers) {
-        console.log('Nessun utente trovato nel sistema. Creazione account amministratore predefinito...');
+        console.log('No user found in the system. Creating default administrator account...');
         await this.createDefaultAdmin('zambelli.andrea.1973@gmail.com', 'gironiCO73%');
       } else {
-        console.log('Utenti già presenti nel sistema. Nessun account predefinito creato.');
+        console.log('Users already present in the system. No default account created.');
       }
     } catch (error) {
-      console.error('Errore durante l\'inizializzazione:', error);
+      console.error('Error during initialization:', error);
     }
   }
 }
 
-// Esporto un'istanza del servizio
+// Export a singleton instance of the service
 export default new InitialSetupService();

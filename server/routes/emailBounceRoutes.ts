@@ -7,19 +7,19 @@ const router = Router();
 
 /**
  * GET /api/email-bounces
- * Recupera la lista delle email bloccate per l'utente corrente
- * Include dati del cliente associato se disponibile
+ * Retrieve the list of blocked emails for the current user
+ * Include associated client data if available
  */
 router.get('/email-bounces', async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     // Risolvi ownerId per multi-tenant (staff usa ownerId, admin usa proprio userId)
     const ownerId = req.user.ownerId ?? req.user.tenantId ?? req.user.id;
 
-    // Query con join per ottenere anche i dati del cliente
+    // Query with join to also get client data
     const bounces = await db
       .select({
         id: emailBounces.id,
@@ -31,7 +31,7 @@ router.get('/email-bounces', async (req, res) => {
         lastBounceAt: emailBounces.lastBounceAt,
         isBlocked: emailBounces.isBlocked,
         createdAt: emailBounces.createdAt,
-        // Dati cliente (se presente)
+        // Dati client (If presente)
         clientId: clients.id,
         clientFirstName: clients.firstName,
         clientLastName: clients.lastName,
@@ -47,26 +47,26 @@ router.get('/email-bounces', async (req, res) => {
     
     res.json(bounces);
   } catch (error: any) {
-    console.error('❌ Errore recupero email bounces:', error);
-    res.status(500).json({ error: 'Errore recupero dati bounce', details: error.message });
+    console.error('❌ Error retrieving email bounces:', error);
+    res.status(500).json({ error: 'Error retrieving bounce data', details: error.message });
   }
 });
 
 /**
  * POST /api/email-bounces/unblock
- * Sblocca una email specifica e resetta il contatore bounce
+ * Unlock a specific email and reset the bounce counter
  * Body: { email: string }
  */
 router.post('/email-bounces/unblock', async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const { email } = req.body;
     
     if (!email || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Email richiesta' });
+      return res.status(400).json({ error: 'Email required' });
     }
 
     // Risolvi ownerId per multi-tenant
@@ -83,7 +83,7 @@ router.post('/email-bounces/unblock', async (req, res) => {
         eq(emailBounces.ownerId, ownerId)
       ));
 
-    // Sblocca anche sul cliente se presente
+    // Also unlock on the client if present
     await db.update(clients)
       .set({
         emailBlocked: false,
@@ -98,34 +98,34 @@ router.post('/email-bounces/unblock', async (req, res) => {
     
     res.json({ 
       success: true, 
-      message: `Email ${email} sbloccata con successo. I futuri invii riprenderanno normalmente.` 
+      message: `Email ${email} unblocked successfully. Future sends will resume normally.` 
     });
   } catch (error: any) {
-    console.error('❌ Errore sblocco email:', error);
-    res.status(500).json({ error: 'Errore sblocco email', details: error.message });
+    console.error('❌ Error unblocking email:', error);
+    res.status(500).json({ error: 'Error unblocking email', details: error.message });
   }
 });
 
 /**
  * DELETE /api/email-bounces/:id
- * Elimina un record bounce specifico
+ * Delete a specific bounce record
  */
 router.delete('/email-bounces/:id', async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Non autenticato' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const bounceId = parseInt(req.params.id);
     
     if (isNaN(bounceId)) {
-      return res.status(400).json({ error: 'ID bounce non valido' });
+      return res.status(400).json({ error: 'ID bounce invalid' });
     }
 
     // Risolvi ownerId per multi-tenant
     const ownerId = req.user.ownerId ?? req.user.tenantId ?? req.user.id;
 
-    // Verifica ownership e elimina
+    // Verify ownership e elimina
     const deleted = await db.delete(emailBounces)
       .where(and(
         eq(emailBounces.id, bounceId),
@@ -134,15 +134,15 @@ router.delete('/email-bounces/:id', async (req, res) => {
       .returning();
 
     if (deleted.length === 0) {
-      return res.status(404).json({ error: 'Record bounce non trovato' });
+      return res.status(404).json({ error: 'Record bounce not found' });
     }
 
-    console.log(`🗑️ Bounce ID ${bounceId} eliminato per owner ${ownerId}`);
+    console.log(`🗑️ Bounce ID ${bounceId} deleted for owner ${ownerId}`);
     
     res.json({ success: true, message: 'Record bounce eliminato' });
   } catch (error: any) {
-    console.error('❌ Errore eliminazione bounce:', error);
-    res.status(500).json({ error: 'Errore eliminazione bounce', details: error.message });
+    console.error('❌ Error deleting bounce:', error);
+    res.status(500).json({ error: 'Error deleting bounce', details: error.message });
   }
 });
 

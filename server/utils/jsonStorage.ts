@@ -3,7 +3,7 @@ import path from 'path';
 
 /**
  * 📁 UTILITY CENTRALIZZATA PER JSON STORAGE
- * Sostituisce tutte le funzioni duplicate load/save sparpagliate nel codice
+ * Replaces all duplicate load/save functions scattered in the code
  */
 
 const STORAGE_FILE = path.join(process.cwd(), 'storage_data.json');
@@ -13,7 +13,7 @@ export function loadStorageData() {
     if (fs.existsSync(STORAGE_FILE)) {
       const data = JSON.parse(fs.readFileSync(STORAGE_FILE, 'utf8'));
       
-      // Inizializza strutture mancanti per compatibilità
+      // Initialize missing structures for compatibility
       if (!data.userIcons) data.userIcons = {};
       if (!data.userBusinessSettings) data.userBusinessSettings = {};
       if (!data.userBusinessData) data.userBusinessData = {};
@@ -26,10 +26,10 @@ export function loadStorageData() {
       return data;
     }
   } catch (error) {
-    console.error('❌ [JSON STORAGE] Errore caricamento storage:', error);
+    console.error('❌ [JSON STORAGE] Error loading storage:', error);
   }
   
-  // Struttura di default
+  // Struttura by default
   return {
     appointments: [],
     clients: [],
@@ -45,20 +45,20 @@ export function loadStorageData() {
 export function saveStorageData(data: any) {
   try {
     fs.writeFileSync(STORAGE_FILE, JSON.stringify(data, null, 2), 'utf8');
-    console.log('✅ [JSON STORAGE] Dati salvati correttamente');
+    console.log('✅ [JSON STORAGE] Data saved correctly');
   } catch (error) {
-    console.error('❌ [JSON STORAGE] Errore salvataggio storage:', error);
+    console.error('❌ [JSON STORAGE] Error saving storage:', error);
     throw error;
   }
 }
 
 /**
- * 🗓️ FILTRO CONDIVISO: Trova appuntamenti di domani DA POSTGRESQL
- * Usato sia dal Centro WhatsApp che dal job automatico per coerenza
- * @returns Promise<Array> di appuntamenti di domani
+ * 🗓️ FILTRO CONDIVISO: Find appointments di domani DA POSTGRESQL
+ * Used by both the WhatsApp Center and the automatic job for consistency
+ * @returns Promise<Array> di appointments di domani
  */
 export async function getTomorrowAppointments() {
-  // 🔄 USA POSTGRESQL invece del JSON
+  // 🔄 USE POSTGRESQL instead of JSON
   const { db } = await import('../db');
   const { appointments, clients } = await import('../../shared/schema');
   const { eq } = await import('drizzle-orm');
@@ -67,30 +67,30 @@ export async function getTomorrowAppointments() {
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
   
-  // Formatta la data per PostgreSQL (YYYY-MM-DD)
+  // Format the date for PostgreSQL (YYYY-MM-DD)
   const tomorrowString = tomorrow.toISOString().split('T')[0];
   
-  console.log(`🗓️ [POSTGRESQL] Cercando appuntamenti per domani: ${tomorrowString}`);
+  console.log(`🗓️ [POSTGRESQL] Looking for appointments for tomorrow: ${tomorrowString}`);
   
   try {
-    // Carica appuntamenti da PostgreSQL
+    // Load appointments da PostgreSQL
     const tomorrowAppointments = await db
       .select()
       .from(appointments)
       .leftJoin(clients, eq(appointments.clientId, clients.id))
       .where(eq(appointments.date, tomorrowString));
     
-    // Trasforma risultato in formato compatibile con il codice esistente
+    // Transform result into format compatible with existing code
     const formattedAppointments = tomorrowAppointments.map(row => ({
       ...row.appointments,
       client: row.clients
     }));
     
-    console.log(`🗓️ [POSTGRESQL] Trovati ${formattedAppointments.length} appuntamenti per domani (${tomorrow.toDateString()})`);
+    console.log(`🗓️ [POSTGRESQL] Found ${formattedAppointments.length} appointments for tomorrow (${tomorrow.toDateString()})`);
     
     return formattedAppointments;
   } catch (error) {
-    console.error('❌ [POSTGRESQL] Errore caricamento appuntamenti:', error);
+    console.error('❌ [POSTGRESQL] Error loading appointments:', error);
     return [];
   }
 }

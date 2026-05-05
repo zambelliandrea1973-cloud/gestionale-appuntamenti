@@ -19,13 +19,13 @@ export function isPaymentAdmin(req: Request, res: Response, next: NextFunction) 
     
     return res.status(401).json({
       success: false,
-      message: 'Non sei autorizzato ad accedere a questa risorsa'
+      message: 'You are not authorized to access this resource'
     });
   } catch (error) {
-    console.error('Errore durante la verifica dell\'autenticazione payment admin:', error);
+    console.error('Error verifying payment admin authentication:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore durante la verifica dell\'autenticazione'
+      message: 'Error verifying authentication'
     });
   }
 }

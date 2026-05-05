@@ -1,24 +1,24 @@
 /**
- * Servizio per gestire il riavvio dell'applicazione
+ * Service for managing application restart
  */
 import { exec } from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
 
-// Token di riavvio validi
+// Token restart validi
 const restartTokens: { [token: string]: number } = {};
 
-// Tempo di validità del token (5 minuti)
+// Token validity time (5 minutes)
 const TOKEN_VALIDITY = 5 * 60 * 1000;
 
 /**
- * Genera un token di riavvio
- * @returns token di riavvio generato
+ * Generate a token restart
+ * @returns generated restart token
  */
 export function generateRestartToken(): string {
-  // Genera un token UUID v4
+  // Generate a token UUID v4
   const token = uuidv4();
   
-  // Memorizza il token con timestamp corrente
+  // Store the token with current timestamp
   restartTokens[token] = Date.now();
   
   // Pulisci i token scaduti
@@ -28,12 +28,12 @@ export function generateRestartToken(): string {
 }
 
 /**
- * Verifica se un token di riavvio è valido
- * @param token Token da verificare
- * @returns true se il token è valido, false altrimenti
+ * Check if a restart token is valid
+ * @param token Token to verify
+ * @returns true if the token is valid, false otherwise
  */
 export function isValidRestartToken(token: string): boolean {
-  // Verifica che il token esista e non sia scaduto
+  // Verify that the token exists and has not expired
   const timestamp = restartTokens[token];
   
   if (!timestamp) {
@@ -42,7 +42,7 @@ export function isValidRestartToken(token: string): boolean {
   
   const isValid = Date.now() - timestamp <= TOKEN_VALIDITY;
   
-  // Se il token è scaduto, rimuovilo
+  // if the token has expired, remove it
   if (!isValid) {
     delete restartTokens[token];
   }
@@ -51,7 +51,7 @@ export function isValidRestartToken(token: string): boolean {
 }
 
 /**
- * Elimina i token scaduti
+ * Delete expired tokens
  */
 function cleanExpiredTokens(): void {
   const now = Date.now();
@@ -64,64 +64,64 @@ function cleanExpiredTokens(): void {
 }
 
 /**
- * Esegue il riavvio dell'applicazione
- * @param token Token di autorizzazione
- * @returns Promise che si risolve quando il riavvio è stato avviato
+ * Execute the application restart
+ * @param token Authorization token
+ * @returns Promise that resolves when the restart has been initiated
  */
 export async function restartApplication(token: string): Promise<{ success: boolean, message: string }> {
-  // Verifica il token
+  // Verify the token
   if (!isValidRestartToken(token)) {
     return { 
       success: false, 
-      message: "Token di riavvio non valido o scaduto" 
+      message: "Invalid or expired restart token" 
     };
   }
   
-  // Rimuovi il token utilizzato
+  // Rimuovi the token utilizzato
   delete restartTokens[token];
   
   try {
-    // Esegui il comando di riavvio in base all'ambiente
+    // Execute the restart command based on the environment
     if (process.env.REPLIT_ENVIRONMENT) {
-      // In ambiente Replit, invia un segnale HUP al processo Node
+      // In Replit environment, send a HUP signal to the Node process
       process.kill(process.pid, 'SIGHUP');
       return { 
         success: true, 
-        message: "Riavvio avviato. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+        message: "Restart initiated. The application will be available again in a few seconds."
       };
     } else {
       // Su altri ambienti, esegui pm2 reload o restart
       return new Promise((resolve) => {
         exec('pm2 reload all 2>/dev/null || pm2 restart all 2>/dev/null || pkill -HUP node', (error) => {
           if (error) {
-            console.error('Errore durante il riavvio:', error);
+            console.error('Error during restart:', error);
             // Fallback al processo Node
             try {
               process.kill(process.pid, 'SIGHUP');
               resolve({
                 success: true,
-                message: "Riavvio avviato utilizzando il fallback. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+                message: "Restart initiated using fallback. The application will be available again in a few seconds."
               });
             } catch (e) {
               resolve({
                 success: false,
-                message: "Impossibile riavviare l'applicazione: " + e
+                message: "Unable to restart application: " + e
               });
             }
           } else {
             resolve({
               success: true,
-              message: "Riavvio avviato. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+              message: "Restart initiated. The application will be available again in a few seconds."
             });
           }
         });
       });
     }
   } catch (error) {
-    console.error('Errore durante il riavvio:', error);
+    console.error('Error during restart:', error);
     return {
       success: false,
-      message: `Errore durante il riavvio: ${error}`
+      message: `Error during restart: ${error}`
     };
   }
 }

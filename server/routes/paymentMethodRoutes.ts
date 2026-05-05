@@ -6,17 +6,17 @@ import { isAdminOrStaff } from '../middleware/authMiddleware';
 import Stripe from 'stripe';
 import paypal from '@paypal/checkout-server-sdk';
 
-// Creazione del router Express
+// Create the Express router
 const router = express.Router();
 
-// Configurazione del client Stripe (se le credenziali esistono)
+// Stripe client configuration (if credentials exist)
 const setupStripeClient = (secretKey: string) => {
   return new Stripe(secretKey, {
     apiVersion: '2023-10-16',
   });
 };
 
-// Configurazione del client PayPal (se le credenziali esistono)
+// PayPal client configuration (if credentials exist)
 const setupPaypalClient = (clientId: string, clientSecret: string, mode: 'sandbox' | 'live') => {
   const environment = mode === 'live'
     ? new paypal.core.LiveEnvironment(clientId, clientSecret)
@@ -26,7 +26,7 @@ const setupPaypalClient = (clientId: string, clientSecret: string, mode: 'sandbo
 };
 
 /**
- * Ottiene i metodi di pagamento configurati
+ * Get i metodi di payment configurati
  * GET /api/payments/payment-admin/payment-methods
  * Accesso: payment admin
  */
@@ -36,7 +36,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
     const isProduction = process.env.PAYMENT_MODE === 'production';
     
     if (!paymentMethods || paymentMethods.length === 0) {
-      // Se non ci sono metodi configurati, crea configurazione iniziale con Stripe e PayPal
+      // If payment methods are configured, create initial configuration with Stripe and PayPal
       const defaultMethods = [
         {
           id: 'stripe',
@@ -80,7 +80,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
         },
         {
           id: 'bank',
-          name: 'Bonifico Bancario',
+          name: 'Bank Transfer',
           enabled: false,
           config: {
             accountName: '',
@@ -92,16 +92,16 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
         }
       ];
       
-      // Salva la configurazione iniziale
+      // Save the initial configuration
       await storage.savePaymentMethods(defaultMethods);
       paymentMethods = defaultMethods;
       
-      console.log('✅ Configurazione metodi di pagamento inizializzata automaticamente');
+      console.log('✅ Payment methods configuration initialized automatically');
     } else {
-      // Popola automaticamente i campi vuoti con valori degli environment secrets
+      // Automatically populate empty fields with values from environment secrets
       paymentMethods = paymentMethods.map(method => {
         if (method.id === 'stripe' && method.config) {
-          // Se i campi Stripe sono vuoti, usa gli environment secrets
+          // If Stripe fields are empty, use environment secrets
           if (!method.config.publicKey || !method.config.secretKey) {
             method.config.publicKey = isProduction 
               ? (process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || '') 
@@ -109,26 +109,26 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
             method.config.secretKey = isProduction 
               ? (process.env.STRIPE_SECRET_KEY_LIVE || '') 
               : (process.env.STRIPE_SECRET_KEY || '');
-            console.log('✅ Chiavi Stripe popolate dagli environment secrets');
+            console.log('✅ Stripe keys populated from environment secrets');
           }
         }
         return method;
       });
     }
     
-    // Restituisci le credenziali complete (utente autenticato come payment admin)
+    // Restituisci the credentials complete (user autenticato come payment admin)
     return res.json(paymentMethods);
   } catch (error: any) {
-    console.error('Errore durante il recupero dei metodi di pagamento:', error);
+    console.error('Error retrieving payment methods:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Salva configurazione dei metodi di pagamento
+ * Save payment method configuration
  * POST /api/payments/payment-admin/payment-methods
  * Accesso: payment admin
  */
@@ -139,28 +139,28 @@ router.post('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =
     if (!paymentMethods || !Array.isArray(paymentMethods)) {
       return res.status(400).json({
         success: false,
-        message: 'Dati dei metodi di pagamento non validi'
+        message: 'Invalid payment method data'
       });
     }
     
-    // Salva i metodi di pagamento così come arrivano (credenziali complete)
+    // Save the payment methods as they arrive (complete credentials)
     await storage.savePaymentMethods(paymentMethods);
     
     return res.json({
       success: true,
-      message: 'Configurazione dei metodi di pagamento salvata con successo'
+      message: 'Payment method configuration saved successfully'
     });
   } catch (error: any) {
-    console.error('Errore durante il salvataggio dei metodi di pagamento:', error);
+    console.error('Error saving payment methods:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Testa la configurazione di un metodo di pagamento
+ * Test the configuration of a payment method
  * POST /api/payments/payment-admin/test-payment-method/:id
  * Accesso: payment admin
  */
@@ -172,32 +172,32 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
     if (!config) {
       return res.status(400).json({
         success: false,
-        message: 'Configurazione metodo di pagamento mancante'
+        message: 'Payment method configuration missing'
       });
     }
     
-    // Testa la configurazione in base al tipo di metodo
+    // Test the configuration based on the method type
     if (id === 'stripe') {
       if (!config.secretKey) {
         return res.status(400).json({
           success: false,
-          message: 'Chiave segreta Stripe mancante'
+          message: 'Chiave segreta Stripe missing'
         });
       }
       
       try {
         const stripe = setupStripeClient(config.secretKey);
-        // Verifica la validità della chiave ottenendo il bilancio dell'account
+        // Verify key validity by getting the account balance
         const balance = await stripe.balance.retrieve();
         
         return res.json({
           success: true,
-          message: 'Configurazione Stripe valida'
+          message: 'Valid Stripe configuration'
         });
       } catch (stripeError: any) {
         return res.status(400).json({
           success: false,
-          message: `Errore configurazione Stripe: ${stripeError.message}`
+          message: `Stripe configuration error: ${stripeError.message}`
         });
       }
     } 
@@ -213,7 +213,7 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
         console.log('🔧 PayPal test - Setup client con mode:', config.mode || 'sandbox');
         const paypalClient = setupPaypalClient(config.clientId, config.clientSecret, config.mode || 'sandbox');
         
-        // Verifica le credenziali creando un ordine di prova con il vecchio SDK
+        // Verify credentials by creating a trial order with the old SDK
         const request = new paypal.orders.OrdersCreateRequest();
         request.prefer("return=representation");
         request.requestBody({
@@ -228,20 +228,20 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
         
         const response = await paypalClient.execute(request);
         
-        // Se arriviamo qui, le credenziali sono valide
+        // If we get here, the credentials are valid
         console.log('✅ PayPal test OK - Order ID:', response.result.id);
         return res.json({
           success: true,
-          message: 'Configurazione PayPal valida',
+          message: 'Valid PayPal configuration',
           testOrderId: response.result.id
         });
       } catch (paypalError: any) {
-        console.error('❌ PayPal test ERRORE:', paypalError);
+        console.error('❌ PayPal test ERROR:', paypalError);
         console.error('❌ PayPal error stack:', paypalError.stack);
         console.error('❌ PayPal error message:', paypalError.message);
         return res.status(400).json({
           success: false,
-          message: `Errore configurazione PayPal: ${paypalError.message || 'Credenziali non valide'}`
+          message: `PayPal configuration error: ${paypalError.message || 'Invalid credentials'}`
         });
       }
     } 
@@ -249,12 +249,12 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
       if (!config.apiKey) {
         return res.status(400).json({
           success: false,
-          message: 'API Key Wise mancante'
+          message: 'API Key Wise missing'
         });
       }
       
       try {
-        // Per Wise, facciamo una semplice richiesta di prova all'API
+        // For Wise, make a simple trial request to the API
         const response = await fetch('https://api.transferwise.com/v3/profiles', {
           method: 'GET',
           headers: {
@@ -264,77 +264,77 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
         });
         
         if (!response.ok) {
-          throw new Error(`Risposta API Wise non valida: ${response.status}`);
+          throw new Error(`Risposta API Wise invalid: ${response.status}`);
         }
         
         return res.json({
           success: true,
-          message: 'Configurazione Wise valida'
+          message: 'Valid Wise configuration'
         });
       } catch (wiseError: any) {
         return res.status(400).json({
           success: false,
-          message: `Errore configurazione Wise: ${wiseError.message}`
+          message: `Wise configuration error: ${wiseError.message}`
         });
       }
     } 
     else if (id === 'bank') {
-      // Per il bonifico bancario, verifichiamo che i dati essenziali siano presenti
+      // For bank transfer, verify that the essential data is present
       if (!config.iban || !config.accountName) {
         return res.status(400).json({
           success: false,
-          message: 'Dati bancari incompleti (IBAN e intestatario obbligatori)'
+          message: 'Incomplete banking data (IBAN and account holder are required)'
         });
       }
       
       return res.json({
         success: true,
-        message: 'Configurazione bonifico bancario valida'
+        message: 'Valid bank transfer configuration'
       });
     } 
     else {
       return res.status(400).json({
         success: false,
-        message: `Metodo di pagamento non supportato: ${id}`
+        message: `Payment method not supported: ${id}`
       });
     }
   } catch (error: any) {
-    console.error(`Errore durante il test del metodo di pagamento ${req.params.id}:`, error);
+    console.error(`Error testing payment method ${req.params.id}:`, error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Auto-configura Wise recuperando Profile ID e Account ID dall'API
+ * Auto-configure Wise by retrieving Profile ID and Account ID from the API
  * POST /api/payments/payment-admin/wise/auto-configure
  * Accesso: payment admin
  */
 router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, res) => {
   try {
-    console.log('🔍 Body ricevuto per auto-configure:', JSON.stringify(req.body));
+    console.log('🔍 Body received for auto-configure:', JSON.stringify(req.body));
     
-    // Recupera i metodi di pagamento attuali
+    // Retrieve the current payment methods
     const paymentMethods = await storage.getPaymentMethods();
     const wiseMethod = paymentMethods.find(m => m.id === 'wise');
     
-    // Prendi l'API Key dal body della richiesta (frontend) o dal file salvato
+    // Get the API Key from the request body (frontend) or from the saved file
     const apiKey = req.body.apiKey || wiseMethod?.config.apiKey;
     
-    console.log('🔑 API Key dal body:', req.body.apiKey);
-    console.log('🔑 API Key dal file:', wiseMethod?.config.apiKey);
-    console.log('🔑 API Key finale scelta:', apiKey);
+    console.log('🔑 API Key from body:', req.body.apiKey);
+    console.log('🔑 API Key from file:', wiseMethod?.config.apiKey);
+    console.log('🔑 Final API key chosen:', apiKey);
     
     if (!apiKey) {
       return res.status(400).json({
         success: false,
-        message: 'API Key Wise non configurata. Inserisci prima l\'API Key.'
+        message: 'Wise API Key not configured. Please enter the API Key first.'
       });
     }
     
-    // Se l'API Key arriva dal frontend, aggiornala anche nel wiseMethod
+    // If the API Key comes from the frontend, also update it in wiseMethod
     if (req.body.apiKey && wiseMethod) {
       wiseMethod.config.apiKey = req.body.apiKey;
     }
@@ -342,8 +342,8 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
     const baseUrl = 'https://api.transferwise.com';
     
     try {
-      // Step 1: Recupera Profile ID usando v2 endpoint (compatibile con Personal account)
-      console.log('🔍 Recupero Profile ID da Wise (v2 endpoint per account Personal)...');
+      // Step 1: Retrieve Profile ID using v2 endpoint (compatible with Personal account)
+      console.log('🔍 Retrieving Profile ID from Wise (v2 endpoint for Personal account)...');
       const profilesResponse = await fetch(`${baseUrl}/v2/profiles`, {
         method: 'GET',
         headers: {
@@ -354,7 +354,7 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       
       if (!profilesResponse.ok) {
         const errorText = await profilesResponse.text();
-        throw new Error(`Errore API Wise (profiles): ${profilesResponse.status} ${profilesResponse.statusText} - ${errorText}`);
+        throw new Error(`Wise API error (profiles): ${profilesResponse.status} ${profilesResponse.statusText} - ${errorText}`);
       }
       
       const profiles = await profilesResponse.json();
@@ -362,16 +362,16 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       if (!profiles || profiles.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'Nessun profilo trovato per questa API Key. Verifica che l\'autenticazione a due fattori sia abilitata.'
+          message: 'No profile found for this API Key. Make sure two-factor authentication is enabled.'
         });
       }
       
       const profileId = profiles[0].id;
       const profileType = profiles[0].type || 'personal';
-      console.log(`✅ Profile ID recuperato: ${profileId} (tipo: ${profileType})`);
+      console.log(`✅ Profile ID retrieved: ${profileId} (type: ${profileType})`);
       
-      // Step 2: Recupera Balance/Account ID usando v4 endpoint
-      console.log('🔍 Recupero Balance ID da Wise (v4 endpoint)...');
+      // Step 2: Retrieve Balance/Account ID usando v4 endpoint
+      console.log('🔍 Retrieving Balance ID from Wise (v4 endpoint)...');
       const balancesResponse = await fetch(`${baseUrl}/v4/profiles/${profileId}/balances?types=STANDARD`, {
         method: 'GET',
         headers: {
@@ -382,7 +382,7 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       
       if (!balancesResponse.ok) {
         const errorText = await balancesResponse.text();
-        throw new Error(`Errore API Wise (balances): ${balancesResponse.status} ${balancesResponse.statusText} - ${errorText}`);
+        throw new Error(`Wise API error (balances): ${balancesResponse.status} ${balancesResponse.statusText} - ${errorText}`);
       }
       
       const balances = await balancesResponse.json();
@@ -390,24 +390,24 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       if (!balances || balances.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'Nessun balance Wise trovato. Assicurati di avere almeno una valuta attiva nel tuo account.'
+          message: 'No Wise balance found. Make sure you have at least one active currency in your account.'
         });
       }
       
       const accountId = balances[0].id;
-      console.log(`✅ Balance ID recuperato: ${accountId}`);
+      console.log(`✅ Balance ID retrieved: ${accountId}`);
       
-      // Step 3: Aggiorna la configurazione Wise nel database
+      // Step 3: Update the Wise configuration in the database
       wiseMethod.config.profileId = profileId.toString();
       wiseMethod.config.accountId = accountId.toString();
       
       await storage.savePaymentMethods(paymentMethods);
       
-      console.log('✅ Configurazione Wise aggiornata automaticamente');
+      console.log('✅ Wise configuration updated automatically');
       
       return res.json({
         success: true,
-        message: `Configurazione Wise completata automaticamente (account ${profileType})`,
+        message: `Wise configuration completed automatically (account ${profileType})`,
         data: {
           profileId: profileId.toString(),
           accountId: accountId.toString(),
@@ -416,38 +416,38 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       });
       
     } catch (apiError: any) {
-      console.error('❌ Errore durante la chiamata API Wise:', apiError);
+      console.error('❌ Error calling Wise API:', apiError);
       return res.status(400).json({
         success: false,
-        message: `Errore API Wise: ${apiError.message}`
+        message: `Wise API error: ${apiError.message}`
       });
     }
     
   } catch (error: any) {
-    console.error('❌ Errore durante l\'auto-configurazione Wise:', error);
+    console.error('❌ Error during Wise auto-configuration:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Ottiene i metodi di pagamento disponibili per l'utente
+ * Get available payment methods for user
  * GET /api/payments/available-methods
- * Accesso: tutti (pubblico)
+ * Accesso: all (pubblico)
  */
 router.get('/available-methods', async (req, res) => {
   try {
     const paymentMethods = await storage.getPaymentMethods();
     
-    // Restituisce solo i metodi attivi con informazioni di base (senza credenziali)
+    // Returns only active methods with basic information (without credentials)
     const availableMethods = paymentMethods
       .filter(method => method.enabled)
       .map(method => ({
         id: method.id,
         name: method.name,
-        // Solo informazioni pubbliche specifiche per ogni metodo
+        // Only informazioni pubbliche specifiche per each metodo
         publicConfig: method.id === 'stripe' 
           ? { 
               publicKey: method.config.publicKey,
@@ -471,16 +471,16 @@ router.get('/available-methods', async (req, res) => {
     
     return res.json(availableMethods);
   } catch (error: any) {
-    console.error('Errore durante il recupero dei metodi di pagamento disponibili:', error);
+    console.error('Error retrieving available payment methods:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Verifica quale metodo di pagamento utilizzare per un abbonamento
+ * Verify which payment method to use for a subscription
  * GET /api/payments/subscription/:id/payment-method
  * Accesso: admin, staff
  */
@@ -488,29 +488,29 @@ router.get('/subscription/:id/payment-method', isAdminOrStaff, async (req, res) 
   try {
     const { id } = req.params;
     
-    // Ottieni l'abbonamento
+    // Get the subscription
     const subscription = await storage.getSubscription(parseInt(id));
     
     if (!subscription) {
       return res.status(404).json({
         success: false,
-        message: 'Abbonamento non trovato'
+        message: 'Subscription not found'
       });
     }
     
-    // Restituisci informazioni sul metodo di pagamento
+    // Return payment method information
     return res.json({
       subscriptionId: subscription.id,
       paymentMethod: subscription.paymentMethod,
-      // Altre informazioni utili sul pagamento
+      // Other useful payment information
       status: subscription.status,
       currentPeriodEnd: subscription.currentPeriodEnd
     });
   } catch (error: any) {
-    console.error('Errore durante la verifica del metodo di pagamento:', error);
+    console.error('Error verifying payment method:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });

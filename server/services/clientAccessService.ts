@@ -3,18 +3,18 @@ import { clientAccesses, clients, type ClientAccess, type InsertClientAccess, ty
 import { count, eq } from "drizzle-orm";
 
 /**
- * Servizio per la gestione degli accessi dei clienti
+ * Service for managing client access
  */
 export const clientAccessService = {
   /**
-   * Registra un nuovo accesso per un cliente
-   * @param clientId ID del cliente
-   * @param ipAddress Indirizzo IP del cliente (opzionale)
-   * @param userAgent User agent del client (opzionale)
-   * @returns L'accesso creato
+   * Register a new access for a client
+   * @param clientId Client ID
+   * @param ipAddress Client IP address (optional)
+   * @param userAgent Client user agent (optional)
+   * @returns The created access record
    */
   async logAccess(clientId: number, ipAddress?: string, userAgent?: string): Promise<ClientAccess> {
-    // Verifica che il cliente esista
+    // Verify that the client exists
     const clientExists = await db
       .select({ id: clients.id })
       .from(clients)
@@ -22,7 +22,7 @@ export const clientAccessService = {
       .limit(1);
 
     if (!clientExists.length) {
-      throw new Error(`Cliente con ID ${clientId} non trovato`);
+      throw new Error(`Client with ID ${clientId} not found`);
     }
 
     const accessData: InsertClientAccess = {
@@ -31,7 +31,7 @@ export const clientAccessService = {
       ...(userAgent ? { userAgent } : {})
     };
 
-    // Inserisci il nuovo accesso
+    // Insert the new access record
     const [newAccess] = await db
       .insert(clientAccesses)
       .values(accessData)
@@ -41,9 +41,9 @@ export const clientAccessService = {
   },
 
   /**
-   * Ottiene il conteggio degli accessi per un cliente specifico
-   * @param clientId ID del cliente
-   * @returns Il numero di accessi
+   * Get the access count for a specific client
+   * @param clientId Client ID
+   * @returns The number of accesses
    */
   async getAccessCountForClient(clientId: number): Promise<number> {
     const [result] = await db
@@ -51,14 +51,14 @@ export const clientAccessService = {
       .from(clientAccesses)
       .where(eq(clientAccesses.clientId, clientId));
 
-    // Conteggio accessi corretto dopo aver eliminato le duplicazioni
+    // Corrected access count after removing duplicates
     const totalAccesses = result?.accessCount || 0;
     return totalAccesses;
   },
 
   /**
-   * Ottiene il conteggio degli accessi per tutti i clienti
-   * @returns Un array di clienti con i rispettivi conteggi di accesso
+   * Get the access count for all clients
+   * @returns An array of clients with their respective access counts
    */
   async getAccessCountsForAllClients(): Promise<ClientWithAccessCount[]> {
     // Get all clients
@@ -79,9 +79,9 @@ export const clientAccessService = {
   },
 
   /**
-   * Ottiene tutti gli accessi per un cliente specifico
-   * @param clientId ID del cliente
-   * @returns Gli accessi del cliente
+   * Get all accesses for a specific client
+   * @param clientId Client ID
+   * @returns The client's access records
    */
   async getAccessesForClient(clientId: number): Promise<ClientAccess[]> {
     return db

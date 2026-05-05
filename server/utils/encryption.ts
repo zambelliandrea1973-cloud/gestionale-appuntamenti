@@ -12,10 +12,10 @@ function getEncryptionKey(): Buffer {
     const isSliplane = !isReplit && isProduction;
     
     if (isSliplane) {
-      console.error('❌ [ENCRYPTION] ENCRYPTION_KEY mancante in produzione Sliplane!');
+      console.error('❌ [ENCRYPTION] ENCRYPTION_KEY missing in production Sliplane!');
       process.exit(1);
     }
-    console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY non impostata, usando chiave di default (NON SICURO IN PRODUZIONE!)');
+    console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY not set, using default key (NOT SAFE IN PRODUCTION!)');
     return Buffer.from('12345678901234567890123456789012', 'utf8');
   }
   
@@ -27,7 +27,7 @@ function getEncryptionKey(): Buffer {
     return Buffer.from(keyEnv, 'utf8');
   }
   
-  console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY non ha lunghezza corretta, normalizzando con SHA-256');
+  console.warn('⚠️ [ENCRYPTION] ENCRYPTION_KEY does not have correct length, normalizing with SHA-256');
   return crypto.createHash('sha256').update(keyEnv).digest();
 }
 
@@ -48,7 +48,7 @@ export function encryptPassword(password: string): string {
 export function decryptPassword(encryptedData: string): string {
   const parts = encryptedData.split(':');
   if (parts.length !== 3) {
-    throw new Error('Formato dati criptati non valido');
+    throw new Error('Invalid encrypted data format');
   }
   
   const iv = Buffer.from(parts[0], 'hex');

@@ -5,7 +5,7 @@ import { Server as SocketIOServer } from 'socket.io';
 import { storage } from '../storage';
 
 /**
- * Stati possibili del dispositivo accoppiato
+ * Possible states of the paired device
  */
 export enum DeviceStatus {
   DISCONNECTED = 'disconnected',
@@ -17,7 +17,7 @@ export enum DeviceStatus {
 }
 
 /**
- * Interfaccia per le impostazioni del dispositivo nel database
+ * Interface for device settings in the database
  */
 export interface DeviceSettings {
   id?: number;
@@ -37,48 +37,48 @@ class PhoneDeviceService {
   private phoneNumber: string | null = null;
 
   /**
-   * Inizializza il servizio
+   * Initialize the service
    */
   constructor() {
-    console.log('Servizio dispositivo telefonico inizializzato');
+    console.log('Phone device service initialized');
   }
 
   /**
-   * Imposta il server socket.io per la comunicazione real-time
+   * Set the socket.io server for real-time communication
    * @param io Server Socket.IO
    */
   setSocketServer(io: SocketIOServer) {
     this.socketServer = io;
-    console.log('Server Socket.IO impostato per il servizio dispositivo');
+    console.log('Socket.IO server set up for device service');
     
-    // Configura gli eventi socket
+    // Configure socket events
     io.on('connection', (socket) => {
-      console.log('Nuovo client connesso al socket del dispositivo');
+      console.log('New client connected to device socket');
       
-      // Invia lo stato attuale al nuovo client
+      // Send the current status to the new client
       this.emitStatus();
       
-      // Se c'è un QR code disponibile, invialo
+      // If a QR code is available, send it
       if (this.currentQR && this.deviceStatus === DeviceStatus.QR_READY) {
         socket.emit('qr_code', this.currentQR);
       }
       
-      // Gestisce la richiesta di iniziare l'accoppiamento
+      // Handles the request to start pairing
       socket.on('start_pairing', () => {
-        console.log('Richiesta di iniziare l\'accoppiamento ricevuta');
+        console.log('Pairing start request received');
         this.initializeClient();
       });
       
-      // Gestisce la richiesta di disconnettersi
+      // Handles the disconnect request
       socket.on('disconnect_device', () => {
-        console.log('Richiesta di disconnessione ricevuta');
+        console.log('Disconnect request received');
         this.disconnectClient();
       });
     });
   }
 
   /**
-   * Emette lo stato attuale a tutti i client connessi
+   * Emit the current status to all connected clients
    */
   private emitStatus() {
     if (this.socketServer) {
@@ -91,40 +91,40 @@ class PhoneDeviceService {
   }
 
   /**
-   * Inizializza un nuovo client WhatsApp (versione demo)
+   * Initialize a new WhatsApp client (demo version)
    * 
-   * In questa versione modificata per demo/test, non tentiamo di utilizzare WhatsApp reale,
-   * ma simuliamo il processo di accoppiamento generando un QR code interno che verrà utilizzato
-   * per la simulazione. Questa versione è intesa solo per test dell'interfaccia.
+   * In this modified version for demo/testing, we do not attempt to use real WhatsApp,
+   * but we simulate the pairing process by generating an internal QR code that will be used
+   * for simulation. This version is intended only for interface testing.
    */
   async initializeClient() {
     try {
       if (this.client) {
-        console.log('Client già inizializzato, prima disconnette...');
+        console.log('Client already initialized, disconnecting first...');
         await this.disconnectClient();
       }
 
-      console.log('Inizializzazione client di test...');
+      console.log('Initializing test client...');
       this.deviceStatus = DeviceStatus.CONNECTING;
       this.emitStatus();
 
-      // Genera un ID univoco per questo dispositivo
+      // Generate a unique ID for this device
       this.deviceId = Date.now().toString();
       
-      // Per la demo, impostiamo immediatamente un QR di test
+      // For the demo, immediately set a test QR
       setTimeout(() => {
-        // Generiamo un QR code per il nostro sistema interno
-        // Questo codice contiene informazioni per il nostro sistema di test
+        // Generate a QR code for our internal system
+        // This code contains information for our test system
         const timestamp = Date.now();
         const deviceId = this.deviceId;
-        // Codice QR con info di test
+        // Code QR con info test
         const testQR = `test-device:${deviceId}:${timestamp}`;
         this.currentQR = testQR;
         this.deviceStatus = DeviceStatus.QR_READY;
         
-        console.log('QR code di test generato per demo');
+        console.log('Test QR code generated for demo');
         
-        // Emetti lo stato e il QR code a tutti i client
+        // Emit the status and QR code to all clients
         this.emitStatus();
         if (this.socketServer) {
           this.socketServer.emit('qr_code', testQR);
@@ -133,77 +133,77 @@ class PhoneDeviceService {
       
       return true;
       
-      /* Commentato il codice reale che utilizza Puppeteer
+      /* Commented out the real code that uses Puppeteer
       this.client = new Client({
         puppeteer: {
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         }
       });
       
-      // Configura gli eventi del client
+      // Configure client events
       this.client.on('qr', (qr) => {
         this.currentQR = qr;
         this.deviceStatus = DeviceStatus.QR_READY;
         
-        // Emetti lo stato e il QR code a tutti i client
+        // Emit the status and QR code to all clients
         this.emitStatus();
         if (this.socketServer) {
           this.socketServer.emit('qr_code', qr);
         }
         
-        // Stampa anche il QR code nel terminale del server
-        console.log('QR Code generato, scansionalo con WhatsApp:');
+        // Also print the QR code in the server terminal
+        console.log('QR Code generated, scan with WhatsApp:');
         qrcode.generate(qr, { small: true });
       });
 
       this.client.on('ready', async () => {
         this.deviceStatus = DeviceStatus.CONNECTED;
-        console.log('Client WhatsApp pronto e connesso!');
+        console.log('WhatsApp client ready and connected!');
         
-        // Ottieni informazioni sul dispositivo connesso
+        // Get information about the connected device
         try {
           const info = await this.client.getWWebVersion();
           console.log(`Versione WhatsApp Web: ${info}`);
           
-          // Ottieni il numero di telefono
+          // Get the phone number
           const contactInfo = await this.client.getContactById(this.client.info.wid._serialized);
           this.phoneNumber = contactInfo.number;
           
-          // Salva le informazioni del dispositivo nel database
+          // Save the device information to the database
           await this.saveDeviceSettings();
           
           this.emitStatus();
         } catch (error) {
-          console.error('Errore nel recupero delle informazioni del dispositivo:', error);
+          console.error('Error retrieving device information:', error);
         }
       });
 
       this.client.on('authenticated', () => {
         this.deviceStatus = DeviceStatus.AUTHENTICATED;
-        console.log('Client WhatsApp autenticato');
+        console.log('WhatsApp client authenticated');
         this.emitStatus();
       });
 
       this.client.on('auth_failure', (msg) => {
         this.deviceStatus = DeviceStatus.AUTH_FAILURE;
-        console.error('Autenticazione WhatsApp fallita:', msg);
+        console.error('WhatsApp authentication failed:', msg);
         this.emitStatus();
       });
 
       this.client.on('disconnected', (reason) => {
         this.deviceStatus = DeviceStatus.DISCONNECTED;
-        console.log('Client WhatsApp disconnesso:', reason);
+        console.log('WhatsApp client disconnected:', reason);
         this.emitStatus();
         
-        // Rimuovi la sessione quando il dispositivo si disconnette
+        // Remove the session when the device disconnects
         this.client = null;
       });
 
-      // Inizializza il client
+      // Initialize the client
       await this.client.initialize();
       */
     } catch (error) {
-      console.error('Errore nell\'inizializzazione del client WhatsApp:', error);
+      console.error('Error initializing WhatsApp client:', error);
       this.deviceStatus = DeviceStatus.DISCONNECTED;
       this.emitStatus();
       return false;
@@ -211,17 +211,17 @@ class PhoneDeviceService {
   }
 
   /**
-   * Disconnette il client e pulisce le risorse
+   * Disconnect the client and clean up resources
    */
   async disconnectClient() {
     try {
-      // Per la demo, semplicemente reimposta lo stato
-      console.log('Disconnessione del client di test...');
+      // For the demo, simply reset the status
+      console.log('Disconnecting test client...');
       
-      // Rimuovi il codice per la versione reale
+      // Remove the code for the real version
       /*
       if (this.client) {
-        console.log('Disconnessione del client WhatsApp...');
+        console.log('Disconnecting WhatsApp client...');
         await this.client.destroy();
         this.client = null;
       }
@@ -230,24 +230,24 @@ class PhoneDeviceService {
       this.deviceStatus = DeviceStatus.DISCONNECTED;
       this.currentQR = null;
       
-      // Aggiorna lo stato nel database
+      // Update the status in the database
       await this.saveDeviceSettings();
       
       this.emitStatus();
       return true;
     } catch (error) {
-      console.error('Errore nella disconnessione del client di test:', error);
+      console.error('Error disconnecting test client:', error);
       return false;
     }
   }
 
   /**
-   * Salva o aggiorna le impostazioni del dispositivo nel database
+   * Save or update device settings in the database
    * Implementazione interna
    */
   private async _saveDeviceSettings() {
     try {
-      // Cerca prima se c'è già un dispositivo salvato
+      // First check if a device is already saved
       const deviceSetting = await storage.getSetting('whatsapp_device');
       
       const deviceData: DeviceSettings = {
@@ -258,25 +258,25 @@ class PhoneDeviceService {
       };
       
       if (deviceSetting) {
-        // Aggiorna le impostazioni esistenti
-        // Assicuriamoci che settingId sia un numero
+        // Update existing settings
+        // Ensure settingId is a number
         const settingId = typeof deviceSetting.id === 'number' ? deviceSetting.id : parseInt(deviceSetting.id as any);
         await storage.updateSetting(settingId, { value: JSON.stringify(deviceData) });
       } else {
-        // Crea nuove impostazioni utilizzando il metodo saveSetting
-        await storage.saveSetting('whatsapp_device', JSON.stringify(deviceData), 'Impostazioni del dispositivo WhatsApp accoppiato');
+        // Create new settings using the saveSetting method
+        await storage.saveSetting('whatsapp_device', JSON.stringify(deviceData), 'Paired WhatsApp device settings');
       }
       
-      console.log('Impostazioni del dispositivo salvate nel database');
+      console.log('Device settings saved to database');
       return true;
     } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni del dispositivo:', error);
+      console.error('Error saving device settings:', error);
       return false;
     }
   }
 
   /**
-   * Carica le impostazioni del dispositivo dal database
+   * Load device settings from the database
    */
   async loadDeviceSettings(): Promise<DeviceSettings | null> {
     try {
@@ -288,35 +288,35 @@ class PhoneDeviceService {
         this.deviceStatus = deviceData.status;
         this.phoneNumber = deviceData.phoneNumber || null;
         
-        console.log('Impostazioni del dispositivo caricate dal database');
+        console.log('Device settings loaded from database');
         return deviceData;
       }
       
       return null;
     } catch (error) {
-      console.error('Errore nel caricamento delle impostazioni del dispositivo:', error);
+      console.error('Error loading device settings:', error);
       return null;
     }
   }
 
   /**
-   * Invia un messaggio WhatsApp utilizzando il dispositivo accoppiato
+   * Send a WhatsApp message using the paired device
    * 
-   * Versione modificata per test/demo che simula l'invio di un messaggio
+   * Modified version for test/demo that simulates sending a message
    * 
-   * @param to Numero di telefono del destinatario in formato internazionale
-   * @param message Testo del messaggio da inviare
-   * @returns Oggetto con lo stato dell'invio
+   * @param to Recipient phone number in international format
+   * @param message Message text to send
+   * @returns Object with the send status
    */
   async sendWhatsAppMessage(to: string, message: string): Promise<{ success: boolean; messageId?: string; error?: string }> {
     try {
-      console.log(`[TEST] Simulazione invio WhatsApp a ${to}: "${message}"`);
+      console.log(`[TEST] Simulating WhatsApp send to ${to}: "${message}"`);
       
-      // Genera un link a WhatsApp come risposta di test
+      // Generate a link a WhatsApp come response test
       const formattedTo = to.startsWith('+') ? to.substring(1) : to;
       const whatsappLink = `https://wa.me/${formattedTo}?text=${encodeURIComponent(message)}`;
       
-      // Emetti un evento ai client connessi per mostrare il messaggio di test
+      // Emit an event to connected clients to show the test message
       if (this.socketServer) {
         this.socketServer.emit('test_message', {
           type: 'whatsapp',
@@ -327,7 +327,7 @@ class PhoneDeviceService {
         });
       }
       
-      // Simula un ID messaggio generando un ID casuale
+      // Simulate a message ID by generating a random ID
       const fakeMessageId = 'test_' + Date.now().toString();
       
       return {
@@ -335,7 +335,7 @@ class PhoneDeviceService {
         messageId: fakeMessageId
       };
       
-      /* Codice reale commentato
+      /* Real code commented out
       if (!this.client || this.deviceStatus !== DeviceStatus.CONNECTED) {
         return { 
           success: false, 
@@ -343,23 +343,23 @@ class PhoneDeviceService {
         };
       }
 
-      // Formatta il numero se necessario
+      // Format the number if needed
       const formattedTo = to.startsWith('+') ? to.substring(1) : to;
       
-      // Verifica se il numero esiste su WhatsApp prima di inviare
+      // Check if the number exists on WhatsApp before sending
       const isRegistered = await this.client.isRegisteredUser(`${formattedTo}@c.us`);
       
       if (!isRegistered) {
         return { 
           success: false, 
-          error: `Il numero ${to} non è registrato su WhatsApp` 
+          error: `The number ${to} is not registered on WhatsApp` 
         };
       }
       
-      // Invia il messaggio
+      // Send the message
       const response = await this.client.sendMessage(`${formattedTo}@c.us`, message);
       
-      console.log(`Messaggio WhatsApp inviato con successo a ${to}`);
+      console.log(`WhatsApp message sent successfully to ${to}`);
       
       return {
         success: true,
@@ -367,37 +367,37 @@ class PhoneDeviceService {
       };
       */
     } catch (error: any) {
-      console.error(`Errore nella simulazione di invio WhatsApp a ${to}:`, error);
+      console.error(`Error simulating WhatsApp send to ${to}:`, error);
       
       return {
         success: false,
-        error: error.message || 'Errore sconosciuto nella simulazione di invio WhatsApp'
+        error: error.message || 'Unknown error simulating WhatsApp send'
       };
     }
   }
 
   /**
-   * Invia un SMS utilizzando il dispositivo accoppiato (solo Android)
-   * Nota: Questa funzione richiede un'app specifica sul dispositivo Android
-   * @param to Numero di telefono del destinatario
-   * @param message Testo del messaggio da inviare
-   * @returns Oggetto con lo stato dell'invio (attualmente non implementato)
+   * Send an SMS using the paired device (Android only)
+   * Note: This function requires a specific app on the Android device
+   * @param to Recipient phone number
+   * @param message Message text to send
+   * @returns Object with the send status (not currently implemented)
    */
   async sendSMS(to: string, message: string): Promise<{ success: boolean; error?: string }> {
-    // Per ora, generiamo solo un link SMS per l'invio manuale
-    console.log(`Generazione link SMS per ${to} (invio diretto non ancora implementato)`);
+    // For now, generate only an SMS link for manual sending
+    console.log(`Generating SMS link for ${to} (direct send not yet implemented)`);
     
     return {
       success: false,
-      error: 'Invio SMS diretto non ancora implementato. Utilizzare il metodo generateSMSLink'
+      error: 'Direct SMS sending not yet implemented. Use the generateSMSLink method'
     };
   }
 
   /**
-   * Genera un link SMS che può essere aperto sul dispositivo
-   * @param to Numero di telefono del destinatario
-   * @param message Testo del messaggio
-   * @returns URL per aprire l'app SMS con il messaggio precompilato
+   * Generate an SMS link that can be opened on the device
+   * @param to Recipient phone number
+   * @param message Message text
+   * @returns URL per aprire l'app SMS con the message precompilato
    */
   generateSMSLink(to: string, message: string): string {
     const formattedTo = to.startsWith('+') ? to : `+${to}`;
@@ -405,7 +405,7 @@ class PhoneDeviceService {
   }
 
   /**
-   * Ottiene lo stato attuale del dispositivo
+   * Get the current status of the device
    */
   getStatus(): { status: DeviceStatus; deviceId: string | null; phoneNumber: string | null } {
     return {
@@ -416,70 +416,70 @@ class PhoneDeviceService {
   }
   
   /**
-   * Ottiene il codice QR attuale
+   * Get the current QR code
    */
   getCurrentQR(): string | null {
     return this.currentQR;
   }
   
   /**
-   * Imposta un codice QR di test per debugging/testing
+   * Set a test QR code for debugging/testing
    */
   setTestQRCode(qrData: string): void {
     this.currentQR = qrData;
     this.deviceStatus = DeviceStatus.QR_READY;
     
-    // Emetti lo stato e il QR code a tutti i client
+    // Emit the status and QR code to all clients
     this.emitStatus();
     if (this.socketServer) {
       this.socketServer.emit('qr_code', qrData);
-      console.log('QR code di test inviato ai client');
+      console.log('Test QR code sent to clients');
     }
   }
   
   /**
-   * Imposta il numero di telefono del dispositivo accoppiato
-   * (solo per la modalità test)
+   * Set the phone number of the paired device
+   * (test mode only)
    */
   setPhoneNumber(phoneNumber: string): void {
     this.phoneNumber = phoneNumber;
-    console.log(`Numero di telefono impostato: ${phoneNumber}`);
+    console.log(`Phone number set: ${phoneNumber}`);
     this.emitStatus();
   }
   
   /**
-   * Imposta lo stato del dispositivo
-   * (solo per la modalità test)
+   * Set the device status
+   * (test mode only)
    */
   setDeviceStatus(status: DeviceStatus): void {
     this.deviceStatus = status;
-    console.log(`Stato dispositivo impostato: ${status}`);
+    console.log(`Device status set: ${status}`);
     this.emitStatus();
   }
   
   /**
-   * Espone la funzione saveDeviceSettings per uso esterno
-   * (solo per la modalità test)
+   * Espone the function saveDeviceSettings per uso esterno
+   * (test mode only)
    */
   async saveDeviceSettings(): Promise<boolean> {
     try {
       await this._saveDeviceSettings();
       return true;
     } catch (error) {
-      console.error('Errore pubblico nel salvataggio impostazioni:', error);
+      console.error('Error saving settings publicly:', error);
       return false;
     }
   }
 
   /**
-   * Avvia l'accoppiamento automaticamente se ci sono impostazioni salvate
+   * Start pairing automatically if saved settings exist
    */
   async autoInitialize(): Promise<boolean> {
     const settings = await this.loadDeviceSettings();
     
     if (settings && settings.deviceId) {
       this.deviceId = settings.deviceId;
-      console.log(`Tentativo di ricollegamento al dispositivo ${settings.deviceId}`);
+      console.log(`Attempting to reconnect to device ${settings.deviceId}`);
       return this.initializeClient();
     }
     
@@ -487,5 +487,5 @@ class PhoneDeviceService {
   }
 }
 
-// Singleton per l'accesso globale al servizio
+// Singleton for global access to the service
 export const phoneDeviceService = new PhoneDeviceService();

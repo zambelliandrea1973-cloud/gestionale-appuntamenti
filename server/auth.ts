@@ -14,7 +14,7 @@ import rateLimit from "express-rate-limit";
 const loginRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { message: "Troppi tentativi di login. Riprova tra 15 minuti." },
+  message: { message: "Too many login attempts. Please try again in 15 minutes." },
   standardHeaders: true,
   legacyHeaders: false,
   validate: { xForwardedForHeader: false },
@@ -49,21 +49,21 @@ export async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
-  // Rileva se siamo su Sliplane o ambiente di produzione
+  // Detect if we are on Sliplane or production environment
   const isProduction = process.env.NODE_ENV === 'production';
   const isReplit = process.env.REPL_ID !== undefined;
   const isSliplane = !isReplit && isProduction;
   
-  logger.debug(`🔐 [AUTH] Configurazione sessione: production=${isProduction}, replit=${isReplit}, sliplane=${isSliplane}`);
+  logger.debug(`🔐 [AUTH] Session configuration: production=${isProduction}, replit=${isReplit}, sliplane=${isSliplane}`);
   
   const sessionSettings: session.SessionOptions = {
     secret: (() => {
       if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET;
       if (isSliplane) {
-        console.error('❌ [AUTH] SESSION_SECRET mancante in produzione Sliplane!');
+        console.error('❌ [AUTH] SESSION_SECRET missing in Sliplane production!');
         process.exit(1);
       }
-      console.warn('⚠️ [AUTH] SESSION_SECRET non impostata, usando placeholder (NON SICURO IN PRODUZIONE)');
+      console.warn('⚠️ [AUTH] SESSION_SECRET not set, using placeholder (NOT SAFE IN PRODUCTION)');
       return "dev-only-placeholder-not-for-production";
     })(),
     resave: false,
@@ -72,10 +72,10 @@ export function setupAuth(app: Express) {
     rolling: true,
     proxy: true, // IMPORTANTE: fiducia proxy headers
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 giorni
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
       secure: isProduction || isReplit, // true su Replit/Sliplane (HTTPS)
-      sameSite: 'none', // 'none' sempre per permettere redirect da PayPal/Stripe
+      sameSite: 'none', // 'none' always to allow redirects from PayPal/Stripe
       domain: isSliplane ? undefined : undefined // auto-detect domain
     },
     name: 'session-id',
@@ -88,79 +88,79 @@ export function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Strategia di autenticazione per utenti professionali (admin/staff/customer)
+  // Authentication strategy for professional users (admin/staff/customer)
   passport.use("local-staff", new LocalStrategy(async (username, password, done) => {
     try {
       const user = await storage.getUserByUsername(username);
       if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false, { message: "Username o password non validi" });
+        return done(null, false, { message: "Username o password invalid" });
       }
       
-      // CORREZIONE: Manteniamo il tipo originale dell'utente (admin, staff o customer)
-      // Utilizziamo il campo 'role' SOLO se il tipo non è già definito
+      // FIX: Keep the original user type (admin, staff or customer)
+      // Use the 'role' field ONLY if the type is not already defined
       let userType = user.type;
       
-      // Se il tipo non è definito, determiniamolo dal ruolo
+      // if the type is not defined, determine it from the role
       if (!userType || userType === 'undefined') {
         userType = user.role === 'admin' ? 'admin' : 'staff';
-        console.log(`Tipo utente non definito per ${username}, impostato a ${userType} basato sul ruolo`);
+        console.log(`User type not defined for ${username}, set to ${userType} based on role`);
       } else {
         // Debug log removed for performance optimization
       }
       
       return done(null, { 
         ...user, 
-        type: userType // mantiene il tipo originale dell'utente
+        type: userType // maintains original user type
       });
     } catch (err) {
       return done(err);
     }
   }));
 
-  // Strategia di autenticazione per clienti
+  // Authentication strategy for clients
   passport.use("local-client", new LocalStrategy(async (username, password, done) => {
     try {
       const clientAccount = await storage.getClientAccountByUsername(username);
       
-      // Se l'account esiste, ma non è attivo
+      // If the account exists but is not active
       if (clientAccount && !clientAccount.isActive) {
-        return done(null, false, { message: "Account cliente non attivo" });
+        return done(null, false, { message: "Client account is not active" });
       }
       
-      // Se l'account non esiste o la password non coincide
-      // NOTA: Aggiungiamo una backdoor per l'ambiente di sviluppo/test
-      // dove la password "password123" funziona per tutti gli account
+      // If the account does not exist or the password does not match
+      // NOTE: Adding a backdoor for the development/test environment
+      // where the password "password123" works for all accounts
       const isPasswordValid = clientAccount && (
         await comparePasswords(password, clientAccount.password) || 
         (process.env.NODE_ENV !== "production" && password === "password123")
       );
       
       if (!clientAccount || !isPasswordValid) {
-        console.log("Login fallito per:", username, "password:", password ? "fornita" : "mancante");
-        return done(null, false, { message: "Username o password non validi" });
+        console.log("Login failed for:", username, "password:", password ? "provided" : "missing");
+        return done(null, false, { message: "Username o password invalid" });
       }
       
       const client = await storage.getClient(clientAccount.clientId);
       if (!client) {
-        return done(null, false, { message: "Account cliente non valido" });
+        return done(null, false, { message: "Invalid client account" });
       }
       
-      // Verifica se l'account è associato a un customer (utente con licenza)
+      // Check if the account is associated with a customer (licensed user)
       let userType = "client";
       let userId = clientAccount.id;
       
-      // Verifichiamo se l'email del client corrisponde a un account customer
+      // Check if the client email matches a customer account
       if (client.email) {
         try {
           const customerAccount = await storage.getUserByUsername(client.email);
           if (customerAccount && customerAccount.type === 'customer') {
             userType = "customer";
-            userId = customerAccount.id; // Usa l'ID del customer, non del clientAccount
-            console.log(`Cliente ${client.email} identificato come customer con licenza, ID: ${userId}`);
+            userId = customerAccount.id; // Use the customer ID, not the clientAccount
+            console.log(`client ${client.email} identified as licensed customer, ID: ${userId}`);
           }
         } catch (err) {
-          console.error("Errore durante la verifica customer:", err);
-          // Non è un errore fatale, continuiamo con tipo client
+          console.error("Error verifying customer:", err);
+          // It's not a fatal error, continue with type client
         }
       }
       
@@ -175,7 +175,7 @@ export function setupAuth(app: Express) {
     }
   }));
 
-  // Serializziamo l'utente con un formato che ci permette di riconoscere se è staff o cliente
+  // Serialize the user with a format that allows us to recognize if it is staff or client
   passport.serializeUser((user: any, done) => {
     // User serialization - debug logs removed for performance
     
@@ -183,31 +183,31 @@ export function setupAuth(app: Express) {
     const userId = user.id;
     
     if (!userType || !userId) {
-      console.error('Errore di serializzazione: tipo o ID mancante', { userType, userId, user });
-      return done(new Error('Tipo utente o ID mancante durante la serializzazione'));
+      console.error('Serialization error: type or ID missing', { userType, userId, user });
+      return done(new Error('User type or ID missing during serialization'));
     }
     
-    // Formato: "tipo:id" per deserializzare correttamente
+    // Format: "type:id" for correct deserialization
     done(null, `${userType}:${userId}`);
   });
 
-  // Deserializziamo l'utente in base al tipo
+  // Deserialize the user based on type
   passport.deserializeUser(async (serialized: string, done) => {
     try {
       // User deserialization - debug logs removed for performance
       
-      // Verifica se serialized è una stringa valida
+      // Check if serialized is a valid string
       if (!serialized || typeof serialized !== 'string') {
-        console.error('Errore deserializzazione: serialized non valido', serialized);
-        return done(new Error('ID sessione non valido'));
+        console.error('Deserialization error: invalid serialized data', serialized);
+        return done(new Error('Invalid session ID'));
       }
       
       const [type, idStr] = serialized.split(":");
       
-      // Verifica se abbiamo sia type che idStr
+      // Check if we have both type and idStr
       if (!type || !idStr) {
-        console.error('Errore deserializzazione: formato ID non valido', { type, idStr, serialized });
-        return done(new Error('Formato ID sessione non valido'));
+        console.error('Deserialization error: invalid ID format', { type, idStr, serialized });
+        return done(new Error('Invalid session ID format'));
       }
       
       const id = parseInt(idStr, 10);
@@ -216,19 +216,19 @@ export function setupAuth(app: Express) {
         const user = await storage.getUser(id);
         if (!user) return done(null, false);
         
-        // CORREZIONE: Manteniamo il tipo originale se presente
+        // FIX: Keep the original type if present
         let userType = user.type;
         if (!userType || userType === 'undefined') {
           userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
-          console.log(`Tipo utente non definito per ID ${id}, impostato a ${userType} basato sul tipo serializzato`);
+          console.log(`User type not defined for ID ${id}, set to ${userType} based on serialized type`);
         } else {
           // User type maintained - debug log removed for performance
         }
         
         return done(null, { ...user, type: userType });
       } else if (type === "client" && !serialized.startsWith("customer:")) {
-        // ATTENZIONE: I clienti e i customer sono gestiti in modo diverso
-        console.log(`Cliente tipo "client" con ID ${id} - usando getClientAccount`);
+        // WARNING: Clients and customers are handled differently
+        console.log(`Client of type "client" with ID ${id} - using getClientAccount`);
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
         if (!clientAccount || !clientAccount.isActive) return done(null, false);
@@ -236,20 +236,20 @@ export function setupAuth(app: Express) {
         const client = await storage.getClient(clientAccount.clientId);
         if (!client) return done(null, false);
         
-        // Verifica se l'account è associato a un customer (utente con licenza)
+        // Check if the account is associated with a customer (licensed user)
         let userType = "client";
       
-        // Verifichiamo se l'email del client corrisponde a un account customer
+        // Check if the client email matches a customer account
         if (client.email) {
           try {
             const customerAccount = await storage.getUserByUsername(client.email);
             if (customerAccount && customerAccount.type === 'customer') {
               userType = "customer";
-              console.log(`Cliente ${client.email} identificato come customer con licenza (deserialize)`);
+              console.log(`client ${client.email} identified as licensed customer (deserialize)`);
             }
           } catch (err) {
-            console.error("Errore durante la verifica customer in deserialize:", err);
-            // Non è un errore fatale, continuiamo con tipo client
+            console.error("Error verifying customer in deserialize:", err);
+            // It's not a fatal error, continue with type client
           }
         }
         
@@ -262,7 +262,7 @@ export function setupAuth(app: Express) {
 
       return done(null, false);
     } catch (err: any) {
-      // Log dettagliato errore deserializzazione
+      // Detailed deserialization error log
       console.error('🔴 [DESERIALIZE ERROR] ==================');
       console.error('🔴 [DESERIALIZE] Serialized value:', serialized);
       console.error('🔴 [DESERIALIZE] Error message:', err?.message);
@@ -274,54 +274,54 @@ export function setupAuth(app: Express) {
     }
   });
 
-  // Rotte di autenticazione per utenti professionali
+  // Authentication routes for professional users
   app.post("/api/staff/login", loginRateLimiter, (req, res, next) => {
     const username = req.body.username;
     const userAgent = req.headers['user-agent']?.substring(0, 100);
     const ip = req.ip || req.connection.remoteAddress;
     
-    logger.debug(`🔐 [LOGIN] Richiesta login staff: ${username}`);
+    logger.debug(`🔐 [LOGIN] Staff login request: ${username}`);
     logger.debug(`🔐 [LOGIN] IP: ${ip}, UserAgent: ${userAgent}`);
     logger.debug(`🔐 [LOGIN] Headers: secure=${req.secure}, protocol=${req.protocol}`);
     
-    // PULIZIA FORZATA SESSIONE per evitare sovrapposizioni tra utenti staff
+    // FORCED SESSION CLEANUP to avoid overlaps between staff users
     req.logout((logoutErr) => {
-      if (logoutErr) console.log('⚠️ [LOGIN] Errore durante logout preventivo:', logoutErr);
+      if (logoutErr) console.log('⚠️ [LOGIN] Error during preventive logout:', logoutErr);
       
       passport.authenticate("local-staff", (err: any, user: any, info: any) => {
         if (err) {
-          console.error('❌ [LOGIN] Errore durante autenticazione staff:', err);
+          console.error('❌ [LOGIN] Error during staff authentication:', err);
           return next(err);
         }
         if (!user) {
-          console.log(`❌ [LOGIN] Login fallito per: ${username}`);
-          return res.status(401).json(info || { message: "Credenziali non valide" });
+          console.log(`❌ [LOGIN] Login failed for: ${username}`);
+          return res.status(401).json(info || { message: "Invalid credentials" });
         }
         
         req.login(user, (loginErr) => {
           if (loginErr) {
-            console.error(`❌ [LOGIN] Errore durante req.login per ${username}:`, loginErr);
+            console.error(`❌ [LOGIN] Error during req.login for ${username}:`, loginErr);
             return next(loginErr);
           }
           
-          // Log della sessione dopo il login
-          logger.debug(`✅ [LOGIN] Login completato per: ${user.username} (ID: ${user.id}, tipo: ${user.type})`);
+          // Log the session after login
+          logger.debug(`✅ [LOGIN] Login completed per: ${user.username} (ID: ${user.id}, type: ${user.type})`);
           logger.debug(`🔐 [LOGIN] Session ID: ${req.sessionID}`);
           logger.debug(`🔐 [LOGIN] Session saved: ${req.session ? 'yes' : 'no'}`);
           
-          // Registra accesso nel tracciamento login
+          // Register access in login tracking
           db.insert(userLogins).values({
             userId: user.id,
             ipAddress: ip?.toString(),
             userAgent: userAgent?.toString()
-          }).catch(err => console.error('Errore registrazione login:', err));
+          }).catch(err => console.error('Error registering login:', err));
           
-          // Forza il salvataggio della sessione
+          // Force session save
           req.session.save((saveErr) => {
             if (saveErr) {
-              console.error(`❌ [LOGIN] Errore salvataggio sessione:`, saveErr);
+              console.error(`❌ [LOGIN] Error saving session:`, saveErr);
             } else {
-              logger.debug(`✅ [LOGIN] Sessione salvata con successo per ${user.username}`);
+              logger.debug(`✅ [LOGIN] Session saved successfully for ${user.username}`);
             }
             return res.status(200).json(user);
           });
@@ -331,12 +331,12 @@ export function setupAuth(app: Express) {
   });
 
 
-  // Rotte di autenticazione per clienti finali
+  // Authentication routes for end clients
   app.post("/api/client/login", loginRateLimiter, async (req, res, next) => {
-    // Estrai le informazioni dalla richiesta
+    // Extract information from the request
     const { token, clientId, username, password } = req.body;
     
-    // Registra informazioni utili per il debug
+    // Register useful information for debugging
     const userAgent = req.headers['user-agent'] || 'Unknown';
     const isMobileApp = req.headers['x-pwa-app'] === 'true';
     const isDuckDuckGo = userAgent.includes('DuckDuckGo');
@@ -344,26 +344,26 @@ export function setupAuth(app: Express) {
     console.log(`Login client - UserAgent: ${userAgent}`);
     console.log(`Login client - PWA: ${isMobileApp}, DuckDuckGo: ${isDuckDuckGo}`);
     
-    // PRIMA PRIORITA': Account customer (1973A,B,C,D) come nei backup 14-15
+    // FIRST PRIORITY: Customer accounts (1973A,B,C,D) as in backups 14-15
     if (username && password) {
-      console.log('Autenticazione standard con username/password');
+      console.log('Standard authentication with username/password');
       
       try {
         const user = await storage.getUserByUsername(username);
         if (user && user.type === 'customer' && (await comparePasswords(password, user.password))) {
-          console.log(`Login customer completato con successo per: ${user.username} tipo: ${user.type}`);
+          console.log(`Login customer completed successfully per: ${user.username} type: ${user.type}`);
           
-          // Registra accesso nel tracciamento login
+          // Register access in login tracking
           const ip = req.ip || req.connection.remoteAddress;
           db.insert(userLogins).values({
             userId: user.id,
             ipAddress: ip?.toString(),
             userAgent: userAgent?.toString()
-          }).catch(err => console.error('Errore registrazione login customer:', err));
+          }).catch(err => console.error('Error registering customer login:', err));
           
           req.login(user, (err) => {
             if (err) {
-              console.error('Errore durante login customer:', err);
+              console.error('Error during customer login:', err);
               return next(err);
             }
             return res.status(200).json(user);
@@ -371,42 +371,42 @@ export function setupAuth(app: Express) {
           return;
         }
       } catch (error) {
-        console.error('Errore durante verifica account customer:', error);
+        console.error('Error verifying customer account:', error);
       }
       
-      // Se non è un account customer, continua con la logica normale
-      console.log(`Login fallito per: ${username} password: ${password ? 'fornita' : 'mancante'}`);
-      return res.status(401).json({ message: "Username o password non validi" });
+      // If it is a customer account, continue with normal logic
+      console.log(`Login failed for: ${username} password: ${password ? 'provided' : 'missing'}`);
+      return res.status(401).json({ message: "Username o password invalid" });
     }
     
-    // Gestione per DuckDuckGo
+    // Handling for DuckDuckGo
     if (isDuckDuckGo) {
-      console.log('Client sta utilizzando DuckDuckGo browser, modalità speciale attivata');
+      console.log('Client is using DuckDuckGo browser, special mode activated');
     }
     
-    // PERCORSO 1: Autenticazione con token
-    // Prima verifichiamo se ci sono token e clientId (priorità alta)
+    // PATH 1: Authentication with token
+    // First verify if there are token and clientId (high priority)
     if (token && clientId) {
       try {
-        // Importa il servizio token (import dinamico)
+        // Import the service token (import dinamico)
         const tokenServiceModule = await import('./services/tokenService');
         const tokenService = tokenServiceModule.tokenService;
         
-        // Verifica il token
+        // Verify the token
         const validClientId = await tokenService.verifyActivationToken(token);
         
-        // Se il token è valido e corrisponde al cliente
+        // if the token is valid and matches the client
         if (validClientId === Number(clientId)) {
-          console.log(`Token valido per clientId: ${clientId}`);
+          console.log(`Valid token for clientId: ${clientId}`);
           
           // Caso speciale: DuckDuckGo o altre PWA problematiche
-          // Se siamo in DuckDuckGo o un'altra PWA che invia il token ma ha problemi con credenziali
-          // oppure se esplicitamente richiesto dalla richiesta con il flag bypassAuth
+          // If we are in DuckDuckGo or another PWA that sends the token but has credential issues
+          // or if explicitly requested by the request with the bypassAuth flag
           if (isDuckDuckGo || req.body.bypassAuth === true || (isMobileApp && (!username || !password))) {
-            console.log('Autenticazione bypass con solo token attivata');
+            console.log('Authentication bypass with token only activated');
             
             try {
-              // Importa dipendenze necessarie (usando import dinamico)
+              // Import dipendenze necessarie (usando import dinamico)
               const dbModule = await import('./db');
               const db = dbModule.db;
               const ormModule = await import('drizzle-orm');
@@ -414,31 +414,31 @@ export function setupAuth(app: Express) {
               const schemaModule = await import('../shared/schema');
               const { users, clients } = schemaModule;
               
-              // Recupera l'utente associato a questo cliente
+              // Retrieve the user associated with this client
               const [user] = await db.select()
                 .from(users)
                 .where(eq(users.clientId, validClientId))
                 .limit(1);
               
-              // Recupera i dati del cliente
+              // Retrieve client date
               const [client] = await db.select()
                 .from(clients)
                 .where(eq(clients.id, validClientId))
                 .limit(1);
               
               if (user && client) {
-                // Arricchisci l'oggetto utente con i dati del cliente
+                // Enrich the user object with client data
                 user.clientId = client.id;
                 
                 // Login manuale
                 req.login(user, (err: any) => {
                   if (err) {
-                    console.error("Errore durante login bypass:", err);
+                    console.error("Error during bypass login:", err);
                     return next(err);
                   }
                   
-                  console.log("Login con token bypass completato con successo");
-                  // Aggiunge flag per indicare che l'utente è stato autenticato tramite token
+                  console.log("Login with bypass token completed successfully");
+                  // Add flag to indicate that the user was authenticated via token
                   return res.status(200).json({
                     ...user,
                     tokenAuthenticated: true
@@ -446,16 +446,16 @@ export function setupAuth(app: Express) {
                 });
                 return; // Termina qui l'esecuzione
               } else {
-                console.error("Utente o cliente non trovato per tokenId:", validClientId);
+                console.error("User or client not found for tokenId:", validClientId);
               }
             } catch (dbError) {
-              console.error("Errore nel recupero utente dalla DB:", dbError);
+              console.error("Error retrieving user from DB:", dbError);
             }
           }
           
-          // Se abbiamo anche username e password, continua con l'autenticazione standard
+          // If abbiamo also username e password, continua con l'autenticazione standard
           if (username && password) {
-            console.log('Autenticazione token+credenziali standard');
+            console.log('Standard token+credentials authentication');
             passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
               if (err) {
                 return next(err);
@@ -473,37 +473,37 @@ export function setupAuth(app: Express) {
             return;
           }
         } else {
-          console.log(`Token non valido o non corrisponde al clientId (${validClientId} ≠ ${clientId})`);
+          console.log(`Invalid token or does not match clientId (${validClientId} ≠ ${clientId})`);
         }
       } catch (error) {
-        console.error("Errore durante la verifica del token:", error);
+        console.error("Error verifying token:", error);
       }
     }
     
-    // PERCORSO 2: Autenticazione standard con username e password
+    // PATH 2: Standard authentication with username and password
     if (username && password) {
-      console.log('Autenticazione standard con username/password');
+      console.log('Standard authentication with username/password');
       passport.authenticate('local-client', async (err: any, user: Express.User | false, info: any) => {
         if (err) {
           return next(err);
         }
         if (!user) {
-          return res.status(401).json(info || { message: "Credenziali non valide" });
+          return res.status(401).json(info || { message: "Invalid credentials" });
         }
         
-        // Prima di effettuare il login, generiamo un token per l'app PWA installata
+        // Before performing login, generate a token for the installed PWA app
         let token = null;
         if (user.clientId) {
           try {
-            // Importa il servizio token se necessario
-            // Usiamo import dinamico invece di require per evitare errori
+            // Import the service token if needed
+            // We use dynamic import instead of require to avoid errors
             const { tokenService } = await import('./services/tokenService');
-            // Genera un token per questo cliente
+            // Generate a token for this client
             token = await tokenService.generateActivationToken(user.clientId);
-            console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
+            console.log(`Token generated for PWA access: ${token} (client ${user.clientId})`);
           } catch (error) {
-            console.error("Errore nella generazione token:", error);
-            // Non è un errore fatale, continuiamo senza token
+            console.error("Error generating token:", error);
+            // It's not a fatal error, continue without token
           }
         }
         
@@ -512,7 +512,7 @@ export function setupAuth(app: Express) {
             return next(err);
           }
           
-          // Aggiungiamo il token alla risposta se è stato generato
+          // Add the token to the response if it was generated
           const responseUser: any = { ...user };
           if (token) {
             responseUser.token = token;
@@ -524,21 +524,21 @@ export function setupAuth(app: Express) {
       return;
     }
     
-    // PERCORSO 3: Nessuna credenziale valida
-    return res.status(401).json({ message: "Credenziali mancanti o non valide" });
+    // PATH 3: No valid credentials
+    return res.status(401).json({ message: "Missing or invalid credentials" });
   });
 
-  // Registrazione per utenti staff (solo admin può creare altri staff)
+  // Registration for staff users (only admin can create other staff)
   app.post("/api/staff/register", async (req, res, next) => {
     try {
-      // Verifica che l'utente che fa la richiesta sia un admin
+      // Verify that the user making the request is an admin
       if (!req.isAuthenticated() || (req.user as any).type !== "admin") {
-        return res.status(403).json({ message: "Solo gli amministratori possono registrare nuovi staff" });
+        return res.status(403).json({ message: "Only administrators can register new staff" });
       }
 
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
-        return res.status(400).json({ message: "Username già in uso" });
+        return res.status(400).json({ message: "Username already in use" });
       }
 
       const hashedPassword = await hashPassword(req.body.password);
@@ -553,32 +553,32 @@ export function setupAuth(app: Express) {
     }
   });
 
-  // Registrazione per clienti (può essere fatta da uno staff membro)
+  // Registration for clients (can be done by a staff member)
   app.post("/api/client/register", async (req, res, next) => {
     try {
-      // Verifica che l'utente che fa la richiesta sia staff o admin
+      // Verify that the user making the request is staff or admin
       if (!req.isAuthenticated() || ((req.user as any).type !== "staff" && (req.user as any).type !== "admin")) {
-        return res.status(403).json({ message: "Solo lo staff può registrare nuovi clienti" });
+        return res.status(403).json({ message: "Only staff can register new clients" });
       }
 
       const { clientId, username, password } = req.body;
 
-      // Verifica che il cliente esista
+      // Verify that the client exists
       const client = await storage.getClient(clientId);
       if (!client) {
-        return res.status(404).json({ message: "Cliente non trovato" });
+        return res.status(404).json({ message: "Client not found" });
       }
 
-      // Verifica che il cliente non abbia già un account
+      // Verify that the client does not already have an account
       const existingAccount = await storage.getClientAccountByClientId(clientId);
       if (existingAccount) {
-        return res.status(400).json({ message: "Il cliente ha già un account" });
+        return res.status(400).json({ message: "Client already has an account" });
       }
 
-      // Verifica che l'username non sia già usato
+      // Verify that the username is not already in use
       const existingUsername = await storage.getClientAccountByUsername(username);
       if (existingUsername) {
-        return res.status(400).json({ message: "Username già in uso" });
+        return res.status(400).json({ message: "Username already in use" });
       }
 
       const hashedPassword = await hashPassword(password);
@@ -597,24 +597,24 @@ export function setupAuth(app: Express) {
 
   app.post("/api/logout", (req, res, next) => {
     if (req.session) {
-      // Assicuriamoci che la sessione esista prima
-      console.log(`Tentativo di logout per utente ${req.user?.username || 'sconosciuto'}, tipo: ${req.user?.type || 'non specificato'}`);
+      // Make sure the session exists first
+      console.log(`Logout attempt for user ${req.user?.username || 'unknown'}, type: ${req.user?.type || 'unspecified'}`);
       
       req.logout((err) => {
         if (err) {
-          console.error(`Errore durante il logout:`, err);
+          console.error(`Error during logout:`, err);
           return next(err);
         }
         
-        // Distruggi completamente la sessione, non solo i dati utente
+        // Completely destroy the session, not just user date
         req.session.destroy((err) => {
           if (err) {
-            console.error(`Errore nella distruzione della sessione:`, err);
+            console.error(`Error destroying session:`, err);
             return next(err);
           }
           
-          // Cancella il cookie di sessione sul client con le stesse opzioni del cookie originale
-          // Questo è CRITICO per garantire la cancellazione effettiva del cookie
+          // Clear the session cookie on the client with the same options as the original cookie
+          // This is CRITICAL to ensure the cookie is actually deleted
           const isProduction = process.env.NODE_ENV === 'production';
           const isReplit = process.env.REPL_ID !== undefined;
           const isSliplane = !isReplit && isProduction;
@@ -624,37 +624,37 @@ export function setupAuth(app: Express) {
             secure: isProduction || isReplit,
             sameSite: isSliplane ? 'none' : 'lax'
           });
-          console.log(`Logout completato con successo`);
-          res.status(200).json({ success: true, message: "Logout completato con successo" });
+          console.log(`Logout completed successfully`);
+          res.status(200).json({ success: true, message: "Logout completed successfully" });
         });
       });
     } else {
-      console.log(`Tentativo di logout con sessione mancante`);
-      res.status(200).json({ success: true, message: "Nessuna sessione attiva" });
+      console.log(`Logout attempt with missing session`);
+      res.status(200).json({ success: true, message: "No active session" });
     }
   });
 
   app.get("/api/current-user", (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Non autenticato" });
+      return res.status(401).json({ message: "Not authenticated" });
     }
     res.json(req.user);
   });
 
-  // Endpoint per il cambio password
+  // Endpoint for password change
   app.post("/api/change-password", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Non autenticato" });
+      return res.status(401).json({ message: "Not authenticated" });
     }
 
     const { currentPassword, newPassword } = req.body;
     const user = req.user as any;
 
     try {
-      // Verifica la password attuale
+      // Verify the password attuale
       const dbUser = await storage.getUserByUsername(user.username);
       if (!dbUser || !dbUser.password) {
-        return res.status(400).send("Account non valido per il cambio password");
+        return res.status(400).send("Invalid account for password change");
       }
 
       const devAdminPw = process.env.DEV_ADMIN_PASSWORD;
@@ -663,87 +663,87 @@ export function setupAuth(app: Express) {
                                    (!isProd && devAdminPw && currentPassword === devAdminPw);
       
       if (!isCurrentPasswordValid) {
-        return res.status(400).send("Password attuale non corretta");
+        return res.status(400).send("Current password incorrect");
       }
 
-      // Hash della nuova password
+      // Hash of the new password
       const hashedNewPassword = await hashPassword(newPassword);
       
-      // Aggiorna la password nel database
+      // Update the password in the database
       await storage.updateUserPassword(user.id, hashedNewPassword);
 
-      res.status(200).json({ success: true, message: "Password aggiornata con successo" });
+      res.status(200).json({ success: true, message: "Password updated successfully" });
     } catch (error) {
-      console.error("Errore durante il cambio password:", error);
-      res.status(500).send("Errore interno del server");
+      console.error("Error changing password:", error);
+      res.status(500).send("Internal server error");
     }
   });
   
-  // Lista degli utenti staff (solo per admin)
+  // List of staff users (admin only)
   // Endpoint spostato in staffRoutes.ts
 }
 
-// Middleware per verificare che l'utente sia autenticato
+// Middleware to verify that the user is authenticated
 export function isAuthenticated(req: any, res: any, next: any) {
-  logger.debug(`🔐 MIDDLEWARE isAuthenticated chiamato per ${req.method} ${req.path}`);
+  logger.debug(`🔐 MIDDLEWARE isAuthenticated called for ${req.method} ${req.path}`);
   logger.debug(`🔐 req.isAuthenticated():`, req.isAuthenticated());
   logger.debug(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
   logger.debug(`🔐 Session ID:`, req.sessionID || 'No session ID');
   logger.debug(`🔐 Cookies:`, req.headers.cookie || 'No cookies');
   
   if (req.isAuthenticated()) {
-    console.log('✅ Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
+    console.log('✅ User authenticated successfully in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
     return next();
   }
-  console.log('❌ Tentativo di accesso non autorizzato, nessuna sessione valida');
-  res.status(401).json({ message: "Accesso non autorizzato" });
+  console.log('❌ Unauthorized access attempt, no valid session');
+  res.status(401).json({ message: "Unauthorized access" });
 }
 
-// Middleware per verificare ruolo staff (admin o staff)
+// Middleware to verify staff role (admin or staff)
 export function isStaff(req: any, res: any, next: any) {
   if (req.isAuthenticated() && (req.user.type === "staff" || req.user.type === "admin")) {
     return next();
   }
-  res.status(403).json({ message: "Accesso negato: richiesto ruolo staff" });
+  res.status(403).json({ message: "Access denied: staff role required" });
 }
 
-// Middleware per verificare ruolo admin
+// Middleware to verify admin role
 export function isAdmin(req: any, res: any, next: any) {
   if (req.isAuthenticated() && (req.user.type === "admin" || req.user.role === "admin")) {
     return next();
   }
-  console.log("Utente non admin:", req.user);
-  res.status(403).json({ message: "Solo gli amministratori possono visualizzare questa pagina" });
+  console.log("Non-admin user:", req.user);
+  res.status(403).json({ message: "Only administrators can view this page" });
 }
 
-// Middleware per verificare se è un cliente (include anche customer)
+// Middleware to verify if it is a client (includes customer as well)
 export function isClient(req: any, res: any, next: any) {
   if (req.isAuthenticated() && (req.user.type === "client" || req.user.type === "customer")) {
     return next();
   }
-  res.status(403).json({ message: "Accesso negato: richiesto ruolo cliente" });
+  res.status(403).json({ message: "Access denied: client role required" });
 }
 
-// Middleware per verificare se l'utente sta accedendo ai propri dati (per i clienti)
+// Middleware to verify if the user is accessing their own data (for clients)
 export function isOwnClientData(clientIdParamName = 'clientId') {
   return (req: any, res: any, next: any) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Accesso non autorizzato" });
+      return res.status(401).json({ message: "Unauthorized access" });
     }
     
     const paramClientId = parseInt(req.params[clientIdParamName]);
     
-    // Se è un utente staff o admin, ha sempre accesso
+    // If it is a staff or admin user, they always have access
     if (req.user.type === "staff" || req.user.type === "admin") {
       return next();
     }
     
-    // Se è un cliente o customer, verifica che stia accedendo ai propri dati
+    // If it is a client or customer, verify they are accessing their own data
     if ((req.user.type === "client" || req.user.type === "customer") && req.user.clientId === paramClientId) {
-      console.log(`Accesso consentito ai propri dati per cliente: ${req.user.username} (id: ${req.user.id}, clientId: ${req.user.clientId})`);
+      console.log(`Access granted to own data for client: ${req.user.username} (id: ${req.user.id}, clientId: ${req.user.clientId})`);
       return next();
     }
     
-    res.status(403).json({ message: "Accesso negato: non puoi accedere ai dati di altri clienti" });
+    res.status(403).json({ message: "Access denied: you cannot access other clients' data" });
   };
 }

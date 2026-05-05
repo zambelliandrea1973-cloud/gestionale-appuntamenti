@@ -12,10 +12,10 @@ import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clie
 
 const router = Router();
 
-// SICUREZZA: Usa autenticazione esistente (isAuthenticated + isAdmin) invece di password hardcoded
+// SECURITY: Use existing authentication (isAuthenticated + isAdmin) instead of hardcoded password
 
 /**
- * Endpoint per ottenere tutti i piani di abbonamento attivi
+ * Endpoint to get all active subscription plans
  * GET /api/payments/plans
  * Accesso: pubblico
  */
@@ -24,25 +24,25 @@ router.get('/plans', async (req, res) => {
     const plans = await PaymentService.getActivePlans();
     return res.json(plans);
   } catch (error) {
-    console.error('Errore durante il recupero dei piani di abbonamento:', error);
+    console.error('Error retrieving subscription plans:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per ottenere l'abbonamento dell'utente corrente
+ * Endpoint to get the current user's subscription
  * GET /api/payments/subscription
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.get('/subscription', isAuthenticated, async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
       return res.status(401).json({
         success: false,
-        message: 'Utente non autenticato'
+        message: 'User not authenticated'
       });
     }
     
@@ -51,16 +51,16 @@ router.get('/subscription', isAuthenticated, async (req, res) => {
     
     return res.json(subscription);
   } catch (error) {
-    console.error('Errore durante il recupero dell\'abbonamento:', error);
+    console.error('Error retrieving subscription:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per creare un nuovo piano di abbonamento
+ * Endpoint to create a new subscription plan
  * POST /api/payments/plans
  * Accesso: admin
  */
@@ -71,14 +71,14 @@ router.post('/plans', isAuthenticated, isAdmin, async (req, res) => {
     if (!name || !price || !interval) {
       return res.status(400).json({
         success: false,
-        message: 'Nome, prezzo e intervallo sono obbligatori'
+        message: 'Name, price and interval are required'
       });
     }
     
     const result = await PaymentService.createSubscriptionPlan({
       name,
       description,
-      price: parseInt(price), // Converti in intero per sicurezza
+      price: parseInt(price), // Convert to integer for safety
       interval,
       features,
       clientLimit: clientLimit ? parseInt(clientLimit) : undefined,
@@ -91,18 +91,18 @@ router.post('/plans', isAuthenticated, isAdmin, async (req, res) => {
     
     return res.status(201).json(result);
   } catch (error) {
-    console.error('Errore durante la creazione del piano di abbonamento:', error);
+    console.error('Error creating subscription plan:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per iniziare un abbonamento con PayPal
+ * Endpoint for starting a PayPal subscription
  * POST /api/payments/paypal/subscribe
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
   try {
@@ -112,11 +112,11 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
     if (!planId) {
       return res.status(400).json({
         success: false,
-        message: 'ID del piano è obbligatorio'
+        message: 'Plan ID is required'
       });
     }
     
-    // Costruisci gli URL di ritorno usando il dominio pubblico corretto
+    // Build return URLs using the correct public domain
     let baseUrl: string;
     if (process.env.PRODUCTION_DOMAIN) {
       baseUrl = `https://${process.env.PRODUCTION_DOMAIN}`;
@@ -126,8 +126,8 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       baseUrl = `${protocol}://${req.get('host')}`;
     }
-    // PayPal aggiunge automaticamente ?token=EC-XXX all'URL di ritorno
-    // Aggiungiamo type=paypal per identificare il metodo di pagamento
+    // PayPal automatically adds ?token=EC-XXX to the return URL
+    // Add type=paypal to identify the payment method
     const returnUrl = `${baseUrl}/payment/success?type=paypal`;
     const cancelUrl = `${baseUrl}/payment/cancel?type=paypal`;
     
@@ -144,36 +144,36 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la creazione dell\'abbonamento PayPal:');
+    console.error('Error creating PayPal subscription:');
     
     if (error instanceof Error) {
-      console.error('Messaggio:', error.message);
+      console.error('Message:', error.message);
       console.error('Stack:', error.stack);
     } else {
-      console.error('Errore non standard:', error);
+      console.error('Non-standard error:', error);
     }
     
-    // Verifica credenziali PayPal
+    // Verify credenziali PayPal
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
     
-    console.log('Verifica credenziali PayPal:');
-    console.log('- Client ID presente:', !!clientId);
-    console.log('- Client Secret presente:', !!clientSecret);
+    console.log('Verifying PayPal credentials:');
+    console.log('- Client ID present:', !!clientId);
+    console.log('- Client Secret present:', !!clientSecret);
     
     return res.status(500).json({
       success: false,
       message: error instanceof Error 
         ? `Errore PayPal: ${error.message}` 
-        : 'Errore interno durante la connessione con PayPal'
+        : 'Internal error durante la connessione con PayPal'
     });
   }
 });
 
 /**
- * Endpoint per creare una sessione di checkout Stripe
+ * Endpoint for creating a Stripe checkout session
  * POST /api/payments/stripe/create-checkout-session
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res) => {
   try {
@@ -183,11 +183,11 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
     if (!planId) {
       return res.status(400).json({
         success: false,
-        message: 'ID del piano è obbligatorio'
+        message: 'Plan ID is required'
       });
     }
     
-    // Costruisci gli URL di ritorno usando il dominio pubblico corretto
+    // Build return URLs using the correct public domain
     let baseUrl: string;
     if (process.env.PRODUCTION_DOMAIN) {
       baseUrl = `https://${process.env.PRODUCTION_DOMAIN}`;
@@ -213,18 +213,18 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la creazione della sessione di checkout Stripe:', error);
+    console.error('Error creating Stripe checkout session:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per confermare una sessione di checkout Stripe dopo il pagamento
+ * Endpoint for confirming a Stripe checkout session after payment
  * POST /api/payments/stripe/confirm-session
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/stripe/confirm-session', isAuthenticated, async (req, res) => {
   try {
@@ -234,11 +234,11 @@ router.post('/stripe/confirm-session', isAuthenticated, async (req, res) => {
     if (!sessionId) {
       return res.status(400).json({
         success: false,
-        message: 'ID della sessione è obbligatorio'
+        message: 'Session ID is required'
       });
     }
     
-    logger.debug(`💳 Conferma sessione Stripe: ${sessionId} per utente ${userId}`);
+    logger.debug(`💳 Stripe session confirmation: ${sessionId} for user ${userId}`);
     
     const result = await PaymentService.confirmStripeSession(sessionId, userId);
     
@@ -246,18 +246,18 @@ router.post('/stripe/confirm-session', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la conferma della sessione Stripe:', error);
+    console.error('Error confirming Stripe session:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per finalizzare un abbonamento PayPal dopo l'approvazione dell'utente
+ * Endpoint for finalizing a PayPal subscription after user approval
  * POST /api/payments/paypal/capture
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/paypal/capture', isAuthenticated, async (req, res) => {
   try {
@@ -267,7 +267,7 @@ router.post('/paypal/capture', isAuthenticated, async (req, res) => {
     if (!orderId) {
       return res.status(400).json({
         success: false,
-        message: 'ID dell\'ordine è obbligatorio'
+        message: 'Order ID is required'
       });
     }
     
@@ -275,18 +275,18 @@ router.post('/paypal/capture', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la finalizzazione dell\'abbonamento PayPal:', error);
+    console.error('Error finalizing PayPal subscription:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint alternativo per confermare un ordine PayPal (alias di capture)
+ * Alternative endpoint for confirming a PayPal order (capture alias)
  * POST /api/payments/paypal/confirm-order
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
   try {
@@ -297,11 +297,11 @@ router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
     if (!orderId) {
       return res.status(400).json({
         success: false,
-        message: 'ID dell\'ordine o token è obbligatorio'
+        message: 'Order ID or token is required'
       });
     }
     
-    logger.debug(`📦 Conferma ordine PayPal: ${orderId} per utente ${userId}`);
+    logger.debug(`📦 Confirm ordine PayPal: ${orderId} for user ${userId}`);
     
     const result = await PaymentService.finalizePayPalSubscription(orderId, userId);
     
@@ -309,18 +309,18 @@ router.post('/paypal/confirm-order', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la conferma dell\'ordine PayPal:', error);
+    console.error('Error confirming PayPal order:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint PUBBLICO per finalizzare un ordine PayPal (non richiede autenticazione)
+ * PUBLIC endpoint for finalizing a PayPal order (does not require authentication)
  * POST /api/payments/paypal/finalize
- * Accesso: pubblico - usa il token PayPal per identificare l'abbonamento
+ * Accesso: pubblico - usa the token PayPal per identificare l'subscription
  */
 router.post('/paypal/finalize', async (req, res) => {
   try {
@@ -329,11 +329,11 @@ router.post('/paypal/finalize', async (req, res) => {
     if (!orderId) {
       return res.status(400).json({
         success: false,
-        message: 'Token PayPal mancante'
+        message: 'Token PayPal missing'
       });
     }
     
-    logger.debug(`📦 [PAYPAL PUBLIC ENDPOINT] Finalizzazione con token: ${orderId}`);
+    logger.debug(`📦 [PAYPAL PUBLIC ENDPOINT] Finalizing with token: ${orderId}`);
     
     const result = await PaymentService.finalizePayPalSubscriptionByToken(orderId);
     
@@ -341,18 +341,18 @@ router.post('/paypal/finalize', async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore endpoint pubblico PayPal:', error);
+    console.error('Error in public PayPal endpoint:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per iniziare un abbonamento con Wise
+ * Endpoint for starting a Wise subscription
  * POST /api/payments/wise/subscribe
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
   try {
@@ -362,23 +362,23 @@ router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
     if (!planId) {
       return res.status(400).json({
         success: false,
-        message: 'ID del piano è obbligatorio'
+        message: 'Plan ID is required'
       });
     }
     
-    // Ottieni prima informazioni sul piano
+    // First get plan information
     const plan = await req.app.locals.storage.getSubscriptionPlan(parseInt(planId));
     if (!plan) {
       return res.status(404).json({
         success: false,
-        message: 'Piano non trovato'
+        message: 'Piano not found'
       });
     }
     
-    // Ottieni la sottoscrizione (se esiste già)
+    // Get the sottoscrizione (If esiste already)
     const subscription = await req.app.locals.storage.getSubscriptionByUserId(userId);
     if (!subscription) {
-      // Crea una nuova sottoscrizione
+      // Create a new subscription
       const currentDate = new Date();
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + (plan.interval === 'month' ? 1 : 12));
@@ -395,7 +395,7 @@ router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
       
       const newSubscription = await req.app.locals.storage.createSubscription(subscriptionData);
       
-      // Crea il pagamento con Wise
+      // Create the payment with Wise
       const result = await WiseService.createSubscriptionPayment(
         userId,
         newSubscription.id,
@@ -404,14 +404,14 @@ router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
       
       return res.json(result);
     } else {
-      // Aggiorna la sottoscrizione esistente
+      // Update the existing subscription
       await req.app.locals.storage.updateSubscription(subscription.id, {
         planId: parseInt(planId),
         status: 'pending',
         paymentMethod: 'wise'
       });
       
-      // Crea il pagamento con Wise
+      // Create the payment with Wise
       const result = await WiseService.createSubscriptionPayment(
         userId,
         subscription.id,
@@ -421,37 +421,37 @@ router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
       return res.json(result);
     }
   } catch (error) {
-    console.error('Errore durante la creazione dell\'abbonamento Wise:', error);
+    console.error('Error creating Wise subscription:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per gestire le notifiche webhook da Stripe
+ * Endpoint to handle Stripe notifications webhook
  * POST /api/payments/stripe/webhook
- * Accesso: pubblico (ma con verifica della firma)
+ * Access: public (but with signature verification)
  */
 router.post('/stripe/webhook', async (req, res) => {
   try {
-    // Ottieni la firma dal header
+    // Get the signature from the header
     const signature = req.headers['stripe-signature'];
     
     if (!signature) {
       return res.status(400).json({
         success: false,
-        message: 'Manca la firma Stripe'
+        message: 'Missing Stripe signature'
       });
     }
     
-    // Ottieni la chiave segreta Stripe
+    // Get the key segreta Stripe
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
     if (!stripeSecretKey) {
       return res.status(500).json({
         success: false,
-        message: 'Configurazione Stripe mancante'
+        message: 'Stripe configuration missing'
       });
     }
     
@@ -459,16 +459,16 @@ router.post('/stripe/webhook', async (req, res) => {
       apiVersion: '2025-03-31.basil' as any
     });
     
-    // Ottieni il webhook secret da variabile d'ambiente
+    // Get the webhook secret from environment variable
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!webhookSecret) {
-      console.warn('Attenzione: STRIPE_WEBHOOK_SECRET non configurato. Le firme non saranno verificate in ambiente di test.');
-      // Per test, procedi senza verifica
+      console.warn('Warning: STRIPE_WEBHOOK_SECRET not configured. Signatures will not be verified in test environment.');
+      // For testing, proceed without verification
       const result = await PaymentService.handleStripeWebhook(req.body);
       return res.json(result);
     }
     
-    // Verifica la firma
+    // Verify the signature
     let event;
     try {
       event = stripe.webhooks.constructEvent(
@@ -477,54 +477,54 @@ router.post('/stripe/webhook', async (req, res) => {
         webhookSecret
       );
     } catch (err: any) {
-      console.error('Errore di verifica della firma Stripe:', err.message);
+      console.error('Error verifying Stripe signature:', err.message);
       return res.status(400).json({
         success: false,
-        message: `Errore di verifica firma: ${err.message}`
+        message: `Signature verification error: ${err.message}`
       });
     }
     
-    // Gestisci l'evento
+    // Handle l'evento
     const result = await PaymentService.handleStripeWebhook(event);
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la gestione del webhook Stripe:', error);
+    console.error('Error handling Stripe webhook:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per gestire le notifiche webhook da Wise
+ * Endpoint to handle Wise notifications webhook
  * POST /api/payments/wise/webhook
- * Accesso: pubblico (ma verificato dal token)
+ * Access: public (but verified by token)
  */
 router.post('/wise/webhook', async (req, res) => {
   try {
-    // Verifica della firma (in un ambiente di produzione)
+    // Signature verification (in a production environment)
     // ...
     
     const result = await WiseService.handleWebhookEvent(req.body);
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la gestione del webhook Wise:', error);
+    console.error('Error handling Wise webhook:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
-/* L'endpoint subscription è già definito sopra */
+/* The subscription endpoint is already defined above */
 
 /**
- * Endpoint per cancellare un abbonamento
+ * Endpoint for cancelling a subscription
  * POST /api/payments/subscription/cancel
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.post('/subscription/cancel', isAuthenticated, async (req, res) => {
   try {
@@ -535,18 +535,18 @@ router.post('/subscription/cancel', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la cancellazione dell\'abbonamento:', error);
+    console.error('Error cancelling subscription:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per ottenere la cronologia delle transazioni dell'utente
+ * Endpoint to get the user's transaction history
  * GET /api/payments/transactions
- * Accesso: utente autenticato
+ * Access: authenticated user
  */
 router.get('/transactions', isAuthenticated, async (req, res) => {
   try {
@@ -555,16 +555,16 @@ router.get('/transactions', isAuthenticated, async (req, res) => {
     
     return res.json(transactions);
   } catch (error) {
-    console.error('Errore durante il recupero delle transazioni:', error);
+    console.error('Error retrieving transactions:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per ottenere tutti gli abbonamenti (admin)
+ * Endpoint per ottenere all subscriptions (admin)
  * GET /api/payments/admin/subscriptions
  * Accesso: admin
  */
@@ -573,33 +573,33 @@ router.get('/admin/subscriptions', isAuthenticated, isAdmin, async (req, res) =>
     const subscriptions = await req.app.locals.storage.getActiveSubscriptions();
     return res.json(subscriptions);
   } catch (error) {
-    console.error('Errore durante il recupero degli abbonamenti:', error);
+    console.error('Error retrieving subscriptions:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Internal server error'
     });
   }
 });
 
 /**
- * Endpoint per la dashboard dei pagamenti admin
+ * Endpoint for the payments admin dashboard
  * GET /api/payments/payment-admin/dashboard
- * Accesso: admin autenticato
+ * Access: authenticated admin
  */
 router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    console.log('Recupero dashboard pagamenti admin...');
+    console.log('Retrieving admin payment dashboard...');
     
-    // Ottieni statistiche per i pagamenti
+    // Get statistics for payments
     let paypalTransactions = await storage.getPaymentTransactionsByMethod('paypal');
     let wiseTransactions = await storage.getPaymentTransactionsByMethod('wise');
     let allTransactions = [...paypalTransactions, ...wiseTransactions];
     
-    // Aggiungi dati di test per le transazioni se non ce ne sono
+    // Add test data for transactions if there are any
     if (allTransactions.length === 0) {
-      console.log('Nessuna transazione trovata per il dashboard. Generando dati di test...');
+      console.log('No transactions found for dashboard. Generating test data...');
       
-      // Definisci le date per le transazioni di test
+      // Define dates for test transactions
       const now = new Date();
       const oneMonthAgo = new Date(now);
       oneMonthAgo.setMonth(now.getMonth() - 1);
@@ -616,9 +616,9 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       const fiveMonthsAgo = new Date(now);
       fiveMonthsAgo.setMonth(now.getMonth() - 5);
       
-      // Transazioni di test
+      // Transazioni test
       const testPaypalTransactions = [
-        // Abbonamento Base
+        // Subscription Base
         {
           id: 1001,
           userId: 10, // zambelli.andrea.1973B@gmail.com
@@ -657,7 +657,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       ];
       
       const testStripeTransactions = [
-        // Abbonamento Pro
+        // Subscription Pro
         {
           id: 1002,
           userId: 11, // zambelli.andrea.1973C@gmail.com
@@ -668,7 +668,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
           createdAt: fourMonthsAgo.toISOString(),
           updatedAt: fourMonthsAgo.toISOString()
         },
-        // Abbonamento Business
+        // Subscription Business
         {
           id: 1003,
           userId: 12, // zambelli.andrea.1973D@gmail.com
@@ -685,13 +685,13 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       wiseTransactions = testWiseTransactions as any;
       allTransactions = [...testPaypalTransactions, ...testWiseTransactions, ...testStripeTransactions] as any;
       
-      console.log(`Generati ${allTransactions.length} transazioni fittizie per il dashboard`);
+      console.log(`Generated ${allTransactions.length} mock transactions for the dashboard`);
     }
     
-    // Calcola statistiche sui pagamenti
+    // Calculate payment statistics
     const totalRevenue = allTransactions
       .filter(t => t.status === 'completed')
-      .reduce((sum, t) => sum + t.amount, 0) / 100; // Converti da centesimi a euro
+      .reduce((sum, t) => sum + t.amount, 0) / 100; // Convert from cents to euros
     
     const paypalRevenue = paypalTransactions
       .filter(t => t.status === 'completed')
@@ -701,19 +701,19 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       .filter(t => t.status === 'completed')
       .reduce((sum, t) => sum + t.amount, 0) / 100;
     
-    // Calcola statistiche per status
+    // Calculate statistics per status
     const transactionsByStatus = {
       completed: allTransactions.filter(t => t.status === 'completed').length,
       pending: allTransactions.filter(t => t.status === 'pending').length,
       failed: allTransactions.filter(t => t.status === 'failed').length
     };
     
-    // Ottieni i piani di abbonamento
+    // Get i plans di subscription
     let plans: any[] = await storage.getActiveSubscriptionPlans();
     
-    // Aggiungi piani di test se non ce ne sono
+    // Add test plans if any exist
     if (!plans || plans.length === 0) {
-      console.log('Nessun piano di abbonamento trovato. Generando piani di test...');
+      console.log('No subscription plan found. Generating test plans...');
       
       plans = [
         {
@@ -723,7 +723,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
           price: 0,
           interval: 'once',
           currency: 'EUR',
-          features: ['Accesso completo per 40 giorni', 'Nessuna carta di credito richiesta'],
+          features: ['Full access for 40 days', 'No credit card required'],
           isActive: true
         },
         {
@@ -739,53 +739,53 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
         {
           id: 3,
           name: 'Professional',
-          description: 'Piano avanzato con funzionalità premium',
+          description: 'Advanced plan with premium features',
           price: 19900, // €199.00
           interval: 'year',
           currency: 'EUR',
-          features: ['Tutte le funzionalità Base', 'SMS promemoria', 'Integrazione calendario'],
+          features: ['All Base features', 'SMS reminders', 'Calendar integration'],
           isActive: true
         },
         {
           id: 4,
           name: 'Staff',
-          description: 'Piano per membri dello staff',
+          description: 'Plan for staff members',
           price: 0,
           interval: 'year',
           currency: 'EUR',
-          features: ['Tutte le funzionalità Professional', 'Licenza valida 10 anni'],
+          features: ['All Professional features', '10-year valid license'],
           isActive: true
         },
         {
           id: 5,
           name: 'Business',
-          description: 'Piano completo per studi multiprofessionali',
+          description: 'Complete plan for multi-professional practices',
           price: 29900, // €299.00
           interval: 'year', 
           currency: 'EUR',
-          features: ['Tutte le funzionalità Professional', 'Gestione staff multiplo', 'WhatsApp integrato'],
+          features: ['All Professional features', 'Multi-staff management', 'WhatsApp integrated'],
           isActive: true
         }
       ];
       
-      console.log(`Generati ${plans.length} piani di abbonamento fittizi`);
+      console.log(`Generated ${plans.length} mock subscription plans`);
     }
     
-    // Ottieni gli abbonamenti attivi
+    // Get active subscriptions
     const subscriptions = await storage.getActiveSubscriptions();
     
-    // Calcola statistiche abbonamenti per piano
+    // Calculate statistics subscriptions per plan
     const subscriptionsByPlan = plans.map(plan => ({
       planId: plan.id,
       planName: plan.name,
       count: subscriptions.filter(s => s.planId === plan.id).length
     }));
     
-    // Ottieni tutte le licenze attive
+    // Get all licenses attive
     const licenses = await storage.getLicenses();
     const activeLicenses = licenses.filter(license => license.isActive);
     
-    // Conteggia licenze per tipo
+    // Conteggia licenses per type
     const licensesByType: Record<string, number> = {};
     activeLicenses.forEach(license => {
       if (!licensesByType[license.type]) {
@@ -794,7 +794,7 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
       licensesByType[license.type]++;
     });
     
-    console.log(`Trovati ${allTransactions.length} transazioni, ${subscriptions.length} abbonamenti attivi e ${activeLicenses.length} licenze attive`);
+    console.log(`Found ${allTransactions.length} transactions, ${subscriptions.length} active subscriptions and ${activeLicenses.length} active licenses`);
     
     return res.json({
       transactionStats: {
@@ -824,46 +824,46 @@ router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res
         .slice(0, 10)
     });
   } catch (error) {
-    console.error('Errore durante il recupero della dashboard pagamenti:', error);
+    console.error('Error retrieving payment dashboard:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Endpoint per ottenere tutte le transazioni di pagamento
+ * Endpoint per ottenere all transactions di payment
  * GET /api/payments/payment-admin/transactions
- * Accesso: admin autenticato
+ * Access: authenticated admin
  */
 router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    console.log('Recupero transazioni pagamenti...');
+    console.log('Retrieving payment transactions...');
     let paypalTransactions = await storage.getPaymentTransactionsByMethod('paypal');
     let wiseTransactions = await storage.getPaymentTransactionsByMethod('wise');
     let baseTransactions = ([...paypalTransactions, ...wiseTransactions] as any[])
       .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     
-    // Arricchisci le transazioni con i dati utente
+    // Enrich transactions with user data
     let transactions = await Promise.all(baseTransactions.map(async (transaction) => {
-      // Ottieni dati utente
+      // Get user data
       const user = await storage.getUser(transaction.userId);
       
-      // Ottieni telefono dal contactSettings
+      // Get phone from contactSettings
       let phone = null;
       if (user) {
         try {
           const contactSettings = await storage.getContactSettings(user.id);
           phone = contactSettings?.phone || null;
         } catch (error) {
-          // Se non esiste contactSettings, phone rimane null
+          // If esiste contactSettings, phone rimane null
         }
       }
       
       return {
         ...transaction,
-        // Aggiungi dati utente
+        // Add user data
         user: user ? {
           id: user.id,
           username: user.username,
@@ -875,11 +875,11 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
       };
     }));
     
-    // Se non ci sono transazioni, genera dati di test
+    // If there are transactions, generate test data
     if (transactions.length === 0) {
-      console.log('Nessuna transazione trovata. Generando dati di test...');
+      console.log('No transactions found. Generating test data...');
       
-      // Definisci le date per le transazioni fittizi
+      // Define dates for dummy transactions
       const now = new Date();
       const oneMonthAgo = new Date(now);
       oneMonthAgo.setMonth(now.getMonth() - 1);
@@ -896,17 +896,17 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
       const fiveMonthsAgo = new Date(now);
       fiveMonthsAgo.setMonth(now.getMonth() - 5);
       
-      // Transazioni di test con userId REALI
+      // Transazioni test con userId REALI
       const testTransactionsBase = [
-        // Abbonamento Base
+        // Subscription Base
         {
           id: 1001,
-          userId: 3, // Silvia (utente reale)
+          userId: 3, // Silvia (real user)
           amount: 9900, // €99.00
           paymentMethod: 'paypal',
           status: 'completed',
           description: 'Abbonamento Base - 1 anno',
-          isTestData: true, // Flag per identificare dati di test
+          isTestData: true, // Flag to identify test data
           createdAt: fiveMonthsAgo.toISOString(),
           updatedAt: fiveMonthsAgo.toISOString(),
           metadata: {
@@ -915,15 +915,15 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
             invoiceNumber: 'INV-2024-001'
           }
         },
-        // Abbonamento Pro
+        // Subscription Pro
         {
           id: 1002,
-          userId: 14, // Andrea (utente reale)
+          userId: 14, // Andrea (real user)
           amount: 19900, // €199.00
           paymentMethod: 'stripe',
           status: 'completed',
           description: 'Abbonamento Professional - 1 anno',
-          isTestData: true, // Flag per identificare dati di test
+          isTestData: true, // Flag to identify test data
           createdAt: fourMonthsAgo.toISOString(),
           updatedAt: fourMonthsAgo.toISOString(),
           metadata: {
@@ -932,15 +932,15 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
             invoiceNumber: 'INV-2024-002'
           }
         },
-        // Abbonamento Business
+        // Subscription Business
         {
           id: 1003,
-          userId: 16, // Altro utente reale
+          userId: 16, // Altro real user
           amount: 29900, // €299.00
           paymentMethod: 'stripe',
           status: 'completed',
           description: 'Abbonamento Business - 1 anno',
-          isTestData: true, // Flag per identificare dati di test
+          isTestData: true, // Flag to identify test data
           createdAt: threeMonthsAgo.toISOString(),
           updatedAt: threeMonthsAgo.toISOString(),
           metadata: {
@@ -952,12 +952,12 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
         // Transazione fallita
         {
           id: 1004,
-          userId: 3, // Silvia (utente reale)
+          userId: 3, // Silvia (real user)
           amount: 9900, // €99.00
           paymentMethod: 'paypal',
           status: 'failed',
           description: 'Tentativo abbonamento Base - Pagamento fallito',
-          isTestData: true, // Flag per identificare dati di test
+          isTestData: true, // Flag to identify test data
           createdAt: twoMonthsAgo.toISOString(),
           updatedAt: twoMonthsAgo.toISOString(),
           metadata: {
@@ -969,12 +969,12 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
         // Transazione in sospeso
         {
           id: 1005,
-          userId: 14, // Andrea (utente reale)
+          userId: 14, // Andrea (real user)
           amount: 9900, // €99.00
           paymentMethod: 'wise',
           status: 'pending',
           description: 'Abbonamento Base - In attesa di conferma bonifico',
-          isTestData: true, // Flag per identificare dati di test
+          isTestData: true, // Flag to identify test data
           createdAt: oneMonthAgo.toISOString(),
           updatedAt: oneMonthAgo.toISOString(),
           metadata: {
@@ -985,7 +985,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
         }
       ];
       
-      // Arricchisci i dati di test con informazioni utente
+      // Enrich the data test con informazioni user
       transactions = await Promise.all(testTransactionsBase.map(async (transaction: any) => {
         const user = await storage.getUser(transaction.userId);
         
@@ -995,7 +995,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
             const contactSettings = await storage.getContactSettings(user.id);
             phone = contactSettings?.phone || null;
           } catch (error) {
-            // Se non esiste contactSettings, phone rimane null
+            // If esiste contactSettings, phone rimane null
           }
         }
         
@@ -1011,56 +1011,56 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           } : null
         };
       }));
-      console.log(`Generati ${transactions.length} transazioni fittizie con dati utente reali`);
+      console.log(`Generated ${transactions.length} mock transactions with real user data`);
     }
     
-    console.log(`Trovate ${transactions.length} transazioni`);
+    console.log(`Found ${transactions.length} transactions`);
     return res.json(transactions);
   } catch (error) {
-    console.error('Errore durante il recupero delle transazioni:', error);
+    console.error('Error retrieving transactions:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
 
 /**
- * Endpoint per ottenere tutti gli abbonamenti
+ * Endpoint per ottenere all subscriptions
  * GET /api/payments/payment-admin/subscriptions
- * Accesso: admin autenticato
+ * Access: authenticated admin
  */
 router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    console.log('Recupero abbonamenti...');
+    console.log('Retrieving subscriptions...');
     let subscriptions = await storage.getSubscriptions();
     
-    // Arricchisci i dati con informazioni sugli utenti e le licenze
+    // Enrich the data with user and license information
     let enrichedSubscriptions = await Promise.all(subscriptions.map(async (sub) => {
-      // Ottieni dati utente
+      // Get user data
       const user = await storage.getUser(sub.userId);
       
-      // Ottieni telefono dal contactSettings
+      // Get phone from contactSettings
       let phone = null;
       if (user) {
         try {
           const contactSettings = await storage.getContactSettings(user.id);
           phone = contactSettings?.phone || null;
         } catch (error) {
-          // Se non esiste contactSettings, phone rimane null
+          // If esiste contactSettings, phone rimane null
         }
       }
       
-      // Ottieni licenza associata all'utente
+      // Get the license associated with the user
       const userLicenses = await storage.getLicensesByUserId(sub.userId);
       const activeLicense = userLicenses.find(lic => lic.isActive);
       
-      // Recupera piano sottoscrizione
+      // Retrieve plan sottoscrizione
       const plan = await storage.getSubscriptionPlan(sub.planId);
       
       return {
         ...sub,
-        // Aggiungi dati utente
+        // Add user data
         user: user ? {
           id: user.id,
           username: user.username,
@@ -1069,23 +1069,23 @@ router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req,
           type: user.type,
           role: user.role
         } : null,
-        // Aggiungi dati licenza
+        // Add license data
         license: activeLicense ? {
           id: activeLicense.id,
           type: activeLicense.type,
           expiresAt: activeLicense.expiresAt,
           isActive: activeLicense.isActive
         } : null,
-        // Aggiungi nome piano
+        // Add plan name
         planName: plan ? plan.name : `Piano ${sub.planId}`
       };
     }));
     
-    // Se non ci sono abbonamenti o sono meno di 5, aggiungiamo dati fittizi per test
+    // If there are subscriptions or fewer than 5, add mock data for testing
     if (enrichedSubscriptions.length < 5) {
-      console.log('Generando abbonamenti di test aggiuntivi...');
+      console.log('Generating additional test subscriptions...');
       
-      // Definisci le date di inizio e fine degli abbonamenti fittizi
+      // Define the start and end dates of mock subscriptions
       const now = new Date();
       const oneYearLater = new Date(now);
       oneYearLater.setFullYear(now.getFullYear() + 1);
@@ -1096,7 +1096,7 @@ router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req,
       const fortyDaysLater = new Date(now);
       fortyDaysLater.setDate(now.getDate() + 40);
       
-      // Abbonamenti di test con account reali menzionati
+      // Test subscriptions with real accounts mentioned
       const testSubscriptions = [
         // STAFF
         {
@@ -1230,18 +1230,18 @@ router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req,
         }
       ];
       
-      // Aggiungi questi abbonamenti fittizi all'array esistente
+      // Add these dummy subscriptions to the existing array
       enrichedSubscriptions = [...enrichedSubscriptions, ...testSubscriptions] as any[];
-      console.log(`Aggiunti ${testSubscriptions.length} abbonamenti fittizi per la visualizzazione`);
+      console.log(`Added ${testSubscriptions.length} mock subscriptions for display`);
     }
     
-    console.log(`Totale: ${enrichedSubscriptions.length} abbonamenti con dettagli utente e licenza`);
+    console.log(`Totale: ${enrichedSubscriptions.length} subscriptions con dettagli user e license`);
     return res.json(enrichedSubscriptions);
   } catch (error) {
-    console.error('Errore durante il recupero degli abbonamenti:', error);
+    console.error('Error retrieving subscriptions:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -1249,16 +1249,16 @@ router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req,
 // RIMOSSO: Endpoint /payment-admin/authenticate (password hardcoded) - Usa login normale admin
 
 /**
- * Endpoint per ottenere tutte le licenze con informazioni sugli utenti
+ * Endpoint to get all licenses with user information
  * GET /api/payments/payment-admin/licenses
- * Accesso: admin autenticato
+ * Access: authenticated admin
  */
 router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    console.log('Recupero licenze con dettagli utente...');
+    console.log('Retrieving licenses with user details...');
     
-    // Utilizziamo direttamente una query al database per ottenere le licenze
-    // Questo approccio è temporaneo finché non risolviamo gli errori in storage.ts
+    // We directly query the database to get licenses
+    // This approach is temporary until we resolve the errors in storage.ts
     const licensesQuery = await db
       .select({
         license: {
@@ -1275,7 +1275,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       .from(licenses)
       .orderBy(desc(licenses.createdAt));
     
-    // Carica tutte le licenze di test
+    // Load all licenses test
     const testLicensesQuery = await db
       .select({
         license: {
@@ -1290,15 +1290,15 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
         }
       })
       .from(licenses)
-      .where(isNull(licenses.userId)) // Licenze senza userId ma assegnate ai client account
+      .where(isNull(licenses.userId)) // Licenses without userId but assigned to client accounts
       .orderBy(desc(licenses.createdAt));
       
-    console.log(`Trovate ${licensesQuery.length} licenze normali e ${testLicensesQuery.length} licenze di test`);
+    console.log(`Found ${licensesQuery.length} normal licenses and ${testLicensesQuery.length} test licenses`);
     
-    // Mappa i risultati nel formato richiesto
+    // Map the results to the required format
     const mappedLicenses = [...licensesQuery, ...testLicensesQuery].map(row => row.license);
     
-    // Carica tutti gli utenti e i client account
+    // Load all users e i client account
     const allUsers = await db
       .select()
       .from(users);
@@ -1311,7 +1311,7 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       .select()
       .from(clients);
     
-    console.log(`Caricati ${allUsers.length} utenti, ${allClientAccounts.length} client account, ${allClients.length} clienti`);
+    console.log(`Loaded ${allUsers.length} users, ${allClientAccounts.length} client accounts, ${allClients.length} clients`);
     
     const allSubscriptions = await db
       .select()
@@ -1430,8 +1430,8 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       };
     });
     
-    // Aggiungi manualmente le licenze di test che potrebbero non essere nel database
-    // ma sono state create nell'ambiente di test
+    // Manually add test licenses that might not be in the database
+    // but were created in the test environment
     const testAccounts = [
       {
         email: 'zambelli.andrea.19732@gmail.com',
@@ -1465,26 +1465,26 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       }
     ];
     
-    // Verifica se gli account di test sono già inclusi nelle licenze arricchite
+    // Check if test accounts are already included in the enriched licenses
     for (const testAccount of testAccounts) {
       const accountExists = enrichedLicenses.some(
         license => license.user && license.user.username === testAccount.email
       );
       
-      // Se l'account di test non è già incluso, crea una licenza virtuale
+      // If the test account is not already included, create a virtual license
       if (!accountExists) {
-        console.log(`Aggiunta licenza di test per ${testAccount.email} di tipo ${testAccount.licenseType}`);
+        console.log(`Adding test license for ${testAccount.email} of type ${testAccount.licenseType}`);
         
-        // Crea una data di scadenza basata sul tipo di licenza
+        // Create an expiration date based on the license type
         const now = new Date();
         let expiresAt = new Date(now);
         
         if (testAccount.licenseType === 'trial') {
-          expiresAt.setDate(now.getDate() + 40); // 40 giorni per trial
+          expiresAt.setDate(now.getDate() + 40); // 40 days for trial
         } else if (testAccount.licenseType === 'staff') {
-          expiresAt.setFullYear(now.getFullYear() + 10); // 10 anni per staff
+          expiresAt.setFullYear(now.getFullYear() + 10); // 10 years for staff
         } else {
-          expiresAt.setFullYear(now.getFullYear() + 1); // 1 anno per licenze normali
+          expiresAt.setFullYear(now.getFullYear() + 1); // 1 year for normal licenses
         }
         
         enrichedLicenses.push({
@@ -1509,13 +1509,13 @@ router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res)
       }
     }
     
-    console.log(`Totale licenze restituite: ${enrichedLicenses.length}`);
+    console.log(`Total licenses returned: ${enrichedLicenses.length}`);
     return res.json(enrichedLicenses);
   } catch (error) {
-    console.error('Errore durante il recupero delle licenze:', error);
+    console.error('Error retrieving licenses:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+      message: 'Internal server error: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });

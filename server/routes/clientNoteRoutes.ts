@@ -20,20 +20,20 @@ const uploadNoteImage = multer({
 });
 
 router.get("/api/client-notes/:clientId", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const clientId = parseInt(req.params.clientId);
     const notes = await storage.getClientNotes(clientId);
     res.json(notes);
   } catch (error) {
-    console.error('Errore nel caricamento note cliente:', error);
-    res.status(500).json({ message: "Errore nel caricamento delle note" });
+    console.error('Error loading client notes:', error);
+    res.status(500).json({ message: "Error loading notes" });
   }
 });
 
 router.post("/api/client-notes", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const { clientId, title, content, category } = req.body;
@@ -47,13 +47,13 @@ router.post("/api/client-notes", async (req, res) => {
 
     res.status(201).json(note);
   } catch (error) {
-    console.error('Errore durante la creazione della nota del cliente:', error);
-    res.status(500).json({ error: 'Errore durante la creazione della nota del cliente' });
+    console.error('Error creating client note:', error);
+    res.status(500).json({ error: 'Error creating client note' });
   }
 });
 
 router.put("/api/client-notes/:id", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const { id } = req.params;
@@ -66,36 +66,36 @@ router.put("/api/client-notes/:id", async (req, res) => {
     });
 
     if (!note) {
-      return res.status(404).json({ error: 'Nota non trovata' });
+      return res.status(404).json({ error: 'Note not found' });
     }
 
     res.json(note);
   } catch (error) {
-    console.error('Errore durante l\'aggiornamento della nota del cliente:', error);
-    res.status(500).json({ error: 'Errore durante l\'aggiornamento della nota del cliente' });
+    console.error('Error updating client note:', error);
+    res.status(500).json({ error: 'Error updating client note' });
   }
 });
 
 router.delete("/api/client-notes/:id", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const { id } = req.params;
     const success = await storage.deleteClientNote(parseInt(id));
 
     if (!success) {
-      return res.status(404).json({ error: 'Nota non trovata' });
+      return res.status(404).json({ error: 'Note not found' });
     }
 
-    res.json({ success: true, message: 'Nota eliminata con successo' });
+    res.json({ success: true, message: 'Note deleted successfully' });
   } catch (error) {
-    console.error('Errore durante l\'eliminazione della nota del cliente:', error);
-    res.status(500).json({ error: 'Errore durante l\'eliminazione della nota del cliente' });
+    console.error('Error deleting client note:', error);
+    res.status(500).json({ error: 'Error deleting client note' });
   }
 });
 
 router.post("/api/client-notes/:id/upload-image", uploadNoteImage.single('image'), async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const user = req.user as any;
@@ -103,25 +103,25 @@ router.post("/api/client-notes/:id/upload-image", uploadNoteImage.single('image'
     const file = req.file;
 
     if (!file) {
-      return res.status(400).json({ error: 'Nessuna immagine fornita' });
+      return res.status(400).json({ error: 'No image provided' });
     }
 
     const note = await storage.getClientNote(noteId);
     if (!note) {
-      return res.status(404).json({ error: 'Nota non trovata' });
+      return res.status(404).json({ error: 'Note not found' });
     }
 
     if (user.type !== 'admin') {
       const client = await storage.getClient(note.clientId);
       if (!client) {
-        return res.status(404).json({ error: 'Cliente non trovato' });
+        return res.status(404).json({ error: 'Client not found' });
       }
 
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const clientOwnerId = client.ownerId ?? client.userId;
 
       if (!clientOwnerId || clientOwnerId !== tenantId) {
-        return res.status(403).json({ error: 'Non autorizzato a modificare questa nota' });
+        return res.status(403).json({ error: 'Unauthorized to modify this note' });
       }
     }
 
@@ -145,13 +145,13 @@ router.post("/api/client-notes/:id/upload-image", uploadNoteImage.single('image'
       note: updatedNote
     });
   } catch (error) {
-    console.error('Errore upload immagine nota:', error);
-    res.status(500).json({ error: 'Errore durante il caricamento dell\'immagine' });
+    console.error('Error uploading note image:', error);
+    res.status(500).json({ error: 'Error uploading image' });
   }
 });
 
 router.delete("/api/client-notes/:id/delete-image/:index", async (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+  if (!req.isAuthenticated()) return res.status(401).json({ message: "Not authenticated" });
 
   try {
     const user = req.user as any;
@@ -160,26 +160,26 @@ router.delete("/api/client-notes/:id/delete-image/:index", async (req, res) => {
 
     const note = await storage.getClientNote(noteId);
     if (!note) {
-      return res.status(404).json({ error: 'Nota non trovata' });
+      return res.status(404).json({ error: 'Note not found' });
     }
 
     if (user.type !== 'admin') {
       const client = await storage.getClient(note.clientId);
       if (!client) {
-        return res.status(404).json({ error: 'Cliente non trovato' });
+        return res.status(404).json({ error: 'Client not found' });
       }
 
       const tenantId = user.ownerId ?? user.tenantId ?? user.id;
       const clientOwnerId = client.ownerId ?? client.userId;
 
       if (!clientOwnerId || clientOwnerId !== tenantId) {
-        return res.status(403).json({ error: 'Non autorizzato a modificare questa nota' });
+        return res.status(403).json({ error: 'Unauthorized to modify this note' });
       }
     }
 
     const currentImages = note.imagePaths || [];
     if (imageIndex < 0 || imageIndex >= currentImages.length) {
-      return res.status(400).json({ error: 'Indice immagine non valido' });
+      return res.status(400).json({ error: 'Indice immagine invalid' });
     }
 
     const imageToDelete = currentImages[imageIndex];
@@ -199,8 +199,8 @@ router.delete("/api/client-notes/:id/delete-image/:index", async (req, res) => {
       note: updatedNote
     });
   } catch (error) {
-    console.error('Errore eliminazione immagine nota:', error);
-    res.status(500).json({ error: 'Errore durante l\'eliminazione dell\'immagine' });
+    console.error('Error deleting note image:', error);
+    res.status(500).json({ error: 'Error deleting image' });
   }
 });
 

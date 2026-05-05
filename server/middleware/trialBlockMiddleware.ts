@@ -2,21 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { licenseService } from '../services/licenseService';
 
 /**
- * Middleware che blocca l'accesso se la licenza trial è scaduta
+ * Middleware that blocks access if the trial license has expired
  * 
  * LOGICA:
- * 1. Se l'utente NON è autenticato → Passa (non bloccare, gestito da altri middleware)
- * 2. Se l'utente è ADMIN/PASSEPARTOUT → Passa sempre (accesso illimitato)
- * 3. Se l'utente è STAFF con licenza 10 anni → Passa sempre
- * 4. Se l'utente è CUSTOMER:
- *    - Controlla se ha abbonamento attivo → Passa
- *    - Controlla se trial è scaduto → BLOCCA (eccetto /subscribe, /logout, /api/payments)
+ * 1. If the user is NOT authenticated → Pass (do not block, handled by other middleware)
+ * 2. If the user is ADMIN/PASSEPARTOUT → Always pass (unlimited access)
+ * 3. If the user is STAFF with 10-year license → Always pass
+ * 4. If the user is CUSTOMER:
+ *    - Check if user has active subscription → Pass
+ *    - Check if trial has expired → BLOCK (except /subscribe, /logout, /api/payments)
  * 
- * IMPORTANTE: Mantiene tutti i dati, blocca solo l'accesso alle pagine
+ * IMPORTANT: Keeps all data, only blocks access to pages
  */
 export async function checkTrialExpired(req: Request, res: Response, next: NextFunction) {
   try {
-    // Se l'utente non è autenticato, lascia passare (altri middleware lo gestiranno)
+    // If the user is not authenticated, let through (other middleware will handle it)
     if (!req.isAuthenticated() || !req.user) {
       return next();
     }
@@ -32,14 +32,14 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
       return next();
     }
 
-    // Staff ha sempre accesso (hanno licenza 10 anni)
+    // Staff always have access (they have 10-year license)
     if (userType === 'staff') {
       return next();
     }
 
-    // Per utenti customer, controlliamo lo stato della licenza
+    // For customer users, check the license status
     if (userType === 'customer') {
-      // Ottieni info licenza dell'utente
+      // Get info license of the user
       const licenseInfo = await licenseService.getCurrentLicenseInfo(userId);
       
 
@@ -50,36 +50,36 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
       const isExpired = new Date(licenseInfo.expiresAt) < new Date();
 
       if (isExpired && licenseInfo.type === 'trial') {
-        // TRIAL SCADUTO: blocca l'accesso eccetto alcune route
+        // TRIAL SCADUTO: blocks access eccetto alcune route
         
-        // Route consentite anche con trial scaduto
+        // Routes allowed even with expired trial
         const allowedPaths = [
-          '/subscribe',           // Pagina abbonamenti
+          '/subscribe',           // Subscriptions page
           '/payment/success',     // Callback successo PayPal/Stripe
           '/payment/cancel',      // Callback annullamento PayPal/Stripe
-          '/api/payments',        // API pagamenti (per sottoscrivere)
+          '/api/payments',        // Payments API (for subscribing)
           '/api/logout',          // Logout
-          '/api/user-with-license', // Info utente
+          '/api/user-with-license', // User info
           '/api/payments/plans',    // Lista piani
-          '/api/payments/subscription', // Info abbonamento
+          '/api/payments/subscription', // Subscription info
           '/api/payments/stripe/create-checkout-session', // Stripe checkout
           '/api/payments/paypal/subscribe', // PayPal checkout
           '/api/payments/paypal/capture', // PayPal capture ordine
           '/api/payments/paypal/confirm-order', // PayPal conferma ordine
-          '/api/payments/paypal/finalize', // PayPal finalizzazione pubblica
+          '/api/payments/paypal/finalize', // PayPal public finalization
           '/api/timezone-settings',  // Fuso orario
           '/api/tenant-context',     // Contesto tenant
           '/api/client-app-info',    // Info app
-          '/api/company-name-settings', // Impostazioni azienda
+          '/api/company-name-settings', // Company settings
           '/api/contact-info',       // Info contatto
-          '/api/forgot-password',    // Recupero password (disponibile per tutti)
+          '/api/forgot-password',    // Password recovery (available to all)
           '/api/reset-password',     // Reset password con token
-          '/api/verify-reset-token', // Verifica token reset
-          '/api/register',           // Registrazione nuovi utenti
+          '/api/verify-reset-token', // Reset token verification
+          '/api/register',           // New user registration
           '/manifest-admin.json',    // PWA manifest
           '/icon-proxy',             // Icone PWA
           '/pwa-icon',               // Icone PWA alternative
-          '/api/license',            // API licenze (per mostrare info scadenza)
+          '/api/license',            // License API (to show expiry info)
           '/@vite',                  // Vite HMR
           '/src/',                   // File sorgente React
           '/assets/',                // Asset compilati
@@ -94,27 +94,27 @@ export async function checkTrialExpired(req: Request, res: Response, next: NextF
         const isAllowed = allowedPaths.some(path => req.path.startsWith(path));
 
         if (!isAllowed) {
-          // Se è una richiesta API, restituisci errore JSON
+          // If it is a required API, return JSON error
           if (req.path.startsWith('/api/')) {
             return res.status(403).json({
               success: false,
               error: 'trial_expired',
-              message: 'Il periodo di prova di 40 giorni è terminato. Sottoscrivi un abbonamento per continuare.',
+              message: 'The 40-day trial period has ended. Please subscribe to continue.',
               redirectTo: '/subscribe'
             });
           }
 
-          // Se è una pagina HTML, redirect a /subscribe
+          // If it is an HTML page, redirect to /subscribe
           return res.redirect('/subscribe?expired=true');
         }
       }
     }
 
-    // Se arriviamo qui, l'accesso è consentito
+    // If we get here, access is allowed
     next();
   } catch (error) {
-    console.error('Errore nel middleware trial expired:', error);
-    // In caso di errore, lascia passare per non bloccare l'app
+    console.error('Error in trial expired middleware:', error);
+    // In case of error, let it pass to not block the app
     next();
   }
 }

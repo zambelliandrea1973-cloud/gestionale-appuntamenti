@@ -4,30 +4,30 @@ import { companyNameService } from '../services/companyNameService';
 
 const router = Router();
 
-// Ottieni le impostazioni del nome aziendale
+// Get the company name settings
 router.get('/company-name-settings', (req: Request, res: Response) => {
   try {
     const settings = companyNameService.getSettings();
     res.json(settings);
   } catch (error: any) {
-    console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
-    res.status(500).json({ message: 'Errore durante il recupero delle impostazioni del nome aziendale' });
+    console.error('Error retrieving company name settings:', error);
+    res.status(500).json({ message: 'Error retrieving company name settings' });
   }
 });
 
-// Aggiorna le impostazioni del nome aziendale
+// Update the company name settings
 router.post('/company-name-settings', (req: Request, res: Response) => {
   try {
     const success = companyNameService.saveSettings(req.body);
     
     if (success) {
-      res.json({ message: 'Impostazioni salvate con successo' });
+      res.json({ message: 'Settings saved successfully' });
     } else {
-      res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni' });
+      res.status(500).json({ message: 'Error saving settings' });
     }
   } catch (error: any) {
-    console.error('Errore durante il salvataggio delle impostazioni del nome aziendale:', error);
-    res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni del nome aziendale' });
+    console.error('Error saving company name settings:', error);
+    res.status(500).json({ message: 'Error saving company name settings' });
   }
 });
 

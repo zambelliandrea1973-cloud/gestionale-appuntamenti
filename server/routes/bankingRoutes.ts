@@ -3,19 +3,19 @@ import { storage } from "../storage";
 import { isAdmin } from "../auth";
 
 /**
- * Configura le route per la gestione dei dati bancari
+ * Configure routes for managing banking data
  */
 export default function setupBankingRoutes(app: Express) {
   
-  // Ottieni le impostazioni bancarie (solo admin)
+  // Get bank settings (admin only)
   app.get("/api/admin/banking-settings", isAdmin, async (req: Request, res: Response) => {
     try {
-      console.log('🏦 GET /api/admin/banking-settings chiamato da:', req.user?.username);
+      console.log('🏦 GET /api/admin/banking-settings called by:', req.user?.username);
       const settings = await storage.getBankingSettings();
-      console.log('🏦 Settings ricevute da storage:', JSON.stringify(settings));
+      console.log('🏦 Settings received from storage:', JSON.stringify(settings));
       
-      // NON mascherare l'IBAN - il frontend ha bisogno del valore reale per il salvataggio
-      // La sicurezza è garantita dall'autenticazione admin
+      // DO NOT mask the IBAN - the frontend needs the real value for saving
+      // Security is guaranteed by admin authentication
       
       const responseData = settings || {
         bankName: '',
@@ -26,19 +26,19 @@ export default function setupBankingRoutes(app: Express) {
         autoPayEnabled: false,
         paymentDelay: 30,
         minimumAmount: 1.0,
-        description: 'Commissione referral sistema gestione appuntamenti',
+        description: 'Referral commission appointment management system',
         isConfigured: false,
       };
       
       console.log('🏦 Ritorno al frontend:', JSON.stringify(responseData));
       res.json(responseData);
     } catch (error) {
-      console.error("❌ Errore durante il recupero delle impostazioni bancarie:", error);
-      res.status(500).json({ message: "Errore nel recupero delle impostazioni bancarie" });
+      console.error("❌ Error retrieving banking settings:", error);
+      res.status(500).json({ message: "Error retrieving banking settings" });
     }
   });
 
-  // Salva le impostazioni bancarie (solo admin)
+  // Save bank settings (admin only)
   app.post("/api/admin/banking-settings", isAdmin, async (req: Request, res: Response) => {
     try {
       const {
@@ -53,19 +53,19 @@ export default function setupBankingRoutes(app: Express) {
         description
       } = req.body;
 
-      // Validazione base
+      // Basic validation
       if (!bankName || !accountHolder || !iban) {
         return res.status(400).json({ 
-          message: "Nome banca, intestatario e IBAN sono obbligatori" 
+          message: "Bank name, account holder and IBAN are required" 
         });
       }
 
-      // Validazione IBAN (formato italiano - 27 caratteri totali)
-      // IT + 2 cifre controllo + 23 caratteri alfanumerici (CIN + ABI + CAB + numero conto)
+      // IBAN validation (Italian format - 27 total characters)
+      // IT + 2 cifre controllo + 23 caratteri alfanumerici (CIN + ABI + CAB + number conto)
       const ibanRegex = /^IT\d{2}[A-Z0-9]{23}$/;
       if (!ibanRegex.test(iban.replace(/\s/g, '').toUpperCase())) {
         return res.status(400).json({ 
-          message: "Formato IBAN non valido (deve essere 27 caratteri: IT + 25 caratteri)" 
+          message: "Invalid IBAN format (deve essere 27 caratteri: IT + 25 caratteri)" 
         });
       }
 
@@ -78,37 +78,37 @@ export default function setupBankingRoutes(app: Express) {
         autoPayEnabled: Boolean(autoPayEnabled),
         paymentDelay: Math.max(1, parseInt(paymentDelay) || 30),
         minimumAmount: Math.max(0.01, parseFloat(minimumAmount) || 1.0),
-        description: description?.trim() || 'Commissione referral',
+        description: description?.trim() || 'Referral commission',
         isConfigured: true,
         updatedAt: new Date()
       };
 
       await storage.saveBankingSettings(settings);
 
-      console.log(`💳 IMPOSTAZIONI BANCARIE SALVATE per admin: ${req.user?.username}`);
+      console.log(`💳 Banking settings SAVED for admin: ${req.user?.username}`);
       
       res.json({ 
         success: true, 
-        message: "Impostazioni bancarie salvate con successo" 
+        message: "Banking settings saved successfully" 
       });
     } catch (error) {
-      console.error("Errore durante il salvataggio delle impostazioni bancarie:", error);
-      res.status(500).json({ message: "Errore nel salvataggio delle impostazioni bancarie" });
+      console.error("Error saving banking settings:", error);
+      res.status(500).json({ message: "Error saving banking settings" });
     }
   });
 
-  // Test configurazione bancaria (solo admin)
+  // Test bank configuration (admin only)
   app.post("/api/admin/test-payment", isAdmin, async (req: Request, res: Response) => {
     try {
       const settings = await storage.getBankingSettings();
       
       if (!settings?.isConfigured) {
         return res.status(400).json({ 
-          message: "Configurazione bancaria non completata" 
+          message: "Banking configuration not completed" 
         });
       }
 
-      // Simulazione test (in produzione qui andrebbe la logica di test reale)
+      // Test simulation (in production the real test logic would go here)
       const testResult = {
         success: true,
         bankName: settings.bankName,
@@ -118,23 +118,23 @@ export default function setupBankingRoutes(app: Express) {
         testedAt: new Date()
       };
 
-      console.log(`🧪 TEST CONFIGURAZIONE BANCARIA eseguito da: ${req.user?.username}`);
+      console.log(`🧪 BANK CONFIGURATION TEST executed by: ${req.user?.username}`);
       
       res.json({
         success: true,
-        message: "Configurazione bancaria testata con successo",
+        message: "Banking configuration tested successfully",
         details: testResult
       });
     } catch (error) {
-      console.error("Errore durante il test della configurazione bancaria:", error);
-      res.status(500).json({ message: "Errore nel test della configurazione bancaria" });
+      console.error("Error testing banking configuration:", error);
+      res.status(500).json({ message: "Error testing banking configuration" });
     }
   });
 
-  // Ottieni statistiche pagamenti (solo admin)
+  // Get statistiche payments (only admin)
   app.get("/api/admin/payment-stats", isAdmin, async (req: Request, res: Response) => {
     try {
-      // Qui andranno le statistiche reali dei pagamenti effettuati
+      // Here will go the real statistics of payments made
       const stats = {
         totalPayments: 0,
         totalAmount: 0,
@@ -147,8 +147,8 @@ export default function setupBankingRoutes(app: Express) {
 
       res.json(stats);
     } catch (error) {
-      console.error("Errore durante il recupero delle statistiche pagamenti:", error);
-      res.status(500).json({ message: "Errore nel recupero delle statistiche" });
+      console.error("Error retrieving payment statistics:", error);
+      res.status(500).json({ message: "Error retrieving statistics" });
     }
   });
 }

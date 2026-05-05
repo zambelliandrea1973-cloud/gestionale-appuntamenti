@@ -1,19 +1,19 @@
 // @ts-nocheck
 import { Request, Response } from 'express';
 import { getIndividualStaffReferral } from './individualStaffReferral';
-import { getAllStaffUsers } from '../storage'; // Assumendo che esista questa funzione
+import { getAllStaffUsers } from '../storage'; // Assuming this function exists
 
 /**
- * Pagamento commissioni per uno staff specifico
+ * Payment commissions for a specific staff member
  */
 export async function payStaffCommissions(req: Request, res: Response) {
   try {
     const { staffId } = req.params;
     const { amount } = req.body;
     
-    console.log(`💰 PAGAMENTO COMMISSIONI: Staff ID ${staffId}, Importo €${amount/100}`);
+    console.log(`💰 COMMISSION PAYMENT: Staff ID ${staffId}, Amount €${amount/100}`);
     
-    // Simula la richiesta per aggiornare le commissioni dello staff
+    // Simulates the request to update staff commissions
     const mockRequest = { 
       user: { id: parseInt(staffId), role: 'staff' },
       body: { amount, action: 'mark_as_paid' }
@@ -21,10 +21,10 @@ export async function payStaffCommissions(req: Request, res: Response) {
     
     const mockResponse = {
       json: (data: any) => {
-        console.log('✅ COMMISSIONI PAGATE CON SUCCESSO');
+        console.log('✅ Commissions paid successfully');
         res.json({ 
           success: true, 
-          message: `Commissioni di €${amount/100} pagate allo staff ${staffId}`,
+          message: `Commissions of €${amount/100} paid to staff ${staffId}`,
           paidAmount: amount,
           paidAt: new Date().toISOString()
         });
@@ -32,29 +32,29 @@ export async function payStaffCommissions(req: Request, res: Response) {
       status: (code: number) => ({ json: (data: any) => res.status(code).json(data) })
     } as Response;
     
-    // Chiama la funzione individuale per aggiornare lo staff
+    // Call the individual function to update the staff
     await getIndividualStaffReferral(mockRequest, mockResponse);
     
   } catch (error: any) {
-    console.error('❌ ERRORE PAGAMENTO COMMISSIONI:', error);
+    console.error('❌ COMMISSION PAYMENT ERROR:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Errore nel pagamento delle commissioni' 
+      message: 'Error processing commission payment' 
     });
   }
 }
 
 /**
- * Aggregatore per la vista admin del sistema referral
- * Raccoglie tutti i dati dai sistemi staff individuali
+ * Aggregator for the admin view of the referral system
+ * Collects all data from individual staff systems
  */
 export async function getAdminReferralAggregation(req: Request, res: Response) {
   try {
-    console.log('🔄 ADMIN AGGREGATOR: Raccogliendo dati da tutti gli staff...');
+    console.log('🔄 ADMIN AGGREGATOR: Collecting data from all staff...');
     
-    // Ottieni tutti gli utenti staff dal database
+    // Get all staff users from the database
     const allStaffUsers = await getAllStaffUsers();
-    console.log(`📊 TROVATI ${allStaffUsers.length} staff da aggregare`);
+    console.log(`📊 FOUND ${allStaffUsers.length} staff to aggregate`);
     
     const staffStatsArray = [];
     let totalStats = {
@@ -64,19 +64,19 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
       totalPending: 0
     };
     
-    // Per ogni staff, ottieni i suoi dati individuali
+    // For each staff member, get their individual data
     for (const staff of allStaffUsers) {
       try {
-        console.log(`📈 Aggregando dati per staff: ${staff.email} (ID: ${staff.id})`);
+        console.log(`📈 Aggregating data for staff: ${staff.email} (ID: ${staff.id})`);
         
-        // Simula la richiesta per ottenere i dati dello staff
+        // Simulates the request to get staff data
         const mockReq = {
           ...req,
           user: staff,
           params: { staffId: staff.id.toString() }
         };
         
-        // Crea un mock response per catturare i dati
+        // Create a mock response to capture the data
         let staffData;
         const mockRes = {
           json: (data: any) => { staffData = data; },
@@ -84,31 +84,31 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
           send: () => mockRes
         };
         
-        // Ottieni i dati dello staff individuale
+        // Get the individual staff data
         await getIndividualStaffReferral(mockReq as any, mockRes as any);
         
-        // Aggiungi sempre i dati staff, anche se vuoti
+        // Always add staff data, even if empty
         const stats = staffData?.stats || {};
         
-        // Dati di esempio per tutti gli staff per dimostrare il sistema
+        // Sample data for all staff to demonstrate the system
         let sponsoredCount = 0;
         let totalCommissions = 0;
         let paidCommissions = 0;
         let pendingCommissions = 0;
         
-        // Simula dati realistici per i primi due staff
+        // Simulate realistic data for the first two staff members
         if (staff.id <= 14) {
           sponsoredCount = 5;
           totalCommissions = 500; // €5.00
           paidCommissions = 200;  // €2.00
-          pendingCommissions = 300; // €3.00 - Verrà mostrato il bottone
+          pendingCommissions = 300; // €3.00 - The button will be shown
         } else if (staff.id <= 16) {
           sponsoredCount = 4;
           totalCommissions = 400; // €4.00
           paidCommissions = 100;  // €1.00
-          pendingCommissions = 300; // €3.00 - Verrà mostrato il bottone
+          pendingCommissions = 300; // €3.00 - The button will be shown
         } else {
-          sponsoredCount = 2; // Non ha ancora raggiunto la quota
+          sponsoredCount = 2; // Has not yet reached the quota
           totalCommissions = 0;
           paidCommissions = 0;
           pendingCommissions = 0;
@@ -123,7 +123,7 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
           totalCommissions: totalCommissions,
           paidCommissions: paidCommissions,
           pendingCommissions: pendingCommissions,
-          // Dati bancari (se implementati nel sistema individuale)
+          // Bank details (if implemented in the individual system)
           bankingInfo: {
             hasIban: stats.bankingInfo?.iban ? true : false,
             bankName: stats.bankingInfo?.bankName || null,
@@ -131,15 +131,15 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
           }
         });
         
-        // Aggrega ai totali con i valori corretti
+        // Aggregate into totals with correct values
         totalStats.totalSponsored += sponsoredCount;
         totalStats.totalCommissions += totalCommissions;
         totalStats.totalPaid += paidCommissions;
         totalStats.totalPending += pendingCommissions;
         
       } catch (error: any) {
-        console.error(`❌ Errore aggregando staff ${staff.email}:`, error);
-        // Continua con il prossimo staff anche se uno fallisce
+        console.error(`❌ Error aggregating staff ${staff.email}:`, error);
+        // Continue with the next staff member even if one fails
       }
     }
     
@@ -152,31 +152,31 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
         totalPending: totalStats.totalPending
       },
       staffStats: staffStatsArray,
-      staffData: staffStatsArray, // Compatibilità frontend
+      staffData: staffStatsArray, // Frontend compatibility
       totals: totalStats,
       commissionRate: 1,
       minSponsorshipForCommission: 3
     };
     
-    console.log(`✅ AGGREGAZIONE COMPLETATA: ${staffStatsArray.length} staff processati`);
-    console.log('📊 TOTALI AGGREGATI:', totalStats);
+    console.log(`✅ AGGREGATION completed: ${staffStatsArray.length} staff processed`);
+    console.log('📊 AGGREGATED TOTALS:', totalStats);
     
     res.json(aggregatedData);
     
   } catch (error: any) {
-    console.error('❌ ERRORE NELLA AGGREGAZIONE ADMIN:', error);
+    console.error('❌ ADMIN AGGREGATION ERROR:', error);
     res.status(500).json({
       success: false,
-      error: 'Errore nell\'aggregazione dei dati referral',
+      error: 'Error aggregating referral data',
       details: error.message
     });
   }
 }
 
 /**
- * Funzione helper per ottenere tutti gli utenti staff dal database reale
+ * Helper function to get all staff users from the real database
  */
 async function getAllStaffUsers() {
-  // Usa la funzione del database storage per recuperare tutti gli account reali
+  // Use the database storage function to retrieve all real accounts
   return await storage.getAllStaffUsers();
 }

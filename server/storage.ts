@@ -104,9 +104,9 @@ export async function ensureSessionTable(): Promise<void> {
       CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
     `);
     await pool.end();
-    console.log('✅ Tabella user_sessions verificata/creata con successo');
+    console.log('✅ Table user_sessions verified/created successfully');
   } catch (error) {
-    console.error('⚠️ Errore nella creazione della tabella user_sessions:', error);
+    console.error('⚠️ Error creating user_sessions table:', error);
   }
 }
 
@@ -159,7 +159,7 @@ export interface IStorage {
   updateAppointment(id: number, appointment: Partial<InsertAppointment>): Promise<Appointment | undefined>;
   deleteAppointment(id: number): Promise<boolean>;
   
-  // Multi-tenant appointment operations - Sistema separazione per utente
+  // Multi-tenant appointment operations - per-user separation system
   getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]>;
   getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]>;
   
@@ -238,7 +238,7 @@ export interface IStorage {
   searchClients(query: string): Promise<Client[]>;
   generateInvoiceNumber(): Promise<string>;
   
-  // Referral system operations with authentic data
+  // Referral system operations with authentic date
   getAllStaffUsers(): Promise<User[]>;
   getReferralCodeForUser(userId: number): Promise<string | null>;
   getReferralsByStaffId(staffId: number): Promise<any[]>;
@@ -287,7 +287,7 @@ export interface IStorage {
   updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
   deleteSetting(id: number): Promise<boolean>;
 
-  // User Settings operations - Architettura separata per utente
+  // User Settings operations - separate architecture per user
   getUserSettings(userId: number): Promise<UserSettings | undefined>;
   createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
   updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
@@ -300,17 +300,17 @@ export interface IStorage {
   saveCompanyNameSettings(userId: number, settings: any): Promise<any>;
   updateCompanyNameSettings(userId: number, settings: any): Promise<any | undefined>;
   
-  // Contact Settings operations - Configurazione semplice telefono/email (sostituisce verifica SMS)
+  // Contact Settings operations - Simple phone/email configuration (replaces SMS verification)
   getContactSettings(tenantId: number): Promise<ContactSettings | undefined>;
   createContactSettings(settings: InsertContactSettings): Promise<ContactSettings>;
   updateContactSettings(tenantId: number, settings: Partial<InsertContactSettings>): Promise<ContactSettings | undefined>;
   deleteContactSettings(tenantId: number): Promise<boolean>;
   
-  // Currency Settings operations - Gestione valuta per utente
+  // Currency Settings operations - currency management per user
   getCurrencySettings(userId: number): Promise<CurrencySettings | undefined>;
   saveCurrencySettings(userId: number, currency: string, symbol: string): Promise<CurrencySettings>;
   
-  // Manual Content operations - Sistema gestione manuale interattivo
+  // Manual Content operations - Interactive manual management system
   getManualContent(userId: number, section: string, locale: string): Promise<ManualContent | undefined>;
   getAllManualSections(userId: number, locale: string): Promise<ManualContent[]>;
   saveManualContent(content: InsertManualContent): Promise<ManualContent>;
@@ -421,7 +421,7 @@ export interface IStorage {
   createProductSale(sale: InsertProductSale & { userId: number }): Promise<ProductSale>;
   getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]>;
   
-  // User Icon operations - Per PWA personalizzate (Sliplane-compatible)
+  // User Icon operations - For customized PWA (Sliplane-compatible)
   getUserIcon(userId: number): Promise<string | undefined>;
   saveUserIcon(userId: number, iconBase64: string): Promise<void>;
   deleteUserIcon(userId: number): Promise<boolean>;
@@ -434,7 +434,7 @@ export class DatabaseStorage implements IStorage {
   constructor() {
     if (process.env.DATABASE_URL) {
       // Use PostgreSQL to persist sessions across server restarts and deploys
-      console.log('🗄️ Usando PostgreSQL per le sessioni (sessioni persistenti tra i deploy)');
+      console.log('🗄️ Using PostgreSQL for sessions (persistent sessions across deploys)');
       const PgStore = connectPg(session);
       const pgPool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
       this.sessionStore = new PgStore({
@@ -443,7 +443,7 @@ export class DatabaseStorage implements IStorage {
         ttl: 30 * 24 * 60 * 60, // 30 days in seconds
       });
     } else {
-      console.log('📝 Usando MemoryStore per le sessioni (fallback senza DATABASE_URL)');
+      console.log('📝 Using MemoryStore for sessions (fallback without DATABASE_URL)');
       const MemoryStore = createMemoryStore(session);
       this.sessionStore = new MemoryStore({
         checkPeriod: 86400000
@@ -472,12 +472,12 @@ export class DatabaseStorage implements IStorage {
           .where(eq(clients.ownerId, ownerId))
           .orderBy(clients.lastName);
         
-        logger.debug(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
+        logger.debug(`✅ DatabaseStorage: Found ${rawClients.length} clients for ownerId ${ownerId}`);
       } else {
         rawClients = await db.select().from(clients)
           .orderBy(clients.lastName);
         
-        logger.debug(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti totali`);
+        logger.debug(`✅ DatabaseStorage: Found ${rawClients.length} total clients`);
       }
       
       return rawClients;
@@ -513,8 +513,8 @@ export class DatabaseStorage implements IStorage {
     try {
       logger.debug(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
       
-      // Escludi solo i clienti fittizi importati da Google Calendar (email @imported.local)
-      // Includi i clienti con email NULL (es. contatti importati da Google Contacts)
+      // Exclude only the dummy clients imported from Google Calendar (email @imported.local)
+      // Includi i clients con email NULL (es. contatti importati da Google Contacts)
       const excludeGoogleImported = or(
         sql`${clients.email} IS NULL`,
         not(like(clients.email, '%@imported.local'))
@@ -524,20 +524,20 @@ export class DatabaseStorage implements IStorage {
         const allClients = await db.select().from(clients)
           .where(excludeGoogleImported)
           .orderBy(clients.lastName);
-        logger.debug(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Admin sees ${allClients.length} total clients (excluding Google Calendar)`);
         return allClients;
       } else if (role === 'staff') {
-        // STAFF: usa assignmentCode per vedere i clienti assegnati
+        // STAFF: use assignmentCode to see assigned clients
         const [user] = await db.select().from(users).where(eq(users.id, userId));
         if (!user || !user.assignmentCode) {
-          console.log(`❌ DatabaseStorage: Staff ${userId} senza assignmentCode`);
+          console.log(`❌ DatabaseStorage: Staff ${userId} without assignmentCode`);
           return [];
         }
         
         const userPrefix = user.assignmentCode.substring(0, 3);
-        logger.debug(`🔍 DatabaseStorage: Staff ${userId} cerca clienti con prefisso ${userPrefix}`);
+        logger.debug(`🔍 DatabaseStorage: Staff ${userId} looking for clients with prefix ${userPrefix}`);
         
-        // Filtra clienti sia per ownerId che per prefisso nel uniqueCode, escludendo Google Calendar
+        // Filter clients by both ownerId and prefix in uniqueCode, excluding Google Calendar
         const userClients = await db.select().from(clients)
           .where(
             and(
@@ -550,17 +550,17 @@ export class DatabaseStorage implements IStorage {
           )
           .orderBy(clients.lastName);
         
-        logger.debug(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) vede ${userClients.length} clienti (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Staff ${userId} (${userPrefix}) sees ${userClients.length} clients (excluding Google Calendar)`);
         return userClients;
       } else {
-        // CUSTOMER: vede solo i suoi clienti (basandosi su ownerId)
-        logger.debug(`🔍 DatabaseStorage: Customer ${userId} cerca i propri clienti (ownerId)`);
+        // CUSTOMER: vede only i suoi clients (basandosi su ownerId)
+        logger.debug(`🔍 DatabaseStorage: Customer ${userId} searching for their own clients (ownerId)`);
         
         const userClients = await db.select().from(clients)
           .where(and(excludeGoogleImported, eq(clients.ownerId, userId)))
           .orderBy(clients.lastName);
         
-        logger.debug(`✅ DatabaseStorage: Customer ${userId} vede ${userClients.length} clienti propri (esclusi Google Calendar)`);
+        logger.debug(`✅ DatabaseStorage: Customer ${userId} sees ${userClients.length} own clients (excluding Google Calendar)`);
         return userClients;
       }
     } catch (error) {
@@ -782,7 +782,7 @@ export class DatabaseStorage implements IStorage {
       const invitation = await this.getBetaInvitation(code);
       if (!invitation) return undefined;
       
-      // Verifica se l'invito può essere ancora utilizzato
+      // Check if the invite can still be used
       if ((invitation.usedCount ?? 0) >= (invitation.maxUses ?? 0)) {
         return undefined;
       }
@@ -835,7 +835,7 @@ export class DatabaseStorage implements IStorage {
       
       if (!feedback) return undefined;
       
-      // Ottieni i dettagli dell'utente
+      // Get i dettagli of the user
       const user = await this.getUser(feedback.userId);
       let reviewedByUser = undefined;
       
@@ -870,7 +870,7 @@ export class DatabaseStorage implements IStorage {
       const feedbacks = await db.select().from(betaFeedback)
         .orderBy(desc(betaFeedback.createdAt));
       
-      // Aggiungi dettagli utente per ogni feedback
+      // Add user details for each feedback
       const result: BetaFeedbackWithUserDetails[] = [];
       
       for (const feedback of feedbacks) {
@@ -995,7 +995,7 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // NUOVO Sistema multi-tenant: Servizi separati per utente
+  // NEW Multi-tenant system: Services separated per user
   async getServicesForUser(userId: number): Promise<Service[]> {
     try {
       // NEW multi-tenant system: user services retrieval - debug removed
@@ -1005,7 +1005,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(services.userId, userId))
         .orderBy(services.name);
       
-      logger.debug(`✅ NUOVO Sistema: ${userServices.length} servizi per utente ${userId} - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NEW System: ${userServices.length} services for user ${userId} - FULL SEPARATION`);
       return userServices;
     } catch (error) {
       console.error("Error getting services for user:", error);
@@ -1394,7 +1394,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   // OBSOLETA: Rimossa per architettura multi-tenant
-  // Usare getAppointmentsForUser() invece
+  // Use getAppointmentsForUser() instead
 
   async getAppointmentsByDate(date: string): Promise<AppointmentWithDetails[]> {
     try {
@@ -1450,10 +1450,10 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Multi-tenant appointment operations - Sistema separazione per utente RISTRUTTURATO
+  // Multi-tenant appointment operations - per-user separation system RISTRUTTURATO
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      // ⚡ OTTIMIZZATO: Usa JOIN invece di query multiple (include staff e rooms)
+      // ⚡ OPTIMIZED: Use JOIN instead of multiple queries (includes staff and rooms)
       const { staff, treatmentRooms } = await import('../shared/schema.js');
       
       const result = await db
@@ -1472,9 +1472,9 @@ export class DatabaseStorage implements IStorage {
         .where(eq(appointments.userId, userId))
         .orderBy(appointments.date, appointments.startTime);
 
-      // Trasforma il risultato nel formato atteso
+      // Transform the result into the expected format
       const formattedResult = result
-        .filter(row => row.client && row.service) // Filtra solo appuntamenti con client e service validi
+        .filter(row => row.client && row.service) // Filter only appointments with valid client and service
         .map(row => ({
           ...row.appointment,
           client: row.client!,
@@ -1483,7 +1483,7 @@ export class DatabaseStorage implements IStorage {
           room: row.room || undefined // Room opzionale
         }));
 
-      logger.debug(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for user ${userId} (with staff/room) - FULL SEPARATION`);
       return formattedResult;
     } catch (error) {
       console.error("Error getting appointments for user:", error);
@@ -1529,7 +1529,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      // ⚡ OTTIMIZZATO: Usa JOIN invece di query multiple (include staff e rooms)
+      // ⚡ OPTIMIZED: Use JOIN instead of multiple queries (includes staff and rooms)
       const { staff, treatmentRooms } = await import('../shared/schema.js');
       
       const result = await db
@@ -1551,7 +1551,7 @@ export class DatabaseStorage implements IStorage {
         ))
         .orderBy(appointments.startTime);
 
-      // Trasforma il risultato nel formato atteso
+      // Transform the result into the expected format
       const formattedResult = result
         .filter(row => row.client && row.service)
         .map(row => ({
@@ -1562,7 +1562,7 @@ export class DatabaseStorage implements IStorage {
           room: row.room || undefined // Room opzionale
         }));
 
-      logger.debug(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per data ${date} - utente ${userId} (con staff/room) - SEPARAZIONE COMPLETA`);
+      logger.debug(`✅ NEW multi-tenant system: ${formattedResult.length} appointments for date ${date} - user ${userId} (with staff/room) - FULL SEPARATION`);
       return formattedResult;
     } catch (error) {
       console.error("Error getting appointments by date for user:", error);
@@ -1607,7 +1607,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   // OBSOLETA: Rimossa per architettura multi-tenant
-  // Sistema ora filtra automaticamente per utente
+  // System now filters automatically per user
 
   async getAppointmentsByClient(clientId: number): Promise<AppointmentWithDetails[]> {
     try {
@@ -1780,7 +1780,7 @@ export class DatabaseStorage implements IStorage {
       const consentData: Record<string, any> = { ...consent };
       const [newConsent] = await db.insert(consents).values(consentData).returning();
       
-      // Aggiorna hasConsent a true per il cliente
+      // Update hasConsent to true for client
       await db
         .update(clients)
         .set({ hasConsent: true })
@@ -2028,11 +2028,11 @@ export class DatabaseStorage implements IStorage {
 
   async deleteInvoice(id: number): Promise<boolean> {
     try {
-      // Prima eliminiamo tutte le voci e i pagamenti correlati
+      // First delete all related items and payments
       await db.delete(invoiceItems).where(eq(invoiceItems.invoiceId, id));
       await db.delete(payments).where(eq(payments.invoiceId, id));
       
-      // Poi eliminiamo la fattura
+      // Then delete the invoice
       await db.delete(invoices).where(eq(invoices.id, id));
       return true;
     } catch (error) {
@@ -2159,14 +2159,14 @@ export class DatabaseStorage implements IStorage {
     try {
       const [newPayment] = await db.insert(payments).values(payment).returning();
       
-      // Aggiorna lo stato della fattura se necessario
+      // Update the invoice status if necessary
       const [invoice] = await db.select().from(invoices).where(eq(invoices.id, payment.invoiceId));
       const existingPayments = await this.getPaymentsByInvoice(payment.invoiceId);
       
-      // Calcola il totale pagato includendo il nuovo pagamento
+      // Calculate total paid including the new payment
       const totalPaid = existingPayments.reduce((sum, p) => sum + p.amount, 0) + payment.amount;
       
-      // Se il totale pagato è uguale o superiore all'importo totale, aggiorna lo stato a "paid"
+      // If total paid is equal to or greater than total amount, update status to "paid"
       if (totalPaid >= invoice.totalAmount && invoice.status !== "paid") {
         await db
           .update(invoices)
@@ -2225,21 +2225,21 @@ export class DatabaseStorage implements IStorage {
 
   async deletePayment(id: number): Promise<boolean> {
     try {
-      // Prima otteniamo il pagamento per conoscere la fattura associata
+      // First get the payment to know the associated invoice
       const [payment] = await db.select().from(payments).where(eq(payments.id, id));
       if (!payment) return false;
       
-      // Eliminiamo il pagamento
+      // Delete the payment
       await db.delete(payments).where(eq(payments.id, id));
       
-      // Aggiorna lo stato della fattura se necessario
+      // Update the invoice status if necessary
       const [invoice] = await db.select().from(invoices).where(eq(invoices.id, payment.invoiceId));
       const remainingPayments = await this.getPaymentsByInvoice(payment.invoiceId);
       
-      // Calcola il totale pagato dopo la rimozione del pagamento
+      // Calculate total paid after payment removal
       const totalPaid = remainingPayments.reduce((sum, p) => sum + p.amount, 0);
       
-      // Se il totale pagato è inferiore all'importo totale e lo stato era "paid", aggiorna lo stato a "unpaid"
+      // If total paid is less than total amount and status was "paid", update status to "unpaid"
       if (totalPaid < invoice.totalAmount && invoice.status === "paid") {
         await db
           .update(invoices)
@@ -2256,17 +2256,17 @@ export class DatabaseStorage implements IStorage {
 
   async generateInvoiceNumber(): Promise<string> {
     try {
-      // Otteniamo l'anno corrente
+      // Get the current year
       const currentYear = new Date().getFullYear();
       
-      // Contiamo quante fatture ci sono per l'anno corrente
+      // Count how many invoices there are for the current year
       const yearPrefix = `${currentYear}-`;
       const invoicesForYear = await db
         .select()
         .from(invoices)
         .where(like(invoices.invoiceNumber, `${yearPrefix}%`));
       
-      // Genera il nuovo numero di fattura
+      // Generate the new invoice number
       const counter = invoicesForYear.length + 1;
       return `${yearPrefix}${counter.toString().padStart(3, '0')}`;
     } catch (error) {
@@ -2360,7 +2360,7 @@ export class DatabaseStorage implements IStorage {
     }
     
     try {
-      // Cerca per username O email (supporta login con entrambi)
+      // Search by username OR email (supports login with both)
       const [user] = await db.select().from(users).where(
         or(
           eq(users.username, username),
@@ -2368,7 +2368,7 @@ export class DatabaseStorage implements IStorage {
         )
       );
       
-      // Se l'utente non viene trovato nel database, prova con JSON
+      // If the user is not found in the database, try with JSON
       if (!user) {
         console.log(`User not found in DB, trying JSON storage for: ${username}`);
         try {
@@ -2391,7 +2391,7 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting user by username:", error);
       
-      // Fallback al JSON storage quando il database non è disponibile
+      // Fallback to JSON storage when the database is not available
       try {
         const { loadStorageData } = await import('./utils/jsonStorage.js');
         const storageData = loadStorageData();
@@ -2431,16 +2431,16 @@ export class DatabaseStorage implements IStorage {
     }
     
     try {
-      // Cerca per email nella tabella users (professionisti/admin)
+      // Search by email in the users table (professionals/admin)
       const [user] = await db.select().from(users).where(eq(users.email, email));
       if (user) return user;
       
-      // Se non trovato in users, cerca nella tabella staff (collaboratori)
+      // If not found in users, search in the staff table (collaborators)
       const { staff: staffTable } = await import('../shared/schema');
       const [staffMember] = await db.select().from(staffTable).where(eq(staffTable.email, email));
       if (staffMember) return staffMember as any;
       
-      // Se non trovato nel database, prova con JSON
+      // If not found in the database, try with JSON
       console.log(`User not found in DB by email, trying JSON storage for: ${email}`);
       try {
         const { loadStorageData } = await import('./utils/jsonStorage.js');
@@ -2461,7 +2461,7 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting user by email:", error);
       
-      // Fallback al JSON storage quando il database non è disponibile
+      // Fallback to JSON storage when the database is not available
       try {
         const { loadStorageData } = await import('./utils/jsonStorage.js');
         const storageData = loadStorageData();
@@ -2483,13 +2483,13 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined> {
     try {
-      logger.debug(`🔍 Cercando utente con codice assegnazione: ${assignmentCode}`);
+      logger.debug(`🔍 Looking for user with assignment code: ${assignmentCode}`);
       const [user] = await db.select().from(users).where(eq(users.assignmentCode, assignmentCode));
       
       if (user) {
-        logger.debug(`✅ Trovato utente ${user.username} per codice ${assignmentCode}`);
+        logger.debug(`✅ Found user ${user.username} for code ${assignmentCode}`);
       } else {
-        console.log(`❌ Nessun utente trovato per codice ${assignmentCode}`);
+        console.log(`❌ No user found for code ${assignmentCode}`);
       }
       
       return user;
@@ -2501,13 +2501,13 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
     try {
-      logger.debug(`🔍 Cercando utente con codice referral: ${referralCode}`);
+      logger.debug(`🔍 Looking for user with referral code: ${referralCode}`);
       const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
       
       if (user) {
-        logger.debug(`✅ Trovato utente ${user.username} (ID: ${user.id}) con codice referral ${referralCode}`);
+        logger.debug(`✅ Found user ${user.username} (ID: ${user.id}) with referral code ${referralCode}`);
       } else {
-        console.log(`❌ Nessun utente trovato per codice referral ${referralCode}`);
+        console.log(`❌ No user found for referral code ${referralCode}`);
       }
       
       return user;
@@ -2519,10 +2519,10 @@ export class DatabaseStorage implements IStorage {
 
   async getUsersByReferrer(referrerId: number): Promise<User[]> {
     try {
-      logger.debug(`🔍 Cercando utenti sponsorizzati da referrer ID: ${referrerId}`);
+      logger.debug(`🔍 Looking for users sponsored by referrer ID: ${referrerId}`);
       const referredUsers = await db.select().from(users).where(eq(users.referredBy, referrerId));
       
-      logger.debug(`✅ Trovati ${referredUsers.length} utenti sponsorizzati da referrer ${referrerId}`);
+      logger.debug(`✅ Found ${referredUsers.length} users sponsored by referrer ${referrerId}`);
       
       return referredUsers;
     } catch (error) {
@@ -2533,9 +2533,9 @@ export class DatabaseStorage implements IStorage {
   
   async getAllStaffUsers(): Promise<User[]> {
     try {
-      console.log("Recupero utenti staff...");
+      console.log("Retrieving staff users...");
       
-      // Seleziona tutti gli utenti staff (inclusi quelli che potrebbero avere clientId)
+      // Select all staff users (including those who may have a clientId)
       const staffUsers = await db.select().from(users)
         .where(
           or(
@@ -2545,9 +2545,9 @@ export class DatabaseStorage implements IStorage {
         )
         .orderBy(asc(users.id));
       
-      console.log(`Trovati ${staffUsers.length} utenti staff nel database`);
+      console.log(`Found ${staffUsers.length} staff users in database`);
       staffUsers.forEach(user => {
-        console.log(`- Utente staff: ${user.username}, ruolo: ${user.role}, id: ${user.id}`);
+        console.log(`- Staff user: ${user.username}, role: ${user.role}, id: ${user.id}`);
       });
       
       return staffUsers;
@@ -2563,7 +2563,7 @@ export class DatabaseStorage implements IStorage {
         return [];
       }
 
-      logger.debug(`🔍 Recupero metadata per ${ownerIds.length} professionisti owner: ${ownerIds.join(', ')}`);
+      logger.debug(`🔍 Retrieving metadata for ${ownerIds.length} owner professionals: ${ownerIds.join(', ')}`);
       
       const owners = await db
         .select({
@@ -2574,7 +2574,7 @@ export class DatabaseStorage implements IStorage {
         .from(users)
         .where(inArray(users.id, ownerIds));
       
-      logger.debug(`✅ Trovati ${owners.length} professionisti owner con metadata`);
+      logger.debug(`✅ Found ${owners.length} professional owners with metadata`);
       owners.forEach(owner => {
         console.log(`  - Owner ID ${owner.id}: ${owner.assignmentCode || 'NO-CODE'} - ${owner.username}`);
       });
@@ -2586,14 +2586,14 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Funzioni per il sistema referral con dati autentici
+  // Functions for the referral system with authentic date
   async getReferralCodeForUser(userId: number): Promise<string | null> {
     try {
-      // Recupera il codice referral salvato per questo utente
+      // Retrieve the saved referral code for this user
       const [user] = await db.select().from(users).where(eq(users.id, userId));
       if (!user) return null;
       
-      // Genera codice basato sui dati reali dell'utente
+      // Generate code based on real user data
       if (userId === 14) return "BUS14"; // Silvia Busnari
       if (userId === 16) return "FAV16"; // Elisa Faverio
       if (userId === 8) return "ZAM08";  // Andrea Zambelli
@@ -2607,8 +2607,8 @@ export class DatabaseStorage implements IStorage {
 
   async getReferralsByStaffId(staffId: number): Promise<any[]> {
     try {
-      // Per ora restituisce array vuoto - da implementare quando necessario
-      // Qui andrà la logica per recuperare le sponsorizzazioni reali
+      // For now returns empty array - to be implemented when needed
+      // Here will go the logic to retrieve real sponsorships
       return [];
     } catch (error) {
       console.error("Error getting referrals:", error);
@@ -2618,8 +2618,8 @@ export class DatabaseStorage implements IStorage {
 
   async getBankingInfoForStaff(staffId: number): Promise<any> {
     try {
-      // Per ora restituisce info base - da implementare quando necessario
-      // Qui andrà la logica per recuperare i dati bancari reali
+      // For now returns basic info - to be implemented when needed
+      // Here will go the logic to retrieve real banking data
       return {
         hasIban: false,
         bankName: null,
@@ -2638,7 +2638,7 @@ export class DatabaseStorage implements IStorage {
   async createReferralCommission(commission: any): Promise<any> {
     try {
       const [newCommission] = await db.insert(referralCommissions).values(commission).returning();
-      logger.debug(`✅ Commissione referral creata: ${commission.monthly_amount/100}€/mese per sponsor ID ${commission.referrer_id}`);
+      logger.debug(`✅ Referral commission created: ${commission.monthly_amount/100}€/month for sponsor ID ${commission.referrer_id}`);
       return newCommission;
     } catch (error) {
       console.error("Error creating referral commission:", error);
@@ -2975,7 +2975,7 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
-  // Metodi per la gestione dei token di attivazione
+  // Methods for managing activation tokens
   async createActivationToken(token: InsertActivationToken): Promise<ActivationToken> {
     try {
       const [newToken] = await db.insert(activationTokens).values(token).returning();
@@ -3031,7 +3031,7 @@ export class DatabaseStorage implements IStorage {
   
   async updateActivationTokenExpiry(id: number, newExpiresAt: Date): Promise<ActivationToken | undefined> {
     try {
-      console.log(`Aggiornamento scadenza token con ID ${id} a ${newExpiresAt}`);
+      console.log(`Updating token expiration with ID ${id} to ${newExpiresAt}`);
       
       const [updatedToken] = await db
         .update(activationTokens)
@@ -3039,10 +3039,10 @@ export class DatabaseStorage implements IStorage {
         .where(eq(activationTokens.id, id))
         .returning();
       
-      console.log(`Token aggiornato con successo, nuova scadenza: ${updatedToken.expiresAt}`);
+      console.log(`Token updated successfully, new expiry: ${updatedToken.expiresAt}`);
       return updatedToken;
     } catch (error) {
-      console.error("Errore nell'aggiornamento della scadenza del token:", error);
+      console.error("Error updating token expiration:", error);
       return undefined;
     }
   }
@@ -3057,7 +3057,7 @@ export class DatabaseStorage implements IStorage {
       
       return note;
     } catch (error) {
-      console.error("Errore durante il recupero della nota:", error);
+      console.error("Error retrieving note:", error);
       return undefined;
     }
   }
@@ -3072,7 +3072,7 @@ export class DatabaseStorage implements IStorage {
       
       return notes;
     } catch (error) {
-      console.error("Errore durante il recupero delle note del cliente:", error);
+      console.error("Error retrieving client notes:", error);
       return [];
     }
   }
@@ -3087,7 +3087,7 @@ export class DatabaseStorage implements IStorage {
       
       return createdNote;
     } catch (error) {
-      console.error("Errore durante la creazione della nota del cliente:", error);
+      console.error("Error creating client note:", error);
       throw error;
     }
   }
@@ -3103,7 +3103,7 @@ export class DatabaseStorage implements IStorage {
       
       return updatedNote;
     } catch (error) {
-      console.error("Errore durante l'aggiornamento della nota del cliente:", error);
+      console.error("Error updating client note:", error);
       return undefined;
     }
   }
@@ -3116,7 +3116,7 @@ export class DatabaseStorage implements IStorage {
       
       return result.count > 0;
     } catch (error) {
-      console.error("Errore durante l'eliminazione della nota del cliente:", error);
+      console.error("Error deleting client note:", error);
       return false;
     }
   }
@@ -3127,18 +3127,18 @@ export class DatabaseStorage implements IStorage {
       const [settings] = await db.select().from(googleCalendarSettings);
       return settings;
     } catch (error) {
-      console.error('Errore durante il recupero delle impostazioni Google Calendar:', error);
+      console.error('Error retrieving Google Calendar settings:', error);
       return undefined;
     }
   }
   
   async saveGoogleCalendarSettings(settings: InsertGoogleCalendarSettings): Promise<GoogleCalendarSettings> {
     try {
-      // Prima controlla se esistono già delle impostazioni
+      // First check if settings already exist
       const existing = await this.getGoogleCalendarSettings();
       
       if (existing) {
-        // Aggiorna le impostazioni esistenti
+        // Update existing settings
         const [updated] = await db
           .update(googleCalendarSettings)
           .set({
@@ -3149,7 +3149,7 @@ export class DatabaseStorage implements IStorage {
           .returning();
         return updated;
       } else {
-        // Crea nuove impostazioni
+        // Create new settings
         const [created] = await db
           .insert(googleCalendarSettings)
           .values({
@@ -3161,7 +3161,7 @@ export class DatabaseStorage implements IStorage {
         return created;
       }
     } catch (error) {
-      console.error('Errore durante il salvataggio delle impostazioni Google Calendar:', error);
+      console.error('Error saving settings Google Calendar:', error);
       throw error;
     }
   }
@@ -3178,7 +3178,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return updated;
     } catch (error) {
-      console.error('Errore durante l\'aggiornamento delle impostazioni Google Calendar:', error);
+      console.error('Error updating Google Calendar settings:', error);
       return undefined;
     }
   }
@@ -3192,7 +3192,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(googleCalendarEvents.appointmentId, appointmentId));
       return event;
     } catch (error) {
-      console.error('Errore durante il recupero dell\'evento Google Calendar:', error);
+      console.error('Error retrieving Google Calendar event:', error);
       return undefined;
     }
   }
@@ -3209,7 +3209,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     } catch (error) {
-      console.error('Errore durante la creazione dell\'evento Google Calendar:', error);
+      console.error('Error creating Google Calendar event:', error);
       throw error;
     }
   }
@@ -3226,7 +3226,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return updated;
     } catch (error) {
-      console.error('Errore durante l\'aggiornamento dell\'evento Google Calendar:', error);
+      console.error('Error updating Google Calendar event:', error);
       return undefined;
     }
   }
@@ -3239,7 +3239,7 @@ export class DatabaseStorage implements IStorage {
       
       return result.count > 0;
     } catch (error) {
-      console.error('Errore durante l\'eliminazione dell\'evento Google Calendar:', error);
+      console.error('Error deleting Google Calendar event:', error);
       return false;
     }
   }
@@ -3265,7 +3265,7 @@ export class DatabaseStorage implements IStorage {
         name: nameSetting ? nameSetting.value : "Coordinated Universal Time"
       };
     } catch (error) {
-      console.error("Errore nel recupero delle impostazioni del fuso orario:", error);
+      console.error("Error retrieving timezone settings:", error);
       return {
         timezone: "UTC",
         offset: 0,
@@ -3282,7 +3282,7 @@ export class DatabaseStorage implements IStorage {
       
       return { timezone, offset, name };
     } catch (error) {
-      console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
+      console.error("Error saving timezone settings:", error);
       throw error;
     }
   }
@@ -3299,7 +3299,7 @@ export class DatabaseStorage implements IStorage {
       const address = await this.getSetting("businessAddress", userId);
       
       if (!email && !phone1) {
-        // Se non ci sono informazioni di contatto, restituisci undefined
+        // If there is contact information, return undefined
         return undefined;
       }
       
@@ -3313,7 +3313,7 @@ export class DatabaseStorage implements IStorage {
         address: address ? address.value : undefined
       };
     } catch (error) {
-      console.error("Errore nel recupero delle informazioni di contatto:", error);
+      console.error("Error retrieving contact information:", error);
       return undefined;
     }
   }
@@ -3324,18 +3324,18 @@ export class DatabaseStorage implements IStorage {
       const [settings] = await db.select().from(notificationSettings);
       return settings;
     } catch (error) {
-      console.error("Errore nel recupero delle impostazioni di notifica:", error);
+      console.error("Error retrieving notification settings:", error);
       return undefined;
     }
   }
   
   async saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings> {
     try {
-      // Prima controlla se esistono già delle impostazioni
+      // First check if settings already exist
       const existing = await this.getNotificationSettings();
       
       if (existing) {
-        // Aggiorna le impostazioni esistenti
+        // Update existing settings
         const [updated] = await db
           .update(notificationSettings)
           .set({
@@ -3346,7 +3346,7 @@ export class DatabaseStorage implements IStorage {
           .returning();
         return updated;
       } else {
-        // Crea nuove impostazioni
+        // Create new settings
         const [created] = await db
           .insert(notificationSettings)
           .values({
@@ -3358,7 +3358,7 @@ export class DatabaseStorage implements IStorage {
         return created;
       }
     } catch (error) {
-      console.error("Errore nel salvataggio delle impostazioni di notifica:", error);
+      console.error("Error saving notification settings:", error);
       throw error;
     }
   }
@@ -3375,7 +3375,7 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return updated;
     } catch (error) {
-      console.error("Errore nell'aggiornamento delle impostazioni di notifica:", error);
+      console.error("Error updating notification settings:", error);
       return undefined;
     }
   }
@@ -3391,7 +3391,7 @@ export class DatabaseStorage implements IStorage {
 
       return template;
     } catch (error) {
-      console.error('Errore durante il recupero del modello di promemoria:', error);
+      console.error('Error retrieving reminder template:', error);
       return undefined;
     }
   }
@@ -3405,7 +3405,7 @@ export class DatabaseStorage implements IStorage {
 
       return templates;
     } catch (error) {
-      console.error('Errore durante il recupero dei modelli di promemoria:', error);
+      console.error('Error retrieving reminder templates:', error);
       return [];
     }
   }
@@ -3423,7 +3423,7 @@ export class DatabaseStorage implements IStorage {
 
       return template;
     } catch (error) {
-      console.error('Errore durante il recupero del modello di promemoria predefinito:', error);
+      console.error('Error retrieving default reminder template:', error);
       return undefined;
     }
   }
@@ -3441,20 +3441,20 @@ export class DatabaseStorage implements IStorage {
 
       return template;
     } catch (error) {
-      console.error('Errore durante il recupero del modello di promemoria per servizio:', error);
+      console.error('Error retrieving reminder template for service:', error);
       return undefined;
     }
   }
 
-  // Implementazione del metodo richiesto dall'interfaccia
+  // Implementation of the method required by the interface
   async getReminderTemplateByService(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
-    // Utilizziamo il metodo esistente
+    // We use the existing method
     return this.getReminderTemplateByServiceId(serviceId, type);
   }
 
   async createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate> {
     try {
-      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      // If this template is set as default, remove the default setting from other templates of the same type
       if (template.isDefault) {
         await db
           .update(reminderTemplates)
@@ -3476,7 +3476,7 @@ export class DatabaseStorage implements IStorage {
 
       return createdTemplate;
     } catch (error) {
-      console.error('Errore durante la creazione del modello di promemoria:', error);
+      console.error('Error creating reminder template:', error);
       throw error;
     }
   }
@@ -3489,7 +3489,7 @@ export class DatabaseStorage implements IStorage {
         return undefined;
       }
 
-      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      // If this template is set as default, remove the default setting from other templates of the same type
       if (template.isDefault) {
         await db
           .update(reminderTemplates)
@@ -3512,7 +3512,7 @@ export class DatabaseStorage implements IStorage {
 
       return updatedTemplate;
     } catch (error) {
-      console.error('Errore durante l\'aggiornamento del modello di promemoria:', error);
+      console.error('Error updating reminder template:', error);
       return undefined;
     }
   }
@@ -3525,12 +3525,12 @@ export class DatabaseStorage implements IStorage {
 
       return true;
     } catch (error) {
-      console.error('Errore durante l\'eliminazione del modello di promemoria:', error);
+      console.error('Error deleting reminder template:', error);
       return false;
     }
   }
   
-  // Implementazione dei metodi per gestire le impostazioni dell'applicazione
+  // Implementation of methods to manage application settings
   async getSetting(key: string, userId?: number): Promise<AppSettings | undefined> {
     try {
       const whereConditions = userId 
@@ -3543,7 +3543,7 @@ export class DatabaseStorage implements IStorage {
         .where(whereConditions);
       return setting;
     } catch (error) {
-      console.error(`Errore nel recupero dell'impostazione '${key}':`, error);
+      console.error(`Error retrieving setting '${key}':`, error);
       return undefined;
     }
   }
@@ -3556,7 +3556,7 @@ export class DatabaseStorage implements IStorage {
         .orderBy(asc(appSettings.key));
       return settings;
     } catch (error) {
-      console.error("Errore nel recupero di tutte le impostazioni:", error);
+      console.error("Error retrieving all settings:", error);
       return [];
     }
   }
@@ -3570,7 +3570,7 @@ export class DatabaseStorage implements IStorage {
         .orderBy(asc(appSettings.key));
       return settings;
     } catch (error) {
-      console.error(`Errore nel recupero delle impostazioni per la categoria '${category}':`, error);
+      console.error(`Error retrieving settings for category '${category}':`, error);
       return [];
     }
   }
@@ -3583,11 +3583,11 @@ export class DatabaseStorage implements IStorage {
     userId: number = 1
   ): Promise<AppSettings> {
     try {
-      // Verifica se l'impostazione esiste già per questo utente
+      // Check if the setting already exists for this user
       const existingSetting = await this.getSetting(key, userId);
       
       if (existingSetting) {
-        // Aggiorna l'impostazione esistente
+        // Update the existing setting
         const [updatedSetting] = await db
           .update(appSettings)
           .set({ 
@@ -3601,7 +3601,7 @@ export class DatabaseStorage implements IStorage {
         
         return updatedSetting;
       } else {
-        // Crea una nuova impostazione per l'utente
+        // Create a new setting for user
         const [newSetting] = await db
           .insert(appSettings)
           .values({
@@ -3616,7 +3616,7 @@ export class DatabaseStorage implements IStorage {
         return newSetting;
       }
     } catch (error) {
-      console.error(`Errore nel salvataggio dell'impostazione '${key}':`, error);
+      console.error(`Error saving setting '${key}':`, error);
       throw error;
     }
   }
@@ -3634,7 +3634,7 @@ export class DatabaseStorage implements IStorage {
       
       return updatedSetting;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento dell'impostazione con ID ${id}:`, error);
+      console.error(`Error updating setting with ID ${id}:`, error);
       return undefined;
     }
   }
@@ -3647,7 +3647,7 @@ export class DatabaseStorage implements IStorage {
       
       return result.count > 0;
     } catch (error) {
-      console.error(`Errore nell'eliminazione dell'impostazione con ID ${id}:`, error);
+      console.error(`Error deleting setting with ID ${id}:`, error);
       return false;
     }
   }
@@ -3655,7 +3655,7 @@ export class DatabaseStorage implements IStorage {
   // Company Name Settings operations - Multi-tenant isolation
   async getCompanyNameSettings(userId: number): Promise<CompanyNameSettings | undefined> {
     try {
-      console.log(`🏢 Recupero impostazioni nome aziendale per utente ${userId}`);
+      console.log(`🏢 Retrieving business name settings for user ${userId}`);
       
       const [settings] = await db
         .select()
@@ -3663,21 +3663,21 @@ export class DatabaseStorage implements IStorage {
         .where(eq(companyNameSettings.userId, userId));
       
       if (!settings) {
-        logger.debug(`ℹ️ Nessuna impostazione nome aziendale per utente ${userId}`);
+        logger.debug(`ℹ️ No business name settings for user ${userId}`);
         return undefined;
       }
       
-      logger.debug(`✅ Impostazioni nome aziendale per utente ${userId}:`, settings);
+      logger.debug(`✅ Business name settings for user ${userId}:`, settings);
       return settings;
     } catch (error) {
-      console.error(`Errore nel recupero delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error retrieving settings for user ${userId}:`, error);
       return undefined;
     }
   }
 
   async saveCompanyNameSettings(userId: number, settings: any): Promise<CompanyNameSettings> {
     try {
-      console.log(`🏢 Salvataggio impostazioni nome aziendale per utente ${userId}:`, settings);
+      console.log(`🏢 Saving business name settings for user ${userId}:`, settings);
       
       const dataToSave = {
         userId,
@@ -3696,17 +3696,17 @@ export class DatabaseStorage implements IStorage {
         .values(dataToSave)
         .returning();
       
-      logger.debug(`✅ Impostazioni nome aziendale salvate per utente ${userId}`);
+      logger.debug(`✅ Business name settings saved for user ${userId}`);
       return saved;
     } catch (error) {
-      console.error(`Errore nel salvataggio delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error saving settings for user ${userId}:`, error);
       throw error;
     }
   }
 
   async updateCompanyNameSettings(userId: number, settings: any): Promise<CompanyNameSettings | undefined> {
     try {
-      console.log(`🏢 Aggiornamento impostazioni nome aziendale per utente ${userId}:`, settings);
+      console.log(`🏢 Updating business name settings for user ${userId}:`, settings);
       
       const dataToUpdate = {
         name: settings.name || "",
@@ -3726,10 +3726,10 @@ export class DatabaseStorage implements IStorage {
         .where(eq(companyNameSettings.userId, userId))
         .returning();
       
-      logger.debug(`✅ Impostazioni nome aziendale aggiornate per utente ${userId}`);
+      logger.debug(`✅ Business name settings updated for user ${userId}`);
       return updated;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error updating settings for user ${userId}:`, error);
       return undefined;
     }
   }
@@ -3743,7 +3743,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(paymentTransactions.transactionId, transactionId))
         .orderBy(desc(paymentTransactions.createdAt));
     } catch (error) {
-      console.error(`Errore nel recupero delle transazioni di pagamento per il Wise ID ${transactionId}:`, error);
+      console.error(`Error retrieving payment transactions for Wise ID ${transactionId}:`, error);
       return [];
     }
   }
@@ -3756,7 +3756,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(paymentTransactions.userId, userId))
         .orderBy(desc(paymentTransactions.createdAt));
     } catch (error) {
-      console.error(`Errore nel recupero delle transazioni di pagamento per l'utente ${userId}:`, error);
+      console.error(`Error retrieving payment transactions for user ${userId}:`, error);
       return [];
     }
   }
@@ -3769,7 +3769,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(paymentTransactions.subscriptionId, subscriptionId))
         .orderBy(desc(paymentTransactions.createdAt));
     } catch (error) {
-      console.error(`Errore nel recupero delle transazioni di pagamento per la sottoscrizione ${subscriptionId}:`, error);
+      console.error(`Error retrieving payment transactions for subscription ${subscriptionId}:`, error);
       return [];
     }
   }
@@ -3782,7 +3782,7 @@ export class DatabaseStorage implements IStorage {
         .where(eq(paymentTransactions.paymentMethod, method))
         .orderBy(desc(paymentTransactions.createdAt));
     } catch (error) {
-      console.error(`Errore nel recupero delle transazioni di pagamento per il metodo ${method}:`, error);
+      console.error(`Error retrieving payment transactions for method ${method}:`, error);
       return [];
     }
   }
@@ -3794,51 +3794,51 @@ export class DatabaseStorage implements IStorage {
         .from(paymentTransactions)
         .orderBy(desc(paymentTransactions.createdAt));
     } catch (error) {
-      console.error('Errore nel recupero di tutte le transazioni di pagamento:', error);
+      console.error('Error retrieving all payment transactions:', error);
       return [];
     }
   }
   
   /**
-   * Aggiorna un abbonamento esistente
-   * @param id ID dell'abbonamento da aggiornare
-   * @param subscription Dati parziali da aggiornare
-   * @returns Abbonamento aggiornato o undefined se non trovato
+   * Update an existing subscription
+   * @param id ID of the subscription to update
+   * @param subscription Partial data to update
+   * @returns Updated subscription or undefined if not found
    */
   async updateSubscription(id: number, subscription: Partial<InsertSubscription>): Promise<Subscription | undefined> {
     try {
-      console.log(`Aggiornamento abbonamento ID: ${id} con dati:`, subscription);
+      console.log(`Updating subscription ID: ${id} with data:`, subscription);
       const [updated] = await db.update(subscriptions)
         .set(subscription)
         .where(eq(subscriptions.id, id))
         .returning();
       
-      console.log(`Abbonamento aggiornato:`, updated);
+      console.log(`Subscription updated:`, updated);
       return updated;
     } catch (error) {
-      console.error(`Errore durante l'aggiornamento dell'abbonamento ID ${id}:`, error);
+      console.error(`Error updating subscription ID ${id}:`, error);
       return undefined;
     }
   }
   
   /**
-   * Annulla un abbonamento
-   * @param id ID dell'abbonamento da annullare
-   * @param cancelAtPeriodEnd Se true, l'abbonamento terminerà alla fine del periodo corrente
-   * @returns Abbonamento aggiornato o undefined se non trovato
+   * Cancel a subscription
+   * @param id ID of the subscription to cancel
+   * @param cancelAtPeriodEnd If true, the subscription will end at the end of the current period
+   * @returns Updated subscription or undefined if not found
    */
   async cancelSubscription(id: number, cancelAtPeriodEnd: boolean): Promise<Subscription | undefined> {
     try {
-      console.log(`Annullamento abbonamento ID: ${id}, cancelAtPeriodEnd: ${cancelAtPeriodEnd}`);
+      console.log(`Cancelling subscription ID: ${id}, cancelAtPeriodEnd: ${cancelAtPeriodEnd}`);
       
       const [subscription] = await db.select().from(subscriptions).where(eq(subscriptions.id, id));
       if (!subscription) {
-        console.error(`Abbonamento ID ${id} non trovato per l'annullamento`);
+        console.error(`Subscription ID ${id} not found for cancellation`);
         return undefined;
       }
       
-      // Se cancelAtPeriodEnd è true, impostiamo solo il flag e l'abbonamento terminerà alla fine del periodo
-      // Altrimenti, impostiamo lo stato come 'cancelled' immediatamente
+      // If cancelAtPeriodEnd is true, we only set the flag and the subscription will end at the end of the period
+      // otherwise, impostiamo the status come 'cancelled' immediatamente
       const updateData: Record<string, any> = {
         cancelAtPeriodEnd,
         updatedAt: new Date()
@@ -3854,22 +3854,22 @@ export class DatabaseStorage implements IStorage {
         .where(eq(subscriptions.id, id))
         .returning();
       
-      console.log(`Abbonamento aggiornato dopo annullamento:`, updated);
+      console.log(`Subscription updated after cancellation:`, updated);
       return updated;
     } catch (error) {
-      console.error(`Errore durante l'annullamento dell'abbonamento ID ${id}:`, error);
+      console.error(`Error cancelling subscription ID ${id}:`, error);
       return undefined;
     }
   }
   
   /**
-   * Crea una nuova transazione di pagamento
-   * @param transaction Dati della transazione da creare
-   * @returns Transazione creata
+   * Create a new payment transaction
+   * @param transaction Transaction data to create
+   * @returns Created transaction
    */
   async createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction> {
     try {
-      console.log(`Creazione nuova transazione di pagamento:`, transaction);
+      console.log(`Creating new payment transaction:`, transaction);
       const [newTransaction] = await db.insert(paymentTransactions)
         .values({
           ...transaction,
@@ -3877,59 +3877,59 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      console.log(`Transazione di pagamento creata:`, newTransaction);
+      console.log(`Payment transaction created:`, newTransaction);
       return newTransaction;
     } catch (error) {
-      console.error(`Errore durante la creazione della transazione di pagamento:`, error);
+      console.error(`Error creating payment transaction:`, error);
       throw error;
     }
   }
   
   /**
-   * Ottiene tutte le licenze presenti nel sistema
+   * Get all licenses present in the system
    */
   async getLicenses(): Promise<License[]> {
     try {
-      console.log('Recupero tutte le licenze dal database');
+      console.log('Retrieving all licenses from database');
       const result = await db
         .select()
         .from(licenses)
         .orderBy(desc(licenses.createdAt));
       
-      console.log(`Trovate ${result.length} licenze totali`);
+      console.log(`Found ${result.length} total licenses`);
       return result;
     } catch (error) {
-      console.error('Errore nel recupero delle licenze:', error);
+      console.error('Error retrieving licenses:', error);
       return [];
     }
   }
   
   /**
-   * Ottiene tutte le licenze di uno specifico utente
+   * Get all licenses for a specific user
    */
   async getLicensesByUserId(userId: number): Promise<License[]> {
     try {
-      console.log(`Recupero licenze per l'utente ID ${userId}`);
+      console.log(`Retrieving licenses for user ID ${userId}`);
       const result = await db
         .select()
         .from(licenses)
         .where(eq(licenses.userId, userId))
         .orderBy(desc(licenses.createdAt));
       
-      console.log(`Trovate ${result.length} licenze per l'utente ${userId}`);
+      console.log(`Found ${result.length} licenses for user ${userId}`);
       return result;
     } catch (error) {
-      console.error(`Errore nel recupero delle licenze per l'utente ${userId}:`, error);
+      console.error(`Error retrieving licenses for user ${userId}:`, error);
       return [];
     }
   }
   
   /**
-   * Ottiene una licenza specifica tramite ID
+   * Get a specific license by ID
    */
   async getLicense(id: number): Promise<License | undefined> {
     try {
-      console.log(`Recupero licenza con ID ${id}`);
+      console.log(`Retrieving license with ID ${id}`);
       const [result] = await db
         .select()
         .from(licenses)
@@ -3938,53 +3938,53 @@ export class DatabaseStorage implements IStorage {
       
       return result;
     } catch (error) {
-      console.error(`Errore nel recupero della licenza ${id}:`, error);
+      console.error(`Error retrieving license ${id}:`, error);
       return undefined;
     }
   }
   
   /**
-   * Crea una nuova licenza
+   * Create a new license
    */
   async createLicense(licenseData: InsertLicense): Promise<License> {
     try {
-      console.log(`Creazione nuova licenza di tipo: ${licenseData.type}`);
+      console.log(`Creating new license of type: ${licenseData.type}`);
       const [license] = await db
         .insert(licenses)
         .values(licenseData)
         .returning();
       
-      console.log(`Licenza creata con ID: ${license.id}`);
+      console.log(`License created with ID: ${license.id}`);
       return license;
     } catch (error) {
-      console.error('Errore nella creazione della licenza:', error);
+      console.error('Error creating license:', error);
       throw error;
     }
   }
   
   /**
-   * Aggiorna i dati di una licenza esistente
+   * Update an existing license's date
    */
   async updateLicense(id: number, licenseData: Partial<InsertLicense>): Promise<License | undefined> {
     try {
-      console.log(`Aggiornamento licenza con ID ${id}`);
+      console.log(`Updating license with ID ${id}`);
       const [license] = await db
         .update(licenses)
         .set(licenseData)
         .where(eq(licenses.id, id))
         .returning();
       
-      console.log(`Licenza ${id} aggiornata`);
+      console.log(`License ${id} updated`);
       return license;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento della licenza ${id}:`, error);
+      console.error(`Error updating license ${id}:`, error);
       return undefined;
     }
   }
   
   async getSubscriptions(): Promise<SubscriptionWithDetails[]> {
     try {
-      // Recupera tutte le sottoscrizioni con i dettagli dei piani
+      // Retrieve all subscriptions with plan details
       const result = await db
         .select({
           subscriptions: subscriptions,
@@ -3994,7 +3994,7 @@ export class DatabaseStorage implements IStorage {
         .leftJoin(subscriptionPlans, eq(subscriptions.planId, subscriptionPlans.id))
         .orderBy(desc(subscriptions.createdAt));
       
-      // Trasforma i risultati nel formato richiesto
+      // Transform the results into the required format
       const subscriptionsWithDetails = result.map((row) => ({
           ...row.subscriptions,
           plan: row.plans,
@@ -4004,7 +4004,7 @@ export class DatabaseStorage implements IStorage {
         
       return subscriptionsWithDetails;
     } catch (error) {
-      console.error('Errore nel recupero di tutte le sottoscrizioni:', error);
+      console.error('Error retrieving all subscriptions:', error);
       return [];
     }
   }
@@ -4030,7 +4030,7 @@ export class DatabaseStorage implements IStorage {
         
       return subscriptionsWithDetails;
     } catch (error) {
-      console.error('Errore nel recupero delle sottoscrizioni attive:', error);
+      console.error('Error retrieving active subscriptions:', error);
       return [];
     }
   }
@@ -4043,13 +4043,13 @@ export class DatabaseStorage implements IStorage {
         .where(eq(subscriptionPlans.isActive, true))
         .orderBy(asc(subscriptionPlans.sortOrder));
     } catch (error) {
-      console.error('Errore nel recupero dei piani di abbonamento attivi:', error);
+      console.error('Error retrieving active subscription plans:', error);
       return [];
     }
   }
   
   /**
-   * Recupera un piano di abbonamento specifico per ID
+   * Retrieve a specific subscription plan by ID
    */
   async getSubscriptionPlan(id: number): Promise<SubscriptionPlan | undefined> {
     try {
@@ -4060,13 +4060,13 @@ export class DatabaseStorage implements IStorage {
       
       return plan;
     } catch (error) {
-      console.error(`Errore nel recupero del piano di abbonamento con ID ${id}:`, error);
+      console.error(`Error retrieving subscription plan with ID ${id}:`, error);
       return undefined;
     }
   }
   
   /**
-   * Recupera tutti i piani di abbonamento
+   * Retrieve all subscription plans
    */
   async getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
     try {
@@ -4075,13 +4075,13 @@ export class DatabaseStorage implements IStorage {
         .from(subscriptionPlans)
         .orderBy(asc(subscriptionPlans.sortOrder));
     } catch (error) {
-      console.error('Errore nel recupero dei piani di abbonamento:', error);
+      console.error('Error retrieving subscription plans:', error);
       return [];
     }
   }
   
   /**
-   * Crea un nuovo piano di abbonamento
+   * Create a new subscription plan
    */
   async createSubscriptionPlan(plan: InsertSubscriptionPlan): Promise<SubscriptionPlan> {
     try {
@@ -4092,13 +4092,13 @@ export class DatabaseStorage implements IStorage {
       
       return newPlan;
     } catch (error) {
-      console.error('Errore nella creazione del piano di abbonamento:', error);
+      console.error('Error creating subscription plan:', error);
       throw error;
     }
   }
   
   /**
-   * Aggiorna un piano di abbonamento esistente
+   * Update an existing subscription plan
    */
   async updateSubscriptionPlan(id: number, plan: Partial<InsertSubscriptionPlan>): Promise<SubscriptionPlan | undefined> {
     try {
@@ -4110,13 +4110,13 @@ export class DatabaseStorage implements IStorage {
       
       return updatedPlan;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento del piano di abbonamento con ID ${id}:`, error);
+      console.error(`Error updating subscription plan with ID ${id}:`, error);
       return undefined;
     }
   }
   
   /**
-   * Elimina un piano di abbonamento
+   * Delete a subscription plan
    */
   async deleteSubscriptionPlan(id: number): Promise<boolean> {
     try {
@@ -4126,27 +4126,27 @@ export class DatabaseStorage implements IStorage {
       
       return true;
     } catch (error) {
-      console.error(`Errore nell'eliminazione del piano di abbonamento con ID ${id}:`, error);
+      console.error(`Error deleting subscription plan with ID ${id}:`, error);
       return false;
     }
   }
   
   /**
-   * Recupera tutti i metodi di pagamento configurati dal DATABASE (PostgreSQL)
+   * Retrieve all payment methods configured from DATABASE (PostgreSQL)
    */
   async getPaymentMethods(): Promise<any[]> {
     try {
-      console.log('📊 Recupero metodi di pagamento da PostgreSQL');
+      console.log('📊 Retrieving payment methods from PostgreSQL');
       
-      // Leggi da database PostgreSQL
+      // Read da database PostgreSQL
       const methods = await db.select().from(paymentMethodsConfig);
       
       if (!methods || methods.length === 0) {
-        console.log('❌ Nessun metodo di pagamento trovato nel database, restituisco array vuoto');
+        console.log('❌ No payment method found in database, returning empty array');
         return [];
       }
       
-      // Trasforma i dati dal database nel formato attendeso
+      // Transform date from the database into the expected format
       const formattedMethods = methods.map(method => ({
         id: method.methodId,
         name: method.name,
@@ -4154,23 +4154,23 @@ export class DatabaseStorage implements IStorage {
         config: method.config
       }));
       
-      logger.debug(`✅ Recuperati ${formattedMethods.length} metodi di pagamento da PostgreSQL`);
+      logger.debug(`✅ Retrieved ${formattedMethods.length} payment methods from PostgreSQL`);
       return formattedMethods;
     } catch (error) {
-      console.error('❌ Errore nel recupero dei metodi di pagamento dal database:', error);
+      console.error('❌ Error retrieving payment methods from database:', error);
       return [];
     }
   }
   
   /**
-   * Salva la configurazione dei metodi di pagamento nel DATABASE (PostgreSQL)
+   * Save payment method configuration in DATABASE (PostgreSQL)
    */
   async savePaymentMethods(methods: any[]): Promise<boolean> {
     try {
-      logger.debug(`💾 Salvataggio di ${methods.length} metodi di pagamento su PostgreSQL`);
+      logger.debug(`💾 Saving ${methods.length} payment methods to PostgreSQL`);
       
       for (const method of methods) {
-        // Aggiorna se esiste, altrimenti inserisce
+        // Update if exists, otherwise insert
         const existing = await db
           .select()
           .from(paymentMethodsConfig)
@@ -4178,7 +4178,7 @@ export class DatabaseStorage implements IStorage {
           .limit(1);
         
         if (existing.length > 0) {
-          // Aggiorna record esistente
+          // Update existing record
           await db
             .update(paymentMethodsConfig)
             .set({
@@ -4188,23 +4188,23 @@ export class DatabaseStorage implements IStorage {
               updatedAt: new Date()
             })
             .where(eq(paymentMethodsConfig.methodId, method.id));
-          console.log(`✏️ Metodo "${method.name}" aggiornato`);
+          console.log(`✏️ Method "${method.name}" updated`);
         } else {
-          // Inserisce nuovo record
+          // Insert new record
           await db.insert(paymentMethodsConfig).values({
             methodId: method.id,
             name: method.name,
             enabled: method.enabled,
             config: method.config
           });
-          console.log(`➕ Metodo "${method.name}" creato`);
+          console.log(`➕ Method "${method.name}" created`);
         }
       }
       
-      console.log('✅ Metodi di pagamento salvati con successo su PostgreSQL');
+      console.log('✅ Payment methods saved successfully to PostgreSQL');
       return true;
     } catch (error) {
-      console.error('❌ Errore nel salvataggio dei metodi di pagamento:', error);
+      console.error('❌ Error saving payment methods:', error);
       return false;
     }
   }
@@ -4226,19 +4226,19 @@ export class DatabaseStorage implements IStorage {
         transactions: [] as PaymentTransaction[]
       };
     } catch (error) {
-      console.error(`Errore nel recupero della sottoscrizione ${id}:`, error);
+      console.error(`Error retrieving subscription ${id}:`, error);
       return undefined;
     }
   }
 
   /**
-   * Recupera la sottoscrizione di un utente con i dettagli del piano e le transazioni
+   * Retrieve a user's subscription with plan details and transactions
    */
   async getSubscriptionByUserId(userId: number): Promise<SubscriptionWithDetails | undefined> {
     try {
-      console.log(`Recupero sottoscrizione per l'utente con ID ${userId}`);
+      console.log(`Retrieving subscription for user con ID ${userId}`);
       
-      // Prima recuperiamo la sottoscrizione base
+      // First retrieve the base subscription
       const [subscription] = await db
         .select()
         .from(subscriptions)
@@ -4247,28 +4247,28 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (!subscription) {
-        console.log(`Nessuna sottoscrizione trovata per l'utente ${userId}`);
+        console.log(`No subscription found for user ${userId}`);
         return undefined;
       }
       
-      // Recuperiamo il piano associato
+      // Retrieve the associated plan
       const plan = await this.getSubscriptionPlan(subscription.planId);
       if (!plan) {
-        console.error(`Piano di abbonamento ${subscription.planId} non trovato per la sottoscrizione ${subscription.id}`);
+        console.error(`Subscription plan ${subscription.planId} not found for subscription ${subscription.id}`);
         return undefined;
       }
       
-      // Per le operazioni di aggiornamento PayPal, non abbiamo bisogno che l'utente esista
-      // È sufficiente avere l'abbonamento e il piano associato
+      // For PayPal update operations, we do not need the user to exist
+      // It is sufficient to have the subscription and the associated plan
       let user: User | null = null;
       try {
         const foundUser = await this.getUser(userId);
         user = foundUser || null;
         if (!user) {
-          console.warn(`Utente ${userId} non trovato per la sottoscrizione ${subscription.id}, ma continuo comunque`);
+          console.warn(`User ${userId} not found for subscription ${subscription.id}, continuing anyway`);
         }
       } catch (error) {
-        console.warn(`Errore nel recupero dell'utente ${userId}, ma continuo comunque:`, error);
+        console.warn(`Error retrieving user ${userId}, continuing anyway:`, error);
       }
       
       const transactions = await db
@@ -4284,17 +4284,17 @@ export class DatabaseStorage implements IStorage {
         transactions
       };
     } catch (error) {
-      console.error(`Errore nel recupero della sottoscrizione per l'utente ${userId}:`, error);
+      console.error(`Error retrieving subscription for user ${userId}:`, error);
       return undefined;
     }
   }
 
   /**
-   * Recupera la sottoscrizione tramite PayPal Order ID (usato per endpoint pubblico)
+   * Retrieve the subscription via PayPal Order ID (used for public endpoint)
    */
   async getSubscriptionByPayPalOrderId(orderId: string): Promise<SubscriptionWithDetails | undefined> {
     try {
-      console.log(`Recupero sottoscrizione per PayPal Order ID: ${orderId}`);
+      console.log(`Retrieving subscription per PayPal Order ID: ${orderId}`);
       
       const [subscription] = await db
         .select()
@@ -4303,15 +4303,15 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (!subscription) {
-        console.log(`Nessuna sottoscrizione trovata per PayPal Order ID: ${orderId}`);
+        console.log(`No subscription found for PayPal Order ID: ${orderId}`);
         return undefined;
       }
       
-      console.log(`Sottoscrizione trovata: ID ${subscription.id}, User ${subscription.userId}`);
+      console.log(`Sottoscrizione found: ID ${subscription.id}, User ${subscription.userId}`);
       
       const plan = await this.getSubscriptionPlan(subscription.planId);
       if (!plan) {
-        console.error(`Piano ${subscription.planId} non trovato`);
+        console.error(`Plan ${subscription.planId} not found`);
         return undefined;
       }
       
@@ -4336,27 +4336,27 @@ export class DatabaseStorage implements IStorage {
         transactions
       };
     } catch (error) {
-      console.error(`Errore nel recupero della sottoscrizione per PayPal Order ID ${orderId}:`, error);
+      console.error(`Error retrieving subscription for PayPal Order ID ${orderId}:`, error);
       return undefined;
     }
   }
 
   /**
-   * Crea una nuova sottoscrizione nel database
+   * Create a new subscription in the database
    */
   async createSubscription(subscriptionData: InsertSubscription): Promise<Subscription> {
     try {
-      console.log('Creazione nuova sottoscrizione:', subscriptionData);
+      console.log('Creating new subscription:', subscriptionData);
       
       const [subscription] = await db
         .insert(subscriptions)
         .values(subscriptionData)
         .returning();
       
-      console.log('Sottoscrizione creata con successo:', subscription);
+      console.log('Subscription created successfully:', subscription);
       return subscription;
     } catch (error) {
-      console.error('Errore nella creazione della sottoscrizione:', error);
+      console.error('Error creating subscription:', error);
       throw error;
     }
   }
@@ -4364,17 +4364,17 @@ export class DatabaseStorage implements IStorage {
   // Banking Settings operations - Migrato a PostgreSQL
   async getBankingSettings(): Promise<any> {
     try {
-      // Cerca impostazioni bancarie globali (salvate sotto userId 1 - primo admin)
+      // Find global banking settings (saved under userId 1 - first admin)
       const settings = await this.getUserSettings(1);
       
       const prefs = settings?.preferences as Record<string, any> | undefined;
       if (prefs?.bankingSettings) {
-        console.log('💳 Impostazioni bancarie caricate da PostgreSQL');
+        console.log('💳 Banking settings loaded from PostgreSQL');
         return prefs.bankingSettings;
       }
       
-      // Se non trovate, ritorna default
-      console.log('💳 Nessuna impostazione bancaria trovata, ritorno default');
+      // If found, return default
+      console.log('💳 No banking settings found, returning default');
       return {
         bankName: '',
         accountHolder: '',
@@ -4384,11 +4384,11 @@ export class DatabaseStorage implements IStorage {
         autoPayEnabled: false,
         paymentDelay: 30,
         minimumAmount: 1.0,
-        description: 'Commissione referral sistema gestione appuntamenti',
+        description: 'Referral commission appointment management system',
         isConfigured: false,
       };
     } catch (error) {
-      console.error('Errore nel recupero delle impostazioni bancarie:', error);
+      console.error('Error retrieving banking settings:', error);
       return {
         bankName: '',
         accountHolder: '',
@@ -4398,7 +4398,7 @@ export class DatabaseStorage implements IStorage {
         autoPayEnabled: false,
         paymentDelay: 30,
         minimumAmount: 1.0,
-        description: 'Commissione referral sistema gestione appuntamenti',
+        description: 'Referral commission appointment management system',
         isConfigured: false,
       };
     }
@@ -4406,11 +4406,11 @@ export class DatabaseStorage implements IStorage {
 
   async saveBankingSettings(settings: any): Promise<void> {
     try {
-      // Salva impostazioni bancarie globali sotto userId 1 (primo admin)
+      // Save global banking settings under userId 1 (first admin)
       const existingSettings = await this.getUserSettings(1);
       
       if (existingSettings) {
-        // Aggiorna preferences esistenti
+        // Update existing preferences
         const existingPrefs = (existingSettings.preferences || {}) as Record<string, any>;
         await this.updateUserSettings(1, {
           preferences: {
@@ -4419,7 +4419,7 @@ export class DatabaseStorage implements IStorage {
           }
         });
       } else {
-        // Crea nuove impostazioni
+        // Create new settings
         await this.createUserSettings({
           userId: 1,
           preferences: {
@@ -4428,65 +4428,65 @@ export class DatabaseStorage implements IStorage {
         });
       }
       
-      console.log('💳 Impostazioni bancarie salvate in PostgreSQL');
+      console.log('💳 Banking settings saved in PostgreSQL');
     } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni bancarie:', error);
+      console.error('Error saving banking settings:', error);
       throw error;
     }
   }
 
-  // User Settings operations - Architettura completamente separata per utente
+  // User Settings operations - completely separate architecture per user
   async getUserSettings(userId: number): Promise<UserSettings | undefined> {
     try {
-      console.log(`Recupero impostazioni per utente ${userId}`);
+      console.log(`Retrieving settings for user ${userId}`);
       const [settings] = await db
         .select()
         .from(userSettings)
         .where(eq(userSettings.userId, userId))
         .limit(1);
       
-      console.log(`Impostazioni trovate per utente ${userId}:`, settings ? 'SI' : 'NO');
+      console.log(`Settings found for user ${userId}:`, settings ? 'YES' : 'NO');
       return settings;
     } catch (error) {
-      console.error(`Errore nel recupero delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error retrieving settings for user ${userId}:`, error);
       return undefined;
     }
   }
 
   async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
     try {
-      console.log(`Creazione impostazioni per utente ${settings.userId}`);
+      console.log(`Creating settings for user ${settings.userId}`);
       const insertData: Record<string, any> = { ...settings, createdAt: new Date(), updatedAt: new Date() };
       const [createdSettings] = await db
         .insert(userSettings)
         .values(insertData)
         .returning();
       
-      console.log(`Impostazioni create per utente ${settings.userId} con ID ${createdSettings.id}`);
+      console.log(`Settings created for user ${settings.userId} with ID ${createdSettings.id}`);
       return createdSettings;
     } catch (error) {
-      console.error(`Errore nella creazione delle impostazioni per utente ${settings.userId}:`, error);
+      console.error(`Error creating settings for user ${settings.userId}:`, error);
       throw error;
     }
   }
 
   async updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
     try {
-      console.log(`Aggiornamento impostazioni per utente ${userId}`);
+      console.log(`Updating settings for user ${userId}`);
       
-      // Prima verifica se esistono impostazioni per questo utente
+      // First check if settings exist for this user
       const existing = await this.getUserSettings(userId);
       
       if (!existing) {
-        // Se non esistono, crea nuove impostazioni
-        console.log(`Nessuna impostazione esistente per utente ${userId}, creazione automatica`);
+        // If they don't exist, create new settings
+        console.log(`No existing settings for user ${userId}, creating automatically`);
         return this.createUserSettings({
           userId,
           ...settings
         });
       }
       
-      // Aggiorna le impostazioni esistenti
+      // Update existing settings
       const updateData: Record<string, any> = { ...settings, updatedAt: new Date() };
       const [updatedSettings] = await db
         .update(userSettings)
@@ -4494,65 +4494,65 @@ export class DatabaseStorage implements IStorage {
         .where(eq(userSettings.userId, userId))
         .returning();
       
-      console.log(`Impostazioni aggiornate per utente ${userId}`);
+      console.log(`Settings updated for user ${userId}`);
       return updatedSettings;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error updating settings for user ${userId}:`, error);
       return undefined;
     }
   }
 
   async deleteUserSettings(userId: number): Promise<boolean> {
     try {
-      console.log(`Eliminazione impostazioni per utente ${userId}`);
+      console.log(`Deleting settings for user ${userId}`);
       const result = await db
         .delete(userSettings)
         .where(eq(userSettings.userId, userId));
       
       const deleted = result.count > 0;
-      console.log(`Impostazioni eliminate per utente ${userId}:`, deleted ? 'SI' : 'NO');
+      console.log(`Settings deleted for user ${userId}:`, deleted ? 'YES' : 'NO');
       return deleted;
     } catch (error) {
-      console.error(`Errore nell'eliminazione delle impostazioni per utente ${userId}:`, error);
+      console.error(`Error deleting settings for user ${userId}:`, error);
       return false;
     }
   }
 
   async getUserIconPath(userId: number): Promise<string | undefined> {
     try {
-      console.log(`Recupero percorso icona per utente ${userId}`);
+      console.log(`Retrieving icon path for user ${userId}`);
       const settings = await this.getUserSettings(userId);
       
       if (settings?.appIconPath) {
-        console.log(`Percorso icona trovato per utente ${userId}: ${settings.appIconPath}`);
+        console.log(`Icon path found for user ${userId}: ${settings.appIconPath}`);
         return settings.appIconPath;
       }
       
-      console.log(`Nessun percorso icona personalizzato per utente ${userId}`);
+      console.log(`No custom icon path for user ${userId}`);
       return undefined;
     } catch (error) {
-      console.error(`Errore nel recupero del percorso icona per utente ${userId}:`, error);
+      console.error(`Error retrieving icon path for user ${userId}:`, error);
       return undefined;
     }
   }
 
   async updateUserIconPath(userId: number, iconPath: string): Promise<UserSettings | undefined> {
     try {
-      console.log(`Aggiornamento percorso icona per utente ${userId}: ${iconPath}`);
+      console.log(`Updating icon path for user ${userId}: ${iconPath}`);
       
       return this.updateUserSettings(userId, {
         appIconPath: iconPath
       });
     } catch (error) {
-      console.error(`Errore nell'aggiornamento del percorso icona per utente ${userId}:`, error);
+      console.error(`Error updating icon path for user ${userId}:`, error);
       return undefined;
     }
   }
 
-  // Contact Settings operations - Configurazione semplice telefono/email (sostituisce verifica SMS)
+  // Contact Settings operations - Simple phone/email configuration (replaces SMS verification)
   async getContactSettings(tenantId: number): Promise<ContactSettings | undefined> {
     try {
-      console.log(`📞 Recupero impostazioni contatto per tenant ${tenantId}`);
+      console.log(`📞 Retrieving contact settings for tenant ${tenantId}`);
       
       const [settings] = await db
         .select()
@@ -4561,18 +4561,18 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (settings) {
-        logger.debug(`✅ Impostazioni contatto trovate per tenant ${tenantId}:`, {
+        logger.debug(`✅ Contact settings found for tenant ${tenantId}:`, {
           phone: settings.phone,
           email: settings.email,
           whatsappOptIn: settings.whatsappOptIn
         });
       } else {
-        logger.debug(`ℹ️ Nessuna impostazione contatto per tenant ${tenantId}`);
+        logger.debug(`ℹ️ No contact settings for tenant ${tenantId}`);
       }
       
       return settings;
     } catch (error) {
-      console.error(`Errore nel recupero impostazioni contatto per tenant ${tenantId}:`, error);
+      console.error(`Error retrieving contact settings for tenant ${tenantId}:`, error);
       
       // Fallback to JSON storage
       try {
@@ -4602,7 +4602,7 @@ export class DatabaseStorage implements IStorage {
 
   async createContactSettings(settings: InsertContactSettings): Promise<ContactSettings> {
     try {
-      console.log(`📞 Creazione impostazioni contatto per tenant ${settings.tenantId}:`, {
+      console.log(`📞 Creating contact settings for tenant ${settings.tenantId}:`, {
         phone: settings.phone,
         email: settings.email,
         whatsappOptIn: settings.whatsappOptIn
@@ -4616,10 +4616,10 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      logger.debug(`✅ Impostazioni contatto create per tenant ${settings.tenantId}`);
+      logger.debug(`✅ settings contact create for tenant ${settings.tenantId}`);
       return created;
     } catch (error) {
-      console.error(`Errore nella creazione impostazioni contatto per tenant ${settings.tenantId}:`, error);
+      console.error(`Error creating contact settings for tenant ${settings.tenantId}:`, error);
       
       // Fallback to JSON storage
       try {
@@ -4659,7 +4659,7 @@ export class DatabaseStorage implements IStorage {
 
   async updateContactSettings(tenantId: number, settings: Partial<InsertContactSettings>): Promise<ContactSettings | undefined> {
     try {
-      console.log(`📞 Aggiornamento impostazioni contatto per tenant ${tenantId}:`, {
+      console.log(`📞 Updating contact settings for tenant ${tenantId}:`, {
         phone: settings.phone,
         email: settings.email,
         whatsappOptIn: settings.whatsappOptIn
@@ -4675,14 +4675,14 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        logger.debug(`✅ Impostazioni contatto aggiornate per tenant ${tenantId}`);
+        logger.debug(`✅ settings contact aggiornate for tenant ${tenantId}`);
       } else {
-        logger.debug(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
+        logger.debug(`⚠️ No contact settings found for tenant ${tenantId}`);
       }
       
       return updated;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento impostazioni contatto per tenant ${tenantId}:`, error);
+      console.error(`Error updating contact settings for tenant ${tenantId}:`, error);
       
       // Fallback to JSON storage
       try {
@@ -4724,27 +4724,27 @@ export class DatabaseStorage implements IStorage {
 
   async deleteContactSettings(tenantId: number): Promise<boolean> {
     try {
-      console.log(`📞 Eliminazione impostazioni contatto per tenant ${tenantId}`);
+      console.log(`📞 Deleting contact settings for tenant ${tenantId}`);
       
       const result = await db
         .delete(contactSettings)
         .where(eq(contactSettings.tenantId, tenantId));
       
       await result;
-      logger.debug(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
+      logger.debug(`✅ settings contact eliminate for tenant ${tenantId}`);
       const success = true;
       
       return success;
     } catch (error) {
-      console.error(`Errore nell'eliminazione impostazioni contatto per tenant ${tenantId}:`, error);
+      console.error(`Error deleting contact settings for tenant ${tenantId}:`, error);
       return false;
     }
   }
 
-  // Currency Settings operations - Gestione valuta per utente
+  // Currency Settings operations - currency management per user
   async getCurrencySettings(userId: number): Promise<CurrencySettings | undefined> {
     try {
-      console.log(`💰 Recupero impostazioni valuta per utente ${userId}`);
+      console.log(`💰 Retrieving currency settings for user ${userId}`);
       
       const [settings] = await db
         .select()
@@ -4753,26 +4753,26 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (settings) {
-        logger.debug(`✅ Impostazioni valuta trovate per utente ${userId}:`, {
+        logger.debug(`✅ Currency settings found for user ${userId}:`, {
           currency: settings.currency,
           symbol: settings.symbol
         });
         return settings;
       }
       
-      logger.debug(`ℹ️ Nessuna impostazione valuta per utente ${userId}, uso default EUR €`);
+      logger.debug(`ℹ️ No currency settings for user ${userId}, using default EUR €`);
       return undefined;
     } catch (error) {
-      console.error(`Errore nel recupero impostazioni valuta per utente ${userId}:`, error);
+      console.error(`Error retrieving currency settings for user ${userId}:`, error);
       return undefined;
     }
   }
 
   async saveCurrencySettings(userId: number, currency: string, symbol: string): Promise<CurrencySettings> {
     try {
-      console.log(`💰 Salvataggio impostazioni valuta per utente ${userId}:`, { currency, symbol });
+      console.log(`💰 Saving currency settings for user ${userId}:`, { currency, symbol });
       
-      // Prova prima ad aggiornare se già esiste
+      // First try to update if it already exists
       const [updated] = await db
         .update(currencySettings)
         .set({
@@ -4784,11 +4784,11 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        logger.debug(`✅ Impostazioni valuta aggiornate per utente ${userId}`);
+        logger.debug(`✅ Currency settings updated for user ${userId}`);
         return updated;
       }
       
-      // Se non esiste, crea nuove impostazioni
+      // If it doesn't exist, create new settings
       const [created] = await db
         .insert(currencySettings)
         .values({
@@ -4799,18 +4799,18 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      logger.debug(`✅ Impostazioni valuta create per utente ${userId}`);
+      logger.debug(`✅ Currency settings created for user ${userId}`);
       return created;
     } catch (error) {
-      console.error(`Errore nel salvataggio impostazioni valuta per utente ${userId}:`, error);
+      console.error(`Error saving currency settings for user ${userId}:`, error);
       throw error;
     }
   }
 
-  // Manual Content operations - Sistema gestione manuale interattivo
+  // Manual Content operations - Interactive manual management system
   async getManualContent(userId: number, section: string, locale: string): Promise<ManualContent | undefined> {
     try {
-      console.log(`📖 Recupero contenuto manuale per utente ${userId}, sezione: ${section}, locale: ${locale}`);
+      console.log(`📖 Retrieving manual content for user ${userId}, section: ${section}, locale: ${locale}`);
       
       const [content] = await db
         .select()
@@ -4825,21 +4825,21 @@ export class DatabaseStorage implements IStorage {
         .limit(1);
       
       if (content) {
-        logger.debug(`✅ Contenuto manuale trovato per sezione ${section}`);
+        logger.debug(`✅ Contenuto manual found per section ${section}`);
         return content;
       }
       
-      logger.debug(`ℹ️ Nessun contenuto manuale per sezione ${section}, locale ${locale}`);
+      logger.debug(`ℹ️ No manual content for section ${section}, locale ${locale}`);
       return undefined;
     } catch (error) {
-      console.error(`Errore nel recupero contenuto manuale:`, error);
+      console.error(`Error retrieving manual content:`, error);
       return undefined;
     }
   }
 
   async getAllManualSections(userId: number, locale: string): Promise<ManualContent[]> {
     try {
-      console.log(`📖 Recupero tutte le sezioni manuale per utente ${userId}, locale: ${locale}`);
+      console.log(`📖 Retrieving all manual sections for user ${userId}, locale: ${locale}`);
       
       const sections = await db
         .select()
@@ -4852,17 +4852,17 @@ export class DatabaseStorage implements IStorage {
         )
         .orderBy(asc(manualContent.section));
       
-      logger.debug(`✅ Trovate ${sections.length} sezioni manuale`);
+      logger.debug(`✅ Found ${sections.length} manual sections`);
       return sections;
     } catch (error) {
-      console.error(`Errore nel recupero sezioni manuale:`, error);
+      console.error(`Error retrieving manual sections:`, error);
       return [];
     }
   }
 
   async saveManualContent(content: InsertManualContent): Promise<ManualContent> {
     try {
-      console.log(`📖 Salvataggio contenuto manuale:`, {
+      console.log(`📖 Saving manual content:`, {
         userId: content.userId,
         section: content.section,
         locale: content.locale,
@@ -4878,17 +4878,17 @@ export class DatabaseStorage implements IStorage {
         })
         .returning();
       
-      logger.debug(`✅ Contenuto manuale salvato con ID ${saved.id}`);
+      logger.debug(`✅ Contenuto manual saved con ID ${saved.id}`);
       return saved;
     } catch (error) {
-      console.error(`Errore nel salvataggio contenuto manuale:`, error);
+      console.error(`Error saving manual content:`, error);
       throw error;
     }
   }
 
   async updateManualContent(id: number, userId: number, content: Partial<InsertManualContent>): Promise<ManualContent | undefined> {
     try {
-      console.log(`📖 Aggiornamento contenuto manuale ID ${id} per utente ${userId}`);
+      console.log(`📖 Updating manual content ID ${id} for user ${userId}`);
       
       const [updated] = await db
         .update(manualContent)
@@ -4905,21 +4905,21 @@ export class DatabaseStorage implements IStorage {
         .returning();
       
       if (updated) {
-        logger.debug(`✅ Contenuto manuale aggiornato con successo`);
+        logger.debug(`✅ Contenuto manual updated successfully`);
         return updated;
       }
       
-      logger.debug(`⚠️ Contenuto manuale non trovato o permessi insufficienti`);
+      logger.debug(`⚠️ Contenuto manual not found o permessi insufficienti`);
       return undefined;
     } catch (error) {
-      console.error(`Errore nell'aggiornamento contenuto manuale:`, error);
+      console.error(`Error updating manual content:`, error);
       return undefined;
     }
   }
 
   async deleteManualContent(id: number, userId: number): Promise<boolean> {
     try {
-      console.log(`📖 Eliminazione contenuto manuale ID ${id} per utente ${userId}`);
+      console.log(`📖 Deleting manual content ID ${id} for user ${userId}`);
       
       const result = await db
         .delete(manualContent)
@@ -4932,14 +4932,14 @@ export class DatabaseStorage implements IStorage {
       
       const deleted = result.count > 0;
       if (deleted) {
-        logger.debug(`✅ Contenuto manuale eliminato con successo`);
+        logger.debug(`✅ Contenuto manual deleted successfully`);
       } else {
-        logger.debug(`⚠️ Contenuto manuale non trovato`);
+        logger.debug(`⚠️ Contenuto manual not found`);
       }
       
       return deleted;
     } catch (error) {
-      console.error(`Errore nell'eliminazione contenuto manuale:`, error);
+      console.error(`Error deleting manual content:`, error);
       return false;
     }
   }
@@ -5033,11 +5033,11 @@ export class DatabaseStorage implements IStorage {
 
   async saveUserIcon(userId: number, iconBase64: string): Promise<void> {
     try {
-      // Verifica se esiste già un'icona per questo utente
+      // Check if an icon already exists for this user
       const existing = await this.getUserIcon(userId);
       
       if (existing) {
-        // Aggiorna icona esistente
+        // Update existing icon
         await db
           .update(userIcons)
           .set({ 
@@ -5046,9 +5046,9 @@ export class DatabaseStorage implements IStorage {
           })
           .where(eq(userIcons.userId, userId));
         
-        logger.debug(`✅ Icona aggiornata per user ${userId}`);
+        logger.debug(`✅ Icon updated for user ${userId}`);
       } else {
-        // Inserisci nuova icona
+        // Inserisci nuova icon
         await db
           .insert(userIcons)
           .values({ 
@@ -5056,7 +5056,7 @@ export class DatabaseStorage implements IStorage {
             iconBase64 
           });
         
-        logger.debug(`✅ Icona creata per user ${userId}`);
+        logger.debug(`✅ Icon created for user ${userId}`);
       }
     } catch (error) {
       console.error(`Error saving icon for user ${userId}:`, error);
@@ -5070,7 +5070,7 @@ export class DatabaseStorage implements IStorage {
         .delete(userIcons)
         .where(eq(userIcons.userId, userId));
       
-      logger.debug(`✅ Icona eliminata per user ${userId}`);
+      logger.debug(`✅ Icon deleted for user ${userId}`);
       return true;
     } catch (error) {
       console.error(`Error deleting icon for user ${userId}:`, error);

@@ -2,55 +2,55 @@ import { notificationSettingsRepository } from '../db';
 import { NotificationSettings, InsertNotificationSettings } from '../../shared/schema';
 
 /**
- * Servizio per la gestione delle impostazioni di notifica
+ * Service for managing notification settings
  */
 export const notificationSettingsService = {
   /**
-   * Ottiene le impostazioni di notifica correnti
-   * @returns Le impostazioni di notifica o undefined se non esistono
+   * Get the notification settings correnti
+   * @returns Le settings di notifica o undefined If esistono
    */
   async getSettings(): Promise<NotificationSettings | undefined> {
     try {
       const settings = await notificationSettingsRepository.get();
       return settings || undefined;
     } catch (error) {
-      console.error('Errore nel recupero delle impostazioni di notifica:', error);
+      console.error('Error retrieving notification settings:', error);
       return undefined;
     }
   },
 
   /**
-   * Salva nuove impostazioni di notifica
-   * @param settings Impostazioni di notifica da salvare
-   * @returns Le impostazioni di notifica salvate
+   * Save nuove settings di notifica
+   * @param settings Notification settings to save
+   * @returns Le settings di notifica salvate
    */
   async saveSettings(settings: InsertNotificationSettings): Promise<NotificationSettings> {
     try {
       return await notificationSettingsRepository.save(settings);
     } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni di notifica:', error);
+      console.error('Error saving notification settings:', error);
       throw error;
     }
   },
 
   /**
-   * Aggiorna le impostazioni di notifica esistenti
-   * @param id ID delle impostazioni da aggiornare
-   * @param settings Impostazioni di notifica da aggiornare
-   * @returns Le impostazioni di notifica aggiornate o undefined se l'aggiornamento fallisce
+   * Update existing notification settings
+   * @param id ID of the settings to update
+   * @param settings Notification settings to update
+   * @returns The updated notification settings or undefined if the update fails
    */
   async updateSettings(id: number, settings: Partial<InsertNotificationSettings>): Promise<NotificationSettings | undefined> {
     try {
       return await notificationSettingsRepository.update(id, settings);
     } catch (error) {
-      console.error(`Errore nell'aggiornamento delle impostazioni di notifica ${id}:`, error);
+      console.error(`Error updating notification settings ${id}:`, error);
       return undefined;
     }
   },
 
   /**
-   * Crea impostazioni di notifica predefinite se non esistono
-   * @returns Le impostazioni di notifica create o esistenti
+   * Create default notification settings if they exist
+   * @returns Le settings di notifica create o esistenti
    */
   async ensureDefaultSettings(): Promise<NotificationSettings> {
     const existingSettings = await this.getSettings();
@@ -59,7 +59,7 @@ export const notificationSettingsService = {
       return existingSettings;
     }
     
-    // Crea impostazioni predefinite
+    // Create default settings
     const defaultSettings: InsertNotificationSettings = {
       emailEnabled: false,
       smtpServer: '',
@@ -69,7 +69,7 @@ export const notificationSettingsService = {
       senderEmail: '',
       emailSignature: 'Con i migliori saluti,',
       notificationCenterEnabled: true,
-      defaultReminderTime: 24, // 24 ore prima dell'appuntamento
+      defaultReminderTime: 24, // 24 hours before the appointment
       smsEnabled: false,
       smsGatewayMethod: 'direct',
       whatsappEnabled: false,
@@ -78,7 +78,7 @@ export const notificationSettingsService = {
       preferredContactPhone: 'primary',
       notificationPhone: '',
       twilioEnabled: false
-      // createdAt e updatedAt sono gestiti automaticamente
+      // createdAt and updatedAt are managed automatically
     };
     
     return await this.saveSettings(defaultSettings);

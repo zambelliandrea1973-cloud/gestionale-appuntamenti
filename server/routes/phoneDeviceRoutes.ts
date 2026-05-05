@@ -7,11 +7,11 @@ import { isAuthenticated, isStaff } from '../auth';
 const router = Router();
 
 /**
- * Inizializza il server Socket.IO per la comunicazione con il dispositivo
+ * Initialize the Socket.IO server for device communication
  * @param httpServer Server HTTP di base
  */
 export const initializePhoneDeviceSocket = (httpServer: HttpServer) => {
-  // Crea un server socket.io con path specifico per evitare conflitti
+  // Create a socket.io server with a specific path to avoid conflicts
   const io = new SocketIOServer(httpServer, {
     path: '/phone-device-socket',
     cors: {
@@ -20,7 +20,7 @@ export const initializePhoneDeviceSocket = (httpServer: HttpServer) => {
     }
   });
   
-  // Temporaneamente rimosso middleware di autenticazione per socket.io per test
+  // Temporarily removed authentication middleware for socket.io for testing
   // In produzione, ripristinare:
   /*
   io.use((socket, next) => {
@@ -28,32 +28,32 @@ export const initializePhoneDeviceSocket = (httpServer: HttpServer) => {
     if (session && session.passport && session.passport.user) {
       next();
     } else {
-      next(new Error('Non autorizzato'));
+      next(new Error('Unauthorized'));
     }
   });
   */
   
-  // Imposta il server socket nel servizio dispositivo
+  // Set the server socket in the device service
   phoneDeviceService.setSocketServer(io);
   
-  // Carica le impostazioni salvate e inizializza il client se disponibile
+  // Load saved settings and initialize the client if available
   phoneDeviceService.autoInitialize()
     .then((result) => {
-      console.log(`Inizializzazione automatica del dispositivo ${result ? 'riuscita' : 'fallita'}`);
+      console.log(`Automatic device initialization ${result ? 'succeeded' : 'failed'}`);
     })
     .catch((error) => {
-      console.error('Errore nell\'inizializzazione automatica del dispositivo:', error);
+      console.error('Error in automatic device initialization:', error);
     });
   
-  console.log('Server socket per dispositivo telefonico inizializzato');
+  console.log('Phone device socket server initialized');
 };
 
-// In ambiente di sviluppo, rimuoviamo temporaneamente le restrizioni per test
+// In development environment, we temporarily remove restrictions for testing
 // In produzione, ripristinare: router.use(isAuthenticated, isStaff);
 // router.use(isAuthenticated, isStaff);
 
 /**
- * Ottiene lo stato attuale del dispositivo
+ * Get the current status of the device
  */
 router.get('/status', (req, res) => {
   const status = phoneDeviceService.getStatus();
@@ -64,20 +64,20 @@ router.get('/status', (req, res) => {
 });
 
 /**
- * Inizia l'accoppiamento di un nuovo dispositivo
+ * Start pairing a new device
  */
 router.post('/start-pairing', async (req, res) => {
   try {
     const result = await phoneDeviceService.initializeClient();
     
-    // Se dopo un breve periodo non viene generato un codice QR,
-    // generiamo un QR di test per testare l'interfaccia
+    // If after a brief period a QR code is not generated,
+    // generate a test QR to test the interface
     if (result && !phoneDeviceService.getCurrentQR()) {
       setTimeout(() => {
         const status = phoneDeviceService.getStatus().status;
         if (!phoneDeviceService.getCurrentQR() && status === 'connecting') {
-          console.log('Generazione QR code di test dopo timeout');
-          // Generiamo un QR code che simula quello di WhatsApp
+          console.log('Generating test QR code after timeout');
+          // Generate a QR code that simulates WhatsApp
           const timestamp = Date.now(); 
           const randomStr = Math.random().toString(36).substring(2, 10);
           const testQR = `whatsapp:web:${timestamp}:${randomStr}:1,0,0,0,0,0,0,0`;
@@ -95,13 +95,13 @@ router.post('/start-pairing', async (req, res) => {
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore sconosciuto nell\'inizializzazione del dispositivo'
+      error: error.message || 'Unknown error nell\'inizializzazione del dispositivo'
     });
   }
 });
 
 /**
- * Disconnette il dispositivo attualmente accoppiato
+ * Disconnect the currently paired device
  */
 router.post('/disconnect', async (req, res) => {
   try {
@@ -109,19 +109,19 @@ router.post('/disconnect', async (req, res) => {
     res.json({
       success: result,
       message: result
-        ? 'Dispositivo disconnesso con successo.'
+        ? 'Dispositivo disconnesso successfully.'
         : 'Impossibile disconnettere il dispositivo. Controlla i log del server.'
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore sconosciuto nella disconnessione del dispositivo'
+      error: error.message || 'Unknown error nella disconnessione del dispositivo'
     });
   }
 });
 
 /**
- * Invia un messaggio di test usando il dispositivo accoppiato
+ * Send a test message using the paired device
  */
 router.post('/send-test', async (req, res) => {
   try {
@@ -130,7 +130,7 @@ router.post('/send-test', async (req, res) => {
     if (!phone || !message) {
       return res.status(400).json({
         success: false,
-        error: 'Numero di telefono e messaggio sono richiesti'
+        error: 'Phone number and message are required'
       });
     }
     
@@ -140,60 +140,60 @@ router.post('/send-test', async (req, res) => {
       res.json({
         success: true,
         messageId: result.messageId,
-        message: 'Messaggio inviato con successo'
+        message: 'Messaggio sent successfully'
       });
     } else {
       res.status(400).json({
         success: false,
-        error: result.error || 'Errore nell\'invio del messaggio'
+        error: result.error || 'Error sending message'
       });
     }
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore sconosciuto nell\'invio del messaggio'
+      error: error.message || 'Unknown error sending message'
     });
   }
 });
 
 /**
- * Simula la scansione del QR code da parte dell'utente
- * Questa è una rotta di test per simulare l'accoppiamento del dispositivo
+ * Simulates QR code scanning by the user
+ * This is a test route to simulate device pairing
  */
 router.post('/simulate-scan', async (req, res) => {
   try {
-    // Ottieni lo stato attuale
+    // Get the current status
     const status = phoneDeviceService.getStatus();
     
-    // Se siamo in modalità QR_READY, procediamo con la simulazione
+    // If we are in QR_READY mode, proceed with the simulation
     if (status.status === DeviceStatus.QR_READY) {
-      // Simula un telefono
+      // Simulate a phone
       phoneDeviceService.setPhoneNumber('+393471445767');
       phoneDeviceService.setDeviceStatus(DeviceStatus.AUTHENTICATED);
       
       // Breve attesa per simulare l'autenticazione
       setTimeout(() => {
-        // Imposta lo stato a connesso
+        // Set the status a connesso
         phoneDeviceService.setDeviceStatus(DeviceStatus.CONNECTED);
         
-        // Non è necessario eseguire phoneDeviceService.saveDeviceSettings() qui
-        // in quanto setDeviceStatus() già emette lo stato aggiornato
+        // It's not necessary to call phoneDeviceService.saveDeviceSettings() here
+        // since setDeviceStatus() already emits the updated status
       }, 2000);
       
       res.json({
         success: true,
-        message: 'Scansione QR simulata con successo. Dispositivo in fase di autenticazione...'
+        message: 'QR scan simulated successfully. Device authenticating...'
       });
     } else {
       res.status(400).json({
         success: false,
-        error: `Impossibile simulare la scansione: il dispositivo non è in stato QR_READY (stato attuale: ${status.status})`
+        error: `Cannot simulate scan: device is not in QR_READY state (current state: ${status.status})`
       });
     }
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nella simulazione della scansione'
+      error: error.message || 'Error simulating scan'
     });
   }
 });
